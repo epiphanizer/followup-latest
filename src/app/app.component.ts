@@ -25,9 +25,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private i18nService: I18nService,
     private adalSvc: MsAdalAngular6Service
   ) {
-    console.log(this.adalSvc.userInfo);
     var token = this.adalSvc.acquireToken('https://graph.microsoft.com').subscribe((token: string) => {
-      console.log(token);
+      console.log('Got Token');
     });
   }
 

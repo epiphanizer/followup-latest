@@ -4,11 +4,12 @@ import { Shell } from '@app/shell/shell.service';
 import { AuthenticationGuard } from 'microsoft-adal-angular6';
 
 const routes: Routes = [
-  Shell.childRoutes([
-    { path: 'about', loadChildren: 'app/about/about.module#AboutModule', canActivate: [AuthenticationGuard] }
-  ]),
+  // Shell.childRoutes([
+  //   {
+  //     path: 'about', loadChildren: 'app/about/about.module#AboutModule', canActivate: [AuthenticationGuard] }
+  // ]),
   // Fallback when no prior route is matched
-  { path: '**', redirectTo: '', pathMatch: 'full', canActivate: [AuthenticationGuard] }
+  { path: '**', redirectTo: '/login', pathMatch: 'full', canActivate: [AuthenticationGuard] }
 ];
 
 @NgModule({
