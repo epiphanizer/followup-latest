@@ -16,13 +16,23 @@ import { LoginModule } from './login/login.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 /**
- * Our authentication module
+ * Our Authentication Module
  */
 import { MsAdalAngular6Module, AuthenticationGuard } from 'microsoft-adal-angular6';
-import { CallQueueComponent } from './call-queue/call-queue.component';
+
+/**
+ * Layout / Shell Views
+ */
 import { ToolbarLogoComponent } from './shell/toolbar-logo.component';
-import { UserCorkBoardComponent } from './user-cork-board/user-cork-board.component';
+import { UserCorkBoardComponent } from './shell/user-cork-board.component';
+
+/**
+ * Call Queue Views
+ */
+import { CallQueueComponent } from './call-queue/call-queue.component';
 import { CallQueueCalendarWidgetComponent } from './call-queue/call-queue-calendar-widget.component';
+import { CallQueueSidebarComponent } from './call-queue-sidebar/call-queue-sidebar.component';
+import { CallQueueLegendComponent } from './call-queue-legend/call-queue-legend.component';
 
 @NgModule({
   imports: [
@@ -54,7 +64,9 @@ import { CallQueueCalendarWidgetComponent } from './call-queue/call-queue-calend
     CallQueueComponent,
     ToolbarLogoComponent,
     UserCorkBoardComponent,
-    CallQueueCalendarWidgetComponent
+    CallQueueCalendarWidgetComponent,
+    CallQueueSidebarComponent,
+    CallQueueLegendComponent
   ],
   providers: [AuthenticationGuard],
   bootstrap: [AppComponent]
