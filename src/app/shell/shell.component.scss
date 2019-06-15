@@ -5,11 +5,8 @@
   height: 100%;
 }
 
-.profile {
-  background: var(--ion-color-primary);
-}
-
-.profile-icon {
-  font-size: 6rem;
-  color: var(--ion-color-primary-contrast);
+.ion-toolbar {
+  height: 180px;
+  width: 100%;
+  background-color: white;
 }
