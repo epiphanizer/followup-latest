@@ -32,17 +32,7 @@ export class ShellComponent {
         role: 'destructive',
         handler: () => this.logout()
       },
-      {
-        text: this.translateService.instant('Change language'),
-        icon: this.platform.is('ios') ? undefined : 'globe',
-        handler: async () => {
-          // Wait for action sheet dismiss animation to finish, see "Dismissing And Async Navigation" section in:
-          // http://ionicframework.com/docs/api/components/action-sheet/ActionSheetController/#advanced
-          await createdActionSheet.dismiss();
-          this.changeLanguage();
-          return false;
-        }
-      },
+
       {
         text: this.translateService.instant('Cancel'),
         icon: this.platform.is('ios') ? undefined : 'close',
@@ -75,31 +65,5 @@ export class ShellComponent {
 
   get isWeb(): boolean {
     return !this.platform.is('cordova');
-  }
-
-  private async changeLanguage() {
-    const alertController = await this.alertController.create({
-      header: this.translateService.instant('Change language'),
-      inputs: this.i18nService.supportedLanguages.map(language => ({
-        type: 'radio' as TextFieldTypes,
-        name: language,
-        label: language,
-        value: language,
-        checked: language === this.i18nService.language
-      })),
-      buttons: [
-        {
-          text: this.translateService.instant('Cancel'),
-          role: 'cancel'
-        },
-        {
-          text: this.translateService.instant('Ok'),
-          handler: language => {
-            this.i18nService.language = language;
-          }
-        }
-      ]
-    });
-    alertController.present();
   }
 }

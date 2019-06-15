@@ -7,6 +7,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
 import { Logger, I18nService, untilDestroyed } from '@app/core';
+import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
 
 const log = new Logger('App');
 
@@ -21,8 +22,13 @@ export class AppComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
     private translateService: TranslateService,
-    private i18nService: I18nService
-  ) {}
+    private i18nService: I18nService,
+    private adalSvc: MsAdalAngular6Service
+  ) {
+    var token = this.adalSvc.acquireToken('https://graph.microsoft.com').subscribe((token: string) => {
+      console.log('Got Token');
+    });
+  }
 
   ngOnInit() {
     // Setup logger
