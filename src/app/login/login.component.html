@@ -4,18 +4,7 @@
     <ion-row justify-content-center no-padding>
       <ion-col size-sm="8" size-lg="6" size-xl="4" align-self-center no-padding>
         <div class="login-header" text-center>
-          <h1 translate>APP_NAME</h1>
-          <h6>v{{ version }}</h6>
-          <ion-list *ngIf="isWeb" color="primary" lines="none" no-padding>
-            <ion-item lines="none" color="primary">
-              <ion-label><span translate>Language</span></ion-label>
-              <ion-select [ngModel]="currentLanguage" (ngModelChange)="setLanguage($event)" interface="popover">
-                <ion-select-option *ngFor="let language of languages" [value]="language">{{
-                  language
-                }}</ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-list>
+          Followup Logo
         </div>
         <div class="login-container">
           <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
@@ -62,6 +51,9 @@
           </form>
         </div>
       </ion-col>
+    </ion-row>
+    <ion-row>
+      <h6>v{{ version }}</h6>
     </ion-row>
   </ion-grid>
 </ion-content>

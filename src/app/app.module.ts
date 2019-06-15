@@ -20,6 +20,9 @@ import { AppRoutingModule } from './app-routing.module';
  */
 import { MsAdalAngular6Module, AuthenticationGuard } from 'microsoft-adal-angular6';
 import { CallQueueComponent } from './call-queue/call-queue.component';
+import { ToolbarLogoComponent } from './shell/toolbar-logo.component';
+import { UserCorkBoardComponent } from './user-cork-board/user-cork-board.component';
+import { CallQueueCalendarWidgetComponent } from './call-queue/call-queue-calendar-widget.component';
 
 @NgModule({
   imports: [
@@ -46,7 +49,13 @@ import { CallQueueComponent } from './call-queue/call-queue.component';
     }),
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [AppComponent, CallQueueComponent],
+  declarations: [
+    AppComponent,
+    CallQueueComponent,
+    ToolbarLogoComponent,
+    UserCorkBoardComponent,
+    CallQueueCalendarWidgetComponent
+  ],
   providers: [AuthenticationGuard],
   bootstrap: [AppComponent]
 })
