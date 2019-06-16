@@ -31,8 +31,8 @@ import { UserCorkBoardComponent } from './shell/user-cork-board.component';
  */
 import { CallQueueComponent } from './call-queue/call-queue.component';
 import { CallQueueCalendarWidgetComponent } from './call-queue/call-queue-calendar-widget.component';
-import { CallQueueSidebarComponent } from './call-queue-sidebar/call-queue-sidebar.component';
-import { CallQueueLegendComponent } from './call-queue-legend/call-queue-legend.component';
+import { CallQueueSidebarComponent } from './call-queue/call-queue-sidebar/call-queue-sidebar.component';
+import { CallQueueLegendComponent } from './call-queue/call-queue-legend/call-queue-legend.component';
 
 @NgModule({
   imports: [
@@ -61,9 +61,9 @@ import { CallQueueLegendComponent } from './call-queue-legend/call-queue-legend.
   ],
   declarations: [
     AppComponent,
-    CallQueueComponent,
     ToolbarLogoComponent,
     UserCorkBoardComponent,
+    CallQueueComponent,
     CallQueueCalendarWidgetComponent,
     CallQueueSidebarComponent,
     CallQueueLegendComponent
