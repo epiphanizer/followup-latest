@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import { CallQueueComponent } from './call-queue.component';
 import { CallQueueCalendarWidgetComponent } from './call-queue-calendar-widget.component';
 import { CallQueueSidebarComponent } from './call-queue-sidebar/call-queue-sidebar.component';
 import { CallQueueLegendComponent } from './call-queue-legend/call-queue-legend.component';
 
 @NgModule({
-  imports: [],
+  imports: [CommonModule, TranslateModule, IonicModule, RouterModule],
   declarations: [
     CallQueueComponent,
     CallQueueCalendarWidgetComponent,
