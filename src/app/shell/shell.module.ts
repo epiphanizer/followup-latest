@@ -5,9 +5,10 @@ import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ShellComponent } from './shell.component';
+import { ToolbarLogoModule } from './toolbar-logo.module';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, IonicModule, RouterModule],
+  imports: [CommonModule, TranslateModule, IonicModule, RouterModule, ToolbarLogoModule],
   entryComponents: [ShellComponent],
   declarations: [ShellComponent]
 })

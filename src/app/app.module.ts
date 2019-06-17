@@ -23,16 +23,14 @@ import { MsAdalAngular6Module, AuthenticationGuard } from 'microsoft-adal-angula
 /**
  * Layout / Shell Views
  */
-import { ToolbarLogoComponent } from './shell/toolbar-logo.component';
-import { UserCorkBoardComponent } from './shell/user-cork-board.component';
+import { ToolbarLogoModule } from './shell/toolbar-logo.module';
+
+// import { UserCorkBoardModule } from './shell/user-cork-board.module';
 
 /**
- * Call Queue Views
+ * Call Queue Module
  */
-import { CallQueueComponent } from './call-queue/call-queue.component';
-import { CallQueueCalendarWidgetComponent } from './call-queue/call-queue-calendar-widget.component';
-import { CallQueueSidebarComponent } from './call-queue/call-queue-sidebar/call-queue-sidebar.component';
-import { CallQueueLegendComponent } from './call-queue/call-queue-legend/call-queue-legend.component';
+import { CallQueueModule } from './call-queue/call-queue.module';
 
 @NgModule({
   imports: [
@@ -44,6 +42,7 @@ import { CallQueueLegendComponent } from './call-queue/call-queue-legend/call-qu
     IonicModule.forRoot(),
     CoreModule,
     SharedModule,
+    ToolbarLogoModule,
     ShellModule,
     HomeModule,
     LoginModule,
@@ -59,15 +58,7 @@ import { CallQueueLegendComponent } from './call-queue/call-queue-legend/call-qu
     }),
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [
-    AppComponent,
-    ToolbarLogoComponent,
-    UserCorkBoardComponent,
-    CallQueueComponent,
-    CallQueueCalendarWidgetComponent,
-    CallQueueSidebarComponent,
-    CallQueueLegendComponent
-  ],
+  declarations: [AppComponent],
   providers: [AuthenticationGuard],
   bootstrap: [AppComponent]
 })

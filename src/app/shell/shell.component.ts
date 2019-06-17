@@ -19,8 +19,7 @@ export class ShellComponent {
     private alertController: AlertController,
     private actionSheetController: ActionSheetController,
     private authenticationService: AuthenticationService,
-    private credentialsService: CredentialsService,
-    private i18nService: I18nService
+    private credentialsService: CredentialsService
   ) {}
 
   async showProfileActions() {
