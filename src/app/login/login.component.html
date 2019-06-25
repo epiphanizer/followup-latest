@@ -4,7 +4,7 @@
     <ion-row justify-content-center no-padding>
       <ion-col size-sm="8" size-lg="6" size-xl="4" align-self-center no-padding>
         <div class="login-header" text-center>
-          Followup Logo
+          <app-toolbar-logo></app-toolbar-logo>
         </div>
         <div class="login-container">
           <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
@@ -33,7 +33,7 @@
                 <span padding translate>Password is required</span>
               </ion-text>
               <ion-item padding-top lines="none">
-                <ion-label translate>Remember me</ion-label>
+                <ion-label translate>Remember Me</ion-label>
                 <ion-checkbox slot="start" formControlName="remember"></ion-checkbox>
               </ion-item>
             </ion-list>
@@ -51,9 +51,6 @@
           </form>
         </div>
       </ion-col>
-    </ion-row>
-    <ion-row>
-      <h6>v{{ version }}</h6>
     </ion-row>
   </ion-grid>
 </ion-content>
