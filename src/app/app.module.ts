@@ -66,7 +66,7 @@ import { AlertsModule } from '@app/core/alerts/alerts.module';
     CallQueueModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [AppComponent, AlertsComponent],
+  declarations: [AppComponent],
   providers: [MsalGuard],
   bootstrap: [AppComponent]
 })

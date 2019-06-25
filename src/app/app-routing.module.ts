@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { Shell } from '@app/shell/shell.service';
-import { AuthenticationGuard } from 'microsoft-adal-angular6';
+import { MsalGuard } from '@azure/msal-angular';
 
 const routes: Routes = [
   // Fallback when no prior route is matched
-  { path: '**', redirectTo: '/login', pathMatch: 'full', canActivate: [AuthenticationGuard] }
+  { path: '**', redirectTo: '/login', pathMatch: 'full', canActivate: [MsalGuard] }
 ];
 
 @NgModule({
