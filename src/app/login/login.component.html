@@ -7,7 +7,7 @@
           <app-toolbar-logo></app-toolbar-logo>
         </div>
         <div class="login-container">
-          <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
+          <form (ngSubmit)="signIn()" [formGroup]="loginForm" novalidate>
             <ion-text color="danger" [hidden]="!error || loginForm.dirty || isLoading">
               <span padding translate>Username or password incorrect.</span>
             </ion-text>
