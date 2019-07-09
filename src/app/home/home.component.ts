@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     // Temporary to display the token
     if (this.authService.authenticated) {
       let token = await this.authService.getAccessToken();
-      alert(token);
+      // alert(token);
     }
   }
   /**
