@@ -4,13 +4,28 @@
   width: 100%;
   height: 100%;
 }
-
+ion-router-outlet {
+  margin-top: 199px;
+  margin-left: 450px;
+}
 .content-wrapper {
   width: calc(100% - 28px);
   margin-left: 28px;
 }
 
 ul {
+  padding-top: 215px;
   list-style-type: none;
   padding-left: 0;
+  li {
+    width: 160px;
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    span {
+      font-weight: bold;
+      font-family: avenir;
+    }
+  }
 }
