@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { MsalGuard } from '@azure/msal-angular';
+import { Shell } from '@app/shell/shell.service';
 
 const routes: Routes = [
-  { path: 'call-queue', loadChildren: '@app/modules/call-queue/call-queue.module#CallQueueModule' },
   // Fallback when no prior route is matched
 
   { path: '**', redirectTo: '', pathMatch: 'full', canActivate: [MsalGuard] }
