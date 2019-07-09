@@ -1,11 +1,11 @@
-<div class="toolbar-profile">
+<div class="toolbar-profile-nav">
   <div class="user-avatar">
-    User Avatar
+    <div class="avatar-image"></div>
   </div>
   <div class="username">
     User Name
   </div>
   <div class="logout-nav">
-    <a href="/logout" [click]="signOut()">[logout]</a>
+    <a href="/logout" (click)="signOut()">[logout]</a>
   </div>
 </div>

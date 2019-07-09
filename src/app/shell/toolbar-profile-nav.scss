@@ -1,18 +1,32 @@
 .toolbar-profile-nav {
   display: block;
+  margin-left: 25px;
+  width: 186.5px;
+  float: left;
   div {
     display: block;
   }
   div.user-avatar {
+    display: block;
     width: 50%;
+    height: 50px;
     float: left;
+    .avatar-image {
+      display: block;
+      width: 45px;
+      height: 45px;
+      border: 1px solid gray;
+      border-radius: 50%;
+    }
   }
   div.username {
     width: 50%;
-    float: right;
+    float: left;
+    font-family: Avenir;
+    font-size: 24px;
   }
   div.logout {
     width: 50%;
-    float: right;
+    float: left;
   }
 }
