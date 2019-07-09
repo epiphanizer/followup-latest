@@ -18,6 +18,7 @@
       width: 45px;
       height: 45px;
       margin-right: 8px;
+      float: left;
       .avatar-image {
         display: block;
         width: 45px;
@@ -29,7 +30,7 @@
     div.username,
     div.logout {
       float: left;
-      width: calc(100% - 45px);
+      width: calc(100% - 53px);
     }
     div.username {
       font-family: Avenir;

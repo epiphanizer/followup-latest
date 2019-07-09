@@ -36,7 +36,11 @@ export class HomeComponent implements OnInit {
     try {
       this.logger.entry(userId);
       console.log('Called function get user menu for user: ' + userId);
-      this.menu = [{ name: 'Call Queue', action: '/call-queue', image: '/assets/call-queue.png' }];
+      this.menu = [
+        { name: 'Call Queue', action: '/call-queue', image: '/assets/icon-call-queue.png' },
+        { name: 'My Profile', action: '/profile', image: '/assets/icon-user-profile.png' }
+      ];
+      console.log(this.menu);
     } catch (e) {
       this.logger.error('some error', e);
     }

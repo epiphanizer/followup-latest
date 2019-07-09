@@ -3,6 +3,33 @@
   margin: 0 auto;
 }
 
+.user-home-menu {
+  list-style-type: none;
+  li {
+    display: inline-block;
+    width: 162px;
+    height: 162px;
+    margin-left: 176px;
+    img {
+      width: 100%;
+      display: block;
+    }
+    a {
+      color: black !important;
+      text-decoration: none !important;
+      font-weight: bold !important;
+      text-align: center !important;
+    }
+    span {
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin: 0 auto;
+    }
+  }
+}
+
 q {
   font-style: italic;
   quotes: "« " " »";

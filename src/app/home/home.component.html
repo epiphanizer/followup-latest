@@ -1,7 +1,8 @@
-<ul>
+<ul class="user-home-menu">
   <li *ngFor="let menuItem of menu">
     <a href="{{ menuItem.action }}">
-      {{ menuItem.name }}
+      <img src="{{ menuItem.image }}" />
+      <span>{{ menuItem.name }}</span>
     </a>
   </li>
 </ul>
