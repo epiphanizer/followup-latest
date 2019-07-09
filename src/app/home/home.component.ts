@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
     this.isLoading = true;
     this.getUserMenu(1);
   }
+
   async signIn(): Promise<void> {
     await this.authService.signIn();
 
@@ -34,12 +35,33 @@ export class HomeComponent implements OnInit {
    */
   public getUserMenu = function(userId: number) {
     try {
-      this.logger.entry(userId);
-      console.log('Called function get user menu for user: ' + userId);
-      this.menu = [
-        { name: 'Call Queue', action: '/call-queue', image: '/assets/icon-call-queue.png' },
-        { name: 'My Profile', action: '/profile', image: '/assets/icon-user-profile.png' }
-      ];
+      switch (userId) {
+        case 1:
+          this.menu = [
+            { name: 'Call Queue', action: '/call-queue', image: '/assets/icon-call-queue.png' },
+            { name: 'My Profile', action: '/profile', image: '/assets/icon-user-profile.png' }
+          ];
+          break;
+        case 2:
+          this.menu = [
+            { name: 'Patients', action: '/patients', image: '/assets/icon-patients.png' },
+            { name: 'Notifications', action: '/notifications', image: '/assets/icon-notifications.png' },
+            { name: 'My Profile', action: '/profile', image: '/assets/icon-user-profile.png' }
+          ];
+          break;
+        case 3:
+          this.menu = [
+            { name: 'Facilities', action: '/facilities', image: '/assets/icon-facilities.png' },
+            { name: 'User Management', action: '/user-management', image: '/assets/icon-user-management.png' },
+            { name: 'View Queue', action: '/view-queue', image: '/assets/icon-view-queue.png' },
+            { name: 'View Data', action: '/reports', image: '/assets/icon-view-data.png' }
+          ];
+          break;
+        default:
+          throw 'No User ID given';
+          break;
+      }
+
       console.log(this.menu);
     } catch (e) {
       this.logger.error('some error', e);

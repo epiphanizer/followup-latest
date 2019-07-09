@@ -20,12 +20,23 @@
       font-weight: bold !important;
       text-align: center !important;
     }
-    span {
-      width: 100%;
+    span.icon-title {
+      display: block;
       text-align: center;
       font-weight: bold;
       text-transform: uppercase;
-      margin: 0 auto;
+      margin: 28px auto;
+      width: 90px;
+      height: 17px;
+      font-family: Avenir;
+      font-size: 16px;
+      font-weight: 900;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.38;
+      letter-spacing: 0.64px;
+      text-align: center;
+      color: var(--charcoal-grey);
     }
   }
 }
