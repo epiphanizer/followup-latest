@@ -1,0 +1,18 @@
+.toolbar-profile-nav {
+  display: block;
+  div {
+    display: block;
+  }
+  div.user-avatar {
+    width: 50%;
+    float: left;
+  }
+  div.username {
+    width: 50%;
+    float: right;
+  }
+  div.logout {
+    width: 50%;
+    float: right;
+  }
+}

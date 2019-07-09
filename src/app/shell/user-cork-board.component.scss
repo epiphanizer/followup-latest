@@ -11,15 +11,16 @@
   &.active {
     z-index: 100;
   }
-  ul {
-    list-style-type: none;
-    padding-left: 0;
-    li {
-      i {
-        &.expand {
-          width: 100%;
-          // background-image:
-        }
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  li {
+    i {
+      &.expand {
+        width: 100%;
+        // background-image:
       }
     }
   }
