@@ -10,7 +10,9 @@ import { AuthenticationService } from '@app/core/authentication/auth.service';
 })
 export class HomeComponent implements OnInit {
   isLoading = false;
-  logger: Logger;
+  logger: Logger = new Logger();
+  menu: {} = {};
+
   constructor(loggingService: LoggingService, private authService: AuthenticationService) {}
 
   ngOnInit() {
@@ -31,13 +33,12 @@ export class HomeComponent implements OnInit {
    * Question: Do we include the option to skip this screen and make a screen a favorite?
    */
   public getUserMenu = function(userId: number) {
-    const methodName = arguments.callee.toString();
-    debugger;
-    this.logger.entry(methodName, userId);
     try {
+      this.logger.entry(userId);
+      console.log('Called function get user menu for user: ' + userId);
+      this.menu = [{ name: 'Call Queue', action: '/call-queue', image: '/assets/call-queue.png' }];
     } catch (e) {
-      this.logger.error(methodName, 'some error', e);
+      this.logger.error('some error', e);
     }
-    console.log('Called function get user menu.');
   };
 }

@@ -1,10 +1,7 @@
-<!-- HOME MENU -->
-<!-- User / Call Rep Story -->
 <ul>
-  <li>
-    Call Queue
-  </li>
-  <li>
-    My Profile
+  <li *ngFor="let menuItem of menu">
+    <a href="{{ menuItem.action }}">
+      {{ menuItem.name }}
+    </a>
   </li>
 </ul>

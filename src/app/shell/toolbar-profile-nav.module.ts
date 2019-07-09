@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { ToolbarProfileNavComponent } from './toolbar-profile-nav.component';
 
 @NgModule({
-  imports: [],
+  imports: [CommonModule],
   exports: [ToolbarProfileNavComponent],
   declarations: [ToolbarProfileNavComponent],
   providers: []

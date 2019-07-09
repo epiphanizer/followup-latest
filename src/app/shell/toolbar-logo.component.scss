@@ -1,13 +1,18 @@
-.toolbar-logo {
-  margin-top: 50px;
-  margin-left: 84px;
+:host {
   display: block;
-  height: 55px;
-  width: 150px;
-  background-image: url("/assets/logo.png");
-  background-repeat: no-repeat;
-  background-size: 100%;
-  background-position: center center;
+  overflow: hidden;
   float: left;
-  margin-right: 25px;
+  .toolbar-logo {
+    margin-top: 50px;
+    margin-left: 84px;
+    display: block;
+    height: 55px;
+    width: 150px;
+    background-image: url("/assets/logo.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center center;
+    float: left;
+    margin-right: 25px;
+  }
 }

@@ -1,18 +1,42 @@
-.toolbar-profile-nav {
+:host {
   display: block;
-  div {
+  overflow: hidden;
+  float: left;
+  margin-top: 56px;
+  width: 186.5px;
+  height: 50px;
+  .toolbar-profile-nav {
     display: block;
-  }
-  div.user-avatar {
-    width: 50%;
+    margin-left: 25px;
+    width: 186.5px;
     float: left;
-  }
-  div.username {
-    width: 50%;
-    float: right;
-  }
-  div.logout {
-    width: 50%;
-    float: right;
+    div {
+      display: block;
+    }
+    div.user-avatar {
+      display: block;
+      width: 45px;
+      height: 45px;
+      margin-right: 8px;
+      .avatar-image {
+        display: block;
+        width: 45px;
+        height: 45px;
+        border: 1px solid gray;
+        border-radius: 50%;
+      }
+    }
+    div.username,
+    div.logout {
+      float: left;
+      width: calc(100% - 45px);
+    }
+    div.username {
+      font-family: Avenir;
+      font-size: 24px;
+    }
+    div.logout {
+      font-family: Avenir;
+    }
   }
 }
