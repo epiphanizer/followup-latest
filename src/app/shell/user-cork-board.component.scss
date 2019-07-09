@@ -1,0 +1,15 @@
+.user-cork-board {
+  position: absolute;
+  z-index: 0;
+  width: 28px;
+  height: 100%;
+  background: burlywood;
+  // background-image: url('img/corkboard-bg-1.png');
+  &.active {
+    z-index: 100;
+  }
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+}

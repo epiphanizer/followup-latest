@@ -1,24 +1,22 @@
-<ion-header>
-  <!-- <app-alerts></app-alerts> -->
-  <ion-toolbar color="light">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <app-toolbar-logo> </app-toolbar-logo>
-  </ion-toolbar>
-  <ion-toolbar color="light">
-    <ion-buttons slot="start">
-      <!-- Depends on secondary menu service -->
-      <ion-menu-button slot="end" color="dark">
-        Call Queue
-        <!-- {{ user.dashboard.menu.button }} -->
-      </ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 <ion-content>
   <!-- Inject User Cork Board Component Here -->
-  <!-- <app-user-corkboard>
-       </app-user-corkboard> -->
+  <app-user-cork-board> </app-user-cork-board>
+  <div class="content-wrapper">
+    <ion-toolbar color="light">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <app-toolbar-logo> </app-toolbar-logo>
+    </ion-toolbar>
+    <ion-toolbar color="light">
+      <ion-buttons slot="start">
+        <!-- Depends on secondary menu service -->
+        <ion-menu-button slot="end" color="dark">
+          Call Queue
+          <!-- {{ user.dashboard.menu.button }} -->
+        </ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </div>
 </ion-content>
 <ion-router-outlet main> </ion-router-outlet>

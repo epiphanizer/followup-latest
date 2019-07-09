@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { Logger, LoggingService } from 'ionic-logging-service';
+import { AuthenticationService } from '@app/core/authentication/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -10,17 +11,20 @@ import { Logger, LoggingService } from 'ionic-logging-service';
 export class HomeComponent implements OnInit {
   isLoading = false;
   logger: Logger;
-  constructor(loggingService: LoggingService) {
-    this.logger = loggingService.getLogger('MyApp.MyComponent');
-    const methodName = 'ctor';
-    this.logger.entry(methodName);
-    this.logger.exit(methodName);
-    return;
-  }
+  constructor(loggingService: LoggingService, private authService: AuthenticationService) {}
 
   ngOnInit() {
     this.isLoading = true;
     this.getUserMenu(1);
+  }
+  async signIn(): Promise<void> {
+    await this.authService.signIn();
+
+    // Temporary to display the token
+    if (this.authService.authenticated) {
+      let token = await this.authService.getAccessToken();
+      alert(token);
+    }
   }
   /**
    * A function to get the appropriate user menu to display on the initial dashboard.

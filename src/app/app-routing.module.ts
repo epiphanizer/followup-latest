@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { Shell } from '@app/shell/shell.service';
 import { MsalGuard } from '@azure/msal-angular';
 
 const routes: Routes = [
   // Fallback when no prior route is matched
-  { path: '**', redirectTo: '/login', pathMatch: 'full', canActivate: [MsalGuard] }
+  { path: '**', redirectTo: '', pathMatch: 'full', canActivate: [MsalGuard] }
 ];
 
 @NgModule({

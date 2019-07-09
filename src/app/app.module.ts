@@ -24,8 +24,7 @@ import { AppRoutingModule } from './app-routing.module';
  * Layout / Shell Views
  */
 import { ToolbarLogoModule } from './shell/toolbar-logo.module';
-
-// import { UserCorkBoardModule } from './shell/user-cork-board.module';
+import { UserCorkBoardModule } from './shell/user-cork-board.module';
 
 /**
  * Call Queue Module
@@ -43,26 +42,24 @@ import { AlertsModule } from '@app/core/alerts/alerts.module';
     TranslateModule.forRoot(),
     IonicModule.forRoot(),
     CoreModule,
-
     MsalModule.forRoot({
-      clientID: OAuthSettings.appId
+      clientID: OAuthSettings.appId,
+      authority: 'https://login.microsoftonline.com/common',
+      redirectUri: 'http://localhost:4200/',
+      validateAuthority: true,
+      cacheLocation: 'localStorage',
+      postLogoutRedirectUri: 'http://localhost:4200/',
+      navigateToLoginRequestUrl: true,
+      popUp: true,
+      consentScopes: OAuthSettings.scopes
     }),
     SharedModule,
     ShellModule,
     AlertsModule,
     ToolbarLogoModule,
+    UserCorkBoardModule,
     HomeModule,
     LoginModule,
-    // MsAdalAngular6Module.forRoot({
-    //   tenant: '2eb67c1a-5ddf-4459-a83d-d481c0b33885',
-    //   clientId: '602e6119-9342-44cc-aa5a-ec903d07487f',
-    //   redirectUri: window.location.origin,
-    //   endpoints: {
-    //     'http://localhost': '602e6119-9342-44cc-aa5a-ec903d07487f'
-    //   },
-    //   navigateToLoginRequestUrl: false,
-    //   cacheLocation: '<localStorage / sessionStorage>'
-    // }),
     CallQueueModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],

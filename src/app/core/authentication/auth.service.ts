@@ -79,7 +79,7 @@ export class AuthenticationService {
 
     // Temporary to display token in an error box
     if (result) this.alertsService.add('Token acquired', result);
-    console.log('Token Acquired');
+    alert(result);
     return result;
   }
 }
