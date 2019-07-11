@@ -49,7 +49,7 @@ import { AlertsModule } from '@app/core/alerts/alerts.module';
       validateAuthority: true,
       cacheLocation: 'localStorage',
       postLogoutRedirectUri: 'http://localhost:4200/',
-      navigateToLoginRequestUrl: true,
+      navigateToLoginRequestUrl: false,
       popUp: true,
       consentScopes: OAuthSettings.scopes
     }),
