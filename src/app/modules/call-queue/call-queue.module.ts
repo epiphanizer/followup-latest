@@ -8,9 +8,10 @@ import { CallQueueComponent } from './call-queue.component';
 import { CallQueueCalendarWidgetComponent } from './call-queue-calendar-widget.component';
 import { CallQueueSidebarComponent } from './call-queue-sidebar/call-queue-sidebar.component';
 import { CallQueueLegendComponent } from './call-queue-legend/call-queue-legend.component';
+import { MonthCalendarModule } from 'simple-angular-calendar';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, IonicModule, RouterModule, CallQueueRoutingModule],
+  imports: [CommonModule, TranslateModule, IonicModule, RouterModule, CallQueueRoutingModule, MonthCalendarModule],
 
   exports: [CallQueueSidebarComponent],
   declarations: [
