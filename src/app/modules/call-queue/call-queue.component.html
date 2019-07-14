@@ -1,33 +1,151 @@
-<ion-grid>
-  <!-- Our lefthand sidebar -->
-  <ion-row>
-    <ion-col>
-      <!-- <call-queue-calendar-widget></call-queue-calendar-widget> -->
-      <!-- <call-queue-sidebar></call-queue-sidebar> -->
-      Lefthand Sidebar
-    </ion-col>
-    <ion-col>
-      <ion-grid>
-        <ion-row>
-          <ion-title>Call Queue</ion-title>
-        </ion-row>
-        <ion-row>
-          <!-- <call-queue-legend></call-queue-legend> -->
-          Call Legend
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <h3>Operation</h3>
-            <ion-item-divider></ion-item-divider>
-          </ion-col>
-          <ion-col>
-            <h3>Call History</h3>
-            <ion-item-divider></ion-item-divider>
-            Patient Filter
-            <!-- <call-queue-patient-filter></call-queue-patient-filter> -->
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-col>
-  </ion-row>
-</ion-grid>
+<!-- Our lefthand sidebar -->
+<ion-row>
+  <ion-col class="call-queue-sidebar">
+    <div class="call-queue-sidebar-calendar">
+      <h4>TODAY'S DATE</h4>
+      <span class="caption">28</span>
+    </div>
+
+    <a class="facility-dropdown-target">MY FACILITIES</a>
+    <!-- <app-sidebar-call-queue-operations></app-sidebar-call-queue-operations> -->
+    <ul class="facility-dropdown-list">
+      <li>Camp Verde <span class="number">[09]</span></li>
+      <li>Cottonwood <span class="number">[07]</span></li>
+      <li>Safford <span class="number">[13]</span></li>
+      <li>Yuma <span class="number">[11]</span></li>
+    </ul>
+    <!-- <call-queue-sidebar></call-queue-sidebar> -->
+  </ion-col>
+  <ion-col class="call-queue-content">
+    <ion-grid>
+      <ion-row>
+        <ion-title>Call Queue</ion-title>
+      </ion-row>
+      <ion-row>
+        <!-- <call-queue-legend></call-queue-legend> -->
+        <ul id="call-queue-legend">
+          <li>
+            <div><i class="icon-contacted"></i><span>Contacted</span></div>
+          </li>
+          <li>
+            <div><i class="icon-left-message"></i><span>Left Message</span></div>
+          </li>
+          <li>
+            <div><i class="icon-no-answer"></i><span>No Answer</span></div>
+          </li>
+          <li>
+            <div><i class="icon-new-discharges"></i><span>New Discharge</span></div>
+          </li>
+          <li>
+            <div><i class="icon-kudos"></i><span>Kudos</span></div>
+          </li>
+          <li>
+            <div><i class="icon-notifications"></i><span>Notification</span></div>
+          </li>
+          <li>
+            <div><i class="icon-final-call"></i><span>Final Call</span></div>
+          </li>
+        </ul>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h3 class="section-header">Camp Verde Asst. Living</h3>
+          <ion-item-divider></ion-item-divider>
+          <ul class="call-queue-patient-list">
+            <li class="active">
+              <span class="call-queue-number"></span>
+              <div class="call-queue-avatar"></div>
+              <div class="call-queue-patient-information"></div>
+              <div class="call-queue-icons">
+                <ul>
+                  <li><i></i></li>
+                  <li><i></i></li>
+                  <li><i></i></li>
+                </ul>
+              </div>
+            </li>
+            <li class="active">
+              <span class="call-queue-number"></span>
+              <div class="call-queue-avatar"></div>
+              <div class="call-queue-patient-information"></div>
+              <div class="call-queue-icons">
+                <ul>
+                  <li><i></i></li>
+                  <li><i></i></li>
+                  <li><i></i></li>
+                </ul>
+              </div>
+            </li>
+            <li class="active">
+              <span class="call-queue-number"></span>
+              <div class="call-queue-avatar"></div>
+              <div class="call-queue-patient-information"></div>
+              <div class="call-queue-icons">
+                <ul>
+                  <li><i></i></li>
+                  <li><i></i></li>
+                  <li><i></i></li>
+                </ul>
+              </div>
+            </li>
+            <li class="active">
+              <span class="call-queue-number"></span>
+              <div class="call-queue-avatar"></div>
+              <div class="call-queue-patient-information"></div>
+              <div class="call-queue-icons">
+                <ul>
+                  <li><i></i></li>
+                  <li><i></i></li>
+                  <li><i></i></li>
+                </ul>
+              </div>
+            </li>
+            <li class="active">
+              <span class="call-queue-number"></span>
+              <div class="call-queue-avatar"></div>
+              <div class="call-queue-patient-information"></div>
+              <div class="call-queue-icons">
+                <ul>
+                  <li><i></i></li>
+                  <li><i></i></li>
+                  <li><i></i></li>
+                </ul>
+              </div>
+            </li>
+            <li class="active">
+              <span class="call-queue-number"></span>
+              <div class="call-queue-avatar"></div>
+              <div class="call-queue-patient-information"></div>
+              <div class="call-queue-icons">
+                <ul>
+                  <li><i></i></li>
+                  <li><i></i></li>
+                  <li><i></i></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </ion-col>
+        <ion-col>
+          <h3>Call History</h3>
+          <ion-item-divider></ion-item-divider>
+          Calendar Here
+
+          <div class="patient-filter">
+            <ion-input placeholder="Patient/Date Search"> </ion-input>
+            <div class="patient-filter-results">
+              <ul>
+                <li><span>date or name</span></li>
+                <li><span>date or name</span></li>
+                <li><span>date or name</span></li>
+                <li><span>date or name</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- <call-queue-patient-filter></call-queue-patient-filter> -->
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-col>
+</ion-row>

@@ -11,6 +11,8 @@ import { CallQueueLegendComponent } from './call-queue-legend/call-queue-legend.
 
 @NgModule({
   imports: [CommonModule, TranslateModule, IonicModule, RouterModule, CallQueueRoutingModule],
+
+  exports: [CallQueueSidebarComponent],
   declarations: [
     CallQueueComponent,
     CallQueueCalendarWidgetComponent,
