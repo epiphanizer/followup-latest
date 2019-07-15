@@ -86,17 +86,26 @@ ion-title {
       height: 17px;
       display: block;
       margin-right: 8px;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
       &.icon-contacted {
+        background-image: url("");
       }
       &.icon-left-message {
+        background-image: url("");
       }
       &.icon-no-answer {
+        background-image: url("");
       }
       &.icon-new-discharges {
+        background-image: url("");
       }
       &.icon-notifications {
+        background-image: url("");
       }
       &.icon-final-call {
+        background-image: url("");
       }
     }
 
