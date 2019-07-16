@@ -14,8 +14,10 @@ ion-title {
   max-width: 175px;
 
   .call-queue-sidebar-calendar {
+    margin-bottom: 54px;
     h4 {
       margin-bottom: 0;
+      color: var(--ion-color-primary);
     }
     .caption {
       text-align: center;
@@ -28,9 +30,8 @@ ion-title {
   .facility-dropdown-target {
     width: 154.9px;
     height: 28.7px;
-    font-family: AvenirNextLTPro;
+    font-family: AvenirBold;
     font-size: 15px;
-    font-weight: bold;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.05;
@@ -57,6 +58,15 @@ ion-title {
       text-align: right;
       color: #8e8e93;
       a {
+        font-family: AvenirNextLTPro;
+        font-size: 11.8px;
+        font-weight: bold;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 2.88;
+        letter-spacing: 0.53px;
+        text-align: right;
+        color: #8e8e93;
       }
     }
   }
@@ -64,9 +74,11 @@ ion-title {
 
 .divider-line {
   width: 100%;
+  min-height: 1px;
   height: 1px;
   display: block;
   border-top: solid 3.9px var(--ion-color-primary);
+  border-bottom: none;
 }
 
 .call-queue-content {
@@ -74,6 +86,8 @@ ion-title {
 }
 #call-queue-legend {
   list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 85px;
 
   li {
     display: inline-block;
@@ -122,7 +136,6 @@ ion-title {
     }
   }
 }
-
 h3 {
   font-family: AvenirBold;
   font-size: 21px;
@@ -136,32 +149,86 @@ h3 {
   text-transform: uppercase;
   color: var(--ion-color-primary);
 }
-.call-queue-patient-list {
+
+.call-queue-feed {
+  max-width: 431px;
+}
+
+ul.patient-filters {
   list-style-type: none;
-  width: 100%;
+  float: right;
+  margin-top: 0;
+  margin-bottom: 0;
+  li {
+    display: inline-block;
+    font-family: Avenir;
+    font-size: 11.8px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 2.88;
+    letter-spacing: 0.53px;
+    text-align: right;
+    margin-right: 18px;
+  }
+}
+.call-queue-patient-list {
+  clear: both;
+  list-style-type: none;
   height: auto;
   max-width: 431px;
+  padding-left: 0;
+
   li {
     cursor: pointer;
     width: 100%;
     height: 96px;
+    line-height: 96px;
+    vertical-align: middle;
     &.active {
-      opacity: 0.1;
-      background-color: #08c400;
+      background-color: rgba(8, 196, 0, 0.1);
     }
     ul {
+      padding-left: 0;
       list-style-type: none;
     }
-    div {
+
+    .call-queue-number {
       display: inline-block;
-      width: auto;
+      width: 14px;
+      margin-left: 24px;
+      margin-right: 8px;
+      font-family: Avenir;
+      font-size: 24.1px;
+      font-weight: 900;
+      font-style: normal;
+      font-stretch: normal;
+      letter-spacing: 0.96px;
+      text-align: center;
+      &.active {
+        color: #08c400;
+      }
+    }
+    .call-queue-avatar {
+      width: 74.8px;
+      height: 75.2px;
+      box-shadow: 1.4px 1.4px 1.4px 0 rgba(35, 31, 32, 0.15);
+      background-color: #ffffff;
+      border-radius: 50%;
+    }
+    div {
+      float: left;
       height: 100%;
+      line-height: 96px;
+      vertical-align: middle;
       color: black;
     }
   }
 }
 .call-history-container {
   height: 250px;
+  max-width: 332px;
+  margin-left: 73px;
 }
 .patient-filter {
   .patient-filter-results {

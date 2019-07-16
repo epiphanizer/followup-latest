@@ -9,4 +9,7 @@ export class CallQueueComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  sortPatientsByCallDate = function() {};
+  sortPatientsByDischargeDate = function() {};
 }

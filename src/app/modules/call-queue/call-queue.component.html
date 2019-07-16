@@ -48,92 +48,189 @@
         </ul>
       </ion-row>
       <ion-row>
-        <ion-col>
+        <ion-col class="call-queue-feed">
           <h3 class="section-header">Camp Verde Asst. Living</h3>
           <ion-item-divider class="divider-line"></ion-item-divider>
+          <!-- Filters -->
+          <ul class="patient-filters">
+            <li>
+              <a (click)="sortPatientsByDisrchargeDate()">[Discharge Date]</a>
+            </li>
+            <li>
+              <a (click)="sortPatientsByCallDate()">[Call Date]</a>
+            </li>
+          </ul>
           <ul class="call-queue-patient-list">
             <li class="active">
               <div class="call-queue-number">
                 1
               </div>
-              <div class="call-queue-avatar">
-                Avatar
-              </div>
+              <div class="call-queue-"></div>
               <div class="call-queue-patient-information">
                 Jack Argyle
               </div>
-              <div class="call-queue-icons">
-                <ul>
-                  <li>
-                    <i> </i>
-                  </li>
-                  <li>
-                    <i> </i>
-                  </li>
-                  <li>
-                    <i> </i>
-                  </li>
-                </ul>
+              <div class="call-queue-icons"></div>
+            </li>
+            <li>
+              <div class="call-queue-number">
+                2
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Mable Nance
               </div>
             </li>
             <li>
-              <span class="call-queue-number"></span>
-              <div class="call-queue-avatar"></div>
-              <div class="call-queue-patient-information"></div>
-              <div class="call-queue-icons">
-                <ul>
-                  <li><i></i></li>
-                  <li><i></i></li>
-                  <li><i></i></li>
-                </ul>
+              <div class="call-queue-number">
+                3
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Jonathan Wilkinson
               </div>
             </li>
             <li>
-              <span class="call-queue-number"></span>
-              <div class="call-queue-avatar"></div>
-              <div class="call-queue-patient-information"></div>
-              <div class="call-queue-icons">
-                <ul>
-                  <li><i></i></li>
-                  <li><i></i></li>
-                  <li><i></i></li>
-                </ul>
+              <div class="call-queue-number">
+                4
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Dolores Christensen
+                <div class="call-queue-patient-detail">
+                  83, Camp Verde, Asst. Living
+                </div>
               </div>
             </li>
             <li>
-              <span class="call-queue-number"></span>
-              <div class="call-queue-avatar"></div>
-              <div class="call-queue-patient-information"></div>
-              <div class="call-queue-icons">
-                <ul>
-                  <li><i></i></li>
-                  <li><i></i></li>
-                  <li><i></i></li>
-                </ul>
+              <div class="call-queue-number">
+                5
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Barbara Curtist
+                <div class="call-queue-patient-detail">
+                  83, Camp Verde, Asst. Living
+                </div>
               </div>
             </li>
             <li>
-              <span class="call-queue-number"></span>
-              <div class="call-queue-avatar"></div>
-              <div class="call-queue-patient-information"></div>
-              <div class="call-queue-icons">
-                <ul>
-                  <li><i></i></li>
-                  <li><i></i></li>
-                  <li><i></i></li>
-                </ul>
+              <div class="call-queue-number">
+                5
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Barbara Curtist
+                <div class="call-queue-patient-detail">
+                  83, Camp Verde, Asst. Living
+                </div>
               </div>
             </li>
             <li>
-              <span class="call-queue-number"></span>
-              <div class="call-queue-avatar"></div>
-              <div class="call-queue-patient-information"></div>
-              <div class="call-queue-icons">
-                <ul>
-                  <li><i></i></li>
-                  <li><i></i></li>
-                  <li><i></i></li>
-                </ul>
+              <div class="call-queue-number">
+                5
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Barbara Curtist
+                <div class="call-queue-patient-detail">
+                  83, Camp Verde, Asst. Living
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="call-queue-number">
+                5
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Barbara Curtist
+                <div class="call-queue-patient-detail">
+                  83, Camp Verde, Asst. Living
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="call-queue-number">
+                5
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Barbara Curtist
+                <div class="call-queue-patient-detail">
+                  83, Camp Verde, Asst. Living
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="call-queue-number">
+                5
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Barbara Curtist
+                <div class="call-queue-patient-detail">
+                  83, Camp Verde, Asst. Living
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="call-queue-number">
+                5
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Barbara Curtist
+                <div class="call-queue-patient-detail">
+                  83, Camp Verde, Asst. Living
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="call-queue-number">
+                5
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Barbara Curtist
+                <div class="call-queue-patient-detail">
+                  83, Camp Verde, Asst. Living
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="call-queue-number">
+                5
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Barbara Curtist
+                <div class="call-queue-patient-detail">
+                  83, Camp Verde, Asst. Living
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="call-queue-number">
+                5
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Barbara Curtist
+                <div class="call-queue-patient-detail">
+                  83, Camp Verde, Asst. Living
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="call-queue-number">
+                5
+              </div>
+              <div class="call-queue-"></div>
+              <div class="call-queue-patient-information">
+                Barbara Curtist
+                <div class="call-queue-patient-detail">
+                  83, Camp Verde, Asst. Living
+                </div>
               </div>
             </li>
           </ul>
