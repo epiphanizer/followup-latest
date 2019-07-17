@@ -1,7 +1,18 @@
 <div class="call-history-container">
   <h3>Call History</h3>
   <ion-item-divider class="divider-line"></ion-item-divider>
-  <div class="wrapper">
-    <sc-month-calendar> </sc-month-calendar>
+  <div class="wrapper-vertically-limited">
+    <sc-month-calendar
+      [monthClass]="'custom-month'"
+      [monthCaptionClass]="'custom-month__caption'"
+      [dayOfWeekCaptionClass]="'custom-month__week-caption'"
+      [dayCaptionClass]="'custom-month__day'"
+      [dayOfWeekCaptionFormatter]="dayOfWeekCaptionFormatter"
+    >
+      <!-- Month caption template -->
+      <ng-template scMonthCaptionTemplate let-date>
+        <!-- <div class="month__caption">{{ date.toLocaleDateString() }}</div> -->
+      </ng-template>
+    </sc-month-calendar>
   </div>
 </div>

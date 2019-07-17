@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MonthCalendarModule, DayOfWeek } from 'simple-angular-calendar';
 
 @Component({
   selector: 'app-call-queue-call-history-calendar',
@@ -9,4 +10,9 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+  private overRideDayCaption = ['', '', '', '', '', '', ''];
+
+  dayOfWeekCaptionFormatter = (dayOfWeek: DayOfWeek) => {
+    return this.overRideDayCaption[dayOfWeek.valueOf()];
+  };
 }
