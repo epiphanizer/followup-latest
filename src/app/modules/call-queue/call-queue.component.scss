@@ -16,7 +16,7 @@ ion-title {
   .call-queue-sidebar-calendar {
     margin-bottom: 54px;
     h4 {
-      margin-bottom: 0;
+      margin-bottom: 12px;
       color: var(--ion-color-primary);
     }
     .caption {
@@ -25,10 +25,8 @@ ion-title {
       font-weight: 900;
       font-style: normal;
       font-stretch: normal;
-      line-height: 0.18;
       letter-spacing: -5px;
       text-align: center;
-      color: var(--charcoal-grey);
     }
   }
 
@@ -116,22 +114,25 @@ ion-title {
       background-repeat: no-repeat;
       background-position: center center;
       &.icon-contacted {
-        // background-image: url("/assets/icon-contacted.png");
+        background-image: url("/assets/icon-contacted.png");
       }
       &.icon-left-message {
-        // background-image: url("/assets/icon-left-message.png");
+        background-image: url("/assets/icon-left-message.png");
       }
       &.icon-no-answer {
-        // background-image: url("/assets/icon-no-answer.png");
+        background-image: url("/assets/icon-no-answer.png");
       }
       &.icon-new-discharges {
-        // background-image: url("/assets/icon-new-discharges.png");
+        background-image: url("/assets/icon-new-discharges.png");
+      }
+      &.icon-kudos {
+        background-image: url("/assets/icon-kudos.png");
       }
       &.icon-notifications {
         background-image: url("/assets/icon-notifications.png");
       }
       &.icon-final-call {
-        // background-image: url("/assets/icon-final-call.png");
+        background-image: url("/assets/icon-final-call.png");
       }
     }
 
