@@ -9,4 +9,8 @@ export class CallQueuePatientListingComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  public sortPatientsByCallDate = function() {};
+  public sortPatientsByDischargeDate = function() {};
+  public toggleOperationSidebarMenu = function() {};
 }

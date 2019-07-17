@@ -162,7 +162,14 @@ h3 {
   text-transform: uppercase;
   color: var(--ion-color-primary);
 }
-
+.expand-facilities-trigger {
+  background-image: url("assets/icon-arrow-open@2x.png");
+  width: 100%;
+  margin-left: 22px;
+  display: block;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
 .call-history-container {
   height: 250px;
   max-width: 332px;
