@@ -32,6 +32,7 @@ import { UserCorkBoardModule } from './shell/user-cork-board.module';
 import { CallQueueModule } from '@app/modules/call-queue/call-queue.module';
 
 import { AlertsModule } from '@app/core/alerts/alerts.module';
+import { ExpandableComponent } from './components/expandable/expandable.component';
 
 @NgModule({
   imports: [
@@ -63,7 +64,7 @@ import { AlertsModule } from '@app/core/alerts/alerts.module';
     CallQueueModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, ExpandableComponent],
   providers: [MsalGuard],
   bootstrap: [AppComponent]
 })
