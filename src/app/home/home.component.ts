@@ -68,6 +68,7 @@ export class HomeComponent implements OnInit {
       }
 
       console.log(this.menu);
+      return this.menu;
     } catch (e) {
       this.logger.error('some error', e);
     }

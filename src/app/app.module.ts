@@ -32,6 +32,10 @@ import { UserCorkBoardModule } from './shell/user-cork-board.module';
 import { CallQueueModule } from '@app/modules/call-queue/call-queue.module';
 
 import { AlertsModule } from '@app/core/alerts/alerts.module';
+
+/**
+ * Should we be importing this as module?
+ */
 import { PatientDetailComponent } from './modules/patient/patient-detail/patient-detail.component';
 
 @NgModule({

@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { CallQueueRoutingModule } from './call-queue-routing.module';
 import { CallQueueComponent } from './call-queue.component';
-import { CallQueueCalendarWidgetComponent } from './call-queue-calendar/call-queue-calendar-widget.component';
 import { CallQueueSidebarComponent } from './call-queue-sidebar/call-queue-sidebar.component';
 import { CallQueueLegendComponent } from './call-queue-legend/call-queue-legend.component';
 import { MonthCalendarModule } from 'simple-angular-calendar';
@@ -19,7 +18,6 @@ import { CallQueuePatientListingComponent } from './call-queue-patient-listing/c
   exports: [CallQueueSidebarComponent],
   declarations: [
     CallQueueComponent,
-    CallQueueCalendarWidgetComponent,
     CallQueueSidebarComponent,
     CallQueueLegendComponent,
     CallQueueCallHistoryCalendarComponent,
