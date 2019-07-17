@@ -1,0 +1,127 @@
+.call-queue-feed {
+  max-width: 431px;
+}
+
+ul.patient-filters {
+  list-style-type: none;
+  float: right;
+  margin-top: 0;
+  margin-bottom: 0;
+  li {
+    display: inline-block;
+    font-family: Avenir;
+    font-size: 11.8px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 2.88;
+    letter-spacing: 0.53px;
+    text-align: right;
+    margin-right: 18px;
+  }
+}
+.call-queue-patient-list {
+  clear: both;
+  list-style-type: none;
+  height: auto;
+  max-width: 431px;
+  padding-left: 0;
+
+  li {
+    cursor: pointer;
+    width: 100%;
+    height: 96px;
+    line-height: 96px;
+    vertical-align: middle;
+    &.active {
+      background-color: rgba(8, 196, 0, 0.1);
+    }
+    ul {
+      padding-left: 0;
+      list-style-type: none;
+    }
+
+    .call-queue-number {
+      display: inline-block;
+      width: 14px;
+      margin-left: 24px;
+      margin-right: 8px;
+      font-family: Avenir;
+      font-size: 24.1px;
+      font-weight: 900;
+      font-style: normal;
+      font-stretch: normal;
+      letter-spacing: 0.96px;
+      text-align: center;
+      &.active {
+        color: #08c400;
+      }
+    }
+    .call-queue-avatar {
+      display: inline-block;
+      margin-top: 10.5px;
+      width: 74.8px;
+      height: 75.2px;
+      box-shadow: 1.4px 1.4px 1.4px 0 rgba(35, 31, 32, 0.15);
+      background-color: #ffffff;
+      background-image: url("/assets/default-patient-avatar.png");
+      background-size: cover;
+      background-position: center center;
+      border-radius: 50%;
+    }
+    .call-queue-patient-information {
+      display: inline-block;
+      padding-left: 11.2px;
+      max-width: 244px;
+      min-width: 200px;
+      width: 60%;
+      height: 100%;
+      line-height: 0;
+      vertical-align: middle;
+      color: black;
+    }
+    .call-queue-patient-name {
+      height: 22px;
+      font-family: Avenir;
+      font-size: 21px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.33;
+      letter-spacing: normal;
+      text-align: left;
+      color: #343638;
+    }
+    .call-queue-patient-detail {
+      width: 177px;
+      height: 13px;
+      font-family: AvenirNextLTPro;
+      font-size: 13px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 0.85;
+      letter-spacing: normal;
+      text-align: left;
+      color: #8e8e93;
+    }
+    .call-queue-patient-detail {
+      width: 177px;
+      height: 13px;
+      font-family: AvenirNextLTPro;
+      font-size: 13px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 0.85;
+      letter-spacing: normal;
+      text-align: left;
+      color: #8e8e93;
+    }
+    .call-queue-patient-listing-controls {
+      display: inline-block;
+      height: 215px;
+      width: 17px;
+    }
+  }
+}

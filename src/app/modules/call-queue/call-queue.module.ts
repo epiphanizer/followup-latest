@@ -11,6 +11,7 @@ import { CallQueueLegendComponent } from './call-queue-legend/call-queue-legend.
 import { MonthCalendarModule } from 'simple-angular-calendar';
 import { CallQueueCallHistoryCalendarComponent } from './call-queue-call-history-calendar/call-queue-call-history-calendar/call-queue-call-history-calendar.component';
 import { CallQueuePatientFilterComponent } from './call-queue-patient-filter/call-queue-patient-filter/call-queue-patient-filter.component';
+import { CallQueuePatientListingComponent } from './call-queue-patient-listing/call-queue-patient-listing/call-queue-patient-listing.component';
 
 @NgModule({
   imports: [CommonModule, TranslateModule, IonicModule, RouterModule, CallQueueRoutingModule, MonthCalendarModule],
@@ -22,7 +23,8 @@ import { CallQueuePatientFilterComponent } from './call-queue-patient-filter/cal
     CallQueueSidebarComponent,
     CallQueueLegendComponent,
     CallQueueCallHistoryCalendarComponent,
-    CallQueuePatientFilterComponent
+    CallQueuePatientFilterComponent,
+    CallQueuePatientListingComponent
   ],
   providers: []
 })
