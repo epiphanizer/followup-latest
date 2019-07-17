@@ -9,4 +9,8 @@ export class CallQueueComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+  /**
+   * Switch the call queue view to a new operation
+   */
+  public switchCallQueueOperationView = function() {};
 }

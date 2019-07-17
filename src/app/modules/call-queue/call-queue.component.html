@@ -9,9 +9,11 @@
     <a class="facility-dropdown-target">MY FACILITIES</a>
     <i class="expand-facilities-trigger" (click)="toggleOperationSidebarMenu()"></i>
     <!-- <app-sidebar-call-queue-operations></app-sidebar-call-queue-operations> -->
-    <ul class="facility-dropdown-list">
+    <ul class="facility-dropdown-list active">
       <!-- {operation.dischargeNumber}; -->
-      <li class="active">Camp Verde <span class="icon-discharge-counter">[09]</span></li>
+      <li class="active">
+        <a (click)="(switchCallQueueOperationView)">Camp Verde <span class="icon-discharge-counter">[09]</span></a>
+      </li>
       <li>Cottonwood <span class="number">[07]</span></li>
       <li>Safford <span class="number">[13]</span></li>
       <li>Yuma <span class="number">[11]</span></li>
