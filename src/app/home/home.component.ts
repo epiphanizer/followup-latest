@@ -7,7 +7,8 @@ import { UserAvatarService } from '@app/user/user-avatar.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  providers: [UserAvatarService]
 })
 export class HomeComponent implements OnInit {
   isLoading = false;
@@ -51,7 +52,10 @@ export class HomeComponent implements OnInit {
           this.menu = [
             { name: 'Patients', action: '/patients', image: '/assets/icon-patients.png' },
             { name: 'Notifications', action: '/notifications', image: '/assets/icon-notifications.png' },
-            { name: 'My Profile', action: '/profile', image: this.getUserAvatarImgSrc() }
+
+            { name: 'My Profile', action: '/profile', image: '/assets/profile.png' }
+            //
+            // { name: 'My Profile', action: '/profile', image: this.getUserAvatarImgSrc() }
           ];
           break;
         case 3:
@@ -66,9 +70,6 @@ export class HomeComponent implements OnInit {
           throw 'No User ID given';
           break;
       }
-
-      console.log(this.menu);
-      return this.menu;
     } catch (e) {
       this.logger.error('some error', e);
     }
