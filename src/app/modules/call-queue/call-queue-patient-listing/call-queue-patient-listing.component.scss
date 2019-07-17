@@ -2,6 +2,20 @@
   max-width: 431px;
 }
 
+h3 {
+  font-family: AvenirBold;
+  font-size: 21px;
+  font-weight: 900;
+  font-style: normal;
+  font-weight: bold;
+  font-stretch: normal;
+  line-height: 1.01;
+  letter-spacing: 3.15px;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--ion-color-primary);
+}
+
 ul.patient-filters {
   list-style-type: none;
   float: right;

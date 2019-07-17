@@ -1,0 +1,27 @@
+.patient-filter {
+  max-width: 332px;
+  margin-left: 73px;
+
+  .patient-filter-results {
+    ul {
+      list-style-type: none;
+    }
+    li {
+      height: 40px;
+      border-top: 1px #c8c7cc solid;
+      padding-left: 20px;
+      line-height: 45px;
+      vertical-align: middle;
+
+      font-family: Avenir;
+      font-size: 16px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.13;
+      letter-spacing: -0.39px;
+      text-align: left;
+      color: #000000;
+    }
+  }
+}
