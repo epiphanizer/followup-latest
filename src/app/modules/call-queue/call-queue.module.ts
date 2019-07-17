@@ -10,6 +10,7 @@ import { CallQueueSidebarComponent } from './call-queue-sidebar/call-queue-sideb
 import { CallQueueLegendComponent } from './call-queue-legend/call-queue-legend.component';
 import { MonthCalendarModule } from 'simple-angular-calendar';
 import { CallQueueCallHistoryCalendarComponent } from './call-queue-call-history-calendar/call-queue-call-history-calendar/call-queue-call-history-calendar.component';
+import { CallQueuePatientFilterComponent } from './call-queue-patient-filter/call-queue-patient-filter/call-queue-patient-filter.component';
 
 @NgModule({
   imports: [CommonModule, TranslateModule, IonicModule, RouterModule, CallQueueRoutingModule, MonthCalendarModule],
@@ -20,7 +21,8 @@ import { CallQueueCallHistoryCalendarComponent } from './call-queue-call-history
     CallQueueCalendarWidgetComponent,
     CallQueueSidebarComponent,
     CallQueueLegendComponent,
-    CallQueueCallHistoryCalendarComponent
+    CallQueueCallHistoryCalendarComponent,
+    CallQueuePatientFilterComponent
   ],
   providers: []
 })
