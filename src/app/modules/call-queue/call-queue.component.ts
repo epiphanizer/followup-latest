@@ -12,7 +12,4 @@ export class CallQueueComponent implements OnInit {
   /**
    * Switch the call queue view to a new operation
    */
-  public switchCallQueueOperationView = function() {};
-
-  public toggleOperationSidebarMenu = function() {};
 }

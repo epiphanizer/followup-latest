@@ -9,4 +9,8 @@ export class CallQueueSidebarComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  public switchCallQueueOperationView = function() {};
+
+  public toggleOperationSidebarMenu = function() {};
 }
