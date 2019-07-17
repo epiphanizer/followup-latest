@@ -1,32 +1,7 @@
 <!-- Our lefthand sidebar -->
 <ion-row>
   <ion-col class="call-queue-sidebar">
-    <div class="call-queue-sidebar-calendar">
-      <h4>TODAY'S DATE</h4>
-      <div class="caption">28</div>
-    </div>
-
-    <a class="facility-dropdown-target">MY FACILITIES</a>
-    <i class="expand-facilities-trigger" (click)="toggleOperationSidebarMenu()"></i>
-    <!-- <app-sidebar-call-queue-operations></app-sidebar-call-queue-operations> -->
-    <ul class="facility-dropdown-list active">
-      <!-- {operation.dischargeNumber}; -->
-      <li class="active">
-        <a href="#" class="active" (click)="(switchCallQueueOperationView)"
-          >Camp Verde <span class="icon-discharge-counter">[09]</span></a
-        >
-      </li>
-      <li>
-        <a href="#" (click)="switchCallQueueOperationView()">Cottonwood <span class="number">[07]</span></a>
-      </li>
-      <li>
-        <a href="#" (click)="switchCallQueueOperationView()"> Safford <span class="number">[13] </span> </a>
-      </li>
-      <li>
-        <a href="#" (click)="switchCallQueueOperationView()"> Yuma <span class="number">[11]</span></a>
-      </li>
-    </ul>
-    <!-- <call-queue-sidebar></call-queue-sidebar> -->
+    <app-call-queue-sidebar></app-call-queue-sidebar>
   </ion-col>
   <ion-col class="call-queue-content">
     <ion-grid>
