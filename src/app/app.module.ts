@@ -32,7 +32,7 @@ import { UserCorkBoardModule } from './shell/user-cork-board.module';
 import { CallQueueModule } from '@app/modules/call-queue/call-queue.module';
 
 import { AlertsModule } from '@app/core/alerts/alerts.module';
-import { PatientDetailComponent } from './patient/patient-detail/patient-detail.component';
+import { PatientDetailComponent } from './modules/patient/patient-detail/patient-detail.component';
 
 @NgModule({
   imports: [
