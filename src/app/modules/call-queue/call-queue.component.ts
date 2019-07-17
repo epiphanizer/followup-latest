@@ -12,4 +12,5 @@ export class CallQueueComponent implements OnInit {
 
   public sortPatientsByCallDate = function() {};
   public sortPatientsByDischargeDate = function() {};
+  public toggleOperationSidebarMenu = function() {};
 }
