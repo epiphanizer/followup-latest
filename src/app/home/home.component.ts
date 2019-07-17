@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { Logger, LoggingService } from 'ionic-logging-service';
 import { AuthenticationService } from '@app/core/authentication/auth.service';
+import { UserAvatarService } from '@app/user/user-avatar.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,11 @@ export class HomeComponent implements OnInit {
   logger: Logger = new Logger();
   menu: {} = {};
 
-  constructor(loggingService: LoggingService, private authService: AuthenticationService) {}
+  constructor(
+    loggingService: LoggingService,
+    private authService: AuthenticationService,
+    private userAvatarService: UserAvatarService
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -46,7 +51,7 @@ export class HomeComponent implements OnInit {
           this.menu = [
             { name: 'Patients', action: '/patients', image: '/assets/icon-patients.png' },
             { name: 'Notifications', action: '/notifications', image: '/assets/icon-notifications.png' },
-            { name: 'My Profile', action: '/profile', image: '/assets/icon-user-profile.png' }
+            { name: 'My Profile', action: '/profile', image: this.getUserAvatarImgSrc() }
           ];
           break;
         case 3:
@@ -66,5 +71,10 @@ export class HomeComponent implements OnInit {
     } catch (e) {
       this.logger.error('some error', e);
     }
+  };
+  protected getUserAvatarImgSrc = function(userId: number) {
+    console.log('Getting user avatar src');
+
+    return 'src';
   };
 }

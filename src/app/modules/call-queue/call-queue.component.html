@@ -54,10 +54,13 @@
           <!-- Filters -->
           <ul class="patient-filters">
             <li>
-              <a (click)="sortPatientsByDisrchargeDate()">[Discharge Date]</a>
+              <a (click)="sortPatientsByDischargeDate()">[Discharge Date]</a>
             </li>
             <li>
               <a (click)="sortPatientsByCallDate()">[Call Date]</a>
+            </li>
+            <li class="ascending-descending-control">
+              <i> </i>
             </li>
           </ul>
           <ul class="call-queue-patient-list">

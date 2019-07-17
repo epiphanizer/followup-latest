@@ -20,10 +20,15 @@ ion-title {
       color: var(--ion-color-primary);
     }
     .caption {
+      font-family: Avenir;
+      font-size: 125px;
+      font-weight: 900;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 0.18;
+      letter-spacing: -5px;
       text-align: center;
-      width: 100%;
-      font-size: 120px;
-      font-weight: bolder;
+      color: var(--charcoal-grey);
     }
   }
 
