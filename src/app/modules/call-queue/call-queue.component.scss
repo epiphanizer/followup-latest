@@ -44,10 +44,17 @@ ion-title {
     text-align: right;
     color: var(--ion-color-primary);
   }
+  i {
+    margin-left: 12px;
+    width: 10px;
+  }
 
   .facility-dropdown-list {
+    display: none;
     list-style-type: none;
-
+    &.active {
+      display: block;
+    }
     li {
       &.active {
         font-weight: bold;
