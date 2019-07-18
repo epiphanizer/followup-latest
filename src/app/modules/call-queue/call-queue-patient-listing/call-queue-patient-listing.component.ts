@@ -9,9 +9,17 @@ import { Observable } from 'rxjs';
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
+  patientService: PatientService;
+  selectedOperation: number;
   constructor(patientService: PatientService) {}
-  private $patients: Observable<any> | null = null;
-  ngOnInit() {}
+  public $patients: Observable<any> | void = null;
+  ngOnInit() {
+    /**
+     * Get the operation from the route.
+     */
+    this.selectedOperation = route.getParams();
+    this.$patients = this.patientService.getPatientListByOperationId(this.selectedOperation);
+  }
 
   public sortPatientsByCallDate = function() {};
   public sortPatientsByDischargeDate = function() {};
