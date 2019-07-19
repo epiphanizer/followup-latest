@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
         case 1:
           this.menu = [
             { name: 'Call Queue', action: '/call-queue', image: '/assets/icon-call-queue.png' },
-            { name: 'My Profile', action: '/profile', image: user.avatar }
+            { name: 'My Profile', action: '/profile', image: this.user.avatar }
           ];
           break;
         case 2:
