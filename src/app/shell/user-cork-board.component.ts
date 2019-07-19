@@ -17,17 +17,17 @@ import {
       state(
         'open',
         style({
-          width: '444px',
-          opacity: 1
+          width: '222px'
         })
       ),
       state(
         'closed',
         style({
-          width: '28px',
-          opacity: 1
+          width: '28px'
         })
-      )
+      ),
+      transition('open => closed', [animate('0.5s')]),
+      transition('closed => open', [animate('0.25s')])
     ])
   ]
 })
@@ -48,6 +48,6 @@ export class UserCorkBoardComponent implements OnInit {
   public toggleCorkboardState = function() {
     console.log('toggling corkboard');
     this.isOpen = !this.isOpen;
-    console.log(this.isOpen);
+    console.log('corkboard isOpen? ' + this.isOpen);
   };
 }
