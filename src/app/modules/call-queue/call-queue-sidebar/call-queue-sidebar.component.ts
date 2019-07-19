@@ -47,8 +47,8 @@ import {
           transform: 'rotate(-90deg)'
         })
       ),
-      transition('open => closed', [animate('0.5s')]),
-      transition('closed => open', [animate('0.25s')])
+      transition('open => closed', [animate('0.125s')]),
+      transition('closed => open', [animate('0.125s')])
     ])
   ]
 })

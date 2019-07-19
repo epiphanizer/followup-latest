@@ -48,8 +48,6 @@ export class UserCorkBoardComponent implements OnInit {
     // implement service call here
   };
   public toggleCorkboardState = function() {
-    console.log('toggling corkboard');
     this.isOpen = !this.isOpen;
-    console.log('corkboard isOpen? ' + this.isOpen);
   };
 }
