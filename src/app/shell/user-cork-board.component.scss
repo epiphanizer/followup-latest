@@ -25,11 +25,15 @@ ul {
     }
   }
 }
-
+.open-close-container {
+  cursor: pointer;
+}
 .icon {
+  cursor: pointer;
   position: absolute;
+  color: white;
   top: 33px;
-  z-index: 0;
+  z-index: 2000;
   width: 14px;
   height: 14px;
   background-repeat: no-repeat;
@@ -37,18 +41,22 @@ ul {
   margin-left: 8px;
   background-size: 100%;
   &.new-item {
+    margin-top: 12px;
+    padding-left: 2px;
+    background-image: url("/assets/icon-new-item@2x.png");
+  }
+  &.minus {
+    margin-top: 12px;
+    padding-left: 2px;
     background-image: url("/assets/icon-new-item@2x.png");
   }
   &.expand {
     background-image: url("/assets/icon-expand@2x.png");
   }
-  &.active {
-    z-index: 100;
-  }
 }
 .user-cork-board {
   position: absolute;
-  z-index: 0;
+  z-index: 1999;
   width: 28px;
   height: 100%;
   min-height: 1024px;

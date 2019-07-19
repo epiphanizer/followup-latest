@@ -24,7 +24,7 @@ import {
       state(
         'closed',
         style({
-          width: '38px',
+          width: '28px',
           opacity: 1
         })
       )
@@ -37,7 +37,17 @@ export class UserCorkBoardComponent implements OnInit {
 
   ngOnInit() {}
 
+  public addNewCorkboardItem = function() {
+    console.log('adding corkboard item');
+    // implement service call here
+  };
+  public deleteCorkboardItem = function() {
+    console.log('deleting corkboard item');
+    // implement service call here
+  };
   public toggleCorkboardState = function() {
+    console.log('toggling corkboard');
     this.isOpen = !this.isOpen;
+    console.log(this.isOpen);
   };
 }

@@ -1,16 +1,13 @@
-<div class="user-cork-board">
+<div class="user-cork-board" [@openClose]="isOpen ? true : false">
   <div class="container">
     <div class="row">
       <ul class="corkboard-controls">
-        <li
-          (click)="toggleCorkboardState()"
-          [@openClose]="isOpen ? true : false"
-          class="open-close-container expand icon"
-        >
-          <i></i>
+        <li (click)="toggleCorkboardState()" class="expand icon"></li>
+        <li (click)="addNewCorkboardItem()" class="new-item icon">
+          +
         </li>
-        <li class="new-item icon">
-          <i></i>
+        <li (click)="deleteCorkboardItem()" class="minus icon">
+          -
         </li>
       </ul>
     </div>
