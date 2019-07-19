@@ -23,19 +23,29 @@ export class OperationService {
   /**
    * We need to make sure this only gives us back the ones we need.
    */
-  getAllOperations(): Observable<Operation> {
-    return this.http.get<Operation>('operations').pipe(
+  public getAllOperations(): Observable<Operation> {
+    return this.http.get<Operation>('api/operations').pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
     );
   }
 
-  getOperationByOperationId(operationId: number): Observable<Operation> {
-    return this.http.get<Operation>('operations/' + operationId).pipe(
+  public getOperationByOperationId(operationId: number): Observable<Operation> {
+    return this.http.get<Operation>('api/operations/' + operationId).pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
     );
   }
+
+  /**
+   *
+   * @param error Create new operation ()
+   */
+
+  /**
+   *
+   * @param error Update existing operation
+   */
 
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

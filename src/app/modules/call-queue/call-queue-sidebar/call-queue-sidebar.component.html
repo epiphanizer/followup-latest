@@ -7,7 +7,7 @@
   <a class="facility-dropdown-target">MY FACILITIES</a>
   <i class="expand-facilities-trigger" (click)="toggleOperationSidebarMenu()"></i>
   <ul class="facility-dropdown-list active">
-    <li ngIf="let operation in operations$ | async">
+    <li *ngFor="let operation of operations$ | async; let i = index">
       <a href="#" class="active" (click)="switchCallQueueOperationView(operation.operationId)">
         Camp Verde
         <span class="icon-discharge-counter"> [{{ operation.currentDischargeCount }}] </span>

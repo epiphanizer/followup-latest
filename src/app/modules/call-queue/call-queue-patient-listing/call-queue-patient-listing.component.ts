@@ -11,14 +11,16 @@ import { Observable } from 'rxjs';
 export class CallQueuePatientListingComponent implements OnInit {
   patientService: PatientService;
   selectedOperation: number;
-  constructor(patientService: PatientService) {}
-  public $patients: Observable<any> | void = null;
+  constructor(patientService: PatientService) {
+    this.patientService = patientService;
+  }
+  public patients$: Observable<any> | void = null;
   ngOnInit() {
     /**
      * Get the operation from the route.
      */
     this.selectedOperation = 1;
-    this.$patients = this.patientService.getPatientListByOperationId(this.selectedOperation);
+    this.patients$ = this.patientService.getPatientListByOperationId(1);
   }
 
   public sortPatientsByCallDate = function() {};

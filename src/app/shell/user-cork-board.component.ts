@@ -13,20 +13,22 @@ import {
   templateUrl: './user-cork-board.component.html',
   styleUrls: ['./user-cork-board.component.scss'],
   animations: [
-    state(
-      'open',
-      style({
-        width: '444px',
-        opacity: 1
-      })
-    ),
-    state(
-      'closed',
-      style({
-        width: '38px',
-        opacity: 1
-      })
-    )
+    trigger('openClose', [
+      state(
+        'open',
+        style({
+          width: '444px',
+          opacity: 1
+        })
+      ),
+      state(
+        'closed',
+        style({
+          width: '38px',
+          opacity: 1
+        })
+      )
+    ])
   ]
 })
 export class UserCorkBoardComponent implements OnInit {

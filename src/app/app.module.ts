@@ -57,7 +57,7 @@ import { PatientDetailComponent } from './modules/patient/patient-detail/patient
       cacheLocation: 'localStorage',
       postLogoutRedirectUri: 'http://localhost:4200/login',
       navigateToLoginRequestUrl: false,
-      popUp: false,
+      popUp: true,
       consentScopes: OAuthSettings.scopes
     }),
     SharedModule,
