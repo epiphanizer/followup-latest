@@ -10,7 +10,7 @@ const proxyConfig = [
   {
     context: '/api',
     pathRewrite: { '^/api': '' },
-    target: 'localhost:3000/',
+    target: 'http://localhost:8080/',
     changeOrigin: true,
     secure: false
   }
