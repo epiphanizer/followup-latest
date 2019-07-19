@@ -7,6 +7,7 @@ import {
   transition
   // ...
 } from '@angular/animations';
+
 @Component({
   selector: 'app-user-cork-board',
   templateUrl: './user-cork-board.component.html',
@@ -33,5 +34,5 @@ export class UserCorkBoardComponent implements OnInit {
 
   ngOnInit() {}
 
-  public toggleSidebarVisibility = function() {};
+  public toggleCorkboardState = function() {};
 }
