@@ -86,7 +86,9 @@
   border-top: solid 3.9px var(--ion-color-primary);
   border-bottom: none;
 }
-
+.facility-dropdown-target {
+  cursor: pointer;
+}
 .expand-facilities-trigger {
   cursor: pointer;
   background-image: url("assets/icon-arrow-open@2x.png");
