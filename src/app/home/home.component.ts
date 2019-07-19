@@ -2,28 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { Logger, LoggingService } from 'ionic-logging-service';
 import { AuthenticationService } from '@app/core/authentication/auth.service';
-import { UserAvatarService } from '@app/user/user-avatar.service';
+
+import { User } from '@app/user/user';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  providers: [UserAvatarService]
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   isLoading = false;
   logger: Logger = new Logger();
+  user: User = new User();
   menu: {} = {};
 
-  constructor(
-    loggingService: LoggingService,
-    private authService: AuthenticationService,
-    private userAvatarService: UserAvatarService
-  ) {}
+  constructor(loggingService: LoggingService, private authService: AuthenticationService) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.getUserMenu(1);
+    this.getUserMenu(this.user.level);
   }
 
   async signIn(): Promise<void> {
@@ -45,7 +42,7 @@ export class HomeComponent implements OnInit {
         case 1:
           this.menu = [
             { name: 'Call Queue', action: '/call-queue', image: '/assets/icon-call-queue.png' },
-            { name: 'My Profile', action: '/profile', image: '/assets/icon-user-profile.png' }
+            { name: 'My Profile', action: '/profile', image: user.avatar }
           ];
           break;
         case 2:

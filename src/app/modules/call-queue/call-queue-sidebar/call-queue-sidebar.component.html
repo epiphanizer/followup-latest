@@ -5,7 +5,11 @@
   </div>
 
   <a class="facility-dropdown-target">MY FACILITIES</a>
-  <i class="expand-facilities-trigger" [@turnArrow]="isOpen ? 'open' : 'closed'" class="active"></i>
+  <i
+    class="expand-facilities-trigger"
+    [@turnArrow]="isOpen ? 'open' : 'closed'"
+    class="expand-facilities-trigger active"
+  ></i>
   <ul
     class="facility-dropdown-list"
     [@expandSidebar]="isOpen ? 'open' : 'closed'"
