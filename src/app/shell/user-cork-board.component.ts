@@ -17,7 +17,9 @@ import {
       state(
         'open',
         style({
-          width: '222px'
+          width: '222px',
+          'background-repeat': 'repeat-x',
+          'background-size': 'auto'
         })
       ),
       state(
