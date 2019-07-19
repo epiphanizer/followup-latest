@@ -9,4 +9,6 @@ export class UserCorkBoardComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  public toggleSidebarVisibility = function() {};
 }

@@ -7,23 +7,11 @@
   <a class="facility-dropdown-target">MY FACILITIES</a>
   <i class="expand-facilities-trigger" (click)="toggleOperationSidebarMenu()"></i>
   <ul class="facility-dropdown-list active">
-    <li class="active">
+    <li ngIf="let operation in operations$ | async">
       <a href="#" class="active" (click)="(switchCallQueueOperationView)">
         Camp Verde
-        <span class="icon-discharge-counter">
-          <!-- {operation.dischargeNumber}; -->
-          [09]
-        </span>
+        <span class="icon-discharge-counter"> [{{ operation.currentDischargeCount }}] </span>
       </a>
-    </li>
-    <li>
-      <a href="#" (click)="switchCallQueueOperationView()">Cottonwood <span class="number">[07]</span></a>
-    </li>
-    <li>
-      <a href="#" (click)="switchCallQueueOperationView()"> Safford <span class="number">[13] </span> </a>
-    </li>
-    <li>
-      <a href="#" (click)="switchCallQueueOperationView()"> Yuma <span class="number">[11]</span></a>
     </li>
   </ul>
 </div>

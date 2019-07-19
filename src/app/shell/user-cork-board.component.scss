@@ -25,3 +25,38 @@ ul {
     }
   }
 }
+
+.icon {
+  position: absolute;
+  top: 33px;
+  z-index: 0;
+  width: 14px;
+  height: 14px;
+  background-repeat: no-repeat;
+  display: block;
+  margin-left: 8px;
+  background-size: 100%;
+  &.new-item {
+    background-image: url("/assets/icon-new-item@2x.png");
+  }
+  &.expand {
+    background-image: url("/assets/icon-expand@2x.png");
+  }
+  &.active {
+    z-index: 100;
+  }
+}
+.user-cork-board {
+  position: absolute;
+  z-index: 0;
+  width: 28px;
+  height: 100%;
+  min-height: 1024px;
+  background-image: url("/assets/corkboard-bg-1.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
+  &.active {
+    z-index: 100;
+  }
+}
