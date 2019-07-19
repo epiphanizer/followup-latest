@@ -7,7 +7,7 @@ export interface Operation {
   operationName: string;
 }
 
-export interface OperationInformation {
+export interface Operation {
   operationId: number;
   operationName: string;
   operationAddress: string;
@@ -20,15 +20,18 @@ export interface OperationInformation {
 export class OperationService {
   constructor(private http: HttpClient) {}
 
-  getOperations(): Observable<Operation> {
+  /**
+   * We need to make sure this only gives us back the ones we need.
+   */
+  getAllOperations(): Observable<Operation> {
     return this.http.get<Operation>('operations').pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
     );
   }
 
-  getOperationInformationByOperationId(operationId: number): Observable<OperationInformation> {
-    return this.http.get<OperationInformation>('operations/' + operationId).pipe(
+  getOperationByOperationId(operationId: number): Observable<Operation> {
+    return this.http.get<Operation>('operations/' + operationId).pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
     );
