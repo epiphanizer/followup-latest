@@ -17,7 +17,7 @@ export class CallQueuePatientListingComponent implements OnInit {
     /**
      * Get the operation from the route.
      */
-    this.selectedOperation = route.getParams();
+    this.selectedOperation = 1;
     this.$patients = this.patientService.getPatientListByOperationId(this.selectedOperation);
   }
 
