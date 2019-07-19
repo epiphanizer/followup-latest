@@ -32,9 +32,12 @@ import {
   ]
 })
 export class UserCorkBoardComponent implements OnInit {
+  isOpen = false;
   constructor() {}
 
   ngOnInit() {}
 
-  public toggleCorkboardState = function() {};
+  public toggleCorkboardState = function() {
+    this.isOpen = !this.isOpen;
+  };
 }
