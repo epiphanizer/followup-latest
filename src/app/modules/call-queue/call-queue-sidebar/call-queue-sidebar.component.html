@@ -5,11 +5,15 @@
   </div>
 
   <a class="facility-dropdown-target">MY FACILITIES</a>
-  <i class="expand-facilities-trigger" (click)="toggleOperationSidebarMenu()"></i>
-  <ul class="facility-dropdown-list active" [@expandSidebar]="isOpen ? 'open' : 'closed'">
+  <i class="expand-facilities-trigger" [@turnArrow]="isOpen ? 'open' : 'closed'" class="active"></i>
+  <ul
+    class="facility-dropdown-list"
+    [@expandSidebar]="isOpen ? 'open' : 'closed'"
+    class="facility-dropdown-list active"
+  >
     <li *ngFor="let operation of operations$ | async; let i = index">
       <a href="#" class="active" (click)="switchCallQueueOperationView(operation.operationId)">
-        Camp Verde
+        {{ operation.operationName }}
         <span class="icon-discharge-counter"> [{{ operation.currentDischargeCount }}] </span>
       </a>
     </li>
