@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
 
-import { Client } from '@microsoft/microsoft-graph-client';
+import { GraphService } from '../graph.service';
 
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
@@ -24,40 +24,20 @@ export class UserService {
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private apiService: ApiService, private http: HttpClient, private jwtService: JwtService) {}
+  constructor(
+    private apiService: ApiService,
+    private http: HttpClient,
+    private graphService: GraphService,
+    private jwtService: JwtService
+  ) {}
 
-  // Verify JWT in localstorage with server & load user's info.
-  // This runs once on application startup.
   populate() {
-    // If JWT detected, attempt to get & store user's info
-    // if (this.jwtService.getToken()) {
-    this.apiService.get('/user').subscribe(
-      data => data.user
-      // data => this.setAuth(data.user),
-      // err => this.purgeAuth()
-    );
-    // } else {
-    // Remove any potential remnants of previous auth states
-    // this.purgeAuth();
-    // }
+    this.apiService.get('/user').subscribe(data => data.user);
   }
 
   public getUserIdByMicrosoftGUID(userMicrosoftGUID: string) {
     this.apiService.get('/users/search/' + userMicrosoftGUID);
   }
-
-  private assignUserAccessLevel = function(userId: number) {
-    let url = '/users' + userId;
-    /**
-     * Call to Graph to get the users group.
-     
-    POST /users/{id | userPrincipalName}/getMemberGroups
-    securityEnabledOnly
-    */
-    // const result = someCall();
-
-    return 1;
-  };
 
   getCurrentUser(): User {
     return this.currentUserSubject.value;

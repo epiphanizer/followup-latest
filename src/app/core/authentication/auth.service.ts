@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 
+import { GraphService } from '@app/graph.service';
+
 import { AlertsService } from '@app/core/alerts/alerts.service';
 import { OAuthSettings } from 'oauth';
-import { User } from '@app/user';
+import { User } from '@app/core/user.service';
 import { Client } from '@microsoft/microsoft-graph-client';
+import { Level } from 'log4javascript';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +16,11 @@ export class AuthenticationService {
   public authenticated: boolean;
   public user: User;
 
-  constructor(private msalService: MsalService, private alertsService: AlertsService) {
+  constructor(
+    private msalService: MsalService,
+    private graphService: GraphService,
+    private alertsService: AlertsService
+  ) {
     this.authenticated = this.msalService.getUser() != null;
     this.getUser().then(user => {
       this.user = user;
@@ -56,14 +63,37 @@ export class AuthenticationService {
     // Get the user from Graph (GET /me)
     let graphUser = await graphClient.api('/me').get();
 
-    let user = new User();
+    let user = <User>{};
     user.displayName = graphUser.displayName;
     // Prefer the mail property, but fall back to userPrincipalName
     user.email = graphUser.mail || graphUser.userPrincipalName;
 
+    user.level = this.assignUserLevel();
+
     return user;
   }
 
+  assignUserLevel(): number {
+    /**
+     * note: one to one relationship. A user will not fall into more than
+     * one auth-level.
+     */
+    const memberGroup = this.graphService.getUserMemberGroups();
+    console.log(memberGroup);
+    debugger;
+    let level = null;
+    /**
+     * Switch based on memberGroup def
+     */
+
+    switch (memberGroup) {
+      default:
+        debugger;
+        break;
+    }
+
+    return level;
+  }
   // Sign out
   signOut(): void {
     this.msalService.logout();
