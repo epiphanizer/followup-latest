@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '@app/user/user';
+import { UserService } from '@app/core/user.service';
 
 @Component({
   selector: 'app-toolbar-profile-nav',
@@ -7,8 +7,7 @@ import { User } from '@app/user/user';
   styleUrls: ['./toolbar-profile-nav.component.scss']
 })
 export class ToolbarProfileNavComponent implements OnInit {
-  user: User = new User();
-  constructor() {}
+  constructor(userService: UserService) {}
 
   ngOnInit() {}
 }
