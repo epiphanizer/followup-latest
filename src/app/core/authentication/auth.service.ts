@@ -76,21 +76,28 @@ export class AuthenticationService {
      * note: one to one relationship. A user will not fall into more than
      * one auth-level.
      */
-    const memberGroup = resolve(this.graphService.getUserMemberGroups());
+    const memberGroup = this.graphService.getUserMemberGroups().then((memberGroup: string) => {
+      try {
+        switch (memberGroup) {
+          case 'followup-admin':
+            return 1;
+          case 'followup-manager':
+            return 2;
+          case 'followup-users':
+            return 3;
+          default:
+            throw 'Could not assign user level. Something is amiss';
+        }
+      } catch (error) {
+        this.logger.error(error);
+      }
+    });
     console.log(memberGroup);
     debugger;
     let level = null;
     /**
      * Switch based on memberGroup def
      */
-
-    switch (memberGroup) {
-      case memberGroup == 'followup-admin':
-        break;
-      default:
-        debugger;
-        break;
-    }
 
     return level;
   }

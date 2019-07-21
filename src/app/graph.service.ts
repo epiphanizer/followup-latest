@@ -15,7 +15,7 @@ export class GraphService {
     this.graphClient = Client.init({
       authProvider: async done => {
         // Get the token from the auth service
-        let token = await this.authService.getAccessToken().catch((reason: any) => {
+        let token = await this.getAccessToken().catch((reason: any) => {
           done(reason, null);
         });
 
