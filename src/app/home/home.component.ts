@@ -3,7 +3,7 @@ import { finalize } from 'rxjs/operators';
 import { Logger, LoggingService } from 'ionic-logging-service';
 import { AuthenticationService } from '@app/core/authentication/auth.service';
 
-import { User } from '@app/user/user';
+import { User, UserService } from '@app/user/user';
 
 @Component({
   selector: 'app-home',
@@ -13,14 +13,22 @@ import { User } from '@app/user/user';
 export class HomeComponent implements OnInit {
   isLoading = false;
   logger: Logger = new Logger();
-  user: User = new User();
+  user: User;
   menu: {} = {};
 
-  constructor(loggingService: LoggingService, private authService: AuthenticationService) {}
+  constructor(
+    loggingService: LoggingService,
+    private authService: AuthenticationService,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.getUserMenu(this.user.level);
+    /**
+     * Method to get the user based on a DB match
+     * from Graph
+     */
+    this.user = new User(1);
   }
 
   async signIn(): Promise<void> {
@@ -36,9 +44,11 @@ export class HomeComponent implements OnInit {
    * A function to get the appropriate user menu to display on the initial dashboard.
    * Question: Do we include the option to skip this screen and make a screen a favorite?
    */
-  public getUserMenu = function(userId: number) {
+  public getUserMenu = function() {
     try {
-      switch (userId) {
+      console.log(this.user);
+      debugger;
+      switch (this.user.level) {
         case 1:
           this.menu = [
             { name: 'Call Queue', action: '/call-queue', image: '/assets/icon-call-queue.png' },
