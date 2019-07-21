@@ -26,7 +26,7 @@ export class ApiService {
     return this.http.post(`${environment.apiUrl}${path}`, JSON.stringify(body)).pipe(catchError(this.formatErrors));
   }
 
-  delete(path): Observable<any> {
+  delete(path: string): Observable<any> {
     return this.http.delete(`${environment.apiUrl}${path}`).pipe(catchError(this.formatErrors));
   }
 }
