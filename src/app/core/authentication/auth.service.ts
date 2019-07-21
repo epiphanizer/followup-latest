@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { GraphService } from '@app/graph.service';
 import { User } from '@app/core/user.service';
+import { AlertsService } from '@app/core/alerts/alerts.service';
+import { MsalService } from '@azure/msal-angular';
+import { OAuthSettings } from 'oauth';
 import { Client } from '@microsoft/microsoft-graph-client';
 import { Level } from 'log4javascript';
 
@@ -11,8 +14,12 @@ export class AuthenticationService {
   public authenticated: boolean;
   public user: User;
 
-  constructor(private graphService: GraphService) {
-    this.authenticated = this.graphService.getUser() != null;
+  constructor(
+    private alertsService: AlertsService,
+    private graphService: GraphService,
+    private msalService: MsalService
+  ) {
+    this.authenticated = this.getUser() != null;
     this.getUser().then(user => {
       this.user = user;
     });
@@ -39,7 +46,7 @@ export class AuthenticationService {
       // provider that requests the token from the
       // auth service
       authProvider: async done => {
-        let token = await this.getAccessToken().catch(reason => {
+        let token = await this.graphService.getAccessToken().catch(reason => {
           done(reason, null);
         });
 
@@ -59,7 +66,7 @@ export class AuthenticationService {
     // Prefer the mail property, but fall back to userPrincipalName
     user.email = graphUser.mail || graphUser.userPrincipalName;
 
-    user.level = this.assignUserLevel();
+    user.level = <number>this.assignUserLevel();
 
     return user;
   }
@@ -69,7 +76,7 @@ export class AuthenticationService {
      * note: one to one relationship. A user will not fall into more than
      * one auth-level.
      */
-    const memberGroup = this.graphService.getUserMemberGroups();
+    const memberGroup = resolve(this.graphService.getUserMemberGroups());
     console.log(memberGroup);
     debugger;
     let level = null;
@@ -78,6 +85,8 @@ export class AuthenticationService {
      */
 
     switch (memberGroup) {
+      case memberGroup == 'followup-admin':
+        break;
       default:
         debugger;
         break;

@@ -38,13 +38,12 @@ export class GraphService {
     return result;
   }
 
-  async getUserMemberGroups(): Promise<Event[]> {
+  async getUserMemberGroups(): Promise<string> {
     try {
       const securityEnabledOnlyFlag = {
         securityEnabledOnly: true
       };
       let result = await this.graphClient.api('/me/getMemberGroups').post(securityEnabledOnlyFlag);
-      debugger;
       return result.value;
     } catch (error) {
       this.alertsService.add('Could not get member groups', JSON.stringify(error, null, 2));
