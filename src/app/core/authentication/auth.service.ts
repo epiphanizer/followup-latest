@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MsalService } from '@azure/msal-angular';
-
 import { GraphService } from '@app/graph.service';
-
-import { AlertsService } from '@app/core/alerts/alerts.service';
-import { OAuthSettings } from 'oauth';
 import { User } from '@app/core/user.service';
 import { Client } from '@microsoft/microsoft-graph-client';
 import { Level } from 'log4javascript';
@@ -16,12 +11,8 @@ export class AuthenticationService {
   public authenticated: boolean;
   public user: User;
 
-  constructor(
-    private msalService: MsalService,
-    private graphService: GraphService,
-    private alertsService: AlertsService
-  ) {
-    this.authenticated = this.msalService.getUser() != null;
+  constructor(private graphService: GraphService) {
+    this.authenticated = this.graphService.getUser() != null;
     this.getUser().then(user => {
       this.user = user;
     });
@@ -102,14 +93,4 @@ export class AuthenticationService {
   }
 
   // Silently request an access token
-  async getAccessToken(): Promise<string> {
-    let result = await this.msalService.acquireTokenSilent(OAuthSettings.scopes).catch(reason => {
-      this.alertsService.add('Get token failed', JSON.stringify(reason, null, 2));
-    });
-
-    // Temporary to display token in an error box
-    if (result) this.alertsService.add('Token acquired', result);
-    // alert(result);
-    return result;
-  }
 }
