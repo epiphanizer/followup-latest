@@ -9,8 +9,7 @@ import { User, UserService } from '@app/core/user.service';
 })
 export class ToolbarProfileNavComponent implements OnInit {
   user: User;
-  userService: UserService;
-  constructor(userService: UserService) {}
+  constructor(private userService: UserService) {}
   ngOnInit() {
     this.user = this.userService.getCurrentUser();
   }
