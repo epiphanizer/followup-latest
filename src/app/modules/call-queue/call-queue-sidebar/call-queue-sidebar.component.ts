@@ -3,6 +3,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Operation, OperationService } from '@app/shared/operation.service';
+import { formatDate } from '@angular/common';
 import {
   trigger,
   state,
@@ -57,7 +58,10 @@ export class CallQueueSidebarComponent implements OnInit {
   public operations$: Observable<Operation> | null;
   constructor() {}
 
-  ngOnInit() {}
+  todaysDateDay: number;
+  ngOnInit() {
+    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+  }
 
   public switchCallQueueOperationView = function(operationId: number) {};
 
