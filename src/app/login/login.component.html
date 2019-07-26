@@ -4,9 +4,8 @@
     <ion-row justify-content-center no-padding>
       <ion-col size-sm="8" size-lg="6" size-xl="4" align-self-center no-padding>
         <div class="login-container">
-          <div class="toolbar-logo"></div>
           <form id="login-form" (ngSubmit)="signIn()" [formGroup]="loginForm" novalidate>
-            <div class="login-header" text-center></div>
+            <div class="toolbar-logo"></div>
             <ion-text color="danger" [hidden]="!error || loginForm.dirty || isLoading">
               <span padding translate>Username or password incorrect.</span>
             </ion-text>
@@ -31,18 +30,17 @@
               >
                 <span padding translate>Password is required</span>
               </ion-text>
-              <ion-item padding-top lines="none">
-                <ion-label translate>Remember Me</ion-label>
-                <ion-checkbox slot="start" formControlName="remember"></ion-checkbox>
-              </ion-item>
-              <ion-item>
-                <ion-label translate>Forgot Password?</ion-label>
-                <ion-checkbox slot="start" formControlName="forgot"></ion-checkbox>
-              </ion-item>
+              <a href="/login/forgot" class="forgot-password ion-float-right">
+                [Forgot Your Password?]
+              </a>
             </ion-list>
             <div padding-horizontal>
               <ion-button type="submit" [disabled]="loginForm.invalid || isLoading" color="primary" expand="block">
               </ion-button>
+
+              <span href="#" class="welcome-back">
+                [welcome back]
+              </span>
             </div>
           </form>
         </div>
