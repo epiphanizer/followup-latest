@@ -10,16 +10,18 @@ import { Client } from '@microsoft/microsoft-graph-client';
 })
 export class AuthenticationService {
   public authenticated: boolean;
-
+  protected user: User;
   constructor(
     private alertsService: AlertsService,
     private graphService: GraphService,
     private msalService: MsalService
   ) {
-    // this.authenticated = this.getUser() != null;
-    // this.getUser().then(user => {
-    //   this.user = user;
-    // });
+    this.authenticated = this.getUser() != null;
+    this.getUser().then((user: User) => {
+      this.user = user;
+      console.log('user retrieved');
+      console.dir(user);
+    });
   }
 
   // Prompt the user to sign in and
