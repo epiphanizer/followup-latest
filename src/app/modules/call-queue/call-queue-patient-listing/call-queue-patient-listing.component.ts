@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PatientService } from '@app/modules/patient/patient.service.ts';
 import { Observable } from 'rxjs';
 
@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
+  @Input() private operationId: number;
   patientService: PatientService;
   selectedOperation: number;
   constructor(patientService: PatientService) {
@@ -19,8 +20,8 @@ export class CallQueuePatientListingComponent implements OnInit {
     /**
      * Get the operation from the route.
      */
-    this.selectedOperation = 1;
-    this.patients$ = this.patientService.getPatientListByOperationId(1);
+    console.log(operationId);
+    this.patients$ = this.patientService.getPatientListByOperationId(this.operationId);
   }
 
   public sortPatientsByCallDate = function() {};

@@ -17,10 +17,10 @@ export class AuthenticationService {
     private msalService: MsalService
   ) {
     this.authenticated = this.getUser() != null;
-    this.getUser().then((user: User) => {
+    this.getUser().then((user: any) => {
       this.user = user;
       console.log('user retrieved');
-      console.dir(user);
+      console.log(user);
     });
   }
 

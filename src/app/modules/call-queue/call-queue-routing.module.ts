@@ -8,7 +8,14 @@ import { Shell } from '@app/shell/shell.service';
 const routes: Routes = [
   Shell.childRoutes([
     { path: '', redirectTo: '/call-queue', pathMatch: 'full' },
-    { path: 'call-queue', component: CallQueueComponent, data: { title: extract('Call Queue') } }
+    {
+      path: 'call-queue',
+      component: CallQueueComponent,
+      data: {
+        title: extract('Call Queue'),
+        operationId: 1
+      }
+    }
   ])
 ];
 

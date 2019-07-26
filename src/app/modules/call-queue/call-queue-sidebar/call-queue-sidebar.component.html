@@ -19,7 +19,7 @@
     class="facility-dropdown-list active"
   >
     <li *ngFor="let operation of operations$ | async; let i = index">
-      <a href="#" class="active" (click)="switchCallQueueOperationView(operation.operationId)">
+      <a href="#" class="active" (click)="switchCallQueueOperationView(operationId)">
         {{ operation.operationName }}
         <span class="icon-discharge-counter"> [{{ operation.currentDischargeCount }}] </span>
       </a>

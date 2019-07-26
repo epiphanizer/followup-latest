@@ -55,18 +55,21 @@ import {
 })
 export class CallQueueSidebarComponent implements OnInit {
   isOpen = true;
+  public operation: number;
   public operations$: Observable<Operation> | null;
-  constructor() {}
+  constructor(protected operationService: OperationService) {}
 
   todaysDateDay: number;
   ngOnInit() {
+    this.operations$ = this.operationService.getAllOperations();
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
 
-  public switchCallQueueOperationView = function(operationId: number) {};
+  public switchCallQueueOperationView = function(operationId: number) {
+    this.operation = operationId;
+  };
 
   public toggleOperationSidebarMenu = function() {
     this.isOpen = !this.isOpen;
-    console.log('toggling operation sidebar');
   };
 }
