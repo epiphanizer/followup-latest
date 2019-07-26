@@ -37,7 +37,8 @@ import { AlertsModule } from '@app/core/alerts/alerts.module';
 /**
  * Should we be importing this as module?
  */
-import { PatientDetailComponent } from './modules/patient/patient-detail/patient-detail.component';
+import { PatientAvatarModule } from './modules/patient/patient-avatar/patient-avatar.module';
+import { PatientDetailModule } from './modules/patient/patient-detail/patient-detail.module';
 import { UserService } from './core/user.service';
 import { ApiService } from './core/api.service';
 
@@ -67,12 +68,14 @@ import { ApiService } from './core/api.service';
     AlertsModule,
     ToolbarLogoModule,
     UserCorkBoardModule,
+    PatientAvatarModule,
+    PatientDetailModule,
     HomeModule,
     LoginModule,
     CallQueueModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [AppComponent, PatientDetailComponent],
+  declarations: [AppComponent],
   providers: [MsalGuard, ApiService, UserService],
   bootstrap: [AppComponent]
 })
