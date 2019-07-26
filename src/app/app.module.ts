@@ -42,6 +42,7 @@ import { PatientDetailModule } from './modules/patient/patient-detail/patient-de
 import { UserService } from './core/user.service';
 import { ApiService } from './core/api.service';
 import { NotificationComponent } from './modules/notifications/notification/notification.component';
+import { NotificationDetailListingComponent } from './modules/notifications/notification-detail-listing/notification-detail-listing.component';
 
 @NgModule({
   imports: [
@@ -76,7 +77,7 @@ import { NotificationComponent } from './modules/notifications/notification/noti
     CallQueueModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [AppComponent, NotificationComponent],
+  declarations: [AppComponent, NotificationComponent, NotificationDetailListingComponent],
   providers: [MsalGuard, ApiService, UserService],
   bootstrap: [AppComponent]
 })
