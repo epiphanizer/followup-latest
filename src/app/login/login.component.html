@@ -9,8 +9,8 @@
             <ion-text color="danger" [hidden]="!error || loginForm.dirty || isLoading">
               <span padding translate>Username or password incorrect.</span>
             </ion-text>
-            <ion-list>
-              <ion-item lines="inset">
+            <ion-list no-lines>
+              <ion-item>
                 <ion-label color="medium" position="floating" translate>Username</ion-label>
                 <ion-input type="text" formControlName="username" autocomplete="username"></ion-input>
               </ion-item>
@@ -20,7 +20,7 @@
               >
                 <span padding translate>Username is required</span>
               </ion-text>
-              <ion-item lines="inset">
+              <ion-item>
                 <ion-label color="medium" position="floating" translate>Password</ion-label>
                 <ion-input type="password" formControlName="password" autocomplete="current-password"></ion-input>
               </ion-item>
@@ -34,8 +34,14 @@
                 [Forgot Your Password?]
               </a>
             </ion-list>
-            <div padding-horizontal>
-              <ion-button type="submit" [disabled]="loginForm.invalid || isLoading" color="primary" expand="block">
+            <div class="login-controls-container" padding-horizontal>
+              <ion-button
+                type="submit"
+                [disabled]="loginForm.invalid || isLoading"
+                (submit)="signIn()"
+                color="primary"
+                expand="block"
+              >
               </ion-button>
 
               <span href="#" class="welcome-back">

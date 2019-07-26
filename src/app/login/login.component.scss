@@ -30,7 +30,7 @@ ion-row {
     display: block;
     height: 61px;
     width: 183px;
-    margin: 14px auto 7px;
+    margin: 14px auto;
     background-image: url("/assets/logo.png");
     background-repeat: no-repeat;
     background-size: contain;
@@ -39,12 +39,14 @@ ion-row {
   ion-list {
     background: none;
     width: 304px;
-    margin: 30px auto;
+    margin: 22px auto;
     ion-item {
       width: 100%;
       height: auto;
-      background: none;
       display: block;
+      :host {
+        border: 0 !important;
+      }
     }
   }
   ion-label {
@@ -61,7 +63,7 @@ ion-row {
   }
   ion-input {
     background: none;
-    margin: 0 auto;
+    margin: 16px auto 0;
     display: block;
     width: 306.5px;
     height: 38.9px;
@@ -70,12 +72,17 @@ ion-row {
     border: solid 0.9px rgba(112, 112, 112, 0.34);
     background-image: linear-gradient(190deg, #fafbfb 14%, #e6e7e8 75%);
   }
-  ion-button {
-    color: white;
-    margin: 0 auto;
-    width: 134px;
-    height: 35.9px;
-    background-image: url("/assets/button-login.png");
+
+  .login-controls-container {
+    width: 100%;
+    text-align: center;
+    ion-button {
+      color: white;
+      margin: 0 auto;
+      width: 134px;
+      height: 35.9px;
+      background-image: url("/assets/button-login.png");
+    }
   }
 }
 .forgot-password,
@@ -96,6 +103,7 @@ ion-row {
 }
 .welcome-back {
   margin: 0 auto;
+  color: var(--ion-color-primary);
 }
 .login-container {
   max-width: 401px;
