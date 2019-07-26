@@ -20,7 +20,7 @@ export class CallQueuePatientListingComponent implements OnInit {
     /**
      * Get the operation from the route.
      */
-    console.log(operationId);
+    console.log(this.operationId);
     this.patients$ = this.patientService.getPatientListByOperationId(this.operationId);
   }
 
