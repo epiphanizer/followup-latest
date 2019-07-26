@@ -38,6 +38,8 @@ import { AlertsModule } from '@app/core/alerts/alerts.module';
  * Should we be importing this as module?
  */
 import { PatientDetailComponent } from './modules/patient/patient-detail/patient-detail.component';
+import { UserService } from './core/user.service';
+import { ApiService } from './core/api.service';
 
 @NgModule({
   imports: [
@@ -57,7 +59,7 @@ import { PatientDetailComponent } from './modules/patient/patient-detail/patient
       cacheLocation: 'localStorage',
       postLogoutRedirectUri: 'http://localhost:4200/login',
       navigateToLoginRequestUrl: false,
-      popUp: true,
+      popUp: false,
       consentScopes: OAuthSettings.scopes
     }),
     SharedModule,
@@ -71,7 +73,7 @@ import { PatientDetailComponent } from './modules/patient/patient-detail/patient
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent, PatientDetailComponent],
-  providers: [MsalGuard],
+  providers: [MsalGuard, ApiService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

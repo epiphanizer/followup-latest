@@ -1,3 +1,4 @@
+{{ menu | json }}
 <ul class="user-home-menu">
   <li *ngFor="let menuItem of menu">
     <a href="/{{ menuItem.action }}" routerLink="/{{ menuItem.action }}">

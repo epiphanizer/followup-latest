@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { Logger, LoggingService } from 'ionic-logging-service';
 import { AuthenticationService } from '@app/core/authentication/auth.service';
-
-import { User } from '@app/user/user';
+import { User, UserService } from '@app/core/user.service';
 
 @Component({
   selector: 'app-home',
@@ -13,32 +12,24 @@ import { User } from '@app/user/user';
 export class HomeComponent implements OnInit {
   isLoading = false;
   logger: Logger = new Logger();
-  user: User = new User();
+  user: User;
   menu: {} = {};
 
-  constructor(loggingService: LoggingService, private authService: AuthenticationService) {}
+  constructor(
+    loggingService: LoggingService,
+    private authService: AuthenticationService,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.getUserMenu(this.user.level);
-  }
-
-  async signIn(): Promise<void> {
-    await this.authService.signIn();
-
-    // Temporary to display the token
-    if (this.authService.authenticated) {
-      let token = await this.authService.getAccessToken();
-      // alert(token);
-    }
-  }
-  /**
-   * A function to get the appropriate user menu to display on the initial dashboard.
-   * Question: Do we include the option to skip this screen and make a screen a favorite?
-   */
-  public getUserMenu = function(userId: number) {
+    /**
+     * A function to get the appropriate user menu to display on the initial dashboard.
+     * Question: Do we include the option to skip this screen and make a screen a favorite?
+     */
     try {
-      switch (userId) {
+      debugger;
+      switch (this.user.level) {
         case 1:
           this.menu = [
             { name: 'Call Queue', action: '/call-queue', image: '/assets/icon-call-queue.png' },
@@ -65,15 +56,9 @@ export class HomeComponent implements OnInit {
           break;
         default:
           throw 'No User ID given';
-          break;
       }
     } catch (e) {
       this.logger.error('some error', e);
     }
-  };
-  protected getUserAvatarImgSrc = function(userId: number) {
-    console.log('Getting user avatar src');
-
-    return 'src';
-  };
+  }
 }

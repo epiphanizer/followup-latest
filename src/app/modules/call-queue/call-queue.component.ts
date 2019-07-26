@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { formatDate } from '@angular/common';
+
 @Component({
   selector: 'app-call-queue',
   templateUrl: './call-queue.component.html',
@@ -7,8 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CallQueueComponent implements OnInit {
   constructor() {}
-
-  ngOnInit() {}
+  todaysDateDay: number;
+  ngOnInit() {
+    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+  }
   /**
    * Switch the call queue view to a new operation
    */
