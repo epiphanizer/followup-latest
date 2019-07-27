@@ -23,8 +23,8 @@ export class OperationService {
   /**
    * We need to make sure this only gives us back the ones we need.
    */
-  public getAllOperations(): Observable<Operation> {
-    return this.http.get<Operation>('api/operations').pipe(
+  public getAllOperations(): Observable<Array<Operation>> {
+    return this.http.get<Array<Operation>>('api/operations').pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
     );

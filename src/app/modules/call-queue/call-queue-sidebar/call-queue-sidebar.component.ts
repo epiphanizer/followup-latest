@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Operation, OperationService } from '@app/shared/operation.service';
 import { formatDate } from '@angular/common';
@@ -56,12 +56,17 @@ import {
 export class CallQueueSidebarComponent implements OnInit {
   isOpen = true;
   public operation: number;
-  public operations$: Observable<Operation> | null;
+  public operations$: Observable<Array<Operation>> | null;
   constructor(protected operationService: OperationService) {}
 
   todaysDateDay: number;
   ngOnInit() {
-    this.operations$ = this.operationService.getAllOperations();
+    this.operations$ = this.operationService.getAllOperations().pipe(
+      map((operations: Array<Operation>) => {
+        console.log(operations);
+        return operations;
+      })
+    );
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
 
