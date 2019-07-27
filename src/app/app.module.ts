@@ -45,6 +45,9 @@ import { NotificationComponent } from './modules/notifications/notification/noti
 import { NotificationDetailListingComponent } from './modules/notifications/notification-detail-listing/notification-detail-listing.component';
 import { NotificationDetailComponent } from './modules/notifications/notification-detail/notification-detail.component';
 import { OperationEditFormComponent } from './modules/operations/operation-edit-form/operation-edit-form.component';
+import { PatientAddNewComponent } from './modules/patients/patient-add-new/patient-add-new.component';
+import { PatientAddNewFormComponent } from './modules/patients/patient-add-new-form/patient-add-new-form.component';
+import { PatientEditFormComponent } from './modules/patients/patient-edit-form/patient-edit-form.component';
 
 @NgModule({
   imports: [
@@ -84,7 +87,10 @@ import { OperationEditFormComponent } from './modules/operations/operation-edit-
     NotificationComponent,
     NotificationDetailListingComponent,
     NotificationDetailComponent,
-    OperationEditFormComponent
+    OperationEditFormComponent,
+    PatientAddNewComponent,
+    PatientAddNewFormComponent,
+    PatientEditFormComponent
   ],
   providers: [MsalGuard, ApiService, UserService],
   bootstrap: [AppComponent]
