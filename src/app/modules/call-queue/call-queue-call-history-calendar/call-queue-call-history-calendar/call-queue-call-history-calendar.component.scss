@@ -39,6 +39,10 @@ h3 {
 sc-month-calendar {
   max-height: 250px;
   overflow: hidden;
+  .row {
+    text-align: center;
+    padding-bottom: 5px;
+  }
 }
 
 .custom-month {
@@ -61,14 +65,17 @@ sc-month-calendar {
 
     &--default {
       text-align: center;
-      background-color: #13afe9;
+      background-color: #8e8e93;
     }
 
     &--today {
-      background-color: #13afe9;
+      background-color: #8e8e93 !important;
     }
 
     &--selected {
+      text-align: center;
+      font-weight: bold;
+      line-height: 34px;
       font-family: AvenirBold;
       background-color: #13afe9;
       color: white;

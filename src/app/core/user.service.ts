@@ -41,7 +41,7 @@ export class UserService {
     this.apiService.get('/users/search/' + userMicrosoftGUID);
   }
 
-  getCurrentUser(): User {
+  public getCurrentUser(): User {
     return this.currentUserSubject.value;
   }
 
