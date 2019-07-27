@@ -45,9 +45,6 @@ import { NotificationComponent } from './modules/notifications/notification/noti
 import { NotificationDetailListingComponent } from './modules/notifications/notification-detail-listing/notification-detail-listing.component';
 import { NotificationDetailComponent } from './modules/notifications/notification-detail/notification-detail.component';
 import { OperationEditFormComponent } from './modules/operations/operation-edit-form/operation-edit-form.component';
-import { PatientAddNewComponent } from './modules/patients/patient-add-new/patient-add-new.component';
-import { PatientAddNewFormComponent } from './modules/patients/patient-add-new-form/patient-add-new-form.component';
-import { PatientEditFormComponent } from './modules/patients/patient-edit-form/patient-edit-form.component';
 import { UserAddNewFormComponent } from './modules/user/user-add-new-form/user-add-new-form.component';
 import { UserEditFormComponent } from './modules/user/user-edit-form/user-edit-form.component';
 import { UserDetailComponent } from './modules/user/user-detail/user-detail.component';
@@ -91,9 +88,6 @@ import { UserDetailComponent } from './modules/user/user-detail/user-detail.comp
     NotificationDetailListingComponent,
     NotificationDetailComponent,
     OperationEditFormComponent,
-    PatientAddNewComponent,
-    PatientAddNewFormComponent,
-    PatientEditFormComponent,
     UserAddNewFormComponent,
     UserEditFormComponent,
     UserDetailComponent
