@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
 
-import { GraphService } from '../graph.service';
+import { GraphService } from '@app/graph.service';
 
-import { ApiService } from './api.service';
+import { ApiService } from '@app/core/api.service';
 import { AuthenticationService } from '@app/core/authentication/auth.service';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 

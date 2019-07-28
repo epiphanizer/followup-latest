@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GraphService } from '@app/graph.service';
-import { User } from '@app/core/user.service';
+import { User } from '@app/modules/user/user.service';
 import { OAuthSettings } from '../../../oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
 import { MsalService } from '@azure/msal-angular';

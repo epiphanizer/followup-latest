@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OperationAddNewFormComponent } from './operation-add-new-form.component';
+import { OperationAddComponent } from './operation-add.component';
 
 @NgModule({
-  declarations: [OperationAddNewFormComponent],
+  declarations: [OperationAddComponent],
   imports: [CommonModule]
 })
-export class OperationAddNewFormModule {}
+export class OperationAddModule {}

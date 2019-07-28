@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-operation-add-new-form',
-  templateUrl: './operation-add-new-form.component.html',
-  styleUrls: ['./operation-add-new-form.component.scss']
+  selector: 'app-operation-add',
+  templateUrl: './operation-add.component.html',
+  styleUrls: ['./operation-add.component.scss']
 })
-export class OperationAddNewFormComponent implements OnInit {
+export class OperationAddComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}

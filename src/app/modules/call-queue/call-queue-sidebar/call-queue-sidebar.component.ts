@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Operation, OperationService } from '@app/shared/operation.service';
+import { Operation, OperationService } from '@app/modules/operation/operation.service';
 import { formatDate } from '@angular/common';
 import {
   trigger,

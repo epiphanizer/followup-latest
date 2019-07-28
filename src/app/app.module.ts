@@ -48,12 +48,8 @@ import { OperationModule } from '@app/modules/operation/operation.module';
 
 // import { UserModule } from '@app/modules/user/user.module';
 
-import { UserService } from './core/user.service';
+import { UserService } from '@app/modules/user/user.service';
 import { ApiService } from './core/api.service';
-import { UserAddComponent } from './modules/user/user-add/user-add.component';
-import { UserEditComponent } from './modules/user/user-edit/user-edit.component';
-import { UserDetailComponent } from './modules/user/user-detail/user-detail.component';
-import { OperationAdminComponent } from './modules/operations/operation-admin/operation-admin.component';
 
 @NgModule({
   imports: [
@@ -90,17 +86,7 @@ import { OperationAdminComponent } from './modules/operations/operation-admin/op
     OperationModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [
-    AppComponent,
-    NotificationComponent,
-    NotificationDetailListingComponent,
-    NotificationDetailComponent,
-    OperationEditFormComponent,
-    UserAddNewFormComponent,
-    UserEditFormComponent,
-    UserDetailComponent,
-    OperationAdminComponent
-  ],
+  declarations: [AppComponent],
   providers: [MsalGuard, ApiService, UserService],
   bootstrap: [AppComponent]
 })
