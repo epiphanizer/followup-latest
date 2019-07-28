@@ -6,7 +6,7 @@ import { GraphService } from '@app/shared/graph.service';
 
 import { ApiService } from '@app/core/api.service';
 import { AuthenticationService } from '@app/core/authentication/auth.service';
-import { OperationService } from '@app/modules/operation/operation.service';
+import { Operation, OperationService } from '@app/modules/operation/operation.service';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 
 export interface User {
@@ -16,6 +16,7 @@ export interface User {
   level: number;
   email: string;
   avatar: string;
+  operations: [Operation];
 }
 
 @Injectable({
