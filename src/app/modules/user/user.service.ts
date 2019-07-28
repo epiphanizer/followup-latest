@@ -30,9 +30,8 @@ export class UserService {
     private apiService: ApiService,
     private authService: AuthenticationService,
     private http: HttpClient,
-    private graphService: GraphService
-  ) // private jwtService: JwtService
-  {}
+    private graphService: GraphService // private jwtService: JwtService
+  ) {}
 
   populate() {
     this.apiService.get('/user').subscribe(data => {

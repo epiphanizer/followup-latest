@@ -44,16 +44,14 @@ import { PatientDetailModule } from './modules/patient/patient-detail/patient-de
 /**
  * Call Queue Module
  */
-import { OperationModule } from '@app/modules/operations/operation.module';
+import { OperationModule } from '@app/modules/operation/operation.module';
+
+// import { UserModule } from '@app/modules/user/user.module';
 
 import { UserService } from './core/user.service';
 import { ApiService } from './core/api.service';
-import { NotificationComponent } from './modules/notifications/notification/notification.component';
-import { NotificationDetailListingComponent } from './modules/notifications/notification-detail-listing/notification-detail-listing.component';
-import { NotificationDetailComponent } from './modules/notifications/notification-detail/notification-detail.component';
-import { OperationEditComponent } from './modules/operations/operation-edit/operation-edit.component';
-import { UserAddNewFormComponent } from './modules/user/user-add-new-form/user-add-new-form.component';
-import { UserEditFormComponent } from './modules/user/user-edit-form/user-edit-form.component';
+import { UserAddComponent } from './modules/user/user-add/user-add.component';
+import { UserEditComponent } from './modules/user/user-edit/user-edit.component';
 import { UserDetailComponent } from './modules/user/user-detail/user-detail.component';
 import { OperationAdminComponent } from './modules/operations/operation-admin/operation-admin.component';
 
