@@ -6,6 +6,7 @@ import { GraphService } from '@app/graph.service';
 
 import { ApiService } from '@app/core/api.service';
 import { AuthenticationService } from '@app/core/authentication/auth.service';
+import { OperationService } from '@app/modules/operation/operation.service';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 
 export interface User {
@@ -16,6 +17,7 @@ export interface User {
   email: string;
   avatar: string;
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -30,7 +32,8 @@ export class UserService {
     private apiService: ApiService,
     private authService: AuthenticationService,
     private http: HttpClient,
-    private graphService: GraphService // private jwtService: JwtService
+    private graphService: GraphService, // private jwtService: JwtService
+    private operationService: OperationService
   ) {}
 
   populate() {

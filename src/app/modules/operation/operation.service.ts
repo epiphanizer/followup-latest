@@ -5,16 +5,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 export interface Operation {
   operationId: number;
   operationName: string;
-}
-
-export interface Operation {
-  operationId: number;
-  operationName: string;
   operationAddress: string;
   operationCity: string;
   operationState: string;
   operationZip: string;
-  operationCurrentDischargeCount: number;
 }
 
 export class OperationService {
@@ -37,15 +31,12 @@ export class OperationService {
     );
   }
 
-  /**
-   *
-   * @param error Create new operation ()
-   */
-
-  /**
-   *
-   * @param error Update existing operation
-   */
+  public getOperationsByUserId(userId: number): Observable<Array<Operation>> {
+    return this.http.get<Array<Operation>>('/user/operations/' + userId).pipe(
+      retry(1), // retry a failed request up to 2 total times
+      catchError(error => this.handleAsyncError(error))
+    );
+  }
 
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

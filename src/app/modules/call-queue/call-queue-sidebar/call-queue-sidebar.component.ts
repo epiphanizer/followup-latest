@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -12,6 +12,9 @@ import {
   transition
   // ...
 } from '@angular/animations';
+
+import { CallRepService } from '@app/modules/call-rep/call-rep.service';
+import { User } from 'msal';
 
 @Component({
   providers: [OperationService],
@@ -54,19 +57,12 @@ import {
   ]
 })
 export class CallQueueSidebarComponent implements OnInit {
+  @Input() user: User;
   isOpen = true;
-  public operation: number;
-  public operations$: Observable<Array<Operation>> | null;
-  constructor(protected operationService: OperationService) {}
+  constructor() {}
 
   todaysDateDay: number;
   ngOnInit() {
-    this.operations$ = this.operationService.getAllOperations().pipe(
-      map((operations: Array<Operation>) => {
-        console.log(operations);
-        return operations;
-      })
-    );
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
 

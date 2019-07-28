@@ -1,4 +1,6 @@
-<h3 class="section-header">Camp Verde Asst. Living</h3>
+<h3 class="section-header">
+  {{ operation.operationName }}
+</h3>
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="patient-filters">
   <li>
@@ -14,6 +16,7 @@
 <ul class="call-queue-patient-list">
   <li *ngFor="let patient of patients$ | async" class="active">
     <div class="call-queue-number">
+      #
       <!-- {{ patient.callNumber }} -->
     </div>
     <div class="call-queue-avatar">
