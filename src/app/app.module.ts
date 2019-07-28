@@ -37,6 +37,7 @@ import { AlertsModule } from '@app/core/alerts/alerts.module';
 /**
  * Should we be importing this as module?
  */
+import { PatientModule } from './modules/patient/patient.module';
 import { PatientAvatarModule } from './modules/patient/patient-avatar/patient-avatar.module';
 import { PatientDetailModule } from './modules/patient/patient-detail/patient-detail.module';
 import { UserService } from './core/user.service';
@@ -48,6 +49,7 @@ import { OperationEditFormComponent } from './modules/operations/operation-edit-
 import { UserAddNewFormComponent } from './modules/user/user-add-new-form/user-add-new-form.component';
 import { UserEditFormComponent } from './modules/user/user-edit-form/user-edit-form.component';
 import { UserDetailComponent } from './modules/user/user-detail/user-detail.component';
+import { OperationAdminComponent } from './modules/operations/operation-admin/operation-admin.component';
 
 @NgModule({
   imports: [
@@ -79,6 +81,7 @@ import { UserDetailComponent } from './modules/user/user-detail/user-detail.comp
     PatientDetailModule,
     HomeModule,
     LoginModule,
+    PatientModule,
     CallQueueModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
@@ -90,7 +93,8 @@ import { UserDetailComponent } from './modules/user/user-detail/user-detail.comp
     OperationEditFormComponent,
     UserAddNewFormComponent,
     UserEditFormComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    OperationAdminComponent
   ],
   providers: [MsalGuard, ApiService, UserService],
   bootstrap: [AppComponent]
