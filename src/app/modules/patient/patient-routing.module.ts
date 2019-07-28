@@ -6,12 +6,16 @@ import { PatientAddComponent } from './patient-add/patient-add.component';
 import { PatientEditComponent } from './patient-edit/patient-edit.component';
 import { Shell } from '@app/shell/shell.service';
 import { PatientDetailComponent } from './patient-detail/patient-detail.component';
+import { PatientResolver } from './patient-resolver.service';
 
 const routes: Routes = [
   Shell.childRoutes([
     {
       path: 'call-queue/patient/:patientId',
       component: PatientDetailComponent,
+      resolve: {
+        patientId: PatientResolver
+      },
       data: {
         title: extract('Patient Detail')
       }
@@ -24,8 +28,11 @@ const routes: Routes = [
       }
     },
     {
-      path: 'patient/edit',
+      path: 'patient/edit/:patientId',
       component: PatientEditComponent,
+      resolve: {
+        patientId: PatientResolver
+      },
       data: {
         title: extract('Edit Patient')
       }

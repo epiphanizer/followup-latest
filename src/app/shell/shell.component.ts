@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActionSheetController, AlertController, Platform } from '@ionic/angular';
-import { ActionSheetButton, ActionSheetOptions, TextFieldTypes } from '@ionic/core';
-import { TranslateService } from '@ngx-translate/core';
-
-import { AuthenticationService, I18nService } from '@app/core';
+import { Platform } from '@ionic/angular';
+import { AuthenticationService } from '@app/core';
 
 @Component({
   selector: 'app-shell',
@@ -15,15 +12,10 @@ export class ShellComponent {
   constructor(
     private router: Router,
     private platform: Platform,
-    private alertController: AlertController,
     private authenticationService: AuthenticationService
   ) {}
 
-  private signIn() {
-    this.authenticationService.signOut();
-    this.router.navigate(['/login'], { replaceUrl: true });
-  }
-  private signOut() {
+  signOut() {
     this.authenticationService.signOut();
     this.router.navigate(['/login'], { replaceUrl: true });
   }
