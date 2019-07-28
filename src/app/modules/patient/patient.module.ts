@@ -4,7 +4,7 @@ import { PatientRoutingModule } from './patient-routing.module';
 import { PatientCallModule } from './patient-call/patient-call.module';
 import { PatientNotesModule } from './patient-notes/patient-notes.module';
 import { PatientAvatarModule } from './patient-avatar/patient-avatar.module';
-
+import { PatientDetailModule } from './patient-detail/patient-detail.module';
 import { PatientComponent } from './patient.component';
 import { PatientAvatarComponent } from '@app/modules/patient/patient-avatar/patient-avatar.component';
 import { PatientAddComponent } from '@app/modules/patient/patient-add/patient-add.component';
@@ -12,6 +12,13 @@ import { PatientEditComponent } from '@app/modules/patient/patient-edit/patient-
 
 @NgModule({
   declarations: [PatientComponent, PatientAvatarComponent, PatientAddComponent, PatientEditComponent],
-  imports: [CommonModule, PatientRoutingModule, PatientCallModule, PatientNotesModule, PatientAvatarModule]
+  imports: [
+    CommonModule,
+    PatientRoutingModule,
+    PatientCallModule,
+    PatientDetailModule,
+    PatientNotesModule,
+    PatientAvatarModule
+  ]
 })
 export class PatientModule {}

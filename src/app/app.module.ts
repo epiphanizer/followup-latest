@@ -24,8 +24,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { CallQueueModule } from '@app/modules/call-queue/call-queue.module';
 import { AlertsModule } from '@app/core/alerts/alerts.module';
 import { PatientModule } from './modules/patient/patient.module';
-import { PatientAvatarModule } from './modules/patient/patient-avatar/patient-avatar.module';
-import { PatientDetailModule } from './modules/patient/patient-detail/patient-detail.module';
 import { OperationModule } from '@app/modules/operation/operation.module';
 import { NotificationModule } from '@app/modules/notification/notification.module';
 
@@ -58,10 +56,6 @@ import { ApiService } from './core/api.service';
     SharedModule,
     ShellModule,
     AlertsModule,
-    ToolbarLogoModule,
-    UserCorkBoardModule,
-    PatientAvatarModule,
-    PatientDetailModule,
     HomeModule,
     LoginModule,
     PatientModule,
