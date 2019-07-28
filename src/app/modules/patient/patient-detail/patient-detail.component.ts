@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Patient } from '@app/modules/patient/patient.component';
+import { Patient } from '@app/modules/patient/patient.service';
 
 @Component({
   selector: 'app-patient-detail',
