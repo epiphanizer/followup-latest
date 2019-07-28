@@ -14,14 +14,14 @@
 <ul class="call-queue-patient-list">
   <li *ngFor="let patient of patients$ | async" class="active">
     <div class="call-queue-number">
-      {{ patient.callNumber }}
+      <!-- {{ patient.callNumber }} -->
     </div>
     <div class="call-queue-avatar">
       {{ patient.avatarImage }}
     </div>
     <div class="call-queue-patient-information">
       <span class="call-queue-patient-name">
-        <a href="/patient/detail">
+        <a href="/call-queue/patient/{{ patient.patientId }}">
           {{ patient.name }}
         </a>
       </span>

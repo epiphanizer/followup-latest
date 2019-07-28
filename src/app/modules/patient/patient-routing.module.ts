@@ -5,9 +5,17 @@ import { extract } from '@app/core';
 import { PatientAddComponent } from './patient-add/patient-add.component';
 import { PatientEditComponent } from './patient-edit/patient-edit.component';
 import { Shell } from '@app/shell/shell.service';
+import { PatientDetailComponent } from './patient-detail/patient-detail.component';
 
 const routes: Routes = [
   Shell.childRoutes([
+    {
+      path: 'call-queue/patient/:patientId',
+      component: PatientDetailComponent,
+      data: {
+        title: extract('Patient Detail')
+      }
+    },
     {
       path: 'patient/add',
       component: PatientAddComponent,
