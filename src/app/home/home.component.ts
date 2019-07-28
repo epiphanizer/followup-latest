@@ -15,11 +15,7 @@ export class HomeComponent implements OnInit {
   user: User;
   public menu: {} = {};
 
-  constructor(
-    loggingService: LoggingService,
-    private authService: AuthenticationService,
-    private userService: UserService
-  ) {}
+  constructor(loggingService: LoggingService, private userService: UserService) {}
 
   ngOnInit() {
     try {
@@ -29,7 +25,7 @@ export class HomeComponent implements OnInit {
        * Question: Do we include the option to skip this screen and make a screen a favorite?
        */
       this.user = this.userService.getCurrentUser();
-      const userLevel = (this.user.level = 1);
+      const userLevel = this.user.level;
       /**
        * Simple switch for getting appropriate avatar or default passed thru
        */
@@ -39,14 +35,14 @@ export class HomeComponent implements OnInit {
       } else {
         avatarImage = this.user.avatar;
       }
-      alert(userLevel);
       switch (userLevel) {
         case 1:
           this.menu = [
-            { name: 'Call Queue', action: '/call-queue', image: '/assets/icon-call-queue.png' },
-            { name: 'My Profile', action: '/profile', image: avatarImage }
+            { name: 'Facilities', action: '/facilities', image: '/assets/icon-facilities.png' },
+            { name: 'User Management', action: '/user-management', image: '/assets/icon-user-management.png' },
+            { name: 'View Queue', action: '/view-queue', image: '/assets/icon-view-queue.png' },
+            { name: 'View Data', action: '/reports', image: '/assets/icon-view-data.png' }
           ];
-          console.log('this far');
           break;
         // case 2:
         //   this.menu = [
@@ -58,16 +54,14 @@ export class HomeComponent implements OnInit {
         //     // { name: 'My Profile', action: '/profile', image: this.getUserAvatarImgSrc() }
         //   ];
         //   break;
-        // case 3:
-        //   this.menu = [
-        //     { name: 'Facilities', action: '/facilities', image: '/assets/icon-facilities.png' },
-        //     { name: 'User Management', action: '/user-management', image: '/assets/icon-user-management.png' },
-        //     { name: 'View Queue', action: '/view-queue', image: '/assets/icon-view-queue.png' },
-        //     { name: 'View Data', action: '/reports', image: '/assets/icon-view-data.png' }
-        //   ];
-        //   break;
+        case 3:
+          this.menu = [
+            { name: 'Call Queue', action: '/call-queue', image: '/assets/icon-call-queue.png' },
+            { name: 'My Profile', action: '/profile', image: avatarImage }
+          ];
+          break;
         default:
-          throw 'No User ID given';
+          throw 'No User Level assigned, something went wrong.';
       }
     } catch (e) {
       console.log(e);

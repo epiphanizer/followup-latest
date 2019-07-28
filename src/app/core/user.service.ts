@@ -5,7 +5,7 @@ import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { GraphService } from '../graph.service';
 
 import { ApiService } from './api.service';
-import { JwtService } from './jwt.service';
+import { AuthenticationService } from '@app/core/authentication/auth.service';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 
 export interface User {
@@ -28,13 +28,17 @@ export class UserService {
 
   constructor(
     private apiService: ApiService,
+    private authService: AuthenticationService,
     private http: HttpClient,
-    private graphService: GraphService,
-    private jwtService: JwtService
-  ) {}
+    private graphService: GraphService
+  ) // private jwtService: JwtService
+  {}
 
   populate() {
-    this.apiService.get('/user').subscribe(data => data.user);
+    this.apiService.get('/user').subscribe(data => {
+      console.log(data);
+      data.user;
+    });
   }
 
   public getUserIdByMicrosoftGUID(userMicrosoftGUID: string) {
@@ -59,12 +63,6 @@ export class UserService {
       return data;
     });
   }
-
-  protected getUserAvatarImgSrc = function(userId: number) {
-    console.log('Getting user avatar src');
-
-    return 'src';
-  };
 
   // Update the user on the server (email, pass, etc)
   update(user: User): Observable<User> {

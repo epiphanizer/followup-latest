@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GraphService } from '@app/graph.service';
 import { User } from '@app/core/user.service';
+import { OAuthSettings } from '../../../oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
 import { MsalService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
@@ -19,30 +20,25 @@ export class AuthenticationService {
     this.authenticated = this.getUser() != null;
     this.getUser().then((user: any) => {
       this.user = user;
-      console.log('user retrieved');
-      console.log(user);
     });
   }
 
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
   async signIn(): Promise<void> {
-    // let result = await this.msalService.loginPopup(OAuthSettings.scopes).catch(reason => {
-    //   this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
-    // });
-    // if (result) {
-    //   this.authenticated = true;
-    //   this.user = await this.getUser();
-    // }
+    let result = await this.msalService.loginPopup(OAuthSettings.scopes).catch(reason => {
+      this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
+    });
+    if (result) {
+      this.authenticated = true;
+      this.user = await this.getUser();
+    }
   }
 
   private async getUser(): Promise<User> {
     if (!this.authenticated) return null;
 
     let graphClient = Client.init({
-      // Initialize the Graph client with an auth
-      // provider that requests the token from the
-      // auth service
       authProvider: async done => {
         let token = await this.graphService.getAccessToken().catch(reason => {
           done(reason, null);
@@ -91,6 +87,4 @@ export class AuthenticationService {
     this.user = null;
     this.authenticated = false;
   }
-
-  // Silently request an access token
 }
