@@ -40,12 +40,18 @@ import { AlertsModule } from '@app/core/alerts/alerts.module';
 import { PatientModule } from './modules/patient/patient.module';
 import { PatientAvatarModule } from './modules/patient/patient-avatar/patient-avatar.module';
 import { PatientDetailModule } from './modules/patient/patient-detail/patient-detail.module';
+
+/**
+ * Call Queue Module
+ */
+import { OperationModule } from '@app/modules/operations/operation.module';
+
 import { UserService } from './core/user.service';
 import { ApiService } from './core/api.service';
 import { NotificationComponent } from './modules/notifications/notification/notification.component';
 import { NotificationDetailListingComponent } from './modules/notifications/notification-detail-listing/notification-detail-listing.component';
 import { NotificationDetailComponent } from './modules/notifications/notification-detail/notification-detail.component';
-import { OperationEditFormComponent } from './modules/operations/operation-edit-form/operation-edit-form.component';
+import { OperationEditComponent } from './modules/operations/operation-edit/operation-edit.component';
 import { UserAddNewFormComponent } from './modules/user/user-add-new-form/user-add-new-form.component';
 import { UserEditFormComponent } from './modules/user/user-edit-form/user-edit-form.component';
 import { UserDetailComponent } from './modules/user/user-detail/user-detail.component';
@@ -83,6 +89,7 @@ import { OperationAdminComponent } from './modules/operations/operation-admin/op
     LoginModule,
     PatientModule,
     CallQueueModule,
+    OperationModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [
