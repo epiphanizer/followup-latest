@@ -21,30 +21,15 @@ import { LoginModule } from './login/login.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-/**
- * Layout / Shell Views
- */
 import { ToolbarLogoModule } from './shell/toolbar-logo.module';
 import { UserCorkBoardModule } from './shell/user-cork-board.module';
-
-/**
- * Call Queue Module
- */
 import { CallQueueModule } from '@app/modules/call-queue/call-queue.module';
-
 import { AlertsModule } from '@app/core/alerts/alerts.module';
-
-/**
- * Should we be importing this as module?
- */
 import { PatientModule } from './modules/patient/patient.module';
 import { PatientAvatarModule } from './modules/patient/patient-avatar/patient-avatar.module';
 import { PatientDetailModule } from './modules/patient/patient-detail/patient-detail.module';
-
-/**
- * Call Queue Module
- */
 import { OperationModule } from '@app/modules/operation/operation.module';
+import { NotificationModule } from '@app/modules/notification/notification.module';
 
 // import { UserModule } from '@app/modules/user/user.module';
 
@@ -84,6 +69,7 @@ import { ApiService } from './core/api.service';
     PatientModule,
     CallQueueModule,
     OperationModule,
+    NotificationModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
