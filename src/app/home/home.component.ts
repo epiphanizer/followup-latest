@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { Logger, LoggingService } from 'ionic-logging-service';
-import { AuthenticationService } from '@app/core/authentication/auth.service';
-import { User, UserService } from '@app/core/user.service';
+import { User, UserService } from '@app/modules/user/user.service';
 
 @Component({
   selector: 'app-home',
