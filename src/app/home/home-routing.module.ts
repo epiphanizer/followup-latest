@@ -3,11 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { extract } from '@app/core';
 import { HomeComponent } from './home.component';
+import { UserResolver } from '@app/modules/user/user-resolver.service';
 import { Shell } from '@app/shell/shell.service';
 
 const routes: Routes = [
   Shell.childRoutes([
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: '', redirectTo: '/home', resolve: { user: UserResolver }, pathMatch: 'full' },
     { path: 'home', component: HomeComponent, data: { title: extract('Follow-Up') } }
   ])
 ];

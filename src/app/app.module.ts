@@ -21,8 +21,6 @@ import { LoginModule } from './login/login.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { ToolbarLogoModule } from './shell/toolbar-logo.module';
-import { UserCorkBoardModule } from './shell/user-cork-board.module';
 import { CallQueueModule } from '@app/modules/call-queue/call-queue.module';
 import { AlertsModule } from '@app/core/alerts/alerts.module';
 import { PatientModule } from './modules/patient/patient.module';

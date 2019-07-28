@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
-  @Input() private operationId: number;
+  @Input() operationId: number;
   operation: Operation;
   public operation$: Observable<Operation>;
   public patients$: Observable<[Patient]> | void = null;

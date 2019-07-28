@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
 
-import { GraphService } from '@app/graph.service';
+import { GraphService } from '@app/shared/graph.service';
 
 import { ApiService } from '@app/core/api.service';
 import { AuthenticationService } from '@app/core/authentication/auth.service';
@@ -31,15 +31,14 @@ export class UserService {
   constructor(
     private apiService: ApiService,
     private authService: AuthenticationService,
-    private http: HttpClient,
-    private graphService: GraphService, // private jwtService: JwtService
+    private graphService: GraphService,
     private operationService: OperationService
   ) {}
 
   populate() {
     this.apiService.get('/user').subscribe(data => {
-      console.log(data);
-      data.user;
+      this.currentUser = data.user;
+      return this.getCurrentUser();
     });
   }
 
@@ -56,14 +55,6 @@ export class UserService {
     this.currentUserSubject.next(user);
     // Set isAuthenticated to true
     this.isAuthenticatedSubject.next(true);
-  }
-
-  attemptAuth(type: string, credentials: string): Observable<User> {
-    let route = type === 'login' ? '/login' : '';
-    return this.apiService.post('/users' + route, { user: credentials }).map(data => {
-      this.setAuth(data.user);
-      return data;
-    });
   }
 
   // Update the user on the server (email, pass, etc)

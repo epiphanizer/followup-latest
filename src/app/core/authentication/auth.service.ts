@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { GraphService } from '@app/graph.service';
-import { User } from '@app/modules/user/user.service';
+import { GraphService } from '@app/shared/graph.service';
 import { OAuthSettings } from '../../../oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
 import { MsalService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
+import { User } from '@app/modules/user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -77,7 +77,6 @@ export class AuthenticationService {
     } catch (error) {
       console.log(error);
     }
-
     return user;
   }
 

@@ -5,9 +5,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  // Fallback when no prior route is matched
-
   { path: '**', redirectTo: '', pathMatch: 'full', canActivate: [MsalGuard] },
+  { path: 'logout', redirectTo: '/login' },
   { path: 'login', component: LoginComponent }
 ];
 
