@@ -9,13 +9,13 @@ import { Shell } from '@app/shell/shell.service';
 const routes: Routes = [
   Shell.childRoutes([
     { path: '', redirectTo: '/home', resolve: { user: UserResolver }, pathMatch: 'full' },
-    { path: 'home', component: HomeComponent, data: { title: extract('Follow-Up') } }
+    { path: 'home', component: HomeComponent, resolve: { user: UserResolver }, data: { title: extract('Follow-Up') } }
   ])
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: []
+  providers: [UserResolver]
 })
 export class HomeRoutingModule {}

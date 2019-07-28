@@ -26,10 +26,8 @@ import { AlertsModule } from '@app/core/alerts/alerts.module';
 import { PatientModule } from './modules/patient/patient.module';
 import { OperationModule } from '@app/modules/operation/operation.module';
 import { NotificationModule } from '@app/modules/notification/notification.module';
+import { UserModule } from '@app/modules/user/user.module';
 
-// import { UserModule } from '@app/modules/user/user.module';
-
-import { UserService } from '@app/modules/user/user.service';
 import { ApiService } from './core/api.service';
 
 @NgModule({
@@ -62,10 +60,11 @@ import { ApiService } from './core/api.service';
     CallQueueModule,
     OperationModule,
     NotificationModule,
+    UserModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
-  providers: [MsalGuard, ApiService, UserService],
+  providers: [MsalGuard, ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -59,7 +59,7 @@ export class AuthenticationService {
     // Prefer the mail property, but fall back to userPrincipalName
     user.email = graphUser.mail || graphUser.userPrincipalName;
     const userGroups = await this.graphService.getUserMemberGroups();
-
+    debugger;
     try {
       switch (userGroups[0]) {
         case 'followup-admin':
