@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-patient-add-new-form',
-  templateUrl: './patient-add-new-form.component.html',
-  styleUrls: ['./patient-add-new-form.component.scss']
+  selector: 'app-patient-add',
+  templateUrl: './patient-add.component.html',
+  styleUrls: ['./patient-add.component.scss']
 })
-export class PatientAddNewFormComponent implements OnInit {
+export class PatientAddComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
