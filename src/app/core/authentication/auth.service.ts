@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
 import { User } from '@app/modules/user/user.service';
+import { OperationService } from '@app/modules/operation/operation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class AuthenticationService {
     private alertsService: AlertsService,
     private broadcastService: BroadcastService,
     private graphService: GraphService,
-    private msalService: MsalService
+    private msalService: MsalService,
+    private operationService: OperationService
   ) {
     this.authenticated = this.msalService.getUser() != null;
     this.getUser().then(user => {
@@ -79,12 +81,14 @@ export class AuthenticationService {
 
     try {
       switch (userGroups[0]) {
-        case 'followup-admin':
+        case '2a7f3bb3-2070-4ed0-a8ff-938af3622f71':
           user.level = 1;
           break;
-        case 'followup-manager':
+        // Managers
+        case '7fe26ebf-0cb0-436d-9c02-e5d91f31174e':
           user.level = 2;
           break;
+        // Call Reps
         case '170650b4-19ce-4fe1-b2b1-75d635a874b6':
           user.level = 3;
           break;
@@ -94,6 +98,9 @@ export class AuthenticationService {
     } catch (error) {
       console.log(error);
     }
+    user.id = 7;
+    this.operationService.getOperationsByUserId(user.id);
+
     return user;
   }
 

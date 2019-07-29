@@ -14,24 +14,14 @@ import { BroadcastService, MsalService } from '@azure/msal-angular';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  private subscription: Subscription;
+  subscription: Subscription;
   public user: any;
-  public menu:
-    | [
-        {
-          name: string;
-          action: string;
-          image: string;
-        }
-      ]
-    | [] = [];
+  public menu: {}[] = [{}];
   constructor(private authService: AuthenticationService, private broadcastService: BroadcastService) {}
 
   ngOnInit() {
     this.subscription = this.broadcastService.subscribe('msal:loginSuccess', (payload: any) => {
-      console.log('login success ' + JSON.stringify(payload));
       this.user = this.authService.user;
-      debugger;
       const userLevel = this.user.level;
       /**
        * Simple switch for getting appropriate avatar or default passed thru

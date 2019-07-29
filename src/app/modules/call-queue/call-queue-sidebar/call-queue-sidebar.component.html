@@ -18,10 +18,10 @@
     [@expandSidebar]="isOpen ? 'open' : 'closed'"
     class="facility-dropdown-list active"
   >
-    <li *ngFor="let operation of user.operations | async; let i = index">
-      <a href="#" class="active" (click)="switchCallQueueOperationView(operationId)">
-        {{ operation.operationName }}
-        <span class="icon-discharge-counter"> [{{ operation.currentDischargeCount }}] </span>
+    <li *ngFor="let operation of user?.operations; let i = index">
+      <a href="#" class="active" (click)="switchCallQueueOperationView(operation?.operationId)">
+        {{ operation?.operationName }}
+        <span class="icon-discharge-counter"> [{{ operation?.currentDischargeCount }}] </span>
       </a>
     </li>
   </ul>

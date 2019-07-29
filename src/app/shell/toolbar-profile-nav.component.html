@@ -1,9 +1,9 @@
 <div class="toolbar-profile-nav">
   <div class="user-avatar">
-    <div class="avatar-image" style="background-image:url(' + {{ user.avatar }} ')"></div>
+    <div class="avatar-image" style="background-image:url(' + {{ user?.avatar }} ')"></div>
   </div>
-  <div class="username">User {{ ('Name' | slice: 0:1) + '.' }}</div>
+  <div class="username">{{ (user?.displayName | slice: 0:1) + '.' }}</div>
   <div class="logout-nav">
-    <a href="/logout">[logout]</a>
+    <a href="/logout" (click)="signOut()">[logout]</a>
   </div>
 </div>

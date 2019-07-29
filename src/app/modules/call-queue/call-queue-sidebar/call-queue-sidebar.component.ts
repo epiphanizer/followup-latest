@@ -56,7 +56,6 @@ import { User } from 'msal';
   ]
 })
 export class CallQueueSidebarComponent implements OnInit {
-  @Input() user: User;
   isOpen = true;
   constructor() {}
 

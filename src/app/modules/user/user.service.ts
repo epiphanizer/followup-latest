@@ -20,4 +20,11 @@ export interface User {
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {}
+export class UserService {
+  constructor(private authService: AuthenticationService) {}
+  public getCurrentUser = function() {
+    if (this.authService.authenticated) {
+      return this.authService.user;
+    }
+  };
+}
