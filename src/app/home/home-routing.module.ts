@@ -8,8 +8,8 @@ import { Shell } from '@app/shell/shell.service';
 
 const routes: Routes = [
   Shell.childRoutes([
-    { path: '', redirectTo: '/home', resolve: { user: UserResolver }, pathMatch: 'full' },
-    { path: 'home', component: HomeComponent, resolve: { user: UserResolver }, data: { title: extract('Follow-Up') } }
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: 'home', component: HomeComponent, data: { title: extract('Follow-Up') } }
   ])
 ];
 

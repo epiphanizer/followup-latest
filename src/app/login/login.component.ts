@@ -34,8 +34,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {}
 
-  async signIn() {
-    this.authService.signOut();
+  async signIn(): Promise<void> {
+    await this.authService.signIn();
   }
   signOut(): void {
     this.authService.signOut();

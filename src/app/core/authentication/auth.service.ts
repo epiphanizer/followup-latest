@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { GraphService } from '@app/shared/graph.service';
 import { OAuthSettings } from '../../../oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
-import { MsalService } from '@azure/msal-angular';
+import { Subscription } from 'rxjs';
+import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
 import { User } from '@app/modules/user/user.service';
 
@@ -11,21 +12,37 @@ import { User } from '@app/modules/user/user.service';
 })
 export class AuthenticationService {
   public authenticated: boolean;
-  protected user: User;
+  public user: User;
+  private subscription: Subscription;
   constructor(
     private alertsService: AlertsService,
+    private broadcastService: BroadcastService,
     private graphService: GraphService,
     private msalService: MsalService
   ) {
-    this.authenticated = this.getUser() != null;
-    this.getUser().then((user: any) => {
+    this.authenticated = this.msalService.getUser() != null;
+    this.getUser().then(user => {
       this.user = user;
+    });
+  }
+  ngOnInit() {
+    this.broadcastService.subscribe('msal:loginFailure', payload => {
+      console.log('login failure ' + JSON.stringify(payload));
+      this.authenticated = false;
+    });
+
+    this.broadcastService.subscribe('msal:loginSuccess', payload => {
+      console.log('login success ' + JSON.stringify(payload));
+      this.authenticated = true;
     });
   }
 
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
   async signIn(): Promise<void> {
+    console.log('signing in');
+    // this.msalService.loginRedirect(OAuthSettings.scopes);
+
     let result = await this.msalService.loginPopup(OAuthSettings.scopes).catch(reason => {
       this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
     });
@@ -59,18 +76,18 @@ export class AuthenticationService {
     // Prefer the mail property, but fall back to userPrincipalName
     user.email = graphUser.mail || graphUser.userPrincipalName;
     const userGroups = await this.graphService.getUserMemberGroups();
-    debugger;
+
     try {
       switch (userGroups[0]) {
         case 'followup-admin':
           user.level = 1;
-          return;
+          break;
         case 'followup-manager':
           user.level = 2;
-          return;
+          break;
         case '170650b4-19ce-4fe1-b2b1-75d635a874b6':
           user.level = 3;
-          return;
+          break;
         default:
           throw 'Could not assign user level. Something is amiss';
       }
@@ -85,5 +102,12 @@ export class AuthenticationService {
     this.msalService.logout();
     this.user = null;
     this.authenticated = false;
+  }
+
+  ngOnDestroy() {
+    this.broadcastService.getMSALSubject().next(1);
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

@@ -1,7 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { Logger, LoggingService } from 'ionic-logging-service';
-import { User, UserService } from '@app/modules/user/user.service';
+import { User } from '@app/modules/user/user.service';
+
+import { merge, Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '@app/core';
+import { BroadcastService, MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'app-home',
@@ -9,21 +14,24 @@ import { User, UserService } from '@app/modules/user/user.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  @Input() user: User;
-  isLoading = false;
-  logger: Logger = new Logger();
-  public menu: {} = {};
-
-  constructor(loggingService: LoggingService, private userService: UserService) {}
+  private subscription: Subscription;
+  public user: any;
+  public menu:
+    | [
+        {
+          name: string;
+          action: string;
+          image: string;
+        }
+      ]
+    | [] = [];
+  constructor(private authService: AuthenticationService, private broadcastService: BroadcastService) {}
 
   ngOnInit() {
-    try {
-      console.log(this.user);
-      this.isLoading = true;
-      /**
-       * A function to get the appropriate user menu to display on the initial dashboard.
-       * Question: Do we include the option to skip this screen and make a screen a favorite?
-       */
+    this.subscription = this.broadcastService.subscribe('msal:loginSuccess', (payload: any) => {
+      console.log('login success ' + JSON.stringify(payload));
+      this.user = this.authService.user;
+      debugger;
       const userLevel = this.user.level;
       /**
        * Simple switch for getting appropriate avatar or default passed thru
@@ -34,6 +42,7 @@ export class HomeComponent implements OnInit {
       } else {
         avatarImage = this.user.avatar;
       }
+      debugger;
       switch (userLevel) {
         case 1:
           this.menu = [
@@ -59,9 +68,8 @@ export class HomeComponent implements OnInit {
         default:
           throw 'No User Level assigned, something went wrong.';
       }
-    } catch (e) {
-      console.log(e);
-      this.logger.error('some error', e);
-    }
+    });
+
+    this.authService.signIn();
   }
 }

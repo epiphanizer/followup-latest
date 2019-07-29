@@ -28,6 +28,7 @@ import { OperationModule } from '@app/modules/operation/operation.module';
 import { NotificationModule } from '@app/modules/notification/notification.module';
 import { UserModule } from '@app/modules/user/user.module';
 
+import { OperationService } from './modules/operation/operation.service';
 import { ApiService } from './core/api.service';
 
 @NgModule({
@@ -48,7 +49,7 @@ import { ApiService } from './core/api.service';
       cacheLocation: 'localStorage',
       postLogoutRedirectUri: 'http://localhost:4200/login',
       navigateToLoginRequestUrl: false,
-      popUp: false,
+      popUp: true,
       consentScopes: OAuthSettings.scopes
     }),
     SharedModule,
@@ -64,7 +65,7 @@ import { ApiService } from './core/api.service';
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
-  providers: [MsalGuard, ApiService],
+  providers: [MsalGuard, ApiService, OperationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

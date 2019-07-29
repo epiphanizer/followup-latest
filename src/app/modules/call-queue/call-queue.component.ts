@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { User } from '@app/modules/user/user.service';
+
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-call-queue',
@@ -6,9 +9,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./call-queue.component.scss']
 })
 export class CallQueueComponent implements OnInit {
-  constructor() {}
-  ngOnInit() {}
-  /**
-   * Switch the call queue view to a new operation
-   */
+  user: User;
+  constructor(private route: ActivatedRoute) {}
+  ngOnInit() {
+    this.user = this.route.snapshot.data.user;
+  }
 }

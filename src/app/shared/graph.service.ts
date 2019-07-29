@@ -34,7 +34,6 @@ export class GraphService {
 
     // Temporary to display token in an error box
     if (result) this.alertsService.add('Token acquired', result);
-    // alert(result);
     return result;
   }
 
