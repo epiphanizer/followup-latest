@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { GraphService } from '@app/shared/graph.service';
 import { OAuthSettings } from '../../../oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
 import { User } from '@app/modules/user/user.service';
 import { OperationService } from '@app/modules/operation/operation.service';
+import { ApiService } from '../api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,33 +19,35 @@ export class AuthenticationService {
   constructor(
     private alertsService: AlertsService,
     private broadcastService: BroadcastService,
-    private graphService: GraphService,
+    private apiService: ApiService,
     private msalService: MsalService,
     private operationService: OperationService
   ) {
+    var msalUser = this.msalService.getUser();
     this.authenticated = this.msalService.getUser() != null;
+    console.log(msalUser);
     this.getUser().then(user => {
       this.user = user;
     });
   }
   ngOnInit() {
-    this.broadcastService.subscribe('msal:loginFailure', payload => {
-      console.log('login failure ' + JSON.stringify(payload));
-      this.authenticated = false;
-    });
-
     this.broadcastService.subscribe('msal:loginSuccess', payload => {
-      console.log('login success ' + JSON.stringify(payload));
-      this.authenticated = true;
+      console.log(payload);
     });
   }
 
+  async getAccessToken(): Promise<string> {
+    let result = await this.msalService.acquireTokenSilent(OAuthSettings.scopes).catch(reason => {
+      this.alertsService.add('Get token failed', JSON.stringify(reason, null, 2));
+    });
+
+    // Temporary to display token in an error box
+    if (result) this.alertsService.add('Token acquired', result);
+    return result;
+  }
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
   async signIn(): Promise<void> {
-    console.log('signing in');
-    // this.msalService.loginRedirect(OAuthSettings.scopes);
-
     let result = await this.msalService.loginPopup(OAuthSettings.scopes).catch(reason => {
       this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
     });
@@ -54,12 +57,12 @@ export class AuthenticationService {
     }
   }
 
-  private async getUser(): Promise<User> {
+  async getUser(): Promise<User> {
     if (!this.authenticated) return null;
 
     let graphClient = Client.init({
       authProvider: async done => {
-        let token = await this.graphService.getAccessToken().catch(reason => {
+        let token = await this.getAccessToken().catch(reason => {
           done(reason, null);
         });
 
@@ -77,8 +80,21 @@ export class AuthenticationService {
     user.displayName = graphUser.displayName;
     // Prefer the mail property, but fall back to userPrincipalName
     user.email = graphUser.mail || graphUser.userPrincipalName;
-    const userGroups = await this.graphService.getUserMemberGroups();
+    const securityEnabledOnlyFlag = {
+      securityEnabledOnly: true
+    };
+    const userGroups = await graphClient
+      .api('/me/getMemberGroups')
+      .post(securityEnabledOnlyFlag)
+      .then(result => {
+        return result.value;
+      })
+      .catch(error => {
+        this.alertsService.add('Could not get member groups', JSON.stringify(error, null, 2));
+      });
 
+    // await this.graphService.getUserMemberGroups();
+    console.log(userGroups);
     try {
       switch (userGroups[0]) {
         case '2a7f3bb3-2070-4ed0-a8ff-938af3622f71':
@@ -99,8 +115,8 @@ export class AuthenticationService {
       console.log(error);
     }
     user.id = 7;
-    this.operationService.getOperationsByUserId(user.id);
-
+    // user.operations = this.operationService.getOperationsByUserId(user.id);
+    // debugger;
     return user;
   }
 

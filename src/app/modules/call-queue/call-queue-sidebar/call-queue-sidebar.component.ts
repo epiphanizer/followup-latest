@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subscription } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Operation, OperationService } from '@app/modules/operation/operation.service';
@@ -13,10 +13,13 @@ import {
   // ...
 } from '@angular/animations';
 
-import { User } from 'msal';
+import { User, UserService } from '@app/modules/user/user.service';
+
+import { BroadcastService, MsalService } from '@azure/msal-angular';
+import { AuthenticationService } from '@app/core';
 
 @Component({
-  providers: [OperationService],
+  providers: [OperationService, AuthenticationService, UserService],
   selector: 'app-call-queue-sidebar',
   templateUrl: './call-queue-sidebar.component.html',
   styleUrls: ['./call-queue-sidebar.component.scss'],
@@ -57,10 +60,14 @@ import { User } from 'msal';
 })
 export class CallQueueSidebarComponent implements OnInit {
   isOpen = true;
-  constructor() {}
-
+  constructor(private authService: AuthenticationService, private broadcastService: BroadcastService) {}
+  subscription: Subscription;
+  user: User;
   todaysDateDay: number;
   ngOnInit() {
+    this.authService.getUser().then((result: any) => {
+      this.user = this.authService.user;
+    });
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
 

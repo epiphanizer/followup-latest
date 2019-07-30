@@ -79,6 +79,12 @@ ul.patient-filters {
         color: #08c400;
       }
     }
+    &:nth-child(even) {
+      background-color: rgba(200, 200, 200, 0.05);
+    }
+    &:nth-child(odd) {
+      background-color: RGBA(200, 200, 200, 0.15);
+    }
     .call-queue-avatar {
       display: inline-block;
       margin-top: 10.5px;

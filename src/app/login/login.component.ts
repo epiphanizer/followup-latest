@@ -36,6 +36,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   async signIn(): Promise<void> {
     await this.authService.signIn();
+    // Temporary to display the token
+    if (this.authService.authenticated) {
+      let token = await this.authService.getAccessToken();
+      console.log(token);
+    }
   }
   signOut(): void {
     this.authService.signOut();

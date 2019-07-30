@@ -9,10 +9,14 @@ import { AuthenticationService } from '@app/core';
   styleUrls: ['./toolbar-profile-nav.component.scss']
 })
 export class ToolbarProfileNavComponent implements OnInit {
-  user: User;
+  public user: User;
   constructor(private authService: AuthenticationService, private userService: UserService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.getUser().then((result: any) => {
+      this.user = this.authService.user;
+    });
+  }
   signOut() {
     this.authService.signOut();
   }

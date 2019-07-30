@@ -3,10 +3,12 @@
   <ion-item-divider class="divider-line"></ion-item-divider>
   <div class="wrapper-vertically-limited">
     <sc-month-calendar
-      [monthClass]="'custom-month'"
-      [monthCaptionClass]="'custom-month__caption'"
-      [dayOfWeekCaptionClass]="'custom-month__week-caption'"
-      [dayCaptionClass]="'custom-month__day'"
+      [monthClass]="monthClass"
+      [monthCaptionClass]="monthCaptionClass"
+      [dayOfWeekCaptionClass]="dayOfWeekCaptionClass"
+      [dayCaptionClass]="dayCaptionClass"
+      [currentDayClass]="currentDayClass"
+      [selectedDayClass]="selectedDayClass"
       [dayOfWeekCaptionFormatter]="dayOfWeekCaptionFormatter"
     >
       <!-- Month caption template -->

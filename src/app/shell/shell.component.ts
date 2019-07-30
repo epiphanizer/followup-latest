@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { AuthenticationService } from '@app/core';
+import { AlertsService } from '@app/core/alerts/alerts.service';
 
 @Component({
   selector: 'app-shell',
@@ -12,6 +13,7 @@ export class ShellComponent {
   constructor(
     private router: Router,
     private platform: Platform,
+    public alertsService: AlertsService,
     private authenticationService: AuthenticationService
   ) {}
 

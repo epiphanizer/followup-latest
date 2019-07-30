@@ -11,7 +11,5 @@ import { ActivatedRoute } from '@angular/router';
 export class CallQueueComponent implements OnInit {
   user: User;
   constructor(private route: ActivatedRoute) {}
-  ngOnInit() {
-    this.user = this.route.snapshot.data.user;
-  }
+  ngOnInit() {}
 }

@@ -1,14 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { Logger, LoggingService } from 'ionic-logging-service';
-import { User } from '@app/modules/user/user.service';
+import { User, UserService } from '@app/modules/user/user.service';
 
 import { merge, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '@app/core';
-import { BroadcastService, MsalService } from '@azure/msal-angular';
+import { BroadcastService } from '@azure/msal-angular';
 
 @Component({
+  providers: [AuthenticationService, UserService],
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
@@ -17,11 +18,17 @@ export class HomeComponent implements OnInit {
   subscription: Subscription;
   public user: any;
   public menu: {}[] = [{}];
-  constructor(private authService: AuthenticationService, private broadcastService: BroadcastService) {}
+  constructor(
+    private authService: AuthenticationService,
+    userService: UserService,
+    private broadcastService: BroadcastService
+  ) {}
 
   ngOnInit() {
-    this.subscription = this.broadcastService.subscribe('msal:loginSuccess', (payload: any) => {
+    this.authService.getUser().then((result: any) => {
+      console.log(result);
       this.user = this.authService.user;
+      debugger;
       const userLevel = this.user.level;
       /**
        * Simple switch for getting appropriate avatar or default passed thru
@@ -32,7 +39,7 @@ export class HomeComponent implements OnInit {
       } else {
         avatarImage = this.user.avatar;
       }
-      debugger;
+
       switch (userLevel) {
         case 1:
           this.menu = [
@@ -59,7 +66,5 @@ export class HomeComponent implements OnInit {
           throw 'No User Level assigned, something went wrong.';
       }
     });
-
-    this.authService.signIn();
   }
 }
