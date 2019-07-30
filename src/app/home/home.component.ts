@@ -18,17 +18,11 @@ export class HomeComponent implements OnInit {
   subscription: Subscription;
   public user: any;
   public menu: {}[] = [{}];
-  constructor(
-    private authService: AuthenticationService,
-    userService: UserService,
-    private broadcastService: BroadcastService
-  ) {}
+  constructor(private authService: AuthenticationService) {}
 
   ngOnInit() {
     this.authService.getUser().then((result: any) => {
-      console.log(result);
       this.user = this.authService.user;
-      debugger;
       const userLevel = this.user.level;
       /**
        * Simple switch for getting appropriate avatar or default passed thru

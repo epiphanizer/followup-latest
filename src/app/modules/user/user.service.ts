@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
-
-import { GraphService } from '@app/shared/graph.service';
-
-import { ApiService } from '@app/core/api.service';
-import { AuthenticationService } from '@app/core/authentication/auth.service';
+import { Observable } from 'rxjs';
 import { Operation, OperationService } from '@app/modules/operation/operation.service';
-import { map, distinctUntilChanged } from 'rxjs/operators';
 
 export interface User {
   displayName: string;
@@ -14,17 +9,12 @@ export interface User {
   level: number;
   email: string;
   avatar: string;
-  operations?: Array<Operation>;
+  operations$: Observable<Array<Operation>>;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private authService: AuthenticationService) {}
-  public getCurrentUser = function() {
-    if (this.authService.authenticated) {
-      return this.authService.user;
-    }
-  };
+  constructor() {}
 }

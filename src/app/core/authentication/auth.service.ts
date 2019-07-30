@@ -115,7 +115,7 @@ export class AuthenticationService {
       console.log(error);
     }
     user.id = 7;
-    // user.operations = this.operationService.getOperationsByUserId(user.id);
+    user.operations$ = this.operationService.getOperationsByUserId(user.id);
     // debugger;
     return user;
   }

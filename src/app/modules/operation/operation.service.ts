@@ -32,7 +32,7 @@ export class OperationService {
   }
 
   public getOperationsByUserId(userId: number): Observable<Array<Operation>> {
-    return this.http.get<Array<Operation>>('/user/operations/' + userId).pipe(
+    return this.http.get<Array<Operation>>('user/' + userId + '/operations').pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
     );

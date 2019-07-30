@@ -15,7 +15,6 @@ import {
 
 import { User, UserService } from '@app/modules/user/user.service';
 
-import { BroadcastService, MsalService } from '@azure/msal-angular';
 import { AuthenticationService } from '@app/core';
 
 @Component({
@@ -60,13 +59,13 @@ import { AuthenticationService } from '@app/core';
 })
 export class CallQueueSidebarComponent implements OnInit {
   isOpen = true;
-  constructor(private authService: AuthenticationService, private broadcastService: BroadcastService) {}
-  subscription: Subscription;
+  constructor(private authService: AuthenticationService, private operationService: OperationService) {}
   user: User;
   todaysDateDay: number;
   ngOnInit() {
     this.authService.getUser().then((result: any) => {
       this.user = this.authService.user;
+      this.user.operations$ = this.operationService.getOperationsByUserId(this.user.id);
     });
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
