@@ -116,11 +116,10 @@ export class AuthenticationService {
       console.log(error);
     }
     user.id = 6;
+    user.operations = [];
     user.operations$ = this.operationService.getOperationsByUserId(user.id).pipe(
       map((operations: Array<Operation>) => {
         operations.map((operation: Operation) => {
-          console.log(operation);
-          debugger;
           this.user.operations.push(operation);
         });
         return operations;
