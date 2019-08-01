@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable, throwError, Subscription } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Operation, OperationService } from '@app/modules/operation/operation.service';
+import { Operation } from '@app/modules/operation/operation.service';
 import { formatDate } from '@angular/common';
 import {
   trigger,
@@ -18,7 +18,7 @@ import { User, UserService } from '@app/modules/user/user.service';
 import { AuthenticationService } from '@app/core';
 
 @Component({
-  providers: [OperationService, AuthenticationService, UserService],
+  providers: [AuthenticationService, UserService],
   selector: 'app-call-queue-sidebar',
   templateUrl: './call-queue-sidebar.component.html',
   styleUrls: ['./call-queue-sidebar.component.scss'],
@@ -59,7 +59,7 @@ import { AuthenticationService } from '@app/core';
 })
 export class CallQueueSidebarComponent implements OnInit {
   isOpen = true;
-  constructor(private authService: AuthenticationService, private operationService: OperationService) {}
+  constructor(private authService: AuthenticationService) {}
   user: User;
   todaysDateDay: number;
   ngOnInit() {

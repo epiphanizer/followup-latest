@@ -11,7 +11,11 @@ import { AuthenticationService } from '@app/core';
   styleUrls: ['./call-queue-patient-filter.component.scss']
 })
 export class CallQueuePatientFilterComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
+  user: User;
+  constructor(private authService: AuthenticationService) {}
+  ngOnInit() {
+    this.authService.getUser().then((result: any) => {
+      this.user = this.authService.user;
+    });
+  }
 }
