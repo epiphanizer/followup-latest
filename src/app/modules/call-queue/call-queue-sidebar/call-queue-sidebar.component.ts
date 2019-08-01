@@ -65,7 +65,6 @@ export class CallQueueSidebarComponent implements OnInit {
   ngOnInit() {
     this.authService.getUser().then((result: any) => {
       this.user = this.authService.user;
-      this.user.operations$ = this.operationService.getOperationsByUserId(this.user.id);
     });
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }

@@ -3,10 +3,11 @@ import { GraphService } from '@app/shared/graph.service';
 import { OAuthSettings } from '../../../oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
 import { Subscription, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
 import { User } from '@app/modules/user/user.service';
-import { OperationService } from '@app/modules/operation/operation.service';
+import { Operation, OperationService } from '@app/modules/operation/operation.service';
 import { ApiService } from '../api.service';
 
 @Injectable({
@@ -114,9 +115,17 @@ export class AuthenticationService {
     } catch (error) {
       console.log(error);
     }
-    user.id = 7;
-    user.operations$ = this.operationService.getOperationsByUserId(user.id);
-    // debugger;
+    user.id = 6;
+    user.operations$ = this.operationService.getOperationsByUserId(user.id).pipe(
+      map((operations: Array<Operation>) => {
+        operations.map((operation: Operation) => {
+          console.log(operation);
+          debugger;
+          this.user.operations.push(operation);
+        });
+        return operations;
+      })
+    );
     return user;
   }
 

@@ -9,6 +9,7 @@ export interface User {
   level: number;
   email: string;
   avatar: string;
+  operations: Array<Operation> | Array<{}>;
   operations$: Observable<Array<Operation>>;
 }
 

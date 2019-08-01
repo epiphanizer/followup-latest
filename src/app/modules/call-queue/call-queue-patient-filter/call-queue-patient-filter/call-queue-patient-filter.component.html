@@ -14,12 +14,14 @@
     </ion-col>
   </ion-row>
   <div class="patient-filter-results">
-    <ul *ngIf="user?.patients; else #noCalls">
+    <ul *ngIf="user?.patients; else noCalls">
       <li><span>date or name</span></li>
       <li><span>date or name</span></li>
     </ul>
     <ng-template #noCalls>
-      No calls have been made yet! Let's get rolling!
+      <p>
+        No calls have been made yet! Let's get rolling!
+      </p>
     </ng-template>
   </div>
 </div>

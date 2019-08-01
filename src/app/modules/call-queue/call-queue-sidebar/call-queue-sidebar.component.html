@@ -17,6 +17,7 @@
     class="facility-dropdown-list"
     [@expandSidebar]="isOpen ? 'open' : 'closed'"
     class="facility-dropdown-list active"
+    *ngIf="user?.operations$; else noOperations"
   >
     <li *ngFor="let operation of user?.operations$ | async; let i = index">
       <a href="#" class="active" (click)="switchCallQueueOperationView(operation.operationId)">
@@ -25,4 +26,7 @@
       </a>
     </li>
   </ul>
+  <ng-template #noOperations>
+    You haven't been assigned any operations yet!
+  </ng-template>
 </div>
