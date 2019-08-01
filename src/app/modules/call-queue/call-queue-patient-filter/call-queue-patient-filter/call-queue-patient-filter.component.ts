@@ -6,7 +6,7 @@ import { AuthenticationService } from '@app/core';
 import { Patient, PatientService } from '@app/modules/patient/patient.service';
 
 @Component({
-  providers: [AuthenticationService, UserService],
+  providers: [AuthenticationService, PatientService, UserService],
   selector: 'app-call-queue-patient-filter',
   templateUrl: './call-queue-patient-filter.component.html',
   styleUrls: ['./call-queue-patient-filter.component.scss']

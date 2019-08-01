@@ -16,7 +16,6 @@ import {
 import { User, UserService } from '@app/modules/user/user.service';
 
 import { AuthenticationService } from '@app/core';
-
 @Component({
   providers: [AuthenticationService, UserService],
   selector: 'app-call-queue-sidebar',
