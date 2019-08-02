@@ -133,9 +133,10 @@ export class AuthenticationService {
     );
     return user;
   }
-  getUserIdByUserEmail(email: string): Observable<string> {
+  getUserIdByUserEmail(email: string): Observable<number> {
     alert(email);
-    return Observable.of(email);
+    var number = 6;
+    return Observable.of(number);
     // return this.http.post<number>('users/lookup', {'email': email}).pipe(
     //   retry(1), // retry a failed request up to 2 total times
     //   catchError(error => this.handleAsyncError(error))
