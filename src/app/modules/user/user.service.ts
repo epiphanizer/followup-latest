@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Operation, OperationService } from '@app/modules/operation/operation.service';
-import { ApiService } from '@app/core/api.service';
+import { Operation } from '@app/modules/operation/operation.service';
 import { HttpService } from '@app/core';
 
 export interface User {
