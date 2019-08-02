@@ -10,20 +10,24 @@
   display: block;
   margin-left: 8px;
   background-size: 100%;
+
   &.new-item {
     margin-top: 12px;
     padding-left: 2px;
     background-image: url("/assets/icon-new-item@2x.png");
   }
+
   &.minus {
     margin-top: 12px;
     padding-left: 2px;
     background-image: url("/assets/icon-new-item@2x.png");
   }
+
   &.expand {
     background-image: url("/assets/icon-expand@2x.png");
   }
 }
+
 .user-cork-board {
   position: absolute;
   z-index: 1999;
@@ -34,27 +38,33 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100%;
+
   &.open {
-    cursor: pointer;
-    background-image: url("/assets/corkboard@2x.png");
-    z-index: 100;
-    &.new-item {
-      position: absolute;
-      top: 12px;
-      left: 267.7px;
-      background-image: url("/assets/icon-new-item@2x.png");
-    }
-    &.minus {
-      position: absolute;
-      top: 24px;
-      left: 267.7px;
-      background-image: url("/assets/icon-new-item@2x.png");
-    }
-    &.expand {
-      position: absolute;
-      top: 36px;
-      left: 267.7px;
-      background-image: url("/assets/icon-expand@2x.png");
+    .icon {
+      cursor: pointer;
+      background-image: url("/assets/corkboard@2x.png");
+      z-index: 100;
+
+      .new-item {
+        position: absolute;
+        top: 12px;
+        left: 267.7px;
+        background-image: url("/assets/icon-new-item@2x.png");
+      }
+
+      .minus {
+        position: absolute;
+        top: 24px;
+        left: 267.7px;
+        background-image: url("/assets/icon-new-item@2x.png");
+      }
+
+      .expand {
+        position: absolute;
+        top: 36px;
+        left: 267.7px;
+        background-image: url("/assets/icon-expand@2x.png");
+      }
     }
   }
 }
@@ -62,6 +72,7 @@
 ul {
   list-style-type: none;
   padding-left: 0;
+
   li {
     i {
       &.expand {

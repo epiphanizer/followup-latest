@@ -6,7 +6,7 @@ import { Subscription, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
-import { User } from '@app/modules/user/user.service';
+import { User, UserService } from '@app/modules/user/user.service';
 import { Operation, OperationService } from '@app/modules/operation/operation.service';
 import { ApiService } from '../api.service';
 
@@ -22,7 +22,8 @@ export class AuthenticationService {
     private broadcastService: BroadcastService,
     private apiService: ApiService,
     private msalService: MsalService,
-    private operationService: OperationService
+    private operationService: OperationService,
+    private userService: UserService
   ) {
     var msalUser = this.msalService.getUser();
     this.authenticated = this.msalService.getUser() != null;
@@ -81,6 +82,13 @@ export class AuthenticationService {
     user.displayName = graphUser.displayName;
     // Prefer the mail property, but fall back to userPrincipalName
     user.email = graphUser.mail || graphUser.userPrincipalName;
+    try {
+      user.id$ = this.userService.getUserIdByUserEmail(user.email).pipe(
+        map((userId: number) => {
+          return userId;
+        })
+      );
+    } catch {}
     const securityEnabledOnlyFlag = {
       securityEnabledOnly: true
     };
@@ -115,7 +123,6 @@ export class AuthenticationService {
     } catch (error) {
       console.log(error);
     }
-    user.id = 6;
     user.operations = [];
     user.operations$ = this.operationService.getOperationsByUserId(user.id).pipe(
       map((operations: Array<Operation>) => {
