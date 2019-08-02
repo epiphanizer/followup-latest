@@ -80,7 +80,6 @@ export class AuthenticationService {
     // Prefer the mail property, but fall back to userPrincipalName
     user.email = graphUser.mail || graphUser.userPrincipalName;
     try {
-      debugger;
       user.id$ = this.getUserIdByUserEmail(user.email).pipe(
         map((userId: number) => {
           return userId;
@@ -134,9 +133,9 @@ export class AuthenticationService {
     );
     return user;
   }
-  getUserIdByUserEmail(email: string): string {
+  getUserIdByUserEmail(email: string): Observable<string> {
     alert(email);
-    return email;
+    return Observable.of(email);
     // return this.http.post<number>('users/lookup', {'email': email}).pipe(
     //   retry(1), // retry a failed request up to 2 total times
     //   catchError(error => this.handleAsyncError(error))
