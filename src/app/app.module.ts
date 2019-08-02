@@ -28,9 +28,6 @@ import { OperationModule } from '@app/modules/operation/operation.module';
 import { NotificationModule } from '@app/modules/notification/notification.module';
 import { UserModule } from '@app/modules/user/user.module';
 
-import { OperationService } from './modules/operation/operation.service';
-import { ApiService } from './core/api.service';
-
 @NgModule({
   imports: [
     BrowserModule,
@@ -65,7 +62,7 @@ import { ApiService } from './core/api.service';
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
-  providers: [MsalGuard, ApiService, OperationService],
+  providers: [MsalGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

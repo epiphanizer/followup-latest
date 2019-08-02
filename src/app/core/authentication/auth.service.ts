@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { GraphService } from '@app/shared/graph.service';
 import { OAuthSettings } from '../../../oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
-import { Subscription, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription, Observable, throwError } from 'rxjs';
+import { map, catchError, retry } from 'rxjs/operators';
 import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
 import { User, UserService } from '@app/modules/user/user.service';
 import { Operation, OperationService } from '@app/modules/operation/operation.service';
-import { ApiService } from '../api.service';
+
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { EmailValidator } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +21,10 @@ export class AuthenticationService {
   constructor(
     private alertsService: AlertsService,
     private broadcastService: BroadcastService,
-    private apiService: ApiService,
     private msalService: MsalService,
-    private operationService: OperationService,
-    private userService: UserService
+    private operationService: OperationService
   ) {
-    var msalUser = this.msalService.getUser();
     this.authenticated = this.msalService.getUser() != null;
-    console.log(msalUser);
     this.getUser().then(user => {
       this.user = user;
     });
@@ -83,12 +80,15 @@ export class AuthenticationService {
     // Prefer the mail property, but fall back to userPrincipalName
     user.email = graphUser.mail || graphUser.userPrincipalName;
     try {
-      user.id$ = this.userService.getUserIdByUserEmail(user.email).pipe(
+      debugger;
+      user.id$ = this.getUserIdByUserEmail(user.email).pipe(
         map((userId: number) => {
           return userId;
         })
       );
-    } catch {}
+    } catch (error) {
+      throw error;
+    }
     const securityEnabledOnlyFlag = {
       securityEnabledOnly: true
     };
@@ -134,7 +134,14 @@ export class AuthenticationService {
     );
     return user;
   }
-
+  getUserIdByUserEmail(email: string): string {
+    alert(email);
+    return email;
+    // return this.http.post<number>('users/lookup', {'email': email}).pipe(
+    //   retry(1), // retry a failed request up to 2 total times
+    //   catchError(error => this.handleAsyncError(error))
+    // );
+  }
   // Sign out
   signOut(): void {
     this.msalService.logout();
@@ -147,5 +154,22 @@ export class AuthenticationService {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  private handleAsyncError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
+    }
+    // return an observable with a user-facing error message
+    return throwError({
+      message:
+        'We had trouble connecting to the user API route. \
+    Please contact your IT department and relay this message.'
+    });
   }
 }
