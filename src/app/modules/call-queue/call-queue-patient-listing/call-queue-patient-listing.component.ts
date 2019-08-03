@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Operation, OperationService } from '@app/modules/operation/operation.service.ts';
 import { PatientService, Patient } from '@app/modules/patient/patient.service.ts';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   providers: [PatientService],
@@ -19,7 +20,12 @@ export class CallQueuePatientListingComponent implements OnInit {
     /**
      * Get the operation from the route.
      */
-    this.operation$ = this.operationService.getOperationByOperationId(this.operationId);
+    this.operation$ = this.operationService.getOperationByOperationId(this.operationId).pipe(
+      map((operation: Operation) => {
+        this.operation = operation;
+        return operation;
+      })
+    );
     this.patients$ = this.patientService.getPatientListByOperationId(this.operationId);
   }
 

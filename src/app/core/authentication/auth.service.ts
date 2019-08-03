@@ -10,6 +10,7 @@ import { Operation, OperationService } from '@app/modules/operation/operation.se
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { EmailValidator } from '@angular/forms';
+import { HttpService } from '../http/http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class AuthenticationService {
   constructor(
     private alertsService: AlertsService,
     private broadcastService: BroadcastService,
+    private http: HttpService,
     private msalService: MsalService,
     private operationService: OperationService
   ) {
@@ -79,15 +81,21 @@ export class AuthenticationService {
     user.displayName = graphUser.displayName;
     // Prefer the mail property, but fall back to userPrincipalName
     user.email = graphUser.mail || graphUser.userPrincipalName;
+    /**
+     * Make some assignments to the <User> object
+     */
     try {
-      user.id$ = this.getUserIdByUserEmail(user.email).pipe(
+      user.id$ = await this.getUserIdByUserEmail(user.email).pipe(
         map((userId: number) => {
+          debugger;
+          user.id = userId;
           return userId;
         })
       );
     } catch (error) {
       throw error;
     }
+
     const securityEnabledOnlyFlag = {
       securityEnabledOnly: true
     };
@@ -101,8 +109,9 @@ export class AuthenticationService {
         this.alertsService.add('Could not get member groups', JSON.stringify(error, null, 2));
       });
 
-    // await this.graphService.getUserMemberGroups();
-    console.log(userGroups);
+    /**
+     * Access Level Assignment
+     */
     try {
       switch (userGroups[0]) {
         case '2a7f3bb3-2070-4ed0-a8ff-938af3622f71':
@@ -122,7 +131,9 @@ export class AuthenticationService {
     } catch (error) {
       console.log(error);
     }
+
     user.operations = [];
+    user.id = await user.id$.toPromise();
     user.operations$ = this.operationService.getOperationsByUserId(user.id).pipe(
       map((operations: Array<Operation>) => {
         operations.map((operation: Operation) => {
@@ -131,16 +142,14 @@ export class AuthenticationService {
         return operations;
       })
     );
+
     return user;
   }
   getUserIdByUserEmail(email: string): Observable<number> {
-    alert(email);
-    var number = 6;
-    return Observable.of(number);
-    // return this.http.post<number>('users/lookup', {'email': email}).pipe(
-    //   retry(1), // retry a failed request up to 2 total times
-    //   catchError(error => this.handleAsyncError(error))
-    // );
+    return this.http.post<number>('users/lookup', { email: email }).pipe(
+      retry(1), // retry a failed request up to 2 total times
+      catchError(error => this.handleAsyncError(error))
+    );
   }
   // Sign out
   signOut(): void {

@@ -12,12 +12,14 @@ import { HttpCacheService } from './http/http-cache.service';
 import { ApiPrefixInterceptor } from './http/api-prefix.interceptor';
 import { ErrorHandlerInterceptor } from './http/error-handler.interceptor';
 import { CacheInterceptor } from './http/cache.interceptor';
+import { OperationService } from '@app/modules/operation/operation.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, TranslateModule, RouterModule, AlertsModule],
   providers: [
     AuthenticationService,
     I18nService,
+    HttpService,
     HttpCacheService,
     ApiPrefixInterceptor,
     ErrorHandlerInterceptor,
@@ -29,7 +31,8 @@ import { CacheInterceptor } from './http/cache.interceptor';
     {
       provide: RouteReuseStrategy,
       useClass: RouteReusableStrategy
-    }
+    },
+    OperationService
   ]
 })
 export class CoreModule {

@@ -27,6 +27,7 @@ import { PatientModule } from './modules/patient/patient.module';
 import { OperationModule } from '@app/modules/operation/operation.module';
 import { NotificationModule } from '@app/modules/notification/notification.module';
 import { UserModule } from '@app/modules/user/user.module';
+import { OperationService } from './modules/operation/operation.service';
 
 @NgModule({
   imports: [
@@ -62,7 +63,7 @@ import { UserModule } from '@app/modules/user/user.module';
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
-  providers: [MsalGuard],
+  providers: [MsalGuard, OperationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
