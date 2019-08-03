@@ -14,14 +14,12 @@
       <ion-row>
         <ion-col class="call-queue-feed-wrapper">
           <app-call-queue-patient-listing
-            [operationId]="selected.operation?.operationId"
+            [operationId]="selected.operation.operationId"
           ></app-call-queue-patient-listing>
         </ion-col>
         <ion-col>
           <app-call-queue-call-history-calendar></app-call-queue-call-history-calendar>
-          <app-call-queue-patient-filter
-            [operationId]="selected.operation?.operationId"
-          ></app-call-queue-patient-filter>
+          <app-call-queue-patient-filter [operationId]="selected.operation.operationId"></app-call-queue-patient-filter>
         </ion-col>
       </ion-row>
     </ion-grid>

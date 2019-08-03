@@ -46,17 +46,6 @@ export class AuthenticationService {
     if (result) this.alertsService.add('Token acquired', result);
     return result;
   }
-  // Prompt the user to sign in and
-  // grant consent to the requested permission scopes
-  async signIn(): Promise<void> {
-    let result = await this.msalService.loginPopup(OAuthSettings.scopes).catch(reason => {
-      this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
-    });
-    if (result) {
-      this.authenticated = true;
-      this.user = await this.getUser();
-    }
-  }
 
   async getUser(): Promise<User> {
     if (!this.authenticated) return null;
@@ -80,18 +69,18 @@ export class AuthenticationService {
     let user = <User>{};
     user.displayName = graphUser.displayName;
     // Prefer the mail property, but fall back to userPrincipalName
-    user.email = graphUser.mail || graphUser.userPrincipalName;
+    user.email = (await graphUser.mail) || graphUser.userPrincipalName;
     /**
      * Make some assignments to the <User> object
      */
     try {
-      user.id$ = await this.getUserIdByUserEmail(user.email).pipe(
-        map((userId: number) => {
-          debugger;
-          user.id = userId;
-          return userId;
-        })
-      );
+      if (!user.id) {
+        user.id$ = await this.getUserIdByUserEmail(user.email).pipe(
+          map((user: any) => {
+            return user[0].userId;
+          })
+        );
+      }
     } catch (error) {
       throw error;
     }
@@ -145,11 +134,22 @@ export class AuthenticationService {
 
     return user;
   }
-  getUserIdByUserEmail(email: string): Observable<number> {
-    return this.http.post<number>('users/lookup', { email: email }).pipe(
-      retry(1), // retry a failed request up to 2 total times
+  getUserIdByUserEmail(userEmail: string): Observable<number> {
+    return this.http.post<number>('users/lookup', { userEmail: userEmail }).pipe(
+      retry(0), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
     );
+  }
+  // Prompt the user to sign in and
+  // grant consent to the requested permission scopes
+  async signIn(): Promise<void> {
+    let result = await this.msalService.loginPopup(OAuthSettings.scopes).catch(reason => {
+      this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
+    });
+    if (result) {
+      this.authenticated = true;
+      this.user = await this.getUser();
+    }
   }
   // Sign out
   signOut(): void {
@@ -177,8 +177,8 @@ export class AuthenticationService {
     // return an observable with a user-facing error message
     return throwError({
       message:
-        'We had trouble connecting to the user API route. \
-    Please contact your IT department and relay this message.'
+        'We had trouble within the Auth route. \
+        Please contact your IT department and relay this message.'
     });
   }
 }

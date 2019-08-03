@@ -59,6 +59,7 @@ import { AuthenticationService } from '@app/core';
 export class CallQueueSidebarComponent implements OnInit {
   isOpen = true;
   constructor(private authService: AuthenticationService) {}
+  operations$: Observable<Operation[]>;
   user: User;
   todaysDateDay: number;
   ngOnInit() {
