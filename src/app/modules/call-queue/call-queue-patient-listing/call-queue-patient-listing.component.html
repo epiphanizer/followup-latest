@@ -1,5 +1,5 @@
 <h3 class="section-header">
-  {{ operation?.operationName }}
+  {{ operation.operationName }}
 </h3>
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="patient-filters">
@@ -25,7 +25,7 @@
     <div class="call-queue-patient-information">
       <span class="call-queue-patient-name">
         <a href="/call-queue/patient/{{ patient.patientId }}">
-          {{ patient.FirstName + patient.LastName }}
+          {{ patient.patientFirstName }} {{ patient.patientLastName }}
         </a>
       </span>
       <div class="call-queue-patient-details">

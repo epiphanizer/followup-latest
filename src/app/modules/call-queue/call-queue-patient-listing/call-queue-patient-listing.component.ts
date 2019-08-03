@@ -26,7 +26,11 @@ export class CallQueuePatientListingComponent implements OnInit {
         return operation;
       })
     );
-    this.patients$ = this.patientService.getPatientListByOperationId(this.operationId);
+    this.patients$ = this.patientService.getPatientListByOperationId(this.operationId).pipe(
+      map((patients: [Patient]) => {
+        return patients;
+      })
+    );
   }
 
   public sortPatientsByCallDate = function() {};

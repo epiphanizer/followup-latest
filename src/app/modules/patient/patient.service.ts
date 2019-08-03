@@ -9,6 +9,7 @@ export interface Patient {
   patientFirstName: string;
   patientLastName: string;
   patientAdmitDate: Date;
+  patientDob: Date;
   /**
    * Add from stored procedure here.
    */

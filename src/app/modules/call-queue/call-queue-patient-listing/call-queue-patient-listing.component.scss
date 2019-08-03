@@ -64,7 +64,8 @@ ul.patient-filters {
     }
 
     .call-queue-number {
-      display: inline-block;
+      display: block;
+      float: left;
       width: 14px;
       margin-left: 24px;
       margin-right: 8px;
