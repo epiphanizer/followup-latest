@@ -21,11 +21,11 @@ export class CallQueueComponent implements OnInit {
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    let operationId = null;
-    if (!this.route.snapshot.data.operationId) {
+    let operationId: number;
+    if (!this.route.snapshot.params.operationId) {
       operationId = this.user.operations[0].operationId;
     } else {
-      operationId = this.route.snapshot.data.operationId;
+      operationId = this.route.snapshot.params.operationId;
     }
 
     this.selected.operation$ = this.operationService.getOperationByOperationId(operationId);
