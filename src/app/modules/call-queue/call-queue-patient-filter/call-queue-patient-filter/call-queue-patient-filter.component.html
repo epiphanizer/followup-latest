@@ -14,15 +14,10 @@
     </ion-col>
   </ion-row>
   <div class="patient-filter-results">
-    <ul *ngIf="patients$; else noCalls">
-      <li *ngFor="let patient of patients$ | async">
+    <ul>
+      <!-- <li *ngFor="let patient of patients$ | async">
         <span>{{ patient.name }}</span>
-      </li>
+      </li> -->
     </ul>
-    <ng-template #noCalls>
-      <p>
-        No calls have been made yet! Let's get rolling!
-      </p>
-    </ng-template>
   </div>
 </div>

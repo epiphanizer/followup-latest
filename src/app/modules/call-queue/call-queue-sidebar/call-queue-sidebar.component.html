@@ -17,7 +17,7 @@
     class="facility-dropdown-list"
     [@expandSidebar]="isOpen ? 'open' : 'closed'"
     class="facility-dropdown-list active"
-    *ngIf="operations$; else noOperations"
+    *ngIf="operations; else noOperations"
   >
     <li *ngFor="let operation of user?.operations; let i = index">
       <a href="/call-queue/{{ operation.operationId }}" class="active">

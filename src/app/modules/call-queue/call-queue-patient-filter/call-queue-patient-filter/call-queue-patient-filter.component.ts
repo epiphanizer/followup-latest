@@ -8,7 +8,7 @@ import { Operation } from '@app/modules/operation/operation.service';
 
 @Component({
   providers: [AuthenticationService, PatientService, UserService],
-  selector: 'app-call-queue-patient-filter',
+  selector: 'app-call-queue-patient-filter[operation]',
   templateUrl: './call-queue-patient-filter.component.html',
   styleUrls: ['./call-queue-patient-filter.component.scss']
 })
@@ -17,20 +17,8 @@ export class CallQueuePatientFilterComponent implements OnInit {
   user: User;
   patients: Array<Patient> = [];
   patients$: Observable<Patient[]>;
-  constructor(private authService: AuthenticationService, private patientService: PatientService) {}
-  ngOnInit() {
-    this.authService.getUser().then((result: any) => {
-      this.user = this.authService.user;
-    });
-    this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
-      map((patients: Patient[]) => {
-        map((patient: Patient) => {
-          this.patients.push(patient);
-        });
-        return patients;
-      })
-    );
-  }
+  constructor(private patientService: PatientService) {}
+  ngOnInit() {}
   public searchPatientCallHistory() {
     console.log('Searching patient call history');
   }

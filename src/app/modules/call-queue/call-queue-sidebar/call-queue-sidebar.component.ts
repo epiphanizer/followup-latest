@@ -14,6 +14,7 @@ import {
 } from '@angular/animations';
 
 import { User } from '@app/modules/user/user.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   providers: [],
@@ -57,17 +58,15 @@ import { User } from '@app/modules/user/user.service';
 })
 export class CallQueueSidebarComponent implements OnInit {
   isOpen = true;
-  constructor() {}
-  operations$: Observable<Operation[]>;
+  constructor(private route: ActivatedRoute) {}
+  operations: Operation[];
   user: User;
   todaysDateDay: number;
   ngOnInit() {
+    this.user = this.route.snapshot.data.user;
+    this.operations = this.user.operations;
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
-
-  public switchCallQueueOperationView = function(operationId: number) {
-    this.operation = operationId;
-  };
 
   public toggleOperationSidebarMenu = function() {
     this.isOpen = !this.isOpen;

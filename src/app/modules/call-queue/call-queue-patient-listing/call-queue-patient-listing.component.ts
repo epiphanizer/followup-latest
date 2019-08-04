@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 @Component({
   providers: [PatientService],
-  selector: 'app-call-queue-patient-listing',
+  selector: 'app-call-queue-patient-listing[operation]',
   templateUrl: './call-queue-patient-listing.component.html',
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
@@ -25,5 +25,4 @@ export class CallQueuePatientListingComponent implements OnInit {
   public sortPatientsByCallDate = function() {};
   public sortPatientsByDischargeDate = function() {};
   public toggleAscDesc = function() {};
-  public toggleOperationSidebarMenu = function() {};
 }

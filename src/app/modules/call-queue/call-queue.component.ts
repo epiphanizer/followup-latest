@@ -23,18 +23,12 @@ export class CallQueueComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     let operationId = null;
     if (!this.route.snapshot.data.operationId) {
-      debugger;
       operationId = this.user.operations[0].operationId;
     } else {
       operationId = this.route.snapshot.data.operationId;
     }
 
-    this.selected.operation$ = this.operationService.getOperationByOperationId(operationId).pipe(
-      map((operation: Operation) => {
-        this.selected.operation = operation;
-        return operation;
-      })
-    );
+    this.selected.operation$ = this.operationService.getOperationByOperationId(operationId);
   }
   ngOnChanges() {}
 }
