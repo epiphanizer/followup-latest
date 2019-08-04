@@ -11,22 +11,11 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
-  @Input() operationId: number;
-  operation: Operation;
-  public operation$: Observable<Operation>;
+  @Input() operation: Operation;
   public patients$: Observable<[Patient]> | void = null;
-  constructor(private patientService: PatientService, private operationService: OperationService) {}
+  constructor(private patientService: PatientService) {}
   ngOnInit() {
-    /**
-     * Get the operation from the route.
-     */
-    this.operation$ = this.operationService.getOperationByOperationId(this.operationId).pipe(
-      map((operation: Operation) => {
-        this.operation = operation;
-        return operation;
-      })
-    );
-    this.patients$ = this.patientService.getPatientListByOperationId(this.operationId).pipe(
+    this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
       map((patients: [Patient]) => {
         return patients;
       })

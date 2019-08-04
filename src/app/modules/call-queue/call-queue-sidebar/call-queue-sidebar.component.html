@@ -20,7 +20,7 @@
     *ngIf="operations$; else noOperations"
   >
     <li *ngFor="let operation of user?.operations; let i = index">
-      <a href="#" class="active" (click)="switchCallQueueOperationView(operation.operationId)">
+      <a href="/call-queue/{{ operation.operationId }}" class="active">
         {{ operation.operationName }}
         <span class="icon-discharge-counter"> [{{ operation.currentDischargeCount }}] </span>
       </a>

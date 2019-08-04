@@ -32,7 +32,7 @@ export class AuthenticationService {
   }
   ngOnInit() {
     this.broadcastService.subscribe('msal:loginSuccess', payload => {
-      console.log(payload);
+      window.location.href = '/';
     });
   }
 
@@ -85,6 +85,11 @@ export class AuthenticationService {
       throw error;
     }
 
+    user.id = await user.id$.toPromise();
+
+    /**
+     * Check our graph groups for membership
+     */
     const securityEnabledOnlyFlag = {
       securityEnabledOnly: true
     };
@@ -121,18 +126,7 @@ export class AuthenticationService {
       console.log(error);
     }
 
-    user.operations = [];
-    user.id = await user.id$.toPromise();
-
-    user.operations$ = this.operationService.getOperationsByUserId(user.id).pipe(
-      map((operations: Array<Operation>) => {
-        operations.map((operation: Operation) => {
-          this.user.operations.push(operation);
-        });
-        return operations;
-      }),
-      share()
-    );
+    user.operations = await this.operationService.getOperationsByUserId(user.id).toPromise();
 
     return user;
   }

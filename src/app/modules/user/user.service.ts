@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Operation } from '@app/modules/operation/operation.service';
-import { HttpService } from '@app/core';
 
 export interface User {
   displayName: string;
@@ -12,7 +11,7 @@ export interface User {
   level: number;
   email: string;
   avatar: string;
-  operations: Array<Operation> | Array<{}>;
+  operations: Array<Operation>;
   operations$: Observable<Array<Operation>>;
 }
 

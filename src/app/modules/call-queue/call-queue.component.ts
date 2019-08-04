@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '@app/modules/user/user.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { OperationService, Operation } from '../operation/operation.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-call-queue',
@@ -10,14 +13,28 @@ import { Observable, Subscription } from 'rxjs';
 export class CallQueueComponent implements OnInit {
   public selected:
     | {
-        operation: {
-          operationId: number;
-        };
+        operation: Operation;
+        operation$: Observable<Operation>;
       }
     | any = {};
-  public operations$: Subscription | null = null;
   user: User;
-  constructor() {}
-  ngOnInit() {}
+  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
+  ngOnInit() {
+    this.user = this.route.snapshot.data.user;
+    let operationId = null;
+    if (!this.route.snapshot.data.operationId) {
+      debugger;
+      operationId = this.user.operations[0].operationId;
+    } else {
+      operationId = this.route.snapshot.data.operationId;
+    }
+
+    this.selected.operation$ = this.operationService.getOperationByOperationId(operationId).pipe(
+      map((operation: Operation) => {
+        this.selected.operation = operation;
+        return operation;
+      })
+    );
+  }
   ngOnChanges() {}
 }

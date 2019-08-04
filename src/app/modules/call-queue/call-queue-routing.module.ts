@@ -18,6 +18,16 @@ const routes: Routes = [
       resolve: {
         user: UserResolver
       }
+    },
+    {
+      path: 'call-queue/:operationId',
+      component: CallQueueComponent,
+      data: {
+        title: extract('Call Queue')
+      },
+      resolve: {
+        user: UserResolver
+      }
     }
   ])
 ];

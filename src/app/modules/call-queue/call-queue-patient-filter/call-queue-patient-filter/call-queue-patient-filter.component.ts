@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { User, UserService } from '@app/modules/user/user.service';
 import { AuthenticationService } from '@app/core';
 import { Patient, PatientService } from '@app/modules/patient/patient.service';
+import { Operation } from '@app/modules/operation/operation.service';
 
 @Component({
   providers: [AuthenticationService, PatientService, UserService],
@@ -12,7 +13,7 @@ import { Patient, PatientService } from '@app/modules/patient/patient.service';
   styleUrls: ['./call-queue-patient-filter.component.scss']
 })
 export class CallQueuePatientFilterComponent implements OnInit {
-  @Input() operationId: number;
+  @Input() operation: Operation;
   user: User;
   patients: Array<Patient> = [];
   patients$: Observable<Patient[]>;
@@ -21,7 +22,7 @@ export class CallQueuePatientFilterComponent implements OnInit {
     this.authService.getUser().then((result: any) => {
       this.user = this.authService.user;
     });
-    this.patients$ = this.patientService.getPatientListByOperationId(this.operationId).pipe(
+    this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
       map((patients: Patient[]) => {
         map((patient: Patient) => {
           this.patients.push(patient);
