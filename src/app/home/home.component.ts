@@ -50,6 +50,5 @@ export class HomeComponent implements OnInit {
       default:
         throw 'No User Level assigned, something went wrong.';
     }
-    debugger;
   }
 }

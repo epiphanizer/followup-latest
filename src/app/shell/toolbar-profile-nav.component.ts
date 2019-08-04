@@ -14,7 +14,6 @@ export class ToolbarProfileNavComponent implements OnInit {
   constructor(private route: ActivatedRoute, private authService: AuthenticationService) {}
 
   ngOnInit() {
-    debugger;
     this.user = this.route.snapshot.data.user;
   }
   signOut() {
