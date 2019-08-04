@@ -4,16 +4,32 @@ import { Routes, RouterModule } from '@angular/router';
 import { extract } from '@app/core';
 import { HomeComponent } from './home.component';
 import { Shell } from '@app/shell/shell.service';
+import { UserResolver } from '@app/modules/user/user-resolver.service';
 
 const routes: Routes = [
   Shell.childRoutes([
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent, data: { title: extract('Follow-Up') } }
+    {
+      path: '',
+      redirectTo: '/home',
+      pathMatch: 'full',
+      resolve: {
+        user: UserResolver
+      }
+    },
+    {
+      path: 'home',
+      component: HomeComponent,
+      data: { title: extract('Follow-Up') },
+      resolve: {
+        user: UserResolver
+      }
+    }
   ])
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [UserResolver]
 })
 export class HomeRoutingModule {}

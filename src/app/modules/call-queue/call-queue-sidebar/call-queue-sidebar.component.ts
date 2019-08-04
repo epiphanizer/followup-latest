@@ -13,11 +13,10 @@ import {
   // ...
 } from '@angular/animations';
 
-import { User, UserService } from '@app/modules/user/user.service';
+import { User } from '@app/modules/user/user.service';
 
-import { AuthenticationService } from '@app/core';
 @Component({
-  providers: [AuthenticationService, UserService],
+  providers: [],
   selector: 'app-call-queue-sidebar',
   templateUrl: './call-queue-sidebar.component.html',
   styleUrls: ['./call-queue-sidebar.component.scss'],
@@ -58,14 +57,11 @@ import { AuthenticationService } from '@app/core';
 })
 export class CallQueueSidebarComponent implements OnInit {
   isOpen = true;
-  constructor(private authService: AuthenticationService) {}
+  constructor() {}
   operations$: Observable<Operation[]>;
   user: User;
   todaysDateDay: number;
   ngOnInit() {
-    this.authService.getUser().then((result: any) => {
-      this.user = this.authService.user;
-    });
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
 

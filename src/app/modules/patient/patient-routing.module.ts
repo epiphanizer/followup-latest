@@ -11,7 +11,7 @@ import { PatientResolver } from './patient-resolver.service';
 const routes: Routes = [
   Shell.childRoutes([
     {
-      path: 'call-queue/patient/:patientId',
+      path: 'call-queue/operations/:operationId/patient/:patientId',
       component: PatientDetailComponent,
       resolve: {
         patientId: PatientResolver

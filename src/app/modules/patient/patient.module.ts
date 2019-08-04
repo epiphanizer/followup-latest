@@ -9,6 +9,7 @@ import { PatientComponent } from './patient.component';
 import { PatientAvatarComponent } from '@app/modules/patient/patient-avatar/patient-avatar.component';
 import { PatientAddComponent } from '@app/modules/patient/patient-add/patient-add.component';
 import { PatientEditComponent } from '@app/modules/patient/patient-edit/patient-edit.component';
+import { PatientService } from './patient.service';
 
 @NgModule({
   declarations: [PatientComponent, PatientAvatarComponent, PatientAddComponent, PatientEditComponent],
@@ -19,6 +20,7 @@ import { PatientEditComponent } from '@app/modules/patient/patient-edit/patient-
     PatientDetailModule,
     PatientNotesModule,
     PatientAvatarModule
-  ]
+  ],
+  providers: [PatientService]
 })
 export class PatientModule {}

@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 import { OAuthSettings } from '../../../oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
 import { Subscription, Observable, throwError } from 'rxjs';
-import { map, catchError, retry } from 'rxjs/operators';
+import { map, delay, share, catchError, retry } from 'rxjs/operators';
 import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
-import { User, UserService } from '@app/modules/user/user.service';
+import { User } from '@app/modules/user/user.service';
 import { Operation, OperationService } from '@app/modules/operation/operation.service';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { EmailValidator } from '@angular/forms';
 import { HttpService } from '../http/http.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +25,10 @@ export class AuthenticationService {
     private broadcastService: BroadcastService,
     private http: HttpService,
     private msalService: MsalService,
-    private operationService: OperationService
+    private operationService: OperationService,
+    private router: Router
   ) {
     this.authenticated = this.msalService.getUser() != null;
-    this.getUser().then(user => {
-      this.user = user;
-    });
   }
   ngOnInit() {
     this.broadcastService.subscribe('msal:loginSuccess', payload => {
@@ -67,6 +66,7 @@ export class AuthenticationService {
     // Get the user from Graph (GET /me)
     let graphUser = await graphClient.api('/me').get();
     let user = <User>{};
+    this.user = user;
     user.displayName = graphUser.displayName;
     // Prefer the mail property, but fall back to userPrincipalName
     user.email = (await graphUser.mail) || graphUser.userPrincipalName;
@@ -74,13 +74,13 @@ export class AuthenticationService {
      * Make some assignments to the <User> object
      */
     try {
-      if (!user.id) {
-        user.id$ = await this.getUserIdByUserEmail(user.email).pipe(
-          map((user: any) => {
-            return user[0].userId;
-          })
-        );
-      }
+      user.id$ = await this.getUserIdByUserEmail(user.email).pipe(
+        map((user: any) => {
+          this.user.id = user[0].userId;
+          return user[0].userId;
+        }),
+        share()
+      );
     } catch (error) {
       throw error;
     }
@@ -123,20 +123,24 @@ export class AuthenticationService {
 
     user.operations = [];
     user.id = await user.id$.toPromise();
+
     user.operations$ = this.operationService.getOperationsByUserId(user.id).pipe(
       map((operations: Array<Operation>) => {
         operations.map((operation: Operation) => {
           this.user.operations.push(operation);
         });
         return operations;
-      })
+      }),
+      share()
     );
 
     return user;
   }
   getUserIdByUserEmail(userEmail: string): Observable<number> {
     return this.http.post<number>('users/lookup', { userEmail: userEmail }).pipe(
-      retry(0), // retry a failed request up to 2 total times
+      delay(500),
+      retry(0),
+      share(),
       catchError(error => this.handleAsyncError(error))
     );
   }
@@ -149,6 +153,7 @@ export class AuthenticationService {
     if (result) {
       this.authenticated = true;
       this.user = await this.getUser();
+      this.router.navigate(['/login'], { replaceUrl: true });
     }
   }
   // Sign out
