@@ -23,9 +23,14 @@ export class CallQueuePatientListingComponent implements OnInit {
   }
 
   ngOnChanges(changes: any) {
-    console.log(changes);
-    debugger;
-    this.operation = this.operation;
+    if (changes.operation) {
+      this.operation = changes.operation.currentValue;
+      this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
+        map((patients: [Patient]) => {
+          return patients;
+        })
+      );
+    }
   }
   public sortPatientsByCallDate = function() {};
   public sortPatientsByDischargeDate = function() {};

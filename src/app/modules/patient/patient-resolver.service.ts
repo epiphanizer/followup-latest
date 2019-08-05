@@ -9,8 +9,7 @@ import { Patient, PatientService } from './patient.service';
 export class PatientResolver implements Resolve<Patient> {
   constructor(private patientService: PatientService) {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Patient> {
-    const operationId = route.paramMap.get('operationId');
     const patientId = route.paramMap.get('patientId');
-    return this.patientService.getPatientByOperationIdAndPatientId(+operationId, +patientId);
+    return this.patientService.getPatientByPatientId(+patientId);
   }
 }

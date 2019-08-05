@@ -24,12 +24,12 @@
     </div>
     <div class="call-queue-patient-information">
       <span class="call-queue-patient-name">
-        <a href="/call-queue/operations/{{ operation.operationId }}/patient/{{ patient.patientId }}">
+        <a [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId">
           {{ patient.patientFirstName }} {{ patient.patientLastName }}
         </a>
       </span>
       <div class="call-queue-patient-details">
-        <span> {{ patient.age }}, {{ operation?.operationName }} </span>
+        <span> {{ patient.patientDob | date: short }}, {{ operation?.operationName }} </span>
       </div>
     </div>
   </li>

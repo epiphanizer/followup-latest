@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import { PatientRoutingModule } from './patient-routing.module';
 import { PatientCallModule } from './patient-call/patient-call.module';
 import { PatientNotesModule } from './patient-notes/patient-notes.module';
@@ -15,6 +17,8 @@ import { PatientService } from './patient.service';
   declarations: [PatientComponent, PatientAvatarComponent, PatientAddComponent, PatientEditComponent],
   imports: [
     CommonModule,
+    IonicModule,
+    RouterModule,
     PatientRoutingModule,
     PatientCallModule,
     PatientDetailModule,

@@ -25,8 +25,13 @@ export class PatientService {
     );
   }
 
-  getPatientByOperationIdAndPatientId(operationId: number, patientId: number): Observable<Patient> {
-    return this.http.get<Patient>('operations/' + operationId + '/patients/' + patientId).pipe(
+  /**
+   *
+   * We need some security here to prevent unauthorized access;
+   * @param patientId
+   */
+  getPatientByPatientId(patientId: number): Observable<Patient> {
+    return this.http.get<Patient>('patients/' + patientId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
