@@ -9,6 +9,8 @@ import { PatientCallQuestionsComponent } from './patient-call-questions/patient-
 import { PatientSummaryWidgetComponent } from './patient-summary-widget/patient-summary-widget.component';
 import { PatientCallHistoryControlsComponent } from './patient-call-history-controls/patient-call-history-controls.component';
 import { PatientCallHistoryListingComponent } from './patient-call-history-listing/patient-call-history-listing.component';
+import { PatientCallStatusControlsComponent } from './patient-call-status-controls/patient-call-status-controls.component';
+import { PatientCallStartButtonComponent } from './patient-call-start-button/patient-call-start-button.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { PatientCallHistoryListingComponent } from './patient-call-history-listi
     PatientCallQuestionsComponent,
     PatientSummaryWidgetComponent,
     PatientCallHistoryControlsComponent,
-    PatientCallHistoryListingComponent
+    PatientCallHistoryListingComponent,
+    PatientCallStatusControlsComponent,
+    PatientCallStartButtonComponent
   ],
   imports: [CommonModule, RouterModule, IonicModule]
 })
