@@ -1,11 +1,13 @@
 <ng-container>
   <div class="avatar-container">
-    <img src="{{ patient.avatar }}" />
+    <img *ngIf="patient.avatar; else defaultAvatar" src="{{ patient.avatar }}" />
+    <ng-template #defaultAvatar>
+      <img src="/images/default-avatar.png" />
+    </ng-template>
   </div>
   <div class="patient-info">
     <span class="operation-name">
       Operation Name
-      <!-- {{operation.operationName}} -->
     </span>
     <span class="patient-medical-record-number">
       {{ patient.medicalRecordNumber }}

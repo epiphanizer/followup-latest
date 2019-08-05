@@ -12,10 +12,9 @@ import { Operation } from '@app/modules/operation/operation.service';
 export class PatientSummaryWidgetComponent implements OnInit {
   patient: Patient;
   operation: Operation;
-  constructor(private patientService: PatientService, private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.patient = this.route.snapshot.data.patient;
-    // this.operationId = this.patient.operationId;
   }
 }
