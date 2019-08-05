@@ -1,1 +1,15 @@
-{{ patient | json }}
+<ng-container>
+  <div class="avatar-container">
+    <img src="{{ patient.avatar }}" />
+  </div>
+  <div class="patient-info">
+    <span class="operation-name">
+      Operation Name
+      <!-- {{operation.operationName}} -->
+    </span>
+    <span class="patient-medical-record-number">
+      {{ patient.medicalRecordNumber }}
+    </span>
+  </div>
+  {{ patient | json }}
+</ng-container>

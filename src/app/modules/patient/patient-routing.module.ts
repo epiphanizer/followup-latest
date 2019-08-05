@@ -14,7 +14,7 @@ const routes: Routes = [
       path: 'call-queue/operations/:operationId/patient/:patientId',
       component: PatientDetailComponent,
       resolve: {
-        patientId: PatientResolver
+        patient: PatientResolver
       },
       data: {
         title: extract('Patient Detail')
@@ -31,7 +31,7 @@ const routes: Routes = [
       path: 'patient/edit/:patientId',
       component: PatientEditComponent,
       resolve: {
-        patientId: PatientResolver
+        patient: PatientResolver
       },
       data: {
         title: extract('Edit Patient')
