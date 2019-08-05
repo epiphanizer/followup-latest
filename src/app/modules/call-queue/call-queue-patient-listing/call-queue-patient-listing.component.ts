@@ -22,6 +22,11 @@ export class CallQueuePatientListingComponent implements OnInit {
     );
   }
 
+  ngOnChanges(changes: any) {
+    console.log(changes);
+    debugger;
+    this.operation = this.operation;
+  }
   public sortPatientsByCallDate = function() {};
   public sortPatientsByDischargeDate = function() {};
   public toggleAscDesc = function() {};

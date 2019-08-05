@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable, throwError, Subscription } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -56,7 +56,13 @@ import { ActivatedRoute } from '@angular/router';
     ])
   ]
 })
-export class CallQueueSidebarComponent implements OnInit {
+export class CallQueueSidebarComponent {
+  @Output() operationChangeEvent = new EventEmitter<number>();
+  selected: {
+    operation: Operation | null;
+  } = {
+    operation: null
+  };
   isOpen = true;
   constructor(private route: ActivatedRoute) {}
   operations: Operation[];
@@ -65,9 +71,13 @@ export class CallQueueSidebarComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.operations = this.user.operations;
+    this.selected.operation = this.user.operations[0];
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
-
+  setActiveOperation = function(operation: Operation) {
+    this.selected.operation = operation;
+    this.operationChangeEvent.emit(operation);
+  };
   public toggleOperationSidebarMenu = function() {
     this.isOpen = !this.isOpen;
   };

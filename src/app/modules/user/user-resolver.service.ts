@@ -9,6 +9,10 @@ import { AuthenticationService } from '@app/core';
 export class UserResolver implements Resolve<User> {
   constructor(private authService: AuthenticationService) {}
   resolve(): Observable<User> | any {
-    return from(this.authService.getUser());
+    if (!this.authService.user) {
+      return from(this.authService.getUser());
+    } else {
+      return from(Observable.of(this.authService.user));
+    }
   }
 }

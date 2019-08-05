@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, ViewChildren } from '@angular/core';
 import { User } from '@app/modules/user/user.service';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OperationService, Operation } from '../operation/operation.service';
 import { ActivatedRoute } from '@angular/router';
+import { CallQueueSidebarComponent } from './call-queue-sidebar/call-queue-sidebar.component';
 
 @Component({
   selector: 'app-call-queue',
@@ -11,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./call-queue.component.scss']
 })
 export class CallQueueComponent implements OnInit {
+  @ViewChild(CallQueueSidebarComponent)
+  callQueueSidebar: CallQueueSidebarComponent;
   public selected:
     | {
         operation: Operation;
@@ -21,14 +24,11 @@ export class CallQueueComponent implements OnInit {
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    let operationId: number;
-    if (!this.route.snapshot.params.operationId) {
-      operationId = this.user.operations[0].operationId;
-    } else {
-      operationId = this.route.snapshot.params.operationId;
-    }
-
-    this.selected.operation$ = this.operationService.getOperationByOperationId(operationId);
+    this.selected.operation = this.user.operations[0];
   }
   ngOnChanges() {}
+
+  operationChangeEventHandler($event: Operation) {
+    this.selected.operation = $event;
+  }
 }
