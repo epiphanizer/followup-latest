@@ -9,4 +9,7 @@ export class PatientCallStartButtonComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+  startPatientCall() {
+    alert('Starting Patient Call');
+  }
 }
