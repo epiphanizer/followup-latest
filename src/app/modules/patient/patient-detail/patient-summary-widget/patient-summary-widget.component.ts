@@ -10,11 +10,13 @@ import { Operation } from '@app/modules/operation/operation.service';
   styleUrls: ['./patient-summary-widget.component.scss']
 })
 export class PatientSummaryWidgetComponent implements OnInit {
+  currentYear: number;
   patient: Patient;
   operation: Operation;
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.patient = this.route.snapshot.data.patient;
+    this.currentYear = new Date().getFullYear();
   }
 }

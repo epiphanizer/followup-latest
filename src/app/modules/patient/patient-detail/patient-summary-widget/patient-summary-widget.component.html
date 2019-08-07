@@ -1,17 +1,39 @@
 <ng-container>
-  <div class="avatar-container">
-    <img *ngIf="patient.avatar; else defaultAvatar" src="{{ patient.avatar }}" />
-    <ng-template #defaultAvatar>
-      <img src="/images/default-avatar.png" />
-    </ng-template>
-  </div>
-  <div class="patient-info">
-    <span class="operation-name">
-      Operation Name
-    </span>
-    <span class="patient-medical-record-number">
-      {{ patient.medicalRecordNumber }}
-    </span>
-  </div>
-  {{ patient | json }}
+  <ion-row>
+    <ion-col>
+      <div class="avatar-container">
+        <img *ngIf="patient.avatar; else defaultAvatar" src="{{ patient.avatar }}" />
+        <ng-template #defaultAvatar>
+          <img src="/images/default-patient-avatar.png" />
+        </ng-template>
+      </div>
+    </ion-col>
+    <ion-col>
+      <div class="patient-info">
+        <div class="patient-meta-info">
+          <span class="operation-name">
+            Operation Name
+          </span>
+          <span class="patient-medical-record-number">
+            {{ patient.medicalRecordNumber }}
+          </span>
+        </div>
+        <div class="patient-name">
+          <h2>
+            {{ patient.patientFirstName }}
+            {{ patient.patientLastName }}
+          </h2>
+        </div>
+        <div class="patient-age">Age: {{ currentYear - (patient.patientDob | slice: 0:4) }}</div>
+        <div class="patient-contact list">
+          <ul>
+            <li>
+              <span class="patient-contact-number">000-000-0000</span>
+              <span class="patient-contact-number-type"><i></i> Home</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
 </ng-container>
