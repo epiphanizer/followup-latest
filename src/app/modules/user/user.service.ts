@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Operation, OperationService } from '@app/modules/operation/operation.service';
+import { Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Operation } from '@app/modules/operation/operation.service';
 
 export interface User {
   displayName: string;
   token: string;
   id: number;
+  id$: Observable<number>;
   level: number;
   email: string;
   avatar: string;
+  operations: Array<Operation>;
   operations$: Observable<Array<Operation>>;
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  constructor() {}
-}
+export class UserService {}

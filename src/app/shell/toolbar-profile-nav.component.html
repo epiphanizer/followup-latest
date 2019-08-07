@@ -2,7 +2,13 @@
   <div class="user-avatar">
     <div class="avatar-image" style="background-image:url(' + {{ user?.avatar }} ')"></div>
   </div>
-  <div class="username">{{ (user?.displayName | slice: 0:1) + '.' }}</div>
+  <div class="username">
+    {{
+      user?.displayName
+        .substr(0, user?.displayName.indexOf(' '))
+        .concat(' ', user?.displayName.charAt(user?.displayName.indexOf(' ') + 1), '.')
+    }}
+  </div>
   <div class="logout-nav">
     <a href="/logout" (click)="signOut()">[logout]</a>
   </div>

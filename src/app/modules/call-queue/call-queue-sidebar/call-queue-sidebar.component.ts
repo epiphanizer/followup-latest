@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable, throwError, Subscription } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Operation, OperationService } from '@app/modules/operation/operation.service';
+import { Operation } from '@app/modules/operation/operation.service';
 import { formatDate } from '@angular/common';
 import {
   trigger,
@@ -13,12 +13,11 @@ import {
   // ...
 } from '@angular/animations';
 
-import { User, UserService } from '@app/modules/user/user.service';
-
-import { AuthenticationService } from '@app/core';
+import { User } from '@app/modules/user/user.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  providers: [OperationService, AuthenticationService, UserService],
+  providers: [],
   selector: 'app-call-queue-sidebar',
   templateUrl: './call-queue-sidebar.component.html',
   styleUrls: ['./call-queue-sidebar.component.scss'],
@@ -57,23 +56,28 @@ import { AuthenticationService } from '@app/core';
     ])
   ]
 })
-export class CallQueueSidebarComponent implements OnInit {
+export class CallQueueSidebarComponent {
+  @Output() operationChangeEvent = new EventEmitter<number>();
+  selected: {
+    operation: Operation | null;
+  } = {
+    operation: null
+  };
   isOpen = true;
-  constructor(private authService: AuthenticationService, private operationService: OperationService) {}
+  constructor(private route: ActivatedRoute) {}
+  operations: Operation[];
   user: User;
   todaysDateDay: number;
   ngOnInit() {
-    this.authService.getUser().then((result: any) => {
-      this.user = this.authService.user;
-      this.user.operations$ = this.operationService.getOperationsByUserId(this.user.id);
-    });
+    this.user = this.route.snapshot.data.user;
+    this.operations = this.user.operations;
+    this.selected.operation = this.user.operations[0];
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
-
-  public switchCallQueueOperationView = function(operationId: number) {
-    this.operation = operationId;
+  setActiveOperation = function(operation: Operation) {
+    this.selected.operation = operation;
+    this.operationChangeEvent.emit(operation);
   };
-
   public toggleOperationSidebarMenu = function() {
     this.isOpen = !this.isOpen;
   };

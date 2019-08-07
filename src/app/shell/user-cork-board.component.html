@@ -1,4 +1,8 @@
-<div class="user-cork-board" [@openClose]="isOpen ? 'open' : 'closed'">
+<div
+  class="user-cork-board"
+  [@openClose]="isOpen ? 'open' : 'closed'"
+  [className]="isOpen ? 'user-cork-board open' : 'user-cork-board closed'"
+>
   <div class="container">
     <div class="row">
       <ul class="corkboard-controls">

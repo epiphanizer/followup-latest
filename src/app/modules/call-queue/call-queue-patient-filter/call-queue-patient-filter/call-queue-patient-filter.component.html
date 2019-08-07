@@ -4,7 +4,7 @@
       <table>
         <tr>
           <td>
-            <ion-input placeholder="Patient/Date Search"> </ion-input>
+            <ion-input placeholder="Patient/Date Search" (submit)="searchPatientCallHistory()"> </ion-input>
           </td>
           <td>
             <ion-icon name="search"></ion-icon>
@@ -15,8 +15,9 @@
   </ion-row>
   <div class="patient-filter-results">
     <ul>
-      <li><span>date or name</span></li>
-      <li><span>date or name</span></li>
+      <!-- <li *ngFor="let patient of patients$ | async">
+        <span>{{ patient.name }}</span>
+      </li> -->
     </ul>
   </div>
 </div>

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { CallQueueRoutingModule } from './call-queue-routing.module';
@@ -13,7 +12,7 @@ import { CallQueuePatientFilterComponent } from './call-queue-patient-filter/cal
 import { CallQueuePatientListingComponent } from './call-queue-patient-listing/call-queue-patient-listing.component';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, IonicModule, RouterModule, CallQueueRoutingModule, MonthCalendarModule],
+  imports: [CommonModule, IonicModule, RouterModule, CallQueueRoutingModule, MonthCalendarModule],
 
   exports: [CallQueueSidebarComponent],
   declarations: [

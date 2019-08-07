@@ -1,30 +1,40 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Operation, OperationService } from '@app/modules/operation/operation.service.ts';
+import { Operation } from '@app/modules/operation/operation.service.ts';
 import { PatientService, Patient } from '@app/modules/patient/patient.service.ts';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   providers: [PatientService],
-  selector: 'app-call-queue-patient-listing',
+  selector: 'app-call-queue-patient-listing[operation]',
   templateUrl: './call-queue-patient-listing.component.html',
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
-  @Input() operationId: number;
-  operation: Operation;
-  public operation$: Observable<Operation>;
+  currentYear: number;
+  @Input() operation: Operation;
   public patients$: Observable<[Patient]> | void = null;
-  constructor(private patientService: PatientService, private operationService: OperationService) {}
+  constructor(private patientService: PatientService) {}
   ngOnInit() {
-    /**
-     * Get the operation from the route.
-     */
-    this.operation$ = this.operationService.getOperationByOperationId(this.operationId);
-    this.patients$ = this.patientService.getPatientListByOperationId(this.operationId);
+    this.currentYear = new Date().getFullYear();
+    this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
+      map((patients: [Patient]) => {
+        return patients;
+      })
+    );
   }
 
+  ngOnChanges(changes: any) {
+    if (changes.operation) {
+      this.operation = changes.operation.currentValue;
+      this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
+        map((patients: [Patient]) => {
+          return patients;
+        })
+      );
+    }
+  }
   public sortPatientsByCallDate = function() {};
   public sortPatientsByDischargeDate = function() {};
   public toggleAscDesc = function() {};
-  public toggleOperationSidebarMenu = function() {};
 }

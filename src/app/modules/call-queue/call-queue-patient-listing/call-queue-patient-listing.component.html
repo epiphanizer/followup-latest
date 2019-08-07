@@ -1,5 +1,5 @@
 <h3 class="section-header">
-  {{ operation.operationName }}
+  {{ operation?.operationName }}
 </h3>
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="patient-filters">
@@ -24,12 +24,16 @@
     </div>
     <div class="call-queue-patient-information">
       <span class="call-queue-patient-name">
-        <a href="/call-queue/patient/{{ patient.patientId }}">
-          {{ patient.name }}
+        <a [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId">
+          {{ patient.patientFirstName }} {{ patient.patientLastName }}
         </a>
       </span>
-      <div class="call-queue-patient-detail">{{ patient.age }}, {{ patient.operationName }}</div>
+      <div class="call-queue-patient-details">
+        <!-- This expression gives us the age back. -->
+        <span class="patient label-line">
+          {{ currentYear - (patient.patientDob | slice: 0:4) }}, {{ operation?.operationName }}
+        </span>
+      </div>
     </div>
-    <div class="call-queue-icons"></div>
   </li>
 </ul>

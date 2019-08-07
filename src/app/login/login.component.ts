@@ -39,7 +39,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     // Temporary to display the token
     if (this.authService.authenticated) {
       let token = await this.authService.getAccessToken();
-      console.log(token);
+      if (token) {
+        window.location.href = '/';
+      }
     }
   }
   signOut(): void {
@@ -51,8 +53,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private createForm() {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
     });
   }
 }

@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { environment } from '@env/environment';
@@ -27,9 +26,7 @@ import { PatientModule } from './modules/patient/patient.module';
 import { OperationModule } from '@app/modules/operation/operation.module';
 import { NotificationModule } from '@app/modules/notification/notification.module';
 import { UserModule } from '@app/modules/user/user.module';
-
 import { OperationService } from './modules/operation/operation.service';
-import { ApiService } from './core/api.service';
 
 @NgModule({
   imports: [
@@ -65,7 +62,7 @@ import { ApiService } from './core/api.service';
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
-  providers: [MsalGuard, ApiService, OperationService],
+  providers: [MsalGuard, OperationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

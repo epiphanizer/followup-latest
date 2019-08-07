@@ -2,6 +2,7 @@ import { Routes, Route } from '@angular/router';
 
 import { MsalGuard } from '@azure/msal-angular';
 import { ShellComponent } from './shell.component';
+import { UserResolver } from '@app/modules/user/user-resolver.service';
 
 /**
  * Provides helper methods to create routes.
@@ -19,7 +20,10 @@ export class Shell {
       children: routes,
       canActivate: [MsalGuard],
       // Reuse ShellComponent instance when navigating between child views
-      data: { reuse: true }
+      data: { reuse: true },
+      resolve: {
+        user: UserResolver
+      }
     };
   }
 }

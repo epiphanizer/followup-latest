@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
-import { GraphService } from '@app/shared/graph.service';
 import { OAuthSettings } from '../../../oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, throwError } from 'rxjs';
+import { map, delay, share, catchError, retry } from 'rxjs/operators';
 import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
 import { User } from '@app/modules/user/user.service';
-import { OperationService } from '@app/modules/operation/operation.service';
-import { ApiService } from '../api.service';
+import { Operation, OperationService } from '@app/modules/operation/operation.service';
+
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { EmailValidator } from '@angular/forms';
+import { HttpService } from '../http/http.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -19,20 +23,16 @@ export class AuthenticationService {
   constructor(
     private alertsService: AlertsService,
     private broadcastService: BroadcastService,
-    private apiService: ApiService,
+    private http: HttpService,
     private msalService: MsalService,
-    private operationService: OperationService
+    private operationService: OperationService,
+    private router: Router
   ) {
-    var msalUser = this.msalService.getUser();
     this.authenticated = this.msalService.getUser() != null;
-    console.log(msalUser);
-    this.getUser().then(user => {
-      this.user = user;
-    });
   }
   ngOnInit() {
     this.broadcastService.subscribe('msal:loginSuccess', payload => {
-      console.log(payload);
+      window.location.href = '/';
     });
   }
 
@@ -44,17 +44,6 @@ export class AuthenticationService {
     // Temporary to display token in an error box
     if (result) this.alertsService.add('Token acquired', result);
     return result;
-  }
-  // Prompt the user to sign in and
-  // grant consent to the requested permission scopes
-  async signIn(): Promise<void> {
-    let result = await this.msalService.loginPopup(OAuthSettings.scopes).catch(reason => {
-      this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
-    });
-    if (result) {
-      this.authenticated = true;
-      this.user = await this.getUser();
-    }
   }
 
   async getUser(): Promise<User> {
@@ -77,9 +66,30 @@ export class AuthenticationService {
     // Get the user from Graph (GET /me)
     let graphUser = await graphClient.api('/me').get();
     let user = <User>{};
+    this.user = user;
     user.displayName = graphUser.displayName;
     // Prefer the mail property, but fall back to userPrincipalName
-    user.email = graphUser.mail || graphUser.userPrincipalName;
+    user.email = (await graphUser.mail) || graphUser.userPrincipalName;
+    /**
+     * Make some assignments to the <User> object
+     */
+    try {
+      user.id$ = await this.getUserIdByUserEmail(user.email).pipe(
+        map((user: any) => {
+          this.user.id = user[0].userId;
+          return user[0].userId;
+        }),
+        share()
+      );
+    } catch (error) {
+      throw error;
+    }
+
+    user.id = await user.id$.toPromise();
+
+    /**
+     * Check our graph groups for membership
+     */
     const securityEnabledOnlyFlag = {
       securityEnabledOnly: true
     };
@@ -93,8 +103,9 @@ export class AuthenticationService {
         this.alertsService.add('Could not get member groups', JSON.stringify(error, null, 2));
       });
 
-    // await this.graphService.getUserMemberGroups();
-    console.log(userGroups);
+    /**
+     * Access Level Assignment
+     */
     try {
       switch (userGroups[0]) {
         case '2a7f3bb3-2070-4ed0-a8ff-938af3622f71':
@@ -114,12 +125,31 @@ export class AuthenticationService {
     } catch (error) {
       console.log(error);
     }
-    user.id = 7;
-    user.operations$ = this.operationService.getOperationsByUserId(user.id);
-    // debugger;
+
+    user.operations = await this.operationService.getOperationsByUserId(user.id).toPromise();
+
     return user;
   }
-
+  getUserIdByUserEmail(userEmail: string): Observable<number> {
+    return this.http.post<number>('users/lookup', { userEmail: userEmail }).pipe(
+      delay(500),
+      retry(0),
+      share(),
+      catchError(error => this.handleAsyncError(error))
+    );
+  }
+  // Prompt the user to sign in and
+  // grant consent to the requested permission scopes
+  async signIn(): Promise<void> {
+    let result = await this.msalService.loginPopup(OAuthSettings.scopes).catch(reason => {
+      this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
+    });
+    if (result) {
+      this.authenticated = true;
+      this.user = await this.getUser();
+      this.router.navigate(['/login'], { replaceUrl: true });
+    }
+  }
   // Sign out
   signOut(): void {
     this.msalService.logout();
@@ -132,5 +162,22 @@ export class AuthenticationService {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  private handleAsyncError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
+    }
+    // return an observable with a user-facing error message
+    return throwError({
+      message:
+        'We had trouble within the Auth route. \
+        Please contact your IT department and relay this message.'
+    });
   }
 }

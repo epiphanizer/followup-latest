@@ -1,33 +1,3 @@
-.user-cork-board {
-  position: absolute;
-  z-index: 0;
-  width: 28px;
-  height: 100%;
-  min-height: 1024px;
-  background-image: url("/assets/corkboard-bg-1.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 100%;
-  &.active {
-    z-index: 100;
-  }
-}
-
-ul {
-  list-style-type: none;
-  padding-left: 0;
-  li {
-    i {
-      &.expand {
-        width: 100%;
-        // background-image:
-      }
-    }
-  }
-}
-.open-close-container {
-  cursor: pointer;
-}
 .icon {
   cursor: pointer;
   position: absolute;
@@ -40,20 +10,24 @@ ul {
   display: block;
   margin-left: 8px;
   background-size: 100%;
+
   &.new-item {
     margin-top: 12px;
     padding-left: 2px;
     background-image: url("/assets/icon-new-item@2x.png");
   }
+
   &.minus {
     margin-top: 12px;
     padding-left: 2px;
     background-image: url("/assets/icon-new-item@2x.png");
   }
+
   &.expand {
     background-image: url("/assets/icon-expand@2x.png");
   }
 }
+
 .user-cork-board {
   position: absolute;
   z-index: 1999;
@@ -64,7 +38,47 @@ ul {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100%;
-  &.active {
-    z-index: 100;
+
+  &.open {
+    .icon {
+      cursor: pointer;
+      background-image: url("/assets/corkboard@2x.png");
+      z-index: 100;
+
+      .new-item {
+        position: absolute;
+        top: 12px;
+        left: 267.7px;
+        background-image: url("/assets/icon-new-item@2x.png");
+      }
+
+      .minus {
+        position: absolute;
+        top: 24px;
+        left: 267.7px;
+        background-image: url("/assets/icon-new-item@2x.png");
+      }
+
+      .expand {
+        position: absolute;
+        top: 36px;
+        left: 267.7px;
+        background-image: url("/assets/icon-expand@2x.png");
+      }
+    }
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+
+  li {
+    i {
+      &.expand {
+        width: 100%;
+        // background-image:
+      }
+    }
   }
 }

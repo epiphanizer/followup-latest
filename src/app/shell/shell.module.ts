@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ToolbarLogoModule } from './toolbar-logo.module';
 import { ToolbarProfileNavModule } from './toolbar-profile-nav.module';
