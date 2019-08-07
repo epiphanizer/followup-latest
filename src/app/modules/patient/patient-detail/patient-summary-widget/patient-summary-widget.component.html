@@ -1,10 +1,10 @@
-<ng-container>
+<ng-container class-="patient-summary-widget">
   <ion-row>
     <ion-col>
       <div class="avatar-container">
         <img *ngIf="patient.avatar; else defaultAvatar" src="{{ patient.avatar }}" />
         <ng-template #defaultAvatar>
-          <img src="/images/default-patient-avatar.png" />
+          <img src="/assets/default-patient-avatar.png" />
         </ng-template>
       </div>
     </ion-col>
