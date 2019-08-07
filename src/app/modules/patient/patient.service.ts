@@ -10,6 +10,7 @@ export interface Patient {
   patientLastName: string;
   patientAdmitDate: Date;
   patientDob: Date;
+  age: number | null;
   avatar: string;
   /**
    * Add from stored procedure here.

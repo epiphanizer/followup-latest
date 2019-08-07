@@ -1,11 +1,12 @@
 <ion-row>
-  <ion-col>
-    <app-patient-call-start-button *ngIf="!call"> </app-patient-call-start-button>
+  <ion-col class="left-hand-detail">
     <app-patient-call-status-controls></app-patient-call-status-controls>
-    <app-patient-call-notes></app-patient-call-notes>
+    <app-patient-call-notes>
+      <app-patient-call-start-button *ngIf="!call"> </app-patient-call-start-button>
+    </app-patient-call-notes>
     <app-patient-call-questions></app-patient-call-questions>
   </ion-col>
-  <ion-col>
+  <ion-col class="right-hand-detail">
     <app-patient-summary-widget></app-patient-summary-widget>
     <app-patient-call-history-controls></app-patient-call-history-controls>
     <app-patient-call-history-listing></app-patient-call-history-listing>
