@@ -31,13 +31,16 @@ ul.patient-filters {
   float: right;
   margin-top: 0;
   margin-bottom: 0;
+  vertical-align: top;
 
   li {
+    cursor: pointer;
     display: inline-block;
     font-family: Avenir;
     font-size: 11.8px;
     font-weight: normal;
     font-style: normal;
+    vertical-align: top;
     font-stretch: normal;
     line-height: 2.88;
     letter-spacing: 0.53px;
@@ -47,6 +50,7 @@ ul.patient-filters {
     &.ascending-descending-control {
       height: 30px;
       .ascending-descending-control-arrow {
+        display: block;
         width: 14px;
         height: 9px;
         margin-top: 12px;
