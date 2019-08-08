@@ -61,6 +61,45 @@ ul.patient-filters {
   }
 }
 
+i {
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  margin-right: 8px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  &.icon-contacted {
+    background-image: url("/assets/icon-contacted.png");
+  }
+  &.icon-left-message {
+    background-image: url("/assets/icon-left-message.png");
+  }
+  &.icon-no-answer {
+    background-image: url("/assets/icon-no-answer.png");
+  }
+  &.icon-new-discharges {
+    background-image: url("/assets/icon-new-discharges.png");
+  }
+  &.icon-kudos {
+    background-image: url("/assets/icon-kudos.png");
+  }
+  &.icon-notifications {
+    background-image: url("/assets/icon-notifications.png");
+  }
+  &.icon-final-call {
+    background-image: url("/assets/icon-final-call.png");
+  }
+}
+.operation-discharges {
+  color: white;
+  font-style: normal;
+  font-size: 12px;
+  line-height: 2.17;
+  margin-left: -29px;
+  margin-top: -3.5px;
+  position: absolute;
+}
 .call-queue-patient-list {
   clear: both;
   list-style-type: none;
@@ -78,6 +117,10 @@ ul.patient-filters {
       background-color: rgba(8, 196, 0, 0.1);
     }
 
+    &.new-discharge {
+      background-color: rgba(112, 112, 112, 0.15);
+    }
+
     ul {
       padding-left: 0;
       list-style-type: none;
@@ -86,9 +129,7 @@ ul.patient-filters {
     .call-queue-number {
       display: block;
       float: left;
-      width: 14px;
-      margin-left: 24px;
-      margin-right: 8px;
+      width: 96px;
       font-family: Avenir;
       font-size: 24.1px;
       font-weight: 900;

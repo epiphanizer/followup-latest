@@ -1,7 +1,8 @@
 <h3 class="section-header">
-  <i class="operation-new-discharge-badge" *ngIf="operation.currentNewDischargeCount">{{
-    operation.currentNewDischargeCount
-  }}</i>
+  <i class="icon-new-discharges" *ngIf="operation.currentNewDischargeCount"> </i>
+  <span class="operation-discharges">
+    {{ operation.currentNewDischargeCount }}
+  </span>
   {{ operation?.operationName }}
 </h3>
 <ion-item-divider class="divider-line"></ion-item-divider>
@@ -19,6 +20,7 @@
 <ul class="call-queue-patient-list">
   <li *ngFor="let patient of patients$ | async" class="active">
     <div class="call-queue-number">
+      1
       {{ patient.patientCallCount }}
     </div>
     <div class="call-queue-avatar">
