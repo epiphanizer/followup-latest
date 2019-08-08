@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { extract } from '@app/core';
 import { Shell } from '@app/shell/shell.service';
-import { UserResolver } from '../user/user-resolver.service';
+import { UserResolver } from '@app/modules/user//user-resolver.service';
+import { UserProfileComponent } from './user-profile.component';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -11,17 +12,7 @@ const routes: Routes = [
       path: '/user/profile',
       component: UserProfileComponent,
       data: {
-        title: extract('Call Queue')
-      },
-      resolve: {
-        user: UserResolver
-      }
-    },
-    {
-      path: 'call-queue/:operationId',
-      component: CallQueueComponent,
-      data: {
-        title: extract('Call Queue')
+        title: extract('User Profile')
       },
       resolve: {
         user: UserResolver
@@ -35,4 +26,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [UserResolver]
 })
-export class CallQueueRoutingModule {}
+export class UserProfileRoutingModule {}

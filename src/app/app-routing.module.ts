@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [] },
   {
     path: '**',
-    redirectTo: '/login',
+    redirectTo: '/home',
     pathMatch: 'full',
     resolve: {
       user: UserResolver
