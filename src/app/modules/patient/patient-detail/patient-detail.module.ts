@@ -10,6 +10,7 @@ import { PatientCallHistoryControlsComponent } from './patient-call-history-cont
 import { PatientCallHistoryListingComponent } from './patient-call-history-listing/patient-call-history-listing.component';
 import { PatientCallStatusControlsComponent } from './patient-call-status-controls/patient-call-status-controls.component';
 import { PatientCallStartButtonComponent } from './patient-call-start-button/patient-call-start-button.component';
+import { PatientCallStopButtonComponent } from './patient-call-stop-button/patient-call-stop-button.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { PatientCallStartButtonComponent } from './patient-call-start-button/pat
     PatientCallHistoryControlsComponent,
     PatientCallHistoryListingComponent,
     PatientCallStatusControlsComponent,
-    PatientCallStartButtonComponent
+    PatientCallStartButtonComponent,
+    PatientCallStopButtonComponent
   ],
   imports: [CommonModule, RouterModule, IonicModule]
 })
