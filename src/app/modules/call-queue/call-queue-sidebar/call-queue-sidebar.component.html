@@ -22,7 +22,8 @@
     <li *ngFor="let operation of user.operations; let i = index">
       <a (click)="setActiveOperation(operation)" [ngClass]="{ active: selected.operation == operation }">
         {{ operation.operationName }}
-        <span class="icon-discharge-counter"> [{{ operation.currentDischargeCount }}] </span>
+        <span class="icon-discharge-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
+        <span class="icon-discharge-counter"> {{ operation.currentNewDischargeCount }} </span>
       </a>
     </li>
   </ul>

@@ -9,6 +9,8 @@ export interface Operation {
   operationCity: string;
   operationState: string;
   operationZip: string;
+  currentAssignedPatientCount?: number;
+  currentNewDischargeCount?: number;
 }
 
 export class OperationService {

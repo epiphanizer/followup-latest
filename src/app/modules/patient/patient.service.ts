@@ -12,9 +12,7 @@ export interface Patient {
   patientDob: Date;
   age: number | null;
   avatar: string;
-  /**
-   * Add from stored procedure here.
-   */
+  patientCallCount?: number;
 }
 
 export class PatientService {
@@ -27,11 +25,6 @@ export class PatientService {
     );
   }
 
-  /**
-   *
-   * We need some security here to prevent unauthorized access;
-   * @param patientId
-   */
   getPatientByPatientId(patientId: number): Observable<Patient> {
     return this.http.get<Patient>('patients/' + patientId).pipe(
       retry(3), // retry a failed request up to 3 times

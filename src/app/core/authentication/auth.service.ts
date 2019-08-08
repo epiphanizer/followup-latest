@@ -128,6 +128,9 @@ export class AuthenticationService {
 
     user.operations = await this.operationService.getOperationsByUserId(user.id).toPromise();
 
+    this.user.operations.forEach((operation: Operation, index: number) => {
+      this.user.operations[index].currentAssignedPatientCount = 5;
+    });
     return user;
   }
   getUserIdByUserEmail(userEmail: string): Observable<number> {
