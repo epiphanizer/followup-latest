@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PatientCallService } from '../../patient-call/patient-call.service';
 
 @Component({
   selector: 'app-patient-call-history-listing',
@@ -6,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./patient-call-history-listing.component.scss']
 })
 export class PatientCallHistoryListingComponent implements OnInit {
-  constructor() {}
+  patientCalls: [];
+  constructor(private patientCallService: PatientCallService) {}
 
   ngOnInit() {}
 }

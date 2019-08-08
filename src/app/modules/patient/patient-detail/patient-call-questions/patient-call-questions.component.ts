@@ -8,10 +8,10 @@ import { PatientCallService, PatientCall } from '../../patient-call/patient-call
 })
 export class PatientCallQuestionsComponent implements OnInit {
   @Input() patientCall: PatientCall;
-  questions: <PatientCallQuestions>[];
+  questions: [];
   constructor(private patientCallService: PatientCallService) {}
 
   ngOnInit() {
-    this.questions = this.patientCallService.getPatientCallQuestionsByPatientCallId(this.patientCall.patientCallId);
+    // this.questions = this.patientCallService.getPatientCallQuestionsByPatientCallId(this.patientCall.patientCallId);
   }
 }
