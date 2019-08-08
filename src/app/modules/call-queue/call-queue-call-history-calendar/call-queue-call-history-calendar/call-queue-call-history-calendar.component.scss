@@ -11,6 +11,7 @@ h3 {
   font-weight: bold;
   font-stretch: normal;
   line-height: 1.01;
+  margin-bottom: 0;
   letter-spacing: 3.15px;
   text-align: left;
   text-transform: uppercase;
@@ -25,7 +26,25 @@ h3 {
   border-top: solid 3.9px var(--ion-color-primary);
   border-bottom: none;
 }
-
+.calendar-month {
+  text-transform: uppercase;
+  font-family: AvenirBold;
+  color: #8e8e93;
+  font-size: 14px;
+  margin-top: 19.5px;
+}
+.left-month-arrow {
+  background-image: url("/assets/calendar-left-arrow.png");
+  height: 14px;
+  width: 8px;
+  margin-right: 18px;
+}
+.right-month-arrow {
+  background-image: url("/assets/calendar-right-arrow.png");
+  height: 14px;
+  width: 8px;
+  margin-left: 18px;
+}
 /*
   Limited in height,
   useful with grow mode stretch

@@ -28,12 +28,10 @@
           {{ patient.patientFirstName }} {{ patient.patientLastName }}
         </a>
       </span>
-      <div class="call-queue-patient-details">
-        <!-- This expression gives us the age back. -->
-        <span class="patient label-line">
-          {{ currentYear - (patient.patientDob | slice: 0:4) }}, {{ operation?.operationName }}
-        </span>
-      </div>
+      <!-- This expression gives us the age back. -->
+      <span class="patient label-line">
+        {{ currentYear - (patient.patientDob | slice: 0:4) }}, {{ operation?.operationName }}
+      </span>
     </div>
   </li>
 </ul>

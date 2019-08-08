@@ -7,21 +7,21 @@
           <form id="login-form" (ngSubmit)="signIn()" [formGroup]="loginForm" novalidate>
             <div class="toolbar-logo"></div>
             <ion-text color="danger" [hidden]="!error || loginForm.dirty || isLoading">
-              <span padding translate>Username or password incorrect.</span>
+              <span padding>Username or password incorrect.</span>
             </ion-text>
             <ion-list no-lines>
               <ion-item>
-                <ion-label color="medium" position="floating" translate>Username</ion-label>
+                <ion-label color="medium" position="floating">Username</ion-label>
                 <ion-input type="text" formControlName="username" autocomplete="username"></ion-input>
               </ion-item>
               <ion-text
                 color="danger"
                 [hidden]="loginForm.controls.username.valid || loginForm.controls.username.untouched"
               >
-                <span padding translate>Username is required</span>
+                <span padding>Username is required</span>
               </ion-text>
               <ion-item>
-                <ion-label color="medium" position="floating" translate>Password</ion-label>
+                <ion-label color="medium" position="floating">Password</ion-label>
                 <ion-input type="password" formControlName="password" autocomplete="current-password"></ion-input>
               </ion-item>
               <ion-text

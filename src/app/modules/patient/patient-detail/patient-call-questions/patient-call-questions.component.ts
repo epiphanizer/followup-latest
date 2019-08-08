@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { PatientCallService, PatientCall } from '../../patient-call/patient-call.service';
 
 @Component({
   selector: 'app-patient-call-questions',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./patient-call-questions.component.scss']
 })
 export class PatientCallQuestionsComponent implements OnInit {
-  constructor() {}
+  @Input() patientCall: PatientCall;
+  questions: [];
+  constructor(private patientCallService: PatientCallService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.questions = this.patientCallService.getPatientCallQuestionsByPatientCallId(this.patientCall.patientCallId);
+  }
 }

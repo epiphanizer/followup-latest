@@ -1,0 +1,38 @@
+.patient-call-question-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.call-question-body-container {
+  height: 130px;
+  margin-bottom: 100px;
+}
+
+.call-question {
+  font-family: Avenir;
+  font-size: 21px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: 0.42px;
+  text-align: left;
+}
+
+.call-question-answers {
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+    padding-top: 18px;
+  }
+}
+
+.call-question-rating {
+  display: inline-block;
+  text-align: center;
+  width: 24.5px;
+  height: 23px;
+  margin-right: 20px;
+  border-radius: 3px;
+  border: solid 1px #343638;
+}

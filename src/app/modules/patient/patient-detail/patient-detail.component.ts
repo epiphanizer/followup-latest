@@ -12,8 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PatientDetailComponent implements OnInit {
   patient: Patient;
-  call: PatientCall = null;
-  call$: Observable<PatientCall>;
+  patientCall: PatientCall = null;
+  patientCall$: Observable<PatientCall>;
   constructor(private patientCallService: PatientCallService, private route: ActivatedRoute) {}
 
   ngOnInit() {
@@ -21,6 +21,6 @@ export class PatientDetailComponent implements OnInit {
   }
 
   startPatientCall() {
-    this.call$ = this.patientCallService.addPatientCallByPatientId(this.patient.id);
+    this.patientCall$ = this.patientCallService.addPatientCallByPatientId(this.patient.id);
   }
 }
