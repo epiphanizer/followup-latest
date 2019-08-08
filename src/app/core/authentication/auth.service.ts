@@ -29,6 +29,9 @@ export class AuthenticationService {
     private router: Router
   ) {
     this.authenticated = this.msalService.getUser() != null;
+    if (!this.authenticated) {
+      this.router.navigate(['/login'], { replaceUrl: true });
+    }
   }
   ngOnInit() {
     this.broadcastService.subscribe('msal:loginSuccess', payload => {
@@ -130,6 +133,7 @@ export class AuthenticationService {
 
     this.user.operations.forEach((operation: Operation, index: number) => {
       this.user.operations[index].currentAssignedPatientCount = 5;
+      this.user.operations[index].currentNewDischargeCount = 1;
     });
     return user;
   }
@@ -150,7 +154,7 @@ export class AuthenticationService {
     if (result) {
       this.authenticated = true;
       this.user = await this.getUser();
-      this.router.navigate(['/login'], { replaceUrl: true });
+      this.router.navigate(['/home'], { replaceUrl: true });
     }
   }
   // Sign out

@@ -27,11 +27,16 @@ h3 {
   border-bottom: none;
 }
 .calendar-month {
+  display: inline-block;
   text-transform: uppercase;
   font-family: AvenirBold;
   color: #8e8e93;
   font-size: 14px;
   margin-top: 19.5px;
+}
+.left-month-arrow,
+.right-month-arrow {
+  display: inline-block;
 }
 .left-month-arrow {
   background-image: url("/assets/calendar-left-arrow.png");

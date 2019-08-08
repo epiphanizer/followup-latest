@@ -19,8 +19,7 @@
 <ul class="call-queue-patient-list">
   <li *ngFor="let patient of patients$ | async" class="active">
     <div class="call-queue-number">
-      #
-      <!-- {{ patient.callNumber }} -->
+      {{ patient.patientCallCount }}
     </div>
     <div class="call-queue-avatar">
       {{ patient.avatarImage }}
