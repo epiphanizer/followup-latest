@@ -100,9 +100,14 @@ ul.patient-filters {
     height: 96px;
     line-height: 96px;
     vertical-align: middle;
-
     &.active {
       background-color: rgba(8, 196, 0, 0.1);
+      &:hover {
+        background-color: rgba(19, 175, 233, 0.35);
+      }
+    }
+    &:hover {
+      background-color: rgba(19, 175, 233, 0.35);
     }
 
     &.new-discharge {
