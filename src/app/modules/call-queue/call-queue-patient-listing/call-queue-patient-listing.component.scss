@@ -224,14 +224,29 @@ ul.patient-filters {
     }
     li {
       display: block;
-      &.icon-contacted {
-        background-image: url("/assets/icon-contacted.png");
+      height: 17px;
+
+      margin-top: 8px;
+      &:first-child {
+        margin-top: 15px;
       }
-      &.icon-left-message {
-        background-image: url("/assets/icon-left-message.png");
-      }
-      &.icon-no-answer {
-        background-image: url("/assets/icon-no-answer.png");
+      i {
+        width: 17px;
+        height: 17px;
+        display: block;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+
+        &.icon-contacted {
+          background-image: url("/assets/icon-contacted.png");
+        }
+        &.icon-left-message {
+          background-image: url("/assets/icon-left-message.png");
+        }
+        &.icon-no-answer {
+          background-image: url("/assets/icon-no-answer.png");
+        }
       }
     }
   }
