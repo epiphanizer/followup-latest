@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { PatientCallService } from '../../patient-call/patient-call.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { Patient } from '../../../patient/patient.service';
+import { PatientCallService, PatientCall } from '../../patient-call/patient-call.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-patient-call-history-listing',
@@ -7,8 +9,12 @@ import { PatientCallService } from '../../patient-call/patient-call.service';
   styleUrls: ['./patient-call-history-listing.component.scss']
 })
 export class PatientCallHistoryListingComponent implements OnInit {
-  patientCalls: [];
+  @Input() patient: Patient;
+  patientCalls: PatientCall[] | [] = [];
+  patientCalls$: Observable<PatientCall[]> | null = null;
   constructor(private patientCallService: PatientCallService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.patientCalls$ = this.patientCallService.getPatientCallsByPatientId(this.patient.patientId);
+  }
 }

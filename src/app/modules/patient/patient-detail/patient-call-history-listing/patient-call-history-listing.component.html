@@ -1,15 +1,16 @@
 <ng-container *ngIf="patientCalls; else noPatientCalls">
   <ul>
-    <li>
-      <div class="call-headline-container"><i class="phone-icon"></i> {{ patientCall.number }}</div>
+    <li *ngFor="let patientCall of patientCalls; let i = index">
+      <div class="call-headline-container {{ i == 0 ? 'active' : '' }} ">
+        <i class="phone-icon"></i>
+        <span class="call-number-headline">Call {{ patientCall.number }}</span>
+      </div>
       <div class="call-question-container">
         <!-- Defaults get treated differently / with icons -->
       </div>
       <div class="custom-call-question-container">
         <ul>
-          <!-- <li *ngFor="let patientCallQuestion of patientCallQuestions$; | async">
-            {{patientCallQuestion}};
-          </li> -->
+          <li *ngFor="let patientCallQuestion of patientCall.questions">{{ patientCallQuestion.question }};</li>
         </ul>
       </div>
     </li>

@@ -21,6 +21,6 @@ export class PatientDetailComponent implements OnInit {
   }
 
   startPatientCall() {
-    this.patientCall$ = this.patientCallService.addPatientCallByPatientId(this.patient.id);
+    this.patientCall$ = this.patientCallService.addPatientCallByPatientId(this.patient.patientId);
   }
 }

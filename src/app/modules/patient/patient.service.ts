@@ -3,7 +3,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 export interface Patient {
-  id: number;
+  patientId: number;
   operationId: number;
   medicalRecordNumber: string;
   patientFirstName: string;
@@ -12,6 +12,8 @@ export interface Patient {
   patientDob: Date;
   age: number | null;
   avatar: string;
+  // We may not always have this, but it's nice to have when we do need it
+  // for the sake of labeling, etc.
   patientCallCount?: number;
 }
 
