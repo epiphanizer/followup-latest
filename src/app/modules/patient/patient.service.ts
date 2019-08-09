@@ -8,7 +8,7 @@ export interface Patient {
   medicalRecordNumber: string;
   patientFirstName: string;
   patientLastName: string;
-  patientAdmitDate: Date;
+  patientDischargeDate: Date;
   patientDob: Date;
   age: number | null;
   avatar: string;
