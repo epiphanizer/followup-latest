@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { TranslateModule } from '@ngx-translate/core';
@@ -27,6 +27,7 @@ import { OperationModule } from '@app/modules/operation/operation.module';
 import { NotificationModule } from '@app/modules/notification/notification.module';
 import { UserModule } from '@app/modules/user/user.module';
 import { OperationService } from './modules/operation/operation.service';
+import { LoginForgotComponent } from './login/login-forgot/login-forgot.component';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { OperationService } from './modules/operation/operation.service';
     TranslateModule.forRoot(),
     IonicModule.forRoot(),
     CoreModule,
+    ReactiveFormsModule,
     MsalModule.forRoot({
       clientID: OAuthSettings.appId,
       authority: 'https://login.microsoftonline.com/common',
@@ -46,7 +48,7 @@ import { OperationService } from './modules/operation/operation.service';
       cacheLocation: 'localStorage',
       postLogoutRedirectUri: 'http://localhost:4200/login',
       navigateToLoginRequestUrl: false,
-      popUp: true,
+      popUp: false,
       consentScopes: OAuthSettings.scopes
     }),
     SharedModule,
@@ -61,7 +63,7 @@ import { OperationService } from './modules/operation/operation.service';
     UserModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, LoginForgotComponent],
   providers: [MsalGuard, OperationService],
   bootstrap: [AppComponent]
 })

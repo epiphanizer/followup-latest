@@ -148,10 +148,12 @@ export class AuthenticationService {
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
   async signIn(): Promise<void> {
-    let result = await this.msalService.loginPopup(OAuthSettings.scopes).catch(reason => {
+    let result = await this.msalService.acquireTokenSilent(OAuthSettings.scopes).catch(reason => {
       this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
     });
     if (result) {
+      console.log(result);
+      debugger;
       this.authenticated = true;
       this.user = await this.getUser();
       this.router.navigate(['/home'], { replaceUrl: true });

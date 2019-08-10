@@ -9,7 +9,7 @@
             <ion-text color="danger" [hidden]="!error || loginForm.dirty || isLoading">
               <span padding>Username or password incorrect.</span>
             </ion-text>
-            <ion-list no-lines>
+            <ion-list lines="none">
               <ion-item>
                 <ion-label color="medium" position="floating">Username</ion-label>
                 <ion-input type="text" formControlName="username" autocomplete="username"></ion-input>
@@ -42,6 +42,7 @@
                 color="primary"
                 expand="block"
               >
+                Login
               </ion-button>
 
               <span href="#" class="welcome-back">

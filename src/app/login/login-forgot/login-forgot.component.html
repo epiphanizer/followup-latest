@@ -1,0 +1,29 @@
+<ion-content no-bounce>
+  <div class="login-background"></div>
+  <ion-grid no-padding>
+    <ion-row justify-content-center no-padding>
+      <ion-col size-sm="8" size-lg="6" size-xl="4" align-self-center no-padding>
+        <div class="login-container">
+          <form id="password-reset-form" (ngSubmit)="resetPassword()" [formGroup]="passwordResetForm" novalidate>
+            <div class="toolbar-logo"></div>
+            <div class="login-controls-container" padding-horizontal>
+              <ion-button
+                type="submit"
+                [disabled]="passwordResetForm.invalid || isLoading"
+                (submit)="resetPassword()"
+                color="primary"
+                expand="block"
+              >
+                Reset Password
+              </ion-button>
+
+              <span href="#" class="welcome-back">
+                [welcome back]
+              </span>
+            </div>
+          </form>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

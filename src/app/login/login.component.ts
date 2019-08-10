@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoadingController, Platform } from '@ionic/angular';
 import { environment } from '@env/environment';
@@ -31,6 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
 
   async signIn(): Promise<void> {
+    alert('signing in');
     await this.authService.signIn();
     // Temporary to display the token
     if (this.authService.authenticated) {
@@ -40,9 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
     }
   }
-  signOut(): void {
-    this.authService.signOut();
-  }
+
   get isWeb(): boolean {
     return !this.platform.is('cordova');
   }
