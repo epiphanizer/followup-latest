@@ -7,7 +7,7 @@
   <ion-col class="user-profile-content">
     <ion-title>User Profile</ion-title>
     <form id="user-profile-form" (ngSubmit)="updateUserProfile()" [formGroup]="userProfileForm" novalidate>
-      <ion-list no-lines>
+      <ion-list lines="none">
         <ion-item class="first-name">
           <ion-label color="medium" position="floating">First Name</ion-label>
           <ion-input type="text" formControlName="userFirstName"></ion-input>
@@ -25,11 +25,15 @@
           <ion-input type="email" formControlName="userEmail"></ion-input>
         </ion-item>
         <ion-item class="user-phone">
-          <ion-label color="medium" position="floating">Phone #</ion-label>
+          <ion-label color="medium" position="floating">Phone Coutry Code</ion-label>
+          <ion-input type="text" formControlName="userPhoneCountryCode"></ion-input>
+          <ion-label color="medium" position="floating">Phone Area Code</ion-label>
+          <ion-input type="text" formControlName="userPhoneAreaCode"></ion-input>
+          <ion-label color="medium" position="floating">Phone Number</ion-label>
           <ion-input type="text" formControlName="userPhone"></ion-input>
         </ion-item>
       </ion-list>
-      <ion-list>
+      <ion-list lines="none">
         <i class="icon-lock"></i>
         <ion-item>
           <ion-label color="medium" position="floating">Password</ion-label>
@@ -40,7 +44,7 @@
           <ion-input type="password" formControlName="userConfirmPassword"></ion-input>
         </ion-item>
       </ion-list>
-      <ion-list>
+      <ion-list lines="none">
         <i class="icon-birthday"></i>
         <ion-item>
           <ion-label color="medium" position="floating">Birthday</ion-label>
@@ -51,7 +55,7 @@
           <ion-input type="text" formControlName="userFavoriteDessert"></ion-input>
         </ion-item>
       </ion-list>
-      <ion-list>
+      <ion-list lines="none">
         <i class="icon-question"></i>
         <ion-item>
           <ion-label color="medium" position="floating">

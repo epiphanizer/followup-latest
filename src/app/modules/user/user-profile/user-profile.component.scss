@@ -47,6 +47,17 @@ form {
     width: 100%;
     margin-bottom: 29px;
   }
+  ion-label {
+    margin-top: -18px;
+    font-family: Avenir;
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 0.42px;
+    text-align: left;
+  }
   ion-input,
   ion-textarea {
     background: #f5f5f5;

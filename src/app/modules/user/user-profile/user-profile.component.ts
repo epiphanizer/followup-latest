@@ -24,9 +24,11 @@ export class UserProfileComponent implements OnInit {
       userMiddleName: ['', [Validators.required]],
       userLastName: ['', [Validators.required]],
       userEmail: ['', [Validators.required, Validators.email]],
+      userPhoneCountryCode: ['', [Validators.required]],
+      userPhoneAreaCode: ['', [Validators.required]],
       userPhone: ['', [Validators.required]],
-      userPassword: ['', [Validators.required]],
-      userConfirmPassword: ['', [Validators.required]],
+      userPassword: [{ disabled: true }],
+      userConfirmPassword: [{ disabled: true }],
       userDob: ['', [Validators.required]],
       userFavoriteDessert: [''],
       userAdditionalInfo: []
