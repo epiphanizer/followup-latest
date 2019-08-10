@@ -36,6 +36,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.broadcastService.subscribe('msal:loginSuccess', payload => {
       alert('login success');
     });
+    this.broadcastService.subscribe('msal:acquireTokenSuccess', payload => {
+      alert('token success');
+    });
+
+    this.broadcastService.subscribe('msal:acquireTokenFailure', payload => {
+      alert('token failure');
+    });
   }
 
   ngOnDestroy() {
@@ -46,14 +53,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   signIn() {
-    this.authService.signIn();
-    // Temporary to display the token
-    if (this.authService.authenticated) {
-      let token = this.authService.getAccessToken();
-      if (token) {
-        window.location.href = '/';
-      }
-    }
+    var username = this.loginForm.get('username').value();
+    var password = this.loginForm.get('username').value();
+    debugger;
+    this.authService.signIn(username, password);
   }
 
   get isWeb(): boolean {

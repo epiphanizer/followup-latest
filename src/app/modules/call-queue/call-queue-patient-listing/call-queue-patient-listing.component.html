@@ -18,9 +18,12 @@
   </li>
 </ul>
 <ul class="call-queue-patient-list">
-  <li *ngFor="let patient of patients$ | async" class="active">
+  <li
+    *ngFor="let patient of patients$ | async"
+    class="active"
+    [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
+  >
     <div class="call-queue-number">
-      1
       {{ patient.patientCallCount }}
     </div>
     <div class="call-queue-avatar">

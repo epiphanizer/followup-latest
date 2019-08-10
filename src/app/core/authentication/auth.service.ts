@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { OAuthSettings } from '../../../oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
-import { Subscription, Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map, delay, share, catchError, retry } from 'rxjs/operators';
 import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
 import { User } from '@app/modules/user/user.service';
 import { Operation, OperationService } from '@app/modules/operation/operation.service';
 
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { EmailValidator } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { Router } from '@angular/router';
 
@@ -19,6 +18,7 @@ import { Router } from '@angular/router';
 export class AuthenticationService {
   public authenticated: boolean;
   public user: User;
+  public user$: Promise<User>;
   constructor(
     private alertsService: AlertsService,
     private broadcastService: BroadcastService,
@@ -142,15 +142,18 @@ export class AuthenticationService {
   }
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
-  async signIn(): Promise<void> {
-    let result = await this.msalService.acquireTokenSilent(OAuthSettings.scopes).catch(reason => {
+  signIn(username: string, password: string) {
+    this.msalService.loginRedirect();
+    let result = this.msalService.acquireTokenSilent(OAuthSettings.scopes).catch(reason => {
       this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
     });
     if (result) {
       console.log(result);
-      debugger;
       this.authenticated = true;
-      this.user = await this.getUser();
+      this.user$ = this.getUser();
+      this.user$.then((user: User) => {
+        this.user = user;
+      });
       this.router.navigate(['/home'], { replaceUrl: true });
     }
   }

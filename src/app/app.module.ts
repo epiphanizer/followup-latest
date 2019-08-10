@@ -20,6 +20,7 @@ import { LoginModule } from './login/login.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { FullCalendarModule } from '@fullcalendar/angular'; // for FullCalendar!
 import { CallQueueModule } from '@app/modules/call-queue/call-queue.module';
 import { AlertsModule } from '@app/core/alerts/alerts.module';
 import { PatientModule } from './modules/patient/patient.module';
@@ -27,7 +28,6 @@ import { OperationModule } from '@app/modules/operation/operation.module';
 import { NotificationModule } from '@app/modules/notification/notification.module';
 import { UserModule } from '@app/modules/user/user.module';
 import { OperationService } from './modules/operation/operation.service';
-import { LoginForgotComponent } from './login/login-forgot/login-forgot.component';
 
 @NgModule({
   imports: [
@@ -39,7 +39,6 @@ import { LoginForgotComponent } from './login/login-forgot/login-forgot.componen
     TranslateModule.forRoot(),
     IonicModule.forRoot(),
     CoreModule,
-    ReactiveFormsModule,
     MsalModule.forRoot({
       clientID: OAuthSettings.appId,
       authority: 'https://login.microsoftonline.com/common',
@@ -54,6 +53,8 @@ import { LoginForgotComponent } from './login/login-forgot/login-forgot.componen
     SharedModule,
     ShellModule,
     AlertsModule,
+    FullCalendarModule,
+    ReactiveFormsModule,
     HomeModule,
     LoginModule,
     PatientModule,
@@ -63,7 +64,7 @@ import { LoginForgotComponent } from './login/login-forgot/login-forgot.componen
     UserModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [AppComponent, LoginForgotComponent],
+  declarations: [AppComponent],
   providers: [MsalGuard, OperationService],
   bootstrap: [AppComponent]
 })
