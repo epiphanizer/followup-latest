@@ -9,7 +9,6 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 export class UserProfileComponent implements OnInit {
   error: string | undefined;
   userProfileForm!: FormGroup;
-  isLoading = false;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -21,8 +20,16 @@ export class UserProfileComponent implements OnInit {
   }
   private createForm() {
     this.userProfileForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      userFirstName: ['', [Validators.required]],
+      userMiddleName: ['', [Validators.required]],
+      userLastName: ['', [Validators.required]],
+      userEmail: ['', [Validators.required, Validators.email]],
+      userPhone: ['', [Validators.required]],
+      userPassword: ['', [Validators.required]],
+      userConfirmPassword: ['', [Validators.required]],
+      userDob: ['', [Validators.required]],
+      userFavoriteDessert: [''],
+      userAdditionalInfo: []
     });
   }
 }
