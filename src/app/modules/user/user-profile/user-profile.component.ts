@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { User } from '@app/modules/user/user.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -8,11 +10,13 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 })
 export class UserProfileComponent implements OnInit {
   error: string | undefined;
+  user: User;
   userProfileForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.user = this.route.snapshot.data.user;
     this.createForm();
   }
   updateUserProfile() {
@@ -23,7 +27,7 @@ export class UserProfileComponent implements OnInit {
       userFirstName: ['', [Validators.required]],
       userMiddleName: ['', [Validators.required]],
       userLastName: ['', [Validators.required]],
-      userEmail: ['', [Validators.required, Validators.email]],
+      userEmail: [{ value: this.user.email, disabled: true }, [Validators.required, Validators.email]],
       userPhoneCountryCode: ['', [Validators.required]],
       userPhoneAreaCode: ['', [Validators.required]],
       userPhone: ['', [Validators.required]],
