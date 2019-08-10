@@ -9,7 +9,7 @@
             <div class="login-controls-container" padding-horizontal>
               <ion-button
                 type="submit"
-                [disabled]="passwordResetForm.invalid || isLoading"
+                [disabled]="passwordResetForm.invalid"
                 (submit)="resetPassword()"
                 color="primary"
                 expand="block"

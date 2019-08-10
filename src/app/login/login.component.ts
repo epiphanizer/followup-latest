@@ -4,6 +4,9 @@ import { LoadingController, Platform } from '@ionic/angular';
 import { environment } from '@env/environment';
 import { Logger, AuthenticationService, untilDestroyed } from '@app/core';
 
+import { MsalService, BroadcastService } from '@azure/msal-angular';
+import { Subscription } from 'rxjs';
+
 const log = new Logger('Login');
 
 @Component({
@@ -12,29 +15,41 @@ const log = new Logger('Login');
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  version: string = environment.version;
+  private subscription: Subscription;
   error: string | undefined;
   loginForm!: FormGroup;
   isLoading = false;
 
   constructor(
     private formBuilder: FormBuilder,
+    private broadcastService: BroadcastService,
     private platform: Platform,
     private authService: AuthenticationService
   ) {
     this.createForm();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.broadcastService.subscribe('msal:loginFailure', payload => {
+      alert('login failure');
+    });
+    this.broadcastService.subscribe('msal:loginSuccess', payload => {
+      alert('login success');
+    });
+  }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.broadcastService.getMSALSubject().next(1);
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-  async signIn(): Promise<void> {
-    alert('signing in');
-    await this.authService.signIn();
+  signIn() {
+    this.authService.signIn();
     // Temporary to display the token
     if (this.authService.authenticated) {
-      let token = await this.authService.getAccessToken();
+      let token = this.authService.getAccessToken();
       if (token) {
         window.location.href = '/';
       }

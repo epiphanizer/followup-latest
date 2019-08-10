@@ -19,7 +19,6 @@ import { Router } from '@angular/router';
 export class AuthenticationService {
   public authenticated: boolean;
   public user: User;
-  private subscription: Subscription;
   constructor(
     private alertsService: AlertsService,
     private broadcastService: BroadcastService,
@@ -33,11 +32,7 @@ export class AuthenticationService {
       this.router.navigate(['/login'], { replaceUrl: true });
     }
   }
-  ngOnInit() {
-    this.broadcastService.subscribe('msal:loginSuccess', payload => {
-      window.location.href = '/';
-    });
-  }
+  ngOnInit() {}
 
   async getAccessToken(): Promise<string> {
     let result = await this.msalService.acquireTokenSilent(OAuthSettings.scopes).catch(reason => {
@@ -166,12 +161,7 @@ export class AuthenticationService {
     this.authenticated = false;
   }
 
-  ngOnDestroy() {
-    this.broadcastService.getMSALSubject().next(1);
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  ngOnDestroy() {}
 
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

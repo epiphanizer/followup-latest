@@ -6,7 +6,11 @@ import { LoginForgotComponent } from './login-forgot/login-forgot.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { title: extract('Login') } },
-  { path: 'login/forgot', component: LoginForgotComponent, data: { title: extract('Forgot Password') } }
+  {
+    path: 'login/forgot',
+    component: LoginForgotComponent,
+    data: { title: extract('Forgot Password'), canActivate: [] }
+  }
 ];
 
 @NgModule({
