@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '@app/modules/user/user.service';
 import { Observable, from } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { OperationService, Operation } from '../operation/operation.service';
 import { ActivatedRoute } from '@angular/router';
 

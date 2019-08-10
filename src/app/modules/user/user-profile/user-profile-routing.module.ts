@@ -9,7 +9,7 @@ import { UserProfileComponent } from './user-profile.component';
 const routes: Routes = [
   Shell.childRoutes([
     {
-      path: '/user/profile',
+      path: 'user/profile',
       component: UserProfileComponent,
       data: {
         title: extract('User Profile')

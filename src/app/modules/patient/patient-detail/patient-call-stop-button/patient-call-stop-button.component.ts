@@ -9,4 +9,7 @@ export class PatientCallStopButtonComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+  stopPatientCall() {
+    alert('Stopping Patient Call');
+  }
 }
