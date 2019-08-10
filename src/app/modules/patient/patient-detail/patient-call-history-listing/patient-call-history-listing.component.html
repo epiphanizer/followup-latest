@@ -1,6 +1,6 @@
-<ng-container *ngIf="patientCalls; else noPatientCalls">
+<ng-container>
   <ul>
-    <li *ngFor="let patientCall of patientCalls; let i = index">
+    <li *ngFor="let patientCall of patientCalls$ | async; let i = index">
       <div class="call-headline-container {{ i == 0 ? 'active' : '' }} ">
         <i class="phone-icon"></i>
         <span class="call-number-headline">Call {{ patientCall.number }}</span>
@@ -16,6 +16,3 @@
     </li>
   </ul>
 </ng-container>
-<ng-template #noPatientCalls>
-  No patient calls yet, let's Follow Up!
-</ng-template>

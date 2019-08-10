@@ -1,6 +1,7 @@
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { PatientCall } from './patient-call/patient-call.service';
 
 export interface Patient {
   patientId: number;
@@ -14,6 +15,8 @@ export interface Patient {
   avatar: string;
   // We may not always have this, but it's nice to have when we do need it
   // for the sake of labeling, etc.
+  patientCalls?: PatientCall[];
+  patientCalls$: Observable<PatientCall[]>;
   patientCallCount?: number;
 }
 

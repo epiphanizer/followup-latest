@@ -39,6 +39,7 @@ export class PatientCallService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
+
   getPatientCallsByPatientId = function(patientId: number) {
     return this.http.post('patients/' + patientId + '/calls').pipe(
       retry(3), // retry a failed request up to 3 times

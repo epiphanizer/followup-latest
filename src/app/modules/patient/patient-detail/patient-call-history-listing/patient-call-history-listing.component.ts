@@ -14,7 +14,5 @@ export class PatientCallHistoryListingComponent implements OnInit {
   patientCalls$: Observable<PatientCall[]> | null = null;
   constructor(private patientCallService: PatientCallService) {}
 
-  ngOnInit() {
-    this.patientCalls$ = this.patientCallService.getPatientCallsByPatientId(this.patient.patientId);
-  }
+  ngOnInit() {}
 }
