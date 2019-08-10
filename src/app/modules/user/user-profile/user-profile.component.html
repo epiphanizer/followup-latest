@@ -9,63 +9,108 @@
     <form id="user-profile-form" (ngSubmit)="updateUserProfile()" [formGroup]="userProfileForm" novalidate>
       <ion-list lines="none">
         <ion-item class="first-name">
-          <ion-label color="medium" position="floating">First Name</ion-label>
+          <ion-label color="medium" position="stacked">First Name</ion-label>
           <ion-input type="text" formControlName="userFirstName"></ion-input>
         </ion-item>
         <ion-item class="middle-name">
-          <ion-label color="medium" position="floating">Middle Name</ion-label>
+          <ion-label color="medium" position="stacked">Middle Name</ion-label>
           <ion-input type="text" formControlName="userMiddleName"></ion-input>
         </ion-item>
         <ion-item class="last-name">
-          <ion-label color="medium" position="floating">Last Name</ion-label>
+          <ion-label color="medium" position="stacked">Last Name</ion-label>
           <ion-input type="text" formControlName="userLastName"></ion-input>
         </ion-item>
         <ion-item class="user-email">
-          <ion-label color="medium" position="floating">Email</ion-label>
+          <ion-label color="medium" position="stacked">Email</ion-label>
           <ion-input type="email" formControlName="userEmail"></ion-input>
         </ion-item>
-        <ion-item class="user-phone">
-          <ion-label color="medium" position="floating">Phone Coutry Code</ion-label>
-          <ion-input type="text" formControlName="userPhoneCountryCode"></ion-input>
-          <ion-label color="medium" position="floating">Phone Area Code</ion-label>
-          <ion-input type="text" formControlName="userPhoneAreaCode"></ion-input>
-          <ion-label color="medium" position="floating">Phone Number</ion-label>
-          <ion-input type="text" formControlName="userPhone"></ion-input>
+        <ion-item class="user-phone-container">
+          <ion-item class="user-phone-country-code">
+            <ion-label color="medium" position="stacked">Country Code</ion-label>
+            <ion-input type="text" formControlName="userPhoneCountryCode"></ion-input>
+          </ion-item>
+          <ion-item class="user-phone-area-code">
+            <ion-label color="medium" position="stacked">Phone Area Code</ion-label>
+            <ion-input type="text" formControlName="userPhoneAreaCode"></ion-input>
+          </ion-item>
+          <ion-item class="user-phone-number">
+            <ion-label color="medium" position="stacked">Phone Number</ion-label>
+            <ion-input type="text" formControlName="userPhone"></ion-input>
+          </ion-item>
         </ion-item>
       </ion-list>
       <ion-list lines="none">
         <i class="icon-lock"></i>
         <ion-item>
-          <ion-label color="medium" position="floating">Password</ion-label>
+          <ion-label color="medium" position="stacked">Password</ion-label>
           <ion-input type="password" formControlName="userPassword"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label color="medium" position="floating">Confirm Password</ion-label>
+          <ion-label color="medium" position="stacked">Confirm Password</ion-label>
           <ion-input type="password" formControlName="userConfirmPassword"></ion-input>
         </ion-item>
       </ion-list>
       <ion-list lines="none">
         <i class="icon-birthday"></i>
         <ion-item>
-          <ion-label color="medium" position="floating">Birthday</ion-label>
+          <ion-label color="medium" position="stacked">Birthday</ion-label>
           <ion-input type="date" formControlName="userDob"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label color="medium" position="floating">Favorite Dessert</ion-label>
+          <ion-label color="medium" position="stacked">Favorite Dessert</ion-label>
           <ion-input type="text" formControlName="userFavoriteDessert"></ion-input>
         </ion-item>
       </ion-list>
       <ion-list lines="none">
         <i class="icon-question"></i>
         <ion-item>
-          <ion-label color="medium" position="floating">
+          <ion-label color="medium" position="stacked">
             Do any of the following apply to you?
           </ion-label>
-          <ion-list> </ion-list>
+          <ion-list>
+            <ion-item>
+              <ion-label>Checkbox</ion-label>
+              <ion-checkbox></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Checkbox</ion-label>
+              <ion-checkbox></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Checkbox</ion-label>
+              <ion-checkbox></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Checkbox</ion-label>
+              <ion-checkbox></ion-checkbox>
+            </ion-item>
+            <ion-item>
+              <ion-label>Checkbox</ion-label>
+              <ion-checkbox></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Checkbox</ion-label>
+              <ion-checkbox></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Checkbox</ion-label>
+              <ion-checkbox></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Checkbox</ion-label>
+              <ion-checkbox></ion-checkbox>
+            </ion-item>
+          </ion-list>
         </ion-item>
       </ion-list>
       <i class="icon-info"></i>
-      <ion-label color="medium" position="floating">Anything else you want to share with the team?</ion-label>
+      <ion-label color="medium" position="stacked">Anything else you want to share with the team?</ion-label>
       <ion-textarea formControlName="userAdditionalInfo"></ion-textarea>
     </form>
   </ion-col>
