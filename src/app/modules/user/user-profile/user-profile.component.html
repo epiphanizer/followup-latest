@@ -4,27 +4,27 @@
 
       </app-admin-sidebar> -->
   </ion-col>
-  <ion-col class="call-queue-content">
+  <ion-col class="user-profile-content">
     <ion-title>User Profile</ion-title>
     <form id="user-profile-form" (ngSubmit)="updateUserProfile()" [formGroup]="userProfileForm" novalidate>
       <ion-list no-lines>
-        <ion-item>
+        <ion-item class="first-name">
           <ion-label color="medium" position="floating">First Name</ion-label>
-          <ion-input type="text" class="first-name" formControlName="userFirstName"></ion-input>
+          <ion-input type="text" formControlName="userFirstName"></ion-input>
         </ion-item>
-        <ion-item>
+        <ion-item class="middle-name">
           <ion-label color="medium" position="floating">Middle Name</ion-label>
-          <ion-input type="text" class="middle-name" formControlName="userMiddleName"></ion-input>
+          <ion-input type="text" formControlName="userMiddleName"></ion-input>
         </ion-item>
-        <ion-item>
+        <ion-item class="last-name">
           <ion-label color="medium" position="floating">Last Name</ion-label>
-          <ion-input type="text" class="last-name" formControlName="userLastName"></ion-input>
+          <ion-input type="text" formControlName="userLastName"></ion-input>
         </ion-item>
-        <ion-item>
+        <ion-item class="user-email">
           <ion-label color="medium" position="floating">Email</ion-label>
           <ion-input type="email" formControlName="userEmail"></ion-input>
         </ion-item>
-        <ion-item>
+        <ion-item class="user-phone">
           <ion-label color="medium" position="floating">Phone #</ion-label>
           <ion-input type="text" formControlName="userPhone"></ion-input>
         </ion-item>
@@ -66,6 +66,7 @@
     </form>
   </ion-col>
   <ion-col class="avatar-col">
+    <img src="/assets/user-avatar.png" alt="" />
     <!-- <app-user-avatar></app-user-avatar> -->
   </ion-col>
 </ion-row>
