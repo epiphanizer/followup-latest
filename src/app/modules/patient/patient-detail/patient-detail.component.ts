@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Patient } from '@app/modules/patient/patient.service';
-import { PatientCall, PatientCallService } from '../patient-call/patient-call.service';
+import { PatientCall, PatientCallService } from '../patient-detail/patient-call/patient-call.service';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 

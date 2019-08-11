@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  PatientCallNoteHighlights,
-  PatientCallNotesHighlightService
-} from '@app/modules/patient/patient-call/patient-call-notes/patient-call-notes-highlight.service';
+import { PatientCallNotesHighlightService } from '@app/modules/patient/patient-detail/patient-call/patient-call-notes/patient-call-notes-highlight.service';
 @NgModule({
   declarations: [],
   imports: [CommonModule],

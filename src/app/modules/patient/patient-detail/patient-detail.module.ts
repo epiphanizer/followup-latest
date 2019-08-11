@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { PatientDetailComponent } from './patient-detail.component';
-import { PatientCallNotesComponent } from './patient-call-notes/patient-call-notes.component';
-import { PatientCallQuestionsComponent } from './patient-call-questions/patient-call-questions.component';
+import { PatientCallNotesComponent } from './patient-call/patient-call-notes/patient-call-notes.component';
+import { PatientCallQuestionsComponent } from './patient-call/patient-call-questions/patient-call-questions.component';
 import { PatientSummaryWidgetComponent } from './patient-summary-widget/patient-summary-widget.component';
-import { PatientCallHistoryControlsComponent } from './patient-call-history-controls/patient-call-history-controls.component';
-import { PatientCallHistoryListingComponent } from './patient-call-history-listing/patient-call-history-listing.component';
-import { PatientCallStatusControlsComponent } from './patient-call-status-controls/patient-call-status-controls.component';
-import { PatientCallStartButtonComponent } from './patient-call-start-button/patient-call-start-button.component';
-import { PatientCallStopButtonComponent } from './patient-call-stop-button/patient-call-stop-button.component';
+import { PatientCallHistoryControlsComponent } from './patient-call/patient-call-history-controls/patient-call-history-controls.component';
+import { PatientCallHistoryListingComponent } from './patient-call/patient-call-history-listing/patient-call-history-listing.component';
+import { PatientCallStatusControlsComponent } from './patient-call/patient-call-status-controls/patient-call-status-controls.component';
+import { PatientCallStartButtonComponent } from './patient-call/patient-call-start-button/patient-call-start-button.component';
+import { PatientCallStopButtonComponent } from './patient-call/patient-call-stop-button/patient-call-stop-button.component';
 
 @NgModule({
   declarations: [

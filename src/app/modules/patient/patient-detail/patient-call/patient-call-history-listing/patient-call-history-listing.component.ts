@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Patient } from '../../../patient/patient.service';
+import { Patient } from '@app/modules/patient/patient.service';
 import { PatientCallService, PatientCall } from '../../patient-call/patient-call.service';
 import { Observable } from 'rxjs';
 

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { PatientRoutingModule } from './patient-routing.module';
-import { PatientCallModule } from './patient-call/patient-call.module';
+import { PatientCallModule } from './patient-detail/patient-call/patient-call.module';
 import { PatientNotesModule } from './patient-notes/patient-notes.module';
 import { PatientAvatarModule } from './patient-avatar/patient-avatar.module';
 import { PatientDetailModule } from './patient-detail/patient-detail.module';

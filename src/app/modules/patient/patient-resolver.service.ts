@@ -4,8 +4,8 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { Observable } from 'rxjs/Observable';
 
 import { Patient, PatientService } from './patient.service';
-import { PatientCallService } from './patient-call/patient-call.service';
-import { map, switchMap } from 'rxjs/operators';
+import { PatientCallService } from './patient-detail/patient-call/patient-call.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class PatientResolver implements Resolve<Patient> {
@@ -17,6 +17,7 @@ export class PatientResolver implements Resolve<Patient> {
     this.patient$ = this.patientService.getPatientByPatientId(+patientId).pipe(
       map((patient: Patient) => {
         patient.patientCalls$ = this.patientCallService.getPatientCallsByPatientId(patient.patientId);
+        this.patient = patient;
         return patient;
       })
     );
