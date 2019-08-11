@@ -30,18 +30,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.broadcastService.subscribe('msal:loginFailure', payload => {
-      alert('login failure');
-    });
-    this.broadcastService.subscribe('msal:loginSuccess', payload => {
-      alert('login success');
-    });
+    // this.broadcastService.subscribe('msal:loginFailure', payload => {
+    //   alert('login failure');
+    // });
+    // this.broadcastService.subscribe('msal:loginSuccess', payload => {
+    //   alert('login success');
+    // });
     this.broadcastService.subscribe('msal:acquireTokenSuccess', payload => {
-      alert('token success');
+      this.isLoading = true;
+      // alert('token success');
     });
 
     this.broadcastService.subscribe('msal:acquireTokenFailure', payload => {
-      alert('token failure');
+      // alert('token failure');
     });
   }
 

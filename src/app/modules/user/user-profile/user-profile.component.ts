@@ -30,7 +30,7 @@ export class UserProfileComponent implements OnInit {
       userEmail: [{ value: this.user.email, disabled: true }, [Validators.required, Validators.email]],
       userPhoneCountryCode: ['', [Validators.required]],
       userPhoneAreaCode: ['', [Validators.required]],
-      userPhone: ['', [Validators.required]],
+      userPhoneNumber: ['', [Validators.required]],
       userPassword: [{ disabled: true }],
       userConfirmPassword: [{ disabled: true }],
       userDob: ['', [Validators.required]],
