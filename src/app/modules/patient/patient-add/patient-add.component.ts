@@ -20,9 +20,7 @@ export class PatientAddComponent implements OnInit {
     this.patient$ = this.patientService.addNewPatient();
     this.createForm();
   }
-  addPatientFormSubmit() {
-    alert('adding new patient');
-  }
+  addPatientFormSubmit() {}
   private createForm() {
     this.addPatientForm = this.fb.group({
       operation: this.fb.control({}),
