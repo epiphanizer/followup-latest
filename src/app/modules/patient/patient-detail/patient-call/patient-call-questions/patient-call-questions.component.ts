@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PatientCallService, PatientCall } from '../../patient-call/patient-call.service';
+import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 import { Observable } from 'rxjs';
+import { PatientCallQuestionsService, PatientCallQuestion } from './patient-call-questions.service';
 
 @Component({
   selector: 'app-patient-call-questions',
@@ -9,11 +10,13 @@ import { Observable } from 'rxjs';
 })
 export class PatientCallQuestionsComponent implements OnInit {
   @Input() patientCall: PatientCall;
-  questions: [];
-  questions$: Observable<PatientCall>;
-  constructor(private patientCallService: PatientCallService) {}
+  questions: PatientCallQuestion[];
+  questions$: Observable<PatientCallQuestion[]>;
+  constructor(private patientCallQuestionsService: PatientCallQuestionsService) {}
 
   ngOnInit() {
-    this.questions$ = this.patientCallService.getPatientCallQuestionsByPatientCallId(this.patientCall.patientCallId);
+    this.questions$ = this.patientCallQuestionsService.getPatientCallQuestionsByPatientCallId(
+      this.patientCall.patientCallId
+    );
   }
 }

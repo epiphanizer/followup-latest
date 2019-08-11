@@ -3,10 +3,10 @@
     <i class="icon-question-mark"></i>
   </div>
   <ul class="patient-call-question-list">
-    <li *ngFor="let callQuestion of patientCall.questions$ | async">
+    <li *ngFor="let question of questions$ | async">
       <div class="call-question-body-container">
-        <div class="call-question">Pain Scale {{ callQuestion }}</div>
-        <ng-container *ngIf="callQuestion.type == 'rating'">
+        <div class="call-question">Pain Scale {{ question }}</div>
+        <ng-container *ngIf="question.type == 'rating'">
           <div class="call-question-answers">
             <ul>
               <li class="call-question-rating">1</li>
@@ -22,7 +22,7 @@
             </ul>
           </div>
         </ng-container>
-        <ng-container *ngIf="callQuestion.type == 'boolean'">
+        <ng-container *ngIf="question.type == 'boolean'">
           <ul>
             <li class="call-question-rating">
               Y<br />

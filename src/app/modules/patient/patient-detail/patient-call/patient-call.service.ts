@@ -13,13 +13,6 @@ export interface PatientCall {
   patientCallNumber?: number;
 }
 
-export interface PatientCallQuestion {
-  patientCallQuestionId: number;
-  patientCallQuestion: string;
-  patientCallQuestionType: string;
-  patientCallQuestionHighlight: boolean;
-}
-
 export interface PatientCallQuestionAnswer {
   patientCallQuestionAnswerId: number;
   patientCallQuestionAnswer: string;
