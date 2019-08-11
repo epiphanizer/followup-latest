@@ -18,7 +18,9 @@ export class PatientCallNotesComponent implements OnInit {
   patientCallNotes$: Observable<PatientCallNotes>;
   constructor(fb: FormBuilder, patientCallNotesService: PatientCallNotesService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.createForm();
+  }
   private createForm() {
     alert('creating form');
   }
