@@ -1,3 +1,140 @@
-<p>
-  patient-add-new-form works!
-</p>
+<ion-row>
+  <ion-col class="new-patient-sidebar">
+    <!-- <app-admin-sidebar> 
+
+      </app-admin-sidebar> -->
+  </ion-col>
+  <ion-col class="new-patient-content">
+    <ion-title>New Patient</ion-title>
+    <form id="new-patient-form" (ngSubmit)="newPatient()" [formGroup]="newPatientForm" novalidate>
+      <ion-list lines="none">
+        <ion-item class="first-name">
+          <ion-label color="medium" position="stacked">First Name</ion-label>
+          <ion-input type="text" formControlName="userFirstName"></ion-input>
+        </ion-item>
+        <ion-item class="middle-name">
+          <ion-label color="medium" position="stacked">Middle Name</ion-label>
+          <ion-input type="text" formControlName="userMiddleName"></ion-input>
+        </ion-item>
+        <ion-item class="last-name">
+          <ion-label color="medium" position="stacked">Last Name</ion-label>
+          <ion-input type="text" formControlName="userLastName"></ion-input>
+        </ion-item>
+        <ion-item class="user-email">
+          <ion-label color="medium" position="stacked">Email</ion-label>
+          <ion-input type="email" formControlName="userEmail"></ion-input>
+        </ion-item>
+        <ion-item class="user-phone-container">
+          <ion-item class="user-phone-country-code">
+            <ion-label color="medium" position="stacked">Country Code</ion-label>
+            <ion-input type="text" formControlName="userPhoneCountryCode"></ion-input>
+          </ion-item>
+          <ion-item class="user-phone-area-code">
+            <ion-label color="medium" position="stacked">Phone Area Code</ion-label>
+            <ion-input type="text" formControlName="userPhoneAreaCode"></ion-input>
+          </ion-item>
+          <ion-item class="user-phone-number">
+            <ion-label color="medium" position="stacked">Phone Number</ion-label>
+            <ion-input type="text" formControlName="userPhone"></ion-input>
+          </ion-item>
+        </ion-item>
+      </ion-list>
+      <ion-list lines="none">
+        <i class="icon-lock"></i>
+        <ion-item>
+          <ion-label color="medium" position="stacked">Password</ion-label>
+          <ion-input type="password" formControlName="userPassword"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="medium" position="stacked">Confirm Password</ion-label>
+          <ion-input type="password" formControlName="userConfirmPassword"></ion-input>
+        </ion-item>
+      </ion-list>
+      <!-- <ion-list lines="none">
+        <i class="icon-birthday"></i>
+        <ion-item>
+          <ion-label color="medium" position="stacked">Birthday</ion-label>
+          <ion-input type="text" formControlName="userDob"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="medium" position="stacked">Favorite Dessert</ion-label>
+          <ion-input type="text" formControlName="userFavoriteDessert"></ion-input>
+        </ion-item>
+      </ion-list> -->
+      <!-- <ion-list lines="none">
+        <i class="icon-question"></i>
+        <ion-item>
+          <ion-label color="medium" position="stacked">
+            Do any of the following apply to you?
+          </ion-label>
+          <ion-list>
+            <ion-item>
+              <ion-checkbox></ion-checkbox>
+              <ion-label>Met your favorite celebrity</ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-checkbox></ion-checkbox>
+              <ion-label>Flown in a helicopter</ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-checkbox></ion-checkbox>
+              <ion-label>Donated a kidney</ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-checkbox></ion-checkbox>
+              <ion-label>Sky dived or bungee jumped</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox></ion-checkbox>
+              <ion-label>Appeared on TV</ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-checkbox></ion-checkbox>
+              <ion-label>Read Pride & Prejudice</ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-checkbox></ion-checkbox>
+              <ion-label>Eaten Escargo</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-checkbox></ion-checkbox>
+                <ion-label>Been deployed</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox></ion-checkbox>
+              <ion-label>Played an instrument</ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-checkbox></ion-checkbox>
+              <ion-label>Seen a tornado</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-checkbox></ion-checkbox>
+                <ion-label>Hitch hiked</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-checkbox></ion-checkbox>
+                <ion-label>Played Dungeons & Dragons</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-item>
+      </ion-list> -->
+      <i class="icon-info"></i>
+      <ion-label color="medium" position="stacked">Anything else you want to share with the team?</ion-label>
+      <ion-textarea formControlName="userAdditionalInfo"></ion-textarea>
+    </form>
+  </ion-col>
+  <ion-col class="avatar-col">
+    <img src="/assets/user-avatar.png" alt="" />
+    <!-- <app-user-avatar></app-user-avatar> -->
+  </ion-col>
+</ion-row>

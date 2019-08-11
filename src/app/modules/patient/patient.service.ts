@@ -23,7 +23,19 @@ export interface Patient {
 export class PatientService {
   constructor(private http: HttpClient) {}
 
-  public getPatientListByOperationId(operationId: number): Observable<[Patient]> {
+  addNewPatient(): Observable<Patient> {
+    return this.http.post<Patient>('patients', {}).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  editPatientByPatientId(patientId: number, payload: Patient): Observable<Patient> {
+    return this.http.put<Patient>('patients/' + patientId, payload).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  getPatientListByOperationId(operationId: number): Observable<[Patient]> {
     return this.http.get<[Patient]>('operations/' + operationId + '/patients').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error

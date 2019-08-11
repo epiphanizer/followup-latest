@@ -4,12 +4,12 @@
     <app-patient-call-notes>
       <app-patient-call-start-button *ngIf="!patientCall"> </app-patient-call-start-button>
     </app-patient-call-notes>
-    <app-patient-call-questions [patientCall]="patientCall"></app-patient-call-questions>
+    <app-patient-call-questions [patientCall]="selected.patientCall"></app-patient-call-questions>
     <app-patient-call-stop-button *ngIf="patientCall"> </app-patient-call-stop-button>
   </ion-col>
   <ion-col class="right-hand-detail">
     <app-patient-summary-widget></app-patient-summary-widget>
     <app-patient-call-history-controls></app-patient-call-history-controls>
-    <app-patient-call-history-listing></app-patient-call-history-listing>
+    <app-patient-call-history-listing [patient]="patient"></app-patient-call-history-listing>
   </ion-col>
 </ion-row>

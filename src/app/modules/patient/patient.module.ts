@@ -12,6 +12,7 @@ import { PatientAvatarComponent } from '@app/modules/patient/patient-avatar/pati
 import { PatientAddComponent } from '@app/modules/patient/patient-add/patient-add.component';
 import { PatientEditComponent } from '@app/modules/patient/patient-edit/patient-edit.component';
 import { PatientService } from './patient.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [PatientComponent, PatientAvatarComponent, PatientAddComponent, PatientEditComponent],
@@ -19,6 +20,8 @@ import { PatientService } from './patient.service';
     CommonModule,
     IonicModule,
     RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
     PatientRoutingModule,
     PatientCallModule,
     PatientDetailModule,

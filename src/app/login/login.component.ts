@@ -53,10 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   signIn() {
-    var username = this.loginForm.get('username').value();
-    var password = this.loginForm.get('username').value();
-    debugger;
-    this.authService.signIn(username, password);
+    this.authService.signIn();
   }
 
   get isWeb(): boolean {

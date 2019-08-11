@@ -12,7 +12,12 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PatientDetailComponent implements OnInit {
   patient: Patient;
-  patientCall: PatientCall = null;
+  selected: {
+    patientCall: PatientCall | null;
+  } = {
+    patientCall: null
+  };
+  patientCall: PatientCall | null = null;
   patientCall$: Observable<PatientCall>;
   constructor(private patientCallService: PatientCallService, private route: ActivatedRoute) {}
 
@@ -21,6 +26,10 @@ export class PatientDetailComponent implements OnInit {
   }
 
   startPatientCall() {
-    this.patientCall$ = this.patientCallService.addPatientCallByPatientId(this.patient.patientId);
+    this.patientCall$ = this.patientCallService
+      .addPatientCallByPatientId(this.patient.patientId)
+      .subscribe((patientCall: PatientCall) => {
+        this.selected.patientCall = patientCall;
+      });
   }
 }
