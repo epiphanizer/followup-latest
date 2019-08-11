@@ -3,7 +3,7 @@
     <i class="icon-question-mark"></i>
   </div>
   <ul class="patient-call-question-list">
-    <li *ngFor="let callQuestion of patientCall.questions? | async">
+    <li *ngFor="let callQuestion of patientCall.questions$ | async">
       <div class="call-question-body-container">
         <div class="call-question">Pain Scale {{ callQuestion }}</div>
         <ng-container *ngIf="callQuestion.type == 'rating'">
