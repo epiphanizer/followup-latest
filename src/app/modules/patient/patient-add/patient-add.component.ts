@@ -25,6 +25,7 @@ export class PatientAddComponent implements OnInit {
     this.addPatientForm = this.fb.group({
       operation: this.fb.control({}),
       patient: this.fb.group({
+        patientRecordNumber: this.fb.control({}),
         patientName: this.fb.group({
           patientFirstName: this.fb.control({}),
           patientMiddleName: this.fb.control({}),
@@ -32,32 +33,34 @@ export class PatientAddComponent implements OnInit {
         }),
         patientDob: this.fb.control({}),
         // We calculate the age and set this later
-        age: this.fb.control({
+        patientAge: this.fb.control({
           value: null,
           disabled: true
         }),
-        patientRecordNumber: this.fb.control({}),
         patientContacts: this.fb.group({
           primaryPatientContact: this.fb.group({
             patientContactName: this.fb.control({}),
             patientContactRelationship: this.fb.control({}),
             patientContactCountryCodeNumber: this.fb.control({}),
             patientContactAreaCodeNumber: this.fb.control({}),
-            patientContactPhoneNumber: this.fb.control({})
+            patientContactPhoneNumber: this.fb.control({}),
+            patientResponsiblePartyBoolean: this.fb.control({})
           }),
           alternatePatientContact1: this.fb.group({
             patientContactName: this.fb.control({}),
             patientContactRelationship: this.fb.control({}),
             patientContactCountryCodeNumber: this.fb.control({}),
             patientContactAreaCodeNumber: this.fb.control({}),
-            patientContactPhoneNumber: this.fb.control({})
+            patientContactPhoneNumber: this.fb.control({}),
+            patientResponsiblePartyBoolean: this.fb.control({})
           }),
           alternatePatientContact2: this.fb.group({
             patientContactName: this.fb.control({}),
             patientContactRelationship: this.fb.control({}),
             patientContactCountryCodeNumber: this.fb.control({}),
             patientContactAreaCodeNumber: this.fb.control({}),
-            patientContactPhoneNumber: this.fb.control({})
+            patientContactPhoneNumber: this.fb.control({}),
+            patientResponsiblePartyBoolean: this.fb.control({})
           })
         })
       }),
