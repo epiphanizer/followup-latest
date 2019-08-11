@@ -16,20 +16,23 @@ export interface PatientCallQuestion {
 })
 export class PatientCallQuestionsService {
   constructor(private http: HttpService) {}
+
+  /**
+   * Patient Call Questions
+   */
   addPatientCallQuestionByPatientCallId = function(patientCallId: number) {
-    return this.http.post('patients/' + patientCallId + '/calls/questions').pipe(
+    return this.http.post('patients/calls/' + patientCallId + '/questions').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
-  getPatientCallQuestionsPatientCallId = function(patientCallId: number) {
-    return this.http.get('patients/' + patientCallId + '/calls').pipe(
+  getPatientCallQuestionsByPatientCallId = function(patientCallId: number) {
+    return this.http.post('patients/calls/' + patientCallId + '/questions').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
-
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
