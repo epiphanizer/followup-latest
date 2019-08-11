@@ -8,73 +8,57 @@
       <ion-select>
         Facility
       </ion-select>
-      <ion-item>
-        <ion-label position="stacked">Patient #</ion-label>
-        <ion-input type="text" placeholder="Patient #" formControlName="patientRecordNumber"></ion-input>
-      </ion-item>
-      <ion-list lines="none" [formGroup]="patientName">
-        <ion-item class="first-name">
-          <ion-label color="medium" position="stacked">First Name</ion-label>
-          <ion-input type="text" formControlName="patientFirstName"></ion-input>
+      <ng-container [formGroup]="patient">
+        <ion-item>
+          <ion-label position="stacked">Patient #</ion-label>
+          <ion-input type="text" placeholder="Patient #" formControlName="patientRecordNumber"></ion-input>
         </ion-item>
-        <ion-item class="middle-name">
-          <ion-label color="medium" position="stacked">Middle Name</ion-label>
-          <ion-input type="text" formControlName="patientMiddleName"></ion-input>
+        <ion-list lines="none" [formGroup]="patientName">
+          <ion-item class="first-name">
+            <ion-label color="medium" position="stacked">First Name</ion-label>
+            <ion-input type="text" formControlName="patientFirstName"></ion-input>
+          </ion-item>
+          <ion-item class="middle-name">
+            <ion-label color="medium" position="stacked">Middle Name</ion-label>
+            <ion-input type="text" formControlName="patientMiddleName"></ion-input>
+          </ion-item>
+          <ion-item class="last-name">
+            <ion-label color="medium" position="stacked">Last Name</ion-label>
+            <ion-input type="text" formControlName="patientLastName"></ion-input>
+          </ion-item>
+        </ion-list>
+        <ion-item>
+          <i class="icon-birthday"></i>
+          <ion-label position="stacked">Date of Birth</ion-label>
+          <ion-input type="date" formControlName="patientDob"></ion-input>
+          <ion-label position="stacked">Age</ion-label>
+          <ion-input class="patient-age" type="number" formcontrolName="patientAge"></ion-input>
         </ion-item>
-        <ion-item class="last-name">
-          <ion-label color="medium" position="stacked">Last Name</ion-label>
-          <ion-input type="text" formControlName="patientLastName"></ion-input>
-        </ion-item>
-      </ion-list>
-      <ion-item>
-        <ion-input type="date" formControlName="patientDob"></ion-input>
-      </ion-item>
-      <div class="section-header">
-        <i class="icon-contacts"></i>
-        Contacts
-      </div>
-      <div class="section-header">
-        <i class="icon-contacts"></i>
-        Care Providers
-      </div>
+        <div class="section-header">
+          <i class="icon-contacts"></i>
+          Contacts
+        </div>
+        <div class="section-header">
+          <i class="icon-contacts"></i>
+          Care Providers
+        </div>
+      </ng-container>
       <!-- <ion-list>
         <ion-item class="patient-phone-container">
           <ion-item class="patient-phone-country-code">
             <ion-label color="medium" position="stacked">Country Code</ion-label>
-            <ion-input type="text" formControlName="userPhoneCountryCode"></ion-input>
+            <ion-input type="text" formControlName="patientPhoneCountryCode"></ion-input>
           </ion-item>
-          <ion-item class="user-phone-area-code">
+          <ion-item class="patient-phone-area-code">
             <ion-label color="medium" position="stacked">Phone Area Code</ion-label>
-            <ion-input type="text" formControlName="userPhoneAreaCode"></ion-input>
+            <ion-input type="text" formControlName="patientPhoneAreaCode"></ion-input>
           </ion-item>
-          <ion-item class="user-phone-number">
+          <ion-item class="patient-phone-number">
             <ion-label color="medium" position="stacked">Phone Number</ion-label>
-            <ion-input type="text" formControlName="userPhone"></ion-input>
+            <ion-input type="text" formControlName="patientPhone"></ion-input>
           </ion-item>
         </ion-item>
       </ion-list>
-      <ion-list lines="none">
-        <i class="icon-lock"></i>
-        <ion-item>
-          <ion-label color="medium" position="stacked">Password</ion-label>
-          <ion-input type="password" formControlName="userPassword"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label color="medium" position="stacked">Confirm Password</ion-label>
-          <ion-input type="password" formControlName="userConfirmPassword"></ion-input>
-        </ion-item>
-      </ion-list> -->
-      <!-- <ion-list lines="none">
-        <i class="icon-birthday"></i>
-        <ion-item>
-          <ion-label color="medium" position="stacked">Birthday</ion-label>
-          <ion-input type="text" formControlName="userDob"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label color="medium" position="stacked">Favorite Dessert</ion-label>
-          <ion-input type="text" formControlName="userFavoriteDessert"></ion-input>
-        </ion-item>
-      </ion-list> -->
       <!-- <ion-list lines="none">
         <i class="icon-question"></i>
         <ion-item>
@@ -144,11 +128,11 @@
       </ion-list> -->
       <i class="icon-info"></i>
       <!-- <ion-label color="medium" position="stacked">Anything else you want to share with the team?</ion-label>
-      <ion-textarea formControlName="userAdditionalInfo"></ion-textarea> -->
+      <ion-textarea formControlName="patientAdditionalInfo"></ion-textarea> -->
     </form>
   </ion-col>
   <ion-col class="avatar-col">
     <img src="/assets/add-photo-default-avatar.png" alt="" />
-    <!-- <app-user-avatar></app-user-avatar> -->
+    <!-- <app-patient-avatar></app-patient-avatar> -->
   </ion-col>
 </ion-row>

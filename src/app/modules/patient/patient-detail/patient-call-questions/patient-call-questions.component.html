@@ -1,54 +1,28 @@
 <ng-container>
-  <div class="call-question-icon"></div>
+  <div class="call-question-icon">
+    <i class="icon-question-mark"></i>
+  </div>
   <ul class="patient-call-question-list">
-    <li>
+    <li *ngFor="let callQuestion of patientCall.questions? | async">
       <div class="call-question-body-container">
-        <div class="call-question">
-          Pain Scale
-        </div>
-        <div class="call-question-answers">
-          <ul>
-            <li class="call-question-rating">1</li>
-            <li class="call-question-rating">2</li>
-            <li class="call-question-rating">3</li>
-            <li class="call-question-rating">4</li>
-            <li class="call-question-rating">5</li>
-            <li class="call-question-rating">6</li>
-            <li class="call-question-rating">7</li>
-            <li class="call-question-rating">8</li>
-            <li class="call-question-rating">9</li>
-            <li class="call-question-rating">10</li>
-          </ul>
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="call-question-body-container">
-        <div class="call-question">
-          Mental Scale Scale
-        </div>
-        <div class="call-question-answers">
-          <ul>
-            <li class="call-question-rating">1</li>
-            <li class="call-question-rating">2</li>
-            <li class="call-question-rating">3</li>
-            <li class="call-question-rating">4</li>
-            <li class="call-question-rating">5</li>
-            <li class="call-question-rating">6</li>
-            <li class="call-question-rating">7</li>
-            <li class="call-question-rating">8</li>
-            <li class="call-question-rating">9</li>
-            <li class="call-question-rating">10</li>
-          </ul>
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="call-question-body-container">
-        <div class="call-question">
-          Are you able to take your medication?
-        </div>
-        <div class="call-question-answers">
+        <div class="call-question">Pain Scale {{ callQuestion }}</div>
+        <ng-container *ngIf="callQuestion.type == 'rating'">
+          <div class="call-question-answers">
+            <ul>
+              <li class="call-question-rating">1</li>
+              <li class="call-question-rating">2</li>
+              <li class="call-question-rating">3</li>
+              <li class="call-question-rating">4</li>
+              <li class="call-question-rating">5</li>
+              <li class="call-question-rating">6</li>
+              <li class="call-question-rating">7</li>
+              <li class="call-question-rating">8</li>
+              <li class="call-question-rating">9</li>
+              <li class="call-question-rating">10</li>
+            </ul>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="callQuestion.type == 'boolean'">
           <ul>
             <li class="call-question-rating">
               Y<br />
@@ -59,74 +33,7 @@
               <span>(No)</span>
             </li>
           </ul>
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="call-question-body-container">
-        <div class="call-question">
-          Do you have an appointment set up with your doctor?
-        </div>
-        <div class="call-question-answers">
-          <ul>
-            <li class="call-question-rating">
-              Y<br />
-              <span>(Yes)</span>
-            </li>
-            <li class="call-question-rating">
-              N<br />
-              <span>(No)</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="call-question-body-container">
-        <div class="call-question">
-          Has home health contacted you?
-        </div>
-        <div class="call-question-answers">
-          <ul>
-            <li class="call-question-rating">
-              Y<br />
-              <span>(Yes)</span>
-            </li>
-            <li class="call-question-rating">
-              N<br />
-              <span>(No)</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="call-question-body-container">
-        <div class="call-question">
-          Has home health visited you?
-        </div>
-        <div class="call-question-answers">
-          <ul>
-            <li class="call-question-rating">
-              Y<br />
-              <span>(Yes)</span>
-            </li>
-            <li class="call-question-rating">
-              N<br />
-              <span>(No)</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="call-question-body-container">
-        <div class="call-question">
-          Were you able to go to your family reunion?
-        </div>
-        <div class="call-question-answers">
-          <ion-textarea></ion-textarea>
-        </div>
+        </ng-container>
       </div>
     </li>
   </ul>

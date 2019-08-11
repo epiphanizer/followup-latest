@@ -7,6 +7,7 @@ import { PatientEditComponent } from './patient-edit/patient-edit.component';
 import { Shell } from '@app/shell/shell.service';
 import { PatientDetailComponent } from './patient-detail/patient-detail.component';
 import { PatientResolver } from './patient-resolver.service';
+import { UserResolver } from '../user/user-resolver.service';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -23,6 +24,9 @@ const routes: Routes = [
     {
       path: 'patient/add',
       component: PatientAddComponent,
+      resolve: {
+        user: UserResolver
+      },
       data: {
         title: extract('New Patient')
       }
@@ -31,6 +35,7 @@ const routes: Routes = [
       path: 'patient/edit/:patientId',
       component: PatientEditComponent,
       resolve: {
+        user: UserResolver,
         patient: PatientResolver
       },
       data: {

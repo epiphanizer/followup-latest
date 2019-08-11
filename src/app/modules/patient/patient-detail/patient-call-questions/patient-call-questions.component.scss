@@ -1,8 +1,15 @@
 .patient-call-question-list {
+  float: left;
   list-style-type: none;
   padding-left: 0;
 }
 
+.call-question-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 19px;
+  float: left;
+}
 .call-question-body-container {
   height: 130px;
   margin-bottom: 100px;

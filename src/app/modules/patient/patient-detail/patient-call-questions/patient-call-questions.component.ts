@@ -12,6 +12,6 @@ export class PatientCallQuestionsComponent implements OnInit {
   constructor(private patientCallService: PatientCallService) {}
 
   ngOnInit() {
-    // this.questions = this.patientCallService.getPatientCallQuestionsByPatientCallId(this.patientCall.patientCallId);
+    this.questions = this.patientCallService.getPatientCallQuestionsByPatientCallId(this.patientCall.patientCallId);
   }
 }
