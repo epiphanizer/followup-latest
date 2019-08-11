@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-user-profile-sidebar',
@@ -6,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-profile-sidebar.component.scss']
 })
 export class UserProfileSidebarComponent implements OnInit {
+  todaysDateDay: number;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+  }
 }
