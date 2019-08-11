@@ -1,7 +1,4 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { Observable, throwError, Subscription } from 'rxjs';
-import { catchError, retry, map } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Operation } from '@app/modules/operation/operation.service';
 import { formatDate } from '@angular/common';
 import {

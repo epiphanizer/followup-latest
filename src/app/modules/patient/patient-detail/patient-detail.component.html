@@ -3,7 +3,10 @@
     <app-patient-call-status-controls></app-patient-call-status-controls>
     <app-patient-call-start-button *ngIf="!patientCall"> </app-patient-call-start-button>
     <app-patient-call-notes [patientCall]="selected.patientCall"> </app-patient-call-notes>
-    <app-patient-call-questions [patientCall]="selected.patientCall"></app-patient-call-questions>
+    <app-patient-call-questions
+      *ngIf="selected.patientCall"
+      [patientCall]="selected.patientCall"
+    ></app-patient-call-questions>
     <app-patient-call-stop-button *ngIf="patientCall"> </app-patient-call-stop-button>
   </ion-col>
   <ion-col class="right-hand-detail">

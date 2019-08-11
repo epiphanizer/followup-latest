@@ -22,7 +22,11 @@ export interface PatientCallQuestionAnswer {
   providedIn: 'root'
 })
 export class PatientCallService {
-  call: {
+  /**
+   * A public parameter that gives a Status of a call in terms
+   * of time.
+   */
+  public call: {
     status: number | string;
   };
   constructor(private http: HttpService) {}
