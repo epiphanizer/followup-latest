@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { PatientCall } from '../../patient-call/patient-call.service';
 
 @Component({
   selector: 'app-patient-call-notes',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./patient-call-notes.component.scss']
 })
 export class PatientCallNotesComponent implements OnInit {
+  @Input() patientCall: PatientCall;
   constructor() {}
 
   ngOnInit() {}

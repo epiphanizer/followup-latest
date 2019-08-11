@@ -12,7 +12,7 @@ export interface PatientCallNoteHighlights {
 @Injectable({
   providedIn: 'root'
 })
-export class PatientCallNoteHighlightService {
+export class PatientCallNotesHighlightService {
   constructor(private http: HttpService) {}
   addPatientCallHighlightByPatientCallNoteId = function(patientCallNoteId: number) {
     return this.http.post('patients/calls/' + patientCallNoteId).pipe(

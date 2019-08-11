@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PatientService, Patient } from '../../patient.service';
-import { ActivatedRoute } from '@angular/router';
 import { Operation } from '@app/modules/operation/operation.service';
 
 @Component({
@@ -10,13 +9,12 @@ import { Operation } from '@app/modules/operation/operation.service';
   styleUrls: ['./patient-summary-widget.component.scss']
 })
 export class PatientSummaryWidgetComponent implements OnInit {
+  @Input() patient: Patient;
   currentYear: number;
-  patient: Patient;
   operation: Operation;
-  constructor(private route: ActivatedRoute) {}
+  constructor() {}
 
   ngOnInit() {
-    this.patient = this.route.snapshot.data.patient;
     this.currentYear = new Date().getFullYear();
   }
 }

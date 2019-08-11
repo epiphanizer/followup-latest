@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  PatientCallNoteHighlight,
-  PatientCallNoteHighlightService
-} from '@app/modules/patient/patient-call/patient-call-notes/patient-call-notes.module';
+  PatientCallNoteHighlights,
+  PatientCallNotesHighlightService
+} from '@app/modules/patient/patient-call/patient-call-notes/patient-call-notes-highlight.service';
 @NgModule({
   declarations: [],
-  imports: [CommonModule]
+  imports: [CommonModule],
+  providers: [PatientCallNotesHighlightService]
 })
-export class PatientCallNotesModule {
-  patientCallNoteHighlights: [PatientCallNoteHighlights];
-}
+export class PatientCallNotesModule {}
