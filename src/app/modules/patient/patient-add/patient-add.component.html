@@ -1,12 +1,10 @@
 <ion-row>
   <ion-col class="new-patient-sidebar">
-    <!-- <app-admin-sidebar> 
-
-      </app-admin-sidebar> -->
+    <app-call-queue-sidebar></app-call-queue-sidebar>
   </ion-col>
   <ion-col class="new-patient-content">
     <ion-title>New Patient</ion-title>
-    <form id="new-patient-form" (ngSubmit)="newPatient()" [formGroup]="newPatientForm" novalidate>
+    <form id="new-patient-form" (ngSubmit)="addPatientFormSubmit()" [formGroup]="newPatientForm" novalidate>
       <ion-list lines="none">
         <ion-item class="first-name">
           <ion-label color="medium" position="stacked">First Name</ion-label>
