@@ -13,6 +13,7 @@ import { PatientAddComponent } from '@app/modules/patient/patient-add/patient-ad
 import { PatientEditComponent } from '@app/modules/patient/patient-edit/patient-edit.component';
 import { PatientService } from './patient.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PatientManagerSidebarComponent } from '@app/modules/patient/patient-manager-sidebar/patient-manager-sidebar.component';
 
 @NgModule({
   declarations: [PatientComponent, PatientAvatarComponent, PatientAddComponent, PatientEditComponent],
@@ -28,6 +29,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PatientNotesModule,
     PatientAvatarModule
   ],
+  entryComponents: [],
   providers: [PatientService]
 })
 export class PatientModule {}
