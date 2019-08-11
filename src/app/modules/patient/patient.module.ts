@@ -16,7 +16,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientManagerSidebarComponent } from '@app/modules/patient/patient-manager-sidebar/patient-manager-sidebar.component';
 
 @NgModule({
-  declarations: [PatientComponent, PatientAvatarComponent, PatientAddComponent, PatientEditComponent],
+  declarations: [
+    PatientComponent,
+    PatientAvatarComponent,
+    PatientAddComponent,
+    PatientEditComponent,
+    PatientManagerSidebarComponent
+  ],
   imports: [
     CommonModule,
     IonicModule,
@@ -29,7 +35,7 @@ import { PatientManagerSidebarComponent } from '@app/modules/patient/patient-man
     PatientNotesModule,
     PatientAvatarModule
   ],
-  entryComponents: [],
+  entryComponents: [PatientManagerSidebarComponent],
   providers: [PatientService]
 })
 export class PatientModule {}
