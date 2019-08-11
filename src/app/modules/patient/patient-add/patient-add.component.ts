@@ -25,9 +25,18 @@ export class PatientAddComponent implements OnInit {
     this.addPatientForm = this.fb.group({
       operation: this.fb.control({}),
       patient: this.fb.group({
-        name: this.fb.control({}),
-        age: this.fb.control({}),
-        patientMedicalRecordNumber: this.fb.control({}),
+        patientName: this.fb.group({
+          patientFirstName: this.fb.control({}),
+          patientMiddleName: this.fb.control({}),
+          patientLastName: this.fb.control({})
+        }),
+        patientDob: this.fb.control({}),
+        // We calculate the age and set this later
+        age: this.fb.control({
+          value: null,
+          disabled: true
+        }),
+        patientRecordNumber: this.fb.control({}),
         patientContacts: this.fb.group({
           primaryPatientContact: this.fb.group({
             patientContactName: this.fb.control({}),

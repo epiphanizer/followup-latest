@@ -5,25 +5,37 @@
   <ion-col class="new-patient-content">
     <ion-title>New Patient</ion-title>
     <form id="new-patient-form" (ngSubmit)="addPatientFormSubmit()" [formGroup]="addPatientForm" novalidate>
-      <ion-list lines="none">
+      <ion-select>
+        Facility
+      </ion-select>
+      <ion-item>
+        <ion-label position="stacked">Patient #</ion-label>
+        <ion-input type="text" placeholder="Patient #" formControlName="patientRecordNumber"></ion-input>
+      </ion-item>
+      <ion-list lines="none" [formGroup]="patientName">
         <ion-item class="first-name">
           <ion-label color="medium" position="stacked">First Name</ion-label>
-          <ion-input type="text" formControlName="userFirstName"></ion-input>
+          <ion-input type="text" formControlName="patientFirstName"></ion-input>
         </ion-item>
         <ion-item class="middle-name">
           <ion-label color="medium" position="stacked">Middle Name</ion-label>
-          <ion-input type="text" formControlName="userMiddleName"></ion-input>
+          <ion-input type="text" formControlName="patientMiddleName"></ion-input>
         </ion-item>
         <ion-item class="last-name">
           <ion-label color="medium" position="stacked">Last Name</ion-label>
-          <ion-input type="text" formControlName="userLastName"></ion-input>
+          <ion-input type="text" formControlName="patientLastName"></ion-input>
         </ion-item>
-        <ion-item class="user-email">
-          <ion-label color="medium" position="stacked">Email</ion-label>
-          <ion-input type="email" formControlName="userEmail"></ion-input>
-        </ion-item>
-        <ion-item class="user-phone-container">
-          <ion-item class="user-phone-country-code">
+      </ion-list>
+      <ion-item>
+        <ion-input type="date" formControlName="patientDob"></ion-input>
+      </ion-item>
+      <div class="section-header">
+        <i class="icon-contacts"></i>
+        Contacts
+      </div>
+      <ion-list>
+        <ion-item class="patient-phone-container">
+          <ion-item class="patient-phone-country-code">
             <ion-label color="medium" position="stacked">Country Code</ion-label>
             <ion-input type="text" formControlName="userPhoneCountryCode"></ion-input>
           </ion-item>
