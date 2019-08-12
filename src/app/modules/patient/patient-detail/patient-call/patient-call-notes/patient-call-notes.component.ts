@@ -21,7 +21,5 @@ export class PatientCallNotesComponent implements OnInit {
   ngOnInit() {
     this.createForm();
   }
-  private createForm() {
-    alert('creating form');
-  }
+  private createForm() {}
 }

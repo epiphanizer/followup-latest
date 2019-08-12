@@ -24,12 +24,7 @@ export class PatientDetailComponent implements OnInit {
   ngOnInit() {
     this.patient = this.route.snapshot.data.patient;
   }
-
-  startPatientCall() {
-    this.patientCall$ = this.patientCallService
-      .addPatientCallByPatientId(this.patient.patientId)
-      .subscribe((patientCall: PatientCall) => {
-        this.selected.patientCall = patientCall;
-      });
+  patientCallStartEventHandler($event: Event) {
+    alert('parent component is aware of patient call being started');
   }
 }

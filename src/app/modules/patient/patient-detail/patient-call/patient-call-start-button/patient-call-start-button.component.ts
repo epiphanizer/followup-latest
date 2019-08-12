@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { PatientCall, PatientCallService } from '../patient-call.service';
 import { Observable } from 'rxjs';
 import { Patient } from '@app/modules/patient/patient.service';
+import { User } from '@app/modules/user/user.service';
 
 @Component({
   providers: [PatientCallService],
@@ -11,6 +12,7 @@ import { Patient } from '@app/modules/patient/patient.service';
 })
 export class PatientCallStartButtonComponent implements OnInit {
   patientCall$: Observable<PatientCall>;
+  @Input() user: User;
   @Input() patient: Patient;
   @Output() patientCallStartEventEmitter = new EventEmitter<PatientCall>();
   constructor(private patientCallService: PatientCallService) {}
@@ -18,7 +20,7 @@ export class PatientCallStartButtonComponent implements OnInit {
   ngOnInit() {}
   public patientCallStartEvent(patientId: number) {
     this.patientCall$ = this.patientCallService
-      .addPatientCallByPatientId(patientId)
+      .addPatientCallByUserIdAndPatientId(this.user.id, this.patient.patientId)
       .subscribe((patientCall: PatientCall) => {
         // Send the patient call out into the ecosystem
         console.log(patientCall);

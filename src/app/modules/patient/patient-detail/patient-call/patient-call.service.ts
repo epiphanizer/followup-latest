@@ -30,8 +30,8 @@ export class PatientCallService {
     status: number | string;
   };
   constructor(private http: HttpService) {}
-  addPatientCallByPatientId = function(patientId: number) {
-    return this.http.post('patients/' + patientId + '/calls').pipe(
+  addPatientCallByUserIdAndPatientId = function(userId: number, patientId: number) {
+    return this.http.post('patients/' + patientId + '/calls', { userId: userId }).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
