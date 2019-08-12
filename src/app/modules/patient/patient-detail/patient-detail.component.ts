@@ -16,8 +16,10 @@ export class PatientDetailComponent implements OnInit {
   patient: Patient;
   selected: {
     patientCall: PatientCall | null;
+    patientContactNumber: null;
   } = {
-    patientCall: null
+    patientCall: null,
+    patientContactNumber: null
   };
   patientCall: PatientCall | null = null;
   patientCall$: Observable<PatientCall>;

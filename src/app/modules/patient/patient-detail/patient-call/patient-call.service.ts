@@ -13,10 +13,10 @@ export interface PatientCall {
   patientCallNumber?: number;
 }
 
-export interface PatientCallQuestionAnswer {
-  patientCallQuestionAnswerId: number;
-  patientCallQuestionAnswer: string;
-}
+// export interface PatientCallQuestionAnswer {
+//   patientCallQuestionAnswerId: number;
+//   patientCallQuestionAnswer: string;
+// }
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +30,13 @@ export class PatientCallService {
     status: number | string;
   };
   constructor(private http: HttpService) {}
-  addPatientCallByUserIdAndPatientId = function(userId: number, patientId: number) {
-    return this.http.post('patients/' + patientId + '/calls', { userId: userId }).pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
+  addPatientCallByUserIdAndPatientId = function(userId: number, patientId: number, patientContactNumberId: number) {
+    return this.http
+      .post('patients/' + patientId + '/calls', { userId: userId, patientContactNumberId: patientContactNumberId })
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   };
 
   getPatientCallsByPatientId = function(patientId: number) {

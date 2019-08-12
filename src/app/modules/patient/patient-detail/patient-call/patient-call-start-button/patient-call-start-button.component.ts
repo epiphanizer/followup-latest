@@ -14,13 +14,14 @@ export class PatientCallStartButtonComponent implements OnInit {
   patientCall$: Observable<PatientCall>;
   @Input() user: User;
   @Input() patient: Patient;
+  @Input() patientContactNumberId: number;
   @Output() patientCallStartEventEmitter = new EventEmitter<PatientCall>();
   constructor(private patientCallService: PatientCallService) {}
 
   ngOnInit() {}
   public patientCallStartEvent() {
     this.patientCall$ = this.patientCallService
-      .addPatientCallByUserIdAndPatientId(this.user.id, this.patient.patientId)
+      .addPatientCallByUserIdAndPatientId(this.user.id, this.patient.patientId, this.patientContactNumberId)
       .subscribe((patientCall: PatientCall) => {
         // Send the patient call out into the ecosystem
         console.log(patientCall);

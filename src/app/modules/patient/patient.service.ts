@@ -15,6 +15,7 @@ export interface Patient {
   avatar: string;
   // We may not always have this, but it's nice to have when we do need it
   // for the sake of labeling, etc.
+  patientContactNumberId: number;
   patientCalls?: PatientCall[];
   patientCalls$: Observable<PatientCall[]>;
   patientCallCount?: number;

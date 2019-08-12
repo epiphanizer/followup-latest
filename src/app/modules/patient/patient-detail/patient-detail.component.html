@@ -5,6 +5,7 @@
       *ngIf="!patientCall"
       [user]="user"
       [patient]="patient"
+      [patientContactNumberId]="patient.patientContactNumberId"
       (patientCallStartEvent)="patientCallStartEvent($event)"
     >
     </app-patient-call-start-button>
