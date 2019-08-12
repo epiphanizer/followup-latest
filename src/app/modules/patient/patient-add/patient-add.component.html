@@ -8,12 +8,12 @@
       <ion-select>
         Facility
       </ion-select>
-      <ion-list [formGroup]="patient">
+      <ion-list formGroupName="patient">
         <ion-item>
           <ion-label position="stacked">Patient #</ion-label>
           <ion-input type="text" placeholder="Patient #" formControlName="patientRecordNumber"></ion-input>
         </ion-item>
-        <ion-list lines="none" [formGroup]="patientName">
+        <ion-list lines="none" formGroupName="patientName">
           <ion-item class="first-name">
             <ion-label color="medium" position="stacked">First Name</ion-label>
             <ion-input type="text" formControlName="patientFirstName"></ion-input>
