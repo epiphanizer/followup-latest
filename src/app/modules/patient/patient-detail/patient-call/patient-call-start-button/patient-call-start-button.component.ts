@@ -18,7 +18,7 @@ export class PatientCallStartButtonComponent implements OnInit {
   constructor(private patientCallService: PatientCallService) {}
 
   ngOnInit() {}
-  public patientCallStartEvent(patientId: number) {
+  public patientCallStartEvent() {
     this.patientCall$ = this.patientCallService
       .addPatientCallByUserIdAndPatientId(this.user.id, this.patient.patientId)
       .subscribe((patientCall: PatientCall) => {

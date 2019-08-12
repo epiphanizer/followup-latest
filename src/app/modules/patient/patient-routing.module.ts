@@ -15,6 +15,7 @@ const routes: Routes = [
       path: 'call-queue/operations/:operationId/patient/:patientId',
       component: PatientDetailComponent,
       resolve: {
+        user: UserResolver,
         patient: PatientResolver
       },
       data: {
