@@ -6,7 +6,8 @@
     <ion-col class="user-profile-content">
       <ion-title>User Profile</ion-title>
       <form id="user-profile-form" (ngSubmit)="updateUserProfile()" [formGroup]="userProfileForm" novalidate>
-        <ion-list lines="none">
+        <ion-list lines="none" inset>
+          <i class="icon-user"></i>
           <ion-item class="first-name">
             <ion-label color="medium" position="stacked">First Name</ion-label>
             <ion-input type="text" formControlName="userFirstName"></ion-input>
@@ -63,10 +64,10 @@
         <ion-list lines="none">
           <i class="icon-question"></i>
           <ion-item>
-            <ion-label color="medium" position="stacked">
+            <ion-label class="main-label-box" color="medium" position="stacked">
               Do any of the following apply to you?
             </ion-label>
-            <ion-list>
+            <ion-list class="checkboxes" liens="none">
               <ion-item>
                 <ion-checkbox></ion-checkbox>
                 <ion-label>Met your favorite celebrity</ion-label>
@@ -128,6 +129,7 @@
         <i class="icon-info"></i>
         <ion-label color="medium" position="stacked">Anything else you want to share with the team?</ion-label>
         <ion-textarea formControlName="userAdditionalInfo"></ion-textarea>
+        <ion-button type="submit">Save</ion-button>
       </form>
     </ion-col>
     <ion-col class="avatar-col">
