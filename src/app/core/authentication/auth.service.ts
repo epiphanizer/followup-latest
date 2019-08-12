@@ -149,6 +149,7 @@ export class AuthenticationService {
   // grant consent to the requested permission scopes
   async signIn(): Promise<void> {
     let result = await this.msalService.loginPopup(OAuthSettings.scopes).catch(reason => {
+      alert('login failed');
       this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
     });
     if (result) {
