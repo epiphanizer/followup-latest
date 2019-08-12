@@ -1,11 +1,12 @@
 <ion-row>
   <ion-col class="left-hand-detail">
     <app-patient-call-status-controls></app-patient-call-status-controls>
+    <!-- Missing Functionality: Selector for app contact -->
     <app-patient-call-start-button
       *ngIf="!patientCall"
       [user]="user"
       [patient]="patient"
-      [patientContactNumberId]="patient.patientContactNumberId"
+      [patientContactNumberId]="2"
       (patientCallStartEvent)="patientCallStartEvent($event)"
     >
     </app-patient-call-start-button>
