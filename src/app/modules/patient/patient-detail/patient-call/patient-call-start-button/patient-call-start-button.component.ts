@@ -24,8 +24,6 @@ export class PatientCallStartButtonComponent implements OnInit {
     this.patientCall$ = this.patientCallService
       .addPatientCallByUserIdAndPatientId(this.user.id, this.patient.patientId, this.patientContactNumberId)
       .subscribe((patientCall: PatientCall) => {
-        console.log('Started patient call: ');
-        console.log(patientCall);
         this.patientCallStartEventEmitter.emit(patientCall);
       });
   }

@@ -2,7 +2,13 @@ ion-grid,
 ion-row {
   height: 100%;
 }
-
+ion-item {
+  :host(.item-interactive),
+  :host(.item-lines-full) {
+    --border-width: 0 0 1px 0;
+    --show-full-highlight: 0;
+  }
+}
 .login-header,
 .login-background {
   background-color: var(--ion-color-primary);
@@ -43,6 +49,8 @@ ion-row {
     width: 304px;
     margin: 22px auto;
     ion-item {
+      max-width: 304px;
+      margin: 0 auto;
       width: 100%;
       height: auto;
       display: block;

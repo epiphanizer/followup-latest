@@ -18,4 +18,10 @@ export interface User {
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {}
+export class UserService {
+  constructor(private http: HttpClient) {}
+
+  updateUserProfile(userId: number, formData: FormData) {
+    this.http.post('user/' + userId, formData);
+  }
+}
