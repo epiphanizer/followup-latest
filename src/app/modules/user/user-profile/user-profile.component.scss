@@ -45,6 +45,13 @@ form {
     background-image: url("/assets/icon-lock@2x.png");
     background-size: cover;
   }
+  i.icon-question {
+    float: left;
+    width: 16.8px;
+    height: 19.5px;
+    background-image: url("/assets/icon-question-marks@2x.png");
+    background-size: cover;
+  }
   ion-item {
     padding-left: 0;
     &.first-name,
@@ -77,6 +84,14 @@ form {
       margin-left: 20px;
       float: left;
       width: 257px;
+    }
+    &.user-dob {
+      width: 154.6px;
+      float: left;
+    }
+    &.user-dessert {
+      float: left;
+      margin-left: 12px;
     }
   }
   ion-input {
