@@ -8,7 +8,7 @@
       <ion-select>
         Facility
       </ion-select>
-      <ng-container [formGroup]="patient">
+      <ion-list [formGroup]="patient">
         <ion-item>
           <ion-label position="stacked">Patient #</ion-label>
           <ion-input type="text" placeholder="Patient #" formControlName="patientRecordNumber"></ion-input>
@@ -42,7 +42,7 @@
           <i class="icon-contacts"></i>
           Care Providers
         </div>
-      </ng-container>
+      </ion-list>
       <!-- <ion-list>
         <ion-item class="patient-phone-container">
           <ion-item class="patient-phone-country-code">
