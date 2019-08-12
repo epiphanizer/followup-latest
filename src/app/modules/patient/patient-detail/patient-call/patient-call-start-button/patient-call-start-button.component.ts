@@ -19,13 +19,13 @@ export class PatientCallStartButtonComponent implements OnInit {
   constructor(private patientCallService: PatientCallService) {}
 
   ngOnInit() {}
+
   public patientCallStartEvent() {
     this.patientCall$ = this.patientCallService
       .addPatientCallByUserIdAndPatientId(this.user.id, this.patient.patientId, this.patientContactNumberId)
       .subscribe((patientCall: PatientCall) => {
-        // Send the patient call out into the ecosystem
+        console.log('Started patient call: ');
         console.log(patientCall);
-        debugger;
         this.patientCallStartEventEmitter.emit(patientCall);
       });
   }

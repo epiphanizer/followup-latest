@@ -28,7 +28,7 @@ export class PatientCallQuestionsService {
   };
 
   getPatientCallQuestionsByPatientCallId = function(patientCallId: number) {
-    return this.http.post('patients/calls/' + patientCallId + '/questions').pipe(
+    return this.http.get('patients/calls/' + patientCallId + '/questions').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

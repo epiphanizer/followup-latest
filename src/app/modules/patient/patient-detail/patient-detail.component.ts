@@ -16,10 +16,10 @@ export class PatientDetailComponent implements OnInit {
   patient: Patient;
   selected: {
     patientCall: PatientCall | null;
-    patientContactNumber: null;
+    patientContactNumberId: number | null;
   } = {
     patientCall: null,
-    patientContactNumber: null
+    patientContactNumberId: null
   };
   patientCall: PatientCall | null = null;
   patientCall$: Observable<PatientCall>;
@@ -29,7 +29,8 @@ export class PatientDetailComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
   }
-  patientCallStartEventHandler($event: Event) {
-    alert('parent component is aware of patient call being started');
+  patientCallStartEventHandler($event: PatientCall) {
+    console.log($event);
+    this.selected.patientCall = $event;
   }
 }
