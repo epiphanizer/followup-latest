@@ -140,7 +140,7 @@ export class AuthenticationService {
   getUserIdByUserEmail(userEmail: string): Observable<number> {
     return this.http.post<number>('users/lookup', { userEmail: userEmail }).pipe(
       delay(500),
-      retry(0),
+      retry(2),
       share(),
       catchError(error => this.handleAsyncError(error))
     );
