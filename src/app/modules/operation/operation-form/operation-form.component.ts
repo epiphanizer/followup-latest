@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, from, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { OperationService, Operation } from '../operation.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   providers: [OperationService],
@@ -12,10 +13,12 @@ import { OperationService, Operation } from '../operation.service';
 })
 @Injectable()
 export class OperationFormComponent implements OnInit {
+  editOperationForm!: FormGroup;
+  constructor(private fb: FormBuilder) {}
   ngOnInit() {
     this.createForm();
   }
   private createForm() {
-    alert('Creating operations form');
+    this.editOperationForm = this.fb.group({});
   }
 }

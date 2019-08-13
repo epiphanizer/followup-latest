@@ -10,8 +10,8 @@ import { Operation } from '@app/modules/operation/operation.service';
 })
 export class PatientSummaryWidgetComponent implements OnInit {
   @Input() patient: Patient;
+  @Input() operation: Operation;
   currentYear: number;
-  operation: Operation;
   constructor() {}
 
   ngOnInit() {

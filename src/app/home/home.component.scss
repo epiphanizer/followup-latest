@@ -6,12 +6,16 @@
 .user-home-menu {
   list-style-type: none;
   margin-top: 159px;
-  margin-left: 40px;
+  margin-left: 0px;
   li {
+    &.disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
     display: inline-block;
     width: 162px;
     height: 162px;
-    margin-left: 176px;
+    margin-left: 120px;
     img {
       width: 100%;
       display: block;
@@ -29,7 +33,7 @@
       text-transform: uppercase;
       margin: 28px auto;
       height: 17px;
-      font-family: Avenir;
+      font-family: AvenirBold;
       font-size: 14px;
       font-style: normal;
       font-stretch: normal;

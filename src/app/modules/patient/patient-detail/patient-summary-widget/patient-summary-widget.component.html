@@ -29,13 +29,13 @@
           <ul class="patient-contact-list">
             <li>
               <span class="patient-contact-number">000-000-0000</span>
-              <span class="patient-contact-number-type"><i></i> Home</span>
-              <span class="patient-alternate-numbers">[Alt Numbers]</span>
+              <span class="patient-contact-number-type"><i class="icon-hippa"></i> Home</span>
+              <a [routerLink]="'/patient/edit/' + patient.patientId">[Alt Numbers]</a>
             </li>
           </ul>
         </div>
       </div>
-      <a href="/patient/edit/{{ patient.patientId }}">
+      <a class="edit-patient-jump" [routerLink]="'/patient/edit/' + patient.patientId">
         [edit]
       </a>
     </ion-col>

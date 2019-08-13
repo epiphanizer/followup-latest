@@ -3,12 +3,12 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { MsalGuard, MsalInterceptor } from '@azure/msal-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserResolver } from '@app/modules/user/user-resolver.service';
-import { NotificationManagerListingComponent } from './notification-manager-listing/notification-manager-listing.component';
+import { NotificationListingComponent } from './notification-listing/notification-listing.component';
 
 const routes: Routes = [
   {
-    path: 'manager/notifications',
-    component: NotificationManagerListingComponent,
+    path: 'notifications',
+    component: NotificationListingComponent,
     pathMatch: 'full',
     resolve: {
       user: UserResolver
