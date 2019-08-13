@@ -12,7 +12,7 @@
       <div class="patient-info">
         <div class="patient-meta-info">
           <span class="patient-operation-name">
-            Operation Name
+            {{ operation.operationName }}
           </span>
           <span class="patient-medical-record-number">
             {{ patient.medicalRecordNumber }}
@@ -35,6 +35,9 @@
           </ul>
         </div>
       </div>
+      <a href="/patient/edit/{{ patient.patientId }}">
+        [edit]
+      </a>
     </ion-col>
   </ion-row>
 </ng-container>

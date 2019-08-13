@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { extract } from '@app/core';
-import { PatientAddComponent } from './patient-add/patient-add.component';
-import { PatientEditComponent } from './patient-edit/patient-edit.component';
+import { PatientFormComponent } from './patient-form/patient-form.component';
 import { Shell } from '@app/shell/shell.service';
 import { PatientDetailComponent } from './patient-detail/patient-detail.component';
 import { PatientResolver } from './patient-resolver.service';
@@ -24,7 +23,7 @@ const routes: Routes = [
     },
     {
       path: 'patient/add',
-      component: PatientAddComponent,
+      component: PatientFormComponent,
       resolve: {
         user: UserResolver
       },
@@ -34,12 +33,13 @@ const routes: Routes = [
     },
     {
       path: 'patient/edit/:patientId',
-      component: PatientEditComponent,
+      component: PatientFormComponent,
       resolve: {
         user: UserResolver,
         patient: PatientResolver
       },
       data: {
+        editMode: true,
         title: extract('Edit Patient')
       }
     }

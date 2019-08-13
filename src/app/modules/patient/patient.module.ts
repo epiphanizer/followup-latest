@@ -9,20 +9,13 @@ import { PatientAvatarModule } from './patient-avatar/patient-avatar.module';
 import { PatientDetailModule } from './patient-detail/patient-detail.module';
 import { PatientComponent } from './patient.component';
 import { PatientAvatarComponent } from '@app/modules/patient/patient-avatar/patient-avatar.component';
-import { PatientAddComponent } from '@app/modules/patient/patient-add/patient-add.component';
-import { PatientEditComponent } from '@app/modules/patient/patient-edit/patient-edit.component';
+import { PatientFormComponent } from '@app/modules/patient/patient-form/patient-form.component';
 import { PatientService } from './patient.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientManagerSidebarComponent } from '@app/modules/patient/patient-manager-sidebar/patient-manager-sidebar.component';
 
 @NgModule({
-  declarations: [
-    PatientComponent,
-    PatientAvatarComponent,
-    PatientAddComponent,
-    PatientEditComponent,
-    PatientManagerSidebarComponent
-  ],
+  declarations: [PatientComponent, PatientAvatarComponent, PatientFormComponent, PatientManagerSidebarComponent],
   imports: [
     CommonModule,
     IonicModule,
