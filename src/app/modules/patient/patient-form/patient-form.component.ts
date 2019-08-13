@@ -5,11 +5,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   providers: [PatientService],
-  selector: 'app-patient-add',
-  templateUrl: './patient-add.component.html',
-  styleUrls: ['./patient-add.component.scss']
+  selector: 'app-patient-form',
+  templateUrl: './patient-form.component.html',
+  styleUrls: ['./patient-form.component.scss']
 })
-export class PatientAddComponent implements OnInit {
+export class PatientFormComponent implements OnInit {
   addPatientForm: FormGroup;
   patient: Patient;
   patient$: Observable<Patient>;

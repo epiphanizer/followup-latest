@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { extract } from '@app/core';
-import { OperationAddComponent } from './operation-add/operation-add.component';
-import { OperationEditComponent } from './operation-edit/operation-edit.component';
+import { OperationFormComponent } from '@app/modules/operation/operation-form/operation-form.component';
 import { Shell } from '@app/shell/shell.service';
 
 const routes: Routes = [
@@ -11,15 +10,16 @@ const routes: Routes = [
     { path: 'operation', redirectTo: '/call-queue/', pathMatch: 'full' },
     {
       path: 'operation/add',
-      component: OperationAddComponent,
+      component: OperationFormComponent,
       data: {
         title: extract('New Facility')
       }
     },
     {
-      path: 'operation/edit',
-      component: OperationEditComponent,
+      path: 'operation/edit/:operationId',
+      component: OperationFormComponent,
       data: {
+        editMode: true,
         title: extract('Edit Facility')
       }
     }
@@ -31,4 +31,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class PatientRoutingModule {}
+export class OperationRoutingModule {}

@@ -21,7 +21,8 @@ export class UserProfileComponent implements OnInit {
     this.createForm();
   }
   updateUserProfile() {
-    alert('updating user profile');
+    let formSubmission = this.userProfileForm.getRawValue();
+    this.userService.updateUserByUserId(this.user.id, formSubmission);
   }
   private createForm() {
     this.userProfileForm = this.formBuilder.group({
