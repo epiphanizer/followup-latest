@@ -130,7 +130,7 @@ export class AuthenticationService {
       console.log(error);
     }
     // If user is primary admin, let them thru without assignment.
-    if (!(user.level == 1)) {
+    if (!(user.level == 1) && !(user.level == 2)) {
       user.operations = await this.operationService.getOperationsByUserId(user.id).toPromise();
       this.user.operations.forEach((operation: Operation, index: number) => {
         this.user.operations[index].currentAssignedPatientCount = operation.currentAssignedPatientCount;

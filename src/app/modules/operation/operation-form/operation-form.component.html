@@ -3,11 +3,8 @@
     <app-operation-admin-sidebar></app-operation-admin-sidebar>
   </ion-col>
   <ion-col class="operation-content">
-    <ion-title>New Patient</ion-title>
-    <form id="operation-form" (ngSubmit)="addPatientFormSubmit()" [formGroup]="addPatientForm" novalidate>
-      <ion-select>
-        Facility
-      </ion-select>
+    <ion-title>New Facility</ion-title>
+    <form id="operation-form" (ngSubmit)="editOperationFormSubmit()" [formGroup]="editOperationForm" novalidate>
       <ion-list formGroupName="patient">
         <i class="icon-facility"></i>
         <ion-item>
