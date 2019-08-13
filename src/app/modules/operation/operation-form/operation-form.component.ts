@@ -21,4 +21,7 @@ export class OperationFormComponent implements OnInit {
   private createForm() {
     this.editOperationForm = this.fb.group({});
   }
+  editOperationFormSubmit() {
+    alert('submitted edit operation form');
+  }
 }

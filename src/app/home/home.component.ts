@@ -47,19 +47,30 @@ export class HomeComponent implements OnInit {
         break;
       case 2:
         this.menu = [
-          { name: 'Patients', action: 'manager/patients', image: '/assets/icon-patients@2x.png' },
+          {
+            name: 'Patients',
+            action: 'patient/add',
+            image: '/assets/icon-patients@2x.png',
+            enabled: true
+          },
           {
             name: 'Notifications',
             action: 'notifications',
-            image: '/assets/icon-manager-notifications@2x.png'
+            image: '/assets/icon-manager-notifications@2x.png',
+            enabled: true
           },
-          { name: 'My Profile', action: 'user/profile', image: avatarImage }
+          {
+            name: 'My Profile',
+            action: 'user/profile',
+            image: avatarImage,
+            enabled: true
+          }
         ];
         break;
       case 3:
         this.menu = [
-          { name: 'Call Queue', action: 'call-queue', image: '/assets/icon-call-queue@2x.png' },
-          { name: 'My Profile', action: 'user/profile', image: avatarImage }
+          { name: 'Call Queue', action: 'call-queue', image: '/assets/icon-call-queue@2x.png', enabled: true },
+          { name: 'My Profile', action: 'user/profile', image: avatarImage, enabled: true }
         ];
         break;
       default:

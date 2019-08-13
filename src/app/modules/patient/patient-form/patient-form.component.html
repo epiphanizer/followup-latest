@@ -1,138 +1,60 @@
-<ion-row>
-  <ion-col class="new-patient-sidebar">
-    <app-patient-manager-sidebar></app-patient-manager-sidebar>
-  </ion-col>
-  <ion-col class="new-patient-content">
-    <ion-title>New Patient</ion-title>
-    <form id="new-patient-form" (ngSubmit)="addPatientFormSubmit()" [formGroup]="addPatientForm" novalidate>
-      <ion-select>
-        Facility
-      </ion-select>
-      <ion-list formGroupName="patient">
-        <ion-item>
-          <ion-label position="stacked">Patient #</ion-label>
-          <ion-input type="text" placeholder="Patient #" formControlName="patientRecordNumber"></ion-input>
-        </ion-item>
-        <ion-list lines="none" formGroupName="patientName">
-          <ion-item class="first-name">
-            <ion-label color="medium" position="stacked">First Name</ion-label>
-            <ion-input type="text" formControlName="patientFirstName"></ion-input>
+<ion-content>
+  <ion-row>
+    <ion-col class="patient-sidebar">
+      <app-patient-manager-sidebar></app-patient-manager-sidebar>
+    </ion-col>
+    <ion-col class="patient-content">
+      <ion-title>
+        <span *ngIf="!editMode; else editPatient">New Patient</span>
+        <ng-template #editPatient>
+          <span>
+            Edit Patient
+          </span>
+        </ng-template>
+      </ion-title>
+      <form id="new-patient-form" (ngSubmit)="addPatientFormSubmit()" [formGroup]="addPatientForm" novalidate>
+        <ion-select>
+          Facility
+        </ion-select>
+        <ion-list formGroupName="patient">
+          <ion-item>
+            <ion-label position="stacked">Patient #</ion-label>
+            <ion-input type="text" placeholder="Patient #" formControlName="patientRecordNumber"></ion-input>
           </ion-item>
-          <ion-item class="middle-name">
-            <ion-label color="medium" position="stacked">Middle Name</ion-label>
-            <ion-input type="text" formControlName="patientMiddleName"></ion-input>
-          </ion-item>
-          <ion-item class="last-name">
-            <ion-label color="medium" position="stacked">Last Name</ion-label>
-            <ion-input type="text" formControlName="patientLastName"></ion-input>
-          </ion-item>
-        </ion-list>
-        <ion-item>
-          <i class="icon-birthday"></i>
-          <ion-label position="stacked">Date of Birth</ion-label>
-          <ion-input type="date" formControlName="patientDob"></ion-input>
-          <ion-label position="stacked">Age</ion-label>
-          <ion-input class="patient-age" type="number" formcontrolName="patientAge"></ion-input>
-        </ion-item>
-        <div class="section-header">
-          <i class="icon-contacts"></i>
-          Contacts
-        </div>
-        <div class="section-header">
-          <i class="icon-contacts"></i>
-          Care Providers
-        </div>
-      </ion-list>
-      <!-- <ion-list>
-        <ion-item class="patient-phone-container">
-          <ion-item class="patient-phone-country-code">
-            <ion-label color="medium" position="stacked">Country Code</ion-label>
-            <ion-input type="text" formControlName="patientPhoneCountryCode"></ion-input>
-          </ion-item>
-          <ion-item class="patient-phone-area-code">
-            <ion-label color="medium" position="stacked">Phone Area Code</ion-label>
-            <ion-input type="text" formControlName="patientPhoneAreaCode"></ion-input>
-          </ion-item>
-          <ion-item class="patient-phone-number">
-            <ion-label color="medium" position="stacked">Phone Number</ion-label>
-            <ion-input type="text" formControlName="patientPhone"></ion-input>
-          </ion-item>
-        </ion-item>
-      </ion-list>
-      <!-- <ion-list lines="none">
-        <i class="icon-question"></i>
-        <ion-item>
-          <ion-label color="medium" position="stacked">
-            Do any of the following apply to you?
-          </ion-label>
-          <ion-list>
-            <ion-item>
-              <ion-checkbox></ion-checkbox>
-              <ion-label>Met your favorite celebrity</ion-label>
+          <ion-list lines="none" formGroupName="patientName">
+            <ion-item class="first-name">
+              <ion-label color="medium" position="stacked">First Name</ion-label>
+              <ion-input type="text" formControlName="patientFirstName"></ion-input>
             </ion-item>
-
-            <ion-item>
-              <ion-checkbox></ion-checkbox>
-              <ion-label>Flown in a helicopter</ion-label>
+            <ion-item class="middle-name">
+              <ion-label color="medium" position="stacked">Middle Name</ion-label>
+              <ion-input type="text" formControlName="patientMiddleName"></ion-input>
             </ion-item>
-
-            <ion-item>
-              <ion-checkbox></ion-checkbox>
-              <ion-label>Donated a kidney</ion-label>
-            </ion-item>
-
-            <ion-item>
-              <ion-checkbox></ion-checkbox>
-              <ion-label>Sky dived or bungee jumped</ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-checkbox></ion-checkbox>
-              <ion-label>Appeared on TV</ion-label>
-            </ion-item>
-
-            <ion-item>
-              <ion-checkbox></ion-checkbox>
-              <ion-label>Read Pride & Prejudice</ion-label>
-            </ion-item>
-
-            <ion-item>
-              <ion-checkbox></ion-checkbox>
-              <ion-label>Eaten Escargo</ion-label>
-            </ion-item>
-
-            <ion-item>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Been deployed</ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-checkbox></ion-checkbox>
-              <ion-label>Played an instrument</ion-label>
-            </ion-item>
-
-            <ion-item>
-              <ion-checkbox></ion-checkbox>
-              <ion-label>Seen a tornado</ion-label>
-            </ion-item>
-
-            <ion-item>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Hitch hiked</ion-label>
-            </ion-item>
-
-            <ion-item>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Played Dungeons & Dragons</ion-label>
+            <ion-item class="last-name">
+              <ion-label color="medium" position="stacked">Last Name</ion-label>
+              <ion-input type="text" formControlName="patientLastName"></ion-input>
             </ion-item>
           </ion-list>
-        </ion-item>
-      </ion-list> -->
-      <i class="icon-info"></i>
-      <!-- <ion-label color="medium" position="stacked">Anything else you want to share with the team?</ion-label>
-      <ion-textarea formControlName="patientAdditionalInfo"></ion-textarea> -->
-    </form>
-  </ion-col>
-  <ion-col class="avatar-col">
-    <img src="/assets/add-photo-default-avatar.png" alt="" />
-    <!-- <app-patient-avatar></app-patient-avatar> -->
-  </ion-col>
-</ion-row>
+          <ion-item>
+            <i class="icon-birthday"></i>
+            <ion-label position="stacked">Date of Birth</ion-label>
+            <ion-input type="date" formControlName="patientDob"></ion-input>
+            <ion-label position="stacked">Age</ion-label>
+            <ion-input class="patient-age" type="number" formcontrolName="patientAge"></ion-input>
+          </ion-item>
+          <div class="section-header">
+            <img src="/assets/edit-patient-contact-header-banner.png" alt="" />
+          </div>
+          <div class="section-header">
+            <i class="icon-contacts"></i>
+            Care Providers
+          </div>
+        </ion-list>
+      </form>
+    </ion-col>
+    <ion-col class="avatar-col">
+      <img src="/assets/add-photo-default-avatar.png" alt="" />
+      <!-- <app-patient-avatar></app-patient-avatar> -->
+    </ion-col>
+  </ion-row>
+</ion-content>
