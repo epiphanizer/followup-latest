@@ -1,0 +1,253 @@
+.notification-feed {
+  max-width: 431px;
+}
+
+.divider-line {
+  width: 100%;
+  min-height: 1px;
+  height: 1px;
+  display: block;
+  border-top: solid 3.9px var(--ion-color-primary);
+  border-bottom: none;
+}
+
+h3 {
+  font-family: AvenirBold;
+  font-size: 21px;
+  font-weight: 900;
+  font-style: normal;
+  font-weight: bold;
+  font-stretch: normal;
+  line-height: 1.01;
+  letter-spacing: 3.15px;
+  text-align: left;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  color: var(--ion-color-primary);
+}
+
+ul.patient-filters {
+  list-style-type: none;
+  float: right;
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: top;
+
+  li {
+    cursor: pointer;
+    display: inline-block;
+    font-family: Avenir;
+    font-size: 11.8px;
+    font-weight: normal;
+    font-style: normal;
+    vertical-align: top;
+    font-stretch: normal;
+    line-height: 2.88;
+    letter-spacing: 0.53px;
+    text-align: right;
+    margin-right: 18px;
+
+    &.ascending-descending-control {
+      height: 30px;
+
+      .ascending-descending-control-arrow {
+        display: block;
+        width: 14px;
+        height: 9px;
+        margin-top: 12px;
+        background-image: url("/assets/icon-down-arrow.png");
+        background-size: 100%;
+      }
+    }
+  }
+}
+
+.section-header {
+  i {
+    width: 17px;
+    height: 17px;
+    display: inline-block;
+    margin-right: 8px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    &.icon-new-discharges {
+      background-image: url("/assets/icon-new-discharges.png");
+    }
+  }
+}
+
+.operation-discharges {
+  color: white;
+  font-style: normal;
+  font-size: 12px;
+  line-height: 2.17;
+  margin-left: -29px;
+  margin-top: -3.5px;
+  position: absolute;
+}
+
+.call-queue-patient-list {
+  clear: both;
+  list-style-type: none;
+  max-width: 431px;
+  padding-left: 0;
+
+  li {
+    cursor: pointer;
+    width: 100%;
+    height: 96px;
+    line-height: 96px;
+    vertical-align: middle;
+    &.active {
+      background-color: rgba(8, 196, 0, 0.1);
+      &:hover {
+        background-color: rgba(19, 175, 233, 0.35);
+      }
+    }
+    &:hover {
+      background-color: rgba(19, 175, 233, 0.35);
+    }
+
+    &.new-discharge {
+      background-color: rgba(112, 112, 112, 0.15);
+    }
+
+    ul {
+      padding-left: 0;
+      list-style-type: none;
+    }
+
+    .call-queue-number {
+      display: block;
+      float: left;
+      width: 96px;
+      font-family: Avenir;
+      font-size: 24.1px;
+      font-weight: 900;
+      font-style: normal;
+      font-stretch: normal;
+      letter-spacing: 0.96px;
+      text-align: center;
+
+      &.active {
+        color: #08c400;
+      }
+    }
+
+    &:nth-child(even) {
+      background-color: rgba(200, 200, 200, 0.05);
+    }
+
+    &:nth-child(odd) {
+      background-color: RGBA(200, 200, 200, 0.15);
+    }
+
+    .call-queue-avatar {
+      display: inline-block;
+      margin-top: 10.5px;
+      width: 74.8px;
+      height: 75.2px;
+      box-shadow: 1.4px 1.4px 1.4px 0 rgba(35, 31, 32, 0.15);
+      background-color: #ffffff;
+      background-image: url("/assets/default-patient-avatar.png");
+      background-size: cover;
+      background-position: center center;
+      border-radius: 50%;
+    }
+
+    .call-queue-patient-information {
+      line-height: 96px;
+      vertical-align: top;
+      display: inline-block;
+      padding-left: 11.2px;
+      width: 170px;
+      height: 96px;
+      color: black;
+    }
+
+    .call-queue-patient-name {
+      display: block;
+      height: 18px;
+      font-family: Avenir;
+      font-size: 21px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      letter-spacing: normal;
+      text-align: left;
+      color: #343638;
+      width: 100%;
+
+      a {
+        color: #343638;
+        text-decoration: none;
+      }
+    }
+
+    .call-queue-patient-detail {
+      width: 177px;
+      height: 13px;
+      font-family: AvenirNextLTPro;
+      font-size: 13px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 0.85;
+      letter-spacing: normal;
+      text-align: left;
+      color: #8e8e93;
+    }
+
+    .call-queue-patient-listing-controls {
+      display: inline-block;
+      height: 215px;
+      width: 17px;
+    }
+
+    .patient.label-line {
+      color: #8e8e93;
+      font-size: 13px;
+      font-family: Avenir;
+    }
+  }
+  .call-queue-call-status-legend {
+    height: 96px;
+    display: block;
+    float: right;
+    width: 18.25px;
+    margin-right: 16px;
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    li {
+      display: block;
+      height: 17px;
+
+      margin-top: 8px;
+      &:first-child {
+        margin-top: 15px;
+      }
+      i {
+        width: 17px;
+        height: 17px;
+        display: block;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+
+        &.icon-contacted {
+          background-image: url("/assets/icon-contacted.png");
+        }
+        &.icon-left-message {
+          background-image: url("/assets/icon-left-message.png");
+        }
+        &.icon-no-answer {
+          background-image: url("/assets/icon-no-answer.png");
+        }
+      }
+    }
+  }
+}

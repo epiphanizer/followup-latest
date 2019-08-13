@@ -4,17 +4,20 @@ import { MsalGuard, MsalInterceptor } from '@azure/msal-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserResolver } from '@app/modules/user/user-resolver.service';
 import { NotificationListingComponent } from './notification-listing/notification-listing.component';
+import { Shell } from '@app/shell/shell.service';
 
 const routes: Routes = [
-  {
-    path: 'notifications',
-    component: NotificationListingComponent,
-    pathMatch: 'full',
-    resolve: {
-      user: UserResolver
-    },
-    canActivate: [MsalGuard]
-  }
+  Shell.childRoutes([
+    {
+      path: 'notifications',
+      component: NotificationListingComponent,
+      pathMatch: 'full',
+      resolve: {
+        user: UserResolver
+      },
+      canActivate: [MsalGuard]
+    }
+  ])
 ];
 
 @NgModule({

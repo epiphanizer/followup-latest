@@ -11,13 +11,11 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
-  currentYear: number;
   @Input() operation: Operation;
   public patients: Patient[];
   public patients$: Observable<[Patient]> | void = null;
   constructor(private patientService: PatientService) {}
   ngOnInit() {
-    this.currentYear = new Date().getFullYear();
     this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
       map((patients: [Patient]) => {
         return patients;

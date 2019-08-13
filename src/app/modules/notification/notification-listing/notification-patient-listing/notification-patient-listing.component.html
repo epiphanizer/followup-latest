@@ -1,0 +1,63 @@
+<h3 class="section-header">
+  <i class="icon-new-discharges" *ngIf="operation.currentNewDischargeCount"> </i>
+  <span class="operation-discharges">
+    {{ operation.currentNewDischargeCount }}
+  </span>
+  {{ operation?.operationName }}
+</h3>
+<ion-item-divider class="divider-line"></ion-item-divider>
+<ul class="patient-filters">
+  <li>
+    <a (click)="sortNotificationsByDate()">[Date]</a>
+    <span class="ascending-descending-control">
+      <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
+    </span>
+  </li>
+  <li>
+    <a (click)="sortNotificationsByType()">[Type]</a>
+    <span class="ascending-descending-control">
+      <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
+    </span>
+  </li>
+  <li>
+    <a (click)="sortNotificationsByStatus()">[Resolved]</a>
+    <span class="ascending-descending-control">
+      <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
+    </span>
+  </li>
+</ul>
+
+<ul class="call-queue-patient-list">
+  <li
+    *ngFor="let patient of patients$ | async"
+    class="active"
+    [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
+  >
+    <div class="call-queue-number">
+      {{ patient.patientNotificationCount }}
+    </div>
+    <div class="call-queue-avatar">
+      {{ patient.avatarImage }}
+    </div>
+    <div class="call-queue-patient-information">
+      <span class="call-queue-patient-name">
+        <a [routerLink]="'/notifications/' + notification.notificationId">
+          {{ patient.patientFirstName }} {{ patient.patientLastName }}
+        </a>
+      </span>
+    </div>
+    <div class="call-queue-call-status-legend">
+      <ul>
+        <li>
+          <i class="icon-contacted"></i>
+        </li>
+        <li>
+          <i class="icon-left-message"></i>
+        </li>
+        <li>
+          <i class="icon-no-answer"></i>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ul>
