@@ -4,6 +4,7 @@ import { Patient } from '@app/modules/patient/patient.service';
 import { Observable } from 'rxjs';
 import { NotificationService } from '../notification.service';
 import { map } from 'rxjs/operators';
+import { User } from '@app/user';
 
 @Component({
   selector: 'app-notification-listing',
@@ -14,7 +15,13 @@ export class NotificationListingComponent implements OnInit {
   @Input() operation: Operation;
   public patients: Patient[];
   public patients$: Observable<[Patient]> | void = null;
-
+  public selected:
+    | {
+        operation: Operation;
+        operation$: Observable<Operation>;
+      }
+    | any = {};
+  user: User;
   constructor(private notificationService: NotificationService) {}
 
   ngOnInit() {}
@@ -29,5 +36,9 @@ export class NotificationListingComponent implements OnInit {
         })
       );
     }
+  }
+
+  operationChangeEventHandler($event: Operation) {
+    this.selected.operation = $event;
   }
 }
