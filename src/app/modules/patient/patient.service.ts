@@ -2,10 +2,13 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { PatientCall } from './patient-detail/patient-call/patient-call.service';
+import { Operation } from '../operation/operation.service';
 
 export interface Patient {
   patientId: number;
   operationId: number;
+  operation?: Operation;
+  operation$: Observable<Operation>;
   medicalRecordNumber: string;
   patientFirstName: string;
   patientLastName: string;

@@ -28,10 +28,21 @@ export class HomeComponent implements OnInit {
     switch (userLevel) {
       case 1:
         this.menu = [
-          { name: 'Facilities', action: 'admin/facilities', image: '/assets/icon-facilities@2x.png' },
-          { name: 'User Management', action: 'admin/user', image: '/assets/icon-user-management@2x.png' },
-          { name: 'View Queue', action: 'admin/call-queue', image: '/assets/icon-view-queue@2x.png' },
-          { name: 'View Data', action: 'admin/data', image: '/assets/icon-view-data@2x.png' }
+          { name: 'Facilities', action: 'admin/facilities', image: '/assets/icon-facilities@2x.png', enabled: true },
+          {
+            name: 'Notifications',
+            action: '/notifications',
+            image: '/assets/icon-manager-notifications@2x.png',
+            enabled: true
+          },
+          {
+            name: 'User Management',
+            action: 'admin/user',
+            image: '/assets/icon-user-management@2x.png',
+            enabled: false
+          },
+          { name: 'View Queue', action: 'admin/call-queue', image: '/assets/icon-view-queue@2x.png', enabled: false },
+          { name: 'View Data', action: 'admin/data', image: '/assets/icon-view-data@2x.png', enabled: false }
         ];
         break;
       case 2:
@@ -39,7 +50,7 @@ export class HomeComponent implements OnInit {
           { name: 'Patients', action: 'manager/patients', image: '/assets/icon-patients@2x.png' },
           {
             name: 'Notifications',
-            action: 'manager/notifications',
+            action: 'notifications',
             image: '/assets/icon-manager-notifications@2x.png'
           },
           { name: 'My Profile', action: 'user/profile', image: avatarImage }
