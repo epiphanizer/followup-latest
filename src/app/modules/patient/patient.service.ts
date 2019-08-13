@@ -22,6 +22,7 @@ export interface Patient {
   patientCalls?: PatientCall[];
   patientCalls$: Observable<PatientCall[]>;
   patientCallCount?: number;
+  patientCurrentStatusLabel?: number;
 }
 
 export class PatientService {
