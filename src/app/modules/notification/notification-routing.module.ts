@@ -7,7 +7,7 @@ import { NotificationManagerListingComponent } from './notification-manager-list
 
 const routes: Routes = [
   {
-    path: 'operations/:operationId/notifications',
+    path: 'manager/notifications',
     component: NotificationManagerListingComponent,
     pathMatch: 'full',
     resolve: {
