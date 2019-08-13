@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Patient, PatientService } from '@app/modules/patient/patient.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   providers: [PatientService],
@@ -11,12 +12,19 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class PatientFormComponent implements OnInit {
   addPatientForm: FormGroup;
+  editMode: boolean = false;
   patient: Patient;
   patient$: Observable<Patient>;
 
-  constructor(private fb: FormBuilder, private patientService: PatientService) {}
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private patientService: PatientService) {}
 
   ngOnInit() {
+    /**
+     * See if we are editing the form
+     */
+    if (this.route.snapshot.data.editMode) {
+      this.editMode = true;
+    }
     this.patient$ = this.patientService.addNewPatient();
     this.createForm();
   }

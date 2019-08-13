@@ -4,14 +4,12 @@
       <app-patient-manager-sidebar></app-patient-manager-sidebar>
     </ion-col>
     <ion-col class="patient-content">
-      <ion-title>
-        <span *ngIf="!editMode; else editPatient">New Patient</span>
-        <ng-template #editPatient>
-          <span>
-            Edit Patient
-          </span>
-        </ng-template>
-      </ion-title>
+      <ion-title *ngIf="!editMode; else editPatient">New Patient</ion-title>
+      <ng-template #editPatient>
+        <ion-title>
+          Edit Patient
+        </ion-title>
+      </ng-template>
       <form id="new-patient-form" (ngSubmit)="addPatientFormSubmit()" [formGroup]="addPatientForm" novalidate>
         <ion-select>
           Facility
