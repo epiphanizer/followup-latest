@@ -3,6 +3,12 @@
   [@openClose]="isOpen ? 'open' : 'closed'"
   [className]="isOpen ? 'user-cork-board open' : 'user-cork-board closed'"
 >
+  <ng-container *ngIf="isOpen" class="corkboard-objects">
+    <img src="/assets/corkboard-1.png" alt="" />
+    <img src="/assets/corkboard-2.png" alt="" />
+    <img src="/assets/corkboard-3.png" alt="" />
+  </ng-container>
+
   <div class="container">
     <div class="row">
       <ul class="corkboard-controls">

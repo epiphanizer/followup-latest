@@ -10,6 +10,7 @@
   display: block;
   margin-left: 8px;
   background-size: 100%;
+  background-repeat: no-repeat;
 
   &.new-item {
     margin-top: 12px;
@@ -20,7 +21,7 @@
   &.minus {
     margin-top: 12px;
     padding-left: 2px;
-    background-image: url("/assets/icon-new-item@2x.png");
+    background-image: url("/assets/icon-remove-item@2x.png");
   }
 
   &.expand {
@@ -34,32 +35,32 @@
   width: 28px;
   height: 100%;
   min-height: 1024px;
-  background-image: url("/assets/corkboard-bg-1.png");
+  background-image: url("/assets/corkboard-closed.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100%;
 
   &.open {
+    background-image: url("/assets/corkboard.png");
     .icon {
       cursor: pointer;
-      background-image: url("/assets/corkboard@2x.png");
       z-index: 100;
 
-      .new-item {
+      &.new-item {
         position: absolute;
         top: 12px;
         left: 267.7px;
         background-image: url("/assets/icon-new-item@2x.png");
       }
 
-      .minus {
+      &.minus {
         position: absolute;
         top: 24px;
         left: 267.7px;
-        background-image: url("/assets/icon-new-item@2x.png");
+        background-image: url("/assets/icon-remove-item@2x.png");
       }
 
-      .expand {
+      &.expand {
         position: absolute;
         top: 36px;
         left: 267.7px;
