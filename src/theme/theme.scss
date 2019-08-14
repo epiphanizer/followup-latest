@@ -18,3 +18,18 @@
   font-family: AvenirNextLTPro;
   src: url("assets/fonts/AvenirNextLTPro-Thin.otf") format("opentype");
 }
+
+/* Workaround to hide android default validation colors */
+ion-item.item-md.item-input.input-has-focus .item-inner,
+ion-item.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner,
+ion-item.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
+  border-bottom-color: #dadada;
+  box-shadow: none;
+}
+
+/* Workaround to hide window phone default validation colors */
+ion-item.item-wp.item-input.input-has-focus .text-input,
+ion-item.item-wp.item-input.ng-valid.input-has-value:not(.input-has-focus) .text-input,
+ion-item.item-wp.item-input.ng-invalid.ng-touched:not(.input-has-focus) .text-input {
+  border: 2px solid #dadada;
+}

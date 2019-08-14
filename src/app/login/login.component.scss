@@ -46,12 +46,12 @@ ion-item {
   }
   ion-list {
     background: none;
-    width: 304px;
+    width: 307px;
+    overflow: hidden;
     margin: 22px auto;
     ion-item {
-      max-width: 304px;
       margin: 0 auto;
-      width: 100%;
+      width: 304px;
       height: auto;
       display: block;
       :host {
@@ -60,6 +60,7 @@ ion-item {
     }
   }
   ion-label {
+    width: 100%;
     object-fit: contain;
     font-family: Avenir;
     font-size: 10.8px;
@@ -75,8 +76,8 @@ ion-item {
     background: none;
     margin: 16px auto 0;
     display: block;
-    width: 306.5px;
-    height: 38.9px;
+    width: 100%;
+    height: 39px;
     object-fit: contain;
     opacity: 0.5;
     border: solid 0.9px rgba(112, 112, 112, 0.34);
@@ -86,14 +87,19 @@ ion-item {
   .login-controls-container {
     width: 100%;
     text-align: center;
-    ion-button {
-      color: white;
-      margin: 0 auto;
-      width: 134px;
-      height: 35.9px;
-    }
   }
 }
+
+ion-button {
+  cursor: pointer;
+  margin: 0 auto;
+  width: 134px;
+  height: 35.9px;
+  &:hover {
+    background: var(--ion-primary-shade);
+  }
+}
+
 .forgot-password,
 .welcome-back {
   object-fit: contain;
