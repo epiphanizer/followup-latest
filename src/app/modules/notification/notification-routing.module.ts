@@ -12,6 +12,22 @@ const routes: Routes = [
       path: 'notifications',
       component: NotificationListingComponent,
       pathMatch: 'full',
+      data: {
+        navLinks: [
+          {
+            action: 'patient/add',
+            name: 'Add Patient'
+          },
+          {
+            action: '/notifications',
+            name: 'Notifications'
+          },
+          {
+            action: '',
+            name: 'Previous Discharges'
+          }
+        ]
+      },
       resolve: {
         user: UserResolver
       },

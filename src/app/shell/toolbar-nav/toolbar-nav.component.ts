@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar-nav',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./toolbar-nav.component.scss']
 })
 export class ToolbarNavComponent implements OnInit {
-  constructor() {}
-
+  constructor(private route: ActivatedRoute) {}
+  @Input() navLinks: [string] | null;
   ngOnInit() {}
 }
