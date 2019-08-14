@@ -15,8 +15,8 @@
   </ion-row>
   <div class="patient-filter-results">
     <ul>
-      <li *ngFor="let patient of user.patientCalls$ | async">
-        <span>{{ patient.name }}</span>
+      <li *ngFor="let patientCall of userPatientCalls$ | async">
+        <span>{{ patientCall.patientName }}</span>
       </li>
     </ul>
   </div>

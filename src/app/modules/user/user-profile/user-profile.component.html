@@ -16,10 +16,12 @@
             <ion-label color="medium" position="stacked">Middle Name</ion-label>
             <ion-input type="text" formControlName="userMiddleName"></ion-input>
           </ion-item>
+          <i class="icon-placeholder"></i>
           <ion-item class="last-name">
             <ion-label color="medium" position="stacked">Last Name</ion-label>
             <ion-input type="text" formControlName="userLastName"></ion-input>
           </ion-item>
+          <i class="icon-placeholder"></i>
           <ion-item class="user-email">
             <ion-label color="medium" position="stacked">Email</ion-label>
             <ion-input type="email" formControlName="userEmail"></ion-input>
@@ -45,6 +47,7 @@
             <ion-label color="medium" position="stacked">Password</ion-label>
             <ion-input type="password" formControlName="userPassword"></ion-input>
           </ion-item>
+          <i class="icon-placeholder"></i>
           <ion-item>
             <ion-label color="medium" position="stacked">Confirm Password</ion-label>
             <ion-input type="password" formControlName="userConfirmPassword"></ion-input>
@@ -126,9 +129,11 @@
             </ion-list>
           </ion-item>
         </ion-list>
-        <i class="icon-info"></i>
-        <ion-label color="medium" position="stacked">Anything else you want to share with the team?</ion-label>
-        <ion-textarea formControlName="userAdditionalInfo"></ion-textarea>
+        <div class="user-profile-more-container">
+          <i class="icon-info"></i>
+          <ion-label color="medium" position="stacked">Anything else you want to share with the team?</ion-label>
+          <ion-textarea formControlName="userAdditionalInfo"></ion-textarea>
+        </div>
         <ion-button type="submit">Save</ion-button>
       </form>
     </ion-col>
