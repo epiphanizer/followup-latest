@@ -5,6 +5,8 @@ import { User, UserService } from '@app/modules/user/user.service';
 import { AuthenticationService } from '@app/core';
 import { Patient, PatientService } from '@app/modules/patient/patient.service';
 import { Operation } from '@app/modules/operation/operation.service';
+import { PatientCall, PatientCallService } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   providers: [AuthenticationService, PatientService, UserService],
@@ -15,10 +17,25 @@ import { Operation } from '@app/modules/operation/operation.service';
 export class CallQueuePatientFilterComponent implements OnInit {
   @Input() operation: Operation;
   user: User;
+  patientCalls: Array<PatientCall> = [];
+  userPatientCalls$: Observable<PatientCall[]>;
   patients: Array<Patient> = [];
   patients$: Observable<Patient[]>;
-  constructor(private patientService: PatientService) {}
-  ngOnInit() {}
+  constructor(
+    private patientService: PatientService,
+    private patientCallService: PatientCallService,
+    private route: ActivatedRoute
+  ) {}
+  ngOnInit() {
+    this.user = this.route.snapshot.data.user;
+    this.userPatientCalls$ = this.patientCallService
+      .getCallRepCallsByUserIdAndOperationId(this.user.id, this.operation.operationId)
+      .pipe(
+        map((patientCalls: PatientCall[]) => {
+          this.patientCalls = patientCalls;
+        })
+      );
+  }
   public searchPatientCallHistory() {
     console.log('Searching patient call history');
   }

@@ -26,36 +26,32 @@ ion-title {
   padding-left: 0;
 }
 form {
-  i.icon-user {
+  > ion-list {
+    margin-left: -25px;
+  }
+  i {
     float: left;
+    clear: left;
     width: 16.8px;
     height: 19.5px;
-    background-image: url("/assets/icon-user@2x.png");
+    margin-top: 12px;
+    background-repeat: no-repeat;
     background-size: cover;
+  }
+  i.icon-user {
+    background-image: url("/assets/icon-user@2x.png");
   }
   i.icon-birthday {
-    float: left;
-    width: 16.8px;
-    height: 19.5px;
     background-image: url("/assets/icon-birthday@2x.png");
-    background-size: cover;
   }
   i.icon-lock {
-    float: left;
-    width: 16.8px;
-    height: 19.5px;
     background-image: url("/assets/icon-lock@2x.png");
-    background-size: cover;
   }
   i.icon-question {
-    float: left;
-    width: 16.8px;
-    height: 19.5px;
-    background-image: url("/assets/icon-question-marks@2x.png");
-    background-size: cover;
+    background-image: url("/assets/icon-question-mark@2x.png");
   }
   ion-item {
-    padding-left: 0;
+    padding-left: 11.8px;
     &.first-name,
     &.middle-name {
       display: inline-block;
@@ -64,13 +60,16 @@ form {
       width: 341px;
     }
     &.middle-name {
-      width: 174px;
+      width: 200px;
     }
     &.last-name {
-      width: 100%;
+      width: calc(100% - 16.8px);
     }
     &.user-email {
-      width: 100%;
+      width: calc(100% - 16.8px);
+    }
+    .user-phone-container {
+      width: calc(100% - 16.8px);
     }
     &.user-phone-country-code {
       margin-left: 0;
@@ -87,6 +86,12 @@ form {
       float: left;
       width: 257px;
     }
+    &.user-password {
+      width: calc(100% - 16.8px);
+    }
+    &.user-confirm-password {
+      width: calc(100% - 16.8px);
+    }
     &.user-dob {
       width: 154.6px;
       float: left;
@@ -95,6 +100,9 @@ form {
       float: left;
       margin-left: 12px;
     }
+  }
+  .user-profile-more-container {
+    margin-top: 109px;
   }
   ion-input {
     height: 39px;

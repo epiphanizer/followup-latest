@@ -6,7 +6,12 @@ import { throwError } from 'rxjs';
 
 export interface PatientCall {
   patientCallId: number;
-  patientCallStatusId: number;
+  patientId: number;
+  patientCalledByUserId: number;
+  patientContactNumberId: number;
+  patientCallStartTime: Date;
+  patientCallEndTime?: Date;
+  patientCallStatusLabelId: number;
   // We won't always order this, but when we do,
   // it's nice to know which count the PatientCall is in a series for
   // the sake of labeling.
@@ -37,6 +42,13 @@ export class PatientCallService {
         retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
+  };
+
+  getCallRepCallsByUserIdAndOperationId = function(userId: number, operationId: number) {
+    return this.http.get('users/' + userId + '/calls/operations/' + operationId).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
   };
 
   getPatientCallsByPatientId = function(patientId: number) {

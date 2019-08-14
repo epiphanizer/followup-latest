@@ -9,7 +9,13 @@ export interface Operation {
   operationCity: string;
   operationState: string;
   operationZip: string;
+  /**
+   * Some counters that don't always
+   * attach to the object,
+   * but are nice to have when the time comes.
+   */
   currentAssignedPatientCount?: number;
+  currentNewNotificationCount?: number;
   currentNewDischargeCount?: number;
 }
 

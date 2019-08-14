@@ -1,7 +1,7 @@
 <h3 class="section-header">
-  <i class="icon-new-discharges" *ngIf="operation.currentNewDischargeCount"> </i>
+  <i class="icon-new-discharges" *ngIf="operation?.currentNewNotificationCount"> </i>
   <span class="operation-discharges">
-    {{ operation.currentNewDischargeCount }}
+    {{ operation?.currentNewNotificationCount }}
   </span>
   {{ operation?.operationName }}
 </h3>

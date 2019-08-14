@@ -17,26 +17,20 @@
       background-size: 100%;
       background-repeat: no-repeat;
       background-position: center center;
-      &.icon-contacted {
-        background-image: url("/assets/icon-contacted.png");
+      &.icon-new-notification {
+        background-image: url("/assets/icon-new-notification.png");
       }
-      &.icon-left-message {
-        background-image: url("/assets/icon-left-message.png");
+      &.icon-resolved {
+        background-image: url("/assets/icon-resolved.png");
       }
-      &.icon-no-answer {
-        background-image: url("/assets/icon-no-answer.png");
+      &.icon-in-progress {
+        background-image: url("/assets/icon-in-progress.png");
       }
       &.icon-new-discharges {
         background-image: url("/assets/icon-new-discharges.png");
       }
-      &.icon-kudos {
-        background-image: url("/assets/icon-kudos.png");
-      }
-      &.icon-notifications {
-        background-image: url("/assets/icon-notifications.png");
-      }
-      &.icon-final-call {
-        background-image: url("/assets/icon-final-call.png");
+      &.icon-no-response {
+        background-image: url("/assets/icon-no-response.png");
       }
     }
 

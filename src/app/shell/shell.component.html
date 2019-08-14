@@ -1,17 +1,10 @@
-<!-- <div *ngFor="let alert of alertsService.alerts">
-  <div (click)="close(alert)">
-    <p>{{alert.message}}</p>
-    <pre *ngIf="alert.debug" class="alert-pre border bg-light p-2"><code>{{alert.debug}}</code></pre>
-  </div>
-</div> -->
 <ion-content>
-  <!-- Inject User Cork Board Component Here -->
   <app-user-cork-board> </app-user-cork-board>
   <div class="content-wrapper">
     <ion-toolbar>
       <app-toolbar-logo> </app-toolbar-logo>
       <app-toolbar-profile-nav> </app-toolbar-profile-nav>
-      <app-toolbar-nav></app-toolbar-nav>
+      <app-toolbar-nav *ngIf="navLinks" [navLinks]="navLinks"></app-toolbar-nav>
     </ion-toolbar>
 
     <ion-router-outlet main> </ion-router-outlet>
