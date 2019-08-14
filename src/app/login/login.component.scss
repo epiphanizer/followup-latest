@@ -73,6 +73,9 @@ ion-item {
     color: #969696;
   }
   ion-input {
+    input.native-input {
+      --inner-padding-end: 0px !important;
+    }
     background: none;
     margin: 16px auto 0;
     display: block;

@@ -30,19 +30,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.broadcastService.subscribe('msal:loginFailure', payload => {
-    //   alert('login failure');
-    // });
-    // this.broadcastService.subscribe('msal:loginSuccess', payload => {
-    //   alert('login success');
-    // });
-    this.broadcastService.subscribe('msal:acquireTokenSuccess', payload => {
+    this.broadcastService.subscribe('msal:loginFailure', payload => {
+      this.isLoading = false;
+      this.error = 'Could not authenticate!';
+    });
+    this.broadcastService.subscribe('msal:loginSuccess', payload => {
       this.isLoading = true;
-      // alert('token success');
+    });
+    this.broadcastService.subscribe('msal:acquireTokenSuccess', payload => {
+      this.isLoading = false;
     });
 
     this.broadcastService.subscribe('msal:acquireTokenFailure', payload => {
-      // alert('token failure');
+      this.isLoading = false;
+      this.error = 'Could not authenticate!';
     });
   }
 
@@ -54,6 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   signIn() {
+    this.isLoading = true;
     this.authService.signIn();
   }
 
