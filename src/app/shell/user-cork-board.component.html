@@ -9,17 +9,9 @@
     <img src="/assets/corkboard-3.png" alt="" />
   </ng-container>
 
-  <div class="container">
-    <div class="row">
-      <ul class="corkboard-controls">
-        <li (click)="toggleCorkboardState()" class="expand icon"></li>
-        <li (click)="addNewCorkboardItem()" class="new-item icon">
-          +
-        </li>
-        <li (click)="deleteCorkboardItem()" class="minus icon">
-          -
-        </li>
-      </ul>
-    </div>
-  </div>
+  <ul class="corkboard-controls">
+    <li (click)="toggleCorkboardState()" class="expand icon"></li>
+    <li (click)="addNewCorkboardItem()" class="new-item icon"></li>
+    <li (click)="deleteCorkboardItem()" class="minus icon"></li>
+  </ul>
 </div>
