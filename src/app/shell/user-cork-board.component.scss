@@ -58,4 +58,9 @@
 .corkboard-objects {
   width: 100%;
   max-width: calc(100% - 28px);
+  text-align: center;
+  img {
+    max-width: 80%;
+    margin: 0 auto;
+  }
 }
