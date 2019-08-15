@@ -23,7 +23,7 @@
           <ion-list lines="none" formGroupName="patient">
             <i class="icon-info"></i>
             <ion-item class="patient-medical-record-number">
-              <ion-label position="stacked">Patient #</ion-label>
+              <ion-label color="medium" position="stacked">Patient #</ion-label>
               <ion-input type="text" formControlName="patientMedicalRecordNumber"></ion-input>
             </ion-item>
             <ion-list lines="none" formGroupName="patientName">
@@ -40,14 +40,14 @@
                 <ion-input type="text" formControlName="patientLastName"></ion-input>
               </ion-item>
             </ion-list>
-          </ion-list>
-          <ion-list lines="none">
-            <i class="icon-birthday"></i>
-            <ion-item>
-              <ion-label position="stacked">Date of Birth</ion-label>
-              <ion-datetime type="date" formControlName="patientDob"></ion-datetime>
-              <span>Age: {{ currentYear - (patient.patientDob | slice: 0:4) }}</span>
-            </ion-item>
+            <ion-list lines="none">
+              <i class="icon-birthday"></i>
+              <ion-item>
+                <ion-label color="medium" position="stacked">Date of Birth</ion-label>
+                <ion-datetime type="date" formControlName="patientDob"></ion-datetime>
+                <span>Age: {{ currentYear - (patient.patientDob | slice: 0:4) }}</span>
+              </ion-item>
+            </ion-list>
           </ion-list>
           <div class="section-header"><i class="icon-contact"></i> Contacts</div>
           <ion-list lines="none" formGroupName="patientContacts">

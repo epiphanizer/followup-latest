@@ -86,6 +86,7 @@ form {
     &.patient-medical-record-number {
       width: 143px;
       height: 39px;
+      padding-left: 0;
     }
 
     &.patient-first-name,
@@ -94,15 +95,15 @@ form {
     }
 
     &.patient-first-name {
-      width: 341px;
+      width: 325px;
     }
 
     &.patient-middle-name {
-      width: 200px;
+      width: 150px;
     }
 
     &.patient-last-name {
-      width: calc(100% - 20px);
+      width: 325px;
     }
 
     &.phone-container {
@@ -111,27 +112,25 @@ form {
 
       ion-item {
         display: inline-block;
+        &.country-code {
+          margin-left: 0;
+          float: left;
+          width: 257px;
+        }
+
+        &.area-code {
+          margin-left: 20px;
+          float: left;
+          width: 257px;
+        }
+
+        &.phone-number {
+          margin-left: 20px;
+          float: left;
+          width: 257px;
+        }
       }
     }
-
-    &.country-code {
-      margin-left: 0;
-      float: left;
-      width: 257px;
-    }
-
-    &.area-code {
-      margin-left: 20px;
-      float: left;
-      width: 257px;
-    }
-
-    &.phone-number {
-      margin-left: 20px;
-      float: left;
-      width: 257px;
-    }
-
     &.patient-dob {
       width: 154.6px;
       float: left;
@@ -140,7 +139,7 @@ form {
 
   ion-input,
   ion-datetime {
-    height: 39px;
+    min-height: 39px;
     width: 100%;
     margin-top: 14px;
     margin-bottom: 29px;
