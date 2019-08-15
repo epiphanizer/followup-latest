@@ -12,11 +12,9 @@
       <div class="patient-info">
         <div class="patient-meta-info">
           <span class="patient-operation-name">
-            {{ patient.operation?.operationName }}
+            {{ patient.patientCurrentOperationName }}
           </span>
-          <span class="patient-medical-record-number">
-            {{ patient.medicalRecordNumber }}
-          </span>
+          <span class="patient-medical-record-number"> #{{ patient.patientMedicalRecordNumber }} </span>
         </div>
         <div class="patient-name">
           <h2>
@@ -33,7 +31,7 @@
                 <ng-container *ngIf="patient.primaryContactPhoneType == 'home'; else contactType">
                   <i class="icon-hippa"></i> Home
                 </ng-container>
-                <ng-template #contactType> </ng-template>
+                <!-- <ng-template #contactType> Unspecified Phone Type</ng-template> -->
               </span>
               <br />
               <a [routerLink]="'/patient/edit/' + patient.patientId">[Alt Numbers]</a>
