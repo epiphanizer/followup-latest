@@ -55,6 +55,9 @@ form {
   i.icon-new-facility {
     background-image: url("/assets/icon-facility@2x.png");
   }
+  i.icon-birthday {
+    background-image: url("/assets/icon-birthday@2x.png");
+  }
   i.icon-info {
     background-image: url("/assets/icon-info@2x.png");
   }
@@ -107,7 +110,8 @@ form {
       float: left;
     }
   }
-  ion-input {
+  ion-input,
+  ion-datetime {
     height: 39px;
     width: 100%;
     margin-top: 14px;
@@ -173,9 +177,6 @@ form {
     }
   }
 
-  i.icon-info {
-    background-image: url("/assets/icon-info@2x.png");
-  }
   ion-textarea {
     min-height: 176px;
   }
