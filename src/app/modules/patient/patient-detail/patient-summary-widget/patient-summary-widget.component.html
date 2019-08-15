@@ -12,7 +12,7 @@
       <div class="patient-info">
         <div class="patient-meta-info">
           <span class="patient-operation-name">
-            {{ operation.operationName }}
+            {{ patient.operation.operationName }}
           </span>
           <span class="patient-medical-record-number">
             {{ patient.medicalRecordNumber }}
@@ -28,8 +28,9 @@
         <div class="patient-contact-container">
           <ul class="patient-contact-list">
             <li>
-              <span class="patient-contact-number">000-000-0000</span>
+              <span class="patient-contact-number">{{ patient.primaryContactPhoneNumber }}</span>
               <span class="patient-contact-number-type"><i class="icon-hippa"></i> Home</span>
+              <br />
               <a [routerLink]="'/patient/edit/' + patient.patientId">[Alt Numbers]</a>
             </li>
           </ul>
