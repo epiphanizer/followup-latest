@@ -6,7 +6,7 @@ import { Operation } from '../operation/operation.service';
 
 export interface Patient {
   patientId: number;
-  operationId: number;
+  patientOperationId: number;
   operation?: Operation;
   operation$: Observable<Operation>;
   medicalRecordNumber: string;

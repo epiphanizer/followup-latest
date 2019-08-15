@@ -21,8 +21,10 @@ export class PatientResolver implements Resolve<Patient> {
     const patientId = route.paramMap.get('patientId');
     this.patient$ = this.patientService.getPatientByPatientId(+patientId).pipe(
       map((patient: Patient) => {
-        patient.operation$ = this.operationService.getOperationByOperationId(patient.operationId);
+        debugger;
+        patient.operation$ = this.operationService.getOperationByOperationId(patient.patientOperationId);
         patient.patientCalls$ = this.patientCallService.getPatientCallsByPatientId(patient.patientId);
+
         this.patient = patient;
         return patient;
       })

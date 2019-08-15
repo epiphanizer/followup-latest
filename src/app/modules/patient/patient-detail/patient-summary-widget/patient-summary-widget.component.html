@@ -11,7 +11,7 @@
     <ion-col>
       <div class="patient-info">
         <div class="patient-meta-info">
-          <span class="patient-operation-name">
+          <span class="patient-operation-name" *ngIf="patient.operation$ | async">
             {{ patient.operation.operationName }}
           </span>
           <span class="patient-medical-record-number">
