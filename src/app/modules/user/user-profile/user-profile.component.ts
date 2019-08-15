@@ -46,4 +46,7 @@ export class UserProfileComponent implements OnInit {
       userAdditionalInfo: []
     });
   }
+  uploadUserAvatar() {
+    alert('Uploading user avatar');
+  }
 }

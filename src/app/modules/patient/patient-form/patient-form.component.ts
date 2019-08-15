@@ -112,4 +112,7 @@ export class PatientFormComponent implements OnInit {
       })
     });
   }
+  updateResponsibleParty() {
+    alert('Updating responsible party');
+  }
 }

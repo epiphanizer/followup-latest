@@ -37,15 +37,40 @@
             <i class="icon-birthday"></i>
             <ion-label position="stacked">Date of Birth</ion-label>
             <ion-datetime type="date" formControlName="patientDob"></ion-datetime>
-            <ion-label position="stacked">Age</ion-label>: {{ currentYear - (patient.patientDob | slice: 0:4) }}
+            <ion-label position="stacked">Age: {{ currentYear - (patient.patientDob | slice: 0:4) }}</ion-label>
           </ion-item>
           <div class="section-header">
             <img src="/assets/edit-patient-contact-header-banner.png" alt="" />
+
+            <ion-list lines="none">
+              <ion-item class="first-name">
+                <ion-label color="medium" position="stacked">Home Phone #</ion-label>
+                <ion-input type="text" formControlName="patientFirstName"></ion-input>
+              </ion-item>
+              <span class="responsible-party">
+                <a (click)="updateResponsibleParty()">Responsible Party? <i class="icon-hipaa"></i> </a>
+              </span>
+            </ion-list>
           </div>
           <div class="section-header">
             <i class="icon-contacts"></i>
             Care Providers
           </div>
+          <!-- 
+          <ion-list lines="none" formGroupName="patientName">
+              <ion-item class="first-name">
+                <ion-label color="medium" position="stacked">First Name</ion-label>
+                <ion-input type="text" formControlName="patientFirstName"></ion-input>
+              </ion-item>
+              <ion-item class="middle-name">
+                <ion-label color="medium" position="stacked">Middle Name</ion-label>
+                <ion-input type="text" formControlName="patientMiddleName"></ion-input>
+              </ion-item>
+              <ion-item class="last-name">
+                <ion-label color="medium" position="stacked">Last Name</ion-label>
+                <ion-input type="text" formControlName="patientLastName"></ion-input>
+              </ion-item>
+            </ion-list> -->
         </ion-list>
       </form>
     </ion-col>
