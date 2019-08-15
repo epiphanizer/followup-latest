@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Patient, PatientService } from '@app/modules/patient/patient.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { User } from '@app/modules/user/user.service';
 
 @Component({
   providers: [PatientService],
@@ -15,6 +16,7 @@ export class PatientFormComponent implements OnInit {
   currentYear: number;
   editMode: boolean = false;
   patient: Patient;
+  user: User;
   patient$: Observable<Patient>;
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private patientService: PatientService) {}
@@ -24,6 +26,8 @@ export class PatientFormComponent implements OnInit {
     /**
      * See if we are editing the form
      */
+    this.user = this.route.snapshot.data.user;
+
     if (this.route.snapshot.data.editMode) {
       this.editMode = true;
     }
@@ -47,22 +51,16 @@ export class PatientFormComponent implements OnInit {
           patientLastName: this.fb.control(this.patient.patientLastName)
         }),
         patientDob: this.fb.control(this.patient.patientDob),
-        // We calculate the age and set this later
-        patientAge: this.fb.control({
-          value: null,
-          disabled: true
-        }),
         patientContacts: this.fb.group({
           primaryPatientContact: this.fb.group({
-            patientContactName: this.fb.control({}),
-            patientContactRelationship: this.fb.control({}),
             patientContactCountryCodeNumber: this.fb.control({}),
             patientContactAreaCodeNumber: this.fb.control({}),
             patientContactPhoneNumber: this.fb.control({}),
             patientResponsiblePartyBoolean: this.fb.control({})
           }),
           alternatePatientContact1: this.fb.group({
-            patientContactName: this.fb.control({}),
+            patientContactFirstName: this.fb.control({}),
+            patientContactLastName: this.fb.control({}),
             patientContactRelationship: this.fb.control({}),
             patientContactCountryCodeNumber: this.fb.control({}),
             patientContactAreaCodeNumber: this.fb.control({}),
@@ -80,7 +78,8 @@ export class PatientFormComponent implements OnInit {
         })
       }),
       physician: this.fb.group({
-        physicianName: this.fb.control({}),
+        physicianFirstName: this.fb.control({}),
+        physicianLastName: this.fb.control({}),
         physicianPhoneNumber: this.fb.control({})
       }),
       insurance: this.fb.group({
