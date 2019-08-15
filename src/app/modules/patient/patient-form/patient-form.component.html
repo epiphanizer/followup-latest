@@ -11,27 +11,28 @@
         </ion-title>
       </ng-template>
       <form id="new-patient-form" (ngSubmit)="addPatientFormSubmit()" [formGroup]="addPatientForm" novalidate>
-        <ion-select>
-          Facility
+        <ion-select placeholder="Select Facility" class="select-facility">
           <ion-select-option *ngFor="let operation of user.operations">
             {{ operation.operationName }}
           </ion-select-option>
         </ion-select>
-        <ion-list formGroupName="patient">
-          <ion-item>
+        <ion-list lines="none" formGroupName="patient">
+          <i class="icon-new-facility"></i>
+          <ion-item class="patient-medical-record-number">
             <ion-label position="stacked">Patient #</ion-label>
             <ion-input type="text" formControlName="patientRecordNumber"></ion-input>
           </ion-item>
           <ion-list lines="none" formGroupName="patientName">
-            <ion-item class="first-name">
+            <i class="icon-info"></i>
+            <ion-item class="patient-first-name">
               <ion-label color="medium" position="stacked">First Name</ion-label>
               <ion-input type="text" formControlName="patientFirstName"></ion-input>
             </ion-item>
-            <ion-item class="middle-name">
+            <ion-item class="patient-middle-name">
               <ion-label color="medium" position="stacked">Middle Name</ion-label>
               <ion-input type="text" formControlName="patientMiddleName"></ion-input>
             </ion-item>
-            <ion-item class="last-name">
+            <ion-item class="patient-last-name">
               <ion-label color="medium" position="stacked">Last Name</ion-label>
               <ion-input type="text" formControlName="patientLastName"></ion-input>
             </ion-item>

@@ -46,7 +46,7 @@ export class PatientDetailComponent implements OnInit {
 
   patientCallStartEventHandler($event: PatientCall) {
     this.selected.patientCall = $event;
-    this.patientNotesInput.setFocus();
+    // this.patientNotesInput.setFocus();
   }
   // Whereas the patient call start event handler gets a patient call,
   // we only get a status back from the event handler, which tells us
