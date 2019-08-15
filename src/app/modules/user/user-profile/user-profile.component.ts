@@ -32,16 +32,16 @@ export class UserProfileComponent implements OnInit {
   }
   private createForm() {
     this.userProfileForm = this.formBuilder.group({
-      userFirstName: ['', [Validators.required]],
-      userMiddleName: ['', [Validators.required]],
-      userLastName: ['', [Validators.required]],
+      userFirstName: [this.user.displayName, [Validators.required]],
+      userMiddleName: [this.user.userMiddleName, [Validators.required]],
+      userLastName: [this.user.userLastName, [Validators.required]],
       userEmail: [{ value: this.user.email, disabled: true }, [Validators.required, Validators.email]],
-      userPhoneCountryCode: ['', [Validators.required]],
-      userPhoneAreaCode: ['', [Validators.required]],
-      userPhoneNumber: ['', [Validators.required]],
+      userPhoneCountryCode: [this.user.userPhoneCountryCode, [Validators.required]],
+      userPhoneAreaCode: [this.user.userPhoneAreaCode, [Validators.required]],
+      userPhoneNumber: [this.user.userPhoneNumber, [Validators.required]],
       userPassword: [{ disabled: true }],
       userConfirmPassword: [{ disabled: true }],
-      userDob: ['', [Validators.required]],
+      userDob: [this.user.userDob, [Validators.required]],
       userFavoriteDessert: [''],
       userAdditionalInfo: []
     });

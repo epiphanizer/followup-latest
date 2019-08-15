@@ -11,6 +11,7 @@ export interface Patient {
   operation$: Observable<Operation>;
   medicalRecordNumber: string;
   patientFirstName: string;
+  patientMiddleName: string;
   patientLastName: string;
   patientDischargeDate: Date;
   patientDob: Date;

@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PatientFormComponent implements OnInit {
   addPatientForm: FormGroup;
+  currentYear: number;
   editMode: boolean = false;
   patient: Patient;
   patient$: Observable<Patient>;
@@ -19,13 +20,19 @@ export class PatientFormComponent implements OnInit {
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private patientService: PatientService) {}
 
   ngOnInit() {
+    this.currentYear = new Date().getFullYear();
     /**
      * See if we are editing the form
      */
     if (this.route.snapshot.data.editMode) {
       this.editMode = true;
     }
-    this.patient$ = this.patientService.addNewPatient();
+    if (this.editMode) {
+      this.patient = this.route.snapshot.data.patient;
+    }
+    if (!this.patient) {
+      this.patient$ = this.patientService.addNewPatient();
+    }
     this.createForm();
   }
   addPatientFormSubmit() {}
@@ -33,13 +40,13 @@ export class PatientFormComponent implements OnInit {
     this.addPatientForm = this.fb.group({
       operation: this.fb.control({}),
       patient: this.fb.group({
-        patientRecordNumber: this.fb.control({}),
+        patientRecordNumber: this.fb.control(this.patient.medicalRecordNumber),
         patientName: this.fb.group({
-          patientFirstName: this.fb.control({}),
-          patientMiddleName: this.fb.control({}),
-          patientLastName: this.fb.control({})
+          patientFirstName: this.fb.control(this.patient.patientFirstName),
+          patientMiddleName: this.fb.control(this.patient.patientMiddleName),
+          patientLastName: this.fb.control(this.patient.patientLastName)
         }),
-        patientDob: this.fb.control({}),
+        patientDob: this.fb.control(this.patient.patientDob),
         // We calculate the age and set this later
         patientAge: this.fb.control({
           value: null,

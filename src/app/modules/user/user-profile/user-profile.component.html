@@ -57,7 +57,7 @@
           <i class="icon-birthday"></i>
           <ion-item class="user-dob">
             <ion-label color="medium" position="stacked">Birthday</ion-label>
-            <ion-input type="date" formControlName="userDob"></ion-input>
+            <ion-datetime type="date" formControlName="userDob"></ion-datetime>
           </ion-item>
           <ion-item class="user-dessert">
             <ion-label color="medium" position="stacked">Favorite Dessert</ion-label>
@@ -138,8 +138,7 @@
       </form>
     </ion-col>
     <ion-col class="avatar-col">
-      <img src="/assets/add-photo-default-avatar.png" alt="" />
-      <!-- <app-user-avatar></app-user-avatar> -->
+      <img (click)="uploadUserAvatar()" src="/assets/add-photo-default-avatar.png" alt="" />
     </ion-col>
   </ion-row>
 </ion-content>

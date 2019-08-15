@@ -7,6 +7,13 @@ import { PatientCall } from '../patient/patient-detail/patient-call/patient-call
 
 export interface User {
   displayName: string;
+  userFirstName?: string;
+  userMiddleName?: string;
+  userLastName?: string;
+  userPhoneCountryCode?: number;
+  userPhoneAreaCode?: number;
+  userPhoneNumber?: number;
+  userDob?: Date;
   token: string;
   id: number;
   id$: Observable<number>;

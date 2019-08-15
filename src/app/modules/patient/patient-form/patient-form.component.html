@@ -36,9 +36,8 @@
           <ion-item>
             <i class="icon-birthday"></i>
             <ion-label position="stacked">Date of Birth</ion-label>
-            <ion-input type="date" formControlName="patientDob"></ion-input>
-            <ion-label position="stacked">Age</ion-label>
-            <ion-input class="patient-age" type="number" formcontrolName="patientAge"></ion-input>
+            <ion-datetime type="date" formControlName="patientDob"></ion-datetime>
+            <ion-label position="stacked">Age</ion-label>: {{ currentYear - (patient.patientDob | slice: 0:4) }}
           </ion-item>
           <div class="section-header">
             <img src="/assets/edit-patient-contact-header-banner.png" alt="" />
