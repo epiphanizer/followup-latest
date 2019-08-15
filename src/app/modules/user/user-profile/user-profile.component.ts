@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { User, UserService } from '@app/modules/user/user.service';
 import { ActivatedRoute } from '@angular/router';
+// import { DatePicker } from '@ionic-native/date-picker/ngx';
 
 @Component({
   providers: [UserService],
@@ -14,7 +15,12 @@ export class UserProfileComponent implements OnInit {
   user: User;
   userProfileForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private userService: UserService) {}
+  constructor(
+    // private datePicker: DatePicker,
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;

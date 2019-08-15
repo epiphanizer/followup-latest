@@ -18,7 +18,8 @@ const routes: Routes = [
         patient: PatientResolver
       },
       data: {
-        title: extract('Patient Detail')
+        title: extract('Patient Detail'),
+        operation: ':operationId'
       }
     },
     {

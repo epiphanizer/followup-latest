@@ -4,6 +4,8 @@ import { PatientCall, PatientCallService } from '../patient-detail/patient-call/
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/user';
+import { Operation, OperationService } from '@app/modules/operation/operation.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   providers: [PatientCallService],
@@ -14,6 +16,7 @@ import { User } from '@app/user';
 export class PatientDetailComponent implements OnInit {
   user: User;
   patient: Patient;
+  operation: Operation;
   selected: {
     patientCall: PatientCall | null;
     patientContactNumberId: number | null;
@@ -23,14 +26,22 @@ export class PatientDetailComponent implements OnInit {
   };
   patientCall: PatientCall | null = null;
   patientCall$: Observable<PatientCall>;
-  constructor(private patientCallService: PatientCallService, private route: ActivatedRoute) {}
+  constructor(
+    private operationService: OperationService,
+    private patientCallService: PatientCallService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
+    var operationId = this.route.snapshot.params.operationId;
     this.user = this.route.snapshot.data.user;
+    this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
+      this.operation = operation;
+      return operation;
+    });
     this.patient = this.route.snapshot.data.patient;
   }
   patientCallStartEventHandler($event: PatientCall) {
-    console.log($event);
     this.selected.patientCall = $event;
   }
 }

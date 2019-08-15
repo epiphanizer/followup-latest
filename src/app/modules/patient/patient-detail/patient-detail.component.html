@@ -23,7 +23,11 @@
       <app-patient-call-stop-button *ngIf="patientCall"> </app-patient-call-stop-button>
     </ion-col>
     <ion-col class="right-hand-detail">
-      <app-patient-summary-widget [patient]="patient"></app-patient-summary-widget>
+      <app-patient-summary-widget
+        *ngIf="operation"
+        [operation]="operation"
+        [patient]="patient"
+      ></app-patient-summary-widget>
       <app-patient-call-history-controls></app-patient-call-history-controls>
       <app-patient-call-history-listing [patient]="patient"></app-patient-call-history-listing>
     </ion-col>

@@ -34,6 +34,7 @@
     "@fullcalendar/angular": "^4.3.0",
     "@fullcalendar/core": "^4.3.0",
     "@fullcalendar/daygrid": "^4.3.0",
+    "@ionic-native/date-picker": "^5.12.0",
     "@ionic/angular": "^4.0.0",
     "@microsoft/microsoft-graph-client": "^1.7.0",
     "@ngx-translate/core": "^11.0.1",
