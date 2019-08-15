@@ -24,6 +24,7 @@ export interface Patient {
   patientContactPhoneNumber?: number | null;
   primaryContactPhoneTypeId?: number;
   primaryContactPhoneTypeLabel?: string;
+  primaryContactPhoneNumber?: number | null;
   patientCalls?: PatientCall[];
   patientCalls$: Observable<PatientCall[]>;
   patientCallCount?: number;
