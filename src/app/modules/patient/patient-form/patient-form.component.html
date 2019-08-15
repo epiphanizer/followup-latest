@@ -11,31 +11,35 @@
         </ion-title>
       </ng-template>
       <form id="new-patient-form" (ngSubmit)="addPatientFormSubmit()" [formGroup]="addPatientForm" novalidate>
-        <i class="icon-new-facility"></i>
-        <ion-select placeholder="Select Facility" class="select-facility">
-          <ion-select-option *ngFor="let operation of user.operations">
-            {{ operation.operationName }}
-          </ion-select-option>
-        </ion-select>
-        <ion-list lines="none" formGroupName="patient">
-          <i class="icon-info"></i>
-          <ion-item class="patient-medical-record-number">
-            <ion-label position="stacked">Patient #</ion-label>
-            <ion-input type="text" formControlName="patientMedicalRecordNumber"></ion-input>
-          </ion-item>
-          <ion-list lines="none" formGroupName="patientName">
-            <ion-item class="patient-first-name">
-              <ion-label color="medium" position="stacked">First Name</ion-label>
-              <ion-input type="text" formControlName="patientFirstName"></ion-input>
+        <ion-list lines="none">
+          <ion-list lines="none">
+            <i class="icon-new-facility"></i>
+            <ion-select placeholder="Select Facility" class="select-facility">
+              <ion-select-option *ngFor="let operation of user.operations">
+                {{ operation.operationName }}
+              </ion-select-option>
+            </ion-select>
+          </ion-list>
+          <ion-list lines="none" formGroupName="patient">
+            <i class="icon-info"></i>
+            <ion-item class="patient-medical-record-number">
+              <ion-label position="stacked">Patient #</ion-label>
+              <ion-input type="text" formControlName="patientMedicalRecordNumber"></ion-input>
             </ion-item>
-            <ion-item class="patient-middle-name">
-              <ion-label color="medium" position="stacked">Middle Name</ion-label>
-              <ion-input type="text" formControlName="patientMiddleName"></ion-input>
-            </ion-item>
-            <ion-item class="patient-last-name">
-              <ion-label color="medium" position="stacked">Last Name</ion-label>
-              <ion-input type="text" formControlName="patientLastName"></ion-input>
-            </ion-item>
+            <ion-list lines="none" formGroupName="patientName">
+              <ion-item class="patient-first-name">
+                <ion-label color="medium" position="stacked">First Name</ion-label>
+                <ion-input type="text" formControlName="patientFirstName"></ion-input>
+              </ion-item>
+              <ion-item class="patient-middle-name">
+                <ion-label color="medium" position="stacked">Middle Name</ion-label>
+                <ion-input type="text" formControlName="patientMiddleName"></ion-input>
+              </ion-item>
+              <ion-item class="patient-last-name">
+                <ion-label color="medium" position="stacked">Last Name</ion-label>
+                <ion-input type="text" formControlName="patientLastName"></ion-input>
+              </ion-item>
+            </ion-list>
           </ion-list>
           <ion-list lines="none">
             <i class="icon-birthday"></i>
@@ -45,9 +49,7 @@
               <span>Age: {{ currentYear - (patient.patientDob | slice: 0:4) }}</span>
             </ion-item>
           </ion-list>
-          <div class="section-header">
-            <img src="/assets/edit-patient-contact-header-banner.png" alt="" />
-          </div>
+          <div class="section-header"><i class="icon-contact"></i> Contacts</div>
           <ion-list lines="none" formGroupName="patientContacts">
             <div class="phone-container">
               <ion-item class="country-code">
@@ -174,7 +176,7 @@
           <ion-item>
             <ion-label color="medium" position="stacked">Discharged Against Medical Advice?</ion-label>
             <!-- <ion-radio>Y</ion-radio>
-              <ion-radio>N</ion-radio> -->
+                <ion-radio>N</ion-radio> -->
           </ion-item>
           <ion-item>
             <ion-list class="checkboxes">
