@@ -9,10 +9,11 @@ export interface Patient {
   patientOperationId: number;
   operation?: Operation;
   operation$: Observable<Operation>;
-  medicalRecordNumber: string;
   patientFirstName: string;
   patientMiddleName: string;
   patientLastName: string;
+  patientMedicalRecordNumber: string;
+  patientAdmissionDate: Date;
   patientDischargeDate: Date;
   patientDob: Date;
   age: number | null;
@@ -20,7 +21,7 @@ export interface Patient {
   // We may not always have this, but it's nice to have when we do need it
   // for the sake of labeling, etc.
   patientContactNumberId?: number | null;
-  patientContactNumber?: number | null;
+  patientContactPhoneNumber?: number | null;
   primaryContactPhoneTypeId?: number;
   primaryContactPhoneTypeLabel?: string;
   patientCalls?: PatientCall[];
