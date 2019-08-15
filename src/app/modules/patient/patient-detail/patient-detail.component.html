@@ -7,7 +7,6 @@
         *ngIf="!selected.patientCall"
         [user]="user"
         [patient]="patient"
-        [patientContactNumberId]="selected.patientContactNumberId || 1"
         (patientCallStartEventEmitter)="patientCallStartEventHandler($event)"
       >
       </app-patient-call-start-button>
@@ -20,7 +19,11 @@
         <br />
         <img src="/assets/faded-questions-bg@2x.png" alt="" />
       </ng-template>
-      <app-patient-call-stop-button *ngIf="patientCall"> </app-patient-call-stop-button>
+      <app-patient-call-stop-button
+        *ngIf="selected.patientCall"
+        (patientCallEndEventEmitter)="patientCallEndEventHandler($event)"
+      >
+      </app-patient-call-stop-button>
     </ion-col>
     <ion-col class="right-hand-detail">
       <app-patient-summary-widget
