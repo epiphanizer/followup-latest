@@ -29,7 +29,12 @@
           <ul class="patient-contact-list">
             <li>
               <span class="patient-contact-number">{{ patient.primaryContactPhoneNumber }}</span>
-              <span class="patient-contact-number-type"><i class="icon-hippa"></i> Home</span>
+              <span class="patient-contact-number-type">
+                <ng-container *ngIf="patient.primaryContactPhoneType == 'home'; else contactType">
+                  <i class="icon-hippa"></i> Home
+                </ng-container>
+                <ng-template #contactType> </ng-template>
+              </span>
               <br />
               <a [routerLink]="'/patient/edit/' + patient.patientId">[Alt Numbers]</a>
             </li>
