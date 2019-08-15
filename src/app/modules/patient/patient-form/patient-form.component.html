@@ -167,6 +167,50 @@
               <ion-input formControlName="totalDays"></ion-input>
             </ion-item>
           </div>
+          <ion-item>
+            <ion-label>Discharged Against Medical Advice?</ion-label>
+            <!-- <ion-radio>Y</ion-radio>
+              <ion-radio>N</ion-radio> -->
+          </ion-item>
+          <ion-item>
+            <ion-list class="checkboxes">
+              <ion-label>Discharged To:</ion-label>
+              <ion-list>
+                <ion-checkbox></ion-checkbox><ion-label>Home</ion-label> <ion-checkbox></ion-checkbox
+                ><ion-label>Family or Friend</ion-label> <ion-checkbox></ion-checkbox
+                ><ion-label>Assist. Living</ion-label> <ion-checkbox></ion-checkbox><ion-label>Hospice</ion-label>
+                <ion-checkbox></ion-checkbox><ion-label>Hospital</ion-label> <ion-checkbox></ion-checkbox
+                ><ion-label>Other Facility</ion-label>
+              </ion-list>
+            </ion-list>
+          </ion-item>
+        </ion-list>
+        <ion-list formGroupName="patientMedicalConditions">
+          <ion-item>
+            <i class="icon-medical"></i>
+            <ion-list class="checkboxes-inline">
+              <ion-item>
+                <ion-label>Cardiac</ion-label>
+                <ion-input formControlName="cardiacBoolean"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>Sepsis</ion-label>
+                <ion-input formControlName="sepsisBoolean"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>Pulminary</ion-label>
+                <ion-input formControlName="pulminaryBoolean"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>Primary Diagnosis</ion-label>
+                <ion-textarea formControlName="primaryDiangosis"></ion-textarea>
+              </ion-item>
+              <ion-item>
+                <ion-label>Discharged Condition</ion-label>
+                <ion-textarea formControlName="dischargedCondition"></ion-textarea>
+              </ion-item>
+            </ion-list>
+          </ion-item>
         </ion-list>
       </form>
     </ion-col>

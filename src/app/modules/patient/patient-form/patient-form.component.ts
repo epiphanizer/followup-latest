@@ -108,7 +108,9 @@ export class PatientFormComponent implements OnInit {
         patientHomeHealthContactedBoolean: this.fb.control({}),
         patientUrgencyRating: this.fb.control({}),
         patientOtherDetails: this.fb.control({})
-      })
+      }),
+      patientUrgencyRating: this.fb.control({}),
+      patientNeedToKnow: this.fb.control({})
     });
   }
   updateResponsibleParty() {

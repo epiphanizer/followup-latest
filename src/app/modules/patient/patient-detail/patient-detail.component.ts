@@ -41,7 +41,15 @@ export class PatientDetailComponent implements OnInit {
     });
     this.patient = this.route.snapshot.data.patient;
   }
+
   patientCallStartEventHandler($event: PatientCall) {
     this.selected.patientCall = $event;
+  }
+  // Whereas the patient call start event handler gets a patient call,
+  // we only get a status back from the event handler, which tells us
+  // both where we are and thereby, what to do next.
+
+  patientCallEndEventHandler($event: number) {
+    this.selected.patientCall.patientCallStatusLabelId = $event;
   }
 }
