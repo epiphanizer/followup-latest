@@ -143,6 +143,30 @@
             </ion-item>
           </ion-list>
           <ion-list formGroupName="insurance"> </ion-list>
+          <ion-item>
+            <ion-label>Primary Insurance</ion-label>
+            <ion-input formControlName="primaryInsurance"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Secondary Insurance</ion-label>
+            <ion-input formControlName="secondaryInsurance"></ion-input>
+          </ion-item>
+        </ion-list>
+        <ion-list formGroupName="dischargeInfo">
+          <div class="patient-discharge-container">
+            <ion-item>
+              <ion-label>Admitted</ion-label>
+              <ion-datetime formControlName="patientAdmitDate"></ion-datetime>
+            </ion-item>
+            <ion-item>
+              <ion-label>Discharged</ion-label>
+              <ion-datetime formControlName="patientDischargeDate"></ion-datetime>
+            </ion-item>
+            <ion-item>
+              <ion-label>Total Days</ion-label>
+              <ion-input formControlName="totalDays"></ion-input>
+            </ion-item>
+          </div>
         </ion-list>
       </form>
     </ion-col>
