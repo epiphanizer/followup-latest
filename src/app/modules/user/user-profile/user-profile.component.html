@@ -131,11 +131,15 @@
           </ion-item>
         </ion-list>
         <div class="user-profile-more-container">
-          <i class="icon-info"></i>
-          <ion-label class="main-label-box" color="medium" position="stacked"
-            >Anything else you want to share with the team?</ion-label
-          >
-          <ion-textarea formControlName="userAdditionalInfo"></ion-textarea>
+          <ion-list>
+            <i class="icon-info"></i>
+            <ion-item>
+              <ion-label class="main-label-box" color="medium" position="stacked"
+                >Anything else you want to share with the team?</ion-label
+              >
+              <ion-textarea formControlName="userAdditionalInfo"></ion-textarea>
+            </ion-item>
+          </ion-list>
         </div>
         <ion-button type="submit">Save</ion-button>
       </form>
