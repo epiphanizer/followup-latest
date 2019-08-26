@@ -1,35 +1,7 @@
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { PatientCall } from './patient-detail/patient-call/patient-call.service';
-import { Operation } from '../operation/operation.service';
-
-export interface Patient {
-  patientId: number;
-  patientOperationId: number;
-  operation?: Operation;
-  operation$: Observable<Operation>;
-  patientFirstName: string;
-  patientMiddleName: string;
-  patientLastName: string;
-  patientMedicalRecordNumber: string;
-  patientAdmissionDate: Date;
-  patientDischargeDate: Date;
-  patientDob: Date;
-  age: number | null;
-  avatar: string;
-  // We may not always have this, but it's nice to have when we do need it
-  // for the sake of labeling, etc.
-  patientContactNumberId?: number | null;
-  patientContactPhoneNumber?: number | null;
-  primaryContactPhoneTypeId?: number;
-  primaryContactPhoneTypeLabel?: string;
-  primaryContactPhoneNumber?: number | null;
-  patientCalls?: PatientCall[];
-  patientCalls$: Observable<PatientCall[]>;
-  patientCallCount?: number;
-  patientCurrentStatusLabel?: number;
-}
+import { Patient } from './patient';
 
 export class PatientService {
   constructor(private http: HttpClient) {}

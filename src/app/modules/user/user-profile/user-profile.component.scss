@@ -35,9 +35,9 @@ form {
   i {
     float: left;
     clear: left;
-    width: 16px;
-    height: 20px;
-    margin-top: 14px;
+    width: 20px;
+    height: 24px;
+    margin-top: 10px;
     background-repeat: no-repeat;
     background-size: 95%;
   }
@@ -154,17 +154,17 @@ form {
       max-height: 36px;
     }
     ion-checkbox {
+      --border-color: #8e8e8e;
       width: 12px;
       height: 12px;
       margin-left: 6px;
       border-radius: 3px;
-      border: solid 1px #8e8e8e;
       background-color: #ffffff;
     }
     ion-label {
       margin-left: 12px;
       font-family: Avenir;
-      font-size: 21px;
+      font-size: 19px;
       font-weight: normal;
       font-style: normal;
       font-stretch: normal;
@@ -182,7 +182,9 @@ form {
   ion-button {
     margin-top: 36px;
     float: right;
-    width: 73.9px;
+    border-radius: 4px;
+    background-color: --ion-color-primary;
+    width: 76px;
     height: 20px;
     font-family: AvenirNextLTPro;
     font-size: 15px;
