@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PatientService, Patient } from '../../patient.service';
+import { Patient } from '../../patient';
+import { PatientService } from '../../patient.service';
 import { Operation } from '@app/modules/operation/operation.service';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { PatientCall, PatientCallService } from '../patient-call.service';
 import { Observable } from 'rxjs';
-import { Patient } from '@app/modules/patient/patient.service';
+import { Patient } from '@app/modules/patient/patient';
+import { PatientCall, PatientCallService } from '../patient-call.service';
 import { User } from '@app/modules/user/user.service';
 
 @Component({

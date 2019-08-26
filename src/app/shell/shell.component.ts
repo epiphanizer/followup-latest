@@ -18,9 +18,9 @@ export class ShellComponent {
     private platform: Platform,
     private authenticationService: AuthenticationService
   ) {
-    // if (this.route.snapshot.data.navLinks) {
-    //   this.navLinks = this.route.snapshot.data.navLinks;
-    // }
+    if (this.route.snapshot.data.navLinks) {
+      this.navLinks = this.route.snapshot.data.navLinks;
+    }
     /**
      * Doesn't seem to register before child does
      */

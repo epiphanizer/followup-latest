@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
-
-import { Patient, PatientService } from './patient.service';
+import { Patient } from './patient';
+import { PatientService } from './patient.service';
 import { PatientCallService } from './patient-detail/patient-call/patient-call.service';
 import { map } from 'rxjs/operators';
 import { OperationService } from '../operation/operation.service';

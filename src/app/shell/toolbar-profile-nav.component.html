@@ -3,7 +3,7 @@
     <div class="avatar-image" style="background-image:url(' + {{ user?.avatar }} ')"></div>
   </div>
   <div class="username">
-    <a class="/profile">
+    <a routerLink="/user/profile" class="user-profile-jump">
       {{
         user?.displayName
           .substr(0, user?.displayName.indexOf(' '))
@@ -12,6 +12,6 @@
     </a>
   </div>
   <div class="logout-nav">
-    <a href="/logout" (click)="signOut()">[logout]</a>
+    <a routerLink="/logout" (click)="signOut()">[logout]</a>
   </div>
 </div>

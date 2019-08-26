@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Patient } from '@app/modules/patient/patient.service';
+import { Patient } from '@app/modules/patient/patient';
 import { PatientCall, PatientCallService } from '../patient-detail/patient-call/patient-call.service';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/user';
 import { Operation, OperationService } from '@app/modules/operation/operation.service';
-import { map } from 'rxjs/operators';
 import { IonTextarea } from '@ionic/angular';
 
 @Component({
@@ -46,7 +45,8 @@ export class PatientDetailComponent implements OnInit {
 
   patientCallStartEventHandler($event: PatientCall) {
     this.selected.patientCall = $event;
-    // this.patientNotesInput.setFocus();
+    this.patientNotesInput.setFocus();
+    alert('Starting patient call');
   }
   // Whereas the patient call start event handler gets a patient call,
   // we only get a status back from the event handler, which tells us
