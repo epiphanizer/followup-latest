@@ -51,18 +51,16 @@ export class PatientFormComponent implements OnInit {
 
   addPatientFormSubmit() {}
   private createForm() {
-    if (this.editMode) {
-    }
     this.addPatientForm = this.fb.group({
       operation: this.fb.control({}),
       patient: this.fb.group({
-        patientMedicalRecordNumber: this.fb.control(this.patient.patientMedicalRecordNumber),
+        patientMedicalRecordNumber: this.fb.control({}),
         patientName: this.fb.group({
-          patientFirstName: this.fb.control(this.patient.patientFirstName),
-          patientMiddleName: this.fb.control(this.patient.patientMiddleName),
-          patientLastName: this.fb.control(this.patient.patientLastName)
+          patientFirstName: this.fb.control({}),
+          patientMiddleName: this.fb.control({}),
+          patientLastName: this.fb.control({})
         }),
-        patientDob: this.fb.control(this.patient.patientDob),
+        patientDob: this.fb.control({}),
         patientContacts: this.fb.group({
           primaryPatientContact: this.fb.group({
             patientContactCountryCodeNumber: this.fb.control({}),
@@ -124,6 +122,7 @@ export class PatientFormComponent implements OnInit {
       patientUrgencyRating: this.fb.control({}),
       patientNeedToKnow: this.fb.control({})
     });
+    alert('creating form');
   }
   updateResponsibleParty() {
     alert('Updating responsible party');

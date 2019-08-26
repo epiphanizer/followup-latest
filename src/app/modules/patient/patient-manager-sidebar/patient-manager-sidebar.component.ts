@@ -66,8 +66,8 @@ export class PatientManagerSidebarComponent implements OnInit {
   todaysDateDay: number;
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.operations = this.user.operations;
-    if (this.operations.length) {
+    if (this.user.operations) {
+      this.operations = this.user.operations;
       this.selected.operation = this.user.operations[0];
     }
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
