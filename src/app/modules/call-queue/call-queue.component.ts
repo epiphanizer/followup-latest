@@ -17,7 +17,7 @@ export class CallQueueComponent implements OnInit {
       }
     | any = {};
   user: User;
-  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
+  constructor(private route: ActivatedRoute) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.selected.operation = this.user.operations[0];
