@@ -5,6 +5,7 @@ import { PatientService } from '@app/modules/patient/patient.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   providers: [PatientService],
@@ -18,7 +19,7 @@ export class PatientFormComponent implements OnInit {
   editMode: boolean = false;
   patient: Patient;
   user: User;
-  patient$: Observable<Patient>;
+  patient$: Observable<Patient> | void;
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private patientService: PatientService) {}
 
@@ -36,10 +37,18 @@ export class PatientFormComponent implements OnInit {
       this.patient = this.route.snapshot.data.patient;
     }
     if (!this.patient) {
-      this.patient$ = this.patientService.addNewPatient();
+      this.patient$ = this.patientService.addNewPatient().pipe(
+        map((data: Patient) => {
+          this.patient = data;
+          this.createForm();
+          return data;
+        })
+      );
+    } else {
+      this.createForm();
     }
-    this.createForm();
   }
+
   addPatientFormSubmit() {}
   private createForm() {
     if (this.editMode) {

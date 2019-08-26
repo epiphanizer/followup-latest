@@ -1,7 +1,7 @@
 <ng-container>
   <ion-list>
     <ion-item *ngFor="let link of navLinks">
-      <a [routerLink]="link.action">{{ link.name }}</a>
+      <a routerLink="link.linkAction">{{ link.linkName }}</a>
     </ion-item>
   </ion-list>
 </ng-container>

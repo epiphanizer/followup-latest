@@ -9,7 +9,10 @@ import { AuthenticationService } from '@app/core';
   styleUrls: ['./shell.component.scss']
 })
 export class ShellComponent {
-  navLinks?: [string];
+  navLinks?: {
+    linkName: string;
+    linkAction: string;
+  }[];
 
   constructor(
     private route: ActivatedRoute,
@@ -17,10 +20,10 @@ export class ShellComponent {
     private platform: Platform,
     private authenticationService: AuthenticationService
   ) {
+    console.log(this.route.snapshot);
     if (this.route.snapshot.data.navLinks) {
       this.navLinks = this.route.snapshot.data.navLinks;
     }
-    console.log(this.router);
   }
 
   signOut() {
