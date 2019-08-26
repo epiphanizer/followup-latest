@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { AuthenticationService } from '@app/core';
-import { AlertsService } from '@app/core/alerts/alerts.service';
 
 @Component({
   selector: 'app-shell',
@@ -21,9 +20,7 @@ export class ShellComponent {
     if (this.route.snapshot.data.navLinks) {
       this.navLinks = this.route.snapshot.data.navLinks;
     }
-    /**
-     * Doesn't seem to register before child does
-     */
+    console.log(this.router);
   }
 
   signOut() {

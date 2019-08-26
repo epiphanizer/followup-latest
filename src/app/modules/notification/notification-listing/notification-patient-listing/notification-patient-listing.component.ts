@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation.service';
-import { Patient, PatientService } from '@app/modules/patient/patient.service';
+import { Patient } from '@app/modules/patient/patient';
+import { PatientService } from '@app/modules/patient/patient.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
