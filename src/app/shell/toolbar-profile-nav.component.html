@@ -1,6 +1,8 @@
 <div class="toolbar-profile-nav">
   <div class="user-avatar">
-    <div class="avatar-image" style="background-image:url(' + {{ user?.avatar }} ')"></div>
+    <div class="avatar-image">
+      <img src="{{ user.avatar }}" />
+    </div>
   </div>
   <div class="username">
     <a routerLink="/user/profile" class="user-profile-jump">
