@@ -10,7 +10,7 @@
           Edit Patient
         </ion-title>
       </ng-template>
-      <form id="new-patient-form" (ngSubmit)="addPatientFormSubmit()" formGroup="addPatientForm" novalidate>
+      <form *ngIf="patient$ | async" id="new-patient-form" formGroup="addPatientForm" novalidate>
         <ion-list lines="none" inset>
           <i class="icon-new-facility"></i>
           <ion-item>
@@ -176,8 +176,20 @@
             <ion-input type="text" formControlName="physicianLastName"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label color="medium" position="stacked">Phone #</ion-label>
-            <ion-input type="text" formControlName="physicianPhoneNumber"></ion-input>
+            <div class="phone-container">
+              <ion-item class="country-code">
+                <ion-label color="medium" position="stacked">Country Code</ion-label>
+                <ion-input type="text" formControlName="physicianCountryCodeNumber"></ion-input>
+              </ion-item>
+              <ion-item class="area-code">
+                <ion-label color="medium" position="stacked">Area Code</ion-label>
+                <ion-input type="text" formControlName="physicianAreaCodeNumber"></ion-input>
+              </ion-item>
+              <ion-item class="phone-number">
+                <ion-label color="medium" position="stacked">Phone #</ion-label>
+                <ion-input type="text" formControlName="physicianPhoneNumber"></ion-input>
+              </ion-item>
+            </div>
           </ion-item>
         </ion-list>
         <ion-list formGroupName="insurance">

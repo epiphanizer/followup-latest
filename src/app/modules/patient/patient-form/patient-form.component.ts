@@ -50,6 +50,7 @@ export class PatientFormComponent implements OnInit {
         })
       );
     } else {
+      this.patient$ = this.patientService.getPatientByPatientId(this.patient.patientId);
       this.createForm();
     }
   }
@@ -122,6 +123,8 @@ export class PatientFormComponent implements OnInit {
       physician: this.fb.group({
         physicianFirstName: this.fb.control({}),
         physicianLastName: this.fb.control({}),
+        physicianContactCountryCodeNumber: this.fb.control({}),
+        physicianContactAreaCodeNumber: this.fb.control({}),
         physicianPhoneNumber: this.fb.control({})
       }),
       insurance: this.fb.group({
