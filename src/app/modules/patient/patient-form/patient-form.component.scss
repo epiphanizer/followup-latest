@@ -154,13 +154,14 @@ form {
         &.contact-header {
           float: left;
           margin-top: 10px;
+          margin-left: 10px;
         }
 
         font-family: Avenir;
         font-size: 19px;
         font-weight: normal;
         font-style: normal;
-        margin-left: 10px;
+        margin-left: 25px;
         font-stretch: normal;
         line-height: 1.33;
         letter-spacing: 0.42px;
@@ -341,10 +342,10 @@ form {
     text-transform: uppercase;
   }
 
-  .physician-information {
+  .physician-info {
     ion-input {
       width: 48%;
-      float: left;
+      display: inline-block;
     }
 
     ion-radio {
