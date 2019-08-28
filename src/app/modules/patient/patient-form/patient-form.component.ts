@@ -120,7 +120,7 @@ export class PatientFormComponent implements OnInit {
           })
         })
       }),
-      physician: this.fb.group({
+      physicianInfo: this.fb.group({
         physicianFirstName: this.fb.control({}),
         physicianLastName: this.fb.control({}),
         physicianContactCountryCodeNumber: this.fb.control({ disabled: true }),

@@ -165,42 +165,46 @@
           </ion-list>
         </fieldset>
         <ion-item-divider></ion-item-divider>
-        <ion-list class="physician-information" formGroupName="physician">
-          <i class="icon-physician"></i>
-          <ion-item>
-            <ion-label color="medium" position="stacked">Physician First Name</ion-label>
-            <ion-input type="text" formControlName="physicianFirstName"></ion-input>
-            <ion-label color="medium" position="stacked">Physician Last Name</ion-label>
-            <ion-input type="text" formControlName="physicianLastName"></ion-input>
-          </ion-item>
-          <ion-item>
-            <div class="phone-container">
-              <ion-item class="country-code">
-                <ion-label color="medium" position="stacked">+(1)</ion-label>
-                <ion-input type="text" value="1" formControlName="physicianCountryCodeNumber"></ion-input>
-              </ion-item>
-              <ion-item class="area-code">
-                <ion-label color="medium" position="stacked">Area Code</ion-label>
-                <ion-input type="text" formControlName="physicianAreaCodeNumber"></ion-input>
-              </ion-item>
-              <ion-item class="phone-number">
-                <ion-label color="medium" position="stacked">Phone #</ion-label>
-                <ion-input type="text" formControlName="physicianPhoneNumber"></ion-input>
-              </ion-item>
-            </div>
-          </ion-item>
-        </ion-list>
-        <ion-list formGroupName="insurance">
-          <i class="icon-insurance"></i>
-          <ion-item>
-            <ion-label color="medium" position="stacked">Primary Insurance</ion-label>
-            <ion-input formControlName="primaryInsurance"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label color="medium" position="stacked">Secondary Insurance</ion-label>
-            <ion-input formControlName="secondaryInsurance"></ion-input>
-          </ion-item>
-        </ion-list>
+        <fieldset class="physician-info" formGroupName="physicianInfo">
+          <ion-list class="physician-information">
+            <i class="icon-physician"></i>
+            <ion-item>
+              <ion-label color="medium" position="stacked">Physician First Name</ion-label>
+              <ion-input type="text" formControlName="physicianFirstName"></ion-input>
+              <ion-label color="medium" position="stacked">Physician Last Name</ion-label>
+              <ion-input type="text" formControlName="physicianLastName"></ion-input>
+            </ion-item>
+            <ion-item>
+              <div class="phone-container">
+                <ion-item class="country-code">
+                  <ion-label color="medium" position="stacked">+(1)</ion-label>
+                  <ion-input type="text" value="1" formControlName="physicianCountryCodeNumber"></ion-input>
+                </ion-item>
+                <ion-item class="area-code">
+                  <ion-label color="medium" position="stacked">Area Code</ion-label>
+                  <ion-input type="text" formControlName="physicianAreaCodeNumber"></ion-input>
+                </ion-item>
+                <ion-item class="phone-number">
+                  <ion-label color="medium" position="stacked">Phone #</ion-label>
+                  <ion-input type="text" formControlName="physicianPhoneNumber"></ion-input>
+                </ion-item>
+              </div>
+            </ion-item>
+          </ion-list>
+        </fieldset>
+        <fieldset class="insurance-info" formGroupName="insurance">
+          <ion-list lines="none" inset>
+            <i class="icon-insurance"></i>
+            <ion-item>
+              <ion-label color="medium" position="stacked">Primary Insurance</ion-label>
+              <ion-input formControlName="primaryInsurance"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label color="medium" position="stacked">Secondary Insurance</ion-label>
+              <ion-input formControlName="secondaryInsurance"></ion-input>
+            </ion-item>
+          </ion-list>
+        </fieldset>
         <fieldset class="patient-discharge" formGroupName="dischargeInfo">
           <div class="section-header discharge">
             <i class="icon-calendar"></i>
