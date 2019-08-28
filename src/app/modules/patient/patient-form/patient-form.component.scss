@@ -95,7 +95,12 @@ form {
 
   .section-header.contacts {
     margin-top: 14px;
+    overflow: hidden;
     span {
+      &.contact-header {
+        float: left;
+        margin-top: 10px;
+      }
       font-family: Avenir;
       font-size: 19px;
       font-weight: normal;
