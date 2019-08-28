@@ -40,10 +40,7 @@
               <ion-label color="medium" position="stacked">Last Name</ion-label>
               <ion-input type="text" formControlName="patientLastName"></ion-input>
             </ion-item>
-          </ion-list>
-          <ion-list lines="none">
-            <i class="icon-birthday"></i>
-            <ion-item>
+            <ion-item class="patient-dob">
               <ion-label color="medium" position="stacked">Date of Birth</ion-label>
               <ion-datetime type="date" formControlName="patientDob"></ion-datetime>
               <span>Age: {{ currentYear - (patient.patientDob | slice: 0:4) }}</span>
@@ -54,27 +51,27 @@
           <i class="icon-contacts"></i> <span class="contact-header">Contacts</span>
         </div>
 
-        <fieldset formGroupName="patientContacts">
+        <fieldset class="patient-contacts" formGroupName="patientContacts">
           <ion-list lines="none" formGroupName="primaryPatientContact">
             <ion-item-divider></ion-item-divider>
             <div class="section-header contacts">
               <span>Primary Contact</span>
             </div>
-            <ion-item>
+            <ion-item class="first-name">
               <ion-label color="medium" position="stacked">First Name</ion-label>
               <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item class="last-name">
               <ion-label color="medium" position="stacked">Last Name</ion-label>
               <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item class="relationship">
               <ion-label color="medium" position="stacked">Relationship</ion-label>
               <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
             </ion-item>
             <div class="phone-container">
               <ion-item class="country-code">
-                <ion-label color="medium" position="stacked">Country Code</ion-label>
+                <ion-label color="medium" position="stacked">+</ion-label>
                 <ion-input type="text" formControlName="patientContactCountryCodeNumber"></ion-input>
               </ion-item>
               <ion-item class="area-code">
@@ -97,22 +94,22 @@
             <span>Alternative Contact 1</span>
           </div>
           <ion-list lines="none" formGroupName="alternatePatientContact1">
-            <ion-item>
+            <ion-item class="first-name">
               <ion-label color="medium" position="stacked">First Name</ion-label>
               <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item class="last-name">
               <ion-label color="medium" position="stacked">Last Name</ion-label>
               <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item class="relationship">
               <ion-label color="medium" position="stacked">Relationship</ion-label>
               <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
             </ion-item>
             <div class="phone-container">
               <ion-item class="country-code">
-                <ion-label color="medium" position="stacked">Country Code</ion-label>
-                <ion-input type="text" formControlName="patientContactCountryCodeNumber"></ion-input>
+                <ion-label color="medium" position="stacked"> +(1)</ion-label>
+                <ion-input type="text" value="1" formControlName="patientContactCountryCodeNumber"></ion-input>
               </ion-item>
               <ion-item class="area-code">
                 <ion-label color="medium" position="stacked">Area Code</ion-label>
@@ -135,19 +132,19 @@
           <ion-list lines="none" formGroupName="alternatePatientContact2">
             <ion-item>
               <ion-label color="medium" position="stacked">First Name</ion-label>
-              <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
+              <ion-input class="first-name" type="text" formControlName="patientContactFirstName"> </ion-input>
             </ion-item>
             <ion-item>
               <ion-label color="medium" position="stacked">Last Name</ion-label>
-              <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
+              <ion-input class="last-name" type="text" formControlName="patientContactLastName"> </ion-input>
             </ion-item>
             <ion-item>
               <ion-label color="medium" position="stacked">Relationship</ion-label>
-              <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
+              <ion-input class="relationship" type="text" formControlName="patientContactRelationship"> </ion-input>
             </ion-item>
             <div class="phone-container">
               <ion-item class="country-code">
-                <ion-label color="medium" position="stacked">Country Code</ion-label>
+                <ion-label color="medium" position="stacked"> +(1)</ion-label>
                 <ion-input type="text" formControlName="patientContactCountryCodeNumber"></ion-input>
               </ion-item>
               <ion-item class="area-code">
@@ -178,8 +175,8 @@
           <ion-item>
             <div class="phone-container">
               <ion-item class="country-code">
-                <ion-label color="medium" position="stacked">Country Code</ion-label>
-                <ion-input type="text" formControlName="physicianCountryCodeNumber"></ion-input>
+                <ion-label color="medium" position="stacked">+</ion-label>
+                <ion-input type="text" value="1" formControlName="physicianCountryCodeNumber"></ion-input>
               </ion-item>
               <ion-item class="area-code">
                 <ion-label color="medium" position="stacked">Area Code</ion-label>

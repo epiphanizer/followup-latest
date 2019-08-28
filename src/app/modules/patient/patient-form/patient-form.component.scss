@@ -50,6 +50,58 @@ form {
     background-color: #f5f5f5;
   }
 
+  ion-item {
+    padding-left: 11.8px;
+
+    &.patient-medical-record-number {
+      width: 143px;
+      padding-left: 10px;
+    }
+
+    &.patient-first-name,
+    &.patient-middle-name,
+    &.patient-last-name {
+      display: inline-block;
+    }
+
+    &.patient-first-name {
+      width: 160px;
+    }
+
+    &.patient-middle-name {
+      width: 180px;
+    }
+
+    &.patient-last-name {
+      width: 160px;
+    }
+
+    &.patient-dob {
+      width: 100%;
+      margin-right: 8px;
+
+      span {
+        margin-left: 8px;
+        height: 13px;
+        width: 28px;
+        display: inline-block;
+        font-style: italic;
+        color: #8e8e93;
+        font-size: 13px;
+        font-family: Avenir;
+      }
+    }
+
+    ion-datetime {
+      width: 154.6px;
+      display: inline-block;
+
+      button {
+        max-width: 154.6px;
+      }
+    }
+  }
+
   .select-facility {
     min-width: 100%;
     height: 39px;
@@ -93,99 +145,80 @@ form {
     background-image: url("/assets/icon-insurance@2x.png");
   }
 
-  .section-header.contacts {
-    margin-top: 14px;
-    overflow: hidden;
-    span {
-      &.contact-header {
-        float: left;
-        margin-top: 10px;
-      }
-      font-family: Avenir;
-      font-size: 19px;
-      font-weight: normal;
-      font-style: normal;
-      margin-left: 10px;
-      font-stretch: normal;
-      line-height: 1.33;
-      letter-spacing: 0.42px;
-      text-align: left;
-      color: var(--ion-color-primary);
-    }
-  }
-  // Contact phone stuff
-  ion-list {
-    .phone-container {
-      padding-left: 0;
-      width: calc(100% - 20px);
+  fieldset.patient-contacts {
+    .section-header.contacts {
+      margin-top: 14px;
+      overflow: hidden;
 
-      ion-item {
-        display: inline-block;
-
-        &.country-code {
-          margin-left: 0;
+      span {
+        &.contact-header {
           float: left;
-          width: 257px;
+          margin-top: 10px;
         }
 
-        &.area-code {
-          margin-left: 20px;
-          float: left;
-          width: 257px;
-        }
-
-        &.phone-number {
-          margin-left: 20px;
-          float: left;
-          width: 257px;
-        }
-
-        span.responsible-party {
-          font-family: AvenirNextLTPro;
-          font-size: 13px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: 0.99;
-          letter-spacing: 0.59px;
-          text-align: left;
-          float: right;
-          color: var(--azure);
-        }
+        font-family: Avenir;
+        font-size: 19px;
+        font-weight: normal;
+        font-style: normal;
+        margin-left: 10px;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: 0.42px;
+        text-align: left;
+        color: var(--ion-color-primary);
       }
     }
-  }
 
-  ion-item {
-    padding-left: 11.8px;
-
-    &.patient-medical-record-number {
-      width: 143px;
-      height: 39px;
-      padding-left: 10px;
+    ion-item-divider {
+      --padding-top: 0;
     }
 
-    &.patient-first-name,
-    &.patient-middle-name,
-    &.patient-last-name {
-      display: inline-block;
-    }
+    // Contact phone stuff
+    ion-list {
+      .phone-container {
+        padding-left: 0;
+        width: calc(100% - 20px);
 
-    &.patient-first-name {
-      width: 160px;
-    }
+        ion-item {
+          display: inline-block;
 
-    &.patient-middle-name {
-      width: 180px;
-    }
+          &.first-name {
+            width: 160px;
+          }
 
-    &.patient-last-name {
-      width: 160px;
-    }
+          &.last-name {
+            width: 160px;
+          }
 
-    &.patient-dob {
-      width: 154.6px;
-      float: left;
+          &.country-code {
+            margin-left: 0;
+            width: 40px;
+          }
+
+          &.area-code {
+            margin-left: 20px;
+            width: 150px;
+          }
+
+          &.phone-number {
+            margin-left: 20px;
+            width: 257px;
+          }
+
+          span.responsible-party {
+            font-family: Avenir;
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 0.99;
+            letter-spacing: 0.59px;
+            text-align: left;
+            margin-left: 20px;
+            color: var(--azure);
+          }
+        }
+      }
     }
 
     &.discharge-admit-date,
@@ -205,7 +238,6 @@ form {
 
   ion-input,
   ion-datetime {
-    min-height: 39px;
     width: 100%;
     margin-top: 14px;
     margin-bottom: 29px;
@@ -284,23 +316,6 @@ form {
     min-height: 176px;
   }
 
-  ion-button {
-    margin-top: 36px;
-    float: right;
-    width: 73.9px;
-    height: 20px;
-    font-family: AvenirNextLTPro;
-    font-size: 15px;
-    font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.67;
-    letter-spacing: 0.3px;
-    text-align: center;
-    color: #ffffff;
-    text-transform: uppercase;
-  }
-
   ion-input {
     height: 39px;
     width: 100%;
@@ -328,21 +343,21 @@ form {
     color: #ffffff;
     text-transform: uppercase;
   }
-}
 
-.physician-information {
-  ion-input {
-    width: 48%;
-    float: left;
+  .physician-information {
+    ion-input {
+      width: 48%;
+      float: left;
+    }
+
+    ion-radio {
+      display: inline-block;
+    }
   }
 
-  ion-radio {
-    display: inline-block;
-  }
-}
-
-.checkboxes-inline {
-  ion-item {
-    display: inline-block;
+  .checkboxes-inline {
+    ion-item {
+      display: inline-block;
+    }
   }
 }
