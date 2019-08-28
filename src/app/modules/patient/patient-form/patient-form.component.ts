@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user.service';
 import { map } from 'rxjs/operators';
+import { PatientPutBody } from './patient-form';
 
 @Component({
   providers: [PatientService],
@@ -18,6 +19,9 @@ export class PatientFormComponent implements OnInit {
   currentYear: number;
   editMode: boolean = false;
   patient: Patient;
+  status: {
+    submitted: null | boolean;
+  };
   user: User;
   patient$: Observable<Patient> | void;
 
@@ -40,6 +44,7 @@ export class PatientFormComponent implements OnInit {
       this.patient$ = this.patientService.addNewPatient().pipe(
         map((data: Patient) => {
           this.patient = data;
+          debugger;
           this.createForm();
           return data;
         })
@@ -49,7 +54,21 @@ export class PatientFormComponent implements OnInit {
     }
   }
 
-  addPatientFormSubmit() {}
+  addPatientFormSubmit(): void {
+    let formSubmission = this.addPatientForm.getRawValue();
+    let payload = this.validateSubmission(formSubmission);
+    this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
+      console.log(value);
+      return (this.status.submitted = true);
+    });
+  }
+
+  private validateSubmission(formSubmission: FormData) {
+    console.log(formSubmission);
+    var payload = {};
+    debugger;
+    return <PatientPutBody>payload;
+  }
   private createForm() {
     this.addPatientForm = this.fb.group({
       operation: this.fb.control({}),
@@ -69,6 +88,9 @@ export class PatientFormComponent implements OnInit {
             patientContactCountryCodeNumber: this.fb.control({}),
             patientContactAreaCodeNumber: this.fb.control({}),
             patientContactPhoneNumber: this.fb.control({}),
+            /**
+             * Write a test, this should be false if another boolean is true
+             */
             patientResponsiblePartyBoolean: this.fb.control({})
           }),
           alternatePatientContact1: this.fb.group({
@@ -78,6 +100,9 @@ export class PatientFormComponent implements OnInit {
             patientContactCountryCodeNumber: this.fb.control({}),
             patientContactAreaCodeNumber: this.fb.control({}),
             patientContactPhoneNumber: this.fb.control({}),
+            /**
+             * Write a test, this should be false if another boolean is true
+             */
             patientResponsiblePartyBoolean: this.fb.control({})
           }),
           alternatePatientContact2: this.fb.group({
@@ -86,6 +111,9 @@ export class PatientFormComponent implements OnInit {
             patientContactCountryCodeNumber: this.fb.control({}),
             patientContactAreaCodeNumber: this.fb.control({}),
             patientContactPhoneNumber: this.fb.control({}),
+            /**
+             * Write a test, this should be false if another boolean is true
+             */
             patientResponsiblePartyBoolean: this.fb.control({})
           })
         })
@@ -127,7 +155,9 @@ export class PatientFormComponent implements OnInit {
     });
   }
   updateResponsibleParty() {
-    console.log('updating responsible party');
-    // this.patient.patientResponsibleParty =
+    /**
+     * First, we identify the radio value that is set,
+     * then, we setValue on all other controls within the formGroup.
+     */
   }
 }

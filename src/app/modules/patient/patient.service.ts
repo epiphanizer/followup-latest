@@ -2,6 +2,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Patient } from './patient';
+import { PatientPutBody } from './patient-form/patient-form';
 
 export class PatientService {
   constructor(private http: HttpClient) {}
@@ -12,7 +13,8 @@ export class PatientService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  editPatientByPatientId(patientId: number, payload: Patient): Observable<Patient> {
+
+  editPatientByPatientId(patientId: number, payload: PatientPutBody): Observable<Patient> {
     return this.http.put<Patient>('patients/' + patientId, payload).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
