@@ -122,9 +122,9 @@ export class PatientFormComponent implements OnInit {
       patientUrgencyRating: this.fb.control({}),
       patientNeedToKnow: this.fb.control({})
     });
-    alert('creating form');
   }
   updateResponsibleParty() {
-    alert('Updating responsible party');
+    console.log('updating responsible party');
+    // this.patient.patientResponsibleParty =
   }
 }

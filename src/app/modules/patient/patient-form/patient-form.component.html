@@ -139,7 +139,8 @@
               </div>
             </ion-list>
           </fieldset>
-          <ion-list formGroupName="physician">
+          <ion-list class="physician-information" formGroupName="physician">
+            <i class="icon-physician"></i>
             <ion-item>
               <ion-label color="medium" position="stacked">Physician First Name</ion-label>
               <ion-input type="text" formControlName="physicianFirstName"></ion-input>
@@ -151,27 +152,30 @@
               <ion-input type="text" formControlName="physicianPhoneNumber"></ion-input>
             </ion-item>
           </ion-list>
-          <ion-list formGroupName="insurance"> </ion-list>
-          <ion-item>
-            <ion-label color="medium" position="stacked">Primary Insurance</ion-label>
-            <ion-input formControlName="primaryInsurance"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label color="medium" position="stacked">Secondary Insurance</ion-label>
-            <ion-input formControlName="secondaryInsurance"></ion-input>
-          </ion-item>
+          <ion-list formGroupName="insurance">
+            <i class="icon-insurance"></i>
+            <ion-item>
+              <ion-label color="medium" position="stacked">Primary Insurance</ion-label>
+              <ion-input formControlName="primaryInsurance"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label color="medium" position="stacked">Secondary Insurance</ion-label>
+              <ion-input formControlName="secondaryInsurance"></ion-input>
+            </ion-item>
+          </ion-list>
         </ion-list>
         <ion-list formGroupName="dischargeInfo">
           <div class="patient-discharge-container">
-            <ion-item>
+            <i class="icon-discharge"></i>
+            <ion-item class="discharge-admit-date">
               <ion-label color="medium" position="stacked">Admitted</ion-label>
               <ion-datetime formControlName="patientAdmitDate"></ion-datetime>
             </ion-item>
-            <ion-item>
+            <ion-item class="discharge-discharge-date">
               <ion-label color="medium" position="stacked">Discharged</ion-label>
               <ion-datetime formControlName="patientDischargeDate"></ion-datetime>
             </ion-item>
-            <ion-item>
+            <ion-item class="discharge-atotal-days">
               <ion-label color="medium" position="stacked">Total Days</ion-label>
               <ion-input formControlName="totalDays"></ion-input>
             </ion-item>
