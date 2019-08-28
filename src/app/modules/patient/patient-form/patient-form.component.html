@@ -206,31 +206,35 @@
           </ion-item>
         </ion-list>
         <ion-list formGroupName="patientMedicalConditions">
+          <i class="icon-medical"></i>
           <ion-item>
-            <i class="icon-medical"></i>
             <ion-list class="checkboxes-inline">
               <ion-item>
                 <ion-label color="medium" position="stacked">Cardiac</ion-label>
-                <ion-input formControlName="cardiacBoolean"></ion-input>
+                <ion-checkbox formControlName="cardiacBoolean"></ion-checkbox>
               </ion-item>
               <ion-item>
                 <ion-label color="medium" position="stacked">Sepsis</ion-label>
-                <ion-input formControlName="sepsisBoolean"></ion-input>
+                <ion-checkbox formControlName="sepsisBoolean"></ion-checkbox>
               </ion-item>
               <ion-item>
                 <ion-label color="medium" position="stacked">Pulminary</ion-label>
-                <ion-input formControlName="pulminaryBoolean"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label color="medium" position="stacked">Primary Diagnosis</ion-label>
-                <ion-textarea formControlName="primaryDiagnosis"></ion-textarea>
-              </ion-item>
-              <ion-item>
-                <ion-label>Discharged Condition</ion-label>
-                <ion-textarea formControlName="dischargedCondition"></ion-textarea>
+                <ion-checkbox formControlName="pulminaryBoolean"></ion-checkbox>
               </ion-item>
             </ion-list>
+            <ion-item>
+              <ion-label color="medium" position="stacked">Primary Diagnosis</ion-label>
+              <ion-textarea formControlName="primaryDiagnosis"></ion-textarea>
+            </ion-item>
+            <ion-item>
+              <ion-label>Discharged Condition</ion-label>
+              <ion-textarea formControlName="dischargedCondition"></ion-textarea>
+            </ion-item>
           </ion-item>
+        </ion-list>
+        <ion-list lines="none" inset>
+          <i class="icon-question"></i>
+          <ion-item> </ion-item>
         </ion-list>
       </form>
     </ion-col>
