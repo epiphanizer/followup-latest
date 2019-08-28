@@ -236,13 +236,30 @@
             <ion-textarea formControlName="primaryDiagnosis"></ion-textarea>
           </ion-item>
           <ion-item>
-            <ion-label>Discharged Condition</ion-label>
+            <ion-label color="medium" position="stacked">Discharged Condition</ion-label>
             <ion-textarea formControlName="dischargedCondition"></ion-textarea>
           </ion-item>
         </ion-list>
         <ion-list lines="none" inset>
           <i class="icon-question"></i>
-          <ion-item> </ion-item>
+          <ion-item>
+            <ion-label color="medium" position="stacked">
+              Pain Scale
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label color="medium" position="stacked">
+              Urgency Rating
+            </ion-label>
+            <ion-input formControlName="patientUrgencyRating"></ion-input>
+          </ion-item>
+        </ion-list>
+        <ion-list lines="none" inset>
+          <i class="icon-info"></i>
+          <ion-item>
+            <ion-label color="medium" position="stacked">Need To Know</ion-label>
+            <ion-textarea formControlName="patientNeedToKnow"></ion-textarea>
+          </ion-item>
         </ion-list>
       </form>
     </ion-col>
