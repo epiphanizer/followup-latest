@@ -12,15 +12,17 @@
       </ng-template>
       <form id="new-patient-form" (ngSubmit)="addPatientFormSubmit()" formGroup="addPatientForm" novalidate>
         <ion-list lines="none">
-          <ion-list lines="none">
+          <ion-list lines="none" inset>
             <i class="icon-new-facility"></i>
-            <ion-select placeholder="Select Facility" class="select-facility" formControlName="operation">
-              <ion-select-option *ngFor="let operation of user.operations">
-                {{ operation.operationName }}
-              </ion-select-option>
-            </ion-select>
+            <ion-item>
+              <ion-select placeholder="Select Facility" class="select-facility" formControlName="operation">
+                <ion-select-option *ngFor="let operation of user.operations">
+                  {{ operation.operationName }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
           </ion-list>
-          <ion-list lines="none" formGroupName="patient">
+          <ion-list lines="none" inset formGroupName="patient">
             <i class="icon-info"></i>
             <ion-item class="patient-medical-record-number">
               <ion-label color="medium" position="stacked">Patient #</ion-label>
@@ -49,7 +51,9 @@
               </ion-item>
             </ion-list>
           </ion-list>
-          <div class="section-header"><i class="icon-contact"></i> Contacts</div>
+          <div class="section-header contacts">
+            <i class="icon-contacts"></i> <span class="contact-header">Contacts</span>
+          </div>
 
           <fieldset formGroupName="patientContacts">
             <ion-list lines="none" formGroupName="primaryPatientContact">
@@ -96,7 +100,7 @@
                   <ion-input type="text" formControlName="patientContactAreaCodeNumber"></ion-input>
                 </ion-item>
                 <ion-item class="phone-number">
-                  <ion-label color="medium" position="stacked">Home Phone #</ion-label>
+                  <ion-label color="medium" position="stacked">Phone #</ion-label>
                   <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
                 </ion-item>
                 <span class="responsible-party">
@@ -118,14 +122,6 @@
                 <ion-label color="medium" position="stacked">Relationship</ion-label>
                 <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
               </ion-item>
-              <ion-item class="phone-number">
-                <ion-label color="medium" position="stacked">Home Phone #</ion-label>
-                <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label color="medium" position="stacked">Relationship</ion-label>
-                <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
-              </ion-item>
               <div class="phone-container">
                 <ion-item class="country-code">
                   <ion-label color="medium" position="stacked">Country Code</ion-label>
@@ -136,7 +132,7 @@
                   <ion-input type="text" formControlName="patientContactAreaCodeNumber"></ion-input>
                 </ion-item>
                 <ion-item class="phone-number">
-                  <ion-label color="medium" position="stacked">Home Phone #</ion-label>
+                  <ion-label color="medium" position="stacked">Phone #</ion-label>
                   <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
                 </ion-item>
                 <span class="responsible-party">

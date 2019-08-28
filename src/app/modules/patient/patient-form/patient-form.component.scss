@@ -35,6 +35,11 @@ ion-title {
 }
 
 form {
+  fieldset {
+    border: none;
+    padding: 0;
+  }
+
   > ion-list {
     margin-left: -25px;
   }
@@ -61,11 +66,15 @@ form {
   }
 
   i.icon-new-facility {
-    background-image: url("/assets/icon-facility@2x.png");
+    background-image: url("/assets/icon-new-facility@2x.png");
   }
 
   i.icon-birthday {
     background-image: url("/assets/icon-birthday@2x.png");
+  }
+
+  i.icon-contacts {
+    background-image: url("/assets/icon-contacts@2x.png");
   }
 
   i.icon-info {
@@ -75,12 +84,70 @@ form {
   i.icon-physician {
     background-image: url("/assets/icon-physician@2x.png");
   }
+
   i.icon-star {
     background-image: url("/assets/icon-star@2x.png");
   }
 
   i.icon-insurance {
     background-image: url("/assets/icon-insurance@2x.png");
+  }
+
+  .section-header.contacts {
+    span {
+      font-family: Avenir;
+      font-size: 14px;
+      font-weight: normal;
+      font-style: normal;
+      margin-left: 10px;
+      font-stretch: normal;
+      line-height: 1.33;
+      letter-spacing: 0.42px;
+      text-align: left;
+      color: var(--ion-color-primary);
+    }
+  }
+  // Contact phone stuff
+  ion-list {
+    .phone-container {
+      padding-left: 0;
+      width: calc(100% - 20px);
+
+      ion-item {
+        display: inline-block;
+
+        &.country-code {
+          margin-left: 0;
+          float: left;
+          width: 257px;
+        }
+
+        &.area-code {
+          margin-left: 20px;
+          float: left;
+          width: 257px;
+        }
+
+        &.phone-number {
+          margin-left: 20px;
+          float: left;
+          width: 257px;
+        }
+
+        span.responsible-party {
+          font-family: AvenirNextLTPro;
+          font-size: 13px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: 0.99;
+          letter-spacing: 0.59px;
+          text-align: left;
+          float: right;
+          color: var(--azure);
+        }
+      }
+    }
   }
 
   ion-item {
@@ -110,35 +177,11 @@ form {
       width: 255px;
     }
 
-    &.phone-container {
-      padding-left: 0;
-      width: calc(100% - 20px);
-
-      ion-item {
-        display: inline-block;
-        &.country-code {
-          margin-left: 0;
-          float: left;
-          width: 257px;
-        }
-
-        &.area-code {
-          margin-left: 20px;
-          float: left;
-          width: 257px;
-        }
-
-        &.phone-number {
-          margin-left: 20px;
-          float: left;
-          width: 257px;
-        }
-      }
-    }
     &.patient-dob {
       width: 154.6px;
       float: left;
     }
+
     &.discharge-admit-date,
     &.discharge-discharge-date {
       float: left;
@@ -148,6 +191,7 @@ form {
       background-color: #f5f5f5;
       margin-right: 18px;
     }
+
     &.discharge-total-days {
       margin-left: 18px;
     }
@@ -257,12 +301,20 @@ form {
     margin-bottom: 29px;
   }
 }
+
 .physician-information {
   ion-input {
     width: 48%;
     float: left;
   }
+
   ion-radio {
+    display: inline-block;
+  }
+}
+
+.checkboxes-inline {
+  ion-item {
     display: inline-block;
   }
 }
