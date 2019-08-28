@@ -173,54 +173,53 @@ form {
       --padding-top: 0;
     }
 
-    // Contact phone stuff
-    ion-list {
-      .phone-container {
-        padding-left: 0;
-        width: calc(100% - 20px);
+    .phone-container {
+      padding-left: 0;
+      width: calc(100% - 20px);
 
-        ion-item {
-          display: inline-block;
+      ion-item {
+        display: inline-block;
 
-          &.first-name {
-            width: 160px;
-          }
+        &.first-name {
+          width: 160px;
+        }
 
-          &.last-name {
-            width: 160px;
-          }
+        &.last-name {
+          width: 160px;
+        }
 
-          &.country-code {
-            margin-left: 0;
-            width: 40px;
-          }
+        &.country-code {
+          margin-left: 0;
+          width: 85px;
+        }
 
-          &.area-code {
-            margin-left: 20px;
-            width: 150px;
-          }
+        &.area-code {
+          margin-left: 20px;
+          width: 150px;
+        }
 
-          &.phone-number {
-            margin-left: 20px;
-            width: 257px;
-          }
+        &.phone-number {
+          margin-left: 20px;
+          width: 257px;
+        }
 
-          span.responsible-party {
-            font-family: Avenir;
-            font-size: 13px;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            line-height: 0.99;
-            letter-spacing: 0.59px;
-            text-align: left;
-            margin-left: 20px;
-            color: var(--azure);
-          }
+        span.responsible-party {
+          font-family: Avenir;
+          font-size: 13px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: 0.99;
+          letter-spacing: 0.59px;
+          text-align: left;
+          margin-left: 20px;
+          color: var(--azure);
         }
       }
     }
+  }
 
+  fieldset.discharge-section {
     &.discharge-admit-date,
     &.discharge-discharge-date {
       float: left;

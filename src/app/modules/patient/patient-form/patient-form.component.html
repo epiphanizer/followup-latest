@@ -47,11 +47,11 @@
             </ion-item>
           </ion-list>
         </ion-list>
-        <div class="section-header contacts">
-          <i class="icon-contacts"></i> <span class="contact-header">Contacts</span>
-        </div>
 
         <fieldset class="patient-contacts" formGroupName="patientContacts">
+          <div class="section-header contacts">
+            <i class="icon-contacts"></i> <span class="contact-header">Contacts</span>
+          </div>
           <ion-list lines="none" formGroupName="primaryPatientContact">
             <ion-item-divider></ion-item-divider>
             <div class="section-header contacts">
@@ -71,7 +71,7 @@
             </ion-item>
             <div class="phone-container">
               <ion-item class="country-code">
-                <ion-label color="medium" position="stacked">+</ion-label>
+                <ion-label color="medium" position="stacked">+(1)</ion-label>
                 <ion-input type="text" formControlName="patientContactCountryCodeNumber"></ion-input>
               </ion-item>
               <ion-item class="area-code">
@@ -79,7 +79,7 @@
                 <ion-input type="text" formControlName="patientContactAreaCodeNumber"></ion-input>
               </ion-item>
               <ion-item class="phone-number">
-                <ion-label color="medium" position="stacked">Home Phone #</ion-label>
+                <ion-label color="medium" position="stacked">Phone #</ion-label>
                 <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
               </ion-item>
               <span class="responsible-party">
@@ -108,7 +108,7 @@
             </ion-item>
             <div class="phone-container">
               <ion-item class="country-code">
-                <ion-label color="medium" position="stacked"> +(1)</ion-label>
+                <ion-label color="medium" position="stacked">+(1)</ion-label>
                 <ion-input type="text" value="1" formControlName="patientContactCountryCodeNumber"></ion-input>
               </ion-item>
               <ion-item class="area-code">
@@ -175,7 +175,7 @@
           <ion-item>
             <div class="phone-container">
               <ion-item class="country-code">
-                <ion-label color="medium" position="stacked">+</ion-label>
+                <ion-label color="medium" position="stacked">+(1)</ion-label>
                 <ion-input type="text" value="1" formControlName="physicianCountryCodeNumber"></ion-input>
               </ion-item>
               <ion-item class="area-code">
@@ -200,47 +200,49 @@
             <ion-input formControlName="secondaryInsurance"></ion-input>
           </ion-item>
         </ion-list>
-        <ion-list formGroupName="dischargeInfo">
-          <div class="patient-discharge-container">
-            <i class="icon-discharge"></i>
-            <ion-item class="discharge-admit-date">
-              <ion-label color="medium" position="stacked">Admitted</ion-label>
-              <ion-datetime formControlName="patientAdmitDate"></ion-datetime>
+        <fieldset class="patient-discharge" formGroupName="dischargeInfo">
+          <ion-list inset lines="none">
+            <div class="patient-discharge-container">
+              <i class="icon-discharge"></i>
+              <ion-item class="discharge-admit-date">
+                <ion-label color="medium" position="stacked">Admitted</ion-label>
+                <ion-datetime formControlName="patientAdmitDate"></ion-datetime>
+              </ion-item>
+              <ion-item class="discharge-discharge-date">
+                <ion-label color="medium" position="stacked">Discharged</ion-label>
+                <ion-datetime formControlName="patientDischargeDate"></ion-datetime>
+              </ion-item>
+              <ion-item class="discharge-atotal-days">
+                <ion-label color="medium" position="stacked">Total Days</ion-label>
+                <ion-input formControlName="totalDays"></ion-input>
+              </ion-item>
+            </div>
+            <ion-item>
+              <ion-label color="medium" position="stacked">Discharged Against Medical Advice?</ion-label>
+              <ion-radio class="discharged-ama-yes" formControlName="patientDischargedAma"></ion-radio>
+              <ion-radio class="discharged-ama-no" formControlName="patientDischargedAma"></ion-radio>
             </ion-item>
-            <ion-item class="discharge-discharge-date">
-              <ion-label color="medium" position="stacked">Discharged</ion-label>
-              <ion-datetime formControlName="patientDischargeDate"></ion-datetime>
-            </ion-item>
-            <ion-item class="discharge-atotal-days">
-              <ion-label color="medium" position="stacked">Total Days</ion-label>
-              <ion-input formControlName="totalDays"></ion-input>
-            </ion-item>
-          </div>
-          <ion-item>
-            <ion-label color="medium" position="stacked">Discharged Against Medical Advice?</ion-label>
-            <ion-radio class="discharged-ama-yes" formControlName="patientDischargedAma"></ion-radio>
-            <ion-radio class="discharged-ama-no" formControlName="patientDischargedAma"></ion-radio>
-          </ion-item>
-          <ion-item>
-            <ion-list class="discharge-checkboxes">
-              <ion-label color="medium" position="stacked">Discharged To:</ion-label>
-              <ion-list>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Home</ion-label>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Family or Friend</ion-label>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Assist. Living</ion-label>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Hospice</ion-label>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Hospital</ion-label>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Other Facility</ion-label>
+            <ion-item>
+              <ion-list class="discharge-checkboxes">
+                <ion-label color="medium" position="stacked">Discharged To:</ion-label>
+                <ion-list inset lines="none">
+                  <ion-radio></ion-radio>
+                  <ion-label>Home</ion-label>
+                  <ion-radio></ion-radio>
+                  <ion-label>Family or Friend</ion-label>
+                  <ion-radio></ion-radio>
+                  <ion-label>Assist. Living</ion-label>
+                  <ion-radio></ion-radio>
+                  <ion-label>Hospice</ion-label>
+                  <ion-radio></ion-radio>
+                  <ion-label>Hospital</ion-label>
+                  <ion-radio></ion-radio>
+                  <ion-label>Other Facility</ion-label>
+                </ion-list>
               </ion-list>
-            </ion-list>
-          </ion-item>
-        </ion-list>
+            </ion-item>
+          </ion-list>
+        </fieldset>
         <ion-list lines="none" inset formGroupName="patientMedicalConditions">
           <i class="icon-medical"></i>
           <ion-item>
@@ -274,55 +276,87 @@
             <ion-label color="medium" position="stacked">
               Pain Scale
             </ion-label>
-            <ion-radio formControlName="painScaleAtIntake"></ion-radio><ion-label>1</ion-label> <ion-radio></ion-radio
-            ><ion-label>2</ion-label> <ion-radio formControlName="painScaleAtIntake"></ion-radio
-            ><ion-label>3</ion-label> <ion-radio></ion-radio><ion-label>4</ion-label>
-            <ion-radio formControlName="painScaleAtIntake"></ion-radio><ion-label>5</ion-label> <ion-radio></ion-radio
-            ><ion-label>6</ion-label> <ion-radio formControlName="painScaleAtIntake"></ion-radio
-            ><ion-label>7</ion-label> <ion-radio></ion-radio><ion-label>8</ion-label>
-            <ion-radio formControlName="painScaleAtIntake"></ion-radio><ion-label>9</ion-label> <ion-radio></ion-radio
-            ><ion-label>10</ion-label>
+            <ion-radio formControlName="painScaleAtIntake"></ion-radio>
+            <ion-label>1</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>2</ion-label>
+            <ion-radio formControlName="painScaleAtIntake"></ion-radio>
+            <ion-label>3</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>4</ion-label>
+            <ion-radio formControlName="painScaleAtIntake"></ion-radio>
+            <ion-label>5</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>6</ion-label>
+            <ion-radio formControlName="painScaleAtIntake"></ion-radio>
+            <ion-label>7</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>8</ion-label>
+            <ion-radio formControlName="painScaleAtIntake"></ion-radio>
+            <ion-label>9</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>10</ion-label>
           </ion-item>
           <ion-item>
             <ion-label color="medium" position="stacked">
               Mental Scale
             </ion-label>
-            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio><ion-label>1</ion-label> <ion-radio></ion-radio
-            ><ion-label>2</ion-label> <ion-radio formControlName="mentalScaleAtIntake"></ion-radio
-            ><ion-label>3</ion-label> <ion-radio></ion-radio><ion-label>4</ion-label>
-            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio><ion-label>5</ion-label> <ion-radio></ion-radio
-            ><ion-label>6</ion-label> <ion-radio formControlName="mentalScaleAtIntake"></ion-radio
-            ><ion-label>7</ion-label> <ion-radio></ion-radio><ion-label>8</ion-label>
-            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio><ion-label>9</ion-label> <ion-radio></ion-radio
-            ><ion-label>10</ion-label>
+            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio>
+            <ion-label>1</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>2</ion-label>
+            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio>
+            <ion-label>3</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>4</ion-label>
+            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio>
+            <ion-label>5</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>6</ion-label>
+            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio>
+            <ion-label>7</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>8</ion-label>
+            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio>
+            <ion-label>9</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>10</ion-label>
           </ion-item>
           <ion-item>
             <ion-label color="medium" position="stacked">
               Are you able to take your medication?
             </ion-label>
-            <ion-radio formControlName="patientMedicationBoolean"></ion-radio><ion-label>Y</ion-label>
-            <ion-radio formControlName="patientMedicationBoolean"></ion-radio><ion-label>N</ion-label>
+            <ion-radio formControlName="patientMedicationBoolean"></ion-radio>
+            <ion-label>Y</ion-label>
+            <ion-radio formControlName="patientMedicationBoolean"></ion-radio>
+            <ion-label>N</ion-label>
           </ion-item>
           <ion-item>
             <ion-label color="medium" position="stacked">
               Do you have an appointment set up with your doctor?
             </ion-label>
-            <ion-radio formControlName="patientAppointmentScheduledWithDoctorBoolean"></ion-radio
-            ><ion-label>Y</ion-label>
-            <ion-radio formControlName="patientAppointmentScheduledWithDoctorBoolean"></ion-radio
-            ><ion-label>N</ion-label>
+            <ion-radio formControlName="patientAppointmentScheduledWithDoctorBoolean"></ion-radio>
+            <ion-label>Y</ion-label>
+            <ion-radio formControlName="patientAppointmentScheduledWithDoctorBoolean"></ion-radio>
+            <ion-label>N</ion-label>
           </ion-item>
           <ion-item>
             <ion-label color="medium" position="stacked">
               Has home health contacted you?
             </ion-label>
-            <ion-radio></ion-radio><ion-label>Y</ion-label> <ion-radio></ion-radio><ion-label>N</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>Y</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>N</ion-label>
           </ion-item>
           <ion-item>
             <ion-label color="medium" position="stacked">
               Has home health visited you?
             </ion-label>
-            <ion-radio></ion-radio><ion-label>Y</ion-label> <ion-radio></ion-radio><ion-label>N</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>Y</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>N</ion-label>
           </ion-item>
           <i class="icon-star"></i>
           <ion-item>

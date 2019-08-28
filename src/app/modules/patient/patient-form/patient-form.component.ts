@@ -87,7 +87,7 @@ export class PatientFormComponent implements OnInit {
             patientContactFirstName: this.fb.control({}),
             patientContactLastName: this.fb.control({}),
             patientContactRelationship: this.fb.control({}),
-            patientContactCountryCodeNumber: this.fb.control({}),
+            patientContactCountryCodeNumber: this.fb.control({ disabled: true }),
             patientContactAreaCodeNumber: this.fb.control({}),
             patientContactPhoneNumber: this.fb.control({}),
             /**
@@ -99,7 +99,7 @@ export class PatientFormComponent implements OnInit {
             patientContactFirstName: this.fb.control({}),
             patientContactLastName: this.fb.control({}),
             patientContactRelationship: this.fb.control({}),
-            patientContactCountryCodeNumber: this.fb.control({}),
+            patientContactCountryCodeNumber: this.fb.control({ disabled: true }),
             patientContactAreaCodeNumber: this.fb.control({}),
             patientContactPhoneNumber: this.fb.control({}),
             /**
@@ -110,7 +110,7 @@ export class PatientFormComponent implements OnInit {
           alternatePatientContact2: this.fb.group({
             patientContactName: this.fb.control({}),
             patientContactRelationship: this.fb.control({}),
-            patientContactCountryCodeNumber: this.fb.control({}),
+            patientContactCountryCodeNumber: this.fb.control({ disabled: true }),
             patientContactAreaCodeNumber: this.fb.control({}),
             patientContactPhoneNumber: this.fb.control({}),
             /**
@@ -123,7 +123,7 @@ export class PatientFormComponent implements OnInit {
       physician: this.fb.group({
         physicianFirstName: this.fb.control({}),
         physicianLastName: this.fb.control({}),
-        physicianContactCountryCodeNumber: this.fb.control({}),
+        physicianContactCountryCodeNumber: this.fb.control({ disabled: true }),
         physicianContactAreaCodeNumber: this.fb.control({}),
         physicianPhoneNumber: this.fb.control({})
       }),
