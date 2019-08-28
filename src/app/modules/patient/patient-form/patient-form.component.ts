@@ -106,7 +106,7 @@ export class PatientFormComponent implements OnInit {
       patientMedicalConditions: this.fb.group({
         cardiacBoolean: this.fb.control({}),
         sepsisBoolean: this.fb.control({}),
-        pulminaryBoolean: this.fb.control({}),
+        pulmonaryBoolean: this.fb.control({}),
         primaryDiagnosis: this.fb.control({}),
         dischargedCondition: this.fb.control({})
       }),
