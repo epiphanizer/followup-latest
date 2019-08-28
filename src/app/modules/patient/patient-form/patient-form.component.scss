@@ -172,15 +172,15 @@ form {
     }
 
     &.patient-first-name {
-      width: 255px;
+      width: 160px;
     }
 
     &.patient-middle-name {
-      width: 150px;
+      width: 180px;
     }
 
     &.patient-last-name {
-      width: 255px;
+      width: 160px;
     }
 
     &.patient-dob {
@@ -212,6 +212,7 @@ form {
   }
 
   ion-label {
+    min-width: min-content;
     font-family: Avenir;
     font-size: 24px;
     font-weight: normal;
