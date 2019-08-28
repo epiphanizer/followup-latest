@@ -194,14 +194,14 @@ form {
     }
   }
 
-  ion-list.checkboxes {
+  .discharge-checkboxes {
     margin-top: 6px;
-    margin-left: -21px;
     padding-left: 0;
 
     ion-item {
       margin-left: 0;
       max-height: 36px;
+      display: inline-block;
     }
 
     ion-checkbox {

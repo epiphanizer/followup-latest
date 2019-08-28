@@ -110,12 +110,20 @@
                 <ion-label color="medium" position="stacked">First Name</ion-label>
                 <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
               </ion-item>
+              <ion-item>
+                <ion-label color="medium" position="stacked">Last Name</ion-label>
+                <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label color="medium" position="stacked">Relationship</ion-label>
+                <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
+              </ion-item>
               <ion-item class="phone-number">
                 <ion-label color="medium" position="stacked">Home Phone #</ion-label>
                 <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
               </ion-item>
               <ion-item>
-                <ion-label color="medium" position="stacked">Home Phone #</ion-label>
+                <ion-label color="medium" position="stacked">Relationship</ion-label>
                 <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
               </ion-item>
               <div class="phone-container">
@@ -182,11 +190,11 @@
           </div>
           <ion-item>
             <ion-label color="medium" position="stacked">Discharged Against Medical Advice?</ion-label>
-            <ion-radio formControlName="patientDischargedAma">Y</ion-radio>
-            <ion-radio formControlName="patientDischargedAma">N</ion-radio>
+            <ion-radio class="discharged-ama-yes" formControlName="patientDischargedAma"></ion-radio>
+            <ion-radio class="discharged-ama-no" formControlName="patientDischargedAma"></ion-radio>
           </ion-item>
           <ion-item>
-            <ion-list class="discharge checkboxes">
+            <ion-list class="discharge-checkboxes">
               <ion-label color="medium" position="stacked">Discharged To:</ion-label>
               <ion-list>
                 <ion-checkbox></ion-checkbox>
@@ -205,7 +213,7 @@
             </ion-list>
           </ion-item>
         </ion-list>
-        <ion-list formGroupName="patientMedicalConditions">
+        <ion-list lines="none" inset formGroupName="patientMedicalConditions">
           <i class="icon-medical"></i>
           <ion-item>
             <ion-list class="checkboxes-inline">
@@ -222,14 +230,14 @@
                 <ion-checkbox formControlName="pulminaryBoolean"></ion-checkbox>
               </ion-item>
             </ion-list>
-            <ion-item>
-              <ion-label color="medium" position="stacked">Primary Diagnosis</ion-label>
-              <ion-textarea formControlName="primaryDiagnosis"></ion-textarea>
-            </ion-item>
-            <ion-item>
-              <ion-label>Discharged Condition</ion-label>
-              <ion-textarea formControlName="dischargedCondition"></ion-textarea>
-            </ion-item>
+          </ion-item>
+          <ion-item>
+            <ion-label color="medium" position="stacked">Primary Diagnosis</ion-label>
+            <ion-textarea formControlName="primaryDiagnosis"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-label>Discharged Condition</ion-label>
+            <ion-textarea formControlName="dischargedCondition"></ion-textarea>
           </ion-item>
         </ion-list>
         <ion-list lines="none" inset>
