@@ -94,6 +94,7 @@ form {
   }
 
   .section-header.contacts {
+    margin-top: 14px;
     span {
       font-family: Avenir;
       font-size: 19px;
@@ -299,6 +300,27 @@ form {
     width: 100%;
     margin-top: 14px;
     margin-bottom: 29px;
+  }
+
+  ion-button {
+    margin-top: 36px;
+    margin-bottom: 96px;
+    float: right;
+    border-radius: 4px;
+    background-color: --ion-color-primary;
+    width: 76px;
+    height: 28px;
+    font-family: AvenirBold;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 28px;
+    vertical-align: middle;
+    letter-spacing: 0.3px;
+    text-align: center;
+    color: #ffffff;
+    text-transform: uppercase;
   }
 }
 
