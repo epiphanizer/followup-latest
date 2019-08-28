@@ -56,6 +56,7 @@ export class PatientFormComponent implements OnInit {
 
   addPatientFormSubmit(): void {
     let formSubmission = this.addPatientForm.getRawValue();
+    debugger;
     let payload = this.validateSubmission(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
       console.log(value);
