@@ -44,7 +44,7 @@ form {
     clear: left;
     width: 20px;
     height: 24px;
-    margin-top: 10px;
+    margin-top: 13px;
     background-repeat: no-repeat;
     background-size: 95%;
   }
@@ -69,20 +69,21 @@ form {
     padding-left: 11.8px;
 
     &.first-name,
-    &.middle-name {
+    &.middle-name,
+    &.last-name {
       display: inline-block;
     }
 
     &.first-name {
-      width: 341px;
+      width: 175px;
     }
 
     &.middle-name {
-      width: 200px;
+      width: 175px;
     }
 
     &.last-name {
-      width: calc(100% - 20px);
+      width: 175px;
     }
 
     &.user-email {
