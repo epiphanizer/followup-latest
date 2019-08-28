@@ -63,6 +63,9 @@ export class PatientFormComponent implements OnInit {
         patientDob: this.fb.control({}),
         patientContacts: this.fb.group({
           primaryPatientContact: this.fb.group({
+            patientContactFirstName: this.fb.control({}),
+            patientContactLastName: this.fb.control({}),
+            patientContactRelationship: this.fb.control({}),
             patientContactCountryCodeNumber: this.fb.control({}),
             patientContactAreaCodeNumber: this.fb.control({}),
             patientContactPhoneNumber: this.fb.control({}),
