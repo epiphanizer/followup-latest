@@ -35,6 +35,13 @@ ion-title {
 }
 
 form {
+  .phone-container {
+    .country-code {
+      text-align: center;
+      color: gray;
+      cursor: not-allowed;
+    }
+  }
   fieldset {
     border: none;
     padding: 0;
@@ -154,7 +161,7 @@ form {
       font-size: 19px;
       font-weight: normal;
       font-style: normal;
-      margin-left: 25px;
+      margin-left: 10px;
       font-stretch: normal;
       line-height: 1.33;
       letter-spacing: 0.42px;
@@ -166,6 +173,7 @@ form {
   fieldset.patient-contacts {
     .section-header {
       span {
+        margin-left: 25px;
         &.contact-header {
           float: left;
           margin-top: 10px;
@@ -209,7 +217,6 @@ form {
         &.country-code {
           margin-left: 0;
           width: 85px;
-          text-align: center;
           color: lightgray;
           cursor: not-allowed;
         }
