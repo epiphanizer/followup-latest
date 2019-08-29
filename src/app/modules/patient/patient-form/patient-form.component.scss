@@ -185,6 +185,9 @@ form {
     .section-header {
       span {
         margin-left: 25px;
+        &.contact-header {
+          margin-left: 10px;
+        }
       }
     }
 
@@ -386,8 +389,12 @@ form {
   }
 
   .physician-info {
+    ion-list {
+      margin-left: 0;
+    }
     ion-item {
       display: inline-block;
+      padding-left: 14px;
 
       &.first-name {
         width: 160px;
@@ -412,6 +419,9 @@ form {
     }
   }
   .insurance-info {
+    ion-list {
+      margin-left: 0;
+    }
     .secondary-insurance {
       margin-left: 14px;
     }
