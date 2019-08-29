@@ -1,4 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { PatientQuestion } from './patient-question.service';
+
+export interface PatientQuestion {
+  patientQuestionId: number;
+  patientQuestion: string;
+  patientQuestionType: string;
+  patientQuestionHighlight: boolean;
+}
 
 @Component({
   selector: 'app-patient-question',
@@ -6,7 +15,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./patient-question.component.scss']
 })
 export class PatientQuestionComponent implements OnInit {
-  constructor() {}
+  @Input() patientQuestion: PatientQuestion;
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.patientQuestion);
+  }
 }

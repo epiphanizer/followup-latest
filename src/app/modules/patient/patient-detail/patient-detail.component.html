@@ -32,8 +32,11 @@
         </app-patient-summary-widget>
         <app-patient-call-history-controls> </app-patient-call-history-controls>
       </ng-container>
-      <app-patient-call-history-listing *ngIf="patient.currentCallCount > 0" [patient]="patient">
+      <app-patient-call-history-listing *ngIf="patient.patientCallCount > 0; else noCalls" [patient]="patient">
       </app-patient-call-history-listing>
+      <ng-template #noCalls>
+        No calls have been made yet to this patient!
+      </ng-template>
       <app-patient-notes [patient]="patient"> </app-patient-notes>
     </ion-col>
   </ion-row>

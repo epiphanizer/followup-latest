@@ -57,7 +57,7 @@ export class PatientFormComponent implements OnInit {
 
   onFormSubmit(): void {
     let formSubmission = this.addPatientForm.getRawValue();
-    let payload = this.validateSubmission(formSubmission);
+    let payload = this.formSubmissionFactory(formSubmission);
     console.log(payload);
     debugger;
     this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
@@ -67,21 +67,38 @@ export class PatientFormComponent implements OnInit {
     });
   }
 
-  private validateSubmission(formSubmission: any) {
+  /**
+   * create a tidy type-checked payload to send off to the API
+   * @param formSubmission
+   */
+  private formSubmissionFactory(formSubmission: any) {
     console.log(formSubmission);
     var payload = {
       patientActive: formSubmission.patient.patientActive,
+      patientDob: formSubmission.patient.patientDob,
       patientOperationId: formSubmission.operation,
+      patientMedicalRecordNumber: formSubmission.patient.medicalRecordNumber,
       patientFirstName: formSubmission.patient.patientFirstName,
       patientMiddleName: formSubmission.patient.patientMiddleName,
       patientLastName: formSubmission.patient.patientLastName,
-      patientMedicalRecordNumber: formSubmission.patient.medicalRecordNumber,
+      patientPhysicianFirstName: formSubmission.physicianInfo.physicianFirstName,
+      patientPhysicianLastName: formSubmission.physicianInfo.physicianLastName,
+      patientPhysicianCountryCode: formSubmission.physicianInfo.physicianCountryCode,
+      patientPhysicianAreaCode: formSubmission.physicianInfo.physicianAreaCode,
+      patientPhysicianPhoneNumber: formSubmission.physicianInfo.physicianPhoneNumber,
+      patientPrimaryInsurance: formSubmission.insurance.primaryInsurance,
+      patientSecondaryInsurance: formSubmission.insurance.secondaryInsurance,
+      patientAdmissionDate: formSubmission.dischargeInfo.patientAdmissionDate,
+      patientDischargeDate: formSubmission.dischargeInfo.patientDischargeDate,
+      patientDischargedAma: formSubmission.dischargeInfo.patientDischargedAma,
+      patientDischargeLocationLabelId: formSubmission.dischargeInfo.patientDischargedTo,
+      patientPrimaryDiagnosis: formSubmission.patientMedicalConditions.primaryDiagnosis,
+      patientDiagnosis: {},
       patientUrgencyScale: formSubmission.patientUrgencyScale,
       patientNeedToKnow: formSubmission.patientNeedToKnow,
-      patientAdmitDate: formSubmission.dischargeInfo.patientAdmitDate,
-      patientDischargeDate: formSubmission.dischargeInfo.patientDischargeDate,
-      patientDob: formSubmission.patient.patientDob
+      patientQuestionAnswers: formSubmission.patientQuestionAnswers
     };
+
     return <PatientPutBody>payload;
   }
   private createForm() {
@@ -145,9 +162,9 @@ export class PatientFormComponent implements OnInit {
         secondaryInsurance: this.fb.control({})
       }),
       dischargeInfo: this.fb.group({
-        patientAdmitDate: this.fb.control({}),
+        patientAdmissionDate: this.fb.control({}),
         patientDischargeDate: this.fb.control({}),
-        patientStayLength: this.fb.control({}),
+        patientTotalDays: this.fb.control({}),
         patientDischargedAma: this.fb.control({}),
         patientDischargedTo: this.fb.control({})
       }),
@@ -158,14 +175,15 @@ export class PatientFormComponent implements OnInit {
         primaryDiagnosis: this.fb.control({}),
         dischargedCondition: this.fb.control({})
       }),
+      patientQuestions: this.fb.group({}),
       patientQuestionAnswers: this.fb.group({
         // painScaleAtIntake: this.fb.control({}),
         // mentalScaleAtIntake: this.fb.control({}),
         // patientMedicationBoolean: this.fb.control({}),
         // patientAppointmentScheduledWithDoctorBoolean: this.fb.control({}),
         // patientHomeHealthContactedBoolean: this.fb.control({}),
-        patientUrgencyRating: this.fb.control({}),
-        patientOtherDetails: this.fb.control({})
+        // patientUrgencyRating: this.fb.control({}),
+        // patientOtherDetails: this.fb.control({})
       }),
       patientUrgencyRating: this.fb.control({}),
       patientNeedToKnow: this.fb.control({})
