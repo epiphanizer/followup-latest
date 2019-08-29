@@ -145,28 +145,32 @@ form {
     background-image: url("/assets/icon-insurance@2x.png");
   }
 
-  fieldset.patient-contacts {
-    .section-header.contacts {
-      margin-top: 14px;
-      overflow: hidden;
+  .section-header {
+    margin-top: 14px;
+    overflow: hidden;
 
+    span {
+      font-family: Avenir;
+      font-size: 19px;
+      font-weight: normal;
+      font-style: normal;
+      margin-left: 25px;
+      font-stretch: normal;
+      line-height: 1.33;
+      letter-spacing: 0.42px;
+      text-align: left;
+      color: var(--ion-color-primary);
+    }
+  }
+
+  fieldset.patient-contacts {
+    .section-header {
       span {
         &.contact-header {
           float: left;
           margin-top: 10px;
           margin-left: 10px;
         }
-
-        font-family: Avenir;
-        font-size: 19px;
-        font-weight: normal;
-        font-style: normal;
-        margin-left: 25px;
-        font-stretch: normal;
-        line-height: 1.33;
-        letter-spacing: 0.42px;
-        text-align: left;
-        color: var(--ion-color-primary);
       }
     }
 
@@ -220,6 +224,7 @@ form {
 
         &.responsible-party {
           float: right;
+
           ion-label {
             font-family: Avenir;
             font-size: 13px;
@@ -232,9 +237,11 @@ form {
             margin-left: 20px;
             color: var(--ion-color-primary);
           }
+
           ion-radio {
-            width: 20px;
-            height: 20px;
+            width: 14px;
+            height: 14px;
+            margin-left: 4px;
           }
         }
       }
