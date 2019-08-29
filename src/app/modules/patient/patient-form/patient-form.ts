@@ -5,6 +5,7 @@ export interface FormEntry {
 }
 
 export interface PatientPutBody {
+  patientActive: number;
   patientOperationId: number;
   patientMedicalRecordNumber: number;
   patientFirstName: string;
@@ -18,5 +19,4 @@ export interface PatientPutBody {
   patientAdmitDate: Date;
   patientDischargeDate: Date;
   patientDob: Date;
-  patientActive: number;
 }

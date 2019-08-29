@@ -57,18 +57,30 @@ export class PatientFormComponent implements OnInit {
 
   onFormSubmit(): void {
     let formSubmission = this.addPatientForm.getRawValue();
-    debugger;
     let payload = this.validateSubmission(formSubmission);
+    console.log(payload);
+    debugger;
     this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
+      debugger;
       console.log(value);
       return (this.status.submitted = true);
     });
   }
 
-  private validateSubmission(formSubmission: FormData) {
+  private validateSubmission(formSubmission: any) {
     console.log(formSubmission);
-    var payload = {};
-    debugger;
+    var payload = {
+      patientActive: formSubmission.patient.patientActive,
+      patientOperationId: formSubmission.operation,
+      patientFirstName: formSubmission.patient.patientFirstName,
+      patientMiddleName: formSubmission.patient.patientMiddleName,
+      patientLastName: formSubmission.patient.patientLastName,
+      patientMedicalRecordNumber: formSubmission.patient.medicalRecordNumber,
+      patientNeedToKnow: formSubmission.patientNeedToKnow,
+      patientAdmitDate: formSubmission.dischargeInfo.patientAdmitDate,
+      patientDischargeDate: formSubmission.dischargeInfo.patientDischargeDate,
+      patientDob: formSubmission.patient.patientDob
+    };
     return <PatientPutBody>payload;
   }
   private createForm() {
