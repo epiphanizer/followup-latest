@@ -172,6 +172,12 @@ form {
       letter-spacing: 0.42px;
       text-align: left;
       color: var(--ion-color-primary);
+      &.contact-header,
+      &.discharge-header {
+        float: left;
+        margin-top: 10px;
+        margin-left: 10px;
+      }
     }
   }
 
@@ -179,11 +185,6 @@ form {
     .section-header {
       span {
         margin-left: 25px;
-        &.contact-header {
-          float: left;
-          margin-top: 10px;
-          margin-left: 10px;
-        }
       }
     }
 
@@ -315,7 +316,11 @@ form {
       margin-left: 0;
     }
   }
-
+  .discharge-ama {
+    ion-item {
+      display: inline-block;
+    }
+  }
   .discharge-checkboxes {
     margin-top: 6px;
     padding-left: 0;
@@ -326,7 +331,7 @@ form {
       display: inline-block;
     }
 
-    ion-checkbox {
+    ion-radio {
       width: 12px;
       height: 12px;
       margin-left: 6px;

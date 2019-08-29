@@ -212,13 +212,12 @@
           </ion-list>
         </fieldset>
         <fieldset class="patient-discharge" formGroupName="dischargeInfo">
-          <div class="section-header discharge">
-            <i class="icon-calendar"></i>
-            <span class="contact-header">Discharge Info</span>
+          <div class="section-header">
+            <i class="icon-discharge-calendar"></i>
+            <span class="discharge-header">Discharge Info</span>
           </div>
           <ion-list inset lines="none">
             <div class="patient-discharge-container">
-              <i class="icon-discharge"></i>
               <ion-item class="discharge-admit-date">
                 <ion-label color="medium" position="stacked">Admitted</ion-label>
                 <ion-datetime formControlName="patientAdmitDate"></ion-datetime>
@@ -238,22 +237,32 @@
               <ion-radio class="discharged-ama-no" formControlName="patientDischargedAma"></ion-radio>
             </ion-item>
             <ion-item class="discharge-to-location">
-              <ion-list class="discharge-checkboxes">
-                <ion-label color="medium" position="stacked">Discharged To:</ion-label>
-                <ion-list inset lines="none">
+              <ion-label color="medium" position="stacked">Discharged To:</ion-label>
+              <ion-list inset lines="none">
+                <ion-item>
                   <ion-radio></ion-radio>
-                  <ion-label>Home</ion-label>
+                  <ion-label color="medium">Home</ion-label>
+                </ion-item>
+                <ion-item>
                   <ion-radio></ion-radio>
-                  <ion-label>Family or Friend</ion-label>
+                  <ion-label color="medium">Family or Friend</ion-label>
+                </ion-item>
+                <ion-item>
                   <ion-radio></ion-radio>
-                  <ion-label>Assist. Living</ion-label>
+                  <ion-label color="medium">Assist. Living</ion-label>
+                </ion-item>
+                <ion-item>
                   <ion-radio></ion-radio>
-                  <ion-label>Hospice</ion-label>
+                  <ion-label color="medium">Hospice</ion-label>
+                </ion-item>
+                <ion-item>
                   <ion-radio></ion-radio>
-                  <ion-label>Hospital</ion-label>
+                  <ion-label color="medium">Hospital</ion-label>
+                </ion-item>
+                <ion-item>
                   <ion-radio></ion-radio>
-                  <ion-label>Other Facility</ion-label>
-                </ion-list>
+                  <ion-label color="medium">Other Facility</ion-label>
+                </ion-item>
               </ion-list>
             </ion-item>
           </ion-list>
