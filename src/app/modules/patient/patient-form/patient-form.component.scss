@@ -42,9 +42,10 @@ form {
       cursor: not-allowed;
     }
   }
-  fieldset {
+  > fieldset {
     border: none;
     padding: 0;
+    margin-left: -25px;
   }
 
   > ion-list {
@@ -403,6 +404,11 @@ form {
       &.phone-number {
         width: 257px;
       }
+    }
+  }
+  .insurance-info {
+    .secondary-insurance {
+      margin-left: 14px;
     }
   }
 
