@@ -10,7 +10,7 @@
           formControlName="patientCallNotes"
         ></ion-textarea>
       </ion-item>
-      <ion-item class="patient-call-note-highlight-controls">
+      <ion-item *ngIf="patientCall.patientCallStatusLabelId == 4" class="patient-call-note-highlight-controls">
         <a (click)="highlightPatientCallNotes()">
           <img src="/assets/highlight-flag@2x.png" />
         </a>
