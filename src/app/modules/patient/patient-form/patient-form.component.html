@@ -43,7 +43,6 @@
             <ion-item class="patient-dob">
               <ion-label color="medium" position="stacked">Date of Birth</ion-label>
               <ion-datetime type="date" formControlName="patientDob"></ion-datetime>
-              <span>Age: {{ currentYear - (patient.patientDob | slice: 0:4) }}</span>
             </ion-item>
           </ion-list>
         </ion-list>
