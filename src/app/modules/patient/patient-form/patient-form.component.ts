@@ -158,11 +158,11 @@ export class PatientFormComponent implements OnInit {
         dischargedCondition: this.fb.control({})
       }),
       patientQuestionAnswers: this.fb.group({
-        painScaleAtIntake: this.fb.control({}),
-        mentalScaleAtIntake: this.fb.control({}),
-        patientMedicationBoolean: this.fb.control({}),
-        patientAppointmentScheduledWithDoctorBoolean: this.fb.control({}),
-        patientHomeHealthContactedBoolean: this.fb.control({}),
+        // painScaleAtIntake: this.fb.control({}),
+        // mentalScaleAtIntake: this.fb.control({}),
+        // patientMedicationBoolean: this.fb.control({}),
+        // patientAppointmentScheduledWithDoctorBoolean: this.fb.control({}),
+        // patientHomeHealthContactedBoolean: this.fb.control({}),
         patientUrgencyRating: this.fb.control({}),
         patientOtherDetails: this.fb.control({})
       }),
