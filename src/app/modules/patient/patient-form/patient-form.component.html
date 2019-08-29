@@ -15,7 +15,7 @@
           <i class="icon-new-facility"></i>
           <ion-item>
             <ion-select placeholder="Select Facility" class="select-facility" formControlName="operation">
-              <ion-select-option *ngFor="let operation of user.operations">
+              <ion-select-option *ngFor="let operation of user.operations" value="operation.operationId">
                 {{ operation.operationName }}
               </ion-select-option>
             </ion-select>
@@ -220,7 +220,7 @@
             <div class="patient-discharge-container">
               <ion-item class="discharge-admit-date">
                 <ion-label color="medium" position="stacked">Admitted</ion-label>
-                <ion-datetime formControlName="patientAdmitDate"></ion-datetime>
+                <ion-datetime formControlName="patientAdmissionDate"></ion-datetime>
               </ion-item>
               <ion-item class="discharge-discharge-date">
                 <ion-label color="medium" position="stacked">Discharged</ion-label>
@@ -228,13 +228,13 @@
               </ion-item>
               <ion-item class="discharge-total-days">
                 <ion-label color="medium" position="stacked">Total Days</ion-label>
-                <ion-input formControlName="totalDays"></ion-input>
+                <ion-input formControlName="patientTotalDays"></ion-input>
               </ion-item>
             </div>
             <ion-item class="discharged-ama">
               <ion-label color="medium" position="stacked">Discharged Against Medical Advice?</ion-label>
-              <ion-radio class="discharged-ama-yes" formControlName="patientDischargedAma"></ion-radio>
-              <ion-radio class="discharged-ama-no" formControlName="patientDischargedAma"></ion-radio>
+              <ion-radio class="discharged-ama radio-yes" formControlName="patientDischargedAma"></ion-radio>
+              <ion-radio class="discharged-ama radio-no" formControlName="patientDischargedAma"></ion-radio>
             </ion-item>
             <ion-item class="discharge-to-location">
               <ion-label color="medium" position="stacked">Discharged To:</ion-label>
@@ -247,23 +247,6 @@
                   <ion-radio></ion-radio>
                   <ion-label color="medium">Family or Friend</ion-label>
                 </ion-item>
-                <!-- This should be a loop -->
-                <!-- <ion-item>
-                  <ion-radio></ion-radio>
-                  <ion-label color="medium">Assist. Living</ion-label>
-                </ion-item>
-                <ion-item>
-                  <ion-radio></ion-radio>
-                  <ion-label color="medium">Hospice</ion-label>
-                </ion-item>
-                <ion-item>
-                  <ion-radio></ion-radio>
-                  <ion-label color="medium">Hospital</ion-label>
-                </ion-item>
-                <ion-item>
-                  <ion-radio></ion-radio>
-                  <ion-label color="medium">Other Facility</ion-label>
-                </ion-item> -->
               </ion-list>
             </ion-item>
           </ion-list>
@@ -298,62 +281,15 @@
             <ion-textarea formControlName="dischargedCondition"></ion-textarea>
           </ion-item>
         </ion-list>
-        <ion-list lines="none" inset formGroupName="patientQuestionAnswers">
+        <ion-list
+          lines="none"
+          *ngIf="patient.patientIntakeQuestions$ | async as patientQuestions"
+          inset
+          formGroupName="patientQuestionAnswers"
+        >
           <i class="icon-question"></i>
-          <ion-item *ngFor="patient.patientCalls$ | async as patientQuestion">
-            <ion-label color="medium" position="stacked">
-              Pain Scale
-            </ion-label>
-
-            <ion-radio></ion-radio>
-            <ion-label>1</ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>2</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label color="medium" position="stacked">
-              Mental Scale
-            </ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>1</ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>2</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label color="medium" position="stacked">
-              Are you able to take your medication?
-            </ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>Y</ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>N</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label color="medium" position="stacked">
-              Do you have an appointment set up with your doctor?
-            </ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>Y</ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>N</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label color="medium" position="stacked">
-              Has home health contacted you?
-            </ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>Y</ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>N</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label color="medium" position="stacked">
-              Has home health visited you?
-            </ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>Y</ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>N</ion-label>
+          <ion-item *ngFor="let patientQuestion of patientQuestions">
+            <app-patient-question [patientQuestion]="patientQuestion"> </app-patient-question>
           </ion-item>
         </ion-list>
         <ion-list lines="none" inset>

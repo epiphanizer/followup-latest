@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OAuthSettings } from '../../../oauth';
+import { OAuthSettings } from '@app/oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
 import { Subscription, Observable, throwError } from 'rxjs';
 import { map, delay, share, catchError, retry } from 'rxjs/operators';
@@ -129,14 +129,12 @@ export class AuthenticationService {
     } catch (error) {
       console.log(error);
     }
-    // If user is primary admin, let them thru without assignment.
-    if (!(user.level == 1) && !(user.level == 2)) {
-      user.operations = await this.operationService.getOperationsByUserId(user.id).toPromise();
-      this.user.operations.forEach((operation: Operation, index: number) => {
-        this.user.operations[index].currentAssignedPatientCount = operation.currentAssignedPatientCount;
-        this.user.operations[index].currentNewDischargeCount = operation.currentNewDischargeCount;
-      });
-    }
+
+    user.operations = await this.operationService.getOperationsByUserId(user.id).toPromise();
+    this.user.operations.forEach((operation: Operation, index: number) => {
+      this.user.operations[index].currentAssignedPatientCount = operation.currentAssignedPatientCount;
+      this.user.operations[index].currentNewDischargeCount = operation.currentNewDischargeCount;
+    });
     return user;
   }
   getUserIdByUserEmail(userEmail: string): Observable<number> {

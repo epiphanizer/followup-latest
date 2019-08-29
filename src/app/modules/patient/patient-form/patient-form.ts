@@ -1,3 +1,5 @@
+import { PatientQuestionAnswer } from '../patient-question/patient-question.service';
+
 export interface FormEntry {
   dateSubmitted: string;
   submissionId: string;
@@ -6,6 +8,7 @@ export interface FormEntry {
 
 export interface PatientPutBody {
   patientActive: number;
+  patientDob: Date;
   patientOperationId: number;
   patientMedicalRecordNumber: number;
   patientFirstName: string;
@@ -18,12 +21,13 @@ export interface PatientPutBody {
   patientPhysicianPhoneNumber: string;
   patientPrimaryInsurance: string;
   patientSecondaryInsurance: string;
-  patientDiagnosis: {};
-  patientNeedToKnow: string;
-  patientPainScaleAtIntake: number;
-  patientMentalScaleAtIntake: number;
-  patientUrgencyScale: number;
-  patientAdmitDate: Date;
+  patientAdmissionDate: Date;
   patientDischargeDate: Date;
-  patientDob: Date;
+  patientDischargedAma: boolean;
+  patientDischargeLocationLabelId: number;
+  patientPrimaryDiagnosis: string;
+  patientDiagnosis: {};
+  patientUrgencyScale: number;
+  patientNeedToKnow: string;
+  patientQuestionAnswers: PatientQuestionAnswer[];
 }

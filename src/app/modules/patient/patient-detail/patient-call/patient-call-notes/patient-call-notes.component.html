@@ -1,8 +1,20 @@
 <ng-container>
-  <form>
-    <ion-item>
-      <ion-label position="stacked">Notes</ion-label>
-      <ion-textarea formControlName="patientCallNotes"></ion-textarea>
-    </ion-item>
+  <form formGroupName="patientCallNotes">
+    <ion-list lines="none" inset>
+      <ion-item class="patient-call-notes">
+        <ion-label position="stacked">
+          Notes
+        </ion-label>
+        <ion-textarea
+          [class]="patientCall.patientCallStatusLabelId == 4 ? 'review' : ''"
+          formControlName="patientCallNotes"
+        ></ion-textarea>
+      </ion-item>
+      <ion-item *ngIf="patientCall.patientCallStatusLabelId == 4" class="patient-call-note-highlight-controls">
+        <a (click)="highlightPatientCallNotes()">
+          <img src="/assets/highlight-flag@2x.png" />
+        </a>
+      </ion-item>
+    </ion-list>
   </form>
 </ng-container>

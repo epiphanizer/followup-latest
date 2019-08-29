@@ -10,7 +10,7 @@ import { IonicModule } from '@ionic/angular';
 import { environment } from '@env/environment';
 
 import { MsalModule, MsalGuard } from '@azure/msal-angular';
-import { OAuthSettings } from '../oauth';
+import { OAuthSettings } from '@app/oauth';
 
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';

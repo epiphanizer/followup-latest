@@ -20,6 +20,7 @@ export interface Patient {
   patientMedicalRecordNumber?: string;
   patientAdmissionDate?: Date;
   patientDischargeDate?: Date;
+  patientTotalDays?: number;
   patientDob?: Date;
   age?: number | null;
   avatar?: string;
@@ -32,4 +33,8 @@ export interface Patient {
   patientCalls$: Observable<PatientCall[]>;
   patientCallCount?: number;
   patientCurrentStatusLabel?: number;
+  patientDischargedAma?: boolean;
+  patientDischargedConditions?: number[];
+  patientDischargeLocationLabel?: string;
+  patientPrimaryDiagnosis?: string;
 }

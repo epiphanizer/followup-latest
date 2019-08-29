@@ -1,3 +1,15 @@
+form {
+  .patient-call-note-highlight-controls {
+    float: right;
+    margin-top: 10px;
+    height: 15px;
+    img {
+      height: 15px;
+      width: auto;
+    }
+  }
+}
+
 ion-item {
   ion-label {
     font-family: Avenir;
@@ -11,6 +23,7 @@ ion-item {
     width: 100%;
     display: block;
   }
+
   ion-textarea {
     display: block;
     width: 508.4px;
