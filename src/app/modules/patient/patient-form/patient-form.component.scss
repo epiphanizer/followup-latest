@@ -65,15 +65,15 @@ form {
     }
 
     &.patient-first-name {
-      width: 160px;
-    }
-
-    &.patient-middle-name {
       width: 180px;
     }
 
-    &.patient-last-name {
+    &.patient-middle-name {
       width: 160px;
+    }
+
+    &.patient-last-name {
+      width: 180px;
     }
 
     &.patient-dob {
@@ -171,7 +171,28 @@ form {
     }
 
     ion-item-divider {
+      clear: both;
       margin-top: -33px;
+    }
+
+    ion-item {
+      &.first-name,
+      &.last-name,
+      &.relationship {
+        display: inline-block;
+      }
+
+      &.first-name {
+        width: 180px;
+      }
+
+      &.last-name {
+        width: 180px;
+      }
+
+      &.relationship {
+        width: 180px;
+      }
     }
 
     .phone-container {
@@ -181,17 +202,12 @@ form {
       ion-item {
         display: inline-block;
 
-        &.first-name {
-          width: 160px;
-        }
-
-        &.last-name {
-          width: 160px;
-        }
-
         &.country-code {
           margin-left: 0;
           width: 85px;
+          text-align: center;
+          color: lightgray;
+          cursor: not-allowed;
         }
 
         &.area-code {
@@ -202,17 +218,24 @@ form {
           width: 257px;
         }
 
-        span.responsible-party {
-          font-family: Avenir;
-          font-size: 13px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: 0.99;
-          letter-spacing: 0.59px;
-          text-align: left;
-          margin-left: 20px;
-          color: var(--azure);
+        &.responsible-party {
+          float: right;
+          ion-label {
+            font-family: Avenir;
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 0.99;
+            letter-spacing: 0.59px;
+            text-align: left;
+            margin-left: 20px;
+            color: var(--ion-color-primary);
+          }
+          ion-radio {
+            width: 20px;
+            height: 20px;
+          }
         }
       }
     }
@@ -343,13 +366,29 @@ form {
   }
 
   .physician-info {
-    ion-input {
-      width: 48%;
+    ion-item {
       display: inline-block;
-    }
 
-    ion-radio {
-      display: inline-block;
+      &.first-name {
+        width: 160px;
+      }
+
+      &.last-name {
+        width: 160px;
+      }
+
+      &.country-code {
+        margin-left: 0;
+        width: 85px;
+      }
+
+      &.area-code {
+        width: 150px;
+      }
+
+      &.phone-number {
+        width: 257px;
+      }
     }
   }
 

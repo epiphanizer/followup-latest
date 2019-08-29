@@ -47,7 +47,7 @@
             </ion-item>
           </ion-list>
         </ion-list>
-
+        <!-- This should come from a loop -->
         <fieldset class="patient-contacts" formGroupName="patientContacts">
           <div class="section-header contacts">
             <i class="icon-contacts"></i>
@@ -83,14 +83,15 @@
                 <ion-label color="medium" position="stacked">Phone #</ion-label>
                 <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
               </ion-item>
-              <span class="responsible-party">
-                Responsible Party?
-                <ion-radio formControlName="patientResponsiblePartyBoolean"> </ion-radio>
+              <ion-item class="responsible-party">
+                <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
+                <ion-radio (click)="updateResponsibleParty()" formControlName="patientResponsiblePartyBoolean">
+                </ion-radio>
                 <i class="icon-hipaa"></i>
-              </span>
+              </ion-item>
             </div>
+            <ion-item-divider></ion-item-divider>
           </ion-list>
-          <ion-item-divider></ion-item-divider>
           <div class="section-header contacts">
             <span>Alternative Contact 1</span>
           </div>
@@ -120,26 +121,28 @@
                 <ion-label color="medium" position="stacked">Phone #</ion-label>
                 <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
               </ion-item>
-              <span class="responsible-party">
-                Responsible Party?
-                <ion-radio formControlName="patientResponsiblePartyBoolean"> </ion-radio>
-              </span>
+              <ion-item class="responsible-party">
+                <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
+                <ion-radio (click)="updateResponsibleParty()" formControlName="patientResponsiblePartyBoolean">
+                </ion-radio>
+                <i class="icon-hipaa"></i>
+              </ion-item>
             </div>
+            <ion-item-divider></ion-item-divider>
           </ion-list>
-          <ion-item-divider></ion-item-divider>
           <div class="section-header contacts">
             <span>Alternative Contact 2</span>
           </div>
           <ion-list lines="none" formGroupName="alternatePatientContact2">
-            <ion-item>
+            <ion-item class="first-name">
               <ion-label color="medium" position="stacked">First Name</ion-label>
               <ion-input class="first-name" type="text" formControlName="patientContactFirstName"> </ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item class="last-name">
               <ion-label color="medium" position="stacked">Last Name</ion-label>
-              <ion-input class="last-name" type="text" formControlName="patientContactLastName"> </ion-input>
+              <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item class="relationship">
               <ion-label color="medium" position="stacked">Relationship</ion-label>
               <ion-input class="relationship" type="text" formControlName="patientContactRelationship"> </ion-input>
             </ion-item>
@@ -156,21 +159,28 @@
                 <ion-label color="medium" position="stacked">Phone #</ion-label>
                 <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
               </ion-item>
-              <span class="responsible-party">
-                Responsible Party?
-                <ion-radio formControlName="patientResponsiblePartyBoolean"> </ion-radio>
+              <ion-item class="responsible-party">
+                <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
+                <ion-radio (click)="updateResponsibleParty()" formControlName="patientResponsiblePartyBoolean">
+                </ion-radio>
                 <i class="icon-hipaa"></i>
-              </span>
+              </ion-item>
             </div>
+            <ion-item-divider></ion-item-divider>
           </ion-list>
         </fieldset>
         <fieldset class="physician-info" formGroupName="physicianInfo">
-          <ion-list lines="none" inset class="physician-information">
+          <ion-list lines="none" inset>
             <i class="icon-physician"></i>
-            <ion-item>
-              <ion-label color="medium" position="stacked">Physician First Name</ion-label>
+            <div class="section-header contacts">
+              <span>Physician</span>
+            </div>
+            <ion-item class="first-name">
+              <ion-label color="medium" position="stacked">First Name</ion-label>
               <ion-input type="text" formControlName="physicianFirstName"></ion-input>
-              <ion-label color="medium" position="stacked">Physician Last Name</ion-label>
+            </ion-item>
+            <ion-item class="last-name">
+              <ion-label color="medium" position="stacked">Last Name</ion-label>
               <ion-input type="text" formControlName="physicianLastName"></ion-input>
             </ion-item>
             <ion-item>
