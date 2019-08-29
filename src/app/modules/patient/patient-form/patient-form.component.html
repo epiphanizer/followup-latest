@@ -227,17 +227,17 @@
                 <ion-label color="medium" position="stacked">Discharged</ion-label>
                 <ion-datetime formControlName="patientDischargeDate"></ion-datetime>
               </ion-item>
-              <ion-item class="discharge-atotal-days">
+              <ion-item class="discharge-total-days">
                 <ion-label color="medium" position="stacked">Total Days</ion-label>
                 <ion-input formControlName="totalDays"></ion-input>
               </ion-item>
             </div>
-            <ion-item>
+            <ion-item class="discharge-ama">
               <ion-label color="medium" position="stacked">Discharged Against Medical Advice?</ion-label>
               <ion-radio class="discharged-ama-yes" formControlName="patientDischargedAma"></ion-radio>
               <ion-radio class="discharged-ama-no" formControlName="patientDischargedAma"></ion-radio>
             </ion-item>
-            <ion-item>
+            <ion-item class="discharge-to-location">
               <ion-list class="discharge-checkboxes">
                 <ion-label color="medium" position="stacked">Discharged To:</ion-label>
                 <ion-list inset lines="none">
