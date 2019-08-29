@@ -12,9 +12,6 @@ export interface PatientCall {
   patientCallStartTime: Date;
   patientCallEndTime?: Date;
   patientCallStatusLabelId: number;
-  // We won't always order this, but when we do,
-  // it's nice to know which count the PatientCall is in a series for
-  // the sake of labeling.
   patientCallNumber?: number;
 }
 

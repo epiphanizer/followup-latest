@@ -16,10 +16,18 @@ export class PatientCallNotesComponent implements OnInit {
   patientCallNotesForm: FormGroup;
   patientCallNotes: PatientCallNotes | null = null;
   patientCallNotes$: Observable<PatientCallNotes>;
-  constructor(fb: FormBuilder, patientCallNotesService: PatientCallNotesService) {}
+  highlighter: boolean;
+  constructor(private fb: FormBuilder, patientCallNotesService: PatientCallNotesService) {}
 
   ngOnInit() {
     this.createForm();
   }
-  private createForm() {}
+  highlightPatientCallNotes() {
+    console.log('highlighting active');
+  }
+  private createForm() {
+    this.patientCallNotesForm = this.fb.group({
+      patientCallNotes: this.fb.control({})
+    });
+  }
 }

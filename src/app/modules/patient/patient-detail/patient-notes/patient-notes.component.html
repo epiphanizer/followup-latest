@@ -1,3 +1,18 @@
-<p>
-  patient-notes works!
-</p>
+<ion-list>
+  <i class="icon-facility"></i>
+  <ion-item>{{ patient.patientAdmissionDate }}</ion-item>
+  <ion-item>{{ patient.patientDischargeDate }}</ion-item>
+  <ion-item>{{ patient.patientTotalDays }}</ion-item>
+  <ion-item>{{ patient.patientDischargedAma }}</ion-item>
+
+  <i class="icon-diagnosis"></i>
+  <ion-item>
+    <span class=""> Primary Diagnosis: {{ patient.primaryDiagnosis }} </span>
+  </ion-item>
+  <ion-item>
+    <span class=""> Discharged Condition: {{ patient.dischargedConditions }} </span>
+  </ion-item>
+  <ion-item>
+    <span class=""> Discharged To: {{ patient.dischargeLocationLabel }} </span>
+  </ion-item>
+</ion-list>
