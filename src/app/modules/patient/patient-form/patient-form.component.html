@@ -15,7 +15,7 @@
           <i class="icon-new-facility"></i>
           <ion-item>
             <ion-select placeholder="Select Facility" class="select-facility" formControlName="operation">
-              <ion-select-option *ngFor="let operation of user.operations">
+              <ion-select-option *ngFor="let operation of user.operations" value="operation.operationId">
                 {{ operation.operationName }}
               </ion-select-option>
             </ion-select>
@@ -298,14 +298,19 @@
             <ion-textarea formControlName="dischargedCondition"></ion-textarea>
           </ion-item>
         </ion-list>
-        <ion-list lines="none" inset formGroupName="patientQuestionAnswers">
+        <ion-list
+          lines="none"
+          *ngIf="patient.patientIntakeQuestions$ | async as patientIntakeQuestions"
+          inset
+          formGroupName="patientQuestionAnswers"
+        >
           <i class="icon-question"></i>
-          <ion-item *ngFor="patient.patientCalls$ | async as patientQuestion">
+          <ion-item *ngFor="let patientIntakeQuestions of patientIntakeQuestion">
             <ion-label color="medium" position="stacked">
-              Pain Scale
+              {{ patientIntakeQuestion.patientQuestionTypeLabel }}
             </ion-label>
 
-            <ion-radio></ion-radio>
+            <ion-radio value="patientIntakeQuestion.patientQuestionTypeLabel"></ion-radio>
             <ion-label>1</ion-label>
             <ion-radio></ion-radio>
             <ion-label>2</ion-label>
