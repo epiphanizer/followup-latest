@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { PatientRoutingModule } from './patient-routing.module';
 import { PatientCallModule } from './patient-detail/patient-call/patient-call.module';
-import { PatientNotesModule } from './patient-notes/patient-notes.module';
+import { PatientNotesModule } from './patient-detail/patient-notes/patient-notes.module';
 import { PatientAvatarModule } from './patient-avatar/patient-avatar.module';
 import { PatientDetailModule } from './patient-detail/patient-detail.module';
 import { PatientComponent } from './patient.component';
@@ -13,9 +13,16 @@ import { PatientFormComponent } from '@app/modules/patient/patient-form/patient-
 import { PatientService } from './patient.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientManagerSidebarComponent } from '@app/modules/patient/patient-manager-sidebar/patient-manager-sidebar.component';
+import { PatientNotesComponent } from './patient-notes/patient-notes.component';
 
 @NgModule({
-  declarations: [PatientComponent, PatientAvatarComponent, PatientFormComponent, PatientManagerSidebarComponent],
+  declarations: [
+    PatientComponent,
+    PatientAvatarComponent,
+    PatientFormComponent,
+    PatientManagerSidebarComponent,
+    PatientNotesComponent
+  ],
   imports: [
     CommonModule,
     IonicModule,

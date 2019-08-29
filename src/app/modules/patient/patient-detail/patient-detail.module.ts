@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { PatientDetailComponent } from './patient-detail.component';
+import { PatientNotesComponent } from './patient-detail/patient-notes/patient-notes.component';
 import { PatientCallNotesComponent } from './patient-call/patient-call-notes/patient-call-notes.component';
 import { PatientCallQuestionsComponent } from './patient-call/patient-call-questions/patient-call-questions.component';
 import { PatientSummaryWidgetComponent } from './patient-summary-widget/patient-summary-widget.component';
@@ -18,6 +19,7 @@ import { PatientCallStopButtonComponent } from './patient-call/patient-call-stop
     PatientCallNotesComponent,
     PatientCallQuestionsComponent,
     PatientSummaryWidgetComponent,
+    PatientNotesComponent,
     PatientCallHistoryControlsComponent,
     PatientCallHistoryListingComponent,
     PatientCallStatusControlsComponent,

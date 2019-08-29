@@ -10,7 +10,7 @@ import { IonicModule } from '@ionic/angular';
 import { environment } from '@env/environment';
 
 import { MsalModule, MsalGuard } from '@azure/msal-angular';
-import { OAuthSettings } from '../oauth';
+import { OAuthSettings } from '@app/oauth';
 
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
@@ -27,6 +27,7 @@ import { PatientModule } from './modules/patient/patient.module';
 import { OperationModule } from '@app/modules/operation/operation.module';
 import { NotificationModule } from '@app/modules/notification/notification.module';
 import { UserModule } from '@app/modules/user/user.module';
+import { PatientNotesComponent } from './modules/patient-notes/patient-notes/patient-notes.component';
 
 @NgModule({
   imports: [
@@ -63,7 +64,7 @@ import { UserModule } from '@app/modules/user/user.module';
     UserModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, PatientNotesComponent],
   providers: [MsalGuard],
   bootstrap: [AppComponent]
 })

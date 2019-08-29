@@ -305,60 +305,8 @@
           formGroupName="patientQuestionAnswers"
         >
           <i class="icon-question"></i>
-          <ion-item *ngFor="let patientIntakeQuestions of patientIntakeQuestion">
-            <ion-label color="medium" position="stacked">
-              {{ patientIntakeQuestion.patientQuestionTypeLabel }}
-            </ion-label>
-
-            <ion-radio value="patientIntakeQuestion.patientQuestionTypeLabel"></ion-radio>
-            <ion-label>1</ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>2</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label color="medium" position="stacked">
-              Mental Scale
-            </ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>1</ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>2</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label color="medium" position="stacked">
-              Are you able to take your medication?
-            </ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>Y</ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>N</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label color="medium" position="stacked">
-              Do you have an appointment set up with your doctor?
-            </ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>Y</ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>N</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label color="medium" position="stacked">
-              Has home health contacted you?
-            </ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>Y</ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>N</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label color="medium" position="stacked">
-              Has home health visited you?
-            </ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>Y</ion-label>
-            <ion-radio></ion-radio>
-            <ion-label>N</ion-label>
+          <ion-item *ngFor="let patientIntakeQuestion of patientIntakeQuestions">
+            <app-patient-question [patientCallQuestion]="patientIntakeQuestion"> </app-patient-question>
           </ion-item>
         </ion-list>
         <ion-list lines="none" inset>
