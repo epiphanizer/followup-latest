@@ -10,234 +10,271 @@
           Edit Patient
         </ion-title>
       </ng-template>
-      <form id="new-patient-form" (ngSubmit)="addPatientFormSubmit()" formGroup="addPatientForm" novalidate>
-        <ion-list lines="none">
-          <ion-list lines="none" inset>
-            <i class="icon-new-facility"></i>
-            <ion-item>
-              <ion-select placeholder="Select Facility" class="select-facility" formControlName="operation">
-                <ion-select-option *ngFor="let operation of user.operations">
-                  {{ operation.operationName }}
-                </ion-select-option>
-              </ion-select>
+      <form *ngIf="patient$ | async" id="new-patient-form" formGroup="addPatientForm" novalidate>
+        <ion-list lines="none" inset>
+          <i class="icon-new-facility"></i>
+          <ion-item>
+            <ion-select placeholder="Select Facility" class="select-facility" formControlName="operation">
+              <ion-select-option *ngFor="let operation of user.operations">
+                {{ operation.operationName }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+        <ion-list lines="none" inset formGroupName="patient">
+          <i class="icon-info"></i>
+          <ion-item class="patient-medical-record-number">
+            <ion-label color="medium" position="stacked">Patient #</ion-label>
+            <ion-input type="text" formControlName="patientMedicalRecordNumber"></ion-input>
+          </ion-item>
+          <ion-list lines="none" inset formGroupName="patientName">
+            <ion-item class="patient-first-name">
+              <ion-label color="medium" position="stacked">First Name</ion-label>
+              <ion-input type="text" formControlName="patientFirstName"></ion-input>
+            </ion-item>
+            <ion-item class="patient-middle-name">
+              <ion-label color="medium" position="stacked">Middle Name</ion-label>
+              <ion-input type="text" formControlName="patientMiddleName"></ion-input>
+            </ion-item>
+            <ion-item class="patient-last-name">
+              <ion-label color="medium" position="stacked">Last Name</ion-label>
+              <ion-input type="text" formControlName="patientLastName"></ion-input>
+            </ion-item>
+            <ion-item class="patient-dob">
+              <ion-label color="medium" position="stacked">Date of Birth</ion-label>
+              <ion-datetime type="date" formControlName="patientDob"></ion-datetime>
             </ion-item>
           </ion-list>
-          <ion-list lines="none" inset formGroupName="patient">
-            <i class="icon-info"></i>
-            <ion-item class="patient-medical-record-number">
-              <ion-label color="medium" position="stacked">Patient #</ion-label>
-              <ion-input type="text" formControlName="patientMedicalRecordNumber"></ion-input>
+        </ion-list>
+        <!-- This should come from a loop -->
+        <fieldset class="patient-contacts" formGroupName="patientContacts">
+          <div class="section-header contacts">
+            <i class="icon-contacts"></i>
+            <span class="contact-header">Contacts</span>
+          </div>
+          <ion-list lines="none" formGroupName="primaryPatientContact">
+            <ion-item-divider></ion-item-divider>
+            <div class="section-header contacts">
+              <span>Primary Contact</span>
+            </div>
+            <ion-item class="first-name">
+              <ion-label color="medium" position="stacked">First Name</ion-label>
+              <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
             </ion-item>
-            <ion-list lines="none" formGroupName="patientName">
-              <ion-item class="patient-first-name">
-                <ion-label color="medium" position="stacked">First Name</ion-label>
-                <ion-input type="text" formControlName="patientFirstName"></ion-input>
+            <ion-item class="last-name">
+              <ion-label color="medium" position="stacked">Last Name</ion-label>
+              <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
+            </ion-item>
+            <ion-item class="relationship">
+              <ion-label color="medium" position="stacked">Relationship</ion-label>
+              <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
+            </ion-item>
+            <div class="phone-container">
+              <ion-item class="country-code">
+                <ion-label color="medium" position="stacked">+(1)</ion-label>
+                <ion-input type="text" formControlName="patientContactCountryCodeNumber"></ion-input>
               </ion-item>
-              <ion-item class="patient-middle-name">
-                <ion-label color="medium" position="stacked">Middle Name</ion-label>
-                <ion-input type="text" formControlName="patientMiddleName"></ion-input>
+              <ion-item class="area-code">
+                <ion-label color="medium" position="stacked">Area Code</ion-label>
+                <ion-input type="text" formControlName="patientContactAreaCodeNumber"></ion-input>
               </ion-item>
-              <ion-item class="patient-last-name">
-                <ion-label color="medium" position="stacked">Last Name</ion-label>
-                <ion-input type="text" formControlName="patientLastName"></ion-input>
+              <ion-item class="phone-number">
+                <ion-label color="medium" position="stacked">Phone #</ion-label>
+                <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
               </ion-item>
-            </ion-list>
-            <ion-list lines="none">
-              <i class="icon-birthday"></i>
-              <ion-item>
-                <ion-label color="medium" position="stacked">Date of Birth</ion-label>
-                <ion-datetime type="date" formControlName="patientDob"></ion-datetime>
-                <span>Age: {{ currentYear - (patient.patientDob | slice: 0:4) }}</span>
+              <ion-item class="responsible-party">
+                <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
+                <ion-radio (click)="updateResponsibleParty()" formControlName="patientResponsiblePartyBoolean">
+                </ion-radio>
+                <i class="icon-hipaa"></i>
               </ion-item>
-            </ion-list>
+            </div>
+            <ion-item-divider></ion-item-divider>
           </ion-list>
           <div class="section-header contacts">
-            <i class="icon-contacts"></i> <span class="contact-header">Contacts</span>
+            <span>Alternative Contact 1</span>
           </div>
-
-          <fieldset formGroupName="patientContacts">
-            <ion-list lines="none" formGroupName="primaryPatientContact">
-              <ion-item-divider></ion-item-divider>
-              <div class="section-header contacts">
-                <span>Primary Contact</span>
-              </div>
-              <ion-item>
-                <ion-label color="medium" position="stacked">First Name</ion-label>
-                <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
+          <ion-list lines="none" formGroupName="alternatePatientContact1">
+            <ion-item class="first-name">
+              <ion-label color="medium" position="stacked">First Name</ion-label>
+              <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
+            </ion-item>
+            <ion-item class="last-name">
+              <ion-label color="medium" position="stacked">Last Name</ion-label>
+              <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
+            </ion-item>
+            <ion-item class="relationship">
+              <ion-label color="medium" position="stacked">Relationship</ion-label>
+              <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
+            </ion-item>
+            <div class="phone-container">
+              <ion-item class="country-code">
+                <ion-label color="medium" position="stacked">+(1)</ion-label>
+                <ion-input type="text" value="1" formControlName="patientContactCountryCodeNumber"></ion-input>
               </ion-item>
-              <ion-item>
-                <ion-label color="medium" position="stacked">Last Name</ion-label>
-                <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
+              <ion-item class="area-code">
+                <ion-label color="medium" position="stacked">Area Code</ion-label>
+                <ion-input type="text" formControlName="patientContactAreaCodeNumber"></ion-input>
               </ion-item>
-              <ion-item>
-                <ion-label color="medium" position="stacked">Relationship</ion-label>
-                <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
+              <ion-item class="phone-number">
+                <ion-label color="medium" position="stacked">Phone #</ion-label>
+                <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
               </ion-item>
-              <div class="phone-container">
-                <ion-item class="country-code">
-                  <ion-label color="medium" position="stacked">Country Code</ion-label>
-                  <ion-input type="text" formControlName="patientContactCountryCodeNumber"></ion-input>
-                </ion-item>
-                <ion-item class="area-code">
-                  <ion-label color="medium" position="stacked">Area Code</ion-label>
-                  <ion-input type="text" formControlName="patientContactAreaCodeNumber"></ion-input>
-                </ion-item>
-                <ion-item class="phone-number">
-                  <ion-label color="medium" position="stacked">Home Phone #</ion-label>
-                  <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
-                </ion-item>
-                <span class="responsible-party">
-                  Responsible Party?
-                  <ion-radio formControlName="patientResponsiblePartyBoolean"> </ion-radio>
-                  <i class="icon-hipaa"></i>
-                </span>
-              </div>
-            </ion-list>
-            <ion-item-divider></ion-item-divider>
-            <div class="section-header contacts">
-              <span>Alternative Contact 1</span>
+              <ion-item class="responsible-party">
+                <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
+                <ion-radio (click)="updateResponsibleParty()" formControlName="patientResponsiblePartyBoolean">
+                </ion-radio>
+                <i class="icon-hipaa"></i>
+              </ion-item>
             </div>
-            <ion-list lines="none" formGroupName="alternatePatientContact1">
-              <ion-item>
-                <ion-label color="medium" position="stacked">First Name</ion-label>
-                <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label color="medium" position="stacked">Last Name</ion-label>
-                <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label color="medium" position="stacked">Relationship</ion-label>
-                <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
-              </ion-item>
-              <div class="phone-container">
-                <ion-item class="country-code">
-                  <ion-label color="medium" position="stacked">Country Code</ion-label>
-                  <ion-input type="text" formControlName="patientContactCountryCodeNumber"></ion-input>
-                </ion-item>
-                <ion-item class="area-code">
-                  <ion-label color="medium" position="stacked">Area Code</ion-label>
-                  <ion-input type="text" formControlName="patientContactAreaCodeNumber"></ion-input>
-                </ion-item>
-                <ion-item class="phone-number">
-                  <ion-label color="medium" position="stacked">Phone #</ion-label>
-                  <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
-                </ion-item>
-                <span class="responsible-party">
-                  Responsible Party?
-                  <ion-radio formControlName="patientResponsiblePartyBoolean"> </ion-radio>
-                </span>
-              </div>
-            </ion-list>
             <ion-item-divider></ion-item-divider>
-            <div class="section-header contacts">
-              <span>Alternative Contact 2</span>
+          </ion-list>
+          <div class="section-header contacts">
+            <span>Alternative Contact 2</span>
+          </div>
+          <ion-list lines="none" formGroupName="alternatePatientContact2">
+            <ion-item class="first-name">
+              <ion-label color="medium" position="stacked">First Name</ion-label>
+              <ion-input class="first-name" type="text" formControlName="patientContactFirstName"> </ion-input>
+            </ion-item>
+            <ion-item class="last-name">
+              <ion-label color="medium" position="stacked">Last Name</ion-label>
+              <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
+            </ion-item>
+            <ion-item class="relationship">
+              <ion-label color="medium" position="stacked">Relationship</ion-label>
+              <ion-input class="relationship" type="text" formControlName="patientContactRelationship"> </ion-input>
+            </ion-item>
+            <div class="phone-container">
+              <ion-item class="country-code">
+                <ion-label color="medium" position="stacked"> +(1)</ion-label>
+                <ion-input type="text" formControlName="patientContactCountryCodeNumber"></ion-input>
+              </ion-item>
+              <ion-item class="area-code">
+                <ion-label color="medium" position="stacked">Area Code</ion-label>
+                <ion-input type="text" formControlName="patientContactAreaCodeNumber"></ion-input>
+              </ion-item>
+              <ion-item class="phone-number">
+                <ion-label color="medium" position="stacked">Phone #</ion-label>
+                <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
+              </ion-item>
+              <ion-item class="responsible-party">
+                <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
+                <ion-radio (click)="updateResponsibleParty()" formControlName="patientResponsiblePartyBoolean">
+                </ion-radio>
+                <i class="icon-hipaa"></i>
+              </ion-item>
             </div>
-            <ion-list lines="none" formGroupName="alternatePatientContact2">
-              <ion-item>
-                <ion-label color="medium" position="stacked">First Name</ion-label>
-                <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label color="medium" position="stacked">Last Name</ion-label>
-                <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label color="medium" position="stacked">Relationship</ion-label>
-                <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
-              </ion-item>
-              <div class="phone-container">
-                <ion-item class="country-code">
-                  <ion-label color="medium" position="stacked">Country Code</ion-label>
-                  <ion-input type="text" formControlName="patientContactCountryCodeNumber"></ion-input>
-                </ion-item>
-                <ion-item class="area-code">
-                  <ion-label color="medium" position="stacked">Area Code</ion-label>
-                  <ion-input type="text" formControlName="patientContactAreaCodeNumber"></ion-input>
-                </ion-item>
-                <ion-item class="phone-number">
-                  <ion-label color="medium" position="stacked">Phone #</ion-label>
-                  <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
-                </ion-item>
-                <span class="responsible-party">
-                  Responsible Party?
-                  <ion-radio formControlName="patientResponsiblePartyBoolean"> </ion-radio>
-                  <i class="icon-hipaa"></i>
-                </span>
-              </div>
-            </ion-list>
-          </fieldset>
-          <ion-item-divider></ion-item-divider>
-          <ion-list class="physician-information" formGroupName="physician">
+            <ion-item-divider></ion-item-divider>
+          </ion-list>
+        </fieldset>
+        <fieldset class="physician-info" formGroupName="physicianInfo">
+          <ion-list lines="none" inset>
             <i class="icon-physician"></i>
-            <ion-item>
-              <ion-label color="medium" position="stacked">Physician First Name</ion-label>
+            <div class="section-header contacts">
+              <span>Physician</span>
+            </div>
+            <ion-item class="first-name">
+              <ion-label color="medium" position="stacked">First Name</ion-label>
               <ion-input type="text" formControlName="physicianFirstName"></ion-input>
-              <ion-label color="medium" position="stacked">Physician Last Name</ion-label>
+            </ion-item>
+            <ion-item class="last-name">
+              <ion-label color="medium" position="stacked">Last Name</ion-label>
               <ion-input type="text" formControlName="physicianLastName"></ion-input>
             </ion-item>
-            <ion-item>
-              <ion-label color="medium" position="stacked">Phone #</ion-label>
-              <ion-input type="text" formControlName="physicianPhoneNumber"></ion-input>
-            </ion-item>
+            <div class="phone-container">
+              <ion-item class="country-code">
+                <ion-label color="medium" position="stacked">+(1)</ion-label>
+                <ion-input type="text" value="1" formControlName="physicianCountryCodeNumber"></ion-input>
+              </ion-item>
+              <ion-item class="area-code">
+                <ion-label color="medium" position="stacked">Area Code</ion-label>
+                <ion-input type="text" formControlName="physicianAreaCodeNumber"></ion-input>
+              </ion-item>
+              <ion-item class="phone-number">
+                <ion-label color="medium" position="stacked">Phone #</ion-label>
+                <ion-input type="text" formControlName="physicianPhoneNumber"></ion-input>
+              </ion-item>
+            </div>
           </ion-list>
-          <ion-list formGroupName="insurance">
+        </fieldset>
+        <fieldset class="insurance-info" formGroupName="insurance">
+          <ion-list lines="none" inset>
             <i class="icon-insurance"></i>
             <ion-item>
               <ion-label color="medium" position="stacked">Primary Insurance</ion-label>
               <ion-input formControlName="primaryInsurance"></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item class="secondary-insurance">
               <ion-label color="medium" position="stacked">Secondary Insurance</ion-label>
               <ion-input formControlName="secondaryInsurance"></ion-input>
             </ion-item>
           </ion-list>
-        </ion-list>
-        <ion-list formGroupName="dischargeInfo">
-          <div class="patient-discharge-container">
-            <i class="icon-discharge"></i>
-            <ion-item class="discharge-admit-date">
-              <ion-label color="medium" position="stacked">Admitted</ion-label>
-              <ion-datetime formControlName="patientAdmitDate"></ion-datetime>
+        </fieldset>
+        <fieldset class="patient-discharge" formGroupName="dischargeInfo">
+          <div class="section-header">
+            <i class="icon-discharge-calendar"></i>
+            <span class="discharge-header">Discharge Info</span>
+          </div>
+          <ion-list inset lines="none">
+            <div class="patient-discharge-container">
+              <ion-item class="discharge-admit-date">
+                <ion-label color="medium" position="stacked">Admitted</ion-label>
+                <ion-datetime formControlName="patientAdmitDate"></ion-datetime>
+              </ion-item>
+              <ion-item class="discharge-discharge-date">
+                <ion-label color="medium" position="stacked">Discharged</ion-label>
+                <ion-datetime formControlName="patientDischargeDate"></ion-datetime>
+              </ion-item>
+              <ion-item class="discharge-total-days">
+                <ion-label color="medium" position="stacked">Total Days</ion-label>
+                <ion-input formControlName="totalDays"></ion-input>
+              </ion-item>
+            </div>
+            <ion-item class="discharged-ama">
+              <ion-label color="medium" position="stacked">Discharged Against Medical Advice?</ion-label>
+              <ion-radio class="discharged-ama-yes" formControlName="patientDischargedAma"></ion-radio>
+              <ion-radio class="discharged-ama-no" formControlName="patientDischargedAma"></ion-radio>
             </ion-item>
-            <ion-item class="discharge-discharge-date">
-              <ion-label color="medium" position="stacked">Discharged</ion-label>
-              <ion-datetime formControlName="patientDischargeDate"></ion-datetime>
+            <ion-item class="discharge-to-location">
+              <ion-label color="medium" position="stacked">Discharged To:</ion-label>
+              <ion-list inset lines="none">
+                <ion-item>
+                  <ion-radio></ion-radio>
+                  <ion-label color="medium">Home</ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-radio></ion-radio>
+                  <ion-label color="medium">Family or Friend</ion-label>
+                </ion-item>
+                <!-- This should be a loop -->
+                <!-- <ion-item>
+                  <ion-radio></ion-radio>
+                  <ion-label color="medium">Assist. Living</ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-radio></ion-radio>
+                  <ion-label color="medium">Hospice</ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-radio></ion-radio>
+                  <ion-label color="medium">Hospital</ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-radio></ion-radio>
+                  <ion-label color="medium">Other Facility</ion-label>
+                </ion-item> -->
+              </ion-list>
             </ion-item>
-            <ion-item class="discharge-atotal-days">
-              <ion-label color="medium" position="stacked">Total Days</ion-label>
-              <ion-input formControlName="totalDays"></ion-input>
-            </ion-item>
+          </ion-list>
+        </fieldset>
+        <ion-list lines="none" inset formGroupName="patientMedicalConditions">
+          <div class="section-header discharge">
+            <i class="icon-medical"></i>
+            <span class="contact-header">Medical Condition</span>
           </div>
           <ion-item>
-            <ion-label color="medium" position="stacked">Discharged Against Medical Advice?</ion-label>
-            <ion-radio class="discharged-ama-yes" formControlName="patientDischargedAma"></ion-radio>
-            <ion-radio class="discharged-ama-no" formControlName="patientDischargedAma"></ion-radio>
-          </ion-item>
-          <ion-item>
-            <ion-list class="discharge-checkboxes">
-              <ion-label color="medium" position="stacked">Discharged To:</ion-label>
-              <ion-list>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Home</ion-label>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Family or Friend</ion-label>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Assist. Living</ion-label>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Hospice</ion-label>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Hospital</ion-label>
-                <ion-checkbox></ion-checkbox>
-                <ion-label>Other Facility</ion-label>
-              </ion-list>
-            </ion-list>
-          </ion-item>
-        </ion-list>
-        <ion-list lines="none" inset formGroupName="patientMedicalConditions">
-          <i class="icon-medical"></i>
-          <ion-item>
-            <ion-list class="checkboxes-inline">
+            <ion-list inset lines="none" class="checkboxes-inline">
               <ion-item>
                 <ion-label color="medium" position="stacked">Cardiac</ion-label>
                 <ion-checkbox formControlName="cardiacBoolean"></ion-checkbox>
@@ -267,56 +304,91 @@
             <ion-label color="medium" position="stacked">
               Pain Scale
             </ion-label>
-            <ion-radio formControlName="painScaleAtIntake"></ion-radio><ion-label>1</ion-label> <ion-radio></ion-radio
-            ><ion-label>2</ion-label> <ion-radio formControlName="painScaleAtIntake"></ion-radio
-            ><ion-label>3</ion-label> <ion-radio></ion-radio><ion-label>4</ion-label>
-            <ion-radio formControlName="painScaleAtIntake"></ion-radio><ion-label>5</ion-label> <ion-radio></ion-radio
-            ><ion-label>6</ion-label> <ion-radio formControlName="painScaleAtIntake"></ion-radio
-            ><ion-label>7</ion-label> <ion-radio></ion-radio><ion-label>8</ion-label>
-            <ion-radio formControlName="painScaleAtIntake"></ion-radio><ion-label>9</ion-label> <ion-radio></ion-radio
-            ><ion-label>10</ion-label>
+            <!-- This should be a loop -->
+            <ion-radio formControlName="painScaleAtIntake"></ion-radio>
+            <ion-label>1</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>2</ion-label>
+            <ion-radio formControlName="painScaleAtIntake"></ion-radio>
+            <ion-label>3</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>4</ion-label>
+            <ion-radio formControlName="painScaleAtIntake"></ion-radio>
+            <ion-label>5</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>6</ion-label>
+            <ion-radio formControlName="painScaleAtIntake"></ion-radio>
+            <ion-label>7</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>8</ion-label>
+            <ion-radio formControlName="painScaleAtIntake"></ion-radio>
+            <ion-label>9</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>10</ion-label>
           </ion-item>
           <ion-item>
             <ion-label color="medium" position="stacked">
               Mental Scale
             </ion-label>
-            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio><ion-label>1</ion-label> <ion-radio></ion-radio
-            ><ion-label>2</ion-label> <ion-radio formControlName="mentalScaleAtIntake"></ion-radio
-            ><ion-label>3</ion-label> <ion-radio></ion-radio><ion-label>4</ion-label>
-            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio><ion-label>5</ion-label> <ion-radio></ion-radio
-            ><ion-label>6</ion-label> <ion-radio formControlName="mentalScaleAtIntake"></ion-radio
-            ><ion-label>7</ion-label> <ion-radio></ion-radio><ion-label>8</ion-label>
-            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio><ion-label>9</ion-label> <ion-radio></ion-radio
-            ><ion-label>10</ion-label>
+            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio>
+            <ion-label>1</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>2</ion-label>
+            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio>
+            <ion-label>3</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>4</ion-label>
+            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio>
+            <ion-label>5</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>6</ion-label>
+            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio>
+            <ion-label>7</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>8</ion-label>
+            <ion-radio formControlName="mentalScaleAtIntake"></ion-radio>
+            <ion-label>9</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>10</ion-label>
           </ion-item>
           <ion-item>
             <ion-label color="medium" position="stacked">
               Are you able to take your medication?
             </ion-label>
-            <ion-radio formControlName="patientMedicationBoolean"></ion-radio><ion-label>Y</ion-label>
-            <ion-radio formControlName="patientMedicationBoolean"></ion-radio><ion-label>N</ion-label>
+            <ion-radio formControlName="patientMedicationBoolean"></ion-radio>
+            <ion-label>Y</ion-label>
+            <ion-radio formControlName="patientMedicationBoolean"></ion-radio>
+            <ion-label>N</ion-label>
           </ion-item>
           <ion-item>
             <ion-label color="medium" position="stacked">
               Do you have an appointment set up with your doctor?
             </ion-label>
-            <ion-radio formControlName="patientAppointmentScheduledWithDoctorBoolean"></ion-radio
-            ><ion-label>Y</ion-label>
-            <ion-radio formControlName="patientAppointmentScheduledWithDoctorBoolean"></ion-radio
-            ><ion-label>N</ion-label>
+            <ion-radio formControlName="patientAppointmentScheduledWithDoctorBoolean"></ion-radio>
+            <ion-label>Y</ion-label>
+            <ion-radio formControlName="patientAppointmentScheduledWithDoctorBoolean"></ion-radio>
+            <ion-label>N</ion-label>
           </ion-item>
           <ion-item>
             <ion-label color="medium" position="stacked">
               Has home health contacted you?
             </ion-label>
-            <ion-radio></ion-radio><ion-label>Y</ion-label> <ion-radio></ion-radio><ion-label>N</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>Y</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>N</ion-label>
           </ion-item>
           <ion-item>
             <ion-label color="medium" position="stacked">
               Has home health visited you?
             </ion-label>
-            <ion-radio></ion-radio><ion-label>Y</ion-label> <ion-radio></ion-radio><ion-label>N</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>Y</ion-label>
+            <ion-radio></ion-radio>
+            <ion-label>N</ion-label>
           </ion-item>
+        </ion-list>
+        <ion-list lines="none" inset>
           <i class="icon-star"></i>
           <ion-item>
             <ion-label color="medium" position="stacked">
@@ -324,15 +396,13 @@
             </ion-label>
             <ion-input formControlName="patientUrgencyRating"></ion-input>
           </ion-item>
-        </ion-list>
-        <ion-list lines="none" inset>
           <i class="icon-info"></i>
           <ion-item>
             <ion-label color="medium" position="stacked">Need To Know</ion-label>
             <ion-textarea formControlName="patientNeedToKnow"></ion-textarea>
           </ion-item>
         </ion-list>
-        <ion-button type="submit">Save</ion-button>
+        <ion-button (click)="onFormSubmit()">Save</ion-button>
       </form>
     </ion-col>
     <ion-col class="avatar-col">

@@ -24,7 +24,7 @@ ion-content {
 
 ion-title {
   font-family: AvenirNextLTPro;
-  font-size: 45px;
+  font-size: 38px;
   font-weight: 300;
   font-style: normal;
   font-stretch: normal;
@@ -44,7 +44,7 @@ form {
     clear: left;
     width: 20px;
     height: 24px;
-    margin-top: 10px;
+    margin-top: 13px;
     background-repeat: no-repeat;
     background-size: 95%;
   }
@@ -69,20 +69,21 @@ form {
     padding-left: 11.8px;
 
     &.first-name,
-    &.middle-name {
+    &.middle-name,
+    &.last-name {
       display: inline-block;
     }
 
     &.first-name {
-      width: 341px;
+      width: 180px;
     }
 
     &.middle-name {
-      width: 200px;
+      width: 180px;
     }
 
     &.last-name {
-      width: calc(100% - 20px);
+      width: 180px;
     }
 
     &.user-email {
@@ -97,16 +98,15 @@ form {
     &.user-phone-country-code {
       margin-left: 0;
       float: left;
-      width: 257px;
+      width: 80px;
     }
 
-    &.user-phone-area {
-      margin-left: 20px;
+    &.user-phone-area-code {
       float: left;
-      width: 257px;
+      width: 120px;
     }
 
-    &.user-phone {
+    &.user-phone-number {
       margin-left: 20px;
       float: left;
       width: 257px;
