@@ -42,6 +42,7 @@ form {
       cursor: not-allowed;
     }
   }
+
   > fieldset {
     border: none;
     padding: 0;
@@ -157,6 +158,14 @@ form {
     background-image: url("/assets/icon-discharge-calendar@2x.png");
   }
 
+  i.icon-medical-condition {
+    background-image: url("/assets/icon-medical-condition@2x.png");
+  }
+
+  i.icon-question {
+    background-image: url("/assets/icon-question@2x.png");
+  }
+
   .section-header {
     margin-top: 14px;
     overflow: hidden;
@@ -172,6 +181,7 @@ form {
       letter-spacing: 0.42px;
       text-align: left;
       color: var(--ion-color-primary);
+
       &.contact-header,
       &.discharge-header {
         float: left;
@@ -185,6 +195,7 @@ form {
     .section-header {
       span {
         margin-left: 25px;
+
         &.contact-header {
           margin-left: 10px;
         }
@@ -282,6 +293,15 @@ form {
         margin-left: 18px;
       }
     }
+
+    .discharged-ama {
+      ion-item {
+        display: inline-block;
+      }
+
+      ion-radio {
+      }
+    }
   }
 
   ion-label {
@@ -320,11 +340,13 @@ form {
       margin-left: 0;
     }
   }
+
   .discharge-ama {
     ion-item {
       display: inline-block;
     }
   }
+
   .discharge-checkboxes {
     margin-top: 6px;
     padding-left: 0;
@@ -393,6 +415,7 @@ form {
     ion-list {
       margin-left: 0;
     }
+
     ion-item {
       display: inline-block;
       padding-left: 14px;
@@ -405,24 +428,29 @@ form {
         width: 160px;
       }
 
-      &.country-code {
-        margin-left: 0;
-        width: 85px;
-      }
+      .phone-container {
+        padding-left: 14px;
+        &.country-code {
+          margin-left: 0;
+          width: 85px;
+        }
 
-      &.area-code {
-        width: 150px;
-      }
+        &.area-code {
+          width: 150px;
+        }
 
-      &.phone-number {
-        width: 257px;
+        &.phone-number {
+          width: 257px;
+        }
       }
     }
   }
+
   .insurance-info {
     ion-list {
       margin-left: 0;
     }
+
     .secondary-insurance {
       margin-left: 14px;
     }

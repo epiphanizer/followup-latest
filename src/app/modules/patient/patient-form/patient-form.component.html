@@ -231,7 +231,7 @@
                 <ion-input formControlName="totalDays"></ion-input>
               </ion-item>
             </div>
-            <ion-item class="discharge-ama">
+            <ion-item class="discharged-ama">
               <ion-label color="medium" position="stacked">Discharged Against Medical Advice?</ion-label>
               <ion-radio class="discharged-ama-yes" formControlName="patientDischargedAma"></ion-radio>
               <ion-radio class="discharged-ama-no" formControlName="patientDischargedAma"></ion-radio>
@@ -247,7 +247,8 @@
                   <ion-radio></ion-radio>
                   <ion-label color="medium">Family or Friend</ion-label>
                 </ion-item>
-                <ion-item>
+                <!-- This should be a loop -->
+                <!-- <ion-item>
                   <ion-radio></ion-radio>
                   <ion-label color="medium">Assist. Living</ion-label>
                 </ion-item>
@@ -262,7 +263,7 @@
                 <ion-item>
                   <ion-radio></ion-radio>
                   <ion-label color="medium">Other Facility</ion-label>
-                </ion-item>
+                </ion-item> -->
               </ion-list>
             </ion-item>
           </ion-list>
@@ -273,7 +274,7 @@
             <span class="contact-header">Medical Condition</span>
           </div>
           <ion-item>
-            <ion-list class="checkboxes-inline">
+            <ion-list inset lines="none" class="checkboxes-inline">
               <ion-item>
                 <ion-label color="medium" position="stacked">Cardiac</ion-label>
                 <ion-checkbox formControlName="cardiacBoolean"></ion-checkbox>
@@ -303,6 +304,7 @@
             <ion-label color="medium" position="stacked">
               Pain Scale
             </ion-label>
+            <!-- This should be a loop -->
             <ion-radio formControlName="painScaleAtIntake"></ion-radio>
             <ion-label>1</ion-label>
             <ion-radio></ion-radio>
