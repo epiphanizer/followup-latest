@@ -55,7 +55,7 @@ export class PatientFormComponent implements OnInit {
     }
   }
 
-  addPatientFormSubmit(): void {
+  onFormSubmit(): void {
     let formSubmission = this.addPatientForm.getRawValue();
     debugger;
     let payload = this.validateSubmission(formSubmission);
