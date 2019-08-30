@@ -372,6 +372,9 @@ form {
 
   ion-textarea {
     min-height: 176px;
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
   }
 
   ion-input {
