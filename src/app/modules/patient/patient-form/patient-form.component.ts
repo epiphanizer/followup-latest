@@ -148,46 +148,42 @@ export class PatientFormComponent implements OnInit {
              */
             patientResponsiblePartyBoolean: this.fb.control({})
           })
-        })
-      }),
-      physicianInfo: this.fb.group({
-        physicianFirstName: this.fb.control({}),
-        physicianLastName: this.fb.control({}),
-        physicianContactCountryCodeNumber: this.fb.control({ disabled: true }),
-        physicianContactAreaCodeNumber: this.fb.control({}),
-        physicianPhoneNumber: this.fb.control({})
-      }),
-      insurance: this.fb.group({
-        primaryInsurance: this.fb.control({}),
-        secondaryInsurance: this.fb.control({})
-      }),
-      dischargeInfo: this.fb.group({
-        patientAdmissionDate: this.fb.control({}),
-        patientDischargeDate: this.fb.control({}),
-        patientTotalDays: this.fb.control({}),
-        patientDischargedAma: this.fb.control({}),
-        patientDischargedTo: this.fb.control({})
-      }),
-      patientMedicalConditions: this.fb.group({
-        cardiacBoolean: this.fb.control({}),
-        sepsisBoolean: this.fb.control({}),
-        pulmonaryBoolean: this.fb.control({}),
-        primaryDiagnosis: this.fb.control({}),
-        dischargedCondition: this.fb.control({})
-      }),
-      patientQuestions: this.fb.group({}),
-      patientQuestionAnswers: this.fb.group({
-        // painScaleAtIntake: this.fb.control({}),
-        // mentalScaleAtIntake: this.fb.control({}),
-        // patientMedicationBoolean: this.fb.control({}),
-        // patientAppointmentScheduledWithDoctorBoolean: this.fb.control({}),
-        // patientHomeHealthContactedBoolean: this.fb.control({}),
-        // patientUrgencyRating: this.fb.control({}),
-        // patientOtherDetails: this.fb.control({})
-      }),
-      patientUrgencyRating: this.fb.control({}),
-      patientNeedToKnow: this.fb.control({})
+        }),
+        physicianInfo: this.fb.group({
+          physicianFirstName: this.fb.control({}),
+          physicianLastName: this.fb.control({}),
+          physicianContactCountryCodeNumber: this.fb.control({ disabled: true }),
+          physicianContactAreaCodeNumber: this.fb.control({}),
+          physicianPhoneNumber: this.fb.control({})
+        }),
+        insurance: this.fb.group({
+          primaryInsurance: this.fb.control({}),
+          secondaryInsurance: this.fb.control({})
+        }),
+        dischargeInfo: this.fb.group({
+          patientAdmissionDate: this.fb.control({}),
+          patientDischargeDate: this.fb.control({}),
+          patientTotalDays: this.fb.control({}),
+          patientDischargedAma: this.fb.control({}),
+          patientDischargedTo: this.fb.control({})
+        }),
+        patientMedicalConditions: this.fb.group({
+          cardiacBoolean: this.fb.control({}),
+          sepsisBoolean: this.fb.control({}),
+          pulmonaryBoolean: this.fb.control({}),
+          primaryDiagnosis: this.fb.control({}),
+          dischargedCondition: this.fb.control({})
+        }),
+        patientQuestionAnswers: this.fb.group({
+          // These are dynamically set thru fn. setPatientQuestionAnswers()
+        }),
+        patientUrgencyRating: this.fb.control({}),
+        patientNeedToKnow: this.fb.control({})
+      })
     });
+  }
+  setPatientQuestionAnswers() {
+    this.app;
   }
   updateResponsibleParty() {
     /**

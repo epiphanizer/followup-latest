@@ -21,6 +21,7 @@ export class ShellComponent {
     private authenticationService: AuthenticationService
   ) {
     console.log(this.route.snapshot);
+    debugger;
     if (this.route.snapshot.data.navLinks) {
       this.navLinks = this.route.snapshot.data.navLinks;
     }

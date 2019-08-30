@@ -41,6 +41,12 @@ const routes: Routes = [
       },
       data: {
         editMode: true,
+        navLinks: [
+          {
+            action: '/test',
+            name: 'start'
+          }
+        ],
         title: extract('Edit Patient')
       }
     }
