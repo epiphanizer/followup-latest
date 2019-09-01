@@ -3,6 +3,7 @@ ion-row {
   height: 100%;
 }
 ion-item {
+  --padding-start: 0;
   :host(.item-interactive),
   :host(.item-lines-full) {
     --border-width: 0 0 1px 0;
