@@ -32,7 +32,7 @@ export class ShellComponent {
     const modal = await this.modalController.create({
       component: NotificationModalComponent,
       componentProps: {
-        notificationTypeId: '1',
+        notificationTypeId: 1,
         notificationTypeLabel: 'Label'
       }
     });
