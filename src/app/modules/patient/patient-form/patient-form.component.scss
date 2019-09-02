@@ -42,8 +42,10 @@ form {
       cursor: not-allowed;
     }
   }
-  > fieldset {
+  fieldset {
     border: none;
+  }
+  > fieldset {
     padding: 0;
     margin-left: -25px;
   }

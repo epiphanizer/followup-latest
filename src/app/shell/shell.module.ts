@@ -8,6 +8,7 @@ import { ToolbarProfileNavModule } from './toolbar-profile-nav.module';
 import { UserCorkBoardModule } from './user-cork-board.module';
 import { ShellComponent } from './shell.component';
 import { ToolbarNavComponent } from './toolbar-nav/toolbar-nav.component';
+import { NotificationModalModule } from './notification-modal/notification-modal.module';
 
 @NgModule({
   imports: [
