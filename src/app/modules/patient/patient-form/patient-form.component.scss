@@ -59,12 +59,8 @@ form {
   }
 
   ion-item {
-    padding-left: 11.8px;
-
-    &.patient-medical-record-number {
-      width: 143px;
-      padding-left: 10px;
-    }
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
 
     &.patient-first-name,
     &.patient-middle-name,
@@ -84,8 +80,15 @@ form {
       width: 180px;
     }
 
+    &.patient-medical-record-number {
+      width: 143px;
+      padding-left: 10px;
+      display: inline-block;
+    }
+
     &.patient-dob {
-      margin-right: 8px;
+      display: inline-block;
+      margin-left: 16px;
 
       span {
         margin-left: 8px;
