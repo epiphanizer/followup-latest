@@ -66,6 +66,8 @@ form {
   }
 
   ion-item {
+    --inner-padding-left: 0;
+    --inner-padding-right: 0;
     padding-left: 11.8px;
 
     &.first-name,
@@ -79,7 +81,7 @@ form {
     }
 
     &.middle-name {
-      width: 180px;
+      width: 160px;
     }
 
     &.last-name {
@@ -138,8 +140,8 @@ form {
   ion-input {
     height: 39px;
     width: 100%;
+    --padding-start: 12px;
     margin-top: 14px;
-    margin-bottom: 29px;
   }
 
   ion-label {
@@ -149,6 +151,7 @@ form {
     font-style: normal;
     font-stretch: normal;
     letter-spacing: 0.42px;
+    min-width: min-content;
     text-align: left;
   }
 
