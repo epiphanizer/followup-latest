@@ -15,7 +15,7 @@
           <i class="icon-new-facility"></i>
           <ion-item>
             <ion-select placeholder="Select Facility" class="select-facility" formControlName="operation">
-              <ion-select-option *ngFor="let operation of user.operations" value="operation.operationId">
+              <ion-select-option *ngFor="let operation of user.operations" [value]="operation.operationId">
                 {{ operation.operationName }}
               </ion-select-option>
             </ion-select>
