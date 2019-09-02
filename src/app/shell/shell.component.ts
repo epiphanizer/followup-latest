@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { AuthenticationService } from '@app/core';
 import { ModalController } from '@ionic/angular';
-import { NotificationModalComponent } from './modal/modal.component';
+import { NotificationModalComponent } from './notification-modal/notification-modal.component';
 
 @Component({
   selector: 'app-shell',

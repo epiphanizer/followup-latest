@@ -15,6 +15,7 @@ import { NotificationModalModule } from './notification-modal/notification-modal
     CommonModule,
     TranslateModule,
     IonicModule,
+    NotificationModalModule,
     RouterModule,
     ToolbarLogoModule,
     ToolbarProfileNavModule,
