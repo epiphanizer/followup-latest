@@ -23,7 +23,6 @@ export class ShellComponent {
     private authenticationService: AuthenticationService,
     public modalController: ModalController
   ) {
-    this.createNotificationModal();
     if (this.route.snapshot.data.navLinks) {
       this.navLinks = this.route.snapshot.data.navLinks;
     }

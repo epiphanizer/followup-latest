@@ -27,6 +27,10 @@
             <ion-label color="medium" position="stacked">Patient #</ion-label>
             <ion-input type="text" formControlName="patientMedicalRecordNumber"></ion-input>
           </ion-item>
+          <ion-item class="patient-dob">
+            <ion-label color="medium" position="stacked">Date of Birth</ion-label>
+            <ion-datetime type="date" formControlName="patientDob"></ion-datetime>
+          </ion-item>
           <ion-list lines="none" inset formGroupName="patientName">
             <ion-item class="patient-first-name">
               <ion-label color="medium" position="stacked">First Name</ion-label>
@@ -42,10 +46,6 @@
             </ion-item>
           </ion-list>
 
-          <ion-item class="patient-dob">
-            <ion-label color="medium" position="stacked">Date of Birth</ion-label>
-            <ion-datetime type="date" formControlName="patientDob"></ion-datetime>
-          </ion-item>
           <!-- This should come from a loop -->
           <fieldset class="patient-contacts" formGroupName="patientContacts">
             <div class="section-header contacts">

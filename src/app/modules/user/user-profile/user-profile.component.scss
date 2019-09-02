@@ -21,7 +21,6 @@ ion-content {
     cursor: pointer;
   }
 }
-
 ion-title {
   font-family: AvenirNextLTPro;
   font-size: 38px;
@@ -216,10 +215,6 @@ form {
 
   i.icon-info {
     background-image: url("/assets/icon-info@2x.png");
-  }
-
-  .native-textarea.sc-ion-textarea-md {
-    height: 100%;
   }
 
   ion-textarea {

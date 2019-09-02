@@ -61,6 +61,8 @@ form {
   }
 
   ion-item {
+    --padding-start: 0;
+    --padding-end: 0;
     --inner-padding-start: 0;
     --inner-padding-end: 0;
 
@@ -68,18 +70,19 @@ form {
     &.patient-middle-name,
     &.patient-last-name {
       display: inline-block;
+      margin-right: 5px;
     }
 
     &.patient-first-name {
-      width: 180px;
+      width: 135px;
     }
 
     &.patient-middle-name {
-      width: 160px;
+      width: 110px;
     }
 
     &.patient-last-name {
-      width: 180px;
+      width: 135px;
     }
 
     &.patient-medical-record-number {
@@ -116,8 +119,9 @@ form {
   }
 
   .select-facility {
-    min-width: 100%;
+    min-width: calc(100% - 11px);
     height: 39px;
+    margin-left: 11px;
   }
 
   i {
@@ -197,7 +201,7 @@ form {
     border: none;
     .section-header {
       span {
-        margin-left: 25px;
+        margin-left: 0px;
         &.contact-header {
           margin-left: 10px;
         }
@@ -244,11 +248,11 @@ form {
         }
 
         &.area-code {
-          width: 150px;
+          width: 120px;
         }
 
         &.phone-number {
-          width: 257px;
+          width: 190px;
         }
 
         &.responsible-party {
