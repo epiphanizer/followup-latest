@@ -1,18 +1,39 @@
-<ion-list>
+<ion-list class="inline-discharge" lines="none" inset>
   <i class="icon-facility"></i>
-  <ion-item>{{ patient.patientAdmissionDate }}</ion-item>
-  <ion-item>{{ patient.patientDischargeDate }}</ion-item>
-  <ion-item>{{ patient.patientTotalDays }}</ion-item>
-  <ion-item>{{ patient.patientDischargedAma }}</ion-item>
-
+  <ion-item>
+    <span class="label">
+      Admitted: &nbsp;
+    </span>
+    {{ patient.patientAdmitDate | date: 'MM/dd/yyyy' }}
+  </ion-item>
+  <ion-item>
+    <span class="label">
+      Discharged: &nbsp;
+    </span>
+    {{ patient.patientDischargeDate | date: 'MM/dd/yyyy' }}
+  </ion-item>
+  <ion-item>
+    <span class="label">
+      Total:
+    </span>
+    {{ patient.patientTotalDays }}
+  </ion-item>
+  <ion-item>
+    <span class="label">
+      AMA:
+    </span>
+    {{ patient.patientDischargedAma }}
+  </ion-item>
+</ion-list>
+<ion-list class="more-info" inset lines="none">
   <i class="icon-diagnosis"></i>
   <ion-item>
-    <span class=""> Primary Diagnosis: {{ patient.patientPrimaryDiagnosis }} </span>
+    <span class="label"> Primary Diagnosis: {{ patient.patientPrimaryDiagnosis }} </span>
   </ion-item>
   <ion-item>
-    <span class=""> Discharged Condition: {{ patient.patientDischargedConditions }} </span>
+    <span class="label"> Discharged Condition: {{ patient.patientDischargedConditions }} </span>
   </ion-item>
   <ion-item>
-    <span class=""> Discharged To: {{ patient.patientDischargeLocationLabel }} </span>
+    <span class="label"> Discharged To: {{ patient.patientDischargeLocationLabel }} </span>
   </ion-item>
 </ion-list>
