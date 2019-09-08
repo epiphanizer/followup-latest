@@ -44,7 +44,6 @@ export class PatientFormComponent implements OnInit {
       this.patient$ = this.patientService.addNewPatient().pipe(
         map((data: Patient) => {
           this.patient = data;
-          debugger;
           this.createForm();
           return data;
         })
@@ -59,9 +58,7 @@ export class PatientFormComponent implements OnInit {
     let formSubmission = this.addPatientForm.getRawValue();
     let payload = this.formSubmissionFactory(formSubmission);
     console.log(payload);
-    debugger;
     this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
-      debugger;
       console.log(value);
       return (this.status.submitted = true);
     });
@@ -138,7 +135,8 @@ export class PatientFormComponent implements OnInit {
             patientResponsiblePartyBoolean: this.fb.control({})
           }),
           alternatePatientContact2: this.fb.group({
-            patientContactName: this.fb.control({}),
+            patientContactFirstName: this.fb.control({}),
+            patientContactLastName: this.fb.control({}),
             patientContactRelationship: this.fb.control({}),
             patientContactCountryCodeNumber: this.fb.control({ disabled: true }),
             patientContactAreaCodeNumber: this.fb.control({}),
@@ -152,8 +150,8 @@ export class PatientFormComponent implements OnInit {
         physicianInfo: this.fb.group({
           physicianFirstName: this.fb.control({}),
           physicianLastName: this.fb.control({}),
-          physicianContactCountryCodeNumber: this.fb.control({ disabled: true }),
-          physicianContactAreaCodeNumber: this.fb.control({}),
+          physicianCountryCodeNumber: this.fb.control({ disabled: true }),
+          physicianAreaCodeNumber: this.fb.control({}),
           physicianPhoneNumber: this.fb.control({})
         }),
         insurance: this.fb.group({

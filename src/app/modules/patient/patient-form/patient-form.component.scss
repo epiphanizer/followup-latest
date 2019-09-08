@@ -42,8 +42,10 @@ form {
       cursor: not-allowed;
     }
   }
-  > fieldset {
+  fieldset {
     border: none;
+  }
+  > fieldset {
     padding: 0;
     margin-left: -25px;
   }
@@ -59,33 +61,39 @@ form {
   }
 
   ion-item {
-    padding-left: 11.8px;
-
-    &.patient-medical-record-number {
-      width: 143px;
-      padding-left: 10px;
-    }
+    --padding-start: 0;
+    --padding-end: 0;
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
 
     &.patient-first-name,
     &.patient-middle-name,
     &.patient-last-name {
       display: inline-block;
+      margin-right: 5px;
     }
 
     &.patient-first-name {
-      width: 180px;
+      width: 135px;
     }
 
     &.patient-middle-name {
-      width: 160px;
+      width: 110px;
     }
 
     &.patient-last-name {
-      width: 180px;
+      width: 135px;
+    }
+
+    &.patient-medical-record-number {
+      width: 143px;
+      padding-left: 10px;
+      display: inline-block;
     }
 
     &.patient-dob {
-      margin-right: 8px;
+      display: inline-block;
+      margin-left: 16px;
 
       span {
         margin-left: 8px;
@@ -111,8 +119,9 @@ form {
   }
 
   .select-facility {
-    min-width: 100%;
+    min-width: calc(100% - 11px);
     height: 39px;
+    margin-left: 11px;
   }
 
   i {
@@ -189,9 +198,10 @@ form {
   }
 
   fieldset.patient-contacts {
+    border: none;
     .section-header {
       span {
-        margin-left: 25px;
+        margin-left: 0px;
         &.contact-header {
           margin-left: 10px;
         }
@@ -238,11 +248,11 @@ form {
         }
 
         &.area-code {
-          width: 150px;
+          width: 120px;
         }
 
         &.phone-number {
-          width: 257px;
+          width: 190px;
         }
 
         &.responsible-party {
@@ -271,6 +281,7 @@ form {
   }
 
   fieldset.patient-discharge {
+    border: none;
     ion-item {
       &.discharge-admit-date,
       &.discharge-discharge-date {
@@ -381,7 +392,6 @@ form {
     height: 39px;
     width: 100%;
     margin-top: 14px;
-    margin-bottom: 29px;
   }
 
   ion-button {
@@ -437,7 +447,7 @@ form {
   }
   .insurance-info {
     ion-list {
-      margin-left: 0;
+      margin-left: 25px;
     }
     .secondary-insurance {
       margin-left: 14px;
