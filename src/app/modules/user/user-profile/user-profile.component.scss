@@ -90,11 +90,12 @@ form {
     }
 
     &.user-email {
-      width: calc(100% - 20px);
+      margin-left: 28px;
+      width: calc(100% - 31px);
     }
 
     &.user-phone-container {
-      padding-left: 0;
+      margin-left: 0;
       width: calc(100% - 20px);
     }
 
