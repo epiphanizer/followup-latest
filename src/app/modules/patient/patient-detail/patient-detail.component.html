@@ -17,8 +17,7 @@
         [patientCall]="selected.patientCall"
       ></app-patient-call-questions>
       <ng-template #noPatientCallQuestions>
-        <br />
-        <img src="/assets/faded-questions-bg@2x.png" alt="" />
+        <img class="default-faded-questions" src="/assets/faded-questions-bg@2x.png" alt="" />
       </ng-template>
       <app-patient-call-stop-button
         *ngIf="selected.patientCall"

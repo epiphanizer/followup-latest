@@ -22,6 +22,9 @@ export class PatientCallNotesComponent implements OnInit {
   ngOnInit() {
     this.createForm();
   }
+  handleCallEnd() {
+    console.log('Handling the end of call in the call notes component');
+  }
   highlightPatientCallNotes() {
     console.log('highlighting active');
   }

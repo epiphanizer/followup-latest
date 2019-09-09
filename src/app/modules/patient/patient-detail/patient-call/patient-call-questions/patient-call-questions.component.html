@@ -5,35 +5,9 @@
   <ul class="patient-call-question-list">
     <li *ngFor="let question of questions$ | async">
       <div class="call-question-body-container">
-        <div class="call-question">{{ question.patientCallQuestion }}</div>
-        <ng-container *ngIf="question.patientCallQuestion.type == 'rating'">
-          <div class="call-question-answers">
-            <ul>
-              <li class="call-question-rating">1</li>
-              <li class="call-question-rating">2</li>
-              <li class="call-question-rating">3</li>
-              <li class="call-question-rating">4</li>
-              <li class="call-question-rating">5</li>
-              <li class="call-question-rating">6</li>
-              <li class="call-question-rating">7</li>
-              <li class="call-question-rating">8</li>
-              <li class="call-question-rating">9</li>
-              <li class="call-question-rating">10</li>
-            </ul>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="question.patientCallQuestion.type == 'boolean'">
-          <ul>
-            <li class="call-question-rating">
-              Y<br />
-              <span>(Yes)</span>
-            </li>
-            <li class="call-question-rating">
-              N<br />
-              <span>(No)</span>
-            </li>
-          </ul>
-        </ng-container>
+        <div class="call-question">
+          <!-- {{ question.patientCallQuestion }} -->
+        </div>
       </div>
     </li>
   </ul>

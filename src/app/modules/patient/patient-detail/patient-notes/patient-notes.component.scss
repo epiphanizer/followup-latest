@@ -1,0 +1,33 @@
+ion-list {
+  i {
+    float: left;
+    clear: left;
+    width: 16px;
+    height: 20px;
+    margin-top: 14px;
+    background-repeat: no-repeat;
+    background-size: 95%;
+  }
+
+  i.icon-facility {
+    background-image: url("/assets/icon-new-facility@2x.png");
+  }
+
+  i.icon-diagnosis {
+    background-image: url("/assets/icon-diagnosis@2x.png");
+  }
+
+  .label {
+    font-weight: bold;
+    color: #343638;
+    font-size: 14px;
+  }
+  &.inline-discharge {
+    ion-item {
+      display: inline-block;
+    }
+  }
+  &.more-info {
+    display: block;
+  }
+}
