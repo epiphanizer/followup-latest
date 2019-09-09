@@ -1,12 +1,12 @@
 <ng-container>
   <form formGroupName="patientCallNotes">
     <ion-list lines="none" inset>
-      <ion-item class="patient-call-notes">
-        <ion-label position="stacked">
+      <ion-item class="patient-call-notes" *ngIf="patientCall; else placeholder">
+        <ion-label position="stacked" *ngIf="patientCall.patientCallStatusLabel == 'Started'">
           Notes
         </ion-label>
         <ion-textarea
-          [class]="patientCall?.patientCallStatusLabelId == 4 ? 'review' : ''"
+          [class]="patientCall?.patientCallStatusLabel == 'In Review' ? 'review' : ''"
           formControlName="patientCallNotes"
         ></ion-textarea>
       </ion-item>
@@ -18,3 +18,7 @@
     </ion-list>
   </form>
 </ng-container>
+
+<ng-template #placeholder>
+  <div class="placeholder"></div>
+</ng-template>

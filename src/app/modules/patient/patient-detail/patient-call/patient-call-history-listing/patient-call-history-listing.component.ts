@@ -12,7 +12,7 @@ export class PatientCallHistoryListingComponent implements OnInit {
   @Input() patient: Patient;
   patientCalls: PatientCall[] | [] = [];
   patientCalls$: Observable<PatientCall[]> | null = null;
-  constructor(private patientCallService: PatientCallService) {}
+  constructor() {}
 
   ngOnInit() {}
 }

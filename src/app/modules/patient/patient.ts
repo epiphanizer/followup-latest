@@ -12,13 +12,14 @@ import { Operation } from '../operation/operation.service';
 export interface Patient {
   patientId: number;
   patientOperationId?: number;
+  patientOperationName?: string;
   operation?: Operation;
   operation$: Observable<Operation>;
   patientFirstName?: string;
   patientMiddleName?: string;
   patientLastName?: string;
   patientMedicalRecordNumber?: string;
-  patientAdmissionDate?: Date;
+  patientAdmitDate?: Date;
   patientDischargeDate?: Date;
   patientTotalDays?: number;
   patientDob?: Date;

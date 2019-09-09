@@ -7,13 +7,14 @@ import { PatientCall } from '../patient/patient-detail/patient-call/patient-call
 
 export interface User {
   displayName: string;
-  userFirstName?: string;
+  userFirstName: string;
   userMiddleName?: string;
-  userLastName?: string;
+  userLastName: string;
   userPhoneCountryCode?: number;
   userPhoneAreaCode?: number;
   userPhoneNumber?: number;
   userDob?: Date;
+  userLastAccess?: Date;
   token: string;
   id: number;
   id$: Observable<number>;
@@ -34,6 +35,12 @@ export class UserService {
 
   deactivateUserByUserId(userId: number) {
     this.http.delete('user/' + userId).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  updateUserLoginTime(userId: number) {
+    this.http.post('user/' + userId + '/activity', {}).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
