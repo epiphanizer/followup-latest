@@ -21,6 +21,12 @@ ion-content {
     cursor: pointer;
   }
 }
+ion-item {
+  padding-bottom: 2px;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  margin-left: 10px;
+}
 ion-title {
   font-family: AvenirNextLTPro;
   font-size: 38px;
@@ -65,10 +71,6 @@ form {
   }
 
   ion-item {
-    --inner-padding-left: 0;
-    --inner-padding-right: 0;
-    padding-left: 11.8px;
-
     &.first-name,
     &.middle-name,
     &.last-name {
@@ -80,7 +82,7 @@ form {
     }
 
     &.middle-name {
-      width: 160px;
+      width: 140px;
     }
 
     &.last-name {
@@ -128,7 +130,6 @@ form {
 
     &.user-dessert {
       float: left;
-      margin-left: 12px;
     }
   }
 
