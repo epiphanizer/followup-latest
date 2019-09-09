@@ -16,7 +16,10 @@ ion-list {
   i.icon-diagnosis {
     background-image: url("/assets/icon-diagnosis@2x.png");
   }
-
+  .ion-item {
+    font-size: 12px;
+    font-family: Avenir;
+  }
   .label {
     font-weight: bold;
     color: #343638;
