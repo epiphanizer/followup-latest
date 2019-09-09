@@ -12,6 +12,7 @@ import { Operation } from '../operation/operation.service';
 export interface Patient {
   patientId: number;
   patientOperationId?: number;
+  patientOperationName?: string;
   operation?: Operation;
   operation$: Observable<Operation>;
   patientFirstName?: string;

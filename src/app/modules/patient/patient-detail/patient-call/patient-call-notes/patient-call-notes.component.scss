@@ -9,6 +9,12 @@ form {
     }
   }
 }
+.placeholder {
+  height: 227px;
+  margin-top: -25px;
+  background: RGBA(255, 255, 255, 0.25) 100%;
+  display: block;
+}
 
 ion-item {
   --padding-right: 0;
