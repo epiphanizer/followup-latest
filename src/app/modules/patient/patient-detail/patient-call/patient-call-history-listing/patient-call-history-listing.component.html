@@ -1,16 +1,19 @@
 <ng-container>
-  <ion-list lines="none" inset>
+  <ion-list inset>
     <ion-item *ngFor="let patientCall of patientCalls$ | async; let i = index">
       <div class="call-headline-container {{ i == 0 ? 'active' : '' }} ">
-        <i class="phone-icon"></i>
-        <span class="call-number-headline">Call {{ patientCall.number }}</span>
+        <i class="icon-phone-icon"></i>
+        <span class="call-number-headline">Call {{ i }}</span>
       </div>
       <div class="call-question-container">
-        <ion-list>
-          <ion-item *ngFor="let question of patientQuestions"></ion-item>
+        <ion-list *ngFor="let patientQuestion of patientQuestions" lines="none" inset>
+          <ion-item>
+            {{ patientQuestion.patientQuestion }}
+          </ion-item>
         </ion-list>
       </div>
       <div class="custom-call-question-container"></div>
+      <hr class="call-history-divider" />
     </ion-item>
   </ion-list>
 </ng-container>

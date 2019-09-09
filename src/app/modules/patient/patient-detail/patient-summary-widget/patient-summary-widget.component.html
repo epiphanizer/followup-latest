@@ -11,8 +11,8 @@
     <ion-col>
       <div class="patient-info">
         <div class="patient-meta-info">
-          <span class="patient-operation-name" *ngIf="patient.operation$ | async as patient">
-            {{ patient.operation }}
+          <span class="patient-operation-name">
+            {{ patient.operationName }}
           </span>
           <span class="patient-medical-record-number"> #{{ patient.patientMedicalRecordNumber }} </span>
         </div>
@@ -25,19 +25,19 @@
         <div class="patient-age">Age: {{ currentYear - (patient.patientDob | slice: 0:4) }}</div>
         <div class="patient-contact-container">
           <ul class="patient-contact-list">
-            <li>
+            <li *ngIf="patient.primaryContactPhoneNumber">
               <span class="patient-contact-number">{{ patient.primaryContactPhoneNumber }}</span>
               <span class="patient-contact-number-type">
-                <!-- Check if it's a home number, otherwise we need new design -->
+                <!-- Check if it's a home number -->
                 <ng-container *ngIf="patient.primaryContactPhoneTypeId == 1; else contactType">
                   <i class="icon-hippa"></i> Home
                 </ng-container>
                 <ng-template #contactType>
-                  <!-- Unspecified Phone Type -->
+                  Other
                 </ng-template>
               </span>
               <br />
-              <a [routerLink]="'/patient/edit/' + patient.patientId">[Alt Numbers]</a>
+              <a [routerLink]="'/patient/edit/' + patient.patientId + '#contacts'">[Alt Numbers]</a>
             </li>
           </ul>
         </div>

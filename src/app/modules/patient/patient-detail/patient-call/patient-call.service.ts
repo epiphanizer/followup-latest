@@ -49,16 +49,12 @@ export class PatientCallService {
   };
 
   getPatientCallsByPatientId = function(patientId: number) {
-    return this.http.post('patients/' + patientId + '/calls').pipe(
+    return this.http.get('patients/' + patientId + '/calls').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
-  /**
-   * This hook is a bit misleading, it's actually the termination call in the frontend,
-   * but for our purposes, we are really just "putting" to edit the call termination time.
-   */
   public endPatientCall(patientCallId: number) {
     return this.http.put('patients/calls/' + patientCallId, {}).pipe(
       retry(3), // retry a failed request up to 3 times

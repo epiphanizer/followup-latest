@@ -2,14 +2,15 @@
   position: absolute;
   z-index: 4;
   margin-top: 105px;
-  margin-left: 115px;
+  margin-left: 25px;
   ion-button {
+    border: none;
     background-image: url("/assets/patient-call-start-button@2x.png");
     background-size: 100%;
     background-position: center center;
     background-repeat: no-repeat;
-    width: 253px;
-    height: 39px;
-    border-width: 0 !important;
+    width: 190px;
+    height: 40px;
+    border: none;
   }
 }
