@@ -19,7 +19,7 @@ export interface Patient {
   patientMiddleName?: string;
   patientLastName?: string;
   patientMedicalRecordNumber?: string;
-  patientAdmissionDate?: Date;
+  patientAdmitDate?: Date;
   patientDischargeDate?: Date;
   patientTotalDays?: number;
   patientDob?: Date;
