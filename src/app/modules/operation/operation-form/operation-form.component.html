@@ -3,52 +3,67 @@
     <app-operation-admin-sidebar></app-operation-admin-sidebar>
   </ion-col>
   <ion-col class="operation-content">
-    <ion-title>New Facility</ion-title>
+    <ion-title *ngIf="!editMode; else editOperation">New Facility</ion-title>
+    <ng-template #editOperation>
+      <ion-title>
+        Edit Facility
+      </ion-title>
+    </ng-template>
     <form id="operation-form" (ngSubmit)="editOperationFormSubmit()" [formGroup]="editOperationForm" novalidate>
-      <ion-list formGroupName="patient">
+      <ion-list formGroupName="operation" lines="none" inset>
         <i class="icon-facility"></i>
         <ion-item>
           <ion-label position="stacked">Facility</ion-label>
           <ion-input type="text" formControlName="operation"></ion-input>
         </ion-item>
-        <ion-list lines="none" formGroupName="operationAddress">
-          <ion-item class="address">
-            <ion-label color="medium" position="stacked">Address</ion-label>
-            <ion-input type="text" formControlName="operationAddress"></ion-input>
-          </ion-item>
-          <ion-item class="city">
-            <ion-label color="medium" position="stacked">City</ion-label>
-            <ion-input type="text" formControlName="operationCity"></ion-input>
-          </ion-item>
-          <ion-item class="state">
-            <ion-label color="medium" position="stacked">State</ion-label>
-            <ion-input type="text" formControlName="operationState"></ion-input>
-          </ion-item>
-          <ion-item class="zip">
-            <ion-label color="medium" position="stacked">Zip</ion-label>
-            <ion-input type="text" formControlName="operationZip"></ion-input>
-          </ion-item>
-          <ion-item class="phoneNumber">
-            <ion-label color="medium" position="stacked">Phone #</ion-label>
-            <ion-input type="text" formControlName="operationPhoneNumber"></ion-input>
-          </ion-item>
-        </ion-list>
+        <ion-item class="address">
+          <ion-label color="medium" position="stacked">Address</ion-label>
+          <ion-input type="text" formControlName="operationAddress"></ion-input>
+        </ion-item>
+        <ion-item class="city">
+          <ion-label color="medium" position="stacked">City</ion-label>
+          <ion-input type="text" formControlName="operationCity"></ion-input>
+        </ion-item>
+        <ion-item class="state">
+          <ion-label color="medium" position="stacked">State</ion-label>
+          <ion-input type="text" formControlName="operationState"></ion-input>
+        </ion-item>
+        <ion-item class="zip">
+          <ion-label color="medium" position="stacked">Zip</ion-label>
+          <ion-input type="text" formControlName="operationZip"></ion-input>
+        </ion-item>
+        <ion-item class="phoneNumber">
+          <ion-label color="medium" position="stacked">Phone #</ion-label>
+          <ion-input type="text" formControlName="operationPhoneNumber"></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <fieldset class="operation-contacts">
         <div class="section-header">
           <i class="icon-contacts"></i>
           Contacts
+          <ion-item *ngFor="operationContact; of: operation.operationContacts">
+            <app-operation-contact [operationContact]="operationContact"> </app-operation-contact>
+          </ion-item>
         </div>
-        <div class="section-header">
-          <i class="icon-contacts"></i>
-          Care Providers
-        </div>
-      </ion-list>
-      <i class="icon-team"></i> <ion-title>Team Members</ion-title>
-      <ion-list>
-        <ion-item>Assigned Manager</ion-item>
-        <ion-item>Care Rep 1</ion-item>
-        <ion-item>Care Rep 2</ion-item>
-        <ion-item>Care Rep 3</ion-item>
-      </ion-list>
+      </fieldset>
+      <fieldset class="operation-team-members">
+        <i class="icon-team-members"></i>
+        <ion-title>Team Members</ion-title>
+        <ion-list lines="none" inset>
+          <ion-item>
+            <ion-label position="stacked">
+              Assigned Manager
+            </ion-label>
+            <ion-select class="operation-assigned-manager" value="operation.operationAssignedManager"> </ion-select>
+          </ion-item>
+
+          <!-- <ion-item *ngFor="(let operationCallRep of operationCallReps? |)">
+            {{ operationCallRep.operationCallRepName }}
+          </ion-item> -->
+        </ion-list>
+      </fieldset>
+      <ion-button (click)="onFormSubmit()">Save</ion-button>
     </form>
   </ion-col>
   <ion-col class="right-admin-col">

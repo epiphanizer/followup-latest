@@ -36,9 +36,7 @@
         </a>
       </span>
       <!-- This expression gives us the age back. -->
-      <span class="patient label-line">
-        {{ currentYear - (patient.patientDob | slice: 0:4) }}, {{ operation?.operationName }}
-      </span>
+      <span class="patient label-line"> {{ patient.patientAge }}, {{ operation?.operationName }} </span>
     </div>
     <div class="call-queue-call-status-legend">
       <ul>

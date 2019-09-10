@@ -4,9 +4,11 @@ import { Observable, from, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { OperationService, Operation } from '../operation.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { OperationCallrepsService } from '../operation-callreps.service';
+import { OperationContactsService } from '../operation-contacts.service';
 
 @Component({
-  providers: [OperationService],
+  providers: [OperationService, OperationContactsService, OperationCallrepsService],
   selector: 'app-operation-form',
   templateUrl: './operation-form.component.html',
   styleUrls: ['./operation-form.component.scss']
@@ -19,9 +21,20 @@ export class OperationFormComponent implements OnInit {
     this.createForm();
   }
   private createForm() {
-    this.editOperationForm = this.fb.group({});
+    this.editOperationForm = this.fb.group({
+      operation: this.fb.group({
+        operationName: this.fb.control({}),
+        operationAddress: this.fb.control({}),
+        operationCity: this.fb.control({}),
+        operationState: this.fb.control({}),
+        operationZip: this.fb.control({}),
+        operationCountryCode: this.fb.control({}),
+        operationAreaCode: this.fb.control({}),
+        operationPhoneNumber: this.fb.control({})
+      })
+    });
   }
-  editOperationFormSubmit() {
-    alert('submitted edit operation form');
+  onFormSubmit() {
+    // this.op
   }
 }

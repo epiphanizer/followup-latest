@@ -22,7 +22,7 @@
             {{ patient.patientLastName }}
           </h2>
         </div>
-        <div class="patient-age">Age: {{ currentYear - (patient.patientDob | slice: 0:4) }}</div>
+        <div class="patient-age">Age: {{ patient.patientAge }}</div>
         <div class="patient-contact-container">
           <ul class="patient-contact-list">
             <li *ngIf="patient.primaryContactPhoneNumber">
