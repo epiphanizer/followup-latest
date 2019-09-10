@@ -1,7 +1,16 @@
 <ng-container>
-  <ion-list>
+  <ion-list lines="none">
     <ion-item *ngFor="let link of navLinks">
-      <a routerLink="link.linkAction">{{ link.linkName }}</a>
+      <ng-container *ngIf="link.linkType == 'link'; else linkButton">
+        <a routerLink="link.linkAction">
+          {{ link.linkName }}
+        </a>
+      </ng-container>
+      <ng-template #linkButton>
+        <ion-button (click)="doButtonAction(link.linkAction)">
+          {{ link.linkName }}
+        </ion-button>
+      </ng-template>
     </ion-item>
   </ion-list>
 </ng-container>

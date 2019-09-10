@@ -13,7 +13,12 @@ const routes: Routes = [
       path: 'call-queue',
       component: CallQueueComponent,
       data: {
-        title: extract('Call Queue')
+        title: extract('Call Queue'),
+        navLinks: [
+          { linkAction: 'kudos', linkName: 'Call Queue', linkType: 'link' },
+          { linkAction: 'kudos', linkName: 'KUDOS', linkType: 'button' },
+          { linkAction: 'kudos', linkName: 'REPORT!', linkType: 'button' }
+        ]
       },
       resolve: {
         user: UserResolver

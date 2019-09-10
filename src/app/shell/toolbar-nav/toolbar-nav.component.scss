@@ -1,10 +1,14 @@
 ion-list {
   list-style-type: none;
   float: right;
-  margin-top: 67px;
+  margin-top: 30px;
+  margin-right: 61px;
   ion-item {
+    background: transparent;
+    display: inline-block;
+    box-shadow: none;
     a {
-      font-family: AvenirNextLTPro-Demi;
+      font-family: AvenirBold;
       font-size: 16px;
       font-weight: normal;
       font-style: normal;
@@ -12,7 +16,18 @@ ion-list {
       line-height: 0.81;
       letter-spacing: 0.64px;
       text-align: right;
-      color: var(--azure);
+      color: var(--ion-color-primary);
+      text-decoration: none;
+    }
+    ion-button {
+      width: 90px;
+      height: 28px;
+      margin-left: 10px;
+
+      &.kudos {
+      }
+      &.report {
+      }
     }
   }
 }

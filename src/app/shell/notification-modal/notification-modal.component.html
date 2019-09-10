@@ -1,1 +1,21 @@
-test
+<form>
+  <ng-container *ngIf="notification.saved; else sendNotification">
+    <ion-title>Notification</ion-title>
+    <ion-list class="notification-options" lines="none">
+      <ion-item *ngFor="let notificationType of notificationTypes">
+        <ion-checkbox value="notificationType.notificationTypeLabelId"></ion-checkbox>
+        <ion-label>{{ notificationType.notificationTypeLabelId }}</ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-textarea></ion-textarea>
+    <ion-button class="save-button" (click)="(saveNotification)">Save</ion-button>
+  </ng-container>
+  <ng-template #sendNotification>
+    <ion-row>
+      <ion-title class="ion-float-left">Notification</ion-title>
+      <span class="ion-float-right warning">
+        {{ notification.notificationTypeLabel }}
+      </span>
+    </ion-row>
+  </ng-template>
+</form>

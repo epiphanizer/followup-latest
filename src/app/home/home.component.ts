@@ -28,7 +28,12 @@ export class HomeComponent implements OnInit {
     switch (userLevel) {
       case 1:
         this.menu = [
-          { name: 'Facilities', action: 'admin/facilities', image: '/assets/icon-facilities@2x.png', enabled: true },
+          {
+            name: 'Facilities',
+            action: 'admin/facilities',
+            image: '/assets/icon-facilities@2x.png',
+            enabled: true
+          },
           {
             name: 'Notifications',
             action: '/notifications',
