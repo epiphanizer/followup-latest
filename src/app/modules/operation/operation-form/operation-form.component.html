@@ -52,15 +52,18 @@
         <ion-title>Team Members</ion-title>
         <ion-list lines="none" inset>
           <ion-item>
-            <ion-label position="stacked">
+            <ion-label position="stacked" color="medium">
               Assigned Manager
             </ion-label>
             <ion-select class="operation-assigned-manager" value="operation.operationAssignedManager"> </ion-select>
           </ion-item>
 
-          <!-- <ion-item *ngFor="(let operationCallRep of operationCallReps? |)">
-            {{ operationCallRep.operationCallRepName }}
-          </ion-item> -->
+          <ion-item *ngFor="(let operationCallRep of operationCallReps? | let index = (index + 1))">
+            <ion-label position="stacked" color="medium">Care Rep {{ index }} </ion-label>
+            <ion-select>
+              {{ operationCallRep.operationCallRepName }}
+            </ion-select>
+          </ion-item>
         </ion-list>
       </fieldset>
       <ion-button (click)="onFormSubmit()">Save</ion-button>
