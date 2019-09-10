@@ -18,6 +18,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   selectedMonth: {
     number: string;
     name: string;
+    daysArray?: number[];
     numberOfDays?: number;
   };
   selectedYear: {
@@ -86,6 +87,8 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     // Subtract one because of the 0 index of the array
     this.selectedMonth = this.currentMonth = this.months[parseInt(this.todaysMonth) - 1];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
+    this.selectedMonth.daysArray = new Array(this.selectedMonth.numberOfDays);
+    console.log(this.selectedMonth.daysArray);
   }
 
   daysInMonth(month: number, year: number) {
@@ -98,6 +101,5 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   calendarNextMonth() {
     this.currentMonth = this.months[parseInt(this.currentMonth.number)];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentMonth.number), this.todaysYear);
-    console.log(this.selectedMonth.numberOfDays);
   }
 }
