@@ -37,7 +37,18 @@ export class CallQueuePatientListingComponent implements OnInit {
       );
     }
   }
+
+  public sortPatientsByAdmitDate = function(sortFlag: string) {
+    if (sortFlag == 'asc') {
+      this.patients.sort((a: Patient, b: Patient) => {
+        return <any>new Date(a.patientAdmitDate) - <any>new Date(b.patientAdmitDate);
+      });
+    } else {
+      this.patients.sort((a: Patient, b: Patient) => {
+        return <any>new Date(a.patientAdmitDate) + <any>new Date(b.patientAdmitDate);
+      });
+    }
+  };
   public sortPatientsByCallDate = function() {};
-  public sortPatientsByDischargeDate = function() {};
   public toggleAscDesc = function() {};
 }

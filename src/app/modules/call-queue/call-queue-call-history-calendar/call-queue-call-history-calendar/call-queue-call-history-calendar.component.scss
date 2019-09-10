@@ -60,95 +60,10 @@ h3 {
   height: 225px;
   margin-top: -40px;
 }
-
-/*
-  Creating custom styles
-*/
-.custom-month {
-  font-family: Arial, Helvetica, sans-serif;
-  border: none;
-
-  &__week-caption,
-  &__caption {
-    border: none;
+.calendar-month {
+  ion-item {
+    display: inline-block;
+    height: 19px;
+    width: 19px;
   }
-
-  &__day {
-    border: none;
-    padding: 5px;
-
-    &--default {
-      text-align: right;
-    }
-
-    &--today {
-      background: red;
-    }
-
-    &--selected {
-      background: blue;
-      color: white;
-    }
-  }
-}
-
-// sc-month-calendar {
-//   max-height: 250px;
-//   overflow: hidden;
-//   .row {
-//     text-align: center;
-//     padding-bottom: 5px;
-//   }
-// }
-
-// .sc-month {
-//   font-family: Arial, Helvetica, sans-serif;
-//   border: none;
-//   height: 175px !important;
-//   text-align: center;
-
-//   &__week-caption,
-//   &__caption {
-//     border: none;
-//     display: none;
-//   }
-
-//   &__day {
-//     width: 37px;
-//     height: 35px;
-//     border: none;
-//     padding: 5px;
-//     text-align: center;
-
-//     &--default {
-//       text-align: center;
-//       background: red;
-//     }
-
-//     &--today {
-//       background: #8e8e93;
-//     }
-//     &--selected {
-//       background: blue;
-//     }
-
-//   }
-// }
-
-.custom-month__caption {
-  display: none;
-}
-// Customizations to library
-
-.custom-month__day {
-  display: none;
-}
-
-.sc-month__day {
-  width: 37px;
-  height: 35px;
-  background: rgba(142, 142, 147, 0.12);
-}
-.sc-month__caption {
-  display: none;
 }
