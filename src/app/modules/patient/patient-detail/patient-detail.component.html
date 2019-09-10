@@ -24,8 +24,10 @@
         (patientCallEndEventEmitter)="patientCallEndEventHandler($event)"
       >
       </app-patient-call-stop-button>
-      <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
-      <app-patient-next-call-questions> </app-patient-next-call-questions>
+      <ng-container *ngIf="selected.patientCall.patientCallStatusLabel == 'In Review'">
+        <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
+        <app-patient-next-call-questions> </app-patient-next-call-questions>
+      </ng-container>
     </ion-col>
     <ion-col class="right-hand-detail">
       <ng-container>
