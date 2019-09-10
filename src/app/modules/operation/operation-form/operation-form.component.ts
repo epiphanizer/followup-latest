@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, Injectable } from '@angular/core';
+import { Component, OnInit, Renderer2, Injectable, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, from, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -15,6 +15,7 @@ import { OperationContactsService } from '../operation-contacts.service';
 })
 @Injectable()
 export class OperationFormComponent implements OnInit {
+  @Input() operation: Operation;
   editMode: boolean;
   editOperationForm!: FormGroup;
 

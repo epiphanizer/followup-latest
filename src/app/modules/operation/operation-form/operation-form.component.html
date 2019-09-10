@@ -9,7 +9,7 @@
         Edit Facility
       </ion-title>
     </ng-template>
-    <form id="operation-form" (ngSubmit)="editOperationFormSubmit()" [formGroup]="editOperationForm" novalidate>
+    <form id="operation-form" [formGroup]="editOperationForm" novalidate>
       <ion-list formGroupName="operation" lines="none" inset>
         <i class="icon-facility"></i>
         <ion-item>
@@ -42,7 +42,7 @@
         <div class="section-header">
           <i class="icon-contacts"></i>
           Contacts
-          <ion-item *ngFor="let operationContact of operation.operationContacts">
+          <ion-item *ngFor="let operationContact of operation.operationContacts$">
             <app-operation-contact [operationContact]="operationContact"> </app-operation-contact>
           </ion-item>
         </div>

@@ -1,6 +1,8 @@
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { OperationContactsService } from './operation-contacts.service';
+import { OperationContact } from './operation-contact/operation-contact';
 
 export interface Operation {
   operationId: number;
@@ -9,6 +11,7 @@ export interface Operation {
   operationCity: string;
   operationState: string;
   operationZip: string;
+  operationContacts$: Observable<OperationContact>;
   /**
    * Some counters that don't always
    * attach to the object,

@@ -10,7 +10,10 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   months: {}[];
   todaysDate: Date;
   todaysMonth: string;
-  currentMonth: {};
+  currentMonth: {
+    number: number;
+    name: string;
+  };
 
   constructor() {}
 
