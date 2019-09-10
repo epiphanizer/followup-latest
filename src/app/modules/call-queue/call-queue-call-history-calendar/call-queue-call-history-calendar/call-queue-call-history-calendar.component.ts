@@ -7,11 +7,14 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./call-queue-call-history-calendar.component.scss']
 })
 export class CallQueueCallHistoryCalendarComponent implements OnInit {
-  months: {}[];
+  months: {
+    number: string;
+    name: string;
+  }[];
   todaysDate: Date;
   todaysMonth: string;
   currentMonth: {
-    number: number;
+    number: string;
     name: string;
   };
 
@@ -19,8 +22,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
 
   ngOnInit() {
     this.todaysDate = new Date();
-    this.todaysMonth = ('0' + (this.todaysDate.getMonth() + 1)).substring(6, 8);
-    alert(this.todaysMonth);
+    this.todaysMonth = ('0' + (this.todaysDate.getMonth() + 1)).substring(0, 2);
     this.months = [
       {
         number: '01',
@@ -71,6 +73,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
         name: 'December'
       }
     ];
-    this.currentMonth = this.months[this.todaysMonth];
+    // Subtract one because of the 0 index of the array
+    this.currentMonth = this.months[parseInt(this.todaysMonth) - 1];
   }
 }
