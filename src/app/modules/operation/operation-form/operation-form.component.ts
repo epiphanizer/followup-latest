@@ -6,6 +6,7 @@ import { OperationService, Operation } from '../operation.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { OperationCallRepsService, OperationCallRep } from '../operation-callreps.service';
 import { OperationContactsService } from '../operation-contacts.service';
+import { User, UserService } from '@app/modules/user/user.service';
 
 @Component({
   providers: [OperationService, OperationContactsService, OperationCallRepsService],
@@ -15,6 +16,7 @@ import { OperationContactsService } from '../operation-contacts.service';
 })
 @Injectable()
 export class OperationFormComponent implements OnInit {
+  availableUsers$: Observable<User[]>;
   operation: Operation;
   editMode: boolean;
   editOperationForm!: FormGroup;
@@ -25,7 +27,8 @@ export class OperationFormComponent implements OnInit {
     private fb: FormBuilder,
     private operationService: OperationService,
     private operationCallRepsService: OperationCallRepsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService
   ) {}
   ngOnInit() {
     this.createForm();
@@ -48,6 +51,7 @@ export class OperationFormComponent implements OnInit {
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
       this.createForm();
     }
+    this.availableUsers$ = this.userService.getAllUsers();
   }
   private createForm() {
     this.editOperationForm = this.fb.group({

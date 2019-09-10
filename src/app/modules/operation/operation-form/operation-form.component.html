@@ -64,9 +64,17 @@
             </ion-select>
           </ion-item>
           <ng-template #addManager>
-            <ion-label *ngIf="operation.operationAssignedManager; else addManager" position="stacked" color="medium">
+            <ion-label position="stacked" color="medium">
               Add Manager
             </ion-label>
+            <ion-select placeholder="Select User" class="select-facility">
+              <ion-select-option
+                *ngFor="let user of availableUsers$"
+                [value]="operation.operationAssignedManagerUserId"
+              >
+                {{ operation.operationName }}
+              </ion-select-option>
+            </ion-select>
           </ng-template>
         </ion-list>
       </fieldset>
