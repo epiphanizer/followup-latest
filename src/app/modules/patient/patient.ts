@@ -23,7 +23,7 @@ export interface Patient {
   patientDischargeDate?: Date;
   patientTotalDays?: number;
   patientDob?: Date;
-  age?: number | null;
+  patientAge?: number | null;
   avatar?: string;
   patientContactNumberId?: number | null;
   patientContactPhoneNumber?: number | null;
