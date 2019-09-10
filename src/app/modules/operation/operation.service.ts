@@ -12,6 +12,8 @@ export interface Operation {
   operationState: string;
   operationZip: string;
   operationContacts$: Observable<OperationContact[]>;
+  operationAssignedManagerUserId?: number;
+  operationAssignedManagerName?: string;
   operationCallReps$: Observable<OperationCallRep[]>;
   /**
    * Some counters that don't always
