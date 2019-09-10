@@ -1,3 +1,13 @@
-<p>
-  followup-complete-modal works!
-</p>
+<form>
+  <ng-container>
+    <ion-title>Follow-up Complete</ion-title>
+    <ion-list class="graduation-options" lines="none">
+      <ion-item *ngFor="let graduationType of graduationTypes">
+        <ion-checkbox value="graduationType.graduationTypeLabelId"></ion-checkbox>
+        <ion-label>{{ graduationType.graduationTypeLabel }}</ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-textarea> </ion-textarea>
+    <ion-button class="save-button" (click)="(saveNotification)">Save</ion-button>
+  </ng-container>
+</form>

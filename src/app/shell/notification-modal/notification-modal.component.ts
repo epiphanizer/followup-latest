@@ -1,6 +1,7 @@
 import { Input, Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { NotificationService } from '@app/modules/notification/notification.service';
+import { Notification, NotificationService } from '@app/modules/notification/notification.service';
+import { Patient } from '@app/modules/patient/patient';
 @Component({
   providers: [NotificationService],
   selector: 'app-notification-modal',
@@ -8,9 +9,12 @@ import { NotificationService } from '@app/modules/notification/notification.serv
   styleUrls: ['./notification-modal.component.scss']
 })
 export class NotificationModalComponent {
+  @Input() patient: Patient;
+  notification: Notification;
   notificationTypes: {};
   constructor(private modalCtrl: ModalController, private notificationService: NotificationService) {}
   saveNotification() {
+    this.notificationService.saveNotificationByPatientId(this.patient.patientId);
     this.dismiss();
   }
   dismiss() {
