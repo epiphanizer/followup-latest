@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Patient } from '../../patient';
-import { NotificationService } from '@app/modules/notification/notification.service';
 import { FollowupCompleteModalComponent } from '../followup-complete-modal/followup-complete-modal.component';
+import { PatientStatusService } from '../../patient-status.service';
 
 @Component({
   selector: 'app-followup-complete-button',
@@ -11,7 +11,7 @@ import { FollowupCompleteModalComponent } from '../followup-complete-modal/follo
 })
 export class FollowupCompleteButtonComponent implements OnInit {
   @Input() patient: Patient;
-  constructor(private modalCtrl: ModalController, private notificationService: NotificationService) {}
+  constructor(private modalCtrl: ModalController, private patientStatusService: PatientStatusService) {}
 
   ngOnInit() {}
   async createFollowupCompleteModal(buttonAction: string) {
