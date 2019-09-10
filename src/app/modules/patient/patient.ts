@@ -33,6 +33,7 @@ export interface Patient {
   patientCalls?: PatientCall[];
   patientCalls$: Observable<PatientCall[]>;
   patientCallCount?: number;
+  patientOnFinalCall?: boolean;
   patientCurrentStatusLabel?: number;
   patientDischargedAma?: boolean;
   patientDischargedConditions?: number[];

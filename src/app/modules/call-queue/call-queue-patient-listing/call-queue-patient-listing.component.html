@@ -23,9 +23,17 @@
     class="active"
     [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
   >
-    <div class="call-queue-number">
-      {{ patient.patientCallCount }}
-    </div>
+    <ng-container *ngIf="patient.patientOnFinalCall; else patientCallCount">
+      <div class="call-queue-number">
+        <img src="/assets/icon-final-call@2x.png" />
+      </div>
+    </ng-container>
+    <ng-template #patientCallCount>
+      <div class="call-queue-number">
+        {{ patient.patientCallCount }}
+      </div>
+    </ng-template>
+
     <div class="call-queue-avatar">
       {{ patient.avatarImage }}
     </div>
