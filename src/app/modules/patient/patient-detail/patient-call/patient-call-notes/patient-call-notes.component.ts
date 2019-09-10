@@ -16,7 +16,7 @@ export class PatientCallNotesComponent implements OnInit {
   patientCallNotesForm: FormGroup;
   patientCallNotes: PatientCallNotes | null = null;
   patientCallNotes$: Observable<PatientCallNotes>;
-  highlighter: boolean;
+  highlighterActive: boolean;
   constructor(private fb: FormBuilder, patientCallNotesService: PatientCallNotesService) {}
 
   ngOnInit() {
@@ -26,7 +26,7 @@ export class PatientCallNotesComponent implements OnInit {
     console.log('Handling the end of call in the call notes component');
   }
   highlightPatientCallNotes() {
-    console.log('highlighting active');
+    this.highlighterActive = true;
   }
   private createForm() {
     this.patientCallNotesForm = this.fb.group({

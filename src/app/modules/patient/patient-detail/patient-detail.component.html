@@ -20,10 +20,14 @@
         <img class="default-faded-questions" src="/assets/faded-questions-bg@2x.png" alt="" />
       </ng-template>
       <app-patient-call-stop-button
-        *ngIf="selected.patientCall"
+        *ngIf="selected.patientCall && selected.patientCall.patientCallStatusLabel !== 'In Review'"
         (patientCallEndEventEmitter)="patientCallEndEventHandler($event)"
       >
       </app-patient-call-stop-button>
+      <ng-container *ngIf="selected.patientCall.patientCallStatusLabel == 'In Review'">
+        <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
+        <app-patient-next-call-questions> </app-patient-next-call-questions>
+      </ng-container>
     </ion-col>
     <ion-col class="right-hand-detail">
       <ng-container>
@@ -33,7 +37,6 @@
         <app-patient-call-history-controls> </app-patient-call-history-controls>
       </ng-container>
       <app-patient-call-history-listing [patient]="patient"> </app-patient-call-history-listing>
-
       <app-patient-notes [patient]="patient"> </app-patient-notes>
     </ion-col>
   </ion-row>

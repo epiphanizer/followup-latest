@@ -36,6 +36,6 @@ export interface Patient {
   patientCurrentStatusLabel?: number;
   patientDischargedAma?: boolean;
   patientDischargedConditions?: number[];
-  patientDischargeLocationLabel?: string;
+  patientDischargeLabel?: string;
   patientPrimaryDiagnosis?: string;
 }

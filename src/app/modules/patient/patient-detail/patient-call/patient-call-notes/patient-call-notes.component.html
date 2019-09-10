@@ -6,11 +6,12 @@
           Notes
         </ion-label>
         <ion-textarea
-          [class]="patientCall?.patientCallStatusLabel == 'In Review' ? 'review' : ''"
+          [class.review]="patientCall?.patientCallStatusLabel == 'In Review'"
+          [class.highlighting]="highlighterActive"
           formControlName="patientCallNotes"
         ></ion-textarea>
       </ion-item>
-      <ion-item *ngIf="patientCall?.patientCallStatusLabelId == 4" class="patient-call-note-highlight-controls">
+      <ion-item *ngIf="patientCall?.patientCallStatusLabel == 'In Review'" class="patient-call-note-highlight-controls">
         <a (click)="highlightPatientCallNotes()">
           <img src="/assets/highlight-flag@2x.png" />
         </a>

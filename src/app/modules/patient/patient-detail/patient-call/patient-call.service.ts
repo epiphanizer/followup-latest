@@ -34,7 +34,10 @@ export class PatientCallService {
   constructor(private http: HttpService) {}
   addPatientCallByUserIdAndPatientId = function(userId: number, patientId: number, patientContactNumberId: number) {
     return this.http
-      .post('patients/' + patientId + '/calls', { userId: userId, patientContactNumberId: patientContactNumberId })
+      .post('patients/' + patientId + '/calls', {
+        userId: userId,
+        patientContactNumberId: patientContactNumberId
+      })
       .pipe(
         retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error
@@ -56,10 +59,21 @@ export class PatientCallService {
   };
 
   public endPatientCall(patientCallId: number) {
-    return this.http.put('patients/calls/' + patientCallId, {}).pipe(
+    return this.http.post('patients/calls/' + patientCallId + '/end', {}).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
+  }
+
+  public finalizePatientCall(patientCallId: number, patientCallStatusLabelId: number) {
+    return this.http
+      .post('patients/calls/' + patientCallId + '/finalize', {
+        patientCallStatusLabelId: patientCallStatusLabelId
+      })
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   }
 
   private handleAsyncError(error: HttpErrorResponse) {

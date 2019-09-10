@@ -32,6 +32,9 @@ ion-item {
   }
 
   ion-textarea {
+    &.highlighting {
+      cursor: crosshair;
+    }
     display: block;
     width: 508.4px;
     min-height: 202.8px;
