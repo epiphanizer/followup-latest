@@ -16,6 +16,8 @@ export class CallQueuePatientListingComponent implements OnInit {
   @Input() operation: Operation;
   public patients: Patient[];
   public patients$: Observable<[Patient]> | void = null;
+  public selectedSortFlag: string;
+
   constructor(private patientService: PatientService) {}
   ngOnInit() {
     this.currentYear = new Date().getFullYear();
@@ -38,17 +40,23 @@ export class CallQueuePatientListingComponent implements OnInit {
     }
   }
 
-  public sortPatientsByAdmitDate = function(sortFlag: string) {
+  public sortPatientsByDischargeDate = function(sortFlag: string) {
     if (sortFlag == 'asc') {
       this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientAdmitDate) - <any>new Date(b.patientAdmitDate);
+        return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
       });
     } else {
       this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientAdmitDate) + <any>new Date(b.patientAdmitDate);
+        return <any>new Date(a.patientDischargeDate) + <any>new Date(b.patientDischargeDate);
       });
     }
   };
   public sortPatientsByCallDate = function() {};
-  public toggleAscDesc = function() {};
+  public toggleAscDesc = function() {
+    if (this.selectedSortFlag == 'asc') {
+      this.selectedSortFlag = 'desc';
+    } else {
+      this.selectedSortFlag = 'asc';
+    }
+  };
 }
