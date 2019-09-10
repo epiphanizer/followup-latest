@@ -15,7 +15,9 @@ import { OperationContactsService } from '../operation-contacts.service';
 })
 @Injectable()
 export class OperationFormComponent implements OnInit {
+  editMode: boolean;
   editOperationForm!: FormGroup;
+
   constructor(private fb: FormBuilder) {}
   ngOnInit() {
     this.createForm();
