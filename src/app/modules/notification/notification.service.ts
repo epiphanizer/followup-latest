@@ -20,12 +20,21 @@ export class NotificationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-
   saveNotificationByPatientId(patientId: number): Observable<any> {
     return this.http.post<Notification>('notifications/operations/' + patientId, {}).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
+  }
+  sendNotificationByNotificationId(notificationId: number): Observable<any> {
+    return this.http
+      .post<Notification>('notifications/' + notificationId, {
+        notificationStatusLabelId: 1
+      })
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   }
 
   private handleAsyncError(error: HttpErrorResponse) {

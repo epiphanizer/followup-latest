@@ -3,6 +3,7 @@ import { PatientService } from '../../patient.service';
 import { Patient } from '../../patient';
 import { PatientStatusService } from '../../patient-status.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { NotificationModalComponent } from '@app/shell/notification-modal/notification-modal.component';
 
 @Component({
   selector: 'app-followup-complete-modal',
@@ -26,8 +27,8 @@ export class FollowupCompleteModalComponent implements OnInit {
   }
   archivePatient() {
     var formSubmission = this.followupCompleteForm.getRawValue();
-    // var patientStatusLabelId = formSubmission.patientStatusLabelId;
+    var patientStatusLabelId = 1;
     debugger;
-    this.patientStatusService.addNewPatientStatusByPatientId(this.patient.patientId);
+    this.patientStatusService.addNewPatientStatusByPatientId(this.patient.patientId, patientStatusLabelId);
   }
 }

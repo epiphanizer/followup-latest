@@ -26,6 +26,10 @@ export class NotificationModalComponent {
     this.notificationService.saveNotificationByPatientId(this.patient.patientId);
     this.dismiss();
   }
+  sendNotification() {
+    this.notificationService.sendNotificationByNotificationId(this.patient.patientId);
+    this.dismiss();
+  }
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
