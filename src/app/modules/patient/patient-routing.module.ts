@@ -29,6 +29,11 @@ const routes: Routes = [
         user: UserResolver
       },
       data: {
+        navLinks: [
+          { linkAction: 'call-queue', linkName: 'Call Queue', linkType: 'link' },
+          { linkAction: 'kudos', linkName: 'KUDOS', linkType: 'button' },
+          { linkAction: 'report', linkName: 'REPORT!', linkType: 'button' }
+        ],
         title: extract('New Patient')
       }
     },
@@ -42,10 +47,9 @@ const routes: Routes = [
       data: {
         editMode: true,
         navLinks: [
-          {
-            action: '/test',
-            name: 'start'
-          }
+          { linkAction: 'call-queue', linkName: 'Call Queue', linkType: 'link' },
+          { linkAction: 'kudos', linkName: 'KUDOS', linkType: 'button' },
+          { linkAction: 'report', linkName: 'REPORT!', linkType: 'button' }
         ],
         title: extract('Edit Patient')
       }

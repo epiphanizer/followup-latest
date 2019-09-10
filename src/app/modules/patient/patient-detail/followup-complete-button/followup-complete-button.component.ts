@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Patient } from '../../patient';
+import { Patient } from '@app/modules/patient/patient';
 import { FollowupCompleteModalComponent } from '../followup-complete-modal/followup-complete-modal.component';
 import { PatientStatusService } from '../../patient-status.service';
 

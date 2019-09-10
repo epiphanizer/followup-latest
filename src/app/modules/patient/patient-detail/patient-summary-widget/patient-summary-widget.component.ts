@@ -12,10 +12,7 @@ import { Operation } from '@app/modules/operation/operation.service';
 export class PatientSummaryWidgetComponent implements OnInit {
   @Input() patient: Patient;
   @Input() operation: Operation;
-  currentYear: number;
   constructor() {}
 
-  ngOnInit() {
-    this.currentYear = new Date().getFullYear();
-  }
+  ngOnInit() {}
 }
