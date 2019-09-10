@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { PatientService } from '../../patient.service';
+import { Patient } from '../../patient';
+import { PatientStatusService } from '../../patient-status.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-followup-complete-modal',
@@ -6,7 +10,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./followup-complete-modal.component.scss']
 })
 export class FollowupCompleteModalComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private fb: FormBuilder,
+    private patientService: PatientService,
+    private patientStatusService: PatientStatusService
+  ) {}
+  @Input() patient: Patient;
+  followupCompleteForm: FormGroup;
 
   ngOnInit() {}
+  createForm() {
+    this.followupCompleteForm = this.fb.group({
+      // patientStatusLabelId: this.fb.control()
+    });
+  }
+  archivePatient() {
+    var formSubmission = this.followupCompleteForm.getRawValue();
+    // var patientStatusLabelId = formSubmission.patientStatusLabelId;
+    debugger;
+    this.patientStatusService.addNewPatientStatusByPatientId(this.patient.patientId);
+  }
 }

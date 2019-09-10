@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
+import { Operation } from '@app/modules/operation/operation.service';
+import { Patient } from '@app/modules/patient/patient';
 
 @Component({
   selector: 'app-toolbar-nav',
@@ -10,6 +12,8 @@ import { NotificationModalComponent } from '../notification-modal/notification-m
 })
 export class ToolbarNavComponent implements OnInit {
   constructor(private route: ActivatedRoute, public modalController: ModalController) {}
+  @Input() operation: Operation;
+  @Input() patient: Patient;
   @Input() navLinks: [string] | null;
   ngOnInit() {}
   doButtonAction(buttonAction: string) {

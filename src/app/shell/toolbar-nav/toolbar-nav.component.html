@@ -7,7 +7,7 @@
         </a>
       </ng-container>
       <ng-template #linkButton>
-        <ion-button (click)="doButtonAction(link.linkAction)">
+        <ion-button (click)="doButtonAction(link.linkAction, operation.operationId, patient.patientId)">
           {{ link.linkName }}
         </ion-button>
       </ng-template>

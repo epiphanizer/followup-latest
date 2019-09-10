@@ -12,7 +12,16 @@ export class NotificationModalComponent {
   @Input() patient: Patient;
   notification: Notification;
   notificationTypes: {};
+  status: {
+    notification: {
+      saved: boolean;
+    };
+  };
   constructor(private modalCtrl: ModalController, private notificationService: NotificationService) {}
+
+  editNotification() {
+    this.status.notification.saved = false;
+  }
   saveNotification() {
     this.notificationService.saveNotificationByPatientId(this.patient.patientId);
     this.dismiss();
