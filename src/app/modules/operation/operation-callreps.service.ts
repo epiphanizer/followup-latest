@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-export interface operationCallRep {
+export interface OperationCallRep {
   operationCallRepId: number;
   operationCallRepName: string;
 }

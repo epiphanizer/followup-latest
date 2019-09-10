@@ -4,7 +4,7 @@ import { Observable, from, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { OperationService, Operation } from '../operation.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { OperationCallrepsService } from '../operation-callreps.service';
+import { OperationCallrepsService, OperationCallRep } from '../operation-callreps.service';
 import { OperationContactsService } from '../operation-contacts.service';
 
 @Component({
@@ -19,6 +19,7 @@ export class OperationFormComponent implements OnInit {
   editMode: boolean;
   editOperationForm!: FormGroup;
   operation$: Observable<Operation>;
+  operationCallReps$: Observable<OperationCallRep>;
 
   constructor(private fb: FormBuilder, private operationService: OperationService, private route: ActivatedRoute) {}
   ngOnInit() {
