@@ -15,6 +15,7 @@ import { PatientCallStopButtonComponent } from './patient-call/patient-call-stop
 import { PatientNextCallSchedulerComponent } from './patient-call/patient-next-call-scheduler/patient-next-call-scheduler.component';
 import { PatientNextCallQuestionsComponent } from './patient-call/patient-next-call-questions/patient-next-call-questions.component';
 import { FollowupCompleteModalComponent } from './followup-complete-modal/followup-complete-modal.component';
+import { FollowupCompleteButtonComponent } from './followup-complete-button/followup-complete-button.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { FollowupCompleteModalComponent } from './followup-complete-modal/follow
     PatientCallStopButtonComponent,
     PatientNextCallSchedulerComponent,
     PatientNextCallQuestionsComponent,
-    FollowupCompleteModalComponent
+    FollowupCompleteModalComponent,
+    FollowupCompleteButtonComponent
   ],
   imports: [CommonModule, RouterModule, IonicModule]
 })
