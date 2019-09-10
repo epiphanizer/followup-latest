@@ -3,7 +3,6 @@ import { PatientService } from '../../patient.service';
 import { Patient } from '../../patient';
 import { PatientStatusService, PatientStatus } from '../../patient-status.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { NotificationModalComponent } from '@app/shell/notification-modal/notification-modal.component';
 
 @Component({
   selector: 'app-followup-complete-modal',
