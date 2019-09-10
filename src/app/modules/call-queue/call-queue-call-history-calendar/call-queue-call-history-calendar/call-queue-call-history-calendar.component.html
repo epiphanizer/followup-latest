@@ -2,11 +2,11 @@
   <h3>Call History</h3>
   <ion-item-divider class="divider-line"></ion-item-divider>
   <div class="calendar-month-controls">
-    <span class="left-month-arrow"></span>
+    <span class="left-month-arrow" (click)="calendarPrevMonth()"></span>
     <span class="calendar-month">
       {{ currentMonth.name }}
     </span>
-    <span class="right-month-arrow"></span>
+    <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
   </div>
   <div class="wrapper-vertically-limited"></div>
 </div>

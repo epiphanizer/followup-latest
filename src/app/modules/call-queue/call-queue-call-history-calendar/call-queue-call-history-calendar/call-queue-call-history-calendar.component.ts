@@ -76,4 +76,10 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     // Subtract one because of the 0 index of the array
     this.currentMonth = this.months[parseInt(this.todaysMonth) - 1];
   }
+  calendarPrevMonth() {
+    this.currentMonth = this.months[parseInt(this.currentMonth.number) - 2];
+  }
+  calendarNextMonth() {
+    this.currentMonth = this.months[parseInt(this.currentMonth.number)];
+  }
 }
