@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MonthCalendarModule, DayOfWeek } from 'simple-angular-calendar';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-call-queue-call-history-calendar',
@@ -10,8 +10,14 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   months: {}[];
   todaysDate: Date;
   todaysMonth: string;
+  currentMonth: {};
 
-  constructor() {
+  constructor() {}
+
+  ngOnInit() {
+    this.todaysDate = new Date();
+    this.todaysMonth = ('0' + (this.todaysDate.getMonth() + 1)).substring(6, 8);
+    alert(this.todaysMonth);
     this.months = [
       {
         number: '01',
@@ -62,12 +68,6 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
         name: 'December'
       }
     ];
+    this.currentMonth = this.months[this.todaysMonth];
   }
-
-  ngOnInit() {}
-  private overRideDayCaption = ['', '', '', '', '', '', ''];
-
-  dayOfWeekCaptionFormatter = (dayOfWeek: DayOfWeek) => {
-    return this.overRideDayCaption[dayOfWeek.valueOf()];
-  };
 }

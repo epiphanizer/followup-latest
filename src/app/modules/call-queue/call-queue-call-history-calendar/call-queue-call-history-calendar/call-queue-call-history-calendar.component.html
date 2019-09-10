@@ -3,20 +3,10 @@
   <ion-item-divider class="divider-line"></ion-item-divider>
   <div class="calendar-month-controls">
     <span class="left-month-arrow"></span>
-    <span class="calendar-month">Month</span>
+    <span class="calendar-month">
+      {{ currentMonth.name }}
+    </span>
     <span class="right-month-arrow"></span>
   </div>
-  <div class="wrapper-vertically-limited">
-    <!-- <sc-month-calendar
-      [monthClass]="monthClass"
-      [monthCaptionClass]="monthCaptionClass"
-      [dayOfWeekCaptionClass]="dayOfWeekCaptionClass"
-      [dayCaptionClass]="dayCaptionClass"
-      [currentDayClass]="currentDayClass"
-      [selectedDayClass]="selectedDayClass"
-      [dayOfWeekCaptionFormatter]="dayOfWeekCaptionFormatter"
-    >
-      <ng-template scMonthCaptionTemplate let-date> </ng-template>
-    </sc-month-calendar> -->
-  </div>
+  <div class="wrapper-vertically-limited"></div>
 </div>

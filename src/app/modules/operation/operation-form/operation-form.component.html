@@ -42,7 +42,7 @@
         <div class="section-header">
           <i class="icon-contacts"></i>
           Contacts
-          <ion-item *ngFor="operationContact; of: operation.operationContacts">
+          <ion-item *ngFor="let operationContact of operation.operationContacts">
             <app-operation-contact [operationContact]="operationContact"> </app-operation-contact>
           </ion-item>
         </div>

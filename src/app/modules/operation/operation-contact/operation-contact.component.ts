@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { OperationContact } from './operation-contact';
 
 @Component({
   selector: 'app-operation-contact',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./operation-contact.component.scss']
 })
 export class OperationContactComponent implements OnInit {
+  @Input() operationContact: OperationContact;
   constructor() {}
 
   ngOnInit() {}
