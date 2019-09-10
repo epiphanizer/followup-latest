@@ -58,9 +58,9 @@
             <ion-select class="operation-assigned-manager" value="operation.operationAssignedManager"> </ion-select>
           </ion-item>
 
-          <ion-item *ngFor="(let operationCallRep of operationCallReps? | let index = (index + 1))">
-            <ion-label position="stacked" color="medium">Care Rep {{ index }} </ion-label>
-            <ion-select>
+          <ion-item *ngFor="let operationCallRep of operationCallReps?; let index = index">
+            <ion-label position="stacked" color="medium">Care Rep {{ index + 1 }} </ion-label>
+            <ion-select value="operationCallRep.operationCallRepId">
               {{ operationCallRep.operationCallRepName }}
             </ion-select>
           </ion-item>

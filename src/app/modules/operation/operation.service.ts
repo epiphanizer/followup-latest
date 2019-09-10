@@ -25,6 +25,12 @@ export interface Operation {
 export class OperationService {
   constructor(private http: HttpClient) {}
 
+  addNewOperation(): Observable<Operation> {
+    return this.http.post<Operation>('operations', {}).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   /**
    * We need to make sure this only gives us back the ones we need.
    */

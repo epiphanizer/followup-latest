@@ -18,10 +18,30 @@ export class OperationFormComponent implements OnInit {
   @Input() operation: Operation;
   editMode: boolean;
   editOperationForm!: FormGroup;
+  operation$: Observable<Operation>;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private operationService: OperationService, private route: ActivatedRoute) {}
   ngOnInit() {
     this.createForm();
+
+    if (this.route.snapshot.data.editMode) {
+      this.editMode = true;
+    }
+    if (this.editMode) {
+      this.operation = this.route.snapshot.data.operation;
+    }
+    if (!this.operation) {
+      this.operation$ = this.operationService.addNewOperation().pipe(
+        map((data: Operation) => {
+          this.operation = data;
+          this.createForm();
+          return data;
+        })
+      );
+    } else {
+      this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
+      this.createForm();
+    }
   }
   private createForm() {
     this.editOperationForm = this.fb.group({
@@ -38,6 +58,6 @@ export class OperationFormComponent implements OnInit {
     });
   }
   onFormSubmit() {
-    // this.op
+    // this.operationService.editOperation();
   }
 }
