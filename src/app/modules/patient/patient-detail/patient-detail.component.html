@@ -28,6 +28,9 @@
       <ng-container *ngIf="selected.patientCall.patientCallStatusLabel == 'In Review'">
         <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
         <app-patient-next-call-questions> </app-patient-next-call-questions>
+        <app-patient-next-call-finish-button (click)="finishPatientCall(selected.patientCall)">
+          Finish & Save
+        </app-patient-next-call-finish-button>
       </ng-container>
     </ion-col>
     <ion-col class="right-hand-detail">

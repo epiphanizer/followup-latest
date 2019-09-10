@@ -33,7 +33,7 @@ export class PatientCallStatusService {
       );
   };
 
-  getPatientCallStatuses = function(patientId: number) {
+  getPatientCallStatuses = function() {
     return this.http.get('patient/calls/statuses').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
