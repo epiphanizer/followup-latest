@@ -52,7 +52,7 @@
         <ion-title>Team Members</ion-title>
         <ion-list lines="none" inset>
           <ion-item>
-            <ion-label position="stacked" color="medium">
+            <ion-label *ngIf="operation.operationAssignedManager; else addManager" position="stacked" color="medium">
               Assigned Manager
             </ion-label>
             <ion-select class="operation-assigned-manager" value="operation.operationAssignedManager"> </ion-select>
@@ -63,6 +63,11 @@
               {{ operationCallRep.operationCallRepName }}
             </ion-select>
           </ion-item>
+          <ng-template #addManager>
+            <ion-label *ngIf="operation.operationAssignedManager; else addManager" position="stacked" color="medium">
+              Add Manager
+            </ion-label>
+          </ng-template>
         </ion-list>
       </fieldset>
       <ion-button (click)="onFormSubmit()">Save</ion-button>

@@ -4,24 +4,29 @@ import { Observable, from, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { OperationService, Operation } from '../operation.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { OperationCallrepsService, OperationCallRep } from '../operation-callreps.service';
+import { OperationCallRepsService, OperationCallRep } from '../operation-callreps.service';
 import { OperationContactsService } from '../operation-contacts.service';
 
 @Component({
-  providers: [OperationService, OperationContactsService, OperationCallrepsService],
+  providers: [OperationService, OperationContactsService, OperationCallRepsService],
   selector: 'app-operation-form',
   templateUrl: './operation-form.component.html',
   styleUrls: ['./operation-form.component.scss']
 })
 @Injectable()
 export class OperationFormComponent implements OnInit {
-  @Input() operation: Operation;
+  operation: Operation;
   editMode: boolean;
   editOperationForm!: FormGroup;
   operation$: Observable<Operation>;
   operationCallReps$: Observable<OperationCallRep>;
 
-  constructor(private fb: FormBuilder, private operationService: OperationService, private route: ActivatedRoute) {}
+  constructor(
+    private fb: FormBuilder,
+    private operationService: OperationService,
+    private operationCallRepsService: OperationCallRepsService,
+    private route: ActivatedRoute
+  ) {}
   ngOnInit() {
     this.createForm();
 
