@@ -11,18 +11,28 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     number: string;
     name: string;
   }[];
-  todaysDate: Date;
-  todaysMonth: string;
   currentMonth: {
     number: string;
     name: string;
   };
+  selectedMonth: {
+    number: string;
+    name: string;
+    numberOfDays?: number;
+  };
+  selectedYear: {
+    year: number;
+  };
+  todaysDate: Date;
+  todaysMonth: string;
+  todaysYear: number;
 
   constructor() {}
 
   ngOnInit() {
     this.todaysDate = new Date();
     this.todaysMonth = ('0' + (this.todaysDate.getMonth() + 1)).substring(0, 2);
+    this.todaysYear = this.todaysDate.getFullYear();
     this.months = [
       {
         number: '01',
@@ -74,12 +84,21 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
       }
     ];
     // Subtract one because of the 0 index of the array
-    this.currentMonth = this.months[parseInt(this.todaysMonth) - 1];
+    this.selectedMonth = this.currentMonth = this.months[parseInt(this.todaysMonth) - 1];
+    this.selectedYear.year = this.todaysYear;
+    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
+  }
+
+  daysInMonth(month: number, year: number) {
+    return new Date(year, month, 0).getDate();
   }
   calendarPrevMonth() {
-    this.currentMonth = this.months[parseInt(this.currentMonth.number) - 2];
+    this.selectedMonth = this.months[parseInt(this.currentMonth.number) - 2];
+    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentMonth.number), this.selectedYear.year);
   }
   calendarNextMonth() {
     this.currentMonth = this.months[parseInt(this.currentMonth.number)];
+    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentMonth.number), this.selectedYear.year);
+    console.log(this.selectedMonth.numberOfDays);
   }
 }
