@@ -19,7 +19,12 @@ export class PatientStatusService {
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
-
+  getPatientStatusLabels(): Observable<PatientStatus[]> {
+    return this.http.get<PatientStatus[]>('patient/statuses').pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   getPatientStatusByPatientId(patientId: number): Observable<PatientStatus> {
     return this.http.get<PatientStatus>('patient/' + patientId + '/status').pipe(
       retry(3), // retry a failed request up to 3 times

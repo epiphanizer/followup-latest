@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PatientService } from '../../patient.service';
 import { Patient } from '../../patient';
-import { PatientStatusService } from '../../patient-status.service';
+import { PatientStatusService, PatientStatus } from '../../patient-status.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NotificationModalComponent } from '@app/shell/notification-modal/notification-modal.component';
 
@@ -11,6 +11,7 @@ import { NotificationModalComponent } from '@app/shell/notification-modal/notifi
   styleUrls: ['./followup-complete-modal.component.scss']
 })
 export class FollowupCompleteModalComponent implements OnInit {
+  patientStatuses: PatientStatus[];
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,
@@ -19,7 +20,9 @@ export class FollowupCompleteModalComponent implements OnInit {
   @Input() patient: Patient;
   followupCompleteForm: FormGroup;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.patientStatuses = this.patientStatusService.getPatientStatusLabels();
+  }
   createForm() {
     this.followupCompleteForm = this.fb.group({
       // patientStatusLabelId: this.fb.control()
