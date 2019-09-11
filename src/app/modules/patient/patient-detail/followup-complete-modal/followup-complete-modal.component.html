@@ -4,7 +4,7 @@
     <ion-list class="graduation-options" lines="none">
       <ion-item>
         <ion-radio-group>
-          <ion-radio ngFor="let patientStatus of patientStatuses" value="patientStatus.patientStatusLabelId">
+          <ion-radio *ngFor="let patientStatus of patientStatuses" value="patientStatus.patientStatusLabelId">
             {{ patientStatus.patientStatusLabel }}
           </ion-radio>
         </ion-radio-group>
