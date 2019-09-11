@@ -17,17 +17,16 @@ ion-list {
     background-image: url("/assets/icon-info@2x.png");
   }
 
-  .ion-item {
+  ion-item {
     font-size: 12px;
     font-family: Avenir;
   }
 
   span {
     font-size: 12px;
-    font-family: Avenir;
+    font-family: AvenirBold;
 
     &.label {
-      font-weight: bold;
       color: #343638;
       font-size: 12px;
     }
