@@ -26,9 +26,11 @@
   text-align: left;
   height: 80px;
 }
+
+.patient-age,
 .patient-medical-record-number {
   font-family: Avenir;
-  font-size: 13px;
+  font-size: 12px;
 }
 .patient-contact-list {
   list-style-type: none;
@@ -61,6 +63,8 @@
   }
 }
 .alternate-numbers {
+  font-size: 10px;
+  padding-top: 4px;
   cursor: pointer;
 }
 .edit-patient-jump {
