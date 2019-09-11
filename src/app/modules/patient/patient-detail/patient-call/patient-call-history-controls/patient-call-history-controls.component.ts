@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PatientCall } from '../patient-call.service';
 
 @Component({
   selector: 'app-patient-call-history-controls',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./patient-call-history-controls.component.scss']
 })
 export class PatientCallHistoryControlsComponent implements OnInit {
+  patientCalls: PatientCall[];
   constructor() {}
 
   ngOnInit() {}
+  scrollToPatientCall() {
+    alert('scrolling to patient call');
+  }
 }

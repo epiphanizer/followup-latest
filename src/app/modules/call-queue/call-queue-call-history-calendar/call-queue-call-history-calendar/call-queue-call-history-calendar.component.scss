@@ -4,8 +4,8 @@
   margin-left: 73px;
 }
 h3 {
+  font-size: 18px;
   font-family: AvenirBold;
-  font-size: 21px;
   font-weight: 900;
   font-style: normal;
   font-weight: bold;
@@ -33,6 +33,7 @@ h3 {
   color: #8e8e93;
   font-size: 14px;
   margin-top: 19.5px;
+  width: 90px;
 }
 .left-month-arrow,
 .right-month-arrow {
@@ -60,10 +61,25 @@ h3 {
   height: 225px;
   margin-top: -40px;
 }
-.calendar-month {
-  ion-item {
+.calendar-wrapper {
+  width: 100%;
+  div {
+    cursor: pointer;
     display: inline-block;
-    height: 19px;
-    width: 19px;
+    text-align: center;
+    height: 28px;
+    width: 28px;
+    margin-top: 10px;
+    margin-right: 14px;
+    background-color: rgba(142, 142, 147, 0.12);
+    color: black;
+    span {
+      font-size: 12px;
+      line-height: 28px;
+      width: 100%;
+      &.active {
+        font-weight: bold;
+      }
+    }
   }
 }

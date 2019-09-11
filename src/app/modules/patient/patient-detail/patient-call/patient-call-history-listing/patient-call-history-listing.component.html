@@ -1,6 +1,6 @@
-<ng-container>
+<ng-container *ngIf="patientCalls">
   <ion-list inset>
-    <ion-item *ngFor="let patientCall of patient.patientCalls$ | async; let i = index">
+    <ion-item *ngFor="let patientCall of patientCalls; let i = index">
       <div class="call-headline-container {{ i == 0 ? 'active' : '' }} ">
         <i class="icon-phone-icon"></i>
         <span class="call-number-headline">Call {{ i }}</span>

@@ -9,10 +9,8 @@
     <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
   </div>
   <div class="calendar-wrapper">
-    <ion-list class="calendar-month" inset lines="none">
-      <ion-item class="calendar-day" *ngFor="let day of selectedMonth.daysArray" (click)="selectDateEventHandler(day)">
-        {{ day }}
-      </ion-item>
-    </ion-list>
+    <div class="calendar-day" *ngFor="let day of selectedMonth.daysArray" (click)="selectDateEventHandler(day)">
+      <span>{{ day }}</span>
+    </div>
   </div>
 </div>
