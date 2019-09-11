@@ -39,7 +39,7 @@ export class PatientCallService {
     patientContactNumberId: number
   ) {
     return this.http
-      .post('patients/calls/patientCallId', {
+      .post('patients/calls/' + patientCallId, {
         userId: userId,
         patientContactNumberId: patientContactNumberId
       })
