@@ -292,21 +292,22 @@
               <app-patient-question [patientQuestion]="patientQuestion"> </app-patient-question>
             </ion-item>
           </ion-list>
-          <ion-list lines="none" inset>
+          <ion-list class="urgency-rating-list" lines="none" inset>
             <i class="icon-star"></i>
-            <ion-item>
+            <ion-item class="urgency-rating">
               <ion-label color="medium" position="stacked">
                 Urgency Rating
               </ion-label>
               <ion-radio-group>
-                <ion-label position="stacked">1</ion-label>
-                <ion-radio> </ion-radio>
-                <ion-radio>2</ion-radio>
-                <ion-radio>3</ion-radio>
-                <ion-radio>4</ion-radio>
-                <ion-radio>5</ion-radio>
+                <ion-radio value="1"> </ion-radio>
+                <ion-radio value="2"></ion-radio>
+                <ion-radio value="3"></ion-radio>
+                <ion-radio value="4"></ion-radio>
+                <ion-radio value="5"></ion-radio>
               </ion-radio-group>
             </ion-item>
+          </ion-list>
+          <ion-list inset lines="none">
             <i class="icon-info"></i>
             <ion-item>
               <ion-label color="medium" position="stacked">Need To Know</ion-label>

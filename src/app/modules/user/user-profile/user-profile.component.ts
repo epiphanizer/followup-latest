@@ -25,6 +25,7 @@ export class UserProfileComponent implements OnInit {
     let formSubmission = this.userProfileForm.getRawValue();
     this.userService.updateUserByUserId(this.user.id, formSubmission);
   }
+
   private createForm() {
     this.userProfileForm = this.formBuilder.group({
       userFirstName: [this.user.displayName, [Validators.required]],

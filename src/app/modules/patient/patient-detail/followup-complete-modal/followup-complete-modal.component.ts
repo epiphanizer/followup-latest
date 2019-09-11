@@ -28,6 +28,7 @@ export class FollowupCompleteModalComponent implements OnInit {
     });
   }
   archivePatient() {
+    alert('Archiving patient');
     var formSubmission = this.followupCompleteForm.getRawValue();
     var patientStatusLabelId = 1;
     debugger;

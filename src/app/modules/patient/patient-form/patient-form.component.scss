@@ -468,6 +468,14 @@ form {
     }
   }
 }
+.urgency-rating-list {
+  display: inline-flex;
+}
+.urgency-rating {
+  ion-radio {
+    display: inline-block;
+  }
+}
 .picker {
   transform: translateY(-11%) translateX(-113px);
 }

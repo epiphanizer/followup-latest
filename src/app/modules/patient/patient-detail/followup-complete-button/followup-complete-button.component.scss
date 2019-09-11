@@ -1,6 +1,7 @@
 ion-button {
   width: 100px;
   height: 28px;
+  --border-width: 0;
   border: solid 1.5px #c8c8c8;
   background-size: 100%;
   background-image: url("/assets/complete-patient-button@2x.png");

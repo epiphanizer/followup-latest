@@ -25,7 +25,7 @@
       >
       </app-patient-call-stop-button>
 
-      <ng-container *ngIf="selected.patientCall">
+      <ng-container *ngIf="selected.patientCall?.patientCallStatusLabel == 'Stopped'">
         <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
         <app-patient-next-call-questions> </app-patient-next-call-questions>
         <app-patient-next-call-finish-button (click)="finishPatientCall(selected.patientCall)">

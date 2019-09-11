@@ -34,9 +34,11 @@
   list-style-type: none;
   padding-left: 0;
 
+  font-family: AvenirNextLTPro;
+  font-size: 14px;
   .patient-contact-number {
     font-family: AvenirNextLTPro;
-    font-size: 17px;
+    font-size: 14px;
     font-weight: 900;
     font-style: normal;
     font-stretch: normal;
@@ -58,7 +60,9 @@
     color: #8e8e93;
   }
 }
-
+.alternate-numbers {
+  cursor: pointer;
+}
 .edit-patient-jump {
   display: block;
   margin-top: 59px;
