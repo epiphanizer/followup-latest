@@ -27,6 +27,31 @@ ion-title {
   text-align: right;
   background-color: #ef4136;
 }
+
+.sidebar-calendar {
+  h4 {
+    width: 86%;
+    height: 12px;
+    font-family: AvenirBold;
+    font-size: 15px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 0.86;
+    letter-spacing: 1.2px;
+    text-align: right;
+    color: var(--ion-color-primary);
+  }
+
+  .caption {
+    font-family: Avenir;
+    font-size: 89px;
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: -5px;
+    text-align: center;
+  }
+}
 button {
   width: 70px;
   height: 28px;
