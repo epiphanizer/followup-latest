@@ -57,6 +57,9 @@ ul.patient-filters {
         margin-top: 12px;
         background-image: url("/assets/icon-down-arrow.png");
         background-size: 100%;
+        &.asc {
+          transform: rotate(180deg);
+        }
       }
     }
   }

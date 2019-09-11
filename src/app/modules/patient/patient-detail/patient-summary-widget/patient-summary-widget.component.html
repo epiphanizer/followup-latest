@@ -45,7 +45,7 @@
       <a class="edit-patient-jump" [routerLink]="'/patient/edit/' + patient.patientId">
         [edit]
       </a>
-      <app-followup-complete-button [patient]="patient"> </app-followup-complete-button>
+      <app-followup-complete-button *ngIf="patient" [patient]="patient"> </app-followup-complete-button>
     </ion-col>
   </ion-row>
 </ng-container>

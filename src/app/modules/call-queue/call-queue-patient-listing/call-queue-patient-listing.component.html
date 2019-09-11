@@ -14,7 +14,13 @@
     <a (click)="sortPatientsByCallDate(selectedSortFlag)">[Call Date]</a>
   </li>
   <li class="ascending-descending-control">
-    <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
+    <i
+      class="ascending-descending-control-arrow"
+      [class.asc]="selectedSortFlag == 'asc'"
+      [class.desc]="selectedSortFlag == 'desc'"
+      (click)="toggleAscDesc()"
+    >
+    </i>
   </li>
 </ul>
 <ul class="call-queue-patient-list">
