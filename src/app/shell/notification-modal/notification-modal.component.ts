@@ -36,6 +36,10 @@ export class NotificationModalComponent {
   ) {}
 
   ngOnInit() {
+    this.notificationService.getNotificationStatusLabels().subscribe((data: any) => {
+      this.notificationTypes = data;
+      return data;
+    });
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     this.createForm();
   }
