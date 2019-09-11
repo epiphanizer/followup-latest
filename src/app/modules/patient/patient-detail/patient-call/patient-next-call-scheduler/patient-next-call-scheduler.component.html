@@ -1,15 +1,36 @@
-<ion-title>Next Call is Scheduled in:</ion-title>
-<ion-list lines="none">
-  <ion-item>
-    <ion-button>24</ion-button>
-    <span>24 hrs.</span>
-  </ion-item>
-  <ion-item>
-    <ion-button>72</ion-button>
-    <span>72 hrs.</span>
-  </ion-item>
-  <ion-item>
-    <ion-button>1</ion-button>
-    <span>1 week.</span>
-  </ion-item>
-</ion-list>
+<ion-row class="next-call-scheduler">
+  <ion-title>Next Call is Scheduled in:</ion-title>
+  <ion-list lines="none">
+    <ion-item>
+      <button>24</button>
+      <span>24 hrs.</span>
+    </ion-item>
+    <ion-item>
+      <button>72</button>
+      <span>72 hrs.</span>
+    </ion-item>
+    <ion-item>
+      <button>1</button>
+      <span>1 week.</span>
+    </ion-item>
+  </ion-list>
+</ion-row>
+<div class="call-history-container">
+  <div class="calendar-month-controls">
+    <span class="left-month-arrow" (click)="calendarPrevMonth()"></span>
+    <span class="calendar-month">
+      {{ currentMonth.name }}
+    </span>
+    <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
+  </div>
+  <div class="calendar-wrapper">
+    <div
+      class="calendar-day"
+      *ngFor="let day of selectedMonth.daysArray"
+      [class.active]="todaysDateDay == day"
+      (click)="selectDateEventHandler(day, currentMonth.number, todaysYear)"
+    >
+      <span>{{ day }}</span>
+    </div>
+  </div>
+</div>

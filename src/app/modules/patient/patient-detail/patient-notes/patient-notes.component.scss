@@ -16,10 +16,20 @@ ion-list {
   i.icon-info {
     background-image: url("/assets/icon-info@2x.png");
   }
-
   ion-item {
     font-size: 12px;
     font-family: Avenir;
+  }
+
+  &.more-info {
+    ion-item {
+      font-size: 12px;
+      font-family: Avenir;
+
+      &:nth-child(n + 1) {
+        margin-left: 16px;
+      }
+    }
   }
 
   span {

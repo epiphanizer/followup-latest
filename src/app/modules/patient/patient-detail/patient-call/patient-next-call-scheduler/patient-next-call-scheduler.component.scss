@@ -1,6 +1,97 @@
+.next-call-scheduler {
+  clear: both;
+}
+ion-title {
+  font-family: Avenir;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: 0.42px;
+  text-align: left;
+  color: var(--charcoal-grey);
+}
 ion-item {
   display: inline-block;
   margin-left: 14.5px;
   height: 50px;
   width: 43px;
+  button {
+    height: 50px;
+    width: 43px;
+    border: 1px black;
+    border-radius: 1px;
+  }
+}
+.call-history-container {
+  height: 250px;
+  max-width: 332px;
+  margin-left: 73px;
+}
+h3 {
+  font-size: 18px;
+  font-family: AvenirBold;
+  font-weight: 900;
+  font-style: normal;
+  font-weight: bold;
+  font-stretch: normal;
+  line-height: 1.01;
+  margin-bottom: 0;
+  letter-spacing: 3.15px;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--ion-color-primary);
+}
+
+.calendar-month {
+  display: inline-block;
+  text-transform: uppercase;
+  font-family: AvenirBold;
+  color: #8e8e93;
+  font-size: 14px;
+  margin-top: 19.5px;
+  width: 90px;
+}
+.left-month-arrow,
+.right-month-arrow {
+  cursor: pointer;
+  display: inline-block;
+}
+.left-month-arrow {
+  background-image: url("/assets/calendar-left-arrow.png");
+  height: 14px;
+  width: 8px;
+  margin-right: 18px;
+}
+.right-month-arrow {
+  background-image: url("/assets/calendar-right-arrow.png");
+  height: 14px;
+  width: 8px;
+  margin-left: 18px;
+}
+.calendar-wrapper {
+  width: 100%;
+  div {
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    height: 28px;
+    width: 28px;
+    margin-top: 10px;
+    margin-right: 14px;
+    background-color: rgba(142, 142, 147, 0.12);
+    color: black;
+    &.active {
+      background-color: rgba(19, 175, 233, 0.35);
+      span {
+        font-weight: bold;
+      }
+    }
+    span {
+      font-size: 12px;
+      line-height: 28px;
+      width: 100%;
+    }
+  }
 }

@@ -90,7 +90,6 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     this.selectedMonth = this.currentMonth = this.months[parseInt(this.todaysMonth) - 1];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
-    console.log(this.selectedMonth.daysArray);
   }
 
   daysInMonth(month: number, year: number) {
@@ -104,7 +103,8 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     this.currentMonth = this.months[parseInt(this.currentMonth.number)];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentMonth.number), this.todaysYear);
   }
-  selectDateEventHandler() {
-    alert('Selected date');
+  selectDateEventHandler(day: number, currentMonth: number, todaysYear: number) {
+    let date = day + '/' + currentMonth + '/' + todaysYear;
+    alert('Selected date: ' + date);
   }
 }

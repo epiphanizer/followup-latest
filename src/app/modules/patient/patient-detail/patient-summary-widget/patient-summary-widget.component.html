@@ -45,6 +45,8 @@
       <a class="edit-patient-jump" [routerLink]="'/patient/edit/' + patient.patientId">
         [edit]
       </a>
+      <!-- predicated on their being patient calls, always -->
+      <app-patient-call-history-controls> </app-patient-call-history-controls>
       <app-followup-complete-button *ngIf="patient" [patient]="patient"> </app-followup-complete-button>
     </ion-col>
   </ion-row>
