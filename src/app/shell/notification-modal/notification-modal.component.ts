@@ -2,6 +2,7 @@ import { Input, Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Notification, NotificationService } from '@app/modules/notification/notification.service';
 import { Patient } from '@app/modules/patient/patient';
+import { formatDate } from '@angular/common';
 @Component({
   providers: [NotificationService],
   selector: 'app-notification-modal',
@@ -24,8 +25,13 @@ export class NotificationModalComponent {
       saved: false
     }
   };
+  todaysDateDay: number;
+
   constructor(private modalCtrl: ModalController, private notificationService: NotificationService) {}
 
+  ngOnInit() {
+    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+  }
   editNotification() {
     this.status.notification.saved = false;
   }
