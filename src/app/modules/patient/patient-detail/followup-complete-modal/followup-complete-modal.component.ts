@@ -23,6 +23,7 @@ export class FollowupCompleteModalComponent implements OnInit {
   followupCompleteForm: FormGroup;
 
   ngOnInit() {
+    this.createForm();
     this.patientStatuses = this.patientStatusService.getPatientStatusLabels();
   }
   createForm() {
