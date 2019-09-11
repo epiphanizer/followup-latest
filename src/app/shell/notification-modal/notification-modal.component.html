@@ -1,5 +1,5 @@
-<form [formGroup]="createNotificationForm">
-  <ng-container *ngIf="status.notification.saved == true; else sendNotification">
+<ng-container *ngIf="status.notification.saved == true; else sendNotification">
+  <form [formGroup]="createNotificationForm">
     <ion-title>Notification</ion-title>
     <ion-list class="notification-options" lines="none">
       <ion-item *ngFor="let notificationType of notificationTypes">
@@ -14,55 +14,54 @@
     </ion-textarea>
     <ion-button class="save-button" (click)="saveNotification()">Save</ion-button>
     <span>[ report will be sent when <b>follow-up</b> is complete ]</span>
-  </ng-container>
-  <ng-template #sendNotification>
-    <ion-row>
-      <ion-title class="ion-float-left">Notification</ion-title>
-      <span class="ion-float-right warning">
-        {{ notification.notificationTypeLabel }}
-      </span>
-      <i class="icon-{{ notificationType.NotificationTypeLabel }}"></i>
-    </ion-row>
-    <ion-row>
-      <ion-col class="left-col">
-        <div class="sidebar-calendar">
-          <h4>TODAY'S DATE</h4>
-          <div class="caption">
-            {{ todaysDateDay }}
-          </div>
+  </form>
+</ng-container>
+<ng-template #sendNotification>
+  <ion-row>
+    <ion-title class="ion-float-left">Notification</ion-title>
+    <span class="ion-float-right warning">
+      {{ notification.notificationTypeLabel }}
+    </span>
+    <i class="icon-{{ notificationType.NotificationTypeLabel }}"></i>
+  </ion-row>
+  <ion-row>
+    <ion-col class="left-col">
+      <div class="sidebar-calendar">
+        <h4>TODAY'S DATE</h4>
+        <div class="caption">
+          {{ todaysDateDay }}
         </div>
-      </ion-col>
-      <ion-col>
-        <ion-list lines="none" inset>
-          <ion-item>
-            <span class="label">Patient:&nbsp;</span> {{ notification.patientFirstName }} +
-            {{ notification.patientLastName }}
-          </ion-item>
-          <ion-item> <span class="label">Facility:&nbsp;</span> {{ notification.operationName }} </ion-item>
-          <ion-item>
-            <span class="label">Date Received:&nbsp;</span> {{ notification.notificationCreatedDate }}
-          </ion-item>
-          <ion-item>
-            <span class="label">Notes:&nbsp;</span> {{ patient.patientFirstName }} + {{ patient.patientLastName }}
-          </ion-item>
-          <ion-item>
-            <span class="label">Next Steps:&nbsp;</span>
-          </ion-item>
-          <ion-item>
-            <span class="label">Message:&nbsp;</span>
-            <ion-textarea disabled>
-              {{ notification.notificationMessage }}
-            </ion-textarea>
-          </ion-item>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-button fill="outline" class="ion-float-left edit-button" (click)="editNotification()">Back</ion-button>
-      <div class="send-container">
-        <ion-button fill="outline" class="ion-float-right save-button" (click)="sendNotification()">Send</ion-button>
-        <span>[ report will be sent when <b>follow-up</b> is complete ]</span>
       </div>
-    </ion-row>
-  </ng-template>
-</form>
+    </ion-col>
+    <ion-col>
+      <ion-list lines="none" inset>
+        <ion-item>
+          <span class="label">Patient:&nbsp;</span> {{ notification.patientFirstName }} +
+          {{ notification.patientLastName }}
+        </ion-item>
+        <ion-item> <span class="label">Facility:&nbsp;</span> {{ notification.operationName }} </ion-item>
+        <ion-item>
+          <span class="label">Date Received:&nbsp;</span> {{ notification.notificationCreatedDate }}
+        </ion-item>
+        <ion-item> <span class="label">Notes:&nbsp;</span> {{ notification.notificationNotes }} </ion-item>
+        <ion-item>
+          <span class="label">Next Steps:&nbsp;</span>
+          <span *ngFor="let notificationRecipient of notification.notificationRecipients"></span>
+        </ion-item>
+        <ion-item>
+          <span class="label">Message:&nbsp;</span>
+          <ion-textarea disabled>
+            {{ notification.notificationMessage }}
+          </ion-textarea>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-button fill="outline" class="ion-float-left edit-button" (click)="editNotification()">Back</ion-button>
+    <div class="send-container">
+      <ion-button fill="outline" class="ion-float-right save-button" (click)="sendNotification()">Send</ion-button>
+      <span>[ report will be sent when <b>follow-up</b> is complete ]</span>
+    </div>
+  </ion-row>
+</ng-template>

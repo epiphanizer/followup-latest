@@ -12,7 +12,7 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./followup-complete-modal.component.scss']
 })
 export class FollowupCompleteModalComponent implements OnInit {
-  patientStatuses: PatientStatus[];
+  patientStatuses?: PatientStatus[];
   constructor(
     private fb: FormBuilder,
     private modalCtrl: ModalController,
@@ -24,8 +24,8 @@ export class FollowupCompleteModalComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
-    this.patientStatusService.getPatientStatusLabels().subscribe((data: PatientStatus) => {
-      console.log(data);
+    this.patientStatusService.getPatientStatusLabels().subscribe((data: PatientStatus[]) => {
+      this.patientStatuses = data;
     });
   }
   createForm() {

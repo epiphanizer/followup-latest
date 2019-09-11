@@ -6,6 +6,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 export interface Notification {
   notificationId: number;
   notificationTypeId: number;
+  notificationTypeLabel?: string;
+  notificationRecipients?: string[];
 }
 
 @Injectable({
