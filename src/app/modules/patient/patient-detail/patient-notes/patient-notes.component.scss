@@ -13,8 +13,8 @@ ion-list {
     background-image: url("/assets/icon-new-facility@2x.png");
   }
 
-  i.icon-diagnosis {
-    background-image: url("/assets/icon-diagnosis@2x.png");
+  i.icon-info {
+    background-image: url("/assets/icon-info@2x.png");
   }
 
   .ion-item {
@@ -36,6 +36,8 @@ ion-list {
   &.inline-discharge {
     ion-item {
       display: inline-block;
+      font-size: 12px;
+      font-family: Avenir;
     }
   }
 

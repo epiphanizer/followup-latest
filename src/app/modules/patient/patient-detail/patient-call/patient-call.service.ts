@@ -60,6 +60,13 @@ export class PatientCallService {
     );
   };
 
+  public startPatientCall(patientCallId: number) {
+    return this.http.post('patients/calls/' + patientCallId + '/end', {}).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+
   public endPatientCall(patientCallId: number) {
     return this.http.post('patients/calls/' + patientCallId + '/end', {}).pipe(
       retry(3), // retry a failed request up to 3 times

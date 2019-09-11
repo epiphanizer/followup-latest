@@ -23,6 +23,7 @@ export class CallQueuePatientListingComponent implements OnInit {
     this.currentYear = new Date().getFullYear();
     this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
       map((patients: [Patient]) => {
+        this.patients = patients;
         return patients;
       })
     );

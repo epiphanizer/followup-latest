@@ -36,15 +36,16 @@ export class PatientDetailComponent implements OnInit {
   ngOnInit() {
     var operationId = this.route.snapshot.params.operationId;
     this.user = this.route.snapshot.data.user;
-    this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
-      this.operation = operation;
-      return operation;
-    });
+    // this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
+    //   this.operation = operation;
+    //   return operation;
+    // });
     this.patient = this.route.snapshot.data.patient;
   }
 
   patientCallStartEventHandler($event: PatientCall) {
     this.selected.patientCall = $event;
+    this.patientCallService.startPatientCall(this.patientCall.patientCallId);
   }
 
   patientCallEndEventHandler($event: number) {
