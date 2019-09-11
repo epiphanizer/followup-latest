@@ -40,7 +40,10 @@ export class NotificationModalComponent {
     this.createForm();
   }
   createForm() {
-    this.createNotificationForm = this.fb.group({});
+    this.createNotificationForm = this.fb.group({
+      notificationType: this.fb.control({}),
+      notificationNotes: this.fb.control({})
+    });
   }
   editNotification() {
     this.status.notification.saved = false;

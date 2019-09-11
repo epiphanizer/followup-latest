@@ -33,11 +33,12 @@ span.label {
   font-size: 12px;
 }
 .left-col {
-  max-width: 250px;
+  max-width: 170px;
 }
 .sidebar-calendar {
   width: 86px;
   height: 90px;
+  margin: 40px;
   h4 {
     width: 86px;
     height: 12px;
@@ -61,6 +62,13 @@ span.label {
     text-align: center;
   }
 }
+
+.notification-textarea {
+  height: 200px;
+  width: 520px;
+  background-color: #f5f5f5;
+}
+
 button {
   width: 70px;
   height: 28px;
