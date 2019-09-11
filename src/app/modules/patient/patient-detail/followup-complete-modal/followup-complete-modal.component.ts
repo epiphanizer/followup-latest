@@ -24,7 +24,9 @@ export class FollowupCompleteModalComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
-    this.patientStatuses = this.patientStatusService.getPatientStatusLabels();
+    this.patientStatusService.getPatientStatusLabels().subscribe((data: PatientStatus) => {
+      console.log(data);
+    });
   }
   createForm() {
     this.followupCompleteForm = this.fb.group({
