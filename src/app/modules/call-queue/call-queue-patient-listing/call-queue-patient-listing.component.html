@@ -21,6 +21,7 @@
   <li
     *ngFor="let patient of patients$ | async"
     class="active"
+    [class.new-discharge]="patient.patientCallCount == 1"
     [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
   >
     <ng-container *ngIf="patient.patientOnFinalCall; else patientCallCount">
