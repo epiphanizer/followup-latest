@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { Notification, NotificationService } from '@app/modules/notification/notification.service';
 import { Patient } from '@app/modules/patient/patient';
 import { formatDate } from '@angular/common';
+import { FormGroup, FormBuilder } from '@angular/forms';
 @Component({
   providers: [NotificationService],
   selector: 'app-notification-modal',
@@ -10,6 +11,7 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./notification-modal.component.scss']
 })
 export class NotificationModalComponent {
+  createNotificationForm: FormGroup;
   @Input() patient: Patient;
   notification: Notification;
   notificationTypes: {
@@ -27,10 +29,18 @@ export class NotificationModalComponent {
   };
   todaysDateDay: number;
 
-  constructor(private modalCtrl: ModalController, private notificationService: NotificationService) {}
+  constructor(
+    private modalCtrl: ModalController,
+    private fb: FormBuilder,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+    this.createForm();
+  }
+  createForm() {
+    this.createNotificationForm = this.fb.group({});
   }
   editNotification() {
     this.status.notification.saved = false;
