@@ -17,8 +17,12 @@ export class PatientSummaryWidgetComponent implements OnInit {
 
   ngOnInit() {}
 
-  showAlternateNumbers() {
+  toggleAlternateNumbers() {
     alert('Showing alternate numbers');
-    this.expandAlternateNumbers = true;
+    if (!this.expandAlternateNumbers) {
+      this.expandAlternateNumbers = true;
+    } else {
+      this.expandAlternateNumbers = false;
+    }
   }
 }

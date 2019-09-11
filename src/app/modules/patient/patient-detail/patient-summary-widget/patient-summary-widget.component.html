@@ -37,7 +37,20 @@
                 </ng-template>
               </span>
               <br />
-              <a class="alternate-numbers" (click)="showAlternateNumbers()">[Alt Numbers]</a>
+              <a class="alternate-numbers" (click)="toggleAlternateNumbers()">[Alt Numbers]</a>
+              <ng-container *ngIf="expandAlternateNumbers">
+                <ion-list lines="none" inset class="alternate-numbers-list">
+                  <ion-item>
+                    Alternate Contact #1
+                  </ion-item>
+                  <ion-item>
+                    Alternate Contact #2
+                  </ion-item>
+                  <ion-item>
+                    Alternate Contact #3
+                  </ion-item>
+                </ion-list>
+              </ng-container>
             </li>
           </ul>
         </div>

@@ -63,10 +63,17 @@
   }
 }
 .alternate-numbers {
-  font-size: 10px;
-  padding-top: 4px;
+  font-size: 11px;
+  padding-top: 6px;
   cursor: pointer;
 }
+.alternate-numbers-list {
+  ion-item {
+    font-family: Avenir;
+    font-size: 11px;
+  }
+}
+
 .edit-patient-jump {
   display: block;
   margin-top: 59px;
