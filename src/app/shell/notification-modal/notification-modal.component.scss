@@ -27,7 +27,11 @@ ion-title {
   text-align: right;
   background-color: #ef4136;
 }
-
+span.label {
+  font-weight: bold;
+  font-family: Avenir;
+  font-size: 11px;
+}
 .sidebar-calendar {
   h4 {
     width: 86%;
@@ -55,7 +59,11 @@ ion-title {
 button {
   width: 70px;
   height: 28px;
+  text-align: center;
+  line-height: 28px;
+  vertical-align: middle;
 }
 .save-button {
-  background-image: url("/assets/button-save-red@2x.png");
+}
+.send-button {
 }

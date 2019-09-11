@@ -46,13 +46,18 @@
           <ion-item>
             <span class="label">Next Steps:&nbsp;</span>
           </ion-item>
-          <ion-item> <span class="label">Message:&nbsp;</span> {{ notification.notificationMessage }} </ion-item>
+          <ion-item>
+            <span class="label">Message:&nbsp;</span>
+            <ion-textarea disabled>
+              {{ notification.notificationMessage }}
+            </ion-textarea>
+          </ion-item>
         </ion-list>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-button class="ion-float-left edit-button" (click)="editNotification()">Back</ion-button>
-      <ion-button class="ion-float-right save-button" (click)="sendNotification()">Send</ion-button>
+      <ion-button fill="outline" class="ion-float-left edit-button" (click)="editNotification()">Back</ion-button>
+      <ion-button fill="outline" class="ion-float-right save-button" (click)="sendNotification()">Send</ion-button>
     </ion-row>
   </ng-template>
 </form>

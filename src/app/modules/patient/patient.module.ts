@@ -14,6 +14,7 @@ import { PatientService } from './patient.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientManagerSidebarComponent } from '@app/modules/patient/patient-manager-sidebar/patient-manager-sidebar.component';
 import { PatientQuestionComponent } from './patient-question/patient-question.component';
+import { FollowupCompleteModalComponent } from './patient-detail/followup-complete-modal/followup-complete-modal.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { PatientQuestionComponent } from './patient-question/patient-question.co
     PatientNotesModule,
     PatientAvatarModule
   ],
-  entryComponents: [PatientManagerSidebarComponent],
+  entryComponents: [PatientManagerSidebarComponent, FollowupCompleteModalComponent],
   providers: [PatientService]
 })
 export class PatientModule {}

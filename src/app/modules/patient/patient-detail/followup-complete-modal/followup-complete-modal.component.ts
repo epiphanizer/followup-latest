@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 
 @Component({
+  providers: [PatientStatusService],
   selector: 'app-followup-complete-modal',
   templateUrl: './followup-complete-modal.component.html',
   styleUrls: ['./followup-complete-modal.component.scss']
@@ -30,7 +31,6 @@ export class FollowupCompleteModalComponent implements OnInit {
     });
   }
   archivePatient() {
-    alert('Archiving patient');
     var formSubmission = this.followupCompleteForm.getRawValue();
     var patientStatusLabelId = 5;
     // debugger;
