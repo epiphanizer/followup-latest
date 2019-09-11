@@ -113,4 +113,9 @@ i.icon-hipaa {
 .right-col-controls {
   max-width: 100px;
   float: right;
+  app-patient-call-history-controls {
+    width: 40px;
+    display: block;
+    min-height: 245px;
+  }
 }

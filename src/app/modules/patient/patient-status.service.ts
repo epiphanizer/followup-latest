@@ -6,6 +6,7 @@ export interface PatientStatus {
   patientStatusId: number;
   patientStatusLabel: string;
 }
+
 export class PatientStatusService {
   constructor(private http: HttpClient) {}
 
