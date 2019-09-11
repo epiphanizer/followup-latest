@@ -13,29 +13,42 @@ ion-list {
     background-image: url("/assets/icon-new-facility@2x.png");
   }
 
-  i.icon-diagnosis {
-    background-image: url("/assets/icon-diagnosis@2x.png");
+  i.icon-info {
+    background-image: url("/assets/icon-info@2x.png");
   }
-
-  .ion-item {
+  ion-item {
     font-size: 12px;
     font-family: Avenir;
+  }
+
+  &.more-info {
+    ion-item {
+      font-size: 12px;
+      font-family: Avenir;
+
+      &:nth-child(n + 1) {
+        margin-left: 16px;
+      }
+    }
   }
 
   span {
     font-size: 12px;
-    font-family: Avenir;
+    font-family: AvenirBold;
 
     &.label {
-      font-weight: bold;
       color: #343638;
       font-size: 12px;
     }
   }
 
   &.inline-discharge {
+    margin-top: 0;
+    margin-bottom: -25px;
     ion-item {
       display: inline-block;
+      font-size: 12px;
+      font-family: Avenir;
     }
   }
 

@@ -1,6 +1,8 @@
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { OperationContact } from './operation-contact/operation-contact';
+import { OperationCallRep } from './operation-callreps.service';
 
 export interface Operation {
   operationId: number;
@@ -9,6 +11,10 @@ export interface Operation {
   operationCity: string;
   operationState: string;
   operationZip: string;
+  operationContacts$: Observable<OperationContact[]>;
+  operationAssignedManagerUserId?: number;
+  operationAssignedManagerName?: string;
+  operationCallReps$: Observable<OperationCallRep[]>;
   /**
    * Some counters that don't always
    * attach to the object,
@@ -22,6 +28,12 @@ export interface Operation {
 export class OperationService {
   constructor(private http: HttpClient) {}
 
+  addNewOperation(): Observable<Operation> {
+    return this.http.post<Operation>('operations', {}).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   /**
    * We need to make sure this only gives us back the ones we need.
    */

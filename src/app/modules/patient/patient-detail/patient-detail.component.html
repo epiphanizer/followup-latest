@@ -1,7 +1,7 @@
 <ion-content>
   <ion-row>
     <ion-col class="left-hand-detail">
-      <app-patient-call-status-controls></app-patient-call-status-controls>
+      <app-patient-call-status-controls *ngIf="selected.patientCall"> </app-patient-call-status-controls>
       <!-- Missing Functionality: Selector for app contact -->
       <app-patient-call-start-button
         *ngIf="!selected.patientCall"
@@ -20,23 +20,25 @@
         <img class="default-faded-questions" src="/assets/faded-questions-bg@2x.png" alt="" />
       </ng-template>
       <app-patient-call-stop-button
-        *ngIf="selected.patientCall && selected.patientCall.patientCallStatusLabel !== 'In Review'"
+        *ngIf="selected.patientCall"
         (patientCallEndEventEmitter)="patientCallEndEventHandler($event)"
       >
       </app-patient-call-stop-button>
-      <ng-container *ngIf="selected.patientCall.patientCallStatusLabel == 'In Review'">
+
+      <ng-container *ngIf="selected.patientCall">
         <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
         <app-patient-next-call-questions> </app-patient-next-call-questions>
+        <app-patient-next-call-finish-button (click)="finishPatientCall(selected.patientCall)">
+          Finish & Save
+        </app-patient-next-call-finish-button>
       </ng-container>
     </ion-col>
     <ion-col class="right-hand-detail">
       <ng-container>
         <app-patient-summary-widget *ngIf="operation" [operation]="operation" [patient]="patient">
         </app-patient-summary-widget>
-        <!-- predicated on their being patient calls, always -->
-        <app-patient-call-history-controls> </app-patient-call-history-controls>
       </ng-container>
-      <app-patient-call-history-listing [patient]="patient"> </app-patient-call-history-listing>
+      <!-- <app-patient-call-history-listing [patient]="patient"> </app-patient-call-history-listing> -->
       <app-patient-notes [patient]="patient"> </app-patient-notes>
     </ion-col>
   </ion-row>

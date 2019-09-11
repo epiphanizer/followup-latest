@@ -8,25 +8,40 @@
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="patient-filters">
   <li>
-    <a (click)="sortPatientsByDischargeDate()">[Discharge Date]</a>
+    <a (click)="sortPatientsByDischargeDate(selectedSortFlag)">[Discharge Date]</a>
   </li>
   <li>
-    <a (click)="sortPatientsByCallDate()">[Call Date]</a>
+    <a (click)="sortPatientsByCallDate(selectedSortFlag)">[Call Date]</a>
   </li>
   <li class="ascending-descending-control">
-    <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
+    <i
+      class="ascending-descending-control-arrow"
+      [class.asc]="selectedSortFlag == 'asc'"
+      [class.desc]="selectedSortFlag == 'desc'"
+      (click)="toggleAscDesc()"
+    >
+    </i>
   </li>
 </ul>
 <ul class="call-queue-patient-list">
   <li
     *ngFor="let patient of patients$ | async"
     class="active"
+    [class.new-discharge]="patient.patientCallCount == 1"
     [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
   >
-    <div class="call-queue-number">
-      {{ patient.patientCallCount }}
-    </div>
-    <div class="call-queue-avatar">
+    <ng-container *ngIf="patient.patientOnFinalCall; else patientCallCount">
+      <div class="call-queue-number">
+        <img src="/assets/icon-final-call@2x.png" />
+      </div>
+    </ng-container>
+    <ng-template #patientCallCount>
+      <div class="call-queue-number">
+        {{ patient.patientCallCount }}
+      </div>
+    </ng-template>
+
+    <div draggable class="call-queue-avatar">
       {{ patient.avatarImage }}
     </div>
     <div class="call-queue-patient-information">
@@ -35,10 +50,7 @@
           {{ patient.patientFirstName }} {{ patient.patientLastName }}
         </a>
       </span>
-      <!-- This expression gives us the age back. -->
-      <span class="patient label-line">
-        {{ currentYear - (patient.patientDob | slice: 0:4) }}, {{ operation?.operationName }}
-      </span>
+      <span class="patient label-line"> {{ patient.patientAge }}, {{ operation?.operationName }} </span>
     </div>
     <div class="call-queue-call-status-legend">
       <ul>

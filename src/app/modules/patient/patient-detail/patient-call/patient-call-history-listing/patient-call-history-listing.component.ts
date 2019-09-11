@@ -10,9 +10,12 @@ import { Observable } from 'rxjs';
 })
 export class PatientCallHistoryListingComponent implements OnInit {
   @Input() patient: Patient;
-  patientCalls: PatientCall[] | [] = [];
-  patientCalls$: Observable<PatientCall[]> | null = null;
+  patientCalls: PatientCall[];
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.patient.patientCalls$.subscribe((data: PatientCall[]) => {
+      this.patientCalls = data;
+    });
+  }
 }

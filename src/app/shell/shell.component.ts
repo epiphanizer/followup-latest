@@ -23,19 +23,10 @@ export class ShellComponent {
     private authenticationService: AuthenticationService,
     public modalController: ModalController
   ) {
-    if (this.route.snapshot.data.navLinks) {
-      this.navLinks = this.route.snapshot.data.navLinks;
-    }
-  }
-  async createNotificationModal() {
-    const modal = await this.modalController.create({
-      component: NotificationModalComponent,
-      componentProps: {
-        notificationTypeId: 1,
-        notificationTypeLabel: 'Label'
-      }
+    // Pass thru navlinks from child routes
+    route.url.subscribe(() => {
+      this.navLinks = route.snapshot.firstChild.data.navLinks;
     });
-    return await modal.present();
   }
   signOut() {
     this.authenticationService.signOut();

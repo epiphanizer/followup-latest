@@ -15,16 +15,12 @@ const routes: Routes = [
       data: {
         navLinks: [
           {
-            action: 'patient/add',
-            name: 'Add Patient'
+            linkAction: 'patient/add',
+            linkName: 'Add Patient'
           },
           {
-            action: '/notifications',
-            name: 'Notifications'
-          },
-          {
-            action: '',
-            name: 'Previous Discharges'
+            linkAction: 'notifications',
+            linkName: 'Notifications'
           }
         ]
       },

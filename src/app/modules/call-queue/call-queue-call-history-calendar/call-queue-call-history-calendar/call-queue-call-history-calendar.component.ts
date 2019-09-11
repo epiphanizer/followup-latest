@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MonthCalendarModule, DayOfWeek } from 'simple-angular-calendar';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-call-queue-call-history-calendar',
@@ -7,47 +7,35 @@ import { MonthCalendarModule, DayOfWeek } from 'simple-angular-calendar';
   styleUrls: ['./call-queue-call-history-calendar.component.scss']
 })
 export class CallQueueCallHistoryCalendarComponent implements OnInit {
-  months: {}[];
-
+  months: {
+    number: string;
+    name: string;
+  }[];
+  todaysDateDay: number | string;
+  currentMonth: {
+    number: string;
+    name: string;
+  };
+  selectedMonth: {
+    number: string;
+    name: string;
+    daysArray?: number[];
+    numberOfDays?: number;
+  };
+  selectedYear: {
+    year: number;
+  };
   todaysDate: Date;
   todaysMonth: string;
+  todaysYear: number;
 
-  // /**
-  //  * CSS class for the month.
-  //  */
-  // monthClass = 'custom-month';
+  constructor() {}
 
-  // /**
-  //  * CSS class for the month caption.
-  //  */
-  // monthCaptionClass = 'custom-month__caption';
-
-  // /**
-  //  * CSS class for the day of the week captions.
-  //  */
-  // dayOfWeekCaptionClass = 'custom-month__week-caption';
-
-  // /**
-  //  * CSS class for the day captions.
-  //  */
-  // dayCaptionClass = 'custom-month__day';
-
-  // /**
-  //  * CSS class for day.
-  //  */
-  // defaultDayClass = 'custom-month__day--default';
-
-  // /**
-  //  * CSS class for the current day.
-  //  */
-  // currentDayClass = 'custom-month__day--today';
-
-  // /**
-  //  * CSS class for the selected day.
-  //  */
-  // selectedDayClass = 'custom-month__day--selected';
-
-  constructor() {
+  ngOnInit() {
+    this.todaysDate = new Date();
+    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+    this.todaysMonth = ('0' + (this.todaysDate.getMonth() + 1)).substring(0, 2);
+    this.todaysYear = this.todaysDate.getFullYear();
     this.months = [
       {
         number: '01',
@@ -98,12 +86,25 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
         name: 'December'
       }
     ];
+    // Subtract one because of the 0 index of the array
+    this.selectedMonth = this.currentMonth = this.months[parseInt(this.todaysMonth) - 1];
+    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
+    this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
   }
 
-  ngOnInit() {}
-  private overRideDayCaption = ['', '', '', '', '', '', ''];
-
-  dayOfWeekCaptionFormatter = (dayOfWeek: DayOfWeek) => {
-    return this.overRideDayCaption[dayOfWeek.valueOf()];
-  };
+  daysInMonth(month: number, year: number) {
+    return new Date(year, month, 0).getDate();
+  }
+  calendarPrevMonth() {
+    this.selectedMonth = this.months[parseInt(this.currentMonth.number) - 2];
+    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentMonth.number), this.todaysYear);
+  }
+  calendarNextMonth() {
+    this.currentMonth = this.months[parseInt(this.currentMonth.number)];
+    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentMonth.number), this.todaysYear);
+  }
+  selectDateEventHandler(day: number, currentMonth: number, todaysYear: number) {
+    let date = day + '/' + currentMonth + '/' + todaysYear;
+    alert('Selected date: ' + date);
+  }
 }

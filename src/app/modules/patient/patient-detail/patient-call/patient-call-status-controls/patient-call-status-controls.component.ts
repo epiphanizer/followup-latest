@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  PatientCallStatusService,
+  PatientCallStatus
+} from '@app/modules/patient/patient-detail/patient-call/patient-call-status.service';
 
 @Component({
   selector: 'app-patient-call-status-controls',
@@ -6,7 +10,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./patient-call-status-controls.component.scss']
 })
 export class PatientCallStatusControlsComponent implements OnInit {
-  constructor() {}
+  patientCallStatuses: PatientCallStatus[];
+  constructor(private patientCallStatusService: PatientCallStatusService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.patientCallStatusService.getPatientCallStatuses().subscribe((data: PatientCallStatus[]) => {
+      this.patientCallStatuses = data;
+    });
+  }
+
+  updatePatientCallStatus() {
+    alert('updating patient call status');
+    // this.patientCallStatusService.addPatientCallStatusByPatientCallId();
+  }
 }

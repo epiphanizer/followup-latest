@@ -22,7 +22,7 @@
             {{ patient.patientLastName }}
           </h2>
         </div>
-        <div class="patient-age">Age: {{ currentYear - (patient.patientDob | slice: 0:4) }}</div>
+        <div class="patient-age">Age: {{ patient.patientAge }}</div>
         <div class="patient-contact-container">
           <ul class="patient-contact-list">
             <li *ngIf="patient.primaryContactPhoneNumber">
@@ -37,7 +37,7 @@
                 </ng-template>
               </span>
               <br />
-              <a [routerLink]="'/patient/edit/' + patient.patientId + '#contacts'">[Alt Numbers]</a>
+              <a (click)="showAlternateNumbers()">[Alt Numbers]</a>
             </li>
           </ul>
         </div>
@@ -45,6 +45,9 @@
       <a class="edit-patient-jump" [routerLink]="'/patient/edit/' + patient.patientId">
         [edit]
       </a>
+      <!-- predicated on their being patient calls, always -->
+      <app-patient-call-history-controls> </app-patient-call-history-controls>
+      <app-followup-complete-button *ngIf="patient" [patient]="patient"> </app-followup-complete-button>
     </ion-col>
   </ion-row>
 </ng-container>

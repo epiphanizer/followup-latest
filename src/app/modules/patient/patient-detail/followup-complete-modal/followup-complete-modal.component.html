@@ -1,0 +1,13 @@
+<form>
+  <ng-container>
+    <ion-title>Follow-up Complete</ion-title>
+    <ion-list class="graduation-options" lines="none">
+      <ion-item *ngFor="let patientStatus of patientStatuses">
+        <ion-checkbox value="patientStatus.patientStatusLabelId"></ion-checkbox>
+        <ion-label>{{ patientStatus.patientStatusLabel }}</ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-textarea> </ion-textarea>
+    <ion-button class="save-button" (click)="archivePatient()">Archive</ion-button>
+  </ng-container>
+</form>

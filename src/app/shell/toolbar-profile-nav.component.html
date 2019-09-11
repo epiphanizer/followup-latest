@@ -1,7 +1,10 @@
 <div class="toolbar-profile-nav">
   <div class="user-avatar">
     <div class="avatar-image">
-      <img src="{{ user.avatar }}" />
+      <img *ngIf="user.avatar; else defaultProfileAvatar" src="{{ user.avatar }}" />
+      <ng-template #defaultProfileAvatar>
+        <img src="/assets/default-avatar@2x.png" />
+      </ng-template>
     </div>
   </div>
   <div class="username">

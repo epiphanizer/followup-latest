@@ -1,12 +1,10 @@
 <ng-container>
-  <ion-list>
-    <ul class="patient-call-history-controls">
-      <i class="phone-icon"></i>
-      <li class="call-history-control-icon">1</li>
-      <li class="call-history-control-icon">2</li>
-      <li class="call-history-control-icon">3</li>
-      <li class="call-history-control-icon">4</li>
-      <li class="call-history-control-icon">5</li>
-    </ul>
+  <ion-list lines="none">
+    <i class="phone-icon"></i>
+    <ion-item *ngFor="let patientCall of patientCalls; let idx = index">
+      <ion-button (click)="scrollToPatientCall(patientCall.patientCallId)">
+        {{ idx }}
+      </ion-button>
+    </ion-item>
   </ion-list>
 </ng-container>

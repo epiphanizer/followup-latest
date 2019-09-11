@@ -13,7 +13,7 @@
 
 h3 {
   font-family: AvenirBold;
-  font-size: 21px;
+  font-size: 18px;
   font-weight: 900;
   font-style: normal;
   font-weight: bold;
@@ -57,6 +57,9 @@ ul.patient-filters {
         margin-top: 12px;
         background-image: url("/assets/icon-down-arrow.png");
         background-size: 100%;
+        &.asc {
+          transform: rotate(180deg);
+        }
       }
     }
   }
@@ -100,19 +103,6 @@ ul.patient-filters {
     height: 96px;
     line-height: 83px;
     vertical-align: middle;
-    &.active {
-      background-color: rgba(8, 196, 0, 0.1);
-      &:hover {
-        background-color: rgba(19, 175, 233, 0.35);
-      }
-    }
-    &:hover {
-      background-color: rgba(19, 175, 233, 0.35);
-    }
-
-    &.new-discharge {
-      background-color: rgba(112, 112, 112, 0.15);
-    }
 
     ul {
       padding-left: 0;
@@ -123,6 +113,7 @@ ul.patient-filters {
       display: block;
       float: left;
       width: 45px;
+      overflow: hidden;
       height: 96px;
       font-family: Avenir;
       font-size: 18px;
@@ -144,6 +135,14 @@ ul.patient-filters {
 
     &:nth-child(odd) {
       background-color: RGBA(200, 200, 200, 0.15);
+    }
+
+    &:hover {
+      background-color: rgba(19, 175, 233, 0.35);
+    }
+
+    &.new-discharge {
+      background-color: rgba(20, 171, 52, 0.15);
     }
 
     .call-queue-avatar {

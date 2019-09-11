@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, delay } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 
@@ -12,6 +12,7 @@ export interface PatientCall {
   patientCallStartTime: Date;
   patientCallEndTime?: Date;
   patientCallStatusLabelId: number;
+  patientCallStatusLabel: string;
   patientCallNumber?: number;
 }
 
@@ -53,10 +54,18 @@ export class PatientCallService {
 
   getPatientCallsByPatientId = function(patientId: number) {
     return this.http.get('patients/' + patientId + '/calls').pipe(
+      delay(5000),
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
+
+  public startPatientCall(patientCallId: number) {
+    return this.http.post('patients/calls/' + patientCallId + '/end', {}).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
 
   public endPatientCall(patientCallId: number) {
     return this.http.post('patients/calls/' + patientCallId + '/end', {}).pipe(

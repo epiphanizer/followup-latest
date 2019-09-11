@@ -34,19 +34,25 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   deactivateUserByUserId(userId: number) {
-    this.http.delete('user/' + userId).pipe(
+    return this.http.delete('user/' + userId).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>('users').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
   updateUserLoginTime(userId: number) {
-    this.http.post('user/' + userId + '/activity', {}).pipe(
+    return this.http.post('user/' + userId + '/activity', {}).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
   updateUserByUserId(userId: number, formData: FormData) {
-    this.http.put('user/' + userId, formData).pipe(
+    return this.http.put('user/' + userId, formData).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

@@ -4,8 +4,8 @@
   margin-left: 73px;
 }
 h3 {
+  font-size: 18px;
   font-family: AvenirBold;
-  font-size: 21px;
   font-weight: 900;
   font-style: normal;
   font-weight: bold;
@@ -33,6 +33,7 @@ h3 {
   color: #8e8e93;
   font-size: 14px;
   margin-top: 19.5px;
+  width: 90px;
 }
 .left-month-arrow,
 .right-month-arrow {
@@ -60,95 +61,28 @@ h3 {
   height: 225px;
   margin-top: -40px;
 }
-
-/*
-  Creating custom styles
-*/
-.custom-month {
-  font-family: Arial, Helvetica, sans-serif;
-  border: none;
-
-  &__week-caption,
-  &__caption {
-    border: none;
-  }
-
-  &__day {
-    border: none;
-    padding: 5px;
-
-    &--default {
-      text-align: right;
+.calendar-wrapper {
+  width: 100%;
+  div {
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    height: 28px;
+    width: 28px;
+    margin-top: 10px;
+    margin-right: 14px;
+    background-color: rgba(142, 142, 147, 0.12);
+    color: black;
+    &.active {
+      background-color: rgba(19, 175, 233, 0.35);
+      span {
+        font-weight: bold;
+      }
     }
-
-    &--today {
-      background: red;
-    }
-
-    &--selected {
-      background: blue;
-      color: white;
+    span {
+      font-size: 12px;
+      line-height: 28px;
+      width: 100%;
     }
   }
-}
-
-// sc-month-calendar {
-//   max-height: 250px;
-//   overflow: hidden;
-//   .row {
-//     text-align: center;
-//     padding-bottom: 5px;
-//   }
-// }
-
-// .sc-month {
-//   font-family: Arial, Helvetica, sans-serif;
-//   border: none;
-//   height: 175px !important;
-//   text-align: center;
-
-//   &__week-caption,
-//   &__caption {
-//     border: none;
-//     display: none;
-//   }
-
-//   &__day {
-//     width: 37px;
-//     height: 35px;
-//     border: none;
-//     padding: 5px;
-//     text-align: center;
-
-//     &--default {
-//       text-align: center;
-//       background: red;
-//     }
-
-//     &--today {
-//       background: #8e8e93;
-//     }
-//     &--selected {
-//       background: blue;
-//     }
-
-//   }
-// }
-
-.custom-month__caption {
-  display: none;
-}
-// Customizations to library
-
-.custom-month__day {
-  display: none;
-}
-
-.sc-month__day {
-  width: 37px;
-  height: 35px;
-  background: rgba(142, 142, 147, 0.12);
-}
-.sc-month__caption {
-  display: none;
 }

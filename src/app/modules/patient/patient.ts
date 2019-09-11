@@ -23,7 +23,7 @@ export interface Patient {
   patientDischargeDate?: Date;
   patientTotalDays?: number;
   patientDob?: Date;
-  age?: number | null;
+  patientAge?: number | null;
   avatar?: string;
   patientContactNumberId?: number | null;
   patientContactPhoneNumber?: number | null;
@@ -33,6 +33,8 @@ export interface Patient {
   patientCalls?: PatientCall[];
   patientCalls$: Observable<PatientCall[]>;
   patientCallCount?: number;
+  patientNextCallTime?: Date;
+  patientOnFinalCall?: boolean;
   patientCurrentStatusLabel?: number;
   patientDischargedAma?: boolean;
   patientDischargedConditions?: number[];

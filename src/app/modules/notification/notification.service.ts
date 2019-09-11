@@ -14,11 +14,27 @@ export interface Notification {
 export class NotificationService {
   constructor(private http: HttpClient) {}
 
-  getNotificationsByOperationId(operationId: number): Observable<any> {
-    return this.http.get<any>('notifications/operations/' + operationId).pipe(
+  getNotificationsByOperationId(operationId: number): Observable<Notification[]> {
+    return this.http.get<Notification[]>('notifications/operations/' + operationId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
+  }
+  saveNotificationByPatientId(patientId: number): Observable<any> {
+    return this.http.post<Notification>('notifications/operations/' + patientId, {}).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  sendNotificationByNotificationId(notificationId: number): Observable<any> {
+    return this.http
+      .post<Notification>('notifications/' + notificationId, {
+        notificationStatusLabelId: 1
+      })
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   }
 
   private handleAsyncError(error: HttpErrorResponse) {
