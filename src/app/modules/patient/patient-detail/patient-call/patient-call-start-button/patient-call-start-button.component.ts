@@ -21,6 +21,7 @@ export class PatientCallStartButtonComponent implements OnInit {
   ngOnInit() {}
 
   public patientCallStartEvent() {
+    debugger;
     this.patientCall$ = this.patientCallService
       .startPatientCallByUserIdAndPatientCallId(
         this.user.id,

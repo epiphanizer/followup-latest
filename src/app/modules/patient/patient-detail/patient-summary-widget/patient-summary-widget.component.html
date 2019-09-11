@@ -8,7 +8,7 @@
         </ng-template>
       </div>
     </ion-col>
-    <ion-col>
+    <ion-col class="middle-summary-container">
       <div class="patient-info">
         <div class="patient-meta-info">
           <span class="patient-operation-name">
@@ -40,14 +40,11 @@
               <a class="alternate-numbers" (click)="toggleAlternateNumbers()">[Alt Numbers]</a>
               <ng-container *ngIf="expandAlternateNumbers">
                 <ion-list lines="none" inset class="alternate-numbers-list">
-                  <ion-item>
+                  <!-- <ion-item *ngFor="let alternateContactNumber of patient.patientContactNumbers$ | async">
+                    {{alternateContactNumber}}
+                  </ion-item> -->
+                  <ion-item class="alternate-number">
                     Alternate Contact #1
-                  </ion-item>
-                  <ion-item>
-                    Alternate Contact #2
-                  </ion-item>
-                  <ion-item>
-                    Alternate Contact #3
                   </ion-item>
                 </ion-list>
               </ng-container>
@@ -55,13 +52,12 @@
           </ul>
         </div>
       </div>
-      <a class="edit-patient-jump" [routerLink]="'/patient/edit/' + patient.patientId">
-        [edit]
-      </a>
-      <!-- predicated on their being patient calls, always -->
+    </ion-col>
+    <ion-col class="right-col-controls">
       <app-patient-call-history-controls> </app-patient-call-history-controls>
       <app-followup-complete-button class="ion-float-right" *ngIf="patient" [patient]="patient">
       </app-followup-complete-button>
     </ion-col>
+    <!-- predicated on their being patient calls, always -->
   </ion-row>
 </ng-container>
