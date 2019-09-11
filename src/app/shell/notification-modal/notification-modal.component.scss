@@ -1,6 +1,13 @@
+:root {
+  height: 595px;
+  width: 645px;
+}
 ion-title {
+  width: 100%;
+  margin-top: 37px;
+  margin-left: 37px;
   font-family: AvenirNextLTPro;
-  font-size: 30px;
+  font-size: 18px;
   font-weight: 300;
   font-style: normal;
   font-stretch: normal;
@@ -18,5 +25,12 @@ ion-title {
   line-height: 0.48;
   letter-spacing: normal;
   text-align: right;
-  color: #ef4136;
+  background-color: #ef4136;
+}
+button {
+  width: 70px;
+  height: 28px;
+}
+.save-button {
+  background-image: url("/assets/button-save-red@2x.png");
 }

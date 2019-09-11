@@ -2,6 +2,7 @@
   clear: both;
 }
 ion-title {
+  width: 100%;
   font-family: Avenir;
   font-size: 18px;
   font-weight: normal;
@@ -15,11 +16,12 @@ ion-title {
 ion-item {
   display: inline-block;
   margin-left: 14.5px;
-  height: 50px;
-  width: 43px;
+  height: 100px;
+  width: 86px;
   button {
-    height: 50px;
-    width: 43px;
+    height: 100px;
+    width: 86px;
+    background: transparent;
     border: 1px black;
     border-radius: 1px;
   }

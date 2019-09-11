@@ -11,11 +11,18 @@ import { Patient } from '@app/modules/patient/patient';
 export class NotificationModalComponent {
   @Input() patient: Patient;
   notification: Notification;
-  notificationTypes: {};
+  notificationTypes: {
+    notificationTypeLabelId: number;
+    notificationTypeLabel: string;
+  };
   status: {
     notification: {
       saved: boolean;
     };
+  } = {
+    notification: {
+      saved: false
+    }
   };
   constructor(private modalCtrl: ModalController, private notificationService: NotificationService) {}
 
@@ -23,10 +30,13 @@ export class NotificationModalComponent {
     this.status.notification.saved = false;
   }
   saveNotification() {
+    alert('saving notifcation');
     this.notificationService.saveNotificationByPatientId(this.patient.patientId);
-    this.dismiss();
+    // We will want to subscribe here
+    this.status.notification.saved = true;
   }
   sendNotification() {
+    alert('sending notification');
     this.notificationService.sendNotificationByNotificationId(this.patient.patientId);
     this.dismiss();
   }

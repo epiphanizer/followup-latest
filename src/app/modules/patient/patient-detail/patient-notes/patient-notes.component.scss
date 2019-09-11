@@ -43,6 +43,8 @@ ion-list {
   }
 
   &.inline-discharge {
+    margin-top: 0;
+    margin-bottom: -25px;
     ion-item {
       display: inline-block;
       font-size: 12px;
