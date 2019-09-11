@@ -5,6 +5,7 @@ import { FollowupCompleteModalComponent } from '../followup-complete-modal/follo
 import { PatientStatusService } from '../../patient-status.service';
 
 @Component({
+  providers: [PatientStatusService],
   selector: 'app-followup-complete-button',
   templateUrl: './followup-complete-button.component.html',
   styleUrls: ['./followup-complete-button.component.scss']

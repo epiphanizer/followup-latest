@@ -253,7 +253,7 @@
           </fieldset>
           <ion-list lines="none" inset formGroupName="patientMedicalConditions">
             <div class="section-header discharge">
-              <i class="icon-medical"></i>
+              <i class="icon-info"></i>
               <span class="contact-header">Medical Condition</span>
             </div>
             <ion-item>
@@ -298,7 +298,14 @@
               <ion-label color="medium" position="stacked">
                 Urgency Rating
               </ion-label>
-              <ion-input formControlName="patientUrgencyRating"></ion-input>
+              <ion-radio-group>
+                <ion-label position="stacked">1</ion-label>
+                <ion-radio> </ion-radio>
+                <ion-radio>2</ion-radio>
+                <ion-radio>3</ion-radio>
+                <ion-radio>4</ion-radio>
+                <ion-radio>5</ion-radio>
+              </ion-radio-group>
             </ion-item>
             <i class="icon-info"></i>
             <ion-item>

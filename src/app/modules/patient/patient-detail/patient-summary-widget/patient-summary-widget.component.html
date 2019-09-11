@@ -47,7 +47,8 @@
       </a>
       <!-- predicated on their being patient calls, always -->
       <app-patient-call-history-controls> </app-patient-call-history-controls>
-      <app-followup-complete-button *ngIf="patient" [patient]="patient"> </app-followup-complete-button>
+      <app-followup-complete-button class="ion-float-right" *ngIf="patient" [patient]="patient">
+      </app-followup-complete-button>
     </ion-col>
   </ion-row>
 </ng-container>

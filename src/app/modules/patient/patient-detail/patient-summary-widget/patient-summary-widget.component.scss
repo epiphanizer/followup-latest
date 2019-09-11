@@ -5,7 +5,7 @@
 
 .patient-operation-name {
   font-family: Avenir;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
@@ -15,8 +15,8 @@
 }
 
 .patient-name {
-  margin-top: 25px;
-  font-family: AvenirBold;
+  margin-top: 18px;
+  font-family: Avenir;
   font-size: 40px;
   font-weight: normal;
   font-style: normal;
@@ -26,7 +26,10 @@
   text-align: left;
   height: 80px;
 }
-
+.patient-medical-record-number {
+  font-family: Avenir;
+  font-size: 13px;
+}
 .patient-contact-list {
   list-style-type: none;
   padding-left: 0;

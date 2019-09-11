@@ -56,12 +56,13 @@ export class PatientFormComponent implements OnInit {
 
   onFormSubmit(): void {
     let formSubmission = this.addPatientForm.getRawValue();
-    let payload = this.formSubmissionFactory(formSubmission);
-    console.log(payload);
-    this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
-      console.log(value);
-      return (this.status.submitted = true);
-    });
+    // let payload = this.formSubmissionFactory(formSubmission);
+    // console.log(payload);
+    // this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
+    // console.log(value);
+    // return (this.status.submitted = true);
+    // });
+    alert('submitting form');
   }
 
   /**
