@@ -15,4 +15,7 @@ export class PatientSummaryWidgetComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+  showAlternateNumbers() {
+    alert('Showing alternate numbers');
+  }
 }

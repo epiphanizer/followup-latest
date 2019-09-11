@@ -73,13 +73,16 @@ h3 {
     margin-right: 14px;
     background-color: rgba(142, 142, 147, 0.12);
     color: black;
+    &.active {
+      background-color: rgba(19, 175, 233, 0.35);
+      span {
+        font-weight: bold;
+      }
+    }
     span {
       font-size: 12px;
       line-height: 28px;
       width: 100%;
-      &.active {
-        font-weight: bold;
-      }
     }
   }
 }

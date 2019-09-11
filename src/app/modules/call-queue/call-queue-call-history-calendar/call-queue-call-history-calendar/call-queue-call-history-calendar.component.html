@@ -9,7 +9,12 @@
     <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
   </div>
   <div class="calendar-wrapper">
-    <div class="calendar-day" *ngFor="let day of selectedMonth.daysArray" (click)="selectDateEventHandler(day)">
+    <div
+      class="calendar-day"
+      *ngFor="let day of selectedMonth.daysArray"
+      [class.active]="todaysDateDay == day"
+      (click)="selectDateEventHandler(day, currentMonth.number, todaysYear)"
+    >
       <span>{{ day }}</span>
     </div>
   </div>

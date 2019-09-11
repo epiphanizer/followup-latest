@@ -37,7 +37,7 @@
                 </ng-template>
               </span>
               <br />
-              <a [routerLink]="'/patient/edit/' + patient.patientId + '#contacts'">[Alt Numbers]</a>
+              <a (click)="showAlternateNumbers()">[Alt Numbers]</a>
             </li>
           </ul>
         </div>
