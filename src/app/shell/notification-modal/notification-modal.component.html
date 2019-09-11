@@ -1,5 +1,4 @@
 <form>
-  {{ status | json }}
   <ng-container *ngIf="status.notification.saved == true; else sendNotification">
     <ion-title>Notification</ion-title>
     <ion-list class="notification-options" lines="none">

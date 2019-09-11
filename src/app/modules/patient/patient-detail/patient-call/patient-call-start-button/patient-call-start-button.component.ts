@@ -22,7 +22,11 @@ export class PatientCallStartButtonComponent implements OnInit {
 
   public patientCallStartEvent() {
     this.patientCall$ = this.patientCallService
-      .addPatientCallByUserIdAndPatientId(this.user.id, this.patient.patientId, this.patientContactNumberId)
+      .startPatientCallByUserIdAndPatientCallId(
+        this.user.id,
+        this.patient.nextPatientCallId,
+        this.patientContactNumberId
+      )
       .subscribe((patientCall: PatientCall) => {
         this.patientCallStartEventEmitter.emit(patientCall);
       });

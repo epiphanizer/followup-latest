@@ -33,9 +33,13 @@ export class PatientCallService {
     status: number | string;
   };
   constructor(private http: HttpService) {}
-  addPatientCallByUserIdAndPatientId = function(userId: number, patientId: number, patientContactNumberId: number) {
+  startPatientCallByUserIdAndPatientCallId = function(
+    userId: number,
+    patientCallId: number,
+    patientContactNumberId: number
+  ) {
     return this.http
-      .post('patients/' + patientId + '/calls', {
+      .post('patients/calls/patientCallId', {
         userId: userId,
         patientContactNumberId: patientContactNumberId
       })
