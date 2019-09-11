@@ -20,7 +20,7 @@
       <i class="icon-{{ notificationType.NotificationTypeLabel }}"></i>
     </ion-row>
     <ion-row>
-      <ion-col>
+      <ion-col class="left-col">
         <div class="sidebar-calendar">
           <h4>TODAY'S DATE</h4>
           <div class="caption">
@@ -31,14 +31,12 @@
       <ion-col>
         <ion-list lines="none" inset>
           <ion-item>
-            <span class="label">Patient:&nbsp;</span> {{ patient.patientFirstName }} + {{ patient.patientLastName }}
+            <span class="label">Patient:&nbsp;</span> {{ notification.patientFirstName }} +
+            {{ notification.patientLastName }}
           </ion-item>
+          <ion-item> <span class="label">Facility:&nbsp;</span> {{ notification.operationName }} </ion-item>
           <ion-item>
-            <span class="label">Facility:&nbsp;</span> {{ patient.patientFirstName }} + {{ patient.patientLastName }}
-          </ion-item>
-          <ion-item>
-            <span class="label">Date Received:&nbsp;</span> {{ patient.patientFirstName }} +
-            {{ patient.patientLastName }}
+            <span class="label">Date Received:&nbsp;</span> {{ notification.notificationCreatedDate }}
           </ion-item>
           <ion-item>
             <span class="label">Notes:&nbsp;</span> {{ patient.patientFirstName }} + {{ patient.patientLastName }}
