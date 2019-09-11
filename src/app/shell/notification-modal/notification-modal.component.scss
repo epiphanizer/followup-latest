@@ -30,11 +30,13 @@ ion-title {
 span.label {
   font-weight: bold;
   font-family: Avenir;
-  font-size: 11px;
+  font-size: 12px;
 }
 .sidebar-calendar {
+  width: 86px;
+  height: 90px;
   h4 {
-    width: 86%;
+    width: 86px;
     height: 12px;
     font-family: AvenirBold;
     font-size: 15px;
@@ -48,7 +50,7 @@ span.label {
 
   .caption {
     font-family: Avenir;
-    font-size: 89px;
+    font-size: 24px;
     font-weight: 900;
     font-style: normal;
     font-stretch: normal;

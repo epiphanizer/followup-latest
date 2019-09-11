@@ -19,6 +19,7 @@ ion-title {
 button {
   width: 70px;
   height: 28px;
+  --border-style: none;
   color: var(--ion-color-primary);
   border: var(--ion-color-primary);
 }
