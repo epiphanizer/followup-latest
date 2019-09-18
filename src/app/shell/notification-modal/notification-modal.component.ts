@@ -36,7 +36,7 @@ export class NotificationModalComponent {
   ) {}
 
   ngOnInit() {
-    this.notificationService.getNotificationStatusLabels().subscribe((data: any) => {
+    this.notificationService.getNotificationTypes().subscribe((data: any) => {
       this.notificationTypes = data;
       return data;
     });

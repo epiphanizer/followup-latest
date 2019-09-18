@@ -1,13 +1,13 @@
 <ng-container *ngIf="status.notification.saved == true; else sendNotification">
   <form [formGroup]="createNotificationForm">
     <ion-title>Notification</ion-title>
-    <ion-list class="notification-options" lines="none">
+    <ion-list class="notification-options" lines="none" *ngIf="notificationTypes">
       <ion-item *ngFor="let notificationType of notificationTypes">
         <ion-checkbox
-          value="notificationType.notificationTypeLabelId"
+          value="notificationType.notificationTypesLabelId"
           formControlName="notificationType"
         ></ion-checkbox>
-        <ion-label>{{ notificationType.notificationTypeLabelId }}</ion-label>
+        <ion-label>{{ notificationType.notificationTypesLabelId }}</ion-label>
       </ion-item>
     </ion-list>
     <ion-textarea class="notification-textarea" formControlName="notificationNotes" placeholder="Leave Your Notes Here">
@@ -20,9 +20,9 @@
   <ion-row>
     <ion-title class="ion-float-left">Notification</ion-title>
     <span class="ion-float-right warning">
-      {{ notification.notificationTypeLabel }}
+      {{ notificationType.notificationTypeLabel }}
     </span>
-    <i class="icon-{{ notificationType.NotificationTypeLabel }}"></i>
+    <i class="icon-{{ notificationType.notificationTypeLabel }}"></i>
   </ion-row>
   <ion-row>
     <ion-col class="left-col">

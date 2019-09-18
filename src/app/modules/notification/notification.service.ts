@@ -22,8 +22,8 @@ export class NotificationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getNotificationStatusLabels(): Observable<Notification[]> {
-    return this.http.get<Notification[]>('notifications/statuses').pipe(
+  getNotificationTypes(): Observable<Notification[]> {
+    return this.http.get<Notification[]>('notifications/types').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
