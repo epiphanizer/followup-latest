@@ -17,9 +17,9 @@
     class="facility-dropdown-list"
     [@expandSidebar]="isOpen ? 'open' : 'closed'"
     class="facility-dropdown-list active"
-    *ngIf="operations; else noOperations"
+    *ngIf="user.operations; else noOperations"
   >
-    <li *ngFor="let operation of operations; let i = index">
+    <li *ngFor="let operation of user.operations; let i = index">
       <a (click)="setActiveOperation(operation)" [ngClass]="{ active: selected.operation == operation }">
         {{ operation.operationName }}
       </a>

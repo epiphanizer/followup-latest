@@ -24,6 +24,7 @@ export class OperationFormComponent implements OnInit {
   operationForm!: FormGroup;
   operation$: Observable<Operation>;
   operationCallReps$: Observable<OperationCallRep>;
+  user: User;
 
   constructor(
     private fb: FormBuilder,
@@ -35,6 +36,7 @@ export class OperationFormComponent implements OnInit {
     private userService: UserService
   ) {}
   ngOnInit() {
+    this.user = this.route.snapshot.data.user;
     this.createForm();
     this.notificationService.getNotificationTypes().subscribe((data: NotificationTypes[]) => {
       this.notificationTypes = data;
@@ -50,7 +52,6 @@ export class OperationFormComponent implements OnInit {
       this.operation$ = this.operationService.addNewOperation().pipe(
         map((data: Operation) => {
           this.operation = data;
-          this.createForm();
           return data;
         })
       );
@@ -77,7 +78,16 @@ export class OperationFormComponent implements OnInit {
       })
     });
   }
+
+  operationFormFactory() {}
   onFormSubmit() {
+    let formSubmission = this.operationForm.getRawValue();
+    // let payload = this.operationFormFactory(formSubmission);
+    // console.log(payload);
+    // this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
+    // console.log(value);
+    // return (this.status.submitted = true);
+    // });
     // this.operationCallRepsService
     // this.operationContactsService
   }

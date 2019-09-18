@@ -14,6 +14,9 @@ const routes: Routes = [
       component: OperationFormComponent,
       data: {
         title: extract('New Facility')
+      },
+      resolve: {
+        user: UserResolver
       }
     },
     {
@@ -24,7 +27,8 @@ const routes: Routes = [
         title: extract('Edit Facility')
       },
       resolve: {
-        operation: OperationResolver
+        operation: OperationResolver,
+        user: UserResolver
       }
     }
   ])

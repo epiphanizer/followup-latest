@@ -64,6 +64,9 @@ export class OperationAdminSidebarComponent implements OnInit {
   user: User;
   todaysDateDay: number;
   ngOnInit() {
+    this.user = this.route.snapshot.data.user;
+    console.log(this.user);
+    debugger;
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
   setActiveOperation = function(operation: Operation) {

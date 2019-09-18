@@ -15,7 +15,7 @@ import { PatientPutBody } from './patient-form';
   styleUrls: ['./patient-form.component.scss']
 })
 export class PatientFormComponent implements OnInit {
-  addPatientForm: FormGroup;
+  patientForm: FormGroup;
   currentYear: number;
   editMode: boolean = false;
   patient: Patient;
@@ -55,7 +55,7 @@ export class PatientFormComponent implements OnInit {
   }
 
   onFormSubmit(): void {
-    let formSubmission = this.addPatientForm.getRawValue();
+    let formSubmission = this.patientForm.getRawValue();
     // let payload = this.formSubmissionFactory(formSubmission);
     // console.log(payload);
     // this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
@@ -100,7 +100,7 @@ export class PatientFormComponent implements OnInit {
     return <PatientPutBody>payload;
   }
   private createForm() {
-    this.addPatientForm = this.fb.group({
+    this.patientForm = this.fb.group({
       operation: this.fb.control(''),
       patient: this.fb.group({
         patientMedicalRecordNumber: this.fb.control(''),
