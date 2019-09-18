@@ -14,7 +14,7 @@
         <i class="icon-facility"></i>
         <ion-item>
           <ion-label position="stacked">Facility</ion-label>
-          <ion-input type="text" formControlName="operation"></ion-input>
+          <ion-input type="text" formControlName="operationName"></ion-input>
         </ion-item>
         <ion-item class="address">
           <ion-label color="medium" position="stacked">Address</ion-label>
@@ -32,10 +32,20 @@
           <ion-label color="medium" position="stacked">Zip</ion-label>
           <ion-input type="text" formControlName="operationZip"></ion-input>
         </ion-item>
-        <ion-item class="phoneNumber">
-          <ion-label color="medium" position="stacked">Phone #</ion-label>
-          <ion-input type="text" formControlName="operationPhoneNumber"></ion-input>
-        </ion-item>
+        <ng-container class="phone-container">
+          <ion-item class="phoneCountryCode">
+            <ion-label color="medium" position="stacked">+1</ion-label>
+            <ion-input type="text" formControlName="operationCountryCode"></ion-input>
+          </ion-item>
+          <ion-item class="phoneAreaCode">
+            <ion-label color="medium" position="stacked">Area Code</ion-label>
+            <ion-input type="text" formControlName="operationAreaCode"></ion-input>
+          </ion-item>
+          <ion-item class="phoneNumber">
+            <ion-label color="medium" position="stacked">Phone #</ion-label>
+            <ion-input type="text" formControlName="operationPhoneNumber"></ion-input>
+          </ion-item>
+        </ng-container>
       </ion-list>
 
       <fieldset class="operation-contacts">
@@ -59,7 +69,7 @@
         <i class="icon-team-members"></i>
         <h3>Team Members</h3>
         <ion-list lines="none" inset>
-          <ion-item>
+          <ion-item *ngIf="operation; else addManager">
             <ion-label
               *ngIf="operation.operationAssignedManagerUserId; else addManager"
               position="stacked"
@@ -79,17 +89,16 @@
           </ion-item>
 
           <ng-template #addManager>
-            <ion-label position="stacked" color="medium">
-              Add Manager
-            </ion-label>
-            <ion-select placeholder="Select User" class="select-facility">
-              <ion-select-option
-                *ngFor="let user of availableUsers$"
-                [value]="operation.operationAssignedManagerUserId"
-              >
-                {{ operation.operationName }}
-              </ion-select-option>
-            </ion-select>
+            <ion-item>
+              <ion-label position="stacked" color="medium">
+                Add Manager
+              </ion-label>
+              <ion-select placeholder="Select User" class="select-facility">
+                <ion-select-option *ngFor="let user of availableUsers$">
+                  {{ user.userFirstName }} {{ user.userLastName }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
           </ng-template>
           <ion-item *ngFor="let operationCallRep of operationCallReps$ | async; let i = index">
             <ion-label position="stacked" color="medium">Care Rep {{ index + 1 }} </ion-label>
