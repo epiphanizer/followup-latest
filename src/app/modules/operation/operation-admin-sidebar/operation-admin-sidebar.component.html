@@ -1,5 +1,5 @@
-<div class="call-queue-sidebar">
-  <div class="call-queue-sidebar-calendar">
+<div class="sidebar">
+  <div class="sidebar-calendar">
     <h4>TODAY'S DATE</h4>
     <div class="caption">
       {{ todaysDateDay }}
@@ -22,12 +22,7 @@
     <li *ngFor="let operation of operations; let i = index">
       <a (click)="setActiveOperation(operation)" [ngClass]="{ active: selected.operation == operation }">
         {{ operation.operationName }}
-        <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
       </a>
-      <i class="icon-new-discharges"></i>
-      <span class="icon-discharge-counter">
-        {{ operation.currentNewDischargeCount }}
-      </span>
     </li>
   </ul>
   <ng-template #noOperations>
