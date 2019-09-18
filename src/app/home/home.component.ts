@@ -30,13 +30,13 @@ export class HomeComponent implements OnInit {
         this.menu = [
           {
             name: 'Facilities',
-            action: 'admin/facilities',
+            action: 'operation/add',
             image: '/assets/icon-facilities@2x.png',
             enabled: true
           },
           {
             name: 'Notifications',
-            action: '/notifications',
+            action: 'notifications',
             image: '/assets/icon-manager-notifications@2x.png',
             enabled: true
           },
@@ -46,8 +46,18 @@ export class HomeComponent implements OnInit {
             image: '/assets/icon-user-management@2x.png',
             enabled: false
           },
-          { name: 'View Queue', action: 'admin/call-queue', image: '/assets/icon-view-queue@2x.png', enabled: false },
-          { name: 'View Data', action: 'admin/data', image: '/assets/icon-view-data@2x.png', enabled: false }
+          {
+            name: 'View Queue',
+            action: 'admin/call-queue',
+            image: '/assets/icon-view-queue@2x.png',
+            enabled: false
+          },
+          {
+            name: 'View Data',
+            action: 'admin/data',
+            image: '/assets/icon-view-data@2x.png',
+            enabled: false
+          }
         ];
         break;
       case 2:
