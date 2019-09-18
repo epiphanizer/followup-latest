@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { OperationCallRepsService, OperationCallRep } from '../operation-callreps.service';
 import { OperationContactsService } from '../operation-contacts.service';
 import { User, UserService } from '@app/modules/user/user.service';
+import { NotificationTypes, NotificationService } from '@app/modules/notification/notification.service';
 
 @Component({
   providers: [OperationService, OperationContactsService, OperationCallRepsService],
@@ -19,12 +20,14 @@ export class OperationFormComponent implements OnInit {
   availableUsers$: Observable<User[]>;
   operation: Operation;
   editMode: boolean;
+  notificationTypes: NotificationTypes[];
   operationForm!: FormGroup;
   operation$: Observable<Operation>;
   operationCallReps$: Observable<OperationCallRep>;
 
   constructor(
     private fb: FormBuilder,
+    private notificationService: NotificationService,
     private operationService: OperationService,
     private operationCallRepsService: OperationCallRepsService,
     private operationContactsService: OperationContactsService,
@@ -33,7 +36,10 @@ export class OperationFormComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.createForm();
-
+    this.notificationService.getNotificationTypes().subscribe((data: NotificationTypes[]) => {
+      this.notificationTypes = data;
+      return data;
+    });
     if (this.route.snapshot.data.editMode) {
       this.editMode = true;
     }

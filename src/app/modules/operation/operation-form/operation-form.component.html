@@ -59,7 +59,7 @@
             <ion-item>
               <h3>Notifications</h3>
               <ion-list class="contact-noficiation-checkbox-list">
-                <ion-checkbox *ngFor="notificationType; of: notificationTypes"> </ion-checkbox>
+                <ion-checkbox *ngFor="let notificationType of notificationTypes"> </ion-checkbox>
                 <ion-label>
                   {{ notificationType.notificationTypeLabel }}
                 </ion-label>
