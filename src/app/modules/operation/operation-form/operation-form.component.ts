@@ -54,20 +54,18 @@ export class OperationFormComponent implements OnInit {
     this.availableUsers$ = this.userService.getAllUsers();
   }
   private createForm() {
-    this.editOperationForm = this.fb.group({
+    this.operationForm = this.fb.group({
       operation: this.fb.group({
-        operationName: this.fb.control({}),
-        operationAddress: this.fb.control({}),
-        operationCity: this.fb.control({}),
-        operationState: this.fb.control({}),
-        operationZip: this.fb.control({}),
-        operationCountryCode: this.fb.control({}),
-        operationAreaCode: this.fb.control({}),
-        operationPhoneNumber: this.fb.control({})
+        operationName: this.fb.control(''),
+        operationAddress: this.fb.control(''),
+        operationCity: this.fb.control(''),
+        operationState: this.fb.control(''),
+        operationZip: this.fb.control(''),
+        operationCountryCode: this.fb.control(''),
+        operationAreaCode: this.fb.control(''),
+        operationPhoneNumber: this.fb.control('')
       })
     });
   }
-  onFormSubmit() {
-    // this.operationService.editOperation();
-  }
+  onFormSubmit() {}
 }
