@@ -129,8 +129,11 @@ export class AuthenticationService {
     } catch (error) {
       console.log(error);
     }
-
-    user.operations = await this.operationService.getOperationsByUserId(user.id).toPromise();
+    if (user.level !== 1) {
+      user.operations = await this.operationService.getOperationsByUserId(user.id).toPromise();
+    } else {
+      user.operations = await this.operationService.getAllOperations().toPromise();
+    }
     this.user.operations.forEach((operation: Operation, index: number) => {
       this.user.operations[index].currentAssignedPatientCount = operation.currentAssignedPatientCount;
       this.user.operations[index].currentNewDischargeCount = operation.currentNewDischargeCount;

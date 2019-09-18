@@ -112,16 +112,6 @@
     </form>
   </ion-col>
   <ion-col class="right-admin-col">
-    <ion-list lines="none" inset>
-      <ion-item>
-        Users Assigned
-        <i
-          class="expand-users-assigned-trigger"
-          (click)="toggleOperationUsersAssignedMenu()"
-          [@turnArrow]="isOpen ? 'open' : 'closed'"
-          class="expand-users-assigned-trigger active"
-        ></i>
-      </ion-item>
-    </ion-list>
+    <app-operation-admin-right-sidebar></app-operation-admin-right-sidebar>
   </ion-col>
 </ion-row>

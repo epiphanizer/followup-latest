@@ -68,5 +68,11 @@ export class OperationFormComponent implements OnInit {
       })
     });
   }
-  onFormSubmit() {}
+  onFormSubmit() {
+    // this.operationCallRepsService
+    // this.operationContactsService
+  }
+  public toggleOperationUserAssignedMenu = function() {
+    this.isOpen = !this.isOpen;
+  };
 }

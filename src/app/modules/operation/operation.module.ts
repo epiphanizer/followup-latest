@@ -8,13 +8,15 @@ import { OperationAdminComponent } from './operation-admin/operation-admin.compo
 import { ReactiveFormsModule } from '@angular/forms';
 import { OperationAdminSidebarComponent } from './operation-admin-sidebar/operation-admin-sidebar.component';
 import { OperationContactComponent } from './operation-contact/operation-contact.component';
+import { OperationAdminRightSidebarComponent } from './operation-admin-right-sidebar/operation-admin-right-sidebar.component';
 
 @NgModule({
   declarations: [
     OperationFormComponent,
     OperationAdminComponent,
     OperationAdminSidebarComponent,
-    OperationContactComponent
+    OperationContactComponent,
+    OperationAdminRightSidebarComponent
   ],
   imports: [CommonModule, IonicModule, OperationRoutingModule, ReactiveFormsModule]
 })
