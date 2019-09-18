@@ -106,7 +106,7 @@
                 Add Manager
               </ion-label>
               <ion-select placeholder="Select User" class="select-facility">
-                <ion-select-option *ngFor="let user of availableUsers$ | async">
+                <ion-select-option *ngFor="let user of availableManagers$ | async">
                   {{ user.userFirstName }} {{ user.userLastName }}
                 </ion-select-option>
               </ion-select>

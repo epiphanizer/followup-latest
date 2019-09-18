@@ -45,6 +45,18 @@ export class UserService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
+  getAllManagerUsers(): Observable<User[]> {
+    return this.http.get<User[]>('users/managers').pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  getAllAdminUsers(): Observable<User[]> {
+    return this.http.get<User[]>('users/admins').pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   updateUserLoginTime(userId: number) {
     return this.http.post('user/' + userId + '/activity', {}).pipe(
       retry(3), // retry a failed request up to 3 times

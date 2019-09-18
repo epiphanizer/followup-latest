@@ -9,6 +9,7 @@ import { OperationContactsService } from '../operation-contacts.service';
 import { User, UserService } from '@app/modules/user/user.service';
 import { NotificationTypes, NotificationService } from '@app/modules/notification/notification.service';
 import { OperationResolver } from '../operation-resolver';
+import { OperationPutBody } from '../operation';
 
 @Component({
   providers: [OperationService, OperationContactsService, OperationCallRepsService, OperationResolver],
@@ -19,6 +20,7 @@ import { OperationResolver } from '../operation-resolver';
 @Injectable()
 export class OperationFormComponent implements OnInit {
   availableUsers$: Observable<User[]>;
+  availableManagers$: Observable<User[]>;
   operation: Operation;
   editMode: boolean;
   notificationTypes: NotificationTypes[];
@@ -62,12 +64,14 @@ export class OperationFormComponent implements OnInit {
       this.createForm();
     }
     this.availableUsers$ = this.userService.getAllUsers();
+    this.availableManagers$ = this.userService.getAllManagerUsers();
   }
   addOperationCallRep() {
     alert('adding operation call rep');
   }
-  addOperationContact() {
-    alert('adding operation contact');
+
+  addAdditionalContact() {
+    alert('adding additional contact');
   }
   private createForm() {
     this.operationForm = this.fb.group({
@@ -94,11 +98,21 @@ export class OperationFormComponent implements OnInit {
     });
   }
 
-  operationFormFactory() {}
+  operationFormFactory(formSubmission: FormData): OperationPutBody {
+    try {
+      var payload = {};
+      // var payload = {
+      //   'operationName': formSubmission
+      // };
+      return <OperationPutBody>payload;
+    } catch {
+      throw 'Had a problem validating data in the operation form factory';
+    }
+  }
   onFormSubmit() {
     let formSubmission = this.operationForm.getRawValue();
-    // let payload = this.operationFormFactory(formSubmission);
-    // console.log(payload);
+    let payload = this.operationFormFactory(formSubmission);
+    console.log(payload);
     // this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
     // console.log(value);
     // return (this.status.submitted = true);
