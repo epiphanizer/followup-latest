@@ -1,25 +1,8 @@
 ion-content {
   padding-bottom: 132px;
 }
-
-.patient-sidebar {
+.operation-sidebar {
   max-width: 177px;
-  margin-right: 118px;
-}
-
-.patient-content {
-  width: 565px;
-  margin-top: 79px;
-}
-
-.avatar-col {
-  margin-top: 72px;
-  width: 220px;
-  margin-left: 81.4px;
-
-  img {
-    cursor: pointer;
-  }
 }
 
 ion-title {
@@ -33,7 +16,9 @@ ion-title {
   color: #343638;
   padding-left: 0;
 }
-
+.operation-form-content {
+  padding-left: 60px;
+}
 form {
   .phone-container {
     .country-code {
@@ -68,47 +53,6 @@ form {
     --inner-padding-start: 0;
     --inner-padding-end: 0;
 
-    &.patient-first-name,
-    &.patient-middle-name,
-    &.patient-last-name {
-      display: inline-block;
-      margin-right: 5px;
-    }
-
-    &.patient-first-name {
-      width: 135px;
-    }
-
-    &.patient-middle-name {
-      width: 110px;
-    }
-
-    &.patient-last-name {
-      width: 135px;
-    }
-
-    &.patient-medical-record-number {
-      width: 143px;
-      padding-left: 10px;
-      display: inline-block;
-    }
-
-    &.patient-dob {
-      display: inline-block;
-      margin-left: 16px;
-
-      span {
-        margin-left: 8px;
-        height: 13px;
-        width: 28px;
-        display: inline-block;
-        font-style: italic;
-        color: #8e8e93;
-        font-size: 13px;
-        font-family: Avenir;
-      }
-    }
-
     ion-datetime {
       width: 154.6px;
       margin-top: 16px;
@@ -136,16 +80,16 @@ form {
     background-size: 95%;
   }
 
+  i.icon-info {
+    background-image: url("/assets/icon-info@2x.png");
+  }
+
   i.icon-team-members {
     background-image: url("/assets/icon-team-members@2x.png");
   }
 
   i.icon-user {
     background-image: url("/assets/icon-user@2x.png");
-  }
-
-  i.icon-info {
-    background-image: url("/assets/icon-info@2x.png");
   }
 
   .section-header {

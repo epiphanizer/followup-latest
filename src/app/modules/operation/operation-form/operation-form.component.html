@@ -2,7 +2,7 @@
   <ion-col class="operation-sidebar">
     <app-operation-admin-sidebar></app-operation-admin-sidebar>
   </ion-col>
-  <ion-col class="operation-content">
+  <ion-col class="operation-form-content">
     <ion-title *ngIf="!editMode; else editOperation">New Facility</ion-title>
     <ng-template #editOperation>
       <ion-title>
@@ -40,16 +40,24 @@
 
       <fieldset class="operation-contacts">
         <div class="section-header">
-          <i class="icon-contacts"></i>
-          Contacts
-          <ion-item *ngFor="let operationContact of operation.operationContacts$">
-            <app-operation-contact [operationContact]="operationContact"> </app-operation-contact>
-          </ion-item>
+          <ng-container *ngIf="editMode; else addFirstOperationContact">
+            <ion-item *ngFor="let operationContact of operation.operationContacts$; let idx = index">
+              <i class="icon-user"></i>
+              <h3>Contact {{ idx }}</h3>
+              <app-operation-contact [operationContact]="operationContact"> </app-operation-contact>
+            </ion-item>
+          </ng-container>
+          <ng-template #addFirstOperationContact>
+            <i class="icon-user"></i>
+            <h3>Contact 1</h3>
+            Add our first operation Contact:
+            <!-- This is a formArray that gets populated dynamically, I believe -->
+          </ng-template>
         </div>
       </fieldset>
       <fieldset class="operation-team-members">
         <i class="icon-team-members"></i>
-        <ion-title>Team Members</ion-title>
+        <h3>Team Members</h3>
         <ion-list lines="none" inset>
           <ion-item>
             <ion-label
@@ -95,6 +103,16 @@
     </form>
   </ion-col>
   <ion-col class="right-admin-col">
-    <img src="/assets/menu-right.png" alt="" />
+    <ion-list lines="none" inset>
+      <ion-item>
+        Users Assigned
+        <i
+          class="expand-users-assigned-trigger"
+          (click)="toggleOperationUsersAssignedMenu()"
+          [@turnArrow]="isOpen ? 'open' : 'closed'"
+          class="expand-users-assigned-trigger active"
+        ></i>
+      </ion-item>
+    </ion-list>
   </ion-col>
 </ion-row>

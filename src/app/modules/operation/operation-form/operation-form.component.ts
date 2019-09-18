@@ -19,7 +19,7 @@ export class OperationFormComponent implements OnInit {
   availableUsers$: Observable<User[]>;
   operation: Operation;
   editMode: boolean;
-  editOperationForm!: FormGroup;
+  operationForm!: FormGroup;
   operation$: Observable<Operation>;
   operationCallReps$: Observable<OperationCallRep>;
 
@@ -27,6 +27,7 @@ export class OperationFormComponent implements OnInit {
     private fb: FormBuilder,
     private operationService: OperationService,
     private operationCallRepsService: OperationCallRepsService,
+    private operationContactsService: OperationContactsService,
     private route: ActivatedRoute,
     private userService: UserService
   ) {}
