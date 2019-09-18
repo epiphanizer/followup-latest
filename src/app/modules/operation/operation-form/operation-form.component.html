@@ -56,6 +56,16 @@
               <h3>Contact {{ idx }}</h3>
               <app-operation-contact [operationContact]="operationContact"> </app-operation-contact>
             </ion-item>
+            <ion-item>
+              <h3>Notifications</h3>
+              <ion-list class="contact-noficiation-checkbox-list">
+                <ion-checkbox *ngFor="notificationType; of: notificationTypes"> </ion-checkbox>
+                <ion-label>
+                  {{ notificationType.notificationTypeLabel }}
+                </ion-label>
+              </ion-list>
+              <span class="ion-float-right" (click)="addAdditionalContact()">[additional contact]</span>
+            </ion-item>
           </ng-container>
           <ng-template #addFirstOperationContact>
             <i class="icon-user"></i>

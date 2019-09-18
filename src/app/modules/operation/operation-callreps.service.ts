@@ -20,8 +20,18 @@ export class OperationCallRepsService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  addOperationCallRepByOperationIdAndUserId(operationId: number, userId: number) {}
-  deleteOperationCallRepByOperationCallRepId(operationId: number, userId: number) {}
+  addOperationCallRepByOperationIdAndUserId(operationId: number, userId: number) {
+    return this.http.post<OperationCallRep>('operations/' + operationId + '/callreps', {}).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  deleteOperationCallRepByOperationCallRepId(operationId: number, userId: number) {
+    return this.http.delete<OperationCallRep>('operations/' + operationId + '/callreps', {}).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

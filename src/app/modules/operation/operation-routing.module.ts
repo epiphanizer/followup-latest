@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { extract } from '@app/core';
 import { OperationFormComponent } from '@app/modules/operation/operation-form/operation-form.component';
 import { Shell } from '@app/shell/shell.service';
+import { UserResolver } from '../user/user-resolver.service';
+import { OperationResolver } from './operation-resolver';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -20,6 +22,9 @@ const routes: Routes = [
       data: {
         editMode: true,
         title: extract('Edit Facility')
+      },
+      resolve: {
+        operation: OperationResolver
       }
     }
   ])

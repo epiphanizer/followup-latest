@@ -54,6 +54,9 @@ export class OperationFormComponent implements OnInit {
     }
     this.availableUsers$ = this.userService.getAllUsers();
   }
+  addOperationContact() {
+    alert('adding operation contact');
+  }
   private createForm() {
     this.operationForm = this.fb.group({
       operation: this.fb.group({
