@@ -7,7 +7,6 @@ import { Shell } from '@app/shell/shell.service';
 
 const routes: Routes = [
   Shell.childRoutes([
-    { path: 'operation', redirectTo: '/call-queue/', pathMatch: 'full' },
     {
       path: 'operation/add',
       component: OperationFormComponent,

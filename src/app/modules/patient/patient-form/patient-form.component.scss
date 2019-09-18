@@ -300,10 +300,12 @@ form {
       }
     }
     .discharged-ama {
+      display: inline-flex;
       ion-item {
         display: inline-block;
       }
       ion-radio {
+        display: inline-block;
       }
     }
   }
@@ -342,6 +344,9 @@ form {
 
     ion-item {
       margin-left: 0;
+      ion-radio {
+        display: inline-block;
+      }
     }
   }
   .discharge-ama {
@@ -447,16 +452,31 @@ form {
   }
   .insurance-info {
     ion-list {
-      margin-left: 25px;
+      margin-left: 0;
+    }
+    .primary-insurance {
+      padding-left: 11px;
     }
     .secondary-insurance {
-      margin-left: 14px;
+      margin-left: 25px;
     }
   }
 
   .checkboxes-inline {
-    ion-item {
+    ion-item,
+    ion-radio {
       display: inline-block;
     }
   }
+}
+.urgency-rating-list {
+  display: inline-flex;
+}
+.urgency-rating {
+  ion-radio {
+    display: inline-block;
+  }
+}
+.picker {
+  transform: translateY(-11%) translateX(-113px);
 }

@@ -6,6 +6,13 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 export interface Notification {
   notificationId: number;
   notificationTypeId: number;
+  notificationTypeLabel?: string;
+  notificationRecipients?: string[];
+}
+export interface NotificationTypes {
+  notificationTypeId: number;
+  notificationTypesLabel: number;
+  notificationIconImage: string;
 }
 
 @Injectable({
@@ -16,6 +23,12 @@ export class NotificationService {
 
   getNotificationsByOperationId(operationId: number): Observable<Notification[]> {
     return this.http.get<Notification[]>('notifications/operations/' + operationId).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  getNotificationTypes(): Observable<NotificationTypes[]> {
+    return this.http.get<NotificationTypes[]>('notifications/types').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

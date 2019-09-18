@@ -33,6 +33,7 @@ export class PatientCallQuestionsService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
+
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

@@ -6,6 +6,7 @@ export interface PatientStatus {
   patientStatusId: number;
   patientStatusLabel: string;
 }
+
 export class PatientStatusService {
   constructor(private http: HttpClient) {}
 
@@ -20,20 +21,20 @@ export class PatientStatusService {
       );
   }
   getPatientStatusLabels(): any {
-    return this.http.get('patient/statuses').pipe(
+    return this.http.get('patients/statuses').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
   getPatientStatusByPatientId(patientId: number): Observable<PatientStatus> {
-    return this.http.get<PatientStatus>('patient/' + patientId + '/status').pipe(
+    return this.http.get<PatientStatus>('patients/' + patientId + '/status').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
 
   getPatientStatusesByPatientId(patientId: number): Observable<PatientStatus[]> {
-    return this.http.get<PatientStatus[]>('patient/' + patientId + '/statuses').pipe(
+    return this.http.get<PatientStatus[]>('patients/' + patientId + '/statuses').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

@@ -10,12 +10,18 @@ import { Operation } from '@app/modules/operation/operation.service';
   styleUrls: ['./patient-summary-widget.component.scss']
 })
 export class PatientSummaryWidgetComponent implements OnInit {
+  expandAlternateNumbers: boolean = false;
   @Input() patient: Patient;
   @Input() operation: Operation;
   constructor() {}
 
   ngOnInit() {}
-  showAlternateNumbers() {
-    alert('Showing alternate numbers');
+
+  toggleAlternateNumbers() {
+    if (!this.expandAlternateNumbers) {
+      this.expandAlternateNumbers = true;
+    } else {
+      this.expandAlternateNumbers = false;
+    }
   }
 }

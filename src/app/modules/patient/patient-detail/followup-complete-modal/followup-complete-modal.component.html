@@ -1,13 +1,16 @@
-<form>
+<form [formGroup]="followupCompleteForm" novalidate>
   <ng-container>
     <ion-title>Follow-up Complete</ion-title>
     <ion-list class="graduation-options" lines="none">
-      <ion-item *ngFor="let patientStatus of patientStatuses">
-        <ion-checkbox value="patientStatus.patientStatusLabelId"></ion-checkbox>
-        <ion-label>{{ patientStatus.patientStatusLabel }}</ion-label>
+      <ion-item>
+        <ion-radio-group>
+          <ion-radio *ngFor="let patientStatus of patientStatuses" value="patientStatus.patientStatusLabelId">
+            {{ patientStatus.patientStatusLabel }}
+          </ion-radio>
+        </ion-radio-group>
       </ion-item>
+      <ion-textarea placeholder="Any Notes?"> </ion-textarea>
     </ion-list>
-    <ion-textarea> </ion-textarea>
-    <ion-button class="save-button" (click)="archivePatient()">Archive</ion-button>
+    <ion-button fill="outline" class="save-button" (click)="archivePatient()">Archive</ion-button>
   </ng-container>
 </form>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
+import { OperationRoutingModule } from './operation-routing.module';
 import { OperationFormComponent } from './operation-form/operation-form.component';
 import { OperationAdminComponent } from './operation-admin/operation-admin.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +16,6 @@ import { OperationContactComponent } from './operation-contact/operation-contact
     OperationAdminSidebarComponent,
     OperationContactComponent
   ],
-  imports: [CommonModule, IonicModule, ReactiveFormsModule]
+  imports: [CommonModule, IonicModule, OperationRoutingModule, ReactiveFormsModule]
 })
 export class OperationModule {}

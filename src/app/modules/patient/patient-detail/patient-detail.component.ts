@@ -45,15 +45,19 @@ export class PatientDetailComponent implements OnInit {
 
   patientCallStartEventHandler($event: PatientCall) {
     this.selected.patientCall = $event;
-    this.patientCallService.startPatientCall(this.patientCall.patientCallId);
+    debugger;
+    this.patientCallService.startPatientCall(this.selected.patientCall.patientCallId);
   }
 
-  patientCallEndEventHandler($event: number) {
-    this.selected.patientCall.patientCallStatusLabelId = $event;
-    this.patientCallService.endPatientCall(this.patientCall.patientCallId);
+  patientCallEndEventHandler($event: PatientCall) {
+    this.selected.patientCall = $event;
+    this.patientCallService.endPatientCall(this.selected.patientCall.patientCallStatusLabelId);
   }
-  patientCallFinishEventHandler($event: number) {
-    this.selected.patientCall.patientCallStatusLabelId = $event;
-    this.patientCallService.finalizePatientCall(this.patientCall.patientCallId, $event);
+  patientCallFinishEventHandler($event: PatientCall) {
+    this.selected.patientCall = $event;
+    this.patientCallService.finalizePatientCall(
+      this.selected.patientCall.patientCallId,
+      this.selected.patientCall.patientCallStatusLabelId
+    );
   }
 }

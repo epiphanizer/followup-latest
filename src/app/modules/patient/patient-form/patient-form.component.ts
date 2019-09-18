@@ -56,12 +56,13 @@ export class PatientFormComponent implements OnInit {
 
   onFormSubmit(): void {
     let formSubmission = this.addPatientForm.getRawValue();
-    let payload = this.formSubmissionFactory(formSubmission);
-    console.log(payload);
-    this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
-      console.log(value);
-      return (this.status.submitted = true);
-    });
+    // let payload = this.formSubmissionFactory(formSubmission);
+    // console.log(payload);
+    // this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
+    // console.log(value);
+    // return (this.status.submitted = true);
+    // });
+    alert('submitting form');
   }
 
   /**
@@ -100,83 +101,83 @@ export class PatientFormComponent implements OnInit {
   }
   private createForm() {
     this.addPatientForm = this.fb.group({
-      operation: this.fb.control({}),
+      operation: this.fb.control(''),
       patient: this.fb.group({
-        patientMedicalRecordNumber: this.fb.control({}),
+        patientMedicalRecordNumber: this.fb.control(''),
         patientName: this.fb.group({
-          patientFirstName: this.fb.control({}),
-          patientMiddleName: this.fb.control({}),
-          patientLastName: this.fb.control({})
+          patientFirstName: this.fb.control(''),
+          patientMiddleName: this.fb.control(''),
+          patientLastName: this.fb.control('')
         }),
-        patientDob: this.fb.control({}),
+        patientDob: this.fb.control(''),
         patientContacts: this.fb.group({
           primaryPatientContact: this.fb.group({
-            patientContactFirstName: this.fb.control({}),
-            patientContactLastName: this.fb.control({}),
-            patientContactRelationship: this.fb.control({}),
+            patientContactFirstName: this.fb.control(''),
+            patientContactLastName: this.fb.control(''),
+            patientContactRelationship: this.fb.control(''),
             patientContactCountryCodeNumber: this.fb.control({ disabled: true }),
-            patientContactAreaCodeNumber: this.fb.control({}),
-            patientContactPhoneNumber: this.fb.control({}),
+            patientContactAreaCodeNumber: this.fb.control(''),
+            patientContactPhoneNumber: this.fb.control(''),
             /**
              * Write a test, this should be false if another boolean is true
              */
-            patientResponsiblePartyBoolean: this.fb.control({})
+            patientResponsiblePartyBoolean: this.fb.control('')
           }),
           alternatePatientContact1: this.fb.group({
-            patientContactFirstName: this.fb.control({}),
-            patientContactLastName: this.fb.control({}),
-            patientContactRelationship: this.fb.control({}),
+            patientContactFirstName: this.fb.control(''),
+            patientContactLastName: this.fb.control(''),
+            patientContactRelationship: this.fb.control(''),
             patientContactCountryCodeNumber: this.fb.control({ disabled: true }),
-            patientContactAreaCodeNumber: this.fb.control({}),
-            patientContactPhoneNumber: this.fb.control({}),
+            patientContactAreaCodeNumber: this.fb.control(''),
+            patientContactPhoneNumber: this.fb.control(''),
             /**
              * Write a test, this should be false if another boolean is true
              */
-            patientResponsiblePartyBoolean: this.fb.control({})
+            patientResponsiblePartyBoolean: this.fb.control('')
           }),
           alternatePatientContact2: this.fb.group({
-            patientContactFirstName: this.fb.control({}),
-            patientContactLastName: this.fb.control({}),
-            patientContactRelationship: this.fb.control({}),
+            patientContactFirstName: this.fb.control(''),
+            patientContactLastName: this.fb.control(''),
+            patientContactRelationship: this.fb.control(''),
             patientContactCountryCodeNumber: this.fb.control({ disabled: true }),
-            patientContactAreaCodeNumber: this.fb.control({}),
-            patientContactPhoneNumber: this.fb.control({}),
+            patientContactAreaCodeNumber: this.fb.control(''),
+            patientContactPhoneNumber: this.fb.control(''),
             /**
              * Write a test, this should be false if another boolean is true
              */
-            patientResponsiblePartyBoolean: this.fb.control({})
+            patientResponsiblePartyBoolean: this.fb.control('')
           })
         }),
         physicianInfo: this.fb.group({
-          physicianFirstName: this.fb.control({}),
-          physicianLastName: this.fb.control({}),
+          physicianFirstName: this.fb.control(''),
+          physicianLastName: this.fb.control(''),
           physicianCountryCodeNumber: this.fb.control({ disabled: true }),
-          physicianAreaCodeNumber: this.fb.control({}),
-          physicianPhoneNumber: this.fb.control({})
+          physicianAreaCodeNumber: this.fb.control(''),
+          physicianPhoneNumber: this.fb.control('')
         }),
         insurance: this.fb.group({
-          primaryInsurance: this.fb.control({}),
-          secondaryInsurance: this.fb.control({})
+          primaryInsurance: this.fb.control(''),
+          secondaryInsurance: this.fb.control('')
         }),
         dischargeInfo: this.fb.group({
-          patientAdmissionDate: this.fb.control({}),
-          patientDischargeDate: this.fb.control({}),
-          patientTotalDays: this.fb.control({}),
-          patientDischargedAma: this.fb.control({}),
-          patientDischargedTo: this.fb.control({})
+          patientAdmissionDate: this.fb.control(''),
+          patientDischargeDate: this.fb.control(''),
+          patientTotalDays: this.fb.control(''),
+          patientDischargedTo: this.fb.control(''),
+          patientDischargedAma: this.fb.control('')
         }),
         patientMedicalConditions: this.fb.group({
-          cardiacBoolean: this.fb.control({}),
-          sepsisBoolean: this.fb.control({}),
-          pulmonaryBoolean: this.fb.control({}),
-          primaryDiagnosis: this.fb.control({}),
-          dischargedCondition: this.fb.control({})
+          cardiacBoolean: this.fb.control(''),
+          sepsisBoolean: this.fb.control(''),
+          pulmonaryBoolean: this.fb.control(''),
+          primaryDiagnosis: this.fb.control(''),
+          dischargedCondition: this.fb.control('')
         }),
         patientQuestionAnswers: this.fb.group({
           // These are dynamically set thru fn. setPatientQuestionAnswers()
         }),
-        patientUrgencyRating: this.fb.control({}),
-        patientNeedToKnow: this.fb.control({})
+        patientUrgencyRating: this.fb.control(''),
+        patientNeedToKnow: this.fb.control('')
       })
     });
   }

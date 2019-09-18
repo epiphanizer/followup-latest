@@ -15,7 +15,9 @@ export class ToolbarNavComponent implements OnInit {
   @Input() operation: Operation;
   @Input() patient: Patient;
   @Input() navLinks: [string] | null;
+
   ngOnInit() {}
+
   doButtonAction(buttonAction: string) {
     this.createNotificationModal(buttonAction);
   }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PatientDetailComponent } from './patient-detail.component';
 import { PatientNotesComponent } from './patient-notes/patient-notes.component';
 import { PatientCallNotesComponent } from './patient-call/patient-call-notes/patient-call-notes.component';
@@ -36,6 +37,6 @@ import { PatientNextCallFinishButtonComponent } from './patient-call/patient-nex
     FollowupCompleteButtonComponent,
     PatientNextCallFinishButtonComponent
   ],
-  imports: [CommonModule, RouterModule, IonicModule]
+  imports: [CommonModule, RouterModule, IonicModule, FormsModule, ReactiveFormsModule]
 })
 export class PatientDetailModule {}

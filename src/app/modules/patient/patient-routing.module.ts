@@ -18,6 +18,11 @@ const routes: Routes = [
         patient: PatientResolver
       },
       data: {
+        navLinks: [
+          { linkAction: 'call-queue', linkName: 'Call Queue', linkType: 'link' },
+          { linkAction: 'kudos', linkName: 'KUDOS', linkType: 'button' },
+          { linkAction: 'report', linkName: 'REPORT!', linkType: 'button' }
+        ],
         title: extract('Patient Detail'),
         operation: ':operationId'
       }
