@@ -9,6 +9,11 @@ export interface Notification {
   notificationTypeLabel?: string;
   notificationRecipients?: string[];
 }
+export interface NotificationTypes {
+  notificationTypeId: number;
+  notificationTypesLabel: number;
+  notificationIconImage: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +27,8 @@ export class NotificationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getNotificationTypes(): Observable<Notification[]> {
-    return this.http.get<Notification[]>('notifications/types').pipe(
+  getNotificationTypes(): Observable<NotificationTypes[]> {
+    return this.http.get<NotificationTypes[]>('notifications/types').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

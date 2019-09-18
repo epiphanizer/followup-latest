@@ -1,12 +1,12 @@
-<ng-container *ngIf="status.notification.saved == true; else sendNotification">
+<ng-container *ngIf="status.notification.saved == false; else sendNotification">
   <form [formGroup]="createNotificationForm">
     <ion-title>Notification</ion-title>
     <ion-list class="notification-options" lines="none" *ngIf="notificationTypes">
       <ion-item *ngFor="let notificationType of notificationTypes">
-        <ion-checkbox
-          value="notificationType.notificationTypesLabelId"
-          formControlName="notificationType"
-        ></ion-checkbox>
+        <img src="{{ notificationIconImage }}" alt="" />
+        <ion-radio-group>
+          <ion-radio value="notificationType.notificationTypesLabelId" formControlName="notificationType"></ion-radio>
+        </ion-radio-group>
         <ion-label>{{ notificationType.notificationTypesLabelId }}</ion-label>
       </ion-item>
     </ion-list>
@@ -17,12 +17,12 @@
   </form>
 </ng-container>
 <ng-template #sendNotification>
-  <ion-row>
+  <ion-row *ngIf="notification">
     <ion-title class="ion-float-left">Notification</ion-title>
     <span class="ion-float-right warning">
-      {{ notificationType.notificationTypeLabel }}
+      {{ notification.notificationTypesLabel }}
     </span>
-    <i class="icon-{{ notificationType.notificationTypeLabel }}"></i>
+    <i class="icon-{{ notification.notificationTypesLabel }}"></i>
   </ion-row>
   <ion-row>
     <ion-col class="left-col">
