@@ -38,7 +38,6 @@ export class OperationFormComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.availableUsers$ = this.userService.getAllUsers();
     this.createForm();
     this.notificationService.getNotificationTypes().subscribe((data: NotificationTypes[]) => {
       this.notificationTypes = data;
@@ -64,6 +63,9 @@ export class OperationFormComponent implements OnInit {
     }
     this.availableUsers$ = this.userService.getAllUsers();
   }
+  addOperationCallRep() {
+    alert('adding operation call rep');
+  }
   addOperationContact() {
     alert('adding operation contact');
   }
@@ -80,7 +82,15 @@ export class OperationFormComponent implements OnInit {
         operationPhoneNumber: this.fb.control('')
       }),
       operationContacts: this.fb.group({}),
-      operationContactNotifications: this.fb.group({})
+      operationContactNotifications: this.fb.group({
+        0: this.fb.control(''),
+        1: this.fb.control(''),
+        2: this.fb.control(''),
+        3: this.fb.control(''),
+        4: this.fb.control(''),
+        5: this.fb.control(''),
+        6: this.fb.control('')
+      })
     });
   }
 

@@ -18,10 +18,8 @@ export class OperationResolver implements Resolve<Operation> {
   ) {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Operation> {
     const operationId = route.paramMap.get('operationId');
-    debugger;
     this.operation$ = this.operationService.getOperationByOperationId(+operationId).pipe(
       map((operation: Operation) => {
-        debugger;
         operation = operation[0];
         operation.operationCallReps$ = this.operationCallRepsService.getOperationCallRepsByOperationId(
           operation.operationId
