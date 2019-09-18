@@ -73,8 +73,17 @@ export class HomeComponent implements OnInit {
         ];
         break;
       case 3:
+        var callQueueEnabledFlag = true;
+        if (this.user.operations.length == 0) {
+          var callQueueEnabledFlag = false;
+        }
         this.menu = [
-          { name: 'Call Queue', action: 'call-queue', image: '/assets/icon-call-queue@2x.png', enabled: true },
+          {
+            name: 'Call Queue',
+            action: 'call-queue',
+            image: '/assets/icon-call-queue@2x.png',
+            enabled: callQueueEnabledFlag
+          },
           { name: 'My Profile', action: 'user/profile', image: avatarImage, enabled: true }
         ];
         break;
