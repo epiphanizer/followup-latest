@@ -8,9 +8,10 @@ import { OperationCallRepsService, OperationCallRep } from '../operation-callrep
 import { OperationContactsService } from '../operation-contacts.service';
 import { User, UserService } from '@app/modules/user/user.service';
 import { NotificationTypes, NotificationService } from '@app/modules/notification/notification.service';
+import { OperationResolver } from '../operation-resolver';
 
 @Component({
-  providers: [OperationService, OperationContactsService, OperationCallRepsService],
+  providers: [OperationService, OperationContactsService, OperationCallRepsService, OperationResolver],
   selector: 'app-operation-form',
   templateUrl: './operation-form.component.html',
   styleUrls: ['./operation-form.component.scss']
@@ -37,9 +38,11 @@ export class OperationFormComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
+    this.availableUsers$ = this.userService.getAllUsers();
     this.createForm();
     this.notificationService.getNotificationTypes().subscribe((data: NotificationTypes[]) => {
       this.notificationTypes = data;
+      console.log(this.notificationTypes);
       return data;
     });
     if (this.route.snapshot.data.editMode) {
@@ -75,7 +78,9 @@ export class OperationFormComponent implements OnInit {
         operationCountryCode: this.fb.control(''),
         operationAreaCode: this.fb.control(''),
         operationPhoneNumber: this.fb.control('')
-      })
+      }),
+      operationContacts: this.fb.group({}),
+      operationContactNotifications: this.fb.group({})
     });
   }
 

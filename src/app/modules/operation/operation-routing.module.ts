@@ -24,7 +24,7 @@ const routes: Routes = [
       component: OperationFormComponent,
       data: {
         editMode: true,
-        title: extract('Edit Facility')
+        operationId: ':operationId'
       },
       resolve: {
         operation: OperationResolver,
@@ -37,6 +37,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: []
+  providers: [OperationResolver, UserResolver]
 })
 export class OperationRoutingModule {}

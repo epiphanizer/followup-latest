@@ -58,11 +58,13 @@
             </ion-item>
             <ion-item>
               <h3>Notifications</h3>
-              <ion-list class="contact-noficiation-checkbox-list">
-                <ion-checkbox *ngFor="let notificationType of notificationTypes"> </ion-checkbox>
-                <ion-label>
-                  {{ notificationType.notificationTypeLabel }}
-                </ion-label>
+              <ion-list class="contact-noficiation-checkbox-list" formGroupName="operationContactNotifications">
+                <ion-item *ngFor="let notificationType of notificationTypes; let idx = index">
+                  <ion-checkbox> </ion-checkbox>
+                  <ion-label>
+                    {{ notificationType.notificationTypesLabel }}
+                  </ion-label>
+                </ion-item>
               </ion-list>
               <span class="ion-float-right" (click)="addAdditionalContact()">[additional contact]</span>
             </ion-item>
@@ -92,9 +94,9 @@
               placeholder="Select User"
               value="operation.operationAssignedManagerUserId"
             >
-              <ion-select-option *ngFor="let user of availableUsers$" [value]="user.userFirstName">
+              <!-- <ion-select-option *ngFor="let user of availableUsers$" [value]="user.userFirstName">
                 {{ user.userFirstName }}
-              </ion-select-option>
+              </ion-select-option> -->
             </ion-select>
           </ion-item>
 
@@ -104,7 +106,7 @@
                 Add Manager
               </ion-label>
               <ion-select placeholder="Select User" class="select-facility">
-                <ion-select-option *ngFor="let user of availableUsers$">
+                <ion-select-option *ngFor="let user of availableUsers$ | async">
                   {{ user.userFirstName }} {{ user.userLastName }}
                 </ion-select-option>
               </ion-select>
