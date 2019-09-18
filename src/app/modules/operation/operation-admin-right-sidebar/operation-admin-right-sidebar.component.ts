@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 import {
   trigger,
@@ -52,7 +52,6 @@ import { User } from '@app/user';
   ]
 })
 export class OperationAdminRightSidebarComponent implements OnInit {
-  @Output() operationChangeEvent = new EventEmitter<number>();
   selected: {
     operation: Operation | null;
   } = {
@@ -66,11 +65,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   ngOnInit() {
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
-  setActiveOperation = function(operation: Operation) {
-    this.selected.operation = operation;
-    this.operationChangeEvent.emit(operation);
-  };
-  public toggleOperationMenu = function() {
+  public toggleOperationUsersAssignedMenu = function() {
     this.isOpen = !this.isOpen;
   };
 }
