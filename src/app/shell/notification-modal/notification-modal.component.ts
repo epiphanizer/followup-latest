@@ -45,8 +45,8 @@ export class NotificationModalComponent {
   }
   createForm() {
     this.createNotificationForm = this.fb.group({
-      notificationType: this.fb.control({}),
-      notificationNotes: this.fb.control({})
+      notificationType: this.fb.control(''),
+      notificationNotes: this.fb.control('')
     });
   }
   editNotification() {

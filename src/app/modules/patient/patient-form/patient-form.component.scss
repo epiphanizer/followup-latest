@@ -442,8 +442,11 @@ form {
     }
 
     ion-item {
+      --padding-start: 0;
+      --padding-end: 0;
+      --inner-padding-start: 0;
+      --inner-padding-end: 0;
       display: inline-block;
-      padding-left: 25px;
 
       &.first-name {
         width: 160px;
@@ -474,7 +477,7 @@ form {
     }
 
     .primary-insurance {
-      padding-left: 11px;
+      margin-left: 11px;
     }
 
     .secondary-insurance {

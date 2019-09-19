@@ -63,7 +63,12 @@ span.label {
     text-align: center;
   }
 }
-
+.notification-options {
+  max-height: 300px;
+  ion-item {
+    height: 100px;
+  }
+}
 .notification-textarea {
   height: 200px;
   width: 520px;
