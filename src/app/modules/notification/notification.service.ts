@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 export interface Notification {
   notificationId: number;
+  notificationMessage?: string;
   notificationTypeId: number;
   notificationTypeLabel?: string;
   notificationPatientId?: number;
