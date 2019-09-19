@@ -76,15 +76,15 @@ form {
     }
 
     &.patient-first-name {
-      width: 135px;
+      width: 180px;
     }
 
     &.patient-middle-name {
-      width: 110px;
+      width: 130px;
     }
 
     &.patient-last-name {
-      width: 135px;
+      width: 180px;
     }
 
     &.patient-medical-record-number {
@@ -180,7 +180,8 @@ form {
     margin-top: 14px;
     overflow: hidden;
     &.contacts {
-      border-bottom: 1px solid #999;
+      padding-bottom: 2px;
+      border-bottom: 1px solid #999ccc;
     }
     span {
       font-family: Avenir;
@@ -510,4 +511,8 @@ form {
   .need-to-know {
     margin-left: 11px;
   }
+}
+
+.sc-ion-picker-md-h {
+  top: 5vh !important;
 }
