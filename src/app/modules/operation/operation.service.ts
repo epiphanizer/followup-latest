@@ -11,6 +11,9 @@ export interface Operation {
   operationCity: string;
   operationState: string;
   operationZip: string;
+  operationCountryCode: number;
+  operationAreaCode: number;
+  operationPhoneNumber: string;
   operationContacts$: Observable<OperationContact[]>;
   operationAssignedManagerUserId?: number;
   operationAssignedManagerName?: string;

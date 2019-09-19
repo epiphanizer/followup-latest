@@ -53,14 +53,12 @@ export class NotificationModalComponent {
     this.status.notification.saved = false;
   }
   saveNotification() {
-    alert('saving notifcation');
     this.notificationService.saveNotificationByPatientId(this.patient.patientId);
     // We will want to subscribe here
     this.status.notification.saved = true;
   }
   sendNotification() {
-    alert('sending notification');
-    this.notificationService.sendNotificationByNotificationId(this.patient.patientId);
+    this.notificationService.sendNotificationByNotificationId(this.notification.notificationId);
     this.dismiss();
   }
   dismiss() {

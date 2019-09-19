@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, from, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { OperationService, Operation } from '../operation.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { OperationCallRepsService, OperationCallRep } from '../operation-callreps.service';
 import { OperationContactsService } from '../operation-contacts.service';
 import { User, UserService } from '@app/modules/user/user.service';
@@ -52,6 +52,7 @@ export class OperationFormComponent implements OnInit {
     if (this.editMode) {
       this.operation = this.route.snapshot.data.operation;
     }
+    // Redundant, should fix for prod
     if (!this.operation) {
       this.operation$ = this.operationService.addNewOperation().pipe(
         map((data: Operation) => {
@@ -62,6 +63,15 @@ export class OperationFormComponent implements OnInit {
     } else {
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
       this.createForm();
+      var operationFormControls = this.operationForm.get('operation') as FormGroup;
+      operationFormControls.controls.operationName.setValue(this.operation.operationName);
+      operationFormControls.controls.operationAddress.setValue(this.operation.operationAddress);
+      operationFormControls.controls.operationCity.setValue(this.operation.operationCity);
+      operationFormControls.controls.operationState.setValue(this.operation.operationState);
+      operationFormControls.controls.operationZip.setValue(this.operation.operationZip);
+      operationFormControls.controls.operationCountryCode.setValue(this.operation.operationCountryCode);
+      operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
+      operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
     }
     this.availableUsers$ = this.userService.getAllUsers();
     this.availableManagers$ = this.userService.getAllManagerUsers();

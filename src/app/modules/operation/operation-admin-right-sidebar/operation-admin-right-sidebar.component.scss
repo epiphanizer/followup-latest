@@ -1,15 +1,17 @@
 .sidebar {
-  max-width: 177px;
+  max-width: 200px;
 
   .facility-callreps-dropdown-target {
-    width: 138px;
+    width: 175px;
     height: 28.7px;
     font-family: AvenirBold;
     font-size: 15px;
+    font-weight: 700;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.05;
-    letter-spacing: 2.25px;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
     text-align: right;
     color: var(--ion-color-primary);
     display: inline-block;

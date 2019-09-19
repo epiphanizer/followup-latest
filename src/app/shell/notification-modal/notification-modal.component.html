@@ -4,10 +4,10 @@
     <ion-list class="notification-options" lines="none" *ngIf="notificationTypes">
       <ion-item *ngFor="let notificationType of notificationTypes">
         <img src="{{ notificationIconImage }}" alt="" />
-        <ion-radio-group formControlName="notificationType">
+        <ion-radio-group>
           <ion-radio value="notificationType.notificationTypesLabelId" formControlName="notificationType"></ion-radio>
+          <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
         </ion-radio-group>
-        <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
       </ion-item>
     </ion-list>
     <ion-textarea class="notification-textarea" formControlName="notificationNotes" placeholder="Leave Your Notes Here">
