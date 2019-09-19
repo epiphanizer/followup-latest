@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Patient } from '@app/modules/patient/patient';
+import { Patient, PatientDischargeLabel } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -15,6 +15,8 @@ import { PatientPutBody } from './patient-form';
   styleUrls: ['./patient-form.component.scss']
 })
 export class PatientFormComponent implements OnInit {
+  dischargeLabels: PatientDischargeLabel[];
+  dischargeLabels$: Observable<PatientDischargeLabel[]>;
   patientForm: FormGroup;
   currentYear: number;
   editMode: boolean = false;
@@ -52,6 +54,7 @@ export class PatientFormComponent implements OnInit {
       this.patient$ = this.patientService.getPatientByPatientId(this.patient.patientId);
       this.createForm();
     }
+    this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
   }
 
   onFormSubmit(): void {

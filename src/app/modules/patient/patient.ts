@@ -44,3 +44,8 @@ export interface Patient {
   patientPrimaryDiagnosis?: string;
   nextPatientCallId?: number;
 }
+
+export interface PatientDischargeLabel {
+  patientDischargeLabelId: number;
+  patientDischargeLabel: string;
+}
