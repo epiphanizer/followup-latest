@@ -2,19 +2,14 @@
   <ng-container>
     <ion-title>Follow-up Complete</ion-title>
     <ion-list class="graduation-options" lines="none">
-      <ion-item>
-        <ion-radio-group>
-          <ion-radio
-            *ngFor="let patientStatus of patientStatuses"
-            formControlName="patientStatusLabelId"
-            value="patientStatus.patientStatusLabelId"
-          >
-          </ion-radio>
+      <ion-radio-group>
+        <ion-item *ngFor="let patientStatus of patientStatuses">
+          <ion-radio formControlName="patientStatusLabelId" value="patientStatus.patientStatusLabelId"> </ion-radio>
           <ion-label>
             {{ patientStatus.patientStatusLabel }}
           </ion-label>
-        </ion-radio-group>
-      </ion-item>
+        </ion-item>
+      </ion-radio-group>
       <ion-textarea formControlName="completionNotes" placeholder="Any Notes?"> </ion-textarea>
     </ion-list>
     <ion-button fill="outline" class="save-button ion-float-right" (click)="archivePatient()">Archive</ion-button>
