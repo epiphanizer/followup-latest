@@ -213,7 +213,7 @@
         </ion-list>
       </fieldset>
       <fieldset class="operation-callreps">
-        <ng-container *ngIf="!operationCallReps; else addCallReps">
+        <ng-container *ngIf="!editMode; else addCallReps">
           <ion-list lines="none">
             <ion-item *ngFor="let operationCallRep of operationCallReps$ | async; let i = index">
               <ion-label position="stacked" color="medium">Care Rep {{ index + 1 }} </ion-label>
