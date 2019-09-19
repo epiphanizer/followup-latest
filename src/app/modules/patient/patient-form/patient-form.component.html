@@ -238,23 +238,23 @@
                   <ion-label>
                     Yes
                   </ion-label>
-                  <ion-radio class="discharged-ama radio-no">
-                    <ion-label>
-                      No
-                    </ion-label>
-                  </ion-radio>
+                  <ion-radio class="discharged-ama radio-no"> </ion-radio>
+                  <ion-label>
+                    No
+                  </ion-label>
                 </ion-radio-group>
               </ion-item>
               <ion-item class="discharge-to-location">
                 <ion-label color="medium" position="stacked">Discharged To:</ion-label>
                 <ion-list inset lines="none">
-                  <ion-item>
-                    <ion-radio-group formControlName="patientDischargedTo">
-                      <ion-radio *ngFor="let dischargeLabel of dischargeLabels" value="dischargeLabel.dischargeLabelId">
+                  <ion-radio-group formControlName="patientDischargedTo">
+                    <ion-item *ngFor="let dischargeLabel of dischargeLabels">
+                      <ion-radio value="dischargeLabel.dischargeLabelId"> </ion-radio>
+                      <ion-label>
                         {{ dischargeLabel.dischargeLabel }}
-                      </ion-radio>
-                    </ion-radio-group>
-                  </ion-item>
+                      </ion-label>
+                    </ion-item>
+                  </ion-radio-group>
                 </ion-list>
               </ion-item>
             </ion-list>

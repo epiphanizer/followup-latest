@@ -165,8 +165,8 @@ export class PatientFormComponent implements OnInit {
         physicianInfo: this.fb.group({
           physicianFirstName: this.fb.control(''),
           physicianLastName: this.fb.control(''),
-          physicianCountryCodeNumber: this.fb.control(''),
-          physicianAreaCodeNumber: this.fb.control(''),
+          physicianCountryCode: this.fb.control(''),
+          physicianAreaCode: this.fb.control(''),
           physicianPhoneNumber: this.fb.control('')
         }),
         insurance: this.fb.group({
