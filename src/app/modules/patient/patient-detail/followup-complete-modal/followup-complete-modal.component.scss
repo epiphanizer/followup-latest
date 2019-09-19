@@ -16,6 +16,11 @@ ion-title {
   text-align: left;
   color: #343638;
 }
+ion-radio,
+ion-label {
+  display: inline-block;
+  margin-right: 5px;
+}
 button {
   width: 70px;
   height: 28px;

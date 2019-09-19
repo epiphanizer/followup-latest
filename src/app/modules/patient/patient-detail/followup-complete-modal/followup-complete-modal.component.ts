@@ -30,7 +30,8 @@ export class FollowupCompleteModalComponent implements OnInit {
   }
   createForm() {
     this.followupCompleteForm = this.fb.group({
-      // patientStatusLabelId: this.fb.control()
+      patientStatusLabelId: this.fb.control(''),
+      completionNotes: this.fb.control('')
     });
   }
   archivePatient() {

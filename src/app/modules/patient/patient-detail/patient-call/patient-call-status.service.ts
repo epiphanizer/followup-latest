@@ -21,10 +21,10 @@ export class PatientCallStatusService {
     status: number | string;
   };
   constructor(private http: HttpService) {}
-  addPatientCallStatusByPatientCallId = function(userId: number, patientId: number, patientContactNumberId: number) {
+  addPatientCallStatusByPatientCallId = function(patientId: number, patientContactNumberId: number) {
     return this.http
       .post('patients/' + patientId + '/calls', {
-        userId: userId,
+        // userId: userId,
         patientContactNumberId: patientContactNumberId
       })
       .pipe(

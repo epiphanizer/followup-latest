@@ -19,8 +19,8 @@ export class PatientCallStatusControlsComponent implements OnInit {
     });
   }
 
-  updatePatientCallStatus() {
+  updatePatientCallStatus(patientCallId: number, patientCallStatusLabelId: number) {
     alert('updating patient call status');
-    // this.patientCallStatusService.addPatientCallStatusByPatientCallId();
+    this.patientCallStatusService.addPatientCallStatusByPatientCallId(patientCallId, patientCallStatusLabelId);
   }
 }

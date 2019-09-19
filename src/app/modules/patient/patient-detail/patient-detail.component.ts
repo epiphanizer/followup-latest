@@ -45,7 +45,6 @@ export class PatientDetailComponent implements OnInit {
 
   patientCallStartEventHandler($event: PatientCall) {
     this.selected.patientCall = $event;
-    debugger;
     this.patientCallService.startPatientCall(this.selected.patientCall.patientCallId);
   }
 
