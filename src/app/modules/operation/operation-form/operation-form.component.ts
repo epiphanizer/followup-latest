@@ -10,6 +10,7 @@ import { User, UserService } from '@app/modules/user/user.service';
 import { NotificationTypes, NotificationService } from '@app/modules/notification/notification.service';
 import { OperationResolver } from '../operation-resolver';
 import { OperationPutBody } from '../operation';
+import { OperationContact } from '../operation-contact/operation-contact';
 
 @Component({
   providers: [OperationService, OperationContactsService, OperationCallRepsService, OperationResolver],
@@ -26,7 +27,9 @@ export class OperationFormComponent implements OnInit {
   notificationTypes: NotificationTypes[];
   operationForm!: FormGroup;
   operation$: Observable<Operation>;
+  operationCallReps: OperationCallRep[];
   operationCallReps$: Observable<OperationCallRep>;
+  operationContacts: OperationContact[];
   user: User;
 
   constructor(
@@ -73,6 +76,18 @@ export class OperationFormComponent implements OnInit {
       operationFormControls.controls.operationCountryCode.setValue(this.operation.operationCountryCode);
       operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
       operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
+      this.operationContactsService
+        .getOperationContactsByOperationId(this.operation.operationId)
+        .subscribe((data: OperationContact[]) => {
+          this.operationContacts = data;
+          return data;
+        });
+      this.operationCallRepsService
+        .getOperationCallRepsByOperationId(this.operation.operationId)
+        .subscribe((data: OperationCallRep[]) => {
+          this.operationCallReps = data;
+          return data;
+        });
     }
     this.availableUsers$ = this.userService.getAllUsers();
     this.availableManagers$ = this.userService.getAllManagerUsers();
