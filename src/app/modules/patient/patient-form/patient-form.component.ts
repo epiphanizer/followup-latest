@@ -132,9 +132,6 @@ export class PatientFormComponent implements OnInit {
             patientContactCountryCode: this.fb.control(''),
             patientContactAreaCode: this.fb.control(''),
             patientContactPhoneNumber: this.fb.control(''),
-            /**
-             * Write a test, this should be false if another boolean is true
-             */
             patientResponsiblePartyBoolean: this.fb.control('')
           }),
           alternatePatientContact1: this.fb.group({
@@ -144,9 +141,6 @@ export class PatientFormComponent implements OnInit {
             patientContactCountryCode: this.fb.control(''),
             patientContactAreaCode: this.fb.control(''),
             patientContactPhoneNumber: this.fb.control(''),
-            /**
-             * Write a test, this should be false if another boolean is true
-             */
             patientResponsiblePartyBoolean: this.fb.control('')
           }),
           alternatePatientContact2: this.fb.group({
@@ -156,9 +150,6 @@ export class PatientFormComponent implements OnInit {
             patientContactCountryCode: this.fb.control(''),
             patientContactAreaCode: this.fb.control(''),
             patientContactPhoneNumber: this.fb.control(''),
-            /**
-             * Write a test, this should be false if another boolean is true
-             */
             patientResponsiblePartyBoolean: this.fb.control('')
           })
         }),

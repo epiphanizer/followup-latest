@@ -11,6 +11,7 @@ import { NotificationTypes, NotificationService } from '@app/modules/notificatio
 import { OperationResolver } from '../operation-resolver';
 import { OperationPutBody } from '../operation';
 import { OperationContact } from '../operation-contact/operation-contact';
+import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 
 @Component({
   providers: [OperationService, OperationContactsService, OperationCallRepsService, OperationResolver],
@@ -35,6 +36,7 @@ export class OperationFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private notificationService: NotificationService,
+    private notificationRecipientService: NotificationRecipientService,
     private operationService: OperationService,
     private operationCallRepsService: OperationCallRepsService,
     private operationContactsService: OperationContactsService,
@@ -46,7 +48,6 @@ export class OperationFormComponent implements OnInit {
     this.createForm();
     this.notificationService.getNotificationTypes().subscribe((data: NotificationTypes[]) => {
       this.notificationTypes = data;
-      console.log(this.notificationTypes);
       return data;
     });
     if (this.route.snapshot.data.editMode) {
@@ -68,6 +69,7 @@ export class OperationFormComponent implements OnInit {
       this.createForm();
       // Initial loadin, should probably be abstracted out here
       var operationFormControls = this.operationForm.get('operation') as FormGroup;
+      operationFormControls.controls.operationId.setValue(this.operation.operationId);
       operationFormControls.controls.operationName.setValue(this.operation.operationName);
       operationFormControls.controls.operationAddress.setValue(this.operation.operationAddress);
       operationFormControls.controls.operationCity.setValue(this.operation.operationCity);
@@ -92,8 +94,8 @@ export class OperationFormComponent implements OnInit {
     this.availableUsers$ = this.userService.getAllUsers();
     this.availableManagers$ = this.userService.getAllManagerUsers();
   }
-  addOperationCallRep() {
-    alert('adding operation call rep');
+  addAdditionalCallRep() {
+    alert('adding additional call rep');
   }
 
   addAdditionalContact() {
@@ -102,6 +104,7 @@ export class OperationFormComponent implements OnInit {
   private createForm() {
     this.operationForm = this.fb.group({
       operation: this.fb.group({
+        operationId: this.fb.control(''),
         operationName: this.fb.control(''),
         operationAddress: this.fb.control(''),
         operationCity: this.fb.control(''),
@@ -113,20 +116,22 @@ export class OperationFormComponent implements OnInit {
       }),
       operationContacts: this.fb.group({}),
       operationContactNotifications: this.fb.group({
-        0: this.fb.control(''),
-        1: this.fb.control(''),
-        2: this.fb.control(''),
-        3: this.fb.control(''),
-        4: this.fb.control(''),
-        5: this.fb.control(''),
-        6: this.fb.control('')
-      })
+        0: this.fb.control(false),
+        1: this.fb.control(false),
+        2: this.fb.control(false),
+        3: this.fb.control(false),
+        4: this.fb.control(false),
+        5: this.fb.control(false),
+        6: this.fb.control(false)
+      }),
+      operationCallReps: this.fb.group({})
     });
   }
 
   operationFormFactory(formSubmission: FormData): OperationPutBody {
     try {
       var payload = {};
+      debugger;
       // var payload = {
       //   'operationName': formSubmission
       // };
@@ -143,8 +148,19 @@ export class OperationFormComponent implements OnInit {
     // console.log(value);
     // return (this.status.submitted = true);
     // });
-    // this.operationCallRepsService
-    // this.operationContactsService
+    debugger;
+    // for loop with op call reps
+    this.operationCallRepsService.addOperationCallRepByOperationIdAndUserId(
+      formSubmission.operation.operationId,
+      formSubmission.user.userId
+    );
+    // for loop with op contacts
+
+    // this.operationContactsService.
+
+    // for loop with notification recipients
+
+    // this.notificationRecipientService.addNotificationRecipientByOperationContactId
   }
   public toggleOperationUserAssignedMenu = function() {
     this.isOpen = !this.isOpen;
