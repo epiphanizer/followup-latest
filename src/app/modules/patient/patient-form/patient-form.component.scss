@@ -42,9 +42,11 @@ form {
       cursor: not-allowed;
     }
   }
+
   fieldset {
     border: none;
   }
+
   > fieldset {
     padding: 0;
     margin-left: -25px;
@@ -169,6 +171,7 @@ form {
   i.icon-medical-condition {
     background-image: url("/assets/icon-medical-condition@2x.png");
   }
+
   i.icon-question {
     background-image: url("/assets/icon-question@2x.png");
   }
@@ -176,7 +179,9 @@ form {
   .section-header {
     margin-top: 14px;
     overflow: hidden;
-
+    &.contacts {
+      margin-bottom: -33px;
+    }
     span {
       font-family: Avenir;
       font-size: 19px;
@@ -188,6 +193,7 @@ form {
       letter-spacing: 0.42px;
       text-align: left;
       color: var(--ion-color-primary);
+
       &.contact-header,
       &.discharge-header {
         float: left;
@@ -199,18 +205,20 @@ form {
 
   fieldset.patient-contacts {
     border: none;
+
     .section-header {
       span {
         margin-left: 0px;
+
         &.contact-header {
           margin-left: 10px;
+          margin-bottom: -33px;
         }
       }
     }
 
     ion-item-divider {
       clear: both;
-      margin-top: -33px;
     }
 
     ion-item {
@@ -257,7 +265,8 @@ form {
 
         &.responsible-party {
           float: right;
-
+          line-height: 45px;
+          vertical-align: bottom;
           ion-label {
             font-family: Avenir;
             font-size: 13px;
@@ -282,6 +291,7 @@ form {
 
   fieldset.patient-discharge {
     border: none;
+
     ion-item {
       &.discharge-admit-date,
       &.discharge-discharge-date {
@@ -299,11 +309,14 @@ form {
         margin-left: 18px;
       }
     }
+
     .discharged-ama {
       display: inline-flex;
+
       ion-item {
         display: inline-block;
       }
+
       ion-radio {
         display: inline-block;
       }
@@ -344,16 +357,19 @@ form {
 
     ion-item {
       margin-left: 0;
+
       ion-radio {
         display: inline-block;
       }
     }
   }
+
   .discharge-ama {
     ion-item {
       display: inline-block;
     }
   }
+
   .discharge-checkboxes {
     margin-top: 6px;
     padding-left: 0;
@@ -424,6 +440,7 @@ form {
     ion-list {
       margin-left: 0;
     }
+
     ion-item {
       display: inline-block;
       padding-left: 25px;
@@ -450,13 +467,16 @@ form {
       }
     }
   }
+
   .insurance-info {
     ion-list {
       margin-left: 0;
     }
+
     .primary-insurance {
       padding-left: 11px;
     }
+
     .secondary-insurance {
       margin-left: 25px;
     }
@@ -469,14 +489,19 @@ form {
     }
   }
 }
+
 .urgency-rating-list {
   display: inline-flex;
 }
+
 .urgency-rating {
+  margin-left: 11px;
+
   ion-radio {
     display: inline-block;
   }
-}
-.picker {
-  transform: translateY(-11%) translateX(-113px);
+
+  .need-to-know {
+    margin-left: 11px;
+  }
 }

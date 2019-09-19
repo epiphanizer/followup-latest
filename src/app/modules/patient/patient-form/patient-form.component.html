@@ -246,7 +246,7 @@
                 <ion-label color="medium" position="stacked">Discharged To:</ion-label>
                 <ion-list inset lines="none">
                   <ion-item>
-                    <ion-radio-group>
+                    <ion-radio-group formControlName="patientDischargedTo">
                       <ion-radio *ngFor="let dischargeLabel of dischargeLabels" value="dischargeLabel.dischargeLabelId">
                         {{ dischargeLabel.dischargeLabel }}
                       </ion-radio>
@@ -303,7 +303,7 @@
               <ion-label color="medium" position="stacked">
                 Urgency Rating
               </ion-label>
-              <ion-radio-group>
+              <ion-radio-group formControlName="patientUrgencyRating">
                 <ion-radio value="1"> </ion-radio>
                 <ion-radio value="2"></ion-radio>
                 <ion-radio value="3"></ion-radio>
@@ -314,7 +314,7 @@
           </ion-list>
           <ion-list inset lines="none">
             <i class="icon-info"></i>
-            <ion-item>
+            <ion-item class="need-to-know">
               <ion-label color="medium" position="stacked">Need To Know</ion-label>
               <ion-textarea formControlName="patientNeedToKnow"></ion-textarea>
             </ion-item>
