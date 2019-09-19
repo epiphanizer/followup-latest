@@ -32,7 +32,7 @@
 
 <ul class="notification-patient-list">
   <li
-    *ngFor="let notification of operation.notifications$ | async"
+    *ngFor="let notification of notifications$ | async"
     class="active"
     [routerLink]="'/notifications/' + notification.notificationPatientId"
   >

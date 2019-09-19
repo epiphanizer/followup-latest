@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation.service';
-import { Patient } from '@app/modules/patient/patient';
-import { PatientService } from '@app/modules/patient/patient.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Notification, NotificationService } from '../../notification.service';
 
 @Component({
   selector: 'app-notification-patient-listing',
@@ -12,13 +11,14 @@ import { map } from 'rxjs/operators';
 })
 export class NotificationPatientListingComponent implements OnInit {
   @Input() operation: Operation;
-  public patients: Patient[];
-  public patients$: Observable<[Patient]> | void = null;
-  constructor(private patientService: PatientService) {}
+  public notifications: Notification[];
+  public notifications$: Observable<Notification[]>;
+  constructor(private notificationService: NotificationService) {}
   ngOnInit() {
-    this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
-      map((patients: [Patient]) => {
-        return patients;
+    this.notifications$ = this.notificationService.getNotificationsByOperationId(this.operation.operationId).pipe(
+      map((notifications: Notification[]) => {
+        this.notifications = notifications;
+        return notifications;
       })
     );
   }
@@ -29,7 +29,13 @@ export class NotificationPatientListingComponent implements OnInit {
   toggleAscDesc() {
     alert('Toggled ascending vs. descending');
   }
-  sortNotificationsByDate() {}
-  sortNotificationsByType() {}
-  sortNotificationsByStatus() {}
+  sortNotificationsByDate() {
+    alert('Toggling notifications by date');
+  }
+  sortNotificationsByType() {
+    alert('Toggling notifications by type');
+  }
+  sortNotificationsByStatus() {
+    alert('Toggling notifications by status');
+  }
 }
