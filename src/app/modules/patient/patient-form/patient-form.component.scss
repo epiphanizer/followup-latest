@@ -437,8 +437,8 @@ form {
   }
 
   .physician-info {
-    ion-list {
-      margin-left: 0;
+    ion-list.physician-info-list {
+      margin: 0;
     }
 
     ion-item {
