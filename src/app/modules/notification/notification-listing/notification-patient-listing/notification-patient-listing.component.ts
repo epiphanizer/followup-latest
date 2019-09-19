@@ -35,6 +35,9 @@ export class NotificationPatientListingComponent implements OnInit {
   sortNotificationsByType() {
     alert('Toggling notifications by type');
   }
+  sortNotificationsByPatient() {
+    alert('Toggling notifications by patient');
+  }
   sortNotificationsByStatus() {
     alert('Toggling notifications by status');
   }

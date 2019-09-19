@@ -58,12 +58,12 @@ export class PatientFormComponent implements OnInit {
       patientFormControls.controls.patientFirstName.setValue(this.patient.patientFirstName);
       patientFormControls.controls.patientMiddleName.setValue(this.patient.patientMiddleName);
       patientFormControls.controls.patientLastName.setValue(this.patient.patientLastName);
-      // patientFormControls.controls.operationCity.setValue(this.operation.operationCity);
-      // patientFormControls.controls.operationState.setValue(this.operation.operationState);
-      // patientFormControls.controls.operationZip.setValue(this.operation.operationZip);
-      // patientFormControls.controls.operationCountryCode.setValue(this.operation.operationCountryCode);
-      // patientFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
-      // patientFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
+      var physicianInfoFormControls = this.patientForm.get('patient.physicianInfo') as FormGroup;
+      physicianInfoFormControls.controls.patientPhysicianFirstName.setValue(this.patient.patientPhysicianFirstName);
+      physicianInfoFormControls.controls.patientPhysicianLastName.setValue(this.patient.patientPhysicianLastName);
+      physicianInfoFormControls.controls.physicianCountryCode.setValue(this.patient.patientPhysicianCountryCode);
+      physicianInfoFormControls.controls.physicianAreaCode.setValue(this.patient.patientPhysicianAreaCode);
+      physicianInfoFormControls.controls.physicianPhoneNumber.setValue(this.patient.patientPhysicianPhoneNumber);
     }
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
   }
@@ -129,8 +129,8 @@ export class PatientFormComponent implements OnInit {
             patientContactFirstName: this.fb.control(''),
             patientContactLastName: this.fb.control(''),
             patientContactRelationship: this.fb.control(''),
-            patientContactCountryCodeNumber: this.fb.control(''),
-            patientContactAreaCodeNumber: this.fb.control(''),
+            patientContactCountryCode: this.fb.control(''),
+            patientContactAreaCode: this.fb.control(''),
             patientContactPhoneNumber: this.fb.control(''),
             /**
              * Write a test, this should be false if another boolean is true
@@ -141,8 +141,8 @@ export class PatientFormComponent implements OnInit {
             patientContactFirstName: this.fb.control(''),
             patientContactLastName: this.fb.control(''),
             patientContactRelationship: this.fb.control(''),
-            patientContactCountryCodeNumber: this.fb.control(''),
-            patientContactAreaCodeNumber: this.fb.control(''),
+            patientContactCountryCode: this.fb.control(''),
+            patientContactAreaCode: this.fb.control(''),
             patientContactPhoneNumber: this.fb.control(''),
             /**
              * Write a test, this should be false if another boolean is true
@@ -153,8 +153,8 @@ export class PatientFormComponent implements OnInit {
             patientContactFirstName: this.fb.control(''),
             patientContactLastName: this.fb.control(''),
             patientContactRelationship: this.fb.control(''),
-            patientContactCountryCodeNumber: this.fb.control(''),
-            patientContactAreaCodeNumber: this.fb.control(''),
+            patientContactCountryCode: this.fb.control(''),
+            patientContactAreaCode: this.fb.control(''),
             patientContactPhoneNumber: this.fb.control(''),
             /**
              * Write a test, this should be false if another boolean is true
@@ -198,10 +198,9 @@ export class PatientFormComponent implements OnInit {
   setPatientQuestionAnswers() {
     // this.appForm;
   }
-  updateResponsibleParty() {
-    /**
-     * First, we identify the radio value that is set,
-     * then, we setValue on all other controls within the formGroup.
-     */
+  updateResponsibleParty(idx: number) {
+    var patientFormControls = this.patientForm.get('patient.patientContacts') as FormGroup;
+    patientFormControls.controls.alternatePatientContact1.setValue(false);
+    patientFormControls.controls.alternatePatientContact2.setValue(false);
   }
 }

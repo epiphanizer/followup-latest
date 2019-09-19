@@ -319,6 +319,7 @@ form {
 
       ion-radio {
         display: inline-block;
+        margin-right: 8px;
       }
     }
   }
@@ -475,9 +476,11 @@ form {
     ion-list {
       margin-left: 0;
     }
-
+    i {
+      margin-left: -27px;
+    }
     .primary-insurance {
-      margin-left: 11px;
+      margin-left: 38px;
     }
 
     .secondary-insurance {
