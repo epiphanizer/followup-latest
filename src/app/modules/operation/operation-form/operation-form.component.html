@@ -118,7 +118,7 @@
                 <ion-label position="stacked" color="medium">Notifications</ion-label>
                 <ion-list
                   lines="none"
-                  class="contact-noficiation-checkbox-list"
+                  class="contact-notification-checkbox-list"
                   formGroupName="operationContactNotifications"
                 >
                   <ion-item *ngFor="let notificationType of notificationTypes; let idx = index">
@@ -164,7 +164,7 @@
               </ion-item>
 
               <ion-item class="notification-container">
-                <h3>Notifications</h3>
+                <ion-label position="stacked" color="medium">Notifications</ion-label>
                 <ion-list
                   lines="none"
                   class="contact-notification-checkbox-list"
@@ -250,7 +250,7 @@
           </ion-list>
         </ng-template>
       </fieldset>
-      <ion-button (click)="onFormSubmit()">Save</ion-button>
+      <ion-button class="ion-float-right" (click)="onFormSubmit()">Save</ion-button>
     </form>
   </ion-col>
   <ion-col class="right-admin-col">
