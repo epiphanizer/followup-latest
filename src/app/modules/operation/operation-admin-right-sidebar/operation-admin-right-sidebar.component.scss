@@ -21,8 +21,9 @@
   i {
     margin-left: 12px;
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 13px;
+    height: 13px;
+    margin-top: -17px;
   }
 
   .facility-dropdown-list {
@@ -110,7 +111,7 @@
   cursor: pointer;
   background-image: url("assets/icon-arrow-open@2x.png");
   width: 100%;
-  margin-left: 22px;
+  display: inline-block;
   display: block;
   background-size: 100%;
   background-repeat: no-repeat;
