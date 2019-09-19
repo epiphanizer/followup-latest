@@ -7,6 +7,9 @@ export interface Notification {
   notificationId: number;
   notificationTypeId: number;
   notificationTypeLabel?: string;
+  notificationPatientId: number;
+  notificationPatientFirstName: string;
+  notificaitonPatientLastName: string;
   notificationRecipients?: string[];
 }
 export interface NotificationTypes {

@@ -34,36 +34,22 @@
   <li
     *ngFor="let notification of operation.notifications$ | async"
     class="active"
-    [routerLink]="'/notifications/' + patient.patientId"
+    [routerLink]="'/notifications/' + notification.notificationPatientId"
   >
     <div class="notification-date">
       {{ notification.notificationCreated }}
     </div>
-    <div class="notification-number">
-      {{ patient.patientNotificationCount }}
-    </div>
-    <div class="notification-avatar">
-      {{ patient.avatarImage }}
-    </div>
+
     <div class="notification-patient-information">
       <span class="notification-patient-name">
         <a [routerLink]="'/notifications/' + notification.notificationId">
-          {{ patient.patientFirstName }} {{ patient.patientLastName }}
+          {{ notification.patientFirstName }} {{ notification.patientLastName }}
         </a>
       </span>
     </div>
-    <div class="notification-call-status-legend">
-      <ul>
-        <li>
-          <i class="icon-contacted"></i>
-        </li>
-        <li>
-          <i class="icon-left-message"></i>
-        </li>
-        <li>
-          <i class="icon-no-answer"></i>
-        </li>
-      </ul>
+    <div class="notification-type">
+      <img src="{{ notification.notificationIconImage }} /" />
+      <span>{{ notification.notificationTypesLabel }} </span>
     </div>
   </li>
 </ul>
