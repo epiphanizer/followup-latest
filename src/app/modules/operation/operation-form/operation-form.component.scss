@@ -147,7 +147,9 @@ form {
   fieldset.operation-contacts,
   fieldset.operation-team-members {
     border: none;
-
+    .operation-contact-entry {
+      width: 100%;
+    }
     .section-header {
       span {
         margin-left: 0px;
@@ -182,10 +184,9 @@ form {
       }
       ion-label {
         font-family: Avenir;
-        font-size: 15px;
+        font-size: 12px;
         margin-left: 15px;
         margin-bottom: 15px;
-        padding-top: 5px;
         font-weight: normal;
         font-style: normal;
         font-stretch: normal;
@@ -228,11 +229,16 @@ form {
       text-transform: uppercase;
     }
   }
+  .contact-header-wrapper {
+    width: 100%;
+  }
+
   .add-call-rep {
     font-family: Avenir;
-    font-size: 19px;
+    font-size: 13px;
     font-weight: normal;
     font-style: normal;
+    margin-top: 15px;
     margin-left: 10px;
     font-stretch: normal;
     line-height: 1.33;
