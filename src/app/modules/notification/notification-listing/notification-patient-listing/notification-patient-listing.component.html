@@ -7,11 +7,14 @@
 </h3>
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="patient-filters">
-  <li>
+  <li class="ion-float-left">
     <a (click)="sortNotificationsByDate()">[Date]</a>
     <span class="ascending-descending-control">
       <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
     </span>
+  </li>
+  <li>
+    <a (click)="sortNotificationsByPatient()">[Patient]</a>
   </li>
   <li>
     <a (click)="sortNotificationsByType()">[Type]</a>
@@ -27,26 +30,29 @@
   </li>
 </ul>
 
-<ul class="call-queue-patient-list">
+<ul class="notification-patient-list">
   <li
-    *ngFor="let patient of patients$ | async"
+    *ngFor="let notification of operation.notifications$ | async"
     class="active"
-    [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
+    [routerLink]="'/notifications/' + patient.patientId"
   >
-    <div class="call-queue-number">
+    <div class="notification-date">
+      {{ notification.notificationCreated }}
+    </div>
+    <div class="notification-number">
       {{ patient.patientNotificationCount }}
     </div>
-    <div class="call-queue-avatar">
+    <div class="notification-avatar">
       {{ patient.avatarImage }}
     </div>
-    <div class="call-queue-patient-information">
-      <span class="call-queue-patient-name">
+    <div class="notification-patient-information">
+      <span class="notification-patient-name">
         <a [routerLink]="'/notifications/' + notification.notificationId">
           {{ patient.patientFirstName }} {{ patient.patientLastName }}
         </a>
       </span>
     </div>
-    <div class="call-queue-call-status-legend">
+    <div class="notification-call-status-legend">
       <ul>
         <li>
           <i class="icon-contacted"></i>

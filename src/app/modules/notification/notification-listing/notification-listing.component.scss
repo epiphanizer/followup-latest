@@ -1,9 +1,20 @@
+ion-title {
+  font-family: AvenirNextLTPro;
+  font-size: 41px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0.9px;
+  text-align: left;
+  color: #3f3638;
+  padding-left: 0;
+}
+
 .notification-sidebar {
   max-width: 177px;
 }
-.notification-listing-content {
-  padding-left: 60px;
-}
+
 .notification-content-wrapper {
+  margin-left: 60px;
   max-width: 949px;
 }

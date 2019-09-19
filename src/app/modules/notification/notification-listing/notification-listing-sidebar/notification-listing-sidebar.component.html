@@ -23,6 +23,12 @@
       <a (click)="setActiveOperation(operation)" [ngClass]="{ active: selected.operation == operation }">
         {{ operation.operationName }}
       </a>
+      <div class="icon-container" *ngIf="operation.currentNewNotificationCount">
+        <i class="icon-new-notifications"></i>
+        <span class="icon-notification-counter">
+          {{ operation.currentNewNotificationCount }}
+        </span>
+      </div>
     </li>
   </ul>
   <ng-template #noOperations>

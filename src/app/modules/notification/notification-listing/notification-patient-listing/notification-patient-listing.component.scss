@@ -88,7 +88,7 @@ ul.patient-filters {
   position: absolute;
 }
 
-.call-queue-patient-list {
+.notification-patient-list {
   clear: both;
   list-style-type: none;
   max-width: 431px;
@@ -119,7 +119,7 @@ ul.patient-filters {
       list-style-type: none;
     }
 
-    .call-queue-number {
+    .notification-number {
       display: block;
       float: left;
       width: 96px;
@@ -144,7 +144,7 @@ ul.patient-filters {
       background-color: RGBA(200, 200, 200, 0.15);
     }
 
-    .call-queue-avatar {
+    .notification-avatar {
       display: inline-block;
       margin-top: 10.5px;
       width: 74.8px;
@@ -157,7 +157,7 @@ ul.patient-filters {
       border-radius: 50%;
     }
 
-    .call-queue-patient-information {
+    .notification-patient-information {
       line-height: 96px;
       vertical-align: top;
       display: inline-block;
@@ -167,7 +167,7 @@ ul.patient-filters {
       color: black;
     }
 
-    .call-queue-patient-name {
+    .notification-patient-name {
       display: block;
       height: 18px;
       font-family: Avenir;
@@ -186,7 +186,7 @@ ul.patient-filters {
       }
     }
 
-    .call-queue-patient-detail {
+    .notification-patient-detail {
       width: 177px;
       height: 13px;
       font-family: AvenirNextLTPro;
@@ -200,7 +200,7 @@ ul.patient-filters {
       color: #8e8e93;
     }
 
-    .call-queue-patient-listing-controls {
+    .notification-patient-listing-controls {
       display: inline-block;
       height: 215px;
       width: 17px;
@@ -212,7 +212,7 @@ ul.patient-filters {
       font-family: Avenir;
     }
   }
-  .call-queue-call-status-legend {
+  .notification-call-status-legend {
     height: 96px;
     display: block;
     float: right;
