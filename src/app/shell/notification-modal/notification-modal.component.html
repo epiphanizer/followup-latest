@@ -12,8 +12,8 @@
     </ion-list>
     <ion-textarea class="notification-textarea" formControlName="notificationNotes" placeholder="Leave Your Notes Here">
     </ion-textarea>
-    <ion-button class="save-button" (click)="saveNotification()">Save</ion-button>
-    <span>[ report will be sent when <b>follow-up</b> is complete ]</span>
+    <ion-button class="save-button ion-float-right" type="button" (click)="saveNotification()">Save</ion-button>
+    <span class="helper-text">[ report will be sent when <b>follow-up</b> is complete ]</span>
   </form>
 </ng-container>
 <ng-template #sendNotification>
@@ -58,10 +58,10 @@
     </ion-col>
   </ion-row>
   <ion-row>
-    <ion-button fill="outline" class="ion-float-left edit-button" (click)="editNotification()">Back</ion-button>
     <div class="send-container">
-      <ion-button fill="outline" class="ion-float-right save-button" (click)="sendNotification()">Send</ion-button>
-      <span>[ report will be sent when <b>follow-up</b> is complete ]</span>
+      <ion-button fill="outline" class="ion-float-left edit-button" (click)="editNotification()">Back</ion-button>
+      <span class="helper-text">[ report will be sent when <b>follow-up</b> is complete ]</span>
+      <ion-button fill="outline" class="ion-float-right send-button" (click)="sendNotification()">Send</ion-button>
     </div>
   </ion-row>
 </ng-template>

@@ -23,14 +23,16 @@ export class PatientCallNotesComponent implements OnInit {
     this.createForm();
   }
   handleCallEnd() {
+    alert('updating call notes');
     console.log('Handling the end of call in the call notes component');
   }
   highlightPatientCallNotes() {
+    alert('activating highlighter');
     this.highlighterActive = true;
   }
   private createForm() {
     this.patientCallNotesForm = this.fb.group({
-      patientCallNotes: this.fb.control({})
+      patientCallNotes: this.fb.control('')
     });
   }
 }

@@ -16,6 +16,7 @@ export class PatientCallHistoryListingComponent implements OnInit {
   ngOnInit() {
     this.patient.patientCalls$.subscribe((data: PatientCall[]) => {
       this.patientCalls = data;
+      return data;
     });
   }
 }

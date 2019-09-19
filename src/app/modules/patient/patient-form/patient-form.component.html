@@ -217,7 +217,7 @@
               <span class="discharge-header">Discharge Info</span>
             </div>
             <ion-list inset lines="none">
-              <div class="patient-discharge-container">
+              <div class="patient-discharge-dates-container">
                 <ion-item class="discharge-admit-date">
                   <ion-label color="medium" position="stacked">Admitted</ion-label>
                   <ion-datetime formControlName="patientAdmissionDate"></ion-datetime>
@@ -231,8 +231,11 @@
                   <ion-input formControlName="patientTotalDays" disabled readonly></ion-input>
                 </ion-item>
               </div>
+              <ion-label class="discharged-label" 
+              color="medium" position="stacked">
+                Discharged Against Medical Advice?
+              </ion-label>
               <ion-item class="discharged-ama">
-                <ion-label color="medium" position="stacked">Discharged Against Medical Advice?</ion-label>
                 <ion-radio-group formControlName="patientDischargedAma">
                   <ion-radio class="discharged-ama radio-yes"> </ion-radio>
                   <ion-label>
@@ -307,7 +310,7 @@
                 Urgency Rating
               </ion-label>
               <ion-radio-group formControlName="patientUrgencyRating">
-                <ion-radio value="1"> </ion-radio>
+                <ion-radio value="1"></ion-radio>
                 <ion-radio value="2"></ion-radio>
                 <ion-radio value="3"></ion-radio>
                 <ion-radio value="4"></ion-radio>

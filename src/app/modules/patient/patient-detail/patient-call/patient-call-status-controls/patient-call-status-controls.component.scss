@@ -3,11 +3,18 @@
   padding-left: 0;
   margin-bottom: 29px;
 
+  ion-radio, ion-label {
+    display: inline-block;
+  }
   ion-item {
+    cursor: pointer;
     display: inline-block;
     height: 34px;
-    margin-right: 9px;
+    margin-right: -5px;
     width: auto;
+    &.active {
+      border-bottom: 1px solid lightblue;
+    }
 
     i {
       width: 17px;
@@ -30,7 +37,6 @@
         background-image: url("/assets/icon-final-call@2x.png");
       }
     }
-
     span {
       font-family: Avenir;
       font-size: 13.5px;

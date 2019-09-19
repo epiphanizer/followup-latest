@@ -3,7 +3,7 @@
     <ion-item *ngFor="let patientCall of patientCalls; let i = index">
       <div class="call-headline-container {{ i == 0 ? 'active' : '' }} ">
         <i class="icon-phone-icon"></i>
-        <span class="call-number-headline">Call {{ i }}</span>
+        <span class="call-number-headline">Call {{ i + 1}}</span>
       </div>
       <div class="call-question-container">
         <ion-list *ngFor="let patientQuestion of patientQuestions" lines="none" inset>

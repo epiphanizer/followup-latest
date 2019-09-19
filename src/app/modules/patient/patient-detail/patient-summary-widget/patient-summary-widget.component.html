@@ -44,7 +44,10 @@
                     {{alternateContactNumber}}
                   </ion-item> -->
                   <ion-item class="alternate-number">
-                    Alternate Contact #1
+                    Alternate Contact #1: 1-801-971-7017
+                  </ion-item>
+                  <ion-item class="alternate-number">
+                    Alternate Contact #2: 1-801-971-7027
                   </ion-item>
                 </ion-list>
               </ng-container>
@@ -57,7 +60,7 @@
       </a>
     </ion-col>
     <ion-col class="right-col-controls">
-      <app-patient-call-history-controls> </app-patient-call-history-controls>
+      <app-patient-call-history-controls [patient]="patient"> </app-patient-call-history-controls>
       <app-followup-complete-button class="ion-float-right" *ngIf="patient" [patient]="patient">
       </app-followup-complete-button>
     </ion-col>

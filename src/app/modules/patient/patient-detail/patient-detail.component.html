@@ -1,7 +1,7 @@
 <ion-content>
   <ion-row>
     <ion-col class="left-hand-detail">
-      <app-patient-call-status-controls *ngIf="selected.patientCall"> </app-patient-call-status-controls>
+      <app-patient-call-status-controls *ngIf="selected.patientCall" [patientCall]="selected.patientCall"> </app-patient-call-status-controls>
       <!-- Missing Functionality: Selector for app contact -->
       <app-patient-call-start-button
         *ngIf="!selected.patientCall"
@@ -37,7 +37,7 @@
       <ng-container>
         <app-patient-summary-widget [operation]="operation" [patient]="patient"> </app-patient-summary-widget>
       </ng-container>
-      <!-- <app-patient-call-history-listing [patient]="patient"> </app-patient-call-history-listing> -->
+      <app-patient-call-history-listing [patient]="patient"> </app-patient-call-history-listing>
       <app-patient-notes [patient]="patient"> </app-patient-notes>
     </ion-col>
   </ion-row>
