@@ -115,7 +115,7 @@ export class PatientFormComponent implements OnInit {
             patientContactFirstName: this.fb.control(''),
             patientContactLastName: this.fb.control(''),
             patientContactRelationship: this.fb.control(''),
-            patientContactCountryCodeNumber: this.fb.control({ disabled: true }),
+            patientContactCountryCodeNumber: this.fb.control(''),
             patientContactAreaCodeNumber: this.fb.control(''),
             patientContactPhoneNumber: this.fb.control(''),
             /**
@@ -127,7 +127,7 @@ export class PatientFormComponent implements OnInit {
             patientContactFirstName: this.fb.control(''),
             patientContactLastName: this.fb.control(''),
             patientContactRelationship: this.fb.control(''),
-            patientContactCountryCodeNumber: this.fb.control({ disabled: true }),
+            patientContactCountryCodeNumber: this.fb.control(''),
             patientContactAreaCodeNumber: this.fb.control(''),
             patientContactPhoneNumber: this.fb.control(''),
             /**
@@ -139,7 +139,7 @@ export class PatientFormComponent implements OnInit {
             patientContactFirstName: this.fb.control(''),
             patientContactLastName: this.fb.control(''),
             patientContactRelationship: this.fb.control(''),
-            patientContactCountryCodeNumber: this.fb.control({ disabled: true }),
+            patientContactCountryCodeNumber: this.fb.control(''),
             patientContactAreaCodeNumber: this.fb.control(''),
             patientContactPhoneNumber: this.fb.control(''),
             /**
@@ -151,7 +151,7 @@ export class PatientFormComponent implements OnInit {
         physicianInfo: this.fb.group({
           physicianFirstName: this.fb.control(''),
           physicianLastName: this.fb.control(''),
-          physicianCountryCodeNumber: this.fb.control({ disabled: true }),
+          physicianCountryCodeNumber: this.fb.control(''),
           physicianAreaCodeNumber: this.fb.control(''),
           physicianPhoneNumber: this.fb.control('')
         }),
