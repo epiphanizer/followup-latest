@@ -11,7 +11,7 @@
     </ng-template>
     <form id="operation-form" [formGroup]="operationForm" novalidate>
       <ion-list formGroupName="operation" lines="none" inset>
-        <i class="icon-facility"></i>
+        <i class="icon-info"></i>
         <ion-item>
           <ion-label position="stacked">Facility</ion-label>
           <ion-input type="text" formControlName="operationName"></ion-input>
@@ -53,7 +53,7 @@
       <fieldset class="operation-contacts">
         <div class="section-header">
           <ng-container *ngIf="editMode; else addFirstOperationContact">
-            <ion-item *ngFor="let operationContact of operation.operationContacts$; let idx = index">
+            <!-- <ion-item *ngFor="let operationContact of operation.operationContacts$; let idx = index">
               <i class="icon-user"></i>
               <h3>Contact {{ idx }}</h3>
               <app-operation-contact [operationContact]="operationContact"> </app-operation-contact>
@@ -68,14 +68,51 @@
                   </ion-label>
                 </ion-item>
               </ion-list>
-              <span class="ion-float-right" (click)="addAdditionalContact()">[additional contact]</span>
-            </ion-item>
+              <span class="ion-float-right" (click)="addAdditionalContact()">[+ additional contact]</span>
+            </ion-item> -->
           </ng-container>
           <ng-template #addFirstOperationContact>
             <i class="icon-user"></i>
             <h3>Contact 1</h3>
-            Add our first operation Contact:
-            <!-- This is a formArray that gets populated dynamically, I believe -->
+            <ion-list>
+              <ion-item>
+                <ion-label color="medium" position="stacked">First Name</ion-label>
+                <ion-input type="text"> </ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label color="medium" position="stacked">Middle Name</ion-label>
+                <ion-input type="text"> </ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label color="medium" position="stacked">Last Name</ion-label>
+                <ion-input type="text"> </ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label color="medium" position="stacked">Title / Position</ion-label>
+                <ion-input type="text"> </ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label color="medium" position="stacked">Email</ion-label>
+                <ion-input type="text"> </ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label color="medium" position="stacked">Phone #</ion-label>
+                <ion-input type="text"> </ion-input>
+              </ion-item>
+
+              <ion-item>
+                <h3>Notifications</h3>
+                <ion-list class="contact-noficiation-checkbox-list" formGroupName="operationContactNotifications">
+                  <ion-item *ngFor="let notificationType of notificationTypes; let idx = index">
+                    <ion-checkbox> </ion-checkbox>
+                    <ion-label>
+                      {{ notificationType.notificationTypesLabel }}
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+                <span class="ion-float-right" (click)="addAdditionalContact()">[+ additional contact]</span>
+              </ion-item>
+            </ion-list>
           </ng-template>
         </div>
       </fieldset>

@@ -1,3 +1,6 @@
+ion-page {
+  overflow-y: scroll;
+}
 ion-content {
   padding-bottom: 132px;
 }
@@ -19,7 +22,7 @@ ion-title {
 }
 
 .operation-form-content {
-  margin-left: 60px;
+  margin-left: 120px;
   max-width: 534px;
 }
 
@@ -28,13 +31,21 @@ form {
     min-width: min-content;
     font-family: Avenir;
     font-size: 24px;
+    margin-bottom: 15px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
     letter-spacing: 0.42px;
     text-align: left;
   }
-
+  ion-item {
+    &.address,
+    &.city,
+    &.state,
+    &.zip {
+      margin-left: 25px;
+    }
+  }
   ion-input,
   ion-textarea {
     background: #f5f5f5;
@@ -43,14 +54,14 @@ form {
   .phone-container {
     ion-item {
       display: inline-block;
-
+      margin-right: 5px;
       &.country-code {
-        margin-left: 0;
-        width: 85px;
+        margin-left: 12px;
+        width: 65px;
       }
 
       &.area-code {
-        width: 150px;
+        width: 120px;
       }
 
       &.phone-number {
@@ -99,6 +110,7 @@ form {
     margin-top: 14px;
     background-repeat: no-repeat;
     background-size: 95%;
+    margin-right: 12px;
   }
 
   i.icon-info {
