@@ -1,7 +1,7 @@
 <ion-list lines="none" class="patient-call-status-legend">
   <ion-item *ngFor="let patientCallStatus of patientCallStatuses">
     <div (click)="updatePatientCallStatus(patientCall.patientCallId, patientCallStatus.patientCallStatusLabelId)">
-      <i class="icon-{{ patientCallStatus.patientCallStatusLabel }}"></i>
+      <i class="icon-{{ patientCallStatus.patientCallStatusLabel | lowercase }}"></i>
       <span>{{ patientCallStatus.patientCallStatusLabel }}</span>
     </div>
   </ion-item>

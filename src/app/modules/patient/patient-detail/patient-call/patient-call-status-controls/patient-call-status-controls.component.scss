@@ -1,4 +1,4 @@
-#patient-call-status-legend {
+.patient-call-status-legend {
   list-style-type: none;
   padding-left: 0;
   margin-bottom: 29px;
@@ -17,17 +17,17 @@
       background-size: 100%;
       background-repeat: no-repeat;
       background-position: center center;
-      &.icon-Contacted {
-        background-image: url("/assets/icon-contacted.png");
+      &.icon-contacted {
+        background-image: url("/assets/icon-contacted@2x.png");
       }
-      &.icon-LeftMessage {
-        background-image: url("/assets/icon-left-message.png");
+      &.icon-left {
+        background-image: url("/assets/icon-left-message@2x.png");
       }
-      &.icon-NoAnswer {
-        background-image: url("/assets/icon-no-answer.png");
+      &.icon-no {
+        background-image: url("/assets/icon-no-answer@2x.png");
       }
-      &.icon-FinalCall {
-        background-image: url("/assets/icon-final-call.png");
+      &.icon-final {
+        background-image: url("/assets/icon-final-call@2x.png");
       }
     }
 
