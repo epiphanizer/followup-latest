@@ -13,7 +13,7 @@
       <ion-list formGroupName="operation" lines="none" inset>
         <i class="icon-info"></i>
         <ion-item>
-          <ion-input type="hidden" formControlName="operationId" [value]="operation.operationId"></ion-input>
+          <ion-input type="hidden" formControlName="operationId" [value]="operation?.operationId"></ion-input>
           <ion-label position="stacked">Facility</ion-label>
           <ion-input type="text" formControlName="operationName"></ion-input>
         </ion-item>
@@ -113,7 +113,11 @@
             </ion-item>
             <ion-item class="notification-container">
               <h3>Notifications</h3>
-              <ion-list class="contact-noficiation-checkbox-list" formGroupName="operationContactNotifications">
+              <ion-list
+                lines="none"
+                class="contact-noficiation-checkbox-list"
+                formGroupName="operationContactNotifications"
+              >
                 <ion-item *ngFor="let notificationType of notificationTypes; let idx = index">
                   <ion-checkbox formControlName="{{ idx }}"> </ion-checkbox>
                   <ion-label>
@@ -156,7 +160,11 @@
               <span class="ion-float-right" (click)="addAdditionalContact()">[+ additional contact]</span>
               <ion-item class="notification-container">
                 <h3>Notifications</h3>
-                <ion-list class="contact-notification-checkbox-list" formGroupName="operationContactNotifications">
+                <ion-list
+                  lines="none"
+                  class="contact-notification-checkbox-list"
+                  formGroupName="operationContactNotifications"
+                >
                   <ion-item *ngFor="let notificationType of notificationTypes; let idx = index">
                     <ion-checkbox> </ion-checkbox>
                     <ion-label>
