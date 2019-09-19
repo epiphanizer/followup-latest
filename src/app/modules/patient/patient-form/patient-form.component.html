@@ -53,8 +53,7 @@
               <span class="contact-header">Contacts</span>
             </div>
             <ion-list lines="none" formGroupName="primaryPatientContact">
-              <ion-item-divider></ion-item-divider>
-              <div class="section-header contacts">
+              <div class="section-header">
                 <span>Primary Contact</span>
               </div>
               <ion-item class="first-name">
@@ -91,7 +90,7 @@
               </div>
               <ion-item-divider></ion-item-divider>
             </ion-list>
-            <div class="section-header contacts">
+            <div class="section-header">
               <span>Alternative Contact 1</span>
             </div>
             <ion-list lines="none" formGroupName="alternatePatientContact1">
@@ -129,7 +128,7 @@
               </div>
               <ion-item-divider></ion-item-divider>
             </ion-list>
-            <div class="section-header contacts">
+            <div class="section-header">
               <span>Alternative Contact 2</span>
             </div>
             <ion-list lines="none" formGroupName="alternatePatientContact2">
@@ -171,9 +170,10 @@
           <fieldset class="physician-info" formGroupName="physicianInfo">
             <ion-list lines="none" inset>
               <i class="icon-physician"></i>
-              <div class="section-header contacts">
+              <div class="section-header">
                 <span>Physician</span>
               </div>
+              <ion-item-divider></ion-item-divider>
               <ion-item class="first-name">
                 <ion-label color="medium" position="stacked">First Name</ion-label>
                 <ion-input type="text" formControlName="physicianFirstName"></ion-input>
