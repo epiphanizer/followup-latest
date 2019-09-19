@@ -3,10 +3,11 @@ import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
+export interface NotificationRecipientPostBody {}
+
 @Injectable({
   providedIn: 'root'
 })
-export interface NotificationRecipientPostBody {}
 export class NotificationRecipientService {
   constructor(private http: HttpClient) {}
 
