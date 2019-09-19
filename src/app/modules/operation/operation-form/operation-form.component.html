@@ -120,12 +120,8 @@
         <i class="icon-team-members"></i>
         <h3>Team Members</h3>
         <ion-list lines="none" inset>
-          <ion-item *ngIf="operation; else addManager">
-            <ion-label
-              *ngIf="operation.operationAssignedManagerUserId; else addManager"
-              position="stacked"
-              color="medium"
-            >
+          <ion-item *ngIf="editMode; else addManager">
+            <ion-label position="stacked" color="medium">
               Assigned Manager
             </ion-label>
             <ion-select
@@ -134,7 +130,7 @@
               value="operation.operationAssignedManagerUserId"
             >
               <ion-select-option *ngFor="let user of availableManagers$ | async" [value]="user.userFirstName">
-                {{ user.userFirstName }}
+                {{ user.userLastName }}, {{ user.userFirstName }}
               </ion-select-option>
             </ion-select>
           </ion-item>
@@ -146,7 +142,7 @@
               </ion-label>
               <ion-select placeholder="Select User" class="select-facility">
                 <ion-select-option *ngFor="let user of availableManagers$ | async">
-                  {{ user.userFirstName }} {{ user.userLastName }}
+                  {{ user.userLastName }}, {{ user.userFirstName }}
                 </ion-select-option>
               </ion-select>
             </ion-item>
