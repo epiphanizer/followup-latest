@@ -14,7 +14,13 @@ import { OperationContact } from '../operation-contact/operation-contact';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 
 @Component({
-  providers: [OperationService, OperationContactsService, OperationCallRepsService, OperationResolver],
+  providers: [
+    NotificationRecipientService,
+    OperationService,
+    OperationContactsService,
+    OperationCallRepsService,
+    OperationResolver
+  ],
   selector: 'app-operation-form',
   templateUrl: './operation-form.component.html',
   styleUrls: ['./operation-form.component.scss']
@@ -160,6 +166,7 @@ export class OperationFormComponent implements OnInit {
 
     // for loop with notification recipients
 
+    2;
     // this.notificationRecipientService.addNotificationRecipientByOperationContactId
   }
   public toggleOperationUserAssignedMenu = function() {
