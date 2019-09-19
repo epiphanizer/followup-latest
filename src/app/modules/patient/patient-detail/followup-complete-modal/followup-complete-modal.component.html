@@ -2,9 +2,9 @@
   <ng-container>
     <ion-title>Follow-up Complete</ion-title>
     <ion-list class="graduation-options" lines="none">
-      <ion-radio-group>
+      <ion-radio-group formControlName="patientStatusLabelId">
         <ion-item *ngFor="let patientStatus of patientStatuses">
-          <ion-radio formControlName="patientStatusLabelId" value="patientStatus.patientStatusLabelId"> </ion-radio>
+          <ion-radio value="patientStatus.patientStatusLabelId"> </ion-radio>
           <ion-label>
             {{ patientStatus.patientStatusLabel }}
           </ion-label>
