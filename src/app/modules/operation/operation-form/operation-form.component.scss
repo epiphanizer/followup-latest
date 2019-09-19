@@ -1,6 +1,7 @@
 ion-content {
   padding-bottom: 132px;
 }
+
 .operation-sidebar {
   max-width: 177px;
 }
@@ -16,14 +17,44 @@ ion-title {
   color: #343638;
   padding-left: 0;
 }
+
 .operation-form-content {
   padding-left: 60px;
 }
+
 form {
+  ion-label {
+    min-width: min-content;
+    font-family: Avenir;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 0.42px;
+    text-align: left;
+  }
+
+  ion-input,
+  ion-textarea {
+    background: #f5f5f5;
+    border: solid 1px rgba(112, 112, 112, 0.15);
+  }
   .phone-container {
-    .country-code {
-      text-align: center;
-      color: gray;
+    ion-item {
+      display: inline-block;
+
+      &.country-code {
+        margin-left: 0;
+        width: 85px;
+      }
+
+      &.area-code {
+        width: 150px;
+      }
+
+      &.phone-number {
+        width: 257px;
+      }
     }
   }
 
@@ -51,16 +82,6 @@ form {
     --padding-end: 0;
     --inner-padding-start: 0;
     --inner-padding-end: 0;
-
-    ion-datetime {
-      width: 154.6px;
-      margin-top: 16px;
-      display: inline-block;
-
-      button {
-        max-width: 154.6px;
-      }
-    }
   }
 
   .select-facility {
