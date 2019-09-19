@@ -125,8 +125,9 @@
                   </ion-label>
                 </ion-item>
               </ion-list>
-              <span class="ion-float-right" (click)="addAdditionalContact()">[+ additional contact]</span>
             </ion-item>
+
+            <ion-item (click)="addAdditionalContact()">[+ additional contact]</ion-item>
           </ng-container>
           <ng-template #addFirstOperationContact>
             <i class="icon-user"></i>
@@ -157,7 +158,6 @@
                 <ion-input type="text"> </ion-input>
               </ion-item>
 
-              <span class="ion-float-right" (click)="addAdditionalContact()">[+ additional contact]</span>
               <ion-item class="notification-container">
                 <h3>Notifications</h3>
                 <ion-list
@@ -173,6 +173,8 @@
                   </ion-item>
                 </ion-list>
               </ion-item>
+
+              <ion-item (click)="addAdditionalContact()">[+ additional contact]</ion-item>
             </ion-list>
           </ng-template>
         </div>
