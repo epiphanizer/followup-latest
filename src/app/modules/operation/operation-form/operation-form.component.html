@@ -100,7 +100,8 @@
                 <ion-input type="text"> </ion-input>
               </ion-item>
 
-              <ion-item>
+              <span class="ion-float-right" (click)="addAdditionalContact()">[+ additional contact]</span>
+              <ion-item class="notification-container">
                 <h3>Notifications</h3>
                 <ion-list class="contact-noficiation-checkbox-list" formGroupName="operationContactNotifications">
                   <ion-item *ngFor="let notificationType of notificationTypes; let idx = index">
@@ -110,7 +111,6 @@
                     </ion-label>
                   </ion-item>
                 </ion-list>
-                <span class="ion-float-right" (click)="addAdditionalContact()">[+ additional contact]</span>
               </ion-item>
             </ion-list>
           </ng-template>
