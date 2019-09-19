@@ -1,7 +1,7 @@
 <ng-container *ngIf="status.notification.saved == false; else sendNotification">
   <form [formGroup]="createNotificationForm">
     <ion-title>Notification</ion-title>
-    <ion-list class="notification-options" lines="none" *ngIf="notificationTypes">
+    <ion-list class="notification-options" lines="none" inset *ngIf="notificationTypes">
       <ion-item *ngFor="let notificationType of notificationTypes">
         <img src="{{ notificationIconImage }}" alt="" />
         <ion-radio-group>

@@ -1,6 +1,7 @@
 :root {
   height: 595px;
   width: 645px;
+  padding: 75px;
 }
 ion-title {
   width: 100%;
@@ -16,6 +17,18 @@ ion-title {
   letter-spacing: 0.6px;
   text-align: left;
   color: #343638;
+}
+.notification-options {
+  width: 85%;
+  margin: 0 auto;
+}
+ion-radio {
+  display: inline-block;
+}
+ion-label {
+  display: inline-block;
+  font-family: Avenir;
+  font-size: 14px;
 }
 .warning {
   font-family: Avenir;
@@ -64,14 +77,12 @@ span.label {
   }
 }
 .notification-options {
-  max-height: 300px;
-  ion-item {
-    height: 100px;
-  }
+  height: auto;
 }
 .notification-textarea {
   height: 200px;
   width: 520px;
+  margin-left: 37px;
   background-color: #f5f5f5;
 }
 
