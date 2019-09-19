@@ -4,7 +4,8 @@ import { Patient } from '@app/modules/patient/patient';
 import { Observable } from 'rxjs';
 import { NotificationService, Notification } from '../notification.service';
 import { map } from 'rxjs/operators';
-import { User } from '@app/user';
+import { User } from '@app/modules/user/user.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-notification-listing',
@@ -25,9 +26,12 @@ export class NotificationListingComponent implements OnInit {
       }
     | any = {};
   user: User;
-  constructor(private notificationService: NotificationService) {}
+  constructor(private notificationService: NotificationService, private route: ActivatedRoute) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user = this.route.snapshot.data.user;
+    this.selected.operation = this.user.operations[0];
+  }
 
   ngOnChanges(changes: any) {
     if (changes.operation) {
