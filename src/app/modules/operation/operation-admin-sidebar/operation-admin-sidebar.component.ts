@@ -10,7 +10,7 @@ import {
 } from '@angular/animations';
 import { Operation } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '@app/user';
+import { User } from '@app/modules/user/user.service';
 
 @Component({
   selector: 'app-operation-admin-sidebar',
