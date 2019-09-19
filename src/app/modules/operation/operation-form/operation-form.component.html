@@ -133,7 +133,7 @@
               placeholder="Select User"
               value="operation.operationAssignedManagerUserId"
             >
-              <ion-select-option *ngFor="let user of availableManagers$" [value]="user.userFirstName">
+              <ion-select-option *ngFor="let user of availableManagers$ | async" [value]="user.userFirstName">
                 {{ user.userFirstName }}
               </ion-select-option>
             </ion-select>

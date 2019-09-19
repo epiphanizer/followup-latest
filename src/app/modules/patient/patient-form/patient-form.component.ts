@@ -53,6 +53,17 @@ export class PatientFormComponent implements OnInit {
     } else {
       this.patient$ = this.patientService.getPatientByPatientId(this.patient.patientId);
       this.createForm();
+
+      var patientFormControls = this.patientForm.get('patient') as FormGroup;
+      patientFormControls.controls.patientFirstName.setValue(this.patient.patientFirstName);
+      patientFormControls.controls.patientMiddleName.setValue(this.patient.patientMiddleName);
+      patientFormControls.controls.patientLastName.setValue(this.patient.patientLastName);
+      // patientFormControls.controls.operationCity.setValue(this.operation.operationCity);
+      // patientFormControls.controls.operationState.setValue(this.operation.operationState);
+      // patientFormControls.controls.operationZip.setValue(this.operation.operationZip);
+      // patientFormControls.controls.operationCountryCode.setValue(this.operation.operationCountryCode);
+      // patientFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
+      // patientFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
     }
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
   }
