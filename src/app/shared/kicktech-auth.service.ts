@@ -3,13 +3,13 @@ import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
 export interface AuthenticationBodyPost {
   userName: string;
   userPassword: string;
 }
+@Injectable({
+  providedIn: 'root'
+})
 export class KicktechAuthService {
   constructor(private http: HttpClient) {}
 
