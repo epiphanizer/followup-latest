@@ -33,11 +33,7 @@ export class AuthenticationService {
       this.router.navigate(['/login'], { replaceUrl: true });
     }
   }
-  ngOnInit() {
-    this.broadcastService.subscribe('msal:loginSuccess', payload => {
-      window.location.href = '/';
-    });
-  }
+  ngOnInit() {}
 
   async getAccessToken(): Promise<string> {
     let result = await this.msalService.acquireTokenSilent(OAuthSettings.scopes).catch(reason => {
