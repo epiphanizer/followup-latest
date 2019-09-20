@@ -15,7 +15,7 @@ export class KicktechAuthService {
 
   doLogin(userName: string, userPassword: string) {
     // do some encryption on what we post over within the authntication body post
-    return this.http.post<AuthenticationBodyPost>('http://followup.care/login', {}).pipe(
+    return this.http.post<AuthenticationBodyPost>('https://api.followup.care/api/v1.0/userlogin', {}).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
