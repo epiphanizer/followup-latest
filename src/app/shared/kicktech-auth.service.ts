@@ -2,6 +2,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { User } from '@app/modules/user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,19 @@ export interface AuthenticationBodyPost {
 export class KicktechAuthService {
   constructor(private http: HttpClient) {}
 
-  doLogin(userName: string, userPassword: string) {
+  doLogin(userName: string, userPassword: string): Observable<User> {
+    // yet with some bypassing parameter provided
+    let userPasswordEncrypted = userPassword;
     // do some encryption on what we post over within the authntication body post
-    return this.http.post<AuthenticationBodyPost>('http://followup.care/login', {}).pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
+    return this.http
+      .post<AuthenticationBodyPost>('http://followup.care/login', {
+        username: userName,
+        userPassword: userPasswordEncrypted
+      })
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   }
 
   private handleAsyncError(error: HttpErrorResponse) {

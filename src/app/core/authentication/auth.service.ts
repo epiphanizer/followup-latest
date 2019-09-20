@@ -3,15 +3,14 @@ import { OAuthSettings } from '@app/oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
 import { Subscription, Observable, throwError } from 'rxjs';
 import { map, delay, share, catchError, retry } from 'rxjs/operators';
-import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
-import { User } from '@app/modules/user/user.service';
+import { User, UserService } from '@app/modules/user/user.service';
 import { Operation, OperationService } from '@app/modules/operation/operation.service';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { EmailValidator } from '@angular/forms';
 import { HttpService } from '../http/http.service';
 import { Router } from '@angular/router';
+import { KicktechAuthService } from '@app/shared/kicktech-auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,26 +21,25 @@ export class AuthenticationService {
   private subscription: Subscription;
   constructor(
     private alertsService: AlertsService,
-    private broadcastService: BroadcastService,
     private http: HttpService,
-    private msalService: MsalService,
+    private kicktechService: KicktechAuthService,
     private operationService: OperationService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {
-    this.authenticated = this.msalService.getUser() != null;
+    this.authenticated = this.kicktechService.getUser() != null;
     if (!this.authenticated) {
       this.router.navigate(['/login'], { replaceUrl: true });
     }
   }
-  ngOnInit() {}
+  ngOnInit() {
+    // non of the gold.
+  }
 
   async getAccessToken(): Promise<string> {
-    let result = await this.msalService.acquireTokenSilent(OAuthSettings.scopes).catch(reason => {
-      this.alertsService.add('Get token failed', JSON.stringify(reason, null, 2));
+    let result = await this.kicktechService.acquireToken().catch(reason => {
+      debugger;
     });
-
-    // Temporary to display token in an error box
-    if (result) this.alertsService.add('Token acquired', result);
     return result;
   }
 
@@ -130,6 +128,7 @@ export class AuthenticationService {
     } else {
       user.operations = await this.operationService.getAllOperations().toPromise();
     }
+
     this.user.operations.forEach((operation: Operation, index: number) => {
       this.user.operations[index].currentAssignedPatientCount = operation.currentAssignedPatientCount;
       this.user.operations[index].currentNewDischargeCount = operation.currentNewDischargeCount;
@@ -147,9 +146,7 @@ export class AuthenticationService {
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
   async signIn(): Promise<void> {
-    let result = await this.msalService.loginPopup(OAuthSettings.scopes).catch(reason => {
-      this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
-    });
+    let result = await this.kicktechService.response;
     if (result) {
       this.authenticated = true;
       this.user = await this.getUser();
@@ -158,16 +155,11 @@ export class AuthenticationService {
   }
   // Sign out
   signOut(): void {
+    // we need an equivalent function that logs all our shit actually out;
     this.msalService.logout();
+
     this.user = null;
     this.authenticated = false;
-  }
-
-  ngOnDestroy() {
-    this.broadcastService.getMSALSubject().next(1);
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   private handleAsyncError(error: HttpErrorResponse) {
