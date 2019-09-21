@@ -189,9 +189,4 @@ export class PatientFormComponent implements OnInit {
   setPatientQuestionAnswers() {
     // this.appForm;
   }
-  updateResponsibleParty(idx: number) {
-    var patientFormControls = this.patientForm.get('patient.patientContacts') as FormGroup;
-    patientFormControls.controls.alternatePatientContact1.setValue(false);
-    patientFormControls.controls.alternatePatientContact2.setValue(false);
-  }
 }
