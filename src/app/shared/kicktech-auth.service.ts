@@ -19,9 +19,9 @@ export class KicktechAuthService {
     // yet with some bypassing parameter provided
     // do some encryption on what we post over within the authntication body post
     return this.http
-      .post<AuthenticationBodyPost>('http://followup.care/login', {
+      .post<AuthenticationBodyPost>('https://api.followup.care/api/v1.0/userlogin', {
         username: userName,
-        userPassword: userPassword
+        password: userPassword
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times

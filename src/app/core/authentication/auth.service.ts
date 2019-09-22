@@ -34,9 +34,10 @@ export class AuthenticationService {
   ngOnInit() {}
 
   doLogin(username: string, password: string) {
-    let result = this.kicktechService.doLogin(username, password);
-    console.log(result);
-    debugger;
+    this.kicktechService.doLogin(username, password).subscribe((data: any) => {
+      console.log(data);
+      debugger;
+    });
   }
 
   async getUser(): Promise<User> {
