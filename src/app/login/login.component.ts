@@ -29,34 +29,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.createForm();
   }
 
-  ngOnInit() {
-    this.broadcastService.subscribe('msal:loginFailure', payload => {
-      this.isLoading = false;
-      this.error = 'Could not authenticate!';
-    });
-    this.broadcastService.subscribe('msal:loginSuccess', payload => {
-      this.isLoading = true;
-    });
-    this.broadcastService.subscribe('msal:acquireTokenSuccess', payload => {
-      this.isLoading = false;
-    });
+  ngOnInit() {}
 
-    this.broadcastService.subscribe('msal:acquireTokenFailure', payload => {
-      this.isLoading = false;
-      this.error = 'Could not authenticate!';
-    });
-  }
+  ngOnDestroy() {}
 
-  ngOnDestroy() {
-    this.broadcastService.getMSALSubject().next(1);
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  signIn() {
+  doLogin() {
     this.isLoading = true;
-    this.authService.signIn();
+    let username = this.loginForm.controls.username.value;
+    let password = this.loginForm.controls.password.value;
+    this.authService.doLogin(username, password);
   }
 
   get isWeb(): boolean {
@@ -65,7 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private createForm() {
     this.loginForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
   }
