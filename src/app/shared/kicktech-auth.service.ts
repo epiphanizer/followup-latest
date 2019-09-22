@@ -4,24 +4,24 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '@app/modules/user/user.service';
 
-@Injectable({
-  providedIn: 'root'
-})
 export interface AuthenticationBodyPost {
   userName: string;
   userPassword: string;
 }
+
+@Injectable({
+  providedIn: 'root'
+})
 export class KicktechAuthService {
   constructor(private http: HttpClient) {}
 
-  doLogin(userName: string, userPassword: string): Observable<User> {
+  doLogin(userName: string, userPassword: string): Observable<AuthenticationBodyPost> {
     // yet with some bypassing parameter provided
-    let userPasswordEncrypted = userPassword;
     // do some encryption on what we post over within the authntication body post
     return this.http
       .post<AuthenticationBodyPost>('http://followup.care/login', {
         username: userName,
-        userPassword: userPasswordEncrypted
+        userPassword: userPassword
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times
