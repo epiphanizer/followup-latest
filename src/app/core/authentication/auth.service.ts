@@ -12,6 +12,11 @@ import { HttpService } from '../http/http.service';
 import { Router } from '@angular/router';
 import { KicktechAuthService } from '@app/shared/kicktech-auth.service';
 
+export interface AuthenticationBodyPost {
+  username: string;
+  password: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,14 +38,20 @@ export class AuthenticationService {
   }
   ngOnInit() {}
 
-  doLogin(username: string, password: string) {
-    this.kicktechService.doLogin(username, password).subscribe((data: any) => {
-      console.log(data);
-      debugger;
-    });
+  doLogin(userName: string, userPassword: string): Observable<AuthenticationBodyPost> {
+    // yet with some bypassing parameter provided
+    // do some encryption on what we post over within the authntication body post
+    return this.http
+      .post<AuthenticationBodyPost>('/users/login', {
+        username: userName,
+        password: userPassword
+      })
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   }
-
-  async getUser(): Promise<User> {
+  getUser(): Promise<User> {
     if (!this.authenticated) return null;
 
     /**
@@ -86,15 +97,11 @@ export class AuthenticationService {
       catchError(error => this.handleAsyncError(error))
     );
   }
-  // Prompt the user to sign in and
-  // grant consent to the requested permission scopes
-  async signIn(): Promise<void> {
-    // let result = await this.kicktechService.response;
-    // if (result) {
-    //   this.authenticated = true;
-    //   this.user = await this.getUser();
-    //   this.router.navigate(['/home'], { replaceUrl: true });
-    // }
+
+  signIn(username: string, password: string) {
+    this.doLogin(username, password).subscribe((data: any) => {
+      console.log(data);
+    });
   }
   // Sign out
   signOut(): void {
