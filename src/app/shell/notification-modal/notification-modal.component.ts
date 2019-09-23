@@ -44,16 +44,22 @@ export class NotificationModalComponent {
     this.createForm();
   }
   createForm() {
+    // this.notificationService.createNotification();
     this.createNotificationForm = this.fb.group({
-      notificationType: this.fb.control(''),
-      notificationNotes: this.fb.control('')
+      notificationTypeId: this.fb.control(''),
+      notificationMessage: this.fb.control('')
     });
   }
   editNotification() {
     this.status.notification.saved = false;
   }
   saveNotification() {
-    alert('saving notification');
+    this.notification = {
+      // stub
+      notificationId: 25,
+      notificationTypeId: this.createNotificationForm.controls.notificationTypeId.value,
+      notificationMessage: this.createNotificationForm.controls.notificationMessage.value
+    };
     this.status.notification.saved = true;
     // this.notificationService.saveNotificationByPatientId(this.patient.patientId);
     // We will want to subscribe here

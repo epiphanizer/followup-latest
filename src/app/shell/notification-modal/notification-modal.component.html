@@ -44,7 +44,7 @@
           <span class="label">Date Received:&nbsp;</span> {{ notification.notificationCreatedDate }}
         </ion-item>
         <ion-item> <span class="label">Notes:&nbsp;</span> {{ notification.notificationNotes }} </ion-item>
-        <ion-item>
+        <ion-item *ngIf="notification.notificationRecipients">
           <span class="label">Next Steps:&nbsp;</span>
           <span *ngFor="let notificationRecipient of notification.notificationRecipients"></span>
         </ion-item>
