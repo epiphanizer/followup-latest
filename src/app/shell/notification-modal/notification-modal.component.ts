@@ -1,6 +1,7 @@
 import { Input, Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Notification, NotificationService } from '@app/modules/notification/notification.service';
+import { NotificationService } from '@app/modules/notification/notification.service';
+import { Notification } from '@app/modules/notification/notification';
 import { Patient } from '@app/modules/patient/patient';
 import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -17,7 +18,15 @@ export class NotificationModalComponent {
   notificationTypes: {
     notificationTypeLabelId: number;
     notificationTypeLabel: string;
-  };
+  }[];
+  notificationTypesListLeft: {
+    notificationTypeLabelId: number;
+    notificationTypeLabel: string;
+  }[];
+  notificationTypesListRight: {
+    notificationTypeLabelId: number;
+    notificationTypeLabel: string;
+  }[];
   status: {
     notification: {
       saved: boolean;
@@ -38,10 +47,17 @@ export class NotificationModalComponent {
   ngOnInit() {
     this.notificationService.getNotificationTypes().subscribe((data: any) => {
       this.notificationTypes = data;
-      return data;
+      var i;
+      for (i = 0; i <= this.notificationTypes.length; i = i + 2) {
+        if (this.notificationTypes[i] !== undefined) {
+          this.notificationTypesListLeft.push(this.notificationTypes[i]);
+          this.notificationTypesListRight.push(this.notificationTypes[i + 1]);
+        }
+      }
+
+      this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+      this.createForm();
     });
-    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
-    this.createForm();
   }
   createForm() {
     // this.notificationService.createNotification();
