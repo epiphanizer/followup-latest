@@ -12,13 +12,21 @@ import { Notification } from '@app/modules/notification/notification';
   styleUrls: ['./notification-modal.component.scss']
 })
 export class NotificationModalComponent {
-  createNotificationForm: FormGroup;
+  createNotificationForm!: FormGroup;
   @Input() patient: Patient;
   notification: Notification;
   notificationTypes: {
     notificationTypeLabelId: number;
     notificationTypeLabel: string;
-  };
+  }[] = [];
+  notificationTypesListLeft: {
+    notificationTypeLabelId: number;
+    notificationTypeLabel: string;
+  }[] = [];
+  notificationTypesListRight: {
+    notificationTypeLabelId: number;
+    notificationTypeLabel: string;
+  }[] = [];
   status: {
     notification: {
       saved: boolean;
@@ -37,12 +45,21 @@ export class NotificationModalComponent {
   ) {}
 
   ngOnInit() {
+    // this.notification.notificationPatientFirstName = this.patient.patientFirstName;
+    // this.notification.notificationPatientLastName = this.patient.patientLastName;
     this.notificationService.getNotificationTypes().subscribe((data: any) => {
       this.notificationTypes = data;
-      return data;
+      var i;
+      for (i = 0; i <= this.notificationTypes.length; i = i + 2) {
+        if (this.notificationTypes[i] !== undefined) {
+          this.notificationTypesListLeft.push(this.notificationTypes[i]);
+          this.notificationTypesListRight.push(this.notificationTypes[i + 1]);
+        }
+      }
+
+      this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+      this.createForm();
     });
-    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
-    this.createForm();
   }
   createForm() {
     // this.notificationService.createNotification();

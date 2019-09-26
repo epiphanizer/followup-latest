@@ -1,16 +1,39 @@
 <ng-container *ngIf="status.notification.saved == false; else sendNotification">
-  <form [formGroup]="createNotificationForm">
+  <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
     <ion-title>Notification</ion-title>
     <ion-list class="notification-options" lines="none" inset *ngIf="notificationTypes">
-      <ion-item *ngFor="let notificationType of notificationTypes">
-        <img src="{{ notificationIconImage }}" alt="" />
-        <ion-radio-group>
-          <ion-radio value="notificationType.notificationTypesLabelId" formControlName="notificationType"></ion-radio>
-          <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
-        </ion-radio-group>
-      </ion-item>
+      <ion-row>
+        <ion-col width-50>
+          <ion-item *ngFor="let notificationType of notificationTypesListLeft">
+            <img src="{{ notificationIconImage }}" alt="" />
+            <ion-radio-group>
+              <ion-radio
+                value="notificationType.notificationTypesLabelId"
+                formControlName="notificationTypeId"
+              ></ion-radio>
+              <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
+            </ion-radio-group>
+          </ion-item>
+        </ion-col>
+        <ion-col width-50>
+          <ion-item *ngFor="let notificationType of notificationTypesListRight">
+            <img src="{{ notificationIconImage }}" alt="" />
+            <ion-radio-group>
+              <ion-radio
+                value="notificationType.notificationTypesLabelId"
+                formControlName="notificationTypeId"
+              ></ion-radio>
+              <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
+            </ion-radio-group>
+          </ion-item>
+        </ion-col>
+      </ion-row>
     </ion-list>
-    <ion-textarea class="notification-textarea" formControlName="notificationNotes" placeholder="Leave Your Notes Here">
+    <ion-textarea
+      class="notification-textarea"
+      formControlName="notificationMessage"
+      placeholder="Leave Your Notes Here"
+    >
     </ion-textarea>
     <ion-button class="save-button ion-float-right" type="button" (click)="saveNotification()">Save</ion-button>
     <span class="helper-text">[ report will be sent when <b>follow-up</b> is complete ]</span>
@@ -36,7 +59,7 @@
     <ion-col>
       <ion-list lines="none" inset>
         <ion-item>
-          <span class="label">Patient:&nbsp;</span> {{ notification.patientFirstName }} +
+          <span class="label">Patient:&nbsp;</span> {{ notification.patientFirstName }}
           {{ notification.patientLastName }}
         </ion-item>
         <ion-item> <span class="label">Facility:&nbsp;</span> {{ notification.operationName }} </ion-item>
