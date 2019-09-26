@@ -7,11 +7,12 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { OperationCallRepsService, OperationCallRep } from '../operation-callreps.service';
 import { OperationContactsService } from '../operation-contacts.service';
 import { User, UserService } from '@app/modules/user/user.service';
-import { NotificationTypes, NotificationService } from '@app/modules/notification/notification.service';
+import { NotificationService } from '@app/modules/notification/notification.service';
 import { OperationResolver } from '../operation-resolver';
 import { OperationPutBody } from '../operation';
 import { OperationContact } from '../operation-contact/operation-contact';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
+import { NotificationTypes } from '@app/modules/notification/notification';
 
 @Component({
   providers: [

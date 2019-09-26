@@ -1,9 +1,10 @@
 import { Input, Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Notification, NotificationService } from '@app/modules/notification/notification.service';
+import { NotificationService } from '@app/modules/notification/notification.service';
 import { Patient } from '@app/modules/patient/patient';
 import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Notification } from '@app/modules/notification/notification';
 @Component({
   providers: [NotificationService],
   selector: 'app-notification-modal',
