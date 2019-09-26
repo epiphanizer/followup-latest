@@ -36,6 +36,7 @@ import { FollowupCompleteModalComponent } from './patient-detail/followup-comple
     PatientNotesModule,
     PatientAvatarModule
   ],
+  exports: [PatientAvatarComponent],
   entryComponents: [PatientManagerSidebarComponent, FollowupCompleteModalComponent],
   providers: [PatientService]
 })
