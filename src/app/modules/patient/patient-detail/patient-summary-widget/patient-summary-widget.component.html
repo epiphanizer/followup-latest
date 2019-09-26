@@ -2,10 +2,7 @@
   <ion-row>
     <ion-col>
       <div class="avatar-container">
-        <img *ngIf="patient.avatar; else defaultAvatar" src="{{ patient.avatar }}" />
-        <ng-template #defaultAvatar>
-          <img src="/assets/default-avatar-patient-detail.png" />
-        </ng-template>
+        <app-patient-avatar [patient]="patient"></app-patient-avatar>
       </div>
     </ion-col>
     <ion-col class="middle-summary-container">

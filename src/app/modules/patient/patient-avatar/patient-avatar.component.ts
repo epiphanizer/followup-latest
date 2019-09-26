@@ -22,7 +22,7 @@ export class PatientAvatarComponent implements OnInit {
     this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
       //alert(JSON.stringify(data.image));
       let objectURL = 'data:image/jpeg;base64,' + baseImage.image;
-
+      debugger;
       this.thumbnail = this.sanitizer.bypassSecurityTrustUrl(objectURL);
     });
   }
