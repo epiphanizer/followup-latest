@@ -2,7 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Notification, NotificationService } from '../../notification.service';
+import { NotificationService } from '../../notification.service';
+import { Notification } from '../../notification';
 
 @Component({
   selector: 'app-notification-patient-listing',
