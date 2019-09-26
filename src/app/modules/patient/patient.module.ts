@@ -5,10 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { PatientRoutingModule } from './patient-routing.module';
 import { PatientCallModule } from './patient-detail/patient-call/patient-call.module';
 import { PatientNotesModule } from './patient-detail/patient-notes/patient-notes.module';
-import { PatientAvatarModule } from './patient-avatar/patient-avatar.module';
 import { PatientDetailModule } from './patient-detail/patient-detail.module';
 import { PatientComponent } from './patient.component';
-import { PatientAvatarComponent } from '@app/modules/patient/patient-avatar/patient-avatar.component';
 import { PatientFormComponent } from '@app/modules/patient/patient-form/patient-form.component';
 import { PatientService } from './patient.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,13 +15,7 @@ import { PatientQuestionComponent } from './patient-question/patient-question.co
 import { FollowupCompleteModalComponent } from './patient-detail/followup-complete-modal/followup-complete-modal.component';
 
 @NgModule({
-  declarations: [
-    PatientComponent,
-    PatientAvatarComponent,
-    PatientFormComponent,
-    PatientManagerSidebarComponent,
-    PatientQuestionComponent
-  ],
+  declarations: [PatientComponent, PatientFormComponent, PatientManagerSidebarComponent, PatientQuestionComponent],
   imports: [
     CommonModule,
     IonicModule,
@@ -33,10 +25,8 @@ import { FollowupCompleteModalComponent } from './patient-detail/followup-comple
     PatientRoutingModule,
     PatientCallModule,
     PatientDetailModule,
-    PatientNotesModule,
-    PatientAvatarModule
+    PatientNotesModule
   ],
-  exports: [PatientAvatarComponent],
   entryComponents: [PatientManagerSidebarComponent, FollowupCompleteModalComponent],
   providers: [PatientService]
 })

@@ -15,12 +15,14 @@ import { PatientCallStartButtonComponent } from './patient-call/patient-call-sta
 import { PatientCallStopButtonComponent } from './patient-call/patient-call-stop-button/patient-call-stop-button.component';
 import { PatientNextCallSchedulerComponent } from './patient-call/patient-next-call-scheduler/patient-next-call-scheduler.component';
 import { PatientNextCallQuestionsComponent } from './patient-call/patient-next-call-questions/patient-next-call-questions.component';
+import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.component';
 import { FollowupCompleteModalComponent } from './followup-complete-modal/followup-complete-modal.component';
 import { FollowupCompleteButtonComponent } from './followup-complete-button/followup-complete-button.component';
 import { PatientNextCallFinishButtonComponent } from './patient-call/patient-next-call-finish-button/patient-next-call-finish-button.component';
 
 @NgModule({
   declarations: [
+    PatientAvatarComponent,
     PatientDetailComponent,
     PatientCallNotesComponent,
     PatientCallQuestionsComponent,
