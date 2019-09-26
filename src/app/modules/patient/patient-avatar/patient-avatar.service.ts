@@ -9,14 +9,14 @@ import { retry, catchError } from 'rxjs/operators';
 export class PatientAvatarService {
   constructor(private http: HttpClient) {}
   getPatientAvatarByPatientId(patientId: number): Observable<any> {
-    return this.http.get<any>('/patient/' + patientId + '/avatar').pipe(
+    return this.http.get<any>('patient/' + patientId + '/avatar').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
 
   uploadPatientAvatarByPatientId(patientId: number, blobData: Blob) {
-    return this.http.post('/patient/' + patientId + '/avatar', { blobData }).pipe(
+    return this.http.post('patient/' + patientId + '/avatar', { blobData }).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
