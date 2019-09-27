@@ -14,14 +14,9 @@
   </ion-item>
   <ion-item>
     <span class="label">
-      Total: &nbsp;
+      Length of Stay: &nbsp;
     </span>
-    {{ patient.patientTotalDays }}
-  </ion-item>
-  <ion-item>
-    <span class="label">AMA: &nbsp;</span>
-    <ng-container *ngIf="patient.patientDischargeLabel == 'AMA'; else no">Yes</ng-container>
-    <ng-template #no>No</ng-template>
+    {{ patient.patientTotalDays }} Days
   </ion-item>
 </ion-list>
 <ion-list class="more-info" inset lines="none">

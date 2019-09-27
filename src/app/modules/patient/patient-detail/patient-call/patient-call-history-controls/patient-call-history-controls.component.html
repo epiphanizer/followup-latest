@@ -3,7 +3,7 @@
     <i class="phone-icon"></i>
     <ion-item *ngFor="let patientCall of patientCalls; let idx = index">
       <ion-button (click)="scrollToPatientCall(patientCall.patientCallId)">
-        {{ idx }}
+        {{ idx + 1 }}
       </ion-button>
     </ion-item>
   </ion-list>
