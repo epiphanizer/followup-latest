@@ -24,13 +24,15 @@ ion-list {
       height: 28px;
       margin-left: 10px;
       cursor: disabled;
-      // background-color: #c3c3c3;
+      background-color: #c3c3c3;
       &.enabled {
+        background-color: transparent;
+        color: white;
         &.kudos {
           background-color: var(--ion-color-primary);
         }
         &.report {
-          border-color: red;
+          background-color: red;
         }
       }
     }
