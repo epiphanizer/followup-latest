@@ -1,1 +1,4 @@
-<img class="patient-avatar-image" src="avatar" />
+<img class="patient-avatar-image" *ngIf="avatar; else defaultAvatar" src="avatar" />
+<ng-template #defaultAvatar>
+  <img src="/assets/default-avatar.png" />
+</ng-template>

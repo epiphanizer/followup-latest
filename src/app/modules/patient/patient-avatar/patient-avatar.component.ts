@@ -13,17 +13,18 @@ export class PatientAvatarComponent implements OnInit {
   /**
    * This guy is plaintext encoded base64
    */
-  avatar: string;
-  name = 'Test display image';
-  thumbnail: any;
+  avatar: any;
   constructor(private patientAvatarService: PatientAvatarService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
       //alert(JSON.stringify(data.image));
-      let objectURL = 'data:image/jpeg;base64,' + baseImage.image;
-      debugger;
-      this.thumbnail = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+      if (!baseImage.image) {
+        this.avatar = false;
+      } else {
+        let objectURL = 'data:image/jpeg;base64,' + baseImage.image;
+        this.avatar = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+      }
     });
   }
 }

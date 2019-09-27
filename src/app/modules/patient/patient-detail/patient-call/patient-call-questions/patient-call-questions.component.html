@@ -1,14 +1,12 @@
-<ng-container>
-  <div class="call-question-icon">
-    <i class="icon-question-mark"></i>
-  </div>
-  <ul class="patient-call-question-list">
-    <li *ngFor="let question of questions$ | async">
-      <div class="call-question-body-container">
-        <div class="call-question">
-          {{ question.patientCallQuestion }}
-        </div>
+<div class="call-question-icon">
+  <i class="icon-question-mark"></i>
+</div>
+<ul class="patient-call-question-list">
+  <li *ngFor="let question of questions$ | async">
+    <div class="call-question-body-container">
+      <div class="call-question">
+        {{ question.patientCallQuestion }}
       </div>
-    </li>
-  </ul>
-</ng-container>
+    </div>
+  </li>
+</ul>
