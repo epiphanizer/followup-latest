@@ -14,7 +14,6 @@ export class PatientCallStartButtonComponent implements OnInit {
   patientCall$: Observable<PatientCall>;
   @Input() user: User;
   @Input() patient: Patient;
-  @Input() patientContactNumberId: number;
   @Output() patientCallStartEventEmitter = new EventEmitter<PatientCall>();
   constructor(private patientCallService: PatientCallService) {}
 
@@ -22,11 +21,7 @@ export class PatientCallStartButtonComponent implements OnInit {
 
   public patientCallStartEvent() {
     this.patientCall$ = this.patientCallService
-      .startPatientCallByUserIdAndPatientCallId(
-        this.user.id,
-        this.patient.nextPatientCallId,
-        this.patientContactNumberId
-      )
+      .startPatientCallByUserIdAndPatientCallId(this.user.id, this.patient.nextPatientCallId)
       .subscribe((patientCall: PatientCall) => {
         this.patientCallStartEventEmitter.emit(patientCall);
       });

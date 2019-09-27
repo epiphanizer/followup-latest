@@ -3,23 +3,15 @@
     <ion-col class="left-hand-detail">
       <app-patient-call-status-controls *ngIf="selected.patientCall" [patientCall]="selected.patientCall">
       </app-patient-call-status-controls>
-      <!-- Missing Functionality: Selector for app contact -->
       <app-patient-call-start-button
         *ngIf="!selected.patientCall"
         [user]="user"
         [patient]="patient"
-        [patientContactNumberId]="selected.patientContactNumberId || 1"
         (patientCallStartEventEmitter)="patientCallStartEventHandler($event)"
       >
       </app-patient-call-start-button>
       <app-patient-call-notes [patientCall]="selected.patientCall"> </app-patient-call-notes>
-      <app-patient-call-questions
-        *ngIf="selected.patientCall; else noPatientCallQuestions"
-        [patientCall]="selected.patientCall"
-      ></app-patient-call-questions>
-      <ng-template #noPatientCallQuestions>
-        <img class="default-faded-questions" src="/assets/faded-questions-bg@2x.png" alt="" />
-      </ng-template>
+      <app-patient-call-questions [patientCall]="selected.patientCall"></app-patient-call-questions>
       <app-patient-call-stop-button
         *ngIf="selected.patientCall"
         (patientCallEndEventEmitter)="patientCallEndEventHandler($event)"

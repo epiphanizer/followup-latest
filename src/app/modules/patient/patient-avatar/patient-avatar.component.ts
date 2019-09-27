@@ -18,10 +18,10 @@ export class PatientAvatarComponent implements OnInit {
 
   ngOnInit() {
     this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
-      //alert(JSON.stringify(data.image));
       if (!baseImage.image) {
         this.avatar = false;
       } else {
+        debugger;
         let objectURL = 'data:image/jpeg;base64,' + baseImage.image;
         this.avatar = this.sanitizer.bypassSecurityTrustUrl(objectURL);
       }

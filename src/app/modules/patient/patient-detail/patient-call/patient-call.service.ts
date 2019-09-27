@@ -33,15 +33,10 @@ export class PatientCallService {
     status: number | string;
   };
   constructor(private http: HttpService) {}
-  startPatientCallByUserIdAndPatientCallId = function(
-    userId: number,
-    patientCallId: number,
-    patientContactNumberId: number
-  ) {
+  startPatientCallByUserIdAndPatientCallId = function(userId: number, patientCallId: number) {
     return this.http
       .post('patients/calls/' + patientCallId + '/start', {
-        userId: userId,
-        patientContactNumberId: patientContactNumberId
+        userId: userId
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times
