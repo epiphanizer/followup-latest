@@ -24,7 +24,7 @@
   line-height: 1;
   letter-spacing: 0.8px;
   text-align: left;
-  height: 55px;
+  height: auto;
 }
 
 .patient-age,
@@ -104,7 +104,7 @@
 }
 .patient-name {
   h2 {
-    font-size: 32px;
+    font-size: 40px;
     clear: both;
   }
 }
