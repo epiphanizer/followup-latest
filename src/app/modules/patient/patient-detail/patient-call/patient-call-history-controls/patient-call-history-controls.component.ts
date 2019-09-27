@@ -9,6 +9,7 @@ import { Patient } from '@app/modules/patient/patient';
 })
 export class PatientCallHistoryControlsComponent implements OnInit {
   @Input() patient: Patient;
+  clicked: number;
   patientCalls: PatientCall[];
   constructor() {}
 
@@ -19,7 +20,12 @@ export class PatientCallHistoryControlsComponent implements OnInit {
     });
   }
 
-  scrollToPatientCall() {
-    alert('scrolling to patient call');
+  scrollToPatientCall(patientCall: number) {
+    this.clicked = patientCall;
+    // we may have to use @ViewChild here
+    // @see https://stackoverflow.com/questions/43945548/scroll-to-element-on-click-in-angular-4
+    // @see https://stackoverflow.com/questions/32977271/create-dynamic-anchorname-components-with-componentresolver-and-ngfor-in-angular
+    alert('scrolling to patient call: ' + patientCall);
+    // el.scrollIntoView({behavior:"smooth"});
   }
 }

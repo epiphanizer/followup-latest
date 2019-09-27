@@ -5,7 +5,26 @@
   <li *ngFor="let question of questions$ | async">
     <div class="call-question-body-container">
       <div class="call-question">
-        {{ question.patientCallQuestion }}
+        <ng-container *ngIf="question.patientCallQuestionTypeLabel == 'rating'">
+          {{ question.patientCallQuestion }}
+        </ng-container>
+        <ng-container *ngIf="question.patientCallQuestionTypeLabel == 'boolean'">
+          <ion-item class="boolean">
+            <ion-radio-group>
+              <ion-radio class="radio-yes"> </ion-radio>
+              <ion-label>
+                Yes
+              </ion-label>
+              <ion-radio class="radio-no"> </ion-radio>
+              <ion-label>
+                No
+              </ion-label>
+            </ion-radio-group>
+          </ion-item>
+        </ng-container>
+        <ng-container *ngIf="question.patientCallQuestionTypeLabel == 'textarea'">
+          <ion-textarea> </ion-textarea>
+        </ng-container>
       </div>
     </div>
   </li>

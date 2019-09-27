@@ -104,6 +104,7 @@
 }
 .patient-name {
   h2 {
+    font-size: 32px;
     clear: both;
   }
 }
@@ -119,6 +120,7 @@ i.icon-hipaa {
   float: right;
   app-patient-call-history-controls {
     width: 40px;
+    float: right;
     display: block;
     min-height: 245px;
   }

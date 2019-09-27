@@ -43,3 +43,22 @@
   border-radius: 3px;
   border: solid 1px #343638;
 }
+
+.boolean {
+  ion-radio-group {
+    ion-item {
+      display: inline-block;
+    }
+    ion-label {
+      font-size: 16px;
+      line-height: 31px;
+      font-family: Avenir;
+      display: inline-block;
+      margin-right: 1.5rem;
+    }
+    ion-radio {
+      display: inline-block;
+      margin-right: 8px;
+    }
+  }
+}

@@ -1,8 +1,13 @@
 <ng-container>
   <ion-list lines="none">
     <i class="phone-icon"></i>
+    <ion-item>
+      <ion-button>
+        <i class="icon-telephone">T</i>
+      </ion-button>
+    </ion-item>
     <ion-item *ngFor="let patientCall of patientCalls; let idx = index">
-      <ion-button (click)="scrollToPatientCall(patientCall.patientCallId)">
+      <ion-button [class.active]="clicked == idx + 1" (click)="scrollToPatientCall(idx + 1)">
         {{ idx + 1 }}
       </ion-button>
     </ion-item>
