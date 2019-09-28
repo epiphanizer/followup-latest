@@ -34,15 +34,18 @@ ion-label {
 }
 ion-textarea {
   height: 200px;
-  width: 489px;
-  margin-left: 15px;
+  width: 475px;
+  margin-left: 55px;
   background-color: #f5f5f5;
   margin-top: 1rem;
 }
+
 button {
-  width: 70px;
-  height: 28px;
+  text-align: center;
+  width: 109px;
+  height: 20px;
+  margin-right: 100px;
   --border-style: none;
-  color: var(--ion-color-primary);
-  border: var(--ion-color-primary);
+  color: white;
+  background: var(--ion-color-primary);
 }

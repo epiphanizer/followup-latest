@@ -1,7 +1,7 @@
 <ion-content>
   <ion-row>
-    {{ selected.patientCall | json }}
     <ion-col class="left-hand-detail">
+      {{ selected.patientCall | json }}
       <app-patient-call-status-controls *ngIf="selected.patientCall" [patientCall]="selected.patientCall">
       </app-patient-call-status-controls>
       <app-patient-call-start-button
@@ -12,14 +12,16 @@
       >
       </app-patient-call-start-button>
       <app-patient-call-notes [patientCall]="selected.patientCall"> </app-patient-call-notes>
+
       <app-patient-call-questions [patientCallId]="patient.nextPatientCallId"> </app-patient-call-questions>
+
       <app-patient-call-stop-button
         *ngIf="selected.patientCall"
         (patientCallEndEventEmitter)="patientCallEndEventHandler($event)"
       >
       </app-patient-call-stop-button>
 
-      <ng-container *ngIf="selected.patientCall?.patientCallStatusLabel == 'Stopped'">
+      <ng-container *ngIf="selected.patientCall.patientCallStatusLabel == 'Stopped'">
         <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
         <app-patient-next-call-questions> </app-patient-next-call-questions>
         <app-patient-next-call-finish-button (click)="finishPatientCall(selected.patientCall)">
