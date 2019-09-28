@@ -50,6 +50,13 @@ export class PatientCallService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
+  getPatientCallsByPatientCallId = function(patientId: number) {
+    return this.http.get('patients/' + patientId + '/calls').pipe(
+      delay(5000),
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  };
 
   getPatientCallsByPatientId = function(patientId: number) {
     return this.http.get('patients/' + patientId + '/calls').pipe(

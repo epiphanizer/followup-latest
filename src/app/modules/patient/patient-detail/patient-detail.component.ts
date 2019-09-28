@@ -41,10 +41,11 @@ export class PatientDetailComponent implements OnInit {
       return operation;
     });
     this.patient = this.route.snapshot.data.patient;
+
+    this.selected.patientCall = this.patientCallService.getPatientCallsByPatientCallId(this.patient.nextPatientCallId);
   }
 
   patientCallStartEventHandler($event: PatientCall) {
-    this.selected.patientCall = $event;
     this.patientCallService.startPatientCall(this.selected.patientCall.patientCallId);
   }
 
