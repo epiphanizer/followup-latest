@@ -20,9 +20,9 @@ export class FollowupCompleteModalComponent implements OnInit {
   ) {}
   @Input() patient: Patient;
   followupCompleteForm: FormGroup;
-  completionTypes: PatientStatus[];
-  completionTypesListLeft: PatientStatus[];
-  completionTypesListRight: PatientStatus[];
+  completionTypes: PatientStatus[] = [];
+  completionTypesListLeft: PatientStatus[] = [];
+  completionTypesListRight: PatientStatus[] = [];
 
   ngOnInit() {
     this.createForm();
