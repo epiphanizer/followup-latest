@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Patient } from '@app/modules/patient/patient';
 import { PatientCall, PatientCallService } from '../patient-call.service';
 import { User } from '@app/modules/user/user.service';
 
@@ -13,7 +12,7 @@ import { User } from '@app/modules/user/user.service';
 export class PatientCallStartButtonComponent implements OnInit {
   patientCall$: Observable<PatientCall>;
   @Input() user: User;
-  @Input() patient: Patient;
+  @Input() patientCall: PatientCall;
   @Output() patientCallStartEventEmitter = new EventEmitter<PatientCall>();
   constructor(private patientCallService: PatientCallService) {}
 
@@ -21,7 +20,7 @@ export class PatientCallStartButtonComponent implements OnInit {
 
   public patientCallStartEvent() {
     this.patientCall$ = this.patientCallService
-      .startPatientCallByUserIdAndPatientCallId(this.user.id, this.patient.nextPatientCallId)
+      .startPatientCallByUserIdAndPatientCallId(this.user.id, this.patientCall.patientCallId)
       .subscribe((patientCall: PatientCall) => {
         this.patientCallStartEventEmitter.emit(patientCall);
       });

@@ -18,50 +18,33 @@ export class PatientDetailComponent implements OnInit {
   user: User;
   patient: Patient;
   operation: Operation;
-  selected: {
-    patientCall: PatientCall | null;
-    patientContactNumberId: number | null;
-  } = {
-    patientCall: null,
-    patientContactNumberId: null
-  };
   patientCall: PatientCall | null = null;
   patientCall$: Observable<PatientCall>;
-  constructor(
-    private operationService: OperationService,
-    private patientCallService: PatientCallService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private patientCallService: PatientCallService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    var operationId = this.route.snapshot.params.operationId;
     this.user = this.route.snapshot.data.user;
-    this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
-      this.operation = operation;
-      return operation;
-    });
     this.patient = this.route.snapshot.data.patient;
     this.patientCallService
       .getPatientCallsByPatientCallId(this.patient.patientId, this.patient.nextPatientCallId)
       .subscribe((patientCall: PatientCall) => {
-        console.log(patientCall);
-        this.selected.patientCall = patientCall;
+        this.patientCall = patientCall;
       });
   }
 
   patientCallStartEventHandler($event: PatientCall) {
-    this.patientCallService.startPatientCall(this.selected.patientCall.patientCallId);
+    this.patientCallService.startPatientCall(this.patientCall.patientCallId);
   }
 
   patientCallEndEventHandler($event: PatientCall) {
-    this.selected.patientCall = $event;
-    this.patientCallService.endPatientCall(this.selected.patientCall.patientCallStatusLabelId);
+    this.patientCall = $event;
+    this.patientCallService.endPatientCall(this.patientCall.patientCallStatusLabelId);
   }
   patientCallFinishEventHandler($event: PatientCall) {
-    this.selected.patientCall = $event;
+    this.patientCall = $event;
     this.patientCallService.finalizePatientCall(
-      this.selected.patientCall.patientCallId,
-      this.selected.patientCall.patientCallStatusLabelId
+      this.patientCall.patientCallId,
+      this.patientCall.patientCallStatusLabelId
     );
   }
 }

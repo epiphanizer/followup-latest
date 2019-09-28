@@ -38,8 +38,6 @@ export class PatientFormComponent implements OnInit {
 
     if (this.route.snapshot.data.editMode) {
       this.editMode = true;
-    }
-    if (this.editMode) {
       this.patient = this.route.snapshot.data.patient;
     }
     if (!this.patient) {
@@ -190,7 +188,7 @@ export class PatientFormComponent implements OnInit {
   setPatientQuestionAnswers() {
     // this.appForm;
   }
-  addPatientAvatarPhoto() {
+  uploadPatientAvatarPhoto() {
     alert('adding patient photo');
   }
 }
