@@ -55,7 +55,7 @@ export class PatientFormComponent implements OnInit {
       this.createForm();
 
       var patientFormControls = this.patientForm.get('patient') as FormGroup;
-      debugger;
+      // debugger;
       patientFormControls.controls.patientFirstName.setValue(this.patient.patientFirstName);
       patientFormControls.controls.patientMiddleName.setValue(this.patient.patientMiddleName);
       patientFormControls.controls.patientLastName.setValue(this.patient.patientLastName);
