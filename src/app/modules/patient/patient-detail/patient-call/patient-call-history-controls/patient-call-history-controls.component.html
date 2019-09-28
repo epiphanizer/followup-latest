@@ -2,14 +2,14 @@
   <ion-list lines="none">
     <i class="phone-icon"></i>
     <ion-item>
-      <ion-button fill="outline">
-        <i class="icon-phone-icon"></i>
-      </ion-button>
+      <i class="icon-phone-icon"></i>
     </ion-item>
-    <ion-item *ngFor="let patientCall of patientCalls; let idx = index">
-      <ion-button [class.active]="clicked == idx + 1" (click)="scrollToPatientCall(idx + 1)">
-        {{ idx + 1 }}
-      </ion-button>
+    <ion-item
+      *ngFor="let patientCall of patientCalls; let idx = index"
+      [class.active]="clicked == idx + 1"
+      (click)="scrollToPatientCall(idx + 1)"
+    >
+      {{ idx + 1 }}
     </ion-item>
   </ion-list>
 </ng-container>

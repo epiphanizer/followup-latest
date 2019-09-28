@@ -1,9 +1,15 @@
+ion-list {
+  margin-top: -25px;
+}
 ion-item {
-  width: 70px;
+  width: 50px;
 }
 ion-button {
   width: 22px;
   height: 22px;
+}
+button {
+  padding: 2px;
 }
 i.icon-phone-icon {
   background: url("/assets/icon-call-header@2x.png");

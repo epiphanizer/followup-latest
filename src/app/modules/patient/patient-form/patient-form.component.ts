@@ -190,4 +190,7 @@ export class PatientFormComponent implements OnInit {
   setPatientQuestionAnswers() {
     // this.appForm;
   }
+  addPatientAvatarPhoto() {
+    alert('adding patient photo');
+  }
 }

@@ -11,7 +11,7 @@
       >
       </app-patient-call-start-button>
       <app-patient-call-notes [patientCall]="selected.patientCall"> </app-patient-call-notes>
-      <app-patient-call-questions [patientCallId]="patient.nextPatientCallId"></app-patient-call-questions>
+      <app-patient-call-questions [patientCallId]="patient.nextPatientCallId"> </app-patient-call-questions>
       <app-patient-call-stop-button
         *ngIf="selected.patientCall"
         (patientCallEndEventEmitter)="patientCallEndEventHandler($event)"

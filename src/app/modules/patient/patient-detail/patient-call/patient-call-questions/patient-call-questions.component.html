@@ -1,31 +1,36 @@
 <div class="call-question-icon">
   <i class="icon-question-mark"></i>
 </div>
-<ul class="patient-call-question-list">
-  <li *ngFor="let question of questions$ | async">
+<ion-list lines="none" class="patient-call-question-list">
+  <ion-item *ngFor="let question of questions$ | async">
     <div class="call-question-body-container">
       <div class="call-question">
-        <ng-container *ngIf="question.patientCallQuestionTypeLabel == 'rating'">
+        <ng-container *ngIf="question.patientQuestionTypeLabel == 'rating'">
           {{ question.patientCallQuestion }}
         </ng-container>
-        <ng-container *ngIf="question.patientCallQuestionTypeLabel == 'boolean'">
-          <ion-item class="boolean">
-            <ion-radio-group>
-              <ion-radio class="radio-yes"> </ion-radio>
-              <ion-label>
-                Yes
-              </ion-label>
-              <ion-radio class="radio-no"> </ion-radio>
-              <ion-label>
-                No
-              </ion-label>
-            </ion-radio-group>
-          </ion-item>
+        <ng-container *ngIf="question.patientQuestionTypeLabel == 'boolean'">
+          {{ question.patientCallQuestion }}
+
+          <ion-list lines="none">
+            <ion-item class="boolean">
+              <ion-radio-group>
+                <ion-radio class="radio-yes"> </ion-radio>
+                <ion-label>
+                  Yes
+                </ion-label>
+                <ion-radio class="radio-no"> </ion-radio>
+                <ion-label>
+                  No
+                </ion-label>
+              </ion-radio-group>
+            </ion-item>
+          </ion-list>
         </ng-container>
-        <ng-container *ngIf="question.patientCallQuestionTypeLabel == 'textarea'">
+        <ng-container *ngIf="question.patientQuestionTypeLabel == 'textarea'">
+          {{ question.patientCallQuestion }}
           <ion-textarea> </ion-textarea>
         </ng-container>
       </div>
     </div>
-  </li>
-</ul>
+  </ion-item>
+</ion-list>

@@ -1,5 +1,5 @@
 .patient-call-question-list {
-  float: left;
+  margin-top: -10px;
   list-style-type: none;
   padding-left: 0;
 }
@@ -11,8 +11,8 @@
   float: left;
 }
 .call-question-body-container {
-  height: 130px;
-  margin-bottom: 100px;
+  height: auto;
+  margin-bottom: 50px;
 }
 
 .call-question {
