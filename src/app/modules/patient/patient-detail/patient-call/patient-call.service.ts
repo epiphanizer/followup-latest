@@ -51,7 +51,7 @@ export class PatientCallService {
     );
   };
 
-  getPatientCallsByPatientCallId = function(patientId: number, patientCallId: number) {
+  getPatientCallByPatientCallId = function(patientId: number, patientCallId: number) {
     return this.http.get('patients/' + patientId + '/calls/' + patientCallId).pipe(
       delay(5000),
       retry(3), // retry a failed request up to 3 times

@@ -9,12 +9,14 @@ import { PatientCallQuestionsService, PatientCallQuestion } from './patient-call
   styleUrls: ['./patient-call-questions.component.scss']
 })
 export class PatientCallQuestionsComponent implements OnInit {
-  @Input() patientCallId: number;
+  @Input() patientCall: PatientCall;
   questions: PatientCallQuestion[];
   questions$: Observable<PatientCallQuestion[]>;
   constructor(private patientCallQuestionsService: PatientCallQuestionsService) {}
 
   ngOnInit() {
-    this.questions$ = this.patientCallQuestionsService.getPatientCallQuestionsByPatientCallId(this.patientCallId);
+    this.questions$ = this.patientCallQuestionsService.getPatientCallQuestionsByPatientCallId(
+      this.patientCall.patientCallId
+    );
   }
 }

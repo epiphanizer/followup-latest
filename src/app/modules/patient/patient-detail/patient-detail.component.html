@@ -1,43 +1,45 @@
-<ion-content *ngIf="selected.patientCall">
-  <ion-row>
-    <ion-col class="left-hand-detail">
-      <app-patient-call-status-controls [patientCall]="selected.patientCall"> </app-patient-call-status-controls>
-      <!-- Bears some  -->
-      <app-patient-call-start-button
-        [user]="user"
-        [patientCall]="selected.patientCall"
-        (patientCallStartEventEmitter)="patientCallStartEventHandler($event)"
-      >
-      </app-patient-call-start-button>
+<ng-container *ngIf="patientCall">
+  <ion-content>
+    <ion-row>
+      <ion-col class="left-hand-detail">
+        <app-patient-call-status-controls [patientCall]="patientCall"> </app-patient-call-status-controls>
+        <!-- Bears some  -->
+        <app-patient-call-start-button
+          [user]="user"
+          [patientCall]="patientCall"
+          (patientCallStartEventEmitter)="patientCallStartEventHandler($event)"
+        >
+        </app-patient-call-start-button>
 
-      <app-patient-call-notes
-        *ngIf="
-          selected.patientcall.patientCallStatusLabel == 'Started' ||
-          selected.patientcall.patientCallStatusLabel == 'In Review'
-        "
-        [patientCall]="selected.patientCall"
-      >
-      </app-patient-call-notes>
+        <app-patient-call-notes
+          *ngIf="patientCall?.patientCallStatusLabel == 'Started' || patientcall.patientCallStatusLabel == 'In Review'"
+          [patientCall]="patientCall"
+        >
+        </app-patient-call-notes>
 
-      <app-patient-call-questions [patientCall]="selected.patientCall"> </app-patient-call-questions>
+        <app-patient-call-questions [patientCall]="patientCall"> </app-patient-call-questions>
 
-      <app-patient-call-stop-button (patientCallEndEventEmitter)="patientCallEndEventHandler($event)">
-      </app-patient-call-stop-button>
+        <app-patient-call-stop-button
+          *ngIf="patientCall?.patientCallStatusLabel == ''"
+          (patientCallEndEventEmitter)="patientCallEndEventHandler($event)"
+        >
+        </app-patient-call-stop-button>
 
-      <ng-container *ngIf="selected.patientCall.patientCallStatusLabel == 'Stopped'">
-        <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
-        <app-patient-next-call-questions> </app-patient-next-call-questions>
-        <app-patient-next-call-finish-button (click)="finishPatientCall(selected.patientCall)">
-          Finish & Save
-        </app-patient-next-call-finish-button>
-      </ng-container>
-    </ion-col>
-    <ion-col class="right-hand-detail">
-      <ng-container>
-        <app-patient-summary-widget [operation]="operation" [patient]="patient"> </app-patient-summary-widget>
-      </ng-container>
-      <app-patient-notes [patient]="patient"> </app-patient-notes>
-      <app-patient-call-history-listing [patient]="patient"> </app-patient-call-history-listing>
-    </ion-col>
-  </ion-row>
-</ion-content>
+        <ng-container *ngIf="patientCall?.patientCallStatusLabel == 'Stopped'">
+          <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
+          <app-patient-next-call-questions> </app-patient-next-call-questions>
+          <app-patient-next-call-finish-button (click)="finishPatientCall(patientCall)">
+            Finish & Save
+          </app-patient-next-call-finish-button>
+        </ng-container>
+      </ion-col>
+      <ion-col class="right-hand-detail">
+        <ng-container>
+          <app-patient-summary-widget [operation]="operation" [patient]="patient"> </app-patient-summary-widget>
+        </ng-container>
+        <app-patient-notes [patient]="patient"> </app-patient-notes>
+        <app-patient-call-history-listing [patient]="patient"> </app-patient-call-history-listing>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</ng-container>
