@@ -44,9 +44,11 @@
   border: solid 1px #343638;
 }
 
-.boolean {
+.boolean,
+.rating {
   ion-radio-group {
     ion-item {
+      width: 80px;
       display: inline-block;
     }
     ion-label {

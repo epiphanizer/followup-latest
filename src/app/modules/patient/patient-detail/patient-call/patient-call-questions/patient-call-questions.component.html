@@ -14,12 +14,15 @@
       <div class="call-question">
         <ng-container *ngIf="question.patientQuestionTypeLabel == 'rating'">
           {{ question.patientCallQuestion }}
-          <ion-list inset lines="none">
-            <ion-item *ngFor="let rating of [1, 10]">
-              <ion-button>
-                {{ rating }}
-              </ion-button>
-            </ion-item>
+          <ion-list class="rating" inset lines="none">
+            <ion-radio-group>
+              <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+                <ion-radio> </ion-radio>
+                <ion-label>
+                  {{ rating }}
+                </ion-label>
+              </ion-item>
+            </ion-radio-group>
           </ion-list>
         </ng-container>
         <ng-container *ngIf="question.patientQuestionTypeLabel == 'boolean'">

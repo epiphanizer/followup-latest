@@ -43,13 +43,13 @@
   width: 28px;
   height: 100%;
   min-height: 1024px;
-  background-image: url("/assets/corkboard-closed.png");
+  background-image: url("/assets/corkboard-closed@2x.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100%;
 
   &.open {
-    background-image: url("/assets/corkboard.png");
+    background-image: url("/assets/corkboard@2x.png");
     .corkboard-controls {
       left: 190px;
     }
