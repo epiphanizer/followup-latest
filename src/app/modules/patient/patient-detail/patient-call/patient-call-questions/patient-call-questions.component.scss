@@ -62,3 +62,15 @@
     }
   }
 }
+
+.overlay {
+  position: absolute;
+  &.active {
+    display: block;
+    background: rgba(255, 255, 255, 0.5);
+    height: 800px;
+    width: 470px;
+    z-index: 1000;
+    background-size: 100%;
+  }
+}

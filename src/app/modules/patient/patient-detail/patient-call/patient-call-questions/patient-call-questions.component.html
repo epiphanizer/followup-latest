@@ -1,3 +1,10 @@
+<!-- little bg overlay that has to be absolute to go above the z-index of ion-items -->
+<div
+  class="overlay"
+  [class.active]="
+    patientCall.patientCallStatusLabel == 'Scheduled' || patientCall.patientCallStatusLabel == 'Not Scheduled'
+  "
+></div>
 <div class="call-question-icon">
   <i class="icon-question-mark"></i>
 </div>

@@ -12,7 +12,7 @@ export interface PatientCall {
   patientCallStartTime: Date;
   patientCallEndTime?: Date;
   patientCallStatusLabelId: number;
-  patientCallStatusLabel: string;
+  patientCallStatusLabel?: string;
   patientCallNumber?: number;
 }
 

@@ -12,20 +12,26 @@
         </app-patient-call-start-button>
 
         <app-patient-call-notes
-          *ngIf="patientCall?.patientCallStatusLabel == 'Started' || patientcall.patientCallStatusLabel == 'In Review'"
+          *ngIf="
+            patientCall.patientCallStatusLabel == 'Started' || patientCall.patientCallStatusLabel == 'In Review';
+            else spacer
+          "
           [patientCall]="patientCall"
         >
         </app-patient-call-notes>
+        <ng-template #spacer>
+          <div class="call-notes-spacer"></div>
+        </ng-template>
 
         <app-patient-call-questions [patientCall]="patientCall"> </app-patient-call-questions>
 
         <app-patient-call-stop-button
-          *ngIf="patientCall?.patientCallStatusLabel == ''"
+          *ngIf="patientCall.patientCallStatusLabel == ''"
           (patientCallEndEventEmitter)="patientCallEndEventHandler($event)"
         >
         </app-patient-call-stop-button>
 
-        <ng-container *ngIf="patientCall?.patientCallStatusLabel == 'Stopped'">
+        <ng-container *ngIf="patientCall.patientCallStatusLabel == 'Stopped'">
           <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
           <app-patient-next-call-questions> </app-patient-next-call-questions>
           <app-patient-next-call-finish-button (click)="finishPatientCall(patientCall)">

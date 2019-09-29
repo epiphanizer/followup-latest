@@ -18,17 +18,16 @@ export class PatientDetailComponent implements OnInit {
   user: User;
   patient: Patient;
   operation: Operation;
-  patientCall: PatientCall | null = null;
-  patientCall$: Observable<PatientCall>;
+  patientCall: PatientCall;
   constructor(private patientCallService: PatientCallService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
-    this.patientCall = this.patientCallService
+    this.patientCallService
       .getPatientCallByPatientCallId(this.patient.patientId, this.patient.nextPatientCallId)
       .subscribe((patientCall: PatientCall) => {
-        return patientCall;
+        this.patientCall = patientCall[0];
       });
   }
 
