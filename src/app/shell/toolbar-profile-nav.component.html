@@ -1,10 +1,12 @@
 <div class="toolbar-profile-nav">
   <div class="user-avatar">
     <div class="avatar-image">
-      <img *ngIf="user.avatar; else defaultProfileAvatar" src="{{ user.avatar }}" />
-      <ng-template #defaultProfileAvatar>
-        <img src="/assets/default-avatar@2x.png" />
-      </ng-template>
+      <a routerLink="/user/profile" class="user-profile-jump">
+        <img *ngIf="user.avatar; else defaultProfileAvatar" src="{{ user.avatar }}" />
+        <ng-template #defaultProfileAvatar>
+          <img src="/assets/default-avatar@2x.png" />
+        </ng-template>
+      </a>
     </div>
   </div>
   <div class="username">

@@ -55,7 +55,7 @@ ul.patient-filters {
         width: 14px;
         height: 9px;
         margin-top: 12px;
-        background-image: url("/assets/icon-down-arrow.png");
+        background-image: url("/assets/icon-down-arrow@2x.png");
         background-size: 100%;
         &.asc {
           transform: rotate(180deg);
@@ -76,7 +76,7 @@ ul.patient-filters {
     background-position: center center;
 
     &.icon-new-discharges {
-      background-image: url("/assets/icon-new-discharges.png");
+      background-image: url("/assets/icon-new-discharges@2x.png");
     }
   }
 }

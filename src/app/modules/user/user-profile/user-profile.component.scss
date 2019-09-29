@@ -71,6 +71,8 @@ form {
   }
 
   ion-item {
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
     &.first-name,
     &.middle-name,
     &.last-name {
@@ -130,6 +132,8 @@ form {
     }
 
     &.user-dessert {
+      --inner-padding-start: 0;
+      --inner-padding-end: 0;
       float: left;
     }
   }
