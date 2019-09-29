@@ -3,8 +3,9 @@
     <ion-row>
       <ion-col class="left-hand-detail">
         <app-patient-call-status-controls [patientCall]="patientCall"> </app-patient-call-status-controls>
-        <!-- Bears some  -->
+        <!-- Bears some documentation: this will be hidden if we have advanced past ID 2, which is the "started" state -->
         <app-patient-call-start-button
+          *ngIf="patientCall.patientCallStatusLabelId < 2"
           [user]="user"
           [patientCall]="patientCall"
           (patientCallStartEventEmitter)="patientCallStartEventHandler($event)"
@@ -23,15 +24,18 @@
           <div class="call-notes-spacer"></div>
         </ng-template>
 
-        <app-patient-call-questions [patientCall]="patientCall"> </app-patient-call-questions>
+        <!-- Hide our questions once we are in Review or Greater -->
+        <app-patient-call-questions *ngIf="patientCall.patientCallStatusLabelId < 4" [patientCall]="patientCall">
+        </app-patient-call-questions>
 
         <app-patient-call-stop-button
-          *ngIf="patientCall.patientCallStatusLabel == ''"
-          (patientCallEndEventEmitter)="patientCallEndEventHandler($event)"
+          *ngIf="patientCall.patientCallStatusLabel == 'Started'"
+          [patientCall]="patientCall"
+          (patientCallEndEventEmitter)="patientCallEndEventHandler(patientCall)"
         >
         </app-patient-call-stop-button>
 
-        <ng-container *ngIf="patientCall.patientCallStatusLabel == 'Stopped'">
+        <ng-container *ngIf="patientCall.patientCallStatusLabel == 'In Review'">
           <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
           <app-patient-next-call-questions> </app-patient-next-call-questions>
           <app-patient-next-call-finish-button (click)="finishPatientCall(patientCall)">

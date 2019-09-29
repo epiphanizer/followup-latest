@@ -2,6 +2,7 @@
   <form [formGroup]="patientCallNotesForm">
     <ion-list lines="none" inset>
       <ion-item class="patient-call-notes" *ngIf="patientCall; else placeholder">
+        {{ patientCall.patientCallStatusLabel }}
         <ion-label position="stacked" *ngIf="patientCall.patientCallStatusLabel == 'Started'">
           Notes
         </ion-label>
