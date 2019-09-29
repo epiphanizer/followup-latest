@@ -46,11 +46,23 @@
 }
 
 .rating {
-  ion-radio {
-    display: inline-block;
-    margin-right: 8px;
-    width: 40px;
-    height: 40px;
+  ion-radio-group {
+    ion-item {
+      width: auto;
+    }
+
+    ion-radio {
+      height: 40px;
+
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    ion-label {
+      display: block !important;
+      width: 100% !important;
+      margin-right: 0 !important;
+    }
   }
 }
 
@@ -60,7 +72,6 @@
 
   ion-radio-group {
     ion-item {
-      width: 80px;
       display: inline-block;
     }
 

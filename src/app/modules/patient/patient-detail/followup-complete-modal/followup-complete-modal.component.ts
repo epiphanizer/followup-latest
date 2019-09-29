@@ -44,11 +44,10 @@ export class FollowupCompleteModalComponent implements OnInit {
     });
   }
   archivePatient() {
-    alert('archiving patient');
-    // var formSubmission = this.followupCompleteForm.getRawValue();
-    // var patientStatusLabelId = 5;
-    // // debugger;
-    // this.patientStatusService.addNewPatientStatusByPatientId(this.patient.patientId, patientStatusLabelId);
+    var formSubmission = this.followupCompleteForm.getRawValue();
+    var patientStatusLabelId = formSubmission.controls('patientStatusLabelId').value();
+    debugger;
+    this.patientStatusService.addNewPatientStatusByPatientId(this.patient.patientId, patientStatusLabelId);
     this.dismiss();
     window.location.href = '/call-queue';
   }
