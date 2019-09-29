@@ -49,12 +49,10 @@
   ion-radio-group {
     ion-item {
       width: auto;
+      display: inline-block;
     }
 
     ion-radio {
-      height: 40px;
-
-      display: inline-block;
       margin-right: 8px;
     }
 
@@ -90,6 +88,15 @@
   }
 }
 
+.boolean {
+  ion-item {
+    width: auto;
+    display: inline-block;
+  }
+  ion-radio {
+    margin-right: 8px;
+  }
+}
 .overlay {
   position: absolute;
 

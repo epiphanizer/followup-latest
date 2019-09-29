@@ -1,33 +1,31 @@
 <form [formGroup]="followupCompleteForm" novalidate>
   <ng-container>
     <ion-title>Follow-up Complete</ion-title>
-    <ion-row>
-      <ion-col width-50>
-        <ion-list class="graduation-options" lines="none">
-          <ion-radio-group formControlName="patientStatusLabelId">
+    <ion-radio-group formControlName="patientStatusLabelId">
+      <ion-row>
+        <ion-col width-50>
+          <ion-list class="graduation-options" lines="none">
             <ion-item *ngFor="let patientStatus of completionTypesListLeft">
               <ion-radio value="patientStatus.patientStatusLabelId"> </ion-radio>
               <ion-label>
                 {{ patientStatus.patientStatusLabel }}
               </ion-label>
             </ion-item>
-          </ion-radio-group>
-        </ion-list>
-      </ion-col>
-      <ion-col width-50>
-        <ion-list class="graduation-options" lines="none">
-          <ion-radio-group formControlName="patientStatusLabelId">
+          </ion-list>
+        </ion-col>
+        <ion-col width-50>
+          <ion-list class="graduation-options" lines="none">
             <ion-item *ngFor="let patientStatus of completionTypesListRight">
               <ion-radio value="patientStatus.patientStatusLabelId"> </ion-radio>
               <ion-label>
                 {{ patientStatus.patientStatusLabel }}
               </ion-label>
             </ion-item>
-          </ion-radio-group>
-        </ion-list>
-      </ion-col>
-    </ion-row>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-radio-group>
     <ion-textarea formControlName="completionNotes" placeholder="Any Notes?"> </ion-textarea>
-    <ion-button class="save-button ion-float-right" (click)="archivePatient()">Archive</ion-button>
+    <ion-button class="save-button" (click)="archivePatient()">Archive</ion-button>
   </ng-container>
 </form>

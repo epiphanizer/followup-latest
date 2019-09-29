@@ -45,11 +45,14 @@ export class FollowupCompleteModalComponent implements OnInit {
   }
   archivePatient() {
     var formSubmission = this.followupCompleteForm.getRawValue();
-    var patientStatusLabelId = formSubmission.controls('patientStatusLabelId').value();
-    debugger;
-    this.patientStatusService.addNewPatientStatusByPatientId(this.patient.patientId, patientStatusLabelId);
-    this.dismiss();
-    window.location.href = '/call-queue';
+    var patientStatusLabelId = formSubmission.patientStatusLabelId;
+    this.patientStatusService
+      .addNewPatientStatusByPatientId(this.patient.patientId, patientStatusLabelId)
+      .subscribe((data: any) => {
+        console.log(data);
+        this.dismiss();
+        window.location.href = '/call-queue';
+      });
   }
 
   dismiss() {

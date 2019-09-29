@@ -22,9 +22,7 @@ ion-list {
     ion-button {
       width: 90px;
       height: 28px;
-      margin-left: 10px;
       cursor: disabled;
-      background-color: #c3c3c3;
       &.enabled {
         background-color: transparent;
         color: white;

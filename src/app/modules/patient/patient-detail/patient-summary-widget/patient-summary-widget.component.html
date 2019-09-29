@@ -25,7 +25,6 @@
             <li *ngIf="patient.primaryContactPhoneNumber">
               <span class="patient-contact-number">{{ patient.primaryContactPhoneNumber }}</span>
               <span class="patient-contact-number-type">
-                <!-- Check if it's a home number -->
                 <ng-container *ngIf="patient.primaryContactPhoneTypeId == 1; else contactType">
                   <i class="icon-hippa"></i> Home
                 </ng-container>
