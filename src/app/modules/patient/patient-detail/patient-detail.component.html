@@ -2,7 +2,11 @@
   <ion-content>
     <ion-row>
       <ion-col class="left-hand-detail">
-        <app-patient-call-status-controls [patientCall]="patientCall"> </app-patient-call-status-controls>
+        <app-patient-call-status-controls
+          *ngIf="patientCall.patientCallStatusLabel == 'In Review'"
+          [patientCall]="patientCall"
+        >
+        </app-patient-call-status-controls>
         <!-- Bears some documentation: this will be hidden if we have advanced past ID 2, which is the "started" state -->
         <app-patient-call-start-button
           *ngIf="patientCall.patientCallStatusLabelId < 2"
