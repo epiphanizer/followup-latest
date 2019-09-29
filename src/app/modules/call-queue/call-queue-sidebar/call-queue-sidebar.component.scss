@@ -63,6 +63,7 @@
       display: inline-block;
       width: calc(100% - 17px);
       margin-top: 8px;
+
       a {
         display: inline-block;
         max-width: 80%;
@@ -83,11 +84,13 @@
         &:hover {
           text-decoration: underline;
         }
+
         &.active {
           font-family: AvenirBold;
           color: #343638;
         }
       }
+
       i {
         color: white;
         margin-left: 8px;
@@ -99,17 +102,18 @@
         background-position: center center;
 
         &.icon-new-discharges {
-          background-image: url("/assets/icon-new-discharges.png");
+          background-image: url("/assets/icon-new-discharges@2x.png");
         }
       }
+
       span.icon-discharge-counter {
-        margin-left: -12px;
-        margin-top: -4px;
+        margin-left: -14px;
+        margin-top: 0px;
         color: white;
         position: absolute;
         font-weight: bold;
-        font-size: 12px;
-        line-height: 2.17;
+        font-size: 10px;
+        line-height: 2;
       }
     }
   }
