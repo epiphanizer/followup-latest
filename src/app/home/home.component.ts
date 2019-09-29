@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
      */
     let avatarImage = '';
     if (!this.user.avatar) {
-      avatarImage = '/assets/default-avatar.png';
+      avatarImage = '/assets/default-avatar@2x.png';
     } else {
       avatarImage = this.user.avatar;
     }
