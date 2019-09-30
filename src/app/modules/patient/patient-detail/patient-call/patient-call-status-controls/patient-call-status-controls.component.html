@@ -1,12 +1,13 @@
-<!-- 
-{{ patientCall.patientCallStatusLabel }} -->
 <ion-list lines="none" class="patient-call-status-legend">
   <ion-item
     *ngFor="let patientCallStatus of patientCallStatuses"
     (click)="updatePatientCallStatus(patientCall.patientCallId, patientCallStatus.patientCallStatusLabelId)"
   >
     <div>
-      <i class="icon-{{ patientCallStatus.patientCallStatusLabel | lowercase }}"></i>
+      <i
+        class="icon-{{ patientCallStatus.patientCallStatusLabel | lowercase }}"
+        [class.active]="patientCall.patientCallStatusLabelId == patientCallStatus.patientCallStatusLabel"
+      ></i>
       <span>{{ patientCallStatus.patientCallStatusLabel }}</span>
     </div>
   </ion-item>

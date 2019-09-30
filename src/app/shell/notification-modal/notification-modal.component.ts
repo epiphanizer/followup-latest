@@ -53,9 +53,6 @@ export class NotificationModalComponent {
   ) {}
 
   ngOnInit() {
-    debugger;
-    this.notification.notificationPatientFirstName = this.patient.patientFirstName;
-    this.notification.notificationPatientLastName = this.patient.patientLastName;
     this.notificationService.getNotificationTypes().subscribe((data: any) => {
       this.notificationTypes = data;
       var i;
@@ -70,8 +67,11 @@ export class NotificationModalComponent {
       this.createForm();
     });
   }
+  ngAfterViewInit() {
+    this.notification.notificationPatientFirstName = this.patient.patientFirstName;
+    this.notification.notificationPatientLastName = this.patient.patientLastName;
+  }
   createForm() {
-    // this.notificationService.createNotification();
     this.createNotificationForm = this.fb.group({
       notificationTypeId: this.fb.control(''),
       notificationMessage: this.fb.control('')
@@ -82,24 +82,28 @@ export class NotificationModalComponent {
   }
   saveNotification() {
     this.notification = {
-      // stub
       notificationId: 25,
       notificationTypeId: this.createNotificationForm.controls.notificationTypeId.value,
       notificationMessage: this.createNotificationForm.controls.notificationMessage.value
-      // notificationCallNotes: this.patientCall.patientCallNotes;
     };
     this.status.notification.saved = true;
-    // this.notificationService.saveNotificationByPatientId(this.patient.patientId);
-    // We will want to subscribe here
+    this.notificationService.saveNotificationByPatientId(this.patient.patientId).subscribe((data: any) => {
+      console.log(data);
+      debugger;
+    });
   }
   sendNotification() {
     alert('sending notification');
-    this.notificationService.sendNotificationByNotificationId(this.notification.notificationId);
-    this.dismiss();
+    this.notificationService
+      .sendNotificationByNotificationId(this.notification.notificationId)
+      .subscribe((data: any) => {
+        console.log(data);
+        debugger;
+        this.dismiss();
+      });
   }
+
   dismiss() {
-    // using the injected ModalController this page
-    // can "dismiss" itself and optionally pass back data
     this.modalCtrl.dismiss({
       dismissed: true
     });

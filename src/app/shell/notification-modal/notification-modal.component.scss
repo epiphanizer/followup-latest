@@ -3,10 +3,16 @@
   width: 645px;
   padding: 75px;
 }
+
 .modal-exit-container {
   display: block;
+  max-height: 20px;
   float: right;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
+
 .icon-close-modal {
   cursor: pointer;
   position: absolute;

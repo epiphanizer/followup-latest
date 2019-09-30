@@ -15,9 +15,12 @@ export class FollowupCompleteButtonComponent implements OnInit {
   constructor(private modalCtrl: ModalController, private patientStatusService: PatientStatusService) {}
 
   ngOnInit() {}
-  async createFollowupCompleteModal(buttonAction: string) {
+  async createFollowupCompleteModal(patient: Patient) {
     const modal = await this.modalCtrl.create({
-      component: FollowupCompleteModalComponent
+      component: FollowupCompleteModalComponent,
+      componentProps: {
+        patient: patient
+      }
     });
     return await modal.present();
   }

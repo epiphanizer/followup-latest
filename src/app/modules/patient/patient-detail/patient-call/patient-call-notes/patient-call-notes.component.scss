@@ -17,7 +17,10 @@ form {
 }
 
 ion-item {
-  --padding-right: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
   ion-label {
     font-family: Avenir;
     font-size: 21px;
@@ -32,6 +35,10 @@ ion-item {
   }
 
   ion-textarea {
+    --padding-start: 0;
+    --padding-end: 0;
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
     &.highlighting {
       cursor: crosshair;
     }
