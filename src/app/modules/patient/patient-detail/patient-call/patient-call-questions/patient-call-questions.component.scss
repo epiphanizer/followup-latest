@@ -37,15 +37,9 @@ i.icon-question-mark {
   }
 }
 
-.call-question-rating {
-  display: inline-block;
-  text-align: center;
-  border-radius: 3px;
-  border: solid 1px #343638;
-}
-
 .rating {
   margin-left: -16px;
+  border-radius: 3px;
   ion-radio-group {
     ion-item {
       width: auto !important;
@@ -62,9 +56,9 @@ i.icon-question-mark {
     }
     ion-radio {
       display: block;
-      height: 25px;
+      height: 22px;
       width: 22px;
-      border-radius: 25%;
+      border-radius: 3px;
     }
   }
 }
