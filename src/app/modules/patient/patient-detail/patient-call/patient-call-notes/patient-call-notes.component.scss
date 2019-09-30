@@ -36,13 +36,13 @@ ion-item {
     text-align: left;
     width: 100%;
     display: block;
+    padding-bottom: 8px;
   }
 
   ion-textarea {
-    --padding-start: 0;
-    --padding-end: 0;
-    --inner-padding-start: 0;
-    --inner-padding-end: 0;
+    padding-right: 10px;
+    padding: 6px 3px;
+    line-height: 27px;
 
     &.highlighting {
       cursor: crosshair;

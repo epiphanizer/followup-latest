@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./patient-next-call-questions.component.scss']
 })
 export class PatientNextCallQuestionsComponent implements OnInit {
-  nextQuestionsForm: FormGroup;
+  patientNextCallQuestionsForm: FormGroup;
   constructor(private fb: FormBuilder) {}
   patientCallQuestions: PatientCall[];
   patientCallQuestions$: Observable<PatientCall[]>;
@@ -18,12 +18,12 @@ export class PatientNextCallQuestionsComponent implements OnInit {
     this.createForm();
   }
   createForm() {
-    this.nextQuestionsForm = this.fb.group({
-      'call-question-0': this.fb.control({})
+    this.patientNextCallQuestionsForm = this.fb.group({
+      patientCallQuestions: this.fb.group({})
     });
   }
   highlightCallQuestion(patientCallQuestionId: number) {
-    alert('highlighting ' + patientCallQuestionId);
+    alert('highlighting patient call question:' + patientCallQuestionId);
     debugger;
   }
 }
