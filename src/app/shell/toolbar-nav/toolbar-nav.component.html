@@ -7,7 +7,7 @@
         </a>
       </ng-container>
       <ng-template #linkButton>
-        <ion-button color="medium" fill="outline" (click)="doButtonAction(link.linkAction)">
+        <ion-button [class]="link.linkAction" fill="outline" (click)="doButtonAction(link.linkAction)">
           {{ link.linkName }}
         </ion-button>
       </ng-template>

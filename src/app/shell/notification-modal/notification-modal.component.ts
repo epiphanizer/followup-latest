@@ -53,7 +53,6 @@ export class NotificationModalComponent {
   ) {}
 
   ngOnInit() {
-    debugger;
     this.notification.notificationPatientFirstName = this.patient.patientFirstName;
     this.notification.notificationPatientLastName = this.patient.patientLastName;
     this.notificationService.getNotificationTypes().subscribe((data: any) => {

@@ -16,6 +16,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     number: string;
     name: string;
   };
+  selectedDay: number;
   selectedMonth: {
     number: string;
     name: string;
@@ -105,6 +106,6 @@ export class PatientNextCallSchedulerComponent implements OnInit {
   }
   selectDateEventHandler(day: number, currentMonth: number, todaysYear: number) {
     let date = day + '/' + currentMonth + '/' + todaysYear;
-    alert('Selected date: ' + date);
+    this.selectedDay = day;
   }
 }

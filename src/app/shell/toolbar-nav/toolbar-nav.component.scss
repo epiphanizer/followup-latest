@@ -23,15 +23,17 @@ ion-list {
       width: 90px;
       height: 28px;
       cursor: disabled;
-      &.enabled {
-        background-color: transparent;
-        color: white;
-        &.kudos {
-          background-color: var(--ion-color-primary);
-        }
-        &.report {
-          background-color: red;
-        }
+      background-color: transparent;
+      color: white;
+      font-family: AvenirBold;
+      font-size: 12px;
+      border-radius: 15%;
+
+      &.kudos {
+        background-color: var(--ion-color-primary);
+      }
+      &.report {
+        background-color: red;
       }
     }
   }
