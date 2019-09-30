@@ -44,13 +44,12 @@ ion-radio {
   width: 22px;
   height: 22px;
 }
-ion-label {
+.patient-status-label {
   font-family: Avenir;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   font-style: normal;
   font-stretch: normal;
-  line-height: 1.86;
   letter-spacing: normal;
   text-align: left;
 }
@@ -59,6 +58,8 @@ ion-textarea {
   width: 475px;
   margin-left: 55px;
   background-color: #f5f5f5;
+  font-family: Avenir;
+  font-family: 14px;
   margin-top: 1rem;
 }
 
@@ -66,7 +67,9 @@ ion-textarea {
   text-align: center;
   width: 109px;
   height: 40px;
-  margin: 2rem 40%;
+  float: right;
+  margin-top: 2rem;
+  margin-right: 48px;
   color: white;
   background: var(--ion-color-primary);
 }
