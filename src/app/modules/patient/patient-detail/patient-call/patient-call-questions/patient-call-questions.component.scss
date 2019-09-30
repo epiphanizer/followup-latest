@@ -40,9 +40,6 @@ i.icon-question-mark {
 .call-question-rating {
   display: inline-block;
   text-align: center;
-  width: 24.5px;
-  height: 23px;
-  margin-right: 20px;
   border-radius: 3px;
   border: solid 1px #343638;
 }
@@ -61,12 +58,12 @@ i.icon-question-mark {
       width: 100% !important;
       margin-right: 0 !important;
       margin-top: -72px;
-      margin-left: 4px;
+      margin-left: 2px;
     }
     ion-radio {
       display: block;
       height: 25px;
-      width: 15px;
+      width: 22px;
       border-radius: 25%;
     }
   }

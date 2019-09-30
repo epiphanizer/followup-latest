@@ -9,6 +9,7 @@ import {
   NotificationRecipientPostBody,
   NotificationRecipientService
 } from '@app/modules/notification/notification-recipient/notification-recipient.service';
+import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 @Component({
   providers: [NotificationService],
   selector: 'app-notification-modal',
@@ -19,6 +20,7 @@ export class NotificationModalComponent {
   createNotificationForm!: FormGroup;
   @Input() notificationRecipients: NotificationRecipients;
   @Input() patient: Patient;
+  @Input() patientCall: PatientCall;
   notification: Notification;
   notificationTypes: {
     notificationTypeLabelId: number;
@@ -51,8 +53,9 @@ export class NotificationModalComponent {
   ) {}
 
   ngOnInit() {
-    // this.notification.notificationPatientFirstName = this.patient.patientFirstName;
-    // this.notification.notificationPatientLastName = this.patient.patientLastName;
+    debugger;
+    this.notification.notificationPatientFirstName = this.patient.patientFirstName;
+    this.notification.notificationPatientLastName = this.patient.patientLastName;
     this.notificationService.getNotificationTypes().subscribe((data: any) => {
       this.notificationTypes = data;
       var i;
@@ -83,6 +86,7 @@ export class NotificationModalComponent {
       notificationId: 25,
       notificationTypeId: this.createNotificationForm.controls.notificationTypeId.value,
       notificationMessage: this.createNotificationForm.controls.notificationMessage.value
+      // notificationCallNotes: this.patientCall.patientCallNotes;
     };
     this.status.notification.saved = true;
     // this.notificationService.saveNotificationByPatientId(this.patient.patientId);

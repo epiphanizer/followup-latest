@@ -1,14 +1,17 @@
 :root {
-  height: 595px;
+  height: 450px !important;
   width: 645px;
   padding: 75px;
 }
 .modal-exit-container {
-  width: 200px;
   display: block;
   float: right;
 }
 .icon-close-modal {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
   display: block;
   width: 15px;
   height: 30px;
