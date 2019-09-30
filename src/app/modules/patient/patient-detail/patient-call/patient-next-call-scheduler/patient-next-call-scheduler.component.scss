@@ -28,6 +28,7 @@ ion-item {
 }
 .call-history-container {
   height: 250px;
+  margin-left: 10px;
   max-width: 332px;
 }
 h3 {
@@ -58,6 +59,8 @@ h3 {
 .right-month-arrow {
   cursor: pointer;
   display: inline-block;
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 .left-month-arrow {
   background-image: url("/assets/calendar-left-arrow@2x.png");

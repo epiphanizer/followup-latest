@@ -8,7 +8,6 @@
       <ion-row>
         <ion-col width-50>
           <ion-item *ngFor="let notificationType of notificationTypesListLeft">
-            <img src="{{ notificationIconImage }}" alt="" />
             <ion-radio-group>
               <ion-radio value="notificationType.notificationTypesLabelId" formControlName="notificationTypeId">
               </ion-radio>
@@ -18,7 +17,6 @@
         </ion-col>
         <ion-col width-50>
           <ion-item *ngFor="let notificationType of notificationTypesListRight">
-            <img src="{{ notificationIconImage }}" alt="" />
             <ion-radio-group>
               <ion-radio value="notificationType.notificationTypesLabelId" formControlName="notificationTypeId">
               </ion-radio>
@@ -46,7 +44,7 @@
     <span class="ion-float-right warning">
       {{ notification.notificationTypesLabel }}
     </span>
-    <i class="icon-{{ notification.notificationTypesLabel }}"></i>
+    <img src="{{ notification.notificationIconImage }}" alt="" />
   </ion-row>
   <ion-row>
     <ion-col class="left-col">

@@ -20,14 +20,14 @@ export class ToolbarNavComponent implements OnInit {
   ngOnInit() {}
 
   doButtonAction(buttonAction: string) {
-    if (buttonAction == 'Notification') {
-      this.createNotificationModal(buttonAction);
-    } else if (buttonAction == 'Kudos') {
-      this.createKudosModal(buttonAction);
+    if (buttonAction == 'report') {
+      this.createNotificationModal();
+    } else if (buttonAction == 'kudos') {
+      this.createKudosModal();
     }
   }
 
-  async createNotificationModal(buttonAction: string) {
+  async createNotificationModal() {
     const modal = await this.modalController.create({
       component: NotificationModalComponent,
       componentProps: {
@@ -37,7 +37,7 @@ export class ToolbarNavComponent implements OnInit {
     });
     return await modal.present();
   }
-  async createKudosModal(buttonAction: string) {
+  async createKudosModal() {
     const modal = await this.modalController.create({
       component: KudosModalComponent,
       componentProps: {
