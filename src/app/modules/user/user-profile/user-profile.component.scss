@@ -8,17 +8,23 @@ ion-content {
 }
 
 .user-profile-content {
+  max-width: 565px;
   width: 565px;
   margin-top: 79px;
 }
 
 .avatar-col {
   margin-top: 72px;
+  max-width: 220px;
   width: 220px;
   margin-left: 81.4px;
 
   img {
     cursor: pointer;
+  }
+  ion-button {
+    clear: both;
+    margin-left: 35px;
   }
 }
 ion-item {
@@ -67,12 +73,15 @@ form {
   }
 
   i.icon-question {
+    margin-right: 10px;
     background-image: url("/assets/icon-question-mark@2x.png");
   }
 
   ion-item {
     --inner-padding-start: 0;
     --inner-padding-end: 0;
+    --padding-start: 0;
+    --padding-end: 0;
     &.first-name,
     &.middle-name,
     &.last-name {
@@ -80,17 +89,17 @@ form {
     }
 
     &.first-name {
-      width: 180px;
+      width: 150px;
     }
 
     &.middle-name {
-      margin-left: 36px;
-      width: 140px;
+      margin-left: 22px;
+      width: 125px;
     }
 
     &.last-name {
-      margin-left: 36px;
-      width: 180px;
+      margin-left: 22px;
+      width: 150px;
     }
 
     &.user-email {
@@ -99,7 +108,7 @@ form {
     }
 
     &.user-phone-container {
-      margin-left: 14px;
+      margin-left: 28px;
       width: calc(100% - 20px);
     }
 
@@ -135,8 +144,6 @@ form {
     }
 
     &.user-dessert {
-      --inner-padding-start: 0;
-      --inner-padding-end: 0;
       float: left;
     }
   }
@@ -152,7 +159,6 @@ form {
     margin-top: 14px;
   }
   ion-datetime {
-    --padding-start: 12px;
     margin-top: 15px;
     height: 34px;
   }
@@ -174,7 +180,6 @@ form {
     border: solid 1px rgba(112, 112, 112, 0.15);
   }
   ion-textarea {
-    --padding-start: 0;
     margin-top: 1rem;
     textarea {
       min-height: 100%;
