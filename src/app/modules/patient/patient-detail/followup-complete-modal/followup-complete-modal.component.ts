@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PatientService } from '../../patient.service';
 import { Patient } from '../../patient';
 import { PatientStatusService, PatientStatus } from '../../patient-status.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -15,7 +14,6 @@ export class FollowupCompleteModalComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private modalCtrl: ModalController,
-    private patientService: PatientService,
     private patientStatusService: PatientStatusService
   ) {}
   @Input() patient: Patient;
@@ -43,22 +41,22 @@ export class FollowupCompleteModalComponent implements OnInit {
       completionNotes: this.fb.control('')
     });
   }
-  archivePatient() {
+  archivePatient(patient: Patient) {
     var formSubmission = this.followupCompleteForm.getRawValue();
     var patientStatusLabelId = formSubmission.patientStatusLabelId;
     var patientStatusNotes = formSubmission.completionNotes;
     debugger;
     this.patientStatusService
-      .addNewPatientStatusByPatientId(this.patient.patientId, patientStatusLabelId, patientStatusNotes)
+      .addNewPatientStatusByPatientId(patient.patientId, patientStatusLabelId, patientStatusNotes)
       .subscribe((data: any) => {
+        console.log(data);
+        debugger;
         this.dismiss();
         window.location.href = '/call-queue';
       });
   }
 
   dismiss() {
-    // using the injected ModalController this page
-    // can "dismiss" itself and optionally pass back data
     this.modalCtrl.dismiss({
       dismissed: true
     });

@@ -9,7 +9,7 @@
         <ion-col width-50>
           <ion-list class="graduation-options" lines="none">
             <ion-item *ngFor="let patientStatus of completionTypesListLeft">
-              <ion-radio value="patientStatus.patientStatusLabelId"> </ion-radio>
+              <ion-radio formControlName="patientStatusLabelId" value="patientStatus.patientStatusLabelId"> </ion-radio>
               <ion-label class="patient-status-label">
                 {{ patientStatus.patientStatusLabel }}
               </ion-label>
@@ -19,7 +19,7 @@
         <ion-col width-50>
           <ion-list class="graduation-options" lines="none">
             <ion-item *ngFor="let patientStatus of completionTypesListRight">
-              <ion-radio value="patientStatus.patientStatusLabelId"> </ion-radio>
+              <ion-radio formControlName="patientStatusLabelId" value="patientStatus.patientStatusLabelId"> </ion-radio>
               <ion-label class="patient-status-label">
                 {{ patientStatus.patientStatusLabel }}
               </ion-label>
@@ -29,6 +29,6 @@
       </ion-row>
     </ion-radio-group>
     <ion-textarea formControlName="completionNotes" placeholder="Any Notes?"> </ion-textarea>
-    <ion-button class="save-button" (click)="archivePatient()">Archive</ion-button>
+    <ion-button class="save-button" (click)="archivePatient(patient)">Archive</ion-button>
   </ng-container>
 </form>

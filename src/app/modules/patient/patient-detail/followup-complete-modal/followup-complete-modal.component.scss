@@ -17,6 +17,9 @@
   background: url("/assets/icon-close-modal@2x.png");
   background-size: 100%;
 }
+ion-col {
+  max-width: 42%;
+}
 ion-title {
   width: 100%;
   margin-top: 37px;
@@ -41,8 +44,9 @@ ion-label {
   margin-right: 5px;
 }
 ion-radio {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
+  font-size: 14px;
 }
 .patient-status-label {
   font-family: Avenir;
@@ -66,10 +70,14 @@ ion-textarea {
 .save-button {
   text-align: center;
   width: 109px;
-  height: 40px;
+  height: 30px;
   float: right;
   margin-top: 2rem;
-  margin-right: 48px;
+  margin-right: 64px;
   color: white;
   background: var(--ion-color-primary);
+  font-size: 13px;
+  border-radius: 17px;
+  margin-bottom: 2rem;
+  font-weight: bold;
 }
