@@ -16,10 +16,10 @@ export interface PatientCall {
   patientCallNumber?: number;
 }
 
-// export interface PatientCallQuestionAnswer {
-//   patientCallQuestionAnswerId: number;
-//   patientCallQuestionAnswer: string;
-// }
+export interface PatientCallQuestionAnswer {
+  patientCallQuestionAnswerId: number;
+  patientCallQuestionAnswer: string;
+}
 
 @Injectable({
   providedIn: 'root'

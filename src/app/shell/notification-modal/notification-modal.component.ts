@@ -4,7 +4,11 @@ import { NotificationService } from '@app/modules/notification/notification.serv
 import { Patient } from '@app/modules/patient/patient';
 import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Notification } from '@app/modules/notification/notification';
+import { Notification, NotificationRecipients } from '@app/modules/notification/notification';
+import {
+  NotificationRecipientPostBody,
+  NotificationRecipientService
+} from '@app/modules/notification/notification-recipient/notification-recipient.service';
 @Component({
   providers: [NotificationService],
   selector: 'app-notification-modal',
@@ -13,6 +17,7 @@ import { Notification } from '@app/modules/notification/notification';
 })
 export class NotificationModalComponent {
   createNotificationForm!: FormGroup;
+  @Input() notificationRecipients: NotificationRecipients;
   @Input() patient: Patient;
   notification: Notification;
   notificationTypes: {
@@ -36,6 +41,7 @@ export class NotificationModalComponent {
       saved: false
     }
   };
+  todaysDate: string;
   todaysDateDay: number;
 
   constructor(
@@ -56,7 +62,7 @@ export class NotificationModalComponent {
           this.notificationTypesListRight.push(this.notificationTypes[i + 1]);
         }
       }
-
+      this.todaysDate = formatDate(new Date(), 'YYYY-mm-dd', 'en');
       this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
       this.createForm();
     });

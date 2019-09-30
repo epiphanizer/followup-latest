@@ -1,14 +1,16 @@
 .patient-call-question-list {
-  margin-top: -10px;
   list-style-type: none;
   padding-left: 0;
 }
 
-.call-question-icon {
+i.icon-question-mark {
   width: 20px;
   height: 20px;
-  margin-right: 19px;
   float: left;
+  margin-top: 10px;
+  background: url("/assets/icon-question-mark@2x.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 
 .call-question-body-container {
@@ -46,64 +48,63 @@
 }
 
 .rating {
+  margin-left: -16px;
   ion-radio-group {
     ion-item {
-      width: auto;
+      width: auto !important;
+      max-width: 10% !important;
       display: inline-block;
-    }
-
-    ion-radio {
-      margin-right: 8px;
     }
 
     ion-label {
       display: block !important;
       width: 100% !important;
       margin-right: 0 !important;
+      margin-top: -72px;
+      margin-left: 4px;
+    }
+    ion-radio {
+      display: block;
+      height: 25px;
+      width: 15px;
+      border-radius: 25%;
     }
   }
 }
 
-.boolean,
-.rating {
-  margin: 0;
-
-  ion-radio-group {
+ion-radio-group {
+  .boolean,
+  .rating {
+    margin: 0;
+    margin-left: -16px;
     ion-item {
       display: inline-block;
     }
 
     ion-label {
       font-size: 16px;
-      line-height: 31px;
       font-family: Avenir;
       display: inline-block;
-      margin-right: 1.5rem;
     }
 
     ion-radio {
       display: inline-block;
-      margin-right: 8px;
+      margin-bottom: -15px;
     }
   }
 }
 
 .boolean {
-  ion-item {
-    width: auto;
-    display: inline-block;
-  }
-  ion-radio {
-    margin-right: 8px;
-  }
+  display: inline-block;
 }
+
 .overlay {
   position: absolute;
 
   &.active {
     display: block;
     background: rgba(255, 255, 255, 0.5);
-    height: 800px;
+    height: 100%;
     width: 470px;
     z-index: 1000;
     background-size: 100%;

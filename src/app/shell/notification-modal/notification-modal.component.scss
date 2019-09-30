@@ -3,6 +3,18 @@
   width: 645px;
   padding: 75px;
 }
+.modal-exit-container {
+  width: 200px;
+  display: block;
+  float: right;
+}
+.icon-close-modal {
+  display: block;
+  width: 15px;
+  height: 30px;
+  background: url("/assets/icon-close-modal@2x.png");
+  background-size: 100%;
+}
 
 ion-title {
   width: 100%;
@@ -69,9 +81,8 @@ span.label {
   margin: 40px;
 
   h4 {
-    height: 12px;
     font-family: AvenirBold;
-    font-size: 15px;
+    font-size: 13px;
     font-style: normal;
     font-stretch: normal;
     line-height: 0.86;
@@ -84,9 +95,8 @@ span.label {
   }
 
   .caption {
-    font-family: Avenir;
-    font-size: 24px;
-    font-weight: 900;
+    font-family: AvenirBold;
+    font-size: 42px;
     font-style: normal;
     font-stretch: normal;
     letter-spacing: -5px;

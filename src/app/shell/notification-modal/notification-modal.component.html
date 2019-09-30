@@ -1,3 +1,6 @@
+<div class="modal-exit-container ion-float-right">
+  <i (click)="dismiss()" class="icon-close-modal"></i>
+</div>
 <ng-container *ngIf="status.notification.saved == false; else sendNotification">
   <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
     <ion-title>Notification</ion-title>
@@ -7,10 +10,8 @@
           <ion-item *ngFor="let notificationType of notificationTypesListLeft">
             <img src="{{ notificationIconImage }}" alt="" />
             <ion-radio-group>
-              <ion-radio
-                value="notificationType.notificationTypesLabelId"
-                formControlName="notificationTypeId"
-              ></ion-radio>
+              <ion-radio value="notificationType.notificationTypesLabelId" formControlName="notificationTypeId">
+              </ion-radio>
               <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
             </ion-radio-group>
           </ion-item>
@@ -19,10 +20,8 @@
           <ion-item *ngFor="let notificationType of notificationTypesListRight">
             <img src="{{ notificationIconImage }}" alt="" />
             <ion-radio-group>
-              <ion-radio
-                value="notificationType.notificationTypesLabelId"
-                formControlName="notificationTypeId"
-              ></ion-radio>
+              <ion-radio value="notificationType.notificationTypesLabelId" formControlName="notificationTypeId">
+              </ion-radio>
               <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
             </ion-radio-group>
           </ion-item>
@@ -64,7 +63,8 @@
         </ion-item>
         <ion-item> <span class="label">Facility:&nbsp;</span> {{ notification.operationName }} </ion-item>
         <ion-item>
-          <span class="label">Date Received:&nbsp;</span> {{ notification.notificationCreatedDate }}
+          <span class="label">Date Received:&nbsp;</span>
+          {{ todaysDate }}
         </ion-item>
         <ion-item> <span class="label">Notes:&nbsp;</span> {{ notification.notificationNotes }} </ion-item>
         <ion-item *ngIf="notification.notificationRecipients">
