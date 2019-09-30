@@ -21,8 +21,8 @@ export class UserProfileComponent implements OnInit {
     this.createForm();
   }
   updateUserProfile() {
-    alert('saving user profile');
     let formSubmission = this.userProfileForm.getRawValue();
+    debugger;
     this.userService.updateUserByUserId(this.user.id, formSubmission);
   }
 
@@ -42,7 +42,7 @@ export class UserProfileComponent implements OnInit {
       userAdditionalInfo: []
     });
   }
-  uploadUserAvatar() {
-    alert('Uploading user avatar');
+  uploadUserAvatarPhoto() {
+    debugger;
   }
 }
