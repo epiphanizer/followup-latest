@@ -18,7 +18,7 @@
                 color="danger"
                 [hidden]="loginForm.controls.username.valid || loginForm.controls.username.untouched"
               >
-                <span padding>Valid email is required</span>
+                <span padding>Valid username is required</span>
               </ion-text>
               <ion-item>
                 <ion-label color="medium" position="floating">Password</ion-label>
@@ -30,9 +30,9 @@
               >
                 <span padding translate>Password is required</span>
               </ion-text>
-              <a href="/login/forgot" class="forgot-password ion-float-right">
+              <!-- <a href="/login/forgot" class="forgot-password ion-float-right">
                 [Forgot Your Password?]
-              </a>
+              </a> -->
             </ion-list>
             <div class="login-controls-container" padding-horizontal>
               <ion-button
