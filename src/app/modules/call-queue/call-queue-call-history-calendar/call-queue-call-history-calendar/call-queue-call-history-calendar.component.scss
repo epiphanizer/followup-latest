@@ -42,16 +42,18 @@ h3 {
   display: inline-block;
 }
 .left-month-arrow {
-  background-image: url("/assets/calendar-left-arrow.png");
+  background-image: url("/assets/calendar-left-arrow@2x.png");
   height: 14px;
   width: 8px;
   margin-right: 18px;
+  background-size: 100%;
 }
 .right-month-arrow {
-  background-image: url("/assets/calendar-right-arrow.png");
+  background-image: url("/assets/calendar-right-arrow@2x.png");
   height: 14px;
   width: 8px;
   margin-left: 18px;
+  background-size: 100%;
 }
 /*
   Limited in height,

@@ -1,4 +1,4 @@
-<div class="modal-exit-container ion-float-right">
+<div class="modal-exit-container ">
   <i (click)="dismiss()" class="icon-close-modal"></i>
 </div>
 <ng-container *ngIf="status.notification.saved == false; else sendNotification">
@@ -8,7 +8,6 @@
       <ion-row>
         <ion-col width-50>
           <ion-item *ngFor="let notificationType of notificationTypesListLeft">
-            <img src="{{ notificationIconImage }}" alt="" />
             <ion-radio-group>
               <ion-radio value="notificationType.notificationTypesLabelId" formControlName="notificationTypeId">
               </ion-radio>
@@ -18,7 +17,6 @@
         </ion-col>
         <ion-col width-50>
           <ion-item *ngFor="let notificationType of notificationTypesListRight">
-            <img src="{{ notificationIconImage }}" alt="" />
             <ion-radio-group>
               <ion-radio value="notificationType.notificationTypesLabelId" formControlName="notificationTypeId">
               </ion-radio>
@@ -34,7 +32,9 @@
       placeholder="Leave Your Notes Here"
     >
     </ion-textarea>
-    <ion-button class="save-button ion-float-right" type="button" (click)="saveNotification()">Save</ion-button>
+    <ion-button fill="outline" class="save-button ion-float-right" type="button" (click)="saveNotification()"
+      >Save</ion-button
+    >
     <span class="helper-text">[ report will be sent when <b>follow-up</b> is complete ]</span>
   </form>
 </ng-container>
@@ -44,7 +44,7 @@
     <span class="ion-float-right warning">
       {{ notification.notificationTypesLabel }}
     </span>
-    <i class="icon-{{ notification.notificationTypesLabel }}"></i>
+    <img src="{{ notification.notificationIconImage }}" alt="" />
   </ion-row>
   <ion-row>
     <ion-col class="left-col">
@@ -58,18 +58,17 @@
     <ion-col>
       <ion-list class="review-notification-list" lines="none" inset>
         <ion-item>
-          <span class="label">Patient:&nbsp;</span> {{ notification.patientFirstName }}
-          {{ notification.patientLastName }}
+          <span class="label">Patient:&nbsp;</span> {{ patient.patientFirstName }}
+          {{ patient.patientLastName }}
         </ion-item>
-        <ion-item> <span class="label">Facility:&nbsp;</span> {{ notification.operationName }} </ion-item>
-        <ion-item>
-          <span class="label">Date Received:&nbsp;</span>
-          {{ todaysDate }}
-        </ion-item>
-        <ion-item> <span class="label">Notes:&nbsp;</span> {{ notification.notificationNotes }} </ion-item>
+        <ion-item> <span class="label">Facility:&nbsp;</span> {{ patient.patientOperationName }} </ion-item>
+        <ion-item> <span class="label">Date Received:&nbsp;</span> {{ todaysDate }} </ion-item>
         <ion-item *ngIf="notification.notificationRecipients">
           <span class="label">Next Steps:&nbsp;</span>
-          <span *ngFor="let notificationRecipient of notification.notificationRecipients"></span>
+          Notify
+          <span *ngFor="let notificationRecipient of notification.notificationRecipients">
+            {{ notificationRecipient }} /
+          </span>
         </ion-item>
         <ion-item>
           <span class="label">Message:&nbsp;</span>

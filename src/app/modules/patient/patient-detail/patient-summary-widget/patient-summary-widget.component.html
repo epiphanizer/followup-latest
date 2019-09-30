@@ -23,7 +23,9 @@
         <div class="patient-contact-container">
           <ul class="patient-contact-list">
             <li *ngIf="patient.primaryContactPhoneNumber">
-              <span class="patient-contact-number">{{ patient.primaryContactPhoneNumber }}</span>
+              <span class="patient-contact-number">
+                {{ patient.primaryContactPhoneNumber }}
+              </span>
               <span class="patient-contact-number-type">
                 <ng-container *ngIf="patient.primaryContactPhoneTypeId == 1; else contactType">
                   <i class="icon-hippa"></i> Home

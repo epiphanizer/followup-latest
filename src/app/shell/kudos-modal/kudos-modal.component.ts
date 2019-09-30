@@ -5,18 +5,14 @@ import { Patient } from '@app/modules/patient/patient';
 import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Notification, NotificationRecipients } from '@app/modules/notification/notification';
-import {
-  NotificationRecipientPostBody,
-  NotificationRecipientService
-} from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 @Component({
   providers: [NotificationService],
-  selector: 'app-notification-modal',
-  templateUrl: './notification-modal.component.html',
-  styleUrls: ['./notification-modal.component.scss']
+  selector: 'app-kudos-modal',
+  templateUrl: './kudos-modal.component.html',
+  styleUrls: ['./kudos-modal.component.scss']
 })
-export class NotificationModalComponent {
+export class KudosModalComponent {
   createNotificationForm!: FormGroup;
   @Input() notificationRecipients: NotificationRecipients;
   @Input() patient: Patient;
@@ -53,7 +49,6 @@ export class NotificationModalComponent {
   ) {}
 
   ngOnInit() {
-    debugger;
     this.notification.notificationPatientFirstName = this.patient.patientFirstName;
     this.notification.notificationPatientLastName = this.patient.patientLastName;
     this.notificationService.getNotificationTypes().subscribe((data: any) => {

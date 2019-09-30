@@ -28,8 +28,8 @@ ion-item {
 }
 .call-history-container {
   height: 250px;
+  margin-left: 10px;
   max-width: 332px;
-  margin-left: 73px;
 }
 h3 {
   font-size: 18px;
@@ -59,15 +59,17 @@ h3 {
 .right-month-arrow {
   cursor: pointer;
   display: inline-block;
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 .left-month-arrow {
-  background-image: url("/assets/calendar-left-arrow.png");
+  background-image: url("/assets/calendar-left-arrow@2x.png");
   height: 14px;
   width: 8px;
   margin-right: 18px;
 }
 .right-month-arrow {
-  background-image: url("/assets/calendar-right-arrow.png");
+  background-image: url("/assets/calendar-right-arrow@2x.png");
   height: 14px;
   width: 8px;
   margin-left: 18px;

@@ -2,6 +2,21 @@
   height: 450px;
   width: 645px;
 }
+.modal-exit-container {
+  display: block;
+  float: right;
+}
+.icon-close-modal {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  display: block;
+  width: 15px;
+  height: 30px;
+  background: url("/assets/icon-close-modal@2x.png");
+  background-size: 100%;
+}
 ion-title {
   width: 100%;
   margin-top: 37px;

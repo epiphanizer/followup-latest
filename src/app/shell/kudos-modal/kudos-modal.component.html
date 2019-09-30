@@ -1,0 +1,48 @@
+<div class="modal-exit-container ">
+  <i (click)="dismiss()" class="icon-close-modal"></i>
+</div>
+<ion-row *ngIf="notification">
+  <ion-title class="ion-float-left">Notification</ion-title>
+  <span class="ion-float-right">
+    Kudos
+  </span>
+  <img src="/assets/icon-notify-kudo@2x.png" alt="" />
+</ion-row>
+<ion-row>
+  <ion-col class="left-col">
+    <div class="sidebar-calendar">
+      <h4>TODAY'S DATE</h4>
+      <div class="caption">
+        {{ todaysDateDay }}
+      </div>
+    </div>
+  </ion-col>
+  <ion-col>
+    <ion-list class="review-notification-list" lines="none" inset>
+      <ion-item>
+        <span class="label">Patient:&nbsp;</span> {{ patient.patientFirstName }}
+        {{ patient.patientLastName }}
+      </ion-item>
+      <ion-item> <span class="label">Facility:&nbsp;</span> {{ patient.patientOperationName }} </ion-item>
+      <ion-item>
+        <span class="label">Date Received:&nbsp;</span>
+        {{ todaysDate }}
+      </ion-item>
+      <!-- <ion-item> <span class="label">Notes:&nbsp;</span> {{ notification.notificationNotes }} </ion-item> -->
+      <ion-item *ngIf="notification.notificationRecipients">
+        <span class="label">Next Steps:&nbsp;</span>
+        <span *ngFor="let notificationRecipient of notification.notificationRecipients"></span>
+      </ion-item>
+      <ion-item>
+        <span class="label">Message:&nbsp;</span>
+        <ion-textarea> </ion-textarea>
+      </ion-item>
+    </ion-list>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <div class="send-container">
+    <span class="helper-text">[ report will be sent when <b>follow-up</b> is complete ]</span>
+    <ion-button fill="outline" class="ion-float-right send-button" (click)="sendNotification()">Send</ion-button>
+  </div>
+</ion-row>
