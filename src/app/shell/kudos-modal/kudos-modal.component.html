@@ -20,10 +20,10 @@
   <ion-col>
     <ion-list class="review-notification-list" lines="none" inset>
       <ion-item>
-        <span class="label">Patient:&nbsp;</span> {{ notification.patientFirstName }}
-        {{ notification.patientLastName }}
+        <span class="label">Patient:&nbsp;</span> {{ patient.patientFirstName }}
+        {{ patient.patientLastName }}
       </ion-item>
-      <ion-item> <span class="label">Facility:&nbsp;</span> {{ notification.operationName }} </ion-item>
+      <ion-item> <span class="label">Facility:&nbsp;</span> {{ patient.operationName }} </ion-item>
       <ion-item>
         <span class="label">Date Received:&nbsp;</span>
         {{ todaysDate }}
