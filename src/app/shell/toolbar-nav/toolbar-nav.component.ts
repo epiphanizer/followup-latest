@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { KudosModalComponent } from '../kudos-modal/kudos-modal.component';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 import { Operation } from '@app/modules/operation/operation.service';
 import { Patient } from '@app/modules/patient/patient';
@@ -19,15 +20,29 @@ export class ToolbarNavComponent implements OnInit {
   ngOnInit() {}
 
   doButtonAction(buttonAction: string) {
-    this.createNotificationModal(buttonAction);
+    if (buttonAction == 'Notification') {
+      this.createNotificationModal(buttonAction);
+    } else if (buttonAction == 'Kudos') {
+      this.createKudosModal(buttonAction);
+    }
   }
 
   async createNotificationModal(buttonAction: string) {
     const modal = await this.modalController.create({
       component: NotificationModalComponent,
       componentProps: {
-        modalType: buttonAction,
+        modalType: 'Notification',
         notificationTypeLabel: 'Label'
+      }
+    });
+    return await modal.present();
+  }
+  async createKudosModal(buttonAction: string) {
+    const modal = await this.modalController.create({
+      component: KudosModalComponent,
+      componentProps: {
+        modalType: 'Kudos',
+        notificationTypeLabel: 'Kudos'
       }
     });
     return await modal.present();
