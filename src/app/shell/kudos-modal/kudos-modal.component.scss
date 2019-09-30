@@ -1,0 +1,142 @@
+:root {
+  height: 450px !important;
+  width: 645px;
+  padding: 75px;
+}
+.modal-exit-container {
+  display: block;
+  float: right;
+}
+.icon-close-modal {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  display: block;
+  width: 15px;
+  height: 30px;
+  background: url("/assets/icon-close-modal@2x.png");
+  background-size: 100%;
+}
+
+ion-title {
+  width: 100%;
+  margin-top: 74px;
+  margin-bottom: 5px;
+  margin-left: 37px;
+  font-family: AvenirNextLTPro;
+  font-size: 24px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.93;
+  letter-spacing: 0.6px;
+  text-align: left;
+  color: #343638;
+}
+
+.notification-options {
+  width: 85%;
+  margin: 0 auto;
+
+  ion-item {
+    height: 32px;
+  }
+
+  ion-label {
+    display: inline-block;
+    font-family: Avenir;
+    font-size: 14px;
+    margin-left: 10px;
+    line-height: 36px;
+  }
+}
+
+ion-radio {
+  display: inline-block;
+}
+
+.warning {
+  font-family: Avenir;
+  font-size: 25px;
+  font-weight: 900;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.48;
+  letter-spacing: normal;
+  text-align: right;
+  background-color: #ef4136;
+}
+
+span.label {
+  font-weight: bold;
+  font-family: Avenir;
+  font-size: 12px;
+}
+
+.left-col {
+  max-width: 170px;
+}
+
+.sidebar-calendar {
+  width: 86px;
+  height: 90px;
+  margin: 40px;
+
+  h4 {
+    font-family: AvenirBold;
+    font-size: 13px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 0.86;
+    letter-spacing: 1.2px;
+    color: var(--ion-color-primary);
+  }
+
+  .review-notification-list {
+    margin: 0;
+  }
+
+  .caption {
+    font-family: AvenirBold;
+    font-size: 42px;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: -5px;
+    text-align: center;
+  }
+}
+
+.notification-options {
+  height: auto;
+}
+
+.notification-textarea {
+  height: 200px;
+  width: 489px;
+  margin: 0 auto;
+  background-color: #f5f5f5;
+  margin-top: 0.25rem;
+}
+
+span.helper-text {
+  margin-top: 2rem;
+  float: left;
+  font-size: 13px;
+  margin-left: 55px;
+}
+
+.save-button {
+  margin-top: 20px;
+  margin-right: 40px;
+}
+
+.edit-button {
+  margin-top: 20px;
+  margin-left: 35px;
+}
+
+.send-button {
+  margin-top: 20px;
+  margin-right: 35px;
+}
