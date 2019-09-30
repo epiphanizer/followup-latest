@@ -242,11 +242,12 @@ form {
       }
 
       &.last-name {
+        margin-left: 12px;
         width: 180px;
       }
 
       &.relationship {
-        width: 180px;
+        width: 100%;
       }
     }
 
@@ -259,13 +260,13 @@ form {
 
         &.country-code {
           margin-left: 0;
-          width: 85px;
+          width: 45px;
           color: lightgray;
           cursor: not-allowed;
         }
 
         &.area-code {
-          width: 120px;
+          width: 80px;
         }
 
         &.phone-number {
