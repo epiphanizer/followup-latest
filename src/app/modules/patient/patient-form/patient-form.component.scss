@@ -478,20 +478,22 @@ form {
       display: inline-block;
 
       &.first-name {
-        width: 160px;
+        width: 48%;
+        margin-right: 2%;
       }
 
       &.last-name {
-        width: 160px;
+        margin-left: 2%;
+        width: 48%;
       }
 
       &.country-code {
         margin-left: 0;
-        width: 85px;
+        width: 45px;
       }
 
       &.area-code {
-        width: 150px;
+        width: 80px;
       }
 
       &.phone-number {
