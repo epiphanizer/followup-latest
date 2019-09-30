@@ -1,6 +1,16 @@
 .next-call-scheduler {
   clear: both;
 }
+.scheduled-call-date {
+  font-family: Avenir;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: 0.42px;
+  color: var(--charcoal-grey);
+}
 ion-title {
   width: 100%;
   font-family: Avenir;

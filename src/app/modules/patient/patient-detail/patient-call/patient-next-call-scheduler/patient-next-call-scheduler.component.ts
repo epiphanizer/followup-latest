@@ -36,9 +36,9 @@ export class PatientNextCallSchedulerComponent implements OnInit {
   todaysMonth: string;
   todaysYear: number;
 
-  constructor() {}
-
-  ngOnInit() {
+  // We put this in the constructor rather than ngOnInit()
+  // simply because it helps readability in this particular case.
+  constructor() {
     this.todaysDate = new Date();
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     this.todaysMonth = ('0' + (this.todaysDate.getMonth() + 1)).substring(0, 2);
@@ -99,6 +99,12 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
   }
 
+  ngOnInit() {
+    this.createForm();
+  }
+
+  createForm() {}
+
   daysInMonth(month: number, year: number) {
     return new Date(year, month, 0).getDate();
   }
@@ -110,9 +116,9 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     this.currentMonth = this.months[parseInt(this.currentMonth.number)];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentMonth.number), this.todaysYear);
   }
-  selectDateEventHandler(day: number, currentMonth: number, todaysYear: number) {
-    let date = day + '/' + currentMonth + '/' + todaysYear;
-    this.selectedDay = day;
+  selectDateEventHandler(selectedDay: number, currentMonth: number, todaysYear: number) {
+    let date = currentMonth + '/' + selectedDay + '/' + todaysYear;
+    this.selectedDay = selectedDay;
     this.scheduledCallDate = date;
     this.status.scheduled = true;
   }

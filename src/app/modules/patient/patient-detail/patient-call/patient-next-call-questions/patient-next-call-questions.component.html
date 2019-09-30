@@ -1,10 +1,13 @@
+<!-- Need to make the actual form stuff here -->
 <form>
   <ion-list lines="none">
-    <ion-item>
-      <i class="icon-info"></i>
-      <ion-label position="stacked">Question for next follow-up</ion-label>
+    <ion-item *ngFor="let patientCallQuestion of patientCallQuestions">
+      <ion-label position="stacked"> <i class="icon-info"></i> Question for next follow-up </ion-label>
       <ion-textarea placeholder="Enter your question"> </ion-textarea>
-      <span class="highlight-controls"></span>
+      <span
+        (click)="highlightCallQuestion(patientCallQuestion.patietnCallQuestionId)"
+        class="highlight-controls"
+      ></span>
     </ion-item>
   </ion-list>
 </form>

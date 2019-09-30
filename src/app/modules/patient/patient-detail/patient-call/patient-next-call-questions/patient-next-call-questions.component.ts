@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { PatientCallService, PatientCall } from '../patient-call.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-patient-next-call-questions',
@@ -6,7 +9,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./patient-next-call-questions.component.scss']
 })
 export class PatientNextCallQuestionsComponent implements OnInit {
-  constructor() {}
+  nextQuestionsForm: FormGroup;
+  constructor(private fb: FormBuilder) {}
+  patientCallQuestions: PatientCall[];
+  patientCallQuestions$: Observable<PatientCall[]>;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.createForm();
+  }
+  createForm() {
+    this.nextQuestionsForm = this.fb.group({
+      'call-question-0': this.fb.control({})
+    });
+  }
+  highlightCallQuestion(patientCallQuestionId: number) {
+    alert('highlighting ' + patientCallQuestionId);
+    debugger;
+  }
 }

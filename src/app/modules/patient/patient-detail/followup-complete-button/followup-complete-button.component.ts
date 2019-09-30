@@ -19,7 +19,7 @@ export class FollowupCompleteButtonComponent implements OnInit {
     const modal = await this.modalCtrl.create({
       component: FollowupCompleteModalComponent,
       componentProps: {
-        patient: patient
+        patient: this.patient
       }
     });
     return await modal.present();

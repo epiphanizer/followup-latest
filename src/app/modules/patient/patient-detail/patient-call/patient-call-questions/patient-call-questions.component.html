@@ -8,47 +8,49 @@
 <div class="call-question-icon">
   <i class="icon-question-mark"></i>
 </div>
-<ion-list lines="none" class="patient-call-question-list">
-  <ion-item *ngFor="let question of questions$ | async">
-    <div class="call-question-body-container">
-      <div class="call-question">
-        <ng-container *ngIf="question.patientQuestionTypeLabel == 'rating'">
-          {{ question.patientCallQuestion }}
-          <ion-list class="rating" lines="none">
-            <ion-radio-group>
-              <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-                <ion-radio value="rating"> </ion-radio>
-                <ion-label position="stacked">
-                  {{ rating }}
-                </ion-label>
-              </ion-item>
-            </ion-radio-group>
-          </ion-list>
-        </ng-container>
-        <ng-container *ngIf="question.patientQuestionTypeLabel == 'boolean'">
-          {{ question.patientCallQuestion }}
-          <ion-list lines="none">
-            <ion-radio-group>
-              <ion-item class="boolean">
-                <ion-radio class="radio-yes">Y</ion-radio>
-                <ion-label position="stacked">
-                  Yes
-                </ion-label>
-              </ion-item>
-              <ion-item class="boolean">
-                <ion-radio class="radio-no">N</ion-radio>
-                <ion-label position="stacked">
-                  No
-                </ion-label>
-              </ion-item>
-            </ion-radio-group>
-          </ion-list>
-        </ng-container>
-        <ng-container *ngIf="question.patientQuestionTypeLabel == 'textarea'">
-          {{ question.patientCallQuestion }}
-          <ion-textarea> </ion-textarea>
-        </ng-container>
+<form formGroup="patientCallQuestionsAnswersForm">
+  <ion-list lines="none" class="patient-call-question-list">
+    <ion-item *ngFor="let question of questions$ | async; let idx = index">
+      <div class="call-question-body-container">
+        <div class="call-question">
+          <ng-container *ngIf="question.patientQuestionTypeLabel == 'rating'">
+            {{ question.patientCallQuestion }}
+            <ion-list class="rating" lines="none">
+              <ion-radio-group formControlName="'call-question-'+idx">
+                <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; let idx = index">
+                  <ion-radio value="rating"> </ion-radio>
+                  <ion-label position="stacked">
+                    {{ rating }}
+                  </ion-label>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list>
+          </ng-container>
+          <ng-container *ngIf="question.patientQuestionTypeLabel == 'boolean'">
+            {{ question.patientCallQuestion }}
+            <ion-list lines="none">
+              <ion-radio-group>
+                <ion-item class="boolean">
+                  <ion-radio class="radio-yes">Y</ion-radio>
+                  <ion-label position="stacked">
+                    Yes
+                  </ion-label>
+                </ion-item>
+                <ion-item class="boolean">
+                  <ion-radio class="radio-no">N</ion-radio>
+                  <ion-label position="stacked">
+                    No
+                  </ion-label>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list>
+          </ng-container>
+          <ng-container *ngIf="question.patientQuestionTypeLabel == 'textarea'">
+            {{ question.patientCallQuestion }}
+            <ion-textarea> </ion-textarea>
+          </ng-container>
+        </div>
       </div>
-    </div>
-  </ion-item>
-</ion-list>
+    </ion-item>
+  </ion-list>
+</form>

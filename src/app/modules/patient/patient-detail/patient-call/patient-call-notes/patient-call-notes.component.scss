@@ -3,12 +3,14 @@ form {
     float: right;
     margin-top: 10px;
     height: 35px;
+
     img {
       height: 15px;
       width: auto;
     }
   }
 }
+
 .placeholder {
   height: 227px;
   margin-top: -25px;
@@ -21,6 +23,8 @@ ion-item {
   --padding-end: 0;
   --inner-padding-start: 0;
   --inner-padding-end: 0;
+  max-width: 445px;
+
   ion-label {
     font-family: Avenir;
     font-size: 21px;
@@ -39,9 +43,11 @@ ion-item {
     --padding-end: 0;
     --inner-padding-start: 0;
     --inner-padding-end: 0;
+
     &.highlighting {
       cursor: crosshair;
     }
+
     padding-left: 8px;
     font-size: 14px;
     padding-top: 8px;
