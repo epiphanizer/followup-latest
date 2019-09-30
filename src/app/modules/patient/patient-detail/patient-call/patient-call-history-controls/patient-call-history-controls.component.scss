@@ -17,11 +17,15 @@ i.icon-phone-icon {
 }
 
 li {
-  background-color: #13afe9;
-  color: white;
+  background: url("/assets/call-history-legend-icon@2x.png");
+  color: #13afe9;
   text-align: center;
   line-height: 22px;
   width: 22px;
   height: 22px;
   display: block;
+  &.active {
+    background: url("/assets/call-history-legend-icon-active@2x.png");
+    color: white;
+  }
 }

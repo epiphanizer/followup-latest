@@ -7,9 +7,9 @@
     <ion-item
       *ngFor="let patientCall of patientCalls; let idx = index"
       [class.active]="clicked == idx + 1"
-      (click)="scrollToPatientCall(idx + 1)"
+      (click)="scrollToPatientCall(patientCall)"
     >
-      {{ idx + 1 }}
+      {{ patientCall.patientCallCount }}
     </ion-item>
   </ion-list>
 </ng-container>
