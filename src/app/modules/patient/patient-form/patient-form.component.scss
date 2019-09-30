@@ -12,6 +12,7 @@ ion-content {
   max-width: 565px;
   margin-top: 79px;
 }
+
 .avatar-col {
   margin-top: 72px;
   width: 220px;
@@ -21,15 +22,18 @@ ion-content {
   img {
     cursor: pointer;
   }
+
   ion-button {
     margin-left: 40px;
     margin-top: 20px;
     clear: both;
   }
 }
+
 .avatar-container {
   width: 100%;
 }
+
 ion-title {
   font-family: AvenirNextLTPro;
   font-size: 38px;
@@ -84,16 +88,18 @@ form {
     }
 
     &.patient-first-name {
-      width: 180px;
-      margin-left: 20px;
+      width: 160px;
+      margin-left: 10px;
+      margin-right: 10px;
     }
 
     &.patient-middle-name {
-      width: 130px;
+      width: 140px;
+      margin-right: 10px;
     }
 
     &.patient-last-name {
-      width: 180px;
+      width: 160px;
     }
 
     &.patient-medical-record-number {
@@ -188,10 +194,12 @@ form {
   .section-header {
     margin-top: 14px;
     overflow: hidden;
+
     &.contacts {
       padding-bottom: 2px;
       border-bottom: 1px solid #e0e0e0;
     }
+
     span {
       font-family: Avenir;
       font-size: 19px;
@@ -215,7 +223,9 @@ form {
 
   fieldset.patient-contacts {
     border: none;
-
+    ion-list {
+      padding-left: 12px;
+    }
     .section-header {
       span {
         margin-left: 0px;
@@ -276,6 +286,7 @@ form {
 
         &.responsible-party {
           vertical-align: bottom;
+
           ion-label {
             font-family: Avenir;
             font-size: 13px;
@@ -300,15 +311,18 @@ form {
 
   fieldset.patient-discharge {
     border: none;
+
     ion-datetime {
       background-color: #c5c5c5;
       border: solid 1px var(--brownish-grey-15);
       background-color: #f5f5f5;
     }
+
     .discharged-label {
       margin-top: 2rem;
       font-size: 17px;
     }
+
     ion-item {
       &.discharge-admit-date,
       &.discharge-discharge-date {
@@ -326,14 +340,17 @@ form {
         margin-left: 18px;
       }
     }
+
     .patient-discharge-dates-container {
       margin-bottom: 3rem;
     }
+
     .discharged-ama {
       ion-radio-group {
         ion-item {
           display: inline-block;
         }
+
         ion-label {
           font-size: 16px;
           line-height: 31px;
@@ -341,12 +358,14 @@ form {
           display: inline-block;
           margin-right: 1.5rem;
         }
+
         ion-radio {
           display: inline-block;
           margin-right: 8px;
         }
       }
     }
+
     .discharge-to-location {
       margin-top: 1.5rem;
     }
@@ -468,6 +487,7 @@ form {
   .physician-info {
     ion-list.physician-info-list {
       margin: 0;
+      margin-top: -25px;
     }
 
     ion-item {
@@ -478,7 +498,7 @@ form {
       display: inline-block;
 
       &.first-name {
-        width: 48%;
+        width: 46%;
         margin-right: 2%;
       }
 
@@ -506,9 +526,11 @@ form {
     ion-list {
       margin-left: 0;
     }
+
     i {
       margin-left: -27px;
     }
+
     .primary-insurance {
       margin-left: 38px;
     }
@@ -522,21 +544,18 @@ form {
   }
 }
 
-.urgency-rating-list {
-  display: inline-flex;
-}
-
 .urgency-rating {
   margin-left: 11px;
 
-  ion-radio {
+  ion-item {
     display: inline-block;
+
+    ion-radio {
+      display: inline-block;
+    }
   }
 }
-.need-to-know {
-  margin-left: 11px;
-}
 
-.sc-ion-picker-md-h {
-  top: 5vh !important;
+.need-to-know {
+  margin-left: 10px;
 }
