@@ -18,6 +18,7 @@ export class FollowupCompleteButtonComponent implements OnInit {
   async createFollowupCompleteModal(patient: Patient) {
     const modal = await this.modalCtrl.create({
       component: FollowupCompleteModalComponent,
+      cssClass: 'followup-modal',
       componentProps: {
         patient: this.patient
       }
