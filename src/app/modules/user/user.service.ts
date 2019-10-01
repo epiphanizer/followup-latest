@@ -59,13 +59,13 @@ export class UserService {
     );
   }
   updateUserLoginTime(userId: number) {
-    return this.http.post('user/' + userId + '/activity', {}).pipe(
+    return this.http.post('users/' + userId + '/activity', {}).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
   updateUserByUserId(userId: number, userPutObject: UserPutObject) {
-    return this.http.put('user/' + userId, userPutObject).pipe(
+    return this.http.put('users/' + userId, userPutObject).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
