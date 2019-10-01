@@ -2,7 +2,11 @@
   list-style-type: none;
   padding-left: 0;
   margin-bottom: 29px;
-
+  .current-call-status {
+    font-family: AvenirBold;
+    font-weight: 11px;
+    font-style: italic;
+  }
   ion-radio,
   ion-label {
     display: inline-block;

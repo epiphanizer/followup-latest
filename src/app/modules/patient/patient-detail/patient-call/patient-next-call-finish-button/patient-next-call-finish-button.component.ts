@@ -8,7 +8,6 @@ import { PatientCallService, PatientCall } from '../patient-call.service';
 })
 export class PatientNextCallFinishButtonComponent implements OnInit {
   @Input() patientCall: PatientCall;
-  // think on this
   @Input() patientCallStatusLabelId: number;
 
   constructor(private patientCallService: PatientCallService) {}
@@ -16,7 +15,18 @@ export class PatientNextCallFinishButtonComponent implements OnInit {
   ngOnInit() {}
 
   finalizePatientCall(patientCall: PatientCall, patientCallStatusLabelId: number) {
-    alert('finalizing patient call');
-    this.patientCallService.finalizePatientCall(patientCall.patientCallId, patientCallStatusLabelId);
+    debugger;
+    // this.patientCallService.scheduleNewPatientCallByPatientId(
+    //   this.patient.patientId, this.patientCall.patientCallStatusLabelId
+    // ).subscribe((data: any) => {
+    //   console.log(data);
+    //   debugger;
+    // })
+    this.patientCallService
+      .finalizePatientCall(patientCall.patientCallId, this.patientCall.patientCallStatusLabelId)
+      .subscribe((data: any) => {
+        console.log(data);
+        debugger;
+      });
   }
 }

@@ -42,15 +42,8 @@ export class PatientDetailComponent implements OnInit {
     this.patientCall.patientCallStatusLabelId = 4;
     this.patientCall.patientCallStatusLabel = 'In Review';
   }
-  patientCallFinishEventHandler($event: PatientCall) {
-    alert('finishing call');
-    debugger;
+  finishPatientCall($event: PatientCall) {
     this.patientCall = $event;
-    this.patientCallService
-      .finalizePatientCall(this.patientCall.patientCallId, this.patientCall.patientCallStatusLabelId)
-      .subscribe((data: any) => {
-        console.log(data);
-        debugger;
-      });
+    debugger;
   }
 }

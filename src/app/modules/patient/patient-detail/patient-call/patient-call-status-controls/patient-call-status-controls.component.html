@@ -6,7 +6,7 @@
     <div>
       <i
         class="icon-{{ patientCallStatus.patientCallStatusLabel | lowercase }}"
-        [class.active]="patientCall.patientCallStatusLabelId == patientCallStatus.patientCallStatusLabel"
+        [class.active]="patientCall.patientCallStatusLabelId == patientCallStatus.patientCallStatusLabelId"
       ></i>
       <span>{{ patientCallStatus.patientCallStatusLabel }}</span>
     </div>

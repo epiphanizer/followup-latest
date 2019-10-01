@@ -5,11 +5,10 @@
     </ion-item>
     <ion-item
       class="patient-call-history-item"
-      *ngFor="let patientCall of patientCalls; let idx = index"
-      [class.active]="clicked == idx + 1"
+      *ngFor="let patientCall of patientCalls"
+      [class.active]="clicked == patientCall.patientCallCount"
       (click)="scrollToPatientCall(patientCall)"
     >
-      {{ idx + 1 }}
       {{ patientCall.patientCallCount }}
     </ion-item>
   </ion-list>

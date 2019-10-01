@@ -20,7 +20,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   };
   patientCallsFiltered: Array<any>;
   selectedDay: number;
-  selectedDate: string;
+  selectedDate: Date | string;
   selectedMonth: {
     number: string;
     name: string;
@@ -38,6 +38,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
 
   ngOnInit() {
     this.todaysDate = new Date();
+    this.selectedDate = formatDate(this.todaysDate, 'MM/dd/yy', 'en');
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     this.todaysMonth = ('0' + (this.todaysDate.getMonth() + 1)).substring(0, 2);
     this.todaysYear = this.todaysDate.getFullYear();
@@ -93,6 +94,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     ];
     // Subtract one because of the 0 index of the array
     this.selectedDay = this.todaysDateDay;
+
     this.selectedMonth = this.currentMonth = this.months[parseInt(this.todaysMonth) - 1];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
