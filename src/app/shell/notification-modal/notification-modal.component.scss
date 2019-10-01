@@ -71,8 +71,7 @@ h3 {
   line-height: 0.48;
   letter-spacing: normal;
   text-align: right;
-  background-color: #ef4136;
-  color: white;
+  color: #ef4136;
 }
 
 span.label {
@@ -128,12 +127,13 @@ span.label {
 ion-textarea {
   height: 200px;
   width: 489px;
-  max-width: 300px;
   margin: 0 auto;
   background-color: #f5f5f5;
   margin-top: 0.25rem;
 }
-
+.review-textarea {
+  max-width: 300px;
+}
 span.helper-text {
   margin-top: 2rem;
   float: left;

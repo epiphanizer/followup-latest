@@ -57,10 +57,10 @@
     <ion-col class="right-col">
       <ion-list class="review-notification-list" lines="none" inset>
         <ion-item>
-          <span class="label">Patient:&nbsp;</span> {{ patient.patientFirstName }}
-          {{ patient.patientLastName }}
+          <span class="label">Patient:&nbsp;</span> {{ patient?.patientFirstName }}
+          {{ patient?.patientLastName }}
         </ion-item>
-        <ion-item> <span class="label">Facility:&nbsp;</span> {{ patient.patientOperationName }} </ion-item>
+        <ion-item> <span class="label">Facility:&nbsp;</span> {{ patient?.patientOperationName }} </ion-item>
         <ion-item> <span class="label">Date Received:&nbsp;</span> {{ todaysDate }} </ion-item>
         <ion-item *ngIf="notification.notificationRecipients">
           <span class="label">Next Steps:&nbsp;</span>
@@ -71,7 +71,7 @@
         </ion-item>
         <ion-item>
           <span class="label">Message:&nbsp;</span>
-          <ion-textarea disabled>
+          <ion-textarea class="review-textarea" disabled>
             {{ notification.notificationMessage }}
           </ion-textarea>
         </ion-item>

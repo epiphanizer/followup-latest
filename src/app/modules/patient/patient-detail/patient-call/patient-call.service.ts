@@ -21,7 +21,7 @@ export interface PatientCallQuestion {
   patientCallQuestion: string;
 }
 export interface PatientCallQuestionAnswer {
-  patientCallQuestionAnswerId: number;
+  patientCallQuestionAnswerId?: number;
   patientCallQuestionAnswer: string;
 }
 
