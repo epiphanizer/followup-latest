@@ -16,7 +16,7 @@ export class PatientStatusService {
     patientStatusNotes: string
   ): Observable<PatientStatus> {
     return this.http
-      .post<PatientStatus>('patients/' + patientId + '/status', {
+      .post<PatientStatus>('patients/' + patientId + '/statuses', {
         patientStatusLabelId: patientStatusLabelId,
         patientStatusNotes: patientStatusNotes
       })
