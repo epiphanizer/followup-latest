@@ -6,14 +6,17 @@
   font-family: Avenir;
   src: url("assets/fonts/AvenirNextLTPro-Regular.otf") format("opentype");
 }
+
 @font-face {
   font-family: AvenirLight;
   src: url("assets/fonts/AvenirNextLTPro-LightCn.otf") format("opentype");
 }
+
 @font-face {
   font-family: AvenirBold;
   src: url("assets/fonts/AvenirNextLTPro-Bold.otf") format("opentype");
 }
+
 @font-face {
   font-family: AvenirNextLTPro;
   src: url("assets/fonts/AvenirNextLTPro-Thin.otf") format("opentype");
@@ -35,3 +38,24 @@ ion-item.item-wp.item-input.ng-invalid.ng-touched:not(.input-has-focus) .text-in
 }
 
 $item-md-padding-end: 0;
+
+.followup-modal {
+  position: absolute;
+  z-index: 20000;
+  height: 510px;
+  width: 600px;
+
+  ion-backdrop {
+    visibility: visible !important;
+  }
+
+  .modal-wrapper {
+    border-radius: 10px 10px 0px 0px;
+    overflow: hidden;
+    top: 50%;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 50%;
+  }
+}

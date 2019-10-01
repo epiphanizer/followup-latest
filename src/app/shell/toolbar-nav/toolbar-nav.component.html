@@ -2,7 +2,7 @@
   <ion-list lines="none">
     <ion-item *ngFor="let link of navLinks">
       <ng-container *ngIf="link.linkType == 'link'; else linkButton">
-        <a routerLink="{{ link.linkAction }}">
+        <a routerLink="/{{ link.linkAction }}">
           {{ link.linkName }}
         </a>
       </ng-container>

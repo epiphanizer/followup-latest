@@ -30,6 +30,7 @@ export class ToolbarNavComponent implements OnInit {
   async createNotificationModal() {
     const modal = await this.modalController.create({
       component: NotificationModalComponent,
+      // cssClass: 'followup-modal',
       componentProps: {
         modalType: 'Notification',
         notificationTypeLabel: 'Label'
@@ -40,6 +41,7 @@ export class ToolbarNavComponent implements OnInit {
   async createKudosModal() {
     const modal = await this.modalController.create({
       component: KudosModalComponent,
+      cssClass: 'followup-modal',
       componentProps: {
         modalType: 'Kudos',
         notificationTypeLabel: 'Kudos'

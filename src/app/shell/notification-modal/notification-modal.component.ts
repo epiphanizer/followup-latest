@@ -81,6 +81,7 @@ export class NotificationModalComponent {
     this.status.notification.saved = false;
   }
   saveNotification() {
+    debugger;
     this.notification = {
       notificationId: 25,
       notificationTypeId: this.createNotificationForm.controls.notificationTypeId.value,
@@ -93,7 +94,7 @@ export class NotificationModalComponent {
     });
   }
   sendNotification() {
-    alert('sending notification');
+    debugger;
     this.notificationService
       .sendNotificationByNotificationId(this.notification.notificationId)
       .subscribe((data: any) => {
