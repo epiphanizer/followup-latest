@@ -26,6 +26,10 @@ export class UserProfileComponent implements OnInit {
     this.userService.updateUserByUserId(this.user.id, formSubmission);
   }
 
+  /**
+   * Package into a factory as we do on our forms
+   */
+
   private createForm() {
     this.userProfileForm = this.formBuilder.group({
       userFirstName: [this.user.displayName, [Validators.required]],
