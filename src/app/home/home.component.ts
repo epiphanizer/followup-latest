@@ -25,6 +25,10 @@ export class HomeComponent implements OnInit {
       avatarImage = this.user.avatar;
     }
 
+    var callQueueEnabledFlag = true;
+    if (this.user.operations.length == 0) {
+      var callQueueEnabledFlag = false;
+    }
     switch (userLevel) {
       case 1:
         this.menu = [
@@ -66,13 +70,13 @@ export class HomeComponent implements OnInit {
             name: 'Patients',
             action: 'patient/add',
             image: '/assets/icon-patients@2x.png',
-            enabled: true
+            enabled: callQueueEnabledFlag
           },
           {
             name: 'Notifications',
             action: 'notifications',
             image: '/assets/icon-manager-notifications@2x.png',
-            enabled: true
+            enabled: callQueueEnabledFlag
           },
           {
             name: 'My Profile',
@@ -83,10 +87,6 @@ export class HomeComponent implements OnInit {
         ];
         break;
       case 3:
-        var callQueueEnabledFlag = true;
-        if (this.user.operations.length == 0) {
-          var callQueueEnabledFlag = false;
-        }
         this.menu = [
           {
             name: 'Call Queue',
