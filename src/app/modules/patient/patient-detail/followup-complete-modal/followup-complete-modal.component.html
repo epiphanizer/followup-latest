@@ -9,7 +9,9 @@
         <ion-col width-50>
           <ion-list class="graduation-options" lines="none">
             <ion-item *ngFor="let patientStatus of completionTypesListLeft">
-              <ion-radio formControlName="patientStatusLabelId" value="patientStatus.patientStatusLabelId"> </ion-radio>
+              <ion-radio value="{{ patientStatus.patientStatusLabelId }}">
+                {{ patientStatus.patientStatusLabelId }}
+              </ion-radio>
               <ion-label class="patient-status-label">
                 {{ patientStatus.patientStatusLabel }}
               </ion-label>
@@ -19,7 +21,7 @@
         <ion-col width-50>
           <ion-list class="graduation-options" lines="none">
             <ion-item *ngFor="let patientStatus of completionTypesListRight">
-              <ion-radio formControlName="patientStatusLabelId" value="patientStatus.patientStatusLabelId"> </ion-radio>
+              <ion-radio value="{{ patientStatus.patientStatusLabelId }}"></ion-radio>
               <ion-label class="patient-status-label">
                 {{ patientStatus.patientStatusLabel }}
               </ion-label>

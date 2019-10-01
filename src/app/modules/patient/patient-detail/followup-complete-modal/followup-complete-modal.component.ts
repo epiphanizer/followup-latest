@@ -45,12 +45,9 @@ export class FollowupCompleteModalComponent implements OnInit {
     var formSubmission = this.followupCompleteForm.getRawValue();
     var patientStatusLabelId = formSubmission.patientStatusLabelId;
     var patientStatusNotes = formSubmission.completionNotes;
-    debugger;
     this.patientStatusService
       .addNewPatientStatusByPatientId(patient.patientId, patientStatusLabelId, patientStatusNotes)
       .subscribe((data: any) => {
-        console.log(data);
-        debugger;
         this.dismiss();
         window.location.href = '/call-queue';
       });

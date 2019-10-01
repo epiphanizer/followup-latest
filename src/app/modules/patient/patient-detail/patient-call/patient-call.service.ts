@@ -96,7 +96,9 @@ export class PatientCallService {
   public scheduleNewPatientCallByPatientId(patientId: number, patientCallStatusLabelId: number) {
     return this.http
       .post('patients/' + patientId + '/calls/schedule', {
-        patientCallStatusLabelId: patientCallStatusLabelId
+        body: {
+          patientCallStatusLabelId: patientCallStatusLabelId
+        }
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times

@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientCall, PatientCallService } from '../patient-detail/patient-call/patient-call.service';
-import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/user';
-import { Operation, OperationService } from '@app/modules/operation/operation.service';
+import { Operation } from '@app/modules/operation/operation.service';
 import { IonTextarea } from '@ionic/angular';
 
 @Component({
@@ -44,10 +43,14 @@ export class PatientDetailComponent implements OnInit {
     this.patientCall.patientCallStatusLabel = 'In Review';
   }
   patientCallFinishEventHandler($event: PatientCall) {
+    alert('finishing call');
+    debugger;
     this.patientCall = $event;
-    this.patientCallService.finalizePatientCall(
-      this.patientCall.patientCallId,
-      this.patientCall.patientCallStatusLabelId
-    );
+    this.patientCallService
+      .finalizePatientCall(this.patientCall.patientCallId, this.patientCall.patientCallStatusLabelId)
+      .subscribe((data: any) => {
+        console.log(data);
+        debugger;
+      });
   }
 }
