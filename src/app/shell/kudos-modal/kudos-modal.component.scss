@@ -43,13 +43,15 @@ img.kudos-stars {
   margin-right: 33px;
 }
 h3 {
-  font-family: AvenirBold;
-  font-size: 13px;
+  font-family: Avenir;
+  font-size: 25px;
+  font-weight: 900;
   font-style: normal;
   font-stretch: normal;
-  line-height: 0.86;
-  letter-spacing: 1.2px;
-  color: var(--ion-color-primary);
+  line-height: 0.48;
+  letter-spacing: normal;
+  text-align: right;
+  color: var(--azure);
 }
 
 span.label {
