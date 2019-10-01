@@ -97,7 +97,9 @@ span.label {
   margin: 0;
   margin-left: 5px;
 }
-
+ion-item {
+  max-width: 300px;
+}
 ion-textarea {
   min-height: 150px;
   width: 489px;

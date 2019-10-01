@@ -2,9 +2,9 @@
   <ion-content>
     <ion-row>
       <ion-col class="left-hand-detail">
-        <span class="current-call-status">
-          {{ patientCall.patientCallStatusLabel }}
-        </span>
+        <!-- <span class="current-call-status">
+         {{ patientCall.patientCallStatusLabelId }}: {{ patientCall.patientCallStatusLabel }}
+        </span> -->
         <app-patient-call-status-controls
           *ngIf="patientCall.patientCallStatusLabel == 'In Review'"
           [patientCall]="patientCall"
@@ -12,7 +12,7 @@
         </app-patient-call-status-controls>
         <!-- Bears some documentation: this will be hidden if we have advanced past ID 2, which is the "started" state -->
         <app-patient-call-start-button
-          *ngIf="patientCall.patientCallStatusLabelId < 5"
+          *ngIf="patientCall.patientCallStatusLabelId < 3"
           [user]="user"
           [patientCall]="patientCall"
           (patientCallStartEventEmitter)="patientCallStartEventHandler($event)"

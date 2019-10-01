@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { PatientCallService, PatientCall } from '../patient-call.service';
 import { Observable } from 'rxjs';
+import { PatientCallQuestion } from '../patient-call-questions/patient-call-questions.service';
 
 @Component({
   selector: 'app-patient-next-call-questions',
@@ -11,10 +12,13 @@ import { Observable } from 'rxjs';
 export class PatientNextCallQuestionsComponent implements OnInit {
   patientNextCallQuestionsForm: FormGroup;
   constructor(private fb: FormBuilder) {}
-  patientCallQuestions: PatientCall[];
-  patientCallQuestions$: Observable<PatientCall[]>;
+  patientCallQuestions: PatientCallQuestion[] = [];
+  patientCallQuestions$: Observable<PatientCallQuestion[]>;
 
   ngOnInit() {
+    this.patientCallQuestions.push(<PatientCallQuestion>{
+      patientCallQuestion: 'What is your next question?'
+    });
     this.createForm();
   }
   createForm() {
@@ -23,7 +27,9 @@ export class PatientNextCallQuestionsComponent implements OnInit {
     });
   }
   addNextCallQuestion() {
-    // this.patientCallQuestions.push()
+    this.patientCallQuestions.push(<PatientCallQuestion>{
+      patientCallQuestion: 'What is your next question?'
+    });
   }
   highlightCallQuestion(patientCallQuestionId: number) {
     alert('highlighting patient call question:' + patientCallQuestionId);
