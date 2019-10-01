@@ -13,6 +13,7 @@ import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/pa
   styleUrls: ['./kudos-modal.component.scss']
 })
 export class KudosModalComponent {
+  kudosValue: number = 7;
   createNotificationForm!: FormGroup;
   @Input() notificationRecipients: NotificationRecipients;
   @Input() patient: Patient;
@@ -49,8 +50,6 @@ export class KudosModalComponent {
   ) {}
 
   ngOnInit() {
-    this.notification.notificationPatientFirstName = this.patient.patientFirstName;
-    this.notification.notificationPatientLastName = this.patient.patientLastName;
     this.notificationService.getNotificationTypes().subscribe((data: any) => {
       this.notificationTypes = data;
       var i;
@@ -65,6 +64,10 @@ export class KudosModalComponent {
       this.createForm();
     });
   }
+  ngAfterViewInit() {
+    this.notification.notificationPatientFirstName = this.patient.patientFirstName;
+    this.notification.notificationPatientLastName = this.patient.patientLastName;
+  }
   createForm() {
     // this.notificationService.createNotification();
     this.createNotificationForm = this.fb.group({
@@ -77,24 +80,23 @@ export class KudosModalComponent {
   }
   saveNotification() {
     this.notification = {
-      // stub
-      notificationId: 25,
-      notificationTypeId: this.createNotificationForm.controls.notificationTypeId.value,
+      notificationTypeId: this.kudosValue,
       notificationMessage: this.createNotificationForm.controls.notificationMessage.value
-      // notificationCallNotes: this.patientCall.patientCallNotes;
     };
     this.status.notification.saved = true;
+    debugger;
     // this.notificationService.saveNotificationByPatientId(this.patient.patientId);
     // We will want to subscribe here
   }
   sendNotification() {
-    alert('sending notification');
-    this.notificationService.sendNotificationByNotificationId(this.notification.notificationId);
-    this.dismiss();
+    this.notificationService
+      .sendNotificationByNotificationId(this.notification.notificationId)
+      .subscribe((data: any) => {
+        console.log(data);
+        this.dismiss();
+      });
   }
   dismiss() {
-    // using the injected ModalController this page
-    // can "dismiss" itself and optionally pass back data
     this.modalCtrl.dismiss({
       dismissed: true
     });

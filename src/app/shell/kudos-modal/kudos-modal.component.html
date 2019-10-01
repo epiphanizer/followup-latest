@@ -3,9 +3,9 @@
 </div>
 <ion-row>
   <ion-title class="ion-float-left">Notification</ion-title>
-  <span class="ion-float-right">
+  <h3 class="notification-title ion-float-right">
     Kudos
-  </span>
+  </h3>
   <img class="kudos-stars ion-float-right" src="/assets/icon-notify-kudo@2x.png" alt="" />
 </ion-row>
 <ion-row>
@@ -17,7 +17,7 @@
       </div>
     </div>
   </ion-col>
-  <ion-col>
+  <ion-col class="right-col">
     <ion-list class="review-notification-list" lines="none" inset>
       <ion-item>
         <span class="label">Patient:&nbsp;</span>
@@ -30,7 +30,7 @@
       </ion-item>
       <ion-item>
         <span class="label">Message:&nbsp;</span>
-        <ion-textarea>{{ notification.notificationMessage }}</ion-textarea>
+        <ion-textarea formControlName="notificationMessage">{{ notification.notificationMessage }}</ion-textarea>
       </ion-item>
     </ion-list>
   </ion-col>

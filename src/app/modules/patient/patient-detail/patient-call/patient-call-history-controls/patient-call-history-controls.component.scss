@@ -15,9 +15,10 @@ i.icon-phone-icon {
   background-position: center center;
   background-size: 100%;
 }
-
-li {
+.patient-call-history-item {
   background: url("/assets/call-history-legend-icon@2x.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
   color: #13afe9;
   text-align: center;
   line-height: 22px;

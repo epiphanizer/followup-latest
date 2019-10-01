@@ -13,7 +13,7 @@ export interface Notification {
 export interface NotificationTypes {
   notificationTypeId: number;
   notificationTypesLabel: number;
-  notificationIconImage: string;
+  notificationIconImage?: string;
 }
 export interface NotificationRecipients {
   notificationRecipientId: number;
