@@ -107,10 +107,11 @@ export class PatientFormComponent implements OnInit {
       patientDischargeLocationLabelId: formSubmission.dischargeInfo.patientDischargedTo,
       patientPrimaryDiagnosis: formSubmission.patientMedicalConditions.primaryDiagnosis,
       // patientDiagnosis: {},
+      patientQuestionAnswers: formSubmission.patientQuestionAnswers,
       patientUrgencyScale: formSubmission.patientUrgencyScale,
-      patientNeedToKnow: formSubmission.patientNeedToKnow,
-      patientQuestionAnswers: formSubmission.patientQuestionAnswers
+      patientNeedToKnow: formSubmission.patientNeedToKnow
     };
+    debugger;
 
     return <PatientPutBody>payload;
   }
@@ -179,9 +180,7 @@ export class PatientFormComponent implements OnInit {
           primaryDiagnosis: this.fb.control(''),
           dischargedCondition: this.fb.control('')
         }),
-        patientQuestionAnswers: this.fb.group({
-          // These are dynamically set thru fn. setPatientQuestionAnswers()
-        }),
+        patientQuestionAnswers: this.fb.group({}),
         patientUrgencyRating: this.fb.control(''),
         patientNeedToKnow: this.fb.control('')
       })
