@@ -552,6 +552,13 @@ form {
 
     ion-radio {
       display: inline-block;
+      margin-right: 4px;
+    }
+    ion-label {
+      font-family: Avenir;
+      font-size: 14px;
+      margin-top: -12px;
+      margin-right: 0;
     }
   }
 }

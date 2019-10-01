@@ -92,6 +92,17 @@ export class PatientCallService {
       );
   }
 
+  // Needs accompanying swagger
+  public scheduleNewPatientCallByPatientId(patientId: number, patientCallStatusLabelId: number) {
+    return this.http
+      .post('patients/' + patientId + '/calls/schedule', {
+        patientCallStatusLabelId: patientCallStatusLabelId
+      })
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
+  }
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
