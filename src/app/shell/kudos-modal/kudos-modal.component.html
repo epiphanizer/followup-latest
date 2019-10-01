@@ -18,21 +18,25 @@
     </div>
   </ion-col>
   <ion-col class="right-col">
-    <ion-list class="review-notification-list" lines="none" inset>
-      <ion-item>
-        <span class="label">Patient:&nbsp;</span>
-        {{ patient.patientFirstName }} {{ patient.patientLastName }}
-      </ion-item>
-      <ion-item> <span class="label">Facility:&nbsp;</span> {{ patient.patientOperationName }} </ion-item>
-      <ion-item>
-        <span class="label">Date Received:&nbsp;</span>
-        {{ todaysDate }}
-      </ion-item>
-      <ion-item>
-        <span class="label">Message:&nbsp;</span>
-        <ion-textarea formControlName="notificationMessage">{{ notification.notificationMessage }}</ion-textarea>
-      </ion-item>
-    </ion-list>
+    <form formGroupName="createNotificationForm">
+      <ion-list class="review-notification-list" lines="none" inset>
+        <ion-item>
+          <span class="label">Patient:&nbsp;</span>
+          {{ patient.patientFirstName }} {{ patient.patientLastName }}
+        </ion-item>
+        <ion-item> <span class="label">Facility:&nbsp;</span> {{ patient.patientOperationName }} </ion-item>
+        <ion-item>
+          <span class="label">Date Received:&nbsp;</span>
+          {{ todaysDate }}
+        </ion-item>
+        <ion-item>
+          <span class="label">Message:&nbsp;</span>
+          <ion-textarea formControlName="notificationMessage">
+            {{ notification.notificationMessage }}
+          </ion-textarea>
+        </ion-item>
+      </ion-list>
+    </form>
   </ion-col>
 </ion-row>
 <ion-row>

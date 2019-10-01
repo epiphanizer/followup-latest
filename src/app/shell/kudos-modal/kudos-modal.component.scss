@@ -38,8 +38,8 @@ img.kudos-stars {
   max-width: 120px;
   margin-top: 50px;
   position: absolute;
-  right: 20px;
-  top: 15px;
+  right: 5px;
+  top: 35px;
   margin-right: 33px;
 }
 h3 {
@@ -49,9 +49,9 @@ h3 {
   font-style: normal;
   font-stretch: normal;
   line-height: 0.48;
-  letter-spacing: normal;
-  text-align: right;
-  color: var(--azure);
+  color: var(--ion-color-primary);
+  margin-top: 48px;
+  margin-right: 38px;
 }
 
 span.label {
@@ -84,10 +84,6 @@ span.label {
     color: var(--ion-color-primary);
   }
 
-  .review-notification-list {
-    margin: 0;
-  }
-
   .caption {
     font-family: AvenirBold;
     font-size: 42px;
@@ -97,13 +93,13 @@ span.label {
     text-align: center;
   }
 }
-
-.notification-options {
-  height: auto;
+.review-notification-list {
+  margin: 0;
+  margin-left: 5px;
 }
 
 ion-textarea {
-  min-height: 200px;
+  min-height: 150px;
   width: 489px;
   margin: 0 auto;
   background-color: #f5f5f5;
@@ -116,6 +112,13 @@ ion-textarea {
   margin-right: 40px;
 }
 
+.send-container {
+  float: right;
+  width: 100%;
+  height: auto;
+  min-height: 60px;
+  display: block;
+}
 .send-button {
   float: right;
   margin-top: 20px;

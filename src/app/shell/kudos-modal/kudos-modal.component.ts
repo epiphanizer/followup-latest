@@ -67,28 +67,15 @@ export class KudosModalComponent {
   ngAfterViewInit() {
     this.notification.notificationPatientFirstName = this.patient.patientFirstName;
     this.notification.notificationPatientLastName = this.patient.patientLastName;
+    this.notification.notificationOperationName = this.patient.patientOperationName;
   }
   createForm() {
-    // this.notificationService.createNotification();
     this.createNotificationForm = this.fb.group({
-      notificationTypeId: this.fb.control(''),
       notificationMessage: this.fb.control('')
     });
   }
-  editNotification() {
-    this.status.notification.saved = false;
-  }
-  saveNotification() {
-    this.notification = {
-      notificationTypeId: this.kudosValue,
-      notificationMessage: this.createNotificationForm.controls.notificationMessage.value
-    };
-    this.status.notification.saved = true;
-    debugger;
-    // this.notificationService.saveNotificationByPatientId(this.patient.patientId);
-    // We will want to subscribe here
-  }
   sendNotification() {
+    debugger;
     this.notificationService
       .sendNotificationByNotificationId(this.notification.notificationId)
       .subscribe((data: any) => {
