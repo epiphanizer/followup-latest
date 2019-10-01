@@ -14,7 +14,7 @@ export class UserProfileComponent implements OnInit {
   user: User;
   userProfileForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private userService: UserService) {}
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
@@ -31,10 +31,10 @@ export class UserProfileComponent implements OnInit {
    */
 
   private createForm() {
-    this.userProfileForm = this.formBuilder.group({
-      userFirstName: [this.user.displayName, [Validators.required]],
-      userMiddleName: [this.user.userMiddleName, [Validators.required]],
-      userLastName: [this.user.userLastName, [Validators.required]],
+    this.userProfileForm = this.fb.group({
+      userFirstName: this.fb.control(this.user.userFirstName, [Validators.required]),
+      userMiddleName: this.fb.control(this.user.userMiddleName, [Validators.required]),
+      userLastName: this.fb.control(this.user.userLastName, [Validators.required]),
       userEmail: [{ value: this.user.email, disabled: true }, [Validators.required, Validators.email]],
       userPhoneCountryCode: [this.user.userPhoneCountryCode, [Validators.required]],
       userPhoneAreaCode: [this.user.userPhoneAreaCode, [Validators.required]],
@@ -43,7 +43,21 @@ export class UserProfileComponent implements OnInit {
       userConfirmPassword: [{ disabled: true }],
       userDob: [this.user.userDob, [Validators.required]],
       userFavoriteDessert: [''],
-      userAdditionalInfo: []
+      userInterests: this.fb.group({
+        celebrity: this.fb.control({}),
+        helicopter: this.fb.control({}),
+        kidney: this.fb.control({}),
+        'skydived-bungeed': this.fb.control({}),
+        'appeared-on-tv': this.fb.control({}),
+        'jane-austen': this.fb.control({}),
+        escargo: this.fb.control({}),
+        deployed: this.fb.control({}),
+        instrument: this.fb.control({}),
+        'seen-tornado': this.fb.control({}),
+        hitchiked: this.fb.control({}),
+        'd-d': this.fb.control({})
+      }),
+      userAdditionalInfo: this.fb.control({})
     });
   }
   uploadUserAvatarPhoto() {
