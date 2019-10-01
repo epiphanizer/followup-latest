@@ -17,6 +17,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     name: string;
   };
   selectedDay: number;
+  selectedDate: string;
   selectedMonth: {
     number: string;
     name: string;
@@ -106,8 +107,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentMonth.number), this.todaysYear);
   }
   selectDateEventHandler(day: number, currentMonth: number, todaysYear: number) {
-    let date = day + '/' + currentMonth + '/' + todaysYear;
+    this.selectedDate = currentMonth + '/' + day + '/' + todaysYear;
     this.selectedDay = day;
-    // Should pop the selected date up to the patient filter's input really
   }
 }
