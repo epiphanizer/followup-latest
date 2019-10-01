@@ -16,7 +16,7 @@ export class PatientCallHistoryControlsComponent implements OnInit {
   ngOnInit() {
     this.patient.patientCalls$.subscribe((data: PatientCall[]) => {
       this.patientCalls = data;
-      this.clicked = this.patientCalls[data.length].patientCallNumber;
+      // this.clicked = this.patientCalls[data.length].patientCallNumber;
       return data;
     });
   }
