@@ -49,11 +49,12 @@ export class PatientFormComponent implements OnInit {
         })
       );
     } else {
-      this.patient$ = this.patientService.getPatientByPatientId(this.patient.patientId);
+      this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: any) => {
+        console.log(data);
+      });
       this.createForm();
 
       var patientFormControls = this.patientForm.get('patient') as FormGroup;
-      debugger;
       patientFormControls.controls.patientFirstName.setValue(this.patient.patientFirstName);
       patientFormControls.controls.patientMiddleName.setValue(this.patient.patientMiddleName);
       patientFormControls.controls.patientLastName.setValue(this.patient.patientLastName);
@@ -69,12 +70,13 @@ export class PatientFormComponent implements OnInit {
 
   onFormSubmit(): void {
     let formSubmission = this.patientForm.getRawValue();
-    // let payload = this.formSubmissionFactory(formSubmission);
-    // console.log(payload);
-    // this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
-    // console.log(value);
-    // return (this.status.submitted = true);
-    // });
+    debugger;
+    let payload = this.formSubmissionFactory(formSubmission);
+    console.log(payload);
+    this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
+      console.log(value);
+      return (this.status.submitted = true);
+    });
     alert('submitting form');
   }
 
@@ -104,7 +106,7 @@ export class PatientFormComponent implements OnInit {
       patientDischargedAma: formSubmission.dischargeInfo.patientDischargedAma,
       patientDischargeLocationLabelId: formSubmission.dischargeInfo.patientDischargedTo,
       patientPrimaryDiagnosis: formSubmission.patientMedicalConditions.primaryDiagnosis,
-      patientDiagnosis: {},
+      // patientDiagnosis: {},
       patientUrgencyScale: formSubmission.patientUrgencyScale,
       patientNeedToKnow: formSubmission.patientNeedToKnow,
       patientQuestionAnswers: formSubmission.patientQuestionAnswers

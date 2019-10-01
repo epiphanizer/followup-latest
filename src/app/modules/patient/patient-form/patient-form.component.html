@@ -247,7 +247,7 @@
                 <ion-label color="medium" position="stacked">Discharged To:</ion-label>
                 <ion-list inset lines="none">
                   <ion-radio-group formControlName="patientDischargedTo">
-                    <ion-item *ngFor="let dischargeLabel of dischargeLabels">
+                    <ion-item *ngFor="let dischargeLabel of dischargeLabels$ | async">
                       <ion-radio value="dischargeLabel.dischargeLabelId"> </ion-radio>
                       <ion-label>
                         {{ dischargeLabel.dischargeLabel }}

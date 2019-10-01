@@ -35,7 +35,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   deactivateUserByUserId(userId: number) {
-    return this.http.delete('user/' + userId).pipe(
+    return this.http.delete('users/' + userId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -54,12 +54,6 @@ export class UserService {
   }
   getAllAdminUsers(): Observable<User[]> {
     return this.http.get<User[]>('users/admins').pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
-  }
-  updateUserLoginTime(userId: number) {
-    return this.http.post('users/' + userId + '/activity', {}).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
