@@ -55,7 +55,7 @@ ul.patient-filters {
         width: 14px;
         height: 9px;
         margin-top: 12px;
-        background-image: url("/assets/icon-down-arrow.png");
+        background-image: url("/assets/icon-down-arrow@2x.png");
         background-size: 100%;
       }
     }
@@ -73,7 +73,7 @@ ul.patient-filters {
     background-position: center center;
 
     &.icon-new-discharges {
-      background-image: url("/assets/icon-new-discharges.png");
+      background-image: url("/assets/icon-new-discharges@2x.png");
     }
   }
 }
@@ -151,7 +151,7 @@ ul.patient-filters {
       height: 75.2px;
       box-shadow: 1.4px 1.4px 1.4px 0 rgba(35, 31, 32, 0.15);
       background-color: #ffffff;
-      background-image: url("/assets/default-patient-avatar.png");
+      background-image: url("/assets/default-patient-avatar@2x.png");
       background-size: cover;
       background-position: center center;
       border-radius: 50%;
@@ -239,13 +239,13 @@ ul.patient-filters {
         background-position: center center;
 
         &.icon-contacted {
-          background-image: url("/assets/icon-contacted.png");
+          background-image: url("/assets/icon-contacted@2x.png");
         }
         &.icon-left-message {
-          background-image: url("/assets/icon-left-message.png");
+          background-image: url("/assets/icon-left-message@2x.png");
         }
         &.icon-no-answer {
-          background-image: url("/assets/icon-no-answer.png");
+          background-image: url("/assets/icon-no-answer@2x.png");
         }
       }
     }
