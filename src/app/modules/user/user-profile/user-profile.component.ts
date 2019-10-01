@@ -18,6 +18,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
+    debugger;
     this.createForm();
   }
   updateUserProfile() {
