@@ -34,7 +34,14 @@ ion-title {
   text-align: left;
   color: #343638;
 }
-
+img.kudos-stars {
+  max-width: 120px;
+  margin-top: 50px;
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  margin-right: 33px;
+}
 .notification-options {
   width: 85%;
   margin: 0 auto;
@@ -79,7 +86,7 @@ span.label {
 }
 
 .sidebar-calendar {
-  width: 86px;
+  width: 120px;
   height: 90px;
   margin: 40px;
 

@@ -85,9 +85,10 @@ span.label {
 }
 
 .sidebar-calendar {
-  width: 86px;
+  width: 120px;
   height: 90px;
-  margin: 40px;
+  margin-left: 40px;
+  margin-top: 20px;
 
   h4 {
     font-family: AvenirBold;
@@ -117,7 +118,7 @@ span.label {
   height: auto;
 }
 
-.notification-textarea {
+ion-textarea {
   height: 200px;
   width: 489px;
   margin: 0 auto;
