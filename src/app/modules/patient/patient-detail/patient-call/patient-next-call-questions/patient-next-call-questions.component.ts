@@ -22,6 +22,9 @@ export class PatientNextCallQuestionsComponent implements OnInit {
       patientCallQuestions: this.fb.group({})
     });
   }
+  addNextCallQuestion() {
+    // this.patientCallQuestions.push()
+  }
   highlightCallQuestion(patientCallQuestionId: number) {
     alert('highlighting patient call question:' + patientCallQuestionId);
     debugger;

@@ -7,8 +7,8 @@ import { throwError } from 'rxjs';
 export interface PatientCall {
   patientCallId: number;
   patientId: number;
-  patientCalledByUserId: number;
-  patientContactNumberId: number;
+  patientCalledByUserId?: number;
+  patientContactNumberId?: number;
   patientCallStartTime: Date;
   patientCallEndTime?: Date;
   patientCallStatusLabelId: number;
