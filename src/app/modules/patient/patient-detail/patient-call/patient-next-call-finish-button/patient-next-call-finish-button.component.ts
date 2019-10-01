@@ -14,7 +14,7 @@ export class PatientNextCallFinishButtonComponent implements OnInit {
 
   ngOnInit() {}
 
-  finalizePatientCall(patientCall: PatientCall, patientCallStatusLabelId: number) {
+  finalizePatientCall(patientCall: PatientCall) {
     debugger;
     // this.patientCallService.scheduleNewPatientCallByPatientId(
     //   this.patient.patientId, this.patientCall.patientCallStatusLabelId
