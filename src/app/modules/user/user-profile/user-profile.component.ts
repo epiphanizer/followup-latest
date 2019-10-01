@@ -44,18 +44,18 @@ export class UserProfileComponent implements OnInit {
       userDob: [this.user.userDob, [Validators.required]],
       userFavoriteDessert: [''],
       userInterests: this.fb.group({
-        celebrity: this.fb.control({}),
-        helicopter: this.fb.control({}),
-        kidney: this.fb.control({}),
-        skydivedOrBungeed: this.fb.control({}),
-        appearedOnTv: this.fb.control({}),
-        janeAusten: this.fb.control({}),
-        escargo: this.fb.control({}),
-        deployed: this.fb.control({}),
-        instrument: this.fb.control({}),
-        seenTornado: this.fb.control({}),
-        hitchiked: this.fb.control({}),
-        DND: this.fb.control({})
+        celebrity: this.fb.control(false),
+        helicopter: this.fb.control(false),
+        kidney: this.fb.control(false),
+        skydivedOrBungeed: this.fb.control(false),
+        appearedOnTv: this.fb.control(false),
+        janeAusten: this.fb.control(false),
+        escargo: this.fb.control(false),
+        deployed: this.fb.control(false),
+        instrument: this.fb.control(false),
+        seenTornado: this.fb.control(false),
+        hitchhiked: this.fb.control(false),
+        DND: this.fb.control(false)
       }),
       userAdditionalInfo: this.fb.control({})
     });
