@@ -124,11 +124,16 @@
               <ion-label class="main-label-box" color="medium" position="stacked"
                 >Anything else you want to share with the team?</ion-label
               >
-              <ion-textarea formControlName="userAdditionalInfo" placeholder="Sharin' is carin'..."></ion-textarea>
+              <ion-textarea
+                formControlName="userAdditionalInfo"
+                placeholder="Cause sharin' is carin'..."
+              ></ion-textarea>
             </ion-item>
           </ion-list>
         </div>
-        <ion-button type="submit">Save</ion-button>
+        <ion-button (click)="updateUserProfile()" type="submit">
+          Save
+        </ion-button>
       </form>
     </ion-col>
     <ion-col class="avatar-col">
