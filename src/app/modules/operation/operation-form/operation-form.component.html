@@ -40,7 +40,7 @@
               <ion-input type="text" formControlName="operationCountryCode"></ion-input>
             </ion-item>
             <ion-item class="area-code">
-              <ion-label color="medium" position="stacked">Area Code</ion-label>
+              <ion-label color="medium" position="stacked">(###)</ion-label>
               <ion-input type="text" formControlName="operationAreaCode"></ion-input>
             </ion-item>
             <ion-item class="phone-number">
@@ -116,6 +116,10 @@
               </ion-item>
               <ion-item class="notification-container">
                 <ion-label position="stacked" color="medium">Notifications</ion-label>
+                <!-- <ion-row>
+                  <ion-col></ion-col>                  
+                  <ion-col></ion-col>
+                </ion-row> -->
                 <ion-list
                   lines="none"
                   class="contact-notification-checkbox-list"
@@ -181,8 +185,12 @@
                 </ion-list>
               </ion-item>
 
-              <ion-item class="ion-float-right" (click)="addAdditionalContact()">
-                [ additional contact ]
+              <ion-item
+                class="additional-contact
+              ion-float-right"
+                (click)="addAdditionalContact()"
+              >
+                [ + additional contact ]
               </ion-item>
             </ion-list>
           </ng-template>
@@ -240,15 +248,18 @@
         </ng-container>
         <ng-template #addCallReps>
           <ion-list lines="none">
-            <ion-item>
+            <ion-item *ngFor="let careRep of operation.operationCallReps">
+              {{ careRep | json }}
               <ion-label position="stacked" color="medium">Care Rep 1 </ion-label>
               <ion-select>
                 <ion-select-option *ngFor="let user of availableUsers$ | async" [value]="user.userId">
                   {{ user.userLastName }}, {{ user.userFirstName }}
                 </ion-select-option>
               </ion-select>
+              <span class="ion-float-right add-call-rep" (click)="addAdditionalCallRep()"
+                >[ + additional call rep ]
+              </span>
             </ion-item>
-            <span class="ion-float-right add-call-rep" (click)="addAdditionalCallRep()">[ + additional call rep ]</span>
           </ion-list>
         </ng-template>
       </fieldset>

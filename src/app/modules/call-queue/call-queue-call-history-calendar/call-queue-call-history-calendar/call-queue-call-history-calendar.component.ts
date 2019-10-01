@@ -18,6 +18,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     number: string;
     name: string;
   };
+  patientCallsFiltered: Array<any>;
   selectedDay: number;
   selectedDate: string;
   selectedMonth: {
@@ -114,5 +115,6 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   }
   searchPatientCallHistory() {
     console.log('searching patient call history');
+    this.patientCallsFiltered = ['Call 1 Mock', 'Call 2 Mock', 'Call 3 Mock'];
   }
 }
