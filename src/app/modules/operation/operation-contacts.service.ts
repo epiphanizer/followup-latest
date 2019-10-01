@@ -2,15 +2,44 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { OperationContact } from './operation-contact/operation-contact';
 
+export interface OperationContactPutBody {
+  operationContactId: number;
+}
+export interface OperationContactPostBody {
+  operationContactFirstName: string;
+  operationContactLastName: string;
+  operationContactEmail: string;
+}
 @Injectable({
   providedIn: 'root'
 })
 export class OperationContactsService {
   constructor(private http: HttpClient) {}
 
+  public addOperationContactByOperationId(
+    operationId: number,
+    payload: OperationContactPostBody
+  ): Observable<OperationContact> {
+    return this.http.post<OperationContact>('operations/' + operationId + '/contacts', payload).pipe(
+      retry(1), // retry a failed request up to 2 total times
+      catchError(error => this.handleAsyncError(error))
+    );
+  }
+  public editOperationContactByOperationContactId(
+    operationId: number,
+    operationContactId: number,
+    payload: OperationContactPutBody
+  ): Observable<OperationContact> {
+    return this.http
+      .post<OperationContact>('operations/' + operationId + '/contacts/' + operationContactId, payload)
+      .pipe(
+        retry(1), // retry a failed request up to 2 total times
+        catchError(error => this.handleAsyncError(error))
+      );
+  }
   public getOperationContactsByOperationId(operationId: number) {
     return this.http.get<OperationContact[]>('operations/' + operationId).pipe(
       retry(1), // retry a failed request up to 2 total times

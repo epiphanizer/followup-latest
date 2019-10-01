@@ -45,7 +45,7 @@
   <ng-container class="patient-filter-results" *ngIf="userPatientCalls$ | async as patientCalls">
     <ion-list lines="none">
       <ion-item *ngFor="let patientCall of patientCalls">
-        <span>Call: {{ patientCall }}</span>
+        <span>Call: {{ patientCall }} - {{ patientCall.patientCallStarted }}</span>
       </ion-item>
     </ion-list>
   </ng-container>

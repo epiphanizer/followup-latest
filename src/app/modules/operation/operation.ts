@@ -7,3 +7,7 @@ export interface OperationPutBody {
   operationContacts: OperationContact[];
   operationCallReps: OperationCallRep[];
 }
+export interface OperationCallRepPostBody {
+  operationId: number;
+  userId: number;
+}

@@ -3,13 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, from, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { OperationService, Operation } from '../operation.service';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 import { OperationCallRepsService, OperationCallRep } from '../operation-callreps.service';
-import { OperationContactsService } from '../operation-contacts.service';
+import { OperationContactsService, OperationContactPostBody } from '../operation-contacts.service';
 import { User, UserService } from '@app/modules/user/user.service';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { OperationResolver } from '../operation-resolver';
-import { OperationPutBody } from '../operation';
+import { OperationPutBody, OperationCallRepPostBody } from '../operation';
 import { OperationContact } from '../operation-contact/operation-contact';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { NotificationTypes } from '@app/modules/notification/notification';
@@ -85,12 +85,14 @@ export class OperationFormComponent implements OnInit {
       operationFormControls.controls.operationCountryCode.setValue(this.operation.operationCountryCode);
       operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
       operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
+
       this.operationContactsService
         .getOperationContactsByOperationId(this.operation.operationId)
         .subscribe((data: OperationContact[]) => {
           this.operationContacts = data;
           return data;
         });
+
       this.operationCallRepsService
         .getOperationCallRepsByOperationId(this.operation.operationId)
         .subscribe((data: OperationCallRep[]) => {
@@ -103,10 +105,14 @@ export class OperationFormComponent implements OnInit {
   }
   addAdditionalCallRep() {
     alert('adding additional call rep');
+    let formArray = this.operationForm.controls.operationCallReps as FormArray;
+    formArray.push(this.fb.control({}));
   }
 
   addAdditionalContact() {
     alert('adding additional contact');
+    let formArray = this.operationForm.controls.operationContacts as FormArray;
+    formArray.push(this.fb.control({}));
   }
   private createForm() {
     this.operationForm = this.fb.group({
@@ -131,11 +137,11 @@ export class OperationFormComponent implements OnInit {
         5: this.fb.control(false),
         6: this.fb.control(false)
       }),
-      operationCallReps: this.fb.group({})
+      operationCallReps: this.fb.array([])
     });
   }
 
-  operationFormFactory(formSubmission: FormData): OperationPutBody {
+  operationPutFactory(formSubmission: any): OperationPutBody {
     try {
       var payload = {};
       debugger;
@@ -147,28 +153,42 @@ export class OperationFormComponent implements OnInit {
       throw 'Had a problem validating data in the operation form factory';
     }
   }
+  operationCallRepPostFactory(formSubmission: any): OperationCallRepPostBody {
+    try {
+      var payload = {
+        operationId: formSubmission.operation.operationId,
+        userId: this.user.id
+      };
+      return <OperationCallRepPostBody>payload;
+    } catch {
+      throw 'Had a problem validating data in the call rep factory';
+    }
+  }
+  operationContactPostFactory(formSubmission: any): OperationContactPostBody {
+    try {
+      debugger;
+      var payload = {
+        operationContactFirstName: formSubmission.operationContactFirstName,
+        operationContactLastName: formSubmission.operationContactLastName,
+        operationContactEmail: formSubmission.operationContactEmail
+      };
+      return <OperationContactPostBody>payload;
+    } catch {
+      throw 'Had a problem validating data in the call rep factory';
+    }
+  }
   onFormSubmit() {
     let formSubmission = this.operationForm.getRawValue();
-    let payload = this.operationFormFactory(formSubmission);
-    console.log(payload);
-    // this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
-    // console.log(value);
-    // return (this.status.submitted = true);
-    // });
-    debugger;
-    // for loop with op call reps
+    let operationCallRepPost = this.operationCallRepPostFactory(formSubmission);
     this.operationCallRepsService.addOperationCallRepByOperationIdAndUserId(
-      formSubmission.operation.operationId,
-      formSubmission.user.userId
+      operationCallRepPost.operationId,
+      operationCallRepPost.userId
     );
-    // for loop with op contacts
-
-    // this.operationContactsService.
-
-    // for loop with notification recipients
-
-    2;
-    // this.notificationRecipientService.addNotificationRecipientByOperationContactId
+    let operationContactPost = this.operationContactPostFactory(formSubmission);
+    this.operationContactsService.addOperationContactByOperationId(
+      formSubmission.operation.operationId,
+      operationContactPost
+    );
   }
   public toggleOperationUserAssignedMenu = function() {
     this.isOpen = !this.isOpen;
