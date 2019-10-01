@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
+import { Observable } from 'rxjs';
+import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 
 @Component({
   selector: 'app-call-queue-call-history-calendar',
@@ -30,7 +32,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   todaysDate: Date;
   todaysMonth: string;
   todaysYear: number;
-
+  userPatientCalls$: Observable<PatientCall[]>;
   constructor() {}
 
   ngOnInit() {
@@ -109,5 +111,8 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   selectDateEventHandler(day: number, currentMonth: number, todaysYear: number) {
     this.selectedDate = currentMonth + '/' + day + '/' + todaysYear;
     this.selectedDay = day;
+  }
+  searchPatientCallHistory() {
+    console.log('searching patient call history');
   }
 }
