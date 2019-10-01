@@ -18,13 +18,20 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    debugger;
+    if (!this.user.userFirstName) {
+      var separatorIndex = this.user.displayName.indexOf(' ');
+      this.user.userFirstName = this.user.displayName.substring(0, separatorIndex);
+      this.user.userLastName = this.user.displayName.substring(separatorIndex, this.user.displayName.length);
+    }
     this.createForm();
   }
   updateUserProfile() {
     let formSubmission = this.userProfileForm.getRawValue();
     debugger;
-    this.userService.updateUserByUserId(this.user.id, formSubmission);
+    this.userService.updateUserByUserId(this.user.id, formSubmission).subscribe((data: any) => {
+      console.log(data);
+      debugger;
+    });
   }
 
   /**
