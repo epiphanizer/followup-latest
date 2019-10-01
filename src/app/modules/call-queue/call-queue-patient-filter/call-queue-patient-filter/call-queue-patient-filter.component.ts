@@ -22,11 +22,7 @@ export class CallQueuePatientFilterComponent implements OnInit {
   userPatientCalls$: Observable<PatientCall[]>;
   patients: Array<Patient> = [];
   patients$: Observable<Patient[]>;
-  constructor(
-    private patientService: PatientService,
-    private patientCallService: PatientCallService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private patientCallService: PatientCallService, private route: ActivatedRoute) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.userPatientCalls$ = this.patientCallService
@@ -36,8 +32,5 @@ export class CallQueuePatientFilterComponent implements OnInit {
           this.patientCalls = patientCalls;
         })
       );
-  }
-  public searchPatientCallHistory() {
-    console.log('Searching patient call history');
   }
 }

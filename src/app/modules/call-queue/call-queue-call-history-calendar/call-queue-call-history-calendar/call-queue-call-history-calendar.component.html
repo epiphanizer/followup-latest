@@ -19,3 +19,33 @@
     </div>
   </div>
 </div>
+<div class="patient-filter">
+  <ion-row>
+    <ion-col col-auto>
+      <table>
+        <tr>
+          <td>
+            <form formGroup="patientDateFilterForm">
+              <ion-input
+                formControlName="patientDateSearch"
+                placeholder="Patient/Date Search"
+                (submit)="searchPatientCallHistory()"
+              >
+              </ion-input>
+            </form>
+          </td>
+          <td>
+            <ion-icon name="search"></ion-icon>
+          </td>
+        </tr>
+      </table>
+    </ion-col>
+  </ion-row>
+  <ng-container class="patient-filter-results" *ngIf="userPatientCalls$ | async as patientCalls">
+    <ion-list lines="none">
+      <ion-item *ngFor="let patientCall of patientCalls">
+        <span>Call: {{ patientCall }}</span>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+</div>
