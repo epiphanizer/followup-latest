@@ -4,6 +4,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Operation } from '@app/modules/operation/operation.service';
 import { PatientCall } from '../patient/patient-detail/patient-call/patient-call.service';
+import { UserPutObject } from './user';
 
 export interface User {
   displayName: string;
@@ -63,8 +64,8 @@ export class UserService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  updateUserByUserId(userId: number, formData: FormData) {
-    return this.http.put('user/' + userId, formData).pipe(
+  updateUserByUserId(userId: number, userPutObject: UserPutObject) {
+    return this.http.put('user/' + userId, userPutObject).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

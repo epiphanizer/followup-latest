@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { UserPutObject } from '@app/modules/user/user';
 import { User, UserService } from '@app/modules/user/user.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -27,17 +28,30 @@ export class UserProfileComponent implements OnInit {
   }
   updateUserProfile() {
     let formSubmission = this.userProfileForm.getRawValue();
-    debugger;
-    this.userService.updateUserByUserId(this.user.id, formSubmission).subscribe((data: any) => {
+    let userPutPayload = this.userFormSubmissionFactory(formSubmission);
+    this.userService.updateUserByUserId(this.user.id, userPutPayload).subscribe((data: any) => {
       console.log(data);
       debugger;
+      alert('update successful!');
     });
   }
 
   /**
    * Package into a factory as we do on our forms
    */
-
+  userFormSubmissionFactory(formSubmission: any): UserPutObject {
+    var payload = {};
+    payload = {
+      userFirstName: formSubmission.userFirstName,
+      userMiddleName: formSubmission.userMiddleName,
+      userLastName: formSubmission.userLastName,
+      userPhoneCountryCode: formSubmission.userPhoneCountryCode,
+      userPhoneAreaCode: formSubmission.userPhoneAreaCode,
+      userPhoneNumber: formSubmission.userPhoneNumber,
+      userDob: formSubmission.userDob
+    };
+    return <UserPutObject>payload;
+  }
   private createForm() {
     this.userProfileForm = this.fb.group({
       userFirstName: this.fb.control(this.user.userFirstName, [Validators.required]),
