@@ -116,7 +116,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     this.selectedDay = day;
   }
   searchPatientCallHistory() {
-    console.log('searching patient call history');
+    alert('searching patient call history');
     this.patientCallsFiltered = ['Call 1 Mock', 'Call 2 Mock', 'Call 3 Mock'];
   }
 }
