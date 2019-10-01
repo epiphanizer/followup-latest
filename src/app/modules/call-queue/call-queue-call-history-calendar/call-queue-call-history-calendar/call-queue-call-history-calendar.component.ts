@@ -38,7 +38,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
 
   ngOnInit() {
     this.todaysDate = new Date();
-    this.selectedDate = formatDate(this.todaysDate, 'MM/dd/yy', 'en');
+    this.selectedDate = formatDate(this.todaysDate, 'mm/dd/yy', 'en');
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     this.todaysMonth = ('0' + (this.todaysDate.getMonth() + 1)).substring(0, 2);
     this.todaysYear = this.todaysDate.getFullYear();

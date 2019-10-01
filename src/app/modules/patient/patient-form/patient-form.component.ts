@@ -55,15 +55,16 @@ export class PatientFormComponent implements OnInit {
       this.createForm();
 
       var patientFormControls = this.patientForm.get('patient') as FormGroup;
-      patientFormControls.controls.patientFirstName.setValue(this.patient.patientFirstName);
-      patientFormControls.controls.patientMiddleName.setValue(this.patient.patientMiddleName);
-      patientFormControls.controls.patientLastName.setValue(this.patient.patientLastName);
-      var physicianInfoFormControls = this.patientForm.get('patient.physicianInfo') as FormGroup;
-      physicianInfoFormControls.controls.patientPhysicianFirstName.setValue(this.patient.patientPhysicianFirstName);
-      physicianInfoFormControls.controls.patientPhysicianLastName.setValue(this.patient.patientPhysicianLastName);
-      physicianInfoFormControls.controls.physicianCountryCode.setValue(this.patient.patientPhysicianCountryCode);
-      physicianInfoFormControls.controls.physicianAreaCode.setValue(this.patient.patientPhysicianAreaCode);
-      physicianInfoFormControls.controls.physicianPhoneNumber.setValue(this.patient.patientPhysicianPhoneNumber);
+      debugger;
+      // patientFormControls.controls.patientFirstName.setValue(this.patient.patientFirstName);
+      // patientFormControls.controls.patientMiddleName.setValue(this.patient.patientMiddleName);
+      // patientFormControls.controls.patientLastName.setValue(this.patient.patientLastName);
+      // var physicianInfoFormControls = this.patientForm.get('patient.physicianInfo') as FormGroup;
+      // physicianInfoFormControls.controls.patientPhysicianFirstName.setValue(this.patient.patientPhysicianFirstName);
+      // physicianInfoFormControls.controls.patientPhysicianLastName.setValue(this.patient.patientPhysicianLastName);
+      // physicianInfoFormControls.controls.physicianCountryCode.setValue(this.patient.patientPhysicianCountryCode);
+      // physicianInfoFormControls.controls.physicianAreaCode.setValue(this.patient.patientPhysicianAreaCode);
+      // physicianInfoFormControls.controls.physicianPhoneNumber.setValue(this.patient.patientPhysicianPhoneNumber);
     }
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
   }
