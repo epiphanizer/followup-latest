@@ -105,10 +105,6 @@ span.label {
     color: var(--ion-color-primary);
   }
 
-  .review-notification-list {
-    margin: 0;
-  }
-
   .caption {
     font-family: AvenirBold;
     font-size: 42px;
@@ -117,6 +113,11 @@ span.label {
     letter-spacing: -5px;
     text-align: center;
   }
+}
+
+.review-notification-list {
+  margin: 0;
+  margin-left: 5px;
 }
 
 .notification-options {
