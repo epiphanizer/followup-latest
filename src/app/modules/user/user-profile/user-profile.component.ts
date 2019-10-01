@@ -47,15 +47,15 @@ export class UserProfileComponent implements OnInit {
         celebrity: this.fb.control({}),
         helicopter: this.fb.control({}),
         kidney: this.fb.control({}),
-        'skydived-bungeed': this.fb.control({}),
-        'appeared-on-tv': this.fb.control({}),
-        'jane-austen': this.fb.control({}),
+        skydivedOrBungeed: this.fb.control({}),
+        appearedOnTv: this.fb.control({}),
+        janeAusten: this.fb.control({}),
         escargo: this.fb.control({}),
         deployed: this.fb.control({}),
         instrument: this.fb.control({}),
-        'seen-tornado': this.fb.control({}),
+        seenTornado: this.fb.control({}),
         hitchiked: this.fb.control({}),
-        'd-d': this.fb.control({})
+        DND: this.fb.control({})
       }),
       userAdditionalInfo: this.fb.control({})
     });
