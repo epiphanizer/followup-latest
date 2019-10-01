@@ -83,15 +83,10 @@ export class NotificationModalComponent {
   saveNotification() {
     debugger;
     this.notification = {
-      notificationId: 25,
       notificationTypeId: this.createNotificationForm.controls.notificationTypeId.value,
       notificationMessage: this.createNotificationForm.controls.notificationMessage.value
     };
     this.status.notification.saved = true;
-    this.notificationService.saveNotificationByPatientId(this.patient.patientId).subscribe((data: any) => {
-      console.log(data);
-      debugger;
-    });
   }
   sendNotification() {
     debugger;

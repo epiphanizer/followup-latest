@@ -38,9 +38,10 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
 
   ngOnInit() {
     this.todaysDate = new Date();
-    this.selectedDate = formatDate(this.todaysDate, 'mm/dd/yy', 'en');
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
-    this.todaysMonth = ('0' + (this.todaysDate.getMonth() + 1)).substring(0, 2);
+    debugger;
+    // this.todaysMonth = this.todaysDate.getMonth();
+    // this.todaysMonth = ('0' + (this.todaysDate.getMonth() + 1)).substring(0, 2);
     this.todaysYear = this.todaysDate.getFullYear();
     this.months = [
       {
@@ -98,6 +99,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     this.selectedMonth = this.currentMonth = this.months[parseInt(this.todaysMonth) - 1];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
+    this.selectedDate = this.selectedMonth + '/' + this.selectedDay + '/' + this.todaysYear;
   }
 
   daysInMonth(month: number, year: number) {
