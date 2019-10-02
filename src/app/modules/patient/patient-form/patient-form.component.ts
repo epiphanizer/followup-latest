@@ -187,8 +187,9 @@ export class PatientFormComponent implements OnInit {
       })
     });
   }
-  setPatientQuestionAnswers() {
-    // this.appForm;
+  clickUploadInput() {
+    let element: HTMLElement = document.querySelector('#fileUpload') as HTMLElement;
+    element.click();
   }
   uploadPatientAvatarPhoto() {
     alert('adding patient photo');

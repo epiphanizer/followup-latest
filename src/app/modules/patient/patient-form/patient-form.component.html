@@ -326,9 +326,16 @@
     </ion-col>
     <ion-col class="avatar-col">
       <div class="avatar-container">
-        <img src="/assets/default-avatar-patient-detail.png" alt="" />
+        <img (click)="clickUploadInput()" src="/assets/default-avatar-patient-detail.png" alt="" />
       </div>
-      <ion-button fill="outline" (click)="(uploadPatientAvatarPhoto)">
+      <input
+        type="file"
+        class="hidden-input"
+        name="fileUpload"
+        id="fileUpload"
+        (change)="uploadPatientAvatarPhoto($event.target.files)"
+      />
+      <ion-button fill="outline" (click)="clickUploadInput()">
         Add Photo
       </ion-button>
     </ion-col>
