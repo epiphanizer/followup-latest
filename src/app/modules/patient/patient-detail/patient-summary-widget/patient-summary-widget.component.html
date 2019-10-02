@@ -52,7 +52,7 @@
       </a>
     </ion-col>
     <ion-col class="right-col-controls">
-      <app-patient-call-history-controls [patient]="patient"> </app-patient-call-history-controls>
+      <app-patient-call-history-controls [patientCalls]="patient.patientCalls"> </app-patient-call-history-controls>
       <app-followup-complete-button class="ion-float-right" *ngIf="patient" [patient]="patient">
       </app-followup-complete-button>
     </ion-col>

@@ -140,8 +140,13 @@
       <img (click)="clickUploadInput()" src="/assets/default-avatar-patient-detail.png" alt="" />
       <div class="form-group">
         <div>
-          <label for="file">Choose File</label>
-          <input type="file" name="fileUpload" id="fileUpload" (change)="uploadUserAvatarPhoto($event.target.files)" />
+          <input
+            type="file"
+            class="hidden-input"
+            name="fileUpload"
+            id="fileUpload"
+            (change)="uploadUserAvatarPhoto($event.target.files)"
+          />
         </div>
       </div>
       <ion-button *ngIf="!user.avatar" class="add-photo" (click)="clickUploadInput()" fill="outline">

@@ -90,6 +90,10 @@ export class UserProfileComponent implements OnInit {
       userAdditionalInfo: this.fb.control({})
     });
   }
+  clickUploadInput() {
+    let element: HTMLElement = document.querySelector('#fileUpload') as HTMLElement;
+    element.click();
+  }
 
   uploadUserAvatarPhoto(files: FileList) {
     this.fileToUpload = files.item(0);

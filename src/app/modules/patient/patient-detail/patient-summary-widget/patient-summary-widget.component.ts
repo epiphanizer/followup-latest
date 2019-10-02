@@ -12,7 +12,6 @@ import { Operation } from '@app/modules/operation/operation.service';
 export class PatientSummaryWidgetComponent implements OnInit {
   expandAlternateNumbers: boolean = false;
   @Input() patient: Patient;
-  @Input() operation: Operation;
   constructor() {}
 
   ngOnInit() {}

@@ -19,20 +19,27 @@ ion-content {
   width: 220px;
   margin-left: 81.4px;
 
+  .hidden-input {
+    display: none;
+  }
+
   img {
     cursor: pointer;
   }
+
   ion-button {
     clear: both;
     margin-left: 35px;
   }
 }
+
 ion-item {
   padding-bottom: 2px;
   --inner-padding-start: 0;
   --inner-padding-end: 0;
   margin-left: 10px;
 }
+
 ion-title {
   font-family: AvenirNextLTPro;
   font-size: 38px;
@@ -82,6 +89,7 @@ form {
     --inner-padding-end: 0;
     --padding-start: 0;
     --padding-end: 0;
+
     &.first-name,
     &.middle-name,
     &.last-name {
@@ -159,10 +167,12 @@ form {
     --padding-start: 12px;
     margin-top: 14px;
   }
+
   ion-datetime {
     margin-top: 15px;
     height: 34px;
   }
+
   ion-label {
     font-family: Avenir;
     font-size: 24px;
@@ -180,12 +190,15 @@ form {
     background: #f5f5f5;
     border: solid 1px rgba(112, 112, 112, 0.15);
   }
+
   ion-textarea {
     margin-top: 1rem;
+
     :root {
       min-height: 100% !important;
     }
   }
+
   .main-label-box {
     margin-top: -8px;
     font-family: Avenir;
@@ -201,6 +214,7 @@ form {
 
   .checkbox-list-container {
     padding-left: 0;
+
     ion-item {
       margin-left: 0;
     }

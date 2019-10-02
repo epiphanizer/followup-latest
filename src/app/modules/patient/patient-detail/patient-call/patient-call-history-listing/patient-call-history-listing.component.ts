@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Patient } from '@app/modules/patient/patient';
-import { PatientCallService, PatientCall } from '../../patient-call/patient-call.service';
+import { PatientCallService, PatientCall, PatientCallQuestion } from '../../patient-call/patient-call.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,7 +10,19 @@ import { Observable } from 'rxjs';
 })
 export class PatientCallHistoryListingComponent implements OnInit {
   @Input() patientCalls: PatientCall[];
+  patientCallQuestions: PatientCallQuestion[] = [];
+
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // need a loop to push the patient call questions onto the array
+    let mock = {
+      patientCallQuestionId: 9,
+      patientCallId: 10,
+      patientCallQuestion: 'Patient Call Question 1',
+      patientCallLabel: 'Short Label'
+    };
+    // this.patientCalls.map()
+    this.patientCallQuestions.push(mock);
+  }
 }

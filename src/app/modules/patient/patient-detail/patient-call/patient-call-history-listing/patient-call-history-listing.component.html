@@ -6,7 +6,7 @@
         <span class="call-number-headline"> Call {{ patientCall.patientCallCount }} </span>
       </div>
       <div class="call-question-container">
-        <ion-list *ngFor="let patientQuestion of patientQuestions" lines="none" inset>
+        <ion-list *ngFor="let patientQuestion of patientCallQuestions" lines="none" inset>
           <ion-item>
             {{ patientQuestion.patientQuestion }}
           </ion-item>

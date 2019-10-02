@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PatientCall } from '../patient-call.service';
+import { PatientCall, PatientCallQuestion } from '../patient-call.service';
 import { Patient } from '@app/modules/patient/patient';
 
 @Component({
@@ -8,17 +8,11 @@ import { Patient } from '@app/modules/patient/patient';
   styleUrls: ['./patient-call-history-controls.component.scss']
 })
 export class PatientCallHistoryControlsComponent implements OnInit {
-  @Input() patient: Patient;
+  @Input() patientCalls: PatientCall[];
   clicked: number;
-  patientCalls: PatientCall[];
   constructor() {}
 
-  ngOnInit() {
-    this.patient.patientCalls$.subscribe((data: PatientCall[]) => {
-      this.patientCalls = data;
-      return data;
-    });
-  }
+  ngOnInit() {}
 
   scrollToPatientCall(patientCall: number) {
     this.clicked = patientCall;
