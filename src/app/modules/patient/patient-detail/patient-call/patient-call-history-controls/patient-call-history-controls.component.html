@@ -3,13 +3,16 @@
     <ion-item>
       <i class="icon-phone-icon"></i>
     </ion-item>
-    <ion-item
+    <!-- <ion-item
       class="patient-call-history-item"
       *ngFor="let patientCall of patientCalls"
       [class.active]="clicked == patientCall.patientCallCount"
       (click)="scrollToPatientCall(patientCall)"
-    >
-      <span>{{ patientCall.patientCallCount }}</span>
-    </ion-item>
+    > -->
+    <span
+      >#
+      <!-- {{ patientCall.patientCallCount }} -->
+    </span>
+    <!-- </ion-item> -->
   </ion-list>
 </ng-container>

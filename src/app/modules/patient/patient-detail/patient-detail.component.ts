@@ -44,6 +44,7 @@ export class PatientDetailComponent implements OnInit {
   }
   finishPatientCall($event: PatientCall) {
     this.patientCall = $event;
+    this.patientCallService.finalizePatientCall(this.patientCall.patientCallStatusLabelId);
     debugger;
   }
 }

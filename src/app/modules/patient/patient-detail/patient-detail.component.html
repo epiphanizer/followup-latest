@@ -45,7 +45,7 @@
         <ng-container *ngIf="patientCall.patientCallStatusLabel == 'In Review'">
           <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
           <app-patient-next-call-questions> </app-patient-next-call-questions>
-          <app-patient-next-call-finish-button (click)="finishPatientCall(patientCall)">
+          <app-patient-next-call-finish-button (click)="finishPatientCall(patient, patientCall)">
             Finish & Save
           </app-patient-next-call-finish-button>
         </ng-container>

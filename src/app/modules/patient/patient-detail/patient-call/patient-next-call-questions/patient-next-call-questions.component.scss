@@ -23,6 +23,7 @@ form {
   }
 
   ion-item {
+    max-width: 508px;
     margin-bottom: 1.5rem;
   }
 
@@ -36,7 +37,7 @@ form {
     font-size: 14px;
     padding-top: 8px;
     display: block;
-    width: 508.4px;
+    width: 508px;
     min-height: 80.8px;
     height: auto;
     border: solid 1px rgba(112, 112, 112, 0.15);
