@@ -3,19 +3,27 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { UserPutObject } from '@app/modules/user/user';
 import { User, UserService } from '@app/modules/user/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { UserAvatarService } from '../user-avatar.service';
 
 @Component({
-  providers: [UserService],
+  providers: [UserService, UserAvatarService],
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
+  avatarForm!: FormGroup;
+  fileToUpload: File = null;
   error: string | undefined;
   user: User;
   userProfileForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) {}
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private userAvatarService: UserAvatarService
+  ) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
@@ -82,7 +90,9 @@ export class UserProfileComponent implements OnInit {
       userAdditionalInfo: this.fb.control({})
     });
   }
-  uploadUserAvatarPhoto() {
-    debugger;
+
+  uploadUserAvatarPhoto(files: FileList) {
+    this.fileToUpload = files.item(0);
+    this.userAvatarService.uploadUserAvatarByUserId('10', this.fileToUpload);
   }
 }

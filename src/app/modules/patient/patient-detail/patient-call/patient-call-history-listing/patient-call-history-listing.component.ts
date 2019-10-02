@@ -9,15 +9,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./patient-call-history-listing.component.scss']
 })
 export class PatientCallHistoryListingComponent implements OnInit {
-  @Input() patient: Patient;
-  patientCalls: PatientCall[];
+  @Input() patientCalls: PatientCall[];
   constructor() {}
 
-  ngOnInit() {
-    this.patient.patientCalls$.subscribe((data: PatientCall[]) => {
-      this.patientCalls = data;
-      debugger;
-      return data;
-    });
-  }
+  ngOnInit() {}
 }

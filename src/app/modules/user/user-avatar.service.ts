@@ -15,9 +15,10 @@ export class UserAvatarService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-
-  uploadUserAvatarByUserId(userId: string, blobData: Blob) {
-    return this.http.post('/user/' + userId + '/avatar', {}).pipe(
+  uploadUserAvatarByUserId(userId: string, file: File) {
+    let formData = new FormData();
+    formData.append('avatar', file, file.name);
+    return this.http.post('/user/' + userId + '/avatar', formData).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
