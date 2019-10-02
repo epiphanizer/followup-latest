@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PatientCallService, PatientCall } from '../patient-call.service';
+import { Patient } from '@app/modules/patient/patient';
 
 @Component({
   selector: 'app-patient-next-call-finish-button',
@@ -14,14 +15,13 @@ export class PatientNextCallFinishButtonComponent implements OnInit {
 
   ngOnInit() {}
 
-  finalizePatientCall(patientCall: PatientCall) {
-    debugger;
-    // this.patientCallService.scheduleNewPatientCallByPatientId(
-    //   this.patient.patientId, this.patientCall.patientCallStatusLabelId
-    // ).subscribe((data: any) => {
-    //   console.log(data);
-    //   debugger;
-    // })
+  finalizePatientCall(patient: Patient, patientCall: PatientCall) {
+    this.patientCallService
+      .scheduleNewPatientCallByPatientId(patient.patientId, this.patientCall.patientCallStatusLabelId)
+      .subscribe((data: any) => {
+        console.log(data);
+        debugger;
+      });
     this.patientCallService
       .finalizePatientCall(patientCall.patientCallId, this.patientCall.patientCallStatusLabelId)
       .subscribe((data: any) => {
