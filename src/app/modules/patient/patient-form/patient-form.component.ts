@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user.service';
 import { map } from 'rxjs/operators';
 import { PatientPutBody } from './patient-form';
+import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
 
 @Component({
   providers: [PatientService],
@@ -20,6 +21,7 @@ export class PatientFormComponent implements OnInit {
   patientForm: FormGroup;
   currentYear: number;
   editMode: boolean = false;
+  fileToUpload: File;
   patient: Patient;
   status: {
     submitted: null | boolean;
@@ -27,7 +29,12 @@ export class PatientFormComponent implements OnInit {
   user: User;
   patient$: Observable<Patient> | void;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private patientService: PatientService) {}
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private patientService: PatientService,
+    private patientAvatarService: PatientAvatarService
+  ) {}
 
   ngOnInit() {
     this.currentYear = new Date().getFullYear();
@@ -191,7 +198,8 @@ export class PatientFormComponent implements OnInit {
     let element: HTMLElement = document.querySelector('#fileUpload') as HTMLElement;
     element.click();
   }
-  uploadPatientAvatarPhoto() {
-    alert('adding patient photo');
+  uploadPatientAvatarPhoto(files: FileList) {
+    this.fileToUpload = files.item(0);
+    this.patientAvatarService.uploadPatientAvatarByPatientId(this.patient.patientId, this.fileToUpload);
   }
 }

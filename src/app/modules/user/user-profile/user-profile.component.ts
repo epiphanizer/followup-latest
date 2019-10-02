@@ -97,6 +97,6 @@ export class UserProfileComponent implements OnInit {
 
   uploadUserAvatarPhoto(files: FileList) {
     this.fileToUpload = files.item(0);
-    this.userAvatarService.uploadUserAvatarByUserId('10', this.fileToUpload);
+    this.userAvatarService.uploadUserAvatarByUserId(this.user.id.toString(), this.fileToUpload);
   }
 }
