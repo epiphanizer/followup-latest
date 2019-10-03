@@ -8,6 +8,7 @@ import { Patient } from '@app/modules/patient/patient';
   styleUrls: ['./patient-next-call-finish-button.component.scss']
 })
 export class PatientNextCallFinishButtonComponent implements OnInit {
+  @Input() patient: Patient;
   @Input() patientCall: PatientCall;
   @Input() patientCallStatusLabelId: number;
 

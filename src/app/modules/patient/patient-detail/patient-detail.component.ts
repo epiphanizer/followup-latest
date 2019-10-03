@@ -30,7 +30,6 @@ export class PatientDetailComponent implements OnInit {
       });
   }
 
-  /**needs correction for real user input */
   patientCallStartEventHandler(userId: number) {
     this.patientCallService.startPatientCallByUserIdAndPatientCallId(userId, this.patientCall.patientCallId);
     this.patientCall.patientCallStatusLabelId = 3;
@@ -45,10 +44,13 @@ export class PatientDetailComponent implements OnInit {
   }
   finishPatientCall($event: PatientCall) {
     this.patientCall = $event;
-    this.patientCallService.addNewPatientCallByPatientId(
-      this.patient.patientId,
-      this.patientCall.patientCallStatusLabelId
-    );
-    this.patientCallService.finalizePatientCall(this.patientCall);
+    this.patientCallService
+      .addNewPatientCallByPatientId(this.patient.patientId, this.patientCall.patientCallStatusLabelId)
+      .subscribe((data: any) => {
+        console.log(data);
+      });
+    this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
+      console.log(data);
+    });
   }
 }
