@@ -12,7 +12,7 @@ import { PatientCall } from '../patient-call.service';
 })
 export class PatientCallStatusControlsComponent implements OnInit {
   @Input() patientCall: PatientCall;
-  @Output() patientCallStartEventEmitter = new EventEmitter<PatientCall>();
+  @Output() patientCallStartEventEmitter = new EventEmitter<number>();
   patientCallStatuses: PatientCallStatus[];
   constructor(private patientCallStatusService: PatientCallStatusService) {}
 
@@ -23,6 +23,6 @@ export class PatientCallStatusControlsComponent implements OnInit {
   }
 
   updatePatientCallStatus(patientCallStatusLabelId: number) {
-    this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
+    this.patientCallStartEventEmitter.emit(patientCallStatusLabelId);
   }
 }

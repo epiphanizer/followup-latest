@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { PatientCallService, PatientCall } from '../patient-call.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { PatientCall } from '../patient-call.service';
 import { Patient } from '@app/modules/patient/patient';
 
 @Component({
@@ -10,10 +10,11 @@ import { Patient } from '@app/modules/patient/patient';
 export class PatientNextCallFinishButtonComponent implements OnInit {
   @Input() patient: Patient;
   @Input() patientCall: PatientCall;
-
-  constructor(private patientCallService: PatientCallService) {}
+  @Output() patientCallFinalizeEventEmitter = new EventEmitter<PatientCall>();
 
   ngOnInit() {}
 
-  finalizePatientCall(patient: Patient, patientCall: PatientCall) {}
+  finalizePatientCall(patientCall: PatientCall) {
+    this.patientCallFinalizeEventEmitter.emit(patientCall);
+  }
 }

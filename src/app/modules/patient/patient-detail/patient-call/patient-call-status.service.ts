@@ -21,11 +21,15 @@ export class PatientCallStatusService {
     status: number | string;
   };
   constructor(private http: HttpService) {}
-  addPatientCallStatusByPatientCallId = function(patientId: number, patientContactNumberId: number) {
+  addPatientCallStatusByPatientCallId = function(
+    patientId: number,
+    patientCallId: number,
+    patientCallStatusLabelId: number
+  ) {
     return this.http
-      .post('patients/' + patientId + '/calls', {
+      .post('patients/' + patientId + '/calls/' + patientCallId + '/statuses', {
         // userId: userId,
-        patientContactNumberId: patientContactNumberId
+        patientCallStatusLabelId: patientCallStatusLabelId
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times

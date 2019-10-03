@@ -3,7 +3,6 @@ import { Patient } from '@app/modules/patient/patient';
 import {
   PatientCall,
   PatientCallService,
-  PatientCallStatusLabel,
   PatientCallQuestion,
   PatientCallQuestionAnswer
 } from '../patient-detail/patient-call/patient-call.service';
@@ -62,17 +61,15 @@ export class PatientDetailComponent implements OnInit {
     this.patientCall.patientCallStatusLabelId = 4;
     this.patientCall.patientCallStatusLabel = 'In Review';
   }
-  patientCallStatusLabelChangeHandler($event: PatientCall) {
-    let patientCall = $event;
-    this.patientCallStatusService.addPatientCallStatusByPatientCallId(
-      patientCall.patientCallId,
-      patientCall.patientCallStatusLabelId
-    );
-    this.patientCall.patientCallStatusLabelId = 4;
-    this.patientCall.patientCallStatusLabel = 'In Review';
+  patientCallStatusLabelChangeHandler($event: number) {
+    let patientCallStatusLabelId = $event;
+    this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
+    console.log('Changed call status to: ' + patientCallStatusLabelId);
+    // this.patientCall.patientCallStatusLabelId = 'In Review';
   }
-  finishPatientCall($event: PatientCall) {
+  patientCallFinishEventHandler($event: PatientCall) {
     this.patientCall = $event;
+    alert('getting to our patient call finish event handler');
     this.patientCallNotesService
       .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId)
       .subscribe((data: any) => {
@@ -81,21 +78,28 @@ export class PatientDetailComponent implements OnInit {
       });
     // add the highlights to the notes
 
+    // will require some more processing based on
+    // scheduling for hospice, etc.
     // schedule the next call
-    this.patientCallService
-      .addNewPatientCallByPatientId(this.patient.patientId, this.patientCall.patientCallStatusLabelId)
-      .subscribe((data: any) => {
-        console.log(data);
-        // add custom questions to the next call
-      });
+    this.patientCallService.addNewPatientCallByPatientId(this.patient.patientId, 2).subscribe((data: any) => {
+      console.log(data);
+
+      // this.patientCallQuestionsService.addNewPatientCallQuestionsPatientCallId(
+      //   this.patientCall.patientCallId
+      // ).subscribe((data: any) => {
+      //   console.log(data);
+      //   // add custom questions to the next call
+      // });
+      // add custom questions to the next call
+    });
 
     // this will require processing
     debugger;
     // this.patientCallQuestionsService.addNewPatientCallQuestionAnswersByPatientCallQuestionId(
-    //   this.patientCall.patientcallQuestionId
+    //   this.patientCall.patientCallQuestionId
     // ).subscribe((data: any) => {
     //   console.log(data);
-    //   // add custom questions to the next call
+    //   // add answers to our questions to the next call
     // });
 
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
