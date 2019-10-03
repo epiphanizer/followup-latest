@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./notification-modal.component.scss']
 })
 export class NotificationModalComponent {
-  createNotificationForm!: FormGroup;
+  createNotificationForm: FormGroup;
   notification: Notification;
   notificationTypes: {
     notificationTypeLabelId: number;

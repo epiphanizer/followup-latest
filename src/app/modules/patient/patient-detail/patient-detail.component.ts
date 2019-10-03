@@ -14,7 +14,6 @@ import {
   PatientCallNotesService,
   PatientCallNotes
 } from './patient-call/patient-call-notes/patient-call-notes.service';
-import { PatientCallStatusService } from './patient-call/patient-call-status.service';
 import { PatientCallQuestionsService } from './patient-call/patient-call-questions/patient-call-questions.service';
 
 @Component({
@@ -92,6 +91,7 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallNotesService
       .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId, this.patientCallNotes)
       .subscribe((data: any) => {
+        alert('added patient call notes successfully');
         console.log(data);
         debugger;
       });
