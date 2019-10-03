@@ -10,22 +10,10 @@ import { Patient } from '@app/modules/patient/patient';
 export class PatientNextCallFinishButtonComponent implements OnInit {
   @Input() patient: Patient;
   @Input() patientCall: PatientCall;
-  @Input() patientCallStatusLabelId: number;
 
   constructor(private patientCallService: PatientCallService) {}
 
   ngOnInit() {}
 
-  finalizePatientCall(patient: Patient, patientCall: PatientCall) {
-    this.patientCallService
-      .addNewPatientCallByPatientId(patient.patientId, this.patientCall.patientCallStatusLabelId)
-      .subscribe((data: any) => {
-        console.log(data);
-        debugger;
-      });
-    this.patientCallService.finalizePatientCall(patientCall).subscribe((data: any) => {
-      console.log(data);
-      debugger;
-    });
-  }
+  finalizePatientCall(patient: Patient, patientCall: PatientCall) {}
 }

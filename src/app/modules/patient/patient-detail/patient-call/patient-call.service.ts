@@ -24,6 +24,10 @@ export interface PatientCallQuestionAnswer {
   patientCallQuestionAnswerId?: number;
   patientCallQuestionAnswer: string;
 }
+export interface PatientCallStatusLabel {
+  patientCallStatusLabelId: number;
+  patientCallStatusLabel?: string;
+}
 
 @Injectable({
   providedIn: 'root'

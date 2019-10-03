@@ -23,7 +23,5 @@ export class PatientCallStatusControlsComponent implements OnInit {
 
   updatePatientCallStatus(patientCallId: number, patientCallStatusLabelId: number) {
     alert('updating patient call status: ' + patientCallStatusLabelId);
-    this.patientCallStatusService.addPatientCallStatusByPatientCallId(patientCallId, patientCallStatusLabelId);
-    // This needs to be an Emitter
   }
 }
