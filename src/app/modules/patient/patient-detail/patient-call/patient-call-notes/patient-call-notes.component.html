@@ -5,7 +5,12 @@
         <ion-label position="stacked" *ngIf="patientCall.patientCallStatusLabel == 'Started'">
           Notes
         </ion-label>
-        <ion-label position="stacked" *ngIf="patientCall.patientCallStatusLabel == 'In Review'">
+        <ion-label
+          position="stacked"
+          *ngIf="
+            patientCall.patientCallStatusLabel == 'In Review' || patientCall.patientCallStatusLabel == 'Selected Status'
+          "
+        >
           Edit & Review Call
         </ion-label>
         <ion-textarea
