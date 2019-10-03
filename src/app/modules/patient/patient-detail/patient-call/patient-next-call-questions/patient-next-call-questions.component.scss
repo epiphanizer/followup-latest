@@ -2,7 +2,7 @@ form {
   ion-label {
     width: 40px;
     font-family: Avenir;
-    font-size: px;
+    font-size: 20px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
@@ -10,7 +10,7 @@ form {
     letter-spacing: 0.42px;
     width: auto;
     float: left;
-    .is-highlighted {
+    &.is-highlighted {
       border-bottom: yellow 1px solid;
     }
   }
@@ -31,8 +31,11 @@ form {
   }
 
   ion-textarea {
-    .is-highlighted {
+    font-size: 14px;
+    margin-top: 16px;
+    &.is-highlighted {
       &::before {
+        background-image: url("/assets/note-highlight-flag@2x.png");
         display: block;
         position: absolute;
         content: "";
@@ -43,15 +46,11 @@ form {
         background-color: yellow;
       }
     }
-
-    margin-top: 12px;
     float: left;
     max-width: calc(100% - 20px);
     --inner-padding-start: 0;
     --inner-padding-end: 0;
     padding-left: 8px;
-    font-size: 14px;
-    padding-top: 8px;
     display: block;
     width: 508px;
     min-height: 80.8px;
@@ -73,6 +72,7 @@ form {
   }
 
   .add-next-question {
+    float: right;
     cursor: pointer;
     font-family: Avenir;
     font-size: 13px;
