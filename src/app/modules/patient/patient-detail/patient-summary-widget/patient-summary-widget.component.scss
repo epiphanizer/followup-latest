@@ -43,7 +43,7 @@
   font-size: 14px;
   .patient-contact-number {
     font-family: AvenirNextLTPro;
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 900;
     font-style: normal;
     font-stretch: normal;
@@ -64,11 +64,6 @@
     text-align: left;
     color: #8e8e93;
   }
-}
-.alternate-numbers {
-  font-size: 11px;
-  padding-top: 6px;
-  cursor: pointer;
 }
 .alternate-numbers-list {
   ion-item {
@@ -121,6 +116,6 @@ i.icon-hipaa {
     width: 40px;
     float: right;
     display: block;
-    min-height: 245px;
+    min-height: 200px;
   }
 }

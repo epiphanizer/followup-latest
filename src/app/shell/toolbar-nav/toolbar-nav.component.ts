@@ -13,11 +13,19 @@ import { Patient } from '@app/modules/patient/patient';
 })
 export class ToolbarNavComponent implements OnInit {
   constructor(private route: ActivatedRoute, public modalController: ModalController) {}
-  @Input() operation: Operation;
-  @Input() patient: Patient;
+  /**
+   * Not with us by default, but they can be picked up
+   */
+  operation: Operation;
+  patient: Patient;
+
   @Input() navLinks: [string] | null;
 
   ngOnInit() {}
+
+  ngAfterViewInit() {
+    console.log(this.navLinks);
+  }
 
   doButtonAction(buttonAction: string) {
     if (buttonAction == 'report') {

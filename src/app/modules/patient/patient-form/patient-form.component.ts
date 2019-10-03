@@ -8,6 +8,7 @@ import { User } from '@app/modules/user/user.service';
 import { map } from 'rxjs/operators';
 import { PatientPutBody } from './patient-form';
 import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   providers: [PatientService],
@@ -16,6 +17,7 @@ import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
   styleUrls: ['./patient-form.component.scss']
 })
 export class PatientFormComponent implements OnInit {
+  avatarUrl: SafeUrl;
   dischargeLabels: PatientDischargeLabel[];
   dischargeLabels$: Observable<PatientDischargeLabel[]>;
   patientForm: FormGroup;
@@ -33,7 +35,8 @@ export class PatientFormComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private patientService: PatientService,
-    private patientAvatarService: PatientAvatarService
+    private patientAvatarService: PatientAvatarService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -57,7 +60,11 @@ export class PatientFormComponent implements OnInit {
       );
     } else {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: any) => {
-        console.log(data);
+        this.patient = data;
+        if (this.patient.avatar) {
+          let unsafeImageUrl = URL.createObjectURL(this.patient.avatar);
+          this.avatarUrl = this.sanitizer.bypassSecurityTrustUrl(unsafeImageUrl);
+        }
       });
       this.createForm();
 
@@ -78,14 +85,12 @@ export class PatientFormComponent implements OnInit {
 
   onFormSubmit(): void {
     let formSubmission = this.patientForm.getRawValue();
-    debugger;
     let payload = this.formSubmissionFactory(formSubmission);
-    console.log(payload);
     this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
       console.log(value);
       return (this.status.submitted = true);
     });
-    alert('submitting form');
+    debugger;
   }
 
   /**

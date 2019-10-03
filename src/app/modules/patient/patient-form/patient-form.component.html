@@ -325,9 +325,7 @@
       </form>
     </ion-col>
     <ion-col class="avatar-col">
-      <div class="avatar-container">
-        <img (click)="clickUploadInput()" src="/assets/default-avatar-patient-detail.png" alt="" />
-      </div>
+      <app-patient-avatar [patient]="patient"></app-patient-avatar>
       <input
         type="file"
         class="hidden-input"
@@ -335,9 +333,14 @@
         id="fileUpload"
         (change)="uploadPatientAvatarPhoto($event.target.files)"
       />
-      <ion-button fill="outline" (click)="clickUploadInput()">
+      <ion-button *ngIf="patient.avatar; else avatarPhotoExists" fill="outline" (click)="clickUploadInput()">
         Add Photo
       </ion-button>
+      <ng-template #avatarPhotoExists>
+        <ion-button fill="outline" (click)="clickUploadInput()">
+          Change Photo
+        </ion-button>
+      </ng-template>
     </ion-col>
   </ion-row>
 </ion-content>
