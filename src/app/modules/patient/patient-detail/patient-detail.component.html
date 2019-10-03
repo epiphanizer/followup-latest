@@ -15,7 +15,7 @@
           *ngIf="patientCall.patientCallStatusLabelId < 3"
           [user]="user"
           [patientCall]="patientCall"
-          (patientCallStartEventEmitter)="patientCallStartEventHandler($event)"
+          (patientCallStartEventEmitter)="patientCallStartEventHandler(user.id, $event)"
         >
         </app-patient-call-start-button>
 
@@ -45,7 +45,7 @@
         <ng-container *ngIf="patientCall.patientCallStatusLabel == 'In Review'">
           <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
           <app-patient-next-call-questions> </app-patient-next-call-questions>
-          <app-patient-next-call-finish-button (click)="finishPatientCall(patient, patientCall)">
+          <app-patient-next-call-finish-button>
             Finish & Save
           </app-patient-next-call-finish-button>
         </ng-container>

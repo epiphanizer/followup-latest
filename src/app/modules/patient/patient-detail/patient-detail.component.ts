@@ -30,8 +30,9 @@ export class PatientDetailComponent implements OnInit {
       });
   }
 
-  patientCallStartEventHandler() {
-    this.patientCallService.startPatientCall(this.patientCall.patientCallId);
+  /**needs correction for real user input */
+  patientCallStartEventHandler(userId: number) {
+    this.patientCallService.startPatientCallByUserIdAndPatientCallId(userId, this.patientCall.patientCallId);
     this.patientCall.patientCallStatusLabelId = 3;
     this.patientCall.patientCallStatusLabel = 'Started';
   }
@@ -44,7 +45,10 @@ export class PatientDetailComponent implements OnInit {
   }
   finishPatientCall($event: PatientCall) {
     this.patientCall = $event;
-    this.patientCallService.finalizePatientCall(this.patientCall.patientCallStatusLabelId);
-    debugger;
+    this.patientCallService.addNewPatientCallByPatientId(
+      this.patient.patientId,
+      this.patientCall.patientCallStatusLabelId
+    );
+    this.patientCallService.finalizePatientCall(this.patientCall);
   }
 }

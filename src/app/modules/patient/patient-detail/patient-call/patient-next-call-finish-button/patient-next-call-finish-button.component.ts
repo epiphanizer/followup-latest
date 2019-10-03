@@ -17,16 +17,14 @@ export class PatientNextCallFinishButtonComponent implements OnInit {
 
   finalizePatientCall(patient: Patient, patientCall: PatientCall) {
     this.patientCallService
-      .scheduleNewPatientCallByPatientId(patient.patientId, this.patientCall.patientCallStatusLabelId)
+      .addNewPatientCallByPatientId(patient.patientId, this.patientCall.patientCallStatusLabelId)
       .subscribe((data: any) => {
         console.log(data);
         debugger;
       });
-    this.patientCallService
-      .finalizePatientCall(patientCall.patientCallId, this.patientCall.patientCallStatusLabelId)
-      .subscribe((data: any) => {
-        console.log(data);
-        debugger;
-      });
+    this.patientCallService.finalizePatientCall(patientCall).subscribe((data: any) => {
+      console.log(data);
+      debugger;
+    });
   }
 }

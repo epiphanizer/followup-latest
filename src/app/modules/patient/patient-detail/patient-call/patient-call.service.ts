@@ -71,13 +71,7 @@ export class PatientCallService {
     );
   };
 
-  public startPatientCall(patientCallId: number) {
-    return this.http.post('patients/calls/' + patientCallId + '/end', {}).pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
-  }
-
+  // Updates the status to 'ended'
   public endPatientCall(patientCallId: number) {
     return this.http.post('patients/calls/' + patientCallId + '/end', {}).pipe(
       retry(3), // retry a failed request up to 3 times
@@ -85,10 +79,10 @@ export class PatientCallService {
     );
   }
 
-  public finalizePatientCall(patientCallId: number, patientCallStatusLabelId: number) {
+  public finalizePatientCall(patientCall: PatientCall) {
     return this.http
-      .post('patients/calls/' + patientCallId + '/finalize', {
-        patientCallStatusLabelId: patientCallStatusLabelId
+      .post('patients/calls/' + patientCall.patientCallId + '/finalize', {
+        patientCallStatusLabelId: patientCall.patientCallStatusLabelId
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times
@@ -97,9 +91,9 @@ export class PatientCallService {
   }
 
   // Needs accompanying swagger
-  public scheduleNewPatientCallByPatientId(patientId: number, patientCallStatusLabelId: number) {
+  public addNewPatientCallByPatientId(patientId: number, patientCallStatusLabelId: number) {
     return this.http
-      .post('patients/' + patientId + '/calls/schedule', {
+      .post('patients/' + patientId + '/calls', {
         body: {
           patientCallStatusLabelId: patientCallStatusLabelId
         }
