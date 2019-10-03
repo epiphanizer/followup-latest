@@ -10,6 +10,8 @@ import {
   NotificationRecipientService
 } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
+import { ActivatedRoute } from '@angular/router';
+import { Operation } from '@app/modules/operation/operation.service';
 @Component({
   providers: [NotificationService],
   selector: 'app-notification-modal',
@@ -18,9 +20,6 @@ import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/pa
 })
 export class NotificationModalComponent {
   createNotificationForm!: FormGroup;
-  @Input() notificationRecipients: NotificationRecipients;
-  @Input() patient: Patient;
-  @Input() patientCall: PatientCall;
   notification: Notification;
   notificationTypes: {
     notificationTypeLabelId: number;
@@ -34,6 +33,7 @@ export class NotificationModalComponent {
     notificationTypeLabelId: number;
     notificationTypeLabel: string;
   }[] = [];
+  operation: Operation;
   status: {
     notification: {
       saved: boolean;
@@ -49,10 +49,12 @@ export class NotificationModalComponent {
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.operation = this.route.snapshot.data.operation;
     this.notificationService.getNotificationTypes().subscribe((data: any) => {
       this.notificationTypes = data;
       var i;
@@ -64,17 +66,26 @@ export class NotificationModalComponent {
       }
       this.todaysDate = formatDate(new Date(), 'yyyy-mm-dd', 'en');
       this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+      this.createNotification();
       this.createForm();
     });
   }
   ngAfterViewInit() {
-    this.notification.notificationPatientFirstName = this.patient.patientFirstName;
-    this.notification.notificationPatientLastName = this.patient.patientLastName;
+    // this.notification.notificationPatientFirstName = this.patient.patientFirstName;
+    // this.notification.notificationPatientLastName = this.patient.patientLastName;
   }
   createForm() {
     this.createNotificationForm = this.fb.group({
       notificationTypeId: this.fb.control(''),
       notificationMessage: this.fb.control('')
+    });
+  }
+  createNotification() {
+    return (this.notification = {
+      notificationTypeId: 0,
+      notificationPatientId: 0,
+      notificationOperationId: 0,
+      notificationMessage: ''
     });
   }
   editNotification() {
@@ -84,9 +95,10 @@ export class NotificationModalComponent {
     this.status.notification.saved = true;
   }
   sendNotification() {
-    debugger;
+    let formData = this.createNotificationForm.getRawValue();
+
     this.notificationService
-      .sendNotificationByNotificationId(this.notification.notificationId)
+      .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
         console.log(data);
         debugger;
