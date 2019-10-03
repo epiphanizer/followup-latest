@@ -80,6 +80,7 @@ export class PatientDetailComponent implements OnInit {
     }
   }
   patientNextCallDateSelectedEventHandler($event: string) {
+    console.log($event);
     this.patientNextCall.date = $event;
     console.log(this.patientNextCall.date);
   }
