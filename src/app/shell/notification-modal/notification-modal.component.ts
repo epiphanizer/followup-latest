@@ -4,7 +4,7 @@ import { NotificationService } from '@app/modules/notification/notification.serv
 import { Patient } from '@app/modules/patient/patient';
 import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Notification, NotificationRecipient } from '@app/modules/notification/notification';
+import { Notification, NotificationRecipient, NotificationType } from '@app/modules/notification/notification';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { ActivatedRoute } from '@angular/router';
 import { Operation } from '@app/modules/operation/operation.service';
@@ -20,18 +20,10 @@ import { OperationContactsService } from '@app/modules/operation/operation-conta
 export class NotificationModalComponent {
   createNotificationForm: FormGroup;
   notification: Notification;
-  notificationTypes: {
-    notificationTypeLabelId: number;
-    notificationTypeLabel: string;
-  }[] = [];
-  notificationTypesListLeft: {
-    notificationTypeLabelId: number;
-    notificationTypeLabel: string;
-  }[] = [];
-  notificationTypesListRight: {
-    notificationTypeLabelId: number;
-    notificationTypeLabel: string;
-  }[] = [];
+  notificationType: NotificationType;
+  notificationTypes: NotificationType[];
+  notificationTypesListLeft: NotificationType[] = [];
+  notificationTypesListRight: NotificationType[] = [];
   operationContacts$: Observable<OperationContact[]>;
   notificationRecipients$: Observable<NotificationRecipient[]>;
   status: {
@@ -63,22 +55,25 @@ export class NotificationModalComponent {
           this.notificationTypesListLeft.push(this.notificationTypes[i]);
           this.notificationTypesListRight.push(this.notificationTypes[i + 1]);
         }
+        this.createNotification();
+        this.createForm();
+        this.onChanges();
       }
       this.todaysDate = formatDate(new Date(), 'yyyy-mm-dd', 'en');
       this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
-      this.createNotification();
-      this.createForm();
-      this.onChanges();
     });
     this.operationContacts$ = this.operationContactsService.getOperationContactsByOperationId(
       this.notification.notificationOperationId
     );
   }
   onChanges() {
+    let notificationTypes = this.notificationTypes;
     this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
-      this.notification.notificationTypeId = val;
-      this.notification.notificationTypeLabel = this.notificationTypes[val + 1].notificationTypeLabel;
-      this.notification.notificationIconImage = this.notificationTypes[val + 1].notificationIconImage;
+      this.notificationType = notificationTypes.find(notificationTypes => notificationTypes.notificationTypeId == val);
+      console.log(this.notificationType);
+
+      this.notification.notificationTypeLabel = this.notificationType.notificationTypeLabel;
+      this.notification.notificationIconImage = this.notificationType.notificationIconImage;
     });
     this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
       this.notification.notificationMessage = val;
