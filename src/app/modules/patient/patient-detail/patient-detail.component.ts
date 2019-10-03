@@ -32,6 +32,8 @@ export class PatientDetailComponent implements OnInit {
   patientCallNotes: PatientCallNotes;
   patientCallQuestions: PatientCallQuestion[];
   patientCallQuestionAnswers: PatientCallQuestionAnswer[];
+  nextPatientCallScheduledTime: Date;
+
   constructor(
     private patientCallService: PatientCallService,
     private patientCallNotesService: PatientCallNotesService,
@@ -70,6 +72,7 @@ export class PatientDetailComponent implements OnInit {
     console.log(this.patientCallNotes);
   }
   patientCallStatusLabelChangeHandler($event: number) {
+    alert('changed call status');
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
   }
@@ -79,12 +82,9 @@ export class PatientDetailComponent implements OnInit {
      * We are in review mode, back out
      */
     if (this.patientCall.patientCallStatusLabel == 'In Review') {
-      alert('getting to our patient call finish event handler');
+      // throw an error here
       return;
     }
-    /**
-     * Add the patient question data
-     */
     this.patientCallNotesService
       .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId, this.patientCallNotes)
       .subscribe((data: any) => {

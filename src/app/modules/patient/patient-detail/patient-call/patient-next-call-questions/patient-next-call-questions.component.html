@@ -5,15 +5,20 @@
         <i class="icon-info"></i>
         Question for next follow-up
       </ion-label>
-      <!-- needs formcontrol -->
-      <ion-textarea placeholder="Enter your question"> </ion-textarea>
-      <div
-        (click)="highlightCallQuestion(patientCallQuestion.patientCallQuestionId)"
-        class="highlight-controls ion-float-right"
-      ></div>
+      <!-- needs formcontrol processing on other side-->
+      <ion-textarea
+        [class.is-highlighted]="patientCallQuestion.patientCallQuestionHighlight"
+        placeholder="Enter your question"
+      >
+      </ion-textarea>
+      <ion-item class="patient-next-call-question-highlight-controls ion-float-right">
+        <a (click)="highlightPatientCallQuestion(patientCallQuestion)">
+          <img src="/assets/highlight-flag@2x.png" />
+        </a>
+      </ion-item>
     </ion-item>
-    <span class="add-next-question" (click)="addNextCallQuestion()">
+    <ion-item class="add-next-question" (click)="addNextCallQuestion()">
       [ + add new question ]
-    </span>
+    </ion-item>
   </ion-list>
 </form>

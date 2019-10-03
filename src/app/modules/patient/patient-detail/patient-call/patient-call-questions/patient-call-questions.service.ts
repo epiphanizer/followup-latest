@@ -20,8 +20,8 @@ export class PatientCallQuestionsService {
   /**
    * Patient Call Questions
    */
-  addPatientCallQuestionByPatientCallId = function(patientCallId: number) {
-    return this.http.post('patients/calls/' + patientCallId + '/questions').pipe(
+  addPatientCallQuestionByPatientCallId = function(patientCallId: number, patientCallQuestion: string) {
+    return this.http.post('patients/calls/' + patientCallId + '/questions', { patientCallQuestion }).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -33,11 +33,16 @@ export class PatientCallQuestionsService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
-  addPatientCallQuestionAnswersByPatientCallQuestionId = function(patientCallQuestionId: number) {
-    return this.http.post('patients/calls/questions/' + patientCallQuestionId + '/answers').pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
+  addPatientCallQuestionAnswersByPatientCallQuestionId = function(
+    patientCallQuestionId: number,
+    patientCallQuestionAnswer: string
+  ) {
+    return this.http
+      .post('patients/calls/questions/' + patientCallQuestionId + '/answers', { patientCallQuestionAnswer })
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   };
 
   private handleAsyncError(error: HttpErrorResponse) {

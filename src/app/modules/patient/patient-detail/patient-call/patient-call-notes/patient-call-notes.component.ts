@@ -29,7 +29,9 @@ export class PatientCallNotesComponent implements OnInit {
   }
   onChanges() {
     this.patientCallNotesForm.get('patientCallNotes').valueChanges.subscribe(val => {
+      console.log('change in patientCallNotes');
       this.patientCallNotes.patientCallNotes = val;
+      this.patientCallNotesChangeEmitter.emit(this.patientCallNotes);
     });
   }
   activateHighlighter() {

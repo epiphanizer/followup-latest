@@ -28,6 +28,18 @@ form {
   }
 
   ion-textarea {
+    .is-highlighted {
+      &::before {
+        display: block;
+        position: absolute;
+        content: "";
+        left: 0;
+        width: 30px;
+        height: 30px;
+        z-index: 50;
+        background-color: yellow;
+      }
+    }
     margin-top: 12px;
     float: left;
     max-width: calc(100% - 20px);

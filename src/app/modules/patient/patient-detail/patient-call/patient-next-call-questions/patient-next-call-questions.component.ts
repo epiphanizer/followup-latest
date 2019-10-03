@@ -32,7 +32,6 @@ export class PatientNextCallQuestionsComponent implements OnInit {
     });
   }
   highlightCallQuestion(patientCallQuestionId: number) {
-    alert('highlighting patient call question:' + patientCallQuestionId);
-    debugger;
+    this.patientCallQuestions[patientCallQuestionId].patientCallQuestionHighlight = true;
   }
 }
