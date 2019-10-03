@@ -64,13 +64,16 @@ export class PatientDetailComponent implements OnInit {
   patientCallStatusLabelChangeHandler($event: number) {
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
-    console.log('Changed call status to: ' + patientCallStatusLabelId);
-    // this.patientCall.patientCallStatusLabelId = 'In Review';
   }
   patientCallFinishEventHandler($event: PatientCall) {
     this.patientCall = $event;
-    alert('getting to our patient call finish event handler');
-    debugger;
+    /**
+     * We are in review mode, back out
+     */
+    if (this.patientCall.patientCallStatusLabelId < 4) {
+      alert('getting to our patient call finish event handler');
+      return;
+    }
     // this.patientCallNotesService
     //   .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId)
     //   .subscribe((data: any) => {
@@ -78,21 +81,6 @@ export class PatientDetailComponent implements OnInit {
     //     debugger;
     //   });
     // add the highlights to the notes
-
-    // will require some more processing based on
-    // scheduling for hospice, etc.
-    // schedule the next call
-    this.patientCallService.addNewPatientCallByPatientId(this.patient.patientId, 2).subscribe((data: any) => {
-      console.log(data);
-      debugger;
-      // this.patientCallQuestionsService.addNewPatientCallQuestionsPatientCallId(
-      //   this.patientCall.patientCallId
-      // ).subscribe((data: any) => {
-      //   console.log(data);
-      //   // add custom questions to the next call
-      // });
-      // add custom questions to the next call
-    });
 
     // this will require processing
     // debugger;
@@ -106,14 +94,25 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
       console.log(data);
       debugger;
-      let patientCallId = data.patientCallId | 0;
+      alert('finalized existing call successfully');
       //  This should "just" load the next patient call into the detail
-      this.patientCallService
-        .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
-        .subscribe((data: any) => {
-          debugger;
-          this.patientCall = data[0];
-        });
+      // will require some more processing based on
+      // scheduling for hospice, etc.
+      // schedule the next call
+      this.patientCallService.addNewPatientCallByPatientId(this.patient.patientId, 2).subscribe((data: any) => {
+        alert('scheduled upcoming call successfully');
+        console.log(data);
+        debugger;
+        let patientCallId = data.patientCallId;
+        this.patientCallService
+          .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
+          .subscribe((data: any) => {
+            console.log(data);
+            alert('found and loaded upcoming call successfully');
+            debugger;
+            this.patientCall = data[0];
+          });
+      });
     });
   }
 }

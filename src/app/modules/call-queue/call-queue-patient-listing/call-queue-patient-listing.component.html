@@ -53,12 +53,14 @@
       <span class="patient label-line"> {{ patient.patientAge }}, {{ operation?.operationName }} </span>
     </div>
     <div class="call-queue-call-status-legend">
-      <!-- <ion-list>
-        <ion-item *ngFor="let patientCallStatus of patientCallStatuses">
-          <i>icon</i>
+      <!-- <ion-list *ngIf="patient.patientCallCount < 1"  inset lines="none">
+        <ion-item *ngFor="let patientCallStatus of patientCallStatuses" 
+        [class.active]=="patient.lastPatientCallStatusLabelId == 
+        patientCallStatus.patientCallStatusLabelId">
+          <i class="'icon-'+patientCallStatusLabel">icon</i>
         </ion-item>
       </ion-list> -->
-      <ul>
+      <ul *ngIf="patient.patientCallCount < 1">
         <li>
           <i class="icon-contacted"></i>
         </li>
