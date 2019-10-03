@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { formatDate } from '@angular/common';
 
 @Component({
@@ -7,6 +7,7 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./patient-next-call-scheduler.component.scss']
 })
 export class PatientNextCallSchedulerComponent implements OnInit {
+  @Output() patientNextCallDateSelectedEventEmitter = new EventEmitter<string>();
   months: {
     number: string;
     name: string;
@@ -16,7 +17,6 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     number: string;
     name: string;
   };
-  patientNextCallDateSelectedEventEmitter = new EventEmitter<string>();
   scheduledCallDate: string;
   selectedDay: number;
   selectedMonth: {

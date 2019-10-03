@@ -100,6 +100,14 @@ export class PatientDetailComponent implements OnInit {
       }
       return;
     }
+    if (!this.patientNextCall.date) {
+      alert('Please schedule a call date');
+      let element = document.querySelector('#next-call-calendar');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      return;
+    }
     this.patientCallNotesService
       .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId, this.patientCallNotes)
       .subscribe((data: any) => {
