@@ -3,15 +3,13 @@ import { ModalController } from '@ionic/angular';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { Patient } from '@app/modules/patient/patient';
 import { formatDate } from '@angular/common';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Notification, NotificationRecipients } from '@app/modules/notification/notification';
-import {
-  NotificationRecipientPostBody,
-  NotificationRecipientService
-} from '@app/modules/notification/notification-recipient/notification-recipient.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Notification, NotificationRecipient } from '@app/modules/notification/notification';
+import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 import { ActivatedRoute } from '@angular/router';
 import { Operation } from '@app/modules/operation/operation.service';
+import { Observable } from 'rxjs';
 @Component({
   providers: [NotificationService],
   selector: 'app-notification-modal',
@@ -33,6 +31,7 @@ export class NotificationModalComponent {
     notificationTypeLabelId: number;
     notificationTypeLabel: string;
   }[] = [];
+  notificationRecipients$: Observable<NotificationRecipient[]>;
   operation: Operation;
   status: {
     notification: {
@@ -77,7 +76,7 @@ export class NotificationModalComponent {
   createForm() {
     this.createNotificationForm = this.fb.group({
       notificationTypeId: this.fb.control(''),
-      notificationMessage: this.fb.control('')
+      notificationMessage: this.fb.control('', [Validators.required])
     });
   }
   createNotification() {

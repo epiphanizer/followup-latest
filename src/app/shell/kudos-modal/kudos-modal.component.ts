@@ -3,8 +3,8 @@ import { ModalController } from '@ionic/angular';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { Patient } from '@app/modules/patient/patient';
 import { formatDate } from '@angular/common';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Notification, NotificationRecipients } from '@app/modules/notification/notification';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Notification, NotificationRecipient } from '@app/modules/notification/notification';
 import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 @Component({
   providers: [NotificationService],
@@ -14,11 +14,12 @@ import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/pa
 })
 export class KudosModalComponent {
   kudosValue: number = 7;
-  createNotificationForm!: FormGroup;
-  @Input() notificationRecipients: NotificationRecipients;
+  createNotificationForm: FormGroup;
+
   @Input() patient: Patient;
   @Input() patientCall: PatientCall;
   notification: Notification;
+  notificationRecipients: NotificationRecipient[];
   notificationTypes: {
     notificationTypeLabelId: number;
     notificationTypeLabel: string;
@@ -71,6 +72,7 @@ export class KudosModalComponent {
   }
   createForm() {
     this.createNotificationForm = this.fb.group({
+      notificationTypeId: this.fb.control('', [Validators.required]),
       notificationMessage: this.fb.control('')
     });
   }
