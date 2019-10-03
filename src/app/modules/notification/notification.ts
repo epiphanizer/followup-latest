@@ -3,7 +3,7 @@ export interface Notification {
   notificationMessage: string;
   notificationId?: number;
   notificationTypeLabel?: string;
-  notificationOperationId: string;
+  notificationOperationId: number;
   notificationOperationName?: string;
   notificationPatientId?: number;
   notificationPatientFirstName?: string;

@@ -15,10 +15,8 @@ export class PatientNextCallQuestionsComponent implements OnInit {
   patientCallQuestions$: Observable<PatientCallQuestion[]>;
 
   ngOnInit() {
-    this.patientCallQuestions.push(<PatientCallQuestion>{
-      patientCallQuestion: 'What is your next question?'
-    });
     this.createForm();
+    this.addNextCallQuestion();
   }
   createForm() {
     this.patientNextCallQuestionsForm = this.fb.group({
@@ -29,6 +27,9 @@ export class PatientNextCallQuestionsComponent implements OnInit {
     this.patientCallQuestions.push(<PatientCallQuestion>{
       patientCallQuestion: 'What is your next question?'
     });
+    /**
+     * Now push it to the formcontrol array
+     */
   }
   togglePatientCallQuestionHighlight(patientCallQuestionId: number) {
     if (this.patientCallQuestions[patientCallQuestionId].patientCallQuestionHighlight == false) {
