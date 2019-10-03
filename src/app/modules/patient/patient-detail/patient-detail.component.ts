@@ -84,9 +84,7 @@ export class PatientDetailComponent implements OnInit {
   }
   patientCallStatusLabelChangeHandler($event: number) {
     let patientCallStatusLabelId = $event;
-    debugger;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
-    // Will need a correction but this allows us to pass for now
     this.patientCall.patientCallStatusLabel = 'Selected Status';
   }
   patientCallFinishEventHandler($event: PatientCall) {
