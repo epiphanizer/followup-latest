@@ -11,6 +11,20 @@
   ion-label {
     display: inline-block;
   }
+  h3 {
+    font-family: Avenir;
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 0.42px;
+    text-align: left;
+    width: 100%;
+    display: block;
+    padding-bottom: 8px;
+  }
+
   ion-item {
     cursor: pointer;
     display: inline-block;
@@ -41,6 +55,9 @@
       &.icon-final {
         background-image: url("/assets/icon-final-call@2x.png");
       }
+      &.active {
+        border-bottom: 1px black solid;
+      }
     }
     span {
       font-family: Avenir;
@@ -52,6 +69,9 @@
       letter-spacing: normal;
       text-align: left;
       color: var(--charcoal-grey);
+      &.active {
+        border-bottom: 1px black solid;
+      }
     }
   }
 }
