@@ -96,10 +96,15 @@ export class PatientCallService {
   }
 
   // Needs accompanying swagger
-  public addNewPatientCallByPatientId(patientId: number, patientCallStatusLabelId: number) {
+  public addNewPatientCallByPatientId(
+    patientId: number,
+    patientCallScheduledTime: string,
+    patientCallStatusLabelId: number
+  ) {
     return this.http
       .post('patients/' + patientId + '/calls', {
         body: {
+          patientCallScheduledTime: patientCallScheduledTime,
           patientCallStatusLabelId: patientCallStatusLabelId
         }
       })

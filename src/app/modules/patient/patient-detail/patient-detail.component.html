@@ -43,7 +43,12 @@
         </app-patient-call-stop-button>
 
         <ng-container *ngIf="patientCall.patientCallStatusLabel == 'In Review'">
-          <app-patient-next-call-scheduler> </app-patient-next-call-scheduler>
+          <app-patient-next-call-scheduler
+            (patientNextCallDateSelectedEventEmitter)="
+              patientNextCallDateSelectedEventHandler(patientNextCall.date, patientNextCall.patientCallStatusLabelId)
+            "
+          >
+          </app-patient-next-call-scheduler>
           <app-patient-next-call-questions> </app-patient-next-call-questions>
           <app-patient-next-call-finish-button
             [patient]="patient"

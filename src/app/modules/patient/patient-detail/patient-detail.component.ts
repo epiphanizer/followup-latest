@@ -15,6 +15,7 @@ import {
   PatientCallNotes
 } from './patient-call/patient-call-notes/patient-call-notes.service';
 import { PatientCallQuestionsService } from './patient-call/patient-call-questions/patient-call-questions.service';
+import { PatientCallStatus } from './patient-call/patient-call-status.service';
 
 @Component({
   providers: [PatientCallService, PatientCallNotesService, PatientCallQuestionsService],
@@ -31,7 +32,12 @@ export class PatientDetailComponent implements OnInit {
   patientCallNotes: PatientCallNotes;
   patientCallQuestions: PatientCallQuestion[];
   patientCallQuestionAnswers: PatientCallQuestionAnswer[];
-  nextPatientCallScheduledTime: Date;
+  patientCallStatuses: PatientCallStatus[];
+
+  patientNextCall: {
+    date: string;
+    patientCallStatusLabelId: number;
+  };
 
   constructor(
     private patientCallService: PatientCallService,
@@ -67,14 +73,14 @@ export class PatientDetailComponent implements OnInit {
   }
   patientCallNotesChangeHandler($event: PatientCallNotes) {
     this.patientCallNotes = $event;
-    console.log('Call Notes:' + this.patientCallNotes);
   }
   patientCallStatusLabelChangeHandler($event: number) {
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
+    // Will need a correction but this allows us to pas
+    this.patientCall.patientCallStatusLabel = 'Selected Status';
   }
   patientCallFinishEventHandler($event: PatientCall) {
-    debugger;
     this.patientCall = $event;
     /**
      * We are in review mode, back out
@@ -85,7 +91,6 @@ export class PatientDetailComponent implements OnInit {
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-
       return;
     }
     this.patientCallNotesService
@@ -111,20 +116,27 @@ export class PatientDetailComponent implements OnInit {
       debugger;
       alert('finalized existing call successfully');
 
-      this.patientCallService.addNewPatientCallByPatientId(this.patient.patientId, 2).subscribe((data: any) => {
-        alert('scheduled upcoming call successfully');
-        console.log(data);
-        debugger;
-        let patientCallId = data.patientCallId;
-        this.patientCallService
-          .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
-          .subscribe((data: any) => {
-            console.log(data);
-            alert('found and loaded upcoming call successfully');
-            debugger;
-            this.patientCall = data[0];
-          });
-      });
+      // needs correction for dynamic status label
+      this.patientCallService
+        .addNewPatientCallByPatientId(
+          this.patient.patientId,
+          this.patientNextCall.date,
+          this.patientNextCall.patientCallStatusLabelId
+        )
+        .subscribe((data: any) => {
+          alert('scheduled upcoming call successfully');
+          console.log(data);
+          debugger;
+          let patientCallId = data.patientCallId;
+          this.patientCallService
+            .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
+            .subscribe((data: any) => {
+              console.log(data);
+              alert('found and loaded upcoming call successfully');
+              debugger;
+              this.patientCall = data[0];
+            });
+        });
     });
   }
 }
