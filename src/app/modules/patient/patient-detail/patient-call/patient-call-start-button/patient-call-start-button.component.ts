@@ -10,19 +10,14 @@ import { User } from '@app/modules/user/user.service';
   styleUrls: ['./patient-call-start-button.component.scss']
 })
 export class PatientCallStartButtonComponent implements OnInit {
-  patientCall$: Observable<PatientCall>;
   @Input() user: User;
   @Input() patientCall: PatientCall;
-  @Output() patientCallStartEventEmitter = new EventEmitter<PatientCall>();
+  @Output() patientCallStartEventEmitter = new EventEmitter<number>();
   constructor(private patientCallService: PatientCallService) {}
 
   ngOnInit() {}
 
-  public patientCallStartEvent() {
-    this.patientCall$ = this.patientCallService
-      .startPatientCallByUserIdAndPatientCallId(this.user.id, this.patientCall.patientCallId)
-      .subscribe((patientCall: PatientCall) => {
-        this.patientCallStartEventEmitter.emit(patientCall);
-      });
+  public patientCallStartEvent(userId: number) {
+    this.patientCallStartEventEmitter.emit(userId);
   }
 }

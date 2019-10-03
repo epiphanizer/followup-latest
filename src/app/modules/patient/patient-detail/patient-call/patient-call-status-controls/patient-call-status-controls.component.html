@@ -1,7 +1,7 @@
 <ion-list lines="none" class="patient-call-status-legend">
   <ion-item
     *ngFor="let patientCallStatus of patientCallStatuses"
-    (click)="updatePatientCallStatus(patientCall.patientCallId, patientCallStatus.patientCallStatusLabelId)"
+    (click)="updatePatientCallStatus(patientCallStatusLabelId)"
   >
     <div>
       <i

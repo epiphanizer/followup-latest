@@ -34,7 +34,7 @@ export class PatientCallQuestionsService {
     );
   };
   addPatientCallQuestionAnswersByPatientCallQuestionId = function(patientCallQuestionId: number) {
-    return this.http.get('patients/calls/' + patientCallQuestionId + '/questions').pipe(
+    return this.http.post('patients/calls/questions/' + patientCallQuestionId + '/answers').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

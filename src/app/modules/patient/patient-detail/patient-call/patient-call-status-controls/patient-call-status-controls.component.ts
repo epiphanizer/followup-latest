@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   PatientCallStatusService,
   PatientCallStatus
@@ -12,6 +12,7 @@ import { PatientCall } from '../patient-call.service';
 })
 export class PatientCallStatusControlsComponent implements OnInit {
   @Input() patientCall: PatientCall;
+  @Output() patientCallStartEventEmitter = new EventEmitter<PatientCall>();
   patientCallStatuses: PatientCallStatus[];
   constructor(private patientCallStatusService: PatientCallStatusService) {}
 
@@ -21,7 +22,7 @@ export class PatientCallStatusControlsComponent implements OnInit {
     });
   }
 
-  updatePatientCallStatus(patientCallId: number, patientCallStatusLabelId: number) {
-    alert('updating patient call status: ' + patientCallStatusLabelId);
+  updatePatientCallStatus(patientCallStatusLabelId: number) {
+    this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
   }
 }
