@@ -72,8 +72,6 @@ export class NotificationModalComponent {
       console.log(notificationTypes);
       debugger;
       this.notificationType = notificationTypes.find(notificationTypes => notificationTypes.notificationTypeId == val);
-      console.log(this.notificationType);
-
       this.notification.notificationTypeLabel = this.notificationType.notificationTypeLabel;
       this.notification.notificationIconImage = this.notificationType.notificationIconImage;
     });
