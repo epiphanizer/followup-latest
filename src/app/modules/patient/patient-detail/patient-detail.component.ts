@@ -53,6 +53,10 @@ export class PatientDetailComponent implements OnInit {
       .subscribe((patientCall: PatientCall) => {
         this.patientCall = patientCall[0];
       });
+    this.patientNextCall = {
+      date: '',
+      patientCallStatusLabelId: 1
+    };
   }
 
   patientCallStartEventHandler(userId: number) {
@@ -76,8 +80,8 @@ export class PatientDetailComponent implements OnInit {
     }
   }
   patientNextCallDateSelectedEventHandler($event: string) {
-    alert('set date for next call');
     this.patientNextCall.date = $event;
+    console.log(this.patientNextCall.date);
   }
   patientCallNotesChangeHandler($event: PatientCallNotes) {
     this.patientCallNotes = $event;

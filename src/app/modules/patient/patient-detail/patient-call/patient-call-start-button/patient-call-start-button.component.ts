@@ -13,11 +13,15 @@ export class PatientCallStartButtonComponent implements OnInit {
   @Input() user: User;
   @Input() patientCall: PatientCall;
   @Output() patientCallStartEventEmitter = new EventEmitter<number>();
-  constructor(private patientCallService: PatientCallService) {}
+  constructor() {}
 
   ngOnInit() {}
 
-  public patientCallStartEvent(userId: number) {
+  public patientCallStartEvent() {
+    /**
+     * Stub
+     */
+    let userId = 10;
     this.patientCallStartEventEmitter.emit(userId);
   }
 }

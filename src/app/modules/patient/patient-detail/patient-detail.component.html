@@ -52,9 +52,7 @@
           "
         >
           <app-patient-next-call-scheduler
-            (patientNextCallDateSelectedEventEmitter)="
-              patientNextCallDateSelectedEventHandler(patientNextCall.date, patientNextCall.patientCallStatusLabelId)
-            "
+            (patientNextCallDateSelectedEventEmitter)="patientNextCallDateSelectedEventHandler(patientNextCall.date)"
           >
           </app-patient-next-call-scheduler>
           <app-patient-next-call-questions> </app-patient-next-call-questions>

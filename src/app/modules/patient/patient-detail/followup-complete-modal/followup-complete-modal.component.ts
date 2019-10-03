@@ -27,10 +27,10 @@ export class FollowupCompleteModalComponent implements OnInit {
     this.patientStatusService.getPatientStatusLabels().subscribe((data: PatientStatus[]) => {
       this.completionTypes = data;
       var i;
-      for (i = 0; i <= this.completionTypes.length; i = i + 2) {
+      for (i = 0; i <= this.completionTypes.length; i++) {
         if (this.completionTypes[i] !== undefined) {
           this.completionTypesListLeft.push(this.completionTypes[i]);
-          this.completionTypesListRight.push(this.completionTypes[i + 1]);
+          this.completionTypesListRight.push(this.completionTypes[i + 2]);
         }
       }
     });
