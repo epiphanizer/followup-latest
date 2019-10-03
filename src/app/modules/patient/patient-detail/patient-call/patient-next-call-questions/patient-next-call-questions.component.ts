@@ -31,7 +31,8 @@ export class PatientNextCallQuestionsComponent implements OnInit {
       patientCallQuestion: 'What is your next question?'
     });
   }
-  highlightCallQuestion(patientCallQuestionId: number) {
+  highlightPatientCallQuestion(patientCallQuestionId: number) {
+    debugger;
     this.patientCallQuestions[patientCallQuestionId].patientCallQuestionHighlight = true;
   }
 }
