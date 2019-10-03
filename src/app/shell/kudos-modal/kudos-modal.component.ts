@@ -77,7 +77,7 @@ export class KudosModalComponent {
   sendNotification() {
     debugger;
     this.notificationService
-      .sendNotificationByNotificationId(this.notification.notificationId)
+      .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
         console.log(data);
         this.dismiss();

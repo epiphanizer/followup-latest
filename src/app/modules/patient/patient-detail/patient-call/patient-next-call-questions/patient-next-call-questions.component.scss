@@ -11,6 +11,7 @@ form {
     width: auto;
     float: left;
     &.is-highlighted {
+      width: 302px;
       border-bottom: yellow 1px solid;
     }
   }
@@ -27,7 +28,6 @@ form {
 
   ion-item {
     max-width: 508px;
-    margin-bottom: 1.5rem;
   }
 
   ion-textarea {
@@ -40,8 +40,9 @@ form {
         position: absolute;
         content: "";
         left: 0;
-        width: 30px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
+        background-size: 100%;
         z-index: 50;
         background-color: yellow;
       }

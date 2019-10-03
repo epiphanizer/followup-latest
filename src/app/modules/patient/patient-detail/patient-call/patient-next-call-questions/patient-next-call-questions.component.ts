@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { PatientCallService, PatientCall } from '../patient-call.service';
 import { Observable } from 'rxjs';
 import { PatientCallQuestion } from '../patient-call-questions/patient-call-questions.service';
 
@@ -31,7 +30,11 @@ export class PatientNextCallQuestionsComponent implements OnInit {
       patientCallQuestion: 'What is your next question?'
     });
   }
-  highlightPatientCallQuestion(patientCallQuestionId: number) {
-    this.patientCallQuestions[patientCallQuestionId].patientCallQuestionHighlight = true;
+  togglePatientCallQuestionHighlight(patientCallQuestionId: number) {
+    if (this.patientCallQuestions[patientCallQuestionId].patientCallQuestionHighlight == false) {
+      this.patientCallQuestions[patientCallQuestionId].patientCallQuestionHighlight = true;
+    } else {
+      this.patientCallQuestions[patientCallQuestionId].patientCallQuestionHighlight = true;
+    }
   }
 }

@@ -41,7 +41,11 @@ export class ToolbarNavComponent implements OnInit {
       cssClass: 'followup-modal',
       componentProps: {
         modalType: 'Notification',
-        notificationTypeLabel: 'Label',
+        notification: {
+          notificationMessage: '',
+          notificationTypeLabelId: null,
+          notificationTypeLabel: ''
+        },
         operation: this.operation,
         patient: this.patient
       }
@@ -54,7 +58,11 @@ export class ToolbarNavComponent implements OnInit {
       cssClass: 'followup-modal',
       componentProps: {
         modalType: 'Kudos',
-        notificationTypeLabel: 'Kudos',
+        notification: {
+          notificationMessage: 'Give your Kudos!',
+          notificationTypeLabelId: 8,
+          notificationTypeLabel: 'Kudos'
+        },
         operation: this.operation,
         patient: this.patient
       }
