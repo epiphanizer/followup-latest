@@ -3,7 +3,9 @@
     <ion-row>
       <ion-col class="left-hand-detail">
         <app-patient-call-status-controls
-          *ngIf="patientCall.patientCallStatusLabel == 'In Review'"
+          *ngIf="
+            patientCall.patientCallStatusLabel == 'In Review' || patientCall.patientCallStatusLabel == 'Selected Status'
+          "
           [patientCall]="patientCall"
           (patientCallStatusChangeEmitter)="patientCallStatusLabelChangeHandler($event)"
         >
@@ -20,7 +22,9 @@
 
         <app-patient-call-notes
           *ngIf="
-            patientCall.patientCallStatusLabel == 'Started' || patientCall.patientCallStatusLabel == 'In Review';
+            patientCall.patientCallStatusLabel == 'Started' ||
+              patientCall.patientCallStatusLabel == 'In Review' ||
+              patientCall.patientCallStatusLabel == 'Selected Status';
             else spacer
           "
           [patientCall]="patientCall"
@@ -42,7 +46,11 @@
         >
         </app-patient-call-stop-button>
 
-        <ng-container *ngIf="patientCall.patientCallStatusLabel == 'In Review'">
+        <ng-container
+          *ngIf="
+            patientCall.patientCallStatusLabel == 'In Review' || patientCall.patientCallStatusLabel == 'Selected Status'
+          "
+        >
           <app-patient-next-call-scheduler
             (patientNextCallDateSelectedEventEmitter)="
               patientNextCallDateSelectedEventHandler(patientNextCall.date, patientNextCall.patientCallStatusLabelId)
