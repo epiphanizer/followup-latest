@@ -67,22 +67,26 @@ export class PatientDetailComponent implements OnInit {
     this.patientCall.patientCallStatusLabel = 'In Review';
   }
   patientCallNotesChangeHandler($event: PatientCallNotes) {
-    alert('changed call notes');
     this.patientCallNotes = $event;
-    console.log(this.patientCallNotes);
+    console.log('Call Notes:' + this.patientCallNotes);
   }
   patientCallStatusLabelChangeHandler($event: number) {
-    alert('changed call status');
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
   }
   patientCallFinishEventHandler($event: PatientCall) {
+    debugger;
     this.patientCall = $event;
     /**
      * We are in review mode, back out
      */
     if (this.patientCall.patientCallStatusLabel == 'In Review') {
-      // throw an error here
+      alert('Please select a call status!');
+      let element = document.querySelector('#patientCallStatusControls');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
       return;
     }
     this.patientCallNotesService

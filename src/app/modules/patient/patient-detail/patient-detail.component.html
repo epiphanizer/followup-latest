@@ -12,6 +12,7 @@
           this will be hidden if we have advanced past ID 2, which is the "started" state -->
         <app-patient-call-start-button
           *ngIf="patientCall.patientCallStatusLabelId < 3"
+          [user]="user"
           [patientCall]="patientCall"
           (patientCallStartEventEmitter)="patientCallStartEventHandler(user.id, $event)"
         >
@@ -23,7 +24,7 @@
             else spacer
           "
           [patientCall]="patientCall"
-          (patientCallNotesChangeHandler)="patientCallNotesChangeHandler($event)"
+          (patientCallNotesChangeEmitter)="patientCallNotesChangeHandler($event)"
         >
         </app-patient-call-notes>
         <ng-template #spacer>

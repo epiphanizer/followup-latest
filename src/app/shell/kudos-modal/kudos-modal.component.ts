@@ -15,9 +15,6 @@ import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/pa
 export class KudosModalComponent {
   kudosValue: number = 7;
   createNotificationForm: FormGroup;
-
-  @Input() patient: Patient;
-  @Input() patientCall: PatientCall;
   notification: Notification;
   notificationRecipients: NotificationRecipient[];
   notificationTypes: {
@@ -66,9 +63,9 @@ export class KudosModalComponent {
     });
   }
   ngAfterViewInit() {
-    this.notification.notificationPatientFirstName = this.patient.patientFirstName;
-    this.notification.notificationPatientLastName = this.patient.patientLastName;
-    this.notification.notificationOperationName = this.patient.patientOperationName;
+    // this.notification.notificationPatientFirstName = this.patient.patientFirstName;
+    // this.notification.notificationPatientLastName = this.patient.patientLastName;
+    // this.notification.notificationOperationName = this.patient.patientOperationName;
   }
   createForm() {
     this.createNotificationForm = this.fb.group({

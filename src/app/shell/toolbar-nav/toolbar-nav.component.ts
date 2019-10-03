@@ -44,7 +44,8 @@ export class ToolbarNavComponent implements OnInit {
         notification: {
           notificationMessage: '',
           notificationOperationName: 'Operation Name',
-          notificationTypeLabelId: null,
+          notificationPatientId: 0,
+          notificationTypeLabelId: 8,
           notificationTypeLabel: ''
         },
         operation: this.operation,
@@ -62,6 +63,7 @@ export class ToolbarNavComponent implements OnInit {
         notification: {
           notificationMessage: 'Give your Kudos!',
           notificationOperationName: 'Operation Name',
+          notificationPatientId: 0,
           notificationTypeLabelId: 8,
           notificationTypeLabel: 'Kudos'
         },

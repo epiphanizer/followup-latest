@@ -4,26 +4,22 @@
 <ng-container *ngIf="status.notification.saved == false; else sendNotification">
   <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
     <ion-title>Notification</ion-title>
-    <ion-list class="notification-options" lines="none" inset *ngIf="notificationTypes">
+    <ion-list *ngIf="notificationTypes" class="notification-options" lines="none" inset>
       <ion-row>
-        <ion-col width-50>
-          <ion-item *ngFor="let notificationType of notificationTypesListLeft">
-            <ion-radio-group>
-              <ion-radio value="notificationType.notificationTypesLabelId" formControlName="notificationTypeId">
-              </ion-radio>
+        <ion-radio-group formControlName="notificationTypeId">
+          <ion-col width-50>
+            <ion-item *ngFor="let notificationType of notificationTypesListLeft">
+              <ion-radio value="notificationType.notificationTypesLabelId"> </ion-radio>
               <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
-            </ion-radio-group>
-          </ion-item>
-        </ion-col>
-        <ion-col width-50>
-          <ion-item *ngFor="let notificationType of notificationTypesListRight">
-            <ion-radio-group>
-              <ion-radio value="notificationType.notificationTypesLabelId" formControlName="notificationTypeId">
-              </ion-radio>
+            </ion-item>
+          </ion-col>
+          <ion-col width-50>
+            <ion-item *ngFor="let notificationType of notificationTypesListRight">
+              <ion-radio value="notificationType.notificationTypesLabelId"> </ion-radio>
               <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
-            </ion-radio-group>
-          </ion-item>
-        </ion-col>
+            </ion-item>
+          </ion-col>
+        </ion-radio-group>
       </ion-row>
     </ion-list>
     <ion-textarea
@@ -65,8 +61,9 @@
         <ion-item *ngIf="notification.notificationRecipients">
           <span class="label">Next Steps:&nbsp;</span>
           Notify
-          <span *ngFor="let notificationRecipient of notification.notificationRecipients">
-            {{ notificationRecipient }} /
+          <span *ngFor="let notificationRecipient of notification.notificationRecipients; let idx = index">
+            {{ notificationRecipient }}
+            <span *ngIf="idx !== notification.notificationRecipients.length">,</span>
           </span>
         </ion-item>
         <ion-item>

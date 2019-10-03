@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Patient } from '../../patient';
 import { PatientStatusService, PatientStatus } from '../../patient-status.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -37,7 +37,7 @@ export class FollowupCompleteModalComponent implements OnInit {
   }
   createForm() {
     this.followupCompleteForm = this.fb.group({
-      patientStatusLabelId: this.fb.control(''),
+      patientStatusLabelId: this.fb.control('', [Validators.required]),
       completionNotes: this.fb.control('')
     });
   }
