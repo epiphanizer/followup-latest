@@ -81,11 +81,6 @@ export class NotificationModalComponent {
     this.status.notification.saved = false;
   }
   saveNotification() {
-    debugger;
-    this.notification = {
-      notificationTypeId: this.createNotificationForm.controls.notificationTypeId.value,
-      notificationMessage: this.createNotificationForm.controls.notificationMessage.value
-    };
     this.status.notification.saved = true;
   }
   sendNotification() {
