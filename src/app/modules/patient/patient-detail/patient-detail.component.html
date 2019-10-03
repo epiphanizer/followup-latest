@@ -25,6 +25,7 @@
             else spacer
           "
           [patientCall]="patientCall"
+          (patientCallNotesChangeHandler)="patientCallNotesChangeHandler($event)"
         >
         </app-patient-call-notes>
         <ng-template #spacer>

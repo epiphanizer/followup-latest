@@ -10,7 +10,10 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/user';
 import { Operation } from '@app/modules/operation/operation.service';
 import { IonTextarea } from '@ionic/angular';
-import { PatientCallNotesService } from './patient-call/patient-call-notes/patient-call-notes.service';
+import {
+  PatientCallNotesService,
+  PatientCallNotes
+} from './patient-call/patient-call-notes/patient-call-notes.service';
 import { PatientCallStatusService } from './patient-call/patient-call-status.service';
 import { PatientCallQuestionsService } from './patient-call/patient-call-questions/patient-call-questions.service';
 
@@ -26,11 +29,11 @@ export class PatientDetailComponent implements OnInit {
   patient: Patient;
   operation: Operation;
   patientCall: PatientCall;
+  patientCallNotes: PatientCallNotes;
   patientCallQuestions: PatientCallQuestion[];
   patientCallQuestionAnswers: PatientCallQuestionAnswer[];
   constructor(
     private patientCallService: PatientCallService,
-    private patientCallStatusService: PatientCallStatusService,
     private patientCallNotesService: PatientCallNotesService,
     private route: ActivatedRoute
   ) {}
@@ -61,6 +64,11 @@ export class PatientDetailComponent implements OnInit {
     this.patientCall.patientCallStatusLabelId = 4;
     this.patientCall.patientCallStatusLabel = 'In Review';
   }
+  patientCallNotesChangeHandler($event: PatientCallNotes) {
+    alert('changed call notes');
+    this.patientCallNotes = $event;
+    console.log(this.patientCallNotes);
+  }
   patientCallStatusLabelChangeHandler($event: number) {
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
@@ -77,13 +85,12 @@ export class PatientDetailComponent implements OnInit {
     /**
      * Add the patient question data
      */
-    // this.patientCallNotesService
-    //   .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId)
-    //   .subscribe((data: any) => {
-    //     console.log(data);
-    //     debugger;
-    //   });
-    //
+    this.patientCallNotesService
+      .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId, this.patientCallNotes)
+      .subscribe((data: any) => {
+        console.log(data);
+        debugger;
+      });
 
     // add answers to our questions to the current call
     // this will require processing

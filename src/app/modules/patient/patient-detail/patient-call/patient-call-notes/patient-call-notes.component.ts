@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PatientCall } from '../../patient-call/patient-call.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { PatientCallNotesService } from '@app/modules/patient/patient-detail/patient-call/patient-call-notes/patient-call-notes.service';
@@ -13,22 +13,31 @@ import { Observable } from 'rxjs';
 })
 export class PatientCallNotesComponent implements OnInit {
   @Input() patientCall: PatientCall;
+  @Output() patientCallNotes: PatientCallNotes;
   patientCallNotesForm: FormGroup;
-  patientCallNotes: PatientCallNotes | null = null;
   patientCallNotes$: Observable<PatientCallNotes>;
+  @Output() patientCallNotesChangeEmitter = new EventEmitter<PatientCallNotes>();
   highlighterActive: boolean;
-  constructor(private fb: FormBuilder, patientCallNotesService: PatientCallNotesService) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.createForm();
+    this.patientCallNotes = {
+      patientCallNotes: ''
+    };
+    this.onChanges();
   }
-  handleCallEnd() {
-    alert('updating call notes');
-    console.log('Handling the end of call in the call notes component');
+  onChanges() {
+    this.patientCallNotesForm.get('patientCallNotes').valueChanges.subscribe(val => {
+      this.patientCallNotes.patientCallNotes = val;
+    });
   }
-  highlightPatientCallNotes() {
-    alert('activating highlighter');
-    this.highlighterActive = true;
+  activateHighlighter() {
+    if (this.highlighterActive == false) {
+      this.highlighterActive = true;
+    } else {
+      this.highlighterActive = false;
+    }
   }
   private createForm() {
     this.patientCallNotesForm = this.fb.group({
