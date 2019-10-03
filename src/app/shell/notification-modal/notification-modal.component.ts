@@ -69,6 +69,8 @@ export class NotificationModalComponent {
   onChanges() {
     let notificationTypes = this.notificationTypes;
     this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
+      console.log(notificationTypes);
+      debugger;
       this.notificationType = notificationTypes.find(notificationTypes => notificationTypes.notificationTypeId == val);
       console.log(this.notificationType);
 

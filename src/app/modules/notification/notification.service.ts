@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Notification, NotificationTypes, NotificationPostBody } from './notification';
+import { Notification, NotificationType, NotificationPostBody } from './notification';
 import { NotificationRecipientPostBody } from './notification-recipient/notification-recipient.service';
 
 @Injectable({
@@ -28,8 +28,8 @@ export class NotificationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getNotificationTypes(): Observable<NotificationTypes[]> {
-    return this.http.get<NotificationTypes[]>('notifications/types').pipe(
+  getNotificationTypes(): Observable<NotificationType[]> {
+    return this.http.get<NotificationType[]>('notifications/types').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

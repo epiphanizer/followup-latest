@@ -12,7 +12,7 @@ import { OperationResolver } from '../operation-resolver';
 import { OperationPutBody, OperationCallRepPostBody } from '../operation';
 import { OperationContact } from '../operation-contact/operation-contact';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
-import { NotificationTypes } from '@app/modules/notification/notification';
+import { NotificationType } from '@app/modules/notification/notification';
 
 @Component({
   providers: [
@@ -32,7 +32,7 @@ export class OperationFormComponent implements OnInit {
   availableManagers$: Observable<User[]>;
   operation: Operation;
   editMode: boolean;
-  notificationTypes: NotificationTypes[];
+  notificationTypes: NotificationType[];
   operationForm!: FormGroup;
   operation$: Observable<Operation>;
   operationCallReps: OperationCallRep[];
