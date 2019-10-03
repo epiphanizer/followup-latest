@@ -5,8 +5,8 @@
   <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
     <ion-title>Notification</ion-title>
     <ion-list *ngIf="notificationTypes" class="notification-options" lines="none" inset>
-      <ion-row>
-        <ion-radio-group formControlName="notificationTypeId">
+      <ion-radio-group>
+        <ion-row>
           <ion-col width-50>
             <ion-item *ngFor="let notificationType of notificationTypesListLeft">
               <ion-radio value="notificationType.notificationTypesLabelId"> </ion-radio>
@@ -19,8 +19,8 @@
               <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
             </ion-item>
           </ion-col>
-        </ion-radio-group>
-      </ion-row>
+        </ion-row>
+      </ion-radio-group>
     </ion-list>
     <ion-textarea
       class="notification-textarea"
@@ -29,8 +29,8 @@
     >
     </ion-textarea>
     <ion-button fill="outline" class="save-button ion-float-right" type="button" (click)="saveNotification()"
-      >Save</ion-button
-    >
+      >Save
+    </ion-button>
   </form>
 </ng-container>
 <ng-template #sendNotification>
