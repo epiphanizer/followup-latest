@@ -10,6 +10,9 @@ form {
     letter-spacing: 0.42px;
     width: auto;
     float: left;
+    .is-highlighted {
+      border-bottom: yellow 1px solid;
+    }
   }
 
   i.icon-info {
@@ -60,10 +63,12 @@ form {
   .patient-next-call-question-highlight-controls {
     width: 100%;
     text-align: right;
-
-    img {
-      float: right;
-      max-width: 50%;
+    a {
+      width: 100%;
+      img {
+        float: right;
+        height: 17px;
+      }
     }
   }
 
