@@ -78,6 +78,7 @@ export class NotificationModalComponent {
     this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
       this.notification.notificationTypeId = val;
       this.notification.notificationTypeLabel = this.notificationTypes[val + 1].notificationTypeLabel;
+      this.notification.notificationIconImage = this.notificationTypes[val + 1].notificationIconImage;
     });
     this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
       this.notification.notificationMessage = val;
