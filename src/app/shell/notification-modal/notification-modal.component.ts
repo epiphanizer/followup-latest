@@ -6,10 +6,11 @@ import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Notification, NotificationRecipient } from '@app/modules/notification/notification';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
-import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 import { ActivatedRoute } from '@angular/router';
 import { Operation } from '@app/modules/operation/operation.service';
 import { Observable } from 'rxjs';
+import { OperationContact } from '@app/modules/operation/operation-contact/operation-contact';
+import { OperationContactsService } from '@app/modules/operation/operation-contacts.service';
 @Component({
   providers: [NotificationService],
   selector: 'app-notification-modal',
@@ -31,8 +32,8 @@ export class NotificationModalComponent {
     notificationTypeLabelId: number;
     notificationTypeLabel: string;
   }[] = [];
+  operationContacts$: Observable<OperationContact[]>;
   notificationRecipients$: Observable<NotificationRecipient[]>;
-  operation: Operation;
   status: {
     notification: {
       saved: boolean;
@@ -49,11 +50,11 @@ export class NotificationModalComponent {
     private modalCtrl: ModalController,
     private fb: FormBuilder,
     private notificationService: NotificationService,
+    private operationContactsService: OperationContactsService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.operation = this.route.snapshot.data.operation;
     this.notificationService.getNotificationTypes().subscribe((data: any) => {
       this.notificationTypes = data;
       var i;
@@ -67,21 +68,32 @@ export class NotificationModalComponent {
       this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
       this.createNotification();
       this.createForm();
+      this.onChanges();
+    });
+    this.operationContacts$ = this.operationContactsService.getOperationContactsByOperationId(
+      this.notification.notificationOperationId
+    );
+  }
+  onChanges() {
+    this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
+      this.notification.notificationTypeId = val;
+      this.notification.notificationTypeLabel = 'Label applied from selecting type';
+    });
+    this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
+      this.notification.notificationMessage = val;
     });
   }
-  ngAfterViewInit() {
-    // this.notification.notificationPatientFirstName = this.patient.patientFirstName;
-    // this.notification.notificationPatientLastName = this.patient.patientLastName;
-  }
+  ngAfterViewInit() {}
   createForm() {
     this.createNotificationForm = this.fb.group({
-      notificationTypeId: this.fb.control(''),
+      notificationTypeId: this.fb.control(false, [Validators.required]),
       notificationMessage: this.fb.control('', [Validators.required])
     });
   }
   createNotification() {
     return (this.notification = {
       notificationTypeId: 0,
+      notificationTypeLabel: 'Notification',
       notificationPatientId: 0,
       notificationOperationId: 0,
       notificationMessage: ''
@@ -97,12 +109,10 @@ export class NotificationModalComponent {
     let formData = this.createNotificationForm.getRawValue();
     this.notification.notificationTypeId = formData.notificationTypeId;
     this.notification.notificationMessage = formData.notificationMessage;
-    debugger;
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
         console.log(data);
-        debugger;
         this.dismiss();
       });
   }

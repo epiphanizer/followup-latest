@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { KudosModalComponent } from '../kudos-modal/kudos-modal.component';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
-import { Operation } from '@app/modules/operation/operation.service';
 import { Patient } from '@app/modules/patient/patient';
 
 @Component({
@@ -13,19 +12,17 @@ import { Patient } from '@app/modules/patient/patient';
 })
 export class ToolbarNavComponent implements OnInit {
   constructor(private route: ActivatedRoute, public modalController: ModalController) {}
-  /**
-   * Not with us by default, but they can be picked up
-   */
-  operation: Operation;
-  patient: Patient;
 
   @Input() navLinks: [string] | null;
+  patient: Patient;
 
-  ngOnInit() {}
-
-  ngAfterViewInit() {
-    console.log(this.navLinks);
+  ngOnInit() {
+    this.route.url.subscribe(() => {
+      this.patient = this.route.snapshot.firstChild.data.patient;
+    });
   }
+
+  ngAfterViewInit() {}
 
   doButtonAction(buttonAction: string) {
     if (buttonAction == 'report') {
@@ -43,13 +40,12 @@ export class ToolbarNavComponent implements OnInit {
         modalType: 'Notification',
         notification: {
           notificationMessage: '',
-          notificationOperationName: 'Operation Name',
-          notificationPatientId: 0,
+          notificationOperationId: this.patient.patientOperationId,
+          notificationOperationName: this.patient.patientOperationId,
+          notificationPatientId: this.patient.patientId,
           notificationTypeLabelId: 0,
           notificationTypeLabel: ''
-        },
-        operation: this.operation,
-        patient: this.patient
+        }
       }
     });
     return await modal.present();
@@ -62,13 +58,12 @@ export class ToolbarNavComponent implements OnInit {
         modalType: 'Kudos',
         notification: {
           notificationMessage: 'Give your Kudos!',
-          notificationOperationName: 'Operation Name',
-          notificationPatientId: 0,
+          notificationOperationId: this.patient.patientOperationId,
+          notificationOperationName: this.patient.patientOperationId,
+          notificationPatientId: this.patient.patientId,
           notificationTypeLabelId: 7,
           notificationTypeLabel: 'Kudos'
-        },
-        operation: this.operation,
-        patient: this.patient
+        }
       }
     });
     return await modal.present();

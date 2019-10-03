@@ -5,17 +5,17 @@
   <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
     <ion-title>Notification</ion-title>
     <ion-list *ngIf="notificationTypes" class="notification-options" lines="none" inset>
-      <ion-radio-group>
+      <ion-radio-group formControlName="notificationTypeId">
         <ion-row>
           <ion-col width-50>
             <ion-item *ngFor="let notificationType of notificationTypesListLeft">
-              <ion-radio value="notificationType.notificationTypesLabelId"> </ion-radio>
+              <ion-radio [value]="notificationType.notificationTypesLabelId"> </ion-radio>
               <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
             </ion-item>
           </ion-col>
           <ion-col width-50>
             <ion-item *ngFor="let notificationType of notificationTypesListRight">
-              <ion-radio value="notificationType.notificationTypesLabelId"> </ion-radio>
+              <ion-radio [value]="notificationType.notificationTypesLabelId"> </ion-radio>
               <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
             </ion-item>
           </ion-col>
@@ -28,7 +28,12 @@
       placeholder="Leave Your Notes Here"
     >
     </ion-textarea>
-    <ion-button fill="outline" class="save-button ion-float-right" type="button" (click)="saveNotification()"
+    <ion-button
+      [disabled]="createNotificationForm.invalid"
+      fill="outline"
+      class="save-button ion-float-right"
+      type="button"
+      (click)="saveNotification()"
       >Save
     </ion-button>
   </form>
@@ -36,9 +41,9 @@
 <ng-template #sendNotification>
   <ion-row *ngIf="notification">
     <ion-title class="ion-float-left">Notification</ion-title>
-    <span class="ion-float-right warning">
-      {{ notification.notificationTypesLabel }}
-    </span>
+    <h3 class="notification-type ion-float-right warning">
+      {{ notification.notificationTypeLabel }}
+    </h3>
     <img src="{{ notification.notificationIconImage }}" alt="" />
   </ion-row>
   <ion-row>
@@ -61,9 +66,10 @@
         <ion-item *ngIf="notification.notificationRecipients">
           <span class="label">Next Steps:&nbsp;</span>
           Notify
-          <span *ngFor="let notificationRecipient of notification.notificationRecipients; let idx = index">
-            {{ notificationRecipient }}
-            <span *ngIf="idx !== notification.notificationRecipients.length">,</span>
+          <span *ngFor="let operationContact of operationContact$ | async; let idx = index">
+            {{ operationContact.operationContactFirstName }}
+            {{ operationContact.operationContactLastName }}
+            <span *ngIf="idx !== operationContacts.length">,</span>
           </span>
         </ion-item>
         <ion-item>

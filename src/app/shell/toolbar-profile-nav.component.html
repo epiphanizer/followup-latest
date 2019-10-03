@@ -2,7 +2,7 @@
   <div class="user-avatar">
     <div class="avatar-image">
       <a routerLink="/user/profile" class="user-profile-jump">
-        <img *ngIf="user.avatar; else defaultProfileAvatar" src="{{ user.avatar }}" />
+        <img *ngIf="user.avatar; else defaultProfileAvatar" src="avatarImg" />
         <ng-template #defaultProfileAvatar>
           <img src="/assets/default-avatar@2x.png" />
         </ng-template>

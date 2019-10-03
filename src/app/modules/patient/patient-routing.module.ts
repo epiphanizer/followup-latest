@@ -23,8 +23,7 @@ const routes: Routes = [
           { linkAction: 'kudos', linkName: 'KUDOS', linkType: 'button' },
           { linkAction: 'report', linkName: 'REPORT!', linkType: 'button' }
         ],
-        title: extract('Patient Detail'),
-        operation: ':operationId'
+        title: extract('Patient Detail')
       }
     },
     {
