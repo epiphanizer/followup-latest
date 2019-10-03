@@ -11,6 +11,7 @@ export interface Notification {
   notificationStatusId?: string;
   notificationLabelId?: string;
   notificationRecipients?: string[];
+  notificationTypeIconImage?: string;
 }
 export interface NotificationTypes {
   notificationTypeId: number;

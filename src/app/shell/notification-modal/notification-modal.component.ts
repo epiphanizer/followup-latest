@@ -77,7 +77,7 @@ export class NotificationModalComponent {
   onChanges() {
     this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
       this.notification.notificationTypeId = val;
-      this.notification.notificationTypeLabel = 'Label applied from selecting type';
+      this.notification.notificationTypeLabel = this.notificationTypes[val + 1].notificationTypeLabel;
     });
     this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
       this.notification.notificationMessage = val;
