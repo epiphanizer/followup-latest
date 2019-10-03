@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
 
 @Component({
@@ -16,6 +16,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     number: string;
     name: string;
   };
+  patientNextCallDateSelectedEventEmitter = new EventEmitter<string>();
   scheduledCallDate: string;
   selectedDay: number;
   selectedMonth: {
@@ -121,5 +122,6 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     this.selectedDay = selectedDay;
     this.scheduledCallDate = date;
     this.status.scheduled = true;
+    this.patientNextCallDateSelectedEventEmitter.emit(this.scheduledCallDate);
   }
 }
