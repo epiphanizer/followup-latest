@@ -70,35 +70,36 @@ export class PatientDetailComponent implements OnInit {
     /**
      * We are in review mode, back out
      */
-    if (this.patientCall.patientCallStatusLabelId < 4) {
+    if (this.patientCall.patientCallStatusLabel == 'In Review') {
       alert('getting to our patient call finish event handler');
       return;
     }
+    /**
+     * Add the patient question data
+     */
     // this.patientCallNotesService
     //   .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId)
     //   .subscribe((data: any) => {
     //     console.log(data);
     //     debugger;
     //   });
-    // add the highlights to the notes
+    //
 
+    // add answers to our questions to the current call
     // this will require processing
     // debugger;
     // this.patientCallQuestionsService.addNewPatientCallQuestionAnswersByPatientCallQuestionId(
     //   this.patientCall.patientCallQuestionId
     // ).subscribe((data: any) => {
     //   console.log(data);
-    //   // add answers to our questions to the next call
+    //
     // });
 
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
       console.log(data);
       debugger;
       alert('finalized existing call successfully');
-      //  This should "just" load the next patient call into the detail
-      // will require some more processing based on
-      // scheduling for hospice, etc.
-      // schedule the next call
+
       this.patientCallService.addNewPatientCallByPatientId(this.patient.patientId, 2).subscribe((data: any) => {
         alert('scheduled upcoming call successfully');
         console.log(data);
