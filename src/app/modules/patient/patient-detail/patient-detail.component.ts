@@ -70,12 +70,13 @@ export class PatientDetailComponent implements OnInit {
   patientCallFinishEventHandler($event: PatientCall) {
     this.patientCall = $event;
     alert('getting to our patient call finish event handler');
-    this.patientCallNotesService
-      .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId)
-      .subscribe((data: any) => {
-        console.log(data);
-        debugger;
-      });
+    debugger;
+    // this.patientCallNotesService
+    //   .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId)
+    //   .subscribe((data: any) => {
+    //     console.log(data);
+    //     debugger;
+    //   });
     // add the highlights to the notes
 
     // will require some more processing based on
@@ -83,7 +84,7 @@ export class PatientDetailComponent implements OnInit {
     // schedule the next call
     this.patientCallService.addNewPatientCallByPatientId(this.patient.patientId, 2).subscribe((data: any) => {
       console.log(data);
-
+      debugger;
       // this.patientCallQuestionsService.addNewPatientCallQuestionsPatientCallId(
       //   this.patientCall.patientCallId
       // ).subscribe((data: any) => {
@@ -94,7 +95,7 @@ export class PatientDetailComponent implements OnInit {
     });
 
     // this will require processing
-    debugger;
+    // debugger;
     // this.patientCallQuestionsService.addNewPatientCallQuestionAnswersByPatientCallQuestionId(
     //   this.patientCall.patientCallQuestionId
     // ).subscribe((data: any) => {
@@ -105,6 +106,14 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
       console.log(data);
       debugger;
+      let patientCallId = data.patientCallId | 0;
+      //  This should "just" load the next patient call into the detail
+      this.patientCallService
+        .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
+        .subscribe((data: any) => {
+          debugger;
+          this.patientCall = data[0];
+        });
     });
   }
 }
