@@ -18,15 +18,17 @@
     </div>
   </ion-col>
   <ion-col class="right-col">
+    {{ notification | json }}
     <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
       <ion-list class="review-notification-list" lines="none" inset>
         <ion-item>
           <span class="label">Patient:&nbsp;</span>
-          <!-- {{ patient?.patientFirstName }} {{ patient?.patientLastName }} -->
+          {{ notification?.notificationPatientFirstName }}
+          {{ notification?.notificationPatientLastName }}
         </ion-item>
         <ion-item>
           <span class="label">Facility:&nbsp;</span>
-          <!-- {{ patient?.patientOperationName }} </ion-item> -->
+          {{ notification?.notificationOperationName }}
         </ion-item>
         <ion-item> <span class="label">Date Received:&nbsp;</span> {{ todaysDate }} </ion-item>
         <ion-item>

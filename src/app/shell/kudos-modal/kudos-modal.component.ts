@@ -62,15 +62,9 @@ export class KudosModalComponent {
       this.createForm();
     });
   }
-  ngAfterViewInit() {
-    // this.notification.notificationPatientFirstName = this.patient.patientFirstName;
-    // this.notification.notificationPatientLastName = this.patient.patientLastName;
-    // this.notification.notificationOperationName = this.patient.patientOperationName;
-  }
   createForm() {
     this.createNotificationForm = this.fb.group({
-      notificationTypeId: this.fb.control('', [Validators.required]),
-      notificationMessage: this.fb.control('')
+      notificationMessage: this.fb.control('', [Validators.required])
     });
   }
   sendNotification() {
