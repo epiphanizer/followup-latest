@@ -43,7 +43,7 @@
     <div class="notification-patient-information">
       <span class="notification-patient-name">
         <a [routerLink]="'/notifications/' + notification.notificationId">
-          {{ notification.patientFirstName }} {{ notification.patientLastName }}
+          {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
         </a>
       </span>
     </div>
@@ -53,7 +53,7 @@
     </div>
     <div class="notification-status">
       <!-- <img src="{{ notification.notificationStatus }} /" /> -->
-      <span>{{ notification.notificationStatusLabel }} </span>
+      <span>{{ notification.notificationStatusLabel }}</span>
     </div>
   </li>
 </ul>
