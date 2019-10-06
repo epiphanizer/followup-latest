@@ -48,19 +48,9 @@ export class KudosModalComponent {
   ) {}
 
   ngOnInit() {
-    this.notificationService.getNotificationTypes().subscribe((data: any) => {
-      this.notificationTypes = data;
-      var i;
-      for (i = 0; i <= this.notificationTypes.length; i = i + 2) {
-        if (this.notificationTypes[i] !== undefined) {
-          this.notificationTypesListLeft.push(this.notificationTypes[i]);
-          this.notificationTypesListRight.push(this.notificationTypes[i + 1]);
-        }
-      }
-      this.todaysDate = formatDate(new Date(), 'yyyy-mm-dd', 'en');
-      this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
-      this.createForm();
-    });
+    this.createForm();
+    this.todaysDate = formatDate(new Date(), 'yyyy-mm-dd', 'en');
+    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
   createForm() {
     this.createNotificationForm = this.fb.group({
