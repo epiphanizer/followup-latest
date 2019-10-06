@@ -19,7 +19,7 @@ export class NotificationService {
       notificationMessage: notification.notificationMessage,
       notificationPatientId: notification.notificationPatientId
     };
-    return this.http.post<Notification>('notifications', { notificationPostBody }).pipe(
+    return this.http.post<Notification>('notifications', notificationPostBody).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

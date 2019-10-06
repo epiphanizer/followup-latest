@@ -52,8 +52,16 @@ export class NotificationModalComponent {
       var i;
       for (i = 0; i <= this.notificationTypes.length; i = i + 2) {
         if (this.notificationTypes[i] !== undefined) {
-          if (this.notificationTypes[i].notificationTypeLabel !== 'Kudos') {
+          if (
+            this.notificationTypes[i].notificationTypeLabel !== 'Kudos' &&
+            this.notificationTypes[i + 1].notificationTypeLabel !== 'Kudos'
+          ) {
             this.notificationTypesListLeft.push(this.notificationTypes[i]);
+          }
+          if (
+            this.notificationTypes[i + 1] !== undefined &&
+            this.notificationTypes[i + 1].notificationTypeLabel !== 'Kudos'
+          ) {
             this.notificationTypesListRight.push(this.notificationTypes[i + 1]);
           }
         }

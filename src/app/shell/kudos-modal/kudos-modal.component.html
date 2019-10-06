@@ -30,8 +30,8 @@
           {{ notification.notificationOperationName }}
         </ion-item>
         <ion-item> <span class="label">Date Received:&nbsp;</span> {{ todaysDate }} </ion-item>
-        <ion-item>
-          <span class="label">Message:&nbsp;</span>
+        <span class="textarea-label label">Message:&nbsp;</span>
+        <ion-item class="textarea-item">
           <ion-textarea formControlName="notificationMessage" placeholder="Give your kudos!"></ion-textarea>
         </ion-item>
       </ion-list>
