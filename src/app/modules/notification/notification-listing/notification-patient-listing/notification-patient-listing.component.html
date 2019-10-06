@@ -37,7 +37,7 @@
     [routerLink]="'/notifications/' + notification.notificationPatientId"
   >
     <div class="notification-date">
-      {{ notification.notificationCreated }}
+      {{ notification.notificationCreatedDate }}
     </div>
 
     <div class="notification-patient-information">
@@ -53,7 +53,10 @@
     </div>
     <div class="notification-status">
       <!-- <img src="{{ notification.notificationStatus }} /" /> -->
-      <span>{{ notification.notificationStatusLabel }}</span>
+      <span>
+        <!-- {{ notification.notificationStatusLabel }}  -->
+        Resolved | Not
+      </span>
     </div>
   </li>
 </ul>

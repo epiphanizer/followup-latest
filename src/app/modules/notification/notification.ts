@@ -13,6 +13,7 @@ export interface Notification {
   notificationRecipients?: string[];
   notificationIconImage?: string;
   notificationCreatedByUserId: number;
+  notificationCreatedDate?: Date;
 }
 export interface NotificationType {
   notificationTypeId: number;
