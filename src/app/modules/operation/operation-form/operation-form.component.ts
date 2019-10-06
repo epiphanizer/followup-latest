@@ -63,7 +63,7 @@ export class OperationFormComponent implements OnInit {
     if (this.editMode) {
       this.operation = this.route.snapshot.data.operation;
     }
-    // Redundant, should fix for prod
+
     if (!this.operation) {
       this.operation$ = this.operationService.addNewOperation().pipe(
         map((data: Operation) => {
@@ -71,10 +71,17 @@ export class OperationFormComponent implements OnInit {
           return data;
         })
       );
+      this.createForm();
     } else {
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
       this.createForm();
     }
+    /**
+     * no matter where we are, do this
+     */
+    this.addAdditionalContact();
+    this.addAdditionalCallRep();
+
     this.availableUsers$ = this.userService.getAllUsers();
     this.availableManagers$ = this.userService.getAllManagerUsers();
 
@@ -129,7 +136,6 @@ export class OperationFormComponent implements OnInit {
       });
   }
   addAdditionalCallRep() {
-    console.log('adding additional call rep');
     let formArray = this.operationForm.controls.operationCallReps as FormArray;
     formArray.push(this.fb.control({}));
     let newCallRep = {
@@ -142,6 +148,13 @@ export class OperationFormComponent implements OnInit {
   addAdditionalContact() {
     console.log('adding additional contact');
     let formArray = this.operationForm.controls.operationContacts as FormArray;
+    formArray.push(this.fb.control({}));
+    let newCallContact = {
+      operationContactId: 0,
+      operationContactFirstName: '',
+      operationContactLastName: ''
+    };
+    this.operationContacts.push(newCallContact);
   }
   private createForm() {
     this.operationForm = this.fb.group({
