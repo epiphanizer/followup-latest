@@ -90,6 +90,7 @@ export class OperationFormComponent implements OnInit {
         .getOperationContactsByOperationId(this.operation.operationId)
         .subscribe((data: OperationContact[]) => {
           this.operationContacts = data;
+          debugger;
           return data;
         });
 
@@ -97,6 +98,7 @@ export class OperationFormComponent implements OnInit {
         .getOperationCallRepsByOperationId(this.operation.operationId)
         .subscribe((data: OperationCallRep[]) => {
           this.operationCallReps = data;
+          debugger;
           return data;
         });
     }
