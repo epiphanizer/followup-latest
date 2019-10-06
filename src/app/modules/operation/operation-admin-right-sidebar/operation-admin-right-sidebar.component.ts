@@ -11,6 +11,7 @@ import {
 import { Operation, OperationService } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-operation-admin-right-sidebar',
@@ -60,12 +61,12 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   isOpen = true;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
-  operationAssignedUsers: User[];
+  operationAssignedUsers$: Observable<User[]>;
   user: User;
   todaysDateDay: number;
   ngOnInit() {
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
-    this.operationAssignedUsers = this.operationService.getUsersAssignedByOperationId(
+    this.operationAssignedUsers$ = this.operationService.getUsersAssignedByOperationId(
       this.selected.operation.operationId
     );
   }
