@@ -10,13 +10,13 @@
           <ion-col width-50>
             <ion-item *ngFor="let notificationType of notificationTypesListLeft">
               <ion-radio value="{{ notificationType.notificationTypeId }}"> </ion-radio>
-              <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
+              <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
             </ion-item>
           </ion-col>
           <ion-col width-50>
             <ion-item *ngFor="let notificationType of notificationTypesListRight">
               <ion-radio value="{{ notificationType.notificationTypeId }}"> </ion-radio>
-              <ion-label color="normal">{{ notificationType.notificationTypesLabel }}</ion-label>
+              <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
             </ion-item>
           </ion-col>
         </ion-row>

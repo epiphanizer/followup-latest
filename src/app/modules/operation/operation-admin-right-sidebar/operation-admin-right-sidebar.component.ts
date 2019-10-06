@@ -8,9 +8,9 @@ import {
   transition
   // ...
 } from '@angular/animations';
-import { Operation } from '../operation.service';
+import { Operation, OperationService } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '@app/user';
+import { User } from '@app/modules/user/user.service';
 
 @Component({
   selector: 'app-operation-admin-right-sidebar',
@@ -58,12 +58,16 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     operation: null
   };
   isOpen = true;
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
+  operationAssignedUsers: User[];
   user: User;
   todaysDateDay: number;
   ngOnInit() {
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+    this.operationAssignedUsers = this.operationService.getUsersAssignedByOperationId(
+      this.selected.operation.operationId
+    );
   }
   public toggleOperationUsersAssignedMenu = function() {
     this.isOpen = !this.isOpen;

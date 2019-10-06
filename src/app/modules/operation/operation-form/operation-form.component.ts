@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, from, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { OperationService, Operation } from '../operation.service';
-import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
 import { OperationCallRepsService, OperationCallRep } from '../operation-callreps.service';
 import { OperationContactsService, OperationContactPostBody } from '../operation-contacts.service';
 import { User, UserService } from '@app/modules/user/user.service';
@@ -90,7 +90,6 @@ export class OperationFormComponent implements OnInit {
         .getOperationContactsByOperationId(this.operation.operationId)
         .subscribe((data: OperationContact[]) => {
           this.operationContacts = data;
-          debugger;
           return data;
         });
 
@@ -98,7 +97,6 @@ export class OperationFormComponent implements OnInit {
         .getOperationCallRepsByOperationId(this.operation.operationId)
         .subscribe((data: OperationCallRep[]) => {
           this.operationCallReps = data;
-          debugger;
           return data;
         });
     }
@@ -106,28 +104,27 @@ export class OperationFormComponent implements OnInit {
     this.availableManagers$ = this.userService.getAllManagerUsers();
   }
   addAdditionalCallRep() {
-    alert('adding additional call rep');
+    console.log('adding additional call rep');
     let formArray = this.operationForm.controls.operationCallReps as FormArray;
     formArray.push(this.fb.control({}));
   }
 
   addAdditionalContact() {
-    alert('adding additional contact');
+    console.log('adding additional contact');
     let formArray = this.operationForm.controls.operationContacts as FormArray;
-    formArray.push(this.fb.control({}));
   }
   private createForm() {
     this.operationForm = this.fb.group({
       operation: this.fb.group({
         operationId: this.fb.control(''),
-        operationName: this.fb.control(''),
+        operationName: this.fb.control('', [Validators.required]),
         operationAddress: this.fb.control(''),
         operationCity: this.fb.control(''),
         operationState: this.fb.control(''),
         operationZip: this.fb.control(''),
-        operationCountryCode: this.fb.control(''),
-        operationAreaCode: this.fb.control(''),
-        operationPhoneNumber: this.fb.control('')
+        operationCountryCode: this.fb.control('', [Validators.required]),
+        operationAreaCode: this.fb.control('', [Validators.required]),
+        operationPhoneNumber: this.fb.control('', [Validators.required])
       }),
       operationContacts: this.fb.group({}),
       operationContactNotifications: this.fb.group({

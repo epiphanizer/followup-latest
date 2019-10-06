@@ -3,6 +3,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { OperationContact } from './operation-contact/operation-contact';
 import { OperationCallRep } from './operation-callreps.service';
+import { User } from '../user/user.service';
 
 export interface Operation {
   operationId: number;
@@ -56,6 +57,13 @@ export class OperationService {
 
   public getOperationsByUserId(userId: number): Observable<Array<Operation>> {
     return this.http.get<Array<Operation>>('users/' + userId + '/operations').pipe(
+      retry(1), // retry a failed request up to 2 total times
+      catchError(error => this.handleAsyncError(error))
+    );
+  }
+
+  public getUsersAssignedByOperationId(operationId: number): Observable<User[]> {
+    return this.http.get<Array<User>>('operations/' + operationId + '/users').pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
     );
