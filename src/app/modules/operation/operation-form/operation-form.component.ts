@@ -35,9 +35,9 @@ export class OperationFormComponent implements OnInit {
   notificationTypes: NotificationType[];
   operationForm!: FormGroup;
   operation$: Observable<Operation>;
-  operationCallReps: OperationCallRep[];
+  operationCallReps: OperationCallRep[] = [];
   operationCallReps$: Observable<OperationCallRep>;
-  operationContacts: OperationContact[];
+  operationContacts: OperationContact[] = [];
   user: User;
 
   constructor(
