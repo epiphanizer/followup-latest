@@ -8,9 +8,10 @@ import {
   transition
   // ...
 } from '@angular/animations';
-import { Operation } from '../operation.service';
+import { Operation, OperationService } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-operation-admin-sidebar',
@@ -52,7 +53,7 @@ import { User } from '@app/modules/user/user.service';
   ]
 })
 export class OperationAdminSidebarComponent implements OnInit {
-  availableOperations: Operation[];
+  availableOperations$: Observable<Operation[]>;
   @Output() operationChangeEvent = new EventEmitter<number>();
   selected: {
     operation: Operation | null;
@@ -60,11 +61,12 @@ export class OperationAdminSidebarComponent implements OnInit {
     operation: null
   };
   isOpen = true;
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
   user: User;
   todaysDateDay: number;
   ngOnInit() {
+    this.availableOperations$ = this.operationService.getAllOperations();
     this.user = this.route.snapshot.data.user;
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
@@ -72,7 +74,7 @@ export class OperationAdminSidebarComponent implements OnInit {
     this.selected.operation = operation;
     this.operationChangeEvent.emit(operation);
   };
-  public toggleOperationUsersAssignedMenu = function() {
+  public toggleOperationSidebarMenu = function() {
     this.isOpen = !this.isOpen;
   };
 }

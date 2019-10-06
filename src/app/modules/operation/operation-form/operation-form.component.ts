@@ -77,14 +77,66 @@ export class OperationFormComponent implements OnInit {
     }
     this.availableUsers$ = this.userService.getAllUsers();
     this.availableManagers$ = this.userService.getAllManagerUsers();
-    this.onChanges();
+
+    this.operationContactsService
+      .getOperationContactsByOperationId(this.operation.operationId)
+      .subscribe((data: OperationContact[]) => {
+        this.operationContacts = data;
+        return data;
+      });
+
+    this.operationCallRepsService
+      .getOperationCallRepsByOperationId(this.operation.operationId)
+      .subscribe((data: OperationCallRep[]) => {
+        this.operationCallReps = data;
+        return data;
+      });
+
+    this.route.paramMap.subscribe(params => {
+      let operationId = parseInt(params.get('operationId'));
+      this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
+        this.updateOperation(operation);
+      });
+    });
   }
 
-  onChanges() {}
+  updateOperation(operation: Operation) {
+    this.operation = operation[0];
+    // Initial loadin, should probably be abstracted out here
+    var operationFormControls = this.operationForm.get('operation') as FormGroup;
+    operationFormControls.controls.operationId.setValue(this.operation.operationId);
+    operationFormControls.controls.operationName.setValue(this.operation.operationName);
+    operationFormControls.controls.operationAddress.setValue(this.operation.operationAddress);
+    operationFormControls.controls.operationCity.setValue(this.operation.operationCity);
+    operationFormControls.controls.operationState.setValue(this.operation.operationState);
+    operationFormControls.controls.operationZip.setValue(this.operation.operationZip);
+    operationFormControls.controls.operationCountryCode.setValue(this.operation.operationCountryCode);
+    operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
+    operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
+
+    this.operationContactsService
+      .getOperationContactsByOperationId(this.operation.operationId)
+      .subscribe((data: OperationContact[]) => {
+        this.operationContacts = data;
+        return data;
+      });
+
+    this.operationCallRepsService
+      .getOperationCallRepsByOperationId(this.operation.operationId)
+      .subscribe((data: OperationCallRep[]) => {
+        this.operationCallReps = data;
+        return data;
+      });
+  }
   addAdditionalCallRep() {
     console.log('adding additional call rep');
     let formArray = this.operationForm.controls.operationCallReps as FormArray;
     formArray.push(this.fb.control({}));
+    let newCallRep = {
+      operationCallRepId: 0,
+      operationCallRepName: ''
+    };
+    this.operationCallReps.push(newCallRep);
   }
 
   addAdditionalContact() {
@@ -167,7 +219,4 @@ export class OperationFormComponent implements OnInit {
       operationContactPost
     );
   }
-  public toggleOperationUserAssignedMenu = function() {
-    this.isOpen = !this.isOpen;
-  };
 }
