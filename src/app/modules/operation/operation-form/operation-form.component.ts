@@ -53,7 +53,7 @@ export class OperationFormComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.createForm();
-    this.notificationService.getNotificationTypes().subscribe((data: NotificationTypes[]) => {
+    this.notificationService.getNotificationTypes().subscribe((data: NotificationType[]) => {
       this.notificationTypes = data;
       return data;
     });
