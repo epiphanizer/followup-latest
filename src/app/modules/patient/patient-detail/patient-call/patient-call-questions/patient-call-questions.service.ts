@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
+import { PatientCallQuestionAnswer } from '../patient-call.service';
 
 export interface PatientCallQuestion {
   // We don't necessarily have the
@@ -12,6 +13,7 @@ export interface PatientCallQuestion {
   patientCallQuestion: string;
   patientCallQuestionType: string;
   patientCallQuestionIsHighlighted?: boolean;
+  patientCallQuestionAnswer$: Observable<PatientCallQuestionAnswer>;
 }
 @Injectable({
   providedIn: 'root'

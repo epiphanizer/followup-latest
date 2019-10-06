@@ -9,7 +9,7 @@
         <ion-list *ngFor="let patientCallQuestion of patientCall.patientCallQuestions$ | async" lines="none" inset>
           <ion-item>
             <span class="call-question-label"> {{ patientCallQuestion.patientCallQuestion }}: </span>
-            <span class="call-question-answer"> </span>
+            <span class="call-question-answer">{{ patientCallQuestion.patientCallQuestionAnswer$ | async }} </span>
           </ion-item>
         </ion-list>
       </div>

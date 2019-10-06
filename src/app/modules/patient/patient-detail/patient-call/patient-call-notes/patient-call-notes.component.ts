@@ -33,7 +33,7 @@ export class PatientCallNotesComponent implements OnInit {
       this.patientCallNotesChangeEmitter.emit(this.patientCallNotes);
     });
   }
-  activateHighlighter() {
+  highlightPatientCallNotes() {
     if (this.highlighterActive == false) {
       this.highlighterActive = true;
     } else {

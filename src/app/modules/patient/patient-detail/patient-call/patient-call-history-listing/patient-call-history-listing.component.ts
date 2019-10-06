@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Patient } from '@app/modules/patient/patient';
-import { PatientCall } from '../../patient-call/patient-call.service';
+import { PatientCall, PatientCallQuestionAnswer } from '../../patient-call/patient-call.service';
 import { Observable } from 'rxjs';
 import {
   PatientCallQuestion,
@@ -17,14 +17,21 @@ export class PatientCallHistoryListingComponent implements OnInit {
   @Input() patientCalls: PatientCall[];
   patientCallQuestions: PatientCallQuestion[] = [];
 
-  constructor(private patientCallQuestionService: PatientCallQuestionsService) {}
+  constructor(
+    private patientCallQuestionService: PatientCallQuestionsService,
+    private patientCallQuestionAnswerService: PatientCallQuestionsService
+  ) {}
 
   ngOnInit() {
-    // Go get our
+    // Go get our calls and warm up the observables.
     this.patientCalls.forEach((patientCall: PatientCall) => {
-      patientCall.patientCallQuestions$ = this.patientCallQuestionService.getPatientCallQuestionsByPatientCallId(
-        patientCall.patientCallId
-      );
+      patientCall.patientCallQuestions$ = this.patientCallQuestionService
+        .getPatientCallQuestionsByPatientCallId(patientCall.patientCallId)
+        .map((patientCallQuestion: PatientCallQuestion) => {
+          patientCallQuestion.patientCallQuestionAnswer$ = this.patientCallQuestionAnswerService.getPatientCallQuestionAnswersByPatientCallQuestionId(
+            patientCallQuestion.patientCallQuestionId
+          );
+        });
     });
   }
 }
