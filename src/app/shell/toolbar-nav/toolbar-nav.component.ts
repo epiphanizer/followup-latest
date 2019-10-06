@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { KudosModalComponent } from '../kudos-modal/kudos-modal.component';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 import { Patient } from '@app/modules/patient/patient';
-import { User } from 'msal';
+import { User } from '@app/modules/user/user.service';
 
 @Component({
   selector: 'app-toolbar-nav',
@@ -44,7 +44,8 @@ export class ToolbarNavComponent implements OnInit {
       componentProps: {
         modalType: 'Notification',
         notification: {
-          notificationMessage: '',
+          notificationCreatedByUserId: this.user.id,
+          notificationMessage: 'Give your Kudos!',
           notificationOperationId: this.patient.patientOperationId,
           notificationPatientFirstName: this.patient.patientFirstName,
           notificationPatientLastName: this.patient.patientLastName,
