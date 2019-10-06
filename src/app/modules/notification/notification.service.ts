@@ -3,15 +3,17 @@ import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Notification, NotificationType, NotificationPostBody } from './notification';
-import { NotificationRecipientPostBody } from './notification-recipient/notification-recipient.service';
+// import { NotificationRecipientPostBody } from './notification-recipient/notification-recipient.service';
+import { User } from '@app/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
   constructor(private http: HttpClient) {}
-  addNotificationByOperationIdAndNotificationTypeId(notification: Notification): Observable<Notification> {
+  addNotificationByOperationIdAndNotificationTypeId(user: User, notification: Notification): Observable<Notification> {
     let notificationPostBody: NotificationPostBody = {
+      userId: user.id,
       notificationTypeId: notification.notificationTypeId,
       notificationOperationId: notification.notificationOperationId,
       notificationMessage: notification.notificationMessage,
@@ -63,7 +65,7 @@ export class NotificationService {
     // return an observable with a user-facing error message
     return throwError(
       '<div class="alert alert-danger" role="alert"> \
-        <strong>Error</strong>: We had trouble connecting to the patient service\
+        <strong>Error</strong>: We had trouble connecting to the notification service\
       </div>'
     );
   }

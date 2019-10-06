@@ -25,8 +25,9 @@ export interface NotificationRecipient {
   notificationRecipientOperationId: string;
 }
 export interface NotificationPostBody {
+  userId: number;
+  notificationTypeId: number;
   notificationMessage: string;
   notificationOperationId: number;
   notificationPatientId: number;
-  notificationTypeId: number;
 }

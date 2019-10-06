@@ -6,6 +6,8 @@ import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Notification, NotificationRecipient } from '@app/modules/notification/notification';
 import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
+import { ActivatedRoute } from '@angular/router';
+import { User } from '@app/user';
 @Component({
   providers: [NotificationService],
   selector: 'app-kudos-modal',
@@ -44,7 +46,8 @@ export class KudosModalComponent {
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -58,7 +61,6 @@ export class KudosModalComponent {
     });
   }
   sendNotification() {
-    debugger;
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
