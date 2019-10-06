@@ -52,10 +52,11 @@ export class NotificationModalComponent {
       var i;
       for (i = 0; i <= this.notificationTypes.length; i = i + 2) {
         if (this.notificationTypes[i] !== undefined) {
-          this.notificationTypesListLeft.push(this.notificationTypes[i]);
-          this.notificationTypesListRight.push(this.notificationTypes[i + 1]);
+          if (this.notificationTypes[i].notificationTypeLabel !== 'Kudos') {
+            this.notificationTypesListLeft.push(this.notificationTypes[i]);
+            this.notificationTypesListRight.push(this.notificationTypes[i + 1]);
+          }
         }
-        this.createNotification();
         this.createForm();
         this.onChanges();
       }
@@ -84,15 +85,6 @@ export class NotificationModalComponent {
     this.createNotificationForm = this.fb.group({
       notificationTypeId: this.fb.control(false, [Validators.required]),
       notificationMessage: this.fb.control('', [Validators.required])
-    });
-  }
-  createNotification() {
-    return (this.notification = {
-      notificationTypeId: 0,
-      notificationTypeLabel: 'Notification',
-      notificationPatientId: 0,
-      notificationOperationId: 0,
-      notificationMessage: ''
     });
   }
   editNotification() {

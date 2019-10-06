@@ -12,6 +12,7 @@ export interface Notification {
   notificationLabelId?: string;
   notificationRecipients?: string[];
   notificationIconImage?: string;
+  notificationCreatedByUserId: number;
 }
 export interface NotificationType {
   notificationTypeId: number;
@@ -25,7 +26,7 @@ export interface NotificationRecipient {
   notificationRecipientOperationId: string;
 }
 export interface NotificationPostBody {
-  userId: number;
+  notificationCreatedByUserId: number;
   notificationTypeId: number;
   notificationMessage: string;
   notificationOperationId: number;

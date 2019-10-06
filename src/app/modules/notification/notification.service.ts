@@ -11,9 +11,9 @@ import { User } from '@app/user';
 })
 export class NotificationService {
   constructor(private http: HttpClient) {}
-  addNotificationByOperationIdAndNotificationTypeId(user: User, notification: Notification): Observable<Notification> {
+  addNotificationByOperationIdAndNotificationTypeId(notification: Notification): Observable<Notification> {
     let notificationPostBody: NotificationPostBody = {
-      userId: user.id,
+      notificationCreatedByUserId: notification.notificationCreatedByUserId,
       notificationTypeId: notification.notificationTypeId,
       notificationOperationId: notification.notificationOperationId,
       notificationMessage: notification.notificationMessage,

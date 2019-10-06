@@ -56,36 +56,33 @@
       </div>
     </ion-col>
     <ion-col class="right-col">
-      <ion-list class="review-notification-list" lines="none" inset>
-        <ion-item>
-          <span class="label">Patient:&nbsp;</span>
-          {{ patient.patientFirstName }}
-          {{ patient.patientLastName }}
-        </ion-item>
-        <ion-item>
-          <span class="label">Facility:&nbsp;</span>
-          {{ patient.patientOperationName }}
-        </ion-item>
-        <ion-item>
-          <span class="label">Date Received:&nbsp;</span>
-          {{ todaysDate }}
-        </ion-item>
-        <ion-item>
-          <span class="label">Next Steps:&nbsp;</span>
-          Notify
-          <span *ngFor="let operationContact of operationContacts$ | async; let idx = index">
-            {{ operationContact.operationContactFirstName }}
-            {{ operationContact.operationContactLastName }}
-            <span *ngIf="idx !== operationContacts.length">,</span>
-          </span>
-        </ion-item>
-        <ion-item>
-          <span class="label">Message:&nbsp;</span>
-          <ion-textarea class="review-textarea" disabled>
-            {{ notification.notificationMessage }}
-          </ion-textarea>
-        </ion-item>
-      </ion-list>
+      <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
+        <ion-list class="review-notification-list" lines="none" inset>
+          <ion-item>
+            <span class="label">Patient:&nbsp;</span>
+            {{ notification.notificationPatientFirstName }}
+            {{ notification.notificationPatientLastName }}
+          </ion-item>
+          <ion-item>
+            <span class="label">Facility:&nbsp;</span>
+            {{ notification.notificationOperationName }}
+          </ion-item>
+          <ion-item>
+            <span class="label">Next Steps:&nbsp;</span>
+            Notify
+            <span *ngFor="let operationContact of operationContacts$ | async; let idx = index">
+              {{ operationContact.operationContactFirstName }}
+              {{ operationContact.operationContactLastName }}
+              <span *ngIf="idx !== operationContacts.length">,</span>
+            </span>
+          </ion-item>
+          <ion-item> <span class="label">Date Received:&nbsp;</span> {{ todaysDate }} </ion-item>
+          <ion-item>
+            <span class="label">Message:&nbsp;</span>
+            <ion-textarea formControlName="notificationMessage"></ion-textarea>
+          </ion-item>
+        </ion-list>
+      </form>
     </ion-col>
   </ion-row>
   <ion-row>
