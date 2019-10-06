@@ -146,7 +146,6 @@ export class OperationFormComponent implements OnInit {
   }
 
   addAdditionalContact() {
-    console.log('adding additional contact');
     let formArray = this.operationForm.controls.operationContacts as FormArray;
     formArray.push(this.fb.control({}));
     let newCallContact = {
@@ -169,7 +168,7 @@ export class OperationFormComponent implements OnInit {
         operationAreaCode: this.fb.control('', [Validators.required]),
         operationPhoneNumber: this.fb.control('', [Validators.required])
       }),
-      operationContacts: this.fb.group({}),
+      operationContacts: this.fb.array([]),
       operationContactNotifications: this.fb.group({
         0: this.fb.control(false),
         1: this.fb.control(false),
