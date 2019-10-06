@@ -243,7 +243,7 @@
                 </ion-select-option>
               </ion-select>
             </ion-item>
-            <span class="ion-float-right add-call-rep" (click)="addAdditionalCallRep()">[ + additional call rep ]</span>
+            <span class="ion-float-right add-call-rep" (click)="addAdditionalCallRep()">[ + add call rep ]</span>
           </ion-list>
         </ng-container>
         <ng-template #addCallReps>
@@ -252,16 +252,15 @@
               <ion-label position="stacked" color="medium">
                 Add Care Rep
               </ion-label>
-              <ion-label position="stacked" color="medium">Care Rep {{ idx + 1 }} </ion-label>
               <ion-select>
                 <ion-select-option *ngFor="let user of availableUsers$ | async" [value]="user.userId">
                   {{ user.userLastName }}, {{ user.userFirstName }}
                 </ion-select-option>
               </ion-select>
-              <span class="ion-float-right add-call-rep" (click)="addAdditionalCallRep()"
-                >[ + additional care rep ]
-              </span>
             </ion-item>
+            <span class="ion-float-right add-call-rep" (click)="addAdditionalCallRep()"
+              >[ + additional care rep ]
+            </span>
           </ion-list>
         </ng-template>
       </fieldset>

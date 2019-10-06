@@ -8,7 +8,7 @@
       class="expand-users-assigned-trigger active"
     ></i>
   </ion-item>
-  <ion-item *ngFor="let user of operationAssignedUsers$ | async; let idx = index">
-    {{ user.userLastName }}, {{ user.userFirstName }}
+  <ion-item class="assigned-user ion-float-right" *ngFor="let user of operationAssignedUsers$ | async; let idx = index">
+    {{ user.userFirstName }} {{ user.userLastName }}
   </ion-item>
 </ion-list>

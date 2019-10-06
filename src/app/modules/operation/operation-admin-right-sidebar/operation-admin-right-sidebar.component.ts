@@ -53,11 +53,7 @@ import { Observable } from 'rxjs';
   ]
 })
 export class OperationAdminRightSidebarComponent implements OnInit {
-  selected: {
-    operation: Operation | null;
-  } = {
-    operation: null
-  };
+  operation: Operation | null;
   isOpen = true;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
@@ -65,10 +61,9 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   user: User;
   todaysDateDay: number;
   ngOnInit() {
+    this.operation = this.route.snapshot.data.operation;
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
-    this.operationAssignedUsers$ = this.operationService.getUsersAssignedByOperationId(
-      this.selected.operation.operationId
-    );
+    this.operationAssignedUsers$ = this.operationService.getUsersAssignedByOperationId(this.operation.operationId);
   }
   public toggleOperationUsersAssignedMenu = function() {
     this.isOpen = !this.isOpen;
