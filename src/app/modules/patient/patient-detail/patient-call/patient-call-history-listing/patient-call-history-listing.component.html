@@ -6,9 +6,10 @@
         <span class="call-number-headline"> Call {{ patientCall.patientCallCount }} </span>
       </div>
       <div class="call-question-container">
-        <ion-list *ngFor="let patientQuestion of patientCall.patientCallQuestions$ | async" lines="none" inset>
+        <ion-list *ngFor="let patientCallQuestion of patientCall.patientCallQuestions$ | async" lines="none" inset>
           <ion-item>
-            {{ patientQuestion.patientQuestion }}
+            <span class="call-question-label"> {{ patientCallQuestion.patientCallQuestion }}: </span>
+            <span class="call-question-answer"> </span>
           </ion-item>
         </ion-list>
       </div>

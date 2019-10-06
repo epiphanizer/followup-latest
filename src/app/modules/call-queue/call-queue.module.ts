@@ -10,9 +10,10 @@ import { MonthCalendarModule } from 'simple-angular-calendar';
 import { CallQueueCallHistoryCalendarComponent } from './call-queue-call-history-calendar/call-queue-call-history-calendar/call-queue-call-history-calendar.component';
 import { CallQueuePatientFilterComponent } from './call-queue-patient-filter/call-queue-patient-filter/call-queue-patient-filter.component';
 import { CallQueuePatientListingComponent } from './call-queue-patient-listing/call-queue-patient-listing.component';
+import { PatientModule } from '../patient/patient.module';
 
 @NgModule({
-  imports: [CommonModule, IonicModule, RouterModule, CallQueueRoutingModule, MonthCalendarModule],
+  imports: [CommonModule, IonicModule, PatientModule, RouterModule, CallQueueRoutingModule, MonthCalendarModule],
 
   exports: [CallQueueSidebarComponent],
   declarations: [
@@ -23,6 +24,7 @@ import { CallQueuePatientListingComponent } from './call-queue-patient-listing/c
     CallQueuePatientFilterComponent,
     CallQueuePatientListingComponent
   ],
+  entryComponents: [],
   providers: []
 })
 export class CallQueueModule {}

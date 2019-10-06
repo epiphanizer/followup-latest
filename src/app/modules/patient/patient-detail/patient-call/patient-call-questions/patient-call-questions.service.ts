@@ -35,6 +35,14 @@ export class PatientCallQuestionsService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
+
+  getPatientCallQuestionAnswersByPatientCallQuestionId = function(patientCallQuestionId: number) {
+    return this.http.get('patients/calls/questions/' + patientCallQuestionId).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  };
+
   addPatientCallQuestionAnswersByPatientCallQuestionId = function(
     patientCallQuestionId: number,
     patientCallQuestionAnswer: string
