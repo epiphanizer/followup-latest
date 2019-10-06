@@ -9,6 +9,6 @@
     ></i>
   </ion-item>
   <ion-item class="assigned-user ion-float-right" *ngFor="let user of operationAssignedUsers$ | async; let idx = index">
-    {{ user.userFirstName }} {{ user.userLastName }}
+    <span class="user-name">{{ user.userFirstName }} {{ user.userLastName }}</span>
   </ion-item>
 </ion-list>

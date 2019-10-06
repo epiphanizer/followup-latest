@@ -17,18 +17,14 @@
     class="facility-dropdown-list"
     [@expandSidebar]="isOpen ? 'open' : 'closed'"
     class="facility-dropdown-list active"
-    *ngIf="user.operations; else noOperations"
   >
-    <li *ngFor="let operation of user.operations; let i = index">
+    <li *ngFor="let operation of availableOperations; let i = index">
       <a
         [routerLink]="'/operation/edit/' + operation.operationId"
-        [ngClass]="{ active: selected.operation == operation }"
+        [class.active]="selected.operation == operation.operationId"
       >
         {{ operation.operationName }}
       </a>
     </li>
   </ul>
-  <ng-template #noOperations>
-    You haven't been assigned any operations yet!
-  </ng-template>
 </div>

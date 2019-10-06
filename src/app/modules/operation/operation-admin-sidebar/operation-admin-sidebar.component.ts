@@ -52,6 +52,7 @@ import { User } from '@app/modules/user/user.service';
   ]
 })
 export class OperationAdminSidebarComponent implements OnInit {
+  availableOperations: Operation[];
   @Output() operationChangeEvent = new EventEmitter<number>();
   selected: {
     operation: Operation | null;
@@ -71,7 +72,7 @@ export class OperationAdminSidebarComponent implements OnInit {
     this.selected.operation = operation;
     this.operationChangeEvent.emit(operation);
   };
-  public toggleOperationSidebarMenu = function() {
+  public toggleOperationUsersAssignedMenu = function() {
     this.isOpen = !this.isOpen;
   };
 }

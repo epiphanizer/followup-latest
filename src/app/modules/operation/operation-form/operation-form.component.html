@@ -1,6 +1,7 @@
 <ion-row>
   <ion-col class="operation-sidebar">
-    <app-operation-admin-sidebar></app-operation-admin-sidebar>
+    <app-operation-admin-sidebar (operationChangeEvent)="operationChangeEventHandler($event)">
+    </app-operation-admin-sidebar>
   </ion-col>
   <ion-col class="operation-form-content">
     <ion-title *ngIf="!editMode; else editOperation">New Facility</ion-title>
@@ -94,24 +95,26 @@
                     </ion-label>
                     <ion-input type="text"></ion-input>
                   </ion-item>
-                  <ion-item>
-                    <ion-label position="stacked" color="medium">
-                      Country Code
-                    </ion-label>
-                    <ion-input type="text"></ion-input>
-                  </ion-item>
-                  <ion-item>
-                    <ion-label position="stacked" color="medium">
-                      Area Code
-                    </ion-label>
-                    <ion-input type="text"></ion-input>
-                  </ion-item>
-                  <ion-item>
-                    <ion-label position="stacked" color="medium">
-                      Phone #
-                    </ion-label>
-                    <ion-input type="text"></ion-input>
-                  </ion-item>
+                  <div class="phone-container">
+                    <ion-item>
+                      <ion-label position="stacked" color="medium">
+                        Country Code
+                      </ion-label>
+                      <ion-input type="text"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="stacked" color="medium">
+                        Area Code
+                      </ion-label>
+                      <ion-input type="text"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="stacked" color="medium">
+                        Phone #
+                      </ion-label>
+                      <ion-input type="text"></ion-input>
+                    </ion-item>
+                  </div>
                 </ion-list>
               </ion-item>
               <ion-item class="notification-container">

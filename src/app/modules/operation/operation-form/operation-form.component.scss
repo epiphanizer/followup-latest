@@ -65,15 +65,11 @@ form {
 
       &.country-code {
         margin-left: 12px;
-        width: 65px;
+        width: 45px;
       }
 
       &.area-code {
-        width: 120px;
-      }
-
-      &.phone-number {
-        width: 257px;
+        width: 80px;
       }
     }
   }
@@ -183,6 +179,8 @@ form {
 
     .notification-container {
       width: 100%;
+      margin-left: 20px;
+      margin-top: -10px;
 
       h3 {
         display: block;
@@ -192,7 +190,6 @@ form {
       ion-list {
         width: 100%;
         height: auto;
-        margin-left: 55px;
       }
 
       ion-label {
