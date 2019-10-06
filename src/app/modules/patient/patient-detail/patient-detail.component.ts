@@ -3,7 +3,6 @@ import { Patient } from '@app/modules/patient/patient';
 import {
   PatientCall,
   PatientCallService,
-  PatientCallQuestion,
   PatientCallQuestionAnswer
 } from '../patient-detail/patient-call/patient-call.service';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +13,10 @@ import {
   PatientCallNotesService,
   PatientCallNotes
 } from './patient-call/patient-call-notes/patient-call-notes.service';
-import { PatientCallQuestionsService } from './patient-call/patient-call-questions/patient-call-questions.service';
+import {
+  PatientCallQuestionsService,
+  PatientCallQuestion
+} from './patient-call/patient-call-questions/patient-call-questions.service';
 import { PatientCallStatus } from './patient-call/patient-call-status.service';
 
 @Component({

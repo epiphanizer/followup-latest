@@ -42,7 +42,10 @@
             </ion-list>
           </ng-container>
           <ng-container *ngIf="question.patientQuestionTypeLabel == 'textarea'">
-            <div class="patient-call-question-container" [class.isHighlighted]="question.isHighlighted">
+            <div
+              class="patient-call-question-container"
+              [class.isHighlighted]="question.patientCallQuestionIsHighlighted"
+            >
               {{ question.patientCallQuestion }}
             </div>
             <ion-textarea> </ion-textarea>

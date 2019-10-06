@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
 import { catchError, retry, delay } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
+import { PatientCallQuestion } from './patient-call-questions/patient-call-questions.service';
 
 export interface PatientCall {
   patientCallId: number;
@@ -14,15 +15,12 @@ export interface PatientCall {
   patientCallStatusLabelId: number;
   patientCallStatusLabel?: string;
   patientCallNumber?: number;
+  patientCallQuestions: PatientCallQuestion[];
+  patientCallQuestions$: Observable<PatientCallQuestion[]>;
 }
 
-export interface PatientCallQuestion {
-  patientCallQuestionId?: number;
-  patientCallQuestion: string;
-  patientCallQuestionIsHighlighted?: number;
-}
 export interface PatientCallQuestionAnswer {
-  patientCallQuestionAnswerId?: number;
+  patientCallQuestionId: number;
   patientCallQuestionAnswer: string;
 }
 export interface PatientCallStatusLabel {

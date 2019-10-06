@@ -32,10 +32,10 @@ export class PatientNextCallQuestionsComponent implements OnInit {
      */
   }
   togglePatientCallQuestionHighlight(patientCallQuestionId: number) {
-    if (this.patientCallQuestions[patientCallQuestionId].patientCallQuestionHighlight == false) {
-      this.patientCallQuestions[patientCallQuestionId].patientCallQuestionHighlight = true;
+    if (this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted == false) {
+      this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted = true;
     } else {
-      this.patientCallQuestions[patientCallQuestionId].patientCallQuestionHighlight = true;
+      this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted = true;
     }
   }
 }

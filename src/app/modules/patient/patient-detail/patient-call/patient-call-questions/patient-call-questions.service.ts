@@ -5,12 +5,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 
 export interface PatientCallQuestion {
-  patientCallQuestionId: number;
+  // We don't necessarily have the
+  // patientCallQuestionId?
+  // when we create them for the new call
+  patientCallQuestionId?: number;
   patientCallQuestion: string;
   patientCallQuestionType: string;
-  patientCallQuestionHighlight: boolean;
+  patientCallQuestionIsHighlighted?: boolean;
 }
-
 @Injectable({
   providedIn: 'root'
 })

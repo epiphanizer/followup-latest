@@ -14,16 +14,20 @@ export class PatientAvatarComponent implements OnInit {
   /**
    * This guy is plaintext encoded base64
    */
-  avatar: any;
+  avatarExists: boolean;
   constructor(private patientAvatarService: PatientAvatarService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
-      if (!baseImage.image) {
-        this.avatar = false;
+      if (!baseImage[0]) {
+        this.avatarExists = false;
       } else {
-        let unsafeImageUrl = URL.createObjectURL(this.patient.avatar);
-        this.avatarUrl = this.sanitizer.bypassSecurityTrustUrl(unsafeImageUrl);
+        this.avatarExists = true;
+        // @see https://medium.com/@koteswar.meesala/convert-array-buffer-to-base64-string-to-display-images-in-angular-7-4c443db242cd
+        let TYPED_ARRAY = new Uint8Array(baseImage[0].patientAvatarBlob.data);
+        const STRING_CHAR = String.fromCharCode.apply(null, TYPED_ARRAY);
+        let base64String = btoa(STRING_CHAR);
+        this.avatarUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64String);
       }
     });
   }
