@@ -12,6 +12,7 @@ import { Operation, OperationService } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs-compat/operator/map';
 
 @Component({
   selector: 'app-operation-admin-sidebar',
@@ -56,17 +57,20 @@ export class OperationAdminSidebarComponent implements OnInit {
   availableOperations$: Observable<Operation[]>;
   @Output() operationChangeEvent = new EventEmitter<number>();
   selected: {
-    operation: Operation | null;
+    operation?: Operation | null;
   } = {
     operation: null
   };
   isOpen = true;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
-  operations: Operation[];
+  operations: Operation[] = [];
   user: User;
   todaysDateDay: number;
   ngOnInit() {
-    this.availableOperations$ = this.operationService.getAllOperations();
+    this.operationService.getAllOperations().subscribe((data: Operation[]) => {
+      this.operations = data;
+      this.selected.operation = this.operations[0];
+    });
     this.user = this.route.snapshot.data.user;
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }

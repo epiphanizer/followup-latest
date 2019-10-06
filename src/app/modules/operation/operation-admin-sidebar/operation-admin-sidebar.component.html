@@ -18,12 +18,13 @@
     [@expandSidebar]="isOpen ? 'open' : 'closed'"
     class="facility-dropdown-list active"
   >
-    <li *ngFor="let operationLink of availableOperations$ | async; let i = index">
+    <li *ngFor="let operation of operations; let i = index">
       <a
-        [routerLink]="'/operation/edit/' + operationLink.operationId"
-        [class.active]="selected.operation?.operationId == operationLink.operationId"
+        [routerLink]="'/operation/edit/' + operation.operationId"
+        (click)="setActiveOperation(operation)"
+        [class.active]="(!selected.operation && i == 0) || operation.operationId == selected.operation.operationId"
       >
-        {{ operationLink.operationName }}
+        {{ operation.operationName }}
       </a>
     </li>
   </ul>
