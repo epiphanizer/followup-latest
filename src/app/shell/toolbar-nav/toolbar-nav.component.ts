@@ -51,7 +51,7 @@ export class ToolbarNavComponent implements OnInit {
           notificationPatientLastName: this.patient.patientLastName,
           notificationOperationName: this.patient.patientOperationName,
           notificationPatientId: this.patient.patientId,
-          notificationTypeLabelId: 0,
+          notificationTypeId: 0,
           notificationTypeLabel: ''
         }
       }
@@ -72,7 +72,7 @@ export class ToolbarNavComponent implements OnInit {
           notificationPatientLastName: this.patient.patientLastName,
           notificationOperationName: this.patient.patientOperationName,
           notificationPatientId: this.patient.patientId,
-          notificationTypeLabelId: 7,
+          notificationTypeId: 7,
           notificationTypeLabel: 'Kudos'
         }
       }
