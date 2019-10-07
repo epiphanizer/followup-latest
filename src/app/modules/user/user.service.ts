@@ -35,7 +35,7 @@ export class UserService {
     );
   }
   updateUserByUserId(userId: number, userPutObject: UserPutObject) {
-    return this.http.put('users/' + userId, userPutObject).pipe(
+    return this.http.put('users/' + userId, { userPutObject }).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

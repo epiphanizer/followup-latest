@@ -46,13 +46,19 @@ export class UserProfileComponent implements OnInit {
    */
   userFormSubmissionFactory(formSubmission: any): UserPutObject {
     var payload = {};
-    let userInterests = formSubmission.userInterests.toString();
+    let userInterests = formSubmission.userInterests;
+    if (formSubmission.userDob == null) {
+      formSubmission.userDob = '';
+    }
+    if (formSubmission.userFavoriteDessert == null) {
+      formSubmission.userFavoriteDessert = '';
+    }
     payload = {
       userFirstName: formSubmission.userFirstName,
       userMiddleName: formSubmission.userMiddleName,
       userLastName: formSubmission.userLastName,
-      userPhoneCountryCode: formSubmission.userPhoneCountryCode,
-      userPhoneAreaCode: formSubmission.userPhoneAreaCode,
+      userCountryCode: formSubmission.userPhoneCountryCode,
+      userAreaCode: formSubmission.userPhoneAreaCode,
       userPhoneNumber: formSubmission.userPhoneNumber,
       userDob: formSubmission.userDob,
       userFavoriteDessert: formSubmission.userFavoriteDessert,
