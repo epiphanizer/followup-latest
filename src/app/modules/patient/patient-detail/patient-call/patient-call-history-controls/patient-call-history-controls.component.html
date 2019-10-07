@@ -9,7 +9,9 @@
       [class.active]="clicked == patientCall.patientCallCount"
       (click)="scrollToPatientCall(patientCall)"
     >
-      <span>{{ patientCall.patientCallCount }} </span>
+      <div class="patient-count">
+        {{ patientCall.patientCallCount }}
+      </div>
     </ion-item>
   </ion-list>
 </ng-container>

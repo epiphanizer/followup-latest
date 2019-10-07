@@ -1,12 +1,15 @@
 ion-list {
   margin-top: -25px;
 }
+
 ion-item {
   width: 50px;
 }
+
 button {
   padding: 2px;
 }
+
 i.icon-phone-icon {
   background: url("/assets/icon-call-header@2x.png");
   width: 22px;
@@ -15,24 +18,26 @@ i.icon-phone-icon {
   background-position: center center;
   background-size: 100%;
 }
+
 .patient-call-history-item {
-  background: url("/assets/call-history-legend-icon@2x.png");
-  background-size: 100%;
-  background-repeat: no-repeat;
-  color: #13afe9;
-  text-align: center;
-  line-height: 22px;
-  width: 22px;
-  height: 22px;
-  display: block;
-  &.active {
-    background: url("/assets/call-history-legend-icon-active@2x.png");
-    color: white;
-  }
-  span {
-    display: block;
-    width: 100%;
-    height: auto;
+  margin: 0 auto;
+
+  div {
+    background: url("/assets/call-history-legend-icon@2x.png");
+    background-size: 100%;
+    width: 22px;
+    height: 22px;
+    background-repeat: no-repeat;
+    color: #13afe9;
     text-align: center;
+    display: block;
+    font-family: Avenir;
+    font-size: 13px;
+
+    &.active {
+      background: url("/assets/call-history-legend-icon-active@2x.png");
+      color: white;
+      font-family: AvenirBold;
+    }
   }
 }
