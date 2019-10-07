@@ -12,10 +12,12 @@ export class PatientCallHistoryControlsComponent implements OnInit {
   clicked: number;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.patientCalls.reverse();
+  }
 
-  scrollToPatientCall(patientCall: number) {
-    this.clicked = patientCall;
+  scrollToPatientCall(patientCall: PatientCall) {
+    this.clicked = patientCall.patientCallNumber;
     // we may have to use @ViewChild here
     // @see https://stackoverflow.com/questions/43945548/scroll-to-element-on-click-in-angular-4
     // @see https://stackoverflow.com/questions/32977271/create-dynamic-anchorname-components-with-componentresolver-and-ngfor-in-angular

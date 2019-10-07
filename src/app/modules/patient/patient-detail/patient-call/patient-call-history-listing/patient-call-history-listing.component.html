@@ -1,6 +1,6 @@
 <ng-container *ngIf="patientCalls">
   <ion-list class="patient-call-history-list" inset lines="none">
-    <div *ngFor="let patientCall of patientCalls; let i = index">
+    <div class="patient-call" *ngFor="let patientCall of patientCalls; let i = index">
       <!-- <div class="not-started-overlay" [class.active]="patientCall.patientCallCount ==  i+1
       && patientCall.patientCallStatusLabel != 'Started'"></div> -->
 

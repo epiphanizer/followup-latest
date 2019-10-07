@@ -88,3 +88,17 @@ form {
     color: var(--ion-color-primary);
   }
 }
+
+ion-item.next-call-question-textarea {
+  height: 100px;
+  textarea {
+    font-family: Avenir;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.38;
+    letter-spacing: 0.64px;
+    text-align: left;
+  }
+}
