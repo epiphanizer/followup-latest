@@ -47,7 +47,7 @@ export class AuthenticationService {
     let result = true;
     if (result) {
       this.authenticated = true;
-      this.user = await this.getUser();
+      // this.user = await this.getUser();
       this.router.navigate(['/home'], { replaceUrl: true });
     }
   }

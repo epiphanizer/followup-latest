@@ -1,6 +1,5 @@
 import { Routes, Route } from '@angular/router';
 
-import { MsalGuard } from '@azure/msal-angular';
 import { ShellComponent } from './shell.component';
 import { UserResolver } from '@app/modules/user/user-resolver.service';
 
@@ -18,7 +17,6 @@ export class Shell {
       path: '',
       component: ShellComponent,
       children: routes,
-      canActivate: [MsalGuard],
       // Reuse ShellComponent instance when navigating between child views
       data: { reuse: true },
       resolve: {
