@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { from } from 'rxjs';
+import { from, of } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { User } from './user';
 import { AuthenticationService } from '@app/core';
@@ -20,11 +20,13 @@ export class UserResolver implements Resolve<User> {
     if (!this.authService.user) {
       this.user$ = this.authService.getUser().then((data: User) => {
         let user = data[0];
+        user.operations$ = this.operationService.getOperationsByUserId(user.userId);
         return user;
       });
     } else {
       this.user$ = this.authService.getUser().then((data: User) => {
         let user = data[0];
+        user.operations$ = this.operationService.getOperationsByUserId(user.userId);
         return user;
       });
     }
