@@ -19,7 +19,7 @@ export interface User {
   userPhoneNumber?: number;
   userDob?: Date;
   userFavoriteDessert?: string;
-  userInterests?: {
+  userInterests: {
     celebrity: boolean;
     helicopter: boolean;
     kidney: boolean;

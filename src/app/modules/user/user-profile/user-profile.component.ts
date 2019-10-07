@@ -46,8 +46,7 @@ export class UserProfileComponent implements OnInit {
    */
   userFormSubmissionFactory(formSubmission: any): UserPutObject {
     var payload = {};
-    let userInterests = formSubmission.userInterests;
-    debugger;
+    let userInterests = formSubmission.userInterests.toString();
     payload = {
       userFirstName: formSubmission.userFirstName,
       userMiddleName: formSubmission.userMiddleName,
@@ -63,11 +62,33 @@ export class UserProfileComponent implements OnInit {
     return <UserPutObject>payload;
   }
   private createForm() {
+    if (!this.user.userInterests) {
+      this.user.userInterests = {
+        celebrity: false,
+        helicopter: false,
+        kidney: false,
+        skydivedOrBungeed: false,
+        appearedOnTv: false,
+        janeAusten: false,
+        escargo: false,
+        deployed: false,
+        instrument: false,
+        seenTornado: false,
+        hitchhiked: false,
+        DND: false
+      };
+    }
     this.userProfileForm = this.fb.group({
       userFirstName: this.fb.control(this.user.userFirstName, [Validators.required]),
       userMiddleName: this.fb.control(this.user.userMiddleName, [Validators.required]),
       userLastName: this.fb.control(this.user.userLastName, [Validators.required]),
-      userEmail: [{ value: this.user.email, disabled: true }, [Validators.required, Validators.email]],
+      userEmail: [
+        {
+          value: this.user.email,
+          disabled: true
+        },
+        [Validators.required, Validators.email]
+      ],
       userPhoneCountryCode: [this.user.userCountryCode, [Validators.required]],
       userPhoneAreaCode: [this.user.userAreaCode, [Validators.required]],
       userPhoneNumber: [this.user.userPhoneNumber, [Validators.required]],
