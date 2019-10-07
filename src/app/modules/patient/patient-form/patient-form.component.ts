@@ -171,31 +171,31 @@ export class PatientFormComponent implements OnInit {
         physicianInfo: this.fb.group({
           physicianFirstName: this.fb.control(this.patient.patientPhysicianFirstName),
           physicianLastName: this.fb.control(this.patient.patientPhysicianLastName),
-          physicianCountryCode: this.fb.control(''),
-          physicianAreaCode: this.fb.control(''),
-          physicianPhoneNumber: this.fb.control('')
+          physicianCountryCode: this.fb.control(this.patient.patientPhysicianCountryCode),
+          physicianAreaCode: this.fb.control(this.patient.patientPhysicianAreaCode),
+          physicianPhoneNumber: this.fb.control(this.patient.patientPhysicianPhoneNumber)
         }),
         insurance: this.fb.group({
-          primaryInsurance: this.fb.control(''),
-          secondaryInsurance: this.fb.control('')
+          primaryInsurance: this.fb.control(this.patient.patientPrimaryInsurance),
+          secondaryInsurance: this.fb.control(this.patient.patientSecondaryInsurance)
         }),
         dischargeInfo: this.fb.group({
-          patientAdmissionDate: this.fb.control(''),
-          patientDischargeDate: this.fb.control(''),
-          patientTotalDays: this.fb.control(''),
-          patientDischargedTo: this.fb.control(''),
-          patientDischargedAma: this.fb.control('')
+          patientAdmissionDate: this.fb.control(this.patient.patientAdmitDate),
+          patientDischargeDate: this.fb.control(this.patient.patientDischargeDate),
+          patientTotalDays: this.fb.control(this.patient.patientTotalDays),
+          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabel),
+          patientDischargedAma: this.fb.control(this.patient.patientDischargedAma)
         }),
         patientMedicalConditions: this.fb.group({
-          cardiacBoolean: this.fb.control(''),
-          sepsisBoolean: this.fb.control(''),
-          pulmonaryBoolean: this.fb.control(''),
-          primaryDiagnosis: this.fb.control(''),
-          dischargedCondition: this.fb.control('')
+          cardiacBoolean: this.fb.control(this.patient.patientDischargedConditions.cardiac),
+          sepsisBoolean: this.fb.control(this.patient.patientDischargedConditions.sepsis),
+          pulmonaryBoolean: this.fb.control(this.patient.patientDischargedConditions.pulmonary),
+          primaryDiagnosis: this.fb.control(this.patient.patientDiagnosis),
+          dischargedCondition: this.fb.control(this.patient.patientDiagnosis)
         }),
         patientQuestionAnswers: this.fb.group({}),
-        patientUrgencyRating: this.fb.control(''),
-        patientNeedToKnow: this.fb.control('')
+        patientUrgencyRating: this.fb.control(this.patient.patientUrgencyRating),
+        patientNeedToKnow: this.fb.control(this.patient.patientUrgencyRating)
       })
     });
   }
@@ -208,8 +208,8 @@ export class PatientFormComponent implements OnInit {
     this.patientAvatarService
       .uploadPatientAvatarByPatientId(this.patient.patientId, this.fileToUpload)
       .subscribe((data: any) => {
-        console.log(data);
         alert('upload successful');
+        // refine
         location.reload();
       });
   }

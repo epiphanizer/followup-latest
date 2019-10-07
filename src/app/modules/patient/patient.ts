@@ -45,10 +45,17 @@ export interface Patient {
   patientCurrentStatusLabel?: number;
   patientDischargeNotes: string;
   patientDischargedAma?: boolean;
-  patientDischargedConditions?: number[];
+  patientDischargedConditions?: {
+    cardiac: boolean;
+    sepsis: boolean;
+    pulmonary: boolean;
+    patientDischargedCondition: string;
+  };
   patientDischargeLabel?: string;
   patientDiagnosis?: string;
   patientPrimaryDiagnosis?: string;
+  patientUrgencyRating?: number;
+  patientNeedToKnow?: string;
   nextPatientCallId?: number;
 }
 
