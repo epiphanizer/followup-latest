@@ -34,24 +34,13 @@ export class UserProfileComponent implements OnInit {
     let formSubmission = this.userProfileForm.getRawValue();
     let userPutPayload = this.userFormSubmissionFactory(formSubmission);
     this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe((data: any) => {
-      console.log(data);
-      debugger;
-      alert('update successful!');
+      alert('Updated successfully!');
     });
   }
 
-  /**
-   * Package into a factory as we do on our forms
-   */
   userFormSubmissionFactory(formSubmission: any): UserPutObject {
     var payload = {};
-    let userInterests = formSubmission.userInterests;
-    if (formSubmission.userDob == null) {
-      formSubmission.userDob = '';
-    }
-    if (formSubmission.userFavoriteDessert == null) {
-      formSubmission.userFavoriteDessert = '';
-    }
+    let userInterests = JSON.stringify(formSubmission.userInterests);
     payload = {
       userFirstName: formSubmission.userFirstName,
       userMiddleName: formSubmission.userMiddleName,
@@ -66,6 +55,7 @@ export class UserProfileComponent implements OnInit {
     };
     return <UserPutObject>payload;
   }
+
   private createForm() {
     if (!this.user.userInterests) {
       this.user.userInterests = {
