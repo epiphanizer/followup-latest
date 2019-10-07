@@ -15,6 +15,7 @@ export interface User {
   token: string;
   id: number;
   id$: Observable<number>;
+  loaded$: Observable<boolean>;
   level: number;
   email: string;
   avatar: string;
