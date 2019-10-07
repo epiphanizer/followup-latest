@@ -7,6 +7,7 @@
   padding-top: 2px;
   color: #343638;
   line-height: 1.65rem;
+
   &.active {
     span {
       color: #13afe9;
@@ -65,6 +66,7 @@
 
 .call-question-answer-label {
   font-family: Avenir;
+  margin-left: 0.25rem;
   font-size: 12px;
   font-weight: bold;
   font-style: normal;
@@ -74,9 +76,11 @@
   text-align: left;
   color: #343638;
 }
+
 .patient-call {
   margin-bottom: 28px;
 }
+
 ion-list {
   ion-item {
     display: inline-block;
@@ -84,11 +88,14 @@ ion-list {
     margin-right: 0.75rem;
   }
 }
+
 .patient-call-notes-container {
   clear: both;
   width: 100%;
   display: block;
+  margin-top: 12px;
   padding-left: 30px;
+
   .patient-call-notes {
     font-size: 12px;
     font-family: Avenir;
@@ -98,8 +105,10 @@ ion-list {
     margin-top: 18px;
   }
 }
+
 .not-started-overlay {
   position: absolute;
+
   &.active {
     display: block;
     background: rgba(255, 255, 255, 0.5);

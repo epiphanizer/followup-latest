@@ -22,11 +22,14 @@
               {{ patientCallQuestion.patientCallQuestion }}:
             </span>
             <span
-              *ngFor="let patientCallQuestionAnswer of patientCallQuestion.patientCallQuestionAnswer$ | async"
+              *ngIf="patientCallQuestion.patientCallQuestionAnswer$ | async as patientCallQuestionAnswer; else noAnswer"
               class="call-question-answer-label"
             >
               {{ patientCallQuestionAnswer.patientCallQuestionAnswer }}</span
             >
+            <ng-template #noAnswer>
+              <span class="call-question-answer-label">N/A </span>
+            </ng-template>
           </ion-item>
         </div>
       </div>
