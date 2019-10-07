@@ -28,15 +28,20 @@
     background-image: url("/assets/icon-phone-blue@2x.png");
   }
 }
+
 .ion-item {
   display: block;
   width: 100%;
 }
+
 .call-question-container {
   width: 100%;
   display: block;
-  height: auto;
+  height: 100%;
+  padding-left: 15px;
+  overflow: hidden;
 }
+
 // history listing
 
 .call-question-label {
@@ -49,11 +54,13 @@
   letter-spacing: normal;
   text-align: left;
   color: #343638;
+
   &.is-highlighted {
     height: 5px;
     border-bottom: solid 5px #ffdf2c;
   }
 }
+
 .call-question-answer-label {
   font-family: Avenir;
   font-size: 12px;
@@ -65,10 +72,23 @@
   text-align: left;
   color: #343638;
 }
+
 ion-list {
   ion-item {
     display: inline-block;
     width: auto;
     margin-right: 0.75rem;
+  }
+}
+
+.not-started-overlay {
+  position: absolute;
+  &.active {
+    display: block;
+    background: rgba(255, 255, 255, 0.5);
+    height: 100%;
+    width: 470px;
+    z-index: 1000;
+    background-size: 100%;
   }
 }

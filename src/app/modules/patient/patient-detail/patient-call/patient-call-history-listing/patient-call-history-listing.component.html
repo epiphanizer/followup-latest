@@ -1,14 +1,17 @@
 <ng-container *ngIf="patientCalls">
   <ion-list class="patient-call-history-list" inset lines="none">
     <div *ngFor="let patientCall of patientCalls; let i = index">
+      <!-- <div class="not-started-overlay" [class.active]="patientCall.patientCallCount ==  i+1
+      && patientCall.patientCallStatusLabel != 'Started'"></div> -->
+
       <div class="call-headline-container {{ i == 0 ? 'active' : '' }} ">
         <i class="icon-phone-icon"></i>
         <span class="call-number-headline"> Call {{ patientCall.patientCallCount }} </span>
       </div>
 
       <div class="call-question-container">
-        <ion-list *ngFor="let patientCallQuestion of patientCallQuestions" lines="none" inset>
-          <ion-item>
+        <div *ngFor="let patientCallQuestion of patientCallQuestions" lines="none" inset>
+          <ion-item class="ion-float-left">
             <span class="call-question-label" [class.is-highlighted]="patientCallQuestion.isHighlighted">
               {{ patientCallQuestion.patientCallQuestion }}:
             </span>
@@ -19,7 +22,7 @@
               {{ patientCallQuestionAnswer.patientCallQuestionAnswer }}</span
             >
           </ion-item>
-        </ion-list>
+        </div>
       </div>
       <!-- <div class="custom-call-question-container"></div> -->
     </div>
