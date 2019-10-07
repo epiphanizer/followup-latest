@@ -3,10 +3,12 @@
   width: 645px;
   padding: 75px;
 }
+
 .modal-exit-container {
   display: block;
   float: right;
 }
+
 .icon-close-modal {
   cursor: pointer;
   position: absolute;
@@ -21,7 +23,6 @@
 
 ion-title {
   width: 100%;
-  margin-top: 74px;
   margin-bottom: 5px;
   margin-left: 37px;
   font-family: AvenirNextLTPro;
@@ -34,14 +35,16 @@ ion-title {
   text-align: left;
   color: #343638;
 }
+
 img.kudos-stars {
   max-width: 120px;
   margin-top: 35px;
   position: absolute;
   right: 5px;
-  top: 32px;
+  top: 60px;
   margin-right: 33px;
 }
+
 h3 {
   font-family: Avenir;
   font-size: 25px;
@@ -50,7 +53,6 @@ h3 {
   font-stretch: normal;
   line-height: 0.48;
   color: var(--ion-color-primary);
-  margin-top: 48px;
   margin-right: 38px;
 }
 
@@ -58,8 +60,9 @@ span.label {
   font-family: AvenirBold;
   font-size: 12px;
   margin-right: 10px;
+
   &.textarea-label {
-    margin-left: 20px;
+    margin-left: 16px;
     margin-bottom: 8px;
   }
 }
@@ -68,6 +71,7 @@ span.label {
   max-width: 170px;
   float: left;
 }
+
 .right-col {
   float: right;
   max-width: 430px;
@@ -76,7 +80,7 @@ span.label {
 .sidebar-calendar {
   width: 120px;
   height: 90px;
-  margin: 40px;
+  margin: 0 40px;
 
   h4 {
     font-family: AvenirBold;
@@ -85,6 +89,8 @@ span.label {
     font-stretch: normal;
     line-height: 0.86;
     letter-spacing: 1.2px;
+    width: 100%;
+    text-align: center;
     color: var(--ion-color-primary);
   }
 
@@ -97,15 +103,18 @@ span.label {
     text-align: center;
   }
 }
+
 .review-notification-list {
   margin: 0;
   margin-left: 5px;
 }
+
 .notification-review-item {
   font-family: Avenir;
   font-size: 12px;
   margin-right: 10px;
   height: 36px;
+
   span.label {
     font-family: AvenirBold;
   }
@@ -114,21 +123,24 @@ span.label {
 .notification-review-item-message {
   max-width: 380px;
 }
+
 ion-item {
   max-width: 375px;
   --inner-padding-start: 0;
   --inner-padding-end: 0;
 }
+
 .textarea-item {
   max-width: 360px;
-  margin-left: 20px;
+  margin-left: 16px;
 }
+
 ion-textarea {
-  min-height: 150px;
+  min-height: 80px;
   max-width: 360px;
   font-size: 13px;
   font-family: Avenir;
-  margin: 0 auto;
+  margin: 1rem auto;
   background-color: #f5f5f5;
   margin-top: 0.25rem;
   padding-left: 8px;
@@ -146,6 +158,7 @@ ion-textarea {
   min-height: 60px;
   display: block;
 }
+
 .send-button {
   float: right;
   margin-right: 40px;

@@ -19,7 +19,6 @@ export class PatientCallHistoryControlsComponent implements OnInit {
   scrollToPatientCall(patientCall: PatientCall) {
     this.clicked = patientCall.patientCallCount;
     let element = document.querySelector('#call-' + patientCall.patientCallCount);
-    console.log(element);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
