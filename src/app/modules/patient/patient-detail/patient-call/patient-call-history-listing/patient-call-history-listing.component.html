@@ -4,7 +4,10 @@
       <!-- <div class="not-started-overlay" [class.active]="patientCall.patientCallCount ==  i+1
       && patientCall.patientCallStatusLabel != 'Started'"></div> -->
 
-      <div class="call-headline-container {{ i == 0 ? 'active' : '' }} ">
+      <div
+        id="{{ 'call-' + patientCall.patientCallCount }}"
+        class="call-headline-container {{ i == 0 ? 'active' : '' }} "
+      >
         <i class="icon-phone-icon"></i>
         <span class="call-number-headline"> Call {{ patientCall.patientCallCount }} </span>
       </div>
@@ -26,7 +29,6 @@
             >
           </ion-item>
         </div>
-        <!-- <div class="custom-call-question-container"></div> -->
       </div>
 
       <div class="patient-call-notes-container">

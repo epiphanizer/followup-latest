@@ -145,6 +145,9 @@ export class PatientDetailComponent implements OnInit {
     }
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
       var isoString = new Date(this.patientNextCall.date).toISOString();
+      /**
+       * Passing E2E as of now
+       */
       this.patientCallService
         .addNewPatientCallByPatientId(
           this.patient.patientId,
@@ -153,16 +156,13 @@ export class PatientDetailComponent implements OnInit {
           3
         )
         .subscribe((data: any) => {
-          alert('scheduled upcoming call successfully');
-          console.log(data);
-          debugger;
           let patientCallId = data.patientCallId;
+          /**
+           * Passing E2E as of now
+           */
           this.patientCallService
             .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
             .subscribe((data: any) => {
-              console.log(data);
-              alert('found and loaded upcoming call successfully');
-              debugger;
               this.patientCall = data[0];
             });
         });

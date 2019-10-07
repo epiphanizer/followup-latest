@@ -5,7 +5,7 @@
     </ion-item>
     <ion-item
       class="patient-call-history-item"
-      *ngFor="let patientCall of patientCalls"
+      *ngFor="let patientCall of patientCalls; let idx = index"
       [class.active]="clicked == patientCall.patientCallCount"
       (click)="scrollToPatientCall(patientCall)"
     >
