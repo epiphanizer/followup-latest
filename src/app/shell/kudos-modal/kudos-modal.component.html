@@ -20,16 +20,18 @@
   <ion-col class="right-col">
     <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
       <ion-list class="review-notification-list" lines="none" inset>
-        <ion-item>
+        <ion-item class="notification-review-item">
           <span class="label">Patient:&nbsp;</span>
           {{ notification.notificationPatientFirstName }}
           {{ notification.notificationPatientLastName }}
         </ion-item>
-        <ion-item>
+        <ion-item class="notification-review-item">
           <span class="label">Facility:&nbsp;</span>
           {{ notification.notificationOperationName }}
         </ion-item>
-        <ion-item> <span class="label">Date Received:&nbsp;</span> {{ todaysDate }} </ion-item>
+        <ion-item class="notification-review-item">
+          <span class="label">Date Received:&nbsp;</span> {{ todaysDate }}
+        </ion-item>
         <span class="textarea-label label">Message:&nbsp;</span>
         <ion-item class="textarea-item">
           <ion-textarea formControlName="notificationMessage" placeholder="Give your kudos!"></ion-textarea>

@@ -7,16 +7,17 @@
       </div>
 
       <div class="call-question-container">
-        <ion-list *ngFor="let patientCallQuestion of patientCall.patientCallQuestions$ | async" lines="none" inset>
+        <ion-list *ngFor="let patientCallQuestion of patientCallQuestions" lines="none" inset>
           <ion-item>
-            {{ patientCallQuestion | json }}
-            <span class="call-question-question" [class.is-highlighted]="patientCallQuestion.isHighlighted">
+            <span class="call-question-label" [class.is-highlighted]="patientCallQuestion.isHighlighted">
               {{ patientCallQuestion.patientCallQuestion }}:
             </span>
             <span
               *ngFor="let patientCallQuestionAnswer of patientCallQuestion.patientCallQuestionAnswer$ | async"
-              class="call-question-answer"
-              >{{ patientCallQuestionAnswer.patientCallQuestionAnswer }}</span
+              class="call-question-answer-label"
+            >
+              {{ patientCallQuestionAnswer | json }}
+              {{ patientCallQuestionAnswer.patientCallQuestionAnswer }}</span
             >
           </ion-item>
         </ion-list>

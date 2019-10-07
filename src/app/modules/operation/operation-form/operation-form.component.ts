@@ -181,7 +181,9 @@ export class OperationFormComponent implements OnInit {
       operationCallReps: this.fb.array([])
     });
   }
-
+  operationChangeEventHandler() {
+    console.log('operation change event');
+  }
   operationPutFactory(formSubmission: any): OperationPutBody {
     try {
       var payload = {};

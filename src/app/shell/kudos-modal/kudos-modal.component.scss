@@ -113,9 +113,12 @@ ion-item {
 ion-textarea {
   min-height: 150px;
   max-width: 360px;
+  font-size: 13px;
+  font-family: Avenir;
   margin: 0 auto;
   background-color: #f5f5f5;
   margin-top: 0.25rem;
+  padding-left: 8px;
 }
 
 .save-button {

@@ -78,8 +78,6 @@ export class NotificationModalComponent {
   onChanges() {
     let notificationTypes = this.notificationTypes;
     this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
-      console.log(notificationTypes);
-      debugger;
       this.notificationType = notificationTypes.find(notificationTypes => notificationTypes.notificationTypeId == val);
       this.notification.notificationTypeLabel = this.notificationType.notificationTypeLabel;
       this.notification.notificationIconImage = this.notificationType.notificationIconImage;
@@ -101,16 +99,16 @@ export class NotificationModalComponent {
   saveNotification() {
     this.status.notification.saved = true;
   }
-  sendNotification() {
+  public sendNotification() {
     let formData = this.createNotificationForm.getRawValue();
     this.notification.notificationTypeId = formData.notificationTypeId;
     this.notification.notificationMessage = formData.notificationMessage;
-    this.notificationService
-      .addNotificationByOperationIdAndNotificationTypeId(this.notification)
-      .subscribe((data: any) => {
-        console.log(data);
-        this.dismiss();
-      });
+    // this.notificationService
+    //   .addNotificationByOperationIdAndNotificationTypeId(this.notification)
+    //   .subscribe((data: any) => {
+    //     console.log(data);
+    //     this.dismiss();
+    //   });
   }
 
   dismiss() {

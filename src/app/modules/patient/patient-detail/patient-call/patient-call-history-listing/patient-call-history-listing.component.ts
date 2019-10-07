@@ -24,12 +24,15 @@ export class PatientCallHistoryListingComponent implements OnInit {
 
   ngOnInit() {
     // Go get our calls and warm up the observables.
-    this.patientCalls.forEach((patientCall: PatientCall) => {
-      patientCall.patientCallQuestions$ = this.patientCallQuestionService
+    this.patientCalls.forEach((patientCall: PatientCall, index: number) => {
+      this.patientCallQuestionService
         .getPatientCallQuestionsByPatientCallId(patientCall.patientCallId)
-        .map((patientCallQuestions: PatientCallQuestion[]) => {
-          patientCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
-            patientCallQuestion.patientCallQuestionAnswer$ = this.patientCallQuestionAnswerService.getPatientCallQuestionAnswersByPatientCallQuestionId(
+        .subscribe((patientCallQuestions: PatientCallQuestion[]) => {
+          this.patientCallQuestions = patientCallQuestions;
+          this.patientCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
+            this.patientCallQuestions[
+              index
+            ].patientCallQuestionAnswer$ = this.patientCallQuestionAnswerService.getPatientCallQuestionAnswersByPatientCallQuestionId(
               patientCallQuestion.patientCallQuestionId
             );
           });
