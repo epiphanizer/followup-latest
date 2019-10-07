@@ -55,12 +55,12 @@ h3 {
 }
 
 span.label {
-  font-weight: bold;
-  font-family: Avenir;
+  font-family: AvenirBold;
   font-size: 12px;
   margin-right: 10px;
   &.textarea-label {
     margin-left: 20px;
+    margin-bottom: 8px;
   }
 }
 
@@ -100,6 +100,19 @@ span.label {
 .review-notification-list {
   margin: 0;
   margin-left: 5px;
+}
+.notification-review-item {
+  font-family: Avenir;
+  font-size: 12px;
+  margin-right: 10px;
+  height: 36px;
+  span.label {
+    font-family: AvenirBold;
+  }
+}
+
+.notification-review-item-message {
+  max-width: 380px;
 }
 ion-item {
   max-width: 375px;

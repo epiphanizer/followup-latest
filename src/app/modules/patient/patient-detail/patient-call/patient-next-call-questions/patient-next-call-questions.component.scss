@@ -33,7 +33,7 @@ form {
 
   ion-textarea {
     font-size: 14px;
-    margin-top: 16px;
+    margin-top: -30px;
 
     &.is-highlighted {
       &::before {
@@ -94,18 +94,25 @@ form {
   }
 }
 
-ion-item.next-call-question-textarea {
-  ion-textarea {
-    margin-top: -30px;
-    height: 125px;
-    margin-top: 0.75rem;
-    font-family: Avenir;
-    font-size: 16px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.38;
-    letter-spacing: 0.64px;
-    text-align: left;
-  }
-}
+// ion-item.next-call-question-textarea {
+//   --inner-padding-start: 0;
+//   --inner-padding-end: 0;
+//   ion-textarea {
+//     margin-top: -30px;
+//     padding-left: 8px;
+//     height: 80px;
+//     margin-top: 0.75rem;
+//     font-family: Avenir;
+//     font-size: 16px;
+//     font-weight: 500;
+//     font-style: normal;
+//     font-stretch: normal;
+//     line-height: 1.38;
+//     letter-spacing: 0.64px;
+//     text-align: left;
+//   }
+// }
+
+// textarea {
+//   margin-top: -25px;
+// }
