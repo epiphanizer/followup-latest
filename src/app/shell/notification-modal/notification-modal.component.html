@@ -75,7 +75,7 @@
             <span *ngFor="let operationContact of operationContacts$ | async; let idx = index">
               {{ operationContact.operationContactFirstName }}
               {{ operationContact.operationContactLastName }}
-              <span *ngIf="idx !== operationContacts.length">,</span>
+              <span>,</span>
             </span>
           </ion-item>
           <ion-item class="notification-review-item">
