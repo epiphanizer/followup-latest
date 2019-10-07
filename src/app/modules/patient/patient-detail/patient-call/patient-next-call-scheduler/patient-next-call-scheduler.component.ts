@@ -122,7 +122,6 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     this.selectedDay = selectedDay;
     this.scheduledCallDate = date;
     this.status.scheduled = true;
-    console.log(this.scheduledCallDate);
     this.patientNextCallDateSelectedEventEmitter.emit(this.scheduledCallDate);
   }
 }

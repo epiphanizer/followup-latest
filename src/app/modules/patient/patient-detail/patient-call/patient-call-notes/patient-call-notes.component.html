@@ -1,5 +1,5 @@
 <ng-container>
-  <form [formGroup]="patientCallNotesForm">
+  <form id="patientCallNotesForm" [formGroup]="patientCallNotesForm">
     <ion-list lines="none" inset>
       <ion-item class="patient-call-notes" *ngIf="patientCall; else placeholder">
         <ion-label position="stacked" *ngIf="patientCall.patientCallStatusLabel == 'Started'">

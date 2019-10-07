@@ -18,6 +18,7 @@ import {
   PatientCallQuestion
 } from './patient-call/patient-call-questions/patient-call-questions.service';
 import { PatientCallStatus } from './patient-call/patient-call-status.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   providers: [PatientCallService, PatientCallNotesService, PatientCallQuestionsService],
@@ -82,10 +83,9 @@ export class PatientDetailComponent implements OnInit {
     }
   }
   patientNextCallDateSelectedEventHandler($event: string) {
-    console.log($event);
-    debugger;
-    this.patientNextCall.date = $event;
-    console.log(this.patientNextCall.date);
+    let selectedDate = $event;
+    let newDate = formatDate(selectedDate, 'MM-dd-yyyy', 'en-US');
+    this.patientNextCall.date = newDate;
   }
   patientCallNotesChangeHandler($event: PatientCallNotes) {
     this.patientCallNotes = $event;
@@ -99,16 +99,16 @@ export class PatientDetailComponent implements OnInit {
     this.patientCall = $event;
 
     if (this.patientCall.patientCallStatusLabel == 'In Review') {
-      alert('Please select a call status!');
+      alert('Please select a call status');
       let element = document.querySelector('#patientCallStatusControls');
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
       return;
     }
-    if (!this.patientNextCall.date) {
-      alert('Please schedule a call date');
-      let element = document.querySelector('#next-call-calendar');
+    if (!this.patientCallNotes) {
+      alert('Please add patient call notes');
+      let element = document.querySelector('#patientCallNotesForm');
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
@@ -132,17 +132,23 @@ export class PatientDetailComponent implements OnInit {
     //
     // });
 
+    if (!this.patientNextCall.date) {
+      alert('Please schedule a call date');
+      let element = document.querySelector('#next-call-calendar');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      return;
+    }
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
-      console.log(data);
+      var isoString = new Date(this.patientNextCall.date).toISOString().slice(0, 10);
       debugger;
-      alert('finalized existing call successfully');
-
-      // needs correction for dynamic status label
       this.patientCallService
         .addNewPatientCallByPatientId(
           this.patient.patientId,
-          this.patientNextCall.date,
-          this.patientNextCall.patientCallStatusLabelId
+          isoString,
+          // default is scheduled
+          3
         )
         .subscribe((data: any) => {
           alert('scheduled upcoming call successfully');
