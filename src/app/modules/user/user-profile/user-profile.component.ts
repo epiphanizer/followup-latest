@@ -5,7 +5,6 @@ import { UserService } from '@app/modules/user/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { UserAvatarService } from '../user-avatar/user-avatar.service';
-import { Observable } from 'rxjs';
 
 @Component({
   providers: [UserService, UserAvatarService],
