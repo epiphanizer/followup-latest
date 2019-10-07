@@ -46,7 +46,7 @@ form {
         height: 25px;
         background-size: 100%;
         z-index: 50;
-        background-color: yellow;
+        background-color: transparent;
       }
     }
 
@@ -96,6 +96,7 @@ form {
 
 ion-item.next-call-question-textarea {
   ion-textarea {
+    margin-top: -30px;
     height: 125px;
     margin-top: 0.75rem;
     font-family: Avenir;

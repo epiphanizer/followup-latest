@@ -21,8 +21,9 @@ i.icon-phone-icon {
 
 .patient-call-history-item {
   margin: 0 auto;
+  cursor: pointer;
+  height: 32px;
 
-  height: 30px;
   div {
     background: url("/assets/call-history-legend-icon@2x.png");
     background-size: 100%;

@@ -77,10 +77,12 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallService.endPatientCall(this.patientCall.patientCallId);
     this.patientCall.patientCallStatusLabelId = 4;
     this.patientCall.patientCallStatusLabel = 'In Review';
-    let element = document.querySelector('#patientCallStatusControls');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    setTimeout(function() {
+      let element = document.querySelector('#patientCallStatusControls');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 120);
   }
   patientNextCallDateSelectedEventHandler($event: string) {
     let selectedDate = $event;
