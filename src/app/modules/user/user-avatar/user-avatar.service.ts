@@ -17,7 +17,7 @@ export class UserAvatarService {
   }
   uploadUserAvatarByUserId(userId: string, file: File) {
     let formData = new FormData();
-    formData.append('avatar', file, file.name);
+    formData.append('avatarBlob', file, file.name);
     return this.http.post('users/' + userId + '/avatar', formData).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { UserPutObject } from '@app/modules/user/user';
-import { User, UserService } from '@app/modules/user/user.service';
+import { UserService } from '@app/modules/user/user.service';
 import { ActivatedRoute } from '@angular/router';
-import { UserAvatarService } from '../user-avatar.service';
+import { User } from '@app/modules/user/user';
+import { UserAvatarService } from '../user-avatar/user-avatar.service';
 
 @Component({
   providers: [UserService, UserAvatarService],
@@ -49,6 +50,8 @@ export class UserProfileComponent implements OnInit {
    */
   userFormSubmissionFactory(formSubmission: any): UserPutObject {
     var payload = {};
+    let userInterests = formSubmission.userInterests;
+    debugger;
     payload = {
       userFirstName: formSubmission.userFirstName,
       userMiddleName: formSubmission.userMiddleName,
@@ -56,7 +59,10 @@ export class UserProfileComponent implements OnInit {
       userPhoneCountryCode: formSubmission.userPhoneCountryCode,
       userPhoneAreaCode: formSubmission.userPhoneAreaCode,
       userPhoneNumber: formSubmission.userPhoneNumber,
-      userDob: formSubmission.userDob
+      userDob: formSubmission.userDob,
+      userFavoriteDessert: formSubmission.userFavoriteDessert,
+      userInterests: userInterests,
+      userAdditionalInfo: formSubmission.userAdditionalInfo
     };
     return <UserPutObject>payload;
   }
@@ -69,8 +75,6 @@ export class UserProfileComponent implements OnInit {
       userPhoneCountryCode: [this.user.userPhoneCountryCode, [Validators.required]],
       userPhoneAreaCode: [this.user.userPhoneAreaCode, [Validators.required]],
       userPhoneNumber: [this.user.userPhoneNumber, [Validators.required]],
-      userPassword: [{ disabled: true }],
-      userConfirmPassword: [{ disabled: true }],
       userDob: [this.user.userDob, [Validators.required]],
       userFavoriteDessert: [''],
       userInterests: this.fb.group({
@@ -97,13 +101,10 @@ export class UserProfileComponent implements OnInit {
 
   uploadUserAvatarPhoto(files: FileList) {
     this.fileToUpload = files.item(0);
-    console.log(this.fileToUpload);
-    alert('uploading user avatar photo');
     this.userAvatarService
       .uploadUserAvatarByUserId(this.user.id.toString(), this.fileToUpload)
       .subscribe((data: any) => {
-        console.log(data);
-        debugger;
+        this.userAvatarService.getUserAvatarByUserId(this.user.id.toString());
       });
   }
 }

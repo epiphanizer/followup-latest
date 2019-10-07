@@ -2,31 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Operation } from '@app/modules/operation/operation.service';
-import { PatientCall } from '../patient/patient-detail/patient-call/patient-call.service';
-import { UserPutObject } from './user';
-
-export interface User {
-  displayName: string;
-  userFirstName: string;
-  userMiddleName?: string;
-  userLastName: string;
-  userPhoneCountryCode?: number;
-  userPhoneAreaCode?: number;
-  userPhoneNumber?: number;
-  userDob?: Date;
-  userLastAccess?: Date;
-  token: string;
-  id: number;
-  id$: Observable<number>;
-  level: number;
-  email: string;
-  avatar: string;
-  operations: Array<Operation>;
-  operations$: Observable<Array<Operation>>;
-  patientCalls: Array<PatientCall>;
-  patientCalls$: Observable<PatientCall[]>;
-}
+import { UserPutObject, User } from './user';
 
 @Injectable({
   providedIn: 'root'

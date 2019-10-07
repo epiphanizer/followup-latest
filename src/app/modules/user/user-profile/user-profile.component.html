@@ -137,13 +137,13 @@
       </form>
     </ion-col>
     <ion-col class="avatar-col">
-      <img (click)="clickUploadInput()" src="/assets/default-avatar-patient-detail.png" alt="" />
+      <app-user-avatar></app-user-avatar>
       <div class="form-group">
         <div>
           <input
             type="file"
             class="hidden-input"
-            name="fileUpload"
+            name="avatarBlob"
             id="fileUpload"
             (change)="uploadUserAvatarPhoto($event.target.files)"
           />
