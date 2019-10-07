@@ -16,6 +16,7 @@ export interface PatientCall {
   patientCallStatusLabel?: string;
   patientCallNumber?: number;
   patientCallCount?: number;
+  patientCallNotes?: string;
   patientCallQuestions: PatientCallQuestion[];
   patientCallQuestions$: Observable<PatientCallQuestion[]>;
 }
