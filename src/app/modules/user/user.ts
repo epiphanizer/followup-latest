@@ -13,7 +13,7 @@ export interface User {
   userDob?: Date;
   userLastAccess?: Date;
   token: string;
-  id: string;
+  id: number;
   id$: Observable<number>;
   level: number;
   email: string;

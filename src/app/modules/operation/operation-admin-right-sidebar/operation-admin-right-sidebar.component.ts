@@ -10,7 +10,7 @@ import {
 } from '@angular/animations';
 import { Operation, OperationService } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '@app/modules/user/user.service';
+import { User } from '@app/modules/user/user';
 import { Observable } from 'rxjs';
 
 @Component({

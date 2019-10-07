@@ -3,7 +3,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { OperationContact } from './operation-contact/operation-contact';
 import { OperationCallRep } from './operation-callreps.service';
-import { User } from '../user/user.service';
+import { User } from '../user/user';
 
 export interface Operation {
   operationId: number;

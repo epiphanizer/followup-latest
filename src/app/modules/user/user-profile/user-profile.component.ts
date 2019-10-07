@@ -101,10 +101,8 @@ export class UserProfileComponent implements OnInit {
 
   uploadUserAvatarPhoto(files: FileList) {
     this.fileToUpload = files.item(0);
-    this.userAvatarService
-      .uploadUserAvatarByUserId(this.user.id.toString(), this.fileToUpload)
-      .subscribe((data: any) => {
-        this.userAvatarService.getUserAvatarByUserId(this.user.id.toString());
-      });
+    this.userAvatarService.uploadUserAvatarByUserId(this.user.id, this.fileToUpload).subscribe((data: any) => {
+      this.userAvatarService.getUserAvatarByUserId(this.user.id);
+    });
   }
 }

@@ -10,7 +10,7 @@ import {
   // ...
 } from '@angular/animations';
 
-import { User } from '@app/modules/user/user.service';
+import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

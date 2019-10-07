@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PatientCall, PatientCallService } from '../patient-call.service';
-import { User } from '@app/modules/user/user.service';
+import { User } from '@app/modules/user/user';
 
 @Component({
   providers: [PatientCallService],
@@ -18,10 +18,7 @@ export class PatientCallStartButtonComponent implements OnInit {
   ngOnInit() {}
 
   public patientCallStartEvent() {
-    /**
-     * Stub
-     */
-    let userId = 10;
+    let userId = this.user.id;
     this.patientCallStartEventEmitter.emit(userId);
   }
 }

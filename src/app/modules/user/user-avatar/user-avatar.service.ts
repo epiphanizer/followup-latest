@@ -9,13 +9,13 @@ import { catchError, retry } from 'rxjs/operators';
 export class UserAvatarService {
   constructor(private http: HttpClient) {}
 
-  getUserAvatarByUserId(userId: string): Observable<any> {
+  getUserAvatarByUserId(userId: number): Observable<any> {
     return this.http.get<any>('users/' + userId + '/avatar').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  uploadUserAvatarByUserId(userId: string, file: File) {
+  uploadUserAvatarByUserId(userId: number, file: File) {
     let formData = new FormData();
     formData.append('avatarBlob', file, file.name);
     return this.http.post('users/' + userId + '/avatar', formData).pipe(

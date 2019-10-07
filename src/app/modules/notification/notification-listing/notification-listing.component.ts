@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { NotificationService } from '../notification.service';
 import { Notification } from '../notification';
 import { map } from 'rxjs/operators';
-import { User } from '@app/modules/user/user.service';
+import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

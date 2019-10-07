@@ -5,7 +5,7 @@ import { Subscription, Observable, throwError } from 'rxjs';
 import { map, delay, share, catchError, retry } from 'rxjs/operators';
 import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { Client } from '@microsoft/microsoft-graph-client';
-import { User } from '@app/modules/user/user.service';
+import { User } from '@app/modules/user/user';
 import { Operation, OperationService } from '@app/modules/operation/operation.service';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';

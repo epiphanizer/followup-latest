@@ -4,7 +4,7 @@ import { Patient, PatientDischargeLabel } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '@app/modules/user/user.service';
+import { User } from '@app/modules/user/user';
 import { map } from 'rxjs/operators';
 import { PatientPutBody } from './patient-form';
 import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';

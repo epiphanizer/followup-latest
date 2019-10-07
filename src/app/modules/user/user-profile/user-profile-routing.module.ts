@@ -17,16 +17,6 @@ const routes: Routes = [
       resolve: {
         user: UserResolver
       }
-    },
-    {
-      path: 'user/profile/edit',
-      component: UserProfileComponent,
-      data: {
-        editMode: true
-      },
-      resolve: {
-        user: UserResolver
-      }
     }
   ])
 ];

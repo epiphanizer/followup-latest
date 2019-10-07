@@ -10,9 +10,8 @@ import {
 } from '@angular/animations';
 import { Operation, OperationService } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '@app/modules/user/user.service';
+import { User } from '@app/modules/user/user';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs-compat/operator/map';
 
 @Component({
   selector: 'app-operation-admin-sidebar',

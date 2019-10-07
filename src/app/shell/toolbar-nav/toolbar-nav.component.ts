@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { KudosModalComponent } from '../kudos-modal/kudos-modal.component';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 import { Patient } from '@app/modules/patient/patient';
-import { User } from '@app/modules/user/user.service';
+import { User } from '@app/modules/user/user';
 
 @Component({
   selector: 'app-toolbar-nav',
