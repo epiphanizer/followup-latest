@@ -53,6 +53,17 @@ ion-title {
   letter-spacing: 0.6px;
   text-align: left;
 }
+ion-textarea {
+  height: 200px;
+  width: 475px;
+  margin: 0 auto;
+  font-size: 13px;
+  font-family: Avenir;
+  background-color: #f5f5f5;
+  padding: 15px;
+  padding-top: 0px;
+  margin-top: 0.25rem;
+}
 
 .notification-options {
   width: 85%;
@@ -101,6 +112,9 @@ h3 {
   }
 }
 
+.notification-review-item-message {
+  max-width: 380px;
+}
 .left-col {
   max-width: 170px;
   float: left;
@@ -145,27 +159,27 @@ h3 {
 .review-notification-list {
   margin: 0;
   margin-left: 5px;
+
+  .review-textarea {
+    max-width: 300px;
+    max-height: 150px;
+  }
+  ion-textarea {
+    height: 115px;
+    width: 300px;
+    margin: 0 auto;
+    font-size: 13px;
+    font-family: Avenir;
+    background-color: #f5f5f5;
+    padding: 15px;
+    padding-top: 0px;
+    margin-left: 12px;
+    margin-top: 0.25rem;
+  }
 }
 
 .notification-options {
   height: auto;
-}
-
-ion-textarea {
-  height: 150px;
-  width: 475px;
-  margin: 0 auto;
-  font-size: 13px;
-  font-family: Avenir;
-  background-color: #f5f5f5;
-  padding: 15px;
-  padding-top: 0px;
-  margin-top: 0.25rem;
-}
-
-.review-textarea {
-  max-width: 300px;
-  max-height: 150px;
 }
 
 .send-container {
