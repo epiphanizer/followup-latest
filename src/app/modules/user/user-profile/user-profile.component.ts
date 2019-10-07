@@ -72,22 +72,22 @@ export class UserProfileComponent implements OnInit {
       userPhoneAreaCode: [this.user.userAreaCode, [Validators.required]],
       userPhoneNumber: [this.user.userPhoneNumber, [Validators.required]],
       userDob: [this.user.userDob, [Validators.required]],
-      userFavoriteDessert: [''],
+      userFavoriteDessert: [this.user.userFavoriteDessert],
       userInterests: this.fb.group({
-        celebrity: this.fb.control(false),
-        helicopter: this.fb.control(false),
-        kidney: this.fb.control(false),
-        skydivedOrBungeed: this.fb.control(false),
-        appearedOnTv: this.fb.control(false),
-        janeAusten: this.fb.control(false),
-        escargo: this.fb.control(false),
-        deployed: this.fb.control(false),
-        instrument: this.fb.control(false),
-        seenTornado: this.fb.control(false),
-        hitchhiked: this.fb.control(false),
-        DND: this.fb.control(false)
+        celebrity: this.fb.control(this.user.userInterests.celebrity),
+        helicopter: this.fb.control(this.user.userInterests.helicopter),
+        kidney: this.fb.control(this.user.userInterests.kidney),
+        skydivedOrBungeed: this.fb.control(this.user.userInterests.skydivedOrBungeed),
+        appearedOnTv: this.fb.control(this.user.userInterests.appearedOnTv),
+        janeAusten: this.fb.control(this.user.userInterests.janeAusten),
+        escargo: this.fb.control(this.user.userInterests.escargo),
+        deployed: this.fb.control(this.user.userInterests.deployed),
+        instrument: this.fb.control(this.user.userInterests.instrument),
+        seenTornado: this.fb.control(this.user.userInterests.seenTornado),
+        hitchhiked: this.fb.control(this.user.userInterests.hitchhiked),
+        DND: this.fb.control(this.user.userInterests.DND)
       }),
-      userAdditionalInfo: this.fb.control({})
+      userAdditionalInfo: this.fb.control(this.user.userAdditionalInfo)
     });
   }
   clickUploadInput() {

@@ -3,16 +3,6 @@ import { PatientCall } from '../patient/patient-detail/patient-call/patient-call
 import { Observable } from 'rxjs';
 
 export interface User {
-  displayName: string;
-  userFirstName: string;
-  userMiddleName?: string;
-  userLastName: string;
-  userCountryCode?: number;
-  userAreaCode?: number;
-  userPhoneNumber?: number;
-  userDob?: Date;
-  userLastAccess?: Date;
-  token: string;
   userId: number;
   level: number;
   email: string;
@@ -21,6 +11,31 @@ export interface User {
   operations$: Observable<Array<Operation>>;
   patientCalls: Array<PatientCall>;
   patientCalls$: Observable<PatientCall[]>;
+  userFirstName: string;
+  userMiddleName?: string;
+  userLastName: string;
+  userCountryCode?: number;
+  userAreaCode?: number;
+  userPhoneNumber?: number;
+  userDob?: Date;
+  userFavoriteDessert?: string;
+  userInterests?: {
+    celebrity: boolean;
+    helicopter: boolean;
+    kidney: boolean;
+    skydivedOrBungeed: boolean;
+    appearedOnTv: boolean;
+    janeAusten: boolean;
+    escargo: boolean;
+    deployed: boolean;
+    instrument: boolean;
+    seenTornado: boolean;
+    hitchhiked: boolean;
+    DND: boolean;
+  };
+  userAdditionalInfo: string;
+  userLastAccess?: Date;
+  token: string;
 }
 
 export interface UserPostObject {}
