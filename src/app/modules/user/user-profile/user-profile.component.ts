@@ -29,12 +29,6 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    if (!this.user.userFirstName) {
-      var separatorIndex = this.user.displayName.indexOf(' ');
-      this.user.userFirstName = this.user.displayName.substring(0, separatorIndex);
-      this.user.userLastName = this.user.displayName.substring(separatorIndex, this.user.displayName.length);
-    }
-
     this.createForm();
   }
   updateUserProfile() {
@@ -74,8 +68,8 @@ export class UserProfileComponent implements OnInit {
       userMiddleName: this.fb.control(this.user.userMiddleName, [Validators.required]),
       userLastName: this.fb.control(this.user.userLastName, [Validators.required]),
       userEmail: [{ value: this.user.email, disabled: true }, [Validators.required, Validators.email]],
-      userPhoneCountryCode: [this.user.userPhoneCountryCode, [Validators.required]],
-      userPhoneAreaCode: [this.user.userPhoneAreaCode, [Validators.required]],
+      userPhoneCountryCode: [this.user.userCountryCode, [Validators.required]],
+      userPhoneAreaCode: [this.user.userAreaCode, [Validators.required]],
       userPhoneNumber: [this.user.userPhoneNumber, [Validators.required]],
       userDob: [this.user.userDob, [Validators.required]],
       userFavoriteDessert: [''],

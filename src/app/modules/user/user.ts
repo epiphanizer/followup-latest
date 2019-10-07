@@ -28,8 +28,8 @@ export interface UserPutObject {
   userFirstName: string;
   userMiddleName?: string;
   userLastName: string;
-  userPhoneCountryCode?: number;
-  userPhoneAreaCode?: number;
+  userCountryCode?: number;
+  userAreaCode?: number;
   userPhoneNumber?: number;
   userDob?: Date;
 }

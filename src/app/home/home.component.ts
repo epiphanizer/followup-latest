@@ -13,10 +13,8 @@ export class HomeComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    // this.user = this.route.snapshot.data.user;
-    // debugger;
-    // this.user.level = 3;
-    // const userLevel = this.user.level;
+    this.user = this.route.snapshot.data.user;
+    this.user.level = 3;
 
     let userLevel = 3;
     /**
@@ -29,10 +27,6 @@ export class HomeComponent implements OnInit {
       avatarImage = this.user.avatar;
     }
 
-    var callQueueEnabledFlag = true;
-    if (this.user.operations.length == 0) {
-      var callQueueEnabledFlag = false;
-    }
     switch (userLevel) {
       case 1:
         this.menu = [
@@ -74,13 +68,13 @@ export class HomeComponent implements OnInit {
             name: 'Patients',
             action: 'patient/add',
             image: '/assets/icon-patients@2x.png',
-            enabled: callQueueEnabledFlag
+            enabled: true
           },
           {
             name: 'Notifications',
             action: 'notifications',
             image: '/assets/icon-manager-notifications@2x.png',
-            enabled: callQueueEnabledFlag
+            enabled: true
           },
           {
             name: 'My Profile',
@@ -96,7 +90,7 @@ export class HomeComponent implements OnInit {
             name: 'Call Queue',
             action: 'call-queue',
             image: '/assets/icon-call-queue@2x.png',
-            enabled: callQueueEnabledFlag
+            enabled: true
           },
           { name: 'My Profile', action: 'user/profile', image: avatarImage, enabled: true }
         ];
