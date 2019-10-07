@@ -5,27 +5,22 @@ import { Observable } from 'rxjs/Observable';
 import { User } from './user';
 import { AuthenticationService } from '@app/core';
 import { OperationService } from '../operation/operation.service';
+import { UserAvatarService } from './user-avatar/user-avatar.service';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {
   user: User;
-  constructor(private authService: AuthenticationService, private operationService: OperationService) {}
+  user$: Promise<User>;
+  constructor(
+    private authService: AuthenticationService,
+    private operationService: OperationService,
+    private userAvatarService: UserAvatarService
+  ) {}
   resolve(): Observable<User> | any {
-    // let user = <User>{};
-
-    // if (user.level !== 1) {
-    //   // user.operations = this.operationService.getOperationsByUserId(user.id).toPromise();
-    // } else {
-    //   // user.operations = this.operationService.getAllOperations().toPromise();
-    // }
-    // // this.user.operations.forEach((operation: Operation, index: number) => {
-    // //   this.user.operations[index].currentAssignedPatientCount = operation.currentAssignedPatientCount;
-    // //   this.user.operations[index].currentNewDischargeCount = operation.currentNewDischargeCount;
-    // // });
-    if (!this.authService.user) {
-      return from(this.authService.getUser());
-    } else {
-      return from(Observable.of(this.authService.user));
-    }
+    this.user$ = this.authService.getUser().then((user: User) => {
+      console.log(user);
+      debugger;
+      return user;
+    });
   }
 }

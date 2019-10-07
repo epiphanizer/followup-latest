@@ -4,7 +4,6 @@ import { LoadingController, Platform } from '@ionic/angular';
 import { environment } from '@env/environment';
 import { Logger, AuthenticationService, untilDestroyed } from '@app/core';
 
-import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { Subscription } from 'rxjs';
 
 const log = new Logger('Login');
@@ -22,37 +21,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private broadcastService: BroadcastService,
     private platform: Platform,
     private authService: AuthenticationService
   ) {
     this.createForm();
   }
 
-  ngOnInit() {
-    this.broadcastService.subscribe('msal:loginFailure', payload => {
-      this.isLoading = false;
-      this.error = 'Could not authenticate!';
-    });
-    this.broadcastService.subscribe('msal:loginSuccess', payload => {
-      this.isLoading = true;
-    });
-    this.broadcastService.subscribe('msal:acquireTokenSuccess', payload => {
-      this.isLoading = false;
-    });
+  ngOnInit() {}
 
-    this.broadcastService.subscribe('msal:acquireTokenFailure', payload => {
-      this.isLoading = false;
-      this.error = 'Could not authenticate!';
-    });
-  }
-
-  ngOnDestroy() {
-    this.broadcastService.getMSALSubject().next(1);
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  ngOnDestroy() {}
 
   signIn() {
     this.isLoading = true;

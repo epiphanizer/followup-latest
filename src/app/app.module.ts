@@ -9,9 +9,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { environment } from '@env/environment';
 
-import { MsalModule, MsalGuard } from '@azure/msal-angular';
-import { OAuthSettings } from '@app/oauth';
-
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 import { HomeModule } from './home/home.module';
@@ -38,17 +35,6 @@ import { UserModule } from '@app/modules/user/user.module';
     TranslateModule.forRoot(),
     IonicModule.forRoot(),
     CoreModule,
-    MsalModule.forRoot({
-      clientID: OAuthSettings.appId,
-      authority: 'https://login.microsoftonline.com/common',
-      redirectUri: 'http://localhost:4200/',
-      validateAuthority: true,
-      cacheLocation: 'localStorage',
-      postLogoutRedirectUri: 'http://localhost:4200/login',
-      navigateToLoginRequestUrl: false,
-      popUp: false,
-      consentScopes: OAuthSettings.scopes
-    }),
     SharedModule,
     ShellModule,
     AlertsModule,
@@ -64,7 +50,7 @@ import { UserModule } from '@app/modules/user/user.module';
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
-  providers: [MsalGuard],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

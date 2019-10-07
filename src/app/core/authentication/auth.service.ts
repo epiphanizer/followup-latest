@@ -17,14 +17,8 @@ import { Router } from '@angular/router';
 export class AuthenticationService {
   public authenticated: boolean;
   public user: User;
-  private subscription: Subscription;
-  constructor(
-    private alertsService: AlertsService,
-    private http: HttpService,
-    private operationService: OperationService,
-    private router: Router
-  ) {
-    this.authenticated = true;
+  public user$: Promise<User>;
+  constructor(private http: HttpService, private router: Router) {
     if (!this.authenticated) {
       this.router.navigate(['/login'], { replaceUrl: true });
     }
@@ -32,11 +26,9 @@ export class AuthenticationService {
   ngOnInit() {}
 
   async getUser(): Promise<User> {
-    let user = <User>{};
-    user.level = 3;
-    user.id = 10;
-    this.getUserByUserId(user.id);
-    return of(this.user).toPromise();
+    let userId = 10;
+    this.user$ = this.getUserByUserId(userId).toPromise();
+    return this.user$;
   }
   getUserByUserId(userId: number): Observable<User> {
     return this.http.get<User>('users/' + userId).pipe(

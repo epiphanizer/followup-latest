@@ -18,7 +18,7 @@ export interface User {
   loaded$: Observable<boolean>;
   level: number;
   email: string;
-  avatar: string;
+  avatar?: string;
   operations: Array<Operation>;
   operations$: Observable<Array<Operation>>;
   patientCalls: Array<PatientCall>;
