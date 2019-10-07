@@ -2,7 +2,8 @@
   <div class="user-avatar">
     <div class="avatar-image">
       <a routerLink="/user/profile" class="user-profile-jump">
-        <app-user-avatar [user]="user"></app-user-avatar>
+        {{ user | json }}
+        <app-user-avatar *ngIf="user" [user]="user"></app-user-avatar>
       </a>
     </div>
   </div>

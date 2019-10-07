@@ -19,9 +19,7 @@ export class AuthenticationService {
   constructor(private http: HttpService, private router: Router) {
     if (!this.user$) {
     }
-    if (!this.authenticated) {
-      this.router.navigate(['/login'], { replaceUrl: true });
-    } else {
+    if (this.authenticated) {
       this.router.navigate(['/home'], { replaceUrl: true });
     }
   }

@@ -18,13 +18,11 @@ export class UserResolver implements Resolve<User> {
   ) {}
   resolve(): Observable<User> | any {
     if (!this.authService.user) {
-      this.user$ = this.authService.getUser().then((user: User) => {
-        console.log(user);
-        debugger;
+      this.user$ = this.authService.getUser().then((data: User) => {
+        let user = data[0];
         return user;
       });
     } else {
-      debugger;
       return this.authService.user;
     }
   }

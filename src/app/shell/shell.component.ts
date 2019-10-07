@@ -27,8 +27,10 @@ export class ShellComponent {
   ) {
     // Pass thru navlinks from child routes
     this.route.url.subscribe(() => {
-      this.navLinks = route.snapshot.firstChild.data.navLinks;
-      this.patient = route.snapshot.firstChild.data.patient;
+      if (route.snapshot.firstChild) {
+        this.navLinks = route.snapshot.firstChild.data.navLinks;
+        this.patient = route.snapshot.firstChild.data.patient;
+      }
     });
   }
   signOut() {

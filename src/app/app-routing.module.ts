@@ -7,6 +7,7 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: '/home',
+    canActivate: [],
     pathMatch: 'full',
     resolve: {
       user: UserResolver
