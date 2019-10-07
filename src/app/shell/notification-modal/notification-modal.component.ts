@@ -86,7 +86,7 @@ export class NotificationModalComponent {
       this.notification.notificationMessage = val;
     });
   }
-  ngAfterViewInit() {}
+
   createForm() {
     this.createNotificationForm = this.fb.group({
       notificationTypeId: this.fb.control(false, [Validators.required]),
@@ -99,16 +99,16 @@ export class NotificationModalComponent {
   saveNotification() {
     this.status.notification.saved = true;
   }
-  public sendNotification() {
+  sendTheNotification() {
     let formData = this.createNotificationForm.getRawValue();
     this.notification.notificationTypeId = formData.notificationTypeId;
     this.notification.notificationMessage = formData.notificationMessage;
-    // this.notificationService
-    //   .addNotificationByOperationIdAndNotificationTypeId(this.notification)
-    //   .subscribe((data: any) => {
-    //     console.log(data);
-    //     this.dismiss();
-    //   });
+    this.notificationService
+      .addNotificationByOperationIdAndNotificationTypeId(this.notification)
+      .subscribe((data: any) => {
+        console.log(data);
+        this.dismiss();
+      });
   }
 
   dismiss() {
