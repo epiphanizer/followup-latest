@@ -35,7 +35,7 @@ export class PatientNextCallQuestionsComponent implements OnInit {
     if (this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted == false) {
       this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted = true;
     } else {
-      this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted = true;
+      this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted = false;
     }
   }
 }

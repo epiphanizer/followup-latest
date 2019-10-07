@@ -23,9 +23,15 @@
             >
           </ion-item>
         </div>
+        <!-- <div class="custom-call-question-container"></div> -->
       </div>
-      <!-- <div class="custom-call-question-container"></div> -->
-      {{ patientCall.patientCallNotes }}
+
+      <div class="patient-call-notes">
+        <span class="call-question-label" [class.is-highlighted]="patientCallQuestion.isHighlighted">
+          Call Notes:
+        </span>
+        {{ patientCall.patientCallNotes }}
+      </div>
     </div>
   </ion-list>
 </ng-container>

@@ -1,10 +1,12 @@
 .call-headline-container {
   width: 100%;
   height: auto;
-  font-family: Avenir;
+  font-family: AvenirBold;
   text-transform: uppercase;
-  font-size: 22px;
-
+  font-size: 18px;
+  padding-top: 2px;
+  color: #3f6f9f;
+  line-height: 1.65rem;
   &.active {
     span {
       color: #13afe9;
@@ -82,7 +84,14 @@ ion-list {
     margin-right: 0.75rem;
   }
 }
-
+.patient-call-notes {
+  clear: both;
+  width: 100%;
+  display: block;
+  padding-left: 30px;
+  margin-top: 18px;
+  height: 300px;
+}
 .not-started-overlay {
   position: absolute;
   &.active {

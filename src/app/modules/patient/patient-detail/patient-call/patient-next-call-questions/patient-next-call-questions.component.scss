@@ -10,6 +10,7 @@ form {
     letter-spacing: 0.42px;
     width: auto;
     float: left;
+
     &.is-highlighted {
       width: 302px;
       border-bottom: yellow 1px solid;
@@ -33,6 +34,7 @@ form {
   ion-textarea {
     font-size: 14px;
     margin-top: 16px;
+
     &.is-highlighted {
       &::before {
         background-image: url("/assets/note-highlight-flag@2x.png");
@@ -47,6 +49,7 @@ form {
         background-color: yellow;
       }
     }
+
     float: left;
     max-width: calc(100% - 20px);
     --inner-padding-start: 0;
@@ -63,8 +66,10 @@ form {
   .patient-next-call-question-highlight-controls {
     width: 100%;
     text-align: right;
+
     a {
       width: 100%;
+
       img {
         float: right;
         height: 17px;
@@ -90,8 +95,9 @@ form {
 }
 
 ion-item.next-call-question-textarea {
-  height: 100px;
-  textarea {
+  ion-textarea {
+    height: 125px;
+    margin-top: 0.75rem;
     font-family: Avenir;
     font-size: 16px;
     font-weight: 500;
