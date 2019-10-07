@@ -28,7 +28,6 @@
     background-image: url("/assets/icon-phone-blue@2x.png");
   }
 }
-
 .ion-item {
   display: block;
   width: 100%;
@@ -65,4 +64,11 @@
   letter-spacing: normal;
   text-align: left;
   color: #343638;
+}
+ion-list {
+  ion-item {
+    display: inline-block;
+    width: auto;
+    margin-right: 0.75rem;
+  }
 }

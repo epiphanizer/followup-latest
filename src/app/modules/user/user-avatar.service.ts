@@ -10,7 +10,7 @@ export class UserAvatarService {
   constructor(private http: HttpClient) {}
 
   getUserAvatarByUserId(userId: string): Observable<any> {
-    return this.http.get<any>('/user/' + userId + '/avatar').pipe(
+    return this.http.get<any>('users/' + userId + '/avatar').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -18,7 +18,7 @@ export class UserAvatarService {
   uploadUserAvatarByUserId(userId: string, file: File) {
     let formData = new FormData();
     formData.append('avatar', file, file.name);
-    return this.http.post('/user/' + userId + '/avatar', formData).pipe(
+    return this.http.post('users/' + userId + '/avatar', formData).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
