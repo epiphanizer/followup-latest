@@ -114,12 +114,13 @@ export class PatientDetailComponent implements OnInit {
       }
       return;
     }
+    /**
+     * Passing E2E
+     */
     this.patientCallNotesService
       .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId, this.patientCallNotes)
       .subscribe((data: any) => {
-        alert('added patient call notes successfully');
-        console.log(data);
-        debugger;
+        console.log('added patient call notes successfully');
       });
 
     // add answers to our questions to the current call
@@ -141,8 +142,7 @@ export class PatientDetailComponent implements OnInit {
       return;
     }
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
-      var isoString = new Date(this.patientNextCall.date).toISOString().slice(0, 10);
-      debugger;
+      var isoString = new Date(this.patientNextCall.date).toISOString();
       this.patientCallService
         .addNewPatientCallByPatientId(
           this.patient.patientId,

@@ -101,10 +101,8 @@ export class PatientCallService {
   ) {
     return this.http
       .post('patients/' + patientId + '/calls', {
-        body: {
-          patientCallScheduledTime: patientCallScheduledTime,
-          patientCallStatusLabelId: patientCallStatusLabelId
-        }
+        patientCallScheduledTime: patientCallScheduledTime,
+        patientCallStatusLabelId: patientCallStatusLabelId
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times
