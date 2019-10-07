@@ -12,7 +12,10 @@
       <div class="call-question-container">
         <div *ngFor="let patientCallQuestion of patientCallQuestions" lines="none" inset>
           <ion-item class="ion-float-left">
-            <span class="call-question-label" [class.is-highlighted]="patientCallQuestion.isHighlighted">
+            <span
+              class="call-question-label"
+              [class.is-highlighted]="patientCallQuestion.patientCallQuestionIsHighlighted"
+            >
               {{ patientCallQuestion.patientCallQuestion }}:
             </span>
             <span
@@ -27,7 +30,7 @@
       </div>
 
       <div class="patient-call-notes">
-        <span class="call-question-label" [class.is-highlighted]="patientCallQuestion.isHighlighted">
+        <span class="call-question-label">
           Call Notes:
         </span>
         {{ patientCall.patientCallNotes }}
