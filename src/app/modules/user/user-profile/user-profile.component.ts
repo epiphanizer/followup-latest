@@ -58,6 +58,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   private createForm() {
+    debugger;
     if (!this.user.userInterests) {
       this.user.userInterests = {
         celebrity: false,

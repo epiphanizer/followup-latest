@@ -130,15 +130,15 @@ export class PatientFormComponent implements OnInit {
   }
   private createForm() {
     this.patientForm = this.fb.group({
-      operation: this.fb.control(''),
+      operation: this.fb.control(this.patient.patientOperationName),
       patient: this.fb.group({
-        patientMedicalRecordNumber: this.fb.control(''),
+        patientMedicalRecordNumber: this.fb.control(this.patient.patientOperationName),
         patientName: this.fb.group({
-          patientFirstName: this.fb.control(''),
-          patientMiddleName: this.fb.control(''),
-          patientLastName: this.fb.control('')
+          patientFirstName: this.fb.control(this.patient.patientFirstName),
+          patientMiddleName: this.fb.control(this.patient.patientMiddleName),
+          patientLastName: this.fb.control(this.patient.patientLastName)
         }),
-        patientDob: this.fb.control(''),
+        patientDob: this.fb.control(this.patient.patientDob),
         patientContacts: this.fb.group({
           primaryPatientContact: this.fb.group({
             patientContactFirstName: this.fb.control(''),
@@ -169,8 +169,8 @@ export class PatientFormComponent implements OnInit {
           })
         }),
         physicianInfo: this.fb.group({
-          physicianFirstName: this.fb.control(''),
-          physicianLastName: this.fb.control(''),
+          physicianFirstName: this.fb.control(this.patient.patientPhysicianFirstName),
+          physicianLastName: this.fb.control(this.patient.patientPhysicianLastName),
           physicianCountryCode: this.fb.control(''),
           physicianAreaCode: this.fb.control(''),
           physicianPhoneNumber: this.fb.control('')
@@ -205,6 +205,12 @@ export class PatientFormComponent implements OnInit {
   }
   uploadPatientAvatarPhoto(files: FileList) {
     this.fileToUpload = files.item(0);
-    this.patientAvatarService.uploadPatientAvatarByPatientId(this.patient.patientId, this.fileToUpload);
+    this.patientAvatarService
+      .uploadPatientAvatarByPatientId(this.patient.patientId, this.fileToUpload)
+      .subscribe((data: any) => {
+        console.log(data);
+        alert('upload successful');
+        location.reload();
+      });
   }
 }
