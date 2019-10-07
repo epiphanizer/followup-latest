@@ -84,13 +84,19 @@ ion-list {
     margin-right: 0.75rem;
   }
 }
-.patient-call-notes {
+.patient-call-notes-container {
   clear: both;
   width: 100%;
   display: block;
   padding-left: 30px;
-  margin-top: 18px;
-  height: 300px;
+  .patient-call-notes {
+    font-size: 12px;
+    font-family: Avenir;
+    clear: both;
+    width: 100%;
+    display: block;
+    margin-top: 18px;
+  }
 }
 .not-started-overlay {
   position: absolute;
