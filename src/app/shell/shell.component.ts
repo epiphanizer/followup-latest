@@ -29,7 +29,6 @@ export class ShellComponent {
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    debugger;
     // Pass thru navlinks, etc. from child routes
     this.route.url.subscribe(() => {
       if (this.route.snapshot.firstChild) {

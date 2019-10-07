@@ -7,13 +7,7 @@
     </div>
   </div>
   <div class="username">
-    <a routerLink="/user/profile" class="user-profile-jump">
-      {{
-        user?.displayName
-          .substr(0, user?.userFirstName.indexOf(' '))
-          .concat(' ', user?.userLastName.charAt(user?.userLastName.indexOf(' ') + 1), '.')
-      }}
-    </a>
+    <a routerLink="/user/profile" class="user-profile-jump"> {{ user.userFirstName }} {{ user.userLastName[0] }. </a>
   </div>
   <div class="logout-nav">
     <a (click)="signOut()">[logout]</a>

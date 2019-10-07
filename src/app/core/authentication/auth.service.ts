@@ -50,7 +50,6 @@ export class AuthenticationService {
     let result = true;
     if (result) {
       this.authenticated = true;
-      alert('signed in');
       // this.user = await this.getUser();
       this.router.navigate(['/home'], { replaceUrl: true });
     }
