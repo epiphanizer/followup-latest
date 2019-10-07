@@ -66,7 +66,6 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallService
       .startPatientCallByUserIdAndPatientCallId(userId, this.patientCall.patientCallId)
       .subscribe((data: any) => {
-        console.log(data);
         this.patientCall.patientCallStatusLabelId = 3;
         this.patientCall.patientCallStatusLabel = 'Started';
       });

@@ -16,7 +16,7 @@
           *ngIf="patientCall.patientCallStatusLabelId < 3"
           [user]="user"
           [patientCall]="patientCall"
-          (patientCallStartEventEmitter)="patientCallStartEventHandler(user.id, $event)"
+          (patientCallStartEventEmitter)="patientCallStartEventHandler($event)"
         >
         </app-patient-call-start-button>
 
