@@ -5,14 +5,19 @@
         <i class="icon-phone-icon"></i>
         <span class="call-number-headline"> Call {{ patientCall.patientCallCount }} </span>
       </div>
+
       <div class="call-question-container">
-        {{ patientCall | json }}
         <ion-list *ngFor="let patientCallQuestion of patientCall.patientCallQuestions$ | async" lines="none" inset>
           <ion-item>
+            {{ patientCallQuestion | json }}
             <span class="call-question-question" [class.is-highlighted]="patientCallQuestion.isHighlighted">
               {{ patientCallQuestion.patientCallQuestion }}:
             </span>
-            <span class="call-question-answer">{{ patientCallQuestion.patientCallQuestionAnswer$ | async }} </span>
+            <span
+              *ngFor="let patientCallQuestionAnswer of patientCallQuestion.patientCallQuestionAnswer$ | async"
+              class="call-question-answer"
+              >{{ patientCallQuestionAnswer.patientCallQuestionAnswer }}</span
+            >
           </ion-item>
         </ion-list>
       </div>

@@ -3,7 +3,9 @@
 </div>
 <ng-container *ngIf="status.notification.saved == false; else sendNotification">
   <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
-    <ion-title>Notification</ion-title>
+    <ion-row *ngIf="notification" class="notification-container">
+      <ion-title>Notification</ion-title>
+    </ion-row>
     <ion-list *ngIf="notificationTypes" class="notification-options" lines="none" inset>
       <ion-radio-group formControlName="notificationTypeId">
         <ion-row>
@@ -39,7 +41,7 @@
   </form>
 </ng-container>
 <ng-template #sendNotification>
-  <ion-row *ngIf="notification">
+  <ion-row *ngIf="notification" class="notification-container">
     <ion-title class="ion-float-left">Notification</ion-title>
     <h3 class="notification-type ion-float-right warning">
       {{ notification.notificationTypeLabel }}
@@ -58,16 +60,16 @@
     <ion-col class="right-col">
       <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
         <ion-list class="review-notification-list" lines="none" inset>
-          <ion-item>
+          <ion-item class="notification-review-item">
             <span class="label">Patient:&nbsp;</span>
             {{ notification.notificationPatientFirstName }}
             {{ notification.notificationPatientLastName }}
           </ion-item>
-          <ion-item>
+          <ion-item class="notification-review-item">
             <span class="label">Facility:&nbsp;</span>
             {{ notification.notificationOperationName }}
           </ion-item>
-          <ion-item>
+          <ion-item class="notification-review-item">
             <span class="label">Next Steps:&nbsp;</span>
             Notify
             <span *ngFor="let operationContact of operationContacts$ | async; let idx = index">
@@ -76,8 +78,10 @@
               <span *ngIf="idx !== operationContacts.length">,</span>
             </span>
           </ion-item>
-          <ion-item> <span class="label">Date Received:&nbsp;</span> {{ todaysDate }} </ion-item>
-          <ion-item>
+          <ion-item class="notification-review-item">
+            <span class="label">Date Received:&nbsp;</span> {{ todaysDate }}
+          </ion-item>
+          <ion-item class="notification-review-item-message">
             <span class="label">Message:&nbsp;</span>
             <ion-textarea formControlName="notificationMessage"></ion-textarea>
           </ion-item>

@@ -27,10 +27,12 @@ export class PatientCallHistoryListingComponent implements OnInit {
     this.patientCalls.forEach((patientCall: PatientCall) => {
       patientCall.patientCallQuestions$ = this.patientCallQuestionService
         .getPatientCallQuestionsByPatientCallId(patientCall.patientCallId)
-        .map((patientCallQuestion: PatientCallQuestion) => {
-          patientCallQuestion.patientCallQuestionAnswer$ = this.patientCallQuestionAnswerService.getPatientCallQuestionAnswersByPatientCallQuestionId(
-            patientCallQuestion.patientCallQuestionId
-          );
+        .map((patientCallQuestions: PatientCallQuestion[]) => {
+          patientCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
+            patientCallQuestion.patientCallQuestionAnswer$ = this.patientCallQuestionAnswerService.getPatientCallQuestionAnswersByPatientCallQuestionId(
+              patientCallQuestion.patientCallQuestionId
+            );
+          });
         });
     });
   }
