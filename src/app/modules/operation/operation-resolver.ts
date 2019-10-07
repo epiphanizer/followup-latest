@@ -16,7 +16,7 @@ export class OperationResolver implements Resolve<Operation> {
     private operationContactsService: OperationContactsService,
     private operationCallRepsService: OperationCallRepsService
   ) {}
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Operation> {
+  resolve(route: ActivatedRouteSnapshot): Observable<Operation> {
     const operationId = route.paramMap.get('operationId');
     this.operation$ = this.operationService.getOperationByOperationId(+operationId).pipe(
       map((operation: Operation) => {

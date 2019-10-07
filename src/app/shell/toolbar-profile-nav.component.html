@@ -2,7 +2,6 @@
   <div class="user-avatar">
     <div class="avatar-image">
       <a routerLink="/user/profile" class="user-profile-jump">
-        {{ user | json }}
         <app-user-avatar *ngIf="user" [user]="user"></app-user-avatar>
       </a>
     </div>
@@ -17,6 +16,6 @@
     </a>
   </div>
   <div class="logout-nav">
-    <a routerLink="/logout" (click)="signOut()">[logout]</a>
+    <a (click)="signOut()">[logout]</a>
   </div>
 </div>

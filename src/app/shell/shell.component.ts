@@ -5,6 +5,7 @@ import { AuthenticationService } from '@app/core';
 import { ModalController } from '@ionic/angular';
 import { NotificationModalComponent } from './notification-modal/notification-modal.component';
 import { Patient } from '@app/modules/patient/patient';
+import { User } from '@app/modules/user/user';
 
 @Component({
   selector: 'app-shell',
@@ -12,6 +13,7 @@ import { Patient } from '@app/modules/patient/patient';
   styleUrls: ['./shell.component.scss']
 })
 export class ShellComponent {
+  user: User;
   patient: Patient;
   navLinks?: {
     linkName: string;
@@ -24,12 +26,15 @@ export class ShellComponent {
     private platform: Platform,
     private authenticationService: AuthenticationService,
     public modalController: ModalController
-  ) {
-    // Pass thru navlinks from child routes
+  ) {}
+  ngOnInit() {
+    this.user = this.route.snapshot.data.user;
+    debugger;
+    // Pass thru navlinks, etc. from child routes
     this.route.url.subscribe(() => {
-      if (route.snapshot.firstChild) {
-        this.navLinks = route.snapshot.firstChild.data.navLinks;
-        this.patient = route.snapshot.firstChild.data.patient;
+      if (this.route.snapshot.firstChild) {
+        this.navLinks = this.route.snapshot.firstChild.data.navLinks;
+        this.patient = this.route.snapshot.firstChild.data.patient;
       }
     });
   }

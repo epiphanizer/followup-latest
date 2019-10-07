@@ -16,14 +16,18 @@ export class UserResolver implements Resolve<User> {
     private operationService: OperationService,
     private userAvatarService: UserAvatarService
   ) {}
-  resolve(): Observable<User> | any {
+  resolve(): Promise<User> {
     if (!this.authService.user) {
       this.user$ = this.authService.getUser().then((data: User) => {
         let user = data[0];
         return user;
       });
     } else {
-      return this.authService.user;
+      this.user$ = this.authService.getUser().then((data: User) => {
+        let user = data[0];
+        return user;
+      });
     }
+    return this.user$;
   }
 }
