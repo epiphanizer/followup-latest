@@ -39,7 +39,7 @@ export class PatientCallQuestionsService {
   };
 
   getPatientCallQuestionAnswersByPatientCallQuestionId = function(patientCallQuestionId: number) {
-    return this.http.get('patients/calls/questions/' + patientCallQuestionId).pipe(
+    return this.http.get('patients/calls/questions/' + patientCallQuestionId + '/answers').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -50,7 +50,7 @@ export class PatientCallQuestionsService {
     patientCallQuestionAnswer: string
   ) {
     return this.http
-      .post('patients/calls/questions/' + patientCallQuestionId + '/answers', { patientCallQuestionAnswer })
+      .post('patients/calls/' + patientCallQuestionId + '/questions/answers', { patientCallQuestionAnswer })
       .pipe(
         retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error

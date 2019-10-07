@@ -1,5 +1,5 @@
 <ng-container *ngIf="patientCalls">
-  <ion-list inset lines="none">
+  <ion-list class="patient-call-history-list" inset lines="none">
     <ion-item *ngFor="let patientCall of patientCalls; let i = index">
       <div class="call-headline-container {{ i == 0 ? 'active' : '' }} ">
         <i class="icon-phone-icon"></i>
@@ -16,14 +16,12 @@
               *ngFor="let patientCallQuestionAnswer of patientCallQuestion.patientCallQuestionAnswer$ | async"
               class="call-question-answer-label"
             >
-              {{ patientCallQuestionAnswer | json }}
               {{ patientCallQuestionAnswer.patientCallQuestionAnswer }}</span
             >
           </ion-item>
         </ion-list>
       </div>
-      <div class="custom-call-question-container"></div>
-      <hr class="call-history-divider" />
+      <!-- <div class="custom-call-question-container"></div> -->
     </ion-item>
   </ion-list>
 </ng-container>
