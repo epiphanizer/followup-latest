@@ -35,6 +35,7 @@ export class UserProfileComponent implements OnInit {
     let userPutPayload = this.userFormSubmissionFactory(formSubmission);
     this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe((data: any) => {
       alert('Updated successfully!');
+      location.reload();
     });
   }
 
