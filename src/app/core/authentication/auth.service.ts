@@ -35,10 +35,11 @@ export class AuthenticationService {
     let user = <User>{};
     user.level = 3;
     user.id = 10;
+    this.getUserByUserId(user.id);
     return of(this.user).toPromise();
   }
-  getUserIdByUserEmail(userEmail: string): Observable<number> {
-    return this.http.post<number>('users/lookup', { userEmail: userEmail }).pipe(
+  getUserByUserId(userId: number): Observable<User> {
+    return this.http.get<User>('users/' + userId).pipe(
       delay(500),
       retry(2),
       share(),

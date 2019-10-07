@@ -11,22 +11,21 @@ export class UserResolver implements Resolve<User> {
   user: User;
   constructor(private authService: AuthenticationService, private operationService: OperationService) {}
   resolve(): Observable<User> | any {
-    let user = <User>{};
+    // let user = <User>{};
 
-    if (user.level !== 1) {
-      // user.operations = this.operationService.getOperationsByUserId(user.id).toPromise();
-    } else {
-      // user.operations = this.operationService.getAllOperations().toPromise();
-    }
-    // this.user.operations.forEach((operation: Operation, index: number) => {
-    //   this.user.operations[index].currentAssignedPatientCount = operation.currentAssignedPatientCount;
-    //   this.user.operations[index].currentNewDischargeCount = operation.currentNewDischargeCount;
-    // });
-    return user;
-    // if (!this.authService.user) {
-    //   return from(this.authService.getUser());
+    // if (user.level !== 1) {
+    //   // user.operations = this.operationService.getOperationsByUserId(user.id).toPromise();
     // } else {
-    //   return from(Observable.of(this.authService.user));
+    //   // user.operations = this.operationService.getAllOperations().toPromise();
     // }
+    // // this.user.operations.forEach((operation: Operation, index: number) => {
+    // //   this.user.operations[index].currentAssignedPatientCount = operation.currentAssignedPatientCount;
+    // //   this.user.operations[index].currentNewDischargeCount = operation.currentNewDischargeCount;
+    // // });
+    if (!this.authService.user) {
+      return from(this.authService.getUser());
+    } else {
+      return from(Observable.of(this.authService.user));
+    }
   }
 }
