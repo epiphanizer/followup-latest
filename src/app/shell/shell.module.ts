@@ -12,6 +12,7 @@ import { ToolbarNavComponent } from './toolbar-nav/toolbar-nav.component';
 import { NotificationModalModule } from './notification-modal/notification-modal.module';
 import { NotificationModalComponent } from './notification-modal/notification-modal.component';
 import { KudosModalComponent } from './kudos-modal/kudos-modal.component';
+
 @NgModule({
   imports: [
     CommonModule,

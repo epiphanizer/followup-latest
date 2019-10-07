@@ -13,8 +13,12 @@ export class HomeComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.user = this.route.snapshot.data.user;
-    const userLevel = this.user.level;
+    // this.user = this.route.snapshot.data.user;
+    // debugger;
+    // this.user.level = 3;
+    // const userLevel = this.user.level;
+
+    let userLevel = 3;
     /**
      * Simple switch for getting appropriate avatar or default passed thru
      */
