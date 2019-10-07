@@ -17,8 +17,12 @@ export class AuthenticationService {
   public user: User;
   public user$: Promise<User>;
   constructor(private http: HttpService, private router: Router) {
+    if (!this.user$) {
+    }
     if (!this.authenticated) {
       this.router.navigate(['/login'], { replaceUrl: true });
+    } else {
+      this.router.navigate(['/home'], { replaceUrl: true });
     }
   }
   ngOnInit() {}
@@ -26,6 +30,9 @@ export class AuthenticationService {
   async getUser(): Promise<User> {
     let userId = 10;
     this.user$ = this.getUserByUserId(userId).toPromise();
+    this.user$.then((user: User) => {
+      this.user = user;
+    });
     return this.user$;
   }
   getUserByUserId(userId: number): Observable<User> {
@@ -45,6 +52,7 @@ export class AuthenticationService {
     let result = true;
     if (result) {
       this.authenticated = true;
+      alert('signed in');
       // this.user = await this.getUser();
       this.router.navigate(['/home'], { replaceUrl: true });
     }

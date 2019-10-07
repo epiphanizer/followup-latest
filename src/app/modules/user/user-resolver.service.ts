@@ -17,10 +17,15 @@ export class UserResolver implements Resolve<User> {
     private userAvatarService: UserAvatarService
   ) {}
   resolve(): Observable<User> | any {
-    this.user$ = this.authService.getUser().then((user: User) => {
-      console.log(user);
+    if (!this.authService.user) {
+      this.user$ = this.authService.getUser().then((user: User) => {
+        console.log(user);
+        debugger;
+        return user;
+      });
+    } else {
       debugger;
-      return user;
-    });
+      return this.authService.user;
+    }
   }
 }
