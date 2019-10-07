@@ -46,7 +46,11 @@ ul.patient-filters {
     letter-spacing: 0.53px;
     text-align: right;
     margin-right: 18px;
-
+    a {
+      &.active {
+        border-bottom: 1px solid var(--ion-color-primary);
+      }
+    }
     &.ascending-descending-control {
       height: 30px;
 
