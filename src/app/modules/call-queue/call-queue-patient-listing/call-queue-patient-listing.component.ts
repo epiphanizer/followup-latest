@@ -14,6 +14,8 @@ import { map } from 'rxjs/operators';
 export class CallQueuePatientListingComponent implements OnInit {
   currentYear: number;
   @Input() operation: Operation;
+
+  filterBy: string;
   public patients: Patient[];
   public patients$: Observable<[Patient]> | void = null;
   public selectedSortFlag: string;
@@ -42,6 +44,7 @@ export class CallQueuePatientListingComponent implements OnInit {
   }
 
   public sortPatientsByDischargeDate = function(sortFlag: string) {
+    this.filterBy = 'discharge-date';
     if (sortFlag == 'asc') {
       this.patients.sort((a: Patient, b: Patient) => {
         return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
@@ -54,6 +57,7 @@ export class CallQueuePatientListingComponent implements OnInit {
   };
 
   public sortPatientsByCallDate = function(sortFlag: string) {
+    this.filterBy = 'call-date';
     if (sortFlag == 'asc') {
       this.patients.sort((a: Patient, b: Patient) => {
         return <any>new Date(a.patientNextCallTime) - <any>new Date(b.patientNextCallTime);

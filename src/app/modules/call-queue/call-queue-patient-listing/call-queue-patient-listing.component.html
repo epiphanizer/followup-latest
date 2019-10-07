@@ -8,10 +8,12 @@
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="patient-filters">
   <li>
-    <a (click)="sortPatientsByDischargeDate(selectedSortFlag)">[Discharge Date]</a>
+    <a [class.active]="filterBy == 'discharge-date'" (click)="sortPatientsByDischargeDate(selectedSortFlag)"
+      >[Discharge Date]</a
+    >
   </li>
   <li>
-    <a (click)="sortPatientsByCallDate(selectedSortFlag)">[Call Date]</a>
+    <a [class.active]="filterBy == 'call-date'" (click)="sortPatientsByCallDate(selectedSortFlag)">[Call Date]</a>
   </li>
   <li class="ascending-descending-control">
     <i
