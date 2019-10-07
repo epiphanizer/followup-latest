@@ -18,7 +18,7 @@ export class UserAvatarComponent implements OnInit {
   constructor(private userAvatarService: UserAvatarService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    this.userAvatarService.getUserAvatarByUserId(this.user.id).subscribe((baseImage: any) => {
+    this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((baseImage: any) => {
       if (!baseImage[0]) {
         this.avatarExists = false;
       } else {

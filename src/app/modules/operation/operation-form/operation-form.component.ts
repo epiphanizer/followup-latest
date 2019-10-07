@@ -201,7 +201,7 @@ export class OperationFormComponent implements OnInit {
     try {
       var payload = {
         operationId: formSubmission.operation.operationId,
-        userId: this.user.id
+        userId: this.user.userId
       };
       return <OperationCallRepPostBody>payload;
     } catch {

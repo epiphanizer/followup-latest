@@ -13,9 +13,7 @@ export interface User {
   userDob?: Date;
   userLastAccess?: Date;
   token: string;
-  id: number;
-  id$: Observable<number>;
-  loaded$: Observable<boolean>;
+  userId: number;
   level: number;
   email: string;
   avatar?: string;

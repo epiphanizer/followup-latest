@@ -27,7 +27,7 @@ export class CallQueuePatientFilterComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.userPatientCalls$ = this.patientCallService
-      .getCallRepCallsByUserIdAndOperationId(this.user.id, this.operation.operationId)
+      .getCallRepCallsByUserIdAndOperationId(this.user.userId, this.operation.operationId)
       .pipe(
         map((patientCalls: PatientCall[]) => {
           this.patientCalls = patientCalls;

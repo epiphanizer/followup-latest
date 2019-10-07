@@ -40,7 +40,7 @@ export class UserProfileComponent implements OnInit {
   updateUserProfile() {
     let formSubmission = this.userProfileForm.getRawValue();
     let userPutPayload = this.userFormSubmissionFactory(formSubmission);
-    this.userService.updateUserByUserId(this.user.id, userPutPayload).subscribe((data: any) => {
+    this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe((data: any) => {
       console.log(data);
       debugger;
       alert('update successful!');
@@ -103,8 +103,8 @@ export class UserProfileComponent implements OnInit {
 
   uploadUserAvatarPhoto(files: FileList) {
     this.fileToUpload = files.item(0);
-    this.userAvatarService.uploadUserAvatarByUserId(this.user.id, this.fileToUpload).subscribe((data: any) => {
-      this.userAvatarService.getUserAvatarByUserId(this.user.id);
+    this.userAvatarService.uploadUserAvatarByUserId(this.user.userId, this.fileToUpload).subscribe((data: any) => {
+      this.userAvatarService.getUserAvatarByUserId(this.user.userId);
     });
   }
 }

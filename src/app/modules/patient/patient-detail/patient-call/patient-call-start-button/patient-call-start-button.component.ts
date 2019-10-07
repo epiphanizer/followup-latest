@@ -18,7 +18,7 @@ export class PatientCallStartButtonComponent implements OnInit {
   ngOnInit() {}
 
   public patientCallStartEvent() {
-    let userId = this.user.id;
+    let userId = this.user.userId;
     this.patientCallStartEventEmitter.emit(userId);
   }
 }

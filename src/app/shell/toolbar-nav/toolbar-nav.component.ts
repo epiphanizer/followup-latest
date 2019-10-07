@@ -44,7 +44,7 @@ export class ToolbarNavComponent implements OnInit {
       componentProps: {
         modalType: 'Notification',
         notification: {
-          notificationCreatedByUserId: this.user.id,
+          notificationCreatedByUserId: this.user.userId,
           notificationMessage: 'Give your Kudos!',
           notificationOperationId: this.patient.patientOperationId,
           notificationPatientFirstName: this.patient.patientFirstName,
@@ -65,7 +65,7 @@ export class ToolbarNavComponent implements OnInit {
       componentProps: {
         modalType: 'Kudos',
         notification: {
-          notificationCreatedByUserId: this.user.id,
+          notificationCreatedByUserId: this.user.userId,
           notificationMessage: 'Give your Kudos!',
           notificationOperationId: this.patient.patientOperationId,
           notificationPatientFirstName: this.patient.patientFirstName,
