@@ -370,6 +370,20 @@ form {
 
     .discharge-to-location {
       margin-top: 1.5rem;
+
+      ion-list {
+        ion-label {
+          min-width: min-content;
+          font-family: Avenir;
+          font-size: 14px;
+          margin-left: 12px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          letter-spacing: 0.42px;
+          text-align: left;
+        }
+      }
     }
   }
 
