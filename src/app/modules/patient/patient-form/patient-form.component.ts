@@ -27,6 +27,7 @@ export class PatientFormComponent implements OnInit {
   patient: Patient;
   patientContacts: PatientContact[];
   operations: Operation[];
+  operations$: Observable<Operation[]>;
 
   user: User;
   patient$: Observable<Patient> | void;
