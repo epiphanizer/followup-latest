@@ -10,6 +10,7 @@ import { PatientPutBody } from './patient-form';
 import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
 import { PatientContact } from '../patient-contact/patient-contact';
 import { Operation, OperationService } from '@app/modules/operation/operation.service';
+import { PatientContactService } from '../patient-contact/patient-contact.service';
 
 @Component({
   providers: [PatientService],
@@ -26,6 +27,7 @@ export class PatientFormComponent implements OnInit {
   fileToUpload: File;
   patient: Patient;
   patientContacts: PatientContact[] = [];
+  patientContacts$: Observable<PatientContact[]>;
   operations: Operation[];
   operations$: Observable<Operation[]>;
 
@@ -37,7 +39,8 @@ export class PatientFormComponent implements OnInit {
     private route: ActivatedRoute,
     private operationService: OperationService,
     private patientService: PatientService,
-    private patientAvatarService: PatientAvatarService
+    private patientAvatarService: PatientAvatarService,
+    private patientContactService: PatientContactService
   ) {}
 
   ngOnInit() {
@@ -46,6 +49,8 @@ export class PatientFormComponent implements OnInit {
      * See if we are editing the form
      */
     this.user = this.route.snapshot.data.user;
+    this.operations$ = this.operationService.getAllOperations();
+    this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
 
     if (this.route.snapshot.data.editMode) {
       this.editMode = true;
@@ -60,34 +65,35 @@ export class PatientFormComponent implements OnInit {
         })
       );
     } else {
-      this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: any) => {
+      this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: Patient) => {
         this.patient = data[0];
         this.createForm();
         this.addAdditionalContact();
+        this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
+        this.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
+          let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
+          if (patientContacts) {
+            this.patientContacts.splice(0, 1);
+            patientContacts.forEach((patientContact: PatientContact) => {
+              patientContactArray.push(
+                this.fb.group({
+                  patientContactFirstName: this.fb.control(patientContact.patientContactFirstName),
+                  patientContactLastName: this.fb.control(patientContact.patientContactLastName),
+                  patientContactRelationship: this.fb.control(patientContact.patientContactRelationship),
+                  patientContactCountryCode: this.fb.control(patientContact.patientContactCountryCode),
+                  patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode),
+                  patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber),
+                  patientContactOrder: this.fb.control(patientContact.patientContactOrder),
+                  patientResponsiblePartyBoolean: this.fb.control(patientContact.patientResponsiblePartyBoolean)
+                })
+              );
+              this.patientContacts.push(patientContact);
+            });
+          }
+          return this.patientContacts;
+        });
       });
     }
-    this.operations$ = this.operationService.getAllOperations();
-    this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
-    this.patient.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
-      let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
-      if (patientContacts) {
-        patientContacts.forEach((patientContact: PatientContact) => {
-          patientContactArray.push(
-            this.fb.group({
-              patientContactFirstName: this.fb.control(patientContact.patientContactFirstName),
-              patientContactLastName: this.fb.control(patientContact.patientContactLastName),
-              patientContactRelationship: this.fb.control(patientContact.patientContactRelationship),
-              patientContactCountryCode: this.fb.control(patientContact.patientContactCountryCode),
-              patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode),
-              patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber),
-              patientResponsiblePartyBoolean: this.fb.control(patientContact.patientResponsiblePartyBoolean)
-            })
-          );
-          this.patientContacts.push(patientContact);
-        });
-      }
-      // return this.patientContacts;
-    });
   }
 
   addAdditionalContact() {
@@ -98,6 +104,7 @@ export class PatientFormComponent implements OnInit {
       patientContactCountryCode: '',
       patientContactAreaCode: '',
       patientContactPhoneNumber: '',
+      patientContactOrder: 1,
       patientResponsiblePartyBoolean: false
     });
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
@@ -109,6 +116,7 @@ export class PatientFormComponent implements OnInit {
         patientContactCountryCode: this.fb.control('', [Validators.required]),
         patientContactAreaCode: this.fb.control('', [Validators.required]),
         patientContactPhoneNumber: this.fb.control('', [Validators.required]),
+        patientContactOrder: this.fb.control('', [Validators.required]),
         patientResponsiblePartyBoolean: this.fb.control(false)
       })
     );

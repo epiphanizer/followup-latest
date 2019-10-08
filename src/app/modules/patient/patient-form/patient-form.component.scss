@@ -281,7 +281,10 @@ form {
       }
 
       &.relationship {
-        width: 100%;
+        width: 200px;
+      }
+      &.priority {
+        width: 50px;
       }
     }
 

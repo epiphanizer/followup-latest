@@ -62,7 +62,7 @@
               formGroupName="{{ idx }}"
             >
               <div class="section-header">
-                <span *ngIf="patientContact.patientContactOrder == 1; else alternateContact">Primary Contact</span>
+                <span *ngIf="idx == 0; else alternateContact">Primary Contact</span>
                 <ng-template #alternateContact>
                   <span>Alternate Contact {{ idx }}</span>
                 </ng-template>
@@ -96,6 +96,10 @@
                   <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
                   <ion-radio formControlName="patientResponsiblePartyBoolean"> </ion-radio>
                   <i class="icon-hipaa"></i>
+                </ion-item>
+                <ion-item class="priority">
+                  <ion-label color="medium" position="stacked">Priority (e.g. 1-5)</ion-label>
+                  <ion-input type="number" formControlName="patientContactOrder"></ion-input>
                 </ion-item>
                 <!-- Only show if it's the last index -->
                 <ion-item
