@@ -197,18 +197,16 @@
               </ion-item>
               <ion-item class="discharge-to-location">
                 <ion-label color="medium" position="stacked">Discharged To:</ion-label>
-                <ion-list inset lines="none">
-                  <ion-radio-group formControlName="patientDischargedTo">
-                    <div *ngFor="let dischargeLabel of dischargeLabels$ | async">
-                      <ion-item>
-                        <ion-radio value="dischargeLabel.patientDischargeLabelId"></ion-radio>
-                        <ion-label>
-                          {{ dischargeLabel.patientDischargeLabel }}
-                        </ion-label>
-                      </ion-item>
-                    </div>
-                  </ion-radio-group>
-                </ion-list>
+                <ion-radio-group formControlName="patientDischargedTo">
+                  <ion-list inset lines="none">
+                    <ion-item *ngFor="let dischargeLabel of dischargeLabels$ | async">
+                      <ion-radio value="{{ dischargeLabel.patientDischargeLabelId }} "> </ion-radio>
+                      <ion-label>
+                        {{ dischargeLabel.patientDischargeLabel }}
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </ion-radio-group>
               </ion-item>
             </ion-list>
           </fieldset>
