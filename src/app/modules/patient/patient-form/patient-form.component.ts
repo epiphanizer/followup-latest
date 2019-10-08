@@ -59,7 +59,7 @@ export class PatientFormComponent implements OnInit {
       );
     } else {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: any) => {
-        this.patient = data;
+        this.patient = data[0];
         this.createForm();
       });
     }

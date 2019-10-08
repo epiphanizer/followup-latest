@@ -23,8 +23,11 @@ export class PatientAvatarComponent implements OnInit {
         this.avatarExists = false;
       } else {
         this.avatarExists = true;
+        console.log(baseImage[0]);
+        debugger;
+
         // @see https://medium.com/@koteswar.meesala/convert-array-buffer-to-base64-string-to-display-images-in-angular-7-4c443db242cd
-        let TYPED_ARRAY = new Uint8Array(baseImage[0].userAvatarBlob.data);
+        let TYPED_ARRAY = new Uint8Array(baseImage[0].avatarBlob.data);
         const STRING_CHAR = String.fromCharCode.apply(null, TYPED_ARRAY);
         let base64String = btoa(STRING_CHAR);
         this.avatarUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64String);

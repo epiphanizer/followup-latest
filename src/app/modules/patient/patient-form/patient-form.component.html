@@ -380,7 +380,7 @@
         id="fileUpload"
         (change)="uploadPatientAvatarPhoto($event.target.files)"
       />
-      <ion-button *ngIf="avatarExists; else avatarPhotoExists" fill="outline" (click)="clickUploadInput()">
+      <ion-button *ngIf="!avatarExists; else avatarPhotoExists" fill="outline" (click)="clickUploadInput()">
         Add Photo
       </ion-button>
       <ng-template #avatarPhotoExists>
