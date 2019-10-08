@@ -69,19 +69,33 @@ export class PatientFormComponent implements OnInit {
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
     this.patient.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
       let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
-      patientContacts.forEach((patientContact: PatientContact) => {
+      if (patientContacts.length) {
+        patientContacts.forEach((patientContact: PatientContact) => {
+          patientContactArray.push(
+            this.fb.group({
+              patientContactFirstName: this.fb.control(patientContact.patientContactFirstName),
+              patientContactLastName: this.fb.control(patientContact.patientContactLastName),
+              patientContactRelationship: this.fb.control(patientContact.patientContactRelationship),
+              patientContactCountryCode: this.fb.control(patientContact.patientContactCountryCode),
+              patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode),
+              patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber),
+              patientResponsiblePartyBoolean: this.fb.control(false)
+            })
+          );
+        });
+      } else {
         patientContactArray.push(
           this.fb.group({
-            patientContactFirstName: this.fb.control(patientContact.patientContactFirstName),
-            patientContactLastName: this.fb.control(patientContact.patientContactLastName),
-            patientContactRelationship: this.fb.control(patientContact.patientContactRelationship),
-            patientContactCountryCode: this.fb.control(patientContact.patientContactCountryCode),
-            patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode),
-            patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber),
+            patientContactFirstName: this.fb.control(''),
+            patientContactLastName: this.fb.control(''),
+            patientContactRelationship: this.fb.control(''),
+            patientContactCountryCode: this.fb.control(''),
+            patientContactAreaCode: this.fb.control(''),
+            patientContactPhoneNumber: this.fb.control(''),
             patientResponsiblePartyBoolean: this.fb.control(false)
           })
         );
-      });
+      }
       this.patientContacts = patientContacts;
       return this.patientContacts;
     });
