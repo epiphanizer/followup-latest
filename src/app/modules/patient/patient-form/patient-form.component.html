@@ -248,9 +248,9 @@
                 <ion-list inset lines="none">
                   <ion-radio-group formControlName="patientDischargedTo">
                     <ion-item *ngFor="let dischargeLabel of dischargeLabels$ | async">
-                      <ion-radio value="dischargeLabel.dischargeLabelId"> </ion-radio>
+                      <ion-radio value="dischargeLabel.patientDischargeLabelId"> </ion-radio>
                       <ion-label>
-                        {{ dischargeLabel.dischargeLabel }}
+                        {{ dischargeLabel.patientDischargeLabel }}
                       </ion-label>
                     </ion-item>
                   </ion-radio-group>

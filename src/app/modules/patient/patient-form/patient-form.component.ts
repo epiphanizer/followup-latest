@@ -50,7 +50,6 @@ export class PatientFormComponent implements OnInit {
     if (!this.patient) {
       this.patient$ = this.patientService.addNewPatient().pipe(
         map((data: Patient) => {
-          debugger;
           this.patient = data;
           this.createForm();
           return data;
@@ -60,7 +59,6 @@ export class PatientFormComponent implements OnInit {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: any) => {
         this.patient = data[0];
         this.createForm();
-        debugger;
       });
     }
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
@@ -171,14 +169,13 @@ export class PatientFormComponent implements OnInit {
           // cardiacBoolean: this.fb.control(this.patient.patientDischargedConditions.cardiac),
           // sepsisBoolean: this.fb.control(this.patient.patientDischargedConditions.sepsis),
           // pulmonaryBoolean: this.fb.control(this.patient.patientDischargedConditions.pulmonary),
-          // primaryDiagnosis: this.fb.control(this.patient.patientDiagnosis),
           // dischargedCondition: this.fb.control(this.patient.patientDischargedConditions.patientDischargedCondition)
 
           cardiacBoolean: this.fb.control(false),
           sepsisBoolean: this.fb.control(false),
           pulmonaryBoolean: this.fb.control(false),
-          primaryDiagnosis: this.fb.control(''),
-          dischargedCondition: this.fb.control('')
+          primaryDiagnosis: this.fb.control(this.patient.patientDiagnosis),
+          dischargedCondition: this.fb.control(this.patient.patientDischargeNotes)
         }),
         patientQuestionAnswers: this.fb.array([]),
         patientUrgencyRating: this.fb.control(this.patient.patientUrgencyRating),
