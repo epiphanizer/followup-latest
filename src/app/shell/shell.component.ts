@@ -32,15 +32,21 @@ export class ShellComponent {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     // Pass thru navlinks, etc. from child routes
-    this.route.url.subscribe(() => {
-      if (this.route.snapshot.firstChild) {
-        if (this.route.snapshot.firstChild.data.navLinks) {
-          this.navLinks = this.route.snapshot.firstChild.data.navLinks;
-        }
-      }
-    });
-    this.router.events.pipe(filter(event => event instanceof ResolveEnd)).subscribe(() => {
-      console.log(this.route);
+    // this.route.url.subscribe(() => {
+    //   if (this.route.snapshot.firstChild) {
+    //     if (this.route.snapshot.firstChild.data.navLinks) {
+    //       this.navLinks = this.route.snapshot.firstChild.data.navLinks;
+    //     }
+    //   }
+    // });
+    const firstChildParams$ = this.router.events.pipe(
+      filter(event => event instanceof ResolveEnd),
+      startWith(undefined),
+      switchMap(e => this.route.firstChild!.paramMap)
+    );
+
+    firstChildParams$.subscribe(params => {
+      console.log(params);
       alert('resolved');
     });
     // .subscribe(
