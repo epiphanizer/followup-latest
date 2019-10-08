@@ -84,8 +84,8 @@ export class PatientFormComponent implements OnInit {
               patientResponsiblePartyBoolean: this.fb.control(false)
             })
           );
+          this.patientContacts.push(patientContact);
         });
-        this.patientContacts = patientContacts;
       }
       return this.patientContacts;
     });
@@ -104,12 +104,12 @@ export class PatientFormComponent implements OnInit {
     });
     patientContactArray.push(
       this.fb.group({
-        patientContactFirstName: this.fb.control(''),
-        patientContactLastName: this.fb.control(''),
-        patientContactRelationship: this.fb.control(''),
-        patientContactCountryCode: this.fb.control(''),
-        patientContactAreaCode: this.fb.control(''),
-        patientContactPhoneNumber: this.fb.control(''),
+        patientContactFirstName: this.fb.control('', [Validators.required]),
+        patientContactLastName: this.fb.control('', [Validators.required]),
+        patientContactRelationship: this.fb.control('', [Validators.required]),
+        patientContactCountryCode: this.fb.control('', [Validators.required]),
+        patientContactAreaCode: this.fb.control('', [Validators.required]),
+        patientContactPhoneNumber: this.fb.control('', [Validators.required]),
         patientResponsiblePartyBoolean: this.fb.control(false)
       })
     );

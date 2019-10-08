@@ -125,7 +125,7 @@ form {
     }
 
     ion-datetime {
-      width: 154.6px;
+      width: 105px;
       height: auto;
       font-family: Avenir;
       font-size: 14px;
@@ -134,7 +134,7 @@ form {
       display: inline-block;
 
       button {
-        max-width: 154.6px;
+        max-width: 105px;
       }
     }
   }
@@ -343,7 +343,7 @@ form {
       &.discharge-admit-date,
       &.discharge-discharge-date {
         display: inline-block;
-        width: 120px;
+        width: 110px;
         height: auto;
         border: solid 1px var(--brownish-grey-15);
         background-color: #f5f5f5;
