@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, ResolveEnd } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { AuthenticationService } from '@app/core';
 import { ModalController } from '@ionic/angular';
@@ -7,6 +7,7 @@ import { NotificationModalComponent } from './notification-modal/notification-mo
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
 import { startWith, switchMap, filter, map, mergeMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-shell',
@@ -31,34 +32,30 @@ export class ShellComponent {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     // Pass thru navlinks, etc. from child routes
-
-    this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd),
-        map(() => this.route),
-        map((route: ActivatedRoute) => {
-          console.log(route);
-          alert('mapping');
-          while (route.firstChild) {
-            route = route.firstChild;
-            console.log(route);
-            return route;
-          }
-        }),
-        mergeMap(route => route.paramMap),
-        tap(paramMap => console.log('ParamMap', paramMap))
-      )
-      .subscribe(
-        // Get the params (paramAsMap.params) and use them to highlight or everything that meet your need
-        paramAsMap => {
-          console.log(paramAsMap);
-          debugger;
+    this.route.url.subscribe(() => {
+      if (this.route.snapshot.firstChild) {
+        if (this.route.snapshot.firstChild.data.navLinks) {
+          this.navLinks = this.route.snapshot.firstChild.data.navLinks;
         }
-      );
+      }
+    });
+    this.router.events.pipe(filter(event => event instanceof ResolveEnd)).subscribe(() => {
+      console.log(this.route);
+      alert('resolved');
+    });
+    // .subscribe(
+    //   // Get the params (paramAsMap.params) and use them to highlight or everything that meet your need
+    //   () => {
+    //     console.log(this.route.root);
+    //     debugger;
+    //   }
+    // );
   }
   signOut() {
     this.authenticationService.signOut();
-    this.router.navigate(['/login'], { replaceUrl: true });
+    this.router.navigate(['/login'], {
+      replaceUrl: true
+    });
   }
 
   get isWeb(): boolean {
