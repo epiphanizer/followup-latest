@@ -25,7 +25,7 @@ export class PatientFormComponent implements OnInit {
   editMode: boolean = false;
   fileToUpload: File;
   patient: Patient;
-  patientContacts: PatientContact[];
+  patientContacts: PatientContact[] = [];
   operations: Operation[];
   operations$: Observable<Operation[]>;
 
@@ -69,7 +69,8 @@ export class PatientFormComponent implements OnInit {
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
     this.patient.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
       let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
-      if (patientContacts.length) {
+
+      if (patientContacts) {
         patientContacts.forEach((patientContact: PatientContact) => {
           patientContactArray.push(
             this.fb.group({
@@ -83,24 +84,38 @@ export class PatientFormComponent implements OnInit {
             })
           );
         });
+
+        this.patientContacts = patientContacts;
       } else {
-        patientContactArray.push(
-          this.fb.group({
-            patientContactFirstName: this.fb.control(''),
-            patientContactLastName: this.fb.control(''),
-            patientContactRelationship: this.fb.control(''),
-            patientContactCountryCode: this.fb.control(''),
-            patientContactAreaCode: this.fb.control(''),
-            patientContactPhoneNumber: this.fb.control(''),
-            patientResponsiblePartyBoolean: this.fb.control(false)
-          })
-        );
+        this.addAdditionalContact();
       }
-      this.patientContacts = patientContacts;
       return this.patientContacts;
     });
   }
 
+  addAdditionalContact() {
+    let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
+    this.patientContacts.push({
+      patientContactFirstName: '',
+      patientContactLastName: '',
+      patientContactRelationship: '',
+      patientContactCountryCode: '',
+      patientContactAreaCode: '',
+      patientContactPhoneNumber: '',
+      patientResponsiblePartyBoolean: false
+    });
+    patientContactArray.push(
+      this.fb.group({
+        patientContactFirstName: this.fb.control(''),
+        patientContactLastName: this.fb.control(''),
+        patientContactRelationship: this.fb.control(''),
+        patientContactCountryCode: this.fb.control(''),
+        patientContactAreaCode: this.fb.control(''),
+        patientContactPhoneNumber: this.fb.control(''),
+        patientResponsiblePartyBoolean: this.fb.control(false)
+      })
+    );
+  }
   onFormSubmit(): void {
     let formSubmission = this.patientForm.getRawValue();
     let patientPutBody = this.formSubmissionFactory(formSubmission);
@@ -170,7 +185,10 @@ export class PatientFormComponent implements OnInit {
         dischargeInfo: this.fb.group({
           patientAdmitDate: this.fb.control(this.patient.patientAdmitDate, [Validators.required]),
           patientDischargeDate: this.fb.control(this.patient.patientDischargeDate, [Validators.required]),
-          patientTotalDays: this.fb.control({ disabled: true, value: this.patient.patientTotalDays }),
+          patientTotalDays: this.fb.control({
+            disabled: true,
+            value: this.patient.patientTotalDays
+          }),
           patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId, [Validators.required]),
           patientDischargedAma: this.fb.control(this.patient.patientDischargedAma, [Validators.required])
         }),

@@ -97,6 +97,12 @@
                   <ion-radio formControlName="patientResponsiblePartyBoolean"> </ion-radio>
                   <i class="icon-hipaa"></i>
                 </ion-item>
+                <ion-item
+                  *ngIf="idx == patientContacts.length"
+                  class="ion-float-right add-additional-contact"
+                  (click)="addAdditionalContact()"
+                  >[ + additional contact ]</ion-item
+                >
               </div>
               <ion-item-divider></ion-item-divider>
             </ion-list>

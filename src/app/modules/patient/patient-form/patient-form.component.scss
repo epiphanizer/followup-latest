@@ -225,6 +225,21 @@ form {
   fieldset.patient-contacts {
     border: none;
 
+    .add-additional-contact {
+      cursor: pointer;
+      font-family: Avenir;
+      font-size: 13px;
+      font-weight: normal;
+      font-style: normal;
+      margin-top: 15px;
+      margin-left: 10px;
+      font-stretch: normal;
+      line-height: 1.33;
+      letter-spacing: 0.42px;
+      text-align: left;
+      color: var(--ion-color-primary);
+    }
+
     ion-list {
       padding-left: 12px;
     }
@@ -365,12 +380,15 @@ form {
 
     .discharge-to-location {
       margin-top: 1.5rem;
+
       .section-header .discharge {
         margin-top: 8px;
       }
+
       ion-list {
         margin-left: 0;
         margin-bottom: 0;
+
         ion-label {
           min-width: min-content;
           font-family: Avenir;
@@ -639,6 +657,7 @@ form {
 
   .checkboxes-inline {
     margin-top: 0px;
+
     ion-item,
     ion-radio {
       display: inline-block;
@@ -648,15 +667,19 @@ form {
 
 .urgency-rating-list {
   margin-left: 11px;
+
   ion-item {
     display: inline-block;
+
     ion-radio-group {
       margin-top: 25px;
+
       ion-item {
         ion-radio {
           display: inline-block;
           margin-right: 4px;
         }
+
         ion-label {
           min-width: min-content;
           font-family: Avenir;
