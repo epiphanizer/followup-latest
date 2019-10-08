@@ -222,7 +222,7 @@
             class="patient-intake-questions"
             *ngIf="patient.patientIntakeQuestions$ | async as patientQuestions"
             inset
-            formGroupName="patientQuestionAnswers"
+            formArray="patientIntakeQuestionAnswers"
           >
             <i class="icon-question"></i>
             <ion-item *ngFor="let patientQuestion of patientQuestions">

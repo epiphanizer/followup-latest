@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Patient, PatientDischargeLabel } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { map } from 'rxjs/operators';
@@ -63,7 +63,20 @@ export class PatientFormComponent implements OnInit {
     }
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
     this.patient.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
-      console.log(patientContacts);
+      let patientContactArray = this.patientForm.controls.patientContacts as FormArray;
+      patientContacts.forEach((patientContact: PatientContact) => {
+        patientContactArray.push(
+          this.fb.group({
+            patientContactFirstName: this.fb.control(patientContact.patientContactFirstName),
+            patientContactLastName: this.fb.control(patientContact.patientContactLastName),
+            patientContactRelationship: this.fb.control(patientContact.patientContactRelationship),
+            patientContactCountryCode: this.fb.control(patientContact.patientContactCountryCode),
+            patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode),
+            patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber),
+            patientResponsiblePartyBoolean: this.fb.control(false)
+          })
+        );
+      });
       this.patientContacts = patientContacts;
       return this.patientContacts;
     });
@@ -155,7 +168,7 @@ export class PatientFormComponent implements OnInit {
           primaryDiagnosis: this.fb.control(this.patient.patientDiagnosis),
           dischargedCondition: this.fb.control(this.patient.patientDischargeNotes)
         }),
-        patientQuestionAnswers: this.fb.array([]),
+        patientIntakeQuestionAnswers: this.fb.array([]),
         patientUrgencyRating: this.fb.control(this.patient.patientUrgencyRating),
         patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow)
       })
