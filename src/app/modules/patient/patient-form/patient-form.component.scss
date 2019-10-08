@@ -620,6 +620,7 @@ form {
   .section-header {
     width: 100%;
     border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 0.75rem;
   }
 
   i.icon-question-mark {
@@ -638,8 +639,9 @@ form {
   }
 
   .call-question {
-    font-family: Avenir;
-    font-size: 21px;
+    font-size: 18px;
+    padding-top: 12px;
+    margin-left: 12px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
