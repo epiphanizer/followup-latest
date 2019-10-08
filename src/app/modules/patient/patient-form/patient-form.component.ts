@@ -56,6 +56,7 @@ export class PatientFormComponent implements OnInit {
         map((data: Patient) => {
           this.patient = data;
           this.createForm();
+          this.addAdditionalContact();
           return data;
         })
       );
@@ -63,13 +64,13 @@ export class PatientFormComponent implements OnInit {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: any) => {
         this.patient = data[0];
         this.createForm();
+        this.addAdditionalContact();
       });
     }
     this.operations$ = this.operationService.getAllOperations();
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
     this.patient.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
       let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
-
       if (patientContacts) {
         patientContacts.forEach((patientContact: PatientContact) => {
           patientContactArray.push(
@@ -84,10 +85,7 @@ export class PatientFormComponent implements OnInit {
             })
           );
         });
-
         this.patientContacts = patientContacts;
-      } else {
-        this.addAdditionalContact();
       }
       return this.patientContacts;
     });
