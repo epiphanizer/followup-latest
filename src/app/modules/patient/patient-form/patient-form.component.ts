@@ -63,7 +63,8 @@ export class PatientFormComponent implements OnInit {
     }
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
     this.patient.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
-      let patientContactArray = this.patientForm.controls.patientContacts as FormArray;
+      let patientContactArray = this.patientForm.controls.patient.get('patientContacts') as FormArray;
+      debugger;
       patientContacts.forEach((patientContact: PatientContact) => {
         patientContactArray.push(
           this.fb.group({

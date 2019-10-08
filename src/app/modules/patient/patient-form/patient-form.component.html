@@ -47,7 +47,7 @@
           </ion-list>
 
           <!-- This should come from a loop -->
-          <fieldset class="patient-contacts" formArray="patientContacts">
+          <fieldset class="patient-contacts" formArrayName="patientContacts">
             <div class="section-header contacts">
               <i class="icon-contacts"></i>
               <span class="contact-header">Contacts</span>
@@ -222,7 +222,7 @@
             class="patient-intake-questions"
             *ngIf="patient.patientIntakeQuestions$ | async as patientQuestions"
             inset
-            formArray="patientIntakeQuestionAnswers"
+            formArrayName="patientIntakeQuestionAnswers"
           >
             <i class="icon-question"></i>
             <ion-item *ngFor="let patientQuestion of patientQuestions">
