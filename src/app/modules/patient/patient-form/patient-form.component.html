@@ -62,7 +62,7 @@
               formGroupName="{{ idx }}"
             >
               <div class="section-header">
-                <span *ngIf="idx == 0; else alternateContact">Primary Contact</span>
+                <span *ngIf="patientContact.patientContactOrder == 1; else alternateContact">Primary Contact</span>
                 <ng-template #alternateContact>
                   <span>Alternate Contact {{ idx }}</span>
                 </ng-template>
@@ -107,14 +107,6 @@
               </div>
               <ion-item-divider></ion-item-divider>
             </ion-list>
-            <ng-template *ngIf="!patientContacts.length > 0">
-              <ion-item
-                *ngIf="idx == patientContacts.length - 1"
-                class="ion-float-right add-additional-contact"
-                (click)="addAdditionalContact()"
-                >[ + additional contact ]</ion-item
-              >
-            </ng-template>
           </fieldset>
           <fieldset class="physician-info" formGroupName="physicianInfo">
             <ion-list class="physician-info-list" lines="none" inset>

@@ -63,6 +63,7 @@ export class PatientFormComponent implements OnInit {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: any) => {
         this.patient = data[0];
         this.createForm();
+        this.addAdditionalContact();
       });
     }
     this.operations$ = this.operationService.getAllOperations();
@@ -85,7 +86,7 @@ export class PatientFormComponent implements OnInit {
           this.patientContacts.push(patientContact);
         });
       }
-      return this.patientContacts;
+      // return this.patientContacts;
     });
   }
 
