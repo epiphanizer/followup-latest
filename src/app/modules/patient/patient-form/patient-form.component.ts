@@ -126,15 +126,13 @@ export class PatientFormComponent implements OnInit {
       patientUrgencyScale: formSubmission.patientUrgencyScale,
       patientNeedToKnow: formSubmission.patientNeedToKnow
     };
-    debugger;
-
     return <PatientPutBody>payload;
   }
   private createForm() {
     this.patientForm = this.fb.group({
       operation: this.fb.control(this.patient.patientOperationName),
       patient: this.fb.group({
-        patientMedicalRecordNumber: this.fb.control(this.patient.patientOperationName),
+        patientMedicalRecordNumber: this.fb.control(this.patient.patientMedicalRecordNumber),
         patientName: this.fb.group({
           patientFirstName: this.fb.control(this.patient.patientFirstName),
           patientMiddleName: this.fb.control(this.patient.patientMiddleName),
@@ -197,7 +195,7 @@ export class PatientFormComponent implements OnInit {
         }),
         patientQuestionAnswers: this.fb.group({}),
         patientUrgencyRating: this.fb.control(this.patient.patientUrgencyRating),
-        patientNeedToKnow: this.fb.control(this.patient.patientUrgencyRating)
+        patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow)
       })
     });
   }

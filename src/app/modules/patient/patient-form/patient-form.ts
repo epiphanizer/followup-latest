@@ -27,7 +27,6 @@ export interface PatientPutBody {
   patientDischargeDate: Date;
   patientDischargedAma: boolean;
   patientDischargeLocationLabelId: number;
-  patientPrimaryDiagnosis: string;
   patientDiagnosis: string;
   patientUrgencyScale: number;
   patientNeedToKnow: string;
