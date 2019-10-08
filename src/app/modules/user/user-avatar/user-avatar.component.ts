@@ -29,7 +29,6 @@ export class UserAvatarComponent implements OnInit {
           return data + String.fromCharCode(byte);
         }, '');
         let base64String = btoa(STRING_CHAR);
-        console.log(base64String);
         this.avatarUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64String);
       }
     });
