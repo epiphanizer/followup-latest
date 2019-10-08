@@ -113,6 +113,7 @@ export class PatientFormComponent implements OnInit {
     return <PatientPutBody>payload;
   }
   private createForm() {
+    debugger;
     this.patientForm = this.fb.group({
       operation: this.fb.control(this.patient.patientOperationId),
       patient: this.fb.group({
@@ -171,11 +172,17 @@ export class PatientFormComponent implements OnInit {
           patientDischargedAma: this.fb.control(this.patient.patientDischargedAma, [Validators.required])
         }),
         patientMedicalConditions: this.fb.group({
-          cardiacBoolean: this.fb.control(this.patient.patientDischargedConditions.cardiac),
-          sepsisBoolean: this.fb.control(this.patient.patientDischargedConditions.sepsis),
-          pulmonaryBoolean: this.fb.control(this.patient.patientDischargedConditions.pulmonary),
-          primaryDiagnosis: this.fb.control(this.patient.patientDiagnosis),
-          dischargedCondition: this.fb.control(this.patient.patientDischargedConditions.patientDischargedCondition)
+          // cardiacBoolean: this.fb.control(this.patient.patientDischargedConditions.cardiac),
+          // sepsisBoolean: this.fb.control(this.patient.patientDischargedConditions.sepsis),
+          // pulmonaryBoolean: this.fb.control(this.patient.patientDischargedConditions.pulmonary),
+          // primaryDiagnosis: this.fb.control(this.patient.patientDiagnosis),
+          // dischargedCondition: this.fb.control(this.patient.patientDischargedConditions.patientDischargedCondition)
+
+          cardiacBoolean: this.fb.control(false),
+          sepsisBoolean: this.fb.control(false),
+          pulmonaryBoolean: this.fb.control(false),
+          primaryDiagnosis: this.fb.control(false),
+          dischargedCondition: this.fb.control(false)
         }),
         patientQuestionAnswers: this.fb.array([]),
         patientUrgencyRating: this.fb.control(this.patient.patientUrgencyRating),

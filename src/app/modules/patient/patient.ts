@@ -47,10 +47,10 @@ export interface Patient {
   patientDischargeNotes: string;
   patientDischargedAma?: boolean;
   patientDischargedConditions?: {
-    cardiac: boolean;
-    sepsis: boolean;
-    pulmonary: boolean;
-    patientDischargedCondition: string;
+    cardiac?: boolean;
+    sepsis?: boolean;
+    pulmonary?: boolean;
+    patientDischargedCondition?: string;
   };
   patientDischargeLabel?: string;
   patientDiagnosis?: string;
