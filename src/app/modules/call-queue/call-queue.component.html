@@ -19,7 +19,8 @@
         </ion-col>
         <ion-col>
           <app-call-queue-call-history-calendar> </app-call-queue-call-history-calendar>
-          <app-call-queue-patient-filter [operation]="selected.operation"> </app-call-queue-patient-filter>
+          <app-call-queue-patient-filter *ngIf="selected.operation" [operation]="selected.operation">
+          </app-call-queue-patient-filter>
         </ion-col>
       </ion-row>
     </ion-grid>
