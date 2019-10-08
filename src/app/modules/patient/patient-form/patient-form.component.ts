@@ -99,6 +99,8 @@ export class PatientFormComponent implements OnInit {
    */
   private formSubmissionFactory(formSubmission: any) {
     console.log(formSubmission);
+    const patientIntakeQuestionAnswers = JSON.stringify(formSubmission.patientIntakeQuestionAnswers);
+    const patientDiagnosis = JSON.stringify(formSubmission.patientDiagnosis);
     var payload = {
       patientActive: formSubmission.patient.patientActive,
       patientDob: formSubmission.patient.patientDob,
@@ -107,6 +109,7 @@ export class PatientFormComponent implements OnInit {
       patientFirstName: formSubmission.patient.patientFirstName,
       patientMiddleName: formSubmission.patient.patientMiddleName,
       patientLastName: formSubmission.patient.patientLastName,
+      patientAdmitDate: formSubmission.dischargeInfo.patientAdmissionDate,
       patientPhysicianFirstName: formSubmission.physicianInfo.physicianFirstName,
       patientPhysicianLastName: formSubmission.physicianInfo.physicianLastName,
       patientPhysicianCountryCode: formSubmission.physicianInfo.physicianCountryCode,
@@ -114,14 +117,12 @@ export class PatientFormComponent implements OnInit {
       patientPhysicianPhoneNumber: formSubmission.physicianInfo.physicianPhoneNumber,
       patientPrimaryInsurance: formSubmission.insurance.primaryInsurance,
       patientSecondaryInsurance: formSubmission.insurance.secondaryInsurance,
-      patientAdmissionDate: formSubmission.dischargeInfo.patientAdmissionDate,
       patientDischargeDate: formSubmission.dischargeInfo.patientDischargeDate,
       patientDischargedAma: formSubmission.dischargeInfo.patientDischargedAma,
       patientDischargeLocationLabelId: formSubmission.dischargeInfo.patientDischargedTo,
       patientPrimaryDiagnosis: formSubmission.patientMedicalConditions.primaryDiagnosis,
-      patientDiagnosis: formSubmission.patientDiagnosis,
-      patientIntakeQuestions: formSubmission.patientIntakeQuestions,
-      patientQuestionAnswers: formSubmission.patientQuestionAnswers,
+      patientDiagnosis: patientDiagnosis,
+      patientIntakeQuestionAnswers: patientIntakeQuestionAnswers,
       patientUrgencyScale: formSubmission.patientUrgencyScale,
       patientNeedToKnow: formSubmission.patientNeedToKnow
     };

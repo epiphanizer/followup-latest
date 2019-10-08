@@ -23,13 +23,13 @@ export interface PatientPutBody {
   patientPhysicianPhoneNumber: string;
   patientPrimaryInsurance: string;
   patientSecondaryInsurance: string;
-  patientAdmissionDate: Date;
+  patientAdmitDate: Date;
   patientDischargeDate: Date;
   patientDischargedAma: boolean;
   patientDischargeLocationLabelId: number;
   patientPrimaryDiagnosis: string;
-  patientDiagnosis: {};
+  patientDiagnosis: string;
   patientUrgencyScale: number;
   patientNeedToKnow: string;
-  patientIntakeQuestionAnswers: PatientQuestionAnswer[];
+  patientIntakeQuestionAnswers: string;
 }
