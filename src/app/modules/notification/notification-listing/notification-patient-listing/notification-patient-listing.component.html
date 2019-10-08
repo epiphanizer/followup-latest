@@ -8,7 +8,7 @@
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="patient-filters">
   <li class="ion-float-left">
-    <a (click)="sortPatientsByNotificationDate()">[Date]</a>
+    <a (click)="sortNotificationsByNotificationDate()">[Date]</a>
     <span class="ascending-descending-control">
       <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
     </span>
@@ -17,7 +17,7 @@
     <a (click)="sortNotificationsByPatient()">[Patient]</a>
   </li>
   <li>
-    <a (click)="sortNotificationsByType()">[Type]</a>
+    <a (click)="sortNotificationsByNotificationType()">[Type]</a>
     <span class="ascending-descending-control">
       <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
     </span>

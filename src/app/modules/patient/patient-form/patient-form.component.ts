@@ -97,73 +97,6 @@ export class PatientFormComponent implements OnInit {
     }
   }
 
-  addAdditionalContact() {
-    this.patientContacts.push({
-      patientContactFirstName: '',
-      patientContactLastName: '',
-      patientContactRelationship: '',
-      patientContactCountryCode: '',
-      patientContactAreaCode: '',
-      patientContactPhoneNumber: '',
-      patientContactOrder: 1,
-      patientResponsiblePartyBoolean: false
-    });
-    let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
-    patientContactArray.push(
-      this.fb.group({
-        patientContactFirstName: this.fb.control('', [Validators.required]),
-        patientContactLastName: this.fb.control('', [Validators.required]),
-        patientContactRelationship: this.fb.control('', [Validators.required]),
-        patientContactCountryCode: this.fb.control('', [Validators.required]),
-        patientContactAreaCode: this.fb.control('', [Validators.required]),
-        patientContactPhoneNumber: this.fb.control('', [Validators.required]),
-        patientContactOrder: this.fb.control('', [Validators.required]),
-        patientResponsiblePartyBoolean: this.fb.control(false)
-      })
-    );
-  }
-  onFormSubmit(): void {
-    let formSubmission = this.patientForm.getRawValue();
-    let patientPutBody = this.formSubmissionFactory(formSubmission);
-    this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
-      alert('patient successfully edited');
-      location.reload();
-    });
-  }
-
-  /**
-   * create a tidy type-checked payload to send off to the API
-   * @param formSubmission
-   */
-  private formSubmissionFactory(formSubmission: any) {
-    const patientIntakeQuestionAnswers = JSON.stringify(formSubmission.patientIntakeQuestionAnswers);
-    const patientDiagnosis = JSON.stringify(formSubmission.patientDiagnosis);
-    var payload = {
-      patientDob: formSubmission.patient.patientDob,
-      patientOperationId: formSubmission.operation,
-      patientMedicalRecordNumber: formSubmission.patient.medicalRecordNumber,
-      patientFirstName: formSubmission.patient.patientFirstName,
-      patientMiddleName: formSubmission.patient.patientMiddleName,
-      patientLastName: formSubmission.patient.patientLastName,
-      patientAdmitDate: formSubmission.dischargeInfo.patientAdmitDate,
-      patientPhysicianFirstName: formSubmission.physicianInfo.physicianFirstName,
-      patientPhysicianLastName: formSubmission.physicianInfo.physicianLastName,
-      patientPhysicianCountryCode: formSubmission.physicianInfo.physicianCountryCode,
-      patientPhysicianAreaCode: formSubmission.physicianInfo.physicianAreaCode,
-      patientPhysicianPhoneNumber: formSubmission.physicianInfo.physicianPhoneNumber,
-      patientPrimaryInsurance: formSubmission.insurance.primaryInsurance,
-      patientSecondaryInsurance: formSubmission.insurance.secondaryInsurance,
-      patientDischargeDate: formSubmission.dischargeInfo.patientDischargeDate,
-      patientDischargedAma: formSubmission.dischargeInfo.patientDischargedAma,
-      patientDischargeLocationLabelId: formSubmission.dischargeInfo.patientDischargedTo,
-      patientPrimaryDiagnosis: formSubmission.patientMedicalConditions.primaryDiagnosis,
-      patientDiagnosis: patientDiagnosis,
-      patientIntakeQuestionAnswers: patientIntakeQuestionAnswers,
-      patientUrgencyScale: formSubmission.patientUrgencyScale,
-      patientNeedToKnow: formSubmission.patientNeedToKnow
-    };
-    return <PatientPutBody>payload;
-  }
   private createForm() {
     this.patientForm = this.fb.group({
       operation: this.fb.control(this.patient.patientOperationId),
@@ -229,5 +162,74 @@ export class PatientFormComponent implements OnInit {
         // refine
         location.reload();
       });
+  }
+
+  addAdditionalContact() {
+    this.patientContacts.push({
+      patientContactFirstName: '',
+      patientContactLastName: '',
+      patientContactRelationship: '',
+      patientContactCountryCode: '',
+      patientContactAreaCode: '',
+      patientContactPhoneNumber: '',
+      patientContactOrder: 1,
+      patientResponsiblePartyBoolean: false
+    });
+    let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
+    patientContactArray.push(
+      this.fb.group({
+        patientContactFirstName: this.fb.control('', [Validators.required]),
+        patientContactLastName: this.fb.control('', [Validators.required]),
+        patientContactRelationship: this.fb.control('', [Validators.required]),
+        patientContactCountryCode: this.fb.control('', [Validators.required]),
+        patientContactAreaCode: this.fb.control('', [Validators.required]),
+        patientContactPhoneNumber: this.fb.control('', [Validators.required]),
+        patientContactOrder: this.fb.control('', [Validators.required]),
+        patientResponsiblePartyBoolean: this.fb.control(false)
+      })
+    );
+  }
+  onFormSubmit(): void {
+    let formSubmission = this.patientForm.getRawValue();
+    let patientPutBody = this.formSubmissionFactory(formSubmission);
+    this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
+      alert('patient successfully edited');
+      location.reload();
+    });
+  }
+
+  /**
+   * create a tidy type-checked payload to send off to the API
+   * @param formSubmission
+   */
+  private formSubmissionFactory(formSubmission: any) {
+    let patientIntakeQuestionAnswers = 'Mock Intake String';
+    // const patientIntakeQuestionAnswers = JSON.stringify(formSubmission.patient.patientIntakeQuestionAnswers);
+    const patientDiagnosis = JSON.stringify(formSubmission.patient.patientDiagnosis);
+    var payload = {
+      patientDob: formSubmission.patient.patientDob,
+      patientOperationId: formSubmission.operation,
+      patientMedicalRecordNumber: formSubmission.patient.medicalRecordNumber,
+      patientFirstName: formSubmission.patient.patientFirstName,
+      patientMiddleName: formSubmission.patient.patientMiddleName,
+      patientLastName: formSubmission.patient.patientLastName,
+      patientPhysicianFirstName: formSubmission.patient.physicianInfo.physicianFirstName,
+      patientPhysicianLastName: formSubmission.patient.physicianInfo.physicianLastName,
+      patientPhysicianCountryCode: formSubmission.patient.physicianInfo.physicianCountryCode,
+      patientPhysicianAreaCode: formSubmission.patient.physicianInfo.physicianAreaCode,
+      patientPhysicianPhoneNumber: formSubmission.patient.physicianInfo.physicianPhoneNumber,
+      patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance,
+      patientSecondaryInsurance: formSubmission.patient.insurance.secondaryInsurance,
+      patientAdmitDate: formSubmission.patient.dischargeInfo.patientAdmitDate,
+      patientDischargeDate: formSubmission.patient.dischargeInfo.patientDischargeDate,
+      patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma,
+      patientDischargeLocationLabelId: formSubmission.patient.dischargeInfo.patientDischargedTo,
+      patientPrimaryDiagnosis: formSubmission.patient.patientMedicalConditions.primaryDiagnosis,
+      patientDiagnosis: patientDiagnosis,
+      patientIntakeQuestionAnswers: patientIntakeQuestionAnswers,
+      patientUrgencyScale: formSubmission.patient.patientUrgencyScale,
+      patientNeedToKnow: formSubmission.patient.patientNeedToKnow
+    };
+    return <PatientPutBody>payload;
   }
 }

@@ -151,7 +151,8 @@ ul.patient-filters {
     }
 
     .call-queue-avatar {
-      display: inline-block;
+      display: block;
+      float: left;
       margin-top: 10.5px;
       width: 74.8px;
       height: 75.2px;
@@ -166,8 +167,8 @@ ul.patient-filters {
 
     .call-queue-patient-information {
       line-height: 96px;
-      vertical-align: top;
-      display: inline-block;
+      display: block;
+      float: left;
       padding-left: 11.2px;
       width: 215px;
       height: 96px;
@@ -216,6 +217,7 @@ ul.patient-filters {
     .patient.label-line {
       color: #8e8e93;
       font-size: 13px;
+      line-height: 18px;
       font-family: Avenir;
     }
   }

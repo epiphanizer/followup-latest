@@ -4,7 +4,7 @@
   <div class="calendar-month-controls">
     <span class="left-month-arrow" (click)="calendarPrevMonth()"></span>
     <span class="calendar-month">
-      {{ currentMonth.name }}
+      {{ currentCalendarMonth.name }}
     </span>
     <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
   </div>
@@ -18,35 +18,6 @@
       <span>{{ day }}</span>
     </div>
   </div>
-</div>
-<div class="patient-filter">
-  <ion-row>
-    <span class="ion-float-right date-selected">Date Selected: {{ selectedDate }}</span>
-    <ion-col col-auto>
-      <table>
-        <tr>
-          <td>
-            <form formGroup="patientDateFilterForm">
-              <ion-input
-                formControlName="patientDateSearch"
-                placeholder="Patient/Date Search"
-                (submit)="searchPatientCallHistory()"
-              >
-              </ion-input>
-            </form>
-          </td>
-          <td>
-            <ion-icon name="search"></ion-icon>
-          </td>
-        </tr>
-      </table>
-    </ion-col>
-  </ion-row>
-  <ng-container class="patient-filter-results" *ngIf="operation.patientCalls$ | async as patientCalls">
-    <ion-list lines="none">
-      <ion-item *ngFor="let patientCall of patientCalls">
-        <span>Call: {{ patientCall }} - {{ patientCall.patientCallStarted }}</span>
-      </ion-item>
-    </ion-list>
-  </ng-container>
+
+  <span class="ion-float-right date-selected">Date Selected: {{ selectedDate }}</span>
 </div>

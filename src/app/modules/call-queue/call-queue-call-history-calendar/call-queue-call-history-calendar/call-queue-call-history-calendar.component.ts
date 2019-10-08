@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Observable, from, of } from 'rxjs';
 import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
-import { Operation } from '@app/modules/operation/operation.service';
+import { Operation } from '@app/modules/operation/operation';
 
 @Component({
   selector: 'app-call-queue-call-history-calendar',
