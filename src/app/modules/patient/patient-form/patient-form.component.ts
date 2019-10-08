@@ -35,8 +35,7 @@ export class PatientFormComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private patientService: PatientService,
-    private patientAvatarService: PatientAvatarService,
-    private sanitizer: DomSanitizer
+    private patientAvatarService: PatientAvatarService
   ) {}
 
   ngOnInit() {
@@ -61,36 +60,20 @@ export class PatientFormComponent implements OnInit {
     } else {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: any) => {
         this.patient = data;
-        if (this.patient.avatar) {
-          let unsafeImageUrl = URL.createObjectURL(this.patient.avatar);
-          this.avatarUrl = this.sanitizer.bypassSecurityTrustUrl(unsafeImageUrl);
-        }
+        this.createForm();
       });
-      this.createForm();
-
-      var patientFormControls = this.patientForm.get('patient') as FormGroup;
-      debugger;
-      // patientFormControls.controls.patientFirstName.setValue(this.patient.patientFirstName);
-      // patientFormControls.controls.patientMiddleName.setValue(this.patient.patientMiddleName);
-      // patientFormControls.controls.patientLastName.setValue(this.patient.patientLastName);
-      // var physicianInfoFormControls = this.patientForm.get('patient.physicianInfo') as FormGroup;
-      // physicianInfoFormControls.controls.patientPhysicianFirstName.setValue(this.patient.patientPhysicianFirstName);
-      // physicianInfoFormControls.controls.patientPhysicianLastName.setValue(this.patient.patientPhysicianLastName);
-      // physicianInfoFormControls.controls.physicianCountryCode.setValue(this.patient.patientPhysicianCountryCode);
-      // physicianInfoFormControls.controls.physicianAreaCode.setValue(this.patient.patientPhysicianAreaCode);
-      // physicianInfoFormControls.controls.physicianPhoneNumber.setValue(this.patient.patientPhysicianPhoneNumber);
     }
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
   }
 
   onFormSubmit(): void {
     let formSubmission = this.patientForm.getRawValue();
-    let payload = this.formSubmissionFactory(formSubmission);
-    this.patientService.editPatientByPatientId(this.patient.patientId, payload).subscribe(value => {
-      console.log(value);
-      return (this.status.submitted = true);
+    let patientPutBody = this.formSubmissionFactory(formSubmission);
+    this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
+      alert('patient successfully edited');
+      this.status.submitted = true;
+      location.reload();
     });
-    debugger;
   }
 
   /**
@@ -99,6 +82,7 @@ export class PatientFormComponent implements OnInit {
    */
   private formSubmissionFactory(formSubmission: any) {
     console.log(formSubmission);
+    debugger;
     const patientIntakeQuestionAnswers = JSON.stringify(formSubmission.patientIntakeQuestionAnswers);
     const patientDiagnosis = JSON.stringify(formSubmission.patientDiagnosis);
     var payload = {
