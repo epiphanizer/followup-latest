@@ -49,51 +49,6 @@ export class ShellComponent {
         this.navLinks = [];
       }
     });
-    // const firstChildParams$ = this.router.events.pipe(
-    //   filter(event => event instanceof NavigationEnd),
-    //   startWith(undefined),
-    //   switchMap(e => this.route.firstChild!.paramMap)
-    // );
-
-    // firstChildParams$.subscribe(params => {
-    //   console.log(this.route.root);
-    //   console.log(this.route.root.firstChild);
-    //   alert('resolved');
-    // });
-    // .subscribe(
-    //   // Get the params (paramAsMap.params) and use them to highlight or everything that meet your need
-    //   () => {
-    //     console.log(this.route.root);
-    //     debugger;
-    //   }
-    // );
-
-    //   let paramSubscription = this.route.paramMap.subscribe(
-    //     ( params: ParamMap ) : void => {
-
-    //         console.log( "Parent ID changed:", params.get( "id" ) );
-
-    //         this.id = params.get( "operation" );
-
-    //     }
-    // );
-    this.router.events
-      .pipe(
-        filter(e => e instanceof ChildActivationEnd),
-        map(() => this.route.snapshot),
-        map(route => {
-          while (route.firstChild) {
-            // get first child
-            route = route.firstChild;
-            return route;
-          }
-        })
-      )
-      .subscribe((route: ActivatedRouteSnapshot) => {
-        // console.log(this.route.root)
-        // console.log(route.data);
-        // debugger;
-      });
   }
   signOut() {
     this.authenticationService.signOut();
