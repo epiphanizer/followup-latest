@@ -672,13 +672,13 @@ form {
 }
 
 .urgency-rating-list {
-  margin-left: 11px;
+  margin-left: 15px;
 
   ion-item {
     display: inline-block;
 
     ion-radio-group {
-      margin-top: 25px;
+      margin-top: 18px;
 
       ion-item {
         ion-radio {
@@ -690,7 +690,8 @@ form {
           min-width: min-content;
           font-family: Avenir;
           font-size: 14px;
-          margin-left: 12px;
+          margin-left: 8px;
+          margin-top: -12px;
           font-weight: normal;
           font-style: normal;
           font-stretch: normal;
