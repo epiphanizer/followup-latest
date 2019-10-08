@@ -47,7 +47,7 @@
           </ion-list>
 
           <!-- This should come from a loop -->
-          <fieldset class="patient-contacts" formGroupName="patientContacts">
+          <fieldset class="patient-contacts" formArray="patientContacts">
             <div class="section-header contacts">
               <i class="icon-contacts"></i>
               <span class="contact-header">Contacts</span>
@@ -146,7 +146,7 @@
               <div class="patient-discharge-dates-container">
                 <ion-item class="discharge-admit-date">
                   <ion-label color="medium" position="stacked">Admitted</ion-label>
-                  <ion-datetime formControlName="patientAdmissionDate"></ion-datetime>
+                  <ion-datetime formControlName="patientAdmitDate"></ion-datetime>
                 </ion-item>
                 <ion-item class="discharge-discharge-date">
                   <ion-label color="medium" position="stacked">Discharged</ion-label>

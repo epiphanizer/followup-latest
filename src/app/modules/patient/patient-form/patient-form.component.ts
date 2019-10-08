@@ -116,7 +116,7 @@ export class PatientFormComponent implements OnInit {
     this.patientForm = this.fb.group({
       operation: this.fb.control(this.patient.patientOperationId),
       patient: this.fb.group({
-        patientMedicalRecordNumber: this.fb.control(this.patient.patientMedicalRecordNumber),
+        patientMedicalRecordNumber: this.fb.control(this.patient.patientMedicalRecordNumber, [Validators.required]),
         patientName: this.fb.group({
           patientFirstName: this.fb.control(this.patient.patientFirstName, [Validators.required]),
           patientMiddleName: this.fb.control(this.patient.patientMiddleName),
