@@ -14,8 +14,8 @@ export class PatientService {
     );
   }
 
-  editPatientByPatientId(patientId: number, payload: PatientPutBody): Observable<Patient> {
-    return this.http.put<Patient>('patients/' + patientId, payload).pipe(
+  editPatientByPatientId(patientId: number, patientPutBody: PatientPutBody): Observable<Patient> {
+    return this.http.put<Patient>('patients/' + patientId, patientPutBody).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

@@ -104,7 +104,6 @@ export class PatientFormComponent implements OnInit {
     const patientIntakeQuestionAnswers = JSON.stringify(formSubmission.patientIntakeQuestionAnswers);
     const patientDiagnosis = JSON.stringify(formSubmission.patientDiagnosis);
     var payload = {
-      patientActive: formSubmission.patient.patientActive,
       patientDob: formSubmission.patient.patientDob,
       patientOperationId: formSubmission.operation,
       patientMedicalRecordNumber: formSubmission.patient.medicalRecordNumber,

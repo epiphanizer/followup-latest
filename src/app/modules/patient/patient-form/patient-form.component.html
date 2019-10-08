@@ -166,26 +166,32 @@
               </ion-label>
               <ion-item class="discharged-ama">
                 <ion-radio-group formControlName="patientDischargedAma">
-                  <ion-radio class="discharged-ama radio-yes"> </ion-radio>
-                  <ion-label>
-                    Yes
-                  </ion-label>
-                  <ion-radio class="discharged-ama radio-no"> </ion-radio>
-                  <ion-label>
-                    No
-                  </ion-label>
+                  <ion-item>
+                    <ion-radio value="true" class="discharged-ama radio-yes"> </ion-radio>
+                    <ion-label>
+                      Yes
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-radio value="false" class="discharged-ama radio-no"> </ion-radio>
+                    <ion-label>
+                      No
+                    </ion-label>
+                  </ion-item>
                 </ion-radio-group>
               </ion-item>
               <ion-item class="discharge-to-location">
                 <ion-label color="medium" position="stacked">Discharged To:</ion-label>
                 <ion-list inset lines="none">
                   <ion-radio-group formControlName="patientDischargedTo">
-                    <ion-item *ngFor="let dischargeLabel of dischargeLabels$ | async">
-                      <ion-radio value="dischargeLabel.patientDischargeLabelId"> </ion-radio>
-                      <ion-label>
-                        {{ dischargeLabel.patientDischargeLabel }}
-                      </ion-label>
-                    </ion-item>
+                    <div *ngFor="let dischargeLabel of dischargeLabels$ | async">
+                      <ion-item>
+                        <ion-radio value="dischargeLabel.patientDischargeLabelId"></ion-radio>
+                        <ion-label>
+                          {{ dischargeLabel.patientDischargeLabel }}
+                        </ion-label>
+                      </ion-item>
+                    </div>
                   </ion-radio-group>
                 </ion-list>
               </ion-item>
