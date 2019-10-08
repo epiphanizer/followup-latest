@@ -59,7 +59,7 @@ export interface Patient {
   patientPrimaryDiagnosis?: string;
   patientIntakeQuestions?: PatientQuestion[];
   patientIntakeQuestions$?: Observable<PatientQuestion[]>;
-  patientUrgencyRating?: number;
+  patientUrgencyScale?: number;
   patientNeedToKnow?: string;
   nextPatientCallId?: number;
 }

@@ -144,7 +144,7 @@ export class PatientFormComponent implements OnInit {
           dischargedCondition: this.fb.control(this.patient.patientDischargeNotes)
         }),
         patientIntakeQuestionAnswers: this.fb.array([]),
-        patientUrgencyRating: this.fb.control(this.patient.patientUrgencyRating),
+        patientUrgencyScale: this.fb.control(this.patient.patientUrgencyScale),
         patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow)
       })
     });
