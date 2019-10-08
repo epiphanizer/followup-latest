@@ -8,10 +8,11 @@ import {
   transition
   // ...
 } from '@angular/animations';
-import { Operation, OperationService } from '../operation.service';
+import { OperationService } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { Observable } from 'rxjs';
+import { Operation } from '../operation';
 
 @Component({
   selector: 'app-operation-admin-right-sidebar',

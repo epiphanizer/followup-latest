@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { Operation } from '@app/modules/operation/operation.service';
 import { formatDate } from '@angular/common';
 import {
   trigger,
@@ -11,6 +10,7 @@ import {
 } from '@angular/animations';
 
 import { User } from '@app/modules/user/user';
+import { Operation } from '@app/modules/operation/operation';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

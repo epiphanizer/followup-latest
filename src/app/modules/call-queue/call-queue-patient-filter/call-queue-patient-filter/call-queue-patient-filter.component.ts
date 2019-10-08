@@ -6,7 +6,7 @@ import { User } from '@app/modules/user/user';
 import { AuthenticationService } from '@app/core';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
-import { Operation } from '@app/modules/operation/operation.service';
+import { Operation } from '@app/modules/operation/operation';
 import { PatientCall, PatientCallService } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 import { ActivatedRoute } from '@angular/router';
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Operation } from '@app/modules/operation/operation.service';
+import { Operation } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NotificationService } from '../../notification.service';
@@ -14,6 +14,9 @@ export class NotificationPatientListingComponent implements OnInit {
   @Input() operation: Operation;
   public notifications: Notification[];
   public notifications$: Observable<Notification[]>;
+  public filterBy: string;
+  public selectedSortFlag: string;
+
   constructor(private notificationService: NotificationService) {}
   ngOnInit() {
     this.notifications$ = this.notificationService.getNotificationsByOperationId(this.operation.operationId).pipe(
@@ -24,22 +27,52 @@ export class NotificationPatientListingComponent implements OnInit {
     );
   }
 
-  /**
-   * Our sorter functions
-   */
+  public sortNotificationsByNotificationDate = function(sortFlag: string) {
+    this.filterBy = 'notification-date';
+    if (sortFlag == 'asc') {
+      this.notifications.sort((a: Notification, b: Notification) => {
+        return <any>new Date(a.notificationCreatedDate) - <any>new Date(b.notificationCreatedDate);
+      });
+    } else {
+      this.notifications.sort((a: Notification, b: Notification) => {
+        return <any>new Date(a.notificationCreatedDate) + <any>new Date(b.notificationCreatedDate);
+      });
+    }
+  };
+
   toggleAscDesc() {
-    alert('Toggled ascending vs. descending');
+    if (this.selectedSortFlag == 'asc') {
+      this.selectedSortFlag = 'desc';
+    } else {
+      this.selectedSortFlag = 'asc';
+    }
   }
-  sortNotificationsByDate() {
-    alert('Toggling notifications by date');
-  }
-  sortNotificationsByType() {
-    alert('Toggling notifications by type');
+  sortNotificationsByNotificationType() {
+    this.filterBy = 'notification-type';
+    // if (this.selectedSortFlag == 'asc') {
+    //   this.notifications.sort((a: Notification, b: Notification) => {
+    //     return <any>new Date(a.notificationCreatedDate) - <any>new Date(b.notificationCreatedDate);
+    //   });
+    // } else {
+    //   this.notifications.sort((a: Notification, b: Notification) => {
+    //     return <any>new Date(a.notificationCreatedDate) + <any>new Date(b.notificationCreatedDate);
+    //   });
+    // }
   }
   sortNotificationsByPatient() {
-    alert('Toggling notifications by patient');
+    this.filterBy = 'patient';
+    // if (this.selectedSortFlag == 'asc') {
+    //   this.notifications.sort((a: Notification, b: Notification) => {
+    //     return <any>new Date(a.notificationCreatedDate) - <any>new Date(b.notificationCreatedDate);
+    //   });
+    // } else {
+    //   this.notifications.sort((a: Notification, b: Notification) => {
+    //     return <any>new Date(a.notificationCreatedDate) + <any>new Date(b.notificationCreatedDate);
+    //   });
+    // }
   }
   sortNotificationsByStatus() {
+    this.filterBy = 'status';
     alert('Toggling notifications by status');
   }
 }
