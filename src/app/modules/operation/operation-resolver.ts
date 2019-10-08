@@ -4,8 +4,9 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { Observable } from 'rxjs/Observable';
 import { OperationContactsService } from './operation-contacts.service';
 import { map } from 'rxjs/operators';
-import { OperationService, Operation } from '../operation/operation.service';
+import { OperationService } from '../operation/operation.service';
 import { OperationCallRepsService } from './operation-callreps.service';
+import { Operation } from './operation';
 
 @Injectable()
 export class OperationResolver implements Resolve<Operation> {

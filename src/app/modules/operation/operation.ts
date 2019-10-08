@@ -1,5 +1,33 @@
 import { OperationContact } from './operation-contact/operation-contact';
 import { OperationCallRep } from './operation-callreps.service';
+import { Observable } from 'rxjs';
+import { PatientCall } from '../patient/patient-detail/patient-call/patient-call.service';
+
+export interface Operation {
+  operationId: number;
+  operationName: string;
+  operationAddress: string;
+  operationCity: string;
+  operationState: string;
+  operationZip: string;
+  operationCountryCode: number;
+  operationAreaCode: number;
+  operationPhoneNumber: string;
+  operationContacts$: Observable<OperationContact[]>;
+  operationAssignedManagerUserId?: number;
+  operationAssignedManagerName?: string;
+  operationCallReps$: Observable<OperationCallRep[]>;
+  /**
+   * Some counters that don't always
+   * attach to the object,
+   * but are nice to have when the time comes.
+   */
+  currentAssignedPatientCount?: number;
+  currentNewNotificationCount?: number;
+  currentNewDischargeCount?: number;
+  patientCalls?: PatientCall[];
+  patientCalls$?: Observable<PatientCall[]>;
+}
 
 export interface OperationPutBody {
   operationActive: number;

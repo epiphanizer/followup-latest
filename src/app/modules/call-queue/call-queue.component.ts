@@ -1,8 +1,8 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { User } from '@app/modules/user/user';
 import { Observable, from } from 'rxjs';
-import { OperationService, Operation } from '../operation/operation.service';
 import { ActivatedRoute } from '@angular/router';
+import { Operation } from '../operation/operation';
 
 @Component({
   selector: 'app-call-queue',

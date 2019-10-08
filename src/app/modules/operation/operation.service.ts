@@ -1,33 +1,8 @@
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { OperationContact } from './operation-contact/operation-contact';
-import { OperationCallRep } from './operation-callreps.service';
 import { User } from '../user/user';
-
-export interface Operation {
-  operationId: number;
-  operationName: string;
-  operationAddress: string;
-  operationCity: string;
-  operationState: string;
-  operationZip: string;
-  operationCountryCode: number;
-  operationAreaCode: number;
-  operationPhoneNumber: string;
-  operationContacts$: Observable<OperationContact[]>;
-  operationAssignedManagerUserId?: number;
-  operationAssignedManagerName?: string;
-  operationCallReps$: Observable<OperationCallRep[]>;
-  /**
-   * Some counters that don't always
-   * attach to the object,
-   * but are nice to have when the time comes.
-   */
-  currentAssignedPatientCount?: number;
-  currentNewNotificationCount?: number;
-  currentNewDischargeCount?: number;
-}
+import { Operation } from './operation';
 
 export class OperationService {
   constructor(private http: HttpClient) {}

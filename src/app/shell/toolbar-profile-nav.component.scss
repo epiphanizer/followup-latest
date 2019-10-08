@@ -19,13 +19,9 @@
       height: 45px;
       margin-right: 8px;
       float: left;
-      app-user-avatar {
-        img {
-          display: block;
-          width: 45px;
-          height: 45px;
-          border-radius: 50%;
-        }
+      border-radius: 50%;
+      img {
+        border-radius: 50%;
       }
     }
     div.username,

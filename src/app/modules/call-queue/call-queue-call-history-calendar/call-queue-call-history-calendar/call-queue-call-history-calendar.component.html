@@ -13,7 +13,7 @@
       class="calendar-day"
       *ngFor="let day of selectedMonth.daysArray"
       [class.active]="selectedDay == day"
-      (click)="selectDateEventHandler(day, currentMonth.number, todaysYear)"
+      (click)="selectDateEventHandler(day, currentCalendarMonth.number, todaysYear)"
     >
       <span>{{ day }}</span>
     </div>
@@ -42,7 +42,7 @@
       </table>
     </ion-col>
   </ion-row>
-  <ng-container class="patient-filter-results" *ngIf="userPatientCalls$ | async as patientCalls">
+  <ng-container class="patient-filter-results" *ngIf="operation.patientCalls$ | async as patientCalls">
     <ion-list lines="none">
       <ion-item *ngFor="let patientCall of patientCalls">
         <span>Call: {{ patientCall }} - {{ patientCall.patientCallStarted }}</span>

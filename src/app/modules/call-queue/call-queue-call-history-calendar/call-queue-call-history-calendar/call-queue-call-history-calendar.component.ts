@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { formatDate } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
+import { Operation } from '@app/modules/operation/operation.service';
 
 @Component({
   selector: 'app-call-queue-call-history-calendar',
@@ -9,12 +10,13 @@ import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/pa
   styleUrls: ['./call-queue-call-history-calendar.component.scss']
 })
 export class CallQueueCallHistoryCalendarComponent implements OnInit {
+  @Input() operation: Operation;
   months: {
     number: string;
     name: string;
   }[];
   todaysDateDay: number | string;
-  currentMonth: {
+  currentCalendarMonth: {
     number: string;
     name: string;
   };
@@ -33,7 +35,8 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   todaysDate: Date;
   todaysMonth: string;
   todaysYear: number;
-  userPatientCalls$: Observable<PatientCall[]>;
+
+  patientCalls$: Observable<PatientCall[]>;
   constructor() {}
 
   ngOnInit() {
@@ -43,39 +46,39 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     this.todaysYear = this.todaysDate.getFullYear();
     this.months = [
       {
-        number: '01',
+        number: '1',
         name: 'January'
       },
       {
-        number: '02',
+        number: '2',
         name: 'February'
       },
       {
-        number: '03',
+        number: '3',
         name: 'March'
       },
       {
-        number: '04',
+        number: '4',
         name: 'April'
       },
       {
-        number: '05',
+        number: '5',
         name: 'May'
       },
       {
-        number: '06',
+        number: '6',
         name: 'June'
       },
       {
-        number: '07',
+        number: '7',
         name: 'July'
       },
       {
-        number: '08',
+        number: '8',
         name: 'August'
       },
       {
-        number: '09',
+        number: '9',
         name: 'September'
       },
       {
@@ -94,7 +97,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     // Subtract one because of the 0 index of the array
     this.selectedDay = this.todaysDateDay;
 
-    this.selectedMonth = this.currentMonth = this.months[parseInt(this.todaysMonth) - 1];
+    this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
     let formattedDay = this.selectedDay.toString();
@@ -108,23 +111,25 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     return new Date(year, month, 0).getDate();
   }
   calendarPrevMonth() {
-    this.selectedMonth = this.months[parseInt(this.currentMonth.number) - 2];
-    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentMonth.number), this.todaysYear);
+    this.selectedMonth = this.months[parseInt(this.selectedMonth.number) - 1];
+    this.selectedMonth.number = this.selectedMonth.number;
+    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.selectedMonth.number), this.todaysYear);
   }
   calendarNextMonth() {
-    this.currentMonth = this.months[parseInt(this.currentMonth.number)];
-    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentMonth.number), this.todaysYear);
+    this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number)];
+    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.selectedMonth.number), this.todaysYear);
   }
-  selectDateEventHandler(day: number, currentMonth: number, todaysYear: number) {
+  selectDateEventHandler(day: number, currentCalendarMonth: number, todaysYear: number) {
     let formattedDay = day.toString();
     if (formattedDay.length == 1) {
       formattedDay = '0' + formattedDay;
     }
-    this.selectedDate = currentMonth + '/' + formattedDay + '/' + todaysYear;
+    this.selectedDate = currentCalendarMonth + '/' + formattedDay + '/' + todaysYear;
     this.selectedDay = day;
+    this.searchPatientCallHistory(this.selectedDate);
   }
-  searchPatientCallHistory() {
-    alert('searching patient call history');
-    this.patientCallsFiltered = ['Call 1 Mock', 'Call 2 Mock', 'Call 3 Mock'];
+  searchPatientCallHistory(selectedDate: string) {
+    alert('searching patient call history on date:' + selectedDate);
+    this.operation.patientCalls$ = of(this.operation.patientCalls);
   }
 }
