@@ -4,9 +4,10 @@ import { UserResolver } from './modules/user/user-resolver.service';
 
 const routes: Routes = [
   { path: 'logout', redirectTo: '/login', canActivate: [] },
+
   {
-    path: '**',
-    redirectTo: '/home',
+    path: '',
+    redirectTo: 'home',
     canActivate: [],
     pathMatch: 'full',
     resolve: {

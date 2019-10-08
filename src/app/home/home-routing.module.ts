@@ -19,7 +19,10 @@ const routes: Routes = [
     {
       path: 'home',
       component: HomeComponent,
-      data: { title: extract('Follow-Up') },
+      data: {
+        title: extract('Follow-Up'),
+        navLinks: []
+      },
       resolve: {
         user: UserResolver
       }
