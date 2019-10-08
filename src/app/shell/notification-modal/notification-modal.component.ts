@@ -1,13 +1,11 @@
 import { Input, Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { NotificationService } from '@app/modules/notification/notification.service';
-import { Patient } from '@app/modules/patient/patient';
 import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Notification, NotificationRecipient, NotificationType } from '@app/modules/notification/notification';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { ActivatedRoute } from '@angular/router';
-import { Operation } from '@app/modules/operation/operation.service';
 import { Observable } from 'rxjs';
 import { OperationContact } from '@app/modules/operation/operation-contact/operation-contact';
 import { OperationContactsService } from '@app/modules/operation/operation-contacts.service';

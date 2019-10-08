@@ -9,8 +9,9 @@ import { map } from 'rxjs/operators';
 import { PatientPutBody } from './patient-form';
 import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
 import { PatientContact } from '../patient-contact/patient-contact';
-import { Operation, OperationService } from '@app/modules/operation/operation.service';
+import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientContactService } from '../patient-contact/patient-contact.service';
+import { Operation } from '@app/modules/operation/operation';
 
 @Component({
   providers: [PatientService],
