@@ -19,8 +19,6 @@ export class PatientAvatarComponent implements OnInit {
 
   ngOnInit() {
     this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
-      console.log(baseImage);
-      debugger;
       if (!baseImage[0]) {
         this.avatarExists = false;
       } else {
