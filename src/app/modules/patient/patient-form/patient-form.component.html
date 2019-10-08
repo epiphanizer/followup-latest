@@ -318,7 +318,7 @@
       </form>
     </ion-col>
     <ion-col class="avatar-col">
-      <app-patient-avatar [patient]="patient"></app-patient-avatar>
+      <app-patient-avatar *ngIf="patient" [patient]="patient"></app-patient-avatar>
       <input
         type="file"
         class="hidden-input"
