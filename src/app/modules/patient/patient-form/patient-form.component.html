@@ -253,7 +253,7 @@
               <div class="call-question-body-container">
                 <div class="call-question">
                   <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'rating'">
-                    {{ patientIntakeQuestion.patientIntakeQuestion }}
+                    <ion-label color="medium">{{ patientIntakeQuestion.patientIntakeQuestion }}</ion-label>
                     <ion-list class="rating" lines="none">
                       <ion-radio-group>
                         <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; let idx = index">
@@ -268,7 +268,7 @@
                     </ion-list>
                   </ng-container>
                   <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'boolean'">
-                    {{ patientIntakeQuestion.patientIntakeQuestion }}
+                    <ion-label color="medium">{{ patientIntakeQuestion.patientIntakeQuestion }}</ion-label>
                     <ion-list lines="none">
                       <ion-radio-group>
                         <ion-item class="boolean">
@@ -285,15 +285,6 @@
                         </ion-item>
                       </ion-radio-group>
                     </ion-list>
-                  </ng-container>
-                  <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'textarea'">
-                    <div
-                      class="patient-call-question-container"
-                      [class.isHighlighted]="patientIntakeQuestion.patientCallQuestionIsHighlighted"
-                    >
-                      {{ patientIntakeQuestion.patientIntakeQuestion }}
-                    </div>
-                    <ion-textarea> </ion-textarea>
                   </ng-container>
                 </div>
               </div>
@@ -321,7 +312,7 @@
             </ion-item>
           </ion-list>
 
-          <ion-item class="is-active ion-col-right">
+          <ion-item class="is-active ion-float-right">
             <ion-checkbox formControlName="patientActive"></ion-checkbox>
             <ion-label color="medium">Active?</ion-label>
           </ion-item>
