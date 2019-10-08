@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { PatientCall } from './patient-detail/patient-call/patient-call.service';
 import { Operation } from '../operation/operation';
-import { PatientQuestion } from './patient-question/patient-question.service';
 import { PatientContact } from './patient-contact/patient-contact';
+import { PatientIntakeQuestion } from './patient-intake-question/patient-intake-question.component';
 
 /**
  * Regarding this interface ---
@@ -16,7 +16,7 @@ export interface Patient {
   patientOperationId?: number;
   patientOperationName?: string;
   operation?: Operation;
-  operation$: Observable<Operation>;
+  operation$?: Observable<Operation>;
   patientFirstName?: string;
   patientMiddleName?: string;
   patientLastName?: string;
@@ -27,7 +27,7 @@ export interface Patient {
   patientDob?: Date;
   patientAge?: number | null;
   avatar?: string;
-  patientContacts$: Observable<PatientContact[]>;
+  patientContacts$?: Observable<PatientContact[]>;
   patientContactNumberId?: number | null;
   patientContactPhoneNumber?: number | null;
   primaryContactPhoneTypeId?: number;
@@ -41,11 +41,11 @@ export interface Patient {
   patientPrimaryInsurance?: string;
   patientSecondaryInsurance?: string;
   patientCalls?: PatientCall[];
-  patientCalls$: Observable<PatientCall[]>;
+  patientCalls$?: Observable<PatientCall[]>;
   patientCallCount?: number;
   patientNextCallTime?: Date;
   patientCurrentStatusLabel?: number;
-  patientDischargeNotes: string;
+  patientDischargeNotes?: string;
   patientDischargedAma?: boolean;
   patientDischargedConditions?: {
     cardiac?: boolean;
@@ -57,8 +57,8 @@ export interface Patient {
   patientDischargeLabel?: string;
   patientDiagnosis?: string;
   patientPrimaryDiagnosis?: string;
-  patientIntakeQuestions?: PatientQuestion[];
-  patientIntakeQuestions$?: Observable<PatientQuestion[]>;
+  patientIntakeQuestions?: PatientIntakeQuestion[];
+  patientIntakeQuestions$?: Observable<PatientIntakeQuestion[]>;
   patientUrgencyScale?: number;
   patientNeedToKnow?: string;
   nextPatientCallId?: number;

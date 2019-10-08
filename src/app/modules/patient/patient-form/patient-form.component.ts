@@ -12,6 +12,8 @@ import { PatientContact } from '../patient-contact/patient-contact';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientContactService } from '../patient-contact/patient-contact.service';
 import { Operation } from '@app/modules/operation/operation';
+import { PatientIntakeQuestion } from '../patient-intake-question/patient-intake-question.component';
+import { PatientIntakeQuestionService } from '../patient-question/patient-intake-question.service';
 
 @Component({
   providers: [PatientService],
@@ -29,6 +31,8 @@ export class PatientFormComponent implements OnInit {
   patient: Patient;
   patientContacts: PatientContact[] = [];
   patientContacts$: Observable<PatientContact[]>;
+  patientIntakeQuestions: PatientIntakeQuestion[];
+  patientIntakeQuestions$: Observable<PatientIntakeQuestion[]>;
   operations: Operation[];
   operations$: Observable<Operation[]>;
 
@@ -41,7 +45,8 @@ export class PatientFormComponent implements OnInit {
     private operationService: OperationService,
     private patientService: PatientService,
     private patientAvatarService: PatientAvatarService,
-    private patientContactService: PatientContactService
+    private patientContactService: PatientContactService,
+    private patientIntakeQuestionService: PatientIntakeQuestionService
   ) {}
 
   ngOnInit() {
@@ -58,19 +63,36 @@ export class PatientFormComponent implements OnInit {
       this.patient = this.route.snapshot.data.patient;
     }
     if (!this.patient) {
-      this.patient$ = this.patientService.addNewPatient().pipe(
-        map((data: Patient) => {
-          this.patient = data;
-          this.createForm();
-          return data;
-        })
-      );
+      /**
+       * Creating a shell of the patient object within the database first
+       * allows us to post avatars, uploads, etc. to a known patientId
+       * even before the patient is "real".
+       */
+      this.patientService.addNewPatient().subscribe((data: any) => {
+        if (data.patientId) {
+          let patientId = data.patientId;
+          this.patient = {
+            patientId: patientId,
+            patientIntakeQuestions$: this.patientIntakeQuestionService.getPatientIntakeQuestionsByPatientId(patientId)
+          };
+        } else {
+          throw 'error';
+        }
+        this.createForm();
+        return data;
+      });
     } else {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: Patient) => {
         this.patient = data[0];
-        this.patient.patientIntakeQuestions$ = this.patientService.getPatientIntakeQuestionsByPatientId(
-          this.patient.patientId
-        );
+        this.patient.patientIntakeQuestions$ = this.patientIntakeQuestionService
+          .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
+          .pipe(
+            map((patientIntakeQuestions: PatientIntakeQuestion[]) => {
+              this.patientIntakeQuestions = patientIntakeQuestions;
+              return patientIntakeQuestions;
+            })
+          );
+
         this.createForm();
         this.addAdditionalContact();
         this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
@@ -148,7 +170,8 @@ export class PatientFormComponent implements OnInit {
         }),
         patientIntakeQuestionAnswers: this.fb.array([]),
         patientUrgencyScale: this.fb.control(this.patient.patientUrgencyScale),
-        patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow)
+        patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow),
+        patientActive: this.fb.control(false)
       })
     });
   }

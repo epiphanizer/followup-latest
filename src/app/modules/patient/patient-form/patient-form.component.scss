@@ -337,7 +337,10 @@ form {
 
   fieldset.patient-discharge {
     border: none;
-
+    .section-header {
+      width: 100%;
+      border-bottom: 1px solid #e0e0e0;
+    }
     .discharged-label {
       font-size: 17px;
     }
@@ -410,7 +413,12 @@ form {
       }
     }
   }
-
+  .patient-medical-conditions {
+    .section-header {
+      width: 100%;
+      border-bottom: 1px solid #e0e0e0;
+    }
+  }
   .patient-intake-questions {
     .call-question {
       font-family: Avenir;
@@ -611,9 +619,11 @@ form {
   }
 
   .physician-info {
+    .section-header {
+      border-bottom: 1px solid #e0e0e0;
+    }
     ion-list.physician-info-list {
-      margin: 0;
-      margin-top: -25px;
+      margin-left: -12px;
     }
 
     ion-item {
@@ -651,6 +661,10 @@ form {
   }
 
   .insurance-info {
+    .section-header {
+      width: 100%;
+      border-bottom: 1px solid #e0e0e0;
+    }
     ion-list {
       margin-left: 0;
     }
@@ -715,6 +729,10 @@ form {
   }
 }
 
+.is-active {
+  font-size: 13px;
+  font-family: Avenir;
+}
 .hidden-input {
   display: none;
 }

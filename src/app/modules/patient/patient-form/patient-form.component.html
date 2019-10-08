@@ -58,7 +58,7 @@
             </div>
             <ion-list
               lines="none"
-              *ngFor="let patientContact of patientContacts; let idx = index"
+              *ngFor="let patientContact of patientContacts || {}; let idx = index"
               formGroupName="{{ idx }}"
             >
               <div class="section-header">
@@ -114,11 +114,10 @@
           </fieldset>
           <fieldset class="physician-info" formGroupName="physicianInfo">
             <ion-list class="physician-info-list" lines="none" inset>
-              <i class="icon-physician"></i>
               <div class="section-header">
+                <i class="icon-physician"></i>
                 <span>Physician</span>
               </div>
-              <ion-item-divider></ion-item-divider>
               <ion-item class="first-name">
                 <ion-label color="medium" position="stacked">First Name</ion-label>
                 <ion-input type="text" formControlName="physicianFirstName"></ion-input>
@@ -144,6 +143,10 @@
             </ion-list>
           </fieldset>
           <fieldset class="insurance-info" formGroupName="insurance">
+            <div class="section-header">
+              <i class="icon-info"></i>
+              <span class="discharge-header">Insurance</span>
+            </div>
             <ion-list lines="none" inset>
               <i class="icon-insurance"></i>
               <ion-item>
@@ -210,7 +213,7 @@
               </ion-item>
             </ion-list>
           </fieldset>
-          <ion-list lines="none" inset formGroupName="patientMedicalConditions">
+          <ion-list class="patient-medical-conditions" lines="none" inset formGroupName="patientMedicalConditions">
             <div class="section-header discharge">
               <i class="icon-info"></i>
               <span class="contact-header">Medical Condition</span>
@@ -313,6 +316,11 @@
               <ion-textarea formControlName="patientNeedToKnow"></ion-textarea>
             </ion-item>
           </ion-list>
+
+          <ion-item class="is-active ion-col-right">
+            <ion-checkbox formControlName="patientActive"></ion-checkbox>
+            <ion-label color="medium" position="stacked">Active?</ion-label>
+          </ion-item>
         </ion-list>
         <ion-button (click)="onFormSubmit()">Save</ion-button>
       </form>

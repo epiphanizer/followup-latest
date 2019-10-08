@@ -27,4 +27,5 @@ export interface PatientPutBody {
   patientUrgencyScale: number;
   patientNeedToKnow: string;
   patientIntakeQuestionAnswers: string;
+  patientActive: number;
 }

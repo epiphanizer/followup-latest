@@ -4,41 +4,35 @@ import { catchError, retry } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 
-export interface PatientQuestion {
-  patientQuestionId: number;
-  patientQuestion: string;
-  patientQuestionType: string;
-  patientQuestionHighlight: boolean;
-}
-export interface PatientQuestionAnswer {
-  patientQuestionAnswerId: number;
-  patientQuestionAnswer: string;
-  patientQuestionAnswerType: number;
-  patientQuestionAnswerHighlight: boolean;
-}
-
 @Injectable({
   providedIn: 'root'
 })
-export class PatientQuestionService {
+export class PatientIntakeQuestionService {
   constructor(private http: HttpService) {}
 
-  addPatientQuestionAnswerByPatientQuestionId = function(patientQuestionId: number) {
-    return this.http.post('patients/questions/' + patientQuestionId).pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
+  addPatientIntakeQuestionAnswerByPatientIntakeQuestionId = function(
+    patientIntakeQuestionId: number,
+    patientIntakeQuestionAnswer: string
+  ) {
+    return this.http
+      .post('patients/questions/' + patientIntakeQuestionId, {
+        patientIntakeQuestionAnswer: patientIntakeQuestionAnswer
+      })
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   };
 
-  getPatientQuestionsByPatientId = function(patientId: number) {
+  getPatientIntakeQuestionsByPatientId = function(patientId: number) {
     return this.http.get('patients/' + patientId + '/questions').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
-  getPatientQuestionAnswersByPatientQuestionId = function(patientQuestionId: number) {
-    return this.http.get('patients/questions/' + patientQuestionId).pipe(
+  getPatientIntakeQuestionAnswersByPatientIntakeQuestionId = function(patientIntakeQuestionId: number) {
+    return this.http.get('patients/questions/' + patientIntakeQuestionId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
