@@ -51,9 +51,6 @@ export class PatientFormComponent implements OnInit {
 
   ngOnInit() {
     this.currentYear = new Date().getFullYear();
-    /**
-     * See if we are editing the form
-     */
     this.user = this.route.snapshot.data.user;
     this.operations$ = this.operationService.getAllOperations();
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
@@ -79,19 +76,21 @@ export class PatientFormComponent implements OnInit {
           throw 'error';
         }
         this.createForm();
+        this.addAdditionalContact();
         return data;
       });
     } else {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: Patient) => {
         this.patient = data[0];
-        this.patient.patientIntakeQuestions$ = this.patientIntakeQuestionService
-          .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
-          .pipe(
-            map((patientIntakeQuestions: PatientIntakeQuestion[]) => {
-              this.patientIntakeQuestions = patientIntakeQuestions;
-              return patientIntakeQuestions;
-            })
-          );
+        this.patient.patientIntakeQuestions$ = this.patientIntakeQuestionService.getPatientIntakeQuestionsByPatientId(
+          this.patient.patientId
+        );
+        // .pipe(
+        //   map((patientIntakeQuestions: PatientIntakeQuestion[]) => {
+        //     this.patientIntakeQuestions = patientIntakeQuestions;
+        //     return patientIntakeQuestions;
+        //   })
+        // );
 
         this.createForm();
         this.addAdditionalContact();

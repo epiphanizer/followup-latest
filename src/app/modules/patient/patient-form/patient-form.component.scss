@@ -283,6 +283,7 @@ form {
       &.relationship {
         width: 115px;
       }
+
       &.order {
         width: 60px;
       }
@@ -338,10 +339,12 @@ form {
 
   fieldset.patient-discharge {
     border: none;
+
     .section-header {
       width: 100%;
       border-bottom: 1px solid #e0e0e0;
     }
+
     .discharged-label {
       font-size: 17px;
     }
@@ -412,91 +415,6 @@ form {
           text-align: left;
         }
       }
-    }
-  }
-  .patient-medical-conditions {
-    .section-header {
-      width: 100%;
-      border-bottom: 1px solid #e0e0e0;
-    }
-  }
-  .patient-intake-questions {
-    .call-question {
-      font-family: Avenir;
-      font-size: 21px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.33;
-      letter-spacing: 0.42px;
-      text-align: left;
-    }
-
-    .call-question-answers {
-      ul {
-        list-style-type: none;
-        padding-left: 0;
-        padding-top: 18px;
-      }
-    }
-
-    .rating {
-      margin-left: -16px;
-      border-radius: 3px;
-
-      ion-radio-group {
-        ion-item {
-          --inner-padding-start: 0;
-          --inner-padding-end: 0;
-          width: auto !important;
-          max-width: 10% !important;
-          display: inline-block;
-        }
-
-        ion-label {
-          transform: none !important;
-          display: block !important;
-          margin-right: 0 !important;
-          font-family: Avenir;
-          font-size: 11px;
-          width: 14px;
-          font-style: normal;
-          font-stretch: normal;
-          text-align: center;
-        }
-
-        ion-radio {
-          border-radius: 3px;
-          margin-right: 2px;
-        }
-      }
-    }
-
-    ion-radio-group {
-      .boolean,
-      .rating {
-        margin: 0;
-        margin-left: -16px;
-
-        ion-item {
-          display: inline-block;
-        }
-
-        ion-label {
-          font-size: 16px;
-          font-family: Avenir;
-          display: inline-block;
-        }
-
-        ion-radio {
-          display: inline-block;
-          margin-bottom: -15px;
-        }
-      }
-    }
-
-    .boolean {
-      display: inline-block;
     }
   }
 
@@ -623,6 +541,7 @@ form {
     .section-header {
       border-bottom: 1px solid #e0e0e0;
     }
+
     ion-list.physician-info-list {
       margin-left: -12px;
     }
@@ -666,6 +585,7 @@ form {
       width: 100%;
       border-bottom: 1px solid #e0e0e0;
     }
+
     ion-list {
       margin-left: 0;
     }
@@ -689,11 +609,120 @@ form {
   }
 }
 
+.patient-medical-conditions {
+  .section-header {
+    width: 100%;
+    border-bottom: 1px solid #e0e0e0;
+  }
+}
+
+.patient-intake-questions {
+  .section-header {
+    width: 100%;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  i.icon-question-mark {
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin-top: 10px;
+    background: url("/assets/icon-question-mark@2x.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+
+  .call-question-body-container {
+    height: auto;
+    margin-bottom: 36px;
+  }
+
+  .call-question {
+    font-family: Avenir;
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 0.42px;
+    text-align: left;
+  }
+
+  .call-question-answers {
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+      padding-top: 18px;
+    }
+  }
+
+  .rating {
+    margin-left: -16px;
+    border-radius: 3px;
+
+    ion-radio-group {
+      ion-item {
+        --inner-padding-start: 0;
+        --inner-padding-end: 0;
+        width: auto !important;
+        max-width: 10% !important;
+        display: inline-block;
+      }
+
+      ion-label {
+        transform: none !important;
+        display: block !important;
+        margin-right: 0 !important;
+        font-family: Avenir;
+        font-size: 11px;
+        width: 14px;
+        font-style: normal;
+        font-stretch: normal;
+        text-align: center;
+      }
+
+      ion-radio {
+        border-radius: 3px;
+        margin-right: 2px;
+      }
+    }
+  }
+
+  ion-radio-group {
+    .boolean,
+    .rating {
+      margin: 0;
+      margin-left: -16px;
+
+      ion-item {
+        display: inline-block;
+      }
+
+      ion-label {
+        font-size: 16px;
+        font-family: Avenir;
+        display: inline-block;
+      }
+
+      ion-radio {
+        display: inline-block;
+        margin-bottom: -15px;
+      }
+    }
+  }
+
+  .boolean {
+    display: inline-block;
+  }
+}
+
 .urgency-rating-list {
   margin-left: 0px;
+
   i {
     margin-right: 12px;
   }
+
   ion-item {
     display: inline-block;
 
@@ -725,6 +754,7 @@ form {
 
 .need-to-know-list {
   margin-left: 0px;
+
   i {
     margin-right: 12px;
   }
@@ -738,15 +768,18 @@ form {
   float: right;
   font-size: 13px;
   font-family: Avenir;
+
   ion-checkbox,
   ion-label {
     display: inline-block;
     margin-left: 8px;
   }
+
   ion-label {
     font-size: 11px;
   }
 }
+
 .hidden-input {
   display: none;
 }
