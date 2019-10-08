@@ -13,16 +13,8 @@
     div {
       display: block;
     }
-    div.user-avatar {
-      display: block;
-      width: 45px;
-      height: 45px;
-      margin-right: 8px;
-      float: left;
-      .avatar-image {
-        display: block;
-        width: 45px;
-        height: 45px;
+    app-user-avatar {
+      img {
         border-radius: 50%;
       }
     }
