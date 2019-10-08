@@ -119,7 +119,8 @@ export class PatientFormComponent implements OnInit {
       patientDischargedAma: formSubmission.dischargeInfo.patientDischargedAma,
       patientDischargeLocationLabelId: formSubmission.dischargeInfo.patientDischargedTo,
       patientPrimaryDiagnosis: formSubmission.patientMedicalConditions.primaryDiagnosis,
-      // patientDiagnosis: {},
+      patientDiagnosis: formSubmission.patientDiagnosis,
+      patientIntakeQuestions: formSubmission.patientIntakeQuestions,
       patientQuestionAnswers: formSubmission.patientQuestionAnswers,
       patientUrgencyScale: formSubmission.patientUrgencyScale,
       patientNeedToKnow: formSubmission.patientNeedToKnow

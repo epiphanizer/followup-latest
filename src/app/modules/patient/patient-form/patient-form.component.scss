@@ -223,9 +223,11 @@ form {
 
   fieldset.patient-contacts {
     border: none;
+
     ion-list {
       padding-left: 12px;
     }
+
     .section-header {
       span {
         margin-left: 0px;
@@ -368,6 +370,86 @@ form {
 
     .discharge-to-location {
       margin-top: 1.5rem;
+    }
+  }
+
+  .patient-intake-questions {
+    .call-question {
+      font-family: Avenir;
+      font-size: 21px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.33;
+      letter-spacing: 0.42px;
+      text-align: left;
+    }
+
+    .call-question-answers {
+      ul {
+        list-style-type: none;
+        padding-left: 0;
+        padding-top: 18px;
+      }
+    }
+
+    .rating {
+      margin-left: -16px;
+      border-radius: 3px;
+
+      ion-radio-group {
+        ion-item {
+          --inner-padding-start: 0;
+          --inner-padding-end: 0;
+          width: auto !important;
+          max-width: 10% !important;
+          display: inline-block;
+        }
+
+        ion-label {
+          transform: none !important;
+          display: block !important;
+          margin-right: 0 !important;
+          font-family: Avenir;
+          font-size: 11px;
+          width: 14px;
+          font-style: normal;
+          font-stretch: normal;
+          text-align: center;
+        }
+
+        ion-radio {
+          border-radius: 3px;
+          margin-right: 2px;
+        }
+      }
+    }
+
+    ion-radio-group {
+      .boolean,
+      .rating {
+        margin: 0;
+        margin-left: -16px;
+
+        ion-item {
+          display: inline-block;
+        }
+
+        ion-label {
+          font-size: 16px;
+          font-family: Avenir;
+          display: inline-block;
+        }
+
+        ion-radio {
+          display: inline-block;
+          margin-bottom: -15px;
+        }
+      }
+    }
+
+    .boolean {
+      display: inline-block;
     }
   }
 
@@ -554,6 +636,7 @@ form {
       display: inline-block;
       margin-right: 4px;
     }
+
     ion-label {
       font-family: Avenir;
       font-size: 14px;

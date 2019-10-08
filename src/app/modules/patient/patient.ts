@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { PatientCall } from './patient-detail/patient-call/patient-call.service';
 import { Operation } from '../operation/operation.service';
+import { PatientQuestion } from './patient-question/patient-question.service';
 
 /**
  * Regarding this interface ---
@@ -54,6 +55,8 @@ export interface Patient {
   patientDischargeLabel?: string;
   patientDiagnosis?: string;
   patientPrimaryDiagnosis?: string;
+  patientIntakeQuestions?: PatientQuestion[];
+  patientIntakeQuestions$?: Observable<PatientQuestion[]>;
   patientUrgencyRating?: number;
   patientNeedToKnow?: string;
   nextPatientCallId?: number;

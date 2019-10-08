@@ -40,7 +40,7 @@ export class ShellComponent {
     //   }
     // });
     const firstChildParams$ = this.router.events.pipe(
-      filter(event => event instanceof ResolveEnd),
+      filter(event => event instanceof NavigationEnd),
       startWith(undefined),
       switchMap(e => this.route.firstChild!.paramMap)
     );

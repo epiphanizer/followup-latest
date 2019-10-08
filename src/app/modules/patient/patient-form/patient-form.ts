@@ -1,4 +1,6 @@
 import { PatientQuestionAnswer } from '../patient-question/patient-question.service';
+import { PatientQuestion } from '../patient-question/patient-question.component';
+import { Observable } from 'rxjs';
 
 export interface FormEntry {
   dateSubmitted: string;
@@ -29,5 +31,5 @@ export interface PatientPutBody {
   patientDiagnosis: {};
   patientUrgencyScale: number;
   patientNeedToKnow: string;
-  patientQuestionAnswers: PatientQuestionAnswer[];
+  patientIntakeQuestionAnswers: PatientQuestionAnswer[];
 }
