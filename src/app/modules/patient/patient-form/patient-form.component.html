@@ -52,9 +52,12 @@
               <i class="icon-contacts"></i>
               <span class="contact-header">Contacts</span>
             </div>
-            <ion-list lines="none" *ngFor="let patientContact of patientContacts$ | async; let idx = index">
+            <ion-list lines="none" *ngFor="let patientContact of patientContacts; let idx = index">
               <div class="section-header">
-                <span>Primary Contact</span>
+                <span *ngIf="idx == 0; else alternateContact">Primary Contact</span>
+                <ng-template #alternateContact>
+                  <span>Alternate Contact {{ idx }}</span>
+                </ng-template>
               </div>
               <ion-item class="first-name">
                 <ion-label color="medium" position="stacked">First Name</ion-label>

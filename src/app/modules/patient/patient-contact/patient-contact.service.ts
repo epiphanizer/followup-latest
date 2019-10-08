@@ -3,6 +3,7 @@ import { HttpService } from '@app/core';
 import { catchError, retry, delay } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
+import { PatientContactPostBody } from './patient-contact';
 
 @Injectable({
   providedIn: 'root'
@@ -27,15 +28,10 @@ export class PatientContactService {
 
   // Needs accompanying swagger
   public addNewPatientContactByPatientId(patientId: number, patientContactPost: PatientContactPostBody) {
-    return this.http
-      .post('patients/' + patientId + '/contacts', {
-        patientCallScheduledTime: patientCallScheduledTime,
-        patientCallStatusLabelId: patientCallStatusLabelId
-      })
-      .pipe(
-        retry(3), // retry a failed request up to 3 times
-        catchError(e => this.handleAsyncError(e)) // then handle the error
-      );
+    return this.http.post('patients/' + patientId + '/contacts', patientContactPost).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
   }
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

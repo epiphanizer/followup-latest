@@ -8,6 +8,7 @@ import { User } from '@app/modules/user/user';
 import { map } from 'rxjs/operators';
 import { PatientPutBody } from './patient-form';
 import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
+import { PatientContact } from '../patient-contact/patient-contact';
 
 @Component({
   providers: [PatientService],
@@ -23,6 +24,7 @@ export class PatientFormComponent implements OnInit {
   editMode: boolean = false;
   fileToUpload: File;
   patient: Patient;
+  patientContacts: PatientContact[];
 
   user: User;
   patient$: Observable<Patient> | void;
@@ -60,7 +62,11 @@ export class PatientFormComponent implements OnInit {
       });
     }
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
-    this.patientContacts$ = this.patient.patientContacts$.getPatientContactByPatientId();
+    this.patient.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
+      console.log(patientContacts);
+      this.patientContacts = patientContacts;
+      return this.patientContacts;
+    });
   }
 
   onFormSubmit(): void {
