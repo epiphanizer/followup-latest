@@ -8,7 +8,6 @@ import { User } from '@app/modules/user/user';
 import { map } from 'rxjs/operators';
 import { PatientPutBody } from './patient-form';
 import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   providers: [PatientService],
@@ -17,7 +16,6 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   styleUrls: ['./patient-form.component.scss']
 })
 export class PatientFormComponent implements OnInit {
-  avatarUrl: SafeUrl;
   dischargeLabels: PatientDischargeLabel[];
   dischargeLabels$: Observable<PatientDischargeLabel[]>;
   patientForm: FormGroup;
@@ -162,7 +160,7 @@ export class PatientFormComponent implements OnInit {
           patientAdmissionDate: this.fb.control(this.patient.patientAdmitDate, [Validators.required]),
           patientDischargeDate: this.fb.control(this.patient.patientDischargeDate, [Validators.required]),
           patientTotalDays: this.fb.control({ disabled: true, value: this.patient.patientTotalDays }),
-          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabel, [Validators.required]),
+          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId, [Validators.required]),
           patientDischargedAma: this.fb.control(this.patient.patientDischargedAma, [Validators.required])
         }),
         patientMedicalConditions: this.fb.group({

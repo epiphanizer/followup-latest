@@ -197,6 +197,7 @@ form {
 
     &.contacts {
       padding-bottom: 2px;
+      margin-left: -13px;
       border-bottom: 1px solid #e0e0e0;
     }
 
@@ -651,28 +652,26 @@ form {
   }
 }
 
-.urgency-rating {
+.urgency-rating-list {
   margin-left: 11px;
-
   ion-item {
     display: inline-block;
-
+    ion-radio-group {
+      margin-top: 25px;
+    }
     ion-radio {
       display: inline-block;
       margin-right: 4px;
-    }
-
-    ion-label {
-      font-family: Avenir;
-      font-size: 14px;
-      margin-top: -12px;
-      margin-right: 0;
     }
   }
 }
 
 .need-to-know {
   margin-left: 10px;
+
+  i {
+    margin-left: -12px;
+  }
 }
 
 .hidden-input {

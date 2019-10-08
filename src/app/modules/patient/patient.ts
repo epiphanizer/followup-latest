@@ -52,6 +52,7 @@ export interface Patient {
     pulmonary?: boolean;
     patientDischargedCondition?: string;
   };
+  patientDischargeLabelId?: number;
   patientDischargeLabel?: string;
   patientDiagnosis?: string;
   patientPrimaryDiagnosis?: string;
