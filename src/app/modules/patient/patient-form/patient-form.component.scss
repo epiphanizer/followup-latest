@@ -381,21 +381,20 @@ form {
   }
 
   fieldset.insurance-info {
+    margin-left: 0;
+    padding-left: 0;
     .section-header {
       width: 100%;
       border-bottom: 1px solid #e0e0e0;
     }
 
     ion-list {
-      margin-left: 0;
+      margin-left: -13px;
     }
 
-    i {
-      margin-left: -27px;
-    }
-
-    .primary-insurance {
-      margin-left: 38px;
+    .primary-insurance,
+    .secondary-insurance {
+      margin-left: 13px;
     }
   }
   fieldset.patient-discharge {
@@ -409,7 +408,6 @@ form {
     .discharged-label {
       font-size: 17px;
     }
-
     ion-item {
       &.discharge-admit-date,
       &.discharge-discharge-date {
