@@ -114,15 +114,15 @@ export class PatientFormComponent implements OnInit {
   }
   private createForm() {
     this.patientForm = this.fb.group({
-      operation: this.fb.control(this.patient.patientOperationName),
+      operation: this.fb.control(this.patient.patientOperationId),
       patient: this.fb.group({
         patientMedicalRecordNumber: this.fb.control(this.patient.patientMedicalRecordNumber),
         patientName: this.fb.group({
-          patientFirstName: this.fb.control(this.patient.patientFirstName),
+          patientFirstName: this.fb.control(this.patient.patientFirstName, [Validators.required]),
           patientMiddleName: this.fb.control(this.patient.patientMiddleName),
-          patientLastName: this.fb.control(this.patient.patientLastName)
+          patientLastName: this.fb.control(this.patient.patientLastName, [Validators.required])
         }),
-        patientDob: this.fb.control(this.patient.patientDob),
+        patientDob: this.fb.control(this.patient.patientDob, [Validators.required]),
         patientContacts: this.fb.group({
           primaryPatientContact: this.fb.group({
             patientContactFirstName: this.fb.control(''),
@@ -164,11 +164,11 @@ export class PatientFormComponent implements OnInit {
           secondaryInsurance: this.fb.control(this.patient.patientSecondaryInsurance)
         }),
         dischargeInfo: this.fb.group({
-          patientAdmissionDate: this.fb.control(this.patient.patientAdmitDate),
-          patientDischargeDate: this.fb.control(this.patient.patientDischargeDate),
-          patientTotalDays: this.fb.control(this.patient.patientTotalDays),
-          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabel),
-          patientDischargedAma: this.fb.control(this.patient.patientDischargedAma)
+          patientAdmissionDate: this.fb.control(this.patient.patientAdmitDate, [Validators.required]),
+          patientDischargeDate: this.fb.control(this.patient.patientDischargeDate, [Validators.required]),
+          patientTotalDays: this.fb.control({ disabled: true, value: this.patient.patientTotalDays }),
+          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabel, [Validators.required]),
+          patientDischargedAma: this.fb.control(this.patient.patientDischargedAma, [Validators.required])
         }),
         patientMedicalConditions: this.fb.group({
           cardiacBoolean: this.fb.control(this.patient.patientDischargedConditions.cardiac),
@@ -177,7 +177,7 @@ export class PatientFormComponent implements OnInit {
           primaryDiagnosis: this.fb.control(this.patient.patientDiagnosis),
           dischargedCondition: this.fb.control(this.patient.patientDischargedConditions.patientDischargedCondition)
         }),
-        patientQuestionAnswers: this.fb.group({}),
+        patientQuestionAnswers: this.fb.array([]),
         patientUrgencyRating: this.fb.control(this.patient.patientUrgencyRating),
         patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow)
       })

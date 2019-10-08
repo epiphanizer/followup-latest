@@ -1,7 +1,3 @@
-import { PatientQuestionAnswer } from '../patient-question/patient-question.service';
-import { PatientQuestion } from '../patient-question/patient-question.component';
-import { Observable } from 'rxjs';
-
 export interface FormEntry {
   dateSubmitted: string;
   submissionId: string;
@@ -27,6 +23,7 @@ export interface PatientPutBody {
   patientDischargeDate: Date;
   patientDischargedAma: boolean;
   patientDischargeLocationLabelId: number;
+  patientPrimaryDiagnosis: string;
   patientDiagnosis: string;
   patientUrgencyScale: number;
   patientNeedToKnow: string;

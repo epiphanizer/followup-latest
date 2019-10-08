@@ -100,6 +100,9 @@ export class OperationFormComponent implements OnInit {
         return data;
       });
 
+    /**
+     * Quickly shift operations if url param changes
+     */
     this.route.paramMap.subscribe(params => {
       let operationId = parseInt(params.get('operationId'));
       this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
@@ -159,15 +162,15 @@ export class OperationFormComponent implements OnInit {
   private createForm() {
     this.operationForm = this.fb.group({
       operation: this.fb.group({
-        operationId: this.fb.control(''),
+        operationId: this.fb.control(this.operation.operationId),
         operationName: this.fb.control('', [Validators.required]),
-        operationAddress: this.fb.control(''),
-        operationCity: this.fb.control(''),
-        operationState: this.fb.control(''),
-        operationZip: this.fb.control(''),
-        operationCountryCode: this.fb.control('', [Validators.required]),
-        operationAreaCode: this.fb.control('', [Validators.required]),
-        operationPhoneNumber: this.fb.control('', [Validators.required])
+        operationAddress: this.fb.control(this.operation.operationAddress),
+        operationCity: this.fb.control(this.operation.operationCity),
+        operationState: this.fb.control(this.operation.operationState),
+        operationZip: this.fb.control(this.operation.operationZip),
+        operationCountryCode: this.fb.control(this.operation.operationCountryCode, [Validators.required]),
+        operationAreaCode: this.fb.control(this.operation.operationAreaCode, [Validators.required]),
+        operationPhoneNumber: this.fb.control(this.operation.operationPhoneNumber, [Validators.required])
       }),
       operationContacts: this.fb.array([]),
       operationContactNotifications: this.fb.group({
