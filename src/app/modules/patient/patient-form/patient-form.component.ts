@@ -56,7 +56,6 @@ export class PatientFormComponent implements OnInit {
         map((data: Patient) => {
           this.patient = data;
           this.createForm();
-          this.addAdditionalContact();
           return data;
         })
       );
@@ -64,7 +63,6 @@ export class PatientFormComponent implements OnInit {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: any) => {
         this.patient = data[0];
         this.createForm();
-        this.addAdditionalContact();
       });
     }
     this.operations$ = this.operationService.getAllOperations();
@@ -81,7 +79,7 @@ export class PatientFormComponent implements OnInit {
               patientContactCountryCode: this.fb.control(patientContact.patientContactCountryCode),
               patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode),
               patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber),
-              patientResponsiblePartyBoolean: this.fb.control(false)
+              patientResponsiblePartyBoolean: this.fb.control(patientContact.patientResponsiblePartyBoolean)
             })
           );
           this.patientContacts.push(patientContact);
@@ -92,7 +90,6 @@ export class PatientFormComponent implements OnInit {
   }
 
   addAdditionalContact() {
-    let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
     this.patientContacts.push({
       patientContactFirstName: '',
       patientContactLastName: '',
@@ -102,6 +99,7 @@ export class PatientFormComponent implements OnInit {
       patientContactPhoneNumber: '',
       patientResponsiblePartyBoolean: false
     });
+    let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
     patientContactArray.push(
       this.fb.group({
         patientContactFirstName: this.fb.control('', [Validators.required]),
