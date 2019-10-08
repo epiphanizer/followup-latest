@@ -19,9 +19,15 @@ export class PatientAvatarComponent implements OnInit {
 
   ngOnInit() {
     this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
-      if (!baseImage.length) {
+      if (!baseImage) {
         this.avatarExists = false;
       } else {
+        if (baseImage == typeof Array) {
+          if (!baseImage.length) {
+            this.avatarExists = false;
+            return;
+          }
+        }
         this.avatarExists = true;
         // @see https://medium.com/@koteswar.meesala/convert-array-buffer-to-base64-string-to-display-images-in-angular-7-4c443db242cd
 

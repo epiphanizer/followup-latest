@@ -78,13 +78,6 @@ export class UserProfileComponent implements OnInit {
       userFirstName: this.fb.control(this.user.userFirstName, [Validators.required]),
       userMiddleName: this.fb.control(this.user.userMiddleName),
       userLastName: this.fb.control(this.user.userLastName, [Validators.required]),
-      userEmail: [
-        {
-          value: this.user.email,
-          disabled: true
-        },
-        [Validators.required, Validators.email]
-      ],
       userPhoneCountryCode: [this.user.userCountryCode, [Validators.required]],
       userPhoneAreaCode: [this.user.userAreaCode, [Validators.required]],
       userPhoneNumber: [this.user.userPhoneNumber, [Validators.required]],
