@@ -68,6 +68,9 @@ export class PatientFormComponent implements OnInit {
     } else {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: Patient) => {
         this.patient = data[0];
+        this.patient.patientIntakeQuestions$ = this.patientService.getPatientIntakeQuestionsByPatientId(
+          this.patient.patientId
+        );
         this.createForm();
         this.addAdditionalContact();
         this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
@@ -204,6 +207,9 @@ export class PatientFormComponent implements OnInit {
    */
   private formSubmissionFactory(formSubmission: any) {
     let patientIntakeQuestionAnswers = 'Mock Intake String';
+    let intakeAnswers = this.patientForm.controls.patient.get('patientIntakeQuestionAnswers') as FormArray;
+    console.log(intakeAnswers);
+    debugger;
     // const patientIntakeQuestionAnswers = JSON.stringify(formSubmission.patient.patientIntakeQuestionAnswers);
     const patientDiagnosis = JSON.stringify(formSubmission.patient.patientDiagnosis);
     var payload = {
@@ -213,13 +219,13 @@ export class PatientFormComponent implements OnInit {
       patientFirstName: formSubmission.patient.patientFirstName,
       patientMiddleName: formSubmission.patient.patientMiddleName,
       patientLastName: formSubmission.patient.patientLastName,
-      patientPhysicianFirstName: formSubmission.patient.physicianInfo.physicianFirstName,
-      patientPhysicianLastName: formSubmission.patient.physicianInfo.physicianLastName,
-      patientPhysicianCountryCode: formSubmission.patient.physicianInfo.physicianCountryCode,
-      patientPhysicianAreaCode: formSubmission.patient.physicianInfo.physicianAreaCode,
-      patientPhysicianPhoneNumber: formSubmission.patient.physicianInfo.physicianPhoneNumber,
-      patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance,
-      patientSecondaryInsurance: formSubmission.patient.insurance.secondaryInsurance,
+      patientPhysicianFirstName: formSubmission.patient.physicianInfo.physicianFirstName || '',
+      patientPhysicianLastName: formSubmission.patient.physicianInfo.physicianLastName || '',
+      patientPhysicianCountryCode: formSubmission.patient.physicianInfo.physicianCountryCode || '',
+      patientPhysicianAreaCode: formSubmission.patient.physicianInfo.physicianAreaCode || '',
+      patientPhysicianPhoneNumber: formSubmission.patient.physicianInfo.physicianPhoneNumber || '',
+      patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
+      patientSecondaryInsurance: formSubmission.patient.insurance.secondaryInsurance || '',
       patientAdmitDate: formSubmission.patient.dischargeInfo.patientAdmitDate,
       patientDischargeDate: formSubmission.patient.dischargeInfo.patientDischargeDate,
       patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma,

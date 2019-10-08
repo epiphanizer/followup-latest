@@ -240,19 +240,13 @@
               <ion-textarea formControlName="dischargedCondition"></ion-textarea>
             </ion-item>
           </ion-list>
-          <ion-list
-            lines="none"
-            class="patient-intake-questions"
-            *ngIf="patient.patientIntakeQuestions$ | async as patientQuestions"
-            inset
-            formArrayName="patientIntakeQuestionAnswers"
-          >
+          <ion-list lines="none" class="patient-intake-questions" inset formArrayName="patientIntakeQuestionAnswers">
             <i class="icon-question"></i>
-            <ion-item *ngFor="let patientQuestion of patientQuestions">
+            <ion-item *ngFor="let patientQuestion of patient.patientIntakeQuestions$ | async">
               <div class="call-question-body-container">
                 <div class="call-question">
                   <ng-container *ngIf="question.patientQuestionTypeLabel == 'rating'">
-                    {{ question.patientCallQuestion }}
+                    {{ question.patientIntakeQuestion }}
                     <ion-list class="rating" lines="none">
                       <ion-radio-group>
                         <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; let idx = index">
@@ -267,7 +261,7 @@
                     </ion-list>
                   </ng-container>
                   <ng-container *ngIf="question.patientQuestionTypeLabel == 'boolean'">
-                    {{ question.patientCallQuestion }}
+                    {{ question.patientIntakeQuestion }}
                     <ion-list lines="none">
                       <ion-radio-group>
                         <ion-item class="boolean">
@@ -290,7 +284,7 @@
                       class="patient-call-question-container"
                       [class.isHighlighted]="question.patientCallQuestionIsHighlighted"
                     >
-                      {{ question.patientCallQuestion }}
+                      {{ question.patientIntakeQuestion }}
                     </div>
                     <ion-textarea> </ion-textarea>
                   </ng-container>

@@ -3,6 +3,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Patient, PatientDischargeLabel } from './patient';
 import { PatientPutBody } from './patient-form/patient-form';
+import { PatientQuestion } from './patient-question/patient-question.component';
 
 export class PatientService {
   constructor(private http: HttpClient) {}
@@ -28,6 +29,12 @@ export class PatientService {
   }
   getPatientDischargeLabels(): Observable<PatientDischargeLabel[]> {
     return this.http.get<PatientDischargeLabel[]>('patients/discharge/labels').pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  getPatientIntakeQuestionsByPatientId(patientId: number): Observable<PatientQuestion[]> {
+    return this.http.get<PatientQuestion[]>('patients/' + patientId + '/questions').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
