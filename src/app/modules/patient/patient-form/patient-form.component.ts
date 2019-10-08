@@ -86,7 +86,7 @@ export class PatientFormComponent implements OnInit {
       patientFirstName: formSubmission.patient.patientFirstName,
       patientMiddleName: formSubmission.patient.patientMiddleName,
       patientLastName: formSubmission.patient.patientLastName,
-      patientAdmitDate: formSubmission.dischargeInfo.patientAdmissionDate,
+      patientAdmitDate: formSubmission.dischargeInfo.patientAdmitDate,
       patientPhysicianFirstName: formSubmission.physicianInfo.physicianFirstName,
       patientPhysicianLastName: formSubmission.physicianInfo.physicianLastName,
       patientPhysicianCountryCode: formSubmission.physicianInfo.physicianCountryCode,
@@ -116,35 +116,35 @@ export class PatientFormComponent implements OnInit {
           patientLastName: this.fb.control(this.patient.patientLastName, [Validators.required])
         }),
         patientDob: this.fb.control(this.patient.patientDob, [Validators.required]),
-        patientContacts: this.fb.group({
-          primaryPatientContact: this.fb.group({
-            patientContactFirstName: this.fb.control(''),
-            patientContactLastName: this.fb.control(''),
-            patientContactRelationship: this.fb.control(''),
-            patientContactCountryCode: this.fb.control(''),
-            patientContactAreaCode: this.fb.control(''),
-            patientContactPhoneNumber: this.fb.control(''),
-            patientResponsiblePartyBoolean: this.fb.control('')
-          }),
-          alternatePatientContact1: this.fb.group({
-            patientContactFirstName: this.fb.control(''),
-            patientContactLastName: this.fb.control(''),
-            patientContactRelationship: this.fb.control(''),
-            patientContactCountryCode: this.fb.control(''),
-            patientContactAreaCode: this.fb.control(''),
-            patientContactPhoneNumber: this.fb.control(''),
-            patientResponsiblePartyBoolean: this.fb.control('')
-          }),
-          alternatePatientContact2: this.fb.group({
-            patientContactFirstName: this.fb.control(''),
-            patientContactLastName: this.fb.control(''),
-            patientContactRelationship: this.fb.control(''),
-            patientContactCountryCode: this.fb.control(''),
-            patientContactAreaCode: this.fb.control(''),
-            patientContactPhoneNumber: this.fb.control(''),
-            patientResponsiblePartyBoolean: this.fb.control('')
-          })
-        }),
+        patientContacts: this.fb.array([]),
+
+        // primaryPatientContact: this.fb.group({
+        //   patientContactFirstName: this.fb.control(''),
+        //   patientContactLastName: this.fb.control(''),
+        //   patientContactRelationship: this.fb.control(''),
+        //   patientContactCountryCode: this.fb.control(''),
+        //   patientContactAreaCode: this.fb.control(''),
+        //   patientContactPhoneNumber: this.fb.control(''),
+        //   patientResponsiblePartyBoolean: this.fb.control('')
+        // }),
+        // alternatePatientContact1: this.fb.group({
+        //   patientContactFirstName: this.fb.control(''),
+        //   patientContactLastName: this.fb.control(''),
+        //   patientContactRelationship: this.fb.control(''),
+        //   patientContactCountryCode: this.fb.control(''),
+        //   patientContactAreaCode: this.fb.control(''),
+        //   patientContactPhoneNumber: this.fb.control(''),
+        //   patientResponsiblePartyBoolean: this.fb.control('')
+        // }),
+        // alternatePatientContact2: this.fb.group({
+        //   patientContactFirstName: this.fb.control(''),
+        //   patientContactLastName: this.fb.control(''),
+        //   patientContactRelationship: this.fb.control(''),
+        //   patientContactCountryCode: this.fb.control(''),
+        //   patientContactAreaCode: this.fb.control(''),
+        //   patientContactPhoneNumber: this.fb.control(''),
+        //   patientResponsiblePartyBoolean: this.fb.control('')
+        // })
         physicianInfo: this.fb.group({
           physicianFirstName: this.fb.control(this.patient.patientPhysicianFirstName),
           physicianLastName: this.fb.control(this.patient.patientPhysicianLastName),
@@ -157,7 +157,7 @@ export class PatientFormComponent implements OnInit {
           secondaryInsurance: this.fb.control(this.patient.patientSecondaryInsurance)
         }),
         dischargeInfo: this.fb.group({
-          patientAdmissionDate: this.fb.control(this.patient.patientAdmitDate, [Validators.required]),
+          patientAdmitDate: this.fb.control(this.patient.patientAdmitDate, [Validators.required]),
           patientDischargeDate: this.fb.control(this.patient.patientDischargeDate, [Validators.required]),
           patientTotalDays: this.fb.control({ disabled: true, value: this.patient.patientTotalDays }),
           patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId, [Validators.required]),
