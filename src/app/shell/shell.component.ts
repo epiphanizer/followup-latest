@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { AuthenticationService } from '@app/core';
 import { ModalController } from '@ionic/angular';
 import { NotificationModalComponent } from './notification-modal/notification-modal.component';
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
+import { startWith, switchMap } from 'rxjs/operators';
+import { filter } from 'minimatch';
 
 @Component({
   selector: 'app-shell',
@@ -30,12 +32,21 @@ export class ShellComponent {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     // Pass thru navlinks, etc. from child routes
-    this.route.url.subscribe(() => {
-      if (this.route.snapshot.firstChild) {
-        this.navLinks = this.route.snapshot.firstChild.data.navLinks;
-        this.patient = this.route.snapshot.firstChild.data.patient;
-      }
-    });
+    console.log(this.router);
+    debugger;
+
+    // let firstChildParams$ = this.router.events.pipe(
+    // startWith(undefined),
+    // switchMap(e => this.route.firstChild!.paramMap));
+    // firstChildParams$.subscribe(
+    //   params => {
+    //     console.log(params);
+    //     debugger;
+    //     this.navLinks = this.route.snapshot.firstChild.data.navLinks;
+    //     this.patient = this.route.snapshot.firstChild.data.patient;
+    //     debugger;
+
+    //   });
   }
   signOut() {
     this.authenticationService.signOut();
