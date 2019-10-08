@@ -19,7 +19,7 @@ export class UserAvatarComponent implements OnInit {
 
   ngOnInit() {
     this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((baseImage: any) => {
-      if (!baseImage) {
+      if (!baseImage.length) {
         this.avatarExists = false;
       } else {
         this.avatarExists = true;
