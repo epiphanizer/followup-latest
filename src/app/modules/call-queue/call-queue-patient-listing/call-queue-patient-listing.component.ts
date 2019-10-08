@@ -33,13 +33,15 @@ export class CallQueuePatientListingComponent implements OnInit {
 
   ngOnChanges(changes: any) {
     if (changes.operation) {
-      this.operation = changes.operation.currentValue;
-      this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
-        map((patients: [Patient]) => {
-          this.patients = patients;
-          return patients;
-        })
-      );
+      if (!changes.operation.firstChange) {
+        this.operation = changes.operation.currentValue;
+        this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
+          map((patients: [Patient]) => {
+            this.patients = patients;
+            return patients;
+          })
+        );
+      }
     }
   }
 

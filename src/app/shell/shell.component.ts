@@ -6,8 +6,7 @@ import { ModalController } from '@ionic/angular';
 import { NotificationModalComponent } from './notification-modal/notification-modal.component';
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
-import { startWith, switchMap } from 'rxjs/operators';
-import { filter } from 'minimatch';
+import { startWith, switchMap, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shell',
@@ -32,21 +31,30 @@ export class ShellComponent {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     // Pass thru navlinks, etc. from child routes
-    console.log(this.router);
-    debugger;
 
-    // let firstChildParams$ = this.router.events.pipe(
-    // startWith(undefined),
-    // switchMap(e => this.route.firstChild!.paramMap));
-    // firstChildParams$.subscribe(
-    //   params => {
-    //     console.log(params);
-    //     debugger;
-    //     this.navLinks = this.route.snapshot.firstChild.data.navLinks;
-    //     this.patient = this.route.snapshot.firstChild.data.patient;
-    //     debugger;
-
-    //   });
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        map(() => this.route),
+        map((route: ActivatedRoute) => {
+          console.log(route);
+          alert('mapping');
+          while (route.firstChild) {
+            route = route.firstChild;
+            console.log(route);
+            return route;
+          }
+        }),
+        mergeMap(route => route.paramMap),
+        tap(paramMap => console.log('ParamMap', paramMap))
+      )
+      .subscribe(
+        // Get the params (paramAsMap.params) and use them to highlight or everything that meet your need
+        paramAsMap => {
+          console.log(paramAsMap);
+          debugger;
+        }
+      );
   }
   signOut() {
     this.authenticationService.signOut();
