@@ -90,7 +90,9 @@ export class ShellComponent {
         })
       )
       .subscribe((route: ActivatedRouteSnapshot) => {
-        console.log(route.data);
+        // console.log(this.route.root)
+        // console.log(route.data);
+        // debugger;
       });
   }
   signOut() {
