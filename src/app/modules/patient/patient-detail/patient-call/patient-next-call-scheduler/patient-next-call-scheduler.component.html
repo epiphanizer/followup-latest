@@ -7,7 +7,7 @@
   <div class="calendar-month-controls">
     <span class="left-month-arrow" (click)="calendarPrevMonth()"></span>
     <span class="calendar-month">
-      {{ currentMonth.name }}
+      {{ currentCalendarMonth.name }}
     </span>
     <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
   </div>
@@ -16,7 +16,7 @@
       class="calendar-day"
       *ngFor="let day of selectedMonth.daysArray"
       [class.active]="selectedDay == day"
-      (click)="selectDateEventHandler(day, currentMonth.number, todaysYear)"
+      (click)="selectDateEventHandler(day, currentCalendarMonth.number, todaysYear)"
     >
       <span>{{ day }}</span>
     </div>

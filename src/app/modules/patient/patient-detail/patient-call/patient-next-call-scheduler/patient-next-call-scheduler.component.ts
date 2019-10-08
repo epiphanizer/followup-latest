@@ -13,7 +13,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     name: string;
   }[];
   todaysDateDay: number | string;
-  currentMonth: {
+  currentCalendarMonth: {
     number: string;
     name: string;
   };
@@ -95,7 +95,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
       }
     ];
     // Subtract one because of the 0 index of the array
-    this.selectedMonth = this.currentMonth = this.months[parseInt(this.todaysMonth) - 1];
+    this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
   }
@@ -110,15 +110,15 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     return new Date(year, month, 0).getDate();
   }
   calendarPrevMonth() {
-    this.selectedMonth = this.months[parseInt(this.currentMonth.number) - 2];
-    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentMonth.number), this.todaysYear);
+    this.selectedMonth = this.months[parseInt(this.currentCalendarMonth.number) - 2];
+    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
   }
   calendarNextMonth() {
-    this.currentMonth = this.months[parseInt(this.currentMonth.number)];
-    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentMonth.number), this.todaysYear);
+    this.currentCalendarMonth = this.months[parseInt(this.currentCalendarMonth.number)];
+    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
   }
-  selectDateEventHandler(selectedDay: number, currentMonth: number, todaysYear: number) {
-    let date = currentMonth + '/' + selectedDay + '/' + todaysYear;
+  selectDateEventHandler(selectedDay: number, currentCalendarMonth: number, todaysYear: number) {
+    let date = currentCalendarMonth + '/' + selectedDay + '/' + todaysYear;
     this.selectedDay = selectedDay;
     this.scheduledCallDate = date;
     this.status.scheduled = true;

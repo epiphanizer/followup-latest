@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { Operation } from '@app/modules/operation/operation.service';
+import { Operation } from '@app/modules/operation/operation';
 import { formatDate } from '@angular/common';
 import {
   trigger,

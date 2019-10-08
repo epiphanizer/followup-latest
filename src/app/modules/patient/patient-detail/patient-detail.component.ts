@@ -7,7 +7,7 @@ import {
 } from '../patient-detail/patient-call/patient-call.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/user';
-import { Operation } from '@app/modules/operation/operation.service';
+import { Operation } from '@app/modules/operation/operation';
 import { IonTextarea } from '@ionic/angular';
 import {
   PatientCallNotesService,

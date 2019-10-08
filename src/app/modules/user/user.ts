@@ -1,4 +1,4 @@
-import { Operation } from '@app/modules/operation/operation.service';
+import { Operation } from '@app/modules/operation/operation';
 import { PatientCall } from '../patient/patient-detail/patient-call/patient-call.service';
 import { Observable } from 'rxjs';
 

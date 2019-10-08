@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { PatientCall } from './patient-detail/patient-call/patient-call.service';
-import { Operation } from '../operation/operation.service';
+import { Operation } from '../operation/operation';
 import { PatientQuestion } from './patient-question/patient-question.service';
 import { PatientContact } from './patient-contact/patient-contact';
 

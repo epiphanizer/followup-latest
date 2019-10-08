@@ -130,6 +130,6 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   }
   searchPatientCallHistory(selectedDate: string) {
     alert('searching patient call history on date:' + selectedDate);
-    this.operation.patientCalls$ = of(this.operation.patientCalls);
+    // this.operation.patientCalls$ = of(this.operation.patientCalls);
   }
 }

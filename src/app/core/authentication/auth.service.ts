@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { OAuthSettings } from '@app/oauth';
 import { AlertsService } from '@app/core/alerts/alerts.service';
 import { Subscription, Observable, throwError, of } from 'rxjs';
 import { map, delay, share, catchError, retry } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
-import { Operation, OperationService } from '@app/modules/operation/operation.service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { Router } from '@angular/router';
 
