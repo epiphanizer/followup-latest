@@ -13,9 +13,19 @@
     div {
       display: block;
     }
-    app-user-avatar {
-      img {
-        border-radius: 50%;
+    div.user-avatar {
+      display: block;
+      width: 45px;
+      height: 45px;
+      margin-right: 8px;
+      float: left;
+      app-user-avatar {
+        img {
+          display: block;
+          width: 45px;
+          height: 45px;
+          border-radius: 50%;
+        }
       }
     }
     div.username,
