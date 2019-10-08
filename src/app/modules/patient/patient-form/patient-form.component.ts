@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { PatientPutBody } from './patient-form';
 import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
 import { PatientContact } from '../patient-contact/patient-contact';
+import { Operation, OperationService } from '@app/modules/operation/operation.service';
 
 @Component({
   providers: [PatientService],
@@ -25,6 +26,7 @@ export class PatientFormComponent implements OnInit {
   fileToUpload: File;
   patient: Patient;
   patientContacts: PatientContact[];
+  operations: Operation[];
 
   user: User;
   patient$: Observable<Patient> | void;
@@ -32,6 +34,7 @@ export class PatientFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private operationService: OperationService,
     private patientService: PatientService,
     private patientAvatarService: PatientAvatarService
   ) {}
@@ -61,10 +64,10 @@ export class PatientFormComponent implements OnInit {
         this.createForm();
       });
     }
+    this.operations$ = this.operationService.getAllOperations();
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
     this.patient.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
       let patientContactArray = this.patientForm.controls.patient.get('patientContacts') as FormArray;
-      debugger;
       patientContacts.forEach((patientContact: PatientContact) => {
         patientContactArray.push(
           this.fb.group({

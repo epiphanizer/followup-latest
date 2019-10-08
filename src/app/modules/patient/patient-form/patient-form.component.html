@@ -10,12 +10,12 @@
           Edit Patient
         </ion-title>
       </ng-template>
-      <form *ngIf="patient" id="patient-form" [formGroup]="patientForm" novalidate>
+      <form id="patient-form" [formGroup]="patientForm" novalidate>
         <ion-list lines="none" inset>
           <i class="icon-new-facility"></i>
           <ion-item>
             <ion-select placeholder="Select Facility" class="select-facility" formControlName="operation">
-              <ion-select-option *ngFor="let operation of user.operations" [value]="operation.operationId">
+              <ion-select-option *ngFor="let operation of operations$ | async" [value]="operation.operationId">
                 {{ operation.operationName }}
               </ion-select-option>
             </ion-select>
@@ -52,7 +52,11 @@
               <i class="icon-contacts"></i>
               <span class="contact-header">Contacts</span>
             </div>
-            <ion-list lines="none" *ngFor="let patientContact of patientContacts; let idx = index">
+            <ion-list
+              lines="none"
+              *ngFor="let patientContact of patientContacts; let idx = index"
+              formGroupName="{{ idx }}"
+            >
               <div class="section-header">
                 <span *ngIf="idx == 0; else alternateContact">Primary Contact</span>
                 <ng-template #alternateContact>
