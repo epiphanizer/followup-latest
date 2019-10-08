@@ -242,13 +242,13 @@ export class PatientFormComponent implements OnInit {
       patientFirstName: formSubmission.patient.patientFirstName,
       patientMiddleName: formSubmission.patient.patientMiddleName,
       patientLastName: formSubmission.patient.patientLastName,
-      patientPhysicianFirstName: formSubmission.patient.physicianInfo.physicianFirstName || '',
-      patientPhysicianLastName: formSubmission.patient.physicianInfo.physicianLastName || '',
-      patientPhysicianCountryCode: formSubmission.patient.physicianInfo.physicianCountryCode || '',
-      patientPhysicianAreaCode: formSubmission.patient.physicianInfo.physicianAreaCode || '',
-      patientPhysicianPhoneNumber: formSubmission.patient.physicianInfo.physicianPhoneNumber || '',
-      patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
-      patientSecondaryInsurance: formSubmission.patient.insurance.secondaryInsurance || '',
+      patientPhysicianFirstName: formSubmission.patient.physicianInfo.physicianFirstName,
+      patientPhysicianLastName: formSubmission.patient.physicianInfo.physicianLastName,
+      patientPhysicianCountryCode: formSubmission.patient.physicianInfo.physicianCountryCode,
+      patientPhysicianAreaCode: formSubmission.patient.physicianInfo.physicianAreaCode,
+      patientPhysicianPhoneNumber: formSubmission.patient.physicianInfo.physicianPhoneNumber,
+      patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance,
+      patientSecondaryInsurance: formSubmission.patient.insurance.secondaryInsurance,
       patientAdmitDate: formSubmission.patient.dischargeInfo.patientAdmitDate,
       patientDischargeDate: formSubmission.patient.dischargeInfo.patientDischargeDate,
       patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma,
@@ -257,7 +257,8 @@ export class PatientFormComponent implements OnInit {
       patientDiagnosis: patientDiagnosis,
       patientIntakeQuestionAnswers: patientIntakeQuestionAnswers,
       patientUrgencyScale: formSubmission.patient.patientUrgencyScale,
-      patientNeedToKnow: formSubmission.patient.patientNeedToKnow
+      patientNeedToKnow: formSubmission.patient.patientNeedToKnow,
+      patientActive: formSubmission.patient.patientActive
     };
     return <PatientPutBody>payload;
   }

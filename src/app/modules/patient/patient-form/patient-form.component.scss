@@ -730,8 +730,21 @@ form {
 }
 
 .is-active {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  float: right;
   font-size: 13px;
   font-family: Avenir;
+  ion-checkbox,
+  ion-label {
+    display: inline-block;
+    margin-left: 8px;
+  }
+  ion-label {
+    font-size: 11px;
+  }
 }
 .hidden-input {
   display: none;
