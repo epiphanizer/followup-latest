@@ -62,6 +62,7 @@ export interface Patient {
   patientUrgencyScale?: number;
   patientNeedToKnow?: string;
   nextPatientCallId?: number;
+  patientActive?: number;
 }
 
 export interface PatientDischargeLabel {

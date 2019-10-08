@@ -216,7 +216,7 @@
           <ion-list class="patient-medical-conditions" lines="none" inset formGroupName="patientMedicalConditions">
             <div class="section-header discharge">
               <i class="icon-info"></i>
-              <span class="contact-header">Medical Condition</span>
+              <span class="contact-header">Medical Conditions</span>
             </div>
             <ion-item>
               <ion-list inset lines="none" class="checkboxes-inline">
@@ -244,12 +244,16 @@
             </ion-item>
           </ion-list>
           <ion-list lines="none" class="patient-intake-questions" inset formArrayName="patientIntakeQuestionAnswers">
+            <div class="section-header discharge">
+              <i class="icon-info"></i>
+              <span class="contact-header">Intake Questions</span>
+            </div>
             <i class="icon-question"></i>
-            <ion-item *ngFor="let patientQuestion of patient.patientIntakeQuestions$ | async">
+            <ion-item *ngFor="let patientIntakeQuestion of patient.patientIntakeQuestions$ | async">
               <div class="call-question-body-container">
                 <div class="call-question">
-                  <ng-container *ngIf="question.patientQuestionTypeLabel == 'rating'">
-                    {{ question.patientIntakeQuestion }}
+                  <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'rating'">
+                    {{ patientIntakeQuestion.patientIntakeQuestion }}
                     <ion-list class="rating" lines="none">
                       <ion-radio-group>
                         <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; let idx = index">
@@ -263,8 +267,8 @@
                       </ion-radio-group>
                     </ion-list>
                   </ng-container>
-                  <ng-container *ngIf="question.patientQuestionTypeLabel == 'boolean'">
-                    {{ question.patientIntakeQuestion }}
+                  <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'boolean'">
+                    {{ patientIntakeQuestion.patientIntakeQuestion }}
                     <ion-list lines="none">
                       <ion-radio-group>
                         <ion-item class="boolean">
@@ -282,12 +286,12 @@
                       </ion-radio-group>
                     </ion-list>
                   </ng-container>
-                  <ng-container *ngIf="question.patientQuestionTypeLabel == 'textarea'">
+                  <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'textarea'">
                     <div
                       class="patient-call-question-container"
-                      [class.isHighlighted]="question.patientCallQuestionIsHighlighted"
+                      [class.isHighlighted]="patientIntakeQuestion.patientCallQuestionIsHighlighted"
                     >
-                      {{ question.patientIntakeQuestion }}
+                      {{ patientIntakeQuestion.patientIntakeQuestion }}
                     </div>
                     <ion-textarea> </ion-textarea>
                   </ng-container>
