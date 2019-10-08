@@ -125,7 +125,7 @@ form {
     }
 
     ion-datetime {
-      width: 105px;
+      width: 110px;
       height: auto;
       font-family: Avenir;
       font-size: 14px;
@@ -281,10 +281,10 @@ form {
       }
 
       &.relationship {
-        width: 200px;
+        width: 100px;
       }
-      &.priority {
-        width: 50px;
+      &.order {
+        width: 40px;
       }
     }
 
@@ -303,11 +303,11 @@ form {
         }
 
         &.area-code {
-          width: 80px;
+          width: 60px;
         }
 
         &.phone-number {
-          width: 190px;
+          width: 100px;
         }
 
         &.responsible-party {
@@ -623,13 +623,13 @@ form {
       display: inline-block;
 
       &.first-name {
-        width: 46%;
+        width: 35%;
         margin-right: 2%;
       }
 
       &.last-name {
         margin-left: 2%;
-        width: 48%;
+        width: 35%;
       }
 
       &.country-code {
@@ -638,7 +638,7 @@ form {
       }
 
       &.area-code {
-        width: 80px;
+        width: 60px;
       }
 
       &.phone-number {

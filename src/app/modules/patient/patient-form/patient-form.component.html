@@ -92,14 +92,14 @@
                   <ion-label color="medium" position="stacked">Phone #</ion-label>
                   <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
                 </ion-item>
+                <ion-item class="order">
+                  <ion-label color="medium" position="stacked">Order</ion-label>
+                  <ion-input type="number" formControlName="patientContactOrder"></ion-input>
+                </ion-item>
                 <ion-item class="responsible-party">
                   <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
                   <ion-radio formControlName="patientResponsiblePartyBoolean"> </ion-radio>
                   <i class="icon-hipaa"></i>
-                </ion-item>
-                <ion-item class="priority">
-                  <ion-label color="medium" position="stacked">Priority (e.g. 1-5)</ion-label>
-                  <ion-input type="number" formControlName="patientContactOrder"></ion-input>
                 </ion-item>
                 <!-- Only show if it's the last index -->
                 <ion-item
