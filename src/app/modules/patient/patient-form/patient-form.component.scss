@@ -337,6 +337,67 @@ form {
     }
   }
 
+  fieldset.physician-info {
+    .section-header {
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    ion-list.physician-info-list {
+      margin-left: -12px;
+    }
+
+    ion-item {
+      --padding-start: 0;
+      --padding-end: 0;
+      --inner-padding-start: 0;
+      --inner-padding-end: 0;
+      display: inline-block;
+
+      &.first-name {
+        width: 35%;
+        margin-right: 2%;
+      }
+
+      &.last-name {
+        margin-left: 2%;
+        width: 35%;
+      }
+
+      &.country-code {
+        margin-left: 0;
+        margin-right: 8px;
+        width: 45px;
+      }
+
+      &.area-code {
+        width: 60px;
+        margin-right: 8px;
+      }
+
+      &.phone-number {
+        width: 120px;
+      }
+    }
+  }
+
+  fieldset.insurance-info {
+    .section-header {
+      width: 100%;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    ion-list {
+      margin-left: 0;
+    }
+
+    i {
+      margin-left: -27px;
+    }
+
+    .primary-insurance {
+      margin-left: 38px;
+    }
+  }
   fieldset.patient-discharge {
     border: none;
 
@@ -535,68 +596,6 @@ form {
     text-align: center;
     color: #ffffff;
     text-transform: uppercase;
-  }
-
-  .physician-info {
-    .section-header {
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    ion-list.physician-info-list {
-      margin-left: -12px;
-    }
-
-    ion-item {
-      --padding-start: 0;
-      --padding-end: 0;
-      --inner-padding-start: 0;
-      --inner-padding-end: 0;
-      display: inline-block;
-
-      &.first-name {
-        width: 35%;
-        margin-right: 2%;
-      }
-
-      &.last-name {
-        margin-left: 2%;
-        width: 35%;
-      }
-
-      &.country-code {
-        margin-left: 0;
-        margin-right: 8px;
-        width: 45px;
-      }
-
-      &.area-code {
-        width: 60px;
-        margin-right: 8px;
-      }
-
-      &.phone-number {
-        width: 120px;
-      }
-    }
-  }
-
-  .insurance-info {
-    .section-header {
-      width: 100%;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    ion-list {
-      margin-left: 0;
-    }
-
-    i {
-      margin-left: -27px;
-    }
-
-    .primary-insurance {
-      margin-left: 38px;
-    }
   }
 
   .checkboxes-inline {
