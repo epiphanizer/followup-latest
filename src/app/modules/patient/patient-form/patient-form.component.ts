@@ -25,9 +25,7 @@ export class PatientFormComponent implements OnInit {
   editMode: boolean = false;
   fileToUpload: File;
   patient: Patient;
-  status: {
-    submitted: null | boolean;
-  };
+
   user: User;
   patient$: Observable<Patient> | void;
 
@@ -52,6 +50,7 @@ export class PatientFormComponent implements OnInit {
     if (!this.patient) {
       this.patient$ = this.patientService.addNewPatient().pipe(
         map((data: Patient) => {
+          debugger;
           this.patient = data;
           this.createForm();
           return data;
@@ -61,6 +60,7 @@ export class PatientFormComponent implements OnInit {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: any) => {
         this.patient = data[0];
         this.createForm();
+        debugger;
       });
     }
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
@@ -71,7 +71,6 @@ export class PatientFormComponent implements OnInit {
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       alert('patient successfully edited');
-      this.status.submitted = true;
       location.reload();
     });
   }
@@ -81,8 +80,6 @@ export class PatientFormComponent implements OnInit {
    * @param formSubmission
    */
   private formSubmissionFactory(formSubmission: any) {
-    console.log(formSubmission);
-    debugger;
     const patientIntakeQuestionAnswers = JSON.stringify(formSubmission.patientIntakeQuestionAnswers);
     const patientDiagnosis = JSON.stringify(formSubmission.patientDiagnosis);
     var payload = {
@@ -113,7 +110,6 @@ export class PatientFormComponent implements OnInit {
     return <PatientPutBody>payload;
   }
   private createForm() {
-    debugger;
     this.patientForm = this.fb.group({
       operation: this.fb.control(this.patient.patientOperationId),
       patient: this.fb.group({
@@ -181,8 +177,8 @@ export class PatientFormComponent implements OnInit {
           cardiacBoolean: this.fb.control(false),
           sepsisBoolean: this.fb.control(false),
           pulmonaryBoolean: this.fb.control(false),
-          primaryDiagnosis: this.fb.control(false),
-          dischargedCondition: this.fb.control(false)
+          primaryDiagnosis: this.fb.control(''),
+          dischargedCondition: this.fb.control('')
         }),
         patientQuestionAnswers: this.fb.array([]),
         patientUrgencyRating: this.fb.control(this.patient.patientUrgencyRating),

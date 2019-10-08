@@ -58,7 +58,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   private createForm() {
-    debugger;
     if (!this.user.userInterests) {
       this.user.userInterests = {
         celebrity: false,
@@ -77,7 +76,7 @@ export class UserProfileComponent implements OnInit {
     }
     this.userProfileForm = this.fb.group({
       userFirstName: this.fb.control(this.user.userFirstName, [Validators.required]),
-      userMiddleName: this.fb.control(this.user.userMiddleName, [Validators.required]),
+      userMiddleName: this.fb.control(this.user.userMiddleName),
       userLastName: this.fb.control(this.user.userLastName, [Validators.required]),
       userEmail: [
         {
@@ -89,7 +88,7 @@ export class UserProfileComponent implements OnInit {
       userPhoneCountryCode: [this.user.userCountryCode, [Validators.required]],
       userPhoneAreaCode: [this.user.userAreaCode, [Validators.required]],
       userPhoneNumber: [this.user.userPhoneNumber, [Validators.required]],
-      userDob: [this.user.userDob, [Validators.required]],
+      userDob: [this.user.userDob],
       userFavoriteDessert: [this.user.userFavoriteDessert],
       userInterests: this.fb.group({
         celebrity: this.fb.control(this.user.userInterests.celebrity),

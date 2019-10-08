@@ -82,7 +82,6 @@ export class ShellComponent {
         filter(e => e instanceof ChildActivationEnd),
         map(() => this.route.snapshot),
         map(route => {
-          alert('here');
           while (route.firstChild) {
             // get first child
             route = route.firstChild;

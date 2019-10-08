@@ -56,6 +56,7 @@ export class PatientDetailComponent implements OnInit {
       .subscribe((patientCall: PatientCall) => {
         this.patientCall = patientCall[0];
       });
+
     this.patientNextCall = {
       date: '',
       patientCallStatusLabelId: 1
@@ -127,6 +128,7 @@ export class PatientDetailComponent implements OnInit {
     // add answers to our questions to the current call
     // this will require processing
     // debugger;
+    // let callQuestionAnswers = JSON.stringify
     // this.patientCallQuestionsService.addNewPatientCallQuestionAnswersByPatientCallQuestionId(
     //   this.patientCall.patientCallQuestionId
     // ).subscribe((data: any) => {

@@ -10,7 +10,7 @@
           Edit Patient
         </ion-title>
       </ng-template>
-      <form *ngIf="patient$ | async" id="new-patient-form" [formGroup]="patientForm" novalidate>
+      <form *ngIf="patient" id="patient-form" [formGroup]="patientForm" novalidate>
         <ion-list lines="none" inset>
           <i class="icon-new-facility"></i>
           <ion-item>
