@@ -52,7 +52,7 @@
               <i class="icon-contacts"></i>
               <span class="contact-header">Contacts</span>
             </div>
-            <ion-list lines="none" formGroupName="primaryPatientContact">
+            <ion-list lines="none" *ngFor="let patientContact of patientContacts$ | async; let idx = index">
               <div class="section-header">
                 <span>Primary Contact</span>
               </div>
@@ -71,80 +71,6 @@
               <div class="phone-container">
                 <ion-item class="country-code">
                   <ion-label color="medium" position="stacked">+(1)</ion-label>
-                  <ion-input type="text" formControlName="patientContactCountryCode"></ion-input>
-                </ion-item>
-                <ion-item class="area-code">
-                  <ion-label color="medium" position="stacked">(###)</ion-label>
-                  <ion-input type="text" formControlName="patientContactAreaCode"></ion-input>
-                </ion-item>
-                <ion-item class="phone-number">
-                  <ion-label color="medium" position="stacked">Phone #</ion-label>
-                  <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
-                </ion-item>
-                <ion-item class="responsible-party">
-                  <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
-                  <ion-radio formControlName="patientResponsiblePartyBoolean"> </ion-radio>
-                  <i class="icon-hipaa"></i>
-                </ion-item>
-              </div>
-              <ion-item-divider></ion-item-divider>
-            </ion-list>
-            <ion-list lines="none" formGroupName="alternatePatientContact1">
-              <div class="section-header">
-                <span>Alternative Contact 1</span>
-              </div>
-              <ion-item class="first-name">
-                <ion-label color="medium" position="stacked">First Name</ion-label>
-                <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
-              </ion-item>
-              <ion-item class="last-name">
-                <ion-label color="medium" position="stacked">Last Name</ion-label>
-                <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
-              </ion-item>
-              <ion-item class="relationship">
-                <ion-label color="medium" position="stacked">Relationship</ion-label>
-                <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
-              </ion-item>
-              <div class="phone-container">
-                <ion-item class="country-code">
-                  <ion-label color="medium" position="stacked">+(1)</ion-label>
-                  <ion-input type="text" value="1" formControlName="patientContactCountryCode"></ion-input>
-                </ion-item>
-                <ion-item class="area-code">
-                  <ion-label color="medium" position="stacked">(###)</ion-label>
-                  <ion-input type="text" formControlName="patientContactAreaCode"></ion-input>
-                </ion-item>
-                <ion-item class="phone-number">
-                  <ion-label color="medium" position="stacked">Phone #</ion-label>
-                  <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
-                </ion-item>
-                <ion-item class="responsible-party">
-                  <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
-                  <ion-radio formControlName="patientResponsiblePartyBoolean"> </ion-radio>
-                  <i class="icon-hipaa"></i>
-                </ion-item>
-              </div>
-              <ion-item-divider></ion-item-divider>
-            </ion-list>
-            <ion-list lines="none" formGroupName="alternatePatientContact2">
-              <div class="section-header">
-                <span>Alternative Contact 2</span>
-              </div>
-              <ion-item class="first-name">
-                <ion-label color="medium" position="stacked">First Name</ion-label>
-                <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
-              </ion-item>
-              <ion-item class="last-name">
-                <ion-label color="medium" position="stacked">Last Name</ion-label>
-                <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
-              </ion-item>
-              <ion-item class="relationship">
-                <ion-label color="medium" position="stacked">Relationship</ion-label>
-                <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
-              </ion-item>
-              <div class="phone-container">
-                <ion-item class="country-code">
-                  <ion-label color="medium" position="stacked"> +(1)</ion-label>
                   <ion-input type="text" formControlName="patientContactCountryCode"></ion-input>
                 </ion-item>
                 <ion-item class="area-code">

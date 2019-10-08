@@ -60,6 +60,7 @@ export class PatientFormComponent implements OnInit {
       });
     }
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
+    this.patientContacts$ = this.patient.patientContacts$.getPatientContactByPatientId();
   }
 
   onFormSubmit(): void {
@@ -118,33 +119,6 @@ export class PatientFormComponent implements OnInit {
         patientDob: this.fb.control(this.patient.patientDob, [Validators.required]),
         patientContacts: this.fb.array([]),
 
-        // primaryPatientContact: this.fb.group({
-        //   patientContactFirstName: this.fb.control(''),
-        //   patientContactLastName: this.fb.control(''),
-        //   patientContactRelationship: this.fb.control(''),
-        //   patientContactCountryCode: this.fb.control(''),
-        //   patientContactAreaCode: this.fb.control(''),
-        //   patientContactPhoneNumber: this.fb.control(''),
-        //   patientResponsiblePartyBoolean: this.fb.control('')
-        // }),
-        // alternatePatientContact1: this.fb.group({
-        //   patientContactFirstName: this.fb.control(''),
-        //   patientContactLastName: this.fb.control(''),
-        //   patientContactRelationship: this.fb.control(''),
-        //   patientContactCountryCode: this.fb.control(''),
-        //   patientContactAreaCode: this.fb.control(''),
-        //   patientContactPhoneNumber: this.fb.control(''),
-        //   patientResponsiblePartyBoolean: this.fb.control('')
-        // }),
-        // alternatePatientContact2: this.fb.group({
-        //   patientContactFirstName: this.fb.control(''),
-        //   patientContactLastName: this.fb.control(''),
-        //   patientContactRelationship: this.fb.control(''),
-        //   patientContactCountryCode: this.fb.control(''),
-        //   patientContactAreaCode: this.fb.control(''),
-        //   patientContactPhoneNumber: this.fb.control(''),
-        //   patientResponsiblePartyBoolean: this.fb.control('')
-        // })
         physicianInfo: this.fb.group({
           physicianFirstName: this.fb.control(this.patient.patientPhysicianFirstName),
           physicianLastName: this.fb.control(this.patient.patientPhysicianLastName),

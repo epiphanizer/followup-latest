@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { PatientCall } from './patient-detail/patient-call/patient-call.service';
 import { Operation } from '../operation/operation.service';
 import { PatientQuestion } from './patient-question/patient-question.service';
+import { PatientContact } from './patient-contact';
 
 /**
  * Regarding this interface ---
@@ -26,6 +27,7 @@ export interface Patient {
   patientDob?: Date;
   patientAge?: number | null;
   avatar?: string;
+  patientContacts$: Observable<PatientContact[]>;
   patientContactNumberId?: number | null;
   patientContactPhoneNumber?: number | null;
   primaryContactPhoneTypeId?: number;
@@ -42,7 +44,6 @@ export interface Patient {
   patientCalls$: Observable<PatientCall[]>;
   patientCallCount?: number;
   patientNextCallTime?: Date;
-  patientOnFinalCall?: boolean;
   patientCurrentStatusLabel?: number;
   patientDischargeNotes: string;
   patientDischargedAma?: boolean;
