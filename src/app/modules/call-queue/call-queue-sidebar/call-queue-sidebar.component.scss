@@ -96,7 +96,8 @@
         margin-left: 8px;
         width: 15px;
         height: 15px;
-        display: inline-block;
+        display: block;
+        float: right;
         background-size: 100%;
         background-repeat: no-repeat;
         background-position: center center;
@@ -107,8 +108,8 @@
       }
 
       span.icon-discharge-counter {
-        margin-left: -12px;
-        margin-top: 2px;
+        margin-left: 12px;
+        margin-top: 1px;
         color: white;
         position: absolute;
         font-weight: bold;
