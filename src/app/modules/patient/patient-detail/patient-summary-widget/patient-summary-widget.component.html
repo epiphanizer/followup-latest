@@ -38,15 +38,12 @@
               <a class="alternate-numbers" (click)="toggleAlternateNumbers()">[Alt Numbers]</a>
               <ng-container *ngIf="expandAlternateNumbers">
                 <ion-list lines="none" inset class="alternate-numbers-list">
-                  <ion-item class="alternate-number">1-800-callme - relationship</ion-item>
-                  <ion-item class="alternate-number">1-800-callme - relationship</ion-item>
-                  <ion-item class="alternate-number">1-800-callme - relationship</ion-item>
-                  <!-- <div *ngFor="let alternateContactNumber of patient.patientContacts$ | async;">
+                  <div *ngFor="let alternateContactNumber of patient.patientContacts$ | async">
                     <ion-item class="alternate-number">
                       {{ alternateContactNumber }} -
                       {{ alternateContactNumber.alternateContactNumberRelationship }}
                     </ion-item>
-                  </div> -->
+                  </div>
                 </ion-list>
               </ng-container>
             </li>

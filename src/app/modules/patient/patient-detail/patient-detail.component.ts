@@ -19,6 +19,7 @@ import {
 } from './patient-call/patient-call-questions/patient-call-questions.service';
 import { PatientCallStatus } from './patient-call/patient-call-status.service';
 import { formatDate } from '@angular/common';
+import { PatientContactService } from '../patient-contact/patient-contact.service';
 
 @Component({
   providers: [PatientCallService, PatientCallNotesService, PatientCallQuestionsService],
@@ -44,6 +45,7 @@ export class PatientDetailComponent implements OnInit {
 
   constructor(
     private patientCallService: PatientCallService,
+    private patientContactService: PatientContactService,
     private patientCallNotesService: PatientCallNotesService,
     private route: ActivatedRoute
   ) {}
@@ -51,6 +53,7 @@ export class PatientDetailComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
+    this.patient.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
     this.patientCallService
       .getPatientCallByPatientCallId(this.patient.patientId, this.patient.nextPatientCallId)
       .subscribe((patientCall: PatientCall) => {

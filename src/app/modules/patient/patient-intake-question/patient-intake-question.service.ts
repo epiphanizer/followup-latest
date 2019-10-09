@@ -15,7 +15,7 @@ export class PatientIntakeQuestionService {
     patientIntakeQuestionAnswer: string
   ) {
     return this.http
-      .post('patients/questions/' + patientIntakeQuestionId, {
+      .post('patients/questions/' + patientIntakeQuestionId + '/answers', {
         patientIntakeQuestionAnswer: patientIntakeQuestionAnswer
       })
       .pipe(

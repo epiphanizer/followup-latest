@@ -237,10 +237,17 @@ export class PatientFormComponent implements OnInit {
     let intakeAnswers = this.patientForm.controls.patient.get('patientIntakeQuestionAnswers') as FormArray;
     let intakeAnswersArray = intakeAnswers.getRawValue();
     intakeAnswersArray.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
-      console.log(patientIntakeQuestionAnswer);
+      var patientIntakeQuestionId = parseInt(Object.keys(patientIntakeQuestionAnswer).toString());
+      var patientQuestionAnswer = patientIntakeQuestionAnswer[0];
+      this.patientIntakeQuestionService
+        .addPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
+        .subscribe((data: any) => {
+          console.log(data);
+        });
     });
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
+      console.log(value);
       alert('patient successfully edited');
       location.reload();
     });
