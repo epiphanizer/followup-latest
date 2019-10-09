@@ -56,11 +56,12 @@
     </div>
     <div class="call-queue-call-status-legend">
       <ion-list *ngIf="patient.patientCallCount > 1" inset lines="none">
-        <ion-item
-          *ngFor="let patientCallStatus of patientCallStatuses"
-          [class.active]="patient.lastPatientCallStatusLabelId == patientCallStatus.patientCallStatusLabelId"
-        >
-          <i class="icon-{{ patientCallStatus.patientCallStatusLabel.replace(' ', '-') | lowercase }}"></i>
+        <ion-item *ngFor="let patientCallStatus of patientCallStatuses">
+          <i
+            class="icon-{{ patientCallStatus.patientCallStatusLabel.replace(' ', '-') | lowercase }}"
+            [class.active]="patient.lastPatientCallStatusLabelId == patientCallStatus.patientCallStatusLabelId"
+          >
+          </i>
         </ion-item>
       </ion-list>
     </div>
