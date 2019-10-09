@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthGuardService } from './core/authentication/auth-guard.service';
+import { UserResolver } from './modules/user/user-resolver.service';
 
 const routes: Routes = [
   { path: 'logout', redirectTo: '/login', canActivate: [] },
   {
     path: '**',
     redirectTo: '/home',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    resolve: {
+      user: UserResolver
+    }
   }
 ];
 

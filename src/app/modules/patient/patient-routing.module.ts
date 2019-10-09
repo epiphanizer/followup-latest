@@ -12,6 +12,7 @@ const routes: Routes = [
   Shell.childRoutes([
     {
       path: 'call-queue/operations/:operationId/patient/:patientId',
+      pathMatch: 'full',
       component: PatientDetailComponent,
       resolve: {
         user: UserResolver,
@@ -28,6 +29,7 @@ const routes: Routes = [
     },
     {
       path: 'patient/add',
+      pathMatch: 'full',
       component: PatientFormComponent,
       resolve: {
         user: UserResolver
@@ -43,6 +45,7 @@ const routes: Routes = [
     },
     {
       path: 'patient/edit/:patientId',
+      pathMatch: 'full',
       component: PatientFormComponent,
       resolve: {
         user: UserResolver,

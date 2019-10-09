@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { Patient } from './patient';
 import { PatientService } from './patient.service';
-import { PatientCallService, PatientCall } from './patient-detail/patient-call/patient-call.service';
 import { map } from 'rxjs/operators';
 import { PatientContactService } from './patient-contact/patient-contact.service';
 
@@ -12,11 +11,7 @@ import { PatientContactService } from './patient-contact/patient-contact.service
 export class PatientResolver implements Resolve<Patient> {
   patient: Patient;
   patient$: Observable<Patient>;
-  constructor(
-    private patientService: PatientService,
-    private patientContactService: PatientContactService,
-    private patientCallsService: PatientCallService
-  ) {}
+  constructor(private patientService: PatientService, private patientContactService: PatientContactService) {}
   resolve(route: ActivatedRouteSnapshot): Observable<Patient> {
     const patientId = route.paramMap.get('patientId');
     this.patient$ = this.patientService.getPatientByPatientId(+patientId).pipe(
@@ -26,11 +21,6 @@ export class PatientResolver implements Resolve<Patient> {
         this.patient.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(
           this.patient.patientId
         );
-        this.patientCallsService
-          .getPatientCallsByPatientId(this.patient.patientId)
-          .subscribe((patientCalls: PatientCall[]) => {
-            this.patient.patientCalls = patientCalls;
-          });
         return patient;
       })
     );

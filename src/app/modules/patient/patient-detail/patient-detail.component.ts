@@ -8,7 +8,6 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/user';
 import { Operation } from '@app/modules/operation/operation';
-import { IonTextarea } from '@ionic/angular';
 import {
   PatientCallNotesService,
   PatientCallNotes
@@ -27,7 +26,6 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./patient-detail.component.scss']
 })
 export class PatientDetailComponent implements OnInit {
-  @ViewChild('ion-textarea') patientNotesInput: IonTextarea;
   user: User;
   patient: Patient;
   operation: Operation;
@@ -51,6 +49,7 @@ export class PatientDetailComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
+    debugger;
     this.patientCallService
       .getPatientCallByPatientCallId(this.patient.patientId, this.patient.nextPatientCallId)
       .subscribe((patientCall: PatientCall) => {
@@ -153,7 +152,7 @@ export class PatientDetailComponent implements OnInit {
         .addNewPatientCallByPatientId(
           this.patient.patientId,
           isoString,
-          // default is scheduled
+          // schedule default (3 == 'scheduled' status)
           3
         )
         .subscribe((data: any) => {
