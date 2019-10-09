@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Pipe, PipeTransform } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserService } from '@app/modules/user/user.service';
@@ -28,12 +28,16 @@ export class CallQueuePatientFilterComponent implements OnInit {
     this.patientCallService
       .getPatientCallsByOperationId(this.operation.operationId)
       .subscribe((patientCalls: PatientCall[]) => {
-        console.log(patientCalls);
         this.patientCalls = patientCalls;
-        debugger;
       });
   }
-  searchPatientCallHistoryByText() {
-    alert('searching patient call history');
+  searchPatientCallHistoryByText(searchText: string): PatientCall[] {
+    searchText = searchText.toLowerCase();
+    return this.patientCalls.filter((patientCall: PatientCall) => {
+      return (
+        patientCall.patientFirstName.toLowerCase().includes(searchText) ||
+        patientCall.patientLastName.toLowerCase().includes(searchText)
+      );
+    });
   }
 }

@@ -4,7 +4,8 @@
       <table>
         <tr>
           <td>
-            <ion-input placeholder="Patient/Date Search" (submit)="searchPatientCallHistoryByText()"> </ion-input>
+            <ion-input placeholder="Patient/Date Search" (ionInput)="searchPatientCallHistoryByText($event)">
+            </ion-input>
           </td>
           <td>
             <ion-icon name="search"></ion-icon>
@@ -20,7 +21,7 @@
           >{{ patientCall.patientFirstName }} {{ patientCall.patientLastName }} -
         </span>
         <span class="patient-filter-call-date"
-          >Call {{ patientCall.patientCallCount }} ({{ patientCall.patientCallStatusLabel }})</span
+          >Call {{ patientCall.patientCallNumber }} ({{ patientCall.patientCallStatusLabel }})</span
         >
       </ion-item>
     </ion-list>
