@@ -10,7 +10,9 @@ export interface PatientCall {
   patientId: number;
   patientCalledByUserId?: number;
   patientContactNumberId?: number;
-  patientCallStartTime: Date;
+  patientCallCreatedTime: Date;
+  patientCallScheduledTime?: Date;
+  patientCallStartTime?: Date;
   patientCallEndTime?: Date;
   patientCallStatusLabelId: number;
   patientCallStatusLabel?: string;
@@ -19,6 +21,9 @@ export interface PatientCall {
   patientCallNotes?: string;
   patientCallQuestions: PatientCallQuestion[];
   patientCallQuestions$: Observable<PatientCallQuestion[]>;
+  // nice to have for our filter listing
+  patientFirstName?: string;
+  patientLastName?: string;
 }
 
 export interface PatientCallQuestionAnswer {
