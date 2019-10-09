@@ -211,45 +211,47 @@
               </ion-item>
             </ion-list>
           </fieldset>
-          <ion-list class="patient-medical-conditions" lines="none" inset formGroupName="patientMedicalConditions">
-            <div class="section-header discharge">
-              <i class="icon-info"></i>
-              <span class="contact-header">Medical Conditions</span>
-            </div>
-            <ion-item>
-              <ion-list inset lines="none" class="checkboxes-inline">
-                <ion-item>
-                  <ion-label color="medium" position="stacked">Cardiac</ion-label>
-                  <ion-checkbox formControlName="cardiacBoolean"></ion-checkbox>
-                </ion-item>
-                <ion-item>
-                  <ion-label color="medium" position="stacked">Sepsis</ion-label>
-                  <ion-checkbox formControlName="sepsisBoolean"></ion-checkbox>
-                </ion-item>
-                <ion-item>
-                  <ion-label color="medium" position="stacked">Pulmonary</ion-label>
-                  <ion-checkbox formControlName="pulmonaryBoolean"></ion-checkbox>
-                </ion-item>
-              </ion-list>
-            </ion-item>
-            <ion-item>
-              <ion-label color="medium" position="stacked">Primary Diagnosis</ion-label>
-              <ion-textarea formControlName="primaryDiagnosis"></ion-textarea>
-            </ion-item>
-            <ion-item>
-              <ion-label color="medium" position="stacked">Discharged Condition</ion-label>
-              <ion-textarea formControlName="dischargedCondition"></ion-textarea>
-            </ion-item>
-          </ion-list>
+          <fieldset class="patient-medical-conditions">
+            <ion-list class="patient-medical-conditions" lines="none" inset formGroupName="patientMedicalConditions">
+              <div class="section-header discharge">
+                <i class="icon-info"></i>
+                <span class="contact-header">Medical Conditions</span>
+              </div>
+              <ion-item>
+                <ion-list inset lines="none" class="checkboxes-inline">
+                  <ion-item>
+                    <ion-label color="medium" position="stacked">Cardiac</ion-label>
+                    <ion-checkbox formControlName="cardiacBoolean"></ion-checkbox>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label color="medium" position="stacked">Sepsis</ion-label>
+                    <ion-checkbox formControlName="sepsisBoolean"></ion-checkbox>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label color="medium" position="stacked">Pulmonary</ion-label>
+                    <ion-checkbox formControlName="pulmonaryBoolean"></ion-checkbox>
+                  </ion-item>
+                </ion-list>
+              </ion-item>
+              <ion-item>
+                <ion-label color="medium" position="stacked">Primary Diagnosis</ion-label>
+                <ion-textarea formControlName="primaryDiagnosis"></ion-textarea>
+              </ion-item>
+              <ion-item>
+                <ion-label color="medium" position="stacked">Discharged Condition</ion-label>
+                <ion-textarea formControlName="dischargedCondition"></ion-textarea>
+              </ion-item>
+            </ion-list>
+          </fieldset>
           <fieldset class="patient-intake-questions">
             <ion-list lines="none" class="patient-intake-questions" inset formArrayName="patientIntakeQuestionAnswers">
               <div class="section-header">
-                <i class="icon-info"></i>
+                <i class="icon-question-mark"></i>
                 <span class="contact-header">Intake Questions</span>
               </div>
               <ion-item *ngFor="let patientIntakeQuestion of patient.patientIntakeQuestions$ | async">
-                <i class="icon-question"></i>
                 <div class="call-question-body-container">
+                  <i class="icon-question"></i>
                   <div class="call-question">
                     <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'rating'">
                       <ion-label color="medium">{{ patientIntakeQuestion.patientIntakeQuestion }}</ion-label>

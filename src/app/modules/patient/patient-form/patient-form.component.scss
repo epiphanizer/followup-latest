@@ -626,6 +626,12 @@ fieldset.patient-medical-conditions {
 }
 
 fieldset.patient-intake-questions {
+  padding-left: 0;
+  margin-left: 0;
+  ion-list {
+    padding-left: 0;
+    margin-left: 0;
+  }
   .section-header {
     width: 100%;
     border-bottom: 1px solid #e0e0e0;
@@ -647,6 +653,9 @@ fieldset.patient-intake-questions {
     width: 100%;
     height: auto;
     margin-bottom: 36px;
+    i {
+      margin-right: 12px;
+    }
   }
 
   .call-question {
@@ -692,9 +701,10 @@ fieldset.patient-intake-questions {
     }
   }
 
-  .rating {
+  ion-item.rating {
     border-radius: 3px;
     width: 100%;
+    margin-left: 14px;
     ion-radio-group {
       ion-item {
         --inner-padding-start: 0;
@@ -727,9 +737,7 @@ fieldset.patient-intake-questions {
   ion-radio-group {
     .boolean,
     .rating {
-      margin: 0;
-      margin-left: -16px;
-
+      margin-left: 14px;
       ion-item {
         display: inline-block;
       }
@@ -747,8 +755,12 @@ fieldset.patient-intake-questions {
     }
   }
 
-  .boolean {
+  ion-item.boolean {
     display: inline-block;
+    margin-left: 14px;
+    .boolean {
+      margin-left: 0;
+    }
   }
 }
 
@@ -802,7 +814,7 @@ fieldset.patient-intake-questions {
   height: auto;
   overflow: hidden;
   float: right;
-  font-size: 13px;
+  font-size: 14px;
   font-family: Avenir;
 
   ion-checkbox,
