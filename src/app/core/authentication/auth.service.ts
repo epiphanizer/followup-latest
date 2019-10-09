@@ -6,7 +6,6 @@ import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { Router } from '@angular/router';
-import { KicktechAuthService } from '@app/shared/kicktech-auth.service';
 
 export interface AuthenticationBodyPost {
   username: string;
