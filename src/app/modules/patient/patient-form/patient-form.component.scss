@@ -105,6 +105,7 @@ form {
     text-align: left;
     color: #343638;
   }
+
   ion-item {
     --padding-start: 0;
     --padding-end: 0;
@@ -416,6 +417,7 @@ form {
   fieldset.insurance-info {
     margin-left: 0;
     padding-left: 0;
+
     .section-header {
       width: 100%;
       border-bottom: 1px solid #e0e0e0;
@@ -430,6 +432,7 @@ form {
       margin-left: 36px;
     }
   }
+
   fieldset.patient-discharge {
     border: none;
     margin-left: 0;
@@ -443,13 +446,16 @@ form {
     .discharged-label {
       font-size: 17px;
     }
+
     ion-list {
       margin-left: 0;
+
       &.discharge-dates,
       &.discharged-ama {
         padding-left: 25px;
       }
     }
+
     ion-item {
       &.discharge-admit-date,
       &.discharge-discharge-date {
@@ -619,19 +625,37 @@ form {
 fieldset.patient-medical-conditions {
   margin-left: 0;
   padding-left: 0;
+
   .section-header {
     width: 100%;
     border-bottom: 1px solid #e0e0e0;
+  }
+
+  .patient-medical-conditions {
+    margin-left: 0;
+
+    ion-list {
+      margin-left: 25px;
+
+      ion-item {
+        &.textarea-item {
+          margin-left: 22px;
+        }
+      }
+    }
   }
 }
 
 fieldset.patient-intake-questions {
   padding-left: 0;
   margin-left: 0;
+  margin-bottom: 0;
+
   ion-list {
     padding-left: 0;
     margin-left: 0;
   }
+
   .section-header {
     width: 100%;
     border-bottom: 1px solid #e0e0e0;
@@ -653,6 +677,7 @@ fieldset.patient-intake-questions {
     width: 100%;
     height: auto;
     margin-bottom: 36px;
+
     i {
       margin-right: 12px;
     }
@@ -668,6 +693,7 @@ fieldset.patient-intake-questions {
     letter-spacing: 0.42px;
     text-align: left;
   }
+
   ion-label {
     font-size: 16px;
     line-height: 26px;
@@ -675,6 +701,7 @@ fieldset.patient-intake-questions {
     display: inline-block;
     margin-right: 1.5rem;
   }
+
   ion-radio-group {
     ion-item {
       display: inline-block;
@@ -693,6 +720,7 @@ fieldset.patient-intake-questions {
       margin-right: 8px;
     }
   }
+
   .call-question-answers {
     ul {
       list-style-type: none;
@@ -705,6 +733,7 @@ fieldset.patient-intake-questions {
     border-radius: 3px;
     width: 100%;
     margin-left: 14px;
+
     ion-radio-group {
       ion-item {
         --inner-padding-start: 0;
@@ -738,6 +767,7 @@ fieldset.patient-intake-questions {
     .boolean,
     .rating {
       margin-left: 14px;
+
       ion-item {
         display: inline-block;
       }
@@ -758,6 +788,7 @@ fieldset.patient-intake-questions {
   ion-item.boolean {
     display: inline-block;
     margin-left: 14px;
+
     .boolean {
       margin-left: 0;
     }
@@ -810,7 +841,6 @@ fieldset.patient-intake-questions {
 
 .is-active {
   display: block;
-  width: 100%;
   height: auto;
   overflow: hidden;
   float: right;
