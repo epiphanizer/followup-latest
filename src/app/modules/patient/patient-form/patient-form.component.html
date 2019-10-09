@@ -250,8 +250,8 @@
                 <span class="contact-header">Intake Questions</span>
               </div>
               <ion-item
-                formGroupName="{{ index }}"
                 *ngFor="let patientIntakeQuestion of patientIntakeQuestions; let idx = index"
+                formGroupName="{{ idx }}"
               >
                 <div class="call-question-body-container">
                   <i class="icon-question"></i>

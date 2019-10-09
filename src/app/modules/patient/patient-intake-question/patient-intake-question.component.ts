@@ -8,6 +8,11 @@ export interface PatientIntakeQuestion {
   patientIntakeQuestionOrder: number;
 }
 
+export interface PatientIntakeQuestionAnswer {
+  patientIntakeQuestionAnswerId: number;
+  patientIntakeQuestionAnswer: string;
+}
+
 export class PatientIntakeQuestionComponent implements OnInit {
   //   @Input() patientIntakeQuestion: PatientIntakeQuestion;
 

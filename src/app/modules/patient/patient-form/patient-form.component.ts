@@ -124,7 +124,6 @@ export class PatientFormComponent implements OnInit {
             let patientIntakeQuestionAnswers = this.patientForm.get(
               'patient.patientIntakeQuestionAnswers'
             ) as FormArray;
-            debugger;
             patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
               patientIntakeQuestionAnswers.push(this.fb.control(index));
               this.patientIntakeQuestions.push(patientIntakeQuestion);
@@ -233,9 +232,10 @@ export class PatientFormComponent implements OnInit {
      * Run processing on our patient intake questions
      */
     let intakeAnswers = this.patientForm.controls.patient.get('patientIntakeQuestionAnswers') as FormArray;
-    let intakeAnswersObj = intakeAnswers.getRawValue();
-    console.log(intakeAnswersObj);
-    debugger;
+    let intakeAnswersArray = intakeAnswers.getRawValue();
+    intakeAnswersArray.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
+      console.log(patientIntakeQuestionAnswer);
+    });
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       alert('patient successfully edited');
