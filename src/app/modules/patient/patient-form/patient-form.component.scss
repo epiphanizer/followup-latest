@@ -692,6 +692,9 @@ fieldset.patient-intake-questions {
     line-height: 1.33;
     letter-spacing: 0.42px;
     text-align: left;
+    ion-list {
+      margin-left: 0.5rem;
+    }
   }
 
   ion-label {
@@ -700,7 +703,6 @@ fieldset.patient-intake-questions {
     font-family: Avenir;
     display: inline-block;
     margin-right: 0.5rem;
-    margin-left: 0.5rem;
   }
 
   ion-radio-group {
@@ -739,8 +741,9 @@ fieldset.patient-intake-questions {
       ion-item {
         --inner-padding-start: 0;
         --inner-padding-end: 0;
-        margin-right: 14px;
+        margin-right: 10px;
         width: auto !important;
+        max-width: 20px;
         display: inline-block;
       }
 
@@ -750,7 +753,7 @@ fieldset.patient-intake-questions {
         margin-right: 0 !important;
         font-family: Avenir;
         font-size: 12px;
-        width: auto;
+        width: 14px;
         font-style: normal;
         font-stretch: normal;
         text-align: center;

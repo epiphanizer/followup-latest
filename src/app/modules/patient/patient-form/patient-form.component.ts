@@ -216,6 +216,13 @@ export class PatientFormComponent implements OnInit {
   }
   onFormSubmit(): void {
     let formSubmission = this.patientForm.getRawValue();
+    /**
+     * Run processing on our patient intake questions
+     */
+    let intakeAnswers = this.patientForm.controls.patient.get('patientIntakeQuestionAnswers') as FormArray;
+    let intakeAnswersObj = intakeAnswers.getRawValue();
+    console.log(intakeAnswersObj);
+    debugger;
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       alert('patient successfully edited');
@@ -228,11 +235,6 @@ export class PatientFormComponent implements OnInit {
    * @param formSubmission
    */
   private formSubmissionFactory(formSubmission: any) {
-    let patientIntakeQuestionAnswers = 'Mock Intake String';
-    let intakeAnswers = this.patientForm.controls.patient.get('patientIntakeQuestionAnswers') as FormArray;
-    console.log(intakeAnswers);
-    debugger;
-    // const patientIntakeQuestionAnswers = JSON.stringify(formSubmission.patient.patientIntakeQuestionAnswers);
     const patientDiagnosis = JSON.stringify(formSubmission.patient.patientDiagnosis);
     var payload = {
       patientDob: formSubmission.patient.patientDob,
@@ -254,7 +256,6 @@ export class PatientFormComponent implements OnInit {
       patientDischargeLocationLabelId: formSubmission.patient.dischargeInfo.patientDischargedTo,
       patientPrimaryDiagnosis: formSubmission.patient.patientMedicalConditions.primaryDiagnosis,
       patientDiagnosis: patientDiagnosis,
-      patientIntakeQuestionAnswers: patientIntakeQuestionAnswers,
       patientUrgencyScale: formSubmission.patient.patientUrgencyScale,
       patientNeedToKnow: formSubmission.patient.patientNeedToKnow,
       patientActive: formSubmission.patient.patientActive
