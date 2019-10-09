@@ -42,8 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.isLoading = false;
       return this.error;
     }
-
-    this.router.navigate(['']);
+    this.router.navigate(['/home']);
   }
 
   get isWeb(): boolean {

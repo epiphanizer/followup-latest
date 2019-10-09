@@ -34,6 +34,7 @@ export class AuthenticationService {
   }
   public getUser(): Promise<User> {
     if (!this.authenticated) {
+      alert('sorry, not authenticated');
       this.router.navigate['/login'];
       return null;
     }

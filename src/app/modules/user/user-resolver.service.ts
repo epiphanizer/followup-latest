@@ -11,7 +11,7 @@ export class UserResolver implements Resolve<User> {
   user$: Promise<User>;
   constructor(private authService: AuthenticationService, private operationService: OperationService) {}
   async resolve(): Promise<User> {
-    let user = this.authService.user$;
+    let user = this.authService.getUser();
     return user;
   }
 }
