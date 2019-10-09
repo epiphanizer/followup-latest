@@ -249,16 +249,16 @@
                 <i class="icon-question-mark"></i>
                 <span class="contact-header">Intake Questions</span>
               </div>
-              <ion-item *ngFor="let patientIntakeQuestion of patient.patientIntakeQuestions$ | async">
+              <ion-item *ngFor="let patientIntakeQuestion of patientIntakeQuestions; let idx = index">
                 <div class="call-question-body-container">
                   <i class="icon-question"></i>
                   <div class="call-question">
                     <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'rating'">
                       <ion-label color="medium">{{ patientIntakeQuestion.patientIntakeQuestion }}</ion-label>
                       <ion-list class="rating" lines="none">
-                        <ion-radio-group>
+                        <ion-radio-group formControlName="{{ idx }}">
                           <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; let idx = index">
-                            <ion-radio>
+                            <ion-radio value="{{ rating }}">
                               {{ rating }}
                             </ion-radio>
                             <ion-label position="stacked">
@@ -272,14 +272,14 @@
                       <ion-label color="medium">{{ patientIntakeQuestion.patientIntakeQuestion }}</ion-label>
                       <ion-list lines="none">
                         <ion-radio-group>
-                          <ion-item class="boolean">
-                            <ion-radio class="radio-yes">Y</ion-radio>
+                          <ion-item formControlName="{{ idx }}" class="boolean">
+                            <ion-radio value="1" class="radio-yes">Y</ion-radio>
                             <ion-label position="stacked">
                               Yes
                             </ion-label>
                           </ion-item>
-                          <ion-item class="boolean">
-                            <ion-radio class="radio-no">N</ion-radio>
+                          <ion-item formControlName="{{ idx }}" class="boolean">
+                            <ion-radio value="0" class="radio-no">N</ion-radio>
                             <ion-label position="stacked">
                               No
                             </ion-label>

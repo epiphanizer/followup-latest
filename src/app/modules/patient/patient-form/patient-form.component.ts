@@ -69,29 +69,17 @@ export class PatientFormComponent implements OnInit {
         if (data.patientId) {
           let patientId = data.patientId;
           this.patient = {
-            patientId: patientId,
-            patientIntakeQuestions$: this.patientIntakeQuestionService.getPatientIntakeQuestionsByPatientId(patientId)
+            patientId: patientId
           };
-        } else {
-          throw 'error';
         }
         this.createForm();
         this.addAdditionalContact();
+
         return data;
       });
     } else {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: Patient) => {
         this.patient = data[0];
-        this.patient.patientIntakeQuestions$ = this.patientIntakeQuestionService.getPatientIntakeQuestionsByPatientId(
-          this.patient.patientId
-        );
-        // .pipe(
-        //   map((patientIntakeQuestions: PatientIntakeQuestion[]) => {
-        //     this.patientIntakeQuestions = patientIntakeQuestions;
-        //     return patientIntakeQuestions;
-        //   })
-        // );
-
         this.createForm();
         this.addAdditionalContact();
         this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
@@ -118,6 +106,20 @@ export class PatientFormComponent implements OnInit {
           return this.patientContacts;
         });
       });
+      let patientIntakeQuestionsAnswers = this.patientForm.get('patient.patientIntakeQuestionsAnswers') as FormArray;
+      this.patient.patientIntakeQuestions$ = this.patientIntakeQuestionService
+        .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
+        .pipe(
+          map((patientIntakeQuestions: PatientIntakeQuestion[]) => {
+            patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
+              patientIntakeQuestionsAnswers.push(this.fb.control(index));
+              this.patientIntakeQuestions.push(patientIntakeQuestion);
+            });
+          })
+        )
+        .subscribe((res: any) => {
+          console.log(res);
+        });
     }
   }
 
