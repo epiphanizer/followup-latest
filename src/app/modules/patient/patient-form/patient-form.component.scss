@@ -73,6 +73,38 @@ form {
     background-color: #f5f5f5;
   }
 
+  ion-label {
+    min-width: min-content;
+    font-family: Avenir;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 0.42px;
+    text-align: left;
+  }
+
+  ion-input,
+  ion-textarea,
+  ion-datetime {
+    background: #f5f5f5;
+    border: solid 1px rgba(112, 112, 112, 0.15);
+    padding-left: 15px !important;
+    font-size: 14px;
+    font-family: Avenir;
+  }
+
+  .main-label-box {
+    font-family: Avenir;
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 0.42px;
+    text-align: left;
+    color: #343638;
+  }
   ion-item {
     --padding-start: 0;
     --padding-end: 0;
@@ -347,6 +379,7 @@ form {
     }
 
     ion-item {
+      margin-left: 26px;
       --padding-start: 0;
       --padding-end: 0;
       --inner-padding-start: 0;
@@ -364,7 +397,7 @@ form {
       }
 
       &.country-code {
-        margin-left: 0;
+        margin-left: 26px;
         margin-right: 8px;
         width: 45px;
       }
@@ -394,11 +427,13 @@ form {
 
     .primary-insurance,
     .secondary-insurance {
-      margin-left: 13px;
+      margin-left: 36px;
     }
   }
   fieldset.patient-discharge {
     border: none;
+    margin-left: 0;
+    padding-left: 0;
 
     .section-header {
       width: 100%;
@@ -407,6 +442,13 @@ form {
 
     .discharged-label {
       font-size: 17px;
+    }
+    ion-list {
+      margin-left: 0;
+      &.discharge-dates,
+      &.discharged-ama {
+        padding-left: 25px;
+      }
     }
     ion-item {
       &.discharge-admit-date,
@@ -477,44 +519,12 @@ form {
     }
   }
 
-  ion-label {
-    min-width: min-content;
-    font-family: Avenir;
-    font-size: 24px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    letter-spacing: 0.42px;
-    text-align: left;
-  }
-
-  ion-input,
-  ion-textarea,
-  ion-datetime {
-    background: #f5f5f5;
-    border: solid 1px rgba(112, 112, 112, 0.15);
-    padding-left: 15px !important;
-    font-size: 14px;
-    font-family: Avenir;
-  }
-
-  .main-label-box {
-    font-family: Avenir;
-    font-size: 21px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.33;
-    letter-spacing: 0.42px;
-    text-align: left;
-    color: #343638;
-  }
-
   .checkbox-list-container {
     padding-left: 0;
 
     ion-item {
       margin-left: 0;
+      display: inline-block;
 
       ion-radio {
         display: inline-block;
@@ -606,14 +616,16 @@ form {
   }
 }
 
-.patient-medical-conditions {
+fieldset.patient-medical-conditions {
+  margin-left: 0;
+  padding-left: 0;
   .section-header {
     width: 100%;
     border-bottom: 1px solid #e0e0e0;
   }
 }
 
-.patient-intake-questions {
+fieldset.patient-intake-questions {
   .section-header {
     width: 100%;
     border-bottom: 1px solid #e0e0e0;
@@ -631,6 +643,8 @@ form {
   }
 
   .call-question-body-container {
+    display: block;
+    width: 100%;
     height: auto;
     margin-bottom: 36px;
   }
@@ -646,7 +660,24 @@ form {
     letter-spacing: 0.42px;
     text-align: left;
   }
+  ion-radio-group {
+    ion-item {
+      display: inline-block;
+    }
 
+    ion-label {
+      font-size: 16px;
+      line-height: 31px;
+      font-family: Avenir;
+      display: inline-block;
+      margin-right: 1.5rem;
+    }
+
+    ion-radio {
+      display: inline-block;
+      margin-right: 8px;
+    }
+  }
   .call-question-answers {
     ul {
       list-style-type: none;
