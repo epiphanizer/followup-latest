@@ -45,16 +45,15 @@ export class CallQueuePatientFilterComponent implements OnInit {
     });
     return this.patientCallsFiltered;
   }
-  searchPatientCallHistoryByText($event: KeyboardEvent): any {
+  searchPatientCallHistoryByText($event: KeyboardEvent): PatientCall[] {
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
-    console.log(searchText);
-    this.patientCalls.filter((patientCall: PatientCall) => {
-      console.log(patientCall.patientFirstName.toLowerCase().includes(searchText));
+    this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
       return (
         patientCall.patientFirstName.toLowerCase().includes(searchText) ||
         patientCall.patientLastName.toLowerCase().includes(searchText)
       );
     });
+    return this.patientCallsFiltered;
   }
 }

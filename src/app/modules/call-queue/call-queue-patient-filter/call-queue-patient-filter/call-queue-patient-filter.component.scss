@@ -37,16 +37,18 @@
       height: 44px;
       border-bottom: 1px #c8c7cc solid;
       padding-left: 20px;
-      line-height: 44px;
-      vertical-align: middle;
-      font-family: Avenir;
-      font-size: 16px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      letter-spacing: -0.39px;
-      text-align: left;
-      color: #000000;
+      span {
+        padding-top: 6px;
+        font-family: Avenir;
+        font-size: 16px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.13;
+        letter-spacing: -0.39px;
+        text-align: left;
+        color: #000000;
+      }
       &:after {
         display: block;
         content: "";
