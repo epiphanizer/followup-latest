@@ -31,7 +31,7 @@ export class PatientFormComponent implements OnInit {
   patient: Patient;
   patientContacts: PatientContact[] = [];
   patientContacts$: Observable<PatientContact[]>;
-  patientIntakeQuestions: PatientIntakeQuestion[];
+  patientIntakeQuestions: PatientIntakeQuestion[] = [];
   patientIntakeQuestions$: Observable<PatientIntakeQuestion[]>;
   operations: Operation[];
   operations$: Observable<Operation[]>;
@@ -74,7 +74,17 @@ export class PatientFormComponent implements OnInit {
         }
         this.createForm();
         this.addAdditionalContact();
-        return data;
+        this.patientIntakeQuestionService
+          .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
+          .subscribe((patientIntakeQuestions: PatientIntakeQuestion[]) => {
+            let patientIntakeQuestionAnswers = this.patientForm.get(
+              'patient.patientIntakeQuestionAnswers'
+            ) as FormArray;
+            patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
+              patientIntakeQuestionAnswers.push(this.fb.control(index));
+              this.patientIntakeQuestions.push(patientIntakeQuestion);
+            });
+          });
       });
     } else {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: Patient) => {
@@ -102,20 +112,22 @@ export class PatientFormComponent implements OnInit {
               this.patientContacts.push(patientContact);
             });
           }
-          return this.patientContacts;
         });
+
+        this.patientIntakeQuestionService
+          .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
+          .subscribe((patientIntakeQuestions: PatientIntakeQuestion[]) => {
+            let patientIntakeQuestionAnswers = this.patientForm.get(
+              'patient.patientIntakeQuestionAnswers'
+            ) as FormArray;
+            debugger;
+            patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
+              patientIntakeQuestionAnswers.push(this.fb.control(index));
+              this.patientIntakeQuestions.push(patientIntakeQuestion);
+            });
+          });
       });
     }
-    let patientIntakeQuestionAnswers = this.patientForm.get('patient.patientIntakeQuestionAnswers') as FormArray;
-    this.patientIntakeQuestionService
-      .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
-      .subscribe((patientIntakeQuestions: PatientIntakeQuestion[]) => {
-        debugger;
-        patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
-          patientIntakeQuestionAnswers.push(this.fb.control(index));
-          this.patientIntakeQuestions.push(patientIntakeQuestion);
-        });
-      });
   }
 
   private createForm() {
