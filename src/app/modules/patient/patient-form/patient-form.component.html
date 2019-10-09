@@ -274,7 +274,7 @@
                     <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'boolean'">
                       <ion-label color="medium">{{ patientIntakeQuestion.patientIntakeQuestion }}</ion-label>
                       <ion-list lines="none">
-                        <ion-radio-group formControlName="{{ index }}">
+                        <ion-radio-group>
                           <ion-item class="boolean">
                             <ion-radio [value]="1" class="radio-yes">Y</ion-radio>
                             <ion-label position="stacked">
