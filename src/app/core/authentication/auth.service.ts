@@ -58,7 +58,6 @@ export class AuthenticationService {
     const userId = result[0].userId;
     this.user$ = this.getUserByUserId(userId).toPromise();
     this.getUserByUserId(userId).subscribe((user: User) => {
-      user.operations$ = this.operationService.getOperationsByUserId(user.userId);
       localStorage.setItem('followup-user', JSON.stringify({ user: user }));
       localStorage.setItem('followup-token', JSON.stringify({ token: 'token' }));
     });

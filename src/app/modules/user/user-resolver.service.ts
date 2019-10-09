@@ -3,28 +3,20 @@ import { Resolve, Router } from '@angular/router';
 import { User } from './user';
 import { AuthenticationService } from '@app/core';
 import { OperationService } from '../operation/operation.service';
-import { of } from 'rxjs';
-import { UserService } from './user.service';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {
   user: User;
   user$: Promise<User>;
-  constructor(
-    private authService: AuthenticationService,
-    private operationService: OperationService,
-    private userService: UserService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthenticationService, private operationService: OperationService) {}
   async resolve(): Promise<User> {
-    let user = this.authService.getUser();
-    if (!(await user)) {
-      console.log('no user');
+    let user = await this.authService.getUser();
+    if (!user) {
       if (localStorage.getItem('followup-user')) {
-        user = JSON.parse(localStorage.getItem('followup-user')).user[0];
+        user = JSON.parse(localStorage.getItem('followup-user')).user[0] as User;
       }
     }
-    console.log(user);
+    user.operations$ = this.operationService.getOperationsByUserId(user.userId);
     return user;
   }
 }
