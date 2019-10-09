@@ -18,9 +18,6 @@ export class AuthGuardService implements CanActivate {
       this.router.navigate(['login']);
       return false;
     }
-    if (this.user.level == 3) {
-      this.router.navigate(['call-queue']);
-    }
     return true;
   }
 }

@@ -53,7 +53,6 @@ export class AuthenticationService {
   }
   getUser(): Promise<User> {
     if (!this.authenticated) return null;
-
     this.user$ = this.getUserByUserId(this.user.userId).toPromise();
     return this.user$;
   }
