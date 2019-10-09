@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Subscription, Observable, throwError, of } from 'rxjs';
-import { map, delay, share, catchError, retry, startWith } from 'rxjs/operators';
+import { map, delay, share, catchError, retry } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { Router } from '@angular/router';
+import { OperationService } from '@app/modules/operation/operation.service';
 
 export interface AuthenticationBodyPost {
   username: string;
@@ -18,7 +19,7 @@ export class AuthenticationService {
   public authenticated: boolean;
   protected userId: number;
   public user$: Promise<User>;
-  constructor(private http: HttpService, private router: Router) {}
+  constructor(private http: HttpService, private operationService: OperationService, private router: Router) {}
   ngOnInit() {}
 
   doLogin(username: string, password: string): Observable<any> {
@@ -57,9 +58,9 @@ export class AuthenticationService {
     const userId = result[0].userId;
     this.user$ = this.getUserByUserId(userId).toPromise();
     this.getUserByUserId(userId).subscribe((user: User) => {
-      console.log(user);
-      localStorage.setItem('followup-token', JSON.stringify({ token: 'token' }));
+      user.operations$ = this.operationService.getOperationsByUserId(user.userId);
       localStorage.setItem('followup-user', JSON.stringify({ user: user }));
+      localStorage.setItem('followup-token', JSON.stringify({ token: 'token' }));
     });
     this.authenticated = true;
     return true;

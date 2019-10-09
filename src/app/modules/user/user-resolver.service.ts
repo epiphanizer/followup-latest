@@ -19,10 +19,12 @@ export class UserResolver implements Resolve<User> {
   async resolve(): Promise<User> {
     let user = this.authService.getUser();
     if (!(await user)) {
+      console.log('no user');
       if (localStorage.getItem('followup-user')) {
         user = JSON.parse(localStorage.getItem('followup-user')).user[0];
       }
     }
+    console.log(user);
     return user;
   }
 }
