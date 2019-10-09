@@ -34,8 +34,6 @@ export class AuthenticationService {
   }
   public getUser(): Promise<User> {
     if (!this.authenticated) {
-      alert('sorry, not authenticated');
-      this.router.navigate['/login'];
       return null;
     }
     return this.user$;
@@ -52,12 +50,17 @@ export class AuthenticationService {
   // grant consent to the requested permission scopes
   async signIn(username: string, password: string): Promise<any> {
     let result = await this.doLogin(username, password).toPromise();
-    if (!result) {
+    if (!(await result)) {
       this.authenticated = false;
       return false;
     }
     const userId = result[0].userId;
     this.user$ = this.getUserByUserId(userId).toPromise();
+    this.getUserByUserId(userId).subscribe((user: User) => {
+      console.log(user);
+      localStorage.setItem('followup-token', JSON.stringify({ token: 'token' }));
+      localStorage.setItem('followup-user', JSON.stringify({ user: user }));
+    });
     this.authenticated = true;
     return true;
   }
@@ -65,6 +68,7 @@ export class AuthenticationService {
   signOut(): void {
     this.user$ = null;
     this.authenticated = false;
+    this.router.navigate(['/login']);
   }
 
   ngOnDestroy() {}

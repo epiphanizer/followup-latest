@@ -12,16 +12,13 @@ const routes: Routes = [
     {
       path: '',
       redirectTo: '/home',
-      canActivate: [AuthGuardService],
-      pathMatch: 'full',
-      resolve: {
-        user: UserResolver
-      }
+      canActivate: [],
+      pathMatch: 'full'
     },
     {
       path: 'home',
       component: HomeComponent,
-      canActivate: [AuthGuardService],
+      canActivate: [],
       data: {
         title: extract('Follow-Up'),
         navLinks: []
