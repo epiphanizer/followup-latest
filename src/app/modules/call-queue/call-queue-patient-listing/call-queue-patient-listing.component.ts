@@ -4,9 +4,14 @@ import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {
+  PatientCallStatus,
+  PatientCallStatusService
+} from '@app/modules/patient/patient-detail/patient-call/patient-call-status.service';
+import { PatientCallService } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 
 @Component({
-  providers: [PatientService],
+  providers: [PatientService, PatientCallService],
   selector: 'app-call-queue-patient-listing[operation]',
   templateUrl: './call-queue-patient-listing.component.html',
   styleUrls: ['./call-queue-patient-listing.component.scss']
@@ -18,11 +23,16 @@ export class CallQueuePatientListingComponent implements OnInit {
   filterBy: string;
   public patients: Patient[];
   public patients$: Observable<[Patient]> | void = null;
+  public patientCallStatuses: PatientCallStatus[];
   public selectedSortFlag: string;
 
-  constructor(private patientService: PatientService) {}
+  constructor(private patientService: PatientService, private patientCallStatusService: PatientCallStatusService) {}
   ngOnInit() {
     this.currentYear = new Date().getFullYear();
+    this.patientCallStatusService.getPatientCallStatuses().subscribe((patientCallStatuses: PatientCallStatus[]) => {
+      console.log(patientCallStatuses);
+      this.patientCallStatuses = patientCallStatuses;
+    });
     this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
       map((patients: [Patient]) => {
         this.patients = patients;

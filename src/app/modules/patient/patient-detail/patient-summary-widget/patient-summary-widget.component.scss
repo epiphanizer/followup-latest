@@ -72,12 +72,13 @@
 .alternate-numbers-list {
   margin: 0;
   ion-item {
-    height: 28px;
+    width: 100%;
+    height: auto;
     vertical-align: top;
     margin: 0;
     margin-left: -14px;
     font-family: Avenir;
-    font-size: 12px;
+    font-size: 11px;
   }
 }
 
