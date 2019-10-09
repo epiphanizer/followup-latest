@@ -17,11 +17,8 @@ export interface AuthenticationBodyPost {
 export class AuthenticationService {
   public authenticated: boolean;
   protected userId: number;
-  public user: User;
   public user$: Promise<User>;
-  constructor(private http: HttpService, private router: Router) {
-    if (!this.authenticated) return null;
-  }
+  constructor(private http: HttpService, private router: Router) {}
   ngOnInit() {}
 
   doLogin(username: string, password: string): Observable<any> {
@@ -37,6 +34,7 @@ export class AuthenticationService {
   }
   public getUser(): Promise<User> {
     if (!this.authenticated) {
+      this.router.navigate['/login'];
       return null;
     }
     return this.user$;
@@ -60,12 +58,11 @@ export class AuthenticationService {
     const userId = result[0].userId;
     this.user$ = this.getUserByUserId(userId).toPromise();
     this.authenticated = true;
-    this.router.navigate(['']);
     return true;
   }
   // Sign out
   signOut(): void {
-    this.user = null;
+    this.user$ = null;
     this.authenticated = false;
   }
 

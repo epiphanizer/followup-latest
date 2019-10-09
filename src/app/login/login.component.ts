@@ -5,6 +5,7 @@ import { environment } from '@env/environment';
 import { Logger, AuthenticationService, untilDestroyed } from '@app/core';
 
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 const log = new Logger('Login');
 
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private platform: Platform,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private router: Router
   ) {
     this.createForm();
   }
@@ -40,6 +42,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.isLoading = false;
       return this.error;
     }
+
+    this.router.navigate(['']);
   }
 
   get isWeb(): boolean {
