@@ -74,7 +74,6 @@ export class PatientFormComponent implements OnInit {
         }
         this.createForm();
         this.addAdditionalContact();
-
         return data;
       });
     } else {
@@ -106,21 +105,22 @@ export class PatientFormComponent implements OnInit {
           return this.patientContacts;
         });
       });
-      let patientIntakeQuestionsAnswers = this.patientForm.get('patient.patientIntakeQuestionsAnswers') as FormArray;
-      this.patient.patientIntakeQuestions$ = this.patientIntakeQuestionService
-        .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
-        .pipe(
-          map((patientIntakeQuestions: PatientIntakeQuestion[]) => {
-            patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
-              patientIntakeQuestionsAnswers.push(this.fb.control(index));
-              this.patientIntakeQuestions.push(patientIntakeQuestion);
-            });
-          })
-        )
-        .subscribe((res: any) => {
-          console.log(res);
-        });
     }
+    let patientIntakeQuestionsAnswers = this.patientForm.get('patient.patientIntakeQuestionsAnswers') as FormArray;
+    this.patientIntakeQuestionService
+      .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
+      .pipe(
+        map((patientIntakeQuestions: PatientIntakeQuestion[]) => {
+          debugger;
+          patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
+            patientIntakeQuestionsAnswers.push(this.fb.control(index));
+            this.patientIntakeQuestions.push(patientIntakeQuestion);
+          });
+        })
+      )
+      .subscribe((res: any) => {
+        console.log(res);
+      });
   }
 
   private createForm() {

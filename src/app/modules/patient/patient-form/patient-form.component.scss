@@ -638,7 +638,7 @@ fieldset.patient-medical-conditions {
       margin-left: 25px;
 
       ion-item {
-        .textarea-item {
+        &.textarea-item {
           margin-left: 22px;
         }
       }
