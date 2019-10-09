@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AlertsService } from '@app/core/alerts/alerts.service';
 import { Subscription, Observable, throwError, of } from 'rxjs';
-import { map, delay, share, catchError, retry } from 'rxjs/operators';
+import { map, delay, share, catchError, retry, startWith } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
@@ -21,39 +20,25 @@ export class AuthenticationService {
   public user: User;
   public user$: Promise<User>;
   constructor(private http: HttpService, private router: Router) {
-    if (this.authenticated) {
-      this.router.navigate(['/home'], { replaceUrl: true });
-    }
+    if (!this.authenticated) return null;
   }
   ngOnInit() {}
 
-  doLogin(username: string, password: string): Observable<number | boolean> {
+  doLogin(username: string, password: string): Observable<any> {
     // yet with some bypassing parameter provided
-    // do some encryption on what we post over within the authntication body post
     return this.http
       .post('users/login', {
         username: username,
         password: password
       })
       .pipe(
-        map((res: any) => {
-          console.log(res);
-          if (res == null) {
-            this.authenticated = false;
-            return false;
-          }
-
-          this.userId = res.userId;
-          debugger;
-          return true;
-        }),
-        retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
-  getUser(): Promise<User> {
-    if (!this.authenticated) return null;
-    this.user$ = this.getUserByUserId(this.user.userId).toPromise();
+  public getUser(): Promise<User> {
+    if (!this.authenticated) {
+      return null;
+    }
     return this.user$;
   }
   getUserByUserId(userId: number): Observable<User> {
@@ -66,18 +51,20 @@ export class AuthenticationService {
   }
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
-  async signIn(username: string, password: string): Promise<boolean> {
+  async signIn(username: string, password: string): Promise<any> {
     let result = await this.doLogin(username, password).toPromise();
-    if (result) {
-      this.authenticated = true;
-      return true;
-    } else {
+    if (!result) {
+      this.authenticated = false;
       return false;
     }
+    const userId = result[0].userId;
+    this.user$ = this.getUserByUserId(userId).toPromise();
+    this.authenticated = true;
+    this.router.navigate(['']);
+    return true;
   }
   // Sign out
   signOut(): void {
-    // this.msalService.logout();
     this.user = null;
     this.authenticated = false;
   }

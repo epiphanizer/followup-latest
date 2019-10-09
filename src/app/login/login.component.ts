@@ -30,14 +30,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {}
 
-  signIn() {
+  async signIn() {
     this.isLoading = true;
     let username = this.loginForm.controls.username.value;
     let password = this.loginForm.controls.password.value;
-    let result = this.authService.signIn(username, password);
-    if (result) {
-      console.log(result);
-      alert('wow')!;
+    let result = await this.authService.signIn(username, password);
+    if (!result) {
+      this.error = 'Login Error';
+      this.isLoading = false;
+      return this.error;
     }
   }
 
