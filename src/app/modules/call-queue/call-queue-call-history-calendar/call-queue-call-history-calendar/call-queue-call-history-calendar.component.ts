@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Observable, from, of } from 'rxjs';
 import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
@@ -11,6 +11,7 @@ import { Operation } from '@app/modules/operation/operation';
 })
 export class CallQueueCallHistoryCalendarComponent implements OnInit {
   @Input() operation: Operation;
+  @Output() dateFilterChangeEvent = new EventEmitter<string>();
   months: {
     number: string;
     name: string;

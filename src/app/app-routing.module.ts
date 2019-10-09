@@ -6,8 +6,8 @@ const routes: Routes = [
   { path: 'logout', redirectTo: '/login', canActivate: [] },
 
   {
-    path: '',
-    redirectTo: 'home',
+    path: '**',
+    redirectTo: '/home',
     canActivate: [],
     pathMatch: 'full',
     resolve: {

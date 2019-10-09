@@ -34,4 +34,7 @@ export class CallQueuePatientFilterComponent implements OnInit {
         })
       );
   }
+  searchPatientCallHistory() {
+    alert('searching patient call history');
+  }
 }

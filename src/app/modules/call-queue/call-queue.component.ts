@@ -26,7 +26,9 @@ export class CallQueueComponent implements OnInit {
     });
   }
   ngOnChanges() {}
-
+  handleDateFilterChangeEvent($event: string) {
+    alert('date filter');
+  }
   operationChangeEventHandler($event: Operation) {
     this.selected.operation = $event;
   }
