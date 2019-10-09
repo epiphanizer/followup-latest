@@ -25,13 +25,15 @@ export class CallQueuePatientFilterComponent implements OnInit {
   patients$: Observable<Patient[]>;
   constructor(private patientCallService: PatientCallService, private route: ActivatedRoute) {}
   ngOnInit() {
-    this.patientCallService.getPatientCallsByOperationId(this.operation.operationId).pipe(
-      map((patientCalls: PatientCall[]) => {
+    this.patientCallService
+      .getPatientCallsByOperationId(this.operation.operationId)
+      .subscribe((patientCalls: PatientCall[]) => {
+        console.log(patientCalls);
         this.patientCalls = patientCalls;
-      })
-    );
+        debugger;
+      });
   }
-  searchPatientCallHistory() {
+  searchPatientCallHistoryByText() {
     alert('searching patient call history');
   }
 }

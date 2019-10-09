@@ -15,6 +15,7 @@ h3 {
   font-family: AvenirBold;
   font-size: 18px;
   font-weight: 900;
+  margin-top: 11px;
   font-style: normal;
   font-weight: bold;
   font-stretch: normal;
@@ -32,6 +33,7 @@ ul.patient-filters {
   margin-top: 0;
   margin-bottom: 0;
   vertical-align: top;
+  cursor: pointer;
 
   li {
     cursor: pointer;
@@ -47,6 +49,7 @@ ul.patient-filters {
     text-align: right;
     margin-right: 18px;
     a {
+      cursor: pointer;
       &.active {
         border-bottom: 1px solid var(--ion-color-primary);
       }
@@ -96,7 +99,6 @@ ul.patient-filters {
   margin-top: -1.25px;
   position: absolute;
 }
-
 .call-queue-patient-list {
   clear: both;
   list-style-type: none;

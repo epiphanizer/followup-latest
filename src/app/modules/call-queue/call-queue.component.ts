@@ -28,7 +28,6 @@ export class CallQueueComponent implements OnInit {
   }
   ngOnChanges() {}
   handleDateFilterChangeEvent($event: string) {
-    alert('got this filter date in the parent comp');
     this.selected.filterDate = $event;
   }
   operationChangeEventHandler($event: Operation) {

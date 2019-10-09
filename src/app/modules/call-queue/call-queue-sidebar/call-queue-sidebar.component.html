@@ -24,10 +24,12 @@
         {{ operation.operationName }}
         <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
       </a>
-      <i class="icon-new-discharges"></i>
-      <span class="icon-discharge-counter">
-        {{ operation.currentNewDischargeCount }}
-      </span>
+      <ng-container *ngIf="operation.currentNewDischargeCount > 0">
+        <i class="icon-new-discharges"></i>
+        <span class="icon-discharge-counter">
+          {{ operation.currentNewDischargeCount }}
+        </span>
+      </ng-container>
     </li>
   </ul>
   <ng-template #noOperations>

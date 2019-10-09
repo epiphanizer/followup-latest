@@ -4,7 +4,7 @@
       <table>
         <tr>
           <td>
-            <ion-input placeholder="Patient/Date Search" (submit)="searchPatientCallHistory()"> </ion-input>
+            <ion-input placeholder="Patient/Date Search" (submit)="searchPatientCallHistoryByText()"> </ion-input>
           </td>
           <td>
             <ion-icon name="search"></ion-icon>
@@ -13,10 +13,10 @@
       </table>
     </ion-col>
   </ion-row>
-  <ng-container class="patient-filter-results" *ngIf="userPatientCalls$ | async as patientCalls">
+  <ng-container class="patient-filter-results" *ngIf="patientCalls">
     <ul>
       <li *ngFor="let patientCall of patientCalls">
-        <span>{{ patientCall }}</span>
+        <span>{{ patientCall.patientCallId }} - Call {{ patientCall.patientCallCount }}</span>
       </li>
     </ul>
   </ng-container>
