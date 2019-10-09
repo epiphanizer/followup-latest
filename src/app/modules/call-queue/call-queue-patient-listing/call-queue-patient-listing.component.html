@@ -59,7 +59,7 @@
         <ion-item *ngFor="let patientCallStatus of patientCallStatuses">
           <i
             class="icon-{{ patientCallStatus.patientCallStatusLabel.replace(' ', '-') | lowercase }}"
-            [class.active]="patient.lastPatientCallStatusLabelId == patientCallStatus.patientCallStatusLabelId"
+            [class.active]="patient.lastPatientCallStatus == patientCallStatus.patientCallStatusLabelId"
           >
           </i>
         </ion-item>
