@@ -81,11 +81,11 @@ export class PatientFormComponent implements OnInit {
               'patient.patientIntakeQuestionAnswers'
             ) as FormArray;
             patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
-              let patientIntakeQuestionId = patientIntakeQuestion['patientIntakeQuestionId'];
-              // let newFormGroup = this.fb.group({});
-              // newFormGroup.addControl(patientIntakeQuestionId.toString(), new FormControl(''));
-              patientIntakeQuestionAnswers.push(this.fb.control({}));
-
+              let patientIntakeQuestionId = patientIntakeQuestion['patientIntakeQuestionId'].toString();
+              let newFormGroup = this.fb.group({});
+              let newControl = new FormControl('');
+              newFormGroup.addControl(patientIntakeQuestionId, newControl);
+              patientIntakeQuestionAnswers.push(newFormGroup);
               this.patientIntakeQuestions.push(patientIntakeQuestion);
             });
           });
