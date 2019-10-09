@@ -247,8 +247,8 @@
                 <i class="icon-info"></i>
                 <span class="contact-header">Intake Questions</span>
               </div>
-              <i class="icon-question"></i>
               <ion-item *ngFor="let patientIntakeQuestion of patient.patientIntakeQuestions$ | async">
+                <i class="icon-question"></i>
                 <div class="call-question-body-container">
                   <div class="call-question">
                     <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'rating'">
