@@ -73,7 +73,7 @@
   margin: 0;
   ion-item {
     width: 100%;
-    height: auto;
+    height: 24px;
     vertical-align: top;
     margin: 0;
     margin-left: -14px;
@@ -81,6 +81,7 @@
       font-family: Avenir;
       line-height: 100%;
       vertical-align: middle;
+      margin-top: -12px;
       font-size: 11px;
     }
   }
