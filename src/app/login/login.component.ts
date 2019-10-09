@@ -34,7 +34,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     let username = this.loginForm.controls.username.value;
     let password = this.loginForm.controls.password.value;
-    this.authService.signIn(username, password);
+    let result = this.authService.signIn(username, password);
+    if (result) {
+      console.log(result);
+      alert('wow')!;
+    }
   }
 
   get isWeb(): boolean {

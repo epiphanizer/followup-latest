@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { from, of } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
 import { User } from './user';
 import { AuthenticationService } from '@app/core';
 import { OperationService } from '../operation/operation.service';
