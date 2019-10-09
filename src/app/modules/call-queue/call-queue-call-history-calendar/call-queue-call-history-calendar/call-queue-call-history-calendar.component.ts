@@ -106,6 +106,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
       formattedDay = '0' + formattedDay;
     }
     this.selectedDate = this.selectedMonth.number + '/' + formattedDay + '/' + this.todaysYear;
+    this.dateFilterChangeEvent.emit(this.selectedDate);
   }
 
   daysInMonth(month: number, year: number) {
