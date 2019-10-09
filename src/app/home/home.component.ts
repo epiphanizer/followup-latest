@@ -14,20 +14,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.user.level = 3;
+    const avatarImage = '/assets/default-avatar@2x.png';
 
-    let userLevel = 3;
-    /**
-     * Simple switch for getting appropriate avatar or default passed thru
-     */
-    let avatarImage = '';
-    if (!this.user.avatar) {
-      avatarImage = '/assets/default-avatar@2x.png';
-    } else {
-      avatarImage = this.user.avatar;
-    }
-
-    switch (userLevel) {
+    switch (this.user.level) {
       case 1:
         this.menu = [
           {
@@ -82,17 +71,6 @@ export class HomeComponent implements OnInit {
             image: avatarImage,
             enabled: true
           }
-        ];
-        break;
-      case 3:
-        this.menu = [
-          {
-            name: 'Call Queue',
-            action: 'call-queue',
-            image: '/assets/icon-call-queue@2x.png',
-            enabled: true
-          },
-          { name: 'My Profile', action: 'user/profile', image: avatarImage, enabled: true }
         ];
         break;
       default:

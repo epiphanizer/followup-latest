@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { UserResolver } from './modules/user/user-resolver.service';
+import { AuthGuardService } from './core/authentication/auth-guard.service';
 
 const routes: Routes = [
   { path: 'logout', redirectTo: '/login', canActivate: [] },
@@ -8,7 +9,7 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: '/home',
-    canActivate: [],
+    canActivate: [AuthGuardService],
     pathMatch: 'full',
     resolve: {
       user: UserResolver
@@ -19,6 +20,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule],
-  providers: [UserResolver]
+  providers: [UserResolver, AuthGuardService]
 })
 export class AppRoutingModule {}

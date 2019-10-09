@@ -1,21 +1,26 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
+import { Router, CanActivate, ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
-
+import { AuthenticationService } from './auth.service';
+import { from, of } from 'rxjs';
 @Injectable()
 export class AuthGuardService implements CanActivate {
-  user: User;
-  constructor(private route: ActivatedRoute);
-  canActivate() {
-    //Your redirect logic/condition. I use this.
-    this.user == this.route.snapshot.data.user;
-    if (this.user && this.user.profile.role == 'Guest') {
-      this.router.navigate(['dashboard']);
+  public user: User;
+  constructor(private authService: AuthenticationService, public route: ActivatedRoute, public router: Router) {}
+  canActivate(): boolean {
+    this.authService.getUser().then((user: any) => {
+      console.log(user);
+      this.user = user;
+      debugger;
+    });
+    console.log(this.route.snapshot.data);
+    if (!this.user) {
+      this.router.navigate(['login']);
+      return false;
     }
-    console.log('AuthGuard#canActivate called');
+    if (this.user.level == 3) {
+      this.router.navigate(['call-queue']);
+    }
     return true;
   }
-  //Constructor
-  constructor(private router: Router) {}
 }

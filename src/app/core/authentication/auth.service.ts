@@ -15,8 +15,6 @@ export class AuthenticationService {
   public user: User;
   public user$: Promise<User>;
   constructor(private http: HttpService, private router: Router) {
-    if (!this.user$) {
-    }
     if (this.authenticated) {
       this.router.navigate(['/home'], { replaceUrl: true });
     }
@@ -26,9 +24,6 @@ export class AuthenticationService {
   async getUser(): Promise<User> {
     let userId = 10;
     this.user$ = this.getUserByUserId(userId).toPromise();
-    this.user$.then((user: User) => {
-      this.user = user;
-    });
     return this.user$;
   }
   getUserByUserId(userId: number): Observable<User> {
@@ -42,8 +37,8 @@ export class AuthenticationService {
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
   async signIn(): Promise<void> {
-    // let result = await this.msalService.loginPopup(OAuthSettings.scopes).catch(reason => {
-    //   this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
+    // let result = await this.apiAuthService.login(username, password).catch(reason => {
+    //   // this.alertsService.add('Login failed', JSON.stringify(reason, null, 2));
     // });
     let result = true;
     if (result) {
