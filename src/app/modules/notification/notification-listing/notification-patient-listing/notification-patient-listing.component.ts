@@ -47,7 +47,7 @@ export class NotificationPatientListingComponent implements OnInit {
       this.selectedSortFlag = 'asc';
     }
   }
-  sortNotificationsByNotificationType() {
+  sortNotificationsByNotificationType = function(sortFlag: string) {
     this.filterBy = 'notification-type';
     // if (this.selectedSortFlag == 'asc') {
     //   this.notifications.sort((a: Notification, b: Notification) => {
@@ -58,8 +58,8 @@ export class NotificationPatientListingComponent implements OnInit {
     //     return <any>new Date(a.notificationCreatedDate) + <any>new Date(b.notificationCreatedDate);
     //   });
     // }
-  }
-  sortNotificationsByPatient() {
+  };
+  sortNotificationsByPatient = function(sortFlag: string) {
     this.filterBy = 'patient';
     // if (this.selectedSortFlag == 'asc') {
     //   this.notifications.sort((a: Notification, b: Notification) => {
@@ -70,9 +70,9 @@ export class NotificationPatientListingComponent implements OnInit {
     //     return <any>new Date(a.notificationCreatedDate) + <any>new Date(b.notificationCreatedDate);
     //   });
     // }
-  }
-  sortNotificationsByStatus() {
+  };
+  sortNotificationsByStatus = function(sortFlag: string) {
     this.filterBy = 'status';
     alert('Toggling notifications by status');
-  }
+  };
 }
