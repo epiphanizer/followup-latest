@@ -17,7 +17,6 @@ import { LoginModule } from './login/login.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { FullCalendarModule } from '@fullcalendar/angular'; // for FullCalendar!
 import { CallQueueModule } from '@app/modules/call-queue/call-queue.module';
 import { AlertsModule } from '@app/core/alerts/alerts.module';
 import { PatientModule } from './modules/patient/patient.module';
@@ -38,7 +37,6 @@ import { UserModule } from '@app/modules/user/user.module';
     SharedModule,
     ShellModule,
     AlertsModule,
-    FullCalendarModule,
     ReactiveFormsModule,
     HomeModule,
     LoginModule,

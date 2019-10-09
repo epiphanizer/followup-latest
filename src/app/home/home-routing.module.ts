@@ -9,13 +9,17 @@ import { UserResolver } from '@app/modules/user/user-resolver.service';
 const routes: Routes = [
   Shell.childRoutes([
     {
+      path: '',
+      redirectTo: '/home',
+      pathMatch: 'full',
+      resolve: {
+        user: UserResolver
+      }
+    },
+    {
       path: 'home',
       component: HomeComponent,
-      canActivate: [],
-      data: {
-        title: extract('Follow-Up'),
-        navLinks: []
-      },
+      data: { title: extract('Follow-Up') },
       resolve: {
         user: UserResolver
       }

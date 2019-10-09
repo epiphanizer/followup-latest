@@ -11,23 +11,16 @@ export class UserResolver implements Resolve<User> {
   user$: Promise<User>;
   constructor(private authService: AuthenticationService, private operationService: OperationService) {}
   resolve(): Promise<User> {
-    console.log('at resolver');
     return this.authService.getUser().then((res: User) => {
-      console.log(res);
-      debugger;
-      if (!res) {
-        console.log('no res');
+      if (!res[0]) {
         if (localStorage.getItem('followup-user')) {
           let userObj = JSON.parse(localStorage.getItem('followup-user')).user[0] as User;
-          userObj.operations$ = this.operationService.getOperationsByUserId(userObj.userId);
-
-          // user.then((user: User) => {
-          //     this.user = user;
-          //     return user;
-          //   }
-          // );
+          this.user = userObj;
         }
+      } else {
+        this.user = res[0];
       }
+      this.user.operations$ = this.operationService.getOperationsByUserId(this.user.userId);
       return this.user;
     });
   }
