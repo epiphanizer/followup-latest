@@ -14,7 +14,6 @@ const log = new Logger('Login');
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private subscription: Subscription;
   error: string | undefined;
   loginForm!: FormGroup;
   isLoading = false;
@@ -33,7 +32,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   signIn() {
     this.isLoading = true;
-    this.authService.signIn();
+    let username = this.loginForm.controls.username.value;
+    let password = this.loginForm.controls.password.value;
+    this.authService.signIn(username, password);
   }
 
   get isWeb(): boolean {
