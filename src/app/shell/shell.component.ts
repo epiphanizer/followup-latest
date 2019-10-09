@@ -39,16 +39,13 @@ export class ShellComponent {
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    // Pass thru navlinks, etc. from child routes
     this.routeSubscription = this.route.url.subscribe(() => {
       if (this.route.snapshot.firstChild) {
         if (this.route.snapshot.firstChild.data.navLinks) {
           this.navLinks = this.route.snapshot.firstChild.data.navLinks;
-          this.routeSubscription.unsubscribe();
         }
       } else {
         this.navLinks = null;
-        this.routeSubscription.unsubscribe();
       }
     });
   }

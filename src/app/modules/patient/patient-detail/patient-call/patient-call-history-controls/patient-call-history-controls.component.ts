@@ -13,7 +13,7 @@ export class PatientCallHistoryControlsComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.patientCalls.reverse();
+    // this.patientCalls.reverse();
   }
 
   scrollToPatientCall(patientCall: PatientCall) {

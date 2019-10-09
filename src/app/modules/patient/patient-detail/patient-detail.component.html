@@ -70,7 +70,8 @@
           <app-patient-summary-widget [patient]="patient"> </app-patient-summary-widget>
         </ng-container>
         <app-patient-notes [patient]="patient"> </app-patient-notes>
-        <app-patient-call-history-listing [patientCalls]="patient.patientCalls"> </app-patient-call-history-listing>
+        <app-patient-call-history-listing *ngIf="patient.patientCalls" [patientCalls]="patient.patientCalls">
+        </app-patient-call-history-listing>
       </ion-col>
     </ion-row>
   </ion-content>

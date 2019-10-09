@@ -40,10 +40,12 @@
                 <ion-list lines="none" inset class="alternate-numbers-list">
                   <div *ngFor="let patientContact of patientContacts">
                     <ion-item class="alternate-number">
-                      {{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }}:
-                      {{ patientContact.patientContactCountryCode }}-{{ patientContact.patientContactAreaCode }}-
-                      {{ patientContact.patientContactPhoneNumber }} |
-                      {{ patientContact.patientContactRelationship }}
+                      <span class="alternate-contact">
+                        {{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }}:
+                        {{ patientContact.patientContactCountryCode }}-{{ patientContact.patientContactAreaCode }}-
+                        {{ patientContact.patientContactPhoneNumber }} |
+                        {{ patientContact.patientContactRelationship }}
+                      </span>
                     </ion-item>
                   </div>
                 </ion-list>
