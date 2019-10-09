@@ -3,7 +3,6 @@ import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Patient, PatientDischargeLabel } from './patient';
 import { PatientPutBody } from './patient-form/patient-form';
-import { PatientQuestion } from './patient-question/patient-question.component';
 
 export class PatientService {
   constructor(private http: HttpClient) {}
