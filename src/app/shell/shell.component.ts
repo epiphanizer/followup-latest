@@ -15,7 +15,7 @@ import { NotificationModalComponent } from './notification-modal/notification-mo
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
 import { startWith, switchMap, filter, map, mergeMap, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-shell',
@@ -29,7 +29,7 @@ export class ShellComponent {
     linkName: string;
     linkAction: string;
   }[];
-
+  routeSubscription: Subscription;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -40,13 +40,15 @@ export class ShellComponent {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     // Pass thru navlinks, etc. from child routes
-    this.route.url.subscribe(() => {
+    this.routeSubscription = this.route.url.subscribe(() => {
       if (this.route.snapshot.firstChild) {
         if (this.route.snapshot.firstChild.data.navLinks) {
           this.navLinks = this.route.snapshot.firstChild.data.navLinks;
+          this.routeSubscription.unsubscribe();
         }
       } else {
-        this.navLinks = [];
+        this.navLinks = null;
+        this.routeSubscription.unsubscribe();
       }
     });
   }
@@ -54,7 +56,9 @@ export class ShellComponent {
     this.authenticationService.signOut();
     this.router.navigate(['/login']);
   }
-
+  ngOnDestroy() {
+    this.routeSubscription.unsubscribe();
+  }
   get isWeb(): boolean {
     return !this.platform.is('cordova');
   }

@@ -20,7 +20,7 @@ export class ToolbarNavComponent implements OnInit {
 
   ngOnInit() {
     this.route.url.subscribe(() => {
-      while (this.route.snapshot.firstChild) {
+      if (this.route.snapshot.firstChild) {
         if (this.route.snapshot.firstChild.data.patient) {
           this.patient = this.route.snapshot.firstChild.data.patient;
         }

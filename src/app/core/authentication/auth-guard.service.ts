@@ -8,12 +8,12 @@ export class AuthGuardService implements CanActivate {
   constructor(private authService: AuthenticationService, public route: ActivatedRoute, public router: Router) {}
   canActivate(): boolean {
     // a bypass
-    if (!localStorage.getItem('followup-token')) {
-      if (!this.authService.authenticated) {
-        this.router.navigate(['login']);
-        return false;
-      }
-    }
+    // if (!localStorage.getItem('followup-token')) {
+    //   if (!this.authService.authenticated) {
+    //     this.router.navigate(['login']);
+    //     return false;
+    //   }
+    // }
     return true;
   }
 }

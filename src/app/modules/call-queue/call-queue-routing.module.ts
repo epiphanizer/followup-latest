@@ -8,7 +8,6 @@ import { UserResolver } from '../user/user-resolver.service';
 
 const routes: Routes = [
   Shell.childRoutes([
-    { path: '', redirectTo: '/call-queue', pathMatch: 'full' },
     {
       path: 'call-queue',
       component: CallQueueComponent,
