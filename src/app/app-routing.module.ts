@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: 'logout', redirectTo: '/login', canActivate: [] },
   {
     path: '**',
-    redirectTo: '/home',
+    redirectTo: '',
     pathMatch: 'full',
     resolve: {
       user: UserResolver

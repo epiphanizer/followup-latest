@@ -34,10 +34,11 @@ export class AuthenticationService {
       );
   }
   public getUser(): Promise<User> {
-    if (!this.authenticated) {
+    if (!this.authenticated && !localStorage.getItem('followup-user')) {
       this.router.navigate(['/login']);
       return null;
     }
+
     return this.user$;
   }
   getUserByUserId(userId: number): Observable<User> {
