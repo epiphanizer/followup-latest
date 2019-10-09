@@ -76,6 +76,14 @@ export class PatientCallService {
     );
   };
 
+  getPatientCallsByOperationId = function(operationId: number) {
+    return this.http.get('operations/' + operationId + '/calls').pipe(
+      delay(5000),
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  };
+
   // Updates the status to 'ended'
   public endPatientCall(patientCallId: number) {
     return this.http.post('patients/calls/' + patientCallId + '/end', {}).pipe(

@@ -127,10 +127,6 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     }
     this.selectedDate = currentCalendarMonth + '/' + formattedDay + '/' + todaysYear;
     this.selectedDay = day;
-    this.searchPatientCallHistory(this.selectedDate);
-  }
-  searchPatientCallHistory(selectedDate: string) {
-    alert('searching patient call history on date:' + selectedDate);
-    // this.operation.patientCalls$ = of(this.operation.patientCalls);
+    this.dateFilterChangeEvent.emit(this.selectedDate);
   }
 }

@@ -13,7 +13,12 @@ const routes: Routes = [
       path: 'operation/add',
       component: OperationFormComponent,
       data: {
-        title: extract('New Facility')
+        navLinks: [
+          { linkAction: 'facilities', linkName: 'Facilities', linkType: 'link' },
+          { linkAction: 'users', linkName: 'User Privileges', linkType: 'link' },
+          { linkAction: 'facilities', linkName: 'Facilities', linkType: 'link' }
+        ],
+        title: extract('Patient Detail')
       },
       resolve: {
         user: UserResolver

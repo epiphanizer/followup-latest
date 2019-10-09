@@ -18,21 +18,18 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CallQueuePatientFilterComponent implements OnInit {
   @Input() operation: Operation;
+  @Input() filterDate: string;
+  @Input() patientCalls: PatientCall[];
   user: User;
-  patientCalls: Array<PatientCall> = [];
-  userPatientCalls$: Observable<PatientCall[]>;
   patients: Array<Patient> = [];
   patients$: Observable<Patient[]>;
   constructor(private patientCallService: PatientCallService, private route: ActivatedRoute) {}
   ngOnInit() {
-    this.user = this.route.snapshot.data.user;
-    this.userPatientCalls$ = this.patientCallService
-      .getCallRepCallsByUserIdAndOperationId(this.user.userId, this.operation.operationId)
-      .pipe(
-        map((patientCalls: PatientCall[]) => {
-          this.patientCalls = patientCalls;
-        })
-      );
+    this.patientCallService.getPatientCallsByOperationId(this.operation.operationId).pipe(
+      map((patientCalls: PatientCall[]) => {
+        this.patientCalls = patientCalls;
+      })
+    );
   }
   searchPatientCallHistory() {
     alert('searching patient call history');

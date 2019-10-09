@@ -12,6 +12,7 @@ import { Operation } from '../operation/operation';
 export class CallQueueComponent implements OnInit {
   public selected:
     | {
+        filterDate: string;
         operation: Operation;
         operation$: Observable<Operation>;
       }
@@ -27,7 +28,8 @@ export class CallQueueComponent implements OnInit {
   }
   ngOnChanges() {}
   handleDateFilterChangeEvent($event: string) {
-    alert('date filter');
+    alert('got this filter date in the parent comp');
+    this.selected.filterDate = $event;
   }
   operationChangeEventHandler($event: Operation) {
     this.selected.operation = $event;
