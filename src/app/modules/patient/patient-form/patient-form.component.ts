@@ -12,7 +12,10 @@ import { PatientContact } from '../patient-contact/patient-contact';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientContactService } from '../patient-contact/patient-contact.service';
 import { Operation } from '@app/modules/operation/operation';
-import { PatientIntakeQuestion } from '../patient-intake-question/patient-intake-question.component';
+import {
+  PatientIntakeQuestion,
+  PatientIntakeQuestionAnswer
+} from '../patient-intake-question/patient-intake-question.component';
 import { PatientIntakeQuestionService } from '../patient-intake-question/patient-intake-question.service';
 
 @Component({

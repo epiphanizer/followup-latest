@@ -14,9 +14,5 @@ export interface PatientIntakeQuestionAnswer {
 }
 
 export class PatientIntakeQuestionComponent implements OnInit {
-  //   @Input() patientIntakeQuestion: PatientIntakeQuestion;
-
-  ngOnInit() {
-    // console.log(this.patientQuestion);
-  }
+  ngOnInit() {}
 }
