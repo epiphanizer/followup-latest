@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Patient, PatientDischargeLabel } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { map } from 'rxjs/operators';
@@ -81,7 +81,11 @@ export class PatientFormComponent implements OnInit {
               'patient.patientIntakeQuestionAnswers'
             ) as FormArray;
             patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
-              patientIntakeQuestionAnswers.push(this.fb.control(index));
+              let patientIntakeQuestionId = patientIntakeQuestion['patientIntakeQuestionId'];
+              // let newFormGroup = this.fb.group({});
+              // newFormGroup.addControl(patientIntakeQuestionId.toString(), new FormControl(''));
+              patientIntakeQuestionAnswers.push(this.fb.control({}));
+
               this.patientIntakeQuestions.push(patientIntakeQuestion);
             });
           });
