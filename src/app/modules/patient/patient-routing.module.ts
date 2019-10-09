@@ -64,6 +64,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [PatientResolver]
+  providers: [UserResolver, PatientResolver]
 })
 export class PatientRoutingModule {}

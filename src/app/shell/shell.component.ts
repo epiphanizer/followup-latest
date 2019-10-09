@@ -52,9 +52,7 @@ export class ShellComponent {
   }
   signOut() {
     this.authenticationService.signOut();
-    this.router.navigate(['/login'], {
-      replaceUrl: true
-    });
+    this.router.navigate(['/login']);
   }
 
   get isWeb(): boolean {

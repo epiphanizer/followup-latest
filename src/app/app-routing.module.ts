@@ -7,9 +7,9 @@ const routes: Routes = [
 
   {
     path: '**',
-    redirectTo: '/home',
-    canActivate: [AuthGuardService],
-    pathMatch: 'full'
+    redirectTo: 'home',
+    pathMatch: 'full',
+    canActivate: [AuthGuardService]
   }
 ];
 

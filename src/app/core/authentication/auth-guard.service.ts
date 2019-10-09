@@ -10,7 +10,7 @@ export class AuthGuardService implements CanActivate {
     // a bypass
     if (!localStorage.getItem('followup-token')) {
       if (!this.authService.authenticated) {
-        this.router.navigate(['/login']);
+        this.router.navigate(['login']);
         return false;
       }
     }

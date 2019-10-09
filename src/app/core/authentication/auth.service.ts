@@ -35,6 +35,7 @@ export class AuthenticationService {
   }
   public getUser(): Promise<User> {
     if (!this.authenticated) {
+      this.router.navigate(['/login']);
       return null;
     }
     return this.user$;

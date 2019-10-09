@@ -5,16 +5,9 @@ import { extract } from '@app/core';
 import { HomeComponent } from './home.component';
 import { Shell } from '@app/shell/shell.service';
 import { UserResolver } from '@app/modules/user/user-resolver.service';
-import { AuthGuardService } from '@app/core/authentication/auth-guard.service';
 
 const routes: Routes = [
   Shell.childRoutes([
-    {
-      path: '',
-      redirectTo: '/home',
-      canActivate: [],
-      pathMatch: 'full'
-    },
     {
       path: 'home',
       component: HomeComponent,
@@ -33,6 +26,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [UserResolver, AuthGuardService]
+  providers: [UserResolver]
 })
 export class HomeRoutingModule {}
