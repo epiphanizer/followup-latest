@@ -34,9 +34,9 @@ const routes: Routes = [
       },
       data: {
         navLinks: [
-          { linkAction: 'call-queue', linkName: 'Call Queue', linkType: 'link' },
-          { linkAction: 'kudos', linkName: 'KUDOS', linkType: 'button' },
-          { linkAction: 'report', linkName: 'REPORT!', linkType: 'button' }
+          { linkAction: 'patient/add', linkName: 'Add Patient', linkType: 'link' },
+          { linkAction: 'notifications', linkName: 'Notifications', linkType: 'link' }
+          // { linkAction: 'patient/previous', linkName: 'Previous Discharge', linkType: 'link' },
         ],
         title: extract('New Patient')
       }
