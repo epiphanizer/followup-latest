@@ -16,7 +16,7 @@
   </ion-row>
   <ng-container class="patient-filter-results" *ngIf="patientCalls; else isLoading">
     <ion-list lines="none" inset>
-      <ion-item class="patient-call-filter-listing" *ngFor="let patientCall of patientCalls">
+      <ion-item class="patient-call-filter-listing" *ngFor="let patientCall of patientCallsFiltered">
         <span class="patient-filter-patient-name"
           >{{ patientCall.patientFirstName }} {{ patientCall.patientLastName }} -
         </span>
@@ -28,5 +28,5 @@
   </ng-container>
 </div>
 <ng-template #isLoading>
-  <span class="font-style:italic; font-weight:12px; font-family:Avenir; margin:12px;">Loading...</span>
+  <span class="font-style:italic; font-weight:12px; font-family:Avenir; margin:18px;">Loading...</span>
 </ng-template>

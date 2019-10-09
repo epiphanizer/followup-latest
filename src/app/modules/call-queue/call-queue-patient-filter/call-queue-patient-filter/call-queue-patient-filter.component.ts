@@ -20,6 +20,7 @@ export class CallQueuePatientFilterComponent implements OnInit {
   @Input() operation: Operation;
   @Input() filterDate: string;
   @Input() patientCalls: PatientCall[];
+  patientCallsFiltered: PatientCall[] = [];
   user: User;
   patients: Array<Patient> = [];
   patients$: Observable<Patient[]>;
@@ -28,12 +29,28 @@ export class CallQueuePatientFilterComponent implements OnInit {
     this.patientCallService
       .getPatientCallsByOperationId(this.operation.operationId)
       .subscribe((patientCalls: PatientCall[]) => {
+        if (!patientCalls.length) {
+          this.patientCalls = [];
+        }
         this.patientCalls = patientCalls;
+        this.searchPatientCallHistoryBySelectedDate(this.filterDate);
       });
   }
-  searchPatientCallHistoryByText(searchText: string): PatientCall[] {
+  searchPatientCallHistoryBySelectedDate(selectedDate: string): PatientCall[] {
+    let selectedDateObj = new Date(selectedDate);
+    this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
+      return (
+        patientCall.patientCallScheduledTime == selectedDateObj || patientCall.patientCallEndTime == selectedDateObj
+      );
+    });
+    return this.patientCallsFiltered;
+  }
+  searchPatientCallHistoryByText($event: KeyboardEvent): any {
+    let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
-    return this.patientCalls.filter((patientCall: PatientCall) => {
+    console.log(searchText);
+    this.patientCalls.filter((patientCall: PatientCall) => {
+      console.log(patientCall.patientFirstName.toLowerCase().includes(searchText));
       return (
         patientCall.patientFirstName.toLowerCase().includes(searchText) ||
         patientCall.patientLastName.toLowerCase().includes(searchText)
