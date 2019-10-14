@@ -18,6 +18,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     name: string;
   };
   scheduledCallDate: string;
+  selectedDate: string;
   selectedDay: number;
   selectedMonth: {
     number: string;
@@ -95,10 +96,16 @@ export class PatientNextCallSchedulerComponent implements OnInit {
         name: 'December'
       }
     ];
-    // Subtract one because of the 0 index of the array
+    this.selectedDay = this.todaysDateDay;
+
     this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
+    let formattedDay = this.selectedDay.toString();
+    if (formattedDay.length == 1) {
+      formattedDay = '0' + formattedDay;
+    }
+    this.selectedDate = this.selectedMonth.number + '/' + formattedDay + '/' + this.todaysYear;
   }
 
   ngOnInit() {

@@ -1,7 +1,7 @@
-<ng-container *ngIf="patientCall">
+<ng-container>
   <ion-content>
     <ion-row>
-      <ion-col class="left-hand-detail">
+      <ion-col *ngIf="patientCall" class="left-hand-detail">
         <app-patient-call-status-controls
           *ngIf="
             patientCall.patientCallStatusLabel == 'In Review' || patientCall.patientCallStatusLabel == 'Selected Status'
