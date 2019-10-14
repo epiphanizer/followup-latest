@@ -80,6 +80,7 @@ export class OperationFormComponent implements OnInit {
     } else {
       this.operationService.addNewOperation().subscribe((data: Operation) => {
         this.operation = data;
+        this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
         this.createForm();
         this.armForm();
       });
