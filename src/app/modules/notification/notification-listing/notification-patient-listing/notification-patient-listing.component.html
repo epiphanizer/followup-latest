@@ -22,7 +22,7 @@
       <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
     </span>
   </li>
-  <li>
+  <li class="resolution-filter">
     <a (click)="sortNotificationsByStatus(selectedSortFlag)">[Resolved]</a>
     <span class="ascending-descending-control">
       <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
@@ -52,13 +52,11 @@
       </span>
     </div>
     <div class="notification-type">
-      <img src="{{ notification.notificationIconImage }} /" />
+      <img src="{{ notification.notificationIconImage }}" />
       <span>{{ notification.notificationTypeLabel }} </span>
     </div>
     <div class="notification-status">
-      <span class="resolution-status" [class.resolved]="notification.notificationStatusLabel == 'Resolved'">
-        Status Icon
-      </span>
+      <i class="resolution-status" [class.resolved]="notification.notificationStatusLabel == 'Resolved'"> </i>
     </div>
   </li>
 </ul>

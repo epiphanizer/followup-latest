@@ -75,4 +75,14 @@ export class NotificationPatientListingComponent implements OnInit {
     this.filterBy = 'status';
     alert('Toggling notifications by status');
   };
+
+  operationChangeHandler($event: number) {
+    this.operation.operationId = $event;
+    this.notifications$ = this.notificationService.getNotificationsByOperationId(this.operation.operationId).pipe(
+      map((notifications: Notification[]) => {
+        this.notifications = notifications;
+        return notifications;
+      })
+    );
+  }
 }
