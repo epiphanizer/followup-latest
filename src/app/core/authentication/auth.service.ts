@@ -37,7 +37,7 @@ export class AuthenticationService {
     if (!this.authenticated) {
       if (localStorage.getItem('followup-user')) {
         let userObj = JSON.parse(localStorage.getItem('followup-user'));
-        return userObj.toPromise();
+        return of(userObj).toPromise();
       } else {
         this.router.navigate(['/login']);
         return null;

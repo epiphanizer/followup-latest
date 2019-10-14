@@ -10,7 +10,7 @@
         Edit Facility
       </ion-title>
     </ng-template>
-    <form id="operation-form" [formGroup]="operationForm" novalidate>
+    <form id="operation-form" *ngIf="operation" [formGroup]="operationForm" novalidate>
       <ion-list formGroupName="operation" lines="none" inset>
         <i class="icon-info"></i>
         <ion-item>

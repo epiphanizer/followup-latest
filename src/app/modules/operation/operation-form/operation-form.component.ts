@@ -53,7 +53,6 @@ export class OperationFormComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.createForm();
     this.notificationService.getNotificationTypes().subscribe((data: NotificationType[]) => {
       this.notificationTypes = data;
       return data;
@@ -69,6 +68,7 @@ export class OperationFormComponent implements OnInit {
       this.operation$ = this.operationService.addNewOperation().pipe(
         map((data: Operation) => {
           this.operation = data;
+          debugger;
           this.createForm();
           return data;
         })
