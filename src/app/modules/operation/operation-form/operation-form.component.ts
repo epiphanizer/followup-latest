@@ -75,21 +75,19 @@ export class OperationFormComponent implements OnInit {
       this.operation = this.route.snapshot.data.operation;
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
       this.createForm();
+      this.addAdditionalContact();
+      this.addAdditionalCallRep();
     } else {
       this.operation$ = this.operationService.addNewOperation().pipe(
         map((data: Operation) => {
           this.operation = data;
-          debugger;
           this.createForm();
+          this.addAdditionalContact();
+          this.addAdditionalCallRep();
           return data;
         })
       );
     }
-    /**
-     * no matter where we are, do this
-     */
-    this.addAdditionalContact();
-    this.addAdditionalCallRep();
 
     this.availableUsers$ = this.userService.getAllUsers();
     this.availableManagers$ = this.userService.getAllManagerUsers();
