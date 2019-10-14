@@ -143,26 +143,17 @@ export class OperationFormComponent implements OnInit {
       .getOperationContactsByOperationId(this.operation.operationId)
       .pipe(
         map((data: OperationContact[]) => {
-          if (!data.length) {
-            this.operationContacts.push({
-              operationContactId: 0,
-              operationContactFirstName: '',
-              operationContactLastName: ''
-            });
-          }
           this.operationContacts = data;
           return data;
         })
       );
 
-    if (!this.editMode) {
-      this.operationCallRepsService
-        .getOperationCallRepsByOperationId(this.operation.operationId)
-        .subscribe((data: OperationCallRep[]) => {
-          this.operationCallReps = data;
-          return data;
-        });
-    }
+    this.operationCallRepsService.getOperationCallRepsByOperationId(this.operation.operationId).pipe(
+      map((data: OperationCallRep[]) => {
+        this.operationCallReps = data;
+        return data;
+      })
+    );
   }
   updateOperation(operation: Operation) {
     this.operation = operation[0];
@@ -205,7 +196,7 @@ export class OperationFormComponent implements OnInit {
     let formArray = this.operationForm.controls.operationManagers as FormArray;
     formArray.push(this.fb.control({}));
     let newManager = {
-      operationId: 0,
+      operationId: this.operation.operationId,
       userId: 0
     };
     this.operationManagers.push(newManager);
