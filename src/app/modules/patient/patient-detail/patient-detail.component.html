@@ -2,7 +2,7 @@
   <ion-content>
     <ion-row>
       <ion-col class="left-hand-detail">
-        <ng-container *ngIf="patientCall$ | async as patientCall">
+        <div *ngIf="patientCall$ | async as patientCall">
           <app-patient-call-status-controls
             *ngIf="
               patientCall.patientCallStatusLabel == 'In Review' ||
@@ -67,7 +67,7 @@
               Finish & Save
             </app-patient-next-call-finish-button>
           </ng-container>
-        </ng-container>
+        </div>
       </ion-col>
       <ion-col class="right-hand-detail">
         <ng-container>
