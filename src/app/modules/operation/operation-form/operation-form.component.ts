@@ -105,6 +105,7 @@ export class OperationFormComponent implements OnInit {
         this.operationCallReps$ = of([
           {
             operationCallRepId: 0,
+            operationId: this.operation.operationId,
             operationCallRepName: ''
           }
         ]);
