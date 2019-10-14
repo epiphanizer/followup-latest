@@ -239,7 +239,7 @@
         </ion-list>
       </fieldset>
       <fieldset class="operation-callreps">
-        <ng-container *ngIf="!editMode; else addCallReps">
+        <ng-container *ngIf="editMode; else addCallReps">
           <ion-list lines="none">
             <ion-item *ngFor="let operationCallRep of operationCallReps$ | async; let idx = index">
               <ion-label position="stacked" color="medium">Care Rep {{ idx + 1 }} </ion-label>
@@ -247,6 +247,7 @@
                 <ion-select-option
                   *ngFor="let user of availableUsers$ | async"
                   value="{{ operationCallRep.operationCallRepId }}"
+                  [selected]="operationcallRep.operationCallRepId == user.userId"
                 >
                   {{ operationCallRep.operationCallRepName }}
                 </ion-select-option>
