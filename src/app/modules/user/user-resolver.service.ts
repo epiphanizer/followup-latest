@@ -20,7 +20,11 @@ export class UserResolver implements Resolve<User> {
       } else {
         this.user = res[0];
       }
-      this.user.operations$ = this.operationService.getOperationsByUserId(this.user.userId);
+      if (this.user.level != 1) {
+        this.user.operations$ = this.operationService.getOperationsByUserId(this.user.userId);
+      } else {
+        this.user.operations$ = this.operationService.getAllOperations();
+      }
       return this.user;
     });
   }
