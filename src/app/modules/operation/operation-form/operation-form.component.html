@@ -15,7 +15,7 @@
         <i class="icon-info"></i>
         <ion-item>
           <ion-input type="hidden" formControlName="operationId" [value]="operation?.operationId"></ion-input>
-          <ion-label position="stacked">Facility</ion-label>
+          <ion-label color="medium" position="stacked">Facility</ion-label>
           <ion-input type="text" formControlName="operationName"></ion-input>
         </ion-item>
         <ion-item class="address">
@@ -138,9 +138,9 @@
       <fieldset class="operation-team-members">
         <div class="section-header">
           <i class="icon-team-members"></i>
-          <h4>Team Members</h4>
+          <span>Team Members</span>
         </div>
-        <ion-list lines="none">
+        <ion-list class="assigned-manager-list" lines="none">
           <ion-item *ngIf="editMode; else addManager">
             <ion-label position="stacked" color="medium">
               Assigned Manager

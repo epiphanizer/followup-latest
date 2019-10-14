@@ -110,11 +110,11 @@ form {
     float: left;
     clear: left;
     width: 16px;
-    height: 20px;
-    margin-top: 14px;
+    height: 16px;
+    margin-top: 18px;
     background-repeat: no-repeat;
     background-size: 95%;
-    margin-right: 12px;
+    margin-right: 6px;
   }
 
   i.icon-info {
@@ -260,7 +260,9 @@ form {
   .contact-header-wrapper {
     width: 100%;
   }
-
+  .assigned-manager-list {
+    margin-left: 25px;
+  }
   .add-call-rep,
   .add-additional-contact {
     cursor: pointer;

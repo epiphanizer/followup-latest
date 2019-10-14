@@ -13,6 +13,7 @@ export interface Operation {
   operationCountryCode?: number;
   operationAreaCode?: number;
   operationPhoneNumber?: string;
+  operationActive?: number;
   operationContacts$?: Observable<OperationContact[]>;
   operationAssignedManagerUserId?: number;
   operationAssignedManagerName?: string;

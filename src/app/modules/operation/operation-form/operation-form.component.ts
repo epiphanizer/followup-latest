@@ -204,7 +204,7 @@ export class OperationFormComponent implements OnInit {
       }),
       operationContacts: this.fb.array([]),
       operationCallReps: this.fb.array([]),
-      operationActive: this.fb.control(false)
+      operationActive: this.fb.control(this.operation.operationActive)
     });
   }
   operationChangeEventHandler($event: number) {
