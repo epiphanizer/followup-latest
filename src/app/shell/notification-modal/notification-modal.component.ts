@@ -66,7 +66,7 @@ export class NotificationModalComponent {
         this.createForm();
         this.onChanges();
       }
-      this.todaysDate = formatDate(new Date(), 'yyyy-mm-dd', 'en');
+      this.todaysDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
       this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     });
     this.operationContacts$ = this.operationContactsService.getOperationContactsByOperationId(

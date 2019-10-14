@@ -47,39 +47,39 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     debugger;
     this.months = [
       {
-        number: '01',
+        number: '1',
         name: 'January'
       },
       {
-        number: '02',
+        number: '2',
         name: 'February'
       },
       {
-        number: '03',
+        number: '3',
         name: 'March'
       },
       {
-        number: '04',
+        number: '4',
         name: 'April'
       },
       {
-        number: '05',
+        number: '5',
         name: 'May'
       },
       {
-        number: '06',
+        number: '6',
         name: 'June'
       },
       {
-        number: '07',
+        number: '7',
         name: 'July'
       },
       {
-        number: '08',
+        number: '8',
         name: 'August'
       },
       {
-        number: '09',
+        number: '9',
         name: 'September'
       },
       {

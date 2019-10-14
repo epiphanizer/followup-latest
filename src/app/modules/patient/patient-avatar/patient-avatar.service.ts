@@ -10,7 +10,6 @@ export class PatientAvatarService {
   constructor(private http: HttpClient) {}
   getPatientAvatarByPatientId(patientId: number): Observable<any> {
     return this.http.get<any>('patients/' + patientId + '/avatar').pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
