@@ -127,6 +127,7 @@ export class OperationFormComponent implements OnInit {
 
   armForm() {
     this.addAdditionalContact();
+    this.addAdditionalManager();
     this.addAdditionalCallRep();
     this.availableUsers$ = this.userService.getAllUsers();
     this.availableManagers$ = this.userService.getAllManagerUsers();
@@ -200,6 +201,15 @@ export class OperationFormComponent implements OnInit {
     };
     this.operationCallReps.push(newCallRep);
   }
+  addAdditionalManager() {
+    let formArray = this.operationForm.controls.operationManagers as FormArray;
+    formArray.push(this.fb.control({}));
+    let newManager = {
+      operationId: 0,
+      userId: 0
+    };
+    this.operationManagers.push(newManager);
+  }
 
   addAdditionalContact() {
     let formArray = this.operationForm.controls.operationContacts as FormArray;
@@ -235,13 +245,12 @@ export class OperationFormComponent implements OnInit {
         operationPhoneNumber: this.fb.control(this.operation.operationPhoneNumber, [Validators.required])
       }),
       operationContacts: this.fb.array([]),
+      operationManagers: this.fb.array([]),
       operationCallReps: this.fb.array([]),
       operationActive: this.fb.control(this.operation.operationActive)
     });
   }
-  operationChangeEventHandler($event: number) {
-    console.log('operation change event');
-  }
+
   operationPutFactory(formSubmission: any): OperationPutBody {
     try {
       var payload = {
@@ -294,8 +303,10 @@ export class OperationFormComponent implements OnInit {
   operationManagerPostFactory(formSubmission: any): OperationManagerPostBody {
     try {
       /**
-       * Need processing for the user id here
+       * Need processing to get the actual form user id here
        */
+      console.log(formSubmission);
+      debugger;
       var payload = {
         operationId: formSubmission.operation.operationId,
         userId: this.user.userId
