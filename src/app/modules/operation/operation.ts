@@ -41,6 +41,11 @@ export interface OperationPutBody {
   operationPhoneNumber: string;
   operationActive: number;
 }
+export interface OperationManagerPostBody {
+  operationId: number;
+  userId: number;
+}
+
 export interface OperationCallRepPostBody {
   operationId: number;
   userId: number;

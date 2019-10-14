@@ -10,7 +10,7 @@ import { UserService } from '@app/modules/user/user.service';
 import { User } from '@app/modules/user/user';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { OperationResolver } from '../operation-resolver';
-import { OperationPutBody, OperationCallRepPostBody, Operation } from '../operation';
+import { OperationPutBody, OperationCallRepPostBody, Operation, OperationManagerPostBody } from '../operation';
 import { OperationContact } from '../operation-contact/operation-contact';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { NotificationType } from '@app/modules/notification/notification';
@@ -230,6 +230,9 @@ export class OperationFormComponent implements OnInit {
   }
   operationCallRepPostFactory(formSubmission: any): OperationCallRepPostBody {
     try {
+      /**
+       * Need processing for the user id here
+       */
       var payload = {
         operationId: formSubmission.operation.operationId,
         userId: this.user.userId
@@ -256,36 +259,38 @@ export class OperationFormComponent implements OnInit {
       throw 'Had a problem validating data in the call rep factory';
     }
   }
-  // operationManagerPostFactory(formSubmission: any): OperationContactPostBody {
-  //   try {
-  //     var payload = {
-  //       operationContactFirstName: formSubmission.operationContactFirstName,
-  //       operationContactMiddleName: formSubmission.operationContactMiddleName,
-  //       operationContactLastName: formSubmission.operationContactLastName,
-  //       operationContactCountryCode: formSubmission.operationContactCountryCode,
-  //       operationContactAreaCode: formSubmission.operationContactAreaCode,
-  //       operationContactPhoneNumber: formSubmission.operationContactPhoneNumber,
-  //       operationContactEmail: formSubmission.operationContactEmail,
-  //       operationContactTitle: formSubmission.operationContactTitle
-  //     };
-  //     return <OperationContactPostBody>payload;
-  //   } catch {
-  //     throw 'Had a problem validating data in the call rep factory';
-  //   }
-  // }
+  operationManagerPostFactory(formSubmission: any): OperationManagerPostBody {
+    try {
+      /**
+       * Need processing for the user id here
+       */
+      var payload = {
+        operationId: formSubmission.operation.operationId,
+        userId: this.user.userId
+      };
+      return <OperationManagerPostBody>payload;
+    } catch {
+      throw 'Had a problem validating data in the call rep factory';
+    }
+  }
   onFormSubmit() {
     let formSubmission = this.operationForm.getRawValue();
+    // Passing E2E
+    let operationManagerPost = this.operationManagerPostFactory(formSubmission);
     this.operationService
-      .assignManagerToOperationByOperationIdAndUserId(formSubmission.operation.operationId, this.user.userId)
+      .assignManagerToOperationByOperationIdAndUserId(formSubmission.operation.operationId, operationManagerPost.userId)
+      .subscribe(() => {
+        alert('Manager successfully added');
+      });
+
+    let operationCallRepPost = this.operationCallRepPostFactory(formSubmission);
+    this.operationCallRepsService
+      .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
       .subscribe((data: any) => {
         console.log(data);
+        debugger;
+        alert('Callreps successfully added');
       });
-    // let operationCallRepPost = this.operationCallRepPostFactory(formSubmission);
-    // this.operationCallRepsService
-    //   .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
-    //   .subscribe((data: any) => {
-    //     console.log(data);
-    //   });
     // let operationContactPost = this.operationContactPostFactory(formSubmission);
     // this.operationContactsService
     //   .addOperationContactByOperationId(formSubmission.operation.operationId, operationContactPost)
