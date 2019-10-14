@@ -156,6 +156,9 @@ export class OperationFormComponent implements OnInit {
       })
     );
   }
+  operationChangeEventHandler($event: number) {
+    console.log('change occurred');
+  }
   updateOperation(operation: Operation) {
     this.operation = operation[0];
     // Initial loadin, should probably be abstracted out here
