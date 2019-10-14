@@ -8,7 +8,12 @@
       class="expand-users-assigned-trigger active"
     ></i>
   </ion-item>
-  <ion-item class="assigned-user ion-float-right" *ngFor="let user of operationAssignedUsers$ | async; let idx = index">
-    <span class="user-name">{{ user.userFirstName }} {{ user.userLastName }}</span>
-  </ion-item>
+  <ul [@expandSidebar]="isOpen ? 'open' : 'closed'" class="facility-dropdown-list active">
+    <ion-item
+      class="assigned-user ion-float-right"
+      *ngFor="let user of operationAssignedUsers$ | async; let idx = index"
+    >
+      <span class="user-name">{{ user.userFirstName }} {{ user.userLastName }}</span>
+    </ion-item>
+  </ul>
 </ion-list>
