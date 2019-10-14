@@ -172,20 +172,7 @@ export class OperationFormComponent implements OnInit {
     operationFormControls.controls.operationCountryCode.setValue(this.operation.operationCountryCode);
     operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
     operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
-
-    this.operationContactsService
-      .getOperationContactsByOperationId(this.operation.operationId)
-      .subscribe((data: OperationContact[]) => {
-        this.operationContacts = data;
-        return data;
-      });
-
-    // this.operationCallRepsService
-    //   .getOperationCallRepsByOperationId(this.operation.operationId)
-    //   .subscribe((data: OperationCallRep[]) => {
-    //     this.operationCallReps = data;
-    //     return data;
-    //   });
+    this.armForm();
   }
   addAdditionalCallRep() {
     let formArray = this.operationForm.controls.operationCallReps as FormArray;
