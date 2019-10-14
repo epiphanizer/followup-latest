@@ -114,7 +114,11 @@
                   </div>
                 </ion-list>
                 <ion-item formGroupName="notifications" class="notification-container">
-                  <ion-label class="notifications-title" position="stacked" color="medium">Notifications</ion-label>
+                  <div class="section-header">
+                    <span>
+                      Notifications
+                    </span>
+                  </div>
                   <ion-row>
                     <ion-col width-50>
                       <ion-item *ngFor="let notificationType of notificationTypesListLeft">
@@ -131,6 +135,7 @@
                   </ion-row>
                 </ion-item>
               </ion-item>
+              <span class="ion-float-right add-call-rep" (click)="addAdditionalContact()">[ + add contact ]</span>
             </ion-list>
           </ng-container>
         </div>
@@ -155,6 +160,7 @@
               </ion-select-option>
             </ion-select>
           </ion-item>
+          <span class="ion-float-right add-call-rep" (click)="addAdditionalManager()">[ + add manager ]</span>
         </ion-list>
       </fieldset>
       <fieldset class="operation-callreps">
