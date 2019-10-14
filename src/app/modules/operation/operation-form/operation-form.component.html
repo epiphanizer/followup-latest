@@ -56,7 +56,7 @@
         <div class="section-header">
           <ng-container>
             <ion-list formArrayName="operationContacts" lines="none" inset>
-              <ion-item *ngFor="let operationContact of operation.operationContacts$ | async; let idx = index">
+              <ion-item *ngFor="let operationContact of operationContacts$ | async; let idx = index">
                 <div class="contact-header-wrapper">
                   <i class="icon-user"></i>
                   <ion-label position="stacked" color="medium">Contact {{ idx + 1 }}</ion-label>

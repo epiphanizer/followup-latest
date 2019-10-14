@@ -46,6 +46,7 @@ export class OperationFormComponent implements OnInit {
   operation$: Observable<Operation>;
   operationCallReps: OperationCallRep[] = [];
   operationCallReps$: Observable<OperationCallRep[]>;
+  operationContacts$: Observable<OperationContact[]>;
   operationManagers: OperationManager[] = [];
   operationManagers$: Observable<OperationManager[]>;
 
@@ -94,7 +95,9 @@ export class OperationFormComponent implements OnInit {
         let operation = data;
         this.router.navigate([], {
           relativeTo: this.route,
-          queryParams: { operationId: operation.operationId },
+          queryParams: {
+            operationId: operation.operationId
+          },
           queryParamsHandling: 'merge'
         });
         this.operation = data;
@@ -128,19 +131,29 @@ export class OperationFormComponent implements OnInit {
     this.availableUsers$ = this.userService.getAllUsers();
     this.availableManagers$ = this.userService.getAllManagerUsers();
 
-    this.operationContactsService
-      .getOperationContactsByOperationId(this.operation.operationId)
-      .subscribe((data: OperationContact[]) => {
-        if (!data.length) {
-          this.operationContacts.push({
-            operationContactId: 0,
-            operationContactFirstName: '',
-            operationContactLastName: ''
-          });
-        }
-        this.operationContacts = data;
+    this.operationManagers$ = this.operationService.getOperationManagersByOperationId(this.operation.operationId).pipe(
+      map((data: OperationManager[]) => {
+        this.operationManagers = data;
         return data;
-      });
+      })
+    );
+
+    this.operationContacts$ = this.operationContactsService
+      .getOperationContactsByOperationId(this.operation.operationId)
+      .pipe(
+        map((data: OperationContact[]) => {
+          if (!data.length) {
+            this.operationContacts.push({
+              operationContactId: 0,
+              operationContactFirstName: '',
+              operationContactLastName: ''
+            });
+          }
+          this.operationContacts = data;
+          return data;
+        })
+      );
+
     if (!this.editMode) {
       this.operationCallRepsService
         .getOperationCallRepsByOperationId(this.operation.operationId)
@@ -168,13 +181,6 @@ export class OperationFormComponent implements OnInit {
       .getOperationContactsByOperationId(this.operation.operationId)
       .subscribe((data: OperationContact[]) => {
         this.operationContacts = data;
-        return data;
-      });
-
-    this.operationService
-      .getOperationManagersByOperationId(this.operation.operationId)
-      .subscribe((data: OperationManager[]) => {
-        this.operationManagers = data;
         return data;
       });
 
