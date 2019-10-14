@@ -97,9 +97,8 @@ ul.patient-filters {
   li {
     cursor: pointer;
     width: 100%;
+    display: block;
     height: 96px;
-    line-height: 96px;
-    vertical-align: middle;
     &.active {
       background-color: rgba(8, 196, 0, 0.1);
       &:hover {
@@ -145,7 +144,7 @@ ul.patient-filters {
     }
 
     .notification-avatar {
-      display: inline-block;
+      float: left;
       margin-top: 10.5px;
       width: 74.8px;
       height: 75.2px;
@@ -159,8 +158,7 @@ ul.patient-filters {
 
     .notification-patient-information {
       line-height: 96px;
-      vertical-align: top;
-      display: inline-block;
+      float: left;
       padding-left: 11.2px;
       width: 170px;
       height: 96px;

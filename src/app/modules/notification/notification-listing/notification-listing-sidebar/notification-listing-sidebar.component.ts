@@ -66,7 +66,6 @@ export class NotificationListingSidebarComponent implements OnInit {
   todaysDateDay: number;
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.operations = this.user.operations;
     this.user.operations$.subscribe((data: Operation[]) => {
       /** Init to the first assigned operation alphabetically */
       this.selected.operation = data[0];
