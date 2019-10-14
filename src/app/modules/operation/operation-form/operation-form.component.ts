@@ -34,6 +34,8 @@ export class OperationFormComponent implements OnInit {
   operation: Operation;
   editMode: boolean;
   notificationTypes: NotificationType[];
+  notificationTypesListLeft: NotificationType[] = [];
+  notificationTypesListRight: NotificationType[] = [];
   operationForm!: FormGroup;
   operation$: Observable<Operation>;
   operationCallReps: OperationCallRep[] = [];
@@ -53,10 +55,19 @@ export class OperationFormComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.notificationService.getNotificationTypes().subscribe((data: NotificationType[]) => {
+    this.notificationService.getNotificationTypes().subscribe((data: any) => {
       this.notificationTypes = data;
-      return data;
+      var i;
+      for (i = 0; i <= this.notificationTypes.length; i = i + 2) {
+        if (this.notificationTypes[i] !== undefined) {
+          this.notificationTypesListLeft.push(this.notificationTypes[i]);
+        }
+        if (this.notificationTypes[i + 1] !== undefined) {
+          this.notificationTypesListRight.push(this.notificationTypes[i + 1]);
+        }
+      }
     });
+
     if (this.route.snapshot.data.editMode) {
       this.editMode = true;
     }

@@ -119,26 +119,21 @@
               </ion-item>
               <ion-item class="notification-container">
                 <ion-label position="stacked" color="medium">Notifications</ion-label>
-                <!-- <ion-row>
-                  <ion-col></ion-col>                  
-                  <ion-col></ion-col>
-                </ion-row> -->
-                <ion-list
-                  lines="none"
-                  class="contact-notification-checkbox-list"
-                  formGroupName="operationContactNotifications"
-                >
-                  <ion-item *ngFor="let notificationType of notificationTypes; let idx = index">
-                    <ion-checkbox formControlName="{{ idx }}"> </ion-checkbox>
-                    <ion-label>
-                      {{ notificationType.notificationTypeLabel }}
-                    </ion-label>
-                  </ion-item>
-                </ion-list>
+                <ion-row>
+                  <ion-col width-50>
+                    <ion-item *ngFor="let notificationType of notificationTypesListLeft">
+                      <ion-radio value="{{ notificationType.notificationTypeId }}"> </ion-radio>
+                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col width-50>
+                    <ion-item *ngFor="let notificationType of notificationTypesListRight">
+                      <ion-radio value="{{ notificationType.notificationTypeId }}"> </ion-radio>
+                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
               </ion-item>
-              <ion-item class="ion-float-right add-additional-contact" (click)="addAdditionalContact()"
-                >[ + additional contact ]</ion-item
-              >
             </ion-list>
           </ng-container>
           <ng-template #addFirstOperationContact>
@@ -174,20 +169,21 @@
 
               <ion-item class="notification-container">
                 <ion-label position="stacked" color="medium">Notifications</ion-label>
-                <ion-list
-                  lines="none"
-                  class="contact-notification-checkbox-list"
-                  formGroupName="operationContactNotifications"
-                >
-                  <ion-item *ngFor="let notificationType of notificationTypes; let idx = index">
-                    <ion-checkbox> </ion-checkbox>
-                    <ion-label>
-                      {{ notificationType.notificationTypesLabel }}
-                    </ion-label>
-                  </ion-item>
-                </ion-list>
+                <ion-row>
+                  <ion-col width-50>
+                    <ion-item *ngFor="let notificationType of notificationTypesListLeft">
+                      <ion-radio value="{{ notificationType.notificationTypeId }}"> </ion-radio>
+                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col width-50>
+                    <ion-item *ngFor="let notificationType of notificationTypesListRight">
+                      <ion-radio value="{{ notificationType.notificationTypeId }}"> </ion-radio>
+                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
               </ion-item>
-
               <ion-item
                 class="additional-contact
               ion-float-right"

@@ -63,9 +63,9 @@ export class NotificationModalComponent {
             this.notificationTypesListRight.push(this.notificationTypes[i + 1]);
           }
         }
-        this.createForm();
-        this.onChanges();
       }
+      this.createForm();
+      this.onChanges();
       this.todaysDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
       this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     });
