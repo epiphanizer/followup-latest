@@ -71,24 +71,33 @@ export class OperationFormComponent implements OnInit {
     if (this.route.snapshot.data.editMode) {
       this.editMode = true;
     }
+    console.log(this.editMode);
     if (this.editMode) {
       this.operation = this.route.snapshot.data.operation;
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
       this.createForm();
-      this.addAdditionalContact();
-      this.addAdditionalCallRep();
+      this.armForm();
     } else {
-      this.operation$ = this.operationService.addNewOperation().pipe(
-        map((data: Operation) => {
-          this.operation = data;
-          this.createForm();
-          this.addAdditionalContact();
-          this.addAdditionalCallRep();
-          return data;
-        })
-      );
+      this.operationService.addNewOperation().subscribe((data: Operation) => {
+        this.operation = data;
+        this.createForm();
+        this.armForm();
+      });
     }
+    /**
+     * Quickly shift operations if url param changes
+     */
+    this.route.paramMap.subscribe(params => {
+      let operationId = parseInt(params.get('operationId'));
+      this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
+        this.updateOperation(operation);
+      });
+    });
+  }
 
+  armForm() {
+    this.addAdditionalContact();
+    this.addAdditionalCallRep();
     this.availableUsers$ = this.userService.getAllUsers();
     this.availableManagers$ = this.userService.getAllManagerUsers();
 
@@ -105,18 +114,7 @@ export class OperationFormComponent implements OnInit {
         this.operationCallReps = data;
         return data;
       });
-
-    /**
-     * Quickly shift operations if url param changes
-     */
-    this.route.paramMap.subscribe(params => {
-      let operationId = parseInt(params.get('operationId'));
-      this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
-        this.updateOperation(operation);
-      });
-    });
   }
-
   updateOperation(operation: Operation) {
     this.operation = operation[0];
     // Initial loadin, should probably be abstracted out here
