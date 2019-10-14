@@ -80,14 +80,14 @@ export class OperationFormComponent implements OnInit {
     } else {
       this.operationService.addNewOperation().subscribe((data: Operation) => {
         let operation = data;
-        this.createForm();
-        this.armForm();
         this.router.navigate([], {
           relativeTo: this.route,
           queryParams: { operationId: operation.operationId },
           queryParamsHandling: 'merge'
         });
         this.operation = data;
+        this.createForm();
+        this.armForm();
       });
     }
     /**
