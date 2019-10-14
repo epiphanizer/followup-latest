@@ -165,10 +165,10 @@
               <ion-select value="operationCallRep.operationCallRepId">
                 <ion-select-option
                   *ngFor="let user of availableUsers$ | async"
-                  value="{{ operationCallRep.operationCallRepId }}"
-                  [selected]="operationcallRep.operationCallRepId == user.userId"
+                  value="{{ user.userId }}"
+                  [selected]="user.userId == operationCallRep.operationCallRepId"
                 >
-                  {{ operationCallRep.operationCallRepName }}
+                  {{ user.userFirstName }} {{ user.userLastName }}
                 </ion-select-option>
               </ion-select>
             </ion-item>

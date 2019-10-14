@@ -39,7 +39,7 @@ export class OperationFormComponent implements OnInit {
   operationForm!: FormGroup;
   operation$: Observable<Operation>;
   operationCallReps: OperationCallRep[] = [];
-  operationCallReps$: Observable<OperationCallRep>;
+  operationCallReps$: Observable<OperationCallRep[]>;
   operationContacts: OperationContact[] = [];
   user: User;
 
@@ -75,6 +75,9 @@ export class OperationFormComponent implements OnInit {
     if (this.editMode) {
       this.operation = this.route.snapshot.data.operation;
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
+      this.operationCallReps$ = this.operationCallRepsService.getOperationCallRepsByOperationId(
+        this.operation.operationId
+      );
       this.createForm();
       this.armForm();
     } else {
@@ -86,6 +89,13 @@ export class OperationFormComponent implements OnInit {
           queryParamsHandling: 'merge'
         });
         this.operation = data;
+        // Arm an initial call rep
+        this.operationCallReps$ = of([
+          {
+            operationCallRepId: 0,
+            operationCallRepName: ''
+          }
+        ]);
         this.createForm();
         this.armForm();
       });
