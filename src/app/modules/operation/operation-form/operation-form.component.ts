@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2, Injectable, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, from, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { OperationService } from '../operation.service';
@@ -51,6 +51,7 @@ export class OperationFormComponent implements OnInit {
     private operationCallRepsService: OperationCallRepsService,
     private operationContactsService: OperationContactsService,
     private route: ActivatedRoute,
+    private router: Router,
     private userService: UserService
   ) {}
   ngOnInit() {
@@ -71,7 +72,6 @@ export class OperationFormComponent implements OnInit {
     if (this.route.snapshot.data.editMode) {
       this.editMode = true;
     }
-    console.log(this.editMode);
     if (this.editMode) {
       this.operation = this.route.snapshot.data.operation;
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
@@ -80,19 +80,28 @@ export class OperationFormComponent implements OnInit {
     } else {
       this.operationService.addNewOperation().subscribe((data: Operation) => {
         this.operation = data;
-        this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
-        this.createForm();
-        this.armForm();
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { operationId: this.operation.operationId },
+          queryParamsHandling: 'merge'
+        });
+        // console.log(this.operation.operationId);
+        // debugger;
+        // this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
+        // this.createForm();
+        // this.armForm();
       });
     }
     /**
      * Quickly shift operations if url param changes
      */
     this.route.paramMap.subscribe(params => {
-      let operationId = parseInt(params.get('operationId'));
-      this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
-        this.updateOperation(operation);
-      });
+      if (params.get('operationId')) {
+        let operationId = parseInt(params.get('operationId'));
+        this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
+          this.updateOperation(operation);
+        });
+      }
     });
   }
 

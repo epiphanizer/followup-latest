@@ -262,7 +262,12 @@
             </span>
           </ion-list>
         </ng-template>
+        <ion-item class="is-active ion-float-right">
+          <ion-checkbox formControlName="operationActive"></ion-checkbox>
+          <ion-label color="medium">Active?</ion-label>
+        </ion-item>
       </fieldset>
+
       <ion-button class="ion-float-right" (click)="onFormSubmit()">Save</ion-button>
     </form>
   </ion-col>
