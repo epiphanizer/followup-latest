@@ -173,16 +173,17 @@ export class OperationFormComponent implements OnInit {
 
     this.operationService
       .getOperationManagersByOperationId(this.operation.operationId)
-      .subscribe((data: OperationCallRep[]) => {
-        this.operationCallReps = data;
+      .subscribe((data: OperationManager[]) => {
+        this.operationManagers = data;
         return data;
       });
-    this.operationCallRepsService
-      .getOperationCallRepsByOperationId(this.operation.operationId)
-      .subscribe((data: OperationCallRep[]) => {
-        this.operationCallReps = data;
-        return data;
-      });
+
+    // this.operationCallRepsService
+    //   .getOperationCallRepsByOperationId(this.operation.operationId)
+    //   .subscribe((data: OperationCallRep[]) => {
+    //     this.operationCallReps = data;
+    //     return data;
+    //   });
   }
   addAdditionalCallRep() {
     let formArray = this.operationForm.controls.operationCallReps as FormArray;

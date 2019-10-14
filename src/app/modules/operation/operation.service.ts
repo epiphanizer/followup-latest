@@ -18,8 +18,8 @@ export class OperationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  public getOperationManagersByOperationId(operationId: number) {
-    return this.http.get<OperationManager[]>('operations/' + operationId + '/managers/').pipe(
+  public getOperationManagersByOperationId(operationId: number): Observable<OperationManager[]> {
+    return this.http.get<OperationManager[]>('operations/' + operationId + '/managers').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
