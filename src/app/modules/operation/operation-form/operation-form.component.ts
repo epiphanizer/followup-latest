@@ -220,7 +220,8 @@ export class OperationFormComponent implements OnInit {
         operationZip: formSubmission.operation.operationZip,
         operationCountryCode: formSubmission.operation.operationCountryCode,
         operationAreaCode: formSubmission.operation.operationAreaCode,
-        operationPhoneNumber: formSubmission.operation.operationPhoneNumber
+        operationPhoneNumber: formSubmission.operation.operationPhoneNumber,
+        operationActive: formSubmission.operationActive
       };
       return <OperationPutBody>payload;
     } catch {
@@ -257,18 +258,18 @@ export class OperationFormComponent implements OnInit {
   }
   onFormSubmit() {
     let formSubmission = this.operationForm.getRawValue();
-    let operationCallRepPost = this.operationCallRepPostFactory(formSubmission);
-    this.operationCallRepsService
-      .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
-      .subscribe((data: any) => {
-        console.log(data);
-      });
-    let operationContactPost = this.operationContactPostFactory(formSubmission);
-    this.operationContactsService
-      .addOperationContactByOperationId(formSubmission.operation.operationId, operationContactPost)
-      .subscribe((data: any) => {
-        console.log(data);
-      });
+    // let operationCallRepPost = this.operationCallRepPostFactory(formSubmission);
+    // this.operationCallRepsService
+    //   .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
+    //   .subscribe((data: any) => {
+    //     console.log(data);
+    //   });
+    // let operationContactPost = this.operationContactPostFactory(formSubmission);
+    // this.operationContactsService
+    //   .addOperationContactByOperationId(formSubmission.operation.operationId, operationContactPost)
+    //   .subscribe((data: any) => {
+    //     console.log(data);
+    //   });
 
     let operationPut = this.operationPutFactory(formSubmission);
     this.operationService
