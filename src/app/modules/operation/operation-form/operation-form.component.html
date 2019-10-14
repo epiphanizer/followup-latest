@@ -175,7 +175,9 @@
               </div>
             </ion-list>
             <ion-item class="notification-container">
-              <h3>Notifications</h3>
+              <ion-row>
+                <h4>Notifications</h4>
+              </ion-row>
               <ion-row>
                 <ion-col width-50>
                   <ion-item *ngFor="let notificationType of notificationTypesListLeft">
@@ -192,7 +194,7 @@
               </ion-row>
             </ion-item>
             <ion-item
-              class="additional-contact
+              class="add-additional-contact
             ion-float-right"
               (click)="addAdditionalContact()"
             >
@@ -203,7 +205,7 @@
       </fieldset>
       <fieldset class="operation-team-members">
         <i class="icon-team-members"></i>
-        <h3>Team Members</h3>
+        <h4>Team Members</h4>
         <ion-list lines="none">
           <ion-item *ngIf="editMode; else addManager">
             <ion-label position="stacked" color="medium">
