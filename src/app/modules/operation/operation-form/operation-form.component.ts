@@ -221,7 +221,7 @@ export class OperationFormComponent implements OnInit {
         operationCountryCode: formSubmission.operation.operationCountryCode,
         operationAreaCode: formSubmission.operation.operationAreaCode,
         operationPhoneNumber: formSubmission.operation.operationPhoneNumber,
-        operationActive: formSubmission.operationActive
+        operationActive: formSubmission.operationActive ? 1 : 0
       };
       return <OperationPutBody>payload;
     } catch {
