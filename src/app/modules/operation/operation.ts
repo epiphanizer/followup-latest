@@ -5,18 +5,18 @@ import { PatientCall } from '../patient/patient-detail/patient-call/patient-call
 
 export interface Operation {
   operationId: number;
-  operationName: string;
-  operationAddress: string;
-  operationCity: string;
-  operationState: string;
-  operationZip: string;
-  operationCountryCode: number;
-  operationAreaCode: number;
-  operationPhoneNumber: string;
-  operationContacts$: Observable<OperationContact[]>;
+  operationName?: string;
+  operationAddress?: string;
+  operationCity?: string;
+  operationState?: string;
+  operationZip?: string;
+  operationCountryCode?: number;
+  operationAreaCode?: number;
+  operationPhoneNumber?: string;
+  operationContacts$?: Observable<OperationContact[]>;
   operationAssignedManagerUserId?: number;
   operationAssignedManagerName?: string;
-  operationCallReps$: Observable<OperationCallRep[]>;
+  operationCallReps$?: Observable<OperationCallRep[]>;
   /**
    * Some counters that don't always
    * attach to the object,
