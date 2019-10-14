@@ -30,10 +30,15 @@ export interface Operation {
 }
 
 export interface OperationPutBody {
-  operationActive: number;
   operationName: string;
-  operationContacts: OperationContact[];
-  operationCallReps: OperationCallRep[];
+  operationAddress: string;
+  operationCity: string;
+  operationState: string;
+  operationZip: string;
+  operationCountryCode: string;
+  operationAreaCode: string;
+  operationPhoneNumber: string;
+  operationActive: number;
 }
 export interface OperationCallRepPostBody {
   operationId: number;

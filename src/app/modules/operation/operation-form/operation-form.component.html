@@ -54,7 +54,7 @@
 
       <fieldset class="operation-contacts">
         <div class="section-header">
-          <ng-container *ngIf="editMode; else addFirstOperationContact">
+          <ng-container>
             <ion-list formArrayName="operationContacts" lines="none" inset>
               <ion-item *ngFor="let operationContact of operation.operationContacts$ | async; let idx = index">
                 <div class="contact-header-wrapper">
@@ -113,94 +113,26 @@
                     </ion-item>
                   </div>
                 </ion-list>
-              </ion-item>
-              <ion-item class="notification-container">
-                <ion-label position="stacked" color="medium">Notifications</ion-label>
-                <ion-row>
-                  <ion-col width-50>
-                    <ion-item *ngFor="let notificationType of notificationTypesListLeft">
-                      <ion-radio value="{{ notificationType.notificationTypeId }}"> </ion-radio>
-                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
-                    </ion-item>
-                  </ion-col>
-                  <ion-col width-50>
-                    <ion-item *ngFor="let notificationType of notificationTypesListRight">
-                      <ion-radio value="{{ notificationType.notificationTypeId }}"> </ion-radio>
-                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
-                    </ion-item>
-                  </ion-col>
-                </ion-row>
+                <ion-item formGroupName="notifications" class="notification-container">
+                  <ion-label class="notifications-title" position="stacked" color="medium">Notifications</ion-label>
+                  <ion-row>
+                    <ion-col width-50>
+                      <ion-item *ngFor="let notificationType of notificationTypesListLeft">
+                        <ion-radio value="{{ notificationType.notificationTypeId }}"> </ion-radio>
+                        <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col width-50>
+                      <ion-item *ngFor="let notificationType of notificationTypesListRight">
+                        <ion-radio value="{{ notificationType.notificationTypeId }}"> </ion-radio>
+                        <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </ion-item>
               </ion-item>
             </ion-list>
           </ng-container>
-          <ng-template #addFirstOperationContact>
-            <ion-list formArrayName="operationContacts">
-              <div class="contact-header-wrapper">
-                <i class="icon-user"></i>
-                <ion-label position="stacked" color="medium">Contact 1</ion-label>
-              </div>
-              <ion-list formGroupName="0" lines="none" inset>
-                <ion-item>
-                  <ion-label color="medium" position="stacked">First Name</ion-label>
-                  <ion-input type="text" formControlName="operationContactFirstName"> </ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label color="medium" position="stacked">Middle Name</ion-label>
-                  <ion-input type="text" formControlName="operationContactMiddleName"> </ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label color="medium" position="stacked">Last Name</ion-label>
-                  <ion-input type="text" formControlName="operationContactLastName"> </ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label color="medium" position="stacked">Title / Position</ion-label>
-                  <ion-input type="text" formControlName="operationContactTitle"> </ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label color="medium" position="stacked">Email</ion-label>
-                  <ion-input type="text" formControlName="operationContactEmail"> </ion-input>
-                </ion-item>
-                <div class="phone-container">
-                  <ion-item class="country-code">
-                    <ion-label color="medium" position="stacked">+(1)</ion-label>
-                    <ion-input type="text" value="1" formControlName="operationContactCountryCode"></ion-input>
-                  </ion-item>
-                  <ion-item class="area-code">
-                    <ion-label color="medium" position="stacked">(###)</ion-label>
-                    <ion-input type="text" formControlName="operationContactAreaCode"></ion-input>
-                  </ion-item>
-                  <ion-item class="phone-number">
-                    <ion-label color="medium" position="stacked">Phone #</ion-label>
-                    <ion-input type="text" formControlName="operationContactPhoneNumber"></ion-input>
-                  </ion-item>
-                </div>
-              </ion-list>
-              <ion-item class="notification-container">
-                <ion-label position="stacked" color="medium">Notifications</ion-label>
-                <ion-row>
-                  <ion-col width-50>
-                    <ion-item *ngFor="let notificationType of notificationTypesListLeft">
-                      <ion-checkbox value="{{ notificationType.notificationTypeId }}"> </ion-checkbox>
-                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
-                    </ion-item>
-                  </ion-col>
-                  <ion-col width-50>
-                    <ion-item *ngFor="let notificationType of notificationTypesListRight">
-                      <ion-checkbox value="{{ notificationType.notificationTypeId }}"> </ion-checkbox>
-                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
-                    </ion-item>
-                  </ion-col>
-                </ion-row>
-              </ion-item>
-              <ion-item
-                class="add-additional-contact
-            ion-float-right"
-                (click)="addAdditionalContact()"
-              >
-                [ + additional contact ]
-              </ion-item>
-            </ion-list>
-          </ng-template>
         </div>
       </fieldset>
       <fieldset class="operation-team-members">

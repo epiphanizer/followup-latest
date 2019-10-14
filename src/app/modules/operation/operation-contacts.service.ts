@@ -7,12 +7,26 @@ import { OperationContact } from './operation-contact/operation-contact';
 
 export interface OperationContactPutBody {
   operationContactId: number;
+  operationContactFirstName: string;
+  operationContactMiddleName: string;
+  operationContactLastName: string;
+  operationContactCountryCode: string;
+  operationContactAreaCode: string;
+  operationContactPhoneNumber: string;
+  operationContactEmail: string;
+  operationContactTitle: string;
 }
 export interface OperationContactPostBody {
   operationContactFirstName: string;
+  operationContactMiddleName: string;
   operationContactLastName: string;
+  operationContactCountryCode: string;
+  operationContactAreaCode: string;
+  operationContactPhoneNumber: string;
   operationContactEmail: string;
+  operationContactTitle: string;
 }
+
 @Injectable({
   providedIn: 'root'
 })

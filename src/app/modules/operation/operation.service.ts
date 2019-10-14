@@ -2,13 +2,18 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../user/user';
-import { Operation } from './operation';
+import { Operation, OperationPutBody } from './operation';
 
 export class OperationService {
   constructor(private http: HttpClient) {}
 
   addNewOperation(): Observable<Operation> {
     return this.http.post<Operation>('operations', {}).pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  public editOperationByOperationId(operationId: number, operationPutBody: OperationPutBody): Observable<Operation> {
+    return this.http.put<Operation>('operations/' + operationId, operationPutBody).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

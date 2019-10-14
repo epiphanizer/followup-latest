@@ -112,6 +112,13 @@ export class OperationFormComponent implements OnInit {
     this.operationContactsService
       .getOperationContactsByOperationId(this.operation.operationId)
       .subscribe((data: OperationContact[]) => {
+        if (!data.length) {
+          this.operationContacts.push({
+            operationContactId: 0,
+            operationContactFirstName: '',
+            operationContactLastName: ''
+          });
+        }
         this.operationContacts = data;
         return data;
       });
@@ -205,11 +212,16 @@ export class OperationFormComponent implements OnInit {
   }
   operationPutFactory(formSubmission: any): OperationPutBody {
     try {
-      var payload = {};
-      debugger;
-      // var payload = {
-      //   'operationName': formSubmission
-      // };
+      var payload = {
+        operationName: formSubmission.operation.operationName,
+        operationAddress: formSubmission.operation.operationAddress,
+        operationCity: formSubmission.operation.operationCity,
+        operationState: formSubmission.operation.operationState,
+        operationZip: formSubmission.operation.operationZip,
+        operationCountryCode: formSubmission.operation.operationCountryCode,
+        operationAreaCode: formSubmission.operation.operationAreaCode,
+        operationPhoneNumber: formSubmission.operation.operationPhoneNumber
+      };
       return <OperationPutBody>payload;
     } catch {
       throw 'Had a problem validating data in the operation form factory';
@@ -228,11 +240,15 @@ export class OperationFormComponent implements OnInit {
   }
   operationContactPostFactory(formSubmission: any): OperationContactPostBody {
     try {
-      debugger;
       var payload = {
         operationContactFirstName: formSubmission.operationContactFirstName,
+        operationContactMiddleName: formSubmission.operationContactMiddleName,
         operationContactLastName: formSubmission.operationContactLastName,
-        operationContactEmail: formSubmission.operationContactEmail
+        operationContactCountryCode: formSubmission.operationContactCountryCode,
+        operationContactAreaCode: formSubmission.operationContactAreaCode,
+        operationContactPhoneNumber: formSubmission.operationContactPhoneNumber,
+        operationContactEmail: formSubmission.operationContactEmail,
+        operationContactTitle: formSubmission.operationContactTitle
       };
       return <OperationContactPostBody>payload;
     } catch {
@@ -242,14 +258,23 @@ export class OperationFormComponent implements OnInit {
   onFormSubmit() {
     let formSubmission = this.operationForm.getRawValue();
     let operationCallRepPost = this.operationCallRepPostFactory(formSubmission);
-    this.operationCallRepsService.addOperationCallRepByOperationIdAndUserId(
-      operationCallRepPost.operationId,
-      operationCallRepPost.userId
-    );
+    this.operationCallRepsService
+      .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
+      .subscribe((data: any) => {
+        console.log(data);
+      });
     let operationContactPost = this.operationContactPostFactory(formSubmission);
-    this.operationContactsService.addOperationContactByOperationId(
-      formSubmission.operation.operationId,
-      operationContactPost
-    );
+    this.operationContactsService
+      .addOperationContactByOperationId(formSubmission.operation.operationId, operationContactPost)
+      .subscribe((data: any) => {
+        console.log(data);
+      });
+
+    let operationPut = this.operationPutFactory(formSubmission);
+    this.operationService
+      .editOperationByOperationId(this.operation.operationId, operationPut)
+      .subscribe((data: any) => {
+        console.log(data);
+      });
   }
 }
