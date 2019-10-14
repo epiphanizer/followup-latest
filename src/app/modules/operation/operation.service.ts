@@ -2,7 +2,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../user/user';
-import { Operation, OperationPutBody } from './operation';
+import { Operation, OperationPutBody, OperationManager } from './operation';
 
 export class OperationService {
   constructor(private http: HttpClient) {}
@@ -15,6 +15,11 @@ export class OperationService {
 
   public assignManagerToOperationByOperationIdAndUserId(operationId: number, userId: number) {
     return this.http.post('operations/' + operationId + '/managers/' + userId, {}).pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  public getOperationManagersByOperationId(operationId: number) {
+    return this.http.get<OperationManager[]>('operations/' + operationId + '/managers/').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

@@ -10,7 +10,13 @@ import { UserService } from '@app/modules/user/user.service';
 import { User } from '@app/modules/user/user';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { OperationResolver } from '../operation-resolver';
-import { OperationPutBody, OperationCallRepPostBody, Operation, OperationManagerPostBody } from '../operation';
+import {
+  OperationPutBody,
+  OperationCallRepPostBody,
+  Operation,
+  OperationManagerPostBody,
+  OperationManager
+} from '../operation';
 import { OperationContact } from '../operation-contact/operation-contact';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { NotificationType } from '@app/modules/notification/notification';
@@ -40,6 +46,9 @@ export class OperationFormComponent implements OnInit {
   operation$: Observable<Operation>;
   operationCallReps: OperationCallRep[] = [];
   operationCallReps$: Observable<OperationCallRep[]>;
+  operationManagers: OperationManager[] = [];
+  operationManagers$: Observable<OperationManager[]>;
+
   operationContacts: OperationContact[] = [];
   user: User;
 
@@ -162,6 +171,12 @@ export class OperationFormComponent implements OnInit {
         return data;
       });
 
+    this.operationService
+      .getOperationManagersByOperationId(this.operation.operationId)
+      .subscribe((data: OperationCallRep[]) => {
+        this.operationCallReps = data;
+        return data;
+      });
     this.operationCallRepsService
       .getOperationCallRepsByOperationId(this.operation.operationId)
       .subscribe((data: OperationCallRep[]) => {
