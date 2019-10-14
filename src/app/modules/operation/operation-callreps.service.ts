@@ -21,7 +21,7 @@ export class OperationCallRepsService {
     );
   }
   addOperationCallRepByOperationIdAndUserId(operationId: number, userId: number) {
-    return this.http.post<OperationCallRep>('operations/' + operationId + '/callreps', {}).pipe(
+    return this.http.post<OperationCallRep>('operations/' + operationId + '/callreps/' + userId, {}).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

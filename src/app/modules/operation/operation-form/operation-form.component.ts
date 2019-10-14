@@ -279,7 +279,9 @@ export class OperationFormComponent implements OnInit {
     let operationManagerPost = this.operationManagerPostFactory(formSubmission);
     this.operationService
       .assignManagerToOperationByOperationIdAndUserId(formSubmission.operation.operationId, operationManagerPost.userId)
-      .subscribe(() => {
+      .subscribe((data: any) => {
+        console.log(data);
+        debugger;
         alert('Manager successfully added');
       });
 
@@ -303,6 +305,8 @@ export class OperationFormComponent implements OnInit {
       .editOperationByOperationId(this.operation.operationId, operationPut)
       .subscribe((data: any) => {
         console.log(data);
+        debugger;
+        alert('Operation successfully edited');
       });
   }
 }
