@@ -31,7 +31,10 @@ export class NotificationListingComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.selected.operation = this.user.operations[0];
+    this.user.operations$.subscribe((data: Operation[]) => {
+      /** Init to the first assigned operation alphabetically */
+      this.selected.operation = data[0];
+    });
   }
 
   ngOnChanges(changes: any) {
