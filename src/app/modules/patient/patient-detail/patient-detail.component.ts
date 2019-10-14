@@ -49,6 +49,10 @@ export class PatientDetailComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
+    // Go get our existing calls
+    this.patient.patientCalls$.subscribe((patientCalls: PatientCall[]) => {
+      this.patient.patientCalls = patientCalls;
+    });
     this.patientCallService
       .getPatientCallByPatientCallId(this.patient.patientId, this.patient.nextPatientCallId)
       .subscribe((patientCall: PatientCall) => {
