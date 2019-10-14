@@ -256,11 +256,27 @@ export class OperationFormComponent implements OnInit {
       throw 'Had a problem validating data in the call rep factory';
     }
   }
+  // operationManagerPostFactory(formSubmission: any): OperationContactPostBody {
+  //   try {
+  //     var payload = {
+  //       operationContactFirstName: formSubmission.operationContactFirstName,
+  //       operationContactMiddleName: formSubmission.operationContactMiddleName,
+  //       operationContactLastName: formSubmission.operationContactLastName,
+  //       operationContactCountryCode: formSubmission.operationContactCountryCode,
+  //       operationContactAreaCode: formSubmission.operationContactAreaCode,
+  //       operationContactPhoneNumber: formSubmission.operationContactPhoneNumber,
+  //       operationContactEmail: formSubmission.operationContactEmail,
+  //       operationContactTitle: formSubmission.operationContactTitle
+  //     };
+  //     return <OperationContactPostBody>payload;
+  //   } catch {
+  //     throw 'Had a problem validating data in the call rep factory';
+  //   }
+  // }
   onFormSubmit() {
     let formSubmission = this.operationForm.getRawValue();
-    let operationManagerPost = this.operationManagerPostFactory(formSubmission);
     this.operationService
-      .assignOperationManager(operationManagerPost.operationId, operationManagerPost.userId)
+      .assignManagerToOperationByOperationIdAndUserId(formSubmission.operation.operationId, this.user.userId)
       .subscribe((data: any) => {
         console.log(data);
       });
