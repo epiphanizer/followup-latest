@@ -23,7 +23,7 @@ ion-title {
 }
 
 .operation-form-content {
-  margin-left: 120px;
+  margin-left: 90px;
   max-width: 720px;
 }
 
@@ -109,9 +109,8 @@ form {
   i {
     float: left;
     clear: left;
-    width: 16px;
-    height: 16px;
-    margin-top: 18px;
+    width: 18px;
+    height: 18px;
     background-repeat: no-repeat;
     background-size: 95%;
     margin-right: 6px;
@@ -119,6 +118,7 @@ form {
 
   i.icon-info {
     background-image: url("/assets/icon-info@2x.png");
+    margin-top: 16px;
   }
 
   i.icon-team-members {
