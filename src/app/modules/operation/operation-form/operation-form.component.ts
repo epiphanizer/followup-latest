@@ -188,6 +188,7 @@ export class OperationFormComponent implements OnInit {
     formArray.push(this.fb.control({}));
     let newCallRep = {
       operationCallRepId: 0,
+      operationId: this.operation.operationId,
       operationCallRepName: ''
     };
     this.operationCallReps.push(newCallRep);
@@ -213,10 +214,9 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
     contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
-    contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
     formArray.push(contactFormGroup);
     let newCallContact = {
-      operationContactId: 0,
+      operationContactId: this.operation.operationId,
       operationContactFirstName: '',
       operationContactLastName: ''
     };

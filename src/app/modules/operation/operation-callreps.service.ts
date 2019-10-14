@@ -6,6 +6,7 @@ import { throwError } from 'rxjs';
 
 export interface OperationCallRep {
   operationCallRepId: number;
+  operationId: number;
   operationCallRepName: string;
 }
 
