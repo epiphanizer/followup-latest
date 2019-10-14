@@ -131,16 +131,39 @@ ul.notification-filters {
       width: 96px;
       height: 100%;
       font-family: Avenir;
-      font-size: 24.1px;
+      font-size: 17px;
       font-weight: 900;
       font-style: normal;
       font-stretch: normal;
       letter-spacing: 0.96px;
       text-align: center;
-
+      color: #343638;
+      padding-top: 32px;
       &.active {
         color: #08c400;
       }
+    }
+    .notification-type {
+      display: block;
+      width: 120px;
+      height: 100%;
+      padding-top: 32px;
+      font-family: Avenir;
+      font-size: 14px;
+      float: let;
+      img {
+        margin-right: 6px;
+      }
+      img,
+      span {
+        display: inline-block;
+      }
+    }
+    .notification-status {
+      display: block;
+      width: auto;
+      height: 100%;
+      float: left;
     }
 
     &:nth-child(even) {
