@@ -141,7 +141,7 @@
           <span>Team Members</span>
         </div>
         <ion-list class="assigned-manager-list" lines="none">
-          <ion-item *ngIf="editMode; else addManager">
+          <ion-item>
             <ion-label position="stacked" color="medium">
               Assigned Manager
             </ion-label>
@@ -155,24 +155,11 @@
               </ion-select-option>
             </ion-select>
           </ion-item>
-
-          <ng-template #addManager>
-            <ion-item>
-              <ion-label position="stacked" color="medium">
-                Add Manager
-              </ion-label>
-              <ion-select placeholder="Select User" class="select-facility">
-                <ion-select-option *ngFor="let user of availableManagers$ | async">
-                  {{ user.userLastName }}, {{ user.userFirstName }}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ng-template>
         </ion-list>
       </fieldset>
       <fieldset class="operation-callreps">
-        <ng-container *ngIf="editMode; else addCallReps">
-          <ion-list lines="none">
+        <ng-container>
+          <ion-list lines="none" inset>
             <ion-item *ngFor="let operationCallRep of operationCallReps$ | async; let idx = index">
               <ion-label position="stacked" color="medium">Care Rep {{ idx + 1 }} </ion-label>
               <ion-select value="operationCallRep.operationCallRepId">
@@ -188,23 +175,7 @@
             <span class="ion-float-right add-call-rep" (click)="addAdditionalCallRep()">[ + add call rep ]</span>
           </ion-list>
         </ng-container>
-        <ng-template #addCallReps>
-          <ion-list lines="none">
-            <ion-item *ngFor="let callRep of operationCallReps; let idx = index">
-              <ion-label position="stacked" color="medium">
-                Add Care Rep
-              </ion-label>
-              <ion-select>
-                <ion-select-option *ngFor="let user of availableUsers$ | async" [value]="user.userId">
-                  {{ user.userLastName }}, {{ user.userFirstName }}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
-            <span class="ion-float-right add-call-rep" (click)="addAdditionalCallRep()"
-              >[ + additional care rep ]
-            </span>
-          </ion-list>
-        </ng-template>
+
         <ion-item class="is-active ion-float-right">
           <ion-checkbox formControlName="operationActive"></ion-checkbox>
           <ion-label color="medium">Active?</ion-label>
