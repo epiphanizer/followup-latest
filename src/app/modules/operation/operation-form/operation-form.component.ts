@@ -115,13 +115,14 @@ export class OperationFormComponent implements OnInit {
         this.operationContacts = data;
         return data;
       });
-
-    this.operationCallRepsService
-      .getOperationCallRepsByOperationId(this.operation.operationId)
-      .subscribe((data: OperationCallRep[]) => {
-        this.operationCallReps = data;
-        return data;
-      });
+    if (!this.editMode) {
+      this.operationCallRepsService
+        .getOperationCallRepsByOperationId(this.operation.operationId)
+        .subscribe((data: OperationCallRep[]) => {
+          this.operationCallReps = data;
+          return data;
+        });
+    }
   }
   updateOperation(operation: Operation) {
     this.operation = operation[0];
@@ -179,9 +180,7 @@ export class OperationFormComponent implements OnInit {
       operationContactFirstName: '',
       operationContactLastName: ''
     };
-
     this.operationContacts.push(newCallContact);
-    alert('adding additional contact');
   }
   private createForm() {
     this.operationForm = this.fb.group({

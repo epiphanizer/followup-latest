@@ -176,9 +176,7 @@
                 </div>
               </ion-list>
               <ion-item class="notification-container">
-                <ion-row>
-                  <h4>Notifications</h4>
-                </ion-row>
+                <ion-label position="stacked" color="medium">Notifications</ion-label>
                 <ion-row>
                   <ion-col width-50>
                     <ion-item *ngFor="let notificationType of notificationTypesListLeft">
@@ -206,8 +204,10 @@
         </div>
       </fieldset>
       <fieldset class="operation-team-members">
-        <i class="icon-team-members"></i>
-        <h4>Team Members</h4>
+        <div class="section-header">
+          <i class="icon-team-members"></i>
+          <h4>Team Members</h4>
+        </div>
         <ion-list lines="none">
           <ion-item *ngIf="editMode; else addManager">
             <ion-label position="stacked" color="medium">
@@ -218,7 +218,7 @@
               placeholder="Select User"
               value="operation.operationAssignedManagerUserId"
             >
-              <ion-select-option *ngFor="let user of availableManagers$ | async" [value]="user.userFirstName">
+              <ion-select-option *ngFor="let user of availableUsers$ | async" [value]="user.userFirstName">
                 {{ user.userLastName }}, {{ user.userFirstName }}
               </ion-select-option>
             </ion-select>

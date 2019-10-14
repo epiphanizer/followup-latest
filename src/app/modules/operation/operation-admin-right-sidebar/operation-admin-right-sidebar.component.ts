@@ -62,9 +62,9 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   user: User;
   todaysDateDay: number;
   ngOnInit() {
-    this.operation = this.route.snapshot.data.operation;
+    let operationId = this.route.snapshot.data.operation | this.route.snapshot.queryParams.operationId;
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
-    this.operationAssignedUsers$ = this.operationService.getUsersAssignedByOperationId(this.operation.operationId);
+    this.operationAssignedUsers$ = this.operationService.getUsersAssignedByOperationId(operationId);
   }
   public toggleOperationUsersAssignedMenu = function() {
     this.isOpen = !this.isOpen;
