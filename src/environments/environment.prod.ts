@@ -9,7 +9,7 @@ import env from './.env';
 export const environment = {
   production: true,
   version: env.npm_package_version,
-  apiUrl: 'http://localhost:8080/',
+  apiUrl: 'https://followup-api.azurewebsites.net:8080',
   defaultLanguage: 'en-US',
-  supportedLanguages: ['en-US', 'fr-FR']
+  supportedLanguages: ['en-US']
 };
