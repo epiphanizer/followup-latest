@@ -7,6 +7,7 @@
   list-style-type: none;
   margin-top: 114px;
   margin-left: 0px;
+  padding-left: 0;
   li {
     &.disabled {
       opacity: 0.25;
@@ -15,7 +16,7 @@
     display: inline-block;
     width: 162px;
     height: 162px;
-    margin-left: 120px;
+    margin-left: 60px;
     img {
       width: 100%;
       display: block;

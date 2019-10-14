@@ -63,19 +63,16 @@ export class OperationFormComponent implements OnInit {
     }
     if (this.editMode) {
       this.operation = this.route.snapshot.data.operation;
-    }
-
-    if (!this.operation) {
+      this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
+      this.createForm();
+    } else {
       this.operation$ = this.operationService.addNewOperation().pipe(
         map((data: Operation) => {
           this.operation = data;
+          this.createForm();
           return data;
         })
       );
-      this.createForm();
-    } else {
-      this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
-      this.createForm();
     }
     /**
      * no matter where we are, do this

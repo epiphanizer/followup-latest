@@ -35,8 +35,13 @@ export class AuthenticationService {
   }
   public getUser(): Promise<User> {
     if (!this.authenticated) {
-      this.router.navigate(['/login']);
-      return null;
+      if (localStorage.getItem('followup-user')) {
+        let userObj = JSON.parse(localStorage.getItem('followup-user'));
+        return userObj.toPromise();
+      } else {
+        this.router.navigate(['/login']);
+        return null;
+      }
     }
 
     return this.user$;

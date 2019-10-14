@@ -2,7 +2,7 @@
   <ion-content>
     <ion-row>
       <ion-col class="left-hand-detail">
-        <div *ngIf="patientCall$ | async as patientCall">
+        <div *ngIf="patientCall">
           <app-patient-call-status-controls
             *ngIf="
               patientCall.patientCallStatusLabel == 'In Review' ||
