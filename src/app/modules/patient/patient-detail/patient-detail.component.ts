@@ -18,6 +18,8 @@ import {
 } from './patient-call/patient-call-questions/patient-call-questions.service';
 import { PatientCallStatus } from './patient-call/patient-call-status.service';
 import { formatDate } from '@angular/common';
+import { share } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   providers: [PatientCallService, PatientCallNotesService, PatientCallQuestionsService],
@@ -29,7 +31,7 @@ export class PatientDetailComponent implements OnInit {
   user: User;
   patient: Patient;
   operation: Operation;
-  patientCall: PatientCall;
+  patientCall$: Observable<PatientCall>;
   patientCallNotes: PatientCallNotes;
   patientCallQuestions: PatientCallQuestion[];
   patientCallQuestionAnswers: PatientCallQuestionAnswer[];
@@ -49,15 +51,13 @@ export class PatientDetailComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
+    this.patientCall$ = this.patientCallService
+      .getPatientCallByPatientCallId(this.patient.patientId, this.patient.nextPatientCallId)
+      .pipe(share());
     // Go get our existing calls
     this.patient.patientCalls$.subscribe((patientCalls: PatientCall[]) => {
       this.patient.patientCalls = patientCalls;
     });
-    this.patientCallService
-      .getPatientCallByPatientCallId(this.patient.patientId, this.patient.nextPatientCallId)
-      .subscribe((patientCall: PatientCall) => {
-        this.patientCall = patientCall[0];
-      });
 
     this.patientNextCall = {
       date: '',

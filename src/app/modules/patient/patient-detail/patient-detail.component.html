@@ -1,68 +1,72 @@
 <ng-container>
   <ion-content>
     <ion-row>
-      <ion-col *ngIf="patientCall" class="left-hand-detail">
-        <app-patient-call-status-controls
-          *ngIf="
-            patientCall.patientCallStatusLabel == 'In Review' || patientCall.patientCallStatusLabel == 'Selected Status'
-          "
-          [patientCall]="patientCall"
-          (patientCallStatusChangeEmitter)="patientCallStatusLabelChangeHandler($event)"
-        >
-        </app-patient-call-status-controls>
-        <!-- Bears some documentation: 
-          this will be hidden if we have advanced past ID 2, which is the "started" state -->
-        <app-patient-call-start-button
-          *ngIf="patientCall.patientCallStatusLabelId < 3"
-          [user]="user"
-          [patientCall]="patientCall"
-          (patientCallStartEventEmitter)="patientCallStartEventHandler($event)"
-        >
-        </app-patient-call-start-button>
-
-        <app-patient-call-notes
-          *ngIf="
-            patientCall.patientCallStatusLabel == 'Started' ||
+      <ion-col class="left-hand-detail">
+        <ng-container *ngIf="patientCall$ | async as patientCall">
+          <app-patient-call-status-controls
+            *ngIf="
               patientCall.patientCallStatusLabel == 'In Review' ||
-              patientCall.patientCallStatusLabel == 'Selected Status';
-            else spacer
-          "
-          [patientCall]="patientCall"
-          (patientCallNotesChangeEmitter)="patientCallNotesChangeHandler($event)"
-        >
-        </app-patient-call-notes>
-        <ng-template #spacer>
-          <div class="call-notes-spacer"></div>
-        </ng-template>
-
-        <!-- Hide our questions once we are in Review or Greater -->
-        <app-patient-call-questions *ngIf="patientCall.patientCallStatusLabelId < 4" [patientCall]="patientCall">
-        </app-patient-call-questions>
-
-        <app-patient-call-stop-button
-          *ngIf="patientCall.patientCallStatusLabel == 'Started'"
-          [patientCall]="patientCall"
-          (patientCallEndEventEmitter)="patientCallEndEventHandler(patientCall)"
-        >
-        </app-patient-call-stop-button>
-
-        <ng-container
-          *ngIf="
-            patientCall.patientCallStatusLabel == 'In Review' || patientCall.patientCallStatusLabel == 'Selected Status'
-          "
-        >
-          <app-patient-next-call-scheduler
-            (patientNextCallDateSelectedEventEmitter)="patientNextCallDateSelectedEventHandler($event)"
-          >
-          </app-patient-next-call-scheduler>
-          <app-patient-next-call-questions *ngIf="patientNextCall.date"> </app-patient-next-call-questions>
-          <app-patient-next-call-finish-button
-            [patient]="patient"
+              patientCall.patientCallStatusLabel == 'Selected Status'
+            "
             [patientCall]="patientCall"
-            (patientCallFinalizeEventEmitter)="patientCallFinishEventHandler(patientCall)"
+            (patientCallStatusChangeEmitter)="patientCallStatusLabelChangeHandler($event)"
           >
-            Finish & Save
-          </app-patient-next-call-finish-button>
+          </app-patient-call-status-controls>
+          <!-- Bears some documentation: 
+            this will be hidden if we have advanced past ID 2, which is the "started" state -->
+          <app-patient-call-start-button
+            *ngIf="patientCall.patientCallStatusLabelId < 3"
+            [user]="user"
+            [patientCall]="patientCall"
+            (patientCallStartEventEmitter)="patientCallStartEventHandler($event)"
+          >
+          </app-patient-call-start-button>
+
+          <app-patient-call-notes
+            *ngIf="
+              patientCall.patientCallStatusLabel == 'Started' ||
+                patientCall.patientCallStatusLabel == 'In Review' ||
+                patientCall.patientCallStatusLabel == 'Selected Status';
+              else spacer
+            "
+            [patientCall]="patientCall"
+            (patientCallNotesChangeEmitter)="patientCallNotesChangeHandler($event)"
+          >
+          </app-patient-call-notes>
+          <ng-template #spacer>
+            <div class="call-notes-spacer"></div>
+          </ng-template>
+
+          <!-- Hide our questions once we are in Review or Greater -->
+          <app-patient-call-questions *ngIf="patientCall.patientCallStatusLabelId < 4" [patientCall]="patientCall">
+          </app-patient-call-questions>
+
+          <app-patient-call-stop-button
+            *ngIf="patientCall.patientCallStatusLabel == 'Started'"
+            [patientCall]="patientCall"
+            (patientCallEndEventEmitter)="patientCallEndEventHandler(patientCall)"
+          >
+          </app-patient-call-stop-button>
+
+          <ng-container
+            *ngIf="
+              patientCall.patientCallStatusLabel == 'In Review' ||
+              patientCall.patientCallStatusLabel == 'Selected Status'
+            "
+          >
+            <app-patient-next-call-scheduler
+              (patientNextCallDateSelectedEventEmitter)="patientNextCallDateSelectedEventHandler($event)"
+            >
+            </app-patient-next-call-scheduler>
+            <app-patient-next-call-questions *ngIf="patientNextCall.date"> </app-patient-next-call-questions>
+            <app-patient-next-call-finish-button
+              [patient]="patient"
+              [patientCall]="patientCall"
+              (patientCallFinalizeEventEmitter)="patientCallFinishEventHandler(patientCall)"
+            >
+              Finish & Save
+            </app-patient-next-call-finish-button>
+          </ng-container>
         </ng-container>
       </ion-col>
       <ion-col class="right-hand-detail">
