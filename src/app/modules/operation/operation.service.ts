@@ -12,6 +12,12 @@ export class OperationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
+
+  public assignManagerToOperationByOperationIdAndUserId(operationId: number, userId: number) {
+    return this.http.post('operations/' + operationId + '/managers/' + userId, {}).pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   public editOperationByOperationId(operationId: number, operationPutBody: OperationPutBody): Observable<Operation> {
     return this.http.put<Operation>('operations/' + operationId, operationPutBody).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error

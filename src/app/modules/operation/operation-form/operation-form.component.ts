@@ -258,6 +258,12 @@ export class OperationFormComponent implements OnInit {
   }
   onFormSubmit() {
     let formSubmission = this.operationForm.getRawValue();
+    let operationManagerPost = this.operationManagerPostFactory(formSubmission);
+    this.operationService
+      .assignOperationManager(operationManagerPost.operationId, operationManagerPost.userId)
+      .subscribe((data: any) => {
+        console.log(data);
+      });
     // let operationCallRepPost = this.operationCallRepPostFactory(formSubmission);
     // this.operationCallRepsService
     //   .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
