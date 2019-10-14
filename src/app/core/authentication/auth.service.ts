@@ -75,6 +75,8 @@ export class AuthenticationService {
   signOut(): void {
     this.user$ = null;
     this.authenticated = false;
+    localStorage.removeItem('followup-user');
+    localStorage.removeItem('followup-token');
     this.router.navigate(['/login']);
   }
 
