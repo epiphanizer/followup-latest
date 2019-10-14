@@ -298,3 +298,22 @@ form {
     text-transform: uppercase;
   }
 }
+
+.is-active {
+  display: block;
+  height: auto;
+  overflow: hidden;
+  float: right;
+  font-size: 14px;
+  font-family: Avenir;
+
+  ion-checkbox,
+  ion-label {
+    display: inline-block;
+    margin-left: 8px;
+  }
+
+  ion-label {
+    font-size: 11px;
+  }
+}

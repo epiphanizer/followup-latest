@@ -80,6 +80,8 @@ export class OperationFormComponent implements OnInit {
     } else {
       this.operationService.addNewOperation().subscribe((data: Operation) => {
         this.operation = data;
+        this.createForm();
+        this.armForm();
         this.router.navigate([], {
           relativeTo: this.route,
           queryParams: { operationId: this.operation.operationId },
@@ -165,12 +167,23 @@ export class OperationFormComponent implements OnInit {
 
   addAdditionalContact() {
     let formArray = this.operationForm.controls.operationContacts as FormArray;
-    formArray.push(this.fb.control({}));
+    let contactFormGroup = this.fb.group({});
+    contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
+    contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
+    contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
+    contactFormGroup.addControl('operationContactCountryCode', this.fb.control(''));
+    contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
+    contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
+    contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
+    contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
+    contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
+    formArray.push(contactFormGroup);
     let newCallContact = {
       operationContactId: 0,
       operationContactFirstName: '',
       operationContactLastName: ''
     };
+
     this.operationContacts.push(newCallContact);
   }
   private createForm() {
@@ -187,16 +200,8 @@ export class OperationFormComponent implements OnInit {
         operationPhoneNumber: this.fb.control(this.operation.operationPhoneNumber, [Validators.required])
       }),
       operationContacts: this.fb.array([]),
-      operationContactNotifications: this.fb.group({
-        0: this.fb.control(false),
-        1: this.fb.control(false),
-        2: this.fb.control(false),
-        3: this.fb.control(false),
-        4: this.fb.control(false),
-        5: this.fb.control(false),
-        6: this.fb.control(false)
-      }),
-      operationCallReps: this.fb.array([])
+      operationCallReps: this.fb.array([]),
+      operationActive: this.fb.control(false)
     });
   }
   operationChangeEventHandler($event: number) {
