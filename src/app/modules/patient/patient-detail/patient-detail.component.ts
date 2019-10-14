@@ -52,11 +52,14 @@ export class PatientDetailComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
-    this.patientCallService
+    this.patientCall$ = this.patientCallService
       .getPatientCallByPatientCallId(this.patient.patientId, this.patient.nextPatientCallId)
-      .subscribe((patientCall: PatientCall) => {
-        this.patientCall = patientCall;
-      });
+      .pipe(
+        map((patientCall: PatientCall) => {
+          this.patientCall = patientCall[0];
+          return this.patientCall;
+        })
+      );
     // Go get our existing calls
     this.patient.patientCalls$.subscribe((patientCalls: PatientCall[]) => {
       this.patient.patientCalls = patientCalls;
@@ -88,6 +91,10 @@ export class PatientDetailComponent implements OnInit {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 120);
+
+    /**
+     * Manipulate existing patientCall answers in patient call history listing
+     */
   }
   patientNextCallDateSelectedEventHandler($event: string) {
     let selectedDate = $event;
@@ -170,6 +177,7 @@ export class PatientDetailComponent implements OnInit {
             .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
             .subscribe((data: any) => {
               this.patientCall = data[0];
+              location.reload();
             });
         });
     });

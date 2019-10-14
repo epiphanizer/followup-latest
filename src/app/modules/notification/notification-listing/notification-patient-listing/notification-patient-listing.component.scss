@@ -26,12 +26,13 @@ h3 {
   color: var(--ion-color-primary);
 }
 
-ul.patient-filters {
+ul.notification-filters {
   list-style-type: none;
-  float: right;
+  display: block;
+  width: 100%;
+  padding-left: 0;
   margin-top: 0;
   margin-bottom: 0;
-  vertical-align: top;
 
   li {
     cursor: pointer;
@@ -44,8 +45,15 @@ ul.patient-filters {
     font-stretch: normal;
     line-height: 2.88;
     letter-spacing: 0.53px;
-    text-align: right;
-    margin-right: 18px;
+    text-align: center;
+    &.notification-date {
+      width: 96px;
+      height: 100%;
+    }
+    &.patient-filter {
+      width: 245px;
+      height: 100%;
+    }
 
     &.ascending-descending-control {
       height: 30px;
@@ -54,7 +62,6 @@ ul.patient-filters {
         display: block;
         width: 14px;
         height: 9px;
-        margin-top: 12px;
         background-image: url("/assets/icon-down-arrow@2x.png");
         background-size: 100%;
       }
@@ -91,7 +98,7 @@ ul.patient-filters {
 .notification-patient-list {
   clear: both;
   list-style-type: none;
-  max-width: 431px;
+  width: 100%;
   padding-left: 0;
 
   li {
@@ -118,10 +125,11 @@ ul.patient-filters {
       list-style-type: none;
     }
 
-    .notification-number {
+    .notification-date {
       display: block;
       float: left;
       width: 96px;
+      height: 100%;
       font-family: Avenir;
       font-size: 24.1px;
       font-weight: 900;
@@ -143,7 +151,7 @@ ul.patient-filters {
       background-color: RGBA(200, 200, 200, 0.15);
     }
 
-    .notification-avatar {
+    .notification-listing-avatar {
       float: left;
       margin-top: 10.5px;
       width: 74.8px;

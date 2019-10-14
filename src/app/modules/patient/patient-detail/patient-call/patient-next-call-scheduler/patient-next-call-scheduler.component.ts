@@ -96,6 +96,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
         name: 'December'
       }
     ];
+    // Subtract one because of the 0 index of the array
     this.selectedDay = this.todaysDateDay;
 
     this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
@@ -106,6 +107,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
       formattedDay = '0' + formattedDay;
     }
     this.selectedDate = this.selectedMonth.number + '/' + formattedDay + '/' + this.todaysYear;
+    debugger;
   }
 
   ngOnInit() {

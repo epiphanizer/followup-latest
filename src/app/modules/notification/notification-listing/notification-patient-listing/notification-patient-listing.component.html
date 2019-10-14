@@ -6,17 +6,17 @@
   {{ operation?.operationName }}
 </h3>
 <ion-item-divider class="divider-line"></ion-item-divider>
-<ul class="patient-filters">
-  <li class="ion-float-left">
+<ul class="notification-filters ">
+  <li class="ion-float-left notification-date">
     <a (click)="sortNotificationsByNotificationDate(selectedSortFlag)">[Date]</a>
     <span class="ascending-descending-control">
       <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
     </span>
   </li>
-  <li>
+  <li class="patient-filter">
     <a (click)="sortNotificationsByPatient(selectedSortFlag)">[Patient]</a>
   </li>
-  <li>
+  <li class="type-filter">
     <a (click)="sortNotificationsByNotificationType(selectedSortFlag)">[Type]</a>
     <span class="ascending-descending-control">
       <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
@@ -40,6 +40,10 @@
       {{ notification.notificationCreatedDate }}
     </div>
 
+    <div class="notification-listing-avatar">
+      <img src="/assets/default-avatar-patient-detail.png" />
+      <!-- <app-patient-avatar></app-patient-avatar> -->
+    </div>
     <div class="notification-patient-information">
       <span class="notification-patient-name">
         <a [routerLink]="'/notifications/' + notification.notificationId">
@@ -49,13 +53,11 @@
     </div>
     <div class="notification-type">
       <img src="{{ notification.notificationIconImage }} /" />
-      <span>{{ notification.notificationTypesLabel }} </span>
+      <span>{{ notification.notificationTypeLabel }} </span>
     </div>
     <div class="notification-status">
-      <!-- <img src="{{ notification.notificationStatus }} /" /> -->
-      <span>
-        <!-- {{ notification.notificationStatusLabel }}  -->
-        Resolved | Not
+      <span class="resolution-status" [class.resolved]="notification.notificationStatusLabel == 'Resolved'">
+        Status Icon
       </span>
     </div>
   </li>
