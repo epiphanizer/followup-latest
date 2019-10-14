@@ -79,19 +79,15 @@ export class OperationFormComponent implements OnInit {
       this.armForm();
     } else {
       this.operationService.addNewOperation().subscribe((data: Operation) => {
-        this.operation = data;
+        let operation = data;
         this.createForm();
         this.armForm();
         this.router.navigate([], {
           relativeTo: this.route,
-          queryParams: { operationId: this.operation.operationId },
+          queryParams: { operationId: operation.operationId },
           queryParamsHandling: 'merge'
         });
-        // console.log(this.operation.operationId);
-        // debugger;
-        // this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
-        // this.createForm();
-        // this.armForm();
+        this.operation = data;
       });
     }
     /**
@@ -185,6 +181,7 @@ export class OperationFormComponent implements OnInit {
     };
 
     this.operationContacts.push(newCallContact);
+    alert('adding additional contact');
   }
   private createForm() {
     this.operationForm = this.fb.group({
