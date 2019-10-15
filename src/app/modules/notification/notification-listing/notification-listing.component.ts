@@ -31,10 +31,12 @@ export class NotificationListingComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.user.operations$.subscribe((data: Operation[]) => {
-      /** Init to the first assigned operation alphabetically */
-      this.selected.operation = data[0];
-    });
+    this.user.operations$
+      .subscribe((data: Operation[]) => {
+        /** Init to the first assigned operation alphabetically */
+        this.selected.operation = data[0];
+      })
+      .unsubscribe();
   }
 
   ngOnChanges(changes: any) {
@@ -52,5 +54,14 @@ export class NotificationListingComponent implements OnInit {
 
   operationChangeEventHandler($event: Operation) {
     this.selected.operation = $event;
+    debugger;
+    this.notifications$ = this.notificationService
+      .getNotificationsByOperationId(this.selected.operation.operationId)
+      .pipe(
+        map((notifications: [Notification]) => {
+          this.notifications = notifications;
+          return notifications;
+        })
+      );
   }
 }
