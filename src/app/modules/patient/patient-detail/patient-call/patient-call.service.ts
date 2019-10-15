@@ -67,7 +67,6 @@ export class PatientCallService {
 
   getPatientCallByPatientCallId = function(patientId: number, patientCallId: number) {
     return this.http.get('patients/' + patientId + '/calls/' + patientCallId).pipe(
-      delay(5000),
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -75,7 +74,6 @@ export class PatientCallService {
 
   getPatientCallsByPatientId = function(patientId: number) {
     return this.http.get('patients/' + patientId + '/calls').pipe(
-      delay(5000),
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -83,7 +81,6 @@ export class PatientCallService {
 
   getPatientCallsByOperationId = function(operationId: number) {
     return this.http.get('operations/' + operationId + '/calls').pipe(
-      delay(5000),
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
