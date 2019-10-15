@@ -3,6 +3,9 @@ ion-button {
   height: 28px;
   --border-width: 0;
   --border-style: none;
-  background-size: 100%;
-  background-image: url("/assets/complete-patient-button@2x.png");
+
+  --border-color: red;
+  // background-size: 100%;
+  // background-image: url("/assets/complete-patient-button@2x.png");
+  color: red;
 }

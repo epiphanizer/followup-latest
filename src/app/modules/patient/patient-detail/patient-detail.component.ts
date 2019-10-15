@@ -62,12 +62,14 @@ export class PatientDetailComponent implements OnInit {
         })
       );
     // Go get our existing calls
-    this.patient.patientCalls$.pipe(
-      take(1),
-      map((patientCalls: PatientCall[]) => {
-        this.patient.patientCalls = patientCalls;
-      })
-    );
+    this.patient.patientCalls$
+      .pipe(
+        take(1),
+        map((patientCalls: PatientCall[]) => {
+          this.patient.patientCalls = patientCalls;
+        })
+      )
+      .subscribe((data: any) => console.log(data));
 
     this.patientNextCall = {
       date: '',
