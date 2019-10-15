@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   providers: [],
@@ -10,12 +10,15 @@ import { ActivatedRoute } from '@angular/router';
 export class HomeComponent implements OnInit {
   public user: any;
   public menu: {}[] = [{}];
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     const avatarImage = '/assets/default-avatar@2x.png';
-
+    if (this.user.userLevel == 3) {
+      this.router.navigate(['call-queue']);
+      return;
+    }
     switch (this.user.userLevel) {
       case 1:
         this.menu = [
