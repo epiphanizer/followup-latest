@@ -44,6 +44,7 @@ i.icon-question-mark {
 
   ion-radio-group {
     ion-item {
+      –-highlight-color-focused: none;
       --inner-padding-start: 0;
       --inner-padding-end: 0;
       width: auto !important;

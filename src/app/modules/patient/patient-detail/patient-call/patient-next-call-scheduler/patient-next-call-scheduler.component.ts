@@ -43,7 +43,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
   constructor() {
     this.todaysDate = new Date();
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
-    this.todaysMonth = ('0' + (this.todaysDate.getMonth() + 1)).substring(0, 2);
+    this.todaysMonth = (this.todaysDate.getMonth() + 1).toString();
     this.todaysYear = this.todaysDate.getFullYear();
     debugger;
     this.months = [
