@@ -44,7 +44,7 @@ export interface Patient {
   patientCalls$?: Observable<PatientCall[]>;
   patientCallCount?: number;
   patientLastCallDate?: Date;
-  patientNextCallScheduledTime?: Date;
+  patientNextCallTime?: Date;
   patientCurrentStatusLabel?: number;
   patientDischargeNotes?: string;
   patientDischargedAma?: boolean;
