@@ -29,7 +29,6 @@ export class CallQueuePatientFilterComponent implements OnInit {
 
   constructor(private patientCallService: PatientCallService, private datePipe: DatePipe) {}
   ngOnInit() {
-    this.todaysDate = '2019-10-18';
     this.patientCallService
       .getPatientCallsByOperationId(this.operation.operationId)
       .subscribe((patientCalls: PatientCall[]) => {
