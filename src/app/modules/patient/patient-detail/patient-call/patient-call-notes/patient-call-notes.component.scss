@@ -3,6 +3,7 @@ form {
     float: right;
     margin-top: 10px;
     height: 35px;
+    cursor: pointer;
 
     img {
       height: 15px;
@@ -43,7 +44,21 @@ ion-item {
     padding-right: 10px;
     padding: 6px 3px;
     line-height: 27px;
-
+    &.is-highlighted,
+    &.is-highlighting {
+      &::before {
+        background-image: url("/assets/note-highlight-flag@2x.png");
+        display: block;
+        position: absolute;
+        content: "";
+        left: 0;
+        width: 25px;
+        height: 25px;
+        background-size: 100%;
+        z-index: 50;
+        background-color: transparent;
+      }
+    }
     &.highlighting {
       cursor: crosshair;
     }

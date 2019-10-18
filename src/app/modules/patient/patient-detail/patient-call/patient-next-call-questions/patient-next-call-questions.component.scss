@@ -48,6 +48,9 @@ form {
         background-color: transparent;
       }
     }
+    .patient-call-note-highlight-controls {
+      cursor: pointer;
+    }
 
     float: left;
     max-width: calc(100% - 20px);
