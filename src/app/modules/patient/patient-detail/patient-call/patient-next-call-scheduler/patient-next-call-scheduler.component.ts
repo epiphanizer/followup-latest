@@ -45,7 +45,6 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     this.todaysMonth = (this.todaysDate.getMonth() + 1).toString();
     this.todaysYear = this.todaysDate.getFullYear();
-    debugger;
     this.months = [
       {
         number: '1',
@@ -107,7 +106,6 @@ export class PatientNextCallSchedulerComponent implements OnInit {
       formattedDay = '0' + formattedDay;
     }
     this.selectedDate = this.selectedMonth.number + '/' + formattedDay + '/' + this.todaysYear;
-    debugger;
   }
 
   ngOnInit() {

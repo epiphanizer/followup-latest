@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { PatientCallQuestion } from '../patient-call-questions/patient-call-questions.service';
 
@@ -20,10 +20,13 @@ export class PatientNextCallQuestionsComponent implements OnInit {
   }
   createForm() {
     this.patientNextCallQuestionsForm = this.fb.group({
-      patientCallQuestions: this.fb.group({})
+      patientCallQuestions: this.fb.array([])
     });
   }
   addNextCallQuestion() {
+    let nextCallQuestions = this.patientNextCallQuestionsForm.controls.patientCallQuestions as FormArray;
+    nextCallQuestions.push(this.fb.control(''));
+    nextCallQuestions.push(this.fb.control(''));
     this.patientCallQuestions.push(<PatientCallQuestion>{
       patientCallQuestion: 'What is your next question?'
     });

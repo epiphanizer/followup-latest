@@ -38,7 +38,7 @@ export class PatientCallHistoryListingComponent implements OnInit {
               .pipe(
                 map((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
                   console.log(patientCallQuestionAnswer);
-                  debugger;
+                  // debugger;
                 })
               );
           });

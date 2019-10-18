@@ -190,8 +190,10 @@ export class PatientDetailComponent implements OnInit {
             .subscribe((data: any) => {
               this.patientCall = data[0];
               location.reload();
-            });
-        });
+            })
+            .unsubscribe();
+        })
+        .unsubscribe();
     });
   }
 }
