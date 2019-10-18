@@ -18,10 +18,10 @@
     <ion-list *ngIf="patientCallsFiltered.length > 1; else noCalls" lines="none" inset>
       <ion-item class="patient-call-filter-listing" *ngFor="let patientCall of patientCallsFiltered">
         <span class="patient-filter-patient-name"
-          >{{ patientCall.patientFirstName }} {{ patientCall.patientLastName }} -
+          >{{ patientCall.patientFirstName }} {{ patientCall.patientLastName }}:
         </span>
         <span class="patient-filter-call-date"
-          >Call {{ patientCall.patientCallNumber }} ({{ patientCall.patientCallStatusLabel }})</span
+          >&nbsp; Call {{ patientCall.patientCallCount }} - ({{ patientCall.patientCallStatusLabel }})</span
         >
       </ion-item>
     </ion-list>
