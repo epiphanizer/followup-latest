@@ -38,7 +38,7 @@
           </ng-template>
 
           <!-- Hide our questions once we are in Review or Greater -->
-          <app-patient-call-questions *ngIf="patientCall.patientCallStatusLabelId < 4" [patientCall]="patientCall">
+          <app-patient-call-questions *ngIf="patientCall.patientCallStatusLabelId < 2" [patientCall]="patientCall">
           </app-patient-call-questions>
 
           <app-patient-call-stop-button

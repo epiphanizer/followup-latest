@@ -26,6 +26,9 @@
       &.icon-no-answer {
         background-image: url("/assets/icon-no-answer@2x.png");
       }
+      &.icon-todays-calls {
+        background-image: url("/assets/icon-todays-calls@2x.png");
+      }
       &.icon-new-discharges {
         background-image: url("/assets/icon-new-discharges@2x.png");
       }
@@ -34,9 +37,6 @@
       }
       &.icon-notifications {
         background-image: url("/assets/icon-notifications@2x.png");
-      }
-      &.icon-final-call {
-        background-image: url("/assets/icon-final-call@2x.png");
       }
     }
 
@@ -50,6 +50,17 @@
       letter-spacing: normal;
       text-align: left;
       color: var(--charcoal-grey);
+    }
+    .discharges,
+    .todays-calls {
+      span {
+        &:first-child {
+          position: relative;
+          padding-left: 4px;
+          color: white;
+          top: -2px;
+        }
+      }
     }
   }
 }

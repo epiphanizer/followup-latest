@@ -169,7 +169,7 @@ ul.patient-filters {
     }
 
     .call-queue-patient-information {
-      padding-top: 30px;
+      padding-top: 12px;
       display: block;
       float: left;
       padding-left: 11px;
@@ -180,7 +180,7 @@ ul.patient-filters {
 
     .call-queue-patient-name {
       display: block;
-      height: 18px;
+      height: auto;
       font-family: Avenir;
       font-size: 21px;
       font-weight: normal;
@@ -217,7 +217,11 @@ ul.patient-filters {
       width: 17px;
     }
 
-    .patient.label-line {
+    .patient.label-line,
+    .additional-label-line {
+      width: 100%;
+      height: auto;
+      display: block;
       color: #8e8e93;
       font-size: 13px;
       line-height: 18px;

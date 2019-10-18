@@ -46,6 +46,7 @@ export class PatientDetailComponent implements OnInit {
   constructor(
     private patientCallService: PatientCallService,
     private patientCallNotesService: PatientCallNotesService,
+    private patientCallQuestionsService: PatientCallQuestionsService,
     private route: ActivatedRoute
   ) {}
 
@@ -145,14 +146,19 @@ export class PatientDetailComponent implements OnInit {
 
     // add answers to our questions to the current call
     // this will require processing
-    // debugger;
-    // let callQuestionAnswers = JSON.stringify
-    // this.patientCallQuestionsService.addNewPatientCallQuestionAnswersByPatientCallQuestionId(
-    //   this.patientCall.patientCallQuestionId
-    // ).subscribe((data: any) => {
-    //   console.log(data);
-    //
-    // });
+    debugger;
+    let callQuestionAnswers = [{ patientCallQuestionId: 1, patientCallQuestionAnswer: 'Test Answer' }];
+    callQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
+      this.patientCallQuestionsService
+        .addPatientCallQuestionAnswersByPatientCallQuestionId(
+          patientCallQuestionAnswer.patientCallQuestionId,
+          patientCallQuestionAnswer.patientCallQuestionAnswer
+        )
+        .subscribe((data: any) => {
+          console.log(data);
+        })
+        .unsubscribe();
+    });
 
     if (!this.patientNextCall.date) {
       alert('Please schedule a call date');
