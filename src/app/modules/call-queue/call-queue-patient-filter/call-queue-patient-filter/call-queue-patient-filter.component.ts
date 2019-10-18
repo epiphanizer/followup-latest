@@ -9,9 +9,10 @@ import { PatientService } from '@app/modules/patient/patient.service';
 import { Operation } from '@app/modules/operation/operation';
 import { PatientCall, PatientCallService } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 import { ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  providers: [AuthenticationService, PatientService, UserService],
+  providers: [AuthenticationService, DatePipe, PatientService, UserService],
   selector: 'app-call-queue-patient-filter[operation]',
   templateUrl: './call-queue-patient-filter.component.html',
   styleUrls: ['./call-queue-patient-filter.component.scss']
@@ -24,8 +25,11 @@ export class CallQueuePatientFilterComponent implements OnInit {
   user: User;
   patients: Array<Patient> = [];
   patients$: Observable<Patient[]>;
-  constructor(private patientCallService: PatientCallService, private route: ActivatedRoute) {}
+  todaysDate: string;
+
+  constructor(private patientCallService: PatientCallService, private datePipe: DatePipe) {}
   ngOnInit() {
+    this.todaysDate = '2019-10-18';
     this.patientCallService
       .getPatientCallsByOperationId(this.operation.operationId)
       .subscribe((patientCalls: PatientCall[]) => {
@@ -38,9 +42,13 @@ export class CallQueuePatientFilterComponent implements OnInit {
   }
   searchPatientCallHistoryBySelectedDate(selectedDate: string): PatientCall[] {
     let selectedDateObj = new Date(selectedDate);
+    let transformedDate = this.datePipe.transform(selectedDateObj, 'yyyy-MM-dd');
+    console.log(transformedDate);
     this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
+      debugger;
       return (
-        patientCall.patientCallScheduledTime == selectedDateObj || patientCall.patientCallEndTime == selectedDateObj
+        patientCall.patientCallScheduledTime.toString().indexOf(transformedDate) !== -1 ||
+        patientCall.patientCallEndTime == selectedDateObj
       );
     });
     return this.patientCallsFiltered;
