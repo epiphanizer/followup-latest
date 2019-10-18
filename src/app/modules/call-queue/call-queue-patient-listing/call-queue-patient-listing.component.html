@@ -1,8 +1,16 @@
 <h3 class="section-header">
-  <i class="icon-new-discharges" *ngIf="operation.currentNewDischargeCount"> </i>
-  <span class="operation-discharges">
-    {{ operation.currentNewDischargeCount }}
-  </span>
+  <ng-container *ngIf="operation.currentNewDischargeCount > 0">
+    <i class="icon-new-discharges" *ngIf="operation.currentNewDischargeCount"> </i>
+    <span class="operation-discharges">
+      {{ operation.currentNewDischargeCount }}
+    </span>
+  </ng-container>
+  <ng-container *ngIf="operation.todaysScheduledCalls > 0">
+    <i class="icon-todays-calls" *ngIf="operation.todaysScheduledCalls"> </i>
+    <span class="operation-todays-calls">
+      {{ operation.todaysScheduledCalls }}
+    </span>
+  </ng-container>
   {{ operation.operationName }}
 </h3>
 <ion-item-divider class="divider-line"></ion-item-divider>
@@ -13,7 +21,7 @@
     >
   </li>
   <li>
-    <a [class.active]="filterBy == 'call-date'" (click)="sortPatientsByCallDate(selectedSortFlag)">[Call Date]</a>
+    <a [class.active]="filterBy == 'call-date'" (click)="sortPatientsByCallDate(selectedSortFlag)">[Next Call Date]</a>
   </li>
   <li class="ascending-descending-control">
     <i

@@ -6,6 +6,7 @@ import {
   PatientCallQuestion,
   PatientCallQuestionsService
 } from '../patient-call-questions/patient-call-questions.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   providers: [PatientCallQuestionsService],
@@ -32,9 +33,14 @@ export class PatientCallHistoryListingComponent implements OnInit {
           this.patientCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
             this.patientCallQuestions[
               index
-            ].patientCallQuestionAnswer$ = this.patientCallQuestionAnswerService.getPatientCallQuestionAnswersByPatientCallQuestionId(
-              patientCallQuestion.patientCallQuestionId
-            );
+            ].patientCallQuestionAnswer$ = this.patientCallQuestionAnswerService
+              .getPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestion.patientCallQuestionId)
+              .pipe(
+                map((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
+                  console.log(patientCallQuestionAnswer);
+                  debugger;
+                })
+              );
           });
         });
     });
