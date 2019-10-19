@@ -19,26 +19,28 @@
     class="facility-dropdown-list active"
     *ngIf="operations; else noOperations"
   >
-    <li *ngFor="let operation of operations; let i = index">
+    <div *ngFor="let operation of operations; let i = index">
       <ng-container *ngIf="operation.currentAssignedPatientCount > 0">
-        <a (click)="setActiveOperation(operation)" [ngClass]="{ active: selected.operation == operation }">
-          {{ operation.operationName }}
-          <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
-        </a>
-        <ng-container *ngIf="operation.todaysCalls > 0">
-          <i class="icon-todays-calls"></i>
-          <span class="icon-todays-calls-counter">
-            {{ operation.todaysScheduledCalls }}
-          </span>
-        </ng-container>
-        <ng-container *ngIf="operation.currentNewDischargeCount > 0">
-          <i class="icon-new-discharges"></i>
-          <span class="icon-discharge-counter">
-            {{ operation.currentNewDischargeCount }}
-          </span>
-        </ng-container>
+        <li>
+          <a (click)="setActiveOperation(operation)" [ngClass]="{ active: selected.operation == operation }">
+            {{ operation.operationName }}
+            <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
+          </a>
+          <ng-container *ngIf="operation.todaysCalls > 0">
+            <i class="icon-todays-calls"></i>
+            <span class="icon-todays-calls-counter">
+              {{ operation.todaysScheduledCalls }}
+            </span>
+          </ng-container>
+          <ng-container *ngIf="operation.currentNewDischargeCount > 0">
+            <i class="icon-new-discharges"></i>
+            <span class="icon-discharge-counter">
+              {{ operation.currentNewDischargeCount }}
+            </span>
+          </ng-container>
+        </li>
       </ng-container>
-    </li>
+    </div>
   </ul>
   <ng-template #noOperations>
     You haven't been assigned any operations yet!
