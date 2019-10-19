@@ -29,10 +29,12 @@ export class CallQueuePatientListingComponent implements OnInit {
   constructor(private patientService: PatientService, private patientCallStatusService: PatientCallStatusService) {}
   ngOnInit() {
     this.currentYear = new Date().getFullYear();
-    this.patientCallStatusService.getPatientCallStatuses().subscribe((patientCallStatuses: PatientCallStatus[]) => {
-      console.log(patientCallStatuses);
-      this.patientCallStatuses = patientCallStatuses;
-    });
+    this.patientCallStatusService
+      .getPatientCallStatuses()
+      .subscribe((patientCallStatuses: PatientCallStatus[]) => {
+        this.patientCallStatuses = patientCallStatuses;
+      })
+      .unsubscribe();
     this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
       map((patients: [Patient]) => {
         this.patients = patients;
