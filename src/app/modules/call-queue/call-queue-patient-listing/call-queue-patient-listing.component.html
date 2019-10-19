@@ -52,6 +52,18 @@
     </ng-template>
 
     <div class="call-queue-avatar">
+      <div class="badge-container">
+        <ng-container *ngIf="patient.notificationCount">
+          <span class="notification-badge">
+            {{ patient.patientNotificationCount }}
+          </span>
+        </ng-container>
+        <ng-container *ngIf="patient.notificationCount">
+          <span class="kudos-badge">
+            {{ patient.patientKudosCount }}
+          </span>
+        </ng-container>
+      </div>
       <app-patient-avatar [patient]="patient"></app-patient-avatar>
     </div>
     <div class="call-queue-patient-information">
