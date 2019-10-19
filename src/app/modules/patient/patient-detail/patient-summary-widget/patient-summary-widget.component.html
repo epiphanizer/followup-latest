@@ -18,6 +18,9 @@
             {{ patient.patientFirstName }}
             {{ patient.patientLastName }}
           </h2>
+          <a class="edit-patient-jump" [routerLink]="'/patient/edit/' + patient.patientId">
+            [edit]
+          </a>
         </div>
         <div class="patient-age">Age: {{ patient.patientAge }}</div>
         <div class="patient-contact-container">
@@ -54,9 +57,6 @@
           </ul>
         </div>
       </div>
-      <a class="edit-patient-jump" [routerLink]="'/patient/edit/' + patient.patientId">
-        [edit]
-      </a>
     </ion-col>
     <ion-col class="right-col-controls">
       <app-patient-call-history-controls [patientCalls]="patient.patientCalls"> </app-patient-call-history-controls>
