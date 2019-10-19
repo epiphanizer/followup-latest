@@ -53,12 +53,12 @@
 
     <div class="call-queue-avatar">
       <div class="badge-container">
-        <ng-container *ngIf="patient.notificationCount">
+        <ng-container *ngIf="patient.patientNotificationCount > 0">
           <span class="notification-badge">
             {{ patient.patientNotificationCount }}
           </span>
         </ng-container>
-        <ng-container *ngIf="patient.notificationCount">
+        <ng-container *ngIf="patient.patientKudosCount > 0">
           <span class="kudos-badge">
             {{ patient.patientKudosCount }}
           </span>

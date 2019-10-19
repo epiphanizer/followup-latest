@@ -153,7 +153,25 @@ ul.patient-filters {
     &.new-discharge {
       background-color: rgba(20, 171, 52, 0.15);
     }
-
+    .badge-container {
+      span {
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        background-color: red;
+        display: block;
+        z-index: 5;
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 11px;
+        &.kudos-badge {
+          margin-right: 12px;
+          margin-top: 14px;
+          background-color: #13afe8;
+        }
+      }
+    }
     .call-queue-avatar {
       display: block;
       float: left;
