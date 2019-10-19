@@ -157,16 +157,18 @@ ul.patient-filters {
       span {
         width: 15px;
         height: 15px;
+        margin-left: 2px;
         position: absolute;
         background-color: red;
         display: block;
         z-index: 5;
         color: white;
         border-radius: 50%;
+        border: 1px solid white;
         text-align: center;
         font-size: 11px;
         &.kudos-badge {
-          margin-right: 12px;
+          margin-left: -7px;
           margin-top: 14px;
           background-color: #13afe8;
         }
