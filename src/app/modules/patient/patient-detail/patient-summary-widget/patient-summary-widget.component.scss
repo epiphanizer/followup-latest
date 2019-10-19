@@ -71,8 +71,9 @@
 }
 .alternate-numbers-list {
   margin: 0;
+  padding: 0;
   ion-item {
-    width: 100%;
+    width: calc(100% + 14px);
     height: 24px;
     vertical-align: top;
     margin: 0;
@@ -130,6 +131,6 @@ i.icon-hipaa {
     width: 40px;
     float: right;
     display: block;
-    min-height: 250px;
+    min-height: 200px;
   }
 }
