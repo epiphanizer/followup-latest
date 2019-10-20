@@ -1,12 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Patient } from '@app/modules/patient/patient';
-import { PatientCall, PatientCallQuestionAnswer } from '../../patient-call/patient-call.service';
-import { Observable } from 'rxjs';
+import { PatientCall } from '../../patient-call/patient-call.service';
 import {
   PatientCallQuestion,
   PatientCallQuestionsService
 } from '../patient-call-questions/patient-call-questions.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   providers: [PatientCallQuestionsService],
@@ -33,14 +30,9 @@ export class PatientCallHistoryListingComponent implements OnInit {
           this.patientCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
             this.patientCallQuestions[
               index
-            ].patientCallQuestionAnswer$ = this.patientCallQuestionAnswerService
-              .getPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestion.patientCallQuestionId)
-              .pipe(
-                map((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
-                  console.log(patientCallQuestionAnswer);
-                  // debugger;
-                })
-              );
+            ].patientCallQuestionAnswer$ = this.patientCallQuestionAnswerService.getPatientCallQuestionAnswersByPatientCallQuestionId(
+              patientCallQuestion.patientCallQuestionId
+            );
           });
         });
     });
