@@ -5,7 +5,6 @@ import { PatientService } from '@app/modules/patient/patient.service';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
-import { map } from 'rxjs/operators';
 import { PatientPutBody } from './patient-form';
 import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
 import { PatientContact } from '../patient-contact/patient-contact';
