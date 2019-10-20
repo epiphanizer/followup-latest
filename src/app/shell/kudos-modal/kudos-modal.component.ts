@@ -64,7 +64,6 @@ export class KudosModalComponent {
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
-        console.log(data);
         this.dismiss();
       });
   }

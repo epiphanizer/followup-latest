@@ -104,8 +104,6 @@ export class NotificationModalComponent {
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
-        debugger;
-        console.log(data);
         this.dismiss();
       });
   }
