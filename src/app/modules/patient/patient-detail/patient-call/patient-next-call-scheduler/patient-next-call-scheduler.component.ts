@@ -99,10 +99,6 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
-    let formattedDay = this.selectedDay.toString();
-    if (formattedDay.length == 1) {
-      formattedDay = '0' + formattedDay;
-    }
   }
 
   ngOnInit() {
