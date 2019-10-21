@@ -17,7 +17,7 @@ export class PatientCallNotesComponent implements OnInit {
   patientCallNotesForm: FormGroup;
   patientCallNotes$: Observable<PatientCallNotes>;
   @Output() patientCallNotesChangeEmitter = new EventEmitter<PatientCallNotes>();
-  highlighterActive: boolean;
+  highlighterActive: boolean = false;
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
