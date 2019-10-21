@@ -29,18 +29,20 @@ import { UserCorkBoardService } from './user-cork-board.service';
 })
 export class UserCorkBoardComponent implements OnInit {
   isOpen = false;
+  deleting = false;
   constructor(private userCorkBoardService: UserCorkBoardService) {}
 
   ngOnInit() {}
 
   public addNewCorkboardItem = function(file: File) {
-    this.userCorkBoardService.addNewCorkboardItem(file);
-    console.log('adding corkboard item');
-    // implement service call here
+    this.userCorkBoardService.addNewUserCorkBoardObject(file).subscribe((data: any) => {
+      console.log(data);
+      debugger;
+    });
   };
   public activateCorkBoardDeleteFunction = function() {
-    console.log('deleting corkboard item');
-    // implement service call here
+    alert('activating cork board delete function');
+    this.deleting = true;
   };
   clickCorkboardInput = function() {
     let element: HTMLElement = document.querySelector('#corkBoardUpload') as HTMLElement;
@@ -48,5 +50,7 @@ export class UserCorkBoardComponent implements OnInit {
   };
   public toggleCorkboardState = function() {
     this.isOpen = !this.isOpen;
+    // Make sure to reset the deleting functionality of the cork board
+    this.deleting = false;
   };
 }
