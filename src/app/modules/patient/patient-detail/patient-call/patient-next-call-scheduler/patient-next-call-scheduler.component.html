@@ -5,7 +5,7 @@
 </ion-row>
 <div class="call-history-container">
   <div class="calendar-month-controls">
-    <span class="left-month-arrow" (click)="calendarPrevMonth()"></span>
+    <span class="left-month-arrow" *ngIf="selectedMonth > currentCalendarMonth" (click)="calendarPrevMonth()"></span>
     <span class="calendar-month">
       {{ currentCalendarMonth.name }}
     </span>
