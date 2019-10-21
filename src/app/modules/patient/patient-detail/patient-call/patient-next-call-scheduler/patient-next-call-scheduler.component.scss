@@ -68,6 +68,9 @@ h3 {
   margin-top: 16px;
   width: 90px;
 }
+.calendar-day.disabled {
+  color: #ff0000;
+}
 .left-month-arrow,
 .right-month-arrow {
   cursor: pointer;
