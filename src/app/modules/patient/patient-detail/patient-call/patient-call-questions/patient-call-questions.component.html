@@ -3,8 +3,7 @@
   <i class="icon-question-mark"></i>
 </div>
 <form [formGroup]="patientCallQuestionsAnswersForm">
-  <div scrollY="true">
-    class="ion-scroll-questions">
+  <div scrollY="true" class="ion-scroll-questions">
     <ion-list lines="none" class="patient-call-question-list">
       <ion-item *ngFor="let question of questions$ | async; let idx = index">
         <div class="call-question-body-container">
