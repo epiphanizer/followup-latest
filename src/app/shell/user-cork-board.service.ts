@@ -1,33 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '@app/core';
+import { HttpService } from '../core';
 import { catchError, retry, delay } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
-import { PatientContactPostBody } from './patient-contact';
+
+export interface UserCorkBoardPostObject {
+  userCorkBoardFile: File;
+}
 
 @Injectable({
   providedIn: 'root'
 })
-export class PatientContactService {
-  /**
-   * A public parameter that gives a Status of a call in terms
-   * of time.
-   */
-  public call: {
-    status: number | string;
-  };
+/**
+ * Provides helper methods to create routes.
+ */
+export class UserCorkBoardService {
   constructor(private http: HttpService) {}
 
-  getPatientContactsByPatientId = function(patientId: number) {
-    return this.http.get('patients/' + patientId + '/contacts/').pipe(
-      delay(5000),
-      retry(3), // retry a failed request up to 3 times
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
-  };
-
-  addNewPatientContactByPatientId(patientId: number, patientContactPost: PatientContactPostBody) {
-    return this.http.post('patients/' + patientId + '/contacts', patientContactPost).pipe(
+  addNewUserCorkBoardObject(userId: number, userCorkBoardPost: UserCorkBoardPostObject) {
+    return this.http.post('users/' + userId + '/corkBoardObjects', userCorkBoardPost).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -44,8 +35,8 @@ export class PatientContactService {
     // return an observable with a user-facing error message
     return throwError(
       '<div class="alert alert-danger" role="alert"> \
-        <strong>Error</strong>: We had trouble connecting to the patient service\
-      </div>'
+            <strong>Error</strong>: We had trouble connecting to the patient service\
+          </div>'
     );
   }
 }

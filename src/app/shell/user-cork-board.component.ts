@@ -1,12 +1,6 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-  // ...
-} from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { UserCorkBoardService } from './user-cork-board.service';
 
 @Component({
   selector: 'app-user-cork-board',
@@ -35,17 +29,22 @@ import {
 })
 export class UserCorkBoardComponent implements OnInit {
   isOpen = false;
-  constructor() {}
+  constructor(private userCorkBoardService: UserCorkBoardService) {}
 
   ngOnInit() {}
 
-  public addNewCorkboardItem = function() {
+  public addNewCorkboardItem = function(file: File) {
+    this.userCorkBoardService.addNewCorkboardItem(file);
     console.log('adding corkboard item');
     // implement service call here
   };
-  public deleteCorkboardItem = function() {
+  public activateCorkBoardDeleteFunction = function() {
     console.log('deleting corkboard item');
     // implement service call here
+  };
+  clickCorkboardInput = function() {
+    let element: HTMLElement = document.querySelector('#corkBoardUpload') as HTMLElement;
+    element.click();
   };
   public toggleCorkboardState = function() {
     this.isOpen = !this.isOpen;
