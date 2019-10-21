@@ -68,9 +68,7 @@ h3 {
   margin-top: 16px;
   width: 90px;
 }
-.calendar-day.disabled {
-  color: #ff0000;
-}
+
 .left-month-arrow,
 .right-month-arrow {
   cursor: pointer;
@@ -102,6 +100,9 @@ h3 {
     margin-right: 14px;
     background-color: rgba(142, 142, 147, 0.12);
     color: black;
+    &.disabled {
+      color: #ff0000;
+    }
     &.active {
       background-color: rgba(19, 175, 233, 0.35);
       span {
