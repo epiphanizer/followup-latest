@@ -19,8 +19,8 @@ import { PatientCallService } from '@app/modules/patient/patient-detail/patient-
 export class CallQueuePatientListingComponent implements OnInit {
   currentYear: number;
   @Input() operation: Operation;
-
-  filterBy: string;
+  // we default to filtering by next call-date
+  filterBy: string = 'call-date';
   public patients: Patient[];
   public patients$: Observable<[Patient]> | void = null;
   public patientCallStatuses: PatientCallStatus[];
@@ -78,7 +78,7 @@ export class CallQueuePatientListingComponent implements OnInit {
       });
     } else {
       this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientNextCallTime) + <any>new Date(b.patientNextCallTime);
+        return <any>new Date(b.patientNextCallTime) - <any>new Date(a.patientNextCallTime);
       });
     }
   };
@@ -87,6 +87,11 @@ export class CallQueuePatientListingComponent implements OnInit {
       this.selectedSortFlag = 'desc';
     } else {
       this.selectedSortFlag = 'asc';
+    }
+    if (this.filterBy == 'call-date') {
+      this.sortPatientsByCallDate(this.selectedSortFlag);
+    } else {
+      this.sortPatientsByDischargeDate(this.selectedSortFlag);
     }
   };
 }

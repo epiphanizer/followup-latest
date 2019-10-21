@@ -65,7 +65,6 @@ export class PatientDetailComponent implements OnInit {
 
     this.patient.patientCalls$.subscribe((patientCalls: PatientCall[]) => {
       this.patient.patientCalls = patientCalls;
-      debugger;
     });
 
     this.patientNextCall = {

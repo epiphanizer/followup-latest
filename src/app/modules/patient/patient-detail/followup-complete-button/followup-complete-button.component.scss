@@ -1,11 +1,10 @@
 ion-button {
   width: 100px;
   height: 28px;
+  margin-top: 20px;
   border-radius: 2px;
   --border-width: 1;
   --border-style: solid;
-  --border-color: red;
-  // background-size: 100%;
-  // background-image: url("/assets/complete-patient-button@2x.png");
-  color: red;
+  --border-color: rgb(19, 175, 233);
+  color: rgb(19, 175, 233);
 }
