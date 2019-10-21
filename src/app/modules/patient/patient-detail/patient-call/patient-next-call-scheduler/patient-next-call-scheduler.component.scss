@@ -101,7 +101,9 @@ h3 {
     background-color: rgba(142, 142, 147, 0.12);
     color: black;
     &.disabled {
+      background-color: RGBA(255, 0, 0, 0.12);
       color: #ff0000;
+      cursor: disabled;
     }
     &.active {
       background-color: rgba(19, 175, 233, 0.35);
