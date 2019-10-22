@@ -1,3 +1,6 @@
+.notification-sidebar {
+  max-width: 190px;
+}
 .notification-content-wrapper {
   max-width: 720px;
 
@@ -12,5 +15,29 @@
     text-align: left;
     color: #343638;
     padding-left: 0;
+  }
+  ion-textarea {
+    height: 200px;
+    width: 475px;
+    margin: 0 auto;
+    font-size: 13px;
+    font-family: Avenir;
+    background-color: #f5f5f5;
+    padding: 15px;
+    padding-top: 0px;
+    margin-top: 0.25rem;
+  }
+  .patient-name {
+    font-family: Avenir-Roman;
+    font-size: 38px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: 0.76px;
+    text-align: left;
+  }
+  .label {
+    font-weight: bold;
   }
 }

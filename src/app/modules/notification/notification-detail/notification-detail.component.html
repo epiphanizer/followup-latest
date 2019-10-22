@@ -4,16 +4,37 @@
       <!-- <app-notification-listing-sidebar> </app-notification-listing-sidebar> -->
     </ion-col>
     <ion-col class="notification-content-wrapper">
-      <img src="{{ notification.notificationIconImage }}" />
-      <ion-title> {{ notification.notificationTypeLabel }} </ion-title>
+      <ion-title>
+        <img src="{{ notification.notificationIconImage }}" />
+        {{ notification.notificationTypeLabel }}
+      </ion-title>
       <div class="notification-info-container">
         <div class="notification-operation">
           {{ notification.notificationOperation }}
         </div>
-        {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
-        <span class="label">Date Received:&nbsp;</span> {{ notification.notificationCreatedTime | date: 'mm/dd/YYYY' }}
-        <span class="label">CC Rep:&nbsp;</span> {{ notification.notificationCreatedBy | date: 'mm/dd/YYYY' }}
-        <span class="label">Mesage:&nbsp;</span> {{ notification.notificationMessage }}
+        <div class="patient-name">
+          {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
+        </div>
+        <div class="view-call-record ion-float-right">
+          <a href="/patients/{{ notification.notificationPatientId }}/calls">
+            [View Call Record]
+          </a>
+        </div>
+        <div class="notification-information">
+          <div class="notification-item">
+            <span class="label">Date Received:&nbsp;</span>
+            {{ notification.notificationCreatedTime | date: 'MM/dd/yyyy' }}
+          </div>
+          <div class="notification-item">
+            <span class="label">CC Rep:&nbsp;</span> {{ notification.notificationCreatedBy | date: 'MM/dd/yyyy' }}
+          </div>
+          <div class="notification-item">
+            <span class="label">Message:&nbsp;</span>
+            <ion-textarea readonly>
+              {{ notification.notificationMessage }}
+            </ion-textarea>
+          </div>
+        </div>
       </div>
     </ion-col>
   </ion-row>

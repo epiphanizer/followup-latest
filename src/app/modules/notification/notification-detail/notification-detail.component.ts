@@ -13,6 +13,5 @@ export class NotificationDetailComponent implements OnInit {
 
   ngOnInit() {
     this.notification = this.route.snapshot.data.notification;
-    debugger;
   }
 }
