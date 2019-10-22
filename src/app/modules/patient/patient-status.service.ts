@@ -25,6 +25,21 @@ export class PatientStatusService {
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
+  editPatientStatusByPatientId(
+    patientId: number,
+    patientStatusLabelId: number,
+    patientStatusNotes: string
+  ): Observable<PatientStatus> {
+    return this.http
+      .post<PatientStatus>('patients/' + patientId + '/statuses', {
+        patientStatusLabelId: patientStatusLabelId,
+        patientStatusNotes: patientStatusNotes
+      })
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
+  }
   getPatientStatusLabels(): any {
     return this.http.get('patients/statuses').pipe(
       retry(3), // retry a failed request up to 3 times

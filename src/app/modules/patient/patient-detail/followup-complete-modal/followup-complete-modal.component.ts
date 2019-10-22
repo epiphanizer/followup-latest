@@ -50,7 +50,7 @@ export class FollowupCompleteModalComponent implements OnInit {
     var patientStatusLabelId = formSubmission.patientStatusLabelId;
     var patientStatusNotes = formSubmission.completionNotes;
     this.patientStatusService
-      .addNewPatientStatusByPatientId(patient.patientId, patientStatusLabelId, patientStatusNotes)
+      .editPatientStatusByPatientId(patient.patientId, patientStatusLabelId, patientStatusNotes)
       .subscribe((data: any) => {
         this.dismiss();
         window.location.href = '/call-queue';
