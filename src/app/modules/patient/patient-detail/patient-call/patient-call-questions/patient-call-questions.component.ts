@@ -3,7 +3,7 @@ import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/pa
 import { Observable } from 'rxjs';
 import { PatientCallQuestionsService, PatientCallQuestion } from './patient-call-questions.service';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import { map, share } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-patient-call-questions',

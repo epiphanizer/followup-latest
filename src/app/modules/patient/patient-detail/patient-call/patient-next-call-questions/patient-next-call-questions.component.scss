@@ -29,7 +29,6 @@ form {
 
   ion-item {
     max-width: 508px;
-    max-height: 75px;
   }
 
   ion-textarea {
@@ -47,6 +46,9 @@ form {
         z-index: 50;
         background-color: transparent;
       }
+    }
+    textarea {
+      margin-top: -25px;
     }
     .patient-call-note-highlight-controls {
       cursor: pointer;
@@ -73,6 +75,8 @@ form {
 
       img {
         float: right;
+        max-height: 16px;
+        margin-right: 19px;
         height: 17px;
       }
     }

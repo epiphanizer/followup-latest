@@ -1,5 +1,5 @@
 <form [formGroup]="patientNextCallQuestionsForm">
-  <ion-list lines="none">
+  <ion-list lines="none" formArrayName="patientCallQuestions">
     <ion-item
       class="next-call-question-textarea"
       *ngFor="let patientCallQuestion of patientCallQuestions; let idx = index"
@@ -14,11 +14,9 @@
         placeholder="Enter your question..."
       >
       </ion-textarea>
-      <ion-item formControlName="{{ idx + 1 }}" class="patient-next-call-question-highlight-controls">
-        <a (click)="togglePatientCallQuestionHighlight(idx)">
-          <img class="ion-float-right" src="/assets/highlight-flag@2x.png" />
-        </a>
-      </ion-item>
+      <a (click)="togglePatientCallQuestionHighlight(idx)">
+        <img class="ion-float-right" src="/assets/highlight-flag@2x.png" />
+      </a>
     </ion-item>
     <ion-item class="add-next-question" (click)="addNextCallQuestion()">
       [ + add new question ]
