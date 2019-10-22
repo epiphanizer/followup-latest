@@ -10,30 +10,20 @@ export interface PatientStatus {
 export class PatientStatusService {
   constructor(private http: HttpClient) {}
 
-  addNewPatientStatusByPatientId(
-    patientId: number,
-    patientStatusLabelId: number,
-    patientStatusNotes: string
-  ): Observable<PatientStatus> {
+  addNewPatientStatusByPatientId(patientId: number, patientStatusLabelId: number): Observable<PatientStatus> {
     return this.http
       .post<PatientStatus>('patients/' + patientId + '/statuses', {
-        patientStatusLabelId: patientStatusLabelId,
-        patientStatusNotes: patientStatusNotes
+        patientStatusLabelId: patientStatusLabelId
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
-  editPatientStatusByPatientId(
-    patientId: number,
-    patientStatusLabelId: number,
-    patientStatusNotes: string
-  ): Observable<PatientStatus> {
+  editPatientStatusByPatientId(patientId: number, patientStatusLabelId: number): Observable<PatientStatus> {
     return this.http
       .post<PatientStatus>('patients/' + patientId + '/statuses', {
-        patientStatusLabelId: patientStatusLabelId,
-        patientStatusNotes: patientStatusNotes
+        patientStatusLabelId: patientStatusLabelId
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times

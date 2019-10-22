@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, Input, Pipe, PipeTransform, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserService } from '@app/modules/user/user.service';
@@ -32,6 +32,7 @@ export class CallQueuePatientFilterComponent implements OnInit {
     this.patientCallService
       .getPatientCallsByOperationId(this.operation.operationId)
       .subscribe((patientCalls: PatientCall[]) => {
+        debugger;
         if (!patientCalls.length) {
           this.patientCalls = [];
         }
@@ -39,14 +40,19 @@ export class CallQueuePatientFilterComponent implements OnInit {
         this.searchPatientCallHistoryBySelectedDate(this.filterDate);
       });
   }
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.patientCalls) {
+      this.filterDate = changes.filterDate.currentValue;
+      this.searchPatientCallHistoryBySelectedDate(this.filterDate);
+    }
+  }
+
   searchPatientCallHistoryBySelectedDate(selectedDate: string): PatientCall[] {
     let selectedDateObj = new Date(selectedDate);
     let transformedDate = this.datePipe.transform(selectedDateObj, 'yyyy-MM-dd');
     this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
-      return (
-        patientCall.patientCallScheduledTime.toString().indexOf(transformedDate) !== -1 ||
-        patientCall.patientCallEndTime == selectedDateObj
-      );
+      debugger;
+      return patientCall.patientCallScheduledTime.toString().indexOf(transformedDate) !== -1;
     });
     return this.patientCallsFiltered;
   }
