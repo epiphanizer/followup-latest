@@ -4,9 +4,17 @@
       <!-- <app-notification-listing-sidebar> </app-notification-listing-sidebar> -->
     </ion-col>
     <ion-col class="notification-content-wrapper">
-      <ion-title>
-        Possible Readmittance
-      </ion-title>
+      <img src="{{ notification.notificationIconImage }}" />
+      <ion-title> {{ notification.notificationTypeLabel }} </ion-title>
+      <div class="notification-info-container">
+        <div class="notification-operation">
+          {{ notification.notificationOperation }}
+        </div>
+        {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
+        <span class="label">Date Received:&nbsp;</span> {{ notification.notificationCreatedTime | date: 'mm/dd/YYYY' }}
+        <span class="label">CC Rep:&nbsp;</span> {{ notification.notificationCreatedBy | date: 'mm/dd/YYYY' }}
+        <span class="label">Mesage:&nbsp;</span> {{ notification.notificationMessage }}
+      </div>
     </ion-col>
   </ion-row>
 </ion-content>

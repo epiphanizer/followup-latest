@@ -12,7 +12,8 @@ export class NotificationResolver implements Resolve<Notification> {
   resolve(route: ActivatedRouteSnapshot): Observable<Notification> {
     let notificationId = route.paramMap.get('notificationId');
     return this.notificationService.getNotificationByNotificationId(+notificationId).pipe(
-      map((notification: Notification) => {
+      map((result: Notification) => {
+        let notification = result[0];
         return notification;
       })
     );
