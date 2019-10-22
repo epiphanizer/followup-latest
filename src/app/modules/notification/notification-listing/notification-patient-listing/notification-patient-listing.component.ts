@@ -14,8 +14,8 @@ export class NotificationPatientListingComponent implements OnInit {
   @Input() operation: Operation;
   public notifications: Notification[];
   public notifications$: Observable<Notification[]>;
-  public filterBy: string;
-  public selectedSortFlag: string;
+  public filterBy: string = 'notification-date';
+  public selectedSortFlag: string = 'desc';
 
   constructor(private notificationService: NotificationService) {}
   ngOnInit() {

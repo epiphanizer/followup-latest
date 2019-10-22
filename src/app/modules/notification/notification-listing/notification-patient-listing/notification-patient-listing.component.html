@@ -34,7 +34,7 @@
   <li
     *ngFor="let notification of notifications$ | async"
     class="active"
-    [routerLink]="'/notifications/' + notification.notificationPatientId"
+    [routerLink]="'/notifications/' + notification.notificationId"
   >
     <div class="notification-date">
       {{ notification.notificationCreatedTime | date: 'M/d' }}
@@ -55,8 +55,9 @@
       <img src="{{ notification.notificationIconImage }}" />
       <span>{{ notification.notificationTypeLabel }} </span>
     </div>
-    <div class="notification-status">
-      <i class="resolution-status" [class.resolved]="notification.notificationStatusLabel == 'Resolved'"> </i>
-    </div>
+    <!-- <div class="notification-status">
+      <i class="resolution-status" 
+      [class.resolved]="notification.notificationStatusLabel == 'Resolved'"> </i>
+    </div> -->
   </li>
 </ul>

@@ -22,21 +22,18 @@ export class CallQueuePatientListingComponent implements OnInit {
   // we default to filtering by next call-date
   filterBy: string = 'call-date';
   public patients: Patient[];
-  public patients$: Observable<[Patient]> | void = null;
+  public patients$: Observable<Patient[]> | void = null;
   public patientCallStatuses: PatientCallStatus[];
   public selectedSortFlag: string = 'desc';
 
   constructor(private patientService: PatientService, private patientCallStatusService: PatientCallStatusService) {}
   ngOnInit() {
     this.currentYear = new Date().getFullYear();
-    this.patientCallStatusService
-      .getPatientCallStatuses()
-      .subscribe((patientCallStatuses: PatientCallStatus[]) => {
-        this.patientCallStatuses = patientCallStatuses;
-      })
-      .unsubscribe();
+    this.patientCallStatusService.getPatientCallStatuses().subscribe((patientCallStatuses: PatientCallStatus[]) => {
+      this.patientCallStatuses = patientCallStatuses;
+    });
     this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
-      map((patients: [Patient]) => {
+      map((patients: Patient[]) => {
         this.patients = patients;
         return patients;
       })
@@ -48,7 +45,7 @@ export class CallQueuePatientListingComponent implements OnInit {
       if (!changes.operation.firstChange) {
         this.operation = changes.operation.currentValue;
         this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
-          map((patients: [Patient]) => {
+          map((patients: Patient[]) => {
             this.patients = patients;
             return patients;
           })
@@ -65,7 +62,7 @@ export class CallQueuePatientListingComponent implements OnInit {
       });
     } else {
       this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientDischargeDate) + <any>new Date(b.patientDischargeDate);
+        return <any>new Date(b.patientDischargeDate) - <any>new Date(a.patientDischargeDate);
       });
     }
   };
