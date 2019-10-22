@@ -106,6 +106,10 @@ export class PatientDetailComponent implements OnInit {
   patientCallNotesChangeHandler($event: PatientCallNotes) {
     this.patientCallNotes = $event;
   }
+
+  patientCallQuestionsChangeHandler($event: PatientCallQuestionAnswer[]) {
+    this.patientCallQuestionAnswers = $event;
+  }
   patientCallStatusLabelChangeHandler($event: number) {
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
@@ -142,6 +146,14 @@ export class PatientDetailComponent implements OnInit {
     // add answers to our questions to the current call
     // this will require processing
     debugger;
+    if (!this.patientCallQuestionAnswers) {
+      alert('Please select an answer to at least one question');
+      let element = document.querySelector('#patientCallNotesForm');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      return;
+    }
     // let callQuestionAnswers = this.patientForm
     let callQuestionAnswers = [{ patientCallQuestionId: 1, patientCallQuestionAnswer: 'Test Answer' }];
     callQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {

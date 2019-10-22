@@ -30,7 +30,6 @@ export class CallQueuePatientFilterComponent implements OnInit {
     this.patientCallService
       .getPatientCallsByOperationId(this.operation.operationId)
       .subscribe((patientCalls: PatientCall[]) => {
-        debugger;
         if (!patientCalls.length) {
           this.patientCalls = [];
         }

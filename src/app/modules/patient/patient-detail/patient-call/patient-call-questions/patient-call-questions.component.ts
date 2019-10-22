@@ -1,5 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import {
+  PatientCall,
+  PatientCallQuestionAnswer
+} from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 import { Observable } from 'rxjs';
 import { PatientCallQuestionsService, PatientCallQuestion } from './patient-call-questions.service';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
@@ -12,9 +15,12 @@ import { map } from 'rxjs/operators';
 })
 export class PatientCallQuestionsComponent implements OnInit {
   @Input() patientCall: PatientCall;
+  patientCallQuestionsAnswers: PatientCallQuestionAnswer[];
   patientCallQuestionsAnswersForm: FormGroup;
   questions: PatientCallQuestion[];
   questions$: Observable<PatientCallQuestion[]>;
+  @Output() patientCallAnwersChangeEmitter = new EventEmitter<PatientCallQuestionAnswer[]>();
+
   constructor(private fb: FormBuilder, private patientCallQuestionsService: PatientCallQuestionsService) {}
 
   ngOnInit() {
@@ -31,6 +37,14 @@ export class PatientCallQuestionsComponent implements OnInit {
         })
       )
       .subscribe();
+    this.onChanges();
+  }
+  onChanges() {
+    this.patientCallQuestionsAnswersForm.get('patientCallQuestionsAnswers').valueChanges.subscribe(val => {
+      debugger;
+      this.patientCallQuestionsAnswers = val;
+      this.patientCallAnwersChangeEmitter.emit(this.patientCallQuestionsAnswers);
+    });
   }
   createForm() {
     this.patientCallQuestionsAnswersForm = this.fb.group({
