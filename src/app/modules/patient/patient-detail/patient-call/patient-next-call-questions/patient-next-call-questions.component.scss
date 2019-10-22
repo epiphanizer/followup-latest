@@ -33,6 +33,7 @@ form {
 
   ion-textarea {
     font-size: 14px;
+
     &.is-highlighted {
       &::before {
         background-image: url("/assets/note-highlight-flag@2x.png");
@@ -47,9 +48,11 @@ form {
         background-color: transparent;
       }
     }
+
     textarea {
       margin-top: -25px;
     }
+
     .patient-call-note-highlight-controls {
       cursor: pointer;
     }
@@ -72,13 +75,15 @@ form {
 
     a {
       width: 100%;
+    }
+  }
 
-      img {
-        float: right;
-        max-height: 16px;
-        margin-right: 19px;
-        height: 17px;
-      }
+  .next-call-question-textarea {
+    img {
+      float: right;
+      max-height: 16px;
+      margin-right: 19px;
+      height: 17px;
     }
   }
 
