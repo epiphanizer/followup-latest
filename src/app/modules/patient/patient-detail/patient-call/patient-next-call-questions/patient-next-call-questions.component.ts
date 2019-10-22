@@ -27,7 +27,6 @@ export class PatientNextCallQuestionsComponent implements OnInit {
     let nextCallQuestions = this.patientNextCallQuestionsForm.controls.patientCallQuestions as FormArray;
     nextCallQuestions.push(this.fb.control(''));
     nextCallQuestions.push(this.fb.control(''));
-    debugger;
     this.patientCallQuestions.push(<PatientCallQuestion>{
       patientCallQuestion: 'What is your next question?'
     });

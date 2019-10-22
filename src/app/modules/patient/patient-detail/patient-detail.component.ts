@@ -142,6 +142,7 @@ export class PatientDetailComponent implements OnInit {
     // add answers to our questions to the current call
     // this will require processing
     debugger;
+    // let callQuestionAnswers = this.patientForm
     let callQuestionAnswers = [{ patientCallQuestionId: 1, patientCallQuestionAnswer: 'Test Answer' }];
     callQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
       this.patientCallQuestionsService
