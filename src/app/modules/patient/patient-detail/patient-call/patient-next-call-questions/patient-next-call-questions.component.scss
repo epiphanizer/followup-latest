@@ -72,13 +72,14 @@ form {
   .patient-next-call-question-highlight-controls {
     width: 100%;
     text-align: right;
-
-    a {
-      width: 100%;
-    }
   }
 
   .next-call-question-textarea {
+    a {
+      width: 100%;
+      margin-top: 15px;
+    }
+
     img {
       float: right;
       max-height: 16px;
