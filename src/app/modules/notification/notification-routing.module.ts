@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { UserResolver } from '@app/modules/user/user-resolver.service';
+import { NotificationResolver } from '@app/modules/notification/notification-resolver.service';
 import { NotificationListingComponent } from './notification-listing/notification-listing.component';
 import { Shell } from '@app/shell/shell.service';
 import { NotificationDetailComponent } from './notification-detail/notification-detail.component';
@@ -48,7 +49,7 @@ const routes: Routes = [
         ]
       },
       resolve: {
-        user: UserResolver
+        notification: NotificationResolver
       }
     }
   ])
@@ -57,6 +58,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule],
-  providers: [UserResolver]
+  providers: [UserResolver, NotificationResolver]
 })
 export class NotificationRoutingModule {}
