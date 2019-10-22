@@ -35,7 +35,7 @@ export class NotificationPatientListingComponent implements OnInit {
       });
     } else {
       this.notifications.sort((a: Notification, b: Notification) => {
-        return <any>new Date(a.notificationCreatedDate) + <any>new Date(b.notificationCreatedDate);
+        return <any>new Date(b.notificationCreatedDate) - <any>new Date(a.notificationCreatedDate);
       });
     }
   };

@@ -3,12 +3,35 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { UserResolver } from '@app/modules/user/user-resolver.service';
 import { NotificationListingComponent } from './notification-listing/notification-listing.component';
 import { Shell } from '@app/shell/shell.service';
+import { NotificationDetailComponent } from './notification-detail/notification-detail.component';
 
 const routes: Routes = [
   Shell.childRoutes([
     {
       path: 'notifications',
       component: NotificationListingComponent,
+      pathMatch: 'full',
+      data: {
+        navLinks: [
+          {
+            linkAction: '/patient/add',
+            linkName: 'Add Patient',
+            linkType: 'link'
+          },
+          {
+            linkAction: '/notifications',
+            linkName: 'Notifications',
+            linkType: 'link'
+          }
+        ]
+      },
+      resolve: {
+        user: UserResolver
+      }
+    },
+    {
+      path: 'notifications/:notificationId',
+      component: NotificationDetailComponent,
       pathMatch: 'full',
       data: {
         navLinks: [

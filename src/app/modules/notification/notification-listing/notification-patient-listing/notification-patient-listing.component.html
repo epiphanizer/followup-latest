@@ -8,7 +8,9 @@
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="notification-filters ">
   <li class="ion-float-left notification-date">
-    <a (click)="sortNotificationsByNotificationDate(selectedSortFlag)">[Date]</a>
+    <a [class.active]="filterBy == 'notification-date'" (click)="sortNotificationsByNotificationDate(selectedSortFlag)"
+      >[Date]</a
+    >
     <span class="ascending-descending-control">
       <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
     </span>
@@ -17,7 +19,9 @@
     <a (click)="sortNotificationsByPatient(selectedSortFlag)">[Patient]</a>
   </li>
   <li class="type-filter">
-    <a (click)="sortNotificationsByNotificationType(selectedSortFlag)">[Type]</a>
+    <a [class.active]="filterBy == 'notification-type'" (click)="sortNotificationsByNotificationType(selectedSortFlag)"
+      >[Type]</a
+    >
     <span class="ascending-descending-control">
       <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
     </span>
@@ -61,3 +65,7 @@
     </div> -->
   </li>
 </ul>
+
+<ng-template #noNotifications>
+  Sorry! No notifications exist for this
+</ng-template>

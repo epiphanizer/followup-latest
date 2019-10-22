@@ -61,8 +61,12 @@ ul.notification-filters {
       margin-right: 25px;
     }
 
-    &.ascending-descending-control {
+    .ascending-descending-control {
       height: 30px;
+      width: 30px;
+      float: right;
+      display: block;
+      margin-top: 20px;
 
       .ascending-descending-control-arrow {
         display: block;
@@ -156,7 +160,7 @@ ul.notification-filters {
 
     .notification-type {
       display: block;
-      padding-top: 23px;
+      margin-top: 35px;
       font-family: Avenir;
       font-size: 17px;
       float: left;
