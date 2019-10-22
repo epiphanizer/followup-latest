@@ -10,7 +10,7 @@
           <ng-container *ngIf="question.patientQuestionTypeLabel == 'rating'">
             {{ question.patientCallQuestion }}
             <ion-list class="rating" lines="none">
-              <ion-radio-group [formControlName]="idx">
+              <ion-radio-group formControlName="{{ question.patientQuestionId }}">
                 <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; let idx = index">
                   <ion-radio value="{{ rating }}">
                     {{ rating }}
@@ -25,7 +25,7 @@
           <ng-container *ngIf="question.patientQuestionTypeLabel == 'boolean'">
             {{ question.patientCallQuestion }}
             <ion-list lines="none">
-              <ion-radio-group [formControlName]="idx">
+              <ion-radio-group formControlName="{{ question.patientQuestionId }}">
                 <ion-item class="boolean">
                   <ion-radio class="radio-yes" value="true">
                     Y
@@ -52,7 +52,7 @@
             >
               {{ question.patientCallQuestion }}
             </div>
-            <ion-textarea [formControlName]="idx"> </ion-textarea>
+            <ion-textarea formControlName="{{ question.patientQuestionId }}"> </ion-textarea>
           </ng-container>
         </div>
       </div>
