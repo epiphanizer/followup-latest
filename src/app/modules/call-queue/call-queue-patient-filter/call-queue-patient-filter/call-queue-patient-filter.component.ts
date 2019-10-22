@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, Pipe, PipeTransform, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { UserService } from '@app/modules/user/user.service';
 import { User } from '@app/modules/user/user';
 import { AuthenticationService } from '@app/core';
@@ -8,7 +7,6 @@ import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { Operation } from '@app/modules/operation/operation';
 import { PatientCall, PatientCallService } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
-import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -51,7 +49,6 @@ export class CallQueuePatientFilterComponent implements OnInit {
     let selectedDateObj = new Date(selectedDate);
     let transformedDate = this.datePipe.transform(selectedDateObj, 'yyyy-MM-dd');
     this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
-      debugger;
       return patientCall.patientCallScheduledTime.toString().indexOf(transformedDate) !== -1;
     });
     return this.patientCallsFiltered;
