@@ -145,7 +145,6 @@ export class PatientDetailComponent implements OnInit {
 
     // add answers to our questions to the current call
     // this will require processing
-    debugger;
     if (!this.patientCallQuestionAnswers) {
       alert('Please select an answer to at least one question');
       let element = document.querySelector('#patientCallNotesForm');
@@ -154,18 +153,6 @@ export class PatientDetailComponent implements OnInit {
       }
       return;
     }
-    // let callQuestionAnswers = this.patientForm
-    let callQuestionAnswers = [{ patientCallQuestionId: 1, patientCallQuestionAnswer: 'Test Answer' }];
-    callQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
-      this.patientCallQuestionsService
-        .addPatientCallQuestionAnswersByPatientCallQuestionId(
-          patientCallQuestionAnswer.patientCallQuestionId,
-          patientCallQuestionAnswer.patientCallQuestionAnswer
-        )
-        .subscribe((data: any) => {
-          console.log(data);
-        });
-    });
 
     if (!this.patientNextCall.date) {
       alert('Please schedule a call date');
@@ -176,6 +163,17 @@ export class PatientDetailComponent implements OnInit {
       return;
     }
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
+      this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
+        this.patientCallQuestionsService
+          .addPatientCallQuestionAnswersByPatientCallQuestionId(
+            patientCallQuestionAnswer.patientCallQuestionId,
+            patientCallQuestionAnswer.patientCallQuestionAnswer
+          )
+          .subscribe((data: any) => {
+            console.log(data);
+            debugger;
+          });
+      });
       var isoString = new Date(this.patientNextCall.date).toISOString();
       /**
        * Passing E2E as of now
@@ -196,7 +194,7 @@ export class PatientDetailComponent implements OnInit {
             .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
             .subscribe((data: any) => {
               this.patientCall = data[0];
-              location.reload();
+              // location.reload();
             });
         });
     });

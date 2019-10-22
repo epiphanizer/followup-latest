@@ -50,7 +50,7 @@ export class PatientCallQuestionsService {
     patientCallQuestionAnswer: string
   ) {
     return this.http
-      .post('patients/calls/' + patientCallQuestionId + '/questions/answers', { patientCallQuestionAnswer })
+      .post('patients/calls/questions/' + patientCallQuestionId + '/answers', { patientCallQuestionAnswer })
       .pipe(
         retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error

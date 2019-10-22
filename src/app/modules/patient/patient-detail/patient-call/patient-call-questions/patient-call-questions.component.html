@@ -4,13 +4,13 @@
 </div>
 <form [formGroup]="patientCallQuestionsAnswersForm">
   <ion-list scrollY="true" lines="none" class="patient-call-question-list" formArrayName="patientCallQuestionsAnswers">
-    <ion-item *ngFor="let question of questions; let idx = index">
+    <ion-item *ngFor="let question of questions; let idx = index" formGroupName="{{ idx }}">
       <div class="call-question-body-container">
         <div class="call-question">
           <ng-container *ngIf="question.patientQuestionTypeLabel == 'rating'">
             {{ question.patientCallQuestion }}
             <ion-list class="rating" lines="none">
-              <ion-radio-group formControlName="{{ question.patientQuestionId }}">
+              <ion-radio-group formControlName="{{ question.patientCallQuestionId }}">
                 <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; let idx = index">
                   <ion-radio value="{{ rating }}">
                     {{ rating }}
@@ -25,7 +25,7 @@
           <ng-container *ngIf="question.patientQuestionTypeLabel == 'boolean'">
             {{ question.patientCallQuestion }}
             <ion-list lines="none">
-              <ion-radio-group formControlName="{{ question.patientQuestionId }}">
+              <ion-radio-group formControlName="{{ question.patientCallQuestionId }}">
                 <ion-item class="boolean">
                   <ion-radio class="radio-yes" value="true">
                     Y
@@ -52,7 +52,7 @@
             >
               {{ question.patientCallQuestion }}
             </div>
-            <ion-textarea formControlName="{{ question.patientQuestionId }}"> </ion-textarea>
+            <ion-textarea formControlName="{{ question.patientCallQuestionId }}"> </ion-textarea>
           </ng-container>
         </div>
       </div>
