@@ -70,6 +70,7 @@ export class NotificationListingSidebarComponent implements OnInit {
       /** Init to the first assigned operation alphabetically */
       this.selected.operation = data[0];
       this.operations = data;
+      this.setActiveOperation(this.selected.operation);
     });
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
