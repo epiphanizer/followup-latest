@@ -172,7 +172,7 @@ export class PatientDetailComponent implements OnInit {
       // Talk to our service to answer the existing call questions
       this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
         let patientCallQuestionId = parseInt(Object.keys(patientCallQuestionAnswer).toString());
-        let patientCallQuestionAnswerText = patientCallQuestionAnswer[0];
+        let patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
         this.patientCallQuestionsService
           .addPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestionId, patientCallQuestionAnswerText)
           .subscribe((data: any) => {

@@ -48,6 +48,7 @@ export class PatientCallQuestionsService {
     patientCallQuestionId: number,
     patientCallQuestionAnswer: string
   ) {
+    debugger;
     return this.http
       .post('patients/calls/questions/' + patientCallQuestionId + '/answers', {
         patientCallQuestionAnswer: patientCallQuestionAnswer
