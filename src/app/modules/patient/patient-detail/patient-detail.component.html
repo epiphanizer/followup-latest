@@ -12,8 +12,7 @@
             (patientCallStatusChangeEmitter)="patientCallStatusLabelChangeHandler($event)"
           >
           </app-patient-call-status-controls>
-          <!-- Bears some documentation: 
-            this will be hidden if we have advanced past ID 2, which is the "started" state -->
+          <!-- this will be hidden if we have advanced past ID 2, which is the "started" state -->
           <app-patient-call-start-button
             *ngIf="patientCall.patientCallStatusLabelId < 3"
             [user]="user"

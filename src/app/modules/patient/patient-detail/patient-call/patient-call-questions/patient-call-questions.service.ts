@@ -26,21 +26,18 @@ export class PatientCallQuestionsService {
    */
   addPatientCallQuestionByPatientCallId = function(patientCallId: number, patientCallQuestion: string) {
     return this.http.post('patients/calls/' + patientCallId + '/questions', { patientCallQuestion }).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
   getPatientCallQuestionsByPatientCallId = function(patientCallId: number) {
     return this.http.get('patients/calls/' + patientCallId + '/questions').pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
   getPatientCallQuestionAnswersByPatientCallQuestionId = function(patientCallQuestionId: number) {
     return this.http.get('patients/calls/questions/' + patientCallQuestionId + '/answers').pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
@@ -49,11 +46,11 @@ export class PatientCallQuestionsService {
     patientCallQuestionId: number,
     patientCallQuestionAnswer: string
   ) {
-    debugger;
     return this.http
-      .post('patients/calls/questions/' + patientCallQuestionId + '/answers', { patientCallQuestionAnswer })
+      .post('patients/calls/questions/' + patientCallQuestionId + '/answers', {
+        patientCallQuestionAnswer: patientCallQuestionAnswer
+      })
       .pipe(
-        retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   };
