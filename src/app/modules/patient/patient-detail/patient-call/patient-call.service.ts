@@ -60,28 +60,24 @@ export class PatientCallService {
 
   getCallRepCallsByUserIdAndOperationId = function(userId: number, operationId: number) {
     return this.http.get('users/' + userId + '/calls/operation/' + operationId).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
   getPatientCallByPatientCallId = function(patientId: number, patientCallId: number) {
     return this.http.get('patients/' + patientId + '/calls/' + patientCallId).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
   getPatientCallsByPatientId = function(patientId: number) {
     return this.http.get('patients/' + patientId + '/calls').pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
   getPatientCallsByOperationId = function(operationId: number) {
     return this.http.get('operations/' + operationId + '/calls').pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
@@ -89,7 +85,6 @@ export class PatientCallService {
   // Updates the status to 'ended'
   public endPatientCall(patientCallId: number) {
     return this.http.post('patients/calls/' + patientCallId + '/end', {}).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
@@ -100,7 +95,6 @@ export class PatientCallService {
         patientCallStatusLabelId: patientCall.patientCallStatusLabelId
       })
       .pipe(
-        retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }

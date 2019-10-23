@@ -75,6 +75,13 @@ form {
   }
 
   .next-call-question-textarea {
+    --inner-padding-start: 0;
+    --inner-padding-start: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --highlight-color-focused: transparent;
+    --highlight-color-valid: transparent;
+    border-bottom: none;
     a {
       width: 100%;
       margin-top: 15px;
@@ -87,7 +94,9 @@ form {
       height: 17px;
     }
   }
-
+  .highlight-flag {
+    cursor: pointer;
+  }
   .add-next-question {
     float: right;
     cursor: pointer;

@@ -112,6 +112,9 @@ export class PatientDetailComponent implements OnInit {
   patientCallQuestionsChangeHandler($event: PatientCallQuestionAnswer[]) {
     this.patientCallQuestionAnswers = $event;
   }
+  patientNextCallQuestionsChangeHandler($event: PatientCallQuestion[]) {
+    this.patientNextCallQuestions = $event;
+  }
   patientCallStatusLabelChangeHandler($event: number) {
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
@@ -191,6 +194,12 @@ export class PatientDetailComponent implements OnInit {
         )
         .subscribe((data: any) => {
           let patientCallId = data.patientCallId;
+          this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
+            this.patientCallQuestionsService.addPatientCallQuestionByPatientCallId(
+              patientCallId,
+              patientCallQuestion.patientCallQuestion
+            );
+          });
           /**
            * Passing E2E as of now
            */
@@ -198,10 +207,7 @@ export class PatientDetailComponent implements OnInit {
             .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
             .subscribe((data: any) => {
               this.patientCall = data[0];
-              this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
-                console.log(patientCallQuestion);
-              });
-              this.patientCallQuestionsService.addPatientCallQuestionByPatientCallId(this.patientCall.patientCallId);
+
               // Now that we have an ID for the future call,
               // talk to a service to add new questions to the next call
               debugger;
