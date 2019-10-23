@@ -164,11 +164,10 @@ export class PatientDetailComponent implements OnInit {
     }
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
       this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
+        let patientCallQuestionId = parseInt(Object.keys(patientCallQuestionAnswer).toString());
+        let patientCallQuestionAnswerText = patientCallQuestionAnswer[0];
         this.patientCallQuestionsService
-          .addPatientCallQuestionAnswersByPatientCallQuestionId(
-            patientCallQuestionAnswer.patientCallQuestionId,
-            patientCallQuestionAnswer.patientCallQuestionAnswer
-          )
+          .addPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestionId, patientCallQuestionAnswerText)
           .subscribe((data: any) => {
             console.log(data);
             debugger;
