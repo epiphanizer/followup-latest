@@ -22,7 +22,9 @@ export class PatientCallQuestionsService {
   constructor(private http: HttpService) {}
 
   /**
-   * Patient Call Questions
+   * Adding patient call questions --- really, we should probably expand this out
+   * to be able to have our call change the type of question, but it's not in the design
+   * so for now we will just assume it's a textarea type question.
    */
   addPatientCallQuestionByPatientCallId = function(patientCallId: number, patientCallQuestion: string) {
     return this.http.post('patients/calls/' + patientCallId + '/questions', { patientCallQuestion }).pipe(

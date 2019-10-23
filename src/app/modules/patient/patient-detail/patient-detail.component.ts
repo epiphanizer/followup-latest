@@ -42,6 +42,7 @@ export class PatientDetailComponent implements OnInit {
     date: string;
     patientCallStatusLabelId: number;
   };
+  patientNextCallQuestions: PatientCallQuestion[];
 
   constructor(
     private patientCallService: PatientCallService,
@@ -71,6 +72,7 @@ export class PatientDetailComponent implements OnInit {
       date: '',
       patientCallStatusLabelId: 1
     };
+    this.patientNextCallQuestions = [];
   }
 
   patientCallStartEventHandler(userId: number) {
@@ -162,7 +164,9 @@ export class PatientDetailComponent implements OnInit {
       }
       return;
     }
+
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
+      // Talk to our service to answer the existing call questions
       this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
         let patientCallQuestionId = parseInt(Object.keys(patientCallQuestionAnswer).toString());
         let patientCallQuestionAnswerText = patientCallQuestionAnswer[0];
@@ -173,6 +177,7 @@ export class PatientDetailComponent implements OnInit {
             debugger;
           });
       });
+
       var isoString = new Date(this.patientNextCall.date).toISOString();
       /**
        * Passing E2E as of now
@@ -193,6 +198,13 @@ export class PatientDetailComponent implements OnInit {
             .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
             .subscribe((data: any) => {
               this.patientCall = data[0];
+              this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
+                console.log(patientCallQuestion);
+              });
+              this.patientCallQuestionsService.addPatientCallQuestionByPatientCallId(this.patientCall.patientCallId);
+              // Now that we have an ID for the future call,
+              // talk to a service to add new questions to the next call
+              debugger;
               // location.reload();
             });
         });
