@@ -73,16 +73,20 @@ ul.patient-filters {
 }
 
 .section-header {
+  h3 {
+    width: 88%;
+    float: left;
+    margin-left: 1rem;
+    margin-top: 3px;
+  }
   i {
     width: 17px;
     height: 17px;
-    display: inline-block;
-    margin-right: 8px;
     background-size: 100%;
     margin-top: 1px;
     background-repeat: no-repeat;
     background-position: center center;
-
+    float: left;
     &.icon-new-discharges {
       background-image: url("/assets/icon-new-discharges@2x.png");
     }
@@ -92,16 +96,21 @@ ul.patient-filters {
   }
 }
 
-.operation-discharges,
-.operation-todays-calls {
-  color: white;
-  font-style: normal;
-  font-size: 11px;
-  line-height: 2.17;
-  letter-spacing: -2px;
-  margin-left: -28px;
-  margin-top: -1.25px;
+.operation-discharges {
+  margin-top: 3px;
+  margin-left: -12px;
   position: absolute;
+  font-weight: bold;
+  color: white;
+  font-size: 10px;
+}
+.operation-todays-calls {
+  margin-top: 3px;
+  margin-left: -16px;
+  position: absolute;
+  font-weight: bold;
+  color: white;
+  font-size: 10px;
 }
 .call-queue-patient-list {
   clear: both;
