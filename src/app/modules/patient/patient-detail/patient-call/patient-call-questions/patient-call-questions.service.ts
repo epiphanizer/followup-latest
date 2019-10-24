@@ -32,7 +32,9 @@ export class PatientCallQuestionsService {
     return this.http
       .post('patients/calls/' + patientCallId + '/questions', {
         patientCallQuestion: patientCallQuestion.patientCallQuestion,
-        patientCallQuestionType: patientCallQuestion.patientCallQuestionType
+        patientCallQuestionOrder: patientCallQuestion.patientCallQuestionOrder,
+        // textarea = 3
+        patientCallQuestionTypeId: 3
       })
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error

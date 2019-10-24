@@ -38,10 +38,11 @@ export class PatientNextCallQuestionsComponent implements OnInit {
   onChanges() {
     if (this.patientNextCallQuestionsForm) {
       this.patientNextCallQuestionsForm.get('patientCallQuestions').valueChanges.subscribe(val => {
-        val.forEach((val: any) => {
+        val.forEach((val: any, index: number) => {
           let patientNextCallQuestion = {
             patientCallQuestion: val,
-            patientCallQuestionType: 'textarea'
+            patientCallQuestionType: 'textarea',
+            patientCallQuestionOrder: index
           };
           this.patientNextCallQuestions.push(patientNextCallQuestion);
         });
