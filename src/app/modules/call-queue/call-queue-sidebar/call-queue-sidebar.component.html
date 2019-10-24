@@ -26,10 +26,10 @@
             {{ operation.operationName }}
             <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
           </a>
-          <ng-container *ngIf="operation.todaysCalls > 0">
+          <ng-container *ngIf="operation.todaysCallCount > 0">
             <i class="icon-todays-calls"></i>
             <span class="icon-todays-calls-counter">
-              {{ operation.todaysScheduledCalls }}
+              {{ operation.todaysCallCount }}
             </span>
           </ng-container>
           <ng-container *ngIf="operation.currentNewDischargeCount > 0">
