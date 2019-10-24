@@ -27,6 +27,18 @@ export class NotificationPatientListingComponent implements OnInit {
     );
   }
 
+  ngOnChanges(changes: any) {
+    if (changes.operation) {
+      this.notifications = [];
+      this.operation = changes.operation.currentValue;
+      this.notifications$ = this.notificationService.getNotificationsByOperationId(this.operation.operationId).pipe(
+        map((notifications: [Notification]) => {
+          this.notifications = notifications;
+          return notifications;
+        })
+      );
+    }
+  }
   public sortNotificationsByNotificationDate = function(sortFlag: string) {
     this.filterBy = 'notification-date';
     if (sortFlag == 'asc') {

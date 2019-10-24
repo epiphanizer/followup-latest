@@ -1,12 +1,9 @@
 <ng-container *ngIf="patientCalls">
   <ion-list class="patient-call-history-list" inset lines="none">
     <div class="patient-call" *ngFor="let patientCall of patientCalls; let i = index">
-      <div
-        id="{{ 'call-' + patientCall.patientCallCount }}"
-        class="call-headline-container {{ i == 0 ? 'active' : '' }} "
-      >
+      <div id="{{ 'call-' + patientCall.i }}" class="call-headline-container {{ i == 0 ? 'active' : '' }} ">
         <i class="icon-phone-icon"></i>
-        <span class="call-number-headline"> Call {{ patientCall.patientCallCount }} </span>
+        <span class="call-number-headline"> Call {{ i + 1 }} </span>
       </div>
       <div class="call-question-container">
         <div *ngFor="let patientCallQuestion of patientCallQuestions; let idx = index" lines="none" inset>

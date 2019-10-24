@@ -9,8 +9,8 @@
       [class.active]="clicked == patientCall.patientCallCount"
       (click)="scrollToPatientCall(patientCall)"
     >
-      <div class="patient-count">
-        {{ patientCall.patientCallCount }}
+      <div class="patient-call-count">
+        {{ idx + 1 }}
       </div>
     </ion-item>
   </ion-list>

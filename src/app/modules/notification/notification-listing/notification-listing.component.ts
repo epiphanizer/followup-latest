@@ -39,19 +39,6 @@ export class NotificationListingComponent implements OnInit {
       .unsubscribe();
   }
 
-  ngOnChanges(changes: any) {
-    if (changes.operation) {
-      this.notifications = [];
-      this.operation = changes.operation.currentValue;
-      this.notifications$ = this.notificationService.getNotificationsByOperationId(this.operation.operationId).pipe(
-        map((notifications: [Notification]) => {
-          this.notifications = notifications;
-          return notifications;
-        })
-      );
-    }
-  }
-
   operationChangeEventHandler($event: Operation) {
     this.selected.operation = $event;
     this.notifications$ = this.notificationService
