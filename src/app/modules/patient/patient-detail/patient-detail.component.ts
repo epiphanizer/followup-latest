@@ -112,9 +112,8 @@ export class PatientDetailComponent implements OnInit {
   patientCallQuestionsChangeHandler($event: PatientCallQuestionAnswer[]) {
     this.patientCallQuestionAnswers = $event;
   }
-  patientNextCallQuestionsChangeHandler($event: PatientCallQuestion[]) {
+  patientNextCallQuestionsChangeHandler($event: any) {
     this.patientNextCallQuestions = $event;
-    debugger;
   }
   patientCallStatusLabelChangeHandler($event: number) {
     let patientCallStatusLabelId = $event;
@@ -189,8 +188,8 @@ export class PatientDetailComponent implements OnInit {
           3
         )
         .subscribe((data: any) => {
+          console.log('Got back new call: ' + data.patientCallId);
           let patientCallId = data.patientCallId;
-
           this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
             this.patientCallQuestionsService
               .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion.patientCallQuestion)

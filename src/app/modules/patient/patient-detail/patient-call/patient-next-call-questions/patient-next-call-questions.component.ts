@@ -14,7 +14,7 @@ export class PatientNextCallQuestionsComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
   patientCallQuestions: PatientCallQuestion[] = [];
   patientCallQuestions$: Observable<PatientCallQuestion[]>;
-
+  patientNextCallQuestions: PatientCallQuestion[] = [];
   ngOnInit() {
     this.createForm();
     this.addNextCallQuestion();
@@ -28,7 +28,6 @@ export class PatientNextCallQuestionsComponent implements OnInit {
   addNextCallQuestion() {
     let nextCallQuestions = this.patientNextCallQuestionsForm.controls.patientCallQuestions as FormArray;
     nextCallQuestions.push(this.fb.control(''));
-    // nextCallQuestions.push(this.fb.control(''));
     this.patientCallQuestions.push(<PatientCallQuestion>{
       patientCallQuestion: 'What is your next question?'
     });
@@ -38,9 +37,16 @@ export class PatientNextCallQuestionsComponent implements OnInit {
   }
   onChanges() {
     if (this.patientNextCallQuestionsForm) {
-      this.patientNextCallQuestionsForm.get('nextCallQuestions').valueChanges.subscribe(val => {
-        this.patientCallQuestions = val;
-        this.patientNextCallQuestionsEmitter.emit(this.patientCallQuestions);
+      this.patientNextCallQuestionsForm.get('patientCallQuestions').valueChanges.subscribe(val => {
+        val.forEach((val: any) => {
+          let patientNextCallQuestion = {
+            patientCallQuestion: val,
+            patientCallQuestionType: 'textarea'
+          };
+          this.patientNextCallQuestions.push(patientNextCallQuestion);
+        });
+
+        this.patientNextCallQuestionsEmitter.emit(this.patientNextCallQuestions);
       });
     }
   }

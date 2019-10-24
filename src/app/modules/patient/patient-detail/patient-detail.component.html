@@ -61,7 +61,12 @@
               (patientNextCallDateSelectedEventEmitter)="patientNextCallDateSelectedEventHandler($event)"
             >
             </app-patient-next-call-scheduler>
-            <app-patient-next-call-questions *ngIf="patientNextCall.date"> </app-patient-next-call-questions>
+            <app-patient-next-call-questions
+              *ngIf="patientNextCall.date"
+              (patientNextCallQuestionsEmitter)="patientNextCallQuestionsChangeHandler($event)"
+            >
+            </app-patient-next-call-questions>
+
             <app-patient-next-call-finish-button
               [patient]="patient"
               [patientCall]="patientCall"

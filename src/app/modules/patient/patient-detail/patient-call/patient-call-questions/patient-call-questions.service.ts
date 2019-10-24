@@ -13,8 +13,8 @@ export interface PatientCallQuestion {
   patientCallQuestion: string;
   patientCallQuestionType: string;
   patientCallQuestionIsHighlighted?: boolean;
-  patientCallQuestionAnswer: PatientCallQuestionAnswer;
-  patientCallQuestionAnswer$: Observable<PatientCallQuestionAnswer>;
+  patientCallQuestionAnswer?: PatientCallQuestionAnswer;
+  patientCallQuestionAnswer$?: Observable<PatientCallQuestionAnswer>;
 }
 @Injectable({
   providedIn: 'root'
@@ -27,10 +27,15 @@ export class PatientCallQuestionsService {
    * to be able to have our call change the type of question, but it's not in the design
    * so for now we will just assume it's a textarea type question.
    */
-  addPatientCallQuestionByPatientCallId = function(patientCallId: number, patientCallQuestion: string) {
-    return this.http.post('patients/calls/' + patientCallId + '/questions', { patientCallQuestion }).pipe(
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
+  addPatientCallQuestionByPatientCallId = function(patientCallId: number, patientCallQuestion: PatientCallQuestion) {
+    return this.http
+      .post('patients/calls/' + patientCallId + '/questions', {
+        patientCallQuestion: patientCallQuestion.patientCallQuestion,
+        patientCallQuestionType: patientCallQuestion.patientCallQuestionType
+      })
+      .pipe(
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   };
 
   getPatientCallQuestionsByPatientCallId = function(patientCallId: number) {
