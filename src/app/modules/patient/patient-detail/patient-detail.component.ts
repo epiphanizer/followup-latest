@@ -190,12 +190,14 @@ export class PatientDetailComponent implements OnInit {
         )
         .subscribe((data: any) => {
           let patientCallId = data.patientCallId;
+          let itemsProcessed = 0;
           this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
-            let itemsProcessed = 0;
             this.patientCallQuestionsService
               .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
               .subscribe((data: any) => {
+                console.log(data);
                 itemsProcessed++;
+                debugger;
                 if (itemsProcessed === this.patientNextCallQuestions.length) {
                   location.reload();
                 }
