@@ -10,7 +10,7 @@
       </ion-title>
       <div class="notification-info-container">
         <div class="notification-operation">
-          {{ notification.notificationOperation }}
+          {{ notification.notificationOperationId }}
         </div>
         <div class="patient-name">
           {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
@@ -23,7 +23,7 @@
         <div class="notification-information">
           <div class="notification-item">
             <span class="label">Date Received:&nbsp;</span>
-            {{ notification.notificationCreatedTime | date: 'MM/dd/yyyy' }}
+            {{ notification.notificationCreatedDate | date: 'MM/dd/yyyy' }}
           </div>
           <div class="notification-item">
             <span class="label">CC Rep:&nbsp;</span> {{ notification.notificationCreatedBy | date: 'MM/dd/yyyy' }}
