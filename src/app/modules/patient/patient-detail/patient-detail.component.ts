@@ -59,7 +59,6 @@ export class PatientDetailComponent implements OnInit {
       .pipe(
         take(1),
         map((patientCall: PatientCall) => {
-          debugger;
           this.patientCall = patientCall[0];
           return this.patientCall;
         })
