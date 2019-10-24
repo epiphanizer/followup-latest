@@ -19,7 +19,7 @@
               {{ patientCallQuestion.patientCallQuestion }}:
             </span>
             <span class="call-question-answer-label">
-              <ng-container *ngIf="patientCallQuestion.patientCallQuestionAnswer.length; else noAnswer">
+              <ng-container *ngIf="patientCallQuestion.patientCallQuestionAnswer; else noAnswer">
                 {{ patientCallQuestion.patientCallQuestionAnswer }}
               </ng-container>
               <ng-template #noAnswer>
