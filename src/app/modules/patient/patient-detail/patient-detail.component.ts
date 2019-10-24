@@ -59,6 +59,7 @@ export class PatientDetailComponent implements OnInit {
       .pipe(
         take(1),
         map((patientCall: PatientCall) => {
+          debugger;
           this.patientCall = patientCall[0];
           return this.patientCall;
         })
@@ -197,6 +198,7 @@ export class PatientDetailComponent implements OnInit {
               .subscribe((data: any) => {
                 itemsProcessed++;
                 if (itemsProcessed === this.patientNextCallQuestions.length) {
+                  this.patientCall.patientCallId = patientCallId;
                   location.reload();
                 }
               });
