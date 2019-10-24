@@ -4,7 +4,7 @@
 </div>
 <form [formGroup]="patientCallQuestionsAnswersForm">
   <ion-list scrollY="true" lines="none" class="patient-call-question-list" formArrayName="patientCallQuestionsAnswers">
-    <ion-item *ngFor="let question of questions; let idx = index" formGroupName="{{ idx }}">
+    <ion-item class="call-question" *ngFor="let question of questions; let idx = index" formGroupName="{{ idx }}">
       <div class="call-question-body-container">
         <div class="call-question">
           <ng-container *ngIf="question.patientQuestionTypeLabel == 'rating'">
