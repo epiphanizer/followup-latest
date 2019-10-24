@@ -74,9 +74,9 @@ ul.patient-filters {
 
 .section-header {
   h3 {
-    width: 88%;
+    width: auto;
     float: left;
-    margin-left: 1rem;
+    margin-left: 0.25rem;
     margin-top: 3px;
   }
   i {
@@ -96,21 +96,18 @@ ul.patient-filters {
   }
 }
 
-.operation-discharges {
+.operation-discharges,
+.operation-todays-calls {
   margin-top: 3px;
   margin-left: -12px;
   position: absolute;
   font-weight: bold;
   color: white;
   font-size: 10px;
+  margin-right: 0.25rem;
 }
 .operation-todays-calls {
-  margin-top: 3px;
-  margin-left: -16px;
-  position: absolute;
-  font-weight: bold;
-  color: white;
-  font-size: 10px;
+  margin-left: -14px;
 }
 .call-queue-patient-list {
   clear: both;
