@@ -86,10 +86,14 @@ ul.patient-filters {
     &.icon-new-discharges {
       background-image: url("/assets/icon-new-discharges@2x.png");
     }
+    &.icon-todays-calls {
+      background-image: url("/assets/icon-todays-calls@2x.png");
+    }
   }
 }
 
-.operation-discharges {
+.operation-discharges,
+.operation-todays-calls {
   color: white;
   font-style: normal;
   font-size: 11px;

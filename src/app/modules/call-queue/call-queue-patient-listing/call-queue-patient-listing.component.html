@@ -1,18 +1,20 @@
-<h3 class="section-header">
+<div class="section-header">
   <ng-container *ngIf="operation.currentNewDischargeCount > 0">
     <i class="icon-new-discharges" *ngIf="operation.currentNewDischargeCount"> </i>
     <span class="operation-discharges">
       {{ operation.currentNewDischargeCount }}
     </span>
   </ng-container>
-  <ng-container *ngIf="operation.todaysScheduledCalls > 0">
+  <ng-container *ngIf="operation.todaysCallCount > 0">
     <i class="icon-todays-calls" *ngIf="operation.todaysCallCount"> </i>
     <span class="operation-todays-calls">
       {{ operation.todaysCallCount }}
     </span>
   </ng-container>
-  {{ operation.operationName }}
-</h3>
+  <h3 class="section-header">
+    {{ operation.operationName }}
+  </h3>
+</div>
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="patient-filters">
   <li>
