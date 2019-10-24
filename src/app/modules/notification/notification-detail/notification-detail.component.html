@@ -26,7 +26,7 @@
             {{ notification.notificationCreatedDate | date: 'MM/dd/yyyy' }}
           </div>
           <div class="notification-item">
-            <span class="label">CC Rep:&nbsp;</span> {{ notification.notificationCreatedBy | date: 'MM/dd/yyyy' }}
+            <span class="label">CC Rep:&nbsp;</span> {{ notification.notificationCreatedByUserId }}
           </div>
           <div class="notification-item">
             <span class="label">Message:&nbsp;</span>

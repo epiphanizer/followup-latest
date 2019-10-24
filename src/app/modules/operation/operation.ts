@@ -28,7 +28,7 @@ export interface Operation {
   currentNewDischargeCount?: number;
   patientCalls?: PatientCall[];
   patientCalls$?: Observable<PatientCall[]>;
-  todaysScheduledCalls: number;
+  todaysCallCount?: number;
 }
 
 export interface OperationPutBody {

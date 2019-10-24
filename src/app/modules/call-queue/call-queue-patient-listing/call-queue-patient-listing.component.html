@@ -6,9 +6,9 @@
     </span>
   </ng-container>
   <ng-container *ngIf="operation.todaysScheduledCalls > 0">
-    <i class="icon-todays-calls" *ngIf="operation.todaysScheduledCalls"> </i>
+    <i class="icon-todays-calls" *ngIf="operation.todaysCallCount"> </i>
     <span class="operation-todays-calls">
-      {{ operation.todaysScheduledCalls }}
+      {{ operation.todaysCallCount }}
     </span>
   </ng-container>
   {{ operation.operationName }}
@@ -40,17 +40,9 @@
     [class.new-discharge]="patient.patientCallCount == 1"
     [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
   >
-    <ng-container *ngIf="patient.patientOnFinalCall; else patientCallCount">
-      <div class="call-queue-number">
-        <img src="/assets/icon-final-call@2x.png" />
-      </div>
-    </ng-container>
-    <ng-template #patientCallCount>
-      <div class="call-queue-number">
-        {{ patient.patientCallCount }}
-      </div>
-    </ng-template>
-
+    <div class="call-queue-number">
+      {{ patient.patientCallCount }}
+    </div>
     <div class="call-queue-avatar">
       <div class="badge-container">
         <ng-container *ngIf="patient.patientNotificationCount > 0">
