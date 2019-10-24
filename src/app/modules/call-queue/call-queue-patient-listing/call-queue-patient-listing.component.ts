@@ -24,7 +24,7 @@ export class CallQueuePatientListingComponent implements OnInit {
   public patients: Patient[];
   public patients$: Observable<Patient[]> | void = null;
   public patientCallStatuses: PatientCallStatus[];
-  public selectedSortFlag: string = 'desc';
+  public selectedSortFlag: string = 'asc';
 
   constructor(private patientService: PatientService, private patientCallStatusService: PatientCallStatusService) {}
   ngOnInit() {
@@ -71,11 +71,11 @@ export class CallQueuePatientListingComponent implements OnInit {
     this.filterBy = 'call-date';
     if (sortFlag == 'asc') {
       this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientNextCallTime) - <any>new Date(b.patientNextCallTime);
+        return <any>new Date(a.patientNextCallScheduledTime) - <any>new Date(b.patientNextCallScheduledTime);
       });
     } else {
       this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(b.patientNextCallTime) - <any>new Date(a.patientNextCallTime);
+        return <any>new Date(b.patientNextCallScheduledTime) - <any>new Date(a.patientNextCallScheduledTime);
       });
     }
   };
