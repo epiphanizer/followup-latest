@@ -195,9 +195,7 @@ export class PatientDetailComponent implements OnInit {
             this.patientCallQuestionsService
               .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
               .subscribe((data: any) => {
-                console.log(data);
                 itemsProcessed++;
-                debugger;
                 if (itemsProcessed === this.patientNextCallQuestions.length) {
                   location.reload();
                 }
