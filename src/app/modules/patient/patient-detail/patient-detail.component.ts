@@ -114,7 +114,6 @@ export class PatientDetailComponent implements OnInit {
   }
   patientNextCallQuestionsChangeHandler($event: PatientCallQuestion[]) {
     this.patientNextCallQuestions = $event;
-    debugger;
   }
   patientCallStatusLabelChangeHandler($event: number) {
     let patientCallStatusLabelId = $event;

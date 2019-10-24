@@ -37,6 +37,7 @@ export class PatientNextCallQuestionsComponent implements OnInit {
   }
   onChanges() {
     if (this.patientNextCallQuestionsForm) {
+      this.patientNextCallQuestions = [];
       this.patientNextCallQuestionsForm.get('patientCallQuestions').valueChanges.subscribe(val => {
         val.forEach((val: any, index: number) => {
           let patientNextCallQuestion = {
