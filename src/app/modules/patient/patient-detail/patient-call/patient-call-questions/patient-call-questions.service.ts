@@ -12,6 +12,7 @@ export interface PatientCallQuestion {
   patientCallQuestionId?: number;
   patientCallQuestion: string;
   patientCallQuestionType: string;
+  patientCallQuestionOrder: number;
   patientCallQuestionIsHighlighted?: boolean;
   patientCallQuestionAnswer?: PatientCallQuestionAnswer;
   patientCallQuestionAnswer$?: Observable<PatientCallQuestionAnswer>;
