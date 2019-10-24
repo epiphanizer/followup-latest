@@ -41,6 +41,7 @@ export class PatientNextCallQuestionsComponent implements OnInit {
         val.forEach((val: any, index: number) => {
           let patientNextCallQuestion = {
             patientCallQuestion: val,
+            patientCallQuestionIsHighlighted: 1,
             patientCallQuestionType: 'textarea',
             patientCallQuestionOrder: index
           };
@@ -52,10 +53,10 @@ export class PatientNextCallQuestionsComponent implements OnInit {
     }
   }
   togglePatientCallQuestionHighlight(patientCallQuestionId: number) {
-    if (this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted != true) {
-      this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted = true;
+    if (this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted != 1) {
+      this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted = 1;
     } else {
-      this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted = false;
+      this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted = 0;
     }
   }
 }

@@ -13,7 +13,7 @@ export interface PatientCallQuestion {
   patientCallQuestion: string;
   patientCallQuestionType: string;
   patientCallQuestionOrder: number;
-  patientCallQuestionIsHighlighted?: boolean;
+  patientCallQuestionIsHighlighted: number;
   patientCallQuestionAnswer?: PatientCallQuestionAnswer;
   patientCallQuestionAnswer$?: Observable<PatientCallQuestionAnswer>;
 }
@@ -32,6 +32,7 @@ export class PatientCallQuestionsService {
     return this.http
       .post('patients/calls/' + patientCallId + '/questions', {
         patientCallQuestion: patientCallQuestion.patientCallQuestion,
+        patientCallQuestionIsHighlighted: patientCallQuestion.patientCallQuestionIsHighlighted,
         patientCallQuestionOrder: patientCallQuestion.patientCallQuestionOrder,
         // textarea = 3
         patientCallQuestionTypeId: 3
