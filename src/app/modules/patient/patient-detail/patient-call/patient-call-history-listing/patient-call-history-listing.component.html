@@ -19,7 +19,6 @@
               {{ patientCallQuestion.patientCallQuestion }}:
             </span>
             <span class="call-question-answer-label">
-              {{ patientCallQuestion | json }}
               <ng-container *ngIf="patientCallQuestion.patientCallQuestionAnswer.length; else noAnswer">
                 {{ patientCallQuestion.patientCallQuestionAnswer }}
               </ng-container>
