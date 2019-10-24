@@ -35,6 +35,7 @@ export class CallQueuePatientListingComponent implements OnInit {
     this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
       map((patients: Patient[]) => {
         this.patients = patients;
+        this.sortPatientsByCallDate(this.selectedSortFlag);
         return patients;
       })
     );
@@ -80,7 +81,7 @@ export class CallQueuePatientListingComponent implements OnInit {
     }
   };
   public toggleAscDesc = function() {
-    if (this.selectedSortFlag == 'asc') {
+    if (this.selectedSortFlag != 'desc') {
       this.selectedSortFlag = 'desc';
     } else {
       this.selectedSortFlag = 'asc';
