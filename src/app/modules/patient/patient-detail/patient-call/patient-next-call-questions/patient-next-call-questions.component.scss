@@ -34,6 +34,8 @@ form {
   ion-textarea {
     font-size: 14px;
 
+    --padding-start: -22px;
+    --padding-end: -8px;
     &.is-highlighted {
       &::before {
         background-image: url("/assets/note-highlight-flag@2x.png");
@@ -48,11 +50,10 @@ form {
         background-color: transparent;
       }
     }
-
-    textarea {
+    .native-textarea.sc-ion-textarea-md {
       margin-top: -25px;
+      margin-bottom: -8px;
     }
-
     .patient-call-note-highlight-controls {
       cursor: pointer;
     }

@@ -5,7 +5,9 @@
 </ion-row>
 <div class="call-history-container">
   <div class="calendar-month-controls">
-    <span class="left-month-arrow" *ngIf="selectedMonth > currentCalendarMonth" (click)="calendarPrevMonth()"></span>
+    {{ selectedMonth }}
+    {{ currentCalendarMonth }}
+    <span class="left-month-arrow" *ngIf="selectedMonth != currentCalendarMonth" (click)="calendarPrevMonth()"></span>
     <span class="calendar-month">
       {{ currentCalendarMonth.name }}
     </span>
@@ -16,7 +18,7 @@
       class="calendar-day"
       *ngFor="let day of selectedMonth.daysArray"
       [class.active]="selectedDay == day"
-      [class.disabled]="day < todaysDateDay"
+      [class.disabled]="day < todaysDateDay && selectedMonth == currentCalendarMonth"
       (click)="selectDateEventHandler(day, currentCalendarMonth.number, todaysYear)"
     >
       <span>{{ day }}</span>
