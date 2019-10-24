@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { PatientCallQuestion } from '../patient-call-questions/patient-call-questions.service';
-import { PatientCallQuestionAnswer } from '../patient-call.service';
 
 @Component({
   selector: 'app-patient-next-call-questions',
@@ -10,7 +9,7 @@ import { PatientCallQuestionAnswer } from '../patient-call.service';
   styleUrls: ['./patient-next-call-questions.component.scss']
 })
 export class PatientNextCallQuestionsComponent implements OnInit {
-  @Output() patientAnswersEmitter = new EventEmitter<PatientCallQuestionAnswer[]>();
+  @Output() patientNextCallQuestionsEmitter = new EventEmitter<PatientCallQuestion[]>();
   patientNextCallQuestionsForm: FormGroup;
   constructor(private fb: FormBuilder) {}
   patientCallQuestions: PatientCallQuestion[] = [];
@@ -19,6 +18,7 @@ export class PatientNextCallQuestionsComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.addNextCallQuestion();
+    this.onChanges();
   }
   createForm() {
     this.patientNextCallQuestionsForm = this.fb.group({
@@ -35,6 +35,14 @@ export class PatientNextCallQuestionsComponent implements OnInit {
     /**
      * Now push it to the formcontrol array
      */
+  }
+  onChanges() {
+    if (this.patientNextCallQuestionsForm) {
+      this.patientNextCallQuestionsForm.get('nextCallQuestions').valueChanges.subscribe(val => {
+        this.patientCallQuestions = val;
+        this.patientNextCallQuestionsEmitter.emit(this.patientCallQuestions);
+      });
+    }
   }
   togglePatientCallQuestionHighlight(patientCallQuestionId: number) {
     if (this.patientCallQuestions[patientCallQuestionId].patientCallQuestionIsHighlighted != true) {

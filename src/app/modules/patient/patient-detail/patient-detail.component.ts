@@ -114,6 +114,7 @@ export class PatientDetailComponent implements OnInit {
   }
   patientNextCallQuestionsChangeHandler($event: PatientCallQuestion[]) {
     this.patientNextCallQuestions = $event;
+    debugger;
   }
   patientCallStatusLabelChangeHandler($event: number) {
     let patientCallStatusLabelId = $event;
@@ -145,11 +146,9 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallNotesService
       .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId, this.patientCallNotes)
       .subscribe((data: any) => {
-        console.log('added patient call notes successfully');
+        // console.log('added patient call notes successfully');
       });
 
-    // add answers to our questions to the current call
-    // this will require processing
     if (!this.patientCallQuestionAnswers) {
       alert('Please select an answer to at least one question');
       let element = document.querySelector('#patientCallNotesForm');
@@ -175,10 +174,7 @@ export class PatientDetailComponent implements OnInit {
         let patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
         this.patientCallQuestionsService
           .addPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestionId, patientCallQuestionAnswerText)
-          .subscribe((data: any) => {
-            console.log(data);
-            debugger;
-          });
+          .subscribe();
       });
 
       var isoString = new Date(this.patientNextCall.date).toISOString();
@@ -194,25 +190,33 @@ export class PatientDetailComponent implements OnInit {
         )
         .subscribe((data: any) => {
           let patientCallId = data.patientCallId;
+
           this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
-            this.patientCallQuestionsService.addPatientCallQuestionByPatientCallId(
-              patientCallId,
-              patientCallQuestion.patientCallQuestion
-            );
+            this.patientCallQuestionsService
+              .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion.patientCallQuestion)
+              .subscribe((data: any) => {
+                console.log(data);
+                debugger;
+                location.reload();
+              });
           });
           /**
            * Passing E2E as of now
            */
-          this.patientCallService
-            .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
-            .subscribe((data: any) => {
-              this.patientCall = data[0];
+          // this.patientCallService
+          //   .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
+          //   .subscribe((data: any) => {
+          //     this.patientCall = data[0];
 
-              // Now that we have an ID for the future call,
-              // talk to a service to add new questions to the next call
-              debugger;
-              // location.reload();
-            });
+          //     // Go get the new patient call questions
+          //     //
+
+          //     // Now that we have an ID for the future call,
+          //     // talk to a service to add new questions to the next call
+          //     this.patientCallQuestionsService.addPatientCallQuestionByPatientCallId(this.patientCall.patientCallId, this.patientCall.patientCallQuestion);
+          //     debugger;
+          //     // location.reload();
+          //   });
         });
     });
   }
