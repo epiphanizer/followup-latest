@@ -117,7 +117,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
   }
   calendarNextMonth() {
-    this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
+    this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number)];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
   }
   selectDateEventHandler(day: number, currentCalendarMonth: number, todaysYear: number) {
