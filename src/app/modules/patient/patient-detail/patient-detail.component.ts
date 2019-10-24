@@ -192,7 +192,7 @@ export class PatientDetailComponent implements OnInit {
           let patientCallId = data.patientCallId;
           this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
             this.patientCallQuestionsService
-              .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion.patientCallQuestion)
+              .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
               .subscribe((data: any) => {
                 console.log(data);
                 debugger;
