@@ -34,6 +34,13 @@ i.icon-question-mark {
   text-align: left;
 
   ion-textarea {
+    --inner-padding-start: 0;
+    --inner-padding-start: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --highlight-color-focused: transparent;
+    --highlight-color-valid: transparent;
+    border-bottom: none;
     min-height: 80px;
     max-width: 360px;
     font-size: 13px;
