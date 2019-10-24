@@ -113,6 +113,7 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallQuestionAnswers = $event;
   }
   patientNextCallQuestionsChangeHandler($event: PatientCallQuestion[]) {
+    console.log($event);
     this.patientNextCallQuestions = $event;
   }
   patientCallStatusLabelChangeHandler($event: number) {
