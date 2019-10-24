@@ -13,6 +13,7 @@ export interface PatientCallQuestion {
   patientCallQuestion: string;
   patientCallQuestionType: string;
   patientCallQuestionIsHighlighted?: boolean;
+  patientCallQuestionAnswer: PatientCallQuestionAnswer;
   patientCallQuestionAnswer$: Observable<PatientCallQuestionAnswer>;
 }
 @Injectable({

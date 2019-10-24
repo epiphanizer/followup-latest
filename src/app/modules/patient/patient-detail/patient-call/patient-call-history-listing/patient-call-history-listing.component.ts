@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PatientCall } from '../../patient-call/patient-call.service';
+import { PatientCall, PatientCallQuestionAnswer } from '../../patient-call/patient-call.service';
 import {
   PatientCallQuestion,
   PatientCallQuestionsService
 } from '../patient-call-questions/patient-call-questions.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   providers: [PatientCallQuestionsService],
@@ -27,12 +28,19 @@ export class PatientCallHistoryListingComponent implements OnInit {
         .getPatientCallQuestionsByPatientCallId(patientCall.patientCallId)
         .subscribe((patientCallQuestions: PatientCallQuestion[]) => {
           this.patientCallQuestions = patientCallQuestions;
+          debugger;
           this.patientCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
-            this.patientCallQuestions[
-              index
-            ].patientCallQuestionAnswer$ = this.patientCallQuestionAnswerService.getPatientCallQuestionAnswersByPatientCallQuestionId(
-              patientCallQuestion.patientCallQuestionId
-            );
+            this.patientCallQuestionAnswerService
+              .getPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestion.patientCallQuestionId)
+              .pipe(
+                map((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
+                  if (!patientCallQuestionAnswer != null) {
+                    this.patientCallQuestions[index].patientCallQuestionAnswer =
+                      patientCallQuestionAnswer[0].patientCallQuestionAnswer;
+                  }
+                })
+              )
+              .subscribe();
           });
         });
     });

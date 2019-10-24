@@ -39,8 +39,10 @@ export class CallQueuePatientFilterComponent implements OnInit {
   }
   ngOnChanges(changes: SimpleChanges) {
     if (this.patientCalls) {
-      this.filterDate = changes.filterDate.currentValue;
-      this.searchPatientCallHistoryBySelectedDate(this.filterDate);
+      if (changes.filterDate) {
+        this.filterDate = changes.filterDate.currentValue;
+        this.searchPatientCallHistoryBySelectedDate(this.filterDate);
+      }
     }
   }
 

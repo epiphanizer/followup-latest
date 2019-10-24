@@ -18,15 +18,15 @@
             >
               {{ patientCallQuestion.patientCallQuestion }}:
             </span>
-            <span
-              *ngIf="patientCallQuestion.patientCallQuestionAnswer$ | async as patientCallQuestionAnswer; else noAnswer"
-              class="call-question-answer-label"
-            >
-              {{ patientCallQuestionAnswer.patientCallQuestionAnswer }}</span
-            >
-            <ng-template #noAnswer>
-              <span class="call-question-answer-label">N/A </span>
-            </ng-template>
+            <span class="call-question-answer-label">
+              {{ patientCallQuestion | json }}
+              <ng-container *ngIf="patientCallQuestion.patientCallQuestionAnswer.length; else noAnswer">
+                {{ patientCallQuestion.patientCallQuestionAnswer }}
+              </ng-container>
+              <ng-template #noAnswer>
+                N/A
+              </ng-template>
+            </span>
           </ion-item>
         </div>
       </div>
