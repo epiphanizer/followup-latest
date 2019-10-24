@@ -188,34 +188,18 @@ export class PatientDetailComponent implements OnInit {
           3
         )
         .subscribe((data: any) => {
-          console.log('Got back new call: ' + data.patientCallId);
           let patientCallId = data.patientCallId;
           this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
+            let itemsProcessed = 0;
             this.patientCallQuestionsService
               .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
               .subscribe((data: any) => {
-                console.log(data);
-                debugger;
-                location.reload();
+                itemsProcessed++;
+                if (itemsProcessed === this.patientNextCallQuestions.length) {
+                  location.reload();
+                }
               });
           });
-          /**
-           * Passing E2E as of now
-           */
-          // this.patientCallService
-          //   .getPatientCallByPatientCallId(this.patient.patientId, patientCallId)
-          //   .subscribe((data: any) => {
-          //     this.patientCall = data[0];
-
-          //     // Go get the new patient call questions
-          //     //
-
-          //     // Now that we have an ID for the future call,
-          //     // talk to a service to add new questions to the next call
-          //     this.patientCallQuestionsService.addPatientCallQuestionByPatientCallId(this.patientCall.patientCallId, this.patientCall.patientCallQuestion);
-          //     debugger;
-          //     // location.reload();
-          //   });
         });
     });
   }
