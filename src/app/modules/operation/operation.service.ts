@@ -3,7 +3,9 @@ import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../user/user';
 import { Operation, OperationPutBody, OperationManager } from './operation';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class OperationService {
   constructor(private http: HttpClient) {}
 
