@@ -15,14 +15,13 @@ import { HomeModule } from './home/home.module';
 import { ShellModule } from './shell/shell.module';
 import { LoginModule } from './login/login.module';
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-
 import { CallQueueModule } from '@app/modules/call-queue/call-queue.module';
-import { AlertsModule } from '@app/core/alerts/alerts.module';
 import { PatientModule } from './modules/patient/patient.module';
 import { OperationModule } from '@app/modules/operation/operation.module';
 import { NotificationModule } from '@app/modules/notification/notification.module';
 import { UserModule } from '@app/modules/user/user.module';
+
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   imports: [
