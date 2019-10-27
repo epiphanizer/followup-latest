@@ -40,6 +40,6 @@ import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.compone
     PatientNextCallFinishButtonComponent
   ],
   imports: [CommonModule, PatientModule, RouterModule, IonicModule, FormsModule, ReactiveFormsModule],
-  entryComponents: [PatientAvatarComponent]
+  entryComponents: [PatientAvatarComponent, PatientDetailComponent]
 })
 export class PatientDetailModule {}

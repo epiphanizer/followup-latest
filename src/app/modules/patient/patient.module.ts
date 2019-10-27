@@ -10,7 +10,6 @@ import { PatientFormComponent } from '@app/modules/patient/patient-form/patient-
 import { PatientService } from './patient.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientManagerSidebarComponent } from '@app/modules/patient/patient-manager-sidebar/patient-manager-sidebar.component';
-import { FollowupCompleteModalComponent } from './patient-detail/followup-complete-modal/followup-complete-modal.component';
 import { PatientAvatarComponent } from './patient-avatar/patient-avatar.component';
 
 @NgModule({
@@ -25,7 +24,7 @@ import { PatientAvatarComponent } from './patient-avatar/patient-avatar.componen
     PatientCallModule,
     PatientNotesModule
   ],
-  entryComponents: [PatientManagerSidebarComponent, FollowupCompleteModalComponent, PatientAvatarComponent],
+  entryComponents: [PatientManagerSidebarComponent, PatientAvatarComponent],
   exports: [PatientAvatarComponent],
   providers: [PatientService]
 })

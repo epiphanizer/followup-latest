@@ -5,6 +5,9 @@ import { extract } from '@app/core';
 import { Shell } from '@app/shell/shell.service';
 import { UserResolver } from '@app/modules/user/user-resolver.service';
 import { UserProfileComponent } from './user-profile.component';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   Shell.childRoutes([
