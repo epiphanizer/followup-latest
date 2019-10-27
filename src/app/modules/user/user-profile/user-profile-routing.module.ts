@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { extract } from '@app/core';
 import { Shell } from '@app/shell/shell.service';
-import { UserResolver } from '@app/modules/user//user-resolver.service';
+import { UserResolver } from '@app/modules/user/user-resolver.service';
 import { UserProfileComponent } from './user-profile.component';
 
 const routes: Routes = [
