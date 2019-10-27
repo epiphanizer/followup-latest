@@ -1,9 +1,11 @@
+import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Patient, PatientDischargeLabel } from './patient';
 import { PatientPutBody } from './patient-form/patient-form';
 
+@Injectable()
 export class PatientService {
   constructor(private http: HttpClient) {}
 

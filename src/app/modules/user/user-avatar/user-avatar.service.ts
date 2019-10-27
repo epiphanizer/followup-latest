@@ -6,6 +6,7 @@ import { catchError, retry } from 'rxjs/operators';
 /**
  * A class for talking to the user avatar API
  */
+@Injectable()
 export class UserAvatarService {
   constructor(private http: HttpClient) {}
 

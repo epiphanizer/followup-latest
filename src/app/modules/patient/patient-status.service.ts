@@ -1,12 +1,14 @@
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 export interface PatientStatus {
   patientStatusId: number;
   patientStatusLabel: string;
 }
 
+@Injectable()
 export class PatientStatusService {
   constructor(private http: HttpClient) {}
 
