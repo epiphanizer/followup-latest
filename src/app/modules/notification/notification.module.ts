@@ -8,6 +8,7 @@ import { NotificationPatientListingComponent } from './notification-listing/noti
 import { NotificationListingSidebarComponent } from './notification-listing/notification-listing-sidebar/notification-listing-sidebar.component';
 import { IonicModule } from '@ionic/angular';
 import { NotificationStatusLegendComponent } from './notification-listing/notification-status-legend/notification-status-legend.component';
+import { PatientModule } from '../patient/patient.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,6 @@ import { NotificationStatusLegendComponent } from './notification-listing/notifi
     NotificationPatientListingComponent,
     NotificationStatusLegendComponent
   ],
-  imports: [CommonModule, IonicModule, NotificationRoutingModule]
+  imports: [CommonModule, IonicModule, NotificationRoutingModule, PatientModule]
 })
 export class NotificationModule {}

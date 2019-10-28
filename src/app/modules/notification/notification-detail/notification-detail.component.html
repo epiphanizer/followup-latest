@@ -1,16 +1,20 @@
 <ion-content>
   <ion-row>
     <ion-col class="notification-sidebar">
-      <!-- <app-notification-listing-sidebar> </app-notification-listing-sidebar> -->
+      <app-notification-listing-sidebar> </app-notification-listing-sidebar>
     </ion-col>
     <ion-col class="notification-content-wrapper">
+      <div class="notification-listing-avatar">
+        <app-patient-avatar></app-patient-avatar>
+      </div>
       <ion-title>
         <img src="{{ notification.notificationIconImage }}" />
         {{ notification.notificationTypeLabel }}
       </ion-title>
       <div class="notification-info-container">
         <div class="notification-operation">
-          {{ notification.notificationOperationId }}
+          <!-- <span class="label">Operation Id:&nbsp;</span>
+            {{ notification.notificationOperationId }} -->
         </div>
         <div class="patient-name">
           {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
@@ -26,10 +30,10 @@
             {{ notification.notificationCreatedDate | date: 'MM/dd/yyyy' }}
           </div>
           <div class="notification-item">
-            <span class="label">CC Rep:&nbsp;</span> {{ notification.notificationCreatedByUserId }}
+            <span class="label">User Id:&nbsp;</span> {{ notification.notificationCreatedByUserId }}
           </div>
           <div class="notification-item">
-            <span class="label">Message:&nbsp;</span>
+            <span class="label">Notes:&nbsp;</span>
             <ion-textarea readonly>
               {{ notification.notificationMessage }}
             </ion-textarea>

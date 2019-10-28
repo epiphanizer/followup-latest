@@ -4,6 +4,20 @@
 .notification-content-wrapper {
   max-width: 720px;
 
+  .notification-listing-avatar {
+    float: left;
+    margin-top: 10.5px;
+    width: 74.8px;
+    height: 75.2px;
+    margin-right: 2rem;
+    max-height: 60px;
+    box-shadow: 1.4px 1.4px 1.4px 0 rgba(35, 31, 32, 0.15);
+    background-color: #ffffff;
+    background-image: url("/assets/default-avatar-patient-detail@2x.png");
+    background-size: cover;
+    background-position: center center;
+    border-radius: 50%;
+  }
   ion-title {
     text-align: left;
     font-family: AvenirNextLTPro;
