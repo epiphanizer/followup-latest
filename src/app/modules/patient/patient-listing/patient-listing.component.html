@@ -1,0 +1,12 @@
+<ion-content>
+  <ion-row>
+    <ion-col class="patient-sidebar">
+      <app-manager-patient-sidebar (operationChangeEvent)="operationChangeEventHandler($event)">
+      </app-manager-patient-sidebar>
+    </ion-col>
+    <ion-col class="notification-content-wrapper">
+      <ion-title>Patients</ion-title>
+      <app-patient-listing *ngIf="selected.operation" [operation]="selected.operation"> </app-patient-listing>
+    </ion-col>
+  </ion-row>
+</ion-content>
