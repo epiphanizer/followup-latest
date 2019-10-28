@@ -59,7 +59,7 @@ export class PatientPatientListingComponent implements OnInit {
       this.selectedSortFlag = 'asc';
     }
   }
-  sortNotificationsByNotificationType = function(sortFlag: string) {
+  sortPatientsByPatient = function(sortFlag: string) {
     this.filterBy = 'notification-type';
     // if (this.selectedSortFlag == 'asc') {
     //   this.notifications.sort((a: Notification, b: Notification) => {
