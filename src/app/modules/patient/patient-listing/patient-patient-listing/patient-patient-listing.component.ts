@@ -6,15 +6,15 @@ import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 
 @Component({
-  selector: 'app-notification-patient-listing',
-  templateUrl: './notification-patient-listing.component.html',
-  styleUrls: ['./notification-patient-listing.component.scss']
+  selector: 'app-patient-patient-listing',
+  templateUrl: './patient-patient-listing.component.html',
+  styleUrls: ['./patient-patient-listing.component.scss']
 })
-export class NotificationPatientListingComponent implements OnInit {
+export class PatientPatientListingComponent implements OnInit {
   @Input() operation: Operation;
   public patients: Patient[];
   public patients$: Observable<Patient[]>;
-  public filterBy: string = 'notification-date';
+  public filterBy: string = 'discharge-date';
   public selectedSortFlag: string = 'desc';
 
   constructor(private patientService: PatientService) {}

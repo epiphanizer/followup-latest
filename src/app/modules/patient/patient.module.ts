@@ -12,12 +12,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientManagerSidebarComponent } from '@app/modules/patient/patient-manager-sidebar/patient-manager-sidebar.component';
 import { PatientAvatarComponent } from './patient-avatar/patient-avatar.component';
 import { PatientListingComponent } from './patient-listing/patient-listing.component';
+import { PatientPatientListingComponent } from './patient-listing/patient-patient-listing/patient-patient-listing.component';
 
 @NgModule({
   declarations: [
     PatientAvatarComponent,
     PatientComponent,
     PatientListingComponent,
+    PatientPatientListingComponent,
     PatientFormComponent,
     PatientManagerSidebarComponent
   ],
@@ -31,7 +33,12 @@ import { PatientListingComponent } from './patient-listing/patient-listing.compo
     PatientCallModule,
     PatientNotesModule
   ],
-  entryComponents: [PatientManagerSidebarComponent, PatientAvatarComponent],
+  entryComponents: [
+    PatientManagerSidebarComponent,
+    PatientPatientListingComponent,
+    PatientListingComponent,
+    PatientAvatarComponent
+  ],
   exports: [PatientAvatarComponent],
   providers: [PatientService]
 })
