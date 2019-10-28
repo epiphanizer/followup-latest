@@ -20,7 +20,11 @@
     *ngIf="operations; else noOperations"
   >
     <li *ngFor="let operation of operations; let i = index">
-      <a (click)="setActiveOperation(operation)" [ngClass]="{ active: selected.operation == operation }">
+      <a
+        (click)="setActiveOperation(operation)"
+        [routerLink]="['/operations/' + operation.operationId + '/patients']"
+        [ngClass]="{ active: selected.operation == operation }"
+      >
         {{ operation.operationName }}
       </a>
     </li>
