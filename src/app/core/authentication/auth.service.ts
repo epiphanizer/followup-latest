@@ -31,7 +31,16 @@ export class AuthenticationService {
       .pipe(
         map((result: any) => {
           console.log(result);
-          debugger;
+          if (result.userId) {
+            this.authenticated = true;
+            var userId = result.userId;
+            this.user$ = this.getUserByUserId(userId).toPromise();
+            this.getUserByUserId(userId).subscribe((user: User) => {
+              localStorage.setItem('followup-user', JSON.stringify({ user: user }));
+              localStorage.setItem('followup-token', JSON.stringify({ token: 'token' }));
+            });
+            return result;
+          }
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
@@ -64,8 +73,8 @@ export class AuthenticationService {
       this.authenticated = false;
       return false;
     }
-    debugger;
-    const userId = result[0].userId;
+    const userId = result.userId;
+
     this.user$ = this.getUserByUserId(userId).toPromise();
     this.getUserByUserId(userId).subscribe((user: User) => {
       localStorage.setItem('followup-user', JSON.stringify({ user: user }));

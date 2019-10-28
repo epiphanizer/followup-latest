@@ -284,11 +284,6 @@ export class OperationFormComponent implements OnInit {
   }
   operationManagerPostFactory(formSubmission: any): OperationManagerPostBody {
     try {
-      /**
-       * Need processing to get the actual form user id here
-       */
-      console.log(formSubmission);
-      debugger;
       var payload = {
         operationId: formSubmission.operation.operationId,
         userId: this.user.userId
@@ -306,7 +301,7 @@ export class OperationFormComponent implements OnInit {
       .assignManagerToOperationByOperationIdAndUserId(formSubmission.operation.operationId, operationManagerPost.userId)
       .subscribe((data: any) => {
         console.log(data);
-        debugger;
+        // debugger;
         alert('Manager successfully added');
       });
 
@@ -315,7 +310,7 @@ export class OperationFormComponent implements OnInit {
       .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
       .subscribe((data: any) => {
         console.log(data);
-        debugger;
+        // debugger;
         alert('Callreps successfully added');
       });
     // let operationContactPost = this.operationContactPostFactory(formSubmission);
@@ -330,7 +325,7 @@ export class OperationFormComponent implements OnInit {
       .editOperationByOperationId(this.operation.operationId, operationPut)
       .subscribe((data: any) => {
         console.log(data);
-        debugger;
+        // debugger;
         alert('Operation successfully edited');
       });
   }
