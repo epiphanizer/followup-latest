@@ -32,6 +32,7 @@
     "@angular/router": "^7.2.3",
     "@angular/service-worker": "^7.2.3",
     "@angular/cli": "~7.3.0",
+    "@angular/compiler-cli": "^7.2.3",
     "@fullcalendar/angular": "^4.3.0",
     "@fullcalendar/core": "^4.3.0",
     "@fullcalendar/daygrid": "^4.3.0",
@@ -52,8 +53,6 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.0",
-    "@angular/cli": "~7.3.0",
-    "@angular/compiler-cli": "^7.2.3",
     "@angular/language-service": "^7.2.3",
     "@biesbjerg/ngx-translate-extract": "^2.3.4",
     "@ngx-rocket/scripts": "^3.0.0",
