@@ -16,9 +16,6 @@
 
 <ul class="patient-patient-list">
   <li *ngFor="let patient of patients$ | async" class="active" [routerLink]="'/patient/edit' + patient.patientId">
-    <div class="patient-avatar">
-      <img src="/assets/default-avatar@2x.png'" />
-    </div>
     <div class="patient-discharge-date">
       {{ patient.patientDischargeDate | date: 'M/d' }}
     </div>
