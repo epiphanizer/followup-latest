@@ -8,9 +8,22 @@ import { PatientDetailComponent } from './patient-detail/patient-detail.componen
 
 import { PatientResolver } from './patient-resolver.service';
 import { UserResolver } from '../user/user-resolver.service';
+import { PatientListingComponent } from './patient-listing/patient-listing.component';
 
 const routes: Routes = [
   Shell.childRoutes([
+    {
+      path: 'operations/:operationId/patients',
+      pathMatch: 'full',
+      component: PatientListingComponent,
+      resolve: {
+        user: UserResolver
+      },
+      data: {
+        navLinks: [{ linkAction: 'patient/add', linkName: 'Add Patient', linkType: 'link' }],
+        title: extract('Patient Listing')
+      }
+    },
     {
       path: 'call-queue/operations/:operationId/patient/:patientId',
       pathMatch: 'full',

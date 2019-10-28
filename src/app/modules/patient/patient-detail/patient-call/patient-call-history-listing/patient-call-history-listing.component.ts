@@ -28,6 +28,7 @@ export class PatientCallHistoryListingComponent implements OnInit {
         .getPatientCallQuestionsByPatientCallId(patientCall.patientCallId)
         .subscribe((patientCallQuestions: PatientCallQuestion[]) => {
           this.patientCallQuestions = patientCallQuestions;
+          debugger;
           this.patientCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
             this.patientCallQuestionAnswerService
               .getPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestion.patientCallQuestionId)

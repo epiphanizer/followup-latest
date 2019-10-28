@@ -19,6 +19,7 @@ export interface PatientCall {
   patientCallNumber?: number;
   patientCallCount?: number;
   patientCallNotes?: string;
+  patientCallNotesHighlighted?: boolean;
   patientCallQuestions: PatientCallQuestion[];
   patientCallQuestions$: Observable<PatientCallQuestion[]>;
   // nice to have for our filter listing
