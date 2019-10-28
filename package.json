@@ -2,7 +2,7 @@
   "name": "followup-frontend",
   "version": "1.0.0",
   "private": true,
-  "main": "./index.js",
+  "main": "./main.js",
   "scripts": {
     "ng": "ng",
     "build": "npm run env -s && ng build --aot --prod",
