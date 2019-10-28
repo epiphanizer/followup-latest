@@ -17,8 +17,8 @@ import { PatientListingComponent } from './patient-listing/patient-listing.compo
   declarations: [
     PatientAvatarComponent,
     PatientComponent,
-    PatientFormComponent,
     PatientListingComponent,
+    PatientFormComponent,
     PatientManagerSidebarComponent
   ],
   imports: [

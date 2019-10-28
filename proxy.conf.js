@@ -10,7 +10,7 @@ const proxyConfig = [
   {
     context: '/api',
     pathRewrite: { '^/api': '' },
-    target: 'http://localhost:8080/',
+    target: 'https://followupcare-api.azurewebsites.net/',
     changeOrigin: true,
     logLevel: 'debug',
     secure: false
