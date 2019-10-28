@@ -29,6 +29,10 @@ export class AuthenticationService {
         password: password
       })
       .pipe(
+        map((result: any) => {
+          console.log(result);
+          debugger;
+        }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
@@ -55,15 +59,12 @@ export class AuthenticationService {
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
   async signIn(username: string, password: string): Promise<any> {
-    // remove this bypass
-    if (password != 'f0ll0wup!') {
-      this.authenticated = false;
-    }
     let result = await this.doLogin(username, password).toPromise();
     if (!(await result)) {
       this.authenticated = false;
       return false;
     }
+    debugger;
     const userId = result[0].userId;
     this.user$ = this.getUserByUserId(userId).toPromise();
     this.getUserByUserId(userId).subscribe((user: User) => {
