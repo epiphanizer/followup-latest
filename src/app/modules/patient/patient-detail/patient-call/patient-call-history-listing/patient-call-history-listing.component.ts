@@ -27,23 +27,24 @@ export class PatientCallHistoryListingComponent implements OnInit {
       this.patientCallQuestionService
         .getPatientCallQuestionsByPatientCallId(patientCall.patientCallId)
         .subscribe((patientCallQuestions: PatientCallQuestion[]) => {
-          this.patientCallQuestions = patientCallQuestions;
-          debugger;
-          this.patientCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
-            this.patientCallQuestionAnswerService
-              .getPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestion.patientCallQuestionId)
-              .pipe(
-                map((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
-                  if (!patientCallQuestionAnswer != null) {
-                    if (this.patientCallQuestions[index]) {
-                      this.patientCallQuestions[index].patientCallQuestionAnswer =
-                        patientCallQuestionAnswer[0].patientCallQuestionAnswer;
+          this.patientCalls[index].patientCallQuestions = patientCallQuestions;
+          this.patientCalls[index].patientCallQuestions.forEach(
+            (patientCallQuestion: PatientCallQuestion, idx: number) => {
+              this.patientCallQuestionAnswerService
+                .getPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestion.patientCallQuestionId)
+                .pipe(
+                  map((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
+                    if (!patientCallQuestionAnswer != null) {
+                      if (this.patientCalls[index].patientCallQuestions[idx]) {
+                        this.patientCalls[index].patientCallQuestions[idx].patientCallQuestionAnswer =
+                          patientCallQuestionAnswer[0].patientCallQuestionAnswer;
+                      }
                     }
-                  }
-                })
-              )
-              .subscribe();
-          });
+                  })
+                )
+                .subscribe();
+            }
+          );
         });
     });
   }

@@ -10,7 +10,7 @@
         <span class="call-number-headline"> Call {{ patientCall.patientCallCount }} </span>
       </div>
       <div class="call-question-container">
-        <div *ngFor="let patientCallQuestion of patientCallQuestions; let idx = index" lines="none" inset>
+        <div *ngFor="let patientCallQuestion of patientCall.patientCallQuestions; let idx = index" lines="none" inset>
           <ion-item class="ion-float-left">
             <span
               class="call-question-label"
@@ -20,7 +20,12 @@
             </span>
             <span class="call-question-answer-label">
               <ng-container *ngIf="patientCallQuestion.patientCallQuestionAnswer; else noAnswer">
-                {{ patientCallQuestion.patientCallQuestionAnswer === 'true' ? 'Yes' : 'No' }}
+                <ng-container *ngIf="patientCallQuestion.patientQuestionTypeLabel == 'boolean'; else nonBoolean">
+                  {{ patientCallQuestion.patientCallQuestionAnswer === 'true' ? 'Yes' : 'No' }}
+                </ng-container>
+                <ng-template #nonBoolean>
+                  {{ patientCallQuestion.patientCallQuestionAnswer }}
+                </ng-template>
               </ng-container>
               <ng-template #noAnswer>
                 N/A
