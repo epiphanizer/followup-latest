@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 export interface PatientCallNotes {
   patientCallNotes: string;
+  patientCallNotesHighlighted?: number;
 }
 
 @Injectable({
