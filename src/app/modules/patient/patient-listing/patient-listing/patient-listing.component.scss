@@ -1,0 +1,310 @@
+.notification-feed {
+  width: 100%;
+}
+
+.divider-line {
+  width: 100%;
+  min-height: 1px;
+  height: 1px;
+  display: block;
+  border-top: solid 3.9px var(--ion-color-primary);
+  border-bottom: none;
+}
+
+h3 {
+  font-family: AvenirBold;
+  font-size: 21px;
+  font-weight: 900;
+  font-style: normal;
+  font-weight: bold;
+  font-stretch: normal;
+  line-height: 1.01;
+  letter-spacing: 3.15px;
+  text-align: left;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  color: var(--ion-color-primary);
+}
+
+ul.notification-filters {
+  list-style-type: none;
+  display: block;
+  width: 100%;
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  li {
+    cursor: pointer;
+    display: inline-block;
+    font-family: AvenirNextLtPro;
+    font-weight: normal;
+    font-style: normal;
+    vertical-align: top;
+    font-stretch: normal;
+    line-height: 2.88;
+    letter-spacing: 0.53px;
+    text-align: center;
+
+    &.notification-date {
+      width: 96px;
+      height: 100%;
+    }
+
+    &.patient-filter {
+      width: 245px;
+      height: 100%;
+    }
+
+    &.resolution-filter {
+      float: right;
+      margin-right: 25px;
+    }
+
+    .ascending-descending-control {
+      height: 30px;
+      width: 30px;
+      float: right;
+      display: block;
+      margin-top: 20px;
+
+      .ascending-descending-control-arrow {
+        display: block;
+        width: 14px;
+        height: 9px;
+        background-image: url("/assets/icon-down-arrow@2x.png");
+        background-size: 100%;
+      }
+    }
+  }
+}
+
+.section-header {
+  i {
+    width: 17px;
+    height: 17px;
+    display: inline-block;
+    margin-right: 8px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    &.icon-new-discharges {
+      background-image: url("/assets/icon-new-discharges@2x.png");
+    }
+  }
+}
+
+.operation-notifications {
+  color: white;
+  font-style: normal;
+  font-size: 12px;
+  line-height: 2.17;
+  margin-left: -29px;
+  margin-top: -3.5px;
+  position: absolute;
+}
+
+.notification-patient-list {
+  clear: both;
+  list-style-type: none;
+  width: 100%;
+  padding-left: 0;
+
+  li {
+    cursor: pointer;
+    width: 100%;
+    display: block;
+    height: 96px;
+
+    &.active {
+      background-color: rgba(8, 196, 0, 0.1);
+
+      &:hover {
+        background-color: rgba(19, 175, 233, 0.35);
+      }
+    }
+
+    &:hover {
+      background-color: rgba(19, 175, 233, 0.35);
+    }
+
+    &.new-discharge {
+      background-color: rgba(112, 112, 112, 0.15);
+    }
+
+    ul {
+      padding-left: 0;
+      list-style-type: none;
+    }
+
+    .notification-date {
+      display: block;
+      float: left;
+      width: 96px;
+      height: 100%;
+      font-family: Avenir;
+      font-size: 16px;
+      font-weight: 900;
+      font-style: normal;
+      font-stretch: normal;
+      letter-spacing: 0.96px;
+      text-align: center;
+      color: #343638;
+      padding-top: 40px;
+
+      &.active {
+        color: #08c400;
+      }
+    }
+
+    .notification-type {
+      display: block;
+      margin-top: 35px;
+      font-family: Avenir;
+      font-size: 17px;
+      float: left;
+      width: 270px;
+      height: auto;
+
+      img {
+        max-width: 20px;
+        margin-right: 6px;
+      }
+
+      img,
+      span {
+        display: inline-block;
+      }
+    }
+
+    .notification-status {
+      display: block;
+      width: 30px;
+      height: 100%;
+      float: left;
+    }
+
+    &:nth-child(even) {
+      background-color: rgba(200, 200, 200, 0.05);
+    }
+
+    &:nth-child(odd) {
+      background-color: RGBA(200, 200, 200, 0.15);
+    }
+
+    .notification-listing-avatar {
+      float: left;
+      margin-top: 10.5px;
+      width: 74.8px;
+      height: 75.2px;
+      max-height: 60px;
+      box-shadow: 1.4px 1.4px 1.4px 0 rgba(35, 31, 32, 0.15);
+      background-color: #ffffff;
+      background-image: url("/assets/default-avatar-patient-detail@2x.png");
+      background-size: cover;
+      background-position: center center;
+      border-radius: 50%;
+    }
+
+    .notification-patient-information {
+      line-height: 96px;
+      float: left;
+      padding-left: 11.2px;
+      width: auto;
+      margin-right: 22px;
+      height: 96px;
+      color: black;
+    }
+
+    .notification-patient-name {
+      display: block;
+      height: 18px;
+      font-family: Avenir;
+      font-size: 21px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      letter-spacing: normal;
+      text-align: left;
+      color: #343638;
+      width: 100%;
+
+      a {
+        color: #343638;
+        text-decoration: none;
+      }
+    }
+
+    .notification-patient-detail {
+      width: 177px;
+      height: 13px;
+      font-family: AvenirNextLTPro;
+      font-size: 13px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 0.85;
+      letter-spacing: normal;
+      text-align: left;
+      color: #8e8e93;
+    }
+
+    .notification-patient-listing-controls {
+      display: inline-block;
+      height: 215px;
+      width: 17px;
+    }
+
+    .patient.label-line {
+      color: #8e8e93;
+      font-size: 13px;
+      font-family: Avenir;
+    }
+  }
+
+  .notification-call-status-legend {
+    height: 96px;
+    display: block;
+    float: right;
+    width: 18.25px;
+    margin-right: 16px;
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    li {
+      display: block;
+      height: 17px;
+
+      margin-top: 8px;
+
+      &:first-child {
+        margin-top: 15px;
+      }
+
+      i {
+        width: 17px;
+        height: 17px;
+        display: block;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+
+        &.icon-contacted {
+          background-image: url("/assets/icon-contacted@2x.png");
+        }
+
+        &.icon-left-message {
+          background-image: url("/assets/icon-left-message@2x.png");
+        }
+
+        &.icon-no-answer {
+          background-image: url("/assets/icon-no-answer@2x.png");
+        }
+      }
+    }
+  }
+}

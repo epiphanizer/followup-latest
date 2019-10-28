@@ -1,0 +1,37 @@
+<div class="notification-listing-sidebar">
+  <div class="notification-listing-sidebar-calendar">
+    <h4>TODAY'S DATE</h4>
+    <div class="caption">
+      {{ todaysDateDay }}
+    </div>
+  </div>
+
+  <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">MY FACILITIES</a>
+  <i
+    class="expand-facilities-trigger"
+    (click)="toggleOperationSidebarMenu()"
+    [@turnArrow]="isOpen ? 'open' : 'closed'"
+    class="expand-facilities-trigger active"
+  ></i>
+  <ul
+    class="facility-dropdown-list"
+    [@expandSidebar]="isOpen ? 'open' : 'closed'"
+    class="facility-dropdown-list active"
+    *ngIf="operations; else noOperations"
+  >
+    <li *ngFor="let operation of operations; let i = index">
+      <a (click)="setActiveOperation(operation)" [ngClass]="{ active: selected.operation == operation }">
+        {{ operation.operationName }}
+      </a>
+      <div class="icon-container" *ngIf="operation.currentNewNotificationCount">
+        <i class="icon-new-notifications"></i>
+        <span class="icon-notification-counter">
+          {{ operation.currentNewNotificationCount }}
+        </span>
+      </div>
+    </li>
+  </ul>
+  <ng-template #noOperations>
+    You haven't been assigned any operations yet!
+  </ng-template>
+</div>
