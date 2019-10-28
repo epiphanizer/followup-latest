@@ -12,6 +12,16 @@ pool:
 steps:
 - task: NodeTool@0
   inputs:
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    appType: 'webApp'
+    WebAppName: 
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    ScriptType: 'Inline Script'
+    InlineScript: 'npm start'
+    enableCustomDeployment: true
+    DeploymentType: 'webDeploy'
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
