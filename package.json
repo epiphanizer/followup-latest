@@ -31,7 +31,7 @@
     "@angular/platform-browser-dynamic": "^7.2.3",
     "@angular/router": "^7.2.3",
     "@angular/service-worker": "^7.2.3",
-    "@azure/msal-angular": "^0.1.2",
+    "@angular/cli": "~7.3.0",
     "@fullcalendar/angular": "^4.3.0",
     "@fullcalendar/core": "^4.3.0",
     "@fullcalendar/daygrid": "^4.3.0",
