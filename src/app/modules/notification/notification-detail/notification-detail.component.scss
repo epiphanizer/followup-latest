@@ -41,6 +41,13 @@
     padding-top: 0px;
     margin-top: 0.25rem;
   }
+  .notification-information {
+    max-width: 300px;
+    margin: 1rem 110px;
+    .notification-item {
+      margin-bottom: 0.5rem;
+    }
+  }
   .patient-name {
     font-family: Avenir-Roman;
     font-size: 38px;
