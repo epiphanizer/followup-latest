@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "build": "npm run env -s && ng build --aot --prod",
+    "start": "ng serve",
     "postinstall": "npm run build --aot --prod",
     "serve": "npm run env -s && ng serve --aot  --proxy-config proxy.conf.js",
     "serve:sw": "npm run build -s && npx http-server ./dist -p 4200",
