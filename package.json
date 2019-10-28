@@ -21,6 +21,8 @@
     "generate": "ng generate"
   },
   "dependencies": {
+    "@angular-devkit/build-angular": "^0.13.0",
+    "@angular/language-service": "^7.2.3",
     "@angular/animations": "^8.1.1",
     "@angular/common": "^7.2.3",
     "@angular/compiler": "^7.2.3",
@@ -47,8 +49,6 @@
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.13.0",
-    "@angular/language-service": "^7.2.3",
     "@biesbjerg/ngx-translate-extract": "^2.3.4",
     "@types/jasmine": "^3.3.8",
     "@types/jasminewd2": "^2.0.3",
