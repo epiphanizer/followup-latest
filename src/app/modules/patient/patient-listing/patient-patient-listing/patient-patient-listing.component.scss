@@ -60,7 +60,7 @@ ul.patient-filters {
       background-position: center center;
       border-radius: 50%;
     }
-    &.patient-discharge-date {
+    .patient-discharge-date {
       float: left;
       height: 55px;
       vertical-align: middle;
@@ -74,11 +74,6 @@ ul.patient-filters {
     &.patient-filter {
       width: 245px;
       height: 100%;
-    }
-
-    &.resolution-filter {
-      float: right;
-      margin-right: 25px;
     }
 
     .ascending-descending-control {
@@ -136,6 +131,17 @@ ul.patient-filters {
     width: 100%;
     display: block;
     height: 96px;
+
+    &.patient-discharge-date {
+      float: left;
+      height: 55px;
+      vertical-align: middle;
+      line-height: 90px;
+      margin: 0 1rem;
+      font-weight: bold;
+      width: 96px;
+      height: 100%;
+    }
 
     &.active {
       background-color: rgba(8, 196, 0, 0.1);
