@@ -5,7 +5,6 @@ import { extract } from '@app/core';
 import { PatientFormComponent } from './patient-form/patient-form.component';
 import { Shell } from '@app/shell/shell.service';
 import { PatientDetailComponent } from './patient-detail/patient-detail.component';
-import { PatientListingComponent } from './patient-listing/patient-listing.component';
 
 import { PatientResolver } from './patient-resolver.service';
 import { UserResolver } from '../user/user-resolver.service';
@@ -67,7 +66,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [PatientListingComponent],
+  declarations: [],
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
   providers: [UserResolver, PatientResolver]

@@ -11,9 +11,16 @@ import { PatientService } from './patient.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientManagerSidebarComponent } from '@app/modules/patient/patient-manager-sidebar/patient-manager-sidebar.component';
 import { PatientAvatarComponent } from './patient-avatar/patient-avatar.component';
+import { PatientListingComponent } from './patient-listing/patient-listing.component';
 
 @NgModule({
-  declarations: [PatientAvatarComponent, PatientComponent, PatientFormComponent, PatientManagerSidebarComponent],
+  declarations: [
+    PatientAvatarComponent,
+    PatientComponent,
+    PatientFormComponent,
+    PatientListingComponent,
+    PatientManagerSidebarComponent
+  ],
   imports: [
     CommonModule,
     IonicModule,
