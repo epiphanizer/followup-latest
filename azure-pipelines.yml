@@ -15,16 +15,12 @@ steps:
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
-    appType: 'webApp'
-    WebAppName: 
+    azureSubscription: 'Pay-As-You-Go(9737df6a-69a3-454a-912b-41ec9f513ce6)'
+    appType: 'webAppLinux'
+    WebAppName: 'followup-app-prod'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    ScriptType: 'Inline Script'
-    InlineScript: 'npm start'
-    enableCustomDeployment: true
-    DeploymentType: 'webDeploy'
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-
+    RuntimeStack: 'NODE|10.16'
+    StartupCommand: 'npm start'
 - script: |
     npm install -g @angular/cli
     npm install
