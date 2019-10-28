@@ -11,7 +11,6 @@ pool:
 
 steps:
 - task: NodeTool@0
-  inputs:
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
