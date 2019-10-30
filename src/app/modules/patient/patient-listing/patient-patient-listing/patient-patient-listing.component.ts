@@ -59,7 +59,7 @@ export class PatientPatientListingComponent implements OnInit {
       });
     }
   };
-  sortNotificationsByDischargeDate = function(sortFlag: string) {
+  sortPatientsByDischargeDate = function(sortFlag: string) {
     this.filterBy = 'discharge-date';
     if (sortFlag == 'asc') {
       this.patients.sort((a: Patient, b: Patient) => {
