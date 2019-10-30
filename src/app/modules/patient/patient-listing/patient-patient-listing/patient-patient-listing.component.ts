@@ -39,18 +39,6 @@ export class PatientPatientListingComponent implements OnInit {
       );
     }
   }
-  public sortPatientsByDischargeDate = function(sortFlag: string) {
-    this.filterBy = 'notification-date';
-    if (sortFlag == 'asc') {
-      // this.notifications.sort((a: Notification, b: Notification) => {
-      //   return <any>new Date(a.notificationCreatedDate) - <any>new Date(b.notificationCreatedDate);
-      // });
-    } else {
-      // this.notifications.sort((a: Notification, b: Notification) => {
-      //   return <any>new Date(b.notificationCreatedDate) - <any>new Date(a.notificationCreatedDate);
-      // });
-    }
-  };
 
   toggleAscDesc() {
     if (this.selectedSortFlag == 'asc') {
@@ -59,28 +47,28 @@ export class PatientPatientListingComponent implements OnInit {
       this.selectedSortFlag = 'asc';
     }
   }
-  sortPatientsByPatient = function(sortFlag: string) {
-    this.filterBy = 'notification-type';
-    // if (this.selectedSortFlag == 'asc') {
-    //   this.notifications.sort((a: Notification, b: Notification) => {
-    //     return <any>new Date(a.notificationCreatedDate) - <any>new Date(b.notificationCreatedDate);
-    //   });
-    // } else {
-    //   this.notifications.sort((a: Notification, b: Notification) => {
-    //     return <any>new Date(a.notificationCreatedDate) + <any>new Date(b.notificationCreatedDate);
-    //   });
-    // }
+  sortPatientsByPatientName = function(sortFlag: string) {
+    this.filterBy = 'patient-name';
+    if (this.selectedSortFlag == 'asc') {
+      this.patients.sort((a: Patient, b: Patient) => {
+        return <any>new Date(a.patientLastName) - <any>new Date(b.patientLastName);
+      });
+    } else {
+      this.patients.sort((a: Patient, b: Patient) => {
+        return <any>new Date(a.patientLastName) + <any>new Date(b.patientLastName);
+      });
+    }
   };
-  sortNotificationsByPatient = function(sortFlag: string) {
-    this.filterBy = 'patient';
-    // if (this.selectedSortFlag == 'asc') {
-    //   this.notifications.sort((a: Notification, b: Notification) => {
-    //     return <any>new Date(a.notificationCreatedDate) - <any>new Date(b.notificationCreatedDate);
-    //   });
-    // } else {
-    //   this.notifications.sort((a: Notification, b: Notification) => {
-    //     return <any>new Date(a.notificationCreatedDate) + <any>new Date(b.notificationCreatedDate);
-    //   });
-    // }
+  sortNotificationsByDischargeDate = function(sortFlag: string) {
+    this.filterBy = 'discharge-date';
+    if (sortFlag == 'asc') {
+      this.patients.sort((a: Patient, b: Patient) => {
+        return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
+      });
+    } else {
+      this.patients.sort((a: Patient, b: Patient) => {
+        return <any>new Date(b.patientDischargeDate) - <any>new Date(a.patientDischargeDate);
+      });
+    }
   };
 }
