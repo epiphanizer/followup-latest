@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
 import { PatientService } from '../patient.service';
+import { OperationService } from '@app/modules/operation/operation.service';
 
 @Component({
   selector: 'app-patient-listing',
@@ -24,14 +25,26 @@ export class PatientListingComponent implements OnInit {
       }
     | any = {};
   user: User;
-  constructor(private patientService: PatientService, private route: ActivatedRoute) {}
+  constructor(
+    private patientService: PatientService,
+    private operationService: OperationService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.user.operations$.subscribe((data: Operation[]) => {
-      /** Init to the first assigned operation alphabetically */
-      this.selected.operation = data[0];
-    });
+    if (!this.route.snapshot.paramMap.get('operationId')) {
+      this.user.operations$.subscribe((data: Operation[]) => {
+        /** Init to the first assigned operation alphabetically */
+        this.selected.operation = data[0];
+      });
+    } else {
+      this.operationService
+        .getOperationByOperationId(parseInt(this.route.snapshot.paramMap.get('operationId')))
+        .subscribe((data: Operation) => {
+          this.selected.operation = data[0];
+        });
+    }
   }
 
   operationChangeEventHandler($event: Operation) {

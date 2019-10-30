@@ -55,6 +55,7 @@ import { Operation } from '../operation';
 })
 export class OperationAdminSidebarComponent implements OnInit {
   availableOperations$: Observable<Operation[]>;
+  activeOperationId: number;
   @Output() operationChangeEvent = new EventEmitter<number>();
   selected: {
     operation?: Operation | null;
@@ -69,7 +70,11 @@ export class OperationAdminSidebarComponent implements OnInit {
   ngOnInit() {
     this.operationService.getAllOperations().subscribe((data: Operation[]) => {
       this.operations = data;
-      this.selected.operation = this.operations[0];
+      if (!this.route.snapshot.paramMap.get('operationId')) {
+        this.activeOperationId = this.operations[0].operationId;
+      } else {
+        this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
+      }
     });
     this.user = this.route.snapshot.data.user;
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));

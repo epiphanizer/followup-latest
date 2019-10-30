@@ -40,6 +40,11 @@ import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.compone
     PatientNextCallFinishButtonComponent
   ],
   imports: [CommonModule, PatientModule, RouterModule, IonicModule, FormsModule, ReactiveFormsModule],
-  entryComponents: [PatientAvatarComponent, PatientDetailComponent]
+  entryComponents: [
+    FollowupCompleteModalComponent,
+    FollowupCompleteButtonComponent,
+    PatientAvatarComponent,
+    PatientDetailComponent
+  ]
 })
 export class PatientDetailModule {}

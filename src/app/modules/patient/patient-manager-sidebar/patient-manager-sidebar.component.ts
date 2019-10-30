@@ -54,6 +54,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PatientManagerSidebarComponent implements OnInit {
   @Output() operationChangeEvent = new EventEmitter<number>();
+  activeOperationId: number;
   selected: {
     operation: Operation | null;
   } = {
@@ -65,13 +66,16 @@ export class PatientManagerSidebarComponent implements OnInit {
   user: User;
   todaysDateDay: number;
   ngOnInit() {
+    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     this.user = this.route.snapshot.data.user;
     this.user.operations$.subscribe((data: Operation[]) => {
-      /** Init to the first assigned operation alphabetically */
-      this.selected.operation = data[0];
       this.operations = data;
+      if (!this.route.snapshot.params['operationId']) {
+        this.activeOperationId = this.operations[0].operationId;
+      } else {
+        this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
+      }
     });
-    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
