@@ -23,6 +23,8 @@ import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.compone
 
 @NgModule({
   declarations: [
+    FollowupCompleteModalComponent,
+    FollowupCompleteButtonComponent,
     PatientDetailComponent,
     PatientCallNotesComponent,
     PatientCallQuestionsComponent,
@@ -35,8 +37,6 @@ import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.compone
     PatientCallStopButtonComponent,
     PatientNextCallSchedulerComponent,
     PatientNextCallQuestionsComponent,
-    FollowupCompleteModalComponent,
-    FollowupCompleteButtonComponent,
     PatientNextCallFinishButtonComponent
   ],
   imports: [CommonModule, PatientModule, RouterModule, IonicModule, FormsModule, ReactiveFormsModule],
