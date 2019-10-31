@@ -13,6 +13,8 @@ import { PatientManagerSidebarComponent } from '@app/modules/patient/patient-man
 import { PatientAvatarComponent } from './patient-avatar/patient-avatar.component';
 import { PatientListingComponent } from './patient-listing/patient-listing.component';
 import { PatientPatientListingComponent } from './patient-listing/patient-patient-listing/patient-patient-listing.component';
+import { FollowupCompleteModalComponent } from './patient-detail/followup-complete-modal/followup-complete-modal.component';
+import { FollowupCompleteButtonComponent } from './patient-detail/followup-complete-button/followup-complete-button.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { PatientPatientListingComponent } from './patient-listing/patient-patien
     PatientManagerSidebarComponent,
     PatientPatientListingComponent,
     PatientListingComponent,
-    PatientAvatarComponent
+    PatientAvatarComponent,
+    FollowupCompleteModalComponent,
+    FollowupCompleteButtonComponent
   ],
   exports: [PatientAvatarComponent],
   providers: [PatientService]
