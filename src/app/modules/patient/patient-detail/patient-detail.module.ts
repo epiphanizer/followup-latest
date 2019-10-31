@@ -23,6 +23,8 @@ import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.compone
 
 @NgModule({
   declarations: [
+    FollowupCompleteModalComponent,
+    FollowupCompleteButtonComponent,
     PatientDetailComponent,
     PatientCallNotesComponent,
     PatientCallQuestionsComponent,
@@ -38,6 +40,11 @@ import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.compone
     PatientNextCallFinishButtonComponent
   ],
   imports: [CommonModule, PatientModule, RouterModule, IonicModule, FormsModule, ReactiveFormsModule],
-  entryComponents: [PatientAvatarComponent, PatientDetailComponent]
+  entryComponents: [
+    PatientAvatarComponent,
+    PatientDetailComponent,
+    FollowupCompleteModalComponent,
+    FollowupCompleteButtonComponent
+  ]
 })
 export class PatientDetailModule {}
