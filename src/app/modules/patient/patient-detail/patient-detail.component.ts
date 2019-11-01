@@ -148,8 +148,13 @@ export class PatientDetailComponent implements OnInit {
      * Passing E2E
      */
     this.patientCallNotesService
-      .addPatientCallNotesByPatientCallId(this.patientCall.patientCallId, this.patientCallNotes)
+      .addPatientCallNotesByPatientCallId(
+        this.patientCall.patientCallId,
+        this.patientCallNotes,
+        this.patientCallNotesHighlighted
+      )
       .subscribe((data: any) => {
+        debugger;
         // console.log('added patient call notes successfully');
       });
 

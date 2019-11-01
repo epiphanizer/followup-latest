@@ -14,11 +14,20 @@ export interface PatientCallNotes {
 })
 export class PatientCallNotesService {
   constructor(private http: HttpService) {}
-  addPatientCallNotesByPatientCallId = function(patientCallId: number, patientCallNotes: PatientCallNotes) {
-    return this.http.post('patients/calls/' + patientCallId + '/notes', patientCallNotes).pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
+  addPatientCallNotesByPatientCallId = function(
+    patientCallId: number,
+    patientCallNotes: PatientCallNotes,
+    patientCallNotesHighlighted: number
+  ) {
+    return this.http
+      .post('patients/calls/' + patientCallId + '/notes', {
+        patientCallNotes: patientCallNotes,
+        patientCallNotesHighlighted: patientCallNotesHighlighted
+      })
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   };
 
   getPatientCallNotesByPatientCallId = function(patientCallId: number) {
