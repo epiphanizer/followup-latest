@@ -24,8 +24,7 @@ export class PatientCallNotesComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.patientCallNotes = {
-      patientCallNotes: '',
-      patientCallNotesHighlighted: 0
+      patientCallNotes: ''
     };
     this.onChanges();
   }

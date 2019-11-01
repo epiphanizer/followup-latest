@@ -154,8 +154,9 @@ export class PatientDetailComponent implements OnInit {
         this.patientCallNotesHighlighted
       )
       .subscribe((data: any) => {
+        console.log('added patient call notes successfully');
+        console.log(data);
         debugger;
-        // console.log('added patient call notes successfully');
       });
 
     if (!this.patientCallQuestionAnswers) {
@@ -207,7 +208,8 @@ export class PatientDetailComponent implements OnInit {
                 itemsProcessed++;
                 if (itemsProcessed === this.patientNextCallQuestions.length) {
                   this.patientCall.patientCallId = patientCallId;
-                  location.reload();
+                  // location.reload();
+                  alert('successfully created call');
                 }
               });
           });

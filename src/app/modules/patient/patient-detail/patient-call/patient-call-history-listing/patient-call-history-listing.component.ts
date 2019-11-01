@@ -34,8 +34,11 @@ export class PatientCallHistoryListingComponent implements OnInit {
                 .getPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestion.patientCallQuestionId)
                 .pipe(
                   map((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
-                    if (!patientCallQuestionAnswer != null) {
-                      if (this.patientCalls[index].patientCallQuestions[idx]) {
+                    if (patientCallQuestionAnswer != null) {
+                      if (
+                        this.patientCalls[index].patientCallQuestions[idx] &&
+                        patientCallQuestionAnswer[0].patientCallQuestionAnswer
+                      ) {
                         this.patientCalls[index].patientCallQuestions[idx].patientCallQuestionAnswer =
                           patientCallQuestionAnswer[0].patientCallQuestionAnswer;
                       }
