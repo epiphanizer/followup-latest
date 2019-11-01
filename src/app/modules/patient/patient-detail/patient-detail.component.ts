@@ -95,7 +95,7 @@ export class PatientDetailComponent implements OnInit {
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }, 120);
+    }, 50);
 
     /**
      * Manipulate existing patientCall answers in patient call history listing
@@ -121,8 +121,10 @@ export class PatientDetailComponent implements OnInit {
     this.patientNextCallQuestions = $event;
   }
   patientCallStatusLabelChangeHandler($event: number) {
+    console.log($event);
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
+    debugger;
     this.patientCall.patientCallStatusLabel = 'Selected Status';
   }
   patientCallFinishEventHandler($event: PatientCall) {
