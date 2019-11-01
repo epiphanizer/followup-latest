@@ -21,7 +21,7 @@
     "generate": "ng generate"
   },
   "dependencies": {
-    "@angular-devkit/build-angular": "^0.803.17",
+    "@angular-devkit/build-angular": "^0.10.0",
     "@angular/animations": "^8.1.1",
     "@angular/cli": "~8.3.17",
     "@angular/common": "^8.2.13",
