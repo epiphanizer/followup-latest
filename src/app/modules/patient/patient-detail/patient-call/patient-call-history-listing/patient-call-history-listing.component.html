@@ -43,9 +43,13 @@
         <span class="call-question-label" [class.is-highlighted]="patientCall.patientCallNotesHighlighted">
           Call Notes:
         </span>
-        <div class="patient-call-notes">
+        <div class="patient-call-notes" *ngIf="patientCall.patientCallNotes; else noCallNotes">
           {{ patientCall.patientCallNotes }}
         </div>
+        <!-- Should never happen, but let's be defensive -->
+        <ng-template #noCallNotes>
+          No call notes.
+        </ng-template>
       </div>
     </div>
   </ion-list>
