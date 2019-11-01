@@ -152,7 +152,7 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallNotesService
       .addPatientCallNotesByPatientCallId(
         this.patientCall.patientCallId,
-        this.patientCallNotes,
+        this.patientCallNotes.patientCallNotes,
         this.patientCallNotesHighlighted
       )
       .subscribe((data: any) => {

@@ -16,7 +16,7 @@ export class PatientCallNotesService {
   constructor(private http: HttpService) {}
   addPatientCallNotesByPatientCallId = function(
     patientCallId: number,
-    patientCallNotes: PatientCallNotes,
+    patientCallNotes: string,
     patientCallNotesHighlighted: number
   ) {
     return this.http
