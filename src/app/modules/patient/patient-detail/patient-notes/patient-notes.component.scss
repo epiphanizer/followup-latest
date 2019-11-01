@@ -1,4 +1,9 @@
 ion-list {
+  ion-item {
+    float: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
   i {
     float: left;
     clear: left;
@@ -26,7 +31,7 @@ ion-list {
       font-size: 12px;
       font-family: Avenir;
 
-      &:nth-child(n + 1) {
+      &:nth-child(n + 3) {
         margin-left: 16px;
       }
     }
