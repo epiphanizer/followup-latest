@@ -17,6 +17,7 @@ export class PatientCallNotesComponent implements OnInit {
   patientCallNotesForm: FormGroup;
   patientCallNotes$: Observable<PatientCallNotes>;
   @Output() patientCallNotesChangeEmitter = new EventEmitter<PatientCallNotes>();
+  @Output() patientCallNotesHighlightedChangeEmitter = new EventEmitter<number>();
   highlighterActive: boolean = false;
   constructor(private fb: FormBuilder) {}
 
@@ -36,8 +37,10 @@ export class PatientCallNotesComponent implements OnInit {
   highlightPatientCallNotes() {
     if (this.highlighterActive == false) {
       this.highlighterActive = true;
+      this.patientCallNotesHighlightedChangeEmitter.emit(1);
     } else {
       this.highlighterActive = false;
+      this.patientCallNotesHighlightedChangeEmitter.emit(0);
     }
   }
   private createForm() {

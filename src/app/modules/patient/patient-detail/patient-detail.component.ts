@@ -34,6 +34,7 @@ export class PatientDetailComponent implements OnInit {
   patientCall: PatientCall;
   patientCall$: Observable<PatientCall>;
   patientCallNotes: PatientCallNotes;
+  patientCallNotesHighlighted: number = 0;
   patientCallQuestions: PatientCallQuestion[];
   patientCallQuestionAnswers: PatientCallQuestionAnswer[];
   patientCallStatuses: PatientCallStatus[];
@@ -107,6 +108,9 @@ export class PatientDetailComponent implements OnInit {
   }
   patientCallNotesChangeHandler($event: PatientCallNotes) {
     this.patientCallNotes = $event;
+  }
+  patientCallNotesHighlightedChangeHandler($event: number) {
+    this.patientCallNotesHighlighted = $event;
   }
 
   patientCallQuestionsChangeHandler($event: PatientCallQuestionAnswer[]) {

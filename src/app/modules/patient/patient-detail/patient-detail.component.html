@@ -30,6 +30,7 @@
             "
             [patientCall]="patientCall"
             (patientCallNotesChangeEmitter)="patientCallNotesChangeHandler($event)"
+            (patientCallNotesHighlightedChangeEmitter)="patientCallNotesHighlightedChangeHandler($event)"
           >
           </app-patient-call-notes>
           <ng-template #spacer>
