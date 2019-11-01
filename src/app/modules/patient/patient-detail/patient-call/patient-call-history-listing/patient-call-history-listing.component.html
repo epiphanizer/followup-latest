@@ -2,12 +2,16 @@
   <ion-list class="patient-call-history-list" inset lines="none">
     <div class="patient-call" *ngFor="let patientCall of patientCalls; let i = index">
       <!-- This logic assumes that the patientCallCounts come to us in the right order -->
+
       <div
         id="{{ 'call-' + patientCall.patientCallCount }}"
         class="call-headline-container {{ i == 0 ? 'active' : '' }} "
       >
         <i class="icon-phone-icon"></i>
-        <span class="call-number-headline"> Call {{ patientCall.patientCallCount }} </span>
+
+        <span class="call-number-headline">
+          Call {{ patientCall.patientCallCount }} - {{ patientCall.patientCallStatusLabel }}</span
+        >
       </div>
       <div class="call-question-container">
         <div *ngFor="let patientCallQuestion of patientCall.patientCallQuestions; let idx = index" lines="none" inset>

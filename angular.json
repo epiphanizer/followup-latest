@@ -1,5 +1,4 @@
 {
-  "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -27,6 +26,7 @@
               "src/apple-touch-icon.png",
               "src/robots.txt",
               "src/manifest.json",
+              "src/web.config",
               {
                 "glob": "**/*.svg",
                 "input": "node_modules/ionicons/dist/ionicons/svg",
