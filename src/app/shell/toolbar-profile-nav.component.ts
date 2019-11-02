@@ -23,12 +23,14 @@ export class ToolbarProfileNavComponent implements OnInit {
 
   ngOnInit() {
     this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((baseImage: any) => {
-      if (!baseImage) {
-        this.avatarExists = false;
-      } else {
-        this.avatarExists = true;
+      if (baseImage !== null) {
+        if (!baseImage[0]) {
+          this.avatarExists = false;
+        } else {
+          this.avatarExists = true;
+        }
+        this.avatarUrl = this.userAvatarService.prepareAvatarImage(baseImage);
       }
-      this.avatarUrl = this.userAvatarService.prepareAvatarImage(baseImage);
     });
     // this.route.paramMap.subscribe(() => {
     //   debugger;
