@@ -77,11 +77,16 @@ export class NotificationModalComponent {
     let notificationTypes = this.notificationTypes;
     this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
       this.notificationType = notificationTypes.find(notificationTypes => notificationTypes.notificationTypeId == val);
-      this.notification.notificationTypeLabel = this.notificationType.notificationTypeLabel;
-      this.notification.notificationIconImage = this.notificationType.notificationIconImage;
+      if (this.notificationType! == undefined) {
+        this.notification.notificationTypeLabel = this.notificationType.notificationTypeLabel;
+        this.notification.notificationIconImage = this.notificationType.notificationIconImage;
+      }
     });
     this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
       this.notification.notificationMessage = val;
+    });
+    this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
+      this.notification.notificationTypeId = val;
     });
   }
 
