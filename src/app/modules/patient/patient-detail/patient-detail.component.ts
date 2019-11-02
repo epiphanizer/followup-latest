@@ -106,7 +106,7 @@ export class PatientDetailComponent implements OnInit {
   }
   patientNextCallDateSelectedEventHandler($event: string) {
     let selectedDate = $event;
-    let newDate = formatDate(selectedDate, 'MM-dd-yyyy', 'en-US');
+    let newDate = formatDate(selectedDate, 'MM-dd-yyyy');
     this.patientNextCall.date = newDate;
   }
   patientCallNotesChangeHandler($event: PatientCallNotes) {
