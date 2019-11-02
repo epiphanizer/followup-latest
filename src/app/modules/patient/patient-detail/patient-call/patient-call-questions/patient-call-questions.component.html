@@ -47,11 +47,11 @@
           </ng-container>
 
           <ng-container *ngIf="question.patientQuestionTypeLabel == 'textarea'">
-            <div
-              class="patient-call-question-container"
-              [class.isHighlighted]="question.patientCallQuestionIsHighlighted"
-            >
-              {{ question.patientCallQuestion }}
+            <div class="patient-call-question-container">
+              <ion-label [class.is-highlighted]="question.patientCallQuestionIsHighlighted" position="stacked">
+                <i class="icon-info"></i>
+                {{ question.patientCallQuestion }}
+              </ion-label>
             </div>
             <ion-textarea formControlName="{{ question.patientCallQuestionId }}"> </ion-textarea>
           </ng-container>

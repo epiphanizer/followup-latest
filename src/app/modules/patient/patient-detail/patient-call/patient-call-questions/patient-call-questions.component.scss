@@ -24,6 +24,12 @@ i.icon-question-mark {
 }
 
 ion-item.call-question {
+  ion-label {
+    .is-highlighted {
+      width: auto;
+      border-bottom: yellow 3px solid;
+    }
+  }
   --inner-padding-start: 0;
   --padding-end: 0;
   --highlight-color-focused: transparent;
@@ -38,7 +44,6 @@ ion-item.call-question {
     letter-spacing: 0.42px;
     text-align: left;
     border-bottom: none;
-
     ion-textarea {
       border-bottom: none;
       min-height: 80px;
