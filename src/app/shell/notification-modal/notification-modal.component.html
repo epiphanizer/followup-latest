@@ -71,12 +71,12 @@
           </ion-item>
           <ion-item *ngIf="notificationRecipients" class="notification-review-item">
             <span class="label">Next Steps:&nbsp;</span>
-            Notify
+            Notify&nbsp;
             <span *ngFor="let notificationRecipient of notificationRecipients; let idx = index">
               {{ notification.notificationPatientFirstName }}
               {{ notification.notificationPatientLastName }}
-              ,</span
-            >
+              {{ idx + 1 == notificationRecipients.length ? '' : ',' }}
+            </span>
           </ion-item>
           <ion-item class="notification-review-item">
             <span class="label">Date Received:&nbsp;</span> {{ todaysDate }}
