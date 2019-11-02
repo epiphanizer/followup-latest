@@ -36,7 +36,9 @@ export class NotificationService {
   }
   getNotificationRecipientsByOperationIdAndNotificationTypeId(operationId: number, notificationTypeId: number) {
     return this.http
-      .get<NotificationRecipient[]>('operations/' + operationId + 'notifications/' + notificationTypeId + '/recipients')
+      .get<NotificationRecipient[]>(
+        'operations/' + operationId + '/notifications/' + notificationTypeId + '/recipients'
+      )
       .pipe(
         retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error

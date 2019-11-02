@@ -18,6 +18,7 @@ import { OperationContactsService } from '@app/modules/operation/operation-conta
 export class NotificationModalComponent {
   createNotificationForm: FormGroup;
   notification: Notification;
+  notificationRecipients: NotificationRecipient[];
   notificationType: NotificationType;
   notificationTypes: NotificationType[];
   notificationTypesListLeft: NotificationType[] = [];
@@ -77,25 +78,24 @@ export class NotificationModalComponent {
     let notificationTypes = this.notificationTypes;
     this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
       this.notificationType = notificationTypes.find(notificationTypes => notificationTypes.notificationTypeId == val);
-      if (this.notificationType! == undefined) {
+      if (this.notificationType !== undefined) {
+        this.notification.notificationTypeId = this.notificationType.notificationTypeId;
         this.notification.notificationTypeLabel = this.notificationType.notificationTypeLabel;
         this.notification.notificationIconImage = this.notificationType.notificationIconImage;
       }
-    });
-    this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
-      this.notification.notificationMessage = val;
-    });
-    this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
-      this.notification.notificationTypeId = val;
       this.notificationService
         .getNotificationRecipientsByOperationIdAndNotificationTypeId(
           this.notification.notificationOperationId,
           this.notification.notificationTypeId
         )
-        .subscribe((data: any) => {
-          console.log(data);
+        .subscribe((data: NotificationRecipient[]) => {
+          this.notificationRecipients = data;
+          console.log(this.notificationRecipients);
           debugger;
         });
+    });
+    this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
+      this.notification.notificationMessage = val;
     });
   }
 
@@ -115,6 +115,9 @@ export class NotificationModalComponent {
     let formData = this.createNotificationForm.getRawValue();
     this.notification.notificationTypeId = parseInt(formData.notificationTypeId);
     this.notification.notificationMessage = formData.notificationMessage;
+    console.log(this.notification);
+    debugger;
+
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
