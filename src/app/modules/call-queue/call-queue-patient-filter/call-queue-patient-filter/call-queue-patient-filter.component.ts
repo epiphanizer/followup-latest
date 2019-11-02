@@ -58,10 +58,8 @@ export class CallQueuePatientFilterComponent implements OnInit {
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
     this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
-      return (
-        patientCall.patientFirstName.toLowerCase().includes(searchText) ||
-        patientCall.patientLastName.toLowerCase().includes(searchText)
-      );
+      let patientFullName = patientCall.patientFirstName + ' ' + patientCall.patientLastName;
+      return patientFullName.toLowerCase().includes(searchText);
     });
     return this.patientCallsFiltered;
   }
