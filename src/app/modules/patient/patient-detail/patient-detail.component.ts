@@ -177,7 +177,6 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
       console.log(data);
       console.log('finalized call');
-      debugger;
       // Update the call status
       // Talk to our service to answer the existing call questions
       this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
