@@ -101,8 +101,4 @@ export class UserProfileComponent implements OnInit {
       userAdditionalInfo: this.fb.control(this.user.userAdditionalInfo)
     });
   }
-  handleUserAvatarUpload($event: boolean) {
-    console.log(this.user.avatar);
-    debugger;
-  }
 }

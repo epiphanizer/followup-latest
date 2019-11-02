@@ -101,12 +101,14 @@ export class PatientFormComponent implements OnInit {
         this.patient = data[0];
         // See if we have an avatar to load in
         this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
-          if (!baseImage) {
-            this.avatarExists = false;
-          } else {
-            this.avatarExists = true;
+          if (baseImage !== null) {
+            if (!baseImage[0]) {
+              this.avatarExists = false;
+            } else {
+              this.avatarExists = true;
+              this.avatarUrl = this.patientAvatarService.prepareAvatarImage(baseImage);
+            }
           }
-          this.avatarUrl = this.patientAvatarService.prepareAvatarImage(baseImage);
         });
         this.createForm();
         this.addAdditionalContact();
@@ -187,15 +189,11 @@ export class PatientFormComponent implements OnInit {
           patientDischargedAma: this.fb.control(this.patient.patientDischargedAma, [Validators.required])
         }),
         patientMedicalConditions: this.fb.group({
-          cardiacBoolean: this.fb.control(JSON.parse(this.patient.patientMedicalConditions).cardiac || false),
-          sepsisBoolean: this.fb.control(JSON.parse(this.patient.patientMedicalConditions).sepsis || false),
-          pulmonaryBoolean: this.fb.control(JSON.parse(this.patient.patientMedicalConditions).pulmonary || false),
-          dischargedCondition: this.fb.control(
-            JSON.parse(this.patient.patientMedicalConditions).patientDischargedCondition || ''
-          ),
-          patientPrimaryDiagnosis: this.fb.control(
-            JSON.parse(this.patient.patientMedicalConditions).patientPrimaryDiagnosis || ''
-          )
+          cardiacBoolean: this.fb.control(false),
+          sepsisBoolean: this.fb.control(false),
+          pulmonaryBoolean: this.fb.control(false),
+          dischargedCondition: this.fb.control(''),
+          patientPrimaryDiagnosis: this.fb.control('')
         }),
         patientIntakeQuestionAnswers: this.fb.array([]),
         patientUrgencyScale: this.fb.control(this.patient.patientUrgencyScale),
@@ -215,7 +213,15 @@ export class PatientFormComponent implements OnInit {
       .subscribe((data: any) => {
         alert('Successfully uploaded patient avatar!');
         this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
-          this.avatarUrl = this.patientAvatarService.prepareAvatarImage(baseImage);
+          if (baseImage !== null) {
+            debugger;
+            if (!baseImage[0]) {
+              this.avatarExists = false;
+            } else {
+              this.avatarExists = true;
+              this.avatarUrl = this.patientAvatarService.prepareAvatarImage(baseImage);
+            }
+          }
         });
       });
   }
