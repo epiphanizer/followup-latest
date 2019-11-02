@@ -16,13 +16,13 @@ import {
   PatientCallQuestionsService,
   PatientCallQuestion
 } from './patient-call/patient-call-questions/patient-call-questions.service';
-import { PatientCallStatus } from './patient-call/patient-call-status.service';
+import { PatientCallStatus, PatientCallStatusService } from './patient-call/patient-call-status.service';
 import { formatDate } from '@angular/common';
 import { share, map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
-  providers: [PatientCallService, PatientCallNotesService, PatientCallQuestionsService],
+  providers: [PatientCallService, PatientCallNotesService, PatientCallStatusService, PatientCallQuestionsService],
   selector: 'app-patient-detail',
   templateUrl: './patient-detail.component.html',
   styleUrls: ['./patient-detail.component.scss']
@@ -48,6 +48,7 @@ export class PatientDetailComponent implements OnInit {
   constructor(
     private patientCallService: PatientCallService,
     private patientCallNotesService: PatientCallNotesService,
+    private patientCallStatusService: PatientCallNotesService,
     private patientCallQuestionsService: PatientCallQuestionsService,
     private route: ActivatedRoute
   ) {}
@@ -151,9 +152,8 @@ export class PatientDetailComponent implements OnInit {
         this.patientCallNotesHighlighted
       )
       .subscribe((data: any) => {
+        // Better check since this currently returns nothin good
         console.log('added patient call notes successfully');
-        console.log(data);
-        debugger;
       });
 
     if (!this.patientCallQuestionAnswers) {
@@ -175,13 +175,19 @@ export class PatientDetailComponent implements OnInit {
     }
 
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
+      console.log(data);
+      console.log('finalized call');
+      debugger;
+      // Update the call status
       // Talk to our service to answer the existing call questions
       this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
         let patientCallQuestionId = parseInt(Object.keys(patientCallQuestionAnswer).toString());
         let patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
-        this.patientCallQuestionsService
-          .addPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestionId, patientCallQuestionAnswerText)
-          .subscribe();
+        if (patientCallQuestionAnswerText !== undefined) {
+          this.patientCallQuestionsService
+            .addPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestionId, patientCallQuestionAnswerText)
+            .subscribe();
+        }
       });
 
       var isoString = new Date(this.patientNextCall.date).toISOString();
@@ -192,7 +198,7 @@ export class PatientDetailComponent implements OnInit {
         .addNewPatientCallByPatientId(
           this.patient.patientId,
           isoString,
-          // schedule default (3 == 'scheduled' status)
+          // (3 => 'scheduled' status)
           3
         )
         .subscribe((data: any) => {

@@ -19,7 +19,6 @@ export class PatientCallNotesService {
     patientCallNotes: string,
     patientCallNotesHighlighted: number
   ) {
-    debugger;
     return this.http
       .post('patients/calls/' + patientCallId + '/notes', {
         patientCallNotes: patientCallNotes,

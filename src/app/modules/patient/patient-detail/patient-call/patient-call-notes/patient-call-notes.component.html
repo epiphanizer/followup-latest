@@ -25,7 +25,8 @@
       </ion-item>
       <ion-item
         *ngIf="
-          patientCall.patientCallStatusLabel == 'In Review' || patientCall.patientCallStatusLabel == 'Selected Status'
+          patientCall.patientCallStatusLabel == 'In Review' ||
+          patientCall.patientCallStatusLabel == 'User Selected Status'
         "
         class="patient-call-note-highlight-controls"
       >
