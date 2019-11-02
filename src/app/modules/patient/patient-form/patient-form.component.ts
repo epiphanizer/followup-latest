@@ -187,11 +187,15 @@ export class PatientFormComponent implements OnInit {
           patientDischargedAma: this.fb.control(this.patient.patientDischargedAma, [Validators.required])
         }),
         patientMedicalConditions: this.fb.group({
-          cardiacBoolean: this.fb.control(this.patient.patientMedicalConditions.cardiac),
-          sepsisBoolean: this.fb.control(this.patient.patientMedicalConditions.sepsis),
-          pulmonaryBoolean: this.fb.control(this.patient.patientMedicalConditions.pulmonary),
-          dischargedCondition: this.fb.control(this.patient.patientMedicalConditions.patientDischargedCondition),
-          patientPrimaryDiagnosis: this.fb.control(this.patient.patientPrimaryDiagnosis)
+          cardiacBoolean: this.fb.control(JSON.parse(this.patient.patientMedicalConditions).cardiac || false),
+          sepsisBoolean: this.fb.control(JSON.parse(this.patient.patientMedicalConditions).sepsis || false),
+          pulmonaryBoolean: this.fb.control(JSON.parse(this.patient.patientMedicalConditions).pulmonary || false),
+          dischargedCondition: this.fb.control(
+            JSON.parse(this.patient.patientMedicalConditions).patientDischargedCondition || ''
+          ),
+          patientPrimaryDiagnosis: this.fb.control(
+            JSON.parse(this.patient.patientMedicalConditions).patientPrimaryDiagnosis || ''
+          )
         }),
         patientIntakeQuestionAnswers: this.fb.array([]),
         patientUrgencyScale: this.fb.control(this.patient.patientUrgencyScale),
