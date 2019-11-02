@@ -90,8 +90,12 @@ export class PatientFormComponent implements OnInit {
               let newFormGroup = this.fb.group({});
               let newControl = new FormControl('');
               newFormGroup.addControl(patientIntakeQuestionId, newControl);
+              console.log(newFormGroup);
+              debugger;
               patientIntakeQuestionAnswers.push(newFormGroup);
               this.patientIntakeQuestions.push(patientIntakeQuestion);
+              console.log(this.patientIntakeQuestions);
+              debugger;
             });
           });
       });
@@ -139,7 +143,11 @@ export class PatientFormComponent implements OnInit {
               'patient.patientIntakeQuestionAnswers'
             ) as FormArray;
             patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
-              patientIntakeQuestionAnswers.push(this.fb.control(index));
+              let patientIntakeQuestionId = patientIntakeQuestion['patientIntakeQuestionId'].toString();
+              let newFormGroup = this.fb.group({});
+              let newControl = new FormControl('');
+              newFormGroup.addControl(patientIntakeQuestionId, newControl);
+              patientIntakeQuestionAnswers.push(newFormGroup);
               this.patientIntakeQuestions.push(patientIntakeQuestion);
             });
           });
@@ -258,9 +266,10 @@ export class PatientFormComponent implements OnInit {
         });
     });
     let patientPutBody = this.formSubmissionFactory(formSubmission);
+    debugger;
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       console.log(value);
-      alert('patient successfully edited');
+      alert('Patient successfully edited');
       location.reload();
     });
   }
@@ -270,11 +279,13 @@ export class PatientFormComponent implements OnInit {
    * @param formSubmission
    */
   private formSubmissionFactory(formSubmission: any) {
+    console.log(formSubmission);
+    debugger;
     const patientDiagnosis = JSON.stringify(formSubmission.patient.patientDiagnosis);
     var payload = {
       patientDob: formSubmission.patient.patientDob,
       patientOperationId: formSubmission.operation,
-      patientMedicalRecordNumber: formSubmission.patient.medicalRecordNumber,
+      patientMedicalRecordNumber: formSubmission.patient.patientMedicalRecordNumber,
       patientFirstName: formSubmission.patient.patientFirstName,
       patientMiddleName: formSubmission.patient.patientMiddleName,
       patientLastName: formSubmission.patient.patientLastName,
