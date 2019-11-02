@@ -271,13 +271,12 @@ export class PatientFormComponent implements OnInit {
 
   /**
    * create a tidy type-checked payload to send off to the API
+   * we do all of our processing to agree with Swagger contract here
    * @param formSubmission
    */
   private formSubmissionFactory(formSubmission: any) {
     console.log(formSubmission);
     const patientMedicalConditions = JSON.stringify(formSubmission.patient.patientMedicalConditions);
-    console.log(patientMedicalConditions);
-    debugger;
     var payload = {
       patientDob: formSubmission.patient.patientDob,
       patientOperationId: formSubmission.operation,
@@ -295,11 +294,11 @@ export class PatientFormComponent implements OnInit {
       patientAdmitDate: formSubmission.patient.dischargeInfo.patientAdmitDate,
       patientDischargeDate: formSubmission.patient.dischargeInfo.patientDischargeDate,
       patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma == true ? 1 : 0,
-      patientDischargeLocationLabelId: formSubmission.patient.dischargeInfo.patientDischargedTo,
+      patientDischargeLocationLabelId: parseInt(formSubmission.patient.dischargeInfo.patientDischargedTo),
       patientDischargedCondition: formSubmission.patient.patientMedicalConditions.patientDischargedCondition,
       patientPrimaryDiagnosis: formSubmission.patient.patientMedicalConditions.primaryDiagnosis,
       patientMedicalConditions: patientMedicalConditions,
-      patientUrgencyScale: formSubmission.patient.patientUrgencyScale,
+      patientUrgencyScale: parseInt(formSubmission.patient.patientUrgencyScale),
       patientNeedToKnow: formSubmission.patient.patientNeedToKnow,
       patientActive: formSubmission.patient.patientActive == true ? 1 : 0
     };
