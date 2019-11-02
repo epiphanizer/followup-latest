@@ -29,14 +29,18 @@ ion-item.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-in
   border-bottom-color: #dadada;
   box-shadow: none;
 }
-
+ion-item {
+  --background-focused: transparent !important;
+}
 /* Workaround to hide window phone default validation colors */
 ion-item.item-wp.item-input.input-has-focus .text-input,
 ion-item.item-wp.item-input.ng-valid.input-has-value:not(.input-has-focus) .text-input,
 ion-item.item-wp.item-input.ng-invalid.ng-touched:not(.input-has-focus) .text-input {
   border: 2px solid #dadada;
 }
-
+.list-md.list-inset ion-item:first-child {
+  --border-width: 0;
+}
 $item-md-padding-end: 0;
 
 .followup-modal {

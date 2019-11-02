@@ -99,6 +99,12 @@ export class PatientFormComponent implements OnInit {
     } else {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: Patient) => {
         this.patient = data[0];
+        let medicalConditions = JSON.parse(this.patient.patientMedicalConditions);
+        // Once we've got our data set from JSON, let's re-set the individual properties.
+        this.patient.patientMedicalConditions = {};
+        this.patient.patientMedicalConditions.sepsisBoolean = medicalConditions.sepsisBoolean;
+        this.patient.patientMedicalConditions.cardiacBoolean = medicalConditions.cardiacBoolean;
+        this.patient.patientMedicalConditions.pulmonaryBoolean = medicalConditions.pulmonaryBoolean;
         // See if we have an avatar to load in
         this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
           if (baseImage !== null) {
@@ -189,9 +195,9 @@ export class PatientFormComponent implements OnInit {
           patientDischargedAma: this.fb.control(this.patient.patientDischargedAma || '0', [Validators.required])
         }),
         patientMedicalConditions: this.fb.group({
-          cardiacBoolean: this.fb.control(false),
-          sepsisBoolean: this.fb.control(false),
-          pulmonaryBoolean: this.fb.control(false)
+          cardiacBoolean: this.fb.control(this.patient.patientMedicalConditions.cardiacBoolean || false),
+          sepsisBoolean: this.fb.control(this.patient.patientMedicalConditions.sepsisBoolean || false),
+          pulmonaryBoolean: this.fb.control(this.patient.patientMedicalConditions.pulmonaryBoolean || false)
         }),
         patientDischargedCondition: this.fb.control(''),
         patientPrimaryDiagnosis: this.fb.control(''),
