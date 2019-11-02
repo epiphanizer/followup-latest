@@ -90,12 +90,8 @@ export class PatientFormComponent implements OnInit {
               let newFormGroup = this.fb.group({});
               let newControl = new FormControl('');
               newFormGroup.addControl(patientIntakeQuestionId, newControl);
-              console.log(newFormGroup);
-              debugger;
               patientIntakeQuestionAnswers.push(newFormGroup);
               this.patientIntakeQuestions.push(patientIntakeQuestion);
-              console.log(this.patientIntakeQuestions);
-              debugger;
             });
           });
       });
@@ -261,11 +257,10 @@ export class PatientFormComponent implements OnInit {
       var patientQuestionAnswer = patientIntakeQuestionAnswer[0];
       this.patientIntakeQuestionService
         .addPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
-        .subscribe((data: any) => {
-          console.log(data);
-        });
+        .subscribe((data: any) => {});
     });
     let patientPutBody = this.formSubmissionFactory(formSubmission);
+    console.log(patientPutBody);
     debugger;
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       console.log(value);
@@ -280,8 +275,9 @@ export class PatientFormComponent implements OnInit {
    */
   private formSubmissionFactory(formSubmission: any) {
     console.log(formSubmission);
+    const patientMedicalConditions = JSON.stringify(formSubmission.patient.patientMedicalConditions);
+    console.log(patientMedicalConditions);
     debugger;
-    const patientDiagnosis = JSON.stringify(formSubmission.patient.patientDiagnosis);
     var payload = {
       patientDob: formSubmission.patient.patientDob,
       patientOperationId: formSubmission.operation,
@@ -298,13 +294,14 @@ export class PatientFormComponent implements OnInit {
       patientSecondaryInsurance: formSubmission.patient.insurance.secondaryInsurance,
       patientAdmitDate: formSubmission.patient.dischargeInfo.patientAdmitDate,
       patientDischargeDate: formSubmission.patient.dischargeInfo.patientDischargeDate,
-      patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma,
+      patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma == true ? 1 : 0,
       patientDischargeLocationLabelId: formSubmission.patient.dischargeInfo.patientDischargedTo,
+      patientDischargedCondition: formSubmission.patient.patientMedicalConditions.patientDischargedCondition,
       patientPrimaryDiagnosis: formSubmission.patient.patientMedicalConditions.primaryDiagnosis,
-      patientDiagnosis: patientDiagnosis,
+      patientMedicalConditions: patientMedicalConditions,
       patientUrgencyScale: formSubmission.patient.patientUrgencyScale,
       patientNeedToKnow: formSubmission.patient.patientNeedToKnow,
-      patientActive: formSubmission.patient.patientActive
+      patientActive: formSubmission.patient.patientActive == true ? 1 : 0
     };
     return <PatientPutBody>payload;
   }

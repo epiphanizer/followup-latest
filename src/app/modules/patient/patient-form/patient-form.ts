@@ -5,9 +5,10 @@ export interface FormEntry {
 }
 
 export interface PatientPutBody {
+  patientActive: number | boolean;
   patientDob: Date;
   patientOperationId: number;
-  patientMedicalRecordNumber: number;
+  patientMedicalRecordNumber: string;
   patientFirstName: string;
   patientMiddleName?: string;
   patientLastName: string;
@@ -20,12 +21,10 @@ export interface PatientPutBody {
   patientSecondaryInsurance: string;
   patientAdmitDate: Date;
   patientDischargeDate: Date;
-  patientDischargedAma: boolean;
+  patientDischargedAma: number | boolean;
   patientDischargeLocationLabelId: number;
   patientPrimaryDiagnosis: string;
-  patientDiagnosis: string;
+  patientMedicalConditions: string;
   patientUrgencyScale: number;
   patientNeedToKnow: string;
-  patientIntakeQuestionAnswers: string;
-  patientActive: number;
 }
