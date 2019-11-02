@@ -211,8 +211,7 @@ export class PatientDetailComponent implements OnInit {
                 itemsProcessed++;
                 if (itemsProcessed === this.patientNextCallQuestions.length) {
                   this.patientCall.patientCallId = patientCallId;
-                  // location.reload();
-                  alert('successfully created call');
+                  location.reload();
                 }
               });
           });
