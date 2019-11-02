@@ -48,10 +48,11 @@ export interface Patient {
   patientCurrentStatusLabel?: number;
   patientDischargeNotes?: string;
   patientDischargedAma?: boolean;
-  patientDischargedConditions?: {
+  patientMedicalConditions?: {
     cardiac?: boolean;
     sepsis?: boolean;
     pulmonary?: boolean;
+    patientPrimaryDiagnosis?: string;
     patientDischargedCondition?: string;
   };
   patientDischargeLabelId?: number;

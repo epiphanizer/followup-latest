@@ -38,6 +38,7 @@ export class PatientFormComponent implements OnInit {
   patientContacts$: Observable<PatientContact[]>;
   patientIntakeQuestions: PatientIntakeQuestion[] = [];
   patientIntakeQuestions$: Observable<PatientIntakeQuestion[]>;
+  patientMedicalConditions?: string;
   operations: Operation[];
   operations$: Observable<Operation[]>;
 
@@ -186,16 +187,11 @@ export class PatientFormComponent implements OnInit {
           patientDischargedAma: this.fb.control(this.patient.patientDischargedAma, [Validators.required])
         }),
         patientMedicalConditions: this.fb.group({
-          // cardiacBoolean: this.fb.control(this.patient.patientDischargedConditions.cardiac),
-          // sepsisBoolean: this.fb.control(this.patient.patientDischargedConditions.sepsis),
-          // pulmonaryBoolean: this.fb.control(this.patient.patientDischargedConditions.pulmonary),
-          // dischargedCondition: this.fb.control(this.patient.patientDischargedConditions.patientDischargedCondition)
-
-          cardiacBoolean: this.fb.control(false),
-          sepsisBoolean: this.fb.control(false),
-          pulmonaryBoolean: this.fb.control(false),
-          primaryDiagnosis: this.fb.control(this.patient.patientDiagnosis),
-          dischargedCondition: this.fb.control(this.patient.patientDischargeNotes)
+          cardiacBoolean: this.fb.control(this.patient.patientMedicalConditions.cardiac),
+          sepsisBoolean: this.fb.control(this.patient.patientMedicalConditions.sepsis),
+          pulmonaryBoolean: this.fb.control(this.patient.patientMedicalConditions.pulmonary),
+          dischargedCondition: this.fb.control(this.patient.patientMedicalConditions.patientDischargedCondition),
+          patientPrimaryDiagnosis: this.fb.control(this.patient.patientPrimaryDiagnosis)
         }),
         patientIntakeQuestionAnswers: this.fb.array([]),
         patientUrgencyScale: this.fb.control(this.patient.patientUrgencyScale),
@@ -294,11 +290,11 @@ export class PatientFormComponent implements OnInit {
       patientAdmitDate: formSubmission.patient.dischargeInfo.patientAdmitDate,
       patientDischargeDate: formSubmission.patient.dischargeInfo.patientDischargeDate,
       patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma == true ? 1 : 0,
-      patientDischargeLabelId: parseInt(formSubmission.patient.dischargeInfo.patientDischargedTo) || '',
+      patientDischargeLabelId: parseInt(formSubmission.patient.dischargeInfo.patientDischargedTo),
       patientDischargedCondition: formSubmission.patient.patientMedicalConditions.patientDischargedCondition,
       patientPrimaryDiagnosis: formSubmission.patient.patientMedicalConditions.primaryDiagnosis,
       patientMedicalConditions: patientMedicalConditions,
-      patientUrgencyScale: parseInt(formSubmission.patient.patientUrgencyScale) || '',
+      patientUrgencyScale: parseInt(formSubmission.patient.patientUrgencyScale) || 1,
       patientNeedToKnow: formSubmission.patient.patientNeedToKnow,
       patientActive: formSubmission.patient.patientActive == true ? 1 : 0
     };
