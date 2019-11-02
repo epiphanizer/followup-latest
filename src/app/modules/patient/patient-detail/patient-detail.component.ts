@@ -96,10 +96,12 @@ export class PatientDetailComponent implements OnInit {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 50);
+  }
 
-    /**
-     * Manipulate existing patientCall answers in patient call history listing
-     */
+  patientCallStatusLabelChangeHandler($event: number) {
+    let patientCallStatusLabelId = $event;
+    this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
+    this.patientCall.patientCallStatusLabel = 'User Selected Status';
   }
   patientNextCallDateSelectedEventHandler($event: string) {
     let selectedDate = $event;
@@ -117,16 +119,9 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallQuestionAnswers = $event;
   }
   patientNextCallQuestionsChangeHandler($event: PatientCallQuestion[]) {
-    console.log($event);
     this.patientNextCallQuestions = $event;
   }
-  patientCallStatusLabelChangeHandler($event: number) {
-    console.log($event);
-    let patientCallStatusLabelId = $event;
-    this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
-    debugger;
-    this.patientCall.patientCallStatusLabel = 'Selected Status';
-  }
+
   patientCallFinishEventHandler($event: PatientCall) {
     this.patientCall = $event;
 
