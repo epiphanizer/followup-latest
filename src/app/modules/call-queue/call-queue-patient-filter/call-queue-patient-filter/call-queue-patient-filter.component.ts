@@ -49,7 +49,7 @@ export class CallQueuePatientFilterComponent implements OnInit {
         this.patientCallService
           .getPatientCallsByOperationId(this.operation.operationId)
           .subscribe((patientCalls: PatientCall[]) => {
-            if (!patientCalls.length) {
+            if (!patientCalls) {
               this.patientCalls = [];
             }
             this.patientCalls = patientCalls;
