@@ -214,7 +214,6 @@ export class PatientFormComponent implements OnInit {
         alert('Successfully uploaded patient avatar!');
         this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
           if (baseImage !== null) {
-            debugger;
             if (!baseImage[0]) {
               this.avatarExists = false;
             } else {
