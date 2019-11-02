@@ -23,8 +23,17 @@ i.icon-question-mark {
   text-align: left;
 }
 
-ion-item.call-question {
+.call-question {
   ion-label {
+    font-family: Avenir;
+    font-size: 20px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 0.42px;
+    width: auto;
+    margin-bottom: 1rem;
     .is-highlighted {
       width: auto;
       border-bottom: yellow 3px solid;
