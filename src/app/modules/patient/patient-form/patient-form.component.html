@@ -212,13 +212,13 @@
             </ion-list>
           </fieldset>
           <fieldset class="patient-medical-conditions">
-            <ion-list class="patient-medical-conditions" lines="none" inset formGroupName="patientMedicalConditions">
+            <ion-list class="patient-medical-conditions" lines="none" inset>
               <div class="section-header discharge">
                 <i class="icon-info"></i>
                 <span class="contact-header">Medical Conditions</span>
               </div>
               <ion-item>
-                <ion-list inset lines="none" class="checkboxes-inline">
+                <ion-list inset lines="none" class="checkboxes-inline" formGroupName="patientMedicalConditions">
                   <ion-item>
                     <ion-label color="medium" position="stacked">Cardiac</ion-label>
                     <ion-checkbox formControlName="cardiacBoolean"></ion-checkbox>
@@ -239,7 +239,7 @@
               </ion-item>
               <ion-item class="textarea-item">
                 <ion-label color="medium" position="stacked">Discharged Condition</ion-label>
-                <ion-textarea formControlName="dischargedCondition"></ion-textarea>
+                <ion-textarea formControlName="patientDischargedCondition"></ion-textarea>
               </ion-item>
             </ion-list>
           </fieldset>

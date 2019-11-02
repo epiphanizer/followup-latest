@@ -185,16 +185,16 @@ export class PatientFormComponent implements OnInit {
             disabled: true,
             value: this.patient.patientTotalDays
           }),
-          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId, [Validators.required]),
-          patientDischargedAma: this.fb.control(this.patient.patientDischargedAma, [Validators.required])
+          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId || '1', [Validators.required]),
+          patientDischargedAma: this.fb.control(this.patient.patientDischargedAma || '0', [Validators.required])
         }),
         patientMedicalConditions: this.fb.group({
           cardiacBoolean: this.fb.control(false),
           sepsisBoolean: this.fb.control(false),
-          pulmonaryBoolean: this.fb.control(false),
-          dischargedCondition: this.fb.control(''),
-          patientPrimaryDiagnosis: this.fb.control('')
+          pulmonaryBoolean: this.fb.control(false)
         }),
+        patientDischargedCondition: this.fb.control(''),
+        patientPrimaryDiagnosis: this.fb.control(''),
         patientIntakeQuestionAnswers: this.fb.array([]),
         patientUrgencyScale: this.fb.control(this.patient.patientUrgencyScale),
         patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow),
@@ -289,7 +289,7 @@ export class PatientFormComponent implements OnInit {
       patientFirstName: formSubmission.patient.patientName.patientFirstName,
       patientMiddleName: formSubmission.patient.patientName.patientMiddleName,
       patientLastName: formSubmission.patient.patientName.patientLastName,
-      patientPhysicianFirstName: formSubmission.patient.physicianInfo.physicianFirstName,
+      patientPhysicianFirstName: formSubmission.patient.physicianInfo.physicianFirstName || '',
       patientPhysicianLastName: formSubmission.patient.physicianInfo.physicianLastName || '',
       patientPhysicianCountryCode: formSubmission.patient.physicianInfo.physicianCountryCode || '',
       patientPhysicianAreaCode: formSubmission.patient.physicianInfo.physicianAreaCode || '',
