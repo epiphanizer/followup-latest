@@ -6,13 +6,13 @@
           <app-patient-call-status-controls
             *ngIf="
               patientCall.patientCallStatusLabel == 'In Review' ||
-              patientCall.patientCallStatusLabel == 'Selected Status'
+              patientCall.patientCallStatusLabel == 'User Selected Status'
             "
             [patientCall]="patientCall"
             (patientCallStatusChangeEmitter)="patientCallStatusLabelChangeHandler($event)"
           >
           </app-patient-call-status-controls>
-          <!-- this will be hidden if we have advanced past ID 2, which is the "started" state -->
+          <!-- this will be hidden if we have advanced past ID 3, which is the "started" state -->
           <app-patient-call-start-button
             *ngIf="patientCall.patientCallStatusLabelId < 3"
             [user]="user"
@@ -25,7 +25,7 @@
             *ngIf="
               patientCall.patientCallStatusLabel == 'Started' ||
                 patientCall.patientCallStatusLabel == 'In Review' ||
-                patientCall.patientCallStatusLabel == 'Selected Status';
+                patientCall.patientCallStatusLabel == 'User Selected Status';
               else spacer
             "
             [patientCall]="patientCall"
@@ -55,7 +55,7 @@
           <ng-container
             *ngIf="
               patientCall.patientCallStatusLabel == 'In Review' ||
-              patientCall.patientCallStatusLabel == 'Selected Status'
+              patientCall.patientCallStatusLabel == 'User Selected Status'
             "
           >
             <app-patient-next-call-scheduler

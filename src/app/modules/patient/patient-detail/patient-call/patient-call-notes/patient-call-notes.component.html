@@ -8,14 +8,16 @@
         <ion-label
           position="stacked"
           *ngIf="
-            patientCall.patientCallStatusLabel == 'In Review' || patientCall.patientCallStatusLabel == 'Selected Status'
+            patientCall.patientCallStatusLabel == 'In Review' ||
+            patientCall.patientCallStatusLabel == 'User Selected Status'
           "
         >
           Edit & Review Call
         </ion-label>
         <ion-textarea
           [class.review]="
-            patientCall.patientCallStatusLabel == 'In Review' || patientCall.patientCallStatusLabel == 'Selected Status'
+            patientCall.patientCallStatusLabel == 'In Review' ||
+            patientCall.patientCallStatusLabel == 'User Selected Status'
           "
           [class.is-highlighted]="highlighterActive"
           formControlName="patientCallNotes"
