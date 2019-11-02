@@ -22,7 +22,7 @@ export interface PatientPutBody {
   patientAdmitDate: Date;
   patientDischargeDate: Date;
   patientDischargedAma: number | boolean;
-  patientDischargeLocationLabelId: number;
+  patientDischargeLabelId: number;
   patientPrimaryDiagnosis: string;
   patientMedicalConditions: string;
   patientUrgencyScale: number;
