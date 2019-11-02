@@ -90,8 +90,9 @@ export class NotificationModalComponent {
         )
         .subscribe((data: NotificationRecipient[]) => {
           this.notificationRecipients = data;
-          console.log(this.notificationRecipients);
-          debugger;
+          if (this.notificationRecipients !== undefined) {
+            console.log(this.notificationRecipients);
+          }
         });
     });
     this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {

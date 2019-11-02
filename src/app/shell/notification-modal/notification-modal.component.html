@@ -69,14 +69,14 @@
             <span class="label">Facility:&nbsp;</span>
             {{ notification.notificationOperationName }}
           </ion-item>
-          <ion-item class="notification-review-item">
+          <ion-item *ngIf="notificationRecipients" class="notification-review-item">
             <span class="label">Next Steps:&nbsp;</span>
             Notify
-            <span *ngFor="let operationContact of operationContacts$ | async; let idx = index">
-              {{ operationContact.operationContactFirstName }}
-              {{ operationContact.operationContactLastName }}
-              <span>,</span>
-            </span>
+            <span *ngFor="let notificationRecipient of notificationRecipients; let idx = index">
+              {{ notification.notificationPatientFirstName }}
+              {{ notification.notificationPatientLastName }}
+              ,</span
+            >
           </ion-item>
           <ion-item class="notification-review-item">
             <span class="label">Date Received:&nbsp;</span> {{ todaysDate }}
