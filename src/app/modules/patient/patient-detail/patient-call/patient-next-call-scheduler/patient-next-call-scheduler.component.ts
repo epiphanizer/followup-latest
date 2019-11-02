@@ -111,11 +111,17 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     return new Date(year, month, 0).getDate();
   }
   calendarPrevMonth() {
-    this.selectedMonth = this.months[parseInt(this.currentCalendarMonth.number) - 2];
+    this.selectedMonth.number = (parseInt(this.selectedMonth.number) - 1).toString();
+    this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
   }
   calendarNextMonth() {
-    this.currentCalendarMonth = this.months[parseInt(this.currentCalendarMonth.number)];
+    if (this.selectedMonth.number.length == 2) {
+      this.selectedMonth.number = (parseInt(this.selectedMonth.number) + 1).toString();
+    } else {
+      this.selectedMonth.number = (parseInt(this.selectedMonth.number) + 1).toString();
+    }
+    this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
   }
   selectDateEventHandler(selectedDay: number, currentCalendarMonth: number, todaysYear: number) {

@@ -44,6 +44,19 @@ export class CallQueuePatientFilterComponent implements OnInit {
         this.searchPatientCallHistoryBySelectedDate(this.filterDate);
       }
     }
+    if (this.operation) {
+      if (changes.operation) {
+        this.patientCallService
+          .getPatientCallsByOperationId(this.operation.operationId)
+          .subscribe((patientCalls: PatientCall[]) => {
+            if (!patientCalls.length) {
+              this.patientCalls = [];
+            }
+            this.patientCalls = patientCalls;
+            this.searchPatientCallHistoryBySelectedDate(this.filterDate);
+          });
+      }
+    }
   }
 
   searchPatientCallHistoryBySelectedDate(selectedDate: string): PatientCall[] {
