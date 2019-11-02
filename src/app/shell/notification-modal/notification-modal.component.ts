@@ -85,8 +85,17 @@ export class NotificationModalComponent {
     this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
       this.notification.notificationMessage = val;
     });
-    this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
+    this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
       this.notification.notificationTypeId = val;
+      this.notificationService
+        .getNotificationRecipientsByOperationIdAndNotificationTypeId(
+          this.notification.notificationOperationId,
+          this.notification.notificationTypeId
+        )
+        .subscribe((data: any) => {
+          console.log(data);
+          debugger;
+        });
     });
   }
 

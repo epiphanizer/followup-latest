@@ -94,7 +94,7 @@ export class PatientDetailComponent implements OnInit {
     setTimeout(function() {
       let element = document.querySelector('#patientCallStatusControls');
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        element.scrollIntoView({ behavior: 'auto', block: 'start' });
       }
     }, 50);
   }
@@ -130,7 +130,7 @@ export class PatientDetailComponent implements OnInit {
       alert('Please select a call status');
       let element = document.querySelector('#patientCallStatusControls');
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        element.scrollIntoView({ behavior: 'auto', block: 'start' });
       }
       return;
     }
@@ -138,7 +138,7 @@ export class PatientDetailComponent implements OnInit {
       alert('Please add patient call notes');
       let element = document.querySelector('#patientCallNotesForm');
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        element.scrollIntoView({ behavior: 'auto', block: 'start' });
       }
       return;
     }
@@ -160,7 +160,7 @@ export class PatientDetailComponent implements OnInit {
       alert('Please select an answer to at least one question');
       let element = document.querySelector('#patientCallNotesForm');
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        element.scrollIntoView({ behavior: 'auto', block: 'start' });
       }
       return;
     }
@@ -169,7 +169,7 @@ export class PatientDetailComponent implements OnInit {
       alert('Please schedule a call date');
       let element = document.querySelector('#next-call-calendar');
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        element.scrollIntoView({ behavior: 'auto', block: 'start' });
       }
       return;
     }

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PatientCall } from '../patient-call.service';
-import { Patient } from '@app/modules/patient/patient';
 
 @Component({
   selector: 'app-patient-call-history-controls',
@@ -12,15 +11,13 @@ export class PatientCallHistoryControlsComponent implements OnInit {
   clicked: number;
   constructor() {}
 
-  ngOnInit() {
-    // this.patientCalls.reverse();
-  }
+  ngOnInit() {}
 
   scrollToPatientCall(patientCall: PatientCall) {
     this.clicked = patientCall.patientCallCount;
     let element = document.querySelector('#call-' + patientCall.patientCallCount);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      element.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
   }
 }

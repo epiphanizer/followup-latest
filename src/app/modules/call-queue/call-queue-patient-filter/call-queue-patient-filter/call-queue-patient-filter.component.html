@@ -21,7 +21,9 @@
           >{{ patientCall.patientFirstName }} {{ patientCall.patientLastName }}:
         </span>
         <span class="patient-filter-call-date"
-          >&nbsp; Call {{ patientCall.patientCallCount }} - ({{ patientCall.patientCallStatusLabel }})</span
+          >&nbsp; Call {{ patientCall.patientCallCount }} - ({{ patientCall.patientCallStatusLabel }}) &nbsp;|&nbsp;{{
+            patientCall.patientCallScheduledTime | date: 'MM/dd/yyyy'
+          }}</span
         >
       </ion-item>
     </ion-list>
