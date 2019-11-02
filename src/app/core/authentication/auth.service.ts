@@ -30,7 +30,6 @@ export class AuthenticationService {
       })
       .pipe(
         map((result: any) => {
-          console.log(result);
           if (result.userId) {
             this.authenticated = true;
             var userId = result.userId;

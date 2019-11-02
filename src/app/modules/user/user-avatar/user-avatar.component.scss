@@ -1,8 +1,12 @@
 :host {
-  height: 250px;
+  height: auto;
+  margin-bottom: 0.5rem;
   width: 100%;
   display: block;
   text-align: center;
+}
+.hidden-input {
+  display: none;
 }
 img {
   max-height: 250px;

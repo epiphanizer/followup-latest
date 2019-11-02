@@ -326,7 +326,11 @@
       </form>
     </ion-col>
     <ion-col class="avatar-col">
-      <app-patient-avatar *ngIf="patient" [patient]="patient"></app-patient-avatar>
+      <img class="patient-avatar-image" *ngIf="avatarExists; else defaultAvatar" [src]="avatarUrl" />
+      <ng-template #defaultAvatar>
+        <img src="/assets/default-avatar-patient-detail.png" />
+      </ng-template>
+
       <input
         type="file"
         class="hidden-input"

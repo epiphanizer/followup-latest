@@ -16,6 +16,7 @@ import {
   PatientIntakeQuestionAnswer
 } from '../patient-intake-question/patient-intake-question.component';
 import { PatientIntakeQuestionService } from '../patient-intake-question/patient-intake-question.service';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   providers: [PatientService, PatientIntakeQuestionService],
@@ -24,6 +25,8 @@ import { PatientIntakeQuestionService } from '../patient-intake-question/patient
   styleUrls: ['./patient-form.component.scss']
 })
 export class PatientFormComponent implements OnInit {
+  avatarExists: Boolean;
+  public avatarUrl: SafeUrl;
   dischargeLabels: PatientDischargeLabel[];
   dischargeLabels$: Observable<PatientDischargeLabel[]>;
   patientForm: FormGroup;
@@ -95,6 +98,15 @@ export class PatientFormComponent implements OnInit {
     } else {
       this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: Patient) => {
         this.patient = data[0];
+        // See if we have an avatar to load in
+        this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
+          if (!baseImage) {
+            this.avatarExists = false;
+          } else {
+            this.avatarExists = true;
+          }
+          this.avatarUrl = this.patientAvatarService.prepareAvatarImage(baseImage);
+        });
         this.createForm();
         this.addAdditionalContact();
         this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
@@ -197,9 +209,10 @@ export class PatientFormComponent implements OnInit {
     this.patientAvatarService
       .uploadPatientAvatarByPatientId(this.patient.patientId, this.fileToUpload)
       .subscribe((data: any) => {
-        alert('upload successful');
-        // refine
-        location.reload();
+        alert('Successfully uploaded patient avatar!');
+        this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
+          this.avatarUrl = this.patientAvatarService.prepareAvatarImage(baseImage);
+        });
       });
   }
 

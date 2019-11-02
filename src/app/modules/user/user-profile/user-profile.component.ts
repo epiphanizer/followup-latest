@@ -13,28 +13,21 @@ import { UserAvatarService } from '../user-avatar/user-avatar.service';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
-  avatarForm!: FormGroup;
-  fileToUpload: File = null;
   error: string | undefined;
   user: User;
   userProfileForm!: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private userService: UserService,
-    private userAvatarService: UserAvatarService
-  ) {}
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.createForm();
   }
+  // Passing E2E minus auth
   updateUserProfile() {
     let formSubmission = this.userProfileForm.getRawValue();
     let userPutPayload = this.userFormSubmissionFactory(formSubmission);
     this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe((data: any) => {
-      alert('Updated successfully!');
       location.reload();
     });
   }
@@ -73,6 +66,8 @@ export class UserProfileComponent implements OnInit {
         hitchhiked: false,
         DND: false
       };
+    } else {
+      this.user.userInterests = JSON.parse(<string>this.user.userInterests);
     }
     this.userProfileForm = this.fb.group({
       userFirstName: this.fb.control(this.user.userFirstName, [Validators.required]),
@@ -106,15 +101,8 @@ export class UserProfileComponent implements OnInit {
       userAdditionalInfo: this.fb.control(this.user.userAdditionalInfo)
     });
   }
-  clickUploadInput() {
-    let element: HTMLElement = document.querySelector('#fileUpload') as HTMLElement;
-    element.click();
-  }
-
-  uploadUserAvatarPhoto(files: FileList) {
-    this.fileToUpload = files.item(0);
-    this.userAvatarService.uploadUserAvatarByUserId(this.user.userId, this.fileToUpload).subscribe((data: any) => {
-      this.userAvatarService.getUserAvatarByUserId(this.user.userId);
-    });
+  handleUserAvatarUpload($event: boolean) {
+    console.log(this.user.avatar);
+    debugger;
   }
 }

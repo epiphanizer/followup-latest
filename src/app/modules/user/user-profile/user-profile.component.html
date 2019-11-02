@@ -137,21 +137,7 @@
       </form>
     </ion-col>
     <ion-col class="avatar-col">
-      <app-user-avatar [user]="user"></app-user-avatar>
-      <div class="form-group">
-        <div>
-          <input
-            type="file"
-            class="hidden-input"
-            name="avatarBlob"
-            id="fileUpload"
-            (change)="uploadUserAvatarPhoto($event.target.files)"
-          />
-        </div>
-      </div>
-      <ion-button *ngIf="!user.avatar" class="add-photo" (click)="clickUploadInput()" fill="outline">
-        Change Photo
-      </ion-button>
+      <app-user-avatar (userAvatarEventEmitter)="handleUserAvatarUpload($event)" [user]="user"></app-user-avatar>
     </ion-col>
   </ion-row>
 </ion-content>

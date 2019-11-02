@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Component, OnInit, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { UserAvatarService } from './user-avatar.service';
 import { User } from '../user';
+import { SafeUrl } from '@angular/platform-browser';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-avatar',
@@ -10,31 +11,43 @@ import { User } from '../user';
 })
 export class UserAvatarComponent implements OnInit {
   avatarUrl: SafeUrl;
+  fileToUpload: File = null;
   @Input() user: User;
+  @Output() userAvatarEventEmitter = new EventEmitter<boolean>();
   /**
    * This guy is plaintext encoded base64
    */
   avatarExists: boolean;
-  constructor(private userAvatarService: UserAvatarService, private sanitizer: DomSanitizer) {}
+  constructor(private userAvatarService: UserAvatarService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((baseImage: any) => {
       if (!baseImage) {
         this.avatarExists = false;
       } else {
-        if (!baseImage.length) {
-          this.avatarExists = false;
-          return;
-        }
         this.avatarExists = true;
-        // @see https://medium.com/@koteswar.meesala/convert-array-buffer-to-base64-string-to-display-images-in-angular-7-4c443db242cd
-        let TYPED_ARRAY = new Uint8Array(baseImage[0].userAvatarBlob.data);
-        const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
-          return data + String.fromCharCode(byte);
-        }, '');
-        let base64String = btoa(STRING_CHAR);
-        this.avatarUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64String);
       }
+      this.avatarUrl = this.userAvatarService.prepareAvatarImage(baseImage);
+    });
+  }
+
+  clickUploadInput() {
+    let element: HTMLElement = document.querySelector('#fileUpload') as HTMLElement;
+    element.click();
+  }
+  uploadUserAvatarPhoto(files: FileList) {
+    this.fileToUpload = files.item(0);
+    this.userAvatarService.uploadUserAvatarByUserId(this.user.userId, this.fileToUpload).subscribe((data: any) => {
+      alert('Successfully uploaded user avatar!');
+      this.userAvatarEventEmitter.emit(true);
+      this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((baseImage: any) => {
+        if (!baseImage) {
+          this.avatarExists = false;
+        } else {
+          this.avatarExists = true;
+        }
+        this.avatarUrl = this.userAvatarService.prepareAvatarImage(baseImage);
+      });
     });
   }
 }

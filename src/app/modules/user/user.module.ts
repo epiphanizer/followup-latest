@@ -5,10 +5,11 @@ import { UserProfileRoutingModule } from '@app/modules/user/user-profile/user-pr
 import { UserDetailComponent } from '@app/modules/user/user-detail/user-detail.component';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { UserAvatarService } from './user-avatar/user-avatar.service';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [UserDetailComponent, UserAvatarComponent],
-  imports: [CommonModule, UserProfileRoutingModule],
+  imports: [CommonModule, IonicModule, UserProfileRoutingModule],
   exports: [UserAvatarComponent],
   providers: [UserAvatarService]
 })

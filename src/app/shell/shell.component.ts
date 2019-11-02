@@ -49,6 +49,7 @@ export class ShellComponent {
       }
     });
   }
+
   signOut() {
     this.authenticationService.signOut();
     this.router.navigate(['/login']);

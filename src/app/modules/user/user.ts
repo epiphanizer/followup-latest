@@ -6,7 +6,7 @@ export interface User {
   userId: number;
   level: number;
   email: string;
-  avatar?: string;
+  avatar?: boolean;
   operations: Array<Operation>;
   operations$: Observable<Array<Operation>>;
   patientCalls: Array<PatientCall>;
@@ -19,20 +19,23 @@ export interface User {
   userPhoneNumber?: number;
   userDob?: Date;
   userFavoriteDessert?: string;
-  userInterests: {
-    celebrity: boolean;
-    helicopter: boolean;
-    kidney: boolean;
-    skydivedOrBungeed: boolean;
-    appearedOnTv: boolean;
-    janeAusten: boolean;
-    escargo: boolean;
-    deployed: boolean;
-    instrument: boolean;
-    seenTornado: boolean;
-    hitchhiked: boolean;
-    DND: boolean;
-  };
+  // string when we get it back and need to parse into JSON for the form
+  userInterests:
+    | {
+        celebrity: boolean;
+        helicopter: boolean;
+        kidney: boolean;
+        skydivedOrBungeed: boolean;
+        appearedOnTv: boolean;
+        janeAusten: boolean;
+        escargo: boolean;
+        deployed: boolean;
+        instrument: boolean;
+        seenTornado: boolean;
+        hitchhiked: boolean;
+        DND: boolean;
+      }
+    | any;
   userAdditionalInfo: string;
   userLastAccess?: Date;
   token: string;

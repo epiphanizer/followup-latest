@@ -34,7 +34,7 @@
             <div class="login-controls-container" padding-horizontal>
               <ion-button
                 type="submit"
-                [disabled]="loginForm.invalid || isLoading"
+                [disabled]="loginForm.untouched"
                 (submit)="signIn()"
                 color="primary"
                 expand="block"
