@@ -22,7 +22,7 @@
       <a
         [routerLink]="'/operation/edit/' + operation.operationId"
         (click)="setActiveOperation(operation)"
-        [class.active]="(!selected.operation && i == 0) || operation.operationId == selected.operation.operationId"
+        [class.active]="editMode && activeOperationId == operation.operationId"
       >
         {{ operation.operationName }}
       </a>

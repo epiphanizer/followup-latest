@@ -56,6 +56,7 @@ import { Operation } from '../operation';
 export class OperationAdminSidebarComponent implements OnInit {
   availableOperations$: Observable<Operation[]>;
   activeOperationId: number;
+  editMode: boolean;
   @Output() operationChangeEvent = new EventEmitter<number>();
   selected: {
     operation?: Operation | null;
@@ -63,16 +64,17 @@ export class OperationAdminSidebarComponent implements OnInit {
     operation: null
   };
   isOpen = true;
-  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[] = [];
   user: User;
   todaysDateDay: number;
+  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   ngOnInit() {
     this.operationService.getAllOperations().subscribe((data: Operation[]) => {
       this.operations = data;
       if (!this.route.snapshot.paramMap.get('operationId')) {
-        this.activeOperationId = this.operations[0].operationId;
+        this.editMode = false;
       } else {
+        this.editMode = true;
         this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
       }
     });
@@ -81,6 +83,7 @@ export class OperationAdminSidebarComponent implements OnInit {
   }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
+    this.activeOperationId = operation.operationId;
     this.operationChangeEvent.emit(operation);
   };
   public toggleOperationSidebarMenu = function() {

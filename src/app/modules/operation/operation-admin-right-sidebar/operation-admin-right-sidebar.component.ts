@@ -54,17 +54,22 @@ import { Operation } from '../operation';
   ]
 })
 export class OperationAdminRightSidebarComponent implements OnInit {
+  activeOperationId: number;
   operation: Operation | null;
-  isOpen = true;
+  editMode: boolean;
+  isOpen: boolean = true;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
   operationAssignedUsers$: Observable<User[]>;
   user: User;
   todaysDateDay: number;
   ngOnInit() {
-    let operationId = this.route.snapshot.data.operation.operationId | this.route.snapshot.queryParams.operationId;
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
-    this.operationAssignedUsers$ = this.operationService.getUsersAssignedByOperationId(operationId);
+    if (this.route.snapshot.paramMap.get('operationId')) {
+      this.editMode = true;
+      this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
+      this.operationAssignedUsers$ = this.operationService.getUsersAssignedByOperationId(this.activeOperationId);
+    }
   }
   public toggleOperationUsersAssignedMenu = function() {
     this.isOpen = !this.isOpen;
