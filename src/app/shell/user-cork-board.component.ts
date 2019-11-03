@@ -64,7 +64,6 @@ export class UserCorkBoardComponent implements OnInit {
       this.toggleCorkboardState();
     }
     this.deleting = true;
-    console.log('activating cork board delete function');
   };
   clickCorkboardInput = function() {
     let element: HTMLElement = document.querySelector('#corkBoardUpload') as HTMLElement;

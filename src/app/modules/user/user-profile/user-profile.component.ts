@@ -72,8 +72,8 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.user.userInterests = JSON.parse(<string>this.user.userInterests);
     }
-    console.log(this.user.userInterests);
-    debugger;
+    // console.log(this.user.userInterests);
+    // debugger;
     this.userProfileForm = this.fb.group({
       userFirstName: this.fb.control(this.user.userFirstName, [Validators.required]),
       userMiddleName: this.fb.control(this.user.userMiddleName),
