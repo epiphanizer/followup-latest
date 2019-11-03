@@ -2,6 +2,7 @@
   class="user-cork-board"
   [@openClose]="isOpen ? 'open' : 'closed'"
   [className]="isOpen ? 'user-cork-board open' : 'user-cork-board closed'"
+  [class.deleting]="deleting"
 >
   <ng-container *ngIf="isOpen" class="corkboard-objects"> </ng-container>
 

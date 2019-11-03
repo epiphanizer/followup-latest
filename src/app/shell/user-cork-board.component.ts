@@ -1,6 +1,6 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { UserCorkBoardService } from './user-cork-board.service';
+import { UserCorkBoardService, UserCorkBoardObject } from './user-cork-board.service';
 import { User } from '@app/user';
 import { ActivatedRoute } from '@angular/router';
 
@@ -34,11 +34,17 @@ export class UserCorkBoardComponent implements OnInit {
   isOpen = false;
   deleting = false;
   user: User;
+  userCorkBoardObjects: UserCorkBoardObject[];
   constructor(private userCorkBoardService: UserCorkBoardService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe((data: any) => {});
+    this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe((data: any) => {
+      if (data) {
+        console.log(data);
+        debugger;
+      }
+    });
   }
 
   public addNewCorkboardItem = function(files: FileList) {
@@ -54,8 +60,11 @@ export class UserCorkBoardComponent implements OnInit {
       });
   };
   public activateCorkBoardDeleteFunction = function() {
-    alert('activating cork board delete function');
+    if (!this.isOpen) {
+      this.toggleCorkboardState();
+    }
     this.deleting = true;
+    console.log('activating cork board delete function');
   };
   clickCorkboardInput = function() {
     let element: HTMLElement = document.querySelector('#corkBoardUpload') as HTMLElement;

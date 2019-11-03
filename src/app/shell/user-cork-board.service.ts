@@ -17,9 +17,9 @@ export interface UserCorkBoardObject {
 export class UserCorkBoardService {
   constructor(private http: HttpService) {}
 
-  addNewUserCorkBoardObjectByUserId(userId: number, userCorkBoardBlob: File) {
+  addNewUserCorkBoardObjectByUserId(userId: number, file: File) {
     let formData = new FormData();
-    formData.append('userCorkBoardBlob', userCorkBoardBlob, userCorkBoardBlob.name);
+    formData.append('userCorkBoardBlob', file, file.name);
     return this.http.post('users/' + userId + '/corkBoardObjects', formData).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
