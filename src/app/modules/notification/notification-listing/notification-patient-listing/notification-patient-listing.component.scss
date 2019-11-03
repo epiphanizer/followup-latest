@@ -46,8 +46,14 @@ ul.notification-filters {
     letter-spacing: 0.53px;
     text-align: center;
 
+    a {
+      cursor: pointer;
+      &.active {
+        border-bottom: 1px solid var(--ion-color-primary);
+      }
+    }
     &.notification-date {
-      width: 96px;
+      width: auto;
       height: 100%;
     }
 
@@ -196,6 +202,8 @@ ul.notification-filters {
     .notification-listing-avatar {
       float: left;
       margin-top: 10.5px;
+      margin-left: 2.5rem;
+      margin-right: 1rem;
       width: 74.8px;
       height: 75.2px;
       max-height: 60px;
@@ -212,7 +220,7 @@ ul.notification-filters {
       float: left;
       padding-left: 11.2px;
       width: auto;
-      margin-right: 22px;
+      margin-right: 3rem;
       height: 96px;
       color: black;
     }

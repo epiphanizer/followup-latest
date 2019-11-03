@@ -116,9 +116,6 @@ export class NotificationModalComponent {
     let formData = this.createNotificationForm.getRawValue();
     this.notification.notificationTypeId = parseInt(formData.notificationTypeId);
     this.notification.notificationMessage = formData.notificationMessage;
-    console.log(this.notification);
-    debugger;
-
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
