@@ -197,6 +197,10 @@ export class OperationFormComponent implements OnInit {
     };
     this.operationManagers.push(newManager);
   }
+  removeManager(idx: number) {
+    let formArray = this.operationForm.controls.operationManagers as FormArray;
+    formArray.removeAt(idx);
+  }
 
   addAdditionalContact() {
     let formArray = this.operationForm.controls.operationContacts as FormArray;
