@@ -21,7 +21,9 @@
 </ion-list>
 <ion-list class="more-info" inset lines="none">
   <i class="icon-info"></i>
-  <ion-item> <span class="label"> Primary Diagnosis: &nbsp; </span> {{ patient.patientDiagnosis }} </ion-item>
-  <ion-item> <span class="label"> Discharged Condition: &nbsp; </span> {{ patient.patientDischargeNotes }} </ion-item>
+  <ion-item> <span class="label"> Primary Diagnosis: &nbsp; </span> {{ patient.patientPrimaryDiagnosis }} </ion-item>
+  <ion-item>
+    <span class="label"> Discharged Condition: &nbsp; </span> {{ patient.patientDischargedCondition }}
+  </ion-item>
   <ion-item> <span class="label"> Discharged To: &nbsp;</span> {{ patient.patientDischargeLabel }} </ion-item>
 </ion-list>
