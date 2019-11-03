@@ -303,7 +303,7 @@
               </ion-label>
               <ion-radio-group formControlName="patientUrgencyScale">
                 <ion-item *ngFor="let rating of [1, 2, 3, 4, 5]">
-                  <ion-radio value="{{ rating }}"></ion-radio>
+                  <ion-radio checked="rating == this.patient.patientUrgencyScale" value="{{ rating }}"></ion-radio>
                   <ion-label position="stacked">{{ rating }}</ion-label>
                 </ion-item>
               </ion-radio-group>
