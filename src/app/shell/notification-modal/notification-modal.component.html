@@ -72,11 +72,17 @@
           <ion-item *ngIf="notificationRecipients" class="notification-review-item">
             <span class="label">Next Steps:&nbsp;</span>
             Notify&nbsp;
-            <span *ngFor="let notificationRecipient of notificationRecipients; let idx = index">
-              {{ notification.notificationPatientFirstName }}
-              {{ notification.notificationPatientLastName }}
-              {{ idx + 1 == notificationRecipients.length ? '' : ',' }}
-            </span>
+            <ng-container *ngIf="notificationRecipients; else noRecipients">
+              <span *ngFor="let notificationRecipient of notificationRecipients; let idx = index">
+                &nbsp;{{ notificationRecipient.notificationRecipientEmail
+                }}{{ idx + 1 == notificationRecipients.length ? '' : ',' }}
+              </span>
+            </ng-container>
+            <ng-template #noRecipients>
+              Woops! No recipients have been set. Click
+              <a href="/operations/" + {{ notification.notifcationOperationId }}>here</a>
+              to go set some recipients!
+            </ng-template>
           </ion-item>
           <ion-item class="notification-review-item">
             <span class="label">Date Received:&nbsp;</span> {{ todaysDate }}
