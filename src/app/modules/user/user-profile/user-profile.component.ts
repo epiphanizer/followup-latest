@@ -27,7 +27,10 @@ export class UserProfileComponent implements OnInit {
   updateUserProfile() {
     let formSubmission = this.userProfileForm.getRawValue();
     let userPutPayload = this.userFormSubmissionFactory(formSubmission);
+    debugger;
     this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe((data: any) => {
+      console.log(data);
+      debugger;
       location.reload();
     });
   }
@@ -69,6 +72,8 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.user.userInterests = JSON.parse(<string>this.user.userInterests);
     }
+    console.log(this.user.userInterests);
+    debugger;
     this.userProfileForm = this.fb.group({
       userFirstName: this.fb.control(this.user.userFirstName, [Validators.required]),
       userMiddleName: this.fb.control(this.user.userMiddleName),
