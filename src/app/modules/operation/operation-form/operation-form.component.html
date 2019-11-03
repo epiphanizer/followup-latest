@@ -142,38 +142,48 @@
           <span>Team Members</span>
         </div>
         <ion-list class="assigned-manager-list" lines="none">
-          <ion-item *ngFor="let operationManager of operationManagers$ | async; let idx = index">
-            <ion-label position="stacked" color="medium">
-              Assigned Manager
-            </ion-label>
-            <ion-select class="operation-assigned-manager" placeholder="Select User">
-              <ion-select-option
-                *ngFor="let user of availableUsers$ | async"
-                [selected]="user.userId == operationManager.userId"
-                [value]="user.userId"
-              >
-                {{ user.userLastName }}, {{ user.userFirstName }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
+          <ng-container *ngFor="let operationManager of operationManagers$ | async; let idx = index">
+            <ion-item>
+              <ion-label position="stacked" color="medium">
+                Assigned Manager
+              </ion-label>
+              <ion-select class="operation-assigned-manager" placeholder="Select User">
+                <ion-select-option
+                  *ngFor="let user of availableUsers$ | async"
+                  [selected]="user.userId == operationManager.userId"
+                  [value]="user.userId"
+                >
+                  {{ user.userLastName }}, {{ user.userFirstName }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeManager(idx)"
+              >[ - remove manager ]</span
+            >
+          </ng-container>
           <span class="ion-float-right add-call-rep" (click)="addAdditionalManager()">[ + add manager ]</span>
         </ion-list>
       </fieldset>
       <fieldset class="operation-callreps">
         <ng-container>
           <ion-list class="assigned-callrep-list" lines="none" inset>
-            <ion-item *ngFor="let operationCallRep of operationCallReps$ | async; let idx = index">
-              <ion-label position="stacked" color="medium">Care Rep {{ idx + 1 }} </ion-label>
-              <ion-select>
-                <ion-select-option
-                  *ngFor="let user of availableUsers$ | async"
-                  [value]="user.userId"
-                  [selected]="user.userId == operationCallRep.userId"
-                >
-                  {{ user.userLastName }}, {{ user.userFirstName }}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
+            <ng-container *ngFor="let operationCallRep of operationCallReps$ | async; let idx = index">
+              <ion-item>
+                <ion-label position="stacked" color="medium">Care Rep {{ idx + 1 }} </ion-label>
+                <ion-select>
+                  <ion-select-option
+                    *ngFor="let user of availableUsers$ | async"
+                    [value]="user.userId"
+                    [selected]="user.userId == operationCallRep.userId"
+                  >
+                    {{ user.userLastName }}, {{ user.userFirstName }}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+              <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeCallRep(idx)"
+                >[ - remove ]</span
+              >
+            </ng-container>
             <span class="ion-float-right add-call-rep" (click)="addAdditionalCallRep()">[ + add call rep ]</span>
           </ion-list>
         </ng-container>

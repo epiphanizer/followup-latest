@@ -4,7 +4,11 @@
   [className]="isOpen ? 'user-cork-board open' : 'user-cork-board closed'"
   [class.deleting]="deleting"
 >
-  <ng-container *ngIf="isOpen" class="corkboard-objects"> </ng-container>
+  <ng-container *ngIf="isOpen" class="corkboard-objects">
+    <div *ngFor="let userCorkBoardObject of userCorkBoardObjects">
+      Do an image here.
+    </div>
+  </ng-container>
 
   <ul class="corkboard-controls">
     <li (click)="toggleCorkboardState()" class="expand icon"></li>

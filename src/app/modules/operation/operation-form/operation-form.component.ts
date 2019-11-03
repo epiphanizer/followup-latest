@@ -184,6 +184,10 @@ export class OperationFormComponent implements OnInit {
     };
     this.operationCallReps.push(newCallRep);
   }
+  removeCallRep(idx: number) {
+    let formArray = this.operationForm.controls.operationCallReps as FormArray;
+    formArray.removeAt(idx);
+  }
   addAdditionalManager() {
     let formArray = this.operationForm.controls.operationManagers as FormArray;
     formArray.push(this.fb.control({}));
@@ -321,6 +325,8 @@ export class OperationFormComponent implements OnInit {
     //   });
 
     let operationPut = this.operationPutFactory(formSubmission);
+    console.log(operationPut);
+    debugger;
     this.operationService
       .editOperationByOperationId(this.operation.operationId, operationPut)
       .subscribe((data: any) => {
