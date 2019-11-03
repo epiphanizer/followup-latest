@@ -57,7 +57,7 @@ export interface Patient {
       };
   patientDischargeLabelId?: number;
   patientDischargeLabel?: string;
-  patientDiagnosis?: string;
+  patientDischargedCondition?: string;
   patientPrimaryDiagnosis?: string;
   patientIntakeQuestions?: PatientIntakeQuestion[];
   patientIntakeQuestions$?: Observable<PatientIntakeQuestion[]>;

@@ -102,9 +102,11 @@ export class PatientFormComponent implements OnInit {
         let medicalConditions = JSON.parse(this.patient.patientMedicalConditions);
         // Once we've got our data set from JSON, let's re-set the individual properties.
         this.patient.patientMedicalConditions = {};
-        this.patient.patientMedicalConditions.sepsisBoolean = medicalConditions.sepsisBoolean;
-        this.patient.patientMedicalConditions.cardiacBoolean = medicalConditions.cardiacBoolean;
-        this.patient.patientMedicalConditions.pulmonaryBoolean = medicalConditions.pulmonaryBoolean;
+        if (medicalConditions !== null) {
+          this.patient.patientMedicalConditions.sepsisBoolean = medicalConditions.sepsisBoolean;
+          this.patient.patientMedicalConditions.cardiacBoolean = medicalConditions.cardiacBoolean;
+          this.patient.patientMedicalConditions.pulmonaryBoolean = medicalConditions.pulmonaryBoolean;
+        }
         // See if we have an avatar to load in
         this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
           if (baseImage !== null) {
@@ -199,10 +201,10 @@ export class PatientFormComponent implements OnInit {
           sepsisBoolean: this.fb.control(this.patient.patientMedicalConditions.sepsisBoolean || false),
           pulmonaryBoolean: this.fb.control(this.patient.patientMedicalConditions.pulmonaryBoolean || false)
         }),
-        patientDischargedCondition: this.fb.control(''),
-        patientPrimaryDiagnosis: this.fb.control(''),
+        patientPrimaryDiagnosis: this.fb.control(this.patient.patientPrimaryDiagnosis),
+        patientDischargedCondition: this.fb.control(this.patient.patientDischargedCondition),
         patientIntakeQuestionAnswers: this.fb.array([]),
-        patientUrgencyScale: this.fb.control(this.patient.patientUrgencyScale),
+        patientUrgencyScale: this.fb.control({ value: this.patient.patientUrgencyScale }),
         patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow),
         patientActive: this.fb.control(this.patient.patientActive)
       })
