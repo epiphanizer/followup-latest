@@ -4,7 +4,7 @@ import { catchError, retry, delay } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 
-export interface UserCorkBoardPostObject {
+export interface UserCorkBoardObject {
   userCorkBoardFile: File;
 }
 
@@ -17,8 +17,16 @@ export interface UserCorkBoardPostObject {
 export class UserCorkBoardService {
   constructor(private http: HttpService) {}
 
-  addNewUserCorkBoardObject(userId: number, userCorkBoardPost: UserCorkBoardPostObject) {
-    return this.http.post('users/' + userId + '/corkBoardObjects', userCorkBoardPost).pipe(
+  addNewUserCorkBoardObjectByUserId(userId: number, userCorkBoardBlob: File) {
+    let formData = new FormData();
+    formData.append('userCorkBoardBlob', userCorkBoardBlob, userCorkBoardBlob.name);
+    return this.http.post('users/' + userId + '/corkBoardObjects', formData).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  getUserCorkBoardObjectsByUserId(userId: number) {
+    return this.http.get('users/' + userId + '/corkBoardObjects').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

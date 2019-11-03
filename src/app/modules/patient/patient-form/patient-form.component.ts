@@ -273,10 +273,9 @@ export class PatientFormComponent implements OnInit {
         .subscribe((data: any) => {});
     });
     let patientPutBody = this.formSubmissionFactory(formSubmission);
-    console.log(patientPutBody);
-    debugger;
+    // console.log(patientPutBody);
+    // debugger;
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
-      console.log(value);
       alert('Patient successfully edited');
       location.reload();
     });
