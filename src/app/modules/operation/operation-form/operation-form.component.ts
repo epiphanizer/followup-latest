@@ -214,13 +214,14 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
     contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
     formArray.push(contactFormGroup);
-    let newCallContact = {
+    let newOperationContact = {
       operationContactId: this.operation.operationId,
       operationContactFirstName: '',
       operationContactLastName: ''
     };
-    this.operationContacts.push(newCallContact);
+    this.operationContacts.push(newOperationContact);
   }
+
   private createForm() {
     this.operationForm = this.fb.group({
       operation: this.fb.group({
@@ -318,15 +319,27 @@ export class OperationFormComponent implements OnInit {
       .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
       .subscribe((data: any) => {
         console.log(data);
-        // debugger;
-        alert('Callreps successfully added');
+        alert('Callrep successfully added');
       });
-    // let operationContactPost = this.operationContactPostFactory(formSubmission);
-    // this.operationContactsService
-    //   .addOperationContactByOperationId(formSubmission.operation.operationId, operationContactPost)
-    //   .subscribe((data: any) => {
-    //     console.log(data);
-    //   });
+    // This also gets the notifications they have
+    debugger;
+    this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
+      let operationContactPost = this.operationContactPostFactory(operationContact);
+      this.operationContactsService
+        .addOperationContactByOperationId(formSubmission.operation.operationId, operationContactPost)
+        .subscribe((data: any) => {
+          console.log(data);
+          // Now that we have the contact, we add them to the notification recipients table
+          this.notificationRecipientService
+            .addNotificationRecipientByOperationContactId(operationContact.operationContactId)
+            .subscribe((data: any) => {
+              console.log(data);
+              let notificationTypes = formSubmission.operationContacts.notificationTypes;
+              console.log(notificationTypes);
+              debugger;
+            });
+        });
+    });
 
     let operationPut = this.operationPutFactory(formSubmission);
     console.log(operationPut);
