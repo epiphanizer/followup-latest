@@ -326,12 +326,15 @@ export class OperationFormComponent implements OnInit {
         // debugger;
         alert('Callreps successfully added');
       });
-    // let operationContactPost = this.operationContactPostFactory(formSubmission);
-    // this.operationContactsService
-    //   .addOperationContactByOperationId(formSubmission.operation.operationId, operationContactPost)
-    //   .subscribe((data: any) => {
-    //     console.log(data);
-    //   });
+    let operationContactPost = this.operationContactPostFactory(formSubmission);
+    this.operationContactsService
+      .addOperationContactByOperationId(formSubmission.operation.operationId, operationContactPost)
+      .subscribe((data: any) => {
+        console.log(data);
+        alert('Operation contacts successfully added');
+        // debugger;
+        console.log(data);
+      });
 
     let operationPut = this.operationPutFactory(formSubmission);
     console.log(operationPut);
@@ -357,7 +360,7 @@ export class OperationFormComponent implements OnInit {
     const errorsFlat = SuperForm.getAllErrorsFlat(this.operationForm);
     console.log(JSON.stringify(errorsFlat));
     // Double check this
-    const firstError = <HTMLElement>document.getElementsByClassName('mat-form-field ng-invalid')[0];
+    const firstError = <HTMLElement>document.getElementsByClassName('ng-invalid')[0];
 
     function scroll(el: HTMLElement) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });

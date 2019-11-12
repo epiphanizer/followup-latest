@@ -333,7 +333,7 @@ export class PatientFormComponent implements OnInit {
     const errorsFlat = SuperForm.getAllErrorsFlat(this.patientForm);
     console.log(JSON.stringify(errorsFlat));
     // Double check this
-    const firstError = <HTMLElement>document.getElementsByClassName('mat-form-field ng-invalid')[0];
+    const firstError = <HTMLElement>document.getElementsByClassName('ng-invalid')[0];
 
     function scroll(el: HTMLElement) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
