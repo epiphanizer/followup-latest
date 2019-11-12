@@ -16,13 +16,13 @@ import {
   PatientCallQuestionsService,
   PatientCallQuestion
 } from './patient-call/patient-call-questions/patient-call-questions.service';
-import { PatientCallStatus, PatientCallStatusService } from './patient-call/patient-call-status.service';
+import { PatientCallStatus } from './patient-call/patient-call-status.service';
 import { formatDate } from '@angular/common';
 import { share, map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
-  providers: [PatientCallService, PatientCallNotesService, PatientCallStatusService, PatientCallQuestionsService],
+  providers: [PatientCallService, PatientCallNotesService, PatientCallQuestionsService],
   selector: 'app-patient-detail',
   templateUrl: './patient-detail.component.html',
   styleUrls: ['./patient-detail.component.scss']
@@ -48,7 +48,6 @@ export class PatientDetailComponent implements OnInit {
   constructor(
     private patientCallService: PatientCallService,
     private patientCallNotesService: PatientCallNotesService,
-    private patientCallStatusService: PatientCallNotesService,
     private patientCallQuestionsService: PatientCallQuestionsService,
     private route: ActivatedRoute
   ) {}
@@ -152,7 +151,6 @@ export class PatientDetailComponent implements OnInit {
         this.patientCallNotesHighlighted
       )
       .subscribe((data: any) => {
-        // Better check since this currently returns nothin good
         console.log('added patient call notes successfully');
       });
 

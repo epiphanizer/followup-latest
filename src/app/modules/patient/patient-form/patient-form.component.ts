@@ -79,6 +79,11 @@ export class PatientFormComponent implements OnInit {
             patientId: patientId
           };
         }
+        this.patient.patientMedicalConditions = {
+          cardiacBoolean: false,
+          sepsisBoolean: false,
+          pulmonaryBoolean: false
+        };
         this.createForm();
         this.addAdditionalContact();
         this.patientIntakeQuestionService
@@ -198,9 +203,9 @@ export class PatientFormComponent implements OnInit {
           patientDischargedAma: this.fb.control(this.patient.patientDischargedAma || '0', [Validators.required])
         }),
         patientMedicalConditions: this.fb.group({
-          cardiacBoolean: this.fb.control(this.patient.patientMedicalConditions.cardiacBoolean || false),
-          sepsisBoolean: this.fb.control(this.patient.patientMedicalConditions.sepsisBoolean || false),
-          pulmonaryBoolean: this.fb.control(this.patient.patientMedicalConditions.pulmonaryBoolean || false)
+          cardiacBoolean: this.fb.control(this.patient.patientMedicalConditions.cardiacBoolean),
+          sepsisBoolean: this.fb.control(this.patient.patientMedicalConditions.sepsisBoolean),
+          pulmonaryBoolean: this.fb.control(this.patient.patientMedicalConditions.pulmonaryBoolean)
         }),
         patientPrimaryDiagnosis: this.fb.control(this.patient.patientPrimaryDiagnosis),
         patientDischargedCondition: this.fb.control(this.patient.patientDischargedCondition),
