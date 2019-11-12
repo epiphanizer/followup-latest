@@ -8,16 +8,16 @@
       >[Discharge Date]</a
     >
   </li>
-  <li class="patient-filter">
+  <li class="ion-float-left patient-filter">
     <a (click)="sortPatientsByPatientName(selectedSortFlag)">[Patient Name]</a>
   </li>
-  <li class="patient-status">
-    <a (click)="sortPatientsByPatientStatus(selectedSortFlag)">[Patient Status]</a>
-  </li>
-  <li class="ion-float-right">
+  <li class="ion-float-left">
     <span class="ascending-descending-control">
       <i class="ascending-descending-control-arrow" (click)="toggleAscDesc()"> </i>
     </span>
+  </li>
+  <li class="patient-status ion-float-right">
+    <span>[Status]</span>
   </li>
 </ul>
 
