@@ -32,7 +32,7 @@ export class CallQueuePatientListingComponent implements OnInit {
     this.patientCallStatusService.getPatientCallStatuses().subscribe((patientCallStatuses: PatientCallStatus[]) => {
       this.patientCallStatuses = patientCallStatuses;
     });
-    this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
+    this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
       map((patients: Patient[]) => {
         this.patients = patients;
         this.sortPatientsByCallDate(this.selectedSortFlag);
@@ -45,7 +45,7 @@ export class CallQueuePatientListingComponent implements OnInit {
     if (changes.operation) {
       if (!changes.operation.firstChange) {
         this.operation = changes.operation.currentValue;
-        this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
+        this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
           map((patients: Patient[]) => {
             this.patients = patients;
             return patients;

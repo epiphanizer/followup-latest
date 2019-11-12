@@ -4,12 +4,6 @@
   [className]="isOpen ? 'user-cork-board open' : 'user-cork-board closed'"
   [class.deleting]="deleting"
 >
-  <ng-container *ngIf="isOpen" class="corkboard-objects">
-    <div *ngFor="let userCorkBoardObject of userCorkBoardObjects">
-      Do an image here.
-    </div>
-  </ng-container>
-
   <ul class="corkboard-controls">
     <li (click)="toggleCorkboardState()" class="expand icon"></li>
     <input
@@ -22,4 +16,11 @@
     <li (click)="clickCorkboardInput()" class="new-item icon"></li>
     <li (click)="activateCorkBoardDeleteFunction()" class="minus icon"></li>
   </ul>
+
+  {{ userCorkBoardObjects | json }}
+  <ng-container *ngIf="isOpen" class="corkboard-objects">
+    <div *ngFor="let userCorkBoardObject of userCorkBoardObjects">
+      Do an image here.
+    </div>
+  </ng-container>
 </div>

@@ -22,8 +22,14 @@ export class PatientService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getPatientListByOperationId(operationId: number): Observable<[Patient]> {
+  getActivePatientListByOperationId(operationId: number): Observable<[Patient]> {
     return this.http.get<[Patient]>('operations/' + operationId + '/patients').pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  getPatientListByOperationId(operationId: number): Observable<[Patient]> {
+    return this.http.get<[Patient]>('operations/' + operationId + '/patients/all').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
