@@ -1,8 +1,8 @@
 <ion-content no-bounce>
   <div class="login-background"></div>
-  <ion-grid no-padding>
-    <ion-row justify-content-center no-padding>
-      <ion-col size-sm="8" size-lg="6" size-xl="4" align-self-center no-padding>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center no-padding">
+      <ion-col size-sm="8" size-lg="6" size-xl="4" class="ion-align-self-center ion-no-padding">
         <div class="login-container">
           <form id="login-form" (ngSubmit)="signIn()" [formGroup]="loginForm" novalidate>
             <div class="toolbar-logo"></div>
@@ -18,7 +18,7 @@
                 color="danger"
                 [hidden]="loginForm.controls.username.valid || loginForm.controls.username.untouched"
               >
-                <span padding>Valid username is required</span>
+                <span class="ion-padding">Valid username is required</span>
               </ion-text>
               <ion-item>
                 <ion-label color="medium" position="floating">Password</ion-label>
@@ -28,10 +28,10 @@
                 color="danger"
                 [hidden]="loginForm.controls.password.valid || loginForm.controls.password.untouched"
               >
-                <span padding translate>Password is required</span>
+                <span class="ion-padding" translate>Password is required</span>
               </ion-text>
             </ion-list>
-            <div class="login-controls-container" padding-horizontal>
+            <div class="login-controls-container ion-padding-horizontal">
               <ion-button
                 type="submit"
                 [disabled]="loginForm.untouched"
