@@ -2,6 +2,7 @@ import { Component, OnInit, Renderer2, Injectable, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, from, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { SuperForm } from 'angular-super-validator';
 import { OperationService } from '../operation.service';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
 import { OperationCallRepsService, OperationCallRep } from '../operation-callreps.service';
@@ -338,5 +339,21 @@ export class OperationFormComponent implements OnInit {
         // debugger;
         alert('Operation successfully edited');
       });
+  }
+
+  findInvalidControls(): void {
+    console.log('Finding invalid controls...');
+    const errors = SuperForm.getAllErrors(this.appForm);
+    console.log(JSON.stringify(errors));
+    const errorsFlat = SuperForm.getAllErrorsFlat(this.appForm);
+    console.log(JSON.stringify(errorsFlat));
+    const firstError = <HTMLElement>document.getElementsByClassName('mat-form-field ng-invalid')[0];
+
+    function scroll(el: HTMLElement) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (firstError) {
+      scroll(firstError);
+    }
   }
 }
