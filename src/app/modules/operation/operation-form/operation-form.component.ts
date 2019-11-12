@@ -303,6 +303,10 @@ export class OperationFormComponent implements OnInit {
     }
   }
   onFormSubmit() {
+    if (!this.validateControls()) {
+      return;
+    }
+
     let formSubmission = this.operationForm.getRawValue();
     // Passing E2E
     let operationManagerPost = this.operationManagerPostFactory(formSubmission);
@@ -341,12 +345,18 @@ export class OperationFormComponent implements OnInit {
       });
   }
 
-  findInvalidControls(): void {
+  /**
+   * A function to validate controls,
+   * and if there are any validation errors,
+   * bounce the user to the top.
+   */
+  validateControls(): boolean {
     console.log('Finding invalid controls...');
-    const errors = SuperForm.getAllErrors(this.appForm);
+    const errors = SuperForm.getAllErrors(this.operationForm);
     console.log(JSON.stringify(errors));
-    const errorsFlat = SuperForm.getAllErrorsFlat(this.appForm);
+    const errorsFlat = SuperForm.getAllErrorsFlat(this.operationForm);
     console.log(JSON.stringify(errorsFlat));
+    // Double check this
     const firstError = <HTMLElement>document.getElementsByClassName('mat-form-field ng-invalid')[0];
 
     function scroll(el: HTMLElement) {
@@ -354,6 +364,9 @@ export class OperationFormComponent implements OnInit {
     }
     if (firstError) {
       scroll(firstError);
+      return false;
+    } else {
+      return true;
     }
   }
 }

@@ -5,6 +5,7 @@ import { PatientService } from '@app/modules/patient/patient.service';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
+import { SuperForm } from 'angular-super-validator';
 import { PatientPutBody } from './patient-form';
 import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
 import { PatientContact } from '../patient-contact/patient-contact';
@@ -259,6 +260,9 @@ export class PatientFormComponent implements OnInit {
     );
   }
   onFormSubmit(): void {
+    if (!this.validateControls()) {
+      return;
+    }
     let formSubmission = this.patientForm.getRawValue();
     /**
      * Run processing on our patient intake questions
@@ -315,5 +319,30 @@ export class PatientFormComponent implements OnInit {
       patientActive: formSubmission.patient.patientActive == true ? 1 : 0
     };
     return <PatientPutBody>payload;
+  }
+
+  /**
+   * A function to validate controls,
+   * and if there are any validation errors,
+   * bounce the user to the top.
+   */
+  validateControls(): boolean {
+    console.log('Finding invalid controls...');
+    const errors = SuperForm.getAllErrors(this.patientForm);
+    console.log(JSON.stringify(errors));
+    const errorsFlat = SuperForm.getAllErrorsFlat(this.patientForm);
+    console.log(JSON.stringify(errorsFlat));
+    // Double check this
+    const firstError = <HTMLElement>document.getElementsByClassName('mat-form-field ng-invalid')[0];
+
+    function scroll(el: HTMLElement) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (firstError) {
+      scroll(firstError);
+      return false;
+    } else {
+      return true;
+    }
   }
 }
