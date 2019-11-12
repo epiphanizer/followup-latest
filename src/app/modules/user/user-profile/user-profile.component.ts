@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { SuperForm } from 'angular-super-validator';
 import { UserPutObject } from '@app/modules/user/user';
 import { UserService } from '@app/modules/user/user.service';
 import { ActivatedRoute } from '@angular/router';
@@ -25,6 +26,9 @@ export class UserProfileComponent implements OnInit {
   }
   // Passing E2E minus auth
   updateUserProfile() {
+    if (!this.validateControls()) {
+      return;
+    }
     let formSubmission = this.userProfileForm.getRawValue();
     let userPutPayload = this.userFormSubmissionFactory(formSubmission);
     debugger;
@@ -105,5 +109,30 @@ export class UserProfileComponent implements OnInit {
       }),
       userAdditionalInfo: this.fb.control(this.user.userAdditionalInfo)
     });
+  }
+
+  /**
+   * A function to validate controls,
+   * and if there are any validation errors,
+   * bounce the user to the top.
+   */
+  validateControls(): boolean {
+    console.log('Finding invalid controls...');
+    const errors = SuperForm.getAllErrors(this.userProfileForm);
+    console.log(JSON.stringify(errors));
+    const errorsFlat = SuperForm.getAllErrorsFlat(this.userProfileForm);
+    console.log(JSON.stringify(errorsFlat));
+    // Double check this
+    const firstError = <HTMLElement>document.getElementsByClassName('ng-invalid')[0];
+
+    function scroll(el: HTMLElement) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (firstError) {
+      scroll(firstError);
+      return false;
+    } else {
+      return true;
+    }
   }
 }

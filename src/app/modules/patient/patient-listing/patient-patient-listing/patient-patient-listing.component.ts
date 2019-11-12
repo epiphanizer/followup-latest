@@ -71,4 +71,16 @@ export class PatientPatientListingComponent implements OnInit {
       });
     }
   };
+  sortPatientsByPatientStatus = function(sortFlag: string) {
+    this.filterBy = 'patient-status';
+    if (sortFlag == 'asc') {
+      this.patients.sort((a: Patient, b: Patient) => {
+        return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
+      });
+    } else {
+      this.patients.sort((a: Patient, b: Patient) => {
+        return <any>new Date(b.patientDischargeDate) - <any>new Date(a.patientDischargeDate);
+      });
+    }
+  };
 }
