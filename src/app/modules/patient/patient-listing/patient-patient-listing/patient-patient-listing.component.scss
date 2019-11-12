@@ -91,6 +91,7 @@ ul.patient-filters {
       display: block;
       margin-top: 20px;
       margin-left: 8px;
+      cursor: pointer;
 
       .ascending-descending-control-arrow {
         display: block;
@@ -98,6 +99,9 @@ ul.patient-filters {
         height: 9px;
         background-image: url("/assets/icon-down-arrow@2x.png");
         background-size: 100%;
+        &.asc {
+          transform: rotate(180deg);
+        }
       }
     }
   }
