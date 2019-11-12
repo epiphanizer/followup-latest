@@ -5,27 +5,39 @@ import { Injectable } from '@angular/core';
 
 export interface PatientStatus {
   patientStatusId: number;
-  patientStatusLabel: string;
+  patientStatusLabelId: number;
+  patientStatusLabel?: string;
+  patientStatusNotes?: string;
 }
 
 @Injectable()
 export class PatientStatusService {
   constructor(private http: HttpClient) {}
 
-  addNewPatientStatusByPatientId(patientId: number, patientStatusLabelId: number): Observable<PatientStatus> {
+  addPatientStatusByPatientId(
+    patientId: number,
+    patientStatusLabelId: number,
+    patientStatusNotes: string
+  ): Observable<PatientStatus> {
     return this.http
       .post<PatientStatus>('patients/' + patientId + '/statuses', {
-        patientStatusLabelId: patientStatusLabelId
+        patientStatusLabelId: patientStatusLabelId,
+        patientStatusNotes: patientStatusNotes
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
-  editPatientStatusByPatientId(patientId: number, patientStatusLabelId: number): Observable<PatientStatus> {
+  editPatientStatusByPatientStatusId(
+    patientStatusId: number,
+    patientStatusLabelId: number,
+    patientStatusNotes: string
+  ): Observable<PatientStatus> {
     return this.http
-      .post<PatientStatus>('patients/' + patientId + '/statuses', {
-        patientStatusLabelId: patientStatusLabelId
+      .post<PatientStatus>('patients/statuses/' + patientStatusId, {
+        patientStatusLabelId: patientStatusLabelId,
+        patientStatusNotes: patientStatusNotes
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times
