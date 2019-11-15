@@ -7,7 +7,7 @@
 ion-router-outlet {
   margin-top: 168px;
   margin-left: 111px;
-  height: 100%;
+  height: calc(100% - 168px);
 }
 .content-wrapper {
   width: calc(100% - 28px);

@@ -198,6 +198,6 @@
     </form>
   </ion-col>
   <ion-col class="right-admin-col">
-    <app-operation-admin-right-sidebar *ngIf="operation"></app-operation-admin-right-sidebar>
+    <app-operation-admin-right-sidebar *ngIf="editMode && operation"></app-operation-admin-right-sidebar>
   </ion-col>
 </ion-row>
