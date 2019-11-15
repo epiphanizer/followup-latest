@@ -4,16 +4,21 @@
   display: block;
   text-align: center;
 }
-
-img {
+.corkBoardObject {
   &::before {
     background-image: url("/assets/pin-blue@2x.png");
-    background-size: 100%;
-    display: block;
+    background-size: 75%;
+    position: absolute;
     content: "";
+    height: 37px;
+    background-repeat: no-repeat;
     width: 27px;
-    height: 27px;
+    display: block;
+    margin-left: 50%;
+    margin-top: 14px;
   }
+}
+img {
   max-height: 250px;
   height: auto;
   width: auto;
