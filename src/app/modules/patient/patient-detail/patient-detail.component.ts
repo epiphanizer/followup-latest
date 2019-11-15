@@ -5,7 +5,7 @@ import {
   PatientCallService,
   PatientCallQuestionAnswer
 } from '../patient-detail/patient-call/patient-call.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@app/user';
 import { Operation } from '@app/modules/operation/operation';
 import {
@@ -49,7 +49,8 @@ export class PatientDetailComponent implements OnInit {
     private patientCallService: PatientCallService,
     private patientCallNotesService: PatientCallNotesService,
     private patientCallQuestionsService: PatientCallQuestionsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -208,7 +209,7 @@ export class PatientDetailComponent implements OnInit {
                 itemsProcessed++;
                 if (itemsProcessed === this.patientNextCallQuestions.length) {
                   this.patientCall.patientCallId = patientCallId;
-                  location.reload();
+                  this.router.navigate(['/call-queue']);
                 }
               });
           });
