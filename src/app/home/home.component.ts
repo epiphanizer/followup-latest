@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
         this.menu = [
           {
             name: 'Facilities',
-            action: 'operation/add',
+            action: 'operations',
             image: '/assets/icon-facilities@2x.png',
             enabled: true
           },
@@ -34,15 +34,15 @@ export class HomeComponent implements OnInit {
             enabled: true
           },
           {
-            name: 'User Management',
-            action: 'admin/user',
-            image: '/assets/icon-user-management@2x.png',
-            enabled: false
+            name: 'View Queue',
+            action: 'call-queue',
+            image: '/assets/icon-view-queue@2x.png',
+            enabled: true
           },
           {
-            name: 'View Queue',
-            action: 'admin/call-queue',
-            image: '/assets/icon-view-queue@2x.png',
+            name: 'User Management',
+            action: 'users',
+            image: '/assets/icon-user-management@2x.png',
             enabled: false
           },
           {

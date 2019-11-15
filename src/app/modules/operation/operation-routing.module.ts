@@ -6,9 +6,17 @@ import { OperationFormComponent } from '@app/modules/operation/operation-form/op
 import { Shell } from '@app/shell/shell.service';
 import { UserResolver } from '../user/user-resolver.service';
 import { OperationResolver } from './operation-resolver';
+import { OperationListingComponent } from './operation-listing/operation-listing.component';
 
 const routes: Routes = [
   Shell.childRoutes([
+    {
+      path: 'operations',
+      component: OperationListingComponent,
+      data: {
+        title: extract('Operations')
+      }
+    },
     {
       path: 'operation/add',
       component: OperationFormComponent,

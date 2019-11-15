@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Patient, PatientDischargeLabel } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { SuperForm } from 'angular-super-validator';
 import { PatientPutBody } from './patient-form';
@@ -49,6 +49,7 @@ export class PatientFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     private operationService: OperationService,
     private patientService: PatientService,
     private patientAvatarService: PatientAvatarService,
@@ -282,11 +283,9 @@ export class PatientFormComponent implements OnInit {
         .subscribe((data: any) => {});
     });
     let patientPutBody = this.formSubmissionFactory(formSubmission);
-    // console.log(patientPutBody);
-    // debugger;
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       alert('Patient successfully edited');
-      location.reload();
+      this.router.navigate(['/patients']);
     });
   }
 

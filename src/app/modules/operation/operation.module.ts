@@ -9,6 +9,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { OperationAdminSidebarComponent } from './operation-admin-sidebar/operation-admin-sidebar.component';
 import { OperationContactComponent } from './operation-contact/operation-contact.component';
 import { OperationAdminRightSidebarComponent } from './operation-admin-right-sidebar/operation-admin-right-sidebar.component';
+import { OperationListingComponent } from './operation-listing/operation-listing.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { OperationAdminRightSidebarComponent } from './operation-admin-right-sid
     OperationAdminComponent,
     OperationAdminSidebarComponent,
     OperationContactComponent,
-    OperationAdminRightSidebarComponent
+    OperationAdminRightSidebarComponent,
+    OperationListingComponent
   ],
   imports: [CommonModule, IonicModule, FormsModule, OperationRoutingModule, ReactiveFormsModule]
 })
