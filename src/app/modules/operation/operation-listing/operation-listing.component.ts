@@ -23,9 +23,10 @@ export class OperationListingComponent implements OnInit {
       }
     | any = {};
   user: User;
-  constructor(private operationService: OperationService, private route: ActivatedRoute) {}
+  constructor(private operationService: OperationService) {}
 
   ngOnInit() {
-    this.operations = this.user.operations;
+    alert('here yo');
+    // this.operations = this.user.operations;
   }
 }

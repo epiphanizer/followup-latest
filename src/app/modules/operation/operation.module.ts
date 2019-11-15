@@ -10,6 +10,7 @@ import { OperationAdminSidebarComponent } from './operation-admin-sidebar/operat
 import { OperationContactComponent } from './operation-contact/operation-contact.component';
 import { OperationAdminRightSidebarComponent } from './operation-admin-right-sidebar/operation-admin-right-sidebar.component';
 import { OperationListingComponent } from './operation-listing/operation-listing.component';
+import { OperationOperationListingComponent } from './operation-listing/operation-operation-listing/operation-operation-listing.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +19,10 @@ import { OperationListingComponent } from './operation-listing/operation-listing
     OperationAdminSidebarComponent,
     OperationContactComponent,
     OperationAdminRightSidebarComponent,
-    OperationListingComponent
+    OperationListingComponent,
+    OperationOperationListingComponent
   ],
+  entryComponents: [OperationOperationListingComponent],
   imports: [CommonModule, IonicModule, FormsModule, OperationRoutingModule, ReactiveFormsModule]
 })
 export class OperationModule {}

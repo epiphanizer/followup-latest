@@ -1,0 +1,51 @@
+<h3 class="section-header">
+  {{ operation?.operationName }}
+</h3>
+<ion-item-divider class="divider-line"></ion-item-divider>
+<ul class="operation-filters ">
+  <li class="ion-float-left operation-name">
+    <a [class.active]="filterBy == 'discharge-date'" (click)="sortOperationsByOperationName(selectedSortFlag)"
+      >[Operation Name]</a
+    >
+  </li>
+  <li class="ion-float-left">
+    <span class="ascending-descending-control">
+      <i
+        class="ascending-descending-control-arrow"
+        [class.asc]="selectedSortFlag == 'asc'"
+        [class.desc]="selectedSortFlag == 'desc'"
+        (click)="toggleAscDesc()"
+      >
+      </i>
+    </span>
+  </li>
+  <li class="operation-status ion-float-right">
+    <span>[Status]</span>
+  </li>
+</ul>
+
+<ul class="operation-operation-list">
+  <li
+    *ngFor="let operation of operations$ | async"
+    class="active"
+    [routerLink]="'/operation/edit/' + operation.operationId"
+  >
+    <div class="operation-discharge-date">
+      {{ operation.operationDischargeDate | date: 'M/d' }}
+    </div>
+
+    <div class="operation-listing-avatar">
+      <img src="/assets/default-avatar-operation-detail.png" />
+    </div>
+    <div class="operation-operation-information">
+      <span class="operation-operation-name ion-float-left">
+        {{ operation.operationName }}
+      </span>
+      <span class="operation-operation-status ion-float-right"> {{ operation.operationActive }} </span>
+    </div>
+  </li>
+</ul>
+
+<ng-template #nooperations>
+  Sorry! No operations exist for this operation
+</ng-template>
