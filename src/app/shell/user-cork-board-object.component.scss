@@ -1,11 +1,15 @@
 :host {
-  height: 250px;
+  height: auto;
   width: 100%;
+  padding-top: 200px;
   display: block;
   text-align: center;
 }
+
 img {
   max-height: 250px;
   width: auto;
+  margin: 0 auto;
+  max-width: 80%;
   margin: 0 auto;
 }

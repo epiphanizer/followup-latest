@@ -5,8 +5,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 
 export interface UserCorkBoardObject {
-  userCorkBoardObjectId: number;
+  userCorkBoardObjectId?: number;
   userCorkBoardFile: File;
+  userCorkBoardBlob?: Blob;
 }
 
 @Injectable({

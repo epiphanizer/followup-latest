@@ -32,7 +32,7 @@ import { ActivatedRoute } from '@angular/router';
 export class UserCorkBoardComponent implements OnInit {
   fileToUpload: File;
   isOpen = false;
-  deleting = false;
+  deleteMode = false;
   user: User;
   userCorkBoardObjects: UserCorkBoardObject[];
   constructor(private userCorkBoardService: UserCorkBoardService, private route: ActivatedRoute) {}
@@ -41,7 +41,6 @@ export class UserCorkBoardComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe((data: any) => {
       if (data) {
-        debugger;
         this.userCorkBoardObjects = data;
       }
     });
@@ -56,14 +55,13 @@ export class UserCorkBoardComponent implements OnInit {
       .addNewUserCorkBoardObjectByUserId(this.user.userId, this.fileToUpload)
       .subscribe((data: any) => {
         console.log(data);
-        debugger;
       });
   };
-  activateCorkBoardDeleteFunction = function() {
+  toggleCorkBoardDeleteFunction = function() {
     if (!this.isOpen) {
       this.toggleCorkboardState();
     }
-    this.deleting = true;
+    this.deleteMode = true;
   };
 
   clickCorkboardInput = function() {
