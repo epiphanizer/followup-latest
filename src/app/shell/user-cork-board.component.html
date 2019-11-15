@@ -16,11 +16,10 @@
     <li (click)="clickCorkboardInput()" class="new-item icon"></li>
     <li (click)="activateCorkBoardDeleteFunction()" class="minus icon"></li>
   </ul>
-
-  {{ userCorkBoardObjects | json }}
   <ng-container *ngIf="isOpen" class="corkboard-objects">
     <div *ngFor="let userCorkBoardObject of userCorkBoardObjects">
-      Do an image here.
+      {{ userCorkBoardObject | json }}
+      <app-user-cork-board-object [userCorkBoardObject]="userCorkBoardObject"></app-user-cork-board-object>
     </div>
   </ng-container>
 </div>

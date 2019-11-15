@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 
 export interface UserCorkBoardObject {
+  userCorkBoardObjectId: number;
   userCorkBoardFile: File;
 }
 

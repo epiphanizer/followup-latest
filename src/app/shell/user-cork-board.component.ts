@@ -41,13 +41,13 @@ export class UserCorkBoardComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe((data: any) => {
       if (data) {
-        console.log(data);
         debugger;
+        this.userCorkBoardObjects = data;
       }
     });
   }
 
-  public addNewCorkboardItem = function(files: FileList) {
+  addNewCorkboardItem = function(files: FileList) {
     if (!this.isOpen) {
       this.toggleCorkboardState();
     }
@@ -59,12 +59,13 @@ export class UserCorkBoardComponent implements OnInit {
         debugger;
       });
   };
-  public activateCorkBoardDeleteFunction = function() {
+  activateCorkBoardDeleteFunction = function() {
     if (!this.isOpen) {
       this.toggleCorkboardState();
     }
     this.deleting = true;
   };
+
   clickCorkboardInput = function() {
     let element: HTMLElement = document.querySelector('#corkBoardUpload') as HTMLElement;
     element.click();
@@ -73,5 +74,12 @@ export class UserCorkBoardComponent implements OnInit {
     this.isOpen = !this.isOpen;
     // Make sure to reset the deleting functionality of the cork board
     this.deleting = false;
+  };
+
+  deleteCorkBoardItem = function(userCorkBoardObject: UserCorkBoardObject) {
+    this.userCorkBoardService.deleteCorkBoardItem(userCorkBoardObject).subscribe((data: any) => {
+      console.log(data);
+      debugger;
+    });
   };
 }
