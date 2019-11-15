@@ -27,6 +27,12 @@ export class UserCorkBoardService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
+  deleteUserCorkBoardObjectByUserCorkBoardObjectId(userCorkBoardObjectId: number) {
+    return this.http.post('users/corkBoardObjects/' + userCorkBoardObjectId, {}).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   getUserCorkBoardObjectsByUserId(userId: number) {
     return this.http.get('users/' + userId + '/corkBoardObjects').pipe(
       retry(3), // retry a failed request up to 3 times

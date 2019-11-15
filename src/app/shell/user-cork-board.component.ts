@@ -73,11 +73,4 @@ export class UserCorkBoardComponent implements OnInit {
     // Make sure to reset the deleting functionality of the cork board
     this.deleting = false;
   };
-
-  deleteCorkBoardItem = function(userCorkBoardObject: UserCorkBoardObject) {
-    this.userCorkBoardService.deleteCorkBoardItem(userCorkBoardObject).subscribe((data: any) => {
-      console.log(data);
-      debugger;
-    });
-  };
 }
