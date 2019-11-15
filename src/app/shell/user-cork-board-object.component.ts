@@ -37,7 +37,6 @@ export class UserCorkBoardObjectComponent implements OnInit {
             '#userCorkBoardObject-' + userCorkBoardObjectId
           ) as HTMLElement;
           element.remove();
-          debugger;
         });
     }
   }
