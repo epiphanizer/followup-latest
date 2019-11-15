@@ -285,7 +285,7 @@ export class PatientFormComponent implements OnInit {
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       alert('Patient successfully edited');
-      this.router.navigate(['/patients']);
+      this.router.navigate(['operations/' + this.patient.patientOperationId + '/patients']);
     });
   }
 
