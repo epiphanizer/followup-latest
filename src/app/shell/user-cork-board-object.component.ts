@@ -28,11 +28,15 @@ export class UserCorkBoardObjectComponent implements OnInit {
   }
   removeCorkBoardObject(userCorkBoardObjectId: number) {
     if (this.deleteMode) {
-      alert('removing cork bord object');
       this.userCorkBoardService
         .deleteUserCorkBoardObjectByUserCorkBoardObjectId(userCorkBoardObjectId)
         .subscribe((data: any) => {
           console.log(data);
+
+          let element: HTMLElement = document.querySelector(
+            '#userCorkBoardObject-' + userCorkBoardObjectId
+          ) as HTMLElement;
+          element.remove();
           debugger;
         });
     }

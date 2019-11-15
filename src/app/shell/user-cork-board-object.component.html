@@ -1,3 +1,7 @@
-<div class="corkBoardObjectUrl" (click)="doDelete(userCorkBoardObject.userCorkBoardObjectId)">
+<div
+  class="corkBoardObjectUrl"
+  id="userCorkBoardObject-{{ userCorkBoardObject.userCorkBoardObjectId }}"
+  (click)="removeCorkBoardObject(userCorkBoardObject.userCorkBoardObjectId)"
+>
   <img class="corkboard-object-image" [src]="corkboardObjectUrl" />
 </div>

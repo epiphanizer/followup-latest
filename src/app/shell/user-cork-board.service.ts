@@ -28,7 +28,7 @@ export class UserCorkBoardService {
     );
   }
   deleteUserCorkBoardObjectByUserCorkBoardObjectId(userCorkBoardObjectId: number) {
-    return this.http.post('users/corkBoardObjects/' + userCorkBoardObjectId, {}).pipe(
+    return this.http.delete('users/userCorkBoardObjects/' + userCorkBoardObjectId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

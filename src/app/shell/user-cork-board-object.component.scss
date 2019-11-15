@@ -6,6 +6,14 @@
 }
 
 img {
+  &::before {
+    background-image: url("/assets/pin-blue@2x.png");
+    background-size: 100%;
+    display: block;
+    content: "";
+    width: 27px;
+    height: 27px;
+  }
   max-height: 250px;
   height: auto;
   width: auto;
