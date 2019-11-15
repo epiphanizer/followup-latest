@@ -353,8 +353,8 @@ export class OperationFormComponent implements OnInit {
       .editOperationByOperationId(this.operation.operationId, operationPut)
       .subscribe((data: any) => {
         console.log(data);
-        // debugger;
         alert('Operation successfully edited');
+        this.router.navigate(['/operations']);
       });
   }
 
