@@ -37,7 +37,9 @@
       <span class="operation-operation-name ion-float-left">
         {{ operation.operationName }}
       </span>
-      <span class="operation-operation-status ion-float-right"> {{ operation.operationActive }} </span>
+      <span class="operation-operation-status ion-float-right">
+        {{ operation.operationActive == 'true' ? 'Active' : 'Inactive' }}
+      </span>
     </div>
   </li>
 </ul>
