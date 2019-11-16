@@ -29,8 +29,10 @@
   ion-item {
     cursor: pointer;
     display: inline-block;
-    height: 34px;
     margin-right: -5px;
+    &.patient-status-control {
+      height: 34px;
+    }
     width: auto;
     &.active {
       border-bottom: 1px solid lightblue;

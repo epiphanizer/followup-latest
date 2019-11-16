@@ -4,6 +4,7 @@
   </h3>
   <ion-item
     *ngFor="let patientCallStatus of patientCallStatuses"
+    class="patient-status-control"
     (click)="updatePatientCallStatus(patientCallStatus.patientCallStatusLabelId)"
   >
     <div>
