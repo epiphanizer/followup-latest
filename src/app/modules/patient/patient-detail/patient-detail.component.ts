@@ -189,6 +189,7 @@ export class PatientDetailComponent implements OnInit {
       });
 
       var isoString = new Date(this.patientNextCall.date).toISOString();
+      debugger;
       /**
        * Passing E2E as of now
        */
@@ -202,17 +203,20 @@ export class PatientDetailComponent implements OnInit {
         .subscribe((data: any) => {
           let patientCallId = data.patientCallId;
           let itemsProcessed = 0;
-          this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
-            this.patientCallQuestionsService
-              .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
-              .subscribe((data: any) => {
-                itemsProcessed++;
-                if (itemsProcessed === this.patientNextCallQuestions.length) {
-                  this.patientCall.patientCallId = patientCallId;
-                  this.router.navigate(['/call-queue']);
-                }
-              });
-          });
+          if (this.patientNextCallQuestions.length) {
+            this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
+              this.patientCallQuestionsService
+                .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
+                .subscribe((data: any) => {
+                  itemsProcessed++;
+                  if (itemsProcessed === this.patientNextCallQuestions.length) {
+                    this.router.navigate(['/call-queue']);
+                  }
+                });
+            });
+          } else {
+            this.router.navigate(['/call-queue']);
+          }
         });
     });
   }

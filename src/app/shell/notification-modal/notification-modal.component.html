@@ -66,12 +66,16 @@
             {{ notification.notificationPatientLastName }}
           </ion-item>
           <ion-item class="notification-review-item">
+            <span class="label">Patient #:&nbsp;</span>
+            {{ notification.notificationPatientMedicalRecord }}
+          </ion-item>
+          <ion-item class="notification-review-item">
             <span class="label">Facility:&nbsp;</span>
             {{ notification.notificationOperationName }}
           </ion-item>
           <ion-item *ngIf="notificationRecipients" class="notification-review-item">
             <span class="label">Next Steps:&nbsp;</span>
-            Notify&nbsp;
+            Notify
             <ng-container *ngIf="notificationRecipients; else noRecipients">
               <span *ngFor="let notificationRecipient of notificationRecipients; let idx = index">
                 &nbsp;{{ notificationRecipient.notificationRecipientEmail
@@ -85,7 +89,7 @@
             </ng-template>
           </ion-item>
           <ion-item class="notification-review-item">
-            <span class="label">Date Received:&nbsp;</span> {{ todaysDate }}
+            <span class="label">Date of Notification:&nbsp;</span> {{ todaysDate }}
           </ion-item>
           <ion-item class="notification-review-item">
             <span class="label">Message:&nbsp;</span>

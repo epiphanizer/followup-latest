@@ -43,7 +43,7 @@
     [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
   >
     <div class="call-queue-number">
-      {{ patient.patientCallCount }}
+      {{ patient.patientCallCount - 1 }}
     </div>
     <div class="call-queue-avatar">
       <div class="badge-container">
@@ -77,7 +77,6 @@
     <div class="call-queue-call-status-legend">
       <ion-list *ngIf="patient.patientCallCount > 1" inset lines="none">
         <ion-item *ngFor="let patientCallStatus of patientCallStatuses">
-          <!-- {{ patient.patientLastCallStatus }} - {{ patientCallStatus.patientCallStatusLabelId }} -->
           <i
             class="icon-{{ patientCallStatus.patientCallStatusLabel.replace(' ', '-') | lowercase }}"
             [class.active]="patient.patientLastCallStatus == patientCallStatus.patientCallStatusLabelId"
