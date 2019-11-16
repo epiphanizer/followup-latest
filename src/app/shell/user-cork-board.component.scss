@@ -1,7 +1,7 @@
 .corkboard-controls {
   list-style-type: none;
   padding-left: 0;
-  width: 28px;
+  width: 40px;
   height: 100px;
   display: block;
   list-style-type: none;
@@ -15,26 +15,26 @@
     cursor: pointer;
     color: white;
     z-index: 2000;
-    width: 14px;
-    height: 14px;
+    width: 20px;
+    height: 20px;
     background-repeat: no-repeat;
     display: block;
-    margin-left: 8px;
+    margin-left: 4px;
     background-size: 100%;
     background-repeat: no-repeat;
 
     &.expand {
-      margin-top: 8px;
+      margin-top: 10px;
       background-image: url("/assets/icon-expand@2x.png");
     }
 
     &.new-item {
-      margin-top: 8px;
+      margin-top: 10px;
       background-image: url("/assets/icon-new-item@2x.png");
     }
 
     &.minus {
-      margin-top: 8px;
+      margin-top: 10px;
       padding-left: 2px;
       background-image: url("/assets/icon-remove-item@2x.png");
     }
@@ -43,7 +43,7 @@
 .user-cork-board {
   position: absolute;
   z-index: 1999;
-  width: 28px;
+  width: 40px;
   height: 100%;
   min-height: 1024px;
   background-image: url("/assets/corkboard-closed@2x.png");
@@ -66,6 +66,6 @@
   display: block;
   height: 100%;
   width: 100%;
-  max-width: calc(100% - 28px);
+  max-width: calc(100% - 40px);
   text-align: center;
 }
