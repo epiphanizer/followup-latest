@@ -46,7 +46,7 @@
     <h3 class="notification-type ion-float-right warning">
       {{ notification.notificationTypeLabel }}
     </h3>
-    <img src="{{ notification.notificationIconImage }}" alt="" />
+    <img class="notification-icon-image" src="{{ notification.notificationIconImage }}" alt="" />
   </ion-row>
   <ion-row>
     <ion-col class="left-col">
@@ -67,7 +67,7 @@
           </ion-item>
           <ion-item class="notification-review-item">
             <span class="label">Patient #:&nbsp;</span>
-            {{ notification.notificationPatientMedicalRecord }}
+            {{ notification.notificationPatientMedicalRecordNumber }}
           </ion-item>
           <ion-item class="notification-review-item">
             <span class="label">Facility:&nbsp;</span>

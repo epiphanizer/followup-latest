@@ -33,10 +33,13 @@
     margin-top: 8px;
   }
 
-  img {
+  img.notification-icon-image {
     margin-top: 33px;
     margin-right: 38px;
     max-width: 26px;
+    position: absolute;
+    right: 0;
+    z-index: 5000;
   }
 }
 
