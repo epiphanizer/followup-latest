@@ -69,6 +69,7 @@
             </app-patient-next-call-questions>
 
             <app-patient-next-call-finish-button
+              *ngIf="patientNextCall.date"
               [patient]="patient"
               [patientCall]="patientCall"
               (patientCallFinalizeEventEmitter)="patientCallFinishEventHandler(patientCall)"
