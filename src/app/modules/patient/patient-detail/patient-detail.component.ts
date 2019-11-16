@@ -188,13 +188,9 @@ export class PatientDetailComponent implements OnInit {
        * Doing it this way stops some cross-browser parsing things
        * that happen when we convert it to a new Date() first.
        */
-      var oldway = new Date(this.patientNextCall.date).toISOString();
-      console.log(oldway);
-      var dateArray = this.patientNextCall.date.split('-');
 
+      var dateArray = this.patientNextCall.date.split('-');
       var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T00:00:00.000Z';
-      console.log(isoString);
-      debugger;
       /**
        * Passing E2E as of now
        */
