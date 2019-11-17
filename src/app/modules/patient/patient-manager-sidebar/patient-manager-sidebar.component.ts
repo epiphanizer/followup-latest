@@ -79,6 +79,7 @@ export class PatientManagerSidebarComponent implements OnInit {
   }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
+    this.activeOperationId = this.selected.operation.operationId;
     this.operationChangeEvent.emit(operation);
   };
   public toggleOperationSidebarMenu = function() {

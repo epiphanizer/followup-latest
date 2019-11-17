@@ -101,13 +101,7 @@
                   <ion-radio formControlName="patientResponsiblePartyBoolean"> </ion-radio>
                   <i class="icon-hipaa"></i>
                 </ion-item>
-                <!-- Only show if it's the last index -->
-                <ion-item
-                  *ngIf="idx == patientContacts.length - 1"
-                  class="ion-float-right add-additional-contact"
-                  (click)="addAdditionalContact()"
-                  >[ + additional contact ]</ion-item
-                >
+                <!-- only show removal option if it's past the first index -->
                 <ion-item
                   *ngIf="idx > 0"
                   class="ion-float-right remove-additional-contact"
@@ -115,6 +109,13 @@
                 >
                   [ - remove contact ]
                 </ion-item>
+                <!-- Only show if it's the last index -->
+                <ion-item
+                  *ngIf="idx == patientContacts.length - 1"
+                  class="ion-float-right add-additional-contact"
+                  (click)="addAdditionalContact()"
+                  >[ + additional contact ]</ion-item
+                >
               </div>
             </ion-list>
           </fieldset>
@@ -181,7 +182,7 @@
                 </ion-item>
                 <ion-item class="discharge-total-days">
                   <ion-label color="medium" position="stacked">Total Days</ion-label>
-                  <ion-input formControlName="patientTotalDays" disabled readonly></ion-input>
+                  <ion-input formControlName="patientTotalDays" readonly></ion-input>
                 </ion-item>
               </div>
               <ion-label class="discharged-label" color="medium" position="stacked">

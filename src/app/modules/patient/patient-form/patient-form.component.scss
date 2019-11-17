@@ -262,13 +262,14 @@ form {
   fieldset.patient-contacts {
     border: none;
 
-    .add-additional-contact {
+    .add-additional-contact,
+    .remove-additional-contact {
       cursor: pointer;
+      clear: right;
       font-family: Avenir;
       font-size: 13px;
       font-weight: normal;
       font-style: normal;
-      margin-top: 15px;
       margin-left: 10px;
       font-stretch: normal;
       line-height: 1.33;

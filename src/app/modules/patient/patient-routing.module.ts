@@ -58,6 +58,21 @@ const routes: Routes = [
       }
     },
     {
+      path: 'patient/add',
+      pathMatch: 'full',
+      component: PatientFormComponent,
+      resolve: {
+        user: UserResolver
+      },
+      data: {
+        navLinks: [
+          { linkAction: 'patients', linkName: 'Patients', linkType: 'link' }
+          // { linkAction: 'patient/previous', linkName: 'Previous Discharge', linkType: 'link' },
+        ],
+        title: extract('New Patient')
+      }
+    },
+    {
       path: 'patient/edit/:patientId',
       pathMatch: 'full',
       component: PatientFormComponent,
