@@ -60,6 +60,7 @@
               lines="none"
               *ngFor="let patientContact of patientContacts || {}; let idx = index"
               formGroupName="{{ idx }}"
+              id="additionalContact-{{ idx }}"
             >
               <div class="section-header">
                 <span *ngIf="idx == 0; else alternateContact">Primary Contact</span>
@@ -105,7 +106,7 @@
                 <ion-item
                   *ngIf="idx > 0"
                   class="ion-float-right remove-additional-contact"
-                  (click)="removeAdditionaContact()"
+                  (click)="removeAdditionalContact(idx)"
                 >
                   [ - remove contact ]
                 </ion-item>

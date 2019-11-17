@@ -265,6 +265,11 @@ export class PatientFormComponent implements OnInit {
       })
     );
   }
+
+  removeAdditionalContact(idx: number) {
+    let element: HTMLElement = document.querySelector('#additionalContact-' + idx) as HTMLElement;
+    element.remove();
+  }
   onFormSubmit(): void {
     if (!this.validateControls()) {
       return;
