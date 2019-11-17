@@ -8,7 +8,7 @@ import { User } from '@app/modules/user/user';
 import { SuperForm } from 'angular-super-validator';
 import { PatientPutBody } from './patient-form';
 import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
-import { PatientContact } from '../patient-contact/patient-contact';
+import { PatientContact, PatientContactPostBody } from '../patient-contact/patient-contact';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientContactService } from '../patient-contact/patient-contact.service';
 import { Operation } from '@app/modules/operation/operation';
@@ -287,6 +287,8 @@ export class PatientFormComponent implements OnInit {
         .addPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
         .subscribe((data: any) => {});
     });
+    var patientContactPost = this.patientContactPostFactory(formSubmission);
+    this.patientContactService.addNewPatientContactByPatientId(this.patient.patientId, patientContactPost);
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       alert('Patient successfully edited');
@@ -294,6 +296,25 @@ export class PatientFormComponent implements OnInit {
     });
   }
 
+  patientContactPostFactory(formSubmission: any): PatientContactPostBody {
+    try {
+      console.log(formSubmission);
+      debugger;
+      var payload = {
+        patientContactFirstName: formSubmission.patientContactFirstName,
+        patientContactMiddleName: formSubmission.patientContactMiddleName,
+        patientContactLastName: formSubmission.patientContactLastName,
+        patientContactRelationship: formSubmission.patientContactRelationship,
+        patientContactCountryCode: formSubmission.patientContactCountryCode,
+        patientContactAreaCode: formSubmission.patientContactAreaCode,
+        patientContactPhoneNumber: formSubmission.patientContactPhoneNumber,
+        patientContactResponsiblePartyBoolean: formSubmission.patientContactResponsiblePartyBoolean
+      };
+      return <PatientContactPostBody>payload;
+    } catch {
+      throw 'Had a problem validating data in the call rep factory';
+    }
+  }
   /**
    * create a tidy type-checked payload to send off to the API
    * we do all of our processing to agree with Swagger contract here
