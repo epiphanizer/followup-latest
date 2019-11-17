@@ -248,7 +248,7 @@ export class PatientFormComponent implements OnInit {
       patientContactCountryCode: '',
       patientContactAreaCode: '',
       patientContactPhoneNumber: '',
-      patientContactOrder: 1,
+      patientContactOrder: this.patientContacts.length + 1,
       patientResponsiblePartyBoolean: false
     });
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
@@ -287,8 +287,12 @@ export class PatientFormComponent implements OnInit {
         .addPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
         .subscribe((data: any) => {});
     });
-    var patientContactPost = this.patientContactPostFactory(formSubmission);
-    this.patientContactService.addNewPatientContactByPatientId(this.patient.patientId, patientContactPost);
+
+    this.patientContacts.forEach(patientContact => {
+      var patientContactPost = this.patientContactPostFactory(patientContact);
+      this.patientContactService.addNewPatientContactByPatientId(this.patient.patientId, patientContactPost);
+    });
+
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       alert('Patient successfully edited');
