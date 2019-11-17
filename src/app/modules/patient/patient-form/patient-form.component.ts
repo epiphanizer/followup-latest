@@ -36,6 +36,7 @@ export class PatientFormComponent implements OnInit {
   fileToUpload: File;
   patient: Patient;
   patientContacts: PatientContact[] = [];
+  patientContactsToRemove: number[] = [];
   patientContacts$: Observable<PatientContact[]>;
   patientIntakeQuestions: PatientIntakeQuestion[] = [];
   patientIntakeQuestions$: Observable<PatientIntakeQuestion[]>;
@@ -267,6 +268,8 @@ export class PatientFormComponent implements OnInit {
   }
 
   removeAdditionalContact(idx: number) {
+    // Assumes we have a patient contact to begin with (is this the smartest way to do this? think on it)
+    this.patientContactsToRemove.push(this.patientContacts[idx].patientContactId);
     let element: HTMLElement = document.querySelector('#additionalContact-' + idx) as HTMLElement;
     element.remove();
   }
