@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
         this.menu = [
           {
             name: 'Patients',
-            action: 'patient/add',
+            action: 'patients',
             image: '/assets/icon-patients@2x.png',
             enabled: true
           },

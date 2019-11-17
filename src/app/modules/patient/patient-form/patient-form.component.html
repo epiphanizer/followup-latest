@@ -108,6 +108,13 @@
                   (click)="addAdditionalContact()"
                   >[ + additional contact ]</ion-item
                 >
+                <ion-item
+                  *ngIf="idx > 0"
+                  class="ion-float-right remove-additional-contact"
+                  (click)="removeAdditionaContact()"
+                >
+                  [ - remove contact ]
+                </ion-item>
               </div>
             </ion-list>
           </fieldset>

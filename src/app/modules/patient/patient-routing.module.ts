@@ -44,7 +44,7 @@ const routes: Routes = [
     {
       path: 'patients',
       pathMatch: 'full',
-      component: PatientFormComponent,
+      component: PatientListingComponent,
       resolve: {
         user: UserResolver
       },

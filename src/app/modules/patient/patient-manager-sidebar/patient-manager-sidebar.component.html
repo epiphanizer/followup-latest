@@ -23,7 +23,7 @@
       <a
         (click)="setActiveOperation(operation)"
         [routerLink]="['/operations/' + operation.operationId + '/patients']"
-        [ngClass]="{ active: activeOperationId == operation.operationId }"
+        [class.active]="selected.operation == operation.operationId"
       >
         {{ operation.operationName }}
       </a>
