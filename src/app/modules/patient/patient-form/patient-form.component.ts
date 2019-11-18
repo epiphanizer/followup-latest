@@ -87,7 +87,7 @@ export class PatientFormComponent implements OnInit {
           pulmonaryBoolean: false
         };
         this.createForm();
-        this.addAdditionalContact();
+        this.addAdditionalPatientContact();
         this.patientIntakeQuestionService
           .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
           .subscribe((patientIntakeQuestions: PatientIntakeQuestion[]) => {
@@ -127,7 +127,7 @@ export class PatientFormComponent implements OnInit {
           }
         });
         this.createForm();
-        this.addAdditionalContact();
+        this.addAdditionalPatientContact();
         this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
         this.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
           let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
@@ -241,7 +241,7 @@ export class PatientFormComponent implements OnInit {
       });
   }
 
-  addAdditionalContact() {
+  addAdditionalPatientContact() {
     this.patientContacts.push({
       patientContactFirstName: '',
       patientContactLastName: '',
@@ -267,8 +267,13 @@ export class PatientFormComponent implements OnInit {
     );
   }
 
-  removeAdditionalContact(idx: number) {
+  removeAdditionalPatientContact(idx: number) {
     // Assumes we have a patient contact to begin with (is this the smartest way to do this? think on it)
+    let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
+
+    patientContactArray.at(idx).clearValidators();
+    patientContactArray.removeAt(idx);
+    this.patientForm.removeControl('patient.patientContacts' + idx.toString());
     this.patientContactsToRemove.push(this.patientContacts[idx].patientContactId);
     let element: HTMLElement = document.querySelector('#additionalContact-' + idx) as HTMLElement;
     element.remove();

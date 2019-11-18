@@ -106,19 +106,15 @@
                 <ion-item
                   *ngIf="idx > 0"
                   class="ion-float-right remove-additional-contact"
-                  (click)="removeAdditionalContact(idx)"
+                  (click)="removeAdditionalPatientContact(idx)"
                 >
                   [ - remove contact ]
                 </ion-item>
-                <!-- Only show if it's the last index -->
-                <ion-item
-                  *ngIf="idx == patientContacts.length - 1"
-                  class="ion-float-right add-additional-contact"
-                  (click)="addAdditionalContact()"
-                  >[ + additional contact ]</ion-item
-                >
               </div>
             </ion-list>
+            <ion-item class="ion-float-right add-additional-contact" (click)="addAdditionalPatientContact()"
+              >[ + additional contact ]</ion-item
+            >
           </fieldset>
           <fieldset class="physician-info" formGroupName="physicianInfo">
             <ion-list class="physician-info-list" lines="none" inset>
