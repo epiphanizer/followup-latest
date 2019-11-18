@@ -52,6 +52,7 @@ export class CallQueuePatientListingComponent implements OnInit {
         this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
           map((patients: Patient[]) => {
             this.patients = patients;
+            this.getCurrentNewDischargeCount(patients);
             return patients;
           })
         );
