@@ -23,7 +23,7 @@
               <ion-item>
                 <ion-label color="medium" position="floating">Password</ion-label>
                 <ion-input
-                  (keyup.enter)="signIn()"
+                  (keydown.enter)="signIn()"
                   type="password"
                   formControlName="password"
                   autocomplete="current-password"

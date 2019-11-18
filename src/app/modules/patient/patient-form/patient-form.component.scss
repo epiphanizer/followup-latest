@@ -136,7 +136,7 @@ form {
 
     &.patient-medical-record-number {
       width: 143px;
-      padding-left: 10px;
+      margin-left: 10px;
       display: inline-block;
     }
 
@@ -157,7 +157,6 @@ form {
     }
 
     ion-datetime {
-      width: 120px;
       height: auto;
       font-family: Avenir;
       font-size: 14px;
@@ -318,8 +317,9 @@ form {
         width: 115px;
       }
 
-      &.order {
+      &.patient-contact-order {
         width: 60px;
+        display: none !important;
       }
     }
 

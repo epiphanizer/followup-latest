@@ -93,9 +93,9 @@
                   <ion-label color="medium" position="stacked">Phone #</ion-label>
                   <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
                 </ion-item>
-                <ion-item class="order">
+                <ion-item class="patient-contact-order">
                   <ion-label color="medium" position="stacked">Order</ion-label>
-                  <ion-input type="number" formControlName="patientContactOrder"></ion-input>
+                  <ion-input type="number" formControlName="patientContactOrder" value="{{ idx + 1 }}"></ion-input>
                 </ion-item>
                 <ion-item class="responsible-party">
                   <ion-label color="medium" type="stacked">Responsible Party?</ion-label>

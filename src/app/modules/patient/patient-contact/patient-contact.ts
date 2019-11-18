@@ -3,7 +3,7 @@ export interface PatientContact {
   patientContactFirstName: string;
   patientContactLastName: string;
   patientContactRelationship: string;
-  patientContactCountryCode: string;
+  patientContactCountryCode: number;
   patientContactAreaCode: string;
   patientContactPhoneNumber: string;
   patientContactOrder: number;
@@ -13,7 +13,7 @@ export interface PatientContactPostBody {
   patientContactFirstName: string;
   patientContactLastName: string;
   patientContactRelationship: string;
-  patientContactCountryCode: string;
+  patientContactCountryCode: number;
   patientContactAreaCode: string;
   patientContactPhoneNumber: string;
   patientContactResponsiblePartyBoolean: boolean;

@@ -52,9 +52,8 @@ const routes: Routes = [
         navLinks: [
           { linkAction: 'patient/add', linkName: 'Add Patient', linkType: 'link' },
           { linkAction: 'notifications', linkName: 'Notifications', linkType: 'link' }
-          // { linkAction: 'patient/previous', linkName: 'Previous Discharge', linkType: 'link' },
         ],
-        title: extract('New Patient')
+        title: extract('Patient Listing')
       }
     },
     {
@@ -65,10 +64,7 @@ const routes: Routes = [
         user: UserResolver
       },
       data: {
-        navLinks: [
-          { linkAction: 'patients', linkName: 'Patients', linkType: 'link' }
-          // { linkAction: 'patient/previous', linkName: 'Previous Discharge', linkType: 'link' },
-        ],
+        navLinks: [{ linkAction: 'patients', linkName: 'Patients', linkType: 'link' }],
         title: extract('New Patient')
       }
     },
