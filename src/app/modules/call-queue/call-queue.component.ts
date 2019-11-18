@@ -21,10 +21,12 @@ export class CallQueueComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.user.operations$.subscribe((data: Operation[]) => {
-      /** Init to the first assigned operation alphabetically */
-      this.selected.operation = data[0];
-    });
+    this.user.operations$
+      .subscribe((data: Operation[]) => {
+        /** Init to the first assigned operation alphabetically */
+        this.selected.operation = data[0];
+      })
+      .unsubscribe();
   }
 
   handleDateFilterChangeEvent($event: string) {

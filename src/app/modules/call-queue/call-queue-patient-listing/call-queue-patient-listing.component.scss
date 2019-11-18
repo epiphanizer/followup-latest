@@ -161,6 +161,9 @@ ul.patient-filters {
     &.new-discharge {
       background-color: rgba(20, 171, 52, 0.15);
     }
+    &.todays-call {
+      background-color: rgba(102, 51, 204, 0.15);
+    }
     .badge-container {
       span {
         width: 15px;

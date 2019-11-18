@@ -24,10 +24,14 @@ export class CallQueuePatientListingComponent implements OnInit {
   public patients: Patient[];
   public patients$: Observable<Patient[]> | void = null;
   public patientCallStatuses: PatientCallStatus[];
+  public todaysDate: Date;
   public selectedSortFlag: string = 'asc';
 
   constructor(private patientService: PatientService, private patientCallStatusService: PatientCallStatusService) {}
   ngOnInit() {
+    this.todaysDate = new Date();
+    console.log(this.todaysDate);
+    debugger;
     this.currentYear = new Date().getFullYear();
     this.patientCallStatusService.getPatientCallStatuses().subscribe((patientCallStatuses: PatientCallStatus[]) => {
       this.patientCallStatuses = patientCallStatuses;
@@ -67,6 +71,14 @@ export class CallQueuePatientListingComponent implements OnInit {
       });
     }
   };
+  public checkDateGreaterThanEqualToToday(patientNextCallScheduledTime: string) {
+    let patientNextCallDateObj = new Date(patientNextCallScheduledTime);
+    if (patientNextCallDateObj <= this.todaysDate) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   public sortPatientsByCallDate = function(sortFlag: string) {
     this.filterBy = 'call-date';
