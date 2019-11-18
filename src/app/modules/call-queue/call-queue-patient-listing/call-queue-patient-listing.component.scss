@@ -157,13 +157,14 @@ ul.patient-filters {
     &:hover {
       background-color: rgba(19, 175, 233, 0.35);
     }
+    &.todays-call {
+      background-color: rgba(102, 51, 204, 0.15);
+    }
 
     &.new-discharge {
       background-color: rgba(20, 171, 52, 0.15);
     }
-    &.todays-call {
-      background-color: rgba(102, 51, 204, 0.15);
-    }
+
     .badge-container {
       span {
         width: 15px;
