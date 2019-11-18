@@ -24,7 +24,7 @@ import { ActivatedRoute } from '@angular/router';
           width: '28px'
         })
       ),
-      transition('open => closed', [animate('0.5s')]),
+      transition('open => closed', [animate('0.25s')]),
       transition('closed => open', [animate('0.25s')])
     ])
   ]

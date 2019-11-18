@@ -33,7 +33,7 @@ import { OperationService } from '@app/modules/operation/operation.service';
           opacity: 0
         })
       ),
-      transition('open => closed', [animate('0.5s')]),
+      transition('open => closed', [animate('0.25s')]),
       transition('closed => open', [animate('0.25s')])
     ]),
     trigger('turnArrow', [
@@ -79,7 +79,7 @@ export class CallQueueSidebarComponent {
             this.selected.operation = data[0];
           });
         } else {
-          /** Init to the first user operation (alphabetically, descending) */
+          /** Init to the first user operation (alphabetically,) */
           this.selected.operation = this.operations[0];
         }
       });
