@@ -143,7 +143,9 @@ export class PatientFormComponent implements OnInit {
                   patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode),
                   patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber),
                   patientContactOrder: this.fb.control(patientContact.patientContactOrder),
-                  patientResponsiblePartyBoolean: this.fb.control(patientContact.patientResponsiblePartyBoolean)
+                  patientContactResponsiblePartyBoolean: this.fb.control(
+                    patientContact.patientContactResponsiblePartyBoolean
+                  )
                 })
               );
               this.patientContacts.push(patientContact);
@@ -249,8 +251,8 @@ export class PatientFormComponent implements OnInit {
       patientContactCountryCode: '',
       patientContactAreaCode: '',
       patientContactPhoneNumber: '',
-      patientContactOrder: this.patientContacts.length + 1,
-      patientResponsiblePartyBoolean: false
+      patientContactOrder: (this.patientContacts.length + 1).toString(),
+      patientContactResponsiblePartyBoolean: 0
     });
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
     let idx = patientContactArray.length;
@@ -263,7 +265,7 @@ export class PatientFormComponent implements OnInit {
         patientContactAreaCode: this.fb.control('', [Validators.required]),
         patientContactPhoneNumber: this.fb.control('', [Validators.required]),
         patientContactOrder: this.fb.control({ value: idx }, [Validators.required]),
-        patientResponsiblePartyBoolean: this.fb.control(false)
+        patientContactResponsiblePartyBoolean: this.fb.control(false)
       })
     );
   }
