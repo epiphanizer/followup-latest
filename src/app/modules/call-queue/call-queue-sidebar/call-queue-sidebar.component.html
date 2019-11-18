@@ -20,9 +20,12 @@
     *ngIf="operations; else noOperations"
   >
     <div *ngFor="let operation of operations; let i = index">
-      <ng-container *ngIf="operation.currentAssignedPatientCount > 0">
+      <ng-container *ngIf="operation.currentAssignedPatientCount > 0 && selected.operation">
         <li>
-          <a (click)="setActiveOperation(operation)" [ngClass]="{ active: selected.operation == operation }">
+          <a
+            (click)="setActiveOperation(operation)"
+            [class.active]="selected.operation.operationId == operation.operationId"
+          >
             {{ operation.operationName }}
             <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
           </a>
