@@ -298,7 +298,12 @@ export class PatientFormComponent implements OnInit {
 
     this.patientContacts.forEach(patientContact => {
       var patientContactPost = this.patientContactPostFactory(patientContact);
-      this.patientContactService.addNewPatientContactByPatientId(this.patient.patientId, patientContactPost);
+      this.patientContactService
+        .addNewPatientContactByPatientId(this.patient.patientId, patientContactPost)
+        .subscribe((data: any) => {
+          console.log(data);
+          debugger;
+        });
     });
 
     let patientPutBody = this.formSubmissionFactory(formSubmission);
