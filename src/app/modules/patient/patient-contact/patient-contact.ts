@@ -3,7 +3,7 @@ export interface PatientContact {
   patientContactFirstName: string;
   patientContactLastName: string;
   patientContactRelationship: string;
-  patientContactCountryCode: number;
+  patientContactCountryCode: string;
   patientContactAreaCode: string;
   patientContactPhoneNumber: string;
   patientContactOrder: number;

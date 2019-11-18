@@ -246,13 +246,14 @@ export class PatientFormComponent implements OnInit {
       patientContactFirstName: '',
       patientContactLastName: '',
       patientContactRelationship: '',
-      patientContactCountryCode: 1,
+      patientContactCountryCode: '',
       patientContactAreaCode: '',
       patientContactPhoneNumber: '',
       patientContactOrder: this.patientContacts.length + 1,
       patientResponsiblePartyBoolean: false
     });
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
+    let idx = patientContactArray.length;
     patientContactArray.push(
       this.fb.group({
         patientContactFirstName: this.fb.control('', [Validators.required]),
@@ -261,7 +262,7 @@ export class PatientFormComponent implements OnInit {
         patientContactCountryCode: this.fb.control('', [Validators.required]),
         patientContactAreaCode: this.fb.control('', [Validators.required]),
         patientContactPhoneNumber: this.fb.control('', [Validators.required]),
-        patientContactOrder: this.fb.control('', [Validators.required]),
+        patientContactOrder: this.fb.control({ value: idx }, [Validators.required]),
         patientResponsiblePartyBoolean: this.fb.control(false)
       })
     );
@@ -352,8 +353,8 @@ export class PatientFormComponent implements OnInit {
       patientPhysicianCountryCode: formSubmission.patient.physicianInfo.physicianCountryCode || 1,
       patientPhysicianAreaCode: formSubmission.patient.physicianInfo.physicianAreaCode || '',
       patientPhysicianPhoneNumber: formSubmission.patient.physicianInfo.physicianPhoneNumber || '',
-      patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance,
-      patientSecondaryInsurance: formSubmission.patient.insurance.secondaryInsurance,
+      patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
+      patientSecondaryInsurance: formSubmission.patient.insurance.secondaryInsurance || '',
       patientAdmitDate: formSubmission.patient.dischargeInfo.patientAdmitDate,
       patientDischargeDate: formSubmission.patient.dischargeInfo.patientDischargeDate,
       patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma == true ? 1 : 0,
