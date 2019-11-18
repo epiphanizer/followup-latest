@@ -252,7 +252,7 @@ export class PatientFormComponent implements OnInit {
       patientContactAreaCode: '',
       patientContactPhoneNumber: '',
       patientContactOrder: (this.patientContacts.length + 1).toString(),
-      patientContactResponsiblePartyBoolean: 0
+      patientContactResponsiblePartyBoolean: false
     });
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
     let idx = patientContactArray.length;
@@ -264,7 +264,7 @@ export class PatientFormComponent implements OnInit {
         patientContactCountryCode: this.fb.control('', [Validators.required]),
         patientContactAreaCode: this.fb.control('', [Validators.required]),
         patientContactPhoneNumber: this.fb.control('', [Validators.required]),
-        patientContactOrder: this.fb.control({ value: idx }, [Validators.required]),
+        patientContactOrder: this.fb.control(idx, [Validators.required]),
         patientContactResponsiblePartyBoolean: this.fb.control(false)
       })
     );
@@ -305,7 +305,7 @@ export class PatientFormComponent implements OnInit {
       /**
        * Kind of a hijack here
        */
-      this.patientContacts[index] = formSubmission.patientContacts[index];
+      this.patientContacts[index] = formSubmission.patient.patientContacts[index];
       console.log(this.patientContacts);
       debugger;
       var patientContactPost = this.patientContactPostFactory(this.patientContacts[index]);
@@ -334,7 +334,7 @@ export class PatientFormComponent implements OnInit {
         patientContactAreaCode: patientContact.patientContactAreaCode,
         patientContactPhoneNumber: patientContact.patientContactPhoneNumber,
         patientContactOrder: patientContact.patientContactOrder,
-        patientContactResponsiblePartyBoolean: patientContact.patientContactResponsiblePartyBoolean
+        patientContactResponsiblePartyBoolean: patientContact.patientContactResponsiblePartyBoolean == true ? 1 : 0
       };
       return <PatientContactPostBody>payload;
     } catch {
