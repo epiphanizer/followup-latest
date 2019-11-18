@@ -12,6 +12,7 @@ import {
 
 import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
+import { OperationService } from '@app/modules/operation/operation.service';
 
 @Component({
   providers: [],
@@ -61,17 +62,25 @@ export class CallQueueSidebarComponent {
     operation: null
   };
   isOpen = true;
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
   user: User;
   todaysDateDay: number;
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.operations = this.user.operations;
-    this.user.operations$.subscribe((data: Operation[]) => {
-      /** Init to the first assigned operation alphabetically */
-      this.selected.operation = data[0];
-      this.operations = data;
+    this.route.paramMap.subscribe((data: any) => {
+      if (data.params.operationId) {
+        this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
+          this.selected.operation = data[0];
+        });
+      } else {
+        this.user.operations$.subscribe((data: Operation[]) => {
+          /** Init to the first assigned operation alphabetically */
+          this.selected.operation = data[0];
+          this.operations = data;
+        });
+      }
     });
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
