@@ -139,7 +139,7 @@ export class PatientFormComponent implements OnInit {
                   patientContactFirstName: this.fb.control(patientContact.patientContactFirstName),
                   patientContactLastName: this.fb.control(patientContact.patientContactLastName),
                   patientContactRelationship: this.fb.control(patientContact.patientContactRelationship),
-                  patientContactCountryCode: this.fb.control(1),
+                  patientContactCountryCode: this.fb.control(patientContact.patientContactCountryCode),
                   patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode),
                   patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber),
                   patientContactOrder: this.fb.control(patientContact.patientContactOrder),
