@@ -69,17 +69,19 @@ export class CallQueueSidebarComponent {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.operations = this.user.operations;
+    this.user.operations$.subscribe((data: Operation[]) => {
+      /** Init to the first assigned operation alphabetically */
+      this.selected.operation = data[0];
+    });
+
     this.route.paramMap.subscribe((data: any) => {
       if (data.params.operationId) {
         this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
           this.selected.operation = data[0];
         });
       } else {
-        this.user.operations$.subscribe((data: Operation[]) => {
-          /** Init to the first assigned operation alphabetically */
-          this.selected.operation = data[0];
-          this.operations = data;
-        });
+        /** Init to the first assigned operation alphabetically */
+        this.selected.operation = this.user.operations[0];
       }
     });
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
