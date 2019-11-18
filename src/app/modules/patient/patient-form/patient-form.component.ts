@@ -327,6 +327,7 @@ export class PatientFormComponent implements OnInit {
   patientContactPostFactory(patientContact: PatientContact): PatientContactPostBody {
     try {
       var payload = {
+        patientId: this.patient.patientId,
         patientContactFirstName: patientContact.patientContactFirstName,
         patientContactLastName: patientContact.patientContactLastName,
         patientContactRelationship: patientContact.patientContactRelationship,
