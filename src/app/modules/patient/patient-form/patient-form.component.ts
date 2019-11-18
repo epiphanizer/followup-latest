@@ -264,7 +264,7 @@ export class PatientFormComponent implements OnInit {
         patientContactCountryCode: this.fb.control('', [Validators.required]),
         patientContactAreaCode: this.fb.control('', [Validators.required]),
         patientContactPhoneNumber: this.fb.control('', [Validators.required]),
-        patientContactOrder: this.fb.control(idx, [Validators.required]),
+        patientContactOrder: this.fb.control(idx + 1, [Validators.required]),
         patientContactResponsiblePartyBoolean: this.fb.control(false)
       })
     );
