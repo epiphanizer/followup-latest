@@ -202,6 +202,7 @@ export class PatientDetailComponent implements OnInit {
           3
         )
         .subscribe((data: any) => {
+          let navigateToUrl = '/call-queue/' + this.patient.patientOperationId;
           let patientCallId = data.patientCallId;
           let itemsProcessed = 0;
           if (this.patientNextCallQuestions.length) {
@@ -211,12 +212,12 @@ export class PatientDetailComponent implements OnInit {
                 .subscribe((data: any) => {
                   itemsProcessed++;
                   if (itemsProcessed === this.patientNextCallQuestions.length) {
-                    this.router.navigateByUrl('/call-queue');
+                    this.router.navigateByUrl(navigateToUrl);
                   }
                 });
             });
           } else {
-            this.router.navigate(['/call-queue']);
+            this.router.navigateByUrl(navigateToUrl);
           }
         });
     });

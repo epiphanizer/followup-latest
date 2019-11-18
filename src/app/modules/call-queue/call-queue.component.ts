@@ -20,6 +20,7 @@ export class CallQueueComponent implements OnInit {
   user: User;
   constructor(private route: ActivatedRoute) {}
   ngOnInit() {
+    // we only want to default if the operation id is not passed
     this.user = this.route.snapshot.data.user;
     this.user.operations$
       .subscribe((data: Operation[]) => {
