@@ -60,7 +60,7 @@
               lines="none"
               *ngFor="let patientContact of patientContacts || {}; let idx = index"
               formGroupName="{{ idx }}"
-              id="additionalContact-{{ idx }}"
+              id="additionalPatientContact-{{ idx }}"
             >
               <div class="section-header">
                 <span *ngIf="idx == 0; else alternateContact">Primary Contact</span>

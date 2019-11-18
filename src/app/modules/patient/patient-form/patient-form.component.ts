@@ -275,7 +275,7 @@ export class PatientFormComponent implements OnInit {
     patientContactArray.removeAt(idx);
     this.patientForm.removeControl('patient.patientContacts' + idx.toString());
     this.patientContactsToRemove.push(this.patientContacts[idx].patientContactId);
-    let element: HTMLElement = document.querySelector('#additionalContact-' + idx) as HTMLElement;
+    let element: HTMLElement = document.querySelector('#additionalPatientContact-' + idx) as HTMLElement;
     element.remove();
   }
   onFormSubmit(): void {
