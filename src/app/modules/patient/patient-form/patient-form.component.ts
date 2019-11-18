@@ -297,8 +297,8 @@ export class PatientFormComponent implements OnInit {
         .subscribe((data: any) => {});
     });
 
-    this.patientContacts.forEach(patientContact => {
-      var patientContactPost = this.patientContactPostFactory(patientContact);
+    this.patientContacts.forEach((patientContact: PatientContact, index: number) => {
+      var patientContactPost = this.patientContactPostFactory(this.patientContacts[index]);
       this.patientContactService
         .addNewPatientContactByPatientId(this.patient.patientId, patientContactPost)
         .subscribe((data: any) => {
@@ -314,19 +314,17 @@ export class PatientFormComponent implements OnInit {
     });
   }
 
-  patientContactPostFactory(formSubmission: any): PatientContactPostBody {
+  patientContactPostFactory(patientContact: PatientContact): PatientContactPostBody {
     try {
-      console.log(formSubmission);
-      debugger;
       var payload = {
-        patientContactFirstName: formSubmission.patientContactFirstName,
-        patientContactMiddleName: formSubmission.patientContactMiddleName,
-        patientContactLastName: formSubmission.patientContactLastName,
-        patientContactRelationship: formSubmission.patientContactRelationship,
-        patientContactCountryCode: formSubmission.patientContactCountryCode,
-        patientContactAreaCode: formSubmission.patientContactAreaCode,
-        patientContactPhoneNumber: formSubmission.patientContactPhoneNumber,
-        patientContactResponsiblePartyBoolean: formSubmission.patientContactResponsiblePartyBoolean
+        patientContactFirstName: patientContact.patientContactFirstName,
+        patientContactLastName: patientContact.patientContactLastName,
+        patientContactRelationship: patientContact.patientContactRelationship,
+        patientContactCountryCode: patientContact.patientContactCountryCode,
+        patientContactAreaCode: patientContact.patientContactAreaCode,
+        patientContactPhoneNumber: patientContact.patientContactPhoneNumber,
+        patientContactOrder: patientContact.patientContactOrder,
+        patientContactResponsiblePartyBoolean: patientContact.patientContactResponsiblePartyBoolean
       };
       return <PatientContactPostBody>payload;
     } catch {

@@ -6,15 +6,16 @@ export interface PatientContact {
   patientContactCountryCode: string;
   patientContactAreaCode: string;
   patientContactPhoneNumber: string;
-  patientContactOrder: number;
-  patientResponsiblePartyBoolean: boolean;
+  patientContactOrder: string;
+  patientContactResponsiblePartyBoolean: boolean;
 }
 export interface PatientContactPostBody {
   patientContactFirstName: string;
   patientContactLastName: string;
   patientContactRelationship: string;
-  patientContactCountryCode: number;
+  patientContactCountryCode: string;
   patientContactAreaCode: string;
   patientContactPhoneNumber: string;
+  patientContactOrder: string;
   patientContactResponsiblePartyBoolean: boolean;
 }
