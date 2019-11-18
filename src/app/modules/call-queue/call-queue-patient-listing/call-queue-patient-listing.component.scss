@@ -159,10 +159,16 @@ ul.patient-filters {
     }
     &.todays-call {
       background-color: rgba(102, 51, 204, 0.15);
+      &:hover {
+        background-color: rgba(102, 51, 204, 0.35);
+      }
     }
 
     &.new-discharge {
       background-color: rgba(20, 171, 52, 0.15);
+      &:hover {
+        background-color: rgba(20, 171, 52, 0.35);
+      }
     }
 
     .badge-container {
