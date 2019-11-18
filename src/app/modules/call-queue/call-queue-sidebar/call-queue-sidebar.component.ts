@@ -13,6 +13,8 @@ import {
 import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
 import { OperationService } from '@app/modules/operation/operation.service';
+import { PatientService } from '@app/modules/patient/patient.service';
+import { Patient } from '@app/modules/patient/patient';
 
 @Component({
   providers: [],
@@ -55,6 +57,7 @@ import { OperationService } from '@app/modules/operation/operation.service';
   ]
 })
 export class CallQueueSidebarComponent {
+  currentNewDischargeCount: number;
   @Output() operationChangeEvent = new EventEmitter<number>();
   selected: {
     operation: Operation | null;
@@ -62,7 +65,11 @@ export class CallQueueSidebarComponent {
     operation: null
   };
   isOpen = true;
-  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private operationService: OperationService,
+    private patientService: PatientService
+  ) {}
   operations: Operation[];
   user: User;
   todaysDateDay: number;
@@ -72,11 +79,22 @@ export class CallQueueSidebarComponent {
     this.user.operations$.subscribe((data: Operation[]) => {
       /** Init to the first assigned operation alphabetically */
       this.operations = data;
-      console.log(this.operations);
+      this.operations.forEach((operation: Operation, idx: number) => {
+        this.patientService
+          .getActivePatientListByOperationId(operation.operationId)
+          .subscribe((patients: Patient[]) => {
+            this.operations[idx].currentNewDischargeCount = this.getCurrentNewDischargeCount(patients);
+          });
+      });
       this.route.paramMap.subscribe((data: any) => {
         if (data.params.operationId) {
           this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
             this.selected.operation = data[0];
+            this.patientService
+              .getActivePatientListByOperationId(this.selected.operation.operationId)
+              .subscribe((patients: Patient[]) => {
+                this.getCurrentNewDischargeCount(patients);
+              });
           });
         } else {
           /** Init to the first user operation (alphabetically,) */
@@ -86,6 +104,13 @@ export class CallQueueSidebarComponent {
     });
 
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+  }
+  public getCurrentNewDischargeCount(patients: Patient[]) {
+    let patientsWithNoCalls = [];
+    patientsWithNoCalls = patients.filter(function(patient: Patient) {
+      return patient.patientCallCount - 1 == 0;
+    });
+    return patientsWithNoCalls.length;
   }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;

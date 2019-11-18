@@ -1,8 +1,8 @@
 <div class="section-header">
-  <ng-container *ngIf="operation.currentNewDischargeCount > 0">
-    <i class="icon-new-discharges" *ngIf="operation.currentNewDischargeCount"> </i>
+  <ng-container>
+    <i class="icon-new-discharges"> </i>
     <span class="operation-discharges">
-      {{ operation.currentNewDischargeCount }}
+      {{ currentNewDischargeCount }}
     </span>
   </ng-container>
   <ng-container *ngIf="operation.todaysCallCount > 0">

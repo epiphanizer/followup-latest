@@ -18,6 +18,7 @@ import { PatientCallService } from '@app/modules/patient/patient-detail/patient-
 })
 export class CallQueuePatientListingComponent implements OnInit {
   currentYear: number;
+  currentNewDischargeCount: number;
   @Input() operation: Operation;
   // we default to filtering by next call-date
   filterBy: string = 'call-date';
@@ -37,6 +38,7 @@ export class CallQueuePatientListingComponent implements OnInit {
     this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
       map((patients: Patient[]) => {
         this.patients = patients;
+        this.getCurrentNewDischargeCount(patients);
         this.sortPatientsByCallDate(this.selectedSortFlag);
         return patients;
       })
@@ -57,6 +59,21 @@ export class CallQueuePatientListingComponent implements OnInit {
     }
   }
 
+  public checkDateGreaterThanEqualToToday(patientNextCallScheduledTime: string) {
+    let patientNextCallDateObj = new Date(patientNextCallScheduledTime);
+    if (patientNextCallDateObj <= this.todaysDate) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public getCurrentNewDischargeCount(patients: Patient[]) {
+    let patientsWithNoCalls = [];
+    patientsWithNoCalls = patients.filter(function(patient: Patient) {
+      return patient.patientCallCount - 1 == 0;
+    });
+    this.currentNewDischargeCount = patientsWithNoCalls.length;
+  }
   public sortPatientsByDischargeDate = function(sortFlag: string) {
     this.filterBy = 'discharge-date';
     if (sortFlag == 'asc') {
@@ -69,15 +86,6 @@ export class CallQueuePatientListingComponent implements OnInit {
       });
     }
   };
-  public checkDateGreaterThanEqualToToday(patientNextCallScheduledTime: string) {
-    let patientNextCallDateObj = new Date(patientNextCallScheduledTime);
-    if (patientNextCallDateObj <= this.todaysDate) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   public sortPatientsByCallDate = function(sortFlag: string) {
     this.filterBy = 'call-date';
     if (sortFlag == 'asc') {
