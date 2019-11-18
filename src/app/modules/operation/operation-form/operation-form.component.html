@@ -132,18 +132,21 @@
                 </ion-row>
               </ion-item>
             </ion-item>
-            <span class="ion-float-right add-call-rep" (click)="addAdditionalContact()">[ + add contact ]</span>
+            <span class="ion-float-right add-call-rep" (click)="addAdditionalOperationContact()"
+              >[ + add contact ]</span
+            >
           </ion-list>
         </ng-container>
       </fieldset>
-      <fieldset class="operation-team-members">
+      <fieldset class="operation-team-members" formArray="operationManagers">
         <div class="section-header">
           <i class="icon-team-members"></i>
           <span>Team Members</span>
         </div>
         <ion-list class="assigned-manager-list" lines="none">
           <ng-container *ngFor="let operationManager of operationManagers$ | async; let idx = index">
-            <ion-item>
+            <!-- <ion-item id="operation-manager-{{ idx }}" formControlName="{{ idx }}"> -->
+            <ion-item id="operation-manager-{{ idx }}">
               <ion-label position="stacked" color="medium">
                 Assigned Manager
               </ion-label>
@@ -157,7 +160,7 @@
                 </ion-select-option>
               </ion-select>
             </ion-item>
-            <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeManager(idx)"
+            <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeOperationManager(idx)"
               >[ - remove manager ]</span
             >
           </ng-container>
@@ -168,7 +171,7 @@
         <ng-container>
           <ion-list class="assigned-callrep-list" lines="none" inset>
             <ng-container *ngFor="let operationCallRep of operationCallReps$ | async; let idx = index">
-              <ion-item>
+              <ion-item id="operationCallRep-{{ idx }}">
                 <ion-label position="stacked" color="medium">Care Rep {{ idx + 1 }} </ion-label>
                 <ion-select>
                   <ion-select-option
@@ -180,7 +183,7 @@
                   </ion-select-option>
                 </ion-select>
               </ion-item>
-              <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeCallRep(idx)"
+              <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeOperationCallRep(idx)"
                 >[ - remove ]</span
               >
             </ng-container>

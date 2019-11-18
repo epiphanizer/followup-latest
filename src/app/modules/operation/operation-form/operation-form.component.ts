@@ -47,11 +47,13 @@ export class OperationFormComponent implements OnInit {
   operation$: Observable<Operation>;
   operationCallReps: OperationCallRep[] = [];
   operationCallReps$: Observable<OperationCallRep[]>;
+  operationCallRepsToRemove: number[] = [];
   operationContacts$: Observable<OperationContact[]>;
+  operationContacts: OperationContact[] = [];
+  operationContactsToRemove: number[] = [];
   operationManagers: OperationManager[] = [];
   operationManagers$: Observable<OperationManager[]>;
-
-  operationContacts: OperationContact[] = [];
+  operationManagersToRemove: number[] = [];
   user: User;
 
   constructor(
@@ -128,9 +130,9 @@ export class OperationFormComponent implements OnInit {
   }
 
   armForm() {
-    this.addAdditionalContact();
-    this.addAdditionalManager();
-    this.addAdditionalCallRep();
+    this.addAdditionalOperationContact();
+    this.addAdditionalOperationManager();
+    this.addAdditionalOperationCallRep();
     this.availableUsers$ = this.userService.getAllUsers();
     this.availableManagers$ = this.userService.getAllManagerUsers();
 
@@ -175,7 +177,7 @@ export class OperationFormComponent implements OnInit {
     operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
     this.armForm();
   }
-  addAdditionalCallRep() {
+  addAdditionalOperationCallRep() {
     let formArray = this.operationForm.controls.operationCallReps as FormArray;
     formArray.push(this.fb.control({}));
     let newCallRep = {
@@ -185,11 +187,7 @@ export class OperationFormComponent implements OnInit {
     };
     this.operationCallReps.push(newCallRep);
   }
-  removeCallRep(idx: number) {
-    let formArray = this.operationForm.controls.operationCallReps as FormArray;
-    formArray.removeAt(idx);
-  }
-  addAdditionalManager() {
+  addAdditionalOperationManager() {
     let formArray = this.operationForm.controls.operationManagers as FormArray;
     formArray.push(this.fb.control({}));
     let newManager = {
@@ -198,12 +196,8 @@ export class OperationFormComponent implements OnInit {
     };
     this.operationManagers.push(newManager);
   }
-  removeManager(idx: number) {
-    let formArray = this.operationForm.controls.operationManagers as FormArray;
-    formArray.removeAt(idx);
-  }
 
-  addAdditionalContact() {
+  addAdditionalOperationContact() {
     let formArray = this.operationForm.controls.operationContacts as FormArray;
     let contactFormGroup = this.fb.group({});
     contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
@@ -311,6 +305,7 @@ export class OperationFormComponent implements OnInit {
     let formSubmission = this.operationForm.getRawValue();
     // Passing E2E
     let operationManagerPost = this.operationManagerPostFactory(formSubmission);
+    // Need a filter here to see new vs. old
     this.operationService
       .assignManagerToOperationByOperationIdAndUserId(formSubmission.operation.operationId, operationManagerPost.userId)
       .subscribe((data: any) => {
@@ -318,7 +313,7 @@ export class OperationFormComponent implements OnInit {
         // debugger;
         alert('Manager successfully added');
       });
-
+    // Need a filter here to see new vs. old
     let operationCallRepPost = this.operationCallRepPostFactory(formSubmission);
     this.operationCallRepsService
       .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
@@ -326,7 +321,7 @@ export class OperationFormComponent implements OnInit {
         console.log(data);
         alert('Callrep successfully added');
       });
-    // This also gets the notifications they have
+    // Need a filter here to see new vs. old
     debugger;
     this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
       let operationContactPost = this.operationContactPostFactory(operationContact);
@@ -358,6 +353,20 @@ export class OperationFormComponent implements OnInit {
       });
   }
 
+  removeOperationCallRep(idx: number) {
+    let formArray = this.operationForm.controls.operationCallReps as FormArray;
+    formArray.removeAt(idx);
+    this.operationCallRepsToRemove.push(this.operationCallReps[idx].operationCallRepId);
+    let element: HTMLElement = document.querySelector('#operationCallRep-' + idx) as HTMLElement;
+    element.remove();
+  }
+  removeOperationManager(idx: number) {
+    let formArray = this.operationForm.controls.operationManagers as FormArray;
+    formArray.removeAt(idx);
+    this.operationManagersToRemove.push(this.operationManagers[idx].operationManagerId);
+    let element: HTMLElement = document.querySelector('#operationContact-' + idx) as HTMLElement;
+    element.remove();
+  }
   /**
    * A function to validate controls,
    * and if there are any validation errors,
