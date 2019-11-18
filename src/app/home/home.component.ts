@@ -28,6 +28,12 @@ export class HomeComponent implements OnInit {
             enabled: true
           },
           {
+            name: 'Patients',
+            action: 'patients',
+            image: '/assets/icon-patients@2x.png',
+            enabled: true
+          },
+          {
             name: 'Notifications',
             action: 'notifications',
             image: '/assets/icon-manager-notifications@2x.png',
