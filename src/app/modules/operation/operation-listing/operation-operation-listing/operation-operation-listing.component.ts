@@ -46,7 +46,7 @@ export class OperationOperationListingComponent implements OnInit {
     }
   };
 
-  sortoperationsByOperationStatus = function(sortFlag: string) {
+  sortOperationsByOperationStatus = function(sortFlag: string) {
     this.filterBy = 'operation-status';
     if (sortFlag == 'asc') {
       this.operations.sort((a: Operation, b: Operation) => {
