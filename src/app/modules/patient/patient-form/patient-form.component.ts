@@ -286,6 +286,8 @@ export class PatientFormComponent implements OnInit {
       return;
     }
     let formSubmission = this.patientForm.getRawValue();
+    console.log(formSubmission);
+    debugger;
     /**
      * Run processing on our patient intake questions
      */
@@ -300,6 +302,12 @@ export class PatientFormComponent implements OnInit {
     });
 
     this.patientContacts.forEach((patientContact: PatientContact, index: number) => {
+      /**
+       * Kind of a hijack here
+       */
+      this.patientContacts[index] = formSubmission.patientContacts[index];
+      console.log(this.patientContacts);
+      debugger;
       var patientContactPost = this.patientContactPostFactory(this.patientContacts[index]);
       this.patientContactService
         .addNewPatientContactByPatientId(this.patient.patientId, patientContactPost)
