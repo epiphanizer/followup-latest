@@ -40,6 +40,9 @@ export class PatientFormComponent implements OnInit {
   patientContacts$: Observable<PatientContact[]>;
   patientIntakeQuestions: PatientIntakeQuestion[] = [];
   patientIntakeQuestions$: Observable<PatientIntakeQuestion[]>;
+  patientMaxAdmitDate: string = '2020';
+  // default to 2019 as our first year
+  patientMinDischargeDate: string = '2019';
   patientMedicalConditions?: string;
   operations: Operation[];
   operations$: Observable<Operation[]>;
@@ -281,6 +284,34 @@ export class PatientFormComponent implements OnInit {
     let element: HTMLElement = document.querySelector('#additionalPatientContact-' + idx) as HTMLElement;
     element.remove();
   }
+
+  updateDischargeFields() {
+    let startDate = this.patientForm.get('patient.dischargeInfo.patientAdmitDate').value;
+    let endDate = this.patientForm.get('patient.dischargeInfo.patientDischargeDate').value;
+    if (!startDate || !endDate) {
+      if (startDate) {
+        this.patientMinDischargeDate = this.patientForm
+          .get('patient.dischargeInfo.patientAdmitDate')
+          .value.substr(0, 10);
+      } else if (endDate) {
+        this.patientMaxAdmitDate = this.patientForm
+          .get('patient.dischargeInfo.patientDischargeDate')
+          .value.substr(0, 10);
+      }
+      return;
+    }
+    // Have to feed back the min and max in specific formats, see https://ionicframework.com/docs/api/datetime#properties
+    this.patientMaxAdmitDate = this.patientForm.get('patient.dischargeInfo.patientDischargeDate').value.substr(0, 10);
+    this.patientMinDischargeDate = this.patientForm.get('patient.dischargeInfo.patientAdmitDate').value.substr(0, 10);
+    console.log(this.patientMaxAdmitDate);
+    console.log(this.patientMinDischargeDate);
+    debugger;
+    // To calculate the time difference of two dates
+    var timeDiff = new Date(endDate).getTime() - new Date(startDate).getTime();
+    var dayDiff = timeDiff / (1000 * 3600 * 24);
+    this.patientForm.get('patient.dischargeInfo.patientTotalDays').setValue(dayDiff);
+  }
+
   onFormSubmit(): void {
     if (!this.validateControls()) {
       return;

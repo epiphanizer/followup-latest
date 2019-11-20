@@ -33,7 +33,8 @@
           </ion-item>
           <ion-item class="patient-dob">
             <ion-label color="medium" position="stacked">Date of Birth</ion-label>
-            <ion-datetime type="date" formControlName="patientDob"></ion-datetime>
+            <!-- <ion-input type="text" formControlName="patientDob"></ion-input> -->
+            <ion-datetime type="date" [max]="1980" formControlName="patientDob"></ion-datetime>
           </ion-item>
           <ion-list lines="none" inset formGroupName="patientName">
             <ion-item class="patient-first-name">
@@ -171,11 +172,19 @@
               <div class="patient-discharge-dates-container">
                 <ion-item class="discharge-admit-date">
                   <ion-label color="medium" position="stacked">Admitted</ion-label>
-                  <ion-datetime formControlName="patientAdmitDate"></ion-datetime>
+                  <ion-datetime
+                    formControlName="patientAdmitDate"
+                    [max]="patientMaxAdmitDate"
+                    (ionChange)="updateDischargeFields()"
+                  ></ion-datetime>
                 </ion-item>
                 <ion-item class="discharge-discharge-date">
                   <ion-label color="medium" position="stacked">Discharged</ion-label>
-                  <ion-datetime formControlName="patientDischargeDate"></ion-datetime>
+                  <ion-datetime
+                    formControlName="patientDischargeDate"
+                    [min]="patientMinDischargeDate"
+                    (ionChange)="updateDischargeFields()"
+                  ></ion-datetime>
                 </ion-item>
                 <ion-item class="discharge-total-days">
                   <ion-label color="medium" position="stacked">Total Days</ion-label>
