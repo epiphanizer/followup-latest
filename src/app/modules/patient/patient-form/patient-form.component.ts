@@ -303,9 +303,6 @@ export class PatientFormComponent implements OnInit {
     // Have to feed back the min and max in specific formats, see https://ionicframework.com/docs/api/datetime#properties
     this.patientMaxAdmitDate = this.patientForm.get('patient.dischargeInfo.patientDischargeDate').value.substr(0, 10);
     this.patientMinDischargeDate = this.patientForm.get('patient.dischargeInfo.patientAdmitDate').value.substr(0, 10);
-    console.log(this.patientMaxAdmitDate);
-    console.log(this.patientMinDischargeDate);
-    debugger;
     // To calculate the time difference of two dates
     var timeDiff = new Date(endDate).getTime() - new Date(startDate).getTime();
     var dayDiff = Math.round(timeDiff / (1000 * 3600 * 24));
@@ -317,8 +314,6 @@ export class PatientFormComponent implements OnInit {
       return;
     }
     let formSubmission = this.patientForm.getRawValue();
-    console.log(formSubmission);
-    debugger;
     /**
      * Run processing on our patient intake questions
      */
@@ -332,26 +327,20 @@ export class PatientFormComponent implements OnInit {
         .subscribe((data: any) => {});
     });
 
+    // Passing E2E
     this.patientContacts.forEach((patientContact: PatientContact, index: number) => {
-      /**
-       * Kind of a hijack here
-       */
       this.patientContacts[index] = formSubmission.patient.patientContacts[index];
-      console.log(this.patientContacts);
-      debugger;
       var patientContactPost = this.patientContactPostFactory(this.patientContacts[index]);
       this.patientContactService
         .addNewPatientContactByPatientId(this.patient.patientId, patientContactPost)
         .subscribe((data: any) => {
           console.log(data);
-          debugger;
         });
     });
 
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
-      alert('Patient successfully edited');
-      this.router.navigate(['operations/' + this.patient.patientOperationId + '/patients']);
+      this.router.navigate(['operations/' + this.patientForm.get('operation').value + '/patients']);
     });
   }
 
@@ -379,7 +368,6 @@ export class PatientFormComponent implements OnInit {
    * @param formSubmission
    */
   private formSubmissionFactory(formSubmission: any) {
-    console.log(formSubmission);
     const patientMedicalConditions = JSON.stringify(formSubmission.patient.patientMedicalConditions);
     var payload = {
       patientDob: formSubmission.patient.patientDob,
