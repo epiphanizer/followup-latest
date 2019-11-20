@@ -40,9 +40,9 @@ export class PatientFormComponent implements OnInit {
   patientContacts$: Observable<PatientContact[]>;
   patientIntakeQuestions: PatientIntakeQuestion[] = [];
   patientIntakeQuestions$: Observable<PatientIntakeQuestion[]>;
-  patientMaxAdmitDate: string = '2020';
+  patientMaxAdmitDate: string = new Date().getFullYear().toString();
   // default to 2019 as our first year
-  patientMinDischargeDate: string = '2019';
+  patientMinDischargeDate: string = (new Date().getFullYear() + 1).toString();
   patientMedicalConditions?: string;
   operations: Operation[];
   operations$: Observable<Operation[]>;
@@ -308,7 +308,7 @@ export class PatientFormComponent implements OnInit {
     debugger;
     // To calculate the time difference of two dates
     var timeDiff = new Date(endDate).getTime() - new Date(startDate).getTime();
-    var dayDiff = timeDiff / (1000 * 3600 * 24);
+    var dayDiff = Math.round(timeDiff / (1000 * 3600 * 24));
     this.patientForm.get('patient.dischargeInfo.patientTotalDays').setValue(dayDiff);
   }
 
