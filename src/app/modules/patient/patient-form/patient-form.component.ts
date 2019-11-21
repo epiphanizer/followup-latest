@@ -87,7 +87,8 @@ export class PatientFormComponent implements OnInit {
         this.patient.patientMedicalConditions = {
           cardiacBoolean: false,
           sepsisBoolean: false,
-          pulmonaryBoolean: false
+          pulmonaryBoolean: false,
+          otherBoolean: false
         };
         this.createForm();
         this.addAdditionalPatientContact();
@@ -204,7 +205,8 @@ export class PatientFormComponent implements OnInit {
         patientMedicalConditions: this.fb.group({
           cardiacBoolean: this.fb.control(this.patient.patientMedicalConditions.cardiacBoolean),
           sepsisBoolean: this.fb.control(this.patient.patientMedicalConditions.sepsisBoolean),
-          pulmonaryBoolean: this.fb.control(this.patient.patientMedicalConditions.pulmonaryBoolean)
+          pulmonaryBoolean: this.fb.control(this.patient.patientMedicalConditions.pulmonaryBoolean),
+          otherBoolean: this.fb.control(this.patient.patientMedicalConditions.otherBoolean)
         }),
         patientPrimaryDiagnosis: this.fb.control(this.patient.patientPrimaryDiagnosis),
         patientDischargedCondition: this.fb.control(this.patient.patientDischargedCondition),
