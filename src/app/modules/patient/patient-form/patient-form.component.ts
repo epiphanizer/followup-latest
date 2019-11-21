@@ -187,14 +187,6 @@ export class PatientFormComponent implements OnInit {
         }),
         patientDob: this.fb.control(this.patient.patientDob, [Validators.required]),
         patientContacts: this.fb.array([]),
-
-        physicianInfo: this.fb.group({
-          physicianFirstName: this.fb.control(this.patient.patientPhysicianFirstName),
-          physicianLastName: this.fb.control(this.patient.patientPhysicianLastName),
-          physicianCountryCode: this.fb.control(this.patient.patientPhysicianCountryCode),
-          physicianAreaCode: this.fb.control(this.patient.patientPhysicianAreaCode),
-          physicianPhoneNumber: this.fb.control(this.patient.patientPhysicianPhoneNumber)
-        }),
         insurance: this.fb.group({
           primaryInsurance: this.fb.control(this.patient.patientPrimaryInsurance),
           secondaryInsurance: this.fb.control(this.patient.patientSecondaryInsurance)
@@ -376,11 +368,6 @@ export class PatientFormComponent implements OnInit {
       patientFirstName: formSubmission.patient.patientName.patientFirstName,
       patientMiddleName: formSubmission.patient.patientName.patientMiddleName,
       patientLastName: formSubmission.patient.patientName.patientLastName,
-      patientPhysicianFirstName: formSubmission.patient.physicianInfo.physicianFirstName || '',
-      patientPhysicianLastName: formSubmission.patient.physicianInfo.physicianLastName || '',
-      patientPhysicianCountryCode: formSubmission.patient.physicianInfo.physicianCountryCode || 1,
-      patientPhysicianAreaCode: formSubmission.patient.physicianInfo.physicianAreaCode || '',
-      patientPhysicianPhoneNumber: formSubmission.patient.physicianInfo.physicianPhoneNumber || '',
       patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
       patientSecondaryInsurance: formSubmission.patient.insurance.secondaryInsurance || '',
       patientAdmitDate: formSubmission.patient.dischargeInfo.patientAdmitDate,
