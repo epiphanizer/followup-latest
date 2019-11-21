@@ -4,7 +4,6 @@ import { NotificationService } from '@app/modules/notification/notification.serv
 import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Notification, NotificationRecipient, NotificationType } from '@app/modules/notification/notification';
-import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { OperationContact } from '@app/modules/operation/operation-contact/operation-contact';
@@ -119,6 +118,10 @@ export class NotificationModalComponent {
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
+        /**
+         * If successful, actually email out the notification
+         */
+        // this.notificationService.sendNotificationByNotificationId();
         this.dismiss();
       });
   }
