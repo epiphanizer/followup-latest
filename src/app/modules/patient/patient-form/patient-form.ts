@@ -12,11 +12,6 @@ export interface PatientPutBody {
   patientFirstName: string;
   patientMiddleName?: string;
   patientLastName: string;
-  patientPhysicianFirstName: string;
-  patientPhysicianLastName: string;
-  patientPhysicianCountryCode: string;
-  patientPhysicianAreaCode: string;
-  patientPhysicianPhoneNumber: string;
   patientPrimaryInsurance: string;
   patientSecondaryInsurance: string;
   patientAdmitDate: Date;
