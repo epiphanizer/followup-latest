@@ -99,13 +99,19 @@ ul.patient-filters {
 
 .operation-discharges,
 .operation-todays-calls {
-  margin-top: 3px;
+  margin-top: 4.5px;
   margin-left: -12px;
   position: absolute;
   font-weight: bold;
   color: white;
   font-size: 10px;
   margin-right: 0.25rem;
+}
+.operation-discharges {
+  left: 25px;
+}
+.operation-todays-calls {
+  left: 44px;
 }
 .call-queue-patient-list {
   clear: both;
