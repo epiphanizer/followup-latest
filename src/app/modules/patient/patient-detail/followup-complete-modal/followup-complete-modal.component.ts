@@ -35,6 +35,9 @@ export class FollowupCompleteModalComponent implements OnInit {
             return;
           }
           this.completionTypesListRight.push(this.completionTypes[i]);
+          if (i == this.completionTypes.length) {
+            return;
+          }
         }
       }
     });
