@@ -42,7 +42,7 @@
       width: 17px;
       height: 17px;
       display: inline-block;
-      margin-right: 8px;
+      margin-right: 4px;
       background-size: 100%;
       background-repeat: no-repeat;
       background-position: center center;
@@ -64,9 +64,6 @@
           background-image: url("/assets/icon-no-answer-active@2x.png");
         }
       }
-      &.active {
-        border-bottom: 1px black solid;
-      }
     }
     span {
       font-family: Avenir;
@@ -78,9 +75,6 @@
       letter-spacing: normal;
       text-align: left;
       color: var(--charcoal-grey);
-      &.active {
-        border-bottom: 1px black solid;
-      }
     }
   }
 }

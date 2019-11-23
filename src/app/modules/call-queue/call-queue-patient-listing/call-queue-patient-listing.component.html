@@ -77,6 +77,7 @@
     </div>
     <div class="call-queue-call-status-legend">
       <ion-list *ngIf="patient.patientCallCount > 1" inset lines="none">
+        {{ patient.patientLastCallStatus | json }}
         <ion-item *ngFor="let patientCallStatus of patientCallStatuses">
           <i
             class="icon-{{ patientCallStatus.patientCallStatusLabel.replace(' ', '-') | lowercase }}"
