@@ -71,10 +71,14 @@
       font-weight: 300;
       font-style: normal;
       font-stretch: normal;
-      line-height: 1.63;
+      line-height: 100%;
+      vertical-align: middle;
       letter-spacing: normal;
       text-align: left;
       color: var(--charcoal-grey);
+      &.active {
+        font-weight: bold;
+      }
     }
   }
 }
