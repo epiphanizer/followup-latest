@@ -310,12 +310,21 @@ ul.patient-filters {
 
         &.icon-contacted {
           background-image: url("/assets/icon-contacted@2x.png");
+          &.active {
+            background-image: url("/assets/icon-contacted-active@2x.png");
+          }
         }
         &.icon-left-message {
           background-image: url("/assets/icon-left-message@2x.png");
+          &.active {
+            background-image: url("/assets/icon-left-message-active@2x.png");
+          }
         }
         &.icon-no-answer {
           background-image: url("/assets/icon-no-answer@2x.png");
+          &.active {
+            background-image: url("/assets/icon-no-answer-active@2x.png");
+          }
         }
       }
     }
