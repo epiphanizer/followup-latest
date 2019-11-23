@@ -99,8 +99,8 @@ ul.patient-filters {
 
 .operation-discharges,
 .operation-todays-calls {
-  margin-top: 4.5px;
-  margin-left: -12px;
+  margin-top: 2.5px;
+  margin-left: -13px;
   position: absolute;
   font-weight: bold;
   color: white;
@@ -295,9 +295,6 @@ ul.patient-filters {
       --background: transparent;
 
       i {
-        &.active {
-          border: 2px solid #668bce;
-        }
         position: absolute;
         margin-left: -15px;
         margin-top: -6px;
