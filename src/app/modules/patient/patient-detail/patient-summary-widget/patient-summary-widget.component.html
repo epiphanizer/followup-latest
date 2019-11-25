@@ -32,9 +32,9 @@
               </span>
               <span class="patient-contact-number-type">
                 <ng-container>
-                  {{ patient.patientContactRelationship }}
-                  <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
-                    <img src="/assets/icon-hipaa@2x.png" />
+                  {{ patient.patientPrimaryContactRelationship }}
+                  <ng-container *ngIf="patient.patientPrimaryContactResponsiblePartyBoolean">
+                    <i class="icon-hipaa"></i>
                   </ng-container>
                 </ng-container>
               </span>
@@ -50,7 +50,7 @@
                         {{ patientContact.patientContactPhoneNumber }} |
                         {{ patientContact.patientContactRelationship }}
                         <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
-                          <img src="/assets/icon-hipaa@2x.png" />
+                          <i class="icon-hipaa" *ngIf="patientContacts[0].patientContactResponsiblePartyBoolean"></i>
                         </ng-container>
                       </span>
                     </ion-item>
