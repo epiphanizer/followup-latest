@@ -107,10 +107,14 @@
                   <ion-item class="responsible-party">
                     <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
                     <ion-checkbox formControlName="patientContactResponsiblePartyBoolean"></ion-checkbox>
-                    <i
-                      *ngIf="patientForm.get('patient.patientContacts[' + idx + ']').value == true"
-                      class="icon-hipaa"
-                    ></i>
+                    <ng-container
+                      *ngIf="
+                        patientForm.get('patient.patientContacts.' + idx + '.patientContactResponsiblePartyBoolean')
+                          .value == true
+                      "
+                    >
+                      <i class="icon-hipaa"></i>
+                    </ng-container>
                   </ion-item>
                   <!-- only show removal option if it's past the first index -->
                   <ion-item
