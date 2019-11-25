@@ -401,7 +401,7 @@ export class PatientFormComponent implements OnInit {
     const firstError = <HTMLElement>document.querySelectorAll('ion-item .ng-invalid')[0];
 
     function scroll(el: HTMLElement) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     if (firstError) {
       scroll(firstError);
