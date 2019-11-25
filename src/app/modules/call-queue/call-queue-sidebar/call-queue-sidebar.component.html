@@ -20,7 +20,7 @@
     *ngIf="operations; else noOperations"
   >
     <div *ngFor="let operation of operations; let i = index">
-      <ng-container *ngIf="operation.currentAssignedPatientCount > 0">
+      <ng-container *ngIf="operation.currentAssignedPatientCount">
         <li *ngIf="selected.operation">
           <a
             (click)="setActiveOperation(operation)"

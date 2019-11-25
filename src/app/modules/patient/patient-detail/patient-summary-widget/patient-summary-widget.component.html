@@ -31,12 +31,12 @@
                 {{ patient.primaryContactPhoneNumber }}
               </span>
               <span class="patient-contact-number-type">
-                <ng-container *ngIf="patient.primaryContactPhoneTypeId == 1; else contactType">
-                  <i class="icon-hippa"></i> Home
+                <ng-container>
+                  {{ patient.patientContactRelationship }}
+                  <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
+                    <img src="/assets/icon-hipaa@2x.png" />
+                  </ng-container>
                 </ng-container>
-                <ng-template #contactType>
-                  Other
-                </ng-template>
               </span>
               <br />
               <a class="alternate-numbers" (click)="toggleAlternateNumbers()">[Alt Numbers]</a>
@@ -49,6 +49,9 @@
                         {{ patientContact.patientContactCountryCode }}-{{ patientContact.patientContactAreaCode }}-
                         {{ patientContact.patientContactPhoneNumber }} |
                         {{ patientContact.patientContactRelationship }}
+                        <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
+                          <img src="/assets/icon-hipaa@2x.png" />
+                        </ng-container>
                       </span>
                     </ion-item>
                   </div>
