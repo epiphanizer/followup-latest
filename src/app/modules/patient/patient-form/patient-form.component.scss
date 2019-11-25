@@ -157,10 +157,24 @@ form {
       font-size: 14px;
       padding: 8px;
       margin-top: 16px;
+      padding-left: 42px;
       display: inline-block;
 
-      button {
-        max-width: 105px;
+      &::before {
+        cursor: pointer;
+        pointer-events: auto;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 51px;
+        left: 8px;
+        filter: grayscale(1);
+        z-index: 8;
+        background-image: url("/assets/icon-calendar@2x.png");
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 22px;
+        width: 22px;
       }
     }
   }
@@ -466,13 +480,12 @@ form {
         margin-left: 18px;
       }
     }
-    i.equal-sign {
-      height: 30px;
-      width: 55px;
-      content: "";
-      background: url("/assets/icon-equal-sign@2x.png");
-      background-size: 100%;
-      background-repeat: no-repeat;
+    .equal-sign {
+      height: 50px;
+      top: 44px;
+      margin-left: -18px;
+      width: 30px;
+      position: absolute;
     }
 
     .patient-discharge-dates-container {
