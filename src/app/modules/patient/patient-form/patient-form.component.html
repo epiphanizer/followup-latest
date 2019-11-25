@@ -57,65 +57,72 @@
               <i class="icon-contacts"></i>
               <span class="contact-header">Contacts</span>
             </div>
-            <ion-list
-              lines="none"
-              *ngFor="let patientContact of patientContacts || {}; let idx = index"
-              formGroupName="{{ idx }}"
-              id="additionalPatientContact-{{ idx }}"
-            >
-              <div class="section-header">
-                <span *ngIf="idx == 0; else alternateContact">Primary Contact</span>
-                <ng-template #alternateContact>
-                  <span>Alternate Contact {{ idx }}</span>
-                </ng-template>
-              </div>
-              <ion-item class="first-name">
-                <ion-label color="medium" position="stacked">First Name</ion-label>
-                <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
-              </ion-item>
-              <ion-item class="last-name">
-                <ion-label color="medium" position="stacked">Last Name</ion-label>
-                <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
-              </ion-item>
-              <ion-item class="relationship">
-                <ion-label color="medium" position="stacked">Relationship</ion-label>
-                <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
-              </ion-item>
-              <div class="phone-container">
-                <ion-item class="country-code">
-                  <ion-label color="medium" position="stacked">+(1)</ion-label>
-                  <ion-input type="text" formControlName="patientContactCountryCode"></ion-input>
+            <ng-template #loadingContacts>
+              <span class="loading-contacts">
+                Loading Patient Contacts...
+              </span>
+            </ng-template>
+            <ng-container *ngIf="patientContacts.length > 0; else loadingContacts">
+              <ion-list
+                lines="none"
+                *ngFor="let patientContact of patientContacts || {}; let idx = index"
+                formGroupName="{{ idx }}"
+                id="additionalPatientContact-{{ idx }}"
+              >
+                <div class="section-header">
+                  <span *ngIf="idx == 0; else alternateContact">Primary Contact</span>
+                  <ng-template #alternateContact>
+                    <span>Alternate Contact {{ idx }}</span>
+                  </ng-template>
+                </div>
+                <ion-item class="first-name">
+                  <ion-label color="medium" position="stacked">First Name</ion-label>
+                  <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
                 </ion-item>
-                <ion-item class="area-code">
-                  <ion-label color="medium" position="stacked">(###)</ion-label>
-                  <ion-input type="text" formControlName="patientContactAreaCode"></ion-input>
+                <ion-item class="last-name">
+                  <ion-label color="medium" position="stacked">Last Name</ion-label>
+                  <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
                 </ion-item>
-                <ion-item class="phone-number">
-                  <ion-label color="medium" position="stacked">Phone #</ion-label>
-                  <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
+                <ion-item class="relationship">
+                  <ion-label color="medium" position="stacked">Relationship</ion-label>
+                  <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
                 </ion-item>
-                <ion-item class="patient-contact-order">
-                  <ion-label color="medium" position="stacked">Order</ion-label>
-                  <ion-input type="number" formControlName="patientContactOrder" [value]="idx + 1"></ion-input>
-                </ion-item>
-                <ion-item class="responsible-party">
-                  <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
-                  <ion-checkbox formControlName="patientContactResponsiblePartyBoolean"></ion-checkbox>
-                  <i class="icon-hipaa"></i>
-                </ion-item>
-                <!-- only show removal option if it's past the first index -->
-                <ion-item
-                  *ngIf="idx > 0"
-                  class="ion-float-right remove-additional-contact"
-                  (click)="removeAdditionalPatientContact(idx)"
-                >
-                  [ - remove contact ]
-                </ion-item>
-              </div>
-            </ion-list>
-            <ion-item class="ion-float-right add-additional-contact" (click)="addAdditionalPatientContact()"
-              >[ + additional contact ]</ion-item
-            >
+                <div class="phone-container">
+                  <ion-item class="country-code">
+                    <ion-label color="medium" position="stacked">+(1)</ion-label>
+                    <ion-input type="text" formControlName="patientContactCountryCode"></ion-input>
+                  </ion-item>
+                  <ion-item class="area-code">
+                    <ion-label color="medium" position="stacked">(###)</ion-label>
+                    <ion-input type="text" formControlName="patientContactAreaCode"></ion-input>
+                  </ion-item>
+                  <ion-item class="phone-number">
+                    <ion-label color="medium" position="stacked">Phone #</ion-label>
+                    <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
+                  </ion-item>
+                  <ion-item class="patient-contact-order">
+                    <ion-label color="medium" position="stacked">Order</ion-label>
+                    <ion-input type="number" formControlName="patientContactOrder" [value]="idx + 1"></ion-input>
+                  </ion-item>
+                  <ion-item class="responsible-party">
+                    <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
+                    <ion-checkbox formControlName="patientContactResponsiblePartyBoolean"></ion-checkbox>
+                    <i class="icon-hipaa"></i>
+                  </ion-item>
+                  <!-- only show removal option if it's past the first index -->
+                  <ion-item
+                    *ngIf="idx > 0"
+                    class="ion-float-right remove-additional-contact"
+                    (click)="removeAdditionalPatientContact(idx)"
+                  >
+                    [ - remove contact ]
+                  </ion-item>
+                </div>
+              </ion-list>
+              <ion-item class="ion-float-right add-additional-contact" (click)="addAdditionalPatientContact()"
+                >[ + additional contact ]</ion-item
+              >
+            </ng-container>
           </fieldset>
           <fieldset class="insurance-info" formGroupName="insurance">
             <div class="section-header">
@@ -156,6 +163,7 @@
                     (ionChange)="updateDischargeFields()"
                   ></ion-datetime>
                 </ion-item>
+                <i class="equal-sign"></i>
                 <ion-item class="discharge-total-days">
                   <ion-label color="medium" position="stacked">Total Days</ion-label>
                   <ion-input formControlName="patientTotalDays" readonly></ion-input>

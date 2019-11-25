@@ -132,7 +132,6 @@ export class PatientFormComponent implements OnInit {
           }
         });
         this.createForm();
-        this.addAdditionalPatientContact();
         this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
         this.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
           let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
