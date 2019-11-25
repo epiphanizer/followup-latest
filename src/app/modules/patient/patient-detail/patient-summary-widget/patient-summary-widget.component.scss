@@ -76,7 +76,7 @@
   padding: 0;
   ion-item {
     width: calc(100% + 14px);
-    height: 24px;
+    height: 35px;
     vertical-align: top;
     margin: 0;
     margin-left: -14px;
@@ -85,7 +85,7 @@
       line-height: 100%;
       vertical-align: middle;
       margin-top: -12px;
-      font-size: 9px;
+      font-size: 12px;
     }
   }
 }
@@ -124,6 +124,8 @@
 i.icon-hipaa {
   display: inline-block;
   margin-left: 5px;
+  margin-top: -3px;
+  vertical-align: middle;
   width: 16px;
   height: 16px;
   background-image: url("/assets/icon-hipaa@2x.png");

@@ -200,7 +200,7 @@ export class PatientFormComponent implements OnInit {
             value: this.patient.patientTotalDays
           }),
           patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId || '1', [Validators.required]),
-          patientDischargedAma: this.fb.control(this.patient.patientDischargedAma || '0', [Validators.required])
+          patientDischargedAma: this.fb.control(this.patient.patientDischargedAma || false, [Validators.required])
         }),
         patientMedicalConditions: this.fb.group({
           cardiacBoolean: this.fb.control(this.patient.patientMedicalConditions.cardiacBoolean),
@@ -245,7 +245,7 @@ export class PatientFormComponent implements OnInit {
       patientContactFirstName: '',
       patientContactLastName: '',
       patientContactRelationship: '',
-      patientContactCountryCode: '',
+      patientContactCountryCode: '1',
       patientContactAreaCode: '',
       patientContactPhoneNumber: '',
       patientContactOrder: (this.patientContacts.length + 1).toString(),
@@ -258,7 +258,7 @@ export class PatientFormComponent implements OnInit {
         patientContactFirstName: this.fb.control('', [Validators.required]),
         patientContactLastName: this.fb.control('', [Validators.required]),
         patientContactRelationship: this.fb.control('', [Validators.required]),
-        patientContactCountryCode: this.fb.control('', [Validators.required]),
+        patientContactCountryCode: this.fb.control('1', [Validators.required]),
         patientContactAreaCode: this.fb.control('', [Validators.required]),
         patientContactPhoneNumber: this.fb.control('', [Validators.required]),
         patientContactOrder: this.fb.control(idx + 1, [Validators.required]),
@@ -368,7 +368,7 @@ export class PatientFormComponent implements OnInit {
       patientOperationId: formSubmission.operation,
       patientMedicalRecordNumber: formSubmission.patient.patientMedicalRecordNumber,
       patientFirstName: formSubmission.patient.patientName.patientFirstName,
-      patientMiddleName: formSubmission.patient.patientName.patientMiddleName,
+      patientMiddleName: formSubmission.patient.patientName.patientMiddleName || '',
       patientLastName: formSubmission.patient.patientName.patientLastName,
       patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
       patientSecondaryInsurance: formSubmission.patient.insurance.secondaryInsurance || '',

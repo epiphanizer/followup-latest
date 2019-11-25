@@ -11,7 +11,7 @@ import {
 } from '@angular/animations';
 
 import { User } from '@app/modules/user/user';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-patient-manager-sidebar',
@@ -61,7 +61,7 @@ export class PatientManagerSidebarComponent implements OnInit {
     operation: null
   };
   isOpen = true;
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
   operations: Operation[];
   user: User;
   todaysDateDay: number;
@@ -71,7 +71,12 @@ export class PatientManagerSidebarComponent implements OnInit {
     this.user.operations$.subscribe((data: Operation[]) => {
       this.operations = data;
       if (!this.route.snapshot.params['operationId']) {
-        this.activeOperationId = this.operations[0].operationId;
+        /**
+         * no active state if we are adding a patient
+         */
+        if (this.router.url.indexOf('patient/add') == -1) {
+          this.activeOperationId = this.operations[0].operationId;
+        }
       } else {
         this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
       }
