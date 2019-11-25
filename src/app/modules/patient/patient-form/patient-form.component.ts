@@ -118,6 +118,7 @@ export class PatientFormComponent implements OnInit {
           this.patient.patientMedicalConditions.sepsisBoolean = medicalConditions.sepsisBoolean;
           this.patient.patientMedicalConditions.cardiacBoolean = medicalConditions.cardiacBoolean;
           this.patient.patientMedicalConditions.pulmonaryBoolean = medicalConditions.pulmonaryBoolean;
+          this.patient.patientMedicalConditions.otherBoolean = medicalConditions.otherBoolean;
         }
         // See if we have an avatar to load in
         this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
