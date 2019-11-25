@@ -16,10 +16,12 @@
     display: inline-block;
     width: 162px;
     height: 162px;
-    margin-left: 60px;
+    margin-left: 45px;
     img {
-      width: 100%;
       display: block;
+      max-height: 120px;
+      width: auto;
+      margin: 0 auto;
     }
     a {
       color: black !important;
