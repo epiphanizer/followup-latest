@@ -315,7 +315,7 @@ export class PatientFormComponent implements OnInit {
     let intakeAnswersArray = intakeAnswers.getRawValue();
     intakeAnswersArray.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
       var patientIntakeQuestionId = parseInt(Object.keys(patientIntakeQuestionAnswer).toString());
-      var patientQuestionAnswer = patientIntakeQuestionAnswer[0];
+      var patientQuestionAnswer = patientIntakeQuestionAnswer[patientIntakeQuestionId];
       this.patientIntakeQuestionService
         .addPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
         .subscribe((data: any) => {});
