@@ -35,7 +35,7 @@
               {{ operation.todaysCallCount }}
             </span>
           </ng-container>
-          <ng-container *ngIf="operation.currentNewDischargeCount">
+          <ng-container *ngIf="operation.currentNewDischargeCount > -1">
             <i class="icon-new-discharges"></i>
             <span class="icon-discharge-counter">
               {{ operation.currentNewDischargeCount }}

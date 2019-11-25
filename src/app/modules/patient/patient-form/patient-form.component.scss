@@ -261,8 +261,10 @@ form {
     i.icon-hipaa {
       background-image: url("/assets/icon-hipaa@2x.png");
       background-size: 100%;
-      width: 40px;
-      height: 40px;
+      width: 20px;
+      height: 20px;
+      margin-left: 5px;
+      margin-top: -1px;
     }
     .add-additional-contact,
     .remove-additional-contact {
@@ -323,6 +325,11 @@ form {
       &.patient-contact-order {
         width: 60px;
         display: none !important;
+      }
+      &.responsible-party {
+        ion-label {
+          margin-right: 5px;
+        }
       }
     }
 
