@@ -209,7 +209,7 @@ export class PatientFormComponent implements OnInit {
           otherBoolean: this.fb.control(this.patient.patientMedicalConditions.otherBoolean)
         }),
         patientPrimaryDiagnosis: this.fb.control(this.patient.patientPrimaryDiagnosis),
-        patientDischargedCondition: this.fb.control(this.patient.patientDischargedCondition),
+        patientDischargedCondition: this.fb.control(this.patient.patientDischargedCondition, [Validators.required]),
         patientIntakeQuestionAnswers: this.fb.array([]),
         patientUrgencyScale: this.fb.control({ value: this.patient.patientUrgencyScale }),
         patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow),
@@ -398,7 +398,7 @@ export class PatientFormComponent implements OnInit {
     const errorsFlat = SuperForm.getAllErrorsFlat(this.patientForm);
     console.log(JSON.stringify(errorsFlat));
     // Double check this
-    const firstError = <HTMLElement>document.getElementsByClassName('ng-invalid')[0];
+    const firstError = <HTMLElement>document.querySelectorAll('ion-item .ng-invalid')[0];
 
     function scroll(el: HTMLElement) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
