@@ -169,14 +169,7 @@ export class PatientFormComponent implements OnInit {
             let patientIntakeQuestionAnswers = this.patientForm.get(
               'patient.patientIntakeQuestionAnswers'
             ) as FormArray;
-            console.log(patientIntakeQuestionAnswers);
             patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
-              let patientIntakeQuestionId = patientIntakeQuestion['patientIntakeQuestionId'].toString();
-              let newFormGroup = this.fb.group({});
-              let newControl = new FormControl('');
-              // newFormGroup.addControl(patientIntakeQuestionId, newControl);
-              // patientIntakeQuestionAnswers.push(newFormGroup);
-              // this.patientIntakeQuestions.push(patientIntakeQuestion);
               this.patientIntakeQuestionService
                 .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(patientIntakeQuestion.patientIntakeQuestionId)
                 .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
@@ -185,16 +178,9 @@ export class PatientFormComponent implements OnInit {
                     var patientIntakeQuestionId = data.patientIntakeQuestionId.toString();
                     var patientIntakeQuestionAnswerValue = data.patientIntakeQuestionAnswer;
                     let newFormGroup = this.fb.group({});
-                    // var formGroup = (<FormGroup>patientIntakeQuestionAnswers.get(index.toString()));
                     newFormGroup.addControl(patientIntakeQuestionId, new FormControl(patientIntakeQuestionAnswerValue));
                     patientIntakeQuestionAnswers.push(newFormGroup);
                     this.patientIntakeQuestions.push(patientIntakeQuestion);
-                    // console.log(patientIntakeQuestionAnswers.controls[index]);
-                    // var accessor = "patient.patientIntakeQuestionAnswers.controls[" + index + "]";
-                    // console.log(accessor);
-                    // this.patientForm.get(accessor)
-                    // // .setValue("1");
-                    // patientIntakeQuestionAnswers[index].controls[patientIntakeQuestionId].setValue(patientIntakeQuestionAnswerValue);
                   }
                 });
             });
