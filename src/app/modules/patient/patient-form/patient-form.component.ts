@@ -40,7 +40,7 @@ export class PatientFormComponent implements OnInit {
   patientContacts$: Observable<PatientContact[]>;
   patientIntakeQuestions: PatientIntakeQuestion[] = [];
   patientIntakeQuestions$: Observable<PatientIntakeQuestion[]>;
-  patientIntakeQuestionAnswers: PatientIntakeQuestionAnswer[];
+  patientIntakeQuestionAnswers: PatientIntakeQuestionAnswer[] = [];
   patientMaxAdmitDate: string = new Date().getFullYear().toString();
   // default to 2019 as our first year
   patientMinDischargeDate: string = (new Date().getFullYear() + 1).toString();
