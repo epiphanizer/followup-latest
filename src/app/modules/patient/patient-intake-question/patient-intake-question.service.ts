@@ -24,6 +24,19 @@ export class PatientIntakeQuestionService {
       );
   };
 
+  editPatientIntakeQuestionAnswerByPatientIntakeQuestionId = function(
+    patientIntakeQuestionId: number,
+    patientIntakeQuestionAnswer: string
+  ) {
+    return this.http
+      .put('patients/questions/' + patientIntakeQuestionId + '/answers', {
+        patientIntakeQuestionAnswer: patientIntakeQuestionAnswer
+      })
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
+  };
   getPatientIntakeQuestionsByPatientId = function(patientId: number) {
     return this.http.get('patients/' + patientId + '/questions').pipe(
       retry(3), // retry a failed request up to 3 times

@@ -42,7 +42,9 @@ export class PatientFormComponent implements OnInit {
   patientContacts$: Observable<PatientContact[]>;
   patientIntakeQuestions: PatientIntakeQuestion[] = [];
   patientIntakeQuestions$: Observable<PatientIntakeQuestion[]>;
+  patientIntakeQuestionAnswersOriginal: PatientIntakeQuestionAnswer[] = [];
   patientIntakeQuestionAnswers: PatientIntakeQuestionAnswer[] = [];
+  patientIntakeQuestionAnswersToAdd: PatientIntakeQuestionAnswer[] = [];
   patientMaxAdmitDate: string = new Date().getFullYear().toString();
   // default to 2019 as our first year
   patientMinDischargeDate: string = (new Date().getFullYear() + 1).toString();
@@ -134,26 +136,6 @@ export class PatientFormComponent implements OnInit {
             }
           }
         });
-        this.patientIntakeQuestionService
-          .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
-          .subscribe((patientIntakeQuestions: PatientIntakeQuestion[]) => {
-            let patientIntakeQuestionAnswers = this.patientForm.get(
-              'patient.patientIntakeQuestionAnswers'
-            ) as FormArray;
-            patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
-              this.patientIntakeQuestionService
-                .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(patientIntakeQuestion.patientIntakeQuestionId)
-                .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
-                  console.log(patientIntakeQuestionAnswer);
-                  if (patientIntakeQuestionAnswer !== null) {
-                    patientIntakeQuestionAnswers[index].setValue(
-                      patientIntakeQuestionAnswer.patientIntakeQuestionAnswer
-                    );
-                  }
-                });
-            });
-          });
-
         this.createForm();
         this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
         this.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
@@ -187,13 +169,34 @@ export class PatientFormComponent implements OnInit {
             let patientIntakeQuestionAnswers = this.patientForm.get(
               'patient.patientIntakeQuestionAnswers'
             ) as FormArray;
+            console.log(patientIntakeQuestionAnswers);
             patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
               let patientIntakeQuestionId = patientIntakeQuestion['patientIntakeQuestionId'].toString();
               let newFormGroup = this.fb.group({});
               let newControl = new FormControl('');
-              newFormGroup.addControl(patientIntakeQuestionId, newControl);
-              patientIntakeQuestionAnswers.push(newFormGroup);
-              this.patientIntakeQuestions.push(patientIntakeQuestion);
+              // newFormGroup.addControl(patientIntakeQuestionId, newControl);
+              // patientIntakeQuestionAnswers.push(newFormGroup);
+              // this.patientIntakeQuestions.push(patientIntakeQuestion);
+              this.patientIntakeQuestionService
+                .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(patientIntakeQuestion.patientIntakeQuestionId)
+                .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
+                  if (patientIntakeQuestionAnswer !== null) {
+                    var data = patientIntakeQuestionAnswer[0];
+                    var patientIntakeQuestionId = data.patientIntakeQuestionId.toString();
+                    var patientIntakeQuestionAnswerValue = data.patientIntakeQuestionAnswer;
+                    let newFormGroup = this.fb.group({});
+                    // var formGroup = (<FormGroup>patientIntakeQuestionAnswers.get(index.toString()));
+                    newFormGroup.addControl(patientIntakeQuestionId, new FormControl(patientIntakeQuestionAnswerValue));
+                    patientIntakeQuestionAnswers.push(newFormGroup);
+                    this.patientIntakeQuestions.push(patientIntakeQuestion);
+                    // console.log(patientIntakeQuestionAnswers.controls[index]);
+                    // var accessor = "patient.patientIntakeQuestionAnswers.controls[" + index + "]";
+                    // console.log(accessor);
+                    // this.patientForm.get(accessor)
+                    // // .setValue("1");
+                    // patientIntakeQuestionAnswers[index].controls[patientIntakeQuestionId].setValue(patientIntakeQuestionAnswerValue);
+                  }
+                });
             });
           });
       });
@@ -339,16 +342,36 @@ export class PatientFormComponent implements OnInit {
      */
     let intakeAnswers = this.patientForm.controls.patient.get('patientIntakeQuestionAnswers') as FormArray;
     let intakeAnswersArray = intakeAnswers.getRawValue();
-    intakeAnswersArray.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
+
+    /**
+     * Add answers if we don't have them yet
+     */
+    this.patientIntakeQuestionAnswersToAdd = intakeAnswersArray.filter(
+      (patientContactQuestionAnswer: PatientIntakeQuestionAnswer) => {
+        return this.patientIntakeQuestionAnswersOriginal.indexOf(patientContactQuestionAnswer) == -1;
+      }
+    );
+    console.log(this.patientIntakeQuestionAnswersToAdd);
+    debugger;
+    this.patientIntakeQuestionAnswersToAdd.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
       var patientIntakeQuestionId = parseInt(Object.keys(patientIntakeQuestionAnswer).toString());
       var patientQuestionAnswer = patientIntakeQuestionAnswer[patientIntakeQuestionId];
       this.patientIntakeQuestionService
         .addPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
         .subscribe((data: any) => {});
     });
+    /**
+     * Edit questions if we already had them
+     */
+    this.patientIntakeQuestionAnswersOriginal.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
+      var patientIntakeQuestionId = parseInt(Object.keys(patientIntakeQuestionAnswer).toString());
+      var patientQuestionAnswer = patientIntakeQuestionAnswer[patientIntakeQuestionId];
+      this.patientIntakeQuestionService
+        .editPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
+        .subscribe((data: any) => {});
+    });
 
     // Passing E2E
-    console.log(this.patientContactsToRemove);
     this.patientContactsToRemove.forEach((patientContactId: number, index: number) => {
       this.patientContactService.removePatientContactByPatientContactId(patientContactId).subscribe(() => {});
     });

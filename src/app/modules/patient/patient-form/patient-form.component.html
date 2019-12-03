@@ -249,7 +249,7 @@
               </div>
               <ion-item
                 *ngFor="let patientIntakeQuestion of patientIntakeQuestions; let idx = index"
-                formGroupName="{{ idx }}"
+                [formGroupName]="idx"
               >
                 <div class="call-question-body-container">
                   <i class="icon-question"></i>
@@ -257,7 +257,10 @@
                     <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'rating'">
                       <ion-label color="medium">{{ patientIntakeQuestion.patientIntakeQuestion }}</ion-label>
                       <ion-list class="rating" lines="none">
-                        <ion-radio-group formControlName="{{ patientIntakeQuestion.patientIntakeQuestionId }}">
+                        <ion-radio-group
+                          formControlName="{{ patientIntakeQuestion.patientIntakeQuestionId }}"
+                          [value]="1"
+                        >
                           <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; let idx = index">
                             <ion-radio value="{{ rating }}">
                               {{ rating }}
