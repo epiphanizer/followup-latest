@@ -272,13 +272,10 @@ export class PatientFormComponent implements OnInit {
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
     console.log(patientContactArray);
     // this.patientForm.removeControl('patient.patientContacts' + idx.toString());
-    this.patientContactsToRemove.push(this.patientContacts[idx].patientContactId);
-    this.patientContacts.splice(idx);
-    console.log(patientContactArray);
     patientContactArray.at(idx).clearValidators();
     patientContactArray.removeAt(idx);
-    console.log(patientContactArray);
-    debugger;
+    this.patientContactsToRemove.push(this.patientContacts[idx].patientContactId);
+    this.patientContacts.splice(idx, 1);
   }
 
   updateDischargeFields() {
