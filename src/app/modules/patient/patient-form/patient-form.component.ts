@@ -40,6 +40,7 @@ export class PatientFormComponent implements OnInit {
   patientContacts$: Observable<PatientContact[]>;
   patientIntakeQuestions: PatientIntakeQuestion[] = [];
   patientIntakeQuestions$: Observable<PatientIntakeQuestion[]>;
+  patientIntakeQuestionAnswers: PatientIntakeQuestionAnswer[];
   patientMaxAdmitDate: string = new Date().getFullYear().toString();
   // default to 2019 as our first year
   patientMinDischargeDate: string = (new Date().getFullYear() + 1).toString();
@@ -131,6 +132,18 @@ export class PatientFormComponent implements OnInit {
             }
           }
         });
+        this.patientIntakeQuestionService
+          .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
+          .subscribe((patientIntakeQuestions: PatientIntakeQuestion[]) => {
+            patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion) => {
+              this.patientIntakeQuestionService
+                .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(patientIntakeQuestion.patientIntakeQuestionId)
+                .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
+                  this.patientIntakeQuestionAnswers.push(patientIntakeQuestionAnswer);
+                });
+            });
+          });
+
         this.createForm();
         this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
         this.patientContacts$.subscribe((patientContacts: PatientContact[]) => {

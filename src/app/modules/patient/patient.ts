@@ -2,7 +2,10 @@ import { Observable } from 'rxjs';
 import { PatientCall } from './patient-detail/patient-call/patient-call.service';
 import { Operation } from '../operation/operation';
 import { PatientContact } from './patient-contact/patient-contact';
-import { PatientIntakeQuestion } from './patient-intake-question/patient-intake-question.component';
+import {
+  PatientIntakeQuestion,
+  PatientIntakeQuestionAnswer
+} from './patient-intake-question/patient-intake-question.component';
 
 /**
  * Regarding this interface ---
@@ -61,6 +64,8 @@ export interface Patient {
   patientPrimaryDiagnosis?: string;
   patientIntakeQuestions?: PatientIntakeQuestion[];
   patientIntakeQuestions$?: Observable<PatientIntakeQuestion[]>;
+  patientIntakeQuestionAnswers?: PatientIntakeQuestionAnswer[];
+  patientIntakeQuestionAnswers$?: Observable<PatientIntakeQuestionAnswer[]>;
   patientUrgencyScale?: number;
   patientNeedToKnow?: string;
   nextPatientCallId?: number;
