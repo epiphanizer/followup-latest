@@ -20,7 +20,6 @@ export class PatientContactService {
 
   getPatientContactsByPatientId = function(patientId: number) {
     return this.http.get('patients/' + patientId + '/contacts/').pipe(
-      delay(5000),
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

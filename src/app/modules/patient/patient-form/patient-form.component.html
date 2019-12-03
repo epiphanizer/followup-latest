@@ -65,7 +65,7 @@
             <ng-container *ngIf="patientContacts.length > 0; else loadingContacts">
               <ion-list
                 lines="none"
-                *ngFor="let patientContact of patientContacts || {}; let idx = index"
+                *ngFor="let patientContact of patientContacts; let idx = index"
                 formGroupName="{{ idx }}"
                 id="additionalPatientContact-{{ idx }}"
               >
