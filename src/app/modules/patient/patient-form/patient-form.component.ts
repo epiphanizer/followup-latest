@@ -199,19 +199,23 @@ export class PatientFormComponent implements OnInit {
             disabled: true,
             value: this.patient.patientTotalDays
           }),
-          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId || '1', [Validators.required]),
-          patientDischargedAma: this.fb.control(this.patient.patientDischargedAma || false, [Validators.required])
+          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId.toString() || '1', [
+            Validators.required
+          ]),
+          patientDischargedAma: this.fb.control((this.patient.patientDischargedAma == true ? 1 : 0) || '0', [
+            Validators.required
+          ])
         }),
         patientMedicalConditions: this.fb.group({
-          cardiacBoolean: this.fb.control(this.patient.patientMedicalConditions.cardiacBoolean),
-          sepsisBoolean: this.fb.control(this.patient.patientMedicalConditions.sepsisBoolean),
-          pulmonaryBoolean: this.fb.control(this.patient.patientMedicalConditions.pulmonaryBoolean),
-          otherBoolean: this.fb.control(this.patient.patientMedicalConditions.otherBoolean)
+          cardiacBoolean: this.fb.control(this.patient.patientMedicalConditions.cardiacBoolean == true ? 1 : 0),
+          sepsisBoolean: this.fb.control(this.patient.patientMedicalConditions.sepsisBoolean == true ? 1 : 0),
+          pulmonaryBoolean: this.fb.control(this.patient.patientMedicalConditions.pulmonaryBoolean == true ? 1 : 0),
+          otherBoolean: this.fb.control(this.patient.patientMedicalConditions.otherBoolean == true ? 1 : 0)
         }),
         patientPrimaryDiagnosis: this.fb.control(this.patient.patientPrimaryDiagnosis),
         patientDischargedCondition: this.fb.control(this.patient.patientDischargedCondition, [Validators.required]),
         patientIntakeQuestionAnswers: this.fb.array([]),
-        patientUrgencyScale: this.fb.control({ value: this.patient.patientUrgencyScale }),
+        patientUrgencyScale: this.fb.control(this.patient.patientUrgencyScale.toString()),
         patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow),
         patientActive: this.fb.control(this.patient.patientActive)
       })
