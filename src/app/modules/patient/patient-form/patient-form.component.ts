@@ -135,11 +135,19 @@ export class PatientFormComponent implements OnInit {
         this.patientIntakeQuestionService
           .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
           .subscribe((patientIntakeQuestions: PatientIntakeQuestion[]) => {
-            patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion) => {
+            let patientIntakeQuestionAnswers = this.patientForm.get(
+              'patient.patientIntakeQuestionAnswers'
+            ) as FormArray;
+            patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
               this.patientIntakeQuestionService
                 .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(patientIntakeQuestion.patientIntakeQuestionId)
                 .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
-                  this.patientIntakeQuestionAnswers.push(patientIntakeQuestionAnswer);
+                  console.log(patientIntakeQuestionAnswer);
+                  if (patientIntakeQuestionAnswer !== null) {
+                    patientIntakeQuestionAnswers[index].setValue(
+                      patientIntakeQuestionAnswer.patientIntakeQuestionAnswer
+                    );
+                  }
                 });
             });
           });
