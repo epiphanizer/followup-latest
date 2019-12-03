@@ -42,7 +42,10 @@ export class PatientFormComponent implements OnInit {
   patientContacts$: Observable<PatientContact[]>;
   patientIntakeQuestions: PatientIntakeQuestion[] = [];
   patientIntakeQuestions$: Observable<PatientIntakeQuestion[]>;
-  patientIntakeQuestionAnswersOriginal: PatientIntakeQuestionAnswer[] = [];
+  patientIntakeQuestionAnswersOriginal: {
+    patientIntakeQuestionId: number;
+    patientIntakeQuestionAnswer: number;
+  }[] = [];
   patientIntakeQuestionAnswers: PatientIntakeQuestionAnswer[] = [];
   patientIntakeQuestionAnswersToAdd: PatientIntakeQuestionAnswer[] = [];
   patientMaxAdmitDate: string = new Date().getFullYear().toString();
@@ -170,18 +173,32 @@ export class PatientFormComponent implements OnInit {
               'patient.patientIntakeQuestionAnswers'
             ) as FormArray;
             patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
+              let newFormGroup = this.fb.group({});
+              console.log(patientIntakeQuestion);
               this.patientIntakeQuestionService
                 .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(patientIntakeQuestion.patientIntakeQuestionId)
                 .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
+                  console.log(patientIntakeQuestionAnswer);
                   if (patientIntakeQuestionAnswer !== null) {
                     var data = patientIntakeQuestionAnswer[0];
                     var patientIntakeQuestionId = data.patientIntakeQuestionId.toString();
                     var patientIntakeQuestionAnswerValue = data.patientIntakeQuestionAnswer;
-                    let newFormGroup = this.fb.group({});
                     newFormGroup.addControl(patientIntakeQuestionId, new FormControl(patientIntakeQuestionAnswerValue));
+                    patientIntakeQuestionAnswers.push(newFormGroup);
+                    var dataObject = <any>{};
+                    dataObject[patientIntakeQuestionId] = patientIntakeQuestionAnswerValue;
+                    this.patientIntakeQuestionAnswersOriginal.push(dataObject);
+                    this.patientIntakeQuestions.push(patientIntakeQuestion);
+                  } else {
+                    debugger;
+                    newFormGroup.addControl(
+                      patientIntakeQuestion.patientIntakeQuestionId.toString(),
+                      new FormControl('')
+                    );
                     patientIntakeQuestionAnswers.push(newFormGroup);
                     this.patientIntakeQuestions.push(patientIntakeQuestion);
                   }
+                  console.log(this.patientIntakeQuestions);
                 });
             });
           });
@@ -330,15 +347,14 @@ export class PatientFormComponent implements OnInit {
     let intakeAnswersArray = intakeAnswers.getRawValue();
 
     /**
-     * Add answers if we don't have them yet
+     * Add answers if we don't have them yet, we do this by comparing the objects
      */
     this.patientIntakeQuestionAnswersToAdd = intakeAnswersArray.filter(
-      (patientContactQuestionAnswer: PatientIntakeQuestionAnswer) => {
-        return this.patientIntakeQuestionAnswersOriginal.indexOf(patientContactQuestionAnswer) == -1;
+      (patientContactQuestionAnswer: any, index: number) => {
+        return Object.is(patientContactQuestionAnswer[index], this.patientIntakeQuestionAnswersOriginal[index]);
       }
     );
-    console.log(this.patientIntakeQuestionAnswersToAdd);
-    debugger;
+
     this.patientIntakeQuestionAnswersToAdd.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
       var patientIntakeQuestionId = parseInt(Object.keys(patientIntakeQuestionAnswer).toString());
       var patientQuestionAnswer = patientIntakeQuestionAnswer[patientIntakeQuestionId];
@@ -349,7 +365,7 @@ export class PatientFormComponent implements OnInit {
     /**
      * Edit questions if we already had them
      */
-    this.patientIntakeQuestionAnswersOriginal.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
+    intakeAnswersArray.forEach((patientIntakeQuestionAnswer: any) => {
       var patientIntakeQuestionId = parseInt(Object.keys(patientIntakeQuestionAnswer).toString());
       var patientQuestionAnswer = patientIntakeQuestionAnswer[patientIntakeQuestionId];
       this.patientIntakeQuestionService
