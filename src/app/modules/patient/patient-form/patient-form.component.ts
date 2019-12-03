@@ -202,7 +202,7 @@ export class PatientFormComponent implements OnInit {
           patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId.toString() || '1', [
             Validators.required
           ]),
-          patientDischargedAma: this.fb.control((this.patient.patientDischargedAma == true ? 1 : 0) || '0', [
+          patientDischargedAma: this.fb.control((this.patient.patientDischargedAma == true ? '1' : '0') || '0', [
             Validators.required
           ])
         }),
@@ -322,12 +322,20 @@ export class PatientFormComponent implements OnInit {
     });
 
     // Passing E2E
+
+    this.patientContactsToRemove.forEach((patientContactId: number, index: number) => {
+      this.patientContactService.removePatientContactByPatientContactId(patientContactId).subscribe((data: any) => {
+        debugger;
+        console.log(data);
+      });
+    });
     this.patientContacts.forEach((patientContact: PatientContact, index: number) => {
       this.patientContacts[index] = formSubmission.patient.patientContacts[index];
       var patientContactPost = this.patientContactPostFactory(this.patientContacts[index]);
       this.patientContactService
         .addNewPatientContactByPatientId(this.patient.patientId, patientContactPost)
         .subscribe((data: any) => {
+          debugger;
           console.log(data);
         });
     });
@@ -342,12 +350,12 @@ export class PatientFormComponent implements OnInit {
     try {
       var payload = {
         patientId: this.patient.patientId,
-        patientContactFirstName: patientContact.patientContactFirstName,
-        patientContactLastName: patientContact.patientContactLastName,
-        patientContactRelationship: patientContact.patientContactRelationship,
-        patientContactCountryCode: patientContact.patientContactCountryCode,
-        patientContactAreaCode: patientContact.patientContactAreaCode,
-        patientContactPhoneNumber: patientContact.patientContactPhoneNumber,
+        patientContactFirstName: patientContact.patientContactFirstName.toString(),
+        patientContactLastName: patientContact.patientContactLastName.toString(),
+        patientContactRelationship: patientContact.patientContactRelationship.toString(),
+        patientContactCountryCode: patientContact.patientContactCountryCode.toString(),
+        patientContactAreaCode: patientContact.patientContactAreaCode.toString(),
+        patientContactPhoneNumber: patientContact.patientContactPhoneNumber.toString(),
         patientContactOrder: patientContact.patientContactOrder,
         patientContactResponsiblePartyBoolean: patientContact.patientContactResponsiblePartyBoolean == true ? 1 : 0
       };

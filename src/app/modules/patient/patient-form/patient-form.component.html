@@ -175,25 +175,15 @@
                 Discharged Against Medical Advice?
               </ion-label>
               <ion-item class="discharged-ama">
-                <ion-radio-group formControlName="patientDischargedAma" value="patient.patientDischargedAma">
+                <ion-radio-group formControlName="patientDischargedAma">
                   <ion-item>
-                    <ion-radio
-                      [checked]="patient.patientDischargedAma == true"
-                      value="1"
-                      class="discharged-ama radio-yes"
-                    >
-                    </ion-radio>
+                    <ion-radio value="1" class="discharged-ama radio-yes"> </ion-radio>
                     <ion-label>
                       Yes
                     </ion-label>
                   </ion-item>
                   <ion-item>
-                    <ion-radio
-                      [checked]="patient.patientDischargedAma == false"
-                      value="0"
-                      class="discharged-ama radio-no"
-                    >
-                    </ion-radio>
+                    <ion-radio value="0" class="discharged-ama radio-no"> </ion-radio>
                     <ion-label>
                       No
                     </ion-label>
@@ -205,11 +195,7 @@
                 <ion-radio-group formControlName="patientDischargedTo">
                   <ion-list inset lines="none">
                     <ion-item *ngFor="let dischargeLabel of dischargeLabels$ | async">
-                      <ion-radio
-                        [checked]="dischargeLabel.patientDischargeLabelId == patient.patientDischargeLabelId"
-                        value="{{ dischargeLabel.patientDischargeLabelId }}"
-                      >
-                      </ion-radio>
+                      <ion-radio value="{{ dischargeLabel.patientDischargeLabelId }}"> </ion-radio>
                       <ion-label>
                         {{ dischargeLabel.patientDischargeLabel }}
                       </ion-label>
