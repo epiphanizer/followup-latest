@@ -270,13 +270,17 @@ export class PatientFormComponent implements OnInit {
   removeAdditionalPatientContact(idx: number) {
     // Assumes we have a patient contact to begin with (is this the smartest way to do this? think on it)
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
-
-    patientContactArray.at(idx).clearValidators();
-    patientContactArray.removeAt(idx);
+    // Remove from patient contacts array
+    console.log(patientContactArray);
+    this.patientContacts.slice(idx);
     this.patientForm.removeControl('patient.patientContacts' + idx.toString());
     this.patientContactsToRemove.push(this.patientContacts[idx].patientContactId);
+    patientContactArray.removeAt(idx);
+
     let element: HTMLElement = document.querySelector('#additionalPatientContact-' + idx) as HTMLElement;
     element.remove();
+    patientContactArray.at(idx - 1).clearValidators();
+    console.log(patientContactArray);
   }
 
   updateDischargeFields() {

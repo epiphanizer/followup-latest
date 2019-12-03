@@ -72,7 +72,7 @@
                 <div class="section-header">
                   <span *ngIf="idx == 0; else alternateContact">Primary Contact</span>
                   <ng-template #alternateContact>
-                    <span>Alternate Contact {{ idx }}</span>
+                    <span>Alternate Contact</span>
                   </ng-template>
                 </div>
                 <ion-item class="first-name">
@@ -107,12 +107,7 @@
                   <ion-item class="responsible-party">
                     <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
                     <ion-checkbox formControlName="patientContactResponsiblePartyBoolean"></ion-checkbox>
-                    <ng-container
-                      *ngIf="
-                        patientForm.get('patient.patientContacts.' + idx + '.patientContactResponsiblePartyBoolean')
-                          .value == true
-                      "
-                    >
+                    <ng-container *ngIf="1 == 1">
                       <i class="icon-hipaa"></i>
                     </ng-container>
                   </ion-item>
