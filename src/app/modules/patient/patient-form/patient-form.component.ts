@@ -277,7 +277,7 @@ export class PatientFormComponent implements OnInit {
         patientContactRelationship: this.fb.control('', [Validators.required]),
         patientContactCountryCode: this.fb.control('1', [Validators.required]),
         patientContactAreaCode: this.fb.control('', [Validators.required]),
-        patientContactPhoneNumber: this.fb.control('', [Validators.required]),
+        patientContactPhoneNumber: this.fb.control('', [Validators.required, Validators.minLength(7)]),
         patientContactOrder: this.fb.control(idx + 1, [Validators.required]),
         patientContactResponsiblePartyBoolean: this.fb.control(false)
       })
@@ -337,20 +337,14 @@ export class PatientFormComponent implements OnInit {
     // Passing E2E
 
     this.patientContactsToRemove.forEach((patientContactId: number, index: number) => {
-      this.patientContactService.removePatientContactByPatientContactId(patientContactId).subscribe((data: any) => {
-        debugger;
-        console.log(data);
-      });
+      this.patientContactService.removePatientContactByPatientContactId(patientContactId).subscribe(() => {});
     });
     this.patientContacts.forEach((patientContact: PatientContact, index: number) => {
       this.patientContacts[index] = formSubmission.patient.patientContacts[index];
       var patientContactPost = this.patientContactPostFactory(this.patientContacts[index]);
       this.patientContactService
         .addNewPatientContactByPatientId(this.patient.patientId, patientContactPost)
-        .subscribe((data: any) => {
-          debugger;
-          console.log(data);
-        });
+        .subscribe(() => {});
     });
 
     let patientPutBody = this.formSubmissionFactory(formSubmission);
