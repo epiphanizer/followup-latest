@@ -252,7 +252,7 @@ export class PatientFormComponent implements OnInit {
       patientContactResponsiblePartyBoolean: false
     });
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
-    let idx = patientContactArray.length;
+    let idx = patientContactArray.length - 1;
     patientContactArray.push(
       this.fb.group({
         patientContactFirstName: this.fb.control('', [Validators.required]),
@@ -274,13 +274,12 @@ export class PatientFormComponent implements OnInit {
     console.log(patientContactArray);
     this.patientContacts.slice(idx);
     this.patientForm.removeControl('patient.patientContacts' + idx.toString());
-    this.patientContactsToRemove.push(this.patientContacts[idx].patientContactId);
     patientContactArray.removeAt(idx);
-
+    patientContactArray.at(idx).clearValidators();
+    this.patientContactsToRemove.push(this.patientContacts[idx].patientContactId);
     let element: HTMLElement = document.querySelector('#additionalPatientContact-' + idx) as HTMLElement;
     element.remove();
-    patientContactArray.at(idx - 1).clearValidators();
-    console.log(patientContactArray);
+    console.log(this.patientContacts);
   }
 
   updateDischargeFields() {
