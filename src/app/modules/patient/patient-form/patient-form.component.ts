@@ -268,10 +268,7 @@ export class PatientFormComponent implements OnInit {
   }
 
   removeAdditionalPatientContact(idx: number) {
-    // Assumes we have a patient contact to begin with (is this the smartest way to do this? think on it)
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
-    console.log(patientContactArray);
-    // this.patientForm.removeControl('patient.patientContacts' + idx.toString());
     patientContactArray.at(idx).clearValidators();
     patientContactArray.removeAt(idx);
     this.patientContactsToRemove.push(this.patientContacts[idx].patientContactId);
