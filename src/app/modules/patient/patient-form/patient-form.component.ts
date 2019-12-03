@@ -36,6 +36,8 @@ export class PatientFormComponent implements OnInit {
   fileToUpload: File;
   patient: Patient;
   patientContacts: PatientContact[] = [];
+  patientContactsOriginal: PatientContact[] = [];
+  patientContactsToAdd: PatientContact[] = [];
   patientContactsToRemove: number[] = [];
   patientContacts$: Observable<PatientContact[]>;
   patientIntakeQuestions: PatientIntakeQuestion[] = [];
@@ -173,6 +175,7 @@ export class PatientFormComponent implements OnInit {
                   )
                 })
               );
+              this.patientContactsOriginal.push(patientContact);
               this.patientContacts.push(patientContact);
             });
           }
@@ -236,7 +239,9 @@ export class PatientFormComponent implements OnInit {
         patientPrimaryDiagnosis: this.fb.control(this.patient.patientPrimaryDiagnosis),
         patientDischargedCondition: this.fb.control(this.patient.patientDischargedCondition, [Validators.required]),
         patientIntakeQuestionAnswers: this.fb.array([]),
-        patientUrgencyScale: this.fb.control(this.patient.patientUrgencyScale.toString()),
+        patientUrgencyScale: this.fb.control(
+          this.patient.patientUrgencyScale !== null ? this.patient.patientUrgencyScale.toString() : null
+        ),
         patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow),
         patientActive: this.fb.control(this.patient.patientActive)
       })
@@ -343,11 +348,17 @@ export class PatientFormComponent implements OnInit {
     });
 
     // Passing E2E
-
+    console.log(this.patientContactsToRemove);
     this.patientContactsToRemove.forEach((patientContactId: number, index: number) => {
       this.patientContactService.removePatientContactByPatientContactId(patientContactId).subscribe(() => {});
     });
-    this.patientContacts.forEach((patientContact: PatientContact, index: number) => {
+    /**
+     * Get a diff from our original patient contacts
+     */
+    this.patientContactsToAdd = this.patientContacts.filter((patientContact: PatientContact) => {
+      return this.patientContactsOriginal.indexOf(patientContact) == -1;
+    });
+    this.patientContactsToAdd.forEach((patientContact: PatientContact, index: number) => {
       this.patientContacts[index] = formSubmission.patient.patientContacts[index];
       var patientContactPost = this.patientContactPostFactory(this.patientContacts[index]);
       this.patientContactService
