@@ -351,7 +351,10 @@ export class PatientFormComponent implements OnInit {
      */
     this.patientIntakeQuestionAnswersToAdd = intakeAnswersArray.filter(
       (patientContactQuestionAnswer: any, index: number) => {
-        return Object.is(patientContactQuestionAnswer[index], this.patientIntakeQuestionAnswersOriginal[index]);
+        return (
+          Object.is(patientContactQuestionAnswer[index], this.patientIntakeQuestionAnswersOriginal[index]) &&
+          patientContactQuestionAnswer[index] !== undefined
+        );
       }
     );
 
@@ -383,9 +386,13 @@ export class PatientFormComponent implements OnInit {
     this.patientContactsToAdd = this.patientContacts.filter((patientContact: PatientContact) => {
       return this.patientContactsOriginal.indexOf(patientContact) == -1;
     });
+    console.log(this.patientContactsOriginal);
+    console.log(this.patientContactsToAdd);
+    debugger;
     this.patientContactsToAdd.forEach((patientContact: PatientContact, index: number) => {
-      this.patientContacts[index] = formSubmission.patient.patientContacts[index];
-      var patientContactPost = this.patientContactPostFactory(this.patientContacts[index]);
+      var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
+      this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
+      var patientContactPost = this.patientContactPostFactory(this.patientContacts[indexToGrab]);
       this.patientContactService
         .addNewPatientContactByPatientId(this.patient.patientId, patientContactPost)
         .subscribe(() => {});
