@@ -27,8 +27,8 @@ export class OperationCallRepsService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  deleteOperationCallRepByOperationCallRepId(operationId: number, userId: number) {
-    return this.http.delete<OperationCallRep>('operations/' + operationId + '/callreps', {}).pipe(
+  deleteOperationCallRepByOperationCallRepId(operationId: number, operationCallRepId: number) {
+    return this.http.delete<OperationCallRep>('operations/' + operationId + '/callreps/' + operationCallRepId, {}).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

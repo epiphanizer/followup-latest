@@ -47,7 +47,6 @@ export class OperationFormComponent implements OnInit {
   operation$: Observable<Operation>;
   operationCallReps: OperationCallRep[] = [];
   operationCallRepsOriginal: OperationCallRep[] = [];
-  operationCallReps$: Observable<OperationCallRep[]>;
   operationCallRepsToRemove: number[] = [];
   operationContacts$: Observable<OperationContact[]>;
   operationContactsOriginal: OperationContact[] = [];
@@ -55,7 +54,6 @@ export class OperationFormComponent implements OnInit {
   operationContactsToAdd: OperationContact[] = [];
   operationContactsToRemove: number[] = [];
   operationManagers: OperationManager[] = [];
-  operationManagers$: Observable<OperationManager[]>;
   operationManagersOriginal: OperationManager[] = [];
   operationManagersToAdd: OperationManager[] = [];
   operationManagersToRemove: number[] = [];
@@ -108,13 +106,13 @@ export class OperationFormComponent implements OnInit {
         });
         this.operation = data;
         // Arm an initial call rep
-        this.operationCallReps$ = of([
+        this.operationCallReps = [
           {
             operationCallRepId: 0,
             operationId: this.operation.operationId,
             operationCallRepName: ''
           }
-        ]);
+        ];
         this.createForm();
         this.armForm();
       });
@@ -317,6 +315,14 @@ export class OperationFormComponent implements OnInit {
         alert('Manager successfully added');
       });
     // Need a filter here to see new vs. old
+    this.operationCallRepsToRemove.forEach((managerUserId: number, index: number) => {
+      this.operationCallRepsService
+        .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, managerUserId)
+        .subscribe((data: any) => {
+          alert('Callrep successfully deleted');
+          console.log(data);
+        });
+    });
     let operationCallRepPost = this.operationCallRepPostFactory(formSubmission);
     this.operationCallRepsService
       .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
@@ -324,6 +330,15 @@ export class OperationFormComponent implements OnInit {
         console.log(data);
         alert('Callrep successfully added');
       });
+
+    this.operationManagersToRemove.forEach((operationCallRepId: number) => {
+      this.operationService
+        .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, operationCallRepId)
+        .subscribe((data: any) => {
+          alert('Manager successfully deleted');
+          console.log(data);
+        });
+    });
     // Need a filter here to see new vs. old
     debugger;
     this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
@@ -357,23 +372,14 @@ export class OperationFormComponent implements OnInit {
   }
 
   removeOperationCallRep(idx: number) {
-    let operationCallRepsArray = this.operationForm.get('operationCallReps') as FormArray;
-    operationCallRepsArray.at(idx).clearValidators();
-    operationCallRepsArray.removeAt(idx);
     this.operationCallRepsToRemove.push(this.operationCallReps[idx].operationCallRepId);
     this.operationCallReps.splice(idx, 1);
   }
   removeOperationContact(idx: number) {
-    let operationContactsArray = this.operationForm.get('operationContacts') as FormArray;
-    operationContactsArray.at(idx).clearValidators();
-    operationContactsArray.removeAt(idx);
     this.operationContactsToRemove.push(this.operationContacts[idx].operationContactId);
     this.operationContacts.splice(idx, 1);
   }
   removeOperationManager(idx: number) {
-    let operationManagersArray = this.operationForm.get('operationManagers') as FormArray;
-    operationManagersArray.at(idx).clearValidators();
-    operationManagersArray.removeAt(idx);
     this.operationManagersToRemove.push(this.operationManagers[idx].operationManagerId);
     this.operationManagers.splice(idx, 1);
   }
