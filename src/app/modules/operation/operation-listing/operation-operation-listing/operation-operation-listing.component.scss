@@ -68,16 +68,6 @@ ul.operation-filters {
       }
     }
 
-    .operation-discharge-date {
-      float: left;
-      height: 55px;
-      vertical-align: middle;
-      line-height: 90px;
-      margin: 0 1rem;
-      font-weight: bold;
-      height: 100%;
-    }
-
     &.operation-filter {
       width: 245px;
       height: 100%;
@@ -194,6 +184,7 @@ ul.operation-filters {
     .operation-operation-status {
       line-height: 96px;
       font-size: 13px;
+      margin-right: 50px;
     }
     .operation-type {
       display: block;
@@ -249,7 +240,7 @@ ul.operation-filters {
       line-height: 96px;
       float: left;
       padding-left: 11.2px;
-      width: 535px;
+      width: 100%;
       margin-right: 22px;
       height: 96px;
       color: black;

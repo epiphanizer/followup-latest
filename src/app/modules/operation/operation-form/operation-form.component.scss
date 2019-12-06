@@ -148,7 +148,9 @@ form {
       color: var(--ion-color-primary);
     }
   }
-
+  .operation-contacts-list {
+    margin-top: 0;
+  }
   fieldset.operation-contacts,
   fieldset.operation-team-members {
     border: none;
@@ -280,9 +282,14 @@ form {
   .assigned-manager-list,
   .assigned-callrep-list {
     margin-left: 25px;
+    ion-item {
+      width: 100%;
+    }
   }
   .add-call-rep,
-  .add-additional-contact {
+  .add-manager,
+  .add-additional-contact,
+  .remove-additional-contact {
     clear: right;
     cursor: pointer;
     font-family: Avenir;

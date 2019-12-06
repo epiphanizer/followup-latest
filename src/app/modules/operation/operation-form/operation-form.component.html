@@ -52,7 +52,7 @@
 
       <fieldset class="operation-contacts">
         <ng-container>
-          <ion-list formArrayName="operationContacts" lines="none" inset>
+          <ion-list class="operation-contacts-list" formArrayName="operationContacts" lines="none" inset>
             <ion-item *ngFor="let operationContact of operationContacts$ | async; let idx = index">
               <div class="contact-header-wrapper">
                 <i class="icon-user"></i>
@@ -131,6 +131,14 @@
                   </ion-col>
                 </ion-row>
               </ion-item>
+              <!-- only show removal option if it's past the first index -->
+              <ion-item
+                *ngIf="idx > 0"
+                class="ion-float-right remove-additional-contact"
+                (click)="removeOperationContact(idx)"
+              >
+                [ - remove contact ]
+              </ion-item>
             </ion-item>
             <span class="ion-float-right add-call-rep" (click)="addAdditionalOperationContact()"
               >[ + add contact ]</span
@@ -144,15 +152,14 @@
           <span>Team Members</span>
         </div>
         <ion-list class="assigned-manager-list" lines="none">
-          <ng-container *ngFor="let operationManager of operationManagers$ | async; let idx = index">
-            <!-- <ion-item id="operation-manager-{{ idx }}" formControlName="{{ idx }}"> -->
+          <ng-container *ngFor="let operationManager of operationManagers; let idx = index">
             <ion-item id="operation-manager-{{ idx }}">
               <ion-label position="stacked" color="medium">
                 Assigned Manager
               </ion-label>
               <ion-select class="operation-assigned-manager" placeholder="Select User">
                 <ion-select-option
-                  *ngFor="let user of availableUsers$ | async"
+                  *ngFor="let user of availableUsers"
                   [selected]="user.userId == operationManager.userId"
                   [value]="user.userId"
                 >
@@ -164,18 +171,18 @@
               >[ - remove manager ]</span
             >
           </ng-container>
-          <span class="ion-float-right add-call-rep" (click)="addAdditionalManager()">[ + add manager ]</span>
+          <span class="ion-float-right add-manager" (click)="addAdditionalManager()">[ + add manager ]</span>
         </ion-list>
       </fieldset>
-      <fieldset class="operation-callreps">
+      <fieldset class="operation-callreps" formArray="operationCallReps">
         <ng-container>
           <ion-list class="assigned-callrep-list" lines="none" inset>
-            <ng-container *ngFor="let operationCallRep of operationCallReps$ | async; let idx = index">
+            <ng-container *ngFor="let operationCallRep of operationCallReps; let idx = index">
               <ion-item id="operationCallRep-{{ idx }}">
                 <ion-label position="stacked" color="medium">Care Rep {{ idx + 1 }} </ion-label>
                 <ion-select>
                   <ion-select-option
-                    *ngFor="let user of availableUsers$ | async"
+                    *ngFor="let user of availableUsers"
                     [value]="user.userId"
                     [selected]="user.userId == operationCallRep.userId"
                   >

@@ -36,8 +36,8 @@ import { NotificationType } from '@app/modules/notification/notification';
 })
 @Injectable()
 export class OperationFormComponent implements OnInit {
-  availableUsers$: Observable<User[]>;
-  availableManagers$: Observable<User[]>;
+  availableUsers: User[];
+  availableManagers: User[];
   operation: Operation;
   editMode: boolean;
   notificationTypes: NotificationType[];
@@ -46,13 +46,18 @@ export class OperationFormComponent implements OnInit {
   operationForm!: FormGroup;
   operation$: Observable<Operation>;
   operationCallReps: OperationCallRep[] = [];
+  operationCallRepsOriginal: OperationCallRep[] = [];
   operationCallReps$: Observable<OperationCallRep[]>;
   operationCallRepsToRemove: number[] = [];
   operationContacts$: Observable<OperationContact[]>;
+  operationContactsOriginal: OperationContact[] = [];
   operationContacts: OperationContact[] = [];
+  operationContactsToAdd: OperationContact[] = [];
   operationContactsToRemove: number[] = [];
   operationManagers: OperationManager[] = [];
   operationManagers$: Observable<OperationManager[]>;
+  operationManagersOriginal: OperationManager[] = [];
+  operationManagersToAdd: OperationManager[] = [];
   operationManagersToRemove: number[] = [];
   user: User;
 
@@ -88,9 +93,7 @@ export class OperationFormComponent implements OnInit {
     if (this.editMode) {
       this.operation = this.route.snapshot.data.operation;
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
-      this.operationCallReps$ = this.operationCallRepsService.getOperationCallRepsByOperationId(
-        this.operation.operationId
-      );
+
       this.createForm();
       this.armForm();
     } else {
@@ -133,15 +136,12 @@ export class OperationFormComponent implements OnInit {
     this.addAdditionalOperationContact();
     this.addAdditionalOperationManager();
     this.addAdditionalOperationCallRep();
-    this.availableUsers$ = this.userService.getAllUsers();
-    this.availableManagers$ = this.userService.getAllManagerUsers();
-
-    this.operationManagers$ = this.operationService.getOperationManagersByOperationId(this.operation.operationId).pipe(
-      map((data: OperationManager[]) => {
-        this.operationManagers = data;
-        return data;
-      })
-    );
+    this.userService.getAllUsers().subscribe((users: User[]) => {
+      this.availableUsers = users;
+    });
+    this.userService.getAllManagerUsers().subscribe((users: User[]) => {
+      this.availableManagers = users;
+    });
 
     this.operationContacts$ = this.operationContactsService
       .getOperationContactsByOperationId(this.operation.operationId)
@@ -151,13 +151,16 @@ export class OperationFormComponent implements OnInit {
           return data;
         })
       );
-
-    this.operationCallRepsService.getOperationCallRepsByOperationId(this.operation.operationId).pipe(
-      map((data: OperationCallRep[]) => {
-        this.operationCallReps = data;
-        return data;
-      })
-    );
+    this.operationCallRepsService
+      .getOperationCallRepsByOperationId(this.operation.operationId)
+      .subscribe((operationCallReps: OperationCallRep[]) => {
+        this.operationCallReps = operationCallReps;
+      });
+    this.operationService
+      .getOperationManagersByOperationId(this.operation.operationId)
+      .subscribe((data: OperationManager[]) => {
+        this.operationManagers = data;
+      });
   }
   operationChangeEventHandler($event: number) {
     console.log('change occurred');
@@ -354,18 +357,25 @@ export class OperationFormComponent implements OnInit {
   }
 
   removeOperationCallRep(idx: number) {
-    let formArray = this.operationForm.controls.operationCallReps as FormArray;
-    formArray.removeAt(idx);
+    let operationCallRepsArray = this.operationForm.get('operationCallReps') as FormArray;
+    operationCallRepsArray.at(idx).clearValidators();
+    operationCallRepsArray.removeAt(idx);
     this.operationCallRepsToRemove.push(this.operationCallReps[idx].operationCallRepId);
-    let element: HTMLElement = document.querySelector('#operationCallRep-' + idx) as HTMLElement;
-    element.remove();
+    this.operationCallReps.splice(idx, 1);
+  }
+  removeOperationContact(idx: number) {
+    let operationContactsArray = this.operationForm.get('operationContacts') as FormArray;
+    operationContactsArray.at(idx).clearValidators();
+    operationContactsArray.removeAt(idx);
+    this.operationContactsToRemove.push(this.operationContacts[idx].operationContactId);
+    this.operationContacts.splice(idx, 1);
   }
   removeOperationManager(idx: number) {
-    let formArray = this.operationForm.controls.operationManagers as FormArray;
-    formArray.removeAt(idx);
+    let operationManagersArray = this.operationForm.get('operationManagers') as FormArray;
+    operationManagersArray.at(idx).clearValidators();
+    operationManagersArray.removeAt(idx);
     this.operationManagersToRemove.push(this.operationManagers[idx].operationManagerId);
-    let element: HTMLElement = document.querySelector('#operationContact-' + idx) as HTMLElement;
-    element.remove();
+    this.operationManagers.splice(idx, 1);
   }
   /**
    * A function to validate controls,

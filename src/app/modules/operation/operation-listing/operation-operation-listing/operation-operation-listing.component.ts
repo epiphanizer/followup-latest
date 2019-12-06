@@ -13,7 +13,7 @@ export class OperationOperationListingComponent implements OnInit {
   @Input() operation: Operation;
   public operations: Operation[];
   public operations$: Observable<Operation[]>;
-  public filterBy: string = 'discharge-date';
+  public filterBy: string = 'operation-name';
   public selectedSortFlag: string = 'desc';
 
   constructor(private operationService: OperationService) {}
@@ -36,13 +36,9 @@ export class OperationOperationListingComponent implements OnInit {
   sortOperationsByOperationName = function(sortFlag: string) {
     this.filterBy = 'operation-name';
     if (this.selectedSortFlag == 'asc') {
-      this.operations.sort((a: Operation, b: Operation) => {
-        return <any>new Date(a.operationName) - <any>new Date(b.operationName);
-      });
+      this.operations.reverse();
     } else {
-      this.operations.sort((a: Operation, b: Operation) => {
-        return <any>new Date(a.operationName) + <any>new Date(b.operationName);
-      });
+      this.operations.sort();
     }
   };
 

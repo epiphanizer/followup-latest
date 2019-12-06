@@ -20,7 +20,7 @@
     </span>
   </li>
   <li class="operation-status ion-float-right">
-    <a [class.active]="filterBy == 'discharge-date'" (click)="sortOperationsByOperationStatus(selectedSortFlag)"
+    <a [class.active]="filterBy == 'operation-status'" (click)="sortOperationsByOperationStatus(selectedSortFlag)"
       >[Status]</a
     >
   </li>
@@ -32,9 +32,6 @@
     class="active"
     [routerLink]="'/operation/edit/' + operation.operationId"
   >
-    <div class="operation-discharge-date">
-      {{ operation.operationDischargeDate | date: 'M/d' }}
-    </div>
     <div class="operation-operation-information">
       <span class="operation-operation-name ion-float-left">
         {{ operation.operationName }}

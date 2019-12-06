@@ -49,14 +49,10 @@ export class PatientPatientListingComponent implements OnInit {
   }
   sortPatientsByPatientName = function(sortFlag: string) {
     this.filterBy = 'patient-name';
-    if (this.selectedSortFlag == 'asc') {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientLastName) - <any>new Date(b.patientLastName);
-      });
+    if (this.selectedSortFlag == 'desc') {
+      this.patients.sort();
     } else {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientLastName) + <any>new Date(b.patientLastName);
-      });
+      this.patients.reverse();
     }
   };
   sortPatientsByDischargeDate = function(sortFlag: string) {
@@ -75,11 +71,11 @@ export class PatientPatientListingComponent implements OnInit {
     this.filterBy = 'patient-status';
     if (sortFlag == 'asc') {
       this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
+        return <any>a.patientCurrentStatusLabel - <any>b.patientCurrentStatusLabel;
       });
     } else {
       this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(b.patientDischargeDate) - <any>new Date(a.patientDischargeDate);
+        return <any>a.patientCurrentStatusLabel - <any>b.patientCurrentStatusLabel;
       });
     }
   };

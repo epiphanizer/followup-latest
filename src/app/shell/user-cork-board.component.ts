@@ -54,7 +54,11 @@ export class UserCorkBoardComponent implements OnInit {
     this.userCorkBoardService
       .addNewUserCorkBoardObjectByUserId(this.user.userId, this.fileToUpload)
       .subscribe((data: any) => {
-        console.log(data);
+        this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe((data: any) => {
+          if (data) {
+            this.userCorkBoardObjects = data;
+          }
+        });
       });
   };
   toggleCorkBoardDeleteFunction = function() {
