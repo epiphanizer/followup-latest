@@ -108,7 +108,7 @@ export class OperationFormComponent implements OnInit {
         // Arm an initial call rep
         this.operationCallReps = [
           {
-            operationCallRepId: 0,
+            userId: 0,
             operationId: this.operation.operationId,
             operationCallRepName: ''
           }
@@ -179,18 +179,14 @@ export class OperationFormComponent implements OnInit {
     this.armForm();
   }
   addAdditionalOperationCallRep() {
-    let formArray = this.operationForm.controls.operationCallReps as FormArray;
-    formArray.push(this.fb.control({}));
     let newCallRep = {
-      operationCallRepId: 0,
+      userId: 0,
       operationId: this.operation.operationId,
       operationCallRepName: ''
     };
     this.operationCallReps.push(newCallRep);
   }
   addAdditionalOperationManager() {
-    let formArray = this.operationForm.controls.operationManagers as FormArray;
-    formArray.push(this.fb.control({}));
     let newManager = {
       operationId: this.operation.operationId,
       userId: 0
@@ -315,9 +311,11 @@ export class OperationFormComponent implements OnInit {
         alert('Manager successfully added');
       });
     // Need a filter here to see new vs. old
-    this.operationCallRepsToRemove.forEach((managerUserId: number, index: number) => {
+    console.log(this.operationCallRepsToRemove);
+    debugger;
+    this.operationCallRepsToRemove.forEach((callRepUserId: number, index: number) => {
       this.operationCallRepsService
-        .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, managerUserId)
+        .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
         .subscribe((data: any) => {
           alert('Callrep successfully deleted');
           console.log(data);
@@ -331,9 +329,9 @@ export class OperationFormComponent implements OnInit {
         alert('Callrep successfully added');
       });
 
-    this.operationManagersToRemove.forEach((operationCallRepId: number) => {
+    this.operationManagersToRemove.forEach((managerUserId: number) => {
       this.operationService
-        .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, operationCallRepId)
+        .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
         .subscribe((data: any) => {
           alert('Manager successfully deleted');
           console.log(data);
@@ -372,7 +370,7 @@ export class OperationFormComponent implements OnInit {
   }
 
   removeOperationCallRep(idx: number) {
-    this.operationCallRepsToRemove.push(this.operationCallReps[idx].operationCallRepId);
+    this.operationCallRepsToRemove.push(this.operationCallReps[idx].userId);
     this.operationCallReps.splice(idx, 1);
   }
   removeOperationContact(idx: number) {

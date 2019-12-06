@@ -5,7 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 
 export interface OperationCallRep {
-  operationCallRepId: number;
+  userId: number;
   operationId: number;
   operationCallRepName: string;
 }

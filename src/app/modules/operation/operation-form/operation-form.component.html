@@ -171,10 +171,10 @@
               >[ - remove manager ]</span
             >
           </ng-container>
-          <span class="ion-float-right add-manager" (click)="addAdditionalManager()">[ + add manager ]</span>
+          <span class="ion-float-right add-manager" (click)="addAdditionalOperationManager()">[ + add manager ]</span>
         </ion-list>
       </fieldset>
-      <fieldset class="operation-callreps" formArray="operationCallReps">
+      <fieldset class="operation-callreps">
         <ng-container>
           <ion-list class="assigned-callrep-list" lines="none" inset>
             <ng-container *ngFor="let operationCallRep of operationCallReps; let idx = index">
@@ -194,7 +194,9 @@
                 >[ - remove ]</span
               >
             </ng-container>
-            <span class="ion-float-right add-call-rep" (click)="addAdditionalCallRep()">[ + add call rep ]</span>
+            <span class="ion-float-right add-call-rep" (click)="addAdditionalOperationCallRep()"
+              >[ + add call rep ]</span
+            >
           </ion-list>
         </ng-container>
 
