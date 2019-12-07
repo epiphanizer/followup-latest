@@ -353,7 +353,7 @@ export class PatientFormComponent implements OnInit {
      * Add answers if we don't have them yet, we do this by comparing the objects
      */
     console.log(this.patientIntakeQuestionAnswersOriginal);
-    if (this.patientIntakeQuestionAnswersOriginal) {
+    if (this.patientIntakeQuestionAnswersOriginal.length) {
       this.patientIntakeQuestionAnswersToAdd = intakeAnswersArray.filter(
         (patientContactQuestionAnswer: any, index: number) => {
           console.log(patientContactQuestionAnswer);
