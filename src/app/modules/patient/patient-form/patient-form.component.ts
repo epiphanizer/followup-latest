@@ -352,7 +352,7 @@ export class PatientFormComponent implements OnInit {
     /**
      * Add answers if we don't have them yet, we do this by comparing the objects
      */
-    console.log(this.patientIntakeQuestionAnswersOriginal);
+
     if (this.patientIntakeQuestionAnswersOriginal.length) {
       this.patientIntakeQuestionAnswersToAdd = intakeAnswersArray.filter(
         (patientContactQuestionAnswer: any, index: number) => {
@@ -366,9 +366,7 @@ export class PatientFormComponent implements OnInit {
     } else {
       this.patientIntakeQuestionAnswersToAdd = intakeAnswersArray;
     }
-    console.log(this.patientIntakeQuestionAnswersOriginal);
-    console.log(this.patientIntakeQuestionAnswersToAdd);
-    debugger;
+
     this.patientIntakeQuestionAnswersToAdd.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
       var patientIntakeQuestionId = parseInt(Object.keys(patientIntakeQuestionAnswer).toString());
       var patientQuestionAnswer = patientIntakeQuestionAnswer[patientIntakeQuestionId];

@@ -158,6 +158,7 @@ export class OperationFormComponent implements OnInit {
       .getOperationManagersByOperationId(this.operation.operationId)
       .subscribe((data: OperationManager[]) => {
         this.operationManagers = data;
+        this.operationManagersOriginal = data;
       });
   }
   operationChangeEventHandler($event: number) {
@@ -283,17 +284,6 @@ export class OperationFormComponent implements OnInit {
       throw 'Had a problem validating data in the call rep factory';
     }
   }
-  operationManagerPostFactory(formSubmission: any): OperationManagerPostBody {
-    try {
-      var payload = {
-        operationId: formSubmission.operation.operationId,
-        userId: this.user.userId
-      };
-      return <OperationManagerPostBody>payload;
-    } catch {
-      throw 'Had a problem validating data in the call rep factory';
-    }
-  }
   onFormSubmit() {
     if (!this.validateControls()) {
       return;
@@ -301,15 +291,33 @@ export class OperationFormComponent implements OnInit {
 
     let formSubmission = this.operationForm.getRawValue();
     // Passing E2E
-    let operationManagerPost = this.operationManagerPostFactory(formSubmission);
-    // Need a filter here to see new vs. old
-    this.operationService
-      .assignManagerToOperationByOperationIdAndUserId(formSubmission.operation.operationId, operationManagerPost.userId)
-      .subscribe((data: any) => {
-        console.log(data);
-        // debugger;
-        alert('Manager successfully added');
-      });
+    console.log(this.operationManagersToRemove);
+    debugger;
+    this.operationManagersToRemove.forEach((managerUserId: number) => {
+      this.operationService
+        .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
+        .subscribe((data: any) => {
+          alert('Manager successfully removed');
+          console.log(data);
+        });
+    });
+    // This passes E2E
+    this.operationManagersToAdd = this.operationManagersOriginal.filter(
+      (operationManager: OperationManager, index: number) => {
+        return !Object.is(operationManager, this.operationManagersOriginal[index]);
+      }
+    );
+    this.operationManagersToAdd.forEach((operationManager: OperationManager) => {
+      // Need a filter here to see new vs. old
+      this.operationService
+        .assignManagerToOperationByOperationIdAndUserId(formSubmission.operation.operationId, operationManager.userId)
+        .subscribe((data: any) => {
+          console.log(data);
+          // debugger;
+          alert('Manager successfully added');
+        });
+    });
+
     // Need a filter here to see new vs. old
     console.log(this.operationCallRepsToRemove);
     debugger;
@@ -329,14 +337,6 @@ export class OperationFormComponent implements OnInit {
         alert('Callrep successfully added');
       });
 
-    this.operationManagersToRemove.forEach((managerUserId: number) => {
-      this.operationService
-        .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
-        .subscribe((data: any) => {
-          alert('Manager successfully deleted');
-          console.log(data);
-        });
-    });
     // Need a filter here to see new vs. old
     debugger;
     this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
@@ -378,7 +378,7 @@ export class OperationFormComponent implements OnInit {
     this.operationContacts.splice(idx, 1);
   }
   removeOperationManager(idx: number) {
-    this.operationManagersToRemove.push(this.operationManagers[idx].operationManagerId);
+    this.operationManagersToRemove.push(this.operationManagers[idx].userId);
     this.operationManagers.splice(idx, 1);
   }
   /**
