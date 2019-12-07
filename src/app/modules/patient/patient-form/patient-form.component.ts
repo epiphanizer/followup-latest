@@ -352,15 +352,23 @@ export class PatientFormComponent implements OnInit {
     /**
      * Add answers if we don't have them yet, we do this by comparing the objects
      */
-    this.patientIntakeQuestionAnswersToAdd = intakeAnswersArray.filter(
-      (patientContactQuestionAnswer: any, index: number) => {
-        return (
-          Object.is(patientContactQuestionAnswer[index], this.patientIntakeQuestionAnswersOriginal[index]) &&
-          patientContactQuestionAnswer[index] !== undefined
-        );
-      }
-    );
-
+    console.log(this.patientIntakeQuestionAnswersOriginal);
+    if (this.patientIntakeQuestionAnswersOriginal) {
+      this.patientIntakeQuestionAnswersToAdd = intakeAnswersArray.filter(
+        (patientContactQuestionAnswer: any, index: number) => {
+          console.log(patientContactQuestionAnswer);
+          return (
+            Object.is(patientContactQuestionAnswer[index], this.patientIntakeQuestionAnswersOriginal[index]) &&
+            patientContactQuestionAnswer[index] !== undefined
+          );
+        }
+      );
+    } else {
+      this.patientIntakeQuestionAnswersToAdd = intakeAnswersArray;
+    }
+    console.log(this.patientIntakeQuestionAnswersOriginal);
+    console.log(this.patientIntakeQuestionAnswersToAdd);
+    debugger;
     this.patientIntakeQuestionAnswersToAdd.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
       var patientIntakeQuestionId = parseInt(Object.keys(patientIntakeQuestionAnswer).toString());
       var patientQuestionAnswer = patientIntakeQuestionAnswer[patientIntakeQuestionId];
@@ -389,9 +397,8 @@ export class PatientFormComponent implements OnInit {
     this.patientContactsToAdd = this.patientContacts.filter((patientContact: PatientContact) => {
       return this.patientContactsOriginal.indexOf(patientContact) == -1;
     });
-    console.log(this.patientContactsOriginal);
-    console.log(this.patientContactsToAdd);
-    debugger;
+
+    // Passing E2E
     this.patientContactsToAdd.forEach((patientContact: PatientContact, index: number) => {
       var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
       this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
