@@ -88,8 +88,11 @@ export class PatientFormComponent implements OnInit {
       this.patientService.addNewPatient().subscribe((data: any) => {
         if (data.patientId) {
           let patientId = data.patientId;
+          // Set some defaults
           this.patient = {
-            patientId: patientId
+            patientId: patientId,
+            patientDischargeLabelId: 1,
+            patientUrgencyScale: 1
           };
         }
         this.patient.patientMedicalConditions = {
@@ -207,6 +210,8 @@ export class PatientFormComponent implements OnInit {
   }
 
   private createForm() {
+    console.log(this.patient);
+    debugger;
     this.patientForm = this.fb.group({
       operation: this.fb.control(this.patient.patientOperationId),
       patient: this.fb.group({
@@ -229,9 +234,7 @@ export class PatientFormComponent implements OnInit {
             disabled: true,
             value: this.patient.patientTotalDays
           }),
-          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId.toString() || '1', [
-            Validators.required
-          ]),
+          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId.toString(), [Validators.required]),
           patientDischargedAma: this.fb.control((this.patient.patientDischargedAma == true ? '1' : '0') || '0', [
             Validators.required
           ])
