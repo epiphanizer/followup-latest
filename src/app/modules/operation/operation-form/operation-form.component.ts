@@ -1,7 +1,7 @@
 import { Component, OnInit, Renderer2, Injectable, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, from, throwError, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, first, take } from 'rxjs/operators';
 import { SuperForm } from 'angular-super-validator';
 import { OperationService } from '../operation.service';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
@@ -46,7 +46,7 @@ export class OperationFormComponent implements OnInit {
   operationForm!: FormGroup;
   operation$: Observable<Operation>;
   operationCallReps: OperationCallRep[] = [];
-  operationCallRepsOriginal: OperationCallRep[] = [];
+  operationCallRepsOriginal: number[] = [];
   operationCallRepsToAdd: OperationCallRep[] = [];
   operationCallRepsToRemove: number[] = [];
   operationContacts$: Observable<OperationContact[]>;
@@ -55,7 +55,7 @@ export class OperationFormComponent implements OnInit {
   operationContactsToAdd: OperationContact[] = [];
   operationContactsToRemove: number[] = [];
   operationManagers: OperationManager[] = [];
-  operationManagersOriginal: OperationManager[] = [];
+  operationManagersOriginal: number[] = [];
   operationManagersToAdd: OperationManager[] = [];
   operationManagersToRemove: number[] = [];
   user: User;
@@ -157,17 +157,24 @@ export class OperationFormComponent implements OnInit {
       .subscribe((operationCallReps: OperationCallRep[]) => {
         if (operationCallReps !== null) {
           this.operationCallReps = operationCallReps;
+          operationCallReps.forEach((operationCallRep: OperationCallRep) => {
+            this.operationCallRepsOriginal.push(operationCallRep.userId);
+          });
         }
       });
     this.operationService
       .getOperationManagersByOperationId(this.operation.operationId)
+      .pipe(take(1))
       .subscribe((operationManagers: OperationManager[]) => {
+        console.log(operationManagers);
         if (operationManagers !== null) {
           this.operationManagers = operationManagers;
-          this.operationManagersOriginal = operationManagers;
+          operationManagers.forEach((operationManager: OperationManager) => {
+            this.operationManagersOriginal.push(operationManager.userId);
+            console.log(this.operationManagersOriginal);
+          });
         }
-      })
-      .unsubscribe();
+      });
   }
   operationChangeEventHandler($event: number) {
     console.log('change occurred');
@@ -185,7 +192,6 @@ export class OperationFormComponent implements OnInit {
     operationFormControls.controls.operationCountryCode.setValue(this.operation.operationCountryCode);
     operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
     operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
-    this.armForm();
   }
   addAdditionalOperationCallRep() {
     let newCallRep = {
@@ -261,14 +267,27 @@ export class OperationFormComponent implements OnInit {
       throw 'Had a problem validating data in the operation form factory';
     }
   }
+  callRepOnSelect(event: any, index: number) {
+    let callRepUserId = event.target.value;
+    if (this.operationManagers[index].userId! == 0) {
+      this.operationCallRepsToRemove.push(this.operationCallReps[index].userId);
+    }
+    var operationCallRepObject = {
+      operationId: this.operation.operationId,
+      userId: callRepUserId
+    };
+    this.operationCallReps[index] = operationCallRepObject;
+  }
   managerOnSelect(event: any, index: number) {
     let managerUserId = event.target.value;
-    this.operationManagers.push({
+    if (this.operationManagers[index].userId! == 0) {
+      this.operationManagersToRemove.push(this.operationManagers[index].userId);
+    }
+    var operationManagerObject = {
       operationId: this.operation.operationId,
       userId: managerUserId
-    });
-    this.operationManagersToRemove.push(this.operationManagers[index].userId);
-    this.operationManagers.splice(index, 1);
+    };
+    this.operationManagers[index] = operationManagerObject;
   }
   operationCallRepPostFactory(formSubmission: any): OperationCallRepPostBody {
     try {
@@ -320,8 +339,9 @@ export class OperationFormComponent implements OnInit {
         });
     });
     // This passes E2E
+    console.log(this.operationManagersOriginal);
     this.operationManagersToAdd = this.operationManagers.filter((operationManager: OperationManager, index: number) => {
-      return !Object.is(operationManager, this.operationManagersOriginal[index]) && operationManager.userId !== 0;
+      return operationManager.userId !== this.operationManagersOriginal[index] && operationManager.userId !== 0;
     });
 
     this.operationManagersToAdd.forEach((operationManager: OperationManager) => {
@@ -347,6 +367,13 @@ export class OperationFormComponent implements OnInit {
         });
     });
     console.log(this.operationCallRepsOriginal);
+    console.log(this.operationCallReps);
+    debugger;
+    this.operationCallRepsToAdd = this.operationCallReps.filter((operationCallRep: OperationCallRep, index: number) => {
+      return operationCallRep.userId !== this.operationCallRepsOriginal[index] && operationCallRep.userId !== 0;
+    });
+
+    console.log(this.operationCallRepsToAdd);
     debugger;
     this.operationCallRepsToAdd.forEach((operationCallRep: OperationCallRep) => {
       let operationCallRepPost = this.operationCallRepPostFactory(operationCallRep);

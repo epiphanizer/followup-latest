@@ -7,7 +7,7 @@ import { throwError } from 'rxjs';
 export interface OperationCallRep {
   userId: number;
   operationId: number;
-  operationCallRepName: string;
+  operationCallRepName?: string;
 }
 
 @Injectable({
