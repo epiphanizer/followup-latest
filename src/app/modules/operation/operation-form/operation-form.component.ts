@@ -145,21 +145,27 @@ export class OperationFormComponent implements OnInit {
     this.operationContacts$ = this.operationContactsService
       .getOperationContactsByOperationId(this.operation.operationId)
       .pipe(
-        map((data: OperationContact[]) => {
-          this.operationContacts = data;
-          return data;
+        map((operationContacts: OperationContact[]) => {
+          if (operationContacts !== null) {
+            this.operationContacts = operationContacts;
+            return operationContacts;
+          }
         })
       );
     this.operationCallRepsService
       .getOperationCallRepsByOperationId(this.operation.operationId)
       .subscribe((operationCallReps: OperationCallRep[]) => {
-        this.operationCallReps = operationCallReps;
+        if (operationCallReps !== null) {
+          this.operationCallReps = operationCallReps;
+        }
       });
     this.operationService
       .getOperationManagersByOperationId(this.operation.operationId)
-      .subscribe((data: OperationManager[]) => {
-        this.operationManagers = data;
-        this.operationManagersOriginal = data;
+      .subscribe((operationManagers: OperationManager[]) => {
+        if (operationManagers !== null) {
+          this.operationManagers = operationManagers;
+          this.operationManagersOriginal = operationManagers;
+        }
       })
       .unsubscribe();
   }
