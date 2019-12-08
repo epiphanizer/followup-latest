@@ -157,7 +157,11 @@
               <ion-label position="stacked" color="medium">
                 Assigned Manager
               </ion-label>
-              <ion-select class="operation-assigned-manager" placeholder="Select User">
+              <ion-select
+                (ionChange)="managerOnSelect($event, idx)"
+                class="operation-assigned-manager"
+                placeholder="Select User"
+              >
                 <ion-select-option
                   *ngFor="let user of availableUsers"
                   [selected]="user.userId == operationManager.userId"

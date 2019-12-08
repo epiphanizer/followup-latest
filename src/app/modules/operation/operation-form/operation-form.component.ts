@@ -47,6 +47,7 @@ export class OperationFormComponent implements OnInit {
   operation$: Observable<Operation>;
   operationCallReps: OperationCallRep[] = [];
   operationCallRepsOriginal: OperationCallRep[] = [];
+  operationCallRepsToAdd: OperationCallRep[] = [];
   operationCallRepsToRemove: number[] = [];
   operationContacts$: Observable<OperationContact[]>;
   operationContactsOriginal: OperationContact[] = [];
@@ -159,7 +160,8 @@ export class OperationFormComponent implements OnInit {
       .subscribe((data: OperationManager[]) => {
         this.operationManagers = data;
         this.operationManagersOriginal = data;
-      });
+      })
+      .unsubscribe();
   }
   operationChangeEventHandler($event: number) {
     console.log('change occurred');
@@ -253,6 +255,15 @@ export class OperationFormComponent implements OnInit {
       throw 'Had a problem validating data in the operation form factory';
     }
   }
+  managerOnSelect(event: any, index: number) {
+    let managerUserId = event.target.value;
+    this.operationManagers.push({
+      operationId: this.operation.operationId,
+      userId: managerUserId
+    });
+    this.operationManagersToRemove.push(this.operationManagers[index].userId);
+    this.operationManagers.splice(index, 1);
+  }
   operationCallRepPostFactory(formSubmission: any): OperationCallRepPostBody {
     try {
       /**
@@ -289,11 +300,12 @@ export class OperationFormComponent implements OnInit {
       return;
     }
 
-    let formSubmission = this.operationForm.getRawValue();
     // Passing E2E
-    console.log(this.operationManagersToRemove);
-    debugger;
     this.operationManagersToRemove.forEach((managerUserId: number) => {
+      // Don't process default manager entry
+      if (managerUserId == 0) {
+        return;
+      }
       this.operationService
         .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
         .subscribe((data: any) => {
@@ -302,18 +314,17 @@ export class OperationFormComponent implements OnInit {
         });
     });
     // This passes E2E
-    this.operationManagersToAdd = this.operationManagersOriginal.filter(
-      (operationManager: OperationManager, index: number) => {
-        return !Object.is(operationManager, this.operationManagersOriginal[index]);
-      }
-    );
+    this.operationManagersToAdd = this.operationManagers.filter((operationManager: OperationManager, index: number) => {
+      return !Object.is(operationManager, this.operationManagersOriginal[index]) && operationManager.userId !== 0;
+    });
+
     this.operationManagersToAdd.forEach((operationManager: OperationManager) => {
       // Need a filter here to see new vs. old
       this.operationService
-        .assignManagerToOperationByOperationIdAndUserId(formSubmission.operation.operationId, operationManager.userId)
+        .assignManagerToOperationByOperationIdAndUserId(operationManager.operationId, operationManager.userId)
         .subscribe((data: any) => {
           console.log(data);
-          // debugger;
+          debugger;
           alert('Manager successfully added');
         });
     });
@@ -329,20 +340,25 @@ export class OperationFormComponent implements OnInit {
           console.log(data);
         });
     });
-    let operationCallRepPost = this.operationCallRepPostFactory(formSubmission);
-    this.operationCallRepsService
-      .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
-      .subscribe((data: any) => {
-        console.log(data);
-        alert('Callrep successfully added');
-      });
+    console.log(this.operationCallRepsOriginal);
+    debugger;
+    this.operationCallRepsToAdd.forEach((operationCallRep: OperationCallRep) => {
+      let operationCallRepPost = this.operationCallRepPostFactory(operationCallRep);
+      this.operationCallRepsService
+        .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
+        .subscribe((data: any) => {
+          console.log(data);
+          alert('Callrep successfully added');
+        });
+    });
 
+    let formSubmission = this.operationForm.getRawValue();
     // Need a filter here to see new vs. old
     debugger;
     this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
       let operationContactPost = this.operationContactPostFactory(operationContact);
       this.operationContactsService
-        .addOperationContactByOperationId(formSubmission.operation.operationId, operationContactPost)
+        .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
         .subscribe((data: any) => {
           console.log(data);
           // Now that we have the contact, we add them to the notification recipients table
@@ -358,8 +374,6 @@ export class OperationFormComponent implements OnInit {
     });
 
     let operationPut = this.operationPutFactory(formSubmission);
-    console.log(operationPut);
-    debugger;
     this.operationService
       .editOperationByOperationId(this.operation.operationId, operationPut)
       .subscribe((data: any) => {
