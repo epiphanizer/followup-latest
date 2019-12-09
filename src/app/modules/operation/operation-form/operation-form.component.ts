@@ -292,8 +292,8 @@ export class OperationFormComponent implements OnInit {
         operationCity: formSubmission.operation.operationCity,
         operationState: formSubmission.operation.operationState,
         operationZip: formSubmission.operation.operationZip,
-        operationCountryCode: formSubmission.operation.operationCountryCode,
-        operationAreaCode: formSubmission.operation.operationAreaCode,
+        operationCountryCode: formSubmission.operation.operationCountryCode.toString(),
+        operationAreaCode: formSubmission.operation.operationAreaCode.toString(),
         operationPhoneNumber: formSubmission.operation.operationPhoneNumber,
         operationActive: formSubmission.operationActive ? 1 : 0
       };
@@ -345,7 +345,7 @@ export class OperationFormComponent implements OnInit {
         operationContactMiddleName: formContact.operationContactMiddleName,
         operationContactLastName: formContact.operationContactLastName,
         operationContactTitle: formContact.operationContactTitle,
-        operationContactCountryCode: formContact.operationContactCountryCode,
+        operationContactCountryCode: formContact.operationContactCountryCode.toString,
         operationContactAreaCode: formContact.operationContactAreaCode,
         operationContactPhoneNumber: formContact.operationContactPhoneNumber,
         operationContactEmail: formContact.operationContactEmail,
