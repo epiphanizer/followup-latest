@@ -4,6 +4,6 @@ export interface OperationContact {
   operationContactId: number;
   operationContactFirstName: string;
   operationContactLastName: string;
-  operationContactEmail: string;
+  operationContactEmail?: string;
   operationContactNotificationTypes?: NotificationType[];
 }
