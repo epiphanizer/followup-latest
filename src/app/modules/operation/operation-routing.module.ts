@@ -33,6 +33,7 @@ const routes: Routes = [
       component: OperationFormComponent,
       data: {
         editMode: true,
+        navLinks: [{ linkAction: 'operation/add', linkName: 'Add Operation', linkType: 'link' }],
         operationId: ':operationId'
       },
       resolve: {

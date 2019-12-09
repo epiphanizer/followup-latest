@@ -83,13 +83,14 @@ export class OperationFormComponent implements OnInit {
     if (this.route.snapshot.data.editMode) {
       this.editMode = true;
     }
+
     if (this.editMode) {
       this.operation = this.route.snapshot.data.operation;
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
+      this.createForm();
       this.updateOperationContacts();
       this.updateOperationManagers();
       this.updateOperationCallReps();
-      this.createForm();
       this.armForm();
     } else {
       this.operationService.addNewOperation().subscribe((data: Operation) => {
@@ -110,10 +111,10 @@ export class OperationFormComponent implements OnInit {
             operationCallRepName: ''
           }
         ];
+        this.createForm();
         this.updateOperationContacts();
         this.updateOperationManagers();
         this.updateOperationCallReps();
-        this.createForm();
         this.armForm();
       });
     }
@@ -242,10 +243,15 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
     contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
+    var index = this.operationContacts.length;
     formArray.push(contactFormGroup);
+    if (this.operationContacts.length == formArray.length) {
+      return;
+    }
     this.operationContacts.push({
       operationContactId: this.operation.operationId
     });
+    console.log(this.operationContacts);
   }
 
   private createForm() {
