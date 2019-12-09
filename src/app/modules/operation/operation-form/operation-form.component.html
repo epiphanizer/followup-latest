@@ -50,7 +50,7 @@
         </ion-list>
       </ion-list>
 
-      <fieldset class="operation-contacts" *ngIf="operationContacts$ | async">
+      <fieldset class="operation-contacts">
         <ng-container>
           <ion-list class="operation-contacts-list" formArrayName="operationContacts" lines="none" inset>
             <ion-item *ngFor="let operationContact of operationContacts; let idx = index">

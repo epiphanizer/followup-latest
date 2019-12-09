@@ -86,7 +86,6 @@ export class OperationFormComponent implements OnInit {
     if (this.editMode) {
       this.operation = this.route.snapshot.data.operation;
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
-
       this.createForm();
       this.armForm();
     } else {
@@ -128,9 +127,10 @@ export class OperationFormComponent implements OnInit {
     });
   }
   updateOperationContacts() {
-    this.operationContacts$ = this.operationContactsService
+    this.operationContactsService
       .getOperationContactsByOperationId(this.operation.operationId)
       .pipe(
+        take(1),
         map((operationContacts: OperationContact[]) => {
           if (operationContacts !== null) {
             this.operationContacts = operationContacts;
@@ -138,7 +138,6 @@ export class OperationFormComponent implements OnInit {
               this.addAdditionalOperationContact();
               let formArray = this.operationForm.controls.operationContacts as FormArray;
               var formGroup = formArray.controls[index] as FormGroup;
-              console.log(formGroup);
               formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
                 formGroup.controls.operationContactMiddleName.setValue(operationContact.operationContactMiddleName),
                 formGroup.controls.operationContactLastName.setValue(operationContact.operationContactLastName),
@@ -151,7 +150,8 @@ export class OperationFormComponent implements OnInit {
             return operationContacts;
           }
         })
-      );
+      )
+      .subscribe();
   }
   updateOperationCallReps() {
     this.operationCallRepsService
@@ -251,6 +251,9 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
     contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
     formArray.push(contactFormGroup);
+    this.operationContacts.push({
+      operationContactId: this.operation.operationId
+    });
   }
 
   private createForm() {
@@ -347,6 +350,10 @@ export class OperationFormComponent implements OnInit {
 
   onFormSubmit() {
     if (!this.validateControls()) {
+      return;
+    }
+    if (!this.operationContacts.length) {
+      alert('Please add an operation contact');
       return;
     }
 
