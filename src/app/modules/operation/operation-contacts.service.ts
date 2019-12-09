@@ -55,7 +55,7 @@ export class OperationContactsService {
       );
   }
   public getOperationContactsByOperationId(operationId: number) {
-    return this.http.get<OperationContact[]>('operations/' + operationId).pipe(
+    return this.http.get<OperationContact[]>('operations/' + operationId + '/contacts').pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
     );

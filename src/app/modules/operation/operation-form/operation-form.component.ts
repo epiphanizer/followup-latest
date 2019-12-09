@@ -160,12 +160,10 @@ export class OperationFormComponent implements OnInit {
       .getOperationManagersByOperationId(this.operation.operationId)
       .pipe(take(1))
       .subscribe((operationManagers: OperationManager[]) => {
-        console.log(operationManagers);
         if (operationManagers !== null) {
           this.operationManagers = operationManagers;
           operationManagers.forEach((operationManager: OperationManager) => {
             this.operationManagersOriginal.push(operationManager.userId);
-            console.log(this.operationManagersOriginal);
           });
         }
       });
@@ -375,8 +373,7 @@ export class OperationFormComponent implements OnInit {
     this.operationCallRepsToAdd.forEach((operationCallRep: OperationCallRep) => {
       this.operationCallRepsService
         .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
-        .subscribe((data: any) => {
-          console.log(data);
+        .subscribe(() => {
           alert('Callrep successfully added');
         });
     });
