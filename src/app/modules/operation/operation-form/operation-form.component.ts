@@ -226,6 +226,7 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
     contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
     contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
+    contactFormGroup.addControl('operationContactRelationship', this.fb.control(''));
     contactFormGroup.addControl('operationContactCountryCode', this.fb.control({ value: '1' }, []));
     contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
     contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
