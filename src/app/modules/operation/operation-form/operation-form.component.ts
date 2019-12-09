@@ -148,19 +148,18 @@ export class OperationFormComponent implements OnInit {
               this.addAdditionalOperationContact();
 
               let formArray = this.operationForm.controls.operationContacts as FormArray;
-              // console.log(formArray[index].controls(accessor));
-              console.log(formArray.controls);
+              console.log(formArray);
+              var formGroup = formArray.controls[index] as FormGroup;
+              console.log(formGroup);
               debugger;
-              // .setValue({
-              //   operationContactFirstName: operationContact.operationContactFirstName,
-              //   operationContactMiddleName: operationContact.operationContactMiddleName,
-              //   operationContactLastName: operationContact.operationContactLastName,
-              //   operationContactRelationship: operationContact.operationContactRelationship,
-              //   operationContactEmail: operationContact.operationContactEmail,
-              //   operationContactCountryCode: operationContact.operationContactCountryCode,
-              //   operationContactAreaCode: operationContact.operationContactAreaCode,
-              //   operationContactPhoneNumber: operationContact.operationContactPhoneNumber
-              // });
+              formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
+                formGroup.controls.operationContactMiddleName.setValue(operationContact.operationContactMiddleName),
+                formGroup.controls.operationContactLastName.setValue(operationContact.operationContactLastName),
+                formGroup.controls.operationContactRelationship.setValue(operationContact.operationContactRelationship),
+                formGroup.controls.operationContactEmail.setValue(operationContact.operationContactEmail),
+                formGroup.controls.operationContactCountryCode.setValue(operationContact.operationContactCountryCode),
+                formGroup.controls.operationContactAreaCode.setValue(operationContact.operationContactAreaCode),
+                formGroup.controls.operationContactPhoneNumber.setValue(operationContact.operationContactPhoneNumber);
             });
             return operationContacts;
           }
@@ -224,7 +223,7 @@ export class OperationFormComponent implements OnInit {
   addAdditionalOperationContact() {
     let formArray = this.operationForm.controls.operationContacts as FormArray;
     let contactFormGroup = this.fb.group({});
-    contactFormGroup.addControl('operationContacFirstName', this.fb.control(''));
+    contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
     contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
     contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
     contactFormGroup.addControl('operationContactCountryCode', this.fb.control({ value: '1' }, []));
