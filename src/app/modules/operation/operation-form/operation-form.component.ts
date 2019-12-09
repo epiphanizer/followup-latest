@@ -126,9 +126,7 @@ export class OperationFormComponent implements OnInit {
   }
 
   armForm() {
-    if (!this.editMode) {
-      this.addAdditionalOperationContact();
-    }
+    this.addAdditionalOperationContact();
     this.addAdditionalOperationManager();
     this.addAdditionalOperationCallRep();
     this.userService.getAllUsers().subscribe((users: User[]) => {
@@ -146,12 +144,9 @@ export class OperationFormComponent implements OnInit {
             this.operationContacts = operationContacts;
             this.operationContacts.forEach((operationContact: OperationContact, index: number) => {
               this.addAdditionalOperationContact();
-
               let formArray = this.operationForm.controls.operationContacts as FormArray;
-              console.log(formArray);
               var formGroup = formArray.controls[index] as FormGroup;
               console.log(formGroup);
-              debugger;
               formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
                 formGroup.controls.operationContactMiddleName.setValue(operationContact.operationContactMiddleName),
                 formGroup.controls.operationContactLastName.setValue(operationContact.operationContactLastName),
@@ -227,7 +222,7 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
     contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
     contactFormGroup.addControl('operationContactRelationship', this.fb.control(''));
-    contactFormGroup.addControl('operationContactCountryCode', this.fb.control({ value: '1' }, []));
+    contactFormGroup.addControl('operationContactCountryCode', this.fb.control('1'));
     contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
     contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
