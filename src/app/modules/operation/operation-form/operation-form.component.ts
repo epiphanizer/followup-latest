@@ -11,13 +11,7 @@ import { UserService } from '@app/modules/user/user.service';
 import { User } from '@app/modules/user/user';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { OperationResolver } from '../operation-resolver';
-import {
-  OperationPutBody,
-  OperationCallRepPostBody,
-  Operation,
-  OperationManagerPostBody,
-  OperationManager
-} from '../operation';
+import { OperationPutBody, OperationCallRepPostBody, Operation, OperationManager } from '../operation';
 import { OperationContact } from '../operation-contact/operation-contact';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { NotificationType } from '@app/modules/notification/notification';
@@ -395,24 +389,31 @@ export class OperationFormComponent implements OnInit {
 
     let formSubmission = this.operationForm.getRawValue();
     // Need a filter here to see new vs. old
+    console.log(this.operationContacts);
     debugger;
-    // this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
-    //   let operationContactPost = this.operationContactPostFactory(operationContact);
-    //   this.operationContactsService
-    //     .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
-    //     .subscribe((data: any) => {
-    //       console.log(data);
-    //       // Now that we have the contact, we add them to the notification recipients table
-    //       this.notificationRecipientService
-    //         .addNotificationRecipientByOperationContactId(operationContact.operationContactId)
-    //         .subscribe((data: any) => {
-    //           console.log(data);
-    //           let notificationTypes = formSubmission.operationContacts.notificationTypes;
-    //           console.log(notificationTypes);
-    //           debugger;
-    //         });
-    //     });
-    // });
+    this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
+      console.log(operationContact);
+      let operationContactPost = this.operationContactPostFactory(operationContact);
+      this.operationContactsService
+        .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
+        .subscribe((data: any) => {
+          console.log(data);
+          var notificationReceipientPostBody = {
+            notificationOperationId: this.operation.operationId,
+            notificationTypeId: formSubmission.operationContacts,
+            notificationRecipientEmail: operationContact.operationContactEmail
+          };
+          // Now that we have the contact, we add them to the notification recipients table
+          this.notificationRecipientService
+            .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
+            .subscribe((data: any) => {
+              console.log(data);
+              let notificationTypes = formSubmission.operationContacts.notificationTypes;
+              console.log(notificationTypes);
+              debugger;
+            });
+        });
+    });
 
     let operationPut = this.operationPutFactory(formSubmission);
     this.operationService

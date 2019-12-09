@@ -11,11 +11,13 @@ export interface NotificationRecipientPostBody {}
 export class NotificationRecipientService {
   constructor(private http: HttpClient) {}
 
-  addNotificationRecipientByOperationContactId(operationContactId: number) {
-    return this.http.post<NotificationRecipientPostBody>('notifications/recipients/', {}).pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
+  addNotificationRecipientByOperationContactId(notificationReceipientPostBody: NotificationRecipientPostBody) {
+    return this.http
+      .post<NotificationRecipientPostBody>('notifications/recipients/', notificationReceipientPostBody)
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   }
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
