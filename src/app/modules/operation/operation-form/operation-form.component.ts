@@ -126,7 +126,9 @@ export class OperationFormComponent implements OnInit {
   }
 
   armForm() {
-    this.addAdditionalOperationContact();
+    if (!this.editMode) {
+      this.addAdditionalOperationContact();
+    }
     this.addAdditionalOperationManager();
     this.addAdditionalOperationCallRep();
     this.userService.getAllUsers().subscribe((users: User[]) => {
@@ -142,24 +144,23 @@ export class OperationFormComponent implements OnInit {
         map((operationContacts: OperationContact[]) => {
           if (operationContacts !== null) {
             this.operationContacts = operationContacts;
-            let formArray = this.operationForm.controls.operationContacts as FormArray;
-            console.log(formArray);
             this.operationContacts.forEach((operationContact: OperationContact, index: number) => {
               this.addAdditionalOperationContact();
 
-              console.log(index);
-              console.log(formArray.controls[index]);
+              let formArray = this.operationForm.controls.operationContacts as FormArray;
               // console.log(formArray[index].controls(accessor));
-              formArray.controls[index].setValue({
-                operationContactFirstName: operationContact.operationContactFirstName,
-                operationContactMiddleName: operationContact.operationContactMiddleName,
-                operationContactLastName: operationContact.operationContactLastName,
-                operationContactRelationship: operationContact.operationContactRelationship,
-                operationContactEmail: operationContact.operationContactEmail,
-                operationContactLastName: operationContact.operationContactLastName,
-                operationContactLastName: operationContact.operationContactLastName,
-                operationContactLastName: operationContact.operationContactLastName
-              });
+              console.log(formArray.controls);
+              debugger;
+              // .setValue({
+              //   operationContactFirstName: operationContact.operationContactFirstName,
+              //   operationContactMiddleName: operationContact.operationContactMiddleName,
+              //   operationContactLastName: operationContact.operationContactLastName,
+              //   operationContactRelationship: operationContact.operationContactRelationship,
+              //   operationContactEmail: operationContact.operationContactEmail,
+              //   operationContactCountryCode: operationContact.operationContactCountryCode,
+              //   operationContactAreaCode: operationContact.operationContactAreaCode,
+              //   operationContactPhoneNumber: operationContact.operationContactPhoneNumber
+              // });
             });
             return operationContacts;
           }
@@ -222,7 +223,6 @@ export class OperationFormComponent implements OnInit {
 
   addAdditionalOperationContact() {
     let formArray = this.operationForm.controls.operationContacts as FormArray;
-    console.log(formArray);
     let contactFormGroup = this.fb.group({});
     contactFormGroup.addControl('operationContacFirstName', this.fb.control(''));
     contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
@@ -233,10 +233,9 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
     contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
     let newOperationContact = {
-      operationContactId: this.operation.operationId,
-      operationContactFirstName: '',
-      operationContactLastName: ''
+      operationContactId: this.operation.operationId
     };
+    formArray.push(contactFormGroup);
     this.operationContacts.push(newOperationContact);
   }
 
