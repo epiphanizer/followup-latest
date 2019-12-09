@@ -184,7 +184,7 @@
             <ng-container *ngFor="let operationCallRep of operationCallReps; let idx = index">
               <ion-item id="operationCallRep-{{ idx }}">
                 <ion-label position="stacked" color="medium">Care Rep {{ idx + 1 }} </ion-label>
-                <ion-select>
+                <ion-select *ngIf="availableUsers" (ionChange)="callRepOnSelect($event, idx)">
                   <ion-select-option
                     *ngFor="let user of availableUsers"
                     [value]="user.userId"

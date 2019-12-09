@@ -269,7 +269,7 @@ export class OperationFormComponent implements OnInit {
   }
   callRepOnSelect(event: any, index: number) {
     let callRepUserId = event.target.value;
-    if (this.operationManagers[index].userId! == 0) {
+    if (this.operationCallReps[index].userId! == 0) {
       this.operationCallRepsToRemove.push(this.operationCallReps[index].userId);
     }
     var operationCallRepObject = {
@@ -320,12 +320,20 @@ export class OperationFormComponent implements OnInit {
       throw 'Had a problem validating data in the call rep factory';
     }
   }
+
   onFormSubmit() {
     if (!this.validateControls()) {
       return;
     }
 
     // Passing E2E
+
+    this.operationManagersToRemove = this.operationManagersToRemove.filter(
+      (operationManagersToRemove: number, index: number) => {
+        return operationManagersToRemove == this.operationManagersOriginal[index] && operationManagersToRemove !== 0;
+      }
+    );
+
     this.operationManagersToRemove.forEach((managerUserId: number) => {
       // Don't process default manager entry
       if (managerUserId == 0) {
@@ -333,13 +341,11 @@ export class OperationFormComponent implements OnInit {
       }
       this.operationService
         .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
-        .subscribe((data: any) => {
+        .subscribe(() => {
           alert('Manager successfully removed');
-          console.log(data);
         });
     });
     // This passes E2E
-    console.log(this.operationManagersOriginal);
     this.operationManagersToAdd = this.operationManagers.filter((operationManager: OperationManager, index: number) => {
       return operationManager.userId !== this.operationManagersOriginal[index] && operationManager.userId !== 0;
     });
@@ -348,9 +354,7 @@ export class OperationFormComponent implements OnInit {
       // Need a filter here to see new vs. old
       this.operationService
         .assignManagerToOperationByOperationIdAndUserId(operationManager.operationId, operationManager.userId)
-        .subscribe((data: any) => {
-          console.log(data);
-          debugger;
+        .subscribe(() => {
           alert('Manager successfully added');
         });
     });
@@ -359,26 +363,30 @@ export class OperationFormComponent implements OnInit {
     console.log(this.operationCallRepsToRemove);
     debugger;
     this.operationCallRepsToRemove.forEach((callRepUserId: number, index: number) => {
+      if (callRepUserId == 0) {
+        return;
+      }
       this.operationCallRepsService
         .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
-        .subscribe((data: any) => {
+        .subscribe(() => {
           alert('Callrep successfully deleted');
-          console.log(data);
         });
     });
     console.log(this.operationCallRepsOriginal);
     console.log(this.operationCallReps);
     debugger;
+
     this.operationCallRepsToAdd = this.operationCallReps.filter((operationCallRep: OperationCallRep, index: number) => {
       return operationCallRep.userId !== this.operationCallRepsOriginal[index] && operationCallRep.userId !== 0;
     });
-
     console.log(this.operationCallRepsToAdd);
-    debugger;
+    /**
+     * Make sure we only add uniques
+     */
+    this.operationCallRepsToAdd = Array.from(new Set(this.operationCallRepsToAdd));
     this.operationCallRepsToAdd.forEach((operationCallRep: OperationCallRep) => {
-      let operationCallRepPost = this.operationCallRepPostFactory(operationCallRep);
       this.operationCallRepsService
-        .addOperationCallRepByOperationIdAndUserId(operationCallRepPost.operationId, operationCallRepPost.userId)
+        .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
         .subscribe((data: any) => {
           console.log(data);
           alert('Callrep successfully added');
@@ -388,23 +396,23 @@ export class OperationFormComponent implements OnInit {
     let formSubmission = this.operationForm.getRawValue();
     // Need a filter here to see new vs. old
     debugger;
-    this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
-      let operationContactPost = this.operationContactPostFactory(operationContact);
-      this.operationContactsService
-        .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
-        .subscribe((data: any) => {
-          console.log(data);
-          // Now that we have the contact, we add them to the notification recipients table
-          this.notificationRecipientService
-            .addNotificationRecipientByOperationContactId(operationContact.operationContactId)
-            .subscribe((data: any) => {
-              console.log(data);
-              let notificationTypes = formSubmission.operationContacts.notificationTypes;
-              console.log(notificationTypes);
-              debugger;
-            });
-        });
-    });
+    // this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
+    //   let operationContactPost = this.operationContactPostFactory(operationContact);
+    //   this.operationContactsService
+    //     .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
+    //     .subscribe((data: any) => {
+    //       console.log(data);
+    //       // Now that we have the contact, we add them to the notification recipients table
+    //       this.notificationRecipientService
+    //         .addNotificationRecipientByOperationContactId(operationContact.operationContactId)
+    //         .subscribe((data: any) => {
+    //           console.log(data);
+    //           let notificationTypes = formSubmission.operationContacts.notificationTypes;
+    //           console.log(notificationTypes);
+    //           debugger;
+    //         });
+    //     });
+    // });
 
     let operationPut = this.operationPutFactory(formSubmission);
     this.operationService
