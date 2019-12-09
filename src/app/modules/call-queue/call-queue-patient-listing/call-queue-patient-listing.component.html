@@ -35,9 +35,9 @@
     </i>
   </li>
 </ul>
-<ul class="call-queue-patient-list">
+<ul class="call-queue-patient-list" *ngIf="patients$ | async">
   <li
-    *ngFor="let patient of patients$ | async"
+    *ngFor="let patient of patients"
     class="active"
     [class.new-discharge]="patient.patientCallCount == 1"
     [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"

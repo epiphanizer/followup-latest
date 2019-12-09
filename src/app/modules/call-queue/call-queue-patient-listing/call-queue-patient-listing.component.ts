@@ -3,7 +3,7 @@ import { Operation } from '@app/modules/operation/operation';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import {
   PatientCallStatus,
   PatientCallStatusService
@@ -36,6 +36,7 @@ export class CallQueuePatientListingComponent implements OnInit {
       this.patientCallStatuses = patientCallStatuses;
     });
     this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
+      take(1),
       map((patients: Patient[]) => {
         this.patients = patients;
         this.getCurrentNewDischargeCount(patients);
