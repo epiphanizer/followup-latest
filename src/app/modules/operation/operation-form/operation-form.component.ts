@@ -120,22 +120,12 @@ export class OperationFormComponent implements OnInit {
         let operationId = parseInt(params.get('operationId'));
         this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
           this.updateOperation(operation);
+          this.updateOperationContacts();
         });
       }
     });
   }
-
-  armForm() {
-    this.addAdditionalOperationContact();
-    this.addAdditionalOperationManager();
-    this.addAdditionalOperationCallRep();
-    this.userService.getAllUsers().subscribe((users: User[]) => {
-      this.availableUsers = users;
-    });
-    this.userService.getAllManagerUsers().subscribe((users: User[]) => {
-      this.availableManagers = users;
-    });
-
+  updateOperationContacts() {
     this.operationContacts$ = this.operationContactsService
       .getOperationContactsByOperationId(this.operation.operationId)
       .pipe(
@@ -160,6 +150,26 @@ export class OperationFormComponent implements OnInit {
           }
         })
       );
+  }
+  armForm() {
+    if (!this.editMode) {
+      this.addAdditionalOperationContact();
+      let newOperationContact = {
+        operationContactId: this.operation.operationId
+      };
+      this.operationContacts.push(newOperationContact);
+    }
+
+    this.updateOperationContacts();
+
+    this.addAdditionalOperationManager();
+    this.addAdditionalOperationCallRep();
+    this.userService.getAllUsers().subscribe((users: User[]) => {
+      this.availableUsers = users;
+    });
+    this.userService.getAllManagerUsers().subscribe((users: User[]) => {
+      this.availableManagers = users;
+    });
     this.operationCallRepsService
       .getOperationCallRepsByOperationId(this.operation.operationId)
       .subscribe((operationCallReps: OperationCallRep[]) => {
@@ -227,11 +237,7 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
     contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
-    let newOperationContact = {
-      operationContactId: this.operation.operationId
-    };
     formArray.push(contactFormGroup);
-    this.operationContacts.push(newOperationContact);
   }
 
   private createForm() {
