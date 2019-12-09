@@ -142,6 +142,24 @@ export class OperationFormComponent implements OnInit {
         map((operationContacts: OperationContact[]) => {
           if (operationContacts !== null) {
             this.operationContacts = operationContacts;
+            let formArray = this.operationForm.controls.operationContacts as FormArray;
+            console.log(formArray);
+            let contactFormGroup = this.fb.group({});
+            this.operationContacts.forEach((operationContact: OperationContact, index: number) => {
+              contactFormGroup.addControl('operationContacFirstName', this.fb.control(''));
+              contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
+              contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
+              contactFormGroup.addControl('operationContactCountryCode', this.fb.control({ value: '1' }, []));
+              contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
+              contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
+              contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
+              contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
+              formArray.push(contactFormGroup);
+              console.log(index);
+              console.log(formArray.controls[index]);
+              // console.log(formArray[index].controls(accessor));
+              // formArray.controls[index].setValue(operationContact.operationContactFirstName);
+            });
             return operationContacts;
           }
         })
@@ -202,17 +220,6 @@ export class OperationFormComponent implements OnInit {
   }
 
   addAdditionalOperationContact() {
-    let formArray = this.operationForm.controls.operationContacts as FormArray;
-    let contactFormGroup = this.fb.group({});
-    contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
-    contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
-    contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
-    contactFormGroup.addControl('operationContactCountryCode', this.fb.control({ value: '1' }, []));
-    contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
-    contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
-    contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
-    contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
-    formArray.push(contactFormGroup);
     let newOperationContact = {
       operationContactId: this.operation.operationId,
       operationContactFirstName: '',
