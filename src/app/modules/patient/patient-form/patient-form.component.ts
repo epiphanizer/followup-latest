@@ -193,7 +193,6 @@ export class PatientFormComponent implements OnInit {
                     this.patientIntakeQuestionAnswersOriginal.push(dataObject);
                     this.patientIntakeQuestions.push(patientIntakeQuestion);
                   } else {
-                    debugger;
                     newFormGroup.addControl(
                       patientIntakeQuestion.patientIntakeQuestionId.toString(),
                       new FormControl('')
@@ -210,8 +209,6 @@ export class PatientFormComponent implements OnInit {
   }
 
   private createForm() {
-    console.log(this.patient);
-    debugger;
     this.patientForm = this.fb.group({
       operation: this.fb.control(this.patient.patientOperationId),
       patient: this.fb.group({
@@ -356,7 +353,6 @@ export class PatientFormComponent implements OnInit {
     if (this.patientIntakeQuestionAnswersOriginal.length) {
       this.patientIntakeQuestionAnswersToAdd = intakeAnswersArray.filter(
         (patientContactQuestionAnswer: any, index: number) => {
-          console.log(patientContactQuestionAnswer);
           return (
             Object.is(patientContactQuestionAnswer[index], this.patientIntakeQuestionAnswersOriginal[index]) &&
             patientContactQuestionAnswer[index] !== undefined
