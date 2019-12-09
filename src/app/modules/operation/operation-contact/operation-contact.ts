@@ -5,10 +5,10 @@ export interface OperationContact {
   operationContactFirstName?: string;
   operationContactMiddleName?: string;
   operationContactLastName?: string;
-  operationContactRelationship?: string;
+  operationContactTitle?: string;
   operationContactEmail?: string;
+  operationContactActive?: number;
   operationContactCountryCode?: string;
   operationContactAreaCode?: string;
   operationContactPhoneNumber?: string;
-  operationContactNotificationTypes?: NotificationType[];
 }

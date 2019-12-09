@@ -142,13 +142,22 @@ export class OperationFormComponent implements OnInit {
           if (operationContacts !== null) {
             this.operationContacts = operationContacts;
             this.operationContacts.forEach((operationContact: OperationContact, index: number) => {
-              this.addAdditionalOperationContact();
               let formArray = this.operationForm.controls.operationContacts as FormArray;
+              let contactFormGroup = this.fb.group({});
+              contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
+              contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
+              contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
+              contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
+              contactFormGroup.addControl('operationContactCountryCode', this.fb.control('1'));
+              contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
+              contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
+              contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
+              formArray.push(contactFormGroup);
               var formGroup = formArray.controls[index] as FormGroup;
               formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
                 formGroup.controls.operationContactMiddleName.setValue(operationContact.operationContactMiddleName),
                 formGroup.controls.operationContactLastName.setValue(operationContact.operationContactLastName),
-                formGroup.controls.operationContactRelationship.setValue(operationContact.operationContactRelationship),
+                formGroup.controls.operationContactTitle.setValue(operationContact.operationContactTitle),
                 formGroup.controls.operationContactEmail.setValue(operationContact.operationContactEmail),
                 formGroup.controls.operationContactCountryCode.setValue(operationContact.operationContactCountryCode),
                 formGroup.controls.operationContactAreaCode.setValue(operationContact.operationContactAreaCode),
@@ -329,17 +338,18 @@ export class OperationFormComponent implements OnInit {
       throw 'Had a problem validating data in the call rep factory';
     }
   }
-  operationContactPostFactory(formSubmission: any): OperationContactPostBody {
+  operationContactPostFactory(formContact: any): OperationContactPostBody {
     try {
       var payload = {
-        operationContactFirstName: formSubmission.operationContactFirstName,
-        operationContactMiddleName: formSubmission.operationContactMiddleName,
-        operationContactLastName: formSubmission.operationContactLastName,
-        operationContactCountryCode: formSubmission.operationContactCountryCode,
-        operationContactAreaCode: formSubmission.operationContactAreaCode,
-        operationContactPhoneNumber: formSubmission.operationContactPhoneNumber,
-        operationContactEmail: formSubmission.operationContactEmail,
-        operationContactTitle: formSubmission.operationContactTitle
+        operationContactFirstName: formContact.operationContactFirstName,
+        operationContactMiddleName: formContact.operationContactMiddleName,
+        operationContactLastName: formContact.operationContactLastName,
+        operationContactTitle: formContact.operationContactTitle,
+        operationContactCountryCode: formContact.operationContactCountryCode,
+        operationContactAreaCode: formContact.operationContactAreaCode,
+        operationContactPhoneNumber: formContact.operationContactPhoneNumber,
+        operationContactEmail: formContact.operationContactEmail,
+        operationContactActive: 1
       };
       return <OperationContactPostBody>payload;
     } catch {
@@ -421,8 +431,10 @@ export class OperationFormComponent implements OnInit {
     console.log(this.operationContacts);
     debugger;
     this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
-      console.log(operationContact);
-      let operationContactPost = this.operationContactPostFactory(operationContact);
+      let formContact = formSubmission.operationContacts[idx];
+      let operationContactPost = this.operationContactPostFactory(formContact);
+      console.log(operationContactPost);
+      debugger;
       this.operationContactsService
         .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
         .subscribe((data: any) => {
