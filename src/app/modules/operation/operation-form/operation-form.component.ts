@@ -121,6 +121,8 @@ export class OperationFormComponent implements OnInit {
         this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
           this.updateOperation(operation);
           this.updateOperationContacts();
+          this.updateOperationManagers();
+          this.updateOperationCallReps();
         });
       }
     });
@@ -151,25 +153,7 @@ export class OperationFormComponent implements OnInit {
         })
       );
   }
-  armForm() {
-    if (!this.editMode) {
-      this.addAdditionalOperationContact();
-      let newOperationContact = {
-        operationContactId: this.operation.operationId
-      };
-      this.operationContacts.push(newOperationContact);
-    }
-
-    this.updateOperationContacts();
-
-    this.addAdditionalOperationManager();
-    this.addAdditionalOperationCallRep();
-    this.userService.getAllUsers().subscribe((users: User[]) => {
-      this.availableUsers = users;
-    });
-    this.userService.getAllManagerUsers().subscribe((users: User[]) => {
-      this.availableManagers = users;
-    });
+  updateOperationCallReps() {
     this.operationCallRepsService
       .getOperationCallRepsByOperationId(this.operation.operationId)
       .subscribe((operationCallReps: OperationCallRep[]) => {
@@ -180,6 +164,8 @@ export class OperationFormComponent implements OnInit {
           });
         }
       });
+  }
+  updateOperationManagers() {
     this.operationService
       .getOperationManagersByOperationId(this.operation.operationId)
       .pipe(take(1))
@@ -191,6 +177,33 @@ export class OperationFormComponent implements OnInit {
           });
         }
       });
+  }
+  armForm() {
+    if (!this.operationContacts.length) {
+      this.addAdditionalOperationContact();
+      let newOperationContact = {
+        operationContactId: this.operation.operationId
+      };
+      this.operationContacts.push(newOperationContact);
+    }
+    if (!this.operationManagers.length) {
+      this.addAdditionalOperationManager();
+    }
+
+    if (!this.operationCallReps.length) {
+      this.addAdditionalOperationCallRep();
+    }
+
+    this.updateOperationContacts();
+    this.updateOperationManagers();
+    this.updateOperationCallReps();
+
+    this.userService.getAllUsers().subscribe((users: User[]) => {
+      this.availableUsers = users;
+    });
+    this.userService.getAllManagerUsers().subscribe((users: User[]) => {
+      this.availableManagers = users;
+    });
   }
   operationChangeEventHandler($event: number) {
     console.log('change occurred');
