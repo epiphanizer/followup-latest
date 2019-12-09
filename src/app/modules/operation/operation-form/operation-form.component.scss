@@ -148,9 +148,11 @@ form {
       color: var(--ion-color-primary);
     }
   }
+
   .operation-contacts-list {
     margin-top: 0;
   }
+
   fieldset.operation-contacts,
   fieldset.operation-team-members {
     border: none;
@@ -159,25 +161,38 @@ form {
       width: 100%;
       margin-top: 0;
 
-      &.first-name {
-        width: 160px;
-        margin-left: 10px;
-        margin-right: 10px;
-      }
+      ion-item {
+        &.first-name {
+          display: inline-block;
+          width: 160px;
+          margin-right: 10px;
+        }
 
-      &.middle-name {
-        width: 140px;
-        margin-right: 10px;
-      }
+        &.middle-name {
+          display: inline-block;
+          width: 140px;
+          margin-right: 10px;
+        }
 
-      &.last-name {
-        width: 160px;
+        &.last-name {
+          display: inline-block;
+          width: 160px;
+        }
+
+        &.country-code {
+          margin-left: 0;
+          padding-left: 0 !important;
+        }
       }
     }
 
     .section-header {
       span {
         margin-left: 0px;
+
+        &.notification-header {
+          margin-left: 12px;
+        }
 
         &.contact-header {
           margin-left: 10px;
@@ -200,6 +215,7 @@ form {
     .notification-container {
       width: 100%;
       margin-top: 10px;
+      margin-left: 6px;
 
       h3 {
         display: block;
@@ -231,6 +247,7 @@ form {
         max-height: 37px;
         margin-left: 0;
         margin-right: 35px;
+
         ion-label {
           font-family: Avenir;
           font-size: 12px;
@@ -251,9 +268,11 @@ form {
       -webkit-user-select: text;
       -ms-user-select: text;
     }
+
     ion-select {
       padding-left: 12px;
     }
+
     ion-button {
       margin-top: 36px;
       margin-bottom: 96px;
@@ -279,13 +298,16 @@ form {
   .contact-header-wrapper {
     width: 100%;
   }
+
   .assigned-manager-list,
   .assigned-callrep-list {
     margin-left: 25px;
+
     ion-item {
       width: 100%;
     }
   }
+
   .add-call-rep,
   .add-manager,
   .add-additional-contact,
@@ -357,6 +379,7 @@ form {
     }
   }
 }
+
 .is-active {
   display: block;
   height: auto;

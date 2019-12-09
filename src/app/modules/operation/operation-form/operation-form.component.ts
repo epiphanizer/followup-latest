@@ -209,7 +209,7 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
     contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
     contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
-    contactFormGroup.addControl('operationContactCountryCode', this.fb.control(''));
+    contactFormGroup.addControl('operationContactCountryCode', this.fb.control({ value: '1' }, []));
     contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
     contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
@@ -353,9 +353,7 @@ export class OperationFormComponent implements OnInit {
         });
     });
 
-    // Need a filter here to see new vs. old
-    console.log(this.operationCallRepsToRemove);
-    debugger;
+    // Passes E2E
     this.operationCallRepsToRemove.forEach((callRepUserId: number, index: number) => {
       if (callRepUserId == 0) {
         return;
@@ -366,14 +364,10 @@ export class OperationFormComponent implements OnInit {
           alert('Callrep successfully deleted');
         });
     });
-    console.log(this.operationCallRepsOriginal);
-    console.log(this.operationCallReps);
-    debugger;
 
     this.operationCallRepsToAdd = this.operationCallReps.filter((operationCallRep: OperationCallRep, index: number) => {
       return operationCallRep.userId !== this.operationCallRepsOriginal[index] && operationCallRep.userId !== 0;
     });
-    console.log(this.operationCallRepsToAdd);
     /**
      * Make sure we only add uniques
      */
@@ -398,6 +392,7 @@ export class OperationFormComponent implements OnInit {
         .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
         .subscribe((data: any) => {
           console.log(data);
+          debugger;
           var notificationReceipientPostBody = {
             notificationOperationId: this.operation.operationId,
             notificationTypeId: formSubmission.operationContacts,
