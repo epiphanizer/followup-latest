@@ -86,6 +86,9 @@ export class OperationFormComponent implements OnInit {
     if (this.editMode) {
       this.operation = this.route.snapshot.data.operation;
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
+      this.updateOperationContacts();
+      this.updateOperationManagers();
+      this.updateOperationCallReps();
       this.createForm();
       this.armForm();
     } else {
@@ -107,6 +110,9 @@ export class OperationFormComponent implements OnInit {
             operationCallRepName: ''
           }
         ];
+        this.updateOperationContacts();
+        this.updateOperationManagers();
+        this.updateOperationCallReps();
         this.createForm();
         this.armForm();
       });
@@ -148,6 +154,8 @@ export class OperationFormComponent implements OnInit {
                 formGroup.controls.operationContactPhoneNumber.setValue(operationContact.operationContactPhoneNumber);
             });
             return operationContacts;
+          } else {
+            this.addAdditionalOperationContact();
           }
         })
       )
@@ -170,34 +178,17 @@ export class OperationFormComponent implements OnInit {
       .getOperationManagersByOperationId(this.operation.operationId)
       .pipe(take(1))
       .subscribe((operationManagers: OperationManager[]) => {
-        if (operationManagers !== null) {
+        if (operationManagers.length) {
           this.operationManagers = operationManagers;
           operationManagers.forEach((operationManager: OperationManager) => {
             this.operationManagersOriginal.push(operationManager.userId);
           });
+        } else {
+          this.addAdditionalOperationManager();
         }
       });
   }
   armForm() {
-    if (!this.operationContacts.length) {
-      this.addAdditionalOperationContact();
-      let newOperationContact = {
-        operationContactId: this.operation.operationId
-      };
-      this.operationContacts.push(newOperationContact);
-    }
-    if (!this.operationManagers.length) {
-      this.addAdditionalOperationManager();
-    }
-
-    if (!this.operationCallReps.length) {
-      this.addAdditionalOperationCallRep();
-    }
-
-    this.updateOperationContacts();
-    this.updateOperationManagers();
-    this.updateOperationCallReps();
-
     this.userService.getAllUsers().subscribe((users: User[]) => {
       this.availableUsers = users;
     });
@@ -268,7 +259,8 @@ export class OperationFormComponent implements OnInit {
         operationZip: this.fb.control(this.operation.operationZip),
         operationCountryCode: this.fb.control(this.operation.operationCountryCode, [Validators.required]),
         operationAreaCode: this.fb.control(this.operation.operationAreaCode, [Validators.required]),
-        operationPhoneNumber: this.fb.control(this.operation.operationPhoneNumber, [Validators.required])
+        operationPhoneNumber: this.fb.control(this.operation.operationPhoneNumber, [Validators.required]),
+        operationActive: this.fb.control(this.operation.operationPhoneNumber)
       }),
       operationContacts: this.fb.array([]),
       operationManagers: this.fb.array([]),
