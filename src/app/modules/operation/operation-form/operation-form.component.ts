@@ -126,8 +126,14 @@ export class OperationFormComponent implements OnInit {
         let operationId = parseInt(params.get('operationId'));
         this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
           this.updateOperation(operation);
+          this.operationContacts = [];
+          this.operationContactsOriginal = [];
           this.updateOperationContacts();
+          this.operationManagers = [];
+          this.operationManagersOriginal = [];
           this.updateOperationManagers();
+          this.operationCallReps = [];
+          this.operationCallRepsOriginal = [];
           this.updateOperationCallReps();
         });
       }
