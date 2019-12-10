@@ -126,20 +126,18 @@ export class OperationFormComponent implements OnInit {
         let operationId = parseInt(params.get('operationId'));
         this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
           this.updateOperation(operation);
-          this.operationContacts = [];
-          this.operationContactsOriginal = [];
           this.updateOperationContacts();
-          this.operationManagers = [];
-          this.operationManagersOriginal = [];
           this.updateOperationManagers();
-          this.operationCallReps = [];
-          this.operationCallRepsOriginal = [];
           this.updateOperationCallReps();
         });
       }
     });
   }
   updateOperationContacts() {
+    this.operationContacts = [];
+    this.operationContactsOriginal = [];
+    let formArray = this.operationForm.controls.operationContacts as FormArray;
+    formArray.clear();
     this.operationContactsService
       .getOperationContactsByOperationId(this.operation.operationId)
       .pipe(
@@ -178,6 +176,10 @@ export class OperationFormComponent implements OnInit {
       .subscribe();
   }
   updateOperationCallReps() {
+    this.operationCallReps = [];
+    this.operationCallRepsOriginal = [];
+    let formArray = this.operationForm.controls.operationCallReps as FormArray;
+    formArray.clear();
     this.operationCallRepsService
       .getOperationCallRepsByOperationId(this.operation.operationId)
       .subscribe((operationCallReps: OperationCallRep[]) => {
@@ -190,6 +192,10 @@ export class OperationFormComponent implements OnInit {
       });
   }
   updateOperationManagers() {
+    this.operationManagers = [];
+    this.operationManagersOriginal = [];
+    let formArray = this.operationForm.controls.operationManagers as FormArray;
+    formArray.clear();
     this.operationService
       .getOperationManagersByOperationId(this.operation.operationId)
       .pipe(take(1))
