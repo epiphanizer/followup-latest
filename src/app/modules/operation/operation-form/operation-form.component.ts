@@ -500,7 +500,7 @@ export class OperationFormComponent implements OnInit {
                 notificationOperationContactId: operationContactId,
                 notificationOperationId: this.operation.operationId,
                 notificationTypeId: notificationTypeId,
-                notificationRecipientEmail: operationContact.operationContactEmail
+                notificationRecipientEmail: formContact.operationContactEmail
               };
               // Now that we have the contact, we add them to the notification recipients table
               this.notificationRecipientService

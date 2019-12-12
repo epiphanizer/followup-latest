@@ -74,8 +74,7 @@
             {{ notification.notificationOperationName }}
           </ion-item>
           <ion-item *ngIf="notificationRecipients" class="notification-review-item">
-            <span class="label">Next Steps:&nbsp;</span>
-            Notify
+            <span class="label">Notify:&nbsp;</span>
             <ng-container *ngIf="notificationRecipients; else noRecipients">
               <span *ngFor="let notificationRecipient of notificationRecipients; let idx = index">
                 &nbsp;{{ notificationRecipient.notificationRecipientEmail
