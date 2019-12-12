@@ -286,8 +286,7 @@ export class OperationFormComponent implements OnInit {
         operationZip: this.fb.control(this.operation.operationZip),
         operationCountryCode: this.fb.control(this.operation.operationCountryCode, [Validators.required]),
         operationAreaCode: this.fb.control(this.operation.operationAreaCode, [Validators.required]),
-        operationPhoneNumber: this.fb.control(this.operation.operationPhoneNumber, [Validators.required]),
-        operationActive: this.fb.control(this.operation.operationPhoneNumber)
+        operationPhoneNumber: this.fb.control(this.operation.operationPhoneNumber, [Validators.required])
       }),
       operationContacts: this.fb.array([]),
       operationManagers: this.fb.array([]),
@@ -357,7 +356,7 @@ export class OperationFormComponent implements OnInit {
         operationContactMiddleName: formContact.operationContactMiddleName,
         operationContactLastName: formContact.operationContactLastName,
         operationContactTitle: formContact.operationContactTitle,
-        operationContactCountryCode: formContact.operationContactCountryCode.toString,
+        operationContactCountryCode: formContact.operationContactCountryCode.toString(),
         operationContactAreaCode: formContact.operationContactAreaCode,
         operationContactPhoneNumber: formContact.operationContactPhoneNumber,
         operationContactEmail: formContact.operationContactEmail,
