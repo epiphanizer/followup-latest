@@ -9,10 +9,7 @@
     ></i>
   </ion-item>
   <ul [@expandSidebar]="isOpen ? 'open' : 'closed'" class="facility-dropdown-list active">
-    <ion-item
-      class="assigned-user ion-float-right"
-      *ngFor="let user of operationAssignedUsers$ | async; let idx = index"
-    >
+    <ion-item class="assigned-user ion-float-right" *ngFor="let user of operationAssignedUsers; let idx = index">
       <span class="user-name">{{ user.userFirstName }} {{ user.userLastName }} - {{ user.userRoleLabel }}</span>
     </ion-item>
   </ul>

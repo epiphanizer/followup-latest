@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { Observable } from 'rxjs';
 import { Operation } from '../operation';
+import { take, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-operation-admin-right-sidebar',
@@ -60,7 +61,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   isOpen: boolean = true;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
-  operationAssignedUsers$: Observable<User[]>;
+  operationAssignedUsers: User[];
   user: User;
   todaysDateDay: number;
   ngOnInit() {
@@ -68,8 +69,26 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     if (this.route.snapshot.paramMap.get('operationId')) {
       this.editMode = true;
       this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
-      this.operationAssignedUsers$ = this.operationService.getUsersAssignedByOperationId(this.activeOperationId);
+      this.updateAssignedUsers();
     }
+    this.route.paramMap.subscribe(params => {
+      if (params.get('operationId')) {
+        this.operationAssignedUsers = [];
+        this.activeOperationId = parseInt(params.get('operationId'));
+        this.updateAssignedUsers();
+      }
+    });
+  }
+  updateAssignedUsers() {
+    this.operationService
+      .getUsersAssignedByOperationId(this.activeOperationId)
+      .pipe(
+        take(1),
+        map((users: User[]) => {
+          this.operationAssignedUsers = users;
+        })
+      )
+      .subscribe();
   }
   public toggleOperationUsersAssignedMenu = function() {
     this.isOpen = !this.isOpen;
