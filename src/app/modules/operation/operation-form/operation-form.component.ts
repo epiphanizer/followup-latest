@@ -78,6 +78,7 @@ export class OperationFormComponent implements OnInit {
           this.notificationTypesListRight.push(this.notificationTypes[i + 1]);
         }
       }
+      +this.notificationTypesListRight.length;
     });
 
     if (this.route.snapshot.data.editMode) {
@@ -156,6 +157,22 @@ export class OperationFormComponent implements OnInit {
               contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
               contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
               contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
+
+              var notificationArrayLeft = this.fb.array([]);
+              var notificationArrayRight = this.fb.array([]);
+              var i;
+              for (i = 0; i < this.notificationTypesListLeft.length; i++) {
+                var newFormControl = this.fb.control(this.notificationTypesListLeft[i].notificationTypeId);
+                notificationArrayLeft.push(newFormControl);
+              }
+              for (i = 0; i < this.notificationTypesListRight.length; i++) {
+                var newFormControl = this.fb.control(this.notificationTypesListRight[i].notificationTypeId);
+                notificationArrayRight.push(newFormControl);
+              }
+
+              contactFormGroup.addControl('operationContactNotificationsLeft', notificationArrayLeft);
+              contactFormGroup.addControl('operationContactNotificationsRight', notificationArrayRight);
+
               formArray.push(contactFormGroup);
               var formGroup = formArray.controls[index] as FormGroup;
               formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
@@ -234,7 +251,7 @@ export class OperationFormComponent implements OnInit {
     operationFormControls.controls.operationCountryCode.setValue(this.operation.operationCountryCode);
     operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
     operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
-    operationFormControls.controls.operationActive.setValue(this.operation.operationActive);
+    this.operationForm.controls.operationActive.setValue(this.operation.operationActive);
   }
   addAdditionalOperationCallRep() {
     let newCallRep = {
@@ -258,14 +275,28 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
     contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
     contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
-    contactFormGroup.addControl('operationContactRelationship', this.fb.control(''));
+    contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
     contactFormGroup.addControl('operationContactCountryCode', this.fb.control('1'));
     contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
     contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
-    contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
-    var index = this.operationContacts.length;
     formArray.push(contactFormGroup);
+    // Handle notification recipient formgroups.
+    var notificationArrayLeft = this.fb.array([]);
+    var notificationArrayRight = this.fb.array([]);
+    var i;
+    for (i = 0; i < this.notificationTypesListLeft.length; i++) {
+      var newFormControl = this.fb.control(this.notificationTypesListLeft[i].notificationTypeId);
+      notificationArrayLeft.push(newFormControl);
+    }
+    for (i = 0; i < this.notificationTypesListRight.length; i++) {
+      var newFormControl = this.fb.control(this.notificationTypesListRight[i].notificationTypeId);
+      notificationArrayRight.push(newFormControl);
+    }
+
+    contactFormGroup.addControl('operationContactNotificationsLeft', notificationArrayLeft);
+    contactFormGroup.addControl('operationContactNotificationsRight', notificationArrayRight);
+
     if (this.operationContacts.length == formArray.length) {
       return;
     }
@@ -449,22 +480,36 @@ export class OperationFormComponent implements OnInit {
       this.operationContactsService
         .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
         .subscribe((data: any) => {
-          console.log(data);
-          debugger;
-          var notificationReceipientPostBody = {
-            notificationOperationId: this.operation.operationId,
-            notificationTypeId: formSubmission.operationContacts,
-            notificationRecipientEmail: operationContact.operationContactEmail
-          };
-          // Now that we have the contact, we add them to the notification recipients table
-          this.notificationRecipientService
-            .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
-            .subscribe((data: any) => {
-              console.log(data);
-              let notificationTypes = formSubmission.operationContacts.notificationTypes;
-              console.log(notificationTypes);
-              debugger;
+          if (data !== null) {
+            var operationContactId = data.operationContactId;
+            console.log(data);
+            console.log(formContact);
+            var notificationsToAdd = new Array();
+            formContact.operationContactNotificationsLeft
+              .concat(formContact.operationContactNotificationsRight)
+              .forEach((notificationTypeId: number | boolean, index: number) => {
+                if (notificationTypeId == false) {
+                  return;
+                } else {
+                  notificationsToAdd.push(notificationTypeId);
+                }
+              });
+
+            notificationsToAdd.forEach((notificationTypeId: number) => {
+              var notificationReceipientPostBody = {
+                notificationOperationContactId: operationContactId,
+                notificationOperationId: this.operation.operationId,
+                notificationTypeId: notificationTypeId,
+                notificationRecipientEmail: operationContact.operationContactEmail
+              };
+              // Now that we have the contact, we add them to the notification recipients table
+              this.notificationRecipientService
+                .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
+                .subscribe((data: any) => {
+                  console.log(data);
+                });
             });
+          }
         });
     });
 

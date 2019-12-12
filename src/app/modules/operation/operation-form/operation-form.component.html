@@ -109,28 +109,29 @@
                     <ion-input type="text" formControlName="operationContactPhoneNumber"></ion-input>
                   </ion-item>
                 </div>
+                <div class="section-header">
+                  <span class="notification-header">
+                    Notifications
+                  </span>
+                </div>
+                <ion-item class="notification-container">
+                  <ion-row>
+                    <ion-col width-50 formArrayName="operationContactNotificationsLeft">
+                      <ion-item *ngFor="let notificationType of notificationTypesListLeft">
+                        <ion-checkbox formControlName="{{ idx }}"></ion-checkbox>
+                        <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col width-50 formArrayName="operationContactNotificationsRight">
+                      <ion-item *ngFor="let notificationType of notificationTypesListRight">
+                        <ion-checkbox formControlName="{{ idx }}"></ion-checkbox>
+                        <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </ion-item>
               </ion-list>
-              <div class="section-header">
-                <span class="notification-header">
-                  Notifications
-                </span>
-              </div>
-              <ion-item class="notification-container">
-                <ion-row>
-                  <ion-col width-50>
-                    <ion-item *ngFor="let notificationType of notificationTypesListLeft">
-                      <ion-checkbox value="{{ notificationType.notificationTypeId }}"> </ion-checkbox>
-                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
-                    </ion-item>
-                  </ion-col>
-                  <ion-col width-50>
-                    <ion-item *ngFor="let notificationType of notificationTypesListRight">
-                      <ion-checkbox value="{{ notificationType.notificationTypeId }}"> </ion-checkbox>
-                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
-                    </ion-item>
-                  </ion-col>
-                </ion-row>
-              </ion-item>
+
               <!-- only show removal option if it's past the first index -->
               <ion-item
                 *ngIf="idx > 0"
@@ -151,7 +152,7 @@
           <i class="icon-team-members"></i>
           <span>Team Members</span>
         </div>
-        <ion-list class="assigned-manager-list" lines="none">
+        <ion-list class="assigned-manager-list" *ngIf="operationManagers" lines="none">
           <ng-container *ngFor="let operationManager of operationManagers; let idx = index">
             <ion-item id="operation-manager-{{ idx }}">
               <ion-label position="stacked" color="medium">
