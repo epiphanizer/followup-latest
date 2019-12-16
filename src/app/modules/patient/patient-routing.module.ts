@@ -78,6 +78,7 @@ const routes: Routes = [
       },
       data: {
         editMode: true,
+        noReuse: true,
         navLinks: [
           { linkAction: 'call-queue', linkName: 'Call Queue', linkType: 'link' },
           { linkAction: 'kudos', linkName: 'KUDOS', linkType: 'button' },

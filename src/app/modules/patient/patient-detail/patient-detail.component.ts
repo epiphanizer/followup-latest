@@ -190,7 +190,7 @@ export class PatientDetailComponent implements OnInit {
        */
 
       var dateArray = this.patientNextCall.date.split('-');
-      var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T00:00:00.000Z';
+      var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T12:00:00.000Z';
       /**
        * Passing E2E as of now
        */
@@ -206,15 +206,19 @@ export class PatientDetailComponent implements OnInit {
           let patientCallId = data.patientCallId;
           let itemsProcessed = 0;
           if (this.patientNextCallQuestions.length) {
-            this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
-              this.patientCallQuestionsService
-                .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
-                .subscribe((data: any) => {
-                  itemsProcessed++;
-                  if (itemsProcessed === this.patientNextCallQuestions.length) {
-                    this.router.navigateByUrl(navigateToUrl);
-                  }
-                });
+            this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
+              if (patientCallQuestion.patientCallQuestion != '') {
+                this.patientCallQuestionsService
+                  .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
+                  .subscribe((data: any) => {
+                    itemsProcessed++;
+                    if (itemsProcessed === this.patientNextCallQuestions.length) {
+                      this.router.navigateByUrl(navigateToUrl);
+                    }
+                  });
+              } else {
+                this.patientNextCallQuestions.splice(index, 1);
+              }
             });
           } else {
             this.router.navigateByUrl(navigateToUrl);

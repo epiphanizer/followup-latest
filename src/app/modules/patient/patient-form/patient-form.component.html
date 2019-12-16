@@ -16,7 +16,7 @@
           <ion-item>
             <ion-select placeholder="Select Facility" class="select-facility" formControlName="operation">
               <ion-select-option
-                *ngFor="let operation of operations$ | async"
+                *ngFor="let operation of operations"
                 [selected]="operation.operationId == patient.patientOperationId"
                 [value]="operation.operationId"
               >

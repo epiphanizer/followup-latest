@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Patient, PatientDischargeLabel } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { SuperForm } from 'angular-super-validator';
 import { PatientPutBody } from './patient-form';
@@ -72,7 +72,9 @@ export class PatientFormComponent implements OnInit {
   ngOnInit() {
     this.currentYear = new Date().getFullYear();
     this.user = this.route.snapshot.data.user;
-    this.operations$ = this.operationService.getAllOperations();
+    this.operationService.getAllOperations().subscribe((operations: Operation[]) => {
+      this.operations = operations;
+    });
     this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
 
     if (this.route.snapshot.data.editMode) {
