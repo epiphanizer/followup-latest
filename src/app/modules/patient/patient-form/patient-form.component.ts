@@ -179,7 +179,6 @@ export class PatientFormComponent implements OnInit {
             ) as FormArray;
             patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
               let newFormGroup = this.fb.group({});
-              console.log(patientIntakeQuestion);
               this.patientIntakeQuestionService
                 .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(patientIntakeQuestion.patientIntakeQuestionId)
                 .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {

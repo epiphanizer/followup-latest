@@ -14,7 +14,12 @@
       <ion-list formGroupName="operation" lines="none" inset>
         <i class="icon-info"></i>
         <ion-item>
-          <ion-input type="hidden" formControlName="operationId" [value]="operation?.operationId"></ion-input>
+          <ion-input
+            class="hidden-operation-input"
+            type="hidden"
+            formControlName="operationId"
+            [value]="operation?.operationId"
+          ></ion-input>
           <ion-label color="medium" position="stacked">Facility</ion-label>
           <ion-input type="text" formControlName="operationName"></ion-input>
         </ion-item>

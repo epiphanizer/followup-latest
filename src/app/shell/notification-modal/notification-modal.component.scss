@@ -58,6 +58,7 @@ ion-title {
   text-align: left;
 }
 ion-textarea {
+  --padding-start: 12px;
   height: 200px;
   width: 475px;
   margin: 0 auto;

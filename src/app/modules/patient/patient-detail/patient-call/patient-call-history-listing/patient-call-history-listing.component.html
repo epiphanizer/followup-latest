@@ -12,6 +12,7 @@
         <span class="call-number-headline">
           Call {{ patientCall.patientCallCount }} - {{ patientCall.patientCallStatusLabel }}</span
         >
+        <span class="call-number-date">({{ patientCall.patientCallEndTime | date: 'MM/dd/yyyy' }})</span>
       </div>
       <div class="call-question-container">
         <div *ngFor="let patientCallQuestion of patientCall.patientCallQuestions; let idx = index" lines="none" inset>

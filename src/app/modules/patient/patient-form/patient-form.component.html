@@ -234,7 +234,7 @@
                 <ion-label color="medium" position="stacked">Primary Diagnosis</ion-label>
                 <ion-textarea formControlName="patientPrimaryDiagnosis"></ion-textarea>
               </ion-item>
-              <ion-item class="textarea-item">
+              <ion-item class="textarea-item" *ngIf="patient">
                 <ion-label color="medium" position="stacked">Discharged Condition</ion-label>
                 <ion-textarea formControlName="patientDischargedCondition"></ion-textarea>
               </ion-item>
