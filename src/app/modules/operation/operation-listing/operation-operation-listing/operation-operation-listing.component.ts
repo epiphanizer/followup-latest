@@ -32,26 +32,24 @@ export class OperationOperationListingComponent implements OnInit {
     } else {
       this.selectedSortFlag = 'asc';
     }
+    // Only option
+    this.sortOperationsByOperationName(this.selectedSortFlag);
   }
   sortOperationsByOperationName = function(sortFlag: string) {
     this.filterBy = 'operation-name';
-    if (this.selectedSortFlag == 'asc') {
-      this.operations.reverse();
-    } else {
-      this.operations.sort();
-    }
+    this.reverse();
   };
-
-  sortOperationsByOperationStatus = function(sortFlag: string) {
-    this.filterBy = 'operation-status';
-    if (sortFlag == 'asc') {
-      this.operations.sort((a: Operation, b: Operation) => {
-        return <any>new Date(a.operationActive) - <any>new Date(b.operationActive);
-      });
-    } else {
-      this.operations.sort((a: Operation, b: Operation) => {
-        return <any>new Date(b.operationActive) - <any>new Date(a.operationActive);
-      });
-    }
-  };
+  // Per first release, we don't pull in inactive operations
+  // sortOperationsByOperationStatus = function(sortFlag: string) {
+  //   this.filterBy = 'operation-status';
+  //   if (sortFlag == 'asc') {
+  //     this.operations.sort((a: Operation, b: Operation) => {
+  //       return <any>new Date(a.operationActive) - <any>new Date(b.operationActive);
+  //     });
+  //   } else {
+  //     this.operations.sort((a: Operation, b: Operation) => {
+  //       return <any>new Date(b.operationActive) - <any>new Date(a.operationActive);
+  //     });
+  //   }
+  // };
 }
