@@ -49,6 +49,7 @@ export interface Patient {
   patientLastCallDate?: Date;
   patientNextCallScheduledTime?: Date;
   patientCurrentStatusLabel?: number;
+  patientStatusLabel?: string;
   patientDischargeNotes?: string;
   patientDischargedAma?: boolean;
   patientMedicalConditions?:

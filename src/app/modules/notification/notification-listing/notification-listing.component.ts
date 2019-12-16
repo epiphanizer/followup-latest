@@ -51,27 +51,4 @@ export class NotificationListingComponent implements OnInit {
         })
       );
   }
-
-  toggleAscDesc() {
-    if (this.selectedSortFlag == 'asc') {
-      this.selectedSortFlag = 'desc';
-    } else {
-      this.selectedSortFlag = 'asc';
-    }
-    if (this.filterBy == 'notification-date') {
-      this.sortNotificationsByNotificationDate(this.selectedSortFlag);
-    }
-  }
-  sortNotificationsByNotificationDate = function(sortFlag: string) {
-    this.filterBy = 'notification-date';
-    if (sortFlag == 'asc') {
-      this.notifications.sort((a: Notification, b: Notification) => {
-        return <any>new Date(a.notificationCreatedDate) - <any>new Date(b.notificationCreatedDate);
-      });
-    } else {
-      this.notifications.sort((a: Notification, b: Notification) => {
-        return <any>new Date(b.notificationCreatedDate) - <any>new Date(a.notificationCreatedDate);
-      });
-    }
-  };
 }

@@ -189,11 +189,11 @@
                   </ion-item>
                 </ion-radio-group>
               </ion-item>
-              <ion-item class="discharge-to-location">
+              <ion-item class="discharge-to-location" *ngIf="dischargeLabels">
                 <ion-label color="medium" position="stacked">Discharged To:</ion-label>
                 <ion-radio-group formControlName="patientDischargedTo">
                   <ion-list inset lines="none">
-                    <ion-item *ngFor="let dischargeLabel of dischargeLabels$ | async">
+                    <ion-item *ngFor="let dischargeLabel of dischargeLabels">
                       <ion-radio value="{{ dischargeLabel.patientDischargeLabelId }}"> </ion-radio>
                       <ion-label>
                         {{ dischargeLabel.patientDischargeLabel }}

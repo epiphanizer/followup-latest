@@ -9,11 +9,11 @@
 <ul class="notification-filters ">
   <li class="ion-float-left notification-date">
     <a [class.active]="filterBy == 'notification-date'" (click)="sortNotificationsByNotificationDate(selectedSortFlag)"
-      >[Notification Date]</a
+      >[Date]</a
     >
   </li>
   <li class="patient-filter">
-    <a [class.active]="filterBy == 'patient'" (click)="sortNotificationsByPatient(selectedSortFlag)">
+    <a [class.active]="filterBy == 'patient-name'" (click)="sortNotificationsByPatient(selectedSortFlag)">
       [Patient]
     </a>
   </li>
@@ -35,7 +35,7 @@
   </li>
 </ul>
 
-<ul class="notification-patient-list" *ngIf="$notifications | async">
+<ul class="notification-patient-list" *ngIf="notifications$ | async">
   <li
     *ngFor="let notification of notifications"
     class="active"

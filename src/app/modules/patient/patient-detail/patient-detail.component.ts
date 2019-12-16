@@ -5,7 +5,7 @@ import {
   PatientCallService,
   PatientCallQuestionAnswer
 } from '../patient-detail/patient-call/patient-call.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, Event } from '@angular/router';
 import { User } from '@app/user';
 import { Operation } from '@app/modules/operation/operation';
 import {
@@ -173,6 +173,7 @@ export class PatientDetailComponent implements OnInit {
       return;
     }
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
+      debugger;
       // Update the call status
       // Talk to our service to answer the existing call questions
       this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
@@ -223,6 +224,8 @@ export class PatientDetailComponent implements OnInit {
           } else {
             this.router.navigateByUrl(navigateToUrl);
           }
+
+          this.ngOnInit();
         });
     });
   }

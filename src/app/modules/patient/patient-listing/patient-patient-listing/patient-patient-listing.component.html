@@ -33,8 +33,8 @@
   </li>
 </ul>
 
-<ul class="patient-patient-list">
-  <li *ngFor="let patient of patients$ | async" class="active" [routerLink]="'/patient/edit/' + patient.patientId">
+<ul class="patient-patient-list" *ngIf="patients$ | async">
+  <li *ngFor="let patient of patients" class="active" [routerLink]="'/patient/edit/' + patient.patientId">
     <div class="patient-discharge-date">
       {{ patient.patientDischargeDate | date: 'M/d' }}
     </div>

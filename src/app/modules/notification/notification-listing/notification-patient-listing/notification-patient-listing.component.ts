@@ -39,6 +39,21 @@ export class NotificationPatientListingComponent implements OnInit {
       );
     }
   }
+  toggleAscDesc() {
+    if (this.selectedSortFlag == 'asc') {
+      this.selectedSortFlag = 'desc';
+    } else {
+      this.selectedSortFlag = 'asc';
+    }
+
+    if (this.filterBy == 'notification-date') {
+      this.sortNotificationsByNotificationDate(this.selectedSortFlag);
+    } else if (this.filterBy == 'patient-name') {
+      this.sortNotificationsByPatient(this.selectedSortFlag);
+    } else if (this.filterBy == 'notification-type') {
+      this.sortNotificationsByNotificationType(this.selectedSortFlag);
+    }
+  }
   public sortNotificationsByNotificationDate = function(sortFlag: string) {
     this.filterBy = 'notification-date';
     if (sortFlag == 'asc') {
@@ -52,36 +67,29 @@ export class NotificationPatientListingComponent implements OnInit {
     }
   };
 
-  toggleAscDesc() {
-    if (this.selectedSortFlag == 'asc') {
-      this.selectedSortFlag = 'desc';
-    } else {
-      this.selectedSortFlag = 'asc';
-    }
-  }
   sortNotificationsByNotificationType = function(sortFlag: string) {
     this.filterBy = 'notification-type';
-    // if (this.selectedSortFlag == 'asc') {
-    //   this.notifications.sort((a: Notification, b: Notification) => {
-    //     return <any>new Date(a.notificationCreatedDate) - <any>new Date(b.notificationCreatedDate);
-    //   });
-    // } else {
-    //   this.notifications.sort((a: Notification, b: Notification) => {
-    //     return <any>new Date(a.notificationCreatedDate) + <any>new Date(b.notificationCreatedDate);
-    //   });
-    // }
+    if (sortFlag == 'desc') {
+      this.notifications.sort((a: Notification, b: Notification) => {
+        return a.notificationTypeLabel.localeCompare(b.notificationTypeLabel);
+      });
+    } else {
+      this.notifications.sort((a: Notification, b: Notification) => {
+        return b.notificationTypeLabel.localeCompare(a.notificationTypeLabel);
+      });
+    }
   };
   sortNotificationsByPatient = function(sortFlag: string) {
-    this.filterBy = 'patient';
-    // if (this.selectedSortFlag == 'asc') {
-    //   this.notifications.sort((a: Notification, b: Notification) => {
-    //     return <any>new Date(a.notificationCreatedDate) - <any>new Date(b.notificationCreatedDate);
-    //   });
-    // } else {
-    //   this.notifications.sort((a: Notification, b: Notification) => {
-    //     return <any>new Date(a.notificationCreatedDate) + <any>new Date(b.notificationCreatedDate);
-    //   });
-    // }
+    this.filterBy = 'patient-name';
+    if (sortFlag == 'desc') {
+      this.notifications.sort((a: Notification, b: Notification) => {
+        return a.notificationPatientLastName.localeCompare(b.notificationPatientLastName);
+      });
+    } else {
+      this.notifications.sort((a: Notification, b: Notification) => {
+        return b.notificationPatientLastName.localeCompare(a.notificationPatientLastName);
+      });
+    }
   };
   sortNotificationsByStatus = function(sortFlag: string) {
     this.filterBy = 'status';

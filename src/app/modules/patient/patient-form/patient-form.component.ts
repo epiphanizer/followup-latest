@@ -29,7 +29,6 @@ export class PatientFormComponent implements OnInit {
   avatarExists: Boolean;
   public avatarUrl: SafeUrl;
   dischargeLabels: PatientDischargeLabel[];
-  dischargeLabels$: Observable<PatientDischargeLabel[]>;
   patientForm: FormGroup;
   currentYear: number;
   editMode: boolean = false;
@@ -75,7 +74,9 @@ export class PatientFormComponent implements OnInit {
     this.operationService.getAllOperations().subscribe((operations: Operation[]) => {
       this.operations = operations;
     });
-    this.dischargeLabels$ = this.patientService.getPatientDischargeLabels();
+    this.patientService.getPatientDischargeLabels().subscribe((data: any) => {
+      this.dischargeLabels = data;
+    });
 
     if (this.route.snapshot.data.editMode) {
       this.editMode = true;
@@ -145,6 +146,10 @@ export class PatientFormComponent implements OnInit {
           }
         });
         this.createForm();
+        // We for some reason need to explicitly set this
+        this.patientForm
+          .get('patient.dischargeInfo.patientDischargedTo')
+          .setValue(this.patient.patientDischargeLabelId.toString());
         this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
         this.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
           let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
@@ -182,7 +187,6 @@ export class PatientFormComponent implements OnInit {
               this.patientIntakeQuestionService
                 .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(patientIntakeQuestion.patientIntakeQuestionId)
                 .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
-                  console.log(patientIntakeQuestionAnswer);
                   if (patientIntakeQuestionAnswer !== null) {
                     var data = patientIntakeQuestionAnswer[0];
                     var patientIntakeQuestionId = data.patientIntakeQuestionId.toString();
@@ -201,7 +205,6 @@ export class PatientFormComponent implements OnInit {
                     patientIntakeQuestionAnswers.push(newFormGroup);
                     this.patientIntakeQuestions.push(patientIntakeQuestion);
                   }
-                  console.log(this.patientIntakeQuestions);
                 });
             });
           });
@@ -406,6 +409,9 @@ export class PatientFormComponent implements OnInit {
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       this.router.navigate(['operations/' + this.patientForm.get('operation').value + '/patients']);
+      if (!this.editMode) {
+        this.patientForm.reset();
+      }
     });
   }
 

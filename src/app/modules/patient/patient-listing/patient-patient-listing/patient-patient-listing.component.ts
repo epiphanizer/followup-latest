@@ -46,13 +46,20 @@ export class PatientPatientListingComponent implements OnInit {
     } else {
       this.selectedSortFlag = 'asc';
     }
+    if (this.filterBy == 'patient-name') {
+      this.sortPatientsByPatientName(this.selectedSortFlag);
+    } else if (this.filterBy == 'discharge-date') {
+      this.sortPatientsByDischargeDate(this.selectedSortFlag);
+    } else if (this.filterBy == 'patient-status') {
+      this.sortPatientsByPatientStatus(this.selectedSortFlag);
+    }
   }
   sortPatientsByPatientName = function(sortFlag: string) {
     this.filterBy = 'patient-name';
-    if (this.selectedSortFlag == 'desc') {
-      this.patients.sort();
+    if (sortFlag == 'desc') {
+      this.patients.sort((a: Patient, b: Patient) => a.patientLastName.localeCompare(b.patientLastName));
     } else {
-      this.patients.reverse();
+      this.patients.sort((a: Patient, b: Patient) => b.patientLastName.localeCompare(a.patientLastName));
     }
   };
   sortPatientsByDischargeDate = function(sortFlag: string) {
@@ -71,11 +78,11 @@ export class PatientPatientListingComponent implements OnInit {
     this.filterBy = 'patient-status';
     if (sortFlag == 'asc') {
       this.patients.sort((a: Patient, b: Patient) => {
-        return <any>a.patientCurrentStatusLabel - <any>b.patientCurrentStatusLabel;
+        return <any>a.patientStatusLabel.localeCompare(b.patientStatusLabel);
       });
     } else {
       this.patients.sort((a: Patient, b: Patient) => {
-        return <any>a.patientCurrentStatusLabel - <any>b.patientCurrentStatusLabel;
+        return <any>b.patientStatusLabel.localeCompare(a.patientStatusLabel);
       });
     }
   };
