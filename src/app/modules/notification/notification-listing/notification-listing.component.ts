@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class NotificationListingComponent implements OnInit {
   @Input() operation: Operation;
-
+  filterBy: string;
   public notifications: Notification[];
   public notifications$: Observable<[Notification]> | void = null;
   public patients: Patient[];
@@ -26,6 +26,7 @@ export class NotificationListingComponent implements OnInit {
         operation$: Observable<Operation>;
       }
     | any = {};
+  selectedSortFlag: string = 'asc';
   user: User;
   constructor(private notificationService: NotificationService, private route: ActivatedRoute) {}
 
@@ -50,4 +51,27 @@ export class NotificationListingComponent implements OnInit {
         })
       );
   }
+
+  toggleAscDesc() {
+    if (this.selectedSortFlag == 'asc') {
+      this.selectedSortFlag = 'desc';
+    } else {
+      this.selectedSortFlag = 'asc';
+    }
+    if (this.filterBy == 'notification-date') {
+      this.sortNotificationsByNotificationDate(this.selectedSortFlag);
+    }
+  }
+  sortNotificationsByNotificationDate = function(sortFlag: string) {
+    this.filterBy = 'notification-date';
+    if (sortFlag == 'asc') {
+      this.notifications.sort((a: Notification, b: Notification) => {
+        return <any>new Date(a.notificationCreatedDate) - <any>new Date(b.notificationCreatedDate);
+      });
+    } else {
+      this.notifications.sort((a: Notification, b: Notification) => {
+        return <any>new Date(b.notificationCreatedDate) - <any>new Date(a.notificationCreatedDate);
+      });
+    }
+  };
 }

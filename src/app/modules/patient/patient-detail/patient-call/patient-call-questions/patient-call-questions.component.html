@@ -1,7 +1,4 @@
 <div class="overlay" [class.active]="patientCall.patientCallStatusLabelId < 3"></div>
-<div class="call-question-icon">
-  <i class="icon-question-mark"></i>
-</div>
 <form [formGroup]="patientCallQuestionsAnswersForm">
   <ion-list scrollY="true" lines="none" class="patient-call-question-list" formArrayName="patientCallQuestionsAnswers">
     <ion-item

@@ -35,9 +35,9 @@
   </li>
 </ul>
 
-<ul class="notification-patient-list">
+<ul class="notification-patient-list" *ngIf="$notifications | async">
   <li
-    *ngFor="let notification of notifications$ | async"
+    *ngFor="let notification of notifications"
     class="active"
     [routerLink]="'/notifications/' + notification.notificationId"
   >

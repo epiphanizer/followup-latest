@@ -37,7 +37,11 @@ export class OperationOperationListingComponent implements OnInit {
   }
   sortOperationsByOperationName = function(sortFlag: string) {
     this.filterBy = 'operation-name';
-    this.reverse();
+    if ((this.selectedSortFlag = 'asc')) {
+      this.operations.reverse();
+    } else {
+      this.operations.sort();
+    }
   };
   // Per first release, we don't pull in inactive operations
   // sortOperationsByOperationStatus = function(sortFlag: string) {
