@@ -207,6 +207,7 @@ export class OperationFormComponent implements OnInit {
           });
         }
       });
+    this.addAdditionalOperationCallRep();
   }
   updateOperationManagers() {
     this.operationManagers = [];
