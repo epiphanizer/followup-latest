@@ -32,6 +32,13 @@ export class PatientContactService {
     );
   }
 
+  editPatientContactByPatientId(patientContactId: number, patientContactPut: PatientContactPostBody) {
+    return this.http.put('patients/contacts/' + patientContactId, patientContactPut).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+
   removePatientContactByPatientContactId(patientContactId: number) {
     return this.http.delete('patients/contacts/' + patientContactId).pipe(
       retry(3), // retry a failed request up to 3 times

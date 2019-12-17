@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { Patient, PatientDischargeLabel } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
@@ -37,6 +38,7 @@ export class PatientFormComponent implements OnInit {
   patientContacts: PatientContact[] = [];
   patientContactsOriginal: PatientContact[] = [];
   patientContactsToAdd: PatientContact[] = [];
+  patientContactsToEdit: PatientContact[] = [];
   patientContactsToRemove: number[] = [];
   patientContacts$: Observable<PatientContact[]>;
   patientIntakeQuestions: PatientIntakeQuestion[] = [];
@@ -394,6 +396,30 @@ export class PatientFormComponent implements OnInit {
      */
     this.patientContactsToAdd = this.patientContacts.filter((patientContact: PatientContact) => {
       return this.patientContactsOriginal.indexOf(patientContact) == -1;
+    });
+    console.log(this.patientContacts);
+    this.patientContactsToEdit = this.patientContacts.filter((patientContact: any, index: number) => {
+      /**
+       * Get the actual form submission value and then compare it to see if we need to edit
+       */
+      var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
+      // Set patient contact id since we have no form control.
+      formSubmission.patient.patientContacts[indexToGrab].patientId = this.patient.patientId;
+      formSubmission.patient.patientContacts[indexToGrab].patientContactId = patientContact.patientContactId;
+      this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
+      // Use lodash to see if these are deep-equal
+      return !_.isEqual(patientContact, this.patientContacts[indexToGrab]);
+    });
+    console.log(this.patientContactsToEdit);
+    debugger;
+    this.patientContactsToEdit.forEach((patientContact: PatientContact, index: number) => {
+      // Now that we have these, we need to reassign to the form-submitted value.
+      var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
+      this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
+      var patientContactPut = this.patientContactPostFactory(this.patientContacts[indexToGrab]);
+      this.patientContactService
+        .editPatientContactByPatientId(this.patientContacts[indexToGrab].patientContactId, patientContactPut)
+        .subscribe(() => {});
     });
 
     // Passing E2E
