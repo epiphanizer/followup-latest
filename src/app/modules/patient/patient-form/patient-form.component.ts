@@ -9,7 +9,7 @@ import { User } from '@app/modules/user/user';
 import { SuperForm } from 'angular-super-validator';
 import { PatientPutBody } from './patient-form';
 import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
-import { PatientContact, PatientContactPostBody } from '../patient-contact/patient-contact';
+import { PatientContact, PatientContactPostBody, PatientContactPutBody } from '../patient-contact/patient-contact';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientContactService } from '../patient-contact/patient-contact.service';
 import { Operation } from '@app/modules/operation/operation';
@@ -416,7 +416,7 @@ export class PatientFormComponent implements OnInit {
       // Now that we have these, we need to reassign to the form-submitted value.
       var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
       this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
-      var patientContactPut = this.patientContactPostFactory(this.patientContacts[indexToGrab]);
+      var patientContactPut = this.patientContactPutFactory(this.patientContacts[indexToGrab]);
       this.patientContactService
         .editPatientContactByPatientId(this.patientContacts[indexToGrab].patientContactId, patientContactPut)
         .subscribe(() => {});
@@ -441,6 +441,24 @@ export class PatientFormComponent implements OnInit {
     });
   }
 
+  patientContactPutFactory(patientContact: PatientContact): PatientContactPutBody {
+    try {
+      var payload = {
+        patientContactId: patientContact.patientContactId,
+        patientContactFirstName: patientContact.patientContactFirstName.toString(),
+        patientContactLastName: patientContact.patientContactLastName.toString(),
+        patientContactRelationship: patientContact.patientContactRelationship.toString(),
+        patientContactCountryCode: patientContact.patientContactCountryCode.toString(),
+        patientContactAreaCode: patientContact.patientContactAreaCode.toString(),
+        patientContactPhoneNumber: patientContact.patientContactPhoneNumber.toString(),
+        patientContactOrder: patientContact.patientContactOrder,
+        patientContactResponsiblePartyBoolean: patientContact.patientContactResponsiblePartyBoolean == true ? 1 : 0
+      };
+      return <PatientContactPutBody>payload;
+    } catch {
+      throw 'Had a problem validating data in the call rep factory';
+    }
+  }
   patientContactPostFactory(patientContact: PatientContact): PatientContactPostBody {
     try {
       var payload = {
