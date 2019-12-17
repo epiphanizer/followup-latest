@@ -49,7 +49,8 @@ const routes: Routes = [
         ]
       },
       resolve: {
-        notification: NotificationResolver
+        notification: NotificationResolver,
+        user: UserResolver
       }
     }
   ])

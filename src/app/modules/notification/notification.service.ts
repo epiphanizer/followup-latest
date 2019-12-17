@@ -23,7 +23,7 @@ export class NotificationService {
     );
   }
   getNotificationByNotificationId(notificationId: number): Observable<Notification> {
-    return this.http.get<Notification>('notifications/' + notificationId).pipe(
+    return this.http.get<Notification>('notification/' + notificationId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
