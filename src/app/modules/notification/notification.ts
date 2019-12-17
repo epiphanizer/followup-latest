@@ -15,6 +15,9 @@ export interface Notification {
   notificationIconImage?: string;
   notificationCreatedByUserId: number;
   notificationCreatedDate?: Date;
+  notificationUserFirstName?: string;
+  notificationUserLastName?: string;
+  notificationCreatedTime?: Date;
 }
 export interface NotificationType {
   notificationTypeId: number;
