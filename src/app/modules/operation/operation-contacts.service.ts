@@ -6,7 +6,6 @@ import { throwError, Observable } from 'rxjs';
 import { OperationContact } from './operation-contact/operation-contact';
 
 export interface OperationContactPutBody {
-  operationContactId: number;
   operationContactFirstName: string;
   operationContactMiddleName: string;
   operationContactLastName: string;
@@ -48,11 +47,21 @@ export class OperationContactsService {
     payload: OperationContactPutBody
   ): Observable<OperationContact> {
     return this.http
-      .post<OperationContact>('operations/' + operationId + '/contacts/' + operationContactId, payload)
+      .put<OperationContact>('operations/' + operationId + '/contacts/' + operationContactId, payload)
       .pipe(
         retry(1), // retry a failed request up to 2 total times
         catchError(error => this.handleAsyncError(error))
       );
+  }
+
+  public deactivateOperationContactByOperationContactId(
+    operationId: number,
+    operationContactId: number
+  ): Observable<any> {
+    return this.http.delete('operations/' + operationId + '/contacts/' + operationContactId).pipe(
+      retry(1), // retry a failed request up to 2 total times
+      catchError(error => this.handleAsyncError(error))
+    );
   }
   public getOperationContactsByOperationId(operationId: number) {
     return this.http.get<OperationContact[]>('operations/' + operationId + '/contacts').pipe(

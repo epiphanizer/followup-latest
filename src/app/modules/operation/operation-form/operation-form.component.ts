@@ -1,4 +1,5 @@
 import { Component, OnInit, Renderer2, Injectable, Input } from '@angular/core';
+import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, from, throwError, of } from 'rxjs';
 import { map, catchError, first, take } from 'rxjs/operators';
@@ -6,7 +7,11 @@ import { SuperForm } from 'angular-super-validator';
 import { OperationService } from '../operation.service';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
 import { OperationCallRepsService, OperationCallRep } from '../operation-callreps.service';
-import { OperationContactsService, OperationContactPostBody } from '../operation-contacts.service';
+import {
+  OperationContactsService,
+  OperationContactPostBody,
+  OperationContactPutBody
+} from '../operation-contacts.service';
 import { UserService } from '@app/modules/user/user.service';
 import { User } from '@app/modules/user/user';
 import { NotificationService } from '@app/modules/notification/notification.service';
@@ -44,9 +49,10 @@ export class OperationFormComponent implements OnInit {
   operationCallRepsToAdd: OperationCallRep[] = [];
   operationCallRepsToRemove: number[] = [];
   operationContacts$: Observable<OperationContact[]>;
-  operationContactsOriginal: OperationContact[] = [];
+  operationContactsOriginal: number[] = [];
   operationContacts: OperationContact[] = [];
   operationContactsToAdd: OperationContact[] = [];
+  operationContactsToEdit: OperationContact[] = [];
   operationContactsToRemove: number[] = [];
   operationManagers: OperationManager[] = [];
   operationManagersOriginal: number[] = [];
@@ -183,6 +189,8 @@ export class OperationFormComponent implements OnInit {
                 formGroup.controls.operationContactCountryCode.setValue(operationContact.operationContactCountryCode),
                 formGroup.controls.operationContactAreaCode.setValue(operationContact.operationContactAreaCode),
                 formGroup.controls.operationContactPhoneNumber.setValue(operationContact.operationContactPhoneNumber);
+
+              this.operationContactsOriginal.push(operationContact.operationContactId);
             });
             return operationContacts;
           } else {
@@ -381,6 +389,24 @@ export class OperationFormComponent implements OnInit {
       throw 'Had a problem validating data in the call rep factory';
     }
   }
+  operationContactPutFactory(formContact: any): OperationContactPutBody {
+    try {
+      var payload = {
+        operationContactFirstName: formContact.operationContactFirstName,
+        operationContactMiddleName: formContact.operationContactMiddleName,
+        operationContactLastName: formContact.operationContactLastName,
+        operationContactTitle: formContact.operationContactTitle,
+        operationContactCountryCode: formContact.operationContactCountryCode.toString(),
+        operationContactAreaCode: formContact.operationContactAreaCode,
+        operationContactPhoneNumber: formContact.operationContactPhoneNumber,
+        operationContactEmail: formContact.operationContactEmail,
+        operationContactActive: 1
+      };
+      return <OperationContactPutBody>payload;
+    } catch {
+      throw 'Had a problem validating data in the call rep factory';
+    }
+  }
   operationContactPostFactory(formContact: any): OperationContactPostBody {
     try {
       var payload = {
@@ -410,13 +436,6 @@ export class OperationFormComponent implements OnInit {
     }
 
     // Passing E2E
-
-    this.operationManagersToRemove = this.operationManagersToRemove.filter(
-      (operationManagersToRemove: number, index: number) => {
-        return operationManagersToRemove == this.operationManagersOriginal[index] && operationManagersToRemove !== 0;
-      }
-    );
-
     this.operationManagersToRemove.forEach((managerUserId: number) => {
       // Don't process default manager entry
       if (managerUserId == 0) {
@@ -470,10 +489,14 @@ export class OperationFormComponent implements OnInit {
     });
 
     let formSubmission = this.operationForm.getRawValue();
+
+    this.operationContactsToAdd = this.operationContacts.filter((operationContact: OperationContact, index: number) => {
+      return operationContact.operationContactId !== this.operationContactsOriginal[index];
+    });
     // Need a filter here to see new vs. old
-    console.log(this.operationContacts);
+    console.log(this.operationContactsToAdd);
     debugger;
-    this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
+    this.operationContactsToAdd.forEach((operationContact: OperationContact, idx: number) => {
       let formContact = formSubmission.operationContacts[idx];
       let operationContactPost = this.operationContactPostFactory(formContact);
       console.log(operationContactPost);
@@ -514,6 +537,72 @@ export class OperationFormComponent implements OnInit {
         });
     });
 
+    this.operationContactsToEdit = this.operationContacts.filter(
+      (operationContact: OperationContact, index: number) => {
+        /**
+         * Get the actual form submission value and then compare it to see if we need to edit
+         */
+        // Use lodash to see if these are deep-equal
+        console.log(operationContact);
+        console.log(formSubmission.operationContacts[index]);
+        return !_.isEqual(operationContact, formSubmission.operationContacts[index]);
+      }
+    );
+
+    console.log(this.operationContactsToEdit);
+    debugger;
+
+    this.operationContactsToEdit.forEach((operationContact: OperationContact, idx: number) => {
+      let formContact = formSubmission.operationContacts[idx];
+      let operationContactPut = this.operationContactPutFactory(formContact);
+      this.operationContactsService
+        .editOperationContactByOperationContactId(
+          this.operation.operationId,
+          operationContact.operationContactId,
+          operationContactPut
+        )
+        .subscribe((data: any) => {
+          if (data !== null) {
+            var operationContactId = data.operationContactId;
+            console.log(data);
+            console.log(formContact);
+            var notificationsToAdd = new Array();
+            formContact.operationContactNotificationsLeft
+              .concat(formContact.operationContactNotificationsRight)
+              .forEach((notificationTypeId: number | boolean, index: number) => {
+                if (notificationTypeId == false) {
+                  return;
+                } else {
+                  notificationsToAdd.push(notificationTypeId);
+                }
+              });
+
+            notificationsToAdd.forEach((notificationTypeId: number) => {
+              var notificationReceipientPostBody = {
+                notificationOperationContactId: operationContactId,
+                notificationOperationId: this.operation.operationId,
+                notificationTypeId: notificationTypeId,
+                notificationRecipientEmail: formContact.operationContactEmail
+              };
+              // Now that we have the contact, we add them to the notification recipients table
+              this.notificationRecipientService
+                .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
+                .subscribe((data: any) => {
+                  console.log(data);
+                });
+            });
+          }
+        });
+    });
+
+    this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
+      this.operationContactsService
+        .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
+        .subscribe(() => {
+          alert('Successfully removed operation contact');
+        });
+    });
+
     let operationPut = this.operationPutFactory(formSubmission);
     this.operationService
       .editOperationByOperationId(this.operation.operationId, operationPut)
@@ -535,6 +624,8 @@ export class OperationFormComponent implements OnInit {
   removeOperationManager(idx: number) {
     this.operationManagersToRemove.push(this.operationManagers[idx].userId);
     this.operationManagers.splice(idx, 1);
+    console.log(this.operationManagersToRemove);
+    debugger;
   }
   /**
    * A function to validate controls,
