@@ -27,7 +27,8 @@
             {{ notification.notificationCreatedTime | date: 'MM/dd/yyyy' }}
           </div>
           <div class="notification-item">
-            <span class="label">Care Rep:&nbsp;</span> {{ notification.userFirstName }} {{ notification.userLastName }}
+            <span class="label">Care Rep:&nbsp;</span> {{ notification.notificationUserFirstName }}
+            {{ notification.notificationUserLastName }}
           </div>
           <div class="notification-item">
             <span class="label">Notification:&nbsp;</span>
