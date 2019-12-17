@@ -3,7 +3,7 @@ import { HttpService } from '@app/core';
 import { catchError, retry, delay } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
-import { PatientContactPostBody } from './patient-contact';
+import { PatientContactPostBody, PatientContactPutBody } from './patient-contact';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class PatientContactService {
     );
   }
 
-  editPatientContactByPatientId(patientContactId: number, patientContactPut: PatientContactPostBody) {
+  editPatientContactByPatientId(patientContactId: number, patientContactPut: PatientContactPutBody) {
     return this.http.put('patients/contacts/' + patientContactId, patientContactPut).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error

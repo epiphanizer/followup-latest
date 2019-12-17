@@ -397,7 +397,7 @@ export class PatientFormComponent implements OnInit {
     this.patientContactsToAdd = this.patientContacts.filter((patientContact: PatientContact) => {
       return this.patientContactsOriginal.indexOf(patientContact) == -1;
     });
-    console.log(this.patientContacts);
+
     this.patientContactsToEdit = this.patientContacts.filter((patientContact: any, index: number) => {
       /**
        * Get the actual form submission value and then compare it to see if we need to edit
@@ -410,8 +410,7 @@ export class PatientFormComponent implements OnInit {
       // Use lodash to see if these are deep-equal
       return !_.isEqual(patientContact, this.patientContacts[indexToGrab]);
     });
-    console.log(this.patientContactsToEdit);
-    debugger;
+
     this.patientContactsToEdit.forEach((patientContact: PatientContact, index: number) => {
       // Now that we have these, we need to reassign to the form-submitted value.
       var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
