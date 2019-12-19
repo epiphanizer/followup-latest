@@ -46,16 +46,10 @@ export class HomeComponent implements OnInit {
             enabled: true
           },
           {
-            name: 'User Management',
-            action: 'users',
-            image: '/assets/icon-user-management@2x.png',
-            enabled: false
-          },
-          {
             name: 'View Data',
             action: 'admin/data',
             image: '/assets/icon-view-data@2x.png',
-            enabled: false
+            enabled: true
           }
         ];
         break;

@@ -28,8 +28,7 @@
       class="notification-textarea"
       formControlName="notificationMessage"
       placeholder="Leave Your Notes Here"
-    >
-    </ion-textarea>
+    ></ion-textarea>
     <ion-button
       [disabled]="createNotificationForm.invalid"
       fill="outline"
@@ -79,6 +78,7 @@
               <span *ngFor="let notificationRecipient of notificationRecipients; let idx = index">
                 &nbsp;{{ notificationRecipient.notificationRecipientEmail
                 }}{{ idx + 1 == notificationRecipients.length ? '' : ',' }}
+                <br />
               </span>
             </ng-container>
             <ng-template #noRecipients>

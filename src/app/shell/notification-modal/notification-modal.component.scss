@@ -47,7 +47,8 @@
 ion-title {
   display: block;
   margin-bottom: 5px;
-  margin-left: 37px;
+  margin-left: 28px;
+  margin-right: 9px;
   font-family: AvenirNextLTPro;
   font-size: 24px;
   font-weight: 300;
@@ -65,9 +66,9 @@ ion-textarea {
   font-size: 13px;
   font-family: Avenir;
   background-color: #f5f5f5;
-  --inner-padding-start: 0;
+  --inner-padding-start: 12px;
   --inner-padding-end: 0;
-  padding-top: 0px;
+  padding-top: 0;
   margin-top: 0.25rem;
 }
 
@@ -180,13 +181,13 @@ h3 {
     margin-left: 15px;
   }
   ion-textarea {
+    padding-left: 12px;
     height: 115px;
     width: 300px;
     margin: 0 auto;
     font-size: 13px;
     font-family: Avenir;
     background-color: #f5f5f5;
-    padding-top: 0px;
     margin-top: 0.75rem;
   }
 }
