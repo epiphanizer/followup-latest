@@ -406,8 +406,6 @@ export class PatientFormComponent implements OnInit {
        * Get the actual form submission value and then compare it to see if we need to edit
        */
       var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
-      console.log(indexToGrab);
-      console.log(formSubmission.patient.patientContacts);
       // Set patient contact id since we have no form control.
       // formSubmission.patient.patientContacts[indexToGrab].patientId = this.patient.patientId;
       formSubmission.patient.patientContacts[indexToGrab].patientContactId = patientContact.patientContactId;

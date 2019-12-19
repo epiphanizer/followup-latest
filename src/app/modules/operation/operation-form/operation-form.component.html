@@ -55,7 +55,7 @@
         </ion-list>
       </ion-list>
 
-      <fieldset class="operation-contacts">
+      <fieldset class="operation-contacts" *ngIf="operationContacts">
         <ng-container>
           <ion-list class="operation-contacts-list" formArrayName="operationContacts" lines="none" inset>
             <ion-item *ngFor="let operationContact of operationContacts; let idx = index">
@@ -119,7 +119,7 @@
                     Notifications
                   </span>
                 </div>
-                <ion-item class="notification-container">
+                <ion-item class="notification-container" *ngIf="notificationsLoaded">
                   <ion-row>
                     <ion-col width-50 formArrayName="operationContactNotificationsLeft">
                       <ion-item *ngFor="let notificationType of notificationTypesListLeft">
