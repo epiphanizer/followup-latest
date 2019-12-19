@@ -29,7 +29,7 @@ import { Observable } from 'rxjs';
 })
 export class PatientDetailComponent implements OnInit {
   user: User;
-  patient: Patient;
+  patient: Patient = null;
   operation: Operation;
   patientCall: PatientCall;
   patientCall$: Observable<PatientCall>;
@@ -54,6 +54,9 @@ export class PatientDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.patient !== null) {
+      location.reload();
+    }
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
     this.patientCall$ = this.patientCallService
@@ -173,7 +176,6 @@ export class PatientDetailComponent implements OnInit {
       return;
     }
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
-      debugger;
       // Update the call status
       // Talk to our service to answer the existing call questions
       this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
@@ -224,7 +226,6 @@ export class PatientDetailComponent implements OnInit {
           } else {
             this.router.navigateByUrl(navigateToUrl);
           }
-          this.ngOnInit();
         });
     });
   }

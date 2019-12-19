@@ -28,6 +28,8 @@ export class PatientNextCallSchedulerComponent implements OnInit {
   };
   selectedYear: {
     year: number;
+  } = {
+    year: null
   };
   status: {
     scheduled: boolean;
@@ -99,6 +101,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
+    this.selectedYear.year = this.todaysYear;
   }
 
   ngOnInit() {
@@ -112,20 +115,40 @@ export class PatientNextCallSchedulerComponent implements OnInit {
   }
   calendarPrevMonth() {
     this.selectedMonth.number = (parseInt(this.selectedMonth.number) - 1).toString();
-    this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
-    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
+    if (this.selectedMonth.number !== '0') {
+      this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
+      this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
+    } else {
+      this.currentCalendarMonth = this.months[11];
+      this.selectedMonth.number = '12';
+      this.selectedYear.year = this.selectedYear.year - 1;
+      this.selectedMonth.numberOfDays = this.daysInMonth(
+        parseInt(this.currentCalendarMonth.number),
+        this.selectedYear.year
+      );
+    }
   }
   calendarNextMonth() {
-    if (this.selectedMonth.number.length == 2) {
-      this.selectedMonth.number = (parseInt(this.selectedMonth.number) + 1).toString();
-    } else {
-      this.selectedMonth.number = (parseInt(this.selectedMonth.number) + 1).toString();
-    }
+    this.selectedMonth.number = (parseInt(this.selectedMonth.number) + 1).toString();
     this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
-    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
+
+    console.log(this.currentCalendarMonth);
+    console.log(this.selectedMonth.number);
+    if (this.selectedMonth.number !== '13') {
+      this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
+      this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
+    } else {
+      this.currentCalendarMonth = this.months[0];
+      this.selectedMonth.number = '1';
+      this.selectedYear.year = this.selectedYear.year + 1;
+      this.selectedMonth.numberOfDays = this.daysInMonth(
+        parseInt(this.currentCalendarMonth.number),
+        this.selectedYear.year
+      );
+    }
   }
   selectDateEventHandler(selectedDay: number, currentCalendarMonth: number, todaysYear: number) {
-    let date = currentCalendarMonth + '/' + selectedDay + '/' + todaysYear;
+    let date = currentCalendarMonth + '/' + selectedDay + '/' + this.selectedYear.year;
     this.selectedDay = selectedDay;
     this.scheduledCallDate = date;
     this.status.scheduled = true;
