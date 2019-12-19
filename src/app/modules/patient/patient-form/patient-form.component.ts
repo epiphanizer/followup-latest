@@ -216,7 +216,7 @@ export class PatientFormComponent implements OnInit {
 
   private createForm() {
     this.patientForm = this.fb.group({
-      operation: this.fb.control(this.patient.patientOperationId),
+      operation: this.fb.control(this.patient.patientOperationId, [Validators.required]),
       patient: this.fb.group({
         patientMedicalRecordNumber: this.fb.control(this.patient.patientMedicalRecordNumber, [Validators.required]),
         patientName: this.fb.group({
@@ -248,7 +248,7 @@ export class PatientFormComponent implements OnInit {
           pulmonaryBoolean: this.fb.control(this.patient.patientMedicalConditions.pulmonaryBoolean == true ? 1 : 0),
           otherBoolean: this.fb.control(this.patient.patientMedicalConditions.otherBoolean == true ? 1 : 0)
         }),
-        patientPrimaryDiagnosis: this.fb.control(this.patient.patientPrimaryDiagnosis),
+        patientPrimaryDiagnosis: this.fb.control(this.patient.patientPrimaryDiagnosis, [Validators.required]),
         patientDischargedCondition: this.fb.control(this.patient.patientDischargedCondition, [Validators.required]),
         patientIntakeQuestionAnswers: this.fb.array([]),
         patientUrgencyScale: this.fb.control(
@@ -283,6 +283,7 @@ export class PatientFormComponent implements OnInit {
   }
 
   addAdditionalPatientContact() {
+    console.log('patient contact order set for: ' + (this.patientContacts.length + 1));
     this.patientContacts.push({
       patientContactFirstName: '',
       patientContactLastName: '',
@@ -294,7 +295,7 @@ export class PatientFormComponent implements OnInit {
       patientContactResponsiblePartyBoolean: false
     });
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
-    let idx = patientContactArray.length - 1;
+    let idx = patientContactArray.length;
     patientContactArray.push(
       this.fb.group({
         patientContactFirstName: this.fb.control('', [Validators.required]),
@@ -397,20 +398,25 @@ export class PatientFormComponent implements OnInit {
     this.patientContactsToAdd = this.patientContacts.filter((patientContact: PatientContact) => {
       return this.patientContactsOriginal.indexOf(patientContact) == -1;
     });
-
     this.patientContactsToEdit = this.patientContacts.filter((patientContact: any, index: number) => {
+      if (!patientContact.patientContactId) {
+        return false;
+      }
       /**
        * Get the actual form submission value and then compare it to see if we need to edit
        */
       var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
+      console.log(indexToGrab);
+      console.log(formSubmission.patient.patientContacts);
       // Set patient contact id since we have no form control.
-      formSubmission.patient.patientContacts[indexToGrab].patientId = this.patient.patientId;
+      // formSubmission.patient.patientContacts[indexToGrab].patientId = this.patient.patientId;
       formSubmission.patient.patientContacts[indexToGrab].patientContactId = patientContact.patientContactId;
       this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
       // Use lodash to see if these are deep-equal
       return !_.isEqual(patientContact, this.patientContacts[indexToGrab]);
     });
 
+    console.log(this.patientContactsToEdit);
     this.patientContactsToEdit.forEach((patientContact: PatientContact, index: number) => {
       // Now that we have these, we need to reassign to the form-submitted value.
       var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;

@@ -32,6 +32,8 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   };
   selectedYear: {
     year: number;
+  } = {
+    year: null
   };
   todaysDate: Date;
   todaysMonth: string;
@@ -97,9 +99,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     ];
     // Subtract one because of the 0 index of the array
     this.selectedDay = this.todaysDateDay;
-
     this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
-    console.log(this.selectedMonth);
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
     let formattedDay = this.selectedDay.toString();
@@ -108,6 +108,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     }
     this.selectedDate = this.selectedMonth.number + '/' + formattedDay + '/' + this.todaysYear;
     this.dateFilterChangeEvent.emit(this.selectedDate);
+    this.selectedYear.year = this.todaysYear;
   }
 
   daysInMonth(month: number, year: number) {
@@ -131,9 +132,6 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   calendarNextMonth() {
     this.selectedMonth.number = (parseInt(this.selectedMonth.number) + 1).toString();
     this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
-
-    console.log(this.currentCalendarMonth);
-    console.log(this.selectedMonth.number);
     if (this.selectedMonth.number !== '13') {
       this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
       this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
