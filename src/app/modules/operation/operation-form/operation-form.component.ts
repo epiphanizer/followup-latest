@@ -561,37 +561,35 @@ export class OperationFormComponent implements OnInit {
           operationContact.operationContactId,
           operationContactPut
         )
-        .subscribe((data: any) => {
-          if (data !== null) {
-            var operationContactId = data.operationContactId;
-            console.log(data);
-            console.log(formContact);
-            var notificationsToAdd = new Array();
-            formContact.operationContactNotificationsLeft
-              .concat(formContact.operationContactNotificationsRight)
-              .forEach((notificationTypeId: number | boolean, index: number) => {
-                if (notificationTypeId == false) {
-                  return;
-                } else {
-                  notificationsToAdd.push(notificationTypeId);
-                }
-              });
-
-            notificationsToAdd.forEach((notificationTypeId: number) => {
-              var notificationReceipientPostBody = {
-                notificationOperationContactId: operationContactId,
-                notificationOperationId: this.operation.operationId,
-                notificationTypeId: notificationTypeId,
-                notificationRecipientEmail: formContact.operationContactEmail
-              };
-              // Now that we have the contact, we add them to the notification recipients table
-              this.notificationRecipientService
-                .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
-                .subscribe((data: any) => {
-                  console.log(data);
-                });
+        .subscribe(() => {
+          var operationContactId = operationContact.operationContactId;
+          console.log(formContact);
+          var notificationsToAdd = new Array();
+          formContact.operationContactNotificationsLeft
+            .concat(formContact.operationContactNotificationsRight)
+            .forEach((notificationTypeId: number | boolean, index: number) => {
+              if (notificationTypeId == false) {
+                return;
+              } else {
+                notificationsToAdd.push(notificationTypeId);
+              }
             });
-          }
+          console.log(notificationsToAdd);
+          debugger;
+          notificationsToAdd.forEach((notificationTypeId: number) => {
+            var notificationReceipientPostBody = {
+              notificationOperationContactId: operationContactId,
+              notificationOperationId: this.operation.operationId,
+              notificationTypeId: notificationTypeId,
+              notificationRecipientEmail: formContact.operationContactEmail
+            };
+            // Now that we have the contact, we add them to the notification recipients table
+            this.notificationRecipientService
+              .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
+              .subscribe((data: any) => {
+                console.log(data);
+              });
+          });
         });
     });
 
@@ -604,13 +602,10 @@ export class OperationFormComponent implements OnInit {
     });
 
     let operationPut = this.operationPutFactory(formSubmission);
-    this.operationService
-      .editOperationByOperationId(this.operation.operationId, operationPut)
-      .subscribe((data: any) => {
-        console.log(data);
-        alert('Operation successfully edited');
-        this.router.navigate(['/operations']);
-      });
+    this.operationService.editOperationByOperationId(this.operation.operationId, operationPut).subscribe(() => {
+      alert('Operation successfully edited');
+      this.router.navigate(['/operations']);
+    });
   }
 
   removeOperationCallRep(idx: number) {
