@@ -39,6 +39,7 @@ export class OperationFormComponent implements OnInit {
   availableManagers: User[];
   operation: Operation;
   editMode: boolean;
+  notificationsLoaded: boolean = false;
   notificationTypes: NotificationType[];
   notificationTypesListLeft: NotificationType[] = [];
   notificationTypesListRight: NotificationType[] = [];
@@ -168,17 +169,23 @@ export class OperationFormComponent implements OnInit {
               var notificationArrayRight = this.fb.array([]);
               var i;
               for (i = 0; i < this.notificationTypesListLeft.length; i++) {
-                var newFormControl = this.fb.control(this.notificationTypesListLeft[i].notificationTypeId);
-                notificationArrayLeft.push(newFormControl);
+                let newFormGroup = this.fb.group({});
+                let newControl = new FormControl('');
+                let notificationTypeId = this.notificationTypesListLeft[i].notificationTypeId.toString();
+                newFormGroup.addControl(notificationTypeId, newControl);
+                notificationArrayLeft.push(newFormGroup);
               }
               for (i = 0; i < this.notificationTypesListRight.length; i++) {
-                var newFormControl = this.fb.control(this.notificationTypesListRight[i].notificationTypeId);
-                notificationArrayRight.push(newFormControl);
+                let newFormGroup = this.fb.group({});
+                let newControl = new FormControl('');
+                let notificationTypeId = this.notificationTypesListRight[i].notificationTypeId.toString();
+                newFormGroup.addControl(notificationTypeId, newControl);
+                notificationArrayRight.push(newFormGroup);
               }
 
               contactFormGroup.addControl('operationContactNotificationsLeft', notificationArrayLeft);
               contactFormGroup.addControl('operationContactNotificationsRight', notificationArrayRight);
-
+              this.notificationsLoaded = true;
               formArray.push(contactFormGroup);
               var formGroup = formArray.controls[index] as FormGroup;
               formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
@@ -295,17 +302,24 @@ export class OperationFormComponent implements OnInit {
     var notificationArrayRight = this.fb.array([]);
     var i;
     for (i = 0; i < this.notificationTypesListLeft.length; i++) {
-      var newFormControl = this.fb.control(this.notificationTypesListLeft[i].notificationTypeId);
-      notificationArrayLeft.push(newFormControl);
+      let newFormGroup = this.fb.group({});
+      let newControl = new FormControl(false);
+      let notificationTypeId = this.notificationTypesListLeft[i].notificationTypeId.toString();
+      newFormGroup.addControl(notificationTypeId, newControl);
+      notificationArrayLeft.push(newFormGroup);
     }
     for (i = 0; i < this.notificationTypesListRight.length; i++) {
-      var newFormControl = this.fb.control(this.notificationTypesListRight[i].notificationTypeId);
-      notificationArrayRight.push(newFormControl);
+      let newFormGroup = this.fb.group({});
+      let newControl = new FormControl(false);
+      let notificationTypeId = this.notificationTypesListRight[i].notificationTypeId.toString();
+      newFormGroup.addControl(notificationTypeId, newControl);
+      notificationArrayRight.push(newFormGroup);
     }
 
     contactFormGroup.addControl('operationContactNotificationsLeft', notificationArrayLeft);
     contactFormGroup.addControl('operationContactNotificationsRight', notificationArrayRight);
-
+    console.log(contactFormGroup);
+    this.notificationsLoaded = true;
     if (this.operationContacts.length == formArray.length) {
       return;
     }

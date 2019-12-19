@@ -122,14 +122,20 @@
                 <ion-item class="notification-container" *ngIf="notificationsLoaded">
                   <ion-row>
                     <ion-col width-50 formArrayName="operationContactNotificationsLeft">
-                      <ion-item *ngFor="let notificationType of notificationTypesListLeft">
-                        <ion-checkbox formControlName="{{ idx }}"></ion-checkbox>
+                      <ion-item
+                        *ngFor="let notificationType of notificationTypesListLeft; let idx = index"
+                        formGroupName="{{ idx }}"
+                      >
+                        <ion-checkbox formControlName="{{ notificationType.notificationTypeId }}"></ion-checkbox>
                         <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
                       </ion-item>
                     </ion-col>
                     <ion-col width-50 formArrayName="operationContactNotificationsRight">
-                      <ion-item *ngFor="let notificationType of notificationTypesListRight">
-                        <ion-checkbox formControlName="{{ idx }}"></ion-checkbox>
+                      <ion-item
+                        *ngFor="let notificationType of notificationTypesListRight; let idx = index"
+                        formGroupName="{{ idx }}"
+                      >
+                        <ion-checkbox formControlName="{{ notificationType.notificationTypeId }}"></ion-checkbox>
                         <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
                       </ion-item>
                     </ion-col>
