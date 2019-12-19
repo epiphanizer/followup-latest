@@ -355,7 +355,7 @@ export class OperationFormComponent implements OnInit {
   }
   callRepOnSelect(event: any, index: number) {
     let callRepUserId = event.target.value;
-    if (this.operationCallReps[index].userId! == 0) {
+    if (this.operationCallReps[index].userId !== 0) {
       this.operationCallRepsToRemove.push(this.operationCallReps[index].userId);
     }
     var operationCallRepObject = {
@@ -366,7 +366,7 @@ export class OperationFormComponent implements OnInit {
   }
   managerOnSelect(event: any, index: number) {
     let managerUserId = event.target.value;
-    if (this.operationManagers[index].userId! == 0) {
+    if (this.operationManagers[index].userId !== 0) {
       this.operationManagersToRemove.push(this.operationManagers[index].userId);
     }
     var operationManagerObject = {
@@ -451,7 +451,7 @@ export class OperationFormComponent implements OnInit {
     this.operationManagersToAdd = this.operationManagers.filter((operationManager: OperationManager, index: number) => {
       return operationManager.userId !== this.operationManagersOriginal[index] && operationManager.userId !== 0;
     });
-
+    console.log(this.operationManagersToAdd);
     this.operationManagersToAdd.forEach((operationManager: OperationManager) => {
       // Need a filter here to see new vs. old
       this.operationService
@@ -624,8 +624,6 @@ export class OperationFormComponent implements OnInit {
   removeOperationManager(idx: number) {
     this.operationManagersToRemove.push(this.operationManagers[idx].userId);
     this.operationManagers.splice(idx, 1);
-    console.log(this.operationManagersToRemove);
-    debugger;
   }
   /**
    * A function to validate controls,
