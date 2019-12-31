@@ -1,4 +1,8 @@
-<img class="patient-avatar-image" *ngIf="avatarExists; else defaultAvatar" [src]="avatarUrl" />
+<div
+  class="patient-avatar-image"
+  style="background-image:url('{{ avatarUrl }}');"
+  *ngIf="avatarExists; else defaultAvatar"
+></div>
 <ng-template #defaultAvatar>
-  <img src="/assets/default-avatar-patient-detail.png" />
+  <div style="background-image:url('/assets/default-avatar-patient-detail.png');"></div>
 </ng-template>

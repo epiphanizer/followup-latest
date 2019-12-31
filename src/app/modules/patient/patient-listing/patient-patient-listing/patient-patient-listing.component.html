@@ -39,9 +39,7 @@
       {{ patient.patientDischargeDate | date: 'M/d' }}
     </div>
 
-    <div class="patient-listing-avatar">
-      <img src="/assets/default-avatar-patient-detail.png" />
-    </div>
+    <app-patient-avatar [patient]="patient"> </app-patient-avatar>
     <div class="patient-patient-information">
       <span class="patient-patient-name ion-float-left">
         {{ patient.patientFirstName }} {{ patient.patientLastName }}
