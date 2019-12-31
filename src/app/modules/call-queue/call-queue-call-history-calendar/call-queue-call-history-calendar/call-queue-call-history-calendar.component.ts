@@ -21,6 +21,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     number: string;
     name: string;
   };
+  dayHeaders: Array<string> = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
   patientCallsFiltered: Array<any>;
   selectedDay: number;
   selectedDate: Date | string;

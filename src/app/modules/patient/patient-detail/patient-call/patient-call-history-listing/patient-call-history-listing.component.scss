@@ -7,9 +7,17 @@
   padding-top: 2px;
   color: #343638;
   line-height: 1.65rem;
+  .call-detail-container {
+    display: block;
+    margin-left: 1.75rem;
+  }
+  .call-made-by,
   .call-number-date {
+    text-transform: initial;
+    line-height: 14px;
+    display: inline-block;
+    margin-right: 8px;
     font-family: Avenir;
-    font-style: italic;
     font-size: 14px;
   }
   &.active {

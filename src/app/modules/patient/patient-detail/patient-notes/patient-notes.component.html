@@ -26,4 +26,21 @@
     <span class="label"> Discharged Condition: &nbsp; </span> {{ patient.patientDischargedCondition }}
   </ion-item>
   <ion-item> <span class="label"> Discharged To: &nbsp;</span> {{ patient.patientDischargeLabel }} </ion-item>
+  {{ patient.patientIntakeQuestions | json }}
+  <ng-container>
+    <ion-item *ngFor="let patientIntakeQuestion of patientIntakeQuestions">
+      <span class="label">{{ patientIntakeQuestion.patientIntakeQuestion }}:</span>
+      <ng-container *ngIf="patientIntakeQuestion.patientIntakeQuestionAnswer; else noAnswer">
+        <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'boolean'; else nonBoolean">
+          {{ patientIntakeQuestion.patientIntakeQuestionAnswer === 'true' ? 'Yes' : 'No' }}
+        </ng-container>
+        <ng-template #nonBoolean>
+          {{ patientIntakeQuestion.patientIntakeQuestionAnswer }}
+        </ng-template>
+      </ng-container>
+      <ng-template #noAnswer>
+        &nbsp; N/A
+      </ng-template>
+    </ion-item>
+  </ng-container>
 </ion-list>

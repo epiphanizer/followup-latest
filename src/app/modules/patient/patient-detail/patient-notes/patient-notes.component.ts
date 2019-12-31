@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Patient } from '@app/modules/patient/patient';
+import { PatientIntakeQuestionService } from '../../patient-intake-question/patient-intake-question.service';
+import { PatientIntakeQuestion } from '../../patient-intake-question/patient-intake-question.component';
 
 @Component({
   selector: 'app-patient-notes',
@@ -8,7 +10,14 @@ import { Patient } from '@app/modules/patient/patient';
 })
 export class PatientNotesComponent implements OnInit {
   @Input() patient: Patient;
-  constructor() {}
+  patientIntakeQuestions: PatientIntakeQuestion[];
+  constructor(private patientIntakeQuestionService: PatientIntakeQuestionService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.patientIntakeQuestionService
+      .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
+      .subscribe((patientIntakeQuestions: PatientIntakeQuestion[]) => {
+        this.patientIntakeQuestions = patientIntakeQuestions;
+      });
+  }
 }

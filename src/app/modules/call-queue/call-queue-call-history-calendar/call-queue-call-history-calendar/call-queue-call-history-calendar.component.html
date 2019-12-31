@@ -9,6 +9,11 @@
     <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
   </div>
   <div class="calendar-wrapper">
+    <div class="day-legend">
+      <span class="day-header" *ngFor="let dayHeader of dayHeaders">
+        {{ dayHeader }}
+      </span>
+    </div>
     <div
       class="calendar-day"
       *ngFor="let day of selectedMonth.daysArray"
