@@ -6,6 +6,7 @@ export interface PatientIntakeQuestion {
   patientIntakeQuestion: string;
   patientQuestionType: string;
   patientIntakeQuestionOrder: number;
+  patientIntakeQuestionAnswer?: PatientIntakeQuestionAnswer;
 }
 
 export interface PatientIntakeQuestionAnswer {

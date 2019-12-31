@@ -34,7 +34,7 @@ export class PatientAvatarComponent implements OnInit {
           return data + String.fromCharCode(byte);
         }, '');
         let base64String = btoa(STRING_CHAR);
-        this.avatarUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64String);
+        this.avatarUrl = this.sanitizer.bypassSecurityTrustStyle(`url('data:image/jpg;base64, ' + base64String + ')`);
       }
     });
   }

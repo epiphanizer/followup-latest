@@ -1,7 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientIntakeQuestionService } from '../../patient-intake-question/patient-intake-question.service';
-import { PatientIntakeQuestion } from '../../patient-intake-question/patient-intake-question.component';
+import {
+  PatientIntakeQuestion,
+  PatientIntakeQuestionAnswer
+} from '../../patient-intake-question/patient-intake-question.component';
 
 @Component({
   selector: 'app-patient-notes',
@@ -18,6 +21,14 @@ export class PatientNotesComponent implements OnInit {
       .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
       .subscribe((patientIntakeQuestions: PatientIntakeQuestion[]) => {
         this.patientIntakeQuestions = patientIntakeQuestions;
+        this.patientIntakeQuestions.forEach((patientIntakeQuestions: PatientIntakeQuestion, index: number) => {
+          this.patientIntakeQuestionService
+            .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(patientIntakeQuestions.patientIntakeQuestionId)
+            .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
+              this.patientIntakeQuestions[index].patientIntakeQuestionAnswer =
+                patientIntakeQuestionAnswer[0].patientIntakeQuestionAnswer;
+            });
+        });
       });
   }
 }
