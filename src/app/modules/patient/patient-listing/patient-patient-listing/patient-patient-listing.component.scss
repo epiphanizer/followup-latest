@@ -70,12 +70,12 @@ ul.patient-filters {
 
     .patient-discharge-date {
       float: left;
-      height: 55px;
       vertical-align: middle;
       line-height: 90px;
       margin: 0 1rem;
       font-weight: bold;
       height: 100%;
+      width: 96px;
     }
 
     &.patient-filter {
@@ -151,7 +151,7 @@ ul.patient-filters {
       line-height: 90px;
       margin: 0 1rem;
       font-weight: bold;
-      width: 96px;
+      width: 45px;
       height: 100%;
     }
 
@@ -190,6 +190,12 @@ ul.patient-filters {
       &.active {
         color: #08c400;
       }
+    }
+    .patient-avatar-container {
+      width: 80px;
+      height: 100%;
+      float: left;
+      margin: 0 15px;
     }
     .patient-patient-status {
       line-height: 96px;
@@ -256,7 +262,7 @@ ul.patient-filters {
 
     .patient-patient-name {
       display: block;
-      height: 18px;
+      height: 100%;
       font-family: Avenir;
       font-size: 21px;
       font-weight: normal;

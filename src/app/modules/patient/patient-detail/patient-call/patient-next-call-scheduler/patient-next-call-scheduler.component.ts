@@ -8,6 +8,7 @@ import { formatDate } from '@angular/common';
 })
 export class PatientNextCallSchedulerComponent implements OnInit {
   @Output() patientNextCallDateSelectedEventEmitter = new EventEmitter<string>();
+  dayHeaders: Array<string> = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
   months: {
     number: string;
     name: string;
