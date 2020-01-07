@@ -17,10 +17,12 @@
     <div
       class="calendar-day"
       *ngFor="let day of selectedMonth.daysArray"
-      [class.active]="selectedDay == day"
+      [class.active]="selectedDay == day && selectedMonth == chosenMonth"
       (click)="selectDateEventHandler(day, currentCalendarMonth.number, selectedYear.year)"
     >
-      <span *ngIf="day > 0">{{ day }}</span>
+      <span *ngIf="day > 0">
+        {{ day }}
+      </span>
     </div>
   </div>
 

@@ -21,6 +21,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     number: string;
     name: string;
   };
+  chosenMonth: number;
   dayHeaders: Array<string> = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
   patientCallsFiltered: Array<any>;
   selectedDay: number;
@@ -39,7 +40,6 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
   todaysDate: Date;
   todaysMonth: string;
   todaysYear: number;
-
   patientCalls$: Observable<PatientCall[]>;
   constructor() {}
 
@@ -102,6 +102,8 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     this.selectedYear.year = this.todaysYear;
     this.selectedDay = this.todaysDateDay;
     this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
+    this.chosenMonth = parseInt(this.selectedMonth.number);
+    console.log(this.chosenMonth);
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.selectedMonth.number), this.selectedYear.year);
     this.createDaysArray();
     let formattedDay = this.selectedDay.toString();
@@ -195,6 +197,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     if (formattedDay.length == 1) {
       formattedDay = '0' + formattedDay;
     }
+    this.chosenMonth = currentCalendarMonth;
     this.selectedDate = currentCalendarMonth + '/' + formattedDay + '/' + todaysYear;
     this.selectedDay = day;
     this.dateFilterChangeEvent.emit(this.selectedDate);
