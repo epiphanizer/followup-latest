@@ -99,19 +99,61 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
       }
     ];
     // Subtract one because of the 0 index of the array
+    this.selectedYear.year = this.todaysYear;
     this.selectedDay = this.todaysDateDay;
     this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
-    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
-    this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
+    this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.selectedMonth.number), this.selectedYear.year);
+    this.createDaysArray();
     let formattedDay = this.selectedDay.toString();
     if (formattedDay.length == 1) {
       formattedDay = '0' + formattedDay;
     }
     this.selectedDate = this.selectedMonth.number + '/' + formattedDay + '/' + this.todaysYear;
     this.dateFilterChangeEvent.emit(this.selectedDate);
-    this.selectedYear.year = this.todaysYear;
   }
+  createDaysArray() {
+    let firstDayOfMonthIndex = this.getFirstDayOfMonthIndex(
+      this.selectedYear.year,
+      parseInt(this.selectedMonth.number)
+    );
 
+    this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
+    let offsetNumber = this.getFirstDayOffset(firstDayOfMonthIndex);
+    /**
+     * Add negative values to the start of the daysArray loop (unshift)
+     * We hide the actual value from the frontend in terms of <span>{{day}}</span>
+     * but we use use the values to provide the placeholder we need.
+     */
+    for (var j = offsetNumber; j < 0; j++) {
+      this.selectedMonth.daysArray.unshift(j);
+    }
+  }
+  /**
+   * A function to get which day Sun = 0 -> Sat = 6
+   * the first of the month & year falls in.
+   * We use this function to calculate an offset
+   * so that our calendar days fall on real values.
+   */
+  getFirstDayOfMonthIndex(year: number, month: number) {
+    /**
+     * always the first day of the month,
+     * subtract one from the month number to get the js
+     * proper month
+     */
+    var dt = new Date(year, month - 1, 1, 0, 0, 0, 0);
+    var dayOfWeekIndex = dt.getDay();
+    console.log(dayOfWeekIndex);
+    return dayOfWeekIndex;
+  }
+  /**
+   * A function to get the offset value of the first
+   * day of the month. We'll pipe these numbers ranged (-6 -> 0)
+   * into the daysArray and that will allow us to start the calendar
+   * on the appropriate day header
+   */
+  getFirstDayOffset(firstDayOfMonthIndex: number) {
+    return 0 - firstDayOfMonthIndex;
+  }
   daysInMonth(month: number, year: number) {
     return new Date(year, month, 0).getDate();
   }
@@ -129,12 +171,11 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
         this.selectedYear.year
       );
     }
-    this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
+    this.createDaysArray();
   }
   calendarNextMonth() {
     this.selectedMonth.number = (parseInt(this.selectedMonth.number) + 1).toString();
     this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
-
     if (this.selectedMonth.number !== '13') {
       this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
       this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
@@ -147,7 +188,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
         this.selectedYear.year
       );
     }
-    this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
+    this.createDaysArray();
   }
   selectDateEventHandler(day: number, currentCalendarMonth: number, todaysYear: number) {
     let formattedDay = day.toString();

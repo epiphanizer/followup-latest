@@ -20,7 +20,7 @@
       [class.active]="selectedDay == day"
       (click)="selectDateEventHandler(day, currentCalendarMonth.number, selectedYear.year)"
     >
-      <span>{{ day }}</span>
+      <span *ngIf="day > 0">{{ day }}</span>
     </div>
   </div>
 
