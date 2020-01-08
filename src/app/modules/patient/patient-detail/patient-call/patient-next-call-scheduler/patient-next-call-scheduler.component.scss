@@ -93,6 +93,7 @@ h3 {
   .day-legend {
     width: 100%;
     text-align: left;
+    background-color: white;
     .day-header {
       display: inline-block;
       background: white;
@@ -124,10 +125,11 @@ h3 {
       }
     }
     span {
-      &.hide {
-        color: white;
-      }
       &.disabled {
+        cursor: not-allowed;
+        color: #ff0000;
+      }
+      &.hide {
         color: transparent;
       }
       font-size: 14px;

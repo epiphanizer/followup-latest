@@ -14,7 +14,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     name: string;
   }[];
   todaysDateDay: number | string;
-  chosenMonth: string;
+  chosenMonth: number;
   chosenYear: number;
   currentCalendarMonth: {
     number: string;
@@ -102,10 +102,10 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     ];
 
     this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
-    this.chosenMonth = this.months[parseInt(this.todaysMonth) - 1].number;
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
     this.chosenYear = this.selectedYear.year = this.todaysYear;
+    console.log(this.chosenYear);
     this.createDaysArray();
   }
 
@@ -190,13 +190,34 @@ export class PatientNextCallSchedulerComponent implements OnInit {
         parseInt(this.currentCalendarMonth.number),
         this.selectedYear.year
       );
+      this.chosenYear = this.selectedYear.year;
     }
     this.createDaysArray();
   }
+  /**
+   * A function to make sure that the date selected is after todays date
+   */
+  compareDates(dateToCompare: Date) {
+    if (dateToCompare < this.todaysDate) {
+      return true;
+    }
+    return false;
+  }
   selectDateEventHandler(selectedDay: number, currentCalendarMonth: number, todaysYear: number) {
     let date = currentCalendarMonth + '/' + selectedDay + '/' + this.selectedYear.year;
+    let dateToCompare = new Date(date);
+    if (this.compareDates(dateToCompare)) {
+      alert('Please select a future date!');
+      return;
+    }
     this.selectedDay = selectedDay;
+    this.chosenMonth = currentCalendarMonth;
     this.chosenYear = this.selectedYear.year;
+    console.log(this.selectedMonth.number);
+    console.log(this.chosenMonth);
+    console.log(this.selectedDay);
+    console.log(this.chosenYear);
+    console.log(this.selectedYear.year);
     this.scheduledCallDate = date;
     this.status.scheduled = true;
     this.patientNextCallDateSelectedEventEmitter.emit(this.scheduledCallDate);
