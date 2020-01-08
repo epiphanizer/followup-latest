@@ -196,6 +196,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
   selectDateEventHandler(selectedDay: number, currentCalendarMonth: number, todaysYear: number) {
     let date = currentCalendarMonth + '/' + selectedDay + '/' + this.selectedYear.year;
     this.selectedDay = selectedDay;
+    this.chosenYear = this.selectedYear.year;
     this.scheduledCallDate = date;
     this.status.scheduled = true;
     this.patientNextCallDateSelectedEventEmitter.emit(this.scheduledCallDate);
