@@ -23,19 +23,17 @@ export class UserCorkBoardService {
     let formData = new FormData();
     formData.append('userCorkBoardBlob', file, file.name);
     return this.http.post('users/' + userId + '/corkBoardObjects', formData).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 1 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
   deleteUserCorkBoardObjectByUserCorkBoardObjectId(userCorkBoardObjectId: number) {
     return this.http.delete('users/userCorkBoardObjects/' + userCorkBoardObjectId).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
   getUserCorkBoardObjectsByUserId(userId: number) {
     return this.http.get('users/' + userId + '/corkBoardObjects').pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
