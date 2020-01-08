@@ -21,7 +21,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     number: string;
     name: string;
   };
-  chosenMonth: number;
+  chosenMonth: string;
   dayHeaders: Array<string> = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
   patientCallsFiltered: Array<any>;
   selectedDay: number;
@@ -102,8 +102,7 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
     this.selectedYear.year = this.todaysYear;
     this.selectedDay = this.todaysDateDay;
     this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
-    this.chosenMonth = parseInt(this.selectedMonth.number);
-    console.log(this.chosenMonth);
+    this.chosenMonth = this.months[parseInt(this.todaysMonth) - 1].number;
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.selectedMonth.number), this.selectedYear.year);
     this.createDaysArray();
     let formattedDay = this.selectedDay.toString();
@@ -144,7 +143,6 @@ export class CallQueueCallHistoryCalendarComponent implements OnInit {
      */
     var dt = new Date(year, month - 1, 1, 0, 0, 0, 0);
     var dayOfWeekIndex = dt.getDay();
-    console.log(dayOfWeekIndex);
     return dayOfWeekIndex;
   }
   /**

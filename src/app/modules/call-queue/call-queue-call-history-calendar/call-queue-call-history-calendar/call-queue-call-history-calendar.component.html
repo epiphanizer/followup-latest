@@ -17,7 +17,7 @@
     <div
       class="calendar-day"
       *ngFor="let day of selectedMonth.daysArray"
-      [class.active]="selectedDay == day && selectedMonth == chosenMonth"
+      [class.active]="selectedDay == day && selectedMonth.number == chosenMonth"
       (click)="selectDateEventHandler(day, currentCalendarMonth.number, selectedYear.year)"
     >
       <span [class.hide]="day < 0">
