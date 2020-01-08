@@ -25,8 +25,10 @@ export class PatientNotesComponent implements OnInit {
           this.patientIntakeQuestionService
             .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(patientIntakeQuestions.patientIntakeQuestionId)
             .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
-              this.patientIntakeQuestions[index].patientIntakeQuestionAnswer =
-                patientIntakeQuestionAnswer[0].patientIntakeQuestionAnswer;
+              if (patientIntakeQuestionAnswer !== null) {
+                this.patientIntakeQuestions[index].patientIntakeQuestionAnswer =
+                  patientIntakeQuestionAnswer[0].patientIntakeQuestionAnswer;
+              }
             });
         });
       });

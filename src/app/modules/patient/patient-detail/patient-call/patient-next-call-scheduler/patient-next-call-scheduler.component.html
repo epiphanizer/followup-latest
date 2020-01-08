@@ -30,7 +30,14 @@
       "
       (click)="selectDateEventHandler(day, currentCalendarMonth.number, selectedYear.year)"
     >
-      <span>{{ day }}</span>
+      <span
+        [class.hide]="day < 0"
+        [class.disabled]="
+          day <= todaysDateDay && selectedMonth == currentCalendarMonth && selectedYear.year == todaysYear
+        "
+      >
+        {{ day }}
+      </span>
     </div>
   </div>
 </div>
