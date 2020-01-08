@@ -92,6 +92,7 @@ h3 {
   width: 100%;
   .day-legend {
     width: 100%;
+    text-align: left;
     .day-header {
       display: inline-block;
       background: white;
@@ -127,7 +128,7 @@ h3 {
         color: white;
       }
       &.disabled {
-        color: RGBA(255, 0, 0, 0.12);
+        color: transparent;
       }
       font-size: 14px;
       line-height: 28px;
