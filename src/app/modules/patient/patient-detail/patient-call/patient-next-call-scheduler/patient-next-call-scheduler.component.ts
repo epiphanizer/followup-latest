@@ -14,6 +14,8 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     name: string;
   }[];
   todaysDateDay: number | string;
+  chosenMonth: string;
+  chosenYear: number;
   currentCalendarMonth: {
     number: string;
     name: string;
@@ -100,16 +102,57 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     ];
 
     this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
+    this.chosenMonth = this.months[parseInt(this.todaysMonth) - 1].number;
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
-    this.selectedYear.year = this.todaysYear;
+    this.chosenYear = this.selectedYear.year = this.todaysYear;
+    this.createDaysArray();
   }
 
-  ngOnInit() {
-    this.createForm();
-  }
+  ngOnInit() {}
 
-  createForm() {}
+  createDaysArray() {
+    let firstDayOfMonthIndex = this.getFirstDayOfMonthIndex(
+      this.selectedYear.year,
+      parseInt(this.selectedMonth.number)
+    );
+
+    this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
+    let offsetNumber = this.getFirstDayOffset(firstDayOfMonthIndex);
+    /**
+     * Add negative values to the start of the daysArray loop (unshift)
+     * We hide the actual value from the frontend in terms of <span>{{day}}</span>
+     * but we use use the values to provide the placeholder we need.
+     */
+    for (var j = offsetNumber; j < 0; j++) {
+      this.selectedMonth.daysArray.unshift(j);
+    }
+  }
+  /**
+   * A function to get which day Sun = 0 -> Sat = 6
+   * the first of the month & year falls in.
+   * We use this function to calculate an offset
+   * so that our calendar days fall on real values.
+   */
+  getFirstDayOfMonthIndex(year: number, month: number) {
+    /**
+     * always the first day of the month,
+     * subtract one from the month number to get the js
+     * proper month
+     */
+    var dt = new Date(year, month - 1, 1, 0, 0, 0, 0);
+    var dayOfWeekIndex = dt.getDay();
+    return dayOfWeekIndex;
+  }
+  /**
+   * A function to get the offset value of the first
+   * day of the month. We'll pipe these numbers ranged (-6 -> 0)
+   * into the daysArray and that will allow us to start the calendar
+   * on the appropriate day header
+   */
+  getFirstDayOffset(firstDayOfMonthIndex: number) {
+    return 0 - firstDayOfMonthIndex;
+  }
 
   daysInMonth(month: number, year: number) {
     return new Date(year, month, 0).getDate();
@@ -128,6 +171,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
         this.selectedYear.year
       );
     }
+    this.createDaysArray();
   }
   calendarNextMonth() {
     this.selectedMonth.number = (parseInt(this.selectedMonth.number) + 1).toString();
@@ -147,6 +191,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
         this.selectedYear.year
       );
     }
+    this.createDaysArray();
   }
   selectDateEventHandler(selectedDay: number, currentCalendarMonth: number, todaysYear: number) {
     let date = currentCalendarMonth + '/' + selectedDay + '/' + this.selectedYear.year;
