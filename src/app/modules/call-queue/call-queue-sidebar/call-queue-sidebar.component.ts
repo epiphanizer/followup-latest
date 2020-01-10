@@ -83,7 +83,9 @@ export class CallQueueSidebarComponent {
         this.patientService
           .getActivePatientListByOperationId(operation.operationId)
           .subscribe((patients: Patient[]) => {
-            this.operations[idx].currentNewDischargeCount = this.getCurrentNewDischargeCount(patients);
+            if (patients !== null) {
+              this.operations[idx].currentNewDischargeCount = this.getCurrentNewDischargeCount(patients);
+            }
           });
       });
       this.route.paramMap.subscribe((data: any) => {
