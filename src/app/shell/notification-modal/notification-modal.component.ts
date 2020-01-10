@@ -118,10 +118,13 @@ export class NotificationModalComponent {
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
+        let notificationId = data.notificationId;
         /**
          * If successful, actually email out the notification
          */
-        this.notificationService.sendNotificationByNotificationId(this.notification.notificationId);
+        this.notificationService.sendNotificationByNotificationId(notificationId).subscribe(() => {
+          console.log('Sent notification');
+        });
         this.dismiss();
       });
   }
