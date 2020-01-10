@@ -121,7 +121,7 @@ export class NotificationModalComponent {
         /**
          * If successful, actually email out the notification
          */
-        // this.notificationService.sendNotificationByNotificationId();
+        this.notificationService.sendNotificationByNotificationId(this.notification.notificationId);
         this.dismiss();
       });
   }

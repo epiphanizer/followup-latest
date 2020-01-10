@@ -58,8 +58,8 @@ export class NotificationService {
   }
   sendNotificationByNotificationId(notificationId: number): Observable<any> {
     return this.http
-      .post<Notification>('notifications/' + notificationId, {
-        notificationStatusLabelId: 1
+      .post<Notification>('notifications/send', {
+        notificationId: notificationId
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times
