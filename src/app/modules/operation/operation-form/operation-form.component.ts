@@ -41,8 +41,6 @@ export class OperationFormComponent implements OnInit {
   editMode: boolean;
   notificationsLoaded: boolean = false;
   notificationTypes: NotificationType[];
-  notificationTypesListLeft: NotificationType[] = [];
-  notificationTypesListRight: NotificationType[] = [];
   operationForm!: FormGroup;
   operation$: Observable<Operation>;
   operationCallReps: OperationCallRep[] = [];
@@ -74,18 +72,8 @@ export class OperationFormComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.notificationService.getNotificationTypes().subscribe((data: any) => {
-      this.notificationTypes = data;
-      var i;
-      for (i = 0; i <= this.notificationTypes.length; i = i + 2) {
-        if (this.notificationTypes[i] !== undefined) {
-          this.notificationTypesListLeft.push(this.notificationTypes[i]);
-        }
-        if (this.notificationTypes[i + 1] !== undefined) {
-          this.notificationTypesListRight.push(this.notificationTypes[i + 1]);
-        }
-      }
-      +this.notificationTypesListRight.length;
+    this.notificationService.getNotificationTypes().subscribe((notificationTypes: NotificationType[]) => {
+      this.notificationTypes = notificationTypes;
     });
 
     if (this.route.snapshot.data.editMode) {
@@ -176,63 +164,16 @@ export class OperationFormComponent implements OnInit {
                       notificationTypes.forEach((notificationType: NotificationType) => {
                         notificationTypesArray.push(notificationType.notificationTypeId);
                       });
-                      var notificationArrayLeft = this.fb.array([]);
-                      var notificationArrayRight = this.fb.array([]);
-                      var i;
-                      for (i = 0; i < this.notificationTypesListLeft.length; i++) {
-                        let newFormGroup = this.fb.group({});
-                        let notificationTypeId = this.notificationTypesListLeft[i].notificationTypeId.toString();
-                        if (
-                          notificationTypesArray.indexOf(this.notificationTypesListLeft[i].notificationTypeId) != -1
-                        ) {
-                          var newControl = new FormControl(true);
-                        } else {
-                          var newControl = new FormControl(false);
-                        }
-                        newFormGroup.addControl(notificationTypeId, newControl);
-                        notificationArrayLeft.push(newFormGroup);
-                      }
-                      for (i = 0; i < this.notificationTypesListRight.length; i++) {
-                        let newFormGroup = this.fb.group({});
-                        let notificationTypeId = this.notificationTypesListRight[i].notificationTypeId.toString();
-                        if (
-                          notificationTypesArray.indexOf(this.notificationTypesListRight[i].notificationTypeId) != -1
-                        ) {
-                          var newControl = new FormControl(true);
-                        } else {
-                          var newControl = new FormControl(false);
-                        }
-                        newFormGroup.addControl(notificationTypeId, newControl);
-                        notificationArrayRight.push(newFormGroup);
-                      }
-                      contactFormGroup.addControl('operationContactNotificationsLeft', notificationArrayLeft);
-                      contactFormGroup.addControl('operationContactNotificationsRight', notificationArrayRight);
 
-                      formArray.push(contactFormGroup);
                       this.notificationsLoaded = true;
                     } else {
                       // Handle notification recipient formgroups.
-                      var notificationArrayLeft = this.fb.array([]);
-                      var notificationArrayRight = this.fb.array([]);
-                      var i;
-                      for (i = 0; i < this.notificationTypesListLeft.length; i++) {
-                        let newFormGroup = this.fb.group({});
-                        let newControl = new FormControl(false);
-                        let notificationTypeId = this.notificationTypesListLeft[i].notificationTypeId.toString();
-                        newFormGroup.addControl(notificationTypeId, newControl);
-                        notificationArrayLeft.push(newFormGroup);
-                      }
-                      for (i = 0; i < this.notificationTypesListRight.length; i++) {
-                        let newFormGroup = this.fb.group({});
-                        let newControl = new FormControl(false);
-                        let notificationTypeId = this.notificationTypesListRight[i].notificationTypeId.toString();
-                        newFormGroup.addControl(notificationTypeId, newControl);
-                        notificationArrayRight.push(newFormGroup);
-                      }
 
-                      contactFormGroup.addControl('operationContactNotificationsLeft', notificationArrayLeft);
-                      contactFormGroup.addControl('operationContactNotificationsRight', notificationArrayRight);
-                      console.log(contactFormGroup);
+                      // let newFormGroup = this.fb.group({});
+                      // let newControl = new FormControl(false);
+                      // let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
+                      // newFormGroup.addControl(notificationTypeId, newControl);
+                      // this.notificationsLoaded = true;
                       this.notificationsLoaded = true;
                     }
                   })
@@ -350,29 +291,7 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
     formArray.push(contactFormGroup);
-    // Handle notification recipient formgroups.
-    var notificationArrayLeft = this.fb.array([]);
-    var notificationArrayRight = this.fb.array([]);
-    var i;
-    for (i = 0; i < this.notificationTypesListLeft.length; i++) {
-      let newFormGroup = this.fb.group({});
-      let newControl = new FormControl(false);
-      let notificationTypeId = this.notificationTypesListLeft[i].notificationTypeId.toString();
-      newFormGroup.addControl(notificationTypeId, newControl);
-      notificationArrayLeft.push(newFormGroup);
-    }
-    for (i = 0; i < this.notificationTypesListRight.length; i++) {
-      let newFormGroup = this.fb.group({});
-      let newControl = new FormControl(false);
-      let notificationTypeId = this.notificationTypesListRight[i].notificationTypeId.toString();
-      newFormGroup.addControl(notificationTypeId, newControl);
-      notificationArrayRight.push(newFormGroup);
-    }
 
-    contactFormGroup.addControl('operationContactNotificationsLeft', notificationArrayLeft);
-    contactFormGroup.addControl('operationContactNotificationsRight', notificationArrayRight);
-
-    this.notificationsLoaded = true;
     if (this.operationContacts.length == formArray.length) {
       return;
     }
