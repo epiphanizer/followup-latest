@@ -84,9 +84,6 @@ export class OperationFormComponent implements OnInit {
       this.operation = this.route.snapshot.data.operation;
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
       this.createForm();
-      this.updateOperationContacts();
-      this.updateOperationManagers();
-      this.updateOperationCallReps();
       this.armForm();
     } else {
       this.operationService.addNewOperation().subscribe((data: Operation) => {
@@ -108,26 +105,23 @@ export class OperationFormComponent implements OnInit {
           }
         ];
         this.createForm();
-        this.updateOperationContacts();
-        this.updateOperationManagers();
-        this.updateOperationCallReps();
         this.armForm();
       });
     }
     /**
      * Quickly shift operations if url param changes
      */
-    // this.route.paramMap.subscribe(params => {
-    //   if (params.get('operationId')) {
-    //     let operationId = parseInt(params.get('operationId'));
-    //     this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
-    //       this.updateOperation(operation);
-    //       this.updateOperationContacts();
-    //       this.updateOperationManagers();
-    //       this.updateOperationCallReps();
-    //     });
-    //   }
-    // });
+    this.route.paramMap.subscribe(params => {
+      if (params.get('operationId')) {
+        let operationId = parseInt(params.get('operationId'));
+        this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
+          this.updateOperation(operation);
+          this.updateOperationContacts();
+          this.updateOperationManagers();
+          this.updateOperationCallReps();
+        });
+      }
+    });
   }
   updateOperationContacts() {
     this.operationContacts = [];
@@ -206,10 +200,13 @@ export class OperationFormComponent implements OnInit {
                   })
                 )
                 .subscribe(() => {
+                  /**
+                   * If length of formArray matches the list of our ops. contacts,
+                   * then we set the notificationsLoaded flag to true and load up
+                   * the DOM with our ops. contact form
+                   */
                   if (formArray.controls.length == this.operationContacts.length) {
-                    console.log(formArray);
                     this.notificationsLoaded = true;
-                    debugger;
                   }
                 });
               this.operationContactsOriginal.push(operationContact.operationContactId);
