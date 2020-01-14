@@ -148,12 +148,13 @@ export class OperationFormComponent implements OnInit {
               contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
               contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
               contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
+              formArray.push(contactFormGroup);
               var notificationTypesArray = new Array();
               this.notificationRecipientService
                 .getNotificationRecipientByOperationContactId(operationContact.operationContactId)
                 .pipe(
                   take(1),
-                  map((notificationTypes: NotificationType[], index: number) => {
+                  map((notificationTypes: NotificationType[]) => {
                     let notificationsFormControlArray = this.fb.array([]);
                     if (notificationTypes !== null) {
                       // Get the notification types assigned to ops. contact
@@ -183,7 +184,7 @@ export class OperationFormComponent implements OnInit {
                       }
                     }
                     contactFormGroup.addControl('operationContactNotifications', notificationsFormControlArray);
-                    formArray.push(contactFormGroup);
+
                     var formGroup = formArray.controls[idx] as FormGroup;
                     formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
                       formGroup.controls.operationContactMiddleName.setValue(
@@ -203,16 +204,16 @@ export class OperationFormComponent implements OnInit {
                   })
                 )
                 .subscribe(() => {
+                  this.operationContactsOriginal.push(operationContact.operationContactId);
                   /**
-                   * If length of formArray matches the list of our ops. contacts,
-                   * then we set the notificationsLoaded flag to true and load up
-                   * the DOM with our ops. contact form
+                   * Since subscriptions finish in reverse order
+                   * we count down the index to zero and then
+                   * set our flag
                    */
-                  if (formArray.controls.length == this.operationContacts.length) {
+                  if (this.operationContactsOriginal.length == formArray.controls.length) {
                     this.notificationsLoaded = true;
                   }
                 });
-              this.operationContactsOriginal.push(operationContact.operationContactId);
             });
             return operationContacts;
           } else {
