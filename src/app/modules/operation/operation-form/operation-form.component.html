@@ -119,17 +119,17 @@
                     Notifications
                   </span>
                 </div>
-                <ion-item class="notification-container" *ngIf="notificationsLoaded">
-                  <ion-row>
-                    <ion-item
-                      *ngFor="let notificationType of notificationTypes; let idx = index"
-                      formGroupName="{{ idx }}"
-                    >
-                      <ion-checkbox formControlName="{{ notificationType.notificationTypeId }}"></ion-checkbox>
-                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
-                    </ion-item>
-                  </ion-row>
-                </ion-item>
+                <ion-list class="notification-container" *ngIf="notificationsLoaded">
+                  <ion-item
+                    class="notification-type-option"
+                    *ngFor="let notificationType of notificationTypes; let idx = index"
+                    formArrayName="operationContactNotifications"
+                  >
+                    <!-- <ion-checkbox 
+                    formControlName="{{ notificationType.notificationTypeId }}"></ion-checkbox> -->
+                    <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
+                  </ion-item>
+                </ion-list>
               </ion-list>
 
               <!-- only show removal option if it's past the first index -->

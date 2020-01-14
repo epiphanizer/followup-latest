@@ -159,29 +159,45 @@ export class OperationFormComponent implements OnInit {
                 .pipe(
                   take(1),
                   map((notificationTypes: NotificationType[]) => {
+                    var notificationsFormControlArray = this.fb.array([]);
                     if (notificationTypes !== null) {
                       // Get the notification types assigned to ops. contact
                       notificationTypes.forEach((notificationType: NotificationType) => {
                         notificationTypesArray.push(notificationType.notificationTypeId);
                       });
-
-                      this.notificationsLoaded = true;
+                      let i;
+                      for (i = 0; i < this.notificationTypes.length; i++) {
+                        let newFormGroup = this.fb.group({});
+                        let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
+                        if (notificationTypesArray.indexOf(this.notificationTypes[i].notificationTypeId) != -1) {
+                          var newControl = new FormControl(true);
+                        } else {
+                          var newControl = new FormControl(false);
+                        }
+                        newFormGroup.addControl(notificationTypeId, newControl);
+                        notificationsFormControlArray.push(newFormGroup);
+                      }
                     } else {
-                      // Handle notification recipient formgroups.
-
-                      // let newFormGroup = this.fb.group({});
-                      // let newControl = new FormControl(false);
-                      // let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
-                      // newFormGroup.addControl(notificationTypeId, newControl);
-                      // this.notificationsLoaded = true;
-                      this.notificationsLoaded = true;
+                      let i;
+                      for (i = 0; i < this.notificationTypes.length; i++) {
+                        let newFormGroup = this.fb.group({});
+                        let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
+                        var newControl = new FormControl(false);
+                        newFormGroup.addControl(notificationTypeId, newControl);
+                        notificationsFormControlArray.push(newFormGroup);
+                      }
                     }
+                    contactFormGroup.addControl('operationContactNotifications', notificationsFormControlArray);
+                    console.log(contactFormGroup);
+                    debugger;
+                    this.notificationsLoaded = true;
                   })
                 )
                 .subscribe();
 
               formArray.push(contactFormGroup);
               var formGroup = formArray.controls[index] as FormGroup;
+              console.log(formArray.controls[index]);
               formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
                 formGroup.controls.operationContactMiddleName.setValue(operationContact.operationContactMiddleName),
                 formGroup.controls.operationContactLastName.setValue(operationContact.operationContactLastName),
@@ -489,15 +505,12 @@ export class OperationFormComponent implements OnInit {
             var operationContactId = data.operationContactId;
             console.log(data);
             console.log(formContact);
-            var notificationsToAdd = new Array();
-            formContact.operationContactNotificationsLeft
-              .concat(formContact.operationContactNotificationsRight)
-              .forEach((notificationType: any | boolean, index: number) => {
-                console.log(notificationType);
-                debugger;
-              });
+            formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {
+              console.log(notificationType);
+              debugger;
+            });
 
-            notificationsToAdd.forEach((notificationTypeId: number) => {
+            formContact.operationContactNotifications.forEach((notificationTypeId: number) => {
               var notificationReceipientPostBody = {
                 notificationOperationContactId: operationContactId,
                 notificationOperationId: this.operation.operationId,
@@ -540,16 +553,14 @@ export class OperationFormComponent implements OnInit {
           var operationContactId = operationContact.operationContactId;
           console.log(formContact);
           var notificationsToAdd = new Array();
-          formContact.operationContactNotificationsLeft
-            .concat(formContact.operationContactNotificationsRight)
-            .forEach((notificationType: any | boolean, index: number) => {
-              // Add to our notification add array if the value of the notificationTypeId (key) is true
-              console.log(notificationType);
+          formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {
+            // Add to our notification add array if the value of the notificationTypeId (key) is true
+            console.log(notificationType);
 
-              if (notificationType[Object.keys(notificationType)[0]] == true) {
-                notificationsToAdd.push(parseInt(Object.keys(notificationType)[0]));
-              }
-            });
+            if (notificationType[Object.keys(notificationType)[0]] == true) {
+              notificationsToAdd.push(parseInt(Object.keys(notificationType)[0]));
+            }
+          });
           notificationsToAdd.forEach((notificationTypeId: number) => {
             var notificationReceipientPostBody = {
               notificationOperationContactId: operationContactId,
