@@ -117,17 +117,17 @@ export class OperationFormComponent implements OnInit {
     /**
      * Quickly shift operations if url param changes
      */
-    this.route.paramMap.subscribe(params => {
-      if (params.get('operationId')) {
-        let operationId = parseInt(params.get('operationId'));
-        this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
-          this.updateOperation(operation);
-          this.updateOperationContacts();
-          this.updateOperationManagers();
-          this.updateOperationCallReps();
-        });
-      }
-    });
+    // this.route.paramMap.subscribe(params => {
+    //   if (params.get('operationId')) {
+    //     let operationId = parseInt(params.get('operationId'));
+    //     this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
+    //       this.updateOperation(operation);
+    //       this.updateOperationContacts();
+    //       this.updateOperationManagers();
+    //       this.updateOperationCallReps();
+    //     });
+    //   }
+    // });
   }
   updateOperationContacts() {
     this.operationContacts = [];
@@ -140,9 +140,9 @@ export class OperationFormComponent implements OnInit {
         take(1),
         map((operationContacts: OperationContact[]) => {
           if (operationContacts !== null) {
+            // let formArray = this.operationForm.controls.operationContacts as FormArray;
             this.operationContacts = operationContacts;
             this.operationContacts.forEach((operationContact: OperationContact, index: number) => {
-              let formArray = this.operationForm.controls.operationContacts as FormArray;
               let contactFormGroup = this.fb.group({});
               contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
               contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
@@ -152,14 +152,13 @@ export class OperationFormComponent implements OnInit {
               contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
               contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
               contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
-
               var notificationTypesArray = new Array();
               this.notificationRecipientService
                 .getNotificationRecipientByOperationContactId(operationContact.operationContactId)
                 .pipe(
                   take(1),
-                  map((notificationTypes: NotificationType[]) => {
-                    var notificationsFormControlArray = this.fb.array([]);
+                  map((notificationTypes: NotificationType[], index: number) => {
+                    let notificationsFormControlArray = this.fb.array([]);
                     if (notificationTypes !== null) {
                       // Get the notification types assigned to ops. contact
                       notificationTypes.forEach((notificationType: NotificationType) => {
@@ -188,25 +187,31 @@ export class OperationFormComponent implements OnInit {
                       }
                     }
                     contactFormGroup.addControl('operationContactNotifications', notificationsFormControlArray);
-                    console.log(contactFormGroup);
-                    debugger;
-                    this.notificationsLoaded = true;
+                    formArray.push(contactFormGroup);
+                    var formGroup = formArray.controls[index] as FormGroup;
+                    formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
+                      formGroup.controls.operationContactMiddleName.setValue(
+                        operationContact.operationContactMiddleName
+                      ),
+                      formGroup.controls.operationContactLastName.setValue(operationContact.operationContactLastName),
+                      formGroup.controls.operationContactTitle.setValue(operationContact.operationContactTitle),
+                      formGroup.controls.operationContactEmail.setValue(operationContact.operationContactEmail),
+                      formGroup.controls.operationContactCountryCode.setValue(
+                        operationContact.operationContactCountryCode
+                      ),
+                      formGroup.controls.operationContactAreaCode.setValue(operationContact.operationContactAreaCode),
+                      formGroup.controls.operationContactPhoneNumber.setValue(
+                        operationContact.operationContactPhoneNumber
+                      );
                   })
                 )
-                .subscribe();
-
-              formArray.push(contactFormGroup);
-              var formGroup = formArray.controls[index] as FormGroup;
-              console.log(formArray.controls[index]);
-              formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
-                formGroup.controls.operationContactMiddleName.setValue(operationContact.operationContactMiddleName),
-                formGroup.controls.operationContactLastName.setValue(operationContact.operationContactLastName),
-                formGroup.controls.operationContactTitle.setValue(operationContact.operationContactTitle),
-                formGroup.controls.operationContactEmail.setValue(operationContact.operationContactEmail),
-                formGroup.controls.operationContactCountryCode.setValue(operationContact.operationContactCountryCode),
-                formGroup.controls.operationContactAreaCode.setValue(operationContact.operationContactAreaCode),
-                formGroup.controls.operationContactPhoneNumber.setValue(operationContact.operationContactPhoneNumber);
-
+                .subscribe(() => {
+                  if (formArray.controls.length == this.operationContacts.length) {
+                    console.log(formArray);
+                    this.notificationsLoaded = true;
+                    debugger;
+                  }
+                });
               this.operationContactsOriginal.push(operationContact.operationContactId);
             });
             return operationContacts;
@@ -215,7 +220,7 @@ export class OperationFormComponent implements OnInit {
           }
         })
       )
-      .subscribe();
+      .subscribe(() => {});
   }
   updateOperationCallReps() {
     this.operationCallReps = [];

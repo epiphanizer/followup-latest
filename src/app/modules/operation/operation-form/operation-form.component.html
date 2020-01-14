@@ -55,7 +55,7 @@
         </ion-list>
       </ion-list>
 
-      <fieldset class="operation-contacts" *ngIf="operationContacts">
+      <fieldset class="operation-contacts" *ngIf="operationContacts && notificationsLoaded">
         <ng-container>
           <ion-list class="operation-contacts-list" formArrayName="operationContacts" lines="none" inset>
             <ion-item *ngFor="let operationContact of operationContacts; let idx = index">
@@ -119,14 +119,13 @@
                     Notifications
                   </span>
                 </div>
-                <ion-list class="notification-container" *ngIf="notificationsLoaded">
+                <ion-list class="notification-container" formArrayName="operationContactNotifications">
                   <ion-item
                     class="notification-type-option"
                     *ngFor="let notificationType of notificationTypes; let idx = index"
-                    formArrayName="operationContactNotifications"
+                    formGroupName="{{ idx }}"
                   >
-                    <!-- <ion-checkbox 
-                    formControlName="{{ notificationType.notificationTypeId }}"></ion-checkbox> -->
+                    <ion-checkbox formControlName="{{ notificationType.notificationTypeId }}"></ion-checkbox>
                     <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
                   </ion-item>
                 </ion-list>
