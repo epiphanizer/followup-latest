@@ -133,10 +133,12 @@ export class OperationFormComponent implements OnInit {
       .pipe(
         take(1),
         map((operationContacts: OperationContact[]) => {
+          // console.log(operationContacts);
           if (operationContacts !== null) {
             // let formArray = this.operationForm.controls.operationContacts as FormArray;
             this.operationContacts = operationContacts;
-            this.operationContacts.forEach((operationContact: OperationContact, index: number) => {
+            this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
+              console.log(operationContact);
               let contactFormGroup = this.fb.group({});
               contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
               contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
@@ -182,7 +184,7 @@ export class OperationFormComponent implements OnInit {
                     }
                     contactFormGroup.addControl('operationContactNotifications', notificationsFormControlArray);
                     formArray.push(contactFormGroup);
-                    var formGroup = formArray.controls[index] as FormGroup;
+                    var formGroup = formArray.controls[idx] as FormGroup;
                     formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
                       formGroup.controls.operationContactMiddleName.setValue(
                         operationContact.operationContactMiddleName
@@ -197,6 +199,7 @@ export class OperationFormComponent implements OnInit {
                       formGroup.controls.operationContactPhoneNumber.setValue(
                         operationContact.operationContactPhoneNumber
                       );
+                    console.log(formGroup);
                   })
                 )
                 .subscribe(() => {
