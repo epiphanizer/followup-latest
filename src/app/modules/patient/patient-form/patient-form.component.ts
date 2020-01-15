@@ -137,15 +137,17 @@ export class PatientFormComponent implements OnInit {
           this.patient.patientMedicalConditions.otherBoolean = medicalConditions.otherBoolean;
         }
         // See if we have an avatar to load in
+        let self = this;
         this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
           if (data !== null) {
-            var uploadUrl = data[0].userAvatarUploadPath;
-            if (!uploadUrl) {
-              this.avatarExists = false;
-            } else {
-              this.avatarUrl = uploadUrl;
-              this.avatarExists = true;
-            }
+            var reader = new FileReader();
+            reader.readAsDataURL(data);
+            reader.onloadend = function() {
+              var base64data = reader.result;
+              console.log(base64data);
+              self.avatarUrl = <string>base64data;
+              self.avatarExists = true;
+            };
           }
         });
         this.createForm();
@@ -270,15 +272,17 @@ export class PatientFormComponent implements OnInit {
       .uploadPatientAvatarByPatientId(this.patient.patientId, this.fileToUpload)
       .subscribe((data: any) => {
         alert('Successfully uploaded patient avatar!');
+        let self = this;
         this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
           if (data !== null) {
-            var uploadUrl = data[0].patientAvatarUploadPath;
-            if (!uploadUrl) {
-              this.avatarExists = false;
-            } else {
-              this.avatarUrl = uploadUrl;
-              this.avatarExists = true;
-            }
+            var reader = new FileReader();
+            reader.readAsDataURL(data);
+            reader.onloadend = function() {
+              var base64data = reader.result;
+              console.log(base64data);
+              self.avatarUrl = <string>base64data;
+              self.avatarExists = true;
+            };
           }
         });
       });

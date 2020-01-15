@@ -10,7 +10,7 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 export class PatientAvatarService {
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
   getPatientAvatarByPatientId(patientId: number): Observable<any> {
-    return this.http.get<any>('patients/' + patientId + '/avatar').pipe(
+    return this.http.get<any>('patients/' + patientId + '/avatar', { responseType: 'blob' as 'json' }).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

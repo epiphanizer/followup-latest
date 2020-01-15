@@ -22,7 +22,6 @@ export class UserAvatarComponent implements OnInit {
 
   ngOnInit() {
     this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((data: any) => {
-      console.log(data);
       if (data !== null) {
         var uploadUrl = data[0].userAvatarUploadPath;
         if (!uploadUrl) {
