@@ -13,7 +13,7 @@ export class UserAvatarService {
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
   getUserAvatarByUserId(userId: number): Observable<any> {
-    return this.http.get<any>('users/' + userId + '/avatar').pipe(
+    return this.http.get<any>('users/' + userId + '/avatar', { responseType: 'text' as 'json' }).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
@@ -26,18 +26,9 @@ export class UserAvatarService {
     );
   }
 
-  prepareAvatarImage(baseImage: any): SafeUrl {
-    // @see https://medium.com/@koteswar.meesala/convert-array-buffer-to-base64-string-to-display-images-in-angular-7-4c443db242cd
-    let TYPED_ARRAY = new Uint8Array(baseImage[0].userAvatarBlob.data);
-    const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
-      return data + String.fromCharCode(byte);
-    }, '');
-    let base64String = btoa(STRING_CHAR);
-    let avatarUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64String);
-    return avatarUrl;
-  }
-
   private handleAsyncError(error: HttpErrorResponse) {
+    console.log(error);
+    debugger;
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);

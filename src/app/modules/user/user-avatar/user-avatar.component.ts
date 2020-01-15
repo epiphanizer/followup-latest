@@ -21,13 +21,15 @@ export class UserAvatarComponent implements OnInit {
   constructor(private userAvatarService: UserAvatarService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((baseImage: any) => {
-      if (baseImage !== null) {
-        if (!baseImage[0]) {
+    this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((data: any) => {
+      console.log(data);
+      if (data !== null) {
+        var uploadUrl = data[0].userAvatarUploadPath;
+        if (!uploadUrl) {
           this.avatarExists = false;
         } else {
+          this.avatarUrl = uploadUrl;
           this.avatarExists = true;
-          this.avatarUrl = this.userAvatarService.prepareAvatarImage(baseImage);
         }
       }
     });
@@ -42,13 +44,14 @@ export class UserAvatarComponent implements OnInit {
     this.userAvatarService.uploadUserAvatarByUserId(this.user.userId, this.fileToUpload).subscribe((data: any) => {
       alert('Successfully uploaded user avatar!');
       this.userAvatarEventEmitter.emit(true);
-      this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((baseImage: any) => {
-        if (baseImage !== null) {
-          if (!baseImage[0]) {
+      this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((data: any) => {
+        if (data !== null) {
+          var uploadUrl = data[0].userAvatarUploadPath;
+          if (!uploadUrl) {
             this.avatarExists = false;
           } else {
+            this.avatarUrl = uploadUrl;
             this.avatarExists = true;
-            this.avatarUrl = this.userAvatarService.prepareAvatarImage(baseImage);
           }
         }
       });

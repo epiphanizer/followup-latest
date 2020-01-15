@@ -9,7 +9,7 @@ import { Patient } from '../patient';
   styleUrls: ['./patient-avatar.component.scss']
 })
 export class PatientAvatarComponent implements OnInit {
-  avatarUrl: SafeUrl;
+  avatarUrl: string;
   @Input() patient: Patient;
   /**
    * This guy is plaintext encoded base64
@@ -18,23 +18,13 @@ export class PatientAvatarComponent implements OnInit {
   constructor(private patientAvatarService: PatientAvatarService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
-      if (!baseImage) {
+    this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
+      var uploadUrl = data[0].patientAvatarUploadPath;
+      if (!uploadUrl) {
         this.avatarExists = false;
       } else {
-        if (!baseImage.length) {
-          this.avatarExists = false;
-          return;
-        }
+        this.avatarUrl = uploadUrl;
         this.avatarExists = true;
-        // @see https://medium.com/@koteswar.meesala/convert-array-buffer-to-base64-string-to-display-images-in-angular-7-4c443db242cd
-
-        let TYPED_ARRAY = new Uint8Array(baseImage[0].patientAvatarBlob.data);
-        const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
-          return data + String.fromCharCode(byte);
-        }, '');
-        let base64String = btoa(STRING_CHAR);
-        this.avatarUrl = this.sanitizer.bypassSecurityTrustStyle(`url('data:image/jpg;base64, ' + base64String + ')`);
       }
     });
   }

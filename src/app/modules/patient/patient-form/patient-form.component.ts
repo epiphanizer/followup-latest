@@ -137,13 +137,14 @@ export class PatientFormComponent implements OnInit {
           this.patient.patientMedicalConditions.otherBoolean = medicalConditions.otherBoolean;
         }
         // See if we have an avatar to load in
-        this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
-          if (baseImage !== null) {
-            if (!baseImage[0]) {
+        this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
+          if (data !== null) {
+            var uploadUrl = data[0].userAvatarUploadPath;
+            if (!uploadUrl) {
               this.avatarExists = false;
             } else {
+              this.avatarUrl = uploadUrl;
               this.avatarExists = true;
-              this.avatarUrl = this.patientAvatarService.prepareAvatarImage(baseImage);
             }
           }
         });
@@ -269,13 +270,14 @@ export class PatientFormComponent implements OnInit {
       .uploadPatientAvatarByPatientId(this.patient.patientId, this.fileToUpload)
       .subscribe((data: any) => {
         alert('Successfully uploaded patient avatar!');
-        this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((baseImage: any) => {
-          if (baseImage !== null) {
-            if (!baseImage[0]) {
+        this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
+          if (data !== null) {
+            var uploadUrl = data[0].patientAvatarUploadPath;
+            if (!uploadUrl) {
               this.avatarExists = false;
             } else {
+              this.avatarUrl = uploadUrl;
               this.avatarExists = true;
-              this.avatarUrl = this.patientAvatarService.prepareAvatarImage(baseImage);
             }
           }
         });

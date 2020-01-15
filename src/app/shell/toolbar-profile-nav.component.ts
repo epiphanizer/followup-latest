@@ -22,29 +22,18 @@ export class ToolbarProfileNavComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((baseImage: any) => {
-      if (baseImage !== null) {
-        if (!baseImage[0]) {
+    this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((data: any) => {
+      console.log(data);
+      if (data !== null) {
+        var uploadUrl = data[0].userAvatarUploadPath;
+        if (!uploadUrl) {
           this.avatarExists = false;
         } else {
+          this.avatarUrl = uploadUrl;
           this.avatarExists = true;
         }
-        this.avatarUrl = this.userAvatarService.prepareAvatarImage(baseImage);
       }
     });
-    // this.route.paramMap.subscribe(() => {
-    //   debugger;
-    //   if (this.route.snapshot.data.user.avatar == true) {
-    //     this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((baseImage: any) => {
-    //       if (!baseImage) {
-    //         this.avatarExists = false;
-    //       } else {
-    //         this.avatarExists = true;
-    //       }
-    //       this.avatarUrl = this.userAvatarService.prepareAvatarImage(baseImage);
-    //     })
-    //   }
-    // });
   }
 
   signOut() {

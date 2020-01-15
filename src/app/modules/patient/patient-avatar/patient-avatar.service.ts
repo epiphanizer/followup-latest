@@ -24,17 +24,6 @@ export class PatientAvatarService {
     );
   }
 
-  prepareAvatarImage(baseImage: any): SafeUrl {
-    // @see https://medium.com/@koteswar.meesala/convert-array-buffer-to-base64-string-to-display-images-in-angular-7-4c443db242cd
-    let TYPED_ARRAY = new Uint8Array(baseImage[0].patientAvatarBlob.data);
-    const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
-      return data + String.fromCharCode(byte);
-    }, '');
-    let base64String = btoa(STRING_CHAR);
-    let avatarUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64String);
-    return avatarUrl;
-  }
-
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
