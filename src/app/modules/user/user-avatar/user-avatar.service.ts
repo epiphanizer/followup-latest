@@ -13,7 +13,7 @@ export class UserAvatarService {
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
   getUserAvatarByUserId(userId: number): Observable<any> {
-    return this.http.get<any>('users/' + userId + '/avatar', { responseType: 'text' as 'json' }).pipe(
+    return this.http.get<any>('users/' + userId + '/avatar', { responseType: 'blob' as 'json' }).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

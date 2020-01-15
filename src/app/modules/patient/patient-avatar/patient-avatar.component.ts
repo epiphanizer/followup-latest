@@ -18,13 +18,17 @@ export class PatientAvatarComponent implements OnInit {
   constructor(private patientAvatarService: PatientAvatarService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
+    var self = this;
     this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
-      var uploadUrl = data[0].patientAvatarUploadPath;
-      if (!uploadUrl) {
-        this.avatarExists = false;
-      } else {
-        this.avatarUrl = uploadUrl;
-        this.avatarExists = true;
+      if (data !== null) {
+        var reader = new FileReader();
+        reader.readAsDataURL(data);
+        reader.onloadend = function() {
+          var base64data = reader.result;
+          console.log(base64data);
+          self.avatarUrl = <string>base64data;
+          self.avatarExists = true;
+        };
       }
     });
   }

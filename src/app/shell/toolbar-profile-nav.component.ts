@@ -25,13 +25,15 @@ export class ToolbarProfileNavComponent implements OnInit {
     this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((data: any) => {
       console.log(data);
       if (data !== null) {
-        var uploadUrl = data[0].userAvatarUploadPath;
-        if (!uploadUrl) {
-          this.avatarExists = false;
-        } else {
-          this.avatarUrl = uploadUrl;
-          this.avatarExists = true;
-        }
+        var reader = new FileReader();
+        reader.readAsDataURL(data);
+        var self = this;
+        reader.onloadend = function() {
+          var base64data = reader.result;
+          console.log(base64data);
+          self.avatarUrl = base64data;
+          self.avatarExists = true;
+        };
       }
     });
   }
