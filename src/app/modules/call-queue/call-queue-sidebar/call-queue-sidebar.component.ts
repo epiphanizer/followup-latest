@@ -85,6 +85,8 @@ export class CallQueueSidebarComponent {
           .subscribe((patients: Patient[]) => {
             if (patients !== null) {
               this.operations[idx].currentNewDischargeCount = this.getCurrentNewDischargeCount(patients);
+            } else {
+              this.operations[idx].currentNewDischargeCount = 0;
             }
           });
       });

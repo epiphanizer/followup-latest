@@ -139,6 +139,7 @@ export class PatientFormComponent implements OnInit {
         // See if we have an avatar to load in
         let self = this;
         this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
+          console.log(data);
           if (data !== null) {
             var reader = new FileReader();
             reader.readAsDataURL(data);

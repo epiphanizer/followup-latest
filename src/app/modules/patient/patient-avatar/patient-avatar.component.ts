@@ -20,6 +20,7 @@ export class PatientAvatarComponent implements OnInit {
   ngOnInit() {
     var self = this;
     this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
+      console.log(data);
       if (data !== null) {
         var reader = new FileReader();
         reader.readAsDataURL(data);
