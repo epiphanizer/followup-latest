@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { UserAvatarService } from './user-avatar.service';
 import { User } from '../user';
-import { SafeUrl } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-avatar',
@@ -10,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./user-avatar.component.scss']
 })
 export class UserAvatarComponent implements OnInit {
-  avatarUrl: SafeUrl;
+  avatarUrl: SafeStyle;
   fileToUpload: File = null;
   @Input() user: User;
   @Output() userAvatarEventEmitter = new EventEmitter<boolean>();
@@ -18,18 +17,19 @@ export class UserAvatarComponent implements OnInit {
    * This guy is plaintext encoded base64
    */
   avatarExists: boolean;
-  constructor(private userAvatarService: UserAvatarService, private route: ActivatedRoute) {}
+  constructor(private userAvatarService: UserAvatarService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((data: any) => {
+      var self = this;
       if (data !== null) {
-        var uploadUrl = data[0].userAvatarUploadPath;
-        if (!uploadUrl) {
-          this.avatarExists = false;
-        } else {
-          this.avatarUrl = uploadUrl;
-          this.avatarExists = true;
-        }
+        var reader = new FileReader();
+        reader.readAsDataURL(data);
+        reader.onloadend = function() {
+          var base64data = reader.result;
+          self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
+          self.avatarExists = true;
+        };
       }
     });
   }

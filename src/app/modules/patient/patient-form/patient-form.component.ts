@@ -18,7 +18,7 @@ import {
   PatientIntakeQuestionAnswer
 } from '../patient-intake-question/patient-intake-question.component';
 import { PatientIntakeQuestionService } from '../patient-intake-question/patient-intake-question.service';
-import { SafeUrl } from '@angular/platform-browser';
+import { SafeUrl, DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 @Component({
   providers: [PatientService, PatientIntakeQuestionService],
@@ -28,7 +28,7 @@ import { SafeUrl } from '@angular/platform-browser';
 })
 export class PatientFormComponent implements OnInit {
   avatarExists: Boolean;
-  public avatarUrl: SafeUrl;
+  public avatarUrl: SafeStyle;
   dischargeLabels: PatientDischargeLabel[];
   patientForm: FormGroup;
   currentYear: number;
@@ -63,6 +63,7 @@ export class PatientFormComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private sanitizer: DomSanitizer,
     private operationService: OperationService,
     private patientService: PatientService,
     private patientAvatarService: PatientAvatarService,
@@ -139,14 +140,13 @@ export class PatientFormComponent implements OnInit {
         // See if we have an avatar to load in
         let self = this;
         this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
-          console.log(data);
+          var self = this;
           if (data !== null) {
             var reader = new FileReader();
             reader.readAsDataURL(data);
             reader.onloadend = function() {
               var base64data = reader.result;
-              console.log(base64data);
-              self.avatarUrl = <string>base64data;
+              self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
               self.avatarExists = true;
             };
           }
@@ -275,13 +275,13 @@ export class PatientFormComponent implements OnInit {
         alert('Successfully uploaded patient avatar!');
         let self = this;
         this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
+          var self = this;
           if (data !== null) {
             var reader = new FileReader();
             reader.readAsDataURL(data);
             reader.onloadend = function() {
               var base64data = reader.result;
-              console.log(base64data);
-              self.avatarUrl = <string>base64data;
+              self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
               self.avatarExists = true;
             };
           }
