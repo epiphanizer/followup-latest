@@ -6,7 +6,8 @@
           <app-patient-call-status-controls
             *ngIf="
               patientCall.patientCallStatusLabel == 'In Review' ||
-              patientCall.patientCallStatusLabel == 'User Selected Status'
+              patientCall.patientCallStatusLabel == 'User Selected Status' ||
+              patientCall.patientCallStatusLabel == 'Final Call'
             "
             [patientCall]="patientCall"
             (patientCallStatusChangeEmitter)="patientCallStatusLabelChangeHandler($event)"
@@ -74,7 +75,13 @@
             </app-patient-next-call-finish-button>
           </ng-container>
           <ng-container *ngIf="patientCall.patientCallStatusLabel == 'Final Call'">
-            <app-followup-complete-button class="ion-float-right" *ngIf="patient" [patient]="patient">
+            <app-followup-complete-button
+              class="ion-float-right"
+              *ngIf="patient"
+              [patient]="patient"
+              [patientCall]="patientCall"
+              (patientCallFinalizeEventEmitter)="patientCallFinishEventHandler(patientCall)"
+            >
             </app-followup-complete-button>
           </ng-container>
         </div>

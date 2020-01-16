@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Patient } from '@app/modules/patient/patient';
 import { FollowupCompleteModalComponent } from '../followup-complete-modal/followup-complete-modal.component';
 import { PatientStatusService } from '../../patient-status.service';
+import { PatientCall } from '../patient-call/patient-call.service';
 
 @Component({
   providers: [PatientStatusService],
@@ -12,6 +13,8 @@ import { PatientStatusService } from '../../patient-status.service';
 })
 export class FollowupCompleteButtonComponent implements OnInit {
   @Input() patient: Patient;
+  @Input() patientCall: PatientCall;
+  @Output() patientCallFinalizeEventEmitter = new EventEmitter<PatientCall>();
   constructor(private modalCtrl: ModalController, private patientStatusService: PatientStatusService) {}
 
   ngOnInit() {}
@@ -24,5 +27,10 @@ export class FollowupCompleteButtonComponent implements OnInit {
       }
     });
     return await modal.present();
+  }
+  // Listener here
+
+  finalizePatientCall(patientCall: PatientCall) {
+    this.patientCallFinalizeEventEmitter.emit(patientCall);
   }
 }
