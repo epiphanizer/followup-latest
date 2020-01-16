@@ -13,9 +13,19 @@ ion-title {
 .call-queue-sidebar {
   max-width: 177px;
 }
+
 .call-queue-content {
   padding-left: 60px;
+
+  ion-grid {
+    height: 100%;
+
+    ion-row.call-queue-row {
+      height: 100%;
+    }
+  }
 }
+
 .call-queue-feed-wrapper {
   max-width: 392px;
 }

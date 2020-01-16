@@ -1,8 +1,16 @@
+:host {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
 .call-history-container {
   height: auto;
   max-width: 332px;
   margin-left: 73px;
+  margin-bottom: 15px;
 }
+
 h3 {
   font-size: 18px;
   font-family: AvenirBold;
@@ -26,6 +34,7 @@ h3 {
   border-top: solid 3.9px var(--ion-color-primary);
   border-bottom: none;
 }
+
 .calendar-month {
   display: inline-block;
   text-transform: uppercase;
@@ -37,11 +46,13 @@ h3 {
   margin-bottom: 6px;
   width: 90px;
 }
+
 .left-month-arrow,
 .right-month-arrow {
   cursor: pointer;
   display: inline-block;
 }
+
 .left-month-arrow {
   background-image: url("/assets/calendar-left-arrow@2x.png");
   height: 14px;
@@ -49,6 +60,7 @@ h3 {
   margin-right: 18px;
   background-size: 100%;
 }
+
 .right-month-arrow {
   background-image: url("/assets/calendar-right-arrow@2x.png");
   height: 14px;
@@ -56,6 +68,7 @@ h3 {
   margin-left: 18px;
   background-size: 100%;
 }
+
 /*
   Limited in height,
   useful with grow mode stretch
@@ -65,8 +78,10 @@ h3 {
   height: 225px;
   margin-top: -40px;
 }
+
 .calendar-wrapper {
   width: 100%;
+
   .day-legend {
     width: 100%;
     display: block;
@@ -74,6 +89,7 @@ h3 {
     margin-top: 0;
     font-weight: 500;
     background: white;
+
     .day-header {
       display: inline-block;
       background: white;
@@ -83,6 +99,7 @@ h3 {
       width: 28px;
     }
   }
+
   div {
     cursor: pointer;
     display: inline-block;
@@ -93,16 +110,20 @@ h3 {
     margin-right: 14px;
     background-color: rgba(142, 142, 147, 0.12);
     color: black;
+
     &.active {
       background-color: rgba(19, 175, 233, 0.35);
+
       span {
         font-weight: bold;
       }
     }
+
     span {
       &.hide {
         color: white;
       }
+
       font-size: 14px;
       line-height: 28px;
       width: 100%;

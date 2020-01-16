@@ -421,7 +421,6 @@ export class PatientFormComponent implements OnInit {
       return !_.isEqual(patientContact, this.patientContacts[indexToGrab]);
     });
 
-    console.log(this.patientContactsToEdit);
     this.patientContactsToEdit.forEach((patientContact: PatientContact, index: number) => {
       // Now that we have these, we need to reassign to the form-submitted value.
       var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
