@@ -57,7 +57,6 @@ export class FollowupCompleteModalComponent implements OnInit {
       .subscribe((data: any) => {
         // Emitter here
         this.dismiss();
-        window.location.href = '/call-queue';
       });
   }
 

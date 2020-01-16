@@ -26,11 +26,11 @@ export class FollowupCompleteButtonComponent implements OnInit {
         patient: this.patient
       }
     });
-    return await modal.present();
-  }
-  // Listener here
-
-  finalizePatientCall(patientCall: PatientCall) {
-    this.patientCallFinalizeEventEmitter.emit(patientCall);
+    modal.onDidDismiss().then(data => {
+      console.log(data);
+      console.log('dimissed modal');
+      this.patientCallFinalizeEventEmitter.emit(this.patientCall);
+    });
+    await modal.present();
   }
 }

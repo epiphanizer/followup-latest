@@ -97,7 +97,10 @@ export class PatientDetailComponent implements OnInit {
     setTimeout(function() {
       let element = document.querySelector('#patientCallStatusControls');
       if (element) {
-        element.scrollIntoView({ behavior: 'auto', block: 'start' });
+        element.scrollIntoView({
+          behavior: 'auto',
+          block: 'start'
+        });
       }
     }, 50);
   }
@@ -138,7 +141,10 @@ export class PatientDetailComponent implements OnInit {
       alert('Please select a call status');
       let element = document.querySelector('#patientCallStatusControls');
       if (element) {
-        element.scrollIntoView({ behavior: 'auto', block: 'start' });
+        element.scrollIntoView({
+          behavior: 'auto',
+          block: 'start'
+        });
       }
       return;
     }
@@ -146,7 +152,10 @@ export class PatientDetailComponent implements OnInit {
       alert('Please add patient call notes');
       let element = document.querySelector('#patientCallNotesForm');
       if (element) {
-        element.scrollIntoView({ behavior: 'auto', block: 'start' });
+        element.scrollIntoView({
+          behavior: 'auto',
+          block: 'start'
+        });
       }
       return;
     }
@@ -167,16 +176,22 @@ export class PatientDetailComponent implements OnInit {
       alert('Please select an answer to at least one question');
       let element = document.querySelector('#patientCallNotesForm');
       if (element) {
-        element.scrollIntoView({ behavior: 'auto', block: 'start' });
+        element.scrollIntoView({
+          behavior: 'auto',
+          block: 'start'
+        });
       }
       return;
     }
 
-    if (!this.patientNextCall.date) {
+    if (!this.patientNextCall.date && this.patientCall.patientCallStatusLabelId != 9) {
       alert('Please schedule a call date');
       let element = document.querySelector('#next-call-calendar');
       if (element) {
-        element.scrollIntoView({ behavior: 'auto', block: 'start' });
+        element.scrollIntoView({
+          behavior: 'auto',
+          block: 'start'
+        });
       }
       return;
     }
@@ -192,46 +207,52 @@ export class PatientDetailComponent implements OnInit {
             .subscribe();
         }
       });
-      /**
-       * Doing it this way stops some cross-browser parsing things
-       * that happen when we convert it to a new Date() first.
-       */
 
-      var dateArray = this.patientNextCall.date.split('-');
-      var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T17:59:59.000Z';
-      /**
-       * Passing E2E as of now
-       */
-      this.patientCallService
-        .addNewPatientCallByPatientId(
-          this.patient.patientId,
-          isoString,
-          // (3 => 'scheduled' status)
-          3
-        )
-        .subscribe((data: any) => {
-          let navigateToUrl = '/call-queue/' + this.patient.patientOperationId;
-          let patientCallId = data.patientCallId;
-          let itemsProcessed = 0;
-          if (this.patientNextCallQuestions.length) {
-            this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
-              if (patientCallQuestion.patientCallQuestion != '') {
-                this.patientCallQuestionsService
-                  .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
-                  .subscribe((data: any) => {
-                    itemsProcessed++;
-                    if (itemsProcessed === this.patientNextCallQuestions.length) {
-                      this.router.navigateByUrl(navigateToUrl);
-                    }
-                  });
-              } else {
-                this.patientNextCallQuestions.splice(index, 1);
-              }
-            });
-          } else {
-            this.router.navigateByUrl(navigateToUrl);
-          }
-        });
+      let navigateToUrl = '/call-queue/' + this.patient.patientOperationId;
+
+      if (this.patientCall.patientCallStatusLabelId == 9) {
+        this.router.navigateByUrl(navigateToUrl);
+      } else {
+        /**
+         * Doing it this way stops some cross-browser parsing things
+         * that happen when we convert it to a new Date() first.
+         */
+
+        var dateArray = this.patientNextCall.date.split('-');
+        var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T17:59:59.000Z';
+        /**
+         * Passing E2E as of now
+         */
+        this.patientCallService
+          .addNewPatientCallByPatientId(
+            this.patient.patientId,
+            isoString,
+            // (3 => 'scheduled' status)
+            3
+          )
+          .subscribe((data: any) => {
+            let patientCallId = data.patientCallId;
+            let itemsProcessed = 0;
+            if (this.patientNextCallQuestions.length) {
+              this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
+                if (patientCallQuestion.patientCallQuestion != '') {
+                  this.patientCallQuestionsService
+                    .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
+                    .subscribe((data: any) => {
+                      itemsProcessed++;
+                      if (itemsProcessed === this.patientNextCallQuestions.length) {
+                        this.router.navigateByUrl(navigateToUrl);
+                      }
+                    });
+                } else {
+                  this.patientNextCallQuestions.splice(index, 1);
+                }
+              });
+            } else {
+              this.router.navigateByUrl(navigateToUrl);
+            }
+          });
+      }
     });
   }
 }
