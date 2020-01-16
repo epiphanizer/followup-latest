@@ -105,7 +105,12 @@ export class PatientDetailComponent implements OnInit {
   patientCallStatusLabelChangeHandler($event: number) {
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
-    this.patientCall.patientCallStatusLabel = 'User Selected Status';
+    // patientCallStatusLabelId 9 = Final Call
+    if (this.patientCall.patientCallStatusLabelId != 9) {
+      this.patientCall.patientCallStatusLabel = 'User Selected Status';
+    } else {
+      this.patientCall.patientCallStatusLabel = 'Final Call';
+    }
   }
   patientNextCallDateSelectedEventHandler($event: string) {
     let selectedDate = $event;

@@ -25,7 +25,8 @@
             *ngIf="
               patientCall.patientCallStatusLabel == 'Started' ||
                 patientCall.patientCallStatusLabel == 'In Review' ||
-                patientCall.patientCallStatusLabel == 'User Selected Status';
+                patientCall.patientCallStatusLabel == 'User Selected Status' ||
+                patientCall.patientCallStatusLabel == 'Final Call';
               else spacer
             "
             [patientCall]="patientCall"
@@ -52,12 +53,7 @@
           >
           </app-patient-call-stop-button>
 
-          <ng-container
-            *ngIf="
-              patientCall.patientCallStatusLabel == 'In Review' ||
-              patientCall.patientCallStatusLabel == 'User Selected Status'
-            "
-          >
+          <ng-container *ngIf="patientCall.patientCallStatusLabel == 'User Selected Status'">
             <app-patient-next-call-scheduler
               (patientNextCallDateSelectedEventEmitter)="patientNextCallDateSelectedEventHandler($event)"
             >
