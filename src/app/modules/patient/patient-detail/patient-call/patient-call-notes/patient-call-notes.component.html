@@ -9,7 +9,8 @@
           position="stacked"
           *ngIf="
             patientCall.patientCallStatusLabel == 'In Review' ||
-            patientCall.patientCallStatusLabel == 'User Selected Status'
+            patientCall.patientCallStatusLabel == 'User Selected Status' ||
+            patientCall.patientCallStatusLabel == 'Final Call'
           "
         >
           Edit & Review Call
