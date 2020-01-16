@@ -19,8 +19,13 @@ ion-content {
   max-width: 220px;
   margin-left: 81.4px;
 
-  img {
+  div.patient-avatar-image {
+    height: 220px;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
     cursor: pointer;
+    margin-bottom: 1rem;
   }
 
   ion-button {

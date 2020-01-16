@@ -2,8 +2,7 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { User } from '@app/modules/user/user';
 import { AuthenticationService } from '@app/core';
 import { UserAvatarService } from '@app/modules/user/user-avatar/user-avatar.service';
-import { SafeUrl } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 @Component({
   providers: [AuthenticationService, UserAvatarService],
@@ -14,11 +13,11 @@ import { ActivatedRoute } from '@angular/router';
 export class ToolbarProfileNavComponent implements OnInit {
   @Input() user: User;
   avatarExists: Boolean;
-  public avatarUrl: SafeUrl;
+  public avatarUrl: SafeStyle;
   constructor(
     private authService: AuthenticationService,
     private userAvatarService: UserAvatarService,
-    private route: ActivatedRoute
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -30,8 +29,7 @@ export class ToolbarProfileNavComponent implements OnInit {
         var self = this;
         reader.onloadend = function() {
           var base64data = reader.result;
-          console.log(base64data);
-          self.avatarUrl = base64data;
+          self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
           self.avatarExists = true;
         };
       }

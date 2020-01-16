@@ -77,6 +77,10 @@
               Finish & Save
             </app-patient-next-call-finish-button>
           </ng-container>
+          <ng-container *ngIf="patientCall.patientCallStatusLabel == 'Final Call'">
+            <app-followup-complete-button class="ion-float-right" *ngIf="patient" [patient]="patient">
+            </app-followup-complete-button>
+          </ng-container>
         </div>
       </ion-col>
       <ion-col class="right-hand-detail">

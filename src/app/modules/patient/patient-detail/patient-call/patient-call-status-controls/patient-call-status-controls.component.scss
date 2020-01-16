@@ -64,6 +64,12 @@
           background-image: url("/assets/icon-no-answer-active@2x.png");
         }
       }
+      &.icon-final {
+        background-image: url("/assets/icon-final-call@2x.png");
+        &.active {
+          background-image: url("/assets/icon-final-call-active@2x.png");
+        }
+      }
     }
     span {
       font-family: Avenir;
