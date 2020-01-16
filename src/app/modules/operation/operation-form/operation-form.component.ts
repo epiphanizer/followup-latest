@@ -509,13 +509,6 @@ export class OperationFormComponent implements OnInit {
         .subscribe((data: any) => {
           if (data !== null) {
             var operationContactId = data.operationContactId;
-            console.log(data);
-            console.log(formContact);
-            formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {
-              console.log(notificationType);
-              debugger;
-            });
-
             formContact.operationContactNotifications.forEach((notificationTypeId: number) => {
               var notificationReceipientPostBody = {
                 notificationOperationContactId: operationContactId,

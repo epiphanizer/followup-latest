@@ -31,10 +31,7 @@ export class UserProfileComponent implements OnInit {
     }
     let formSubmission = this.userProfileForm.getRawValue();
     let userPutPayload = this.userFormSubmissionFactory(formSubmission);
-    debugger;
     this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe((data: any) => {
-      console.log(data);
-      debugger;
       location.reload();
     });
   }
