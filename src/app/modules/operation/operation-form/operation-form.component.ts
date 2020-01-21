@@ -218,6 +218,7 @@ export class OperationFormComponent implements OnInit {
             return operationContacts;
           } else {
             this.addAdditionalOperationContact();
+            this.notificationsLoaded = true;
           }
         })
       )
@@ -313,6 +314,17 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
     formArray.push(contactFormGroup);
+
+    let notificationsFormControlArray = this.fb.array([]);
+    let i;
+    for (i = 0; i < this.notificationTypes.length; i++) {
+      let newFormGroup = this.fb.group({});
+      let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
+      var newControl = new FormControl(false);
+      newFormGroup.addControl(notificationTypeId, newControl);
+      notificationsFormControlArray.push(newFormGroup);
+    }
+    contactFormGroup.addControl('operationContactNotifications', notificationsFormControlArray);
 
     if (this.operationContacts.length == formArray.length) {
       return;
