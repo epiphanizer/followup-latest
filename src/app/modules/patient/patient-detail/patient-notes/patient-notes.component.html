@@ -7,6 +7,9 @@
     {{ patient.patientAdmitDate | date: 'MM/dd/yyyy' }}
   </ion-item>
   <ion-item>
+    <span class="label ama" *ngIf="patient.patientDischargedAma">
+      &nbsp;(AMA)
+    </span>
     <span class="label">
       Discharged: &nbsp;
     </span>
@@ -26,6 +29,12 @@
     <span class="label"> Discharged Condition: &nbsp; </span> {{ patient.patientDischargedCondition }}
   </ion-item>
   <ion-item> <span class="label"> Discharged To: &nbsp;</span> {{ patient.patientDischargeLabel }} </ion-item>
+  <ion-item>
+    <span class="label"> Medical Conditions: &nbsp; </span>
+    <label class="medical-condition-item" *ngFor="let patientMedicalCondition of patientMedicalConditions">
+      {{ patientMedicalCondition.replace('Boolean', '') }}
+    </label>
+  </ion-item>
   <ng-container>
     <ion-item *ngFor="let patientIntakeQuestion of patientIntakeQuestions">
       <span class="label">{{ patientIntakeQuestion.patientIntakeQuestion }}: &nbsp;</span>

@@ -14,6 +14,7 @@ import {
 export class PatientNotesComponent implements OnInit {
   @Input() patient: Patient;
   patientIntakeQuestions: PatientIntakeQuestion[];
+  patientMedicalConditions: any = null;
   constructor(private patientIntakeQuestionService: PatientIntakeQuestionService) {}
 
   ngOnInit() {
@@ -32,5 +33,18 @@ export class PatientNotesComponent implements OnInit {
             });
         });
       });
+    var self = this;
+    this.patientMedicalConditions = new Array();
+    function getKeyByValue(object: {}, value: number) {
+      for (var prop in object) {
+        if (object.hasOwnProperty(prop)) {
+          if (object[prop] === value || object[prop] === true) {
+            self.patientMedicalConditions.push(prop);
+          }
+        }
+      }
+    }
+    let medicalConditionsJson = JSON.parse(this.patient.patientMedicalConditions);
+    getKeyByValue(medicalConditionsJson, 1);
   }
 }

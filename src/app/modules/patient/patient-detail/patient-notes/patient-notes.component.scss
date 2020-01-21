@@ -45,6 +45,12 @@ ion-list {
     &.label {
       color: #343638;
       font-size: 12px;
+      &.ama {
+        color: red;
+        position: absolute;
+        top: 0;
+        left: -3px;
+      }
     }
   }
 
@@ -60,5 +66,16 @@ ion-list {
 
   &.more-info {
     display: block;
+    .medical-condition-item {
+      text-transform: capitalize;
+      &:after {
+        content: ", ";
+      }
+      &:last-child {
+        &:after {
+          content: "";
+        }
+      }
+    }
   }
 }
