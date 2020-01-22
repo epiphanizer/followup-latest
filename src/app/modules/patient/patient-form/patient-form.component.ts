@@ -412,6 +412,9 @@ export class PatientFormComponent implements OnInit {
     this.patientContactsToAdd = this.patientContacts.filter((patientContact: PatientContact) => {
       return this.patientContactsOriginal.indexOf(patientContact) == -1;
     });
+    /**
+     * Passing E2E
+     */
     this.patientContactsToEdit = this.patientContacts.filter((patientContact: any, index: number) => {
       if (!patientContact.patientContactId) {
         return false;
@@ -423,6 +426,7 @@ export class PatientFormComponent implements OnInit {
       // Set patient contact id since we have no form control.
       // formSubmission.patient.patientContacts[indexToGrab].patientId = this.patient.patientId;
       formSubmission.patient.patientContacts[indexToGrab].patientContactId = patientContact.patientContactId;
+      formSubmission.patient.patientContacts[indexToGrab].patientId = this.patient.patientId;
       this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
       // Use lodash to see if these are deep-equal
       return !_.isEqual(patientContact, this.patientContacts[indexToGrab]);
