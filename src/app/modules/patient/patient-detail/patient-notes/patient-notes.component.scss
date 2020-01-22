@@ -31,7 +31,7 @@ ion-list {
     ion-item {
       font-size: 12px;
       font-family: Avenir;
-
+      max-width: 505px;
       &:nth-child(n + 3) {
         margin-left: 20px;
       }
