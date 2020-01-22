@@ -25,6 +25,7 @@ export interface PatientCall {
   // nice to have for our filter listing
   patientFirstName?: string;
   patientLastName?: string;
+  finalCall?: boolean;
 }
 
 export interface PatientCallQuestionAnswer {

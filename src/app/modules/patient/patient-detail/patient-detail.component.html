@@ -6,11 +6,11 @@
           <app-patient-call-status-controls
             *ngIf="
               patientCall.patientCallStatusLabel == 'In Review' ||
-              patientCall.patientCallStatusLabel == 'User Selected Status' ||
-              patientCall.patientCallStatusLabel == 'Final Call'
+              patientCall.patientCallStatusLabel == 'User Selected Status'
             "
             [patientCall]="patientCall"
             (patientCallStatusChangeEmitter)="patientCallStatusLabelChangeHandler($event)"
+            (patientFinalCallStatusChangeEmitter)="patientFinalCallChangeHandler($event)"
           >
           </app-patient-call-status-controls>
           <!-- this will be hidden if we have advanced past ID 3, which is the "started" state -->
@@ -26,8 +26,7 @@
             *ngIf="
               patientCall.patientCallStatusLabel == 'Started' ||
                 patientCall.patientCallStatusLabel == 'In Review' ||
-                patientCall.patientCallStatusLabel == 'User Selected Status' ||
-                patientCall.patientCallStatusLabel == 'Final Call';
+                patientCall.patientCallStatusLabel == 'User Selected Status';
               else spacer
             "
             [patientCall]="patientCall"
@@ -54,7 +53,7 @@
           >
           </app-patient-call-stop-button>
 
-          <ng-container *ngIf="patientCall.patientCallStatusLabel == 'User Selected Status'">
+          <ng-container *ngIf="patientCall.patientCallStatusLabel == 'User Selected Status' && !patientCall.finalCall">
             <app-patient-next-call-scheduler
               (patientNextCallDateSelectedEventEmitter)="patientNextCallDateSelectedEventHandler($event)"
             >
@@ -74,7 +73,7 @@
               Finish & Save
             </app-patient-next-call-finish-button>
           </ng-container>
-          <ng-container *ngIf="patientCall.patientCallStatusLabel == 'Final Call'">
+          <ng-container *ngIf="patientCall.finalCall && patientCall.patientCallStatusLabel == 'User Selected Status'">
             <app-followup-complete-button
               class="ion-float-right"
               *ngIf="patient"

@@ -12,9 +12,17 @@
         class="icon-{{ patientCallStatus.patientCallStatusLabel | lowercase }}"
         [class.active]="patientCall.patientCallStatusLabelId == patientCallStatus.patientCallStatusLabelId"
       ></i>
-      <span [class.active]="patientCall.patientCallStatusLabelId == patientCallStatus.patientCallStatusLabelId">{{
-        patientCallStatus.patientCallStatusLabel
-      }}</span>
+      <span [class.active]="patientCall.patientCallStatusLabelId == patientCallStatus.patientCallStatusLabelId"
+        >{{ patientCallStatus.patientCallStatusLabel }}
+      </span>
+    </div>
+  </ion-item>
+  <ion-item class="patient-status-control" (click)="updateFinalCallStatus()">
+    <div>
+      <i class="icon-final" [class.active]="patientCall.finalCall"></i>
+      <span [class.active]="patientCall.finalCall">
+        Final Call
+      </span>
     </div>
   </ion-item>
 </ion-list>

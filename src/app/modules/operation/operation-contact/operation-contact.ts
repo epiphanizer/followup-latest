@@ -1,7 +1,7 @@
 import { NotificationType } from '@app/modules/notification/notification';
 
 export interface OperationContact {
-  operationContactId: number;
+  operationContactId?: number;
   operationContactFirstName?: string;
   operationContactMiddleName?: string;
   operationContactLastName?: string;

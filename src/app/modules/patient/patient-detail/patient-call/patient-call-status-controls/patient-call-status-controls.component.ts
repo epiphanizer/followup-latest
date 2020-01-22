@@ -13,15 +13,26 @@ import { PatientCall } from '../patient-call.service';
 export class PatientCallStatusControlsComponent implements OnInit {
   @Input() patientCall: PatientCall;
   @Output() patientCallStatusChangeEmitter = new EventEmitter<number>();
+  @Output() patientFinalCallStatusChangeEmitter = new EventEmitter<boolean>();
+  finalCallStatus: boolean;
   patientCallStatuses: PatientCallStatus[];
   constructor(private patientCallStatusService: PatientCallStatusService) {}
 
   ngOnInit() {
+    this.finalCallStatus = false;
     this.patientCallStatusService.getPatientCallStatuses().subscribe((data: PatientCallStatus[]) => {
       this.patientCallStatuses = data;
     });
   }
-
+  updateFinalCallStatus() {
+    if (!this.finalCallStatus == true) {
+      this.finalCallStatus = true;
+      this.patientFinalCallStatusChangeEmitter.emit(true);
+    } else {
+      this.finalCallStatus = false;
+      this.patientFinalCallStatusChangeEmitter.emit(false);
+    }
+  }
   updatePatientCallStatus(patientCallStatusLabelId: number) {
     this.patientCallStatusChangeEmitter.emit(patientCallStatusLabelId);
   }

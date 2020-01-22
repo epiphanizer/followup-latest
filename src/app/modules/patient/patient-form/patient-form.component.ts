@@ -19,6 +19,7 @@ import {
 } from '../patient-intake-question/patient-intake-question.component';
 import { PatientIntakeQuestionService } from '../patient-intake-question/patient-intake-question.service';
 import { SafeUrl, DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { take } from 'rxjs/operators';
 
 @Component({
   providers: [PatientService, PatientIntakeQuestionService],
@@ -126,95 +127,102 @@ export class PatientFormComponent implements OnInit {
           });
       });
     } else {
-      this.patientService.getPatientByPatientId(this.patient.patientId).subscribe((data: Patient) => {
-        this.patient = data[0];
-        let medicalConditions = JSON.parse(this.patient.patientMedicalConditions);
-        // Once we've got our data set from JSON, let's re-set the individual properties.
-        this.patient.patientMedicalConditions = {};
-        if (medicalConditions !== null) {
-          this.patient.patientMedicalConditions.sepsisBoolean = medicalConditions.sepsisBoolean;
-          this.patient.patientMedicalConditions.cardiacBoolean = medicalConditions.cardiacBoolean;
-          this.patient.patientMedicalConditions.pulmonaryBoolean = medicalConditions.pulmonaryBoolean;
-          this.patient.patientMedicalConditions.otherBoolean = medicalConditions.otherBoolean;
-        }
-        // See if we have an avatar to load in
-        let self = this;
-        this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
-          var self = this;
-          if (data !== null) {
-            var reader = new FileReader();
-            reader.readAsDataURL(data);
-            reader.onloadend = function() {
-              var base64data = reader.result;
-              self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
-              self.avatarExists = true;
-            };
+      this.patientService
+        .getPatientByPatientId(this.patient.patientId)
+        .pipe(take(1))
+        .subscribe((data: Patient) => {
+          this.patient = data[0];
+          let medicalConditions = JSON.parse(this.patient.patientMedicalConditions);
+          // Once we've got our data set from JSON, let's re-set the individual properties.
+          this.patient.patientMedicalConditions = {};
+          if (medicalConditions !== null) {
+            this.patient.patientMedicalConditions.sepsisBoolean = medicalConditions.sepsisBoolean;
+            this.patient.patientMedicalConditions.cardiacBoolean = medicalConditions.cardiacBoolean;
+            this.patient.patientMedicalConditions.pulmonaryBoolean = medicalConditions.pulmonaryBoolean;
+            this.patient.patientMedicalConditions.otherBoolean = medicalConditions.otherBoolean;
           }
-        });
-        this.createForm();
-        // We for some reason need to explicitly set this
-        this.patientForm
-          .get('patient.dischargeInfo.patientDischargedTo')
-          .setValue(this.patient.patientDischargeLabelId.toString());
-        this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
-        this.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
-          let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
-          if (patientContacts) {
-            this.patientContacts.splice(0, 1);
-            patientContacts.forEach((patientContact: PatientContact) => {
-              patientContactArray.push(
-                this.fb.group({
-                  patientContactFirstName: this.fb.control(patientContact.patientContactFirstName),
-                  patientContactLastName: this.fb.control(patientContact.patientContactLastName),
-                  patientContactRelationship: this.fb.control(patientContact.patientContactRelationship),
-                  patientContactCountryCode: this.fb.control(patientContact.patientContactCountryCode),
-                  patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode),
-                  patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber),
-                  patientContactOrder: this.fb.control(patientContact.patientContactOrder),
-                  patientContactResponsiblePartyBoolean: this.fb.control(
-                    patientContact.patientContactResponsiblePartyBoolean
-                  )
-                })
-              );
-              this.patientContactsOriginal.push(patientContact);
-              this.patientContacts.push(patientContact);
-            });
-          }
-        });
-
-        this.patientIntakeQuestionService
-          .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
-          .subscribe((patientIntakeQuestions: PatientIntakeQuestion[]) => {
-            let patientIntakeQuestionAnswers = this.patientForm.get(
-              'patient.patientIntakeQuestionAnswers'
-            ) as FormArray;
-            patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
-              let newFormGroup = this.fb.group({});
-              this.patientIntakeQuestionService
-                .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(patientIntakeQuestion.patientIntakeQuestionId)
-                .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
-                  if (patientIntakeQuestionAnswer !== null) {
-                    var data = patientIntakeQuestionAnswer[0];
-                    var patientIntakeQuestionId = data.patientIntakeQuestionId.toString();
-                    var patientIntakeQuestionAnswerValue = data.patientIntakeQuestionAnswer;
-                    newFormGroup.addControl(patientIntakeQuestionId, new FormControl(patientIntakeQuestionAnswerValue));
-                    patientIntakeQuestionAnswers.push(newFormGroup);
-                    var dataObject = <any>{};
-                    dataObject[patientIntakeQuestionId] = patientIntakeQuestionAnswerValue;
-                    this.patientIntakeQuestionAnswersOriginal.push(dataObject);
-                    this.patientIntakeQuestions.push(patientIntakeQuestion);
-                  } else {
-                    newFormGroup.addControl(
-                      patientIntakeQuestion.patientIntakeQuestionId.toString(),
-                      new FormControl('')
-                    );
-                    patientIntakeQuestionAnswers.push(newFormGroup);
-                    this.patientIntakeQuestions.push(patientIntakeQuestion);
-                  }
-                });
-            });
+          // See if we have an avatar to load in
+          this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
+            var self = this;
+            if (data !== null) {
+              var reader = new FileReader();
+              reader.readAsDataURL(data);
+              reader.onloadend = function() {
+                var base64data = reader.result;
+                self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
+                self.avatarExists = true;
+              };
+            }
           });
-      });
+          this.createForm();
+          // We for some reason need to explicitly set this
+          this.patientForm
+            .get('patient.dischargeInfo.patientDischargedTo')
+            .setValue(this.patient.patientDischargeLabelId.toString());
+          this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
+          this.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
+            let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
+            if (patientContacts) {
+              this.patientContacts.splice(0, 1);
+              patientContacts.forEach((patientContact: PatientContact) => {
+                patientContactArray.push(
+                  this.fb.group({
+                    patientContactFirstName: this.fb.control(patientContact.patientContactFirstName),
+                    patientContactLastName: this.fb.control(patientContact.patientContactLastName),
+                    patientContactRelationship: this.fb.control(patientContact.patientContactRelationship),
+                    patientContactCountryCode: this.fb.control(patientContact.patientContactCountryCode),
+                    patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode),
+                    patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber),
+                    patientContactOrder: this.fb.control(patientContact.patientContactOrder),
+                    patientContactResponsiblePartyBoolean: this.fb.control(
+                      patientContact.patientContactResponsiblePartyBoolean
+                    )
+                  })
+                );
+                this.patientContactsOriginal.push(patientContact);
+                this.patientContacts.push(patientContact);
+              });
+            }
+          });
+
+          this.patientIntakeQuestionService
+            .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
+            .subscribe((patientIntakeQuestions: PatientIntakeQuestion[]) => {
+              let patientIntakeQuestionAnswers = this.patientForm.get(
+                'patient.patientIntakeQuestionAnswers'
+              ) as FormArray;
+              patientIntakeQuestions.forEach((patientIntakeQuestion: PatientIntakeQuestion, index: number) => {
+                let newFormGroup = this.fb.group({});
+                this.patientIntakeQuestionService
+                  .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(
+                    patientIntakeQuestion.patientIntakeQuestionId
+                  )
+                  .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
+                    if (patientIntakeQuestionAnswer !== null) {
+                      var data = patientIntakeQuestionAnswer[0];
+                      var patientIntakeQuestionId = data.patientIntakeQuestionId.toString();
+                      var patientIntakeQuestionAnswerValue = data.patientIntakeQuestionAnswer;
+                      newFormGroup.addControl(
+                        patientIntakeQuestionId,
+                        new FormControl(patientIntakeQuestionAnswerValue)
+                      );
+                      patientIntakeQuestionAnswers.push(newFormGroup);
+                      var dataObject = <any>{};
+                      dataObject[patientIntakeQuestionId] = patientIntakeQuestionAnswerValue;
+                      this.patientIntakeQuestionAnswersOriginal.push(dataObject);
+                      this.patientIntakeQuestions.push(patientIntakeQuestion);
+                    } else {
+                      newFormGroup.addControl(
+                        patientIntakeQuestion.patientIntakeQuestionId.toString(),
+                        new FormControl('')
+                      );
+                      patientIntakeQuestionAnswers.push(newFormGroup);
+                      this.patientIntakeQuestions.push(patientIntakeQuestion);
+                    }
+                  });
+              });
+            });
+        });
     }
   }
 
@@ -290,7 +298,6 @@ export class PatientFormComponent implements OnInit {
   }
 
   addAdditionalPatientContact() {
-    console.log('patient contact order set for: ' + (this.patientContacts.length + 1));
     this.patientContacts.push({
       patientContactFirstName: '',
       patientContactLastName: '',
@@ -539,5 +546,8 @@ export class PatientFormComponent implements OnInit {
     } else {
       return true;
     }
+  }
+  ngOnDestroy() {
+    console.log('Destroying component');
   }
 }

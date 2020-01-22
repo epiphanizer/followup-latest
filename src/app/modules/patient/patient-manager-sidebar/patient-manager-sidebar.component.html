@@ -23,7 +23,7 @@
       <a
         (click)="setActiveOperation(operation)"
         [routerLink]="['/operations/' + operation.operationId + '/patients']"
-        [class.active]="selected.operation == operation || activeOperationId == operation.operationId"
+        [class.active]="activeOperationId == operation.operationId"
       >
         {{ operation.operationName }}
       </a>

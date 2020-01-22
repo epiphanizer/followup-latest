@@ -68,6 +68,7 @@ export class PatientManagerSidebarComponent implements OnInit {
   ngOnInit() {
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     this.user = this.route.snapshot.data.user;
+
     this.user.operations$.subscribe((data: Operation[]) => {
       this.operations = data;
       if (!this.route.snapshot.params['operationId']) {
@@ -75,10 +76,15 @@ export class PatientManagerSidebarComponent implements OnInit {
          * no active state if we are adding a patient
          */
         if (this.router.url.indexOf('patient/add') == -1) {
-          this.activeOperationId = this.operations[0].operationId;
+          this.activeOperationId = null;
         }
       } else {
         this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
+      }
+    });
+    this.route.paramMap.subscribe(params => {
+      if (params.get('operationId')) {
+        this.activeOperationId = parseInt(params.get('operationId'));
       }
     });
   }

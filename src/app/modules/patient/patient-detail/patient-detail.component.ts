@@ -108,11 +108,13 @@ export class PatientDetailComponent implements OnInit {
   patientCallStatusLabelChangeHandler($event: number) {
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
-    // patientCallStatusLabelId 9 = Final Call
-    if (this.patientCall.patientCallStatusLabelId != 9) {
-      this.patientCall.patientCallStatusLabel = 'User Selected Status';
+    this.patientCall.patientCallStatusLabel = 'User Selected Status';
+  }
+  patientFinalCallChangeHandler($event: boolean) {
+    if ($event == true) {
+      this.patientCall.finalCall = true;
     } else {
-      this.patientCall.patientCallStatusLabel = 'Final Call';
+      this.patientCall.finalCall = false;
     }
   }
   patientNextCallDateSelectedEventHandler($event: string) {
@@ -184,7 +186,7 @@ export class PatientDetailComponent implements OnInit {
       return;
     }
 
-    if (!this.patientNextCall.date && this.patientCall.patientCallStatusLabelId != 9) {
+    if (!this.patientNextCall.date && !this.patientCall.finalCall) {
       alert('Please schedule a call date');
       let element = document.querySelector('#next-call-calendar');
       if (element) {

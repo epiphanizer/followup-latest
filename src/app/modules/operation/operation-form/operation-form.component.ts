@@ -329,8 +329,9 @@ export class OperationFormComponent implements OnInit {
     if (this.operationContacts.length == formArray.length) {
       return;
     }
+
     this.operationContacts.push({
-      operationContactId: this.operation.operationId
+      operationContactId: 0
     });
   }
 
@@ -512,6 +513,8 @@ export class OperationFormComponent implements OnInit {
     this.operationContactsToAdd = this.operationContacts.filter((operationContact: OperationContact, index: number) => {
       return operationContact.operationContactId !== this.operationContactsOriginal[index];
     });
+    console.log(this.operationContactsToAdd);
+    debugger;
     // Passing E2E
     this.operationContactsToAdd.forEach((operationContact: OperationContact, idx: number) => {
       let formContact = formSubmission.operationContacts[idx];
@@ -539,6 +542,10 @@ export class OperationFormComponent implements OnInit {
         });
     });
 
+    /**
+     * Add is working,
+     * Edit is broken.
+     */
     this.operationContactsToEdit = this.operationContacts.filter(
       (operationContact: OperationContact, index: number) => {
         /**
@@ -549,6 +556,8 @@ export class OperationFormComponent implements OnInit {
         return !_.isEqual(operationContact, formSubmission.operationContacts[index]);
       }
     );
+    console.log(this.operationContactsToEdit);
+    debugger;
 
     // Passing E2E
     this.operationContactsToEdit.forEach((operationContact: OperationContact, idx: number) => {
