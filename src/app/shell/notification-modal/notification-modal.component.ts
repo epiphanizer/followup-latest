@@ -88,9 +88,8 @@ export class NotificationModalComponent {
           this.notification.notificationTypeId
         )
         .subscribe((data: NotificationRecipient[]) => {
-          this.notificationRecipients = data;
-          if (this.notificationRecipients !== undefined) {
-            console.log(this.notificationRecipients);
+          if (this.notificationRecipients !== null) {
+            this.notificationRecipients = data;
           }
         });
     });
