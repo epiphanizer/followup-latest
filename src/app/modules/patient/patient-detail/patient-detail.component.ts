@@ -213,7 +213,7 @@ export class PatientDetailComponent implements OnInit {
       let navigateToUrl = '/call-queue/' + this.patient.patientOperationId;
 
       if (this.patientCall.patientCallStatusLabelId == 9) {
-        this.router.navigateByUrl(navigateToUrl);
+        window.location.href = navigateToUrl;
       } else {
         /**
          * Doing it this way stops some cross-browser parsing things
@@ -251,7 +251,7 @@ export class PatientDetailComponent implements OnInit {
                 }
               });
             } else {
-              this.router.navigateByUrl(navigateToUrl);
+              window.location.href = navigateToUrl;
             }
           });
       }

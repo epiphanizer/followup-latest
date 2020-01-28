@@ -138,7 +138,6 @@ export class OperationFormComponent implements OnInit {
             // let formArray = this.operationForm.controls.operationContacts as FormArray;
             this.operationContacts = operationContacts;
             this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
-              console.log(operationContact);
               let contactFormGroup = this.fb.group({});
               contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
               contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
@@ -610,7 +609,8 @@ export class OperationFormComponent implements OnInit {
     let operationPut = this.operationPutFactory(formSubmission);
     this.operationService.editOperationByOperationId(this.operation.operationId, operationPut).subscribe(() => {
       alert('Operation successfully edited');
-      this.router.navigate(['/operations']);
+      // this.router.navigate(['/operations']);
+      window.location.href = '/operations';
     });
   }
 
