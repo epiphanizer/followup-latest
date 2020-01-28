@@ -454,7 +454,8 @@ export class PatientFormComponent implements OnInit {
 
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
-      this.router.navigate(['operations/' + this.patientForm.get('operation').value + '/patients']);
+      // this.router.navigate(['operations/' + this.patientForm.get('operation').value + '/patients']);
+      window.location.href = '/operations/' + this.patientForm.get('operation').value + '/patients';
       if (!this.editMode) {
         this.patientForm.reset();
       }
