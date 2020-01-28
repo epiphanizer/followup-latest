@@ -221,7 +221,7 @@ export class PatientDetailComponent implements OnInit {
          */
 
         var dateArray = this.patientNextCall.date.split('-');
-        var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T20:00:00.000Z';
+        var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T12:00:00.000Z';
         /**
          * Passing E2E as of now
          */
