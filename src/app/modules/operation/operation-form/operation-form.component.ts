@@ -598,11 +598,13 @@ export class OperationFormComponent implements OnInit {
     });
 
     this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
-      this.operationContactsService
-        .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
-        .subscribe(() => {
-          alert('Successfully removed operation contact');
-        });
+      if (operationContactId != null) {
+        this.operationContactsService
+          .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
+          .subscribe(() => {
+            alert('Successfully removed operation contact');
+          });
+      }
     });
 
     let operationPut = this.operationPutFactory(formSubmission);
