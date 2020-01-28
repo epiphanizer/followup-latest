@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
           },
           {
             name: 'View Data',
-            action: 'admin/data',
+            action: 'https://reports.followup.care',
             image: '/assets/icon-view-data@2x.png',
             enabled: true
           }

@@ -161,8 +161,7 @@ export class OperationFormComponent implements OnInit {
                       notificationTypes.forEach((notificationType: NotificationType) => {
                         notificationTypesArray.push(notificationType.notificationTypeId);
                       });
-                      let i;
-                      for (i = 0; i < this.notificationTypes.length; i++) {
+                      for (let i = 0; i < this.notificationTypes.length; i++) {
                         let newFormGroup = this.fb.group({});
                         let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
                         if (notificationTypesArray.indexOf(this.notificationTypes[i].notificationTypeId) != -1) {
@@ -174,8 +173,7 @@ export class OperationFormComponent implements OnInit {
                         notificationsFormControlArray.push(newFormGroup);
                       }
                     } else {
-                      let i;
-                      for (i = 0; i < this.notificationTypes.length; i++) {
+                      for (let i = 0; i < this.notificationTypes.length; i++) {
                         let newFormGroup = this.fb.group({});
                         let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
                         var newControl = new FormControl(false);
@@ -200,7 +198,6 @@ export class OperationFormComponent implements OnInit {
                       formGroup.controls.operationContactPhoneNumber.setValue(
                         operationContact.operationContactPhoneNumber
                       );
-                    console.log(formGroup);
                   })
                 )
                 .subscribe(() => {
@@ -331,7 +328,7 @@ export class OperationFormComponent implements OnInit {
     }
 
     this.operationContacts.push({
-      operationContactId: 0
+      operationContactId: null
     });
   }
 
@@ -471,9 +468,7 @@ export class OperationFormComponent implements OnInit {
     this.operationManagersToAdd = this.operationManagers.filter((operationManager: OperationManager, index: number) => {
       return operationManager.userId !== this.operationManagersOriginal[index] && operationManager.userId !== 0;
     });
-    console.log(this.operationManagersToAdd);
     this.operationManagersToAdd.forEach((operationManager: OperationManager) => {
-      // Need a filter here to see new vs. old
       this.operationService
         .assignManagerToOperationByOperationIdAndUserId(operationManager.operationId, operationManager.userId)
         .subscribe(() => {
@@ -510,8 +505,13 @@ export class OperationFormComponent implements OnInit {
 
     let formSubmission = this.operationForm.getRawValue();
 
+    /**
+     * In order to see which contacts to add, we
+     * filter this.operationContactsOriginal's values
+     *
+     */
     this.operationContactsToAdd = this.operationContacts.filter((operationContact: OperationContact, index: number) => {
-      return operationContact.operationContactId !== this.operationContactsOriginal[index];
+      return this.operationContactsOriginal.indexOf(operationContact.operationContactId) == -1;
     });
     console.log(this.operationContactsToAdd);
     debugger;
@@ -524,7 +524,13 @@ export class OperationFormComponent implements OnInit {
         .subscribe((data: any) => {
           if (data !== null) {
             var operationContactId = data.operationContactId;
-            formContact.operationContactNotifications.forEach((notificationTypeId: number) => {
+            var notificationsToAdd = new Array();
+            formContact.operationContactNotifications.forEach((notificationType: any | boolean) => {
+              if (notificationType[Object.keys(notificationType)[0]] == true) {
+                notificationsToAdd.push(parseInt(Object.keys(notificationType)[0]));
+              }
+            });
+            notificationsToAdd.forEach((notificationTypeId: number) => {
               var notificationReceipientPostBody = {
                 notificationOperationContactId: operationContactId,
                 notificationOperationId: this.operation.operationId,
@@ -534,26 +540,20 @@ export class OperationFormComponent implements OnInit {
               // Now that we have the contact, we add them to the notification recipients table
               this.notificationRecipientService
                 .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
-                .subscribe((data: any) => {
-                  console.log(data);
-                });
+                .subscribe(() => {});
             });
           }
         });
     });
 
     /**
-     * Add is working,
-     * Edit is broken.
+     * We simply filter out those that aren't to be added
+     * by comparing the operationContactId vs. the original array,
+     * and edit the rest.
      */
     this.operationContactsToEdit = this.operationContacts.filter(
       (operationContact: OperationContact, index: number) => {
-        /**
-         * Get the actual form submission value and then compare it to see if we need to edit
-         */
-        // Use lodash to see if these are deep-equal
-
-        return !_.isEqual(operationContact, formSubmission.operationContacts[index]);
+        return this.operationContactsToAdd.indexOf(operationContact) == -1;
       }
     );
     console.log(this.operationContactsToEdit);
@@ -581,6 +581,7 @@ export class OperationFormComponent implements OnInit {
               notificationsToAdd.push(parseInt(Object.keys(notificationType)[0]));
             }
           });
+          console.log(notificationsToAdd);
           notificationsToAdd.forEach((notificationTypeId: number) => {
             var notificationReceipientPostBody = {
               notificationOperationContactId: operationContactId,
@@ -647,4 +648,9 @@ export class OperationFormComponent implements OnInit {
       return true;
     }
   }
+  // ngOnDestroy() {
+  //   this.operationContacts = null;
+  //   this.operationContactsOriginal = null;
+  //   console.log('destroying component');
+  // }
 }

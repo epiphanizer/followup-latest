@@ -1,4 +1,5 @@
 import { NotificationType } from '@app/modules/notification/notification';
+import { FormArray } from '@angular/forms';
 
 export interface OperationContact {
   operationContactId?: number;
@@ -11,4 +12,5 @@ export interface OperationContact {
   operationContactCountryCode?: string;
   operationContactAreaCode?: string;
   operationContactPhoneNumber?: string;
+  operationContactNotifications?: FormArray;
 }

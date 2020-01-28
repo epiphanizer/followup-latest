@@ -132,11 +132,7 @@
               </ion-list>
 
               <!-- only show removal option if it's past the first index -->
-              <ion-item
-                *ngIf="idx > 0"
-                class="ion-float-right remove-additional-contact"
-                (click)="removeOperationContact(idx)"
-              >
+              <ion-item class="ion-float-right remove-additional-contact" (click)="removeOperationContact(idx)">
                 [ - remove contact ]
               </ion-item>
             </ion-item>
