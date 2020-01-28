@@ -512,11 +512,10 @@ export class OperationFormComponent implements OnInit {
     this.operationContactsToAdd = this.operationContacts.filter((operationContact: OperationContact, index: number) => {
       return this.operationContactsOriginal.indexOf(operationContact.operationContactId) == -1;
     });
-    console.log(this.operationContactsToAdd);
-    debugger;
     // Passing E2E
     this.operationContactsToAdd.forEach((operationContact: OperationContact, idx: number) => {
-      let formContact = formSubmission.operationContacts[idx];
+      let addOffset = formSubmission.operationContacts.length - 1 - idx;
+      let formContact = formSubmission.operationContacts[addOffset];
       let operationContactPost = this.operationContactPostFactory(formContact);
       this.operationContactsService
         .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
