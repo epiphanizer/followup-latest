@@ -24,7 +24,7 @@ export class AuthenticationService {
 
   doLogin(username: string, password: string): Observable<any> {
     return this.http
-      .post('users/login', {
+      .post('users/login/deprecated', {
         username: username,
         password: password
       })
@@ -46,6 +46,10 @@ export class AuthenticationService {
   }
   public getUser(): Promise<User> {
     if (!this.authenticated) {
+      /**
+       * This will be deprecated in the refactor.
+       * We will use a token.
+       */
       if (localStorage.getItem('followup-user')) {
         let userObj = JSON.parse(localStorage.getItem('followup-user'));
         return of(userObj).toPromise();
@@ -75,6 +79,10 @@ export class AuthenticationService {
     const userId = result.userId;
 
     this.user$ = this.getUserByUserId(userId).toPromise();
+    /**
+     * Check best practice on this token stuff here.
+     * This could very well be deprecated.
+     */
     this.getUserByUserId(userId).subscribe((user: User) => {
       localStorage.setItem('followup-user', JSON.stringify({ user: user }));
       localStorage.setItem('followup-token', JSON.stringify({ token: 'token' }));
@@ -86,6 +94,10 @@ export class AuthenticationService {
   signOut(): void {
     this.user$ = null;
     this.authenticated = false;
+    /**
+     * Check best practice on this token stuff here.
+     * This could very well be deprecated.
+     */
     localStorage.removeItem('followup-user');
     localStorage.removeItem('followup-token');
     this.router.navigate(['/login']);
