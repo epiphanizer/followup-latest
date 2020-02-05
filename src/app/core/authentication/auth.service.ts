@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, of } from 'rxjs';
+import { Observable, throwError, of, BehaviorSubject } from 'rxjs';
 import { map, share, catchError, retry } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -19,31 +19,41 @@ export class AuthenticationService {
   public authenticated: boolean;
   protected userId: number;
   public user$: Promise<User>;
+
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
+
   constructor(private http: HttpService, private operationService: OperationService, private router: Router) {}
   ngOnInit() {}
 
+  public getToken(): string {
+    return localStorage.getItem('followup-token');
+  }
+  public get currentUserValue(): User {
+    return this.currentUserSubject.value;
+  }
+
   doLogin(username: string, password: string): Observable<any> {
     return this.http
-      .post('users/login/deprecated', {
+      .post('users/login', {
         username: username,
         password: password
       })
       .pipe(
-        map((result: any) => {
+        map((result: User) => {
           if (result.userId) {
             this.authenticated = true;
-            var userId = result.userId;
-            this.user$ = this.getUserByUserId(userId).toPromise();
-            this.getUserByUserId(userId).subscribe((user: User) => {
-              localStorage.setItem('followup-user', JSON.stringify({ user: user }));
-              localStorage.setItem('followup-token', JSON.stringify({ token: 'token' }));
-            });
+            localStorage.setItem('followup-user', JSON.stringify({ user: result }));
+            localStorage.setItem('followup-token', JSON.stringify({ token: result.token }));
             return result;
+          } else {
+            this.authenticated = false;
           }
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
+
   public getUser(): Promise<User> {
     if (!this.authenticated) {
       /**
@@ -76,17 +86,18 @@ export class AuthenticationService {
       this.authenticated = false;
       return false;
     }
-    const userId = result.userId;
 
-    this.user$ = this.getUserByUserId(userId).toPromise();
-    /**
-     * Check best practice on this token stuff here.
-     * This could very well be deprecated.
-     */
-    this.getUserByUserId(userId).subscribe((user: User) => {
-      localStorage.setItem('followup-user', JSON.stringify({ user: user }));
-      localStorage.setItem('followup-token', JSON.stringify({ token: 'token' }));
-    });
+    // const userId = result.userId;
+
+    // this.user$ = this.getUserByUserId(userId).toPromise();
+    // /**
+    //  * Check best practice on this token stuff here.
+    //  * This could very well be deprecated.
+    //  */
+    // this.getUserByUserId(userId).subscribe((user: User) => {
+    //   localStorage.setItem('followup-user', JSON.stringify({ user: user }));
+    //   localStorage.setItem('followup-token', JSON.stringify({ token: 'token' }));
+    // });
     this.authenticated = true;
     return true;
   }

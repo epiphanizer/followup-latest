@@ -5,12 +5,14 @@ import { Observable } from 'rxjs';
 export interface User {
   userId: number;
   level: number;
+  username: string;
   email: string;
   avatar?: boolean;
   operations: Array<Operation>;
   operations$: Observable<Array<Operation>>;
   patientCalls: Array<PatientCall>;
   patientCalls$: Observable<PatientCall[]>;
+  token: string;
   userFirstName: string;
   userMiddleName?: string;
   userLastName: string;
@@ -19,7 +21,6 @@ export interface User {
   userPhoneNumber?: number;
   userDob?: Date;
   userFavoriteDessert?: string;
-  // string when we get it back and need to parse into JSON for the form
   userInterests:
     | {
         celebrity: boolean;
@@ -38,10 +39,8 @@ export interface User {
     | any;
   userAdditionalInfo: string;
   userLastAccess?: Date;
-  token: string;
 }
 
-export interface UserPostObject {}
 export interface UserPutObject {
   userFirstName: string;
   userMiddleName?: string;
