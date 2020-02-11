@@ -7,7 +7,7 @@
           <form id="login-form" (ngSubmit)="signIn()" [formGroup]="loginForm" novalidate>
             <div class="toolbar-logo"></div>
             <div class="login-loading" *ngIf="isLoading"></div>
-            <ion-text class="error-span" color="danger" *ngIf="error">
+            <ion-text class="error-span" color="danger" *ngIf="error && !isLoading">
               <span padding>Username or password incorrect.</span>
             </ion-text>
             <ion-list lines="none" inset>
