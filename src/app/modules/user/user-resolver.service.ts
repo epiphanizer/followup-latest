@@ -11,8 +11,6 @@ export class UserResolver implements Resolve<User> {
   constructor(private authService: AuthenticationService, private operationService: OperationService) {}
   resolve(): Promise<User> {
     return this.authService.getUser().then((result: User) => {
-      console.log(result);
-      debugger;
       if (!result[0]) {
         if (localStorage.getItem('followup-user')) {
           let userObj = JSON.parse(localStorage.getItem('followup-user')).user[0] as User;

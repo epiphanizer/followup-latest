@@ -32,7 +32,7 @@ export class UserProfileComponent implements OnInit {
     let formSubmission = this.userProfileForm.getRawValue();
     let userPutPayload = this.userFormSubmissionFactory(formSubmission);
     this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe((data: any) => {
-      window.location.href = '/profile';
+      window.location.href = '/user/profile';
     });
   }
 

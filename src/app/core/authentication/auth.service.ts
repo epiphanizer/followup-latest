@@ -69,8 +69,6 @@ export class AuthenticationService {
 
   public getUser(): Promise<User> {
     if (!this.authenticated) {
-      localStorage.removeItem('followup-user');
-      localStorage.removeItem('followup-token');
       /**
        * This will be deprecated in the refactor.
        * We will use a token.
