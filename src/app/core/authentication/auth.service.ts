@@ -77,7 +77,7 @@ export class AuthenticationService {
         let userObj = JSON.parse(localStorage.getItem('followup-user'));
         return of(userObj).toPromise();
       } else {
-        this.router.navigate(['/login']);
+        window.location.href = '/login';
         return null;
       }
     }
@@ -137,7 +137,7 @@ export class AuthenticationService {
      */
     localStorage.removeItem('followup-user');
     localStorage.removeItem('followup-token');
-    this.router.navigate(['/login']);
+    window.location.href = '/login';
   }
 
   ngOnDestroy() {}
