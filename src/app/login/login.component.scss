@@ -41,6 +41,15 @@ ion-item {
     background-size: contain;
     background-position: center center;
   }
+  .login-loading {
+    height: 30px;
+    width: 30px;
+    margin: 0 auto;
+    display: block;
+    background: url("/assets/login-loading.gif");
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
   .error-span {
     width: 100%;
     display: block;

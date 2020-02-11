@@ -3,7 +3,6 @@ import { Resolve, Router } from '@angular/router';
 import { User } from './user';
 import { AuthenticationService } from '@app/core';
 import { OperationService } from '../operation/operation.service';
-import { of } from 'rxjs';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {

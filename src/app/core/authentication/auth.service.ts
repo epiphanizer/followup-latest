@@ -29,6 +29,7 @@ export class AuthenticationService {
   public getToken(): string {
     return localStorage.getItem('followup-token');
   }
+
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
@@ -41,13 +42,15 @@ export class AuthenticationService {
       })
       .pipe(
         map((result: User) => {
+          if (result == null) {
+            this.authenticated = false;
+            return;
+          }
           if (result.userId) {
             this.authenticated = true;
             localStorage.setItem('followup-user', JSON.stringify({ user: result }));
             localStorage.setItem('followup-token', JSON.stringify({ token: result.token }));
             return result;
-          } else {
-            this.authenticated = false;
           }
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
