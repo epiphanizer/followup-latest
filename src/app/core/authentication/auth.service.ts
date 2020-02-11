@@ -5,7 +5,7 @@ import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { Router } from '@angular/router';
-import { OperationService } from '@app/modules/operation/operation.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 export interface AuthenticationBodyPost {
   username: string;
@@ -22,8 +22,7 @@ export class AuthenticationService {
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-
-  constructor(private http: HttpService, private operationService: OperationService, private router: Router) {}
+  constructor(private http: HttpService, private jwtHelper: JwtHelperService, private router: Router) {}
   ngOnInit() {}
 
   public getToken(): string {
@@ -48,8 +47,18 @@ export class AuthenticationService {
           }
           if (result.userId) {
             this.authenticated = true;
-            localStorage.setItem('followup-user', JSON.stringify({ user: result }));
-            localStorage.setItem('followup-token', JSON.stringify({ token: result.token }));
+            localStorage.setItem(
+              'followup-user',
+              JSON.stringify({
+                user: result
+              })
+            );
+            localStorage.setItem(
+              'followup-token',
+              JSON.stringify({
+                token: 'token'
+              })
+            );
             return result;
           }
         }),
@@ -90,17 +99,30 @@ export class AuthenticationService {
       return false;
     }
 
-    // const userId = result.userId;
+    const userId = result.userId;
 
-    // this.user$ = this.getUserByUserId(userId).toPromise();
-    // /**
-    //  * Check best practice on this token stuff here.
-    //  * This could very well be deprecated.
-    //  */
-    // this.getUserByUserId(userId).subscribe((user: User) => {
-    //   localStorage.setItem('followup-user', JSON.stringify({ user: user }));
-    //   localStorage.setItem('followup-token', JSON.stringify({ token: 'token' }));
-    // });
+    this.user$ = this.getUserByUserId(userId).toPromise();
+    /**
+     * Check best practice on this token stuff here.
+     * This could very well be deprecated.
+     */
+    this.getUserByUserId(userId).subscribe((user: User) => {
+      localStorage.setItem(
+        'followup-user',
+        JSON.stringify({
+          user: user
+        })
+      );
+      localStorage.setItem(
+        'followup-token',
+        JSON.stringify({
+          token: 'token'
+        })
+      );
+    });
+    // if (this.jwtHelper.isTokenExpired() !== false) {
+    //   this.authenticated = true;
+    // }
     this.authenticated = true;
     return true;
   }
