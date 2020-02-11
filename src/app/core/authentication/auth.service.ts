@@ -41,6 +41,7 @@ export class AuthenticationService {
       })
       .pipe(
         map((result: User) => {
+          console.log(result);
           if (result == null) {
             this.authenticated = false;
             return;
@@ -68,6 +69,8 @@ export class AuthenticationService {
 
   public getUser(): Promise<User> {
     if (!this.authenticated) {
+      localStorage.removeItem('followup-user');
+      localStorage.removeItem('followup-token');
       /**
        * This will be deprecated in the refactor.
        * We will use a token.

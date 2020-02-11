@@ -22,6 +22,11 @@ import { NotificationModule } from '@app/modules/notification/notification.modul
 import { UserModule } from '@app/modules/user/user.module';
 
 import { AppRoutingModule } from './app-routing.module';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('followup-token');
+}
 
 @NgModule({
   imports: [
@@ -35,6 +40,12 @@ import { AppRoutingModule } from './app-routing.module';
       mode: 'md'
     }),
     CoreModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['followup.care']
+      }
+    }),
     SharedModule,
     ShellModule,
     ReactiveFormsModule,
@@ -48,7 +59,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
-  providers: [],
+  providers: [JwtHelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

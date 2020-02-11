@@ -15,7 +15,12 @@
   </div>
   <div class="username">
     <a routerLink="/user/profile" class="user-profile-jump">
-      {{ user.userFirstName }} {{ user.userLastName.charAt(0) }}.
+      <span *ngIf="user.userFirstName && user.userLastName; else newUser">
+        {{ user.userFirstName }} {{ user.userLastName.charAt(0) }}.
+      </span>
+      <ng-template #newUser>
+        New User
+      </ng-template>
     </a>
   </div>
   <div class="logout-nav">

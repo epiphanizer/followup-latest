@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LoadingController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { environment } from '@env/environment';
 import { Logger, AuthenticationService, untilDestroyed } from '@app/core';
 
