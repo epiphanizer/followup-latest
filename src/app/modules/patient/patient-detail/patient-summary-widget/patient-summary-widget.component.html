@@ -39,25 +39,22 @@
                 </ng-container>
               </span>
               <br />
-              <a class="alternate-numbers" (click)="toggleAlternateNumbers()">[Alt Numbers]</a>
-              <ng-container *ngIf="expandAlternateNumbers">
-                <ion-list lines="none" inset class="alternate-numbers-list">
-                  <div *ngFor="let patientContact of patientContacts; let idx = index">
-                    <!-- Skip the first contact number, which is already listed above ^ -->
-                    <ion-item class="alternate-number" *ngIf="idx != 0">
-                      <span class="alternate-contact">
-                        {{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }}:
-                        {{ patientContact.patientContactCountryCode }}-{{ patientContact.patientContactAreaCode }}-
-                        {{ patientContact.patientContactPhoneNumber }} |
-                        {{ patientContact.patientContactRelationship }}
-                        <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
-                          <i class="icon-hipaa" *ngIf="patientContacts[0].patientContactResponsiblePartyBoolean"></i>
-                        </ng-container>
-                      </span>
-                    </ion-item>
-                  </div>
-                </ion-list>
-              </ng-container>
+              <ion-list lines="none" inset class="alternate-numbers-list">
+                <div *ngFor="let patientContact of patientContacts; let idx = index">
+                  <!-- Skip the first contact number, which is already listed above ^ -->
+                  <ion-item class="alternate-number" *ngIf="idx != 0">
+                    <span class="alternate-contact">
+                      {{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }}:
+                      {{ patientContact.patientContactCountryCode }}-{{ patientContact.patientContactAreaCode }}-
+                      {{ patientContact.patientContactPhoneNumber }} |
+                      {{ patientContact.patientContactRelationship }}
+                      <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
+                        <i class="icon-hipaa" *ngIf="patientContacts[0].patientContactResponsiblePartyBoolean"></i>
+                      </ng-container>
+                    </span>
+                  </ion-item>
+                </div>
+              </ion-list>
             </li>
           </ul>
         </div>
