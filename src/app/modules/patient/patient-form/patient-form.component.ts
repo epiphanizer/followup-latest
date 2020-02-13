@@ -18,7 +18,7 @@ import {
   PatientIntakeQuestionAnswer
 } from '../patient-intake-question/patient-intake-question.component';
 import { PatientIntakeQuestionService } from '../patient-intake-question/patient-intake-question.service';
-import { SafeUrl, DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -534,14 +534,7 @@ export class PatientFormComponent implements OnInit {
    * bounce the user to the top.
    */
   validateControls(): boolean {
-    console.log('Finding invalid controls...');
-    const errors = SuperForm.getAllErrors(this.patientForm);
-    console.log(JSON.stringify(errors));
-    const errorsFlat = SuperForm.getAllErrorsFlat(this.patientForm);
-    console.log(JSON.stringify(errorsFlat));
-    // Double check this
     const firstError = <HTMLElement>document.querySelectorAll('ion-item .ng-invalid')[0];
-
     function scroll(el: HTMLElement) {
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
