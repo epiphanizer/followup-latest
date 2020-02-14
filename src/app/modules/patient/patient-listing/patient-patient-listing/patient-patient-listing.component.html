@@ -36,7 +36,7 @@
 <ul class="patient-patient-list" *ngIf="patients$ | async">
   <li *ngFor="let patient of patients" class="active" [routerLink]="'/patient/edit/' + patient.patientId">
     <div class="patient-discharge-date">
-      {{ patient.patientDischargeDate | date: 'M/d' }}
+      {{ patient.patientDischargeDate | date: 'M/d':'UTC' }}
     </div>
     <div class="patient-avatar-container">
       <app-patient-avatar [patient]="patient"> </app-patient-avatar>

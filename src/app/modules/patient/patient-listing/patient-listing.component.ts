@@ -7,6 +7,7 @@ import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
 import { PatientService } from '../patient.service';
 import { OperationService } from '@app/modules/operation/operation.service';
+import { LocationStrategy } from '@angular/common';
 
 @Component({
   selector: 'app-patient-listing',
@@ -28,8 +29,13 @@ export class PatientListingComponent implements OnInit {
   constructor(
     private patientService: PatientService,
     private operationService: OperationService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private location: LocationStrategy
+  ) {
+    this.location.onPopState(() => {
+      window.location.reload();
+    });
+  }
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
@@ -55,5 +61,9 @@ export class PatientListingComponent implements OnInit {
         return patients;
       })
     );
+  }
+  ngOnDestroy() {
+    this.patients = null;
+    alert('destroyed');
   }
 }

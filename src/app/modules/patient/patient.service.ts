@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, take } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Patient, PatientDischargeLabel } from './patient';
 import { PatientPutBody } from './patient-form/patient-form';
@@ -11,14 +11,12 @@ export class PatientService {
 
   addNewPatient(): Observable<Patient> {
     return this.http.post<Patient>('patients', {}).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
 
   editPatientByPatientId(patientId: number, patientPutBody: PatientPutBody): Observable<Patient> {
     return this.http.put<Patient>('patients/' + patientId, patientPutBody).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
@@ -30,6 +28,7 @@ export class PatientService {
   }
   getPatientListByOperationId(operationId: number): Observable<[Patient]> {
     return this.http.get<[Patient]>('operations/' + operationId + '/patients/all').pipe(
+      take(1),
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

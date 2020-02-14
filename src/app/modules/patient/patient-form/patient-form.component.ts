@@ -30,6 +30,7 @@ import { take } from 'rxjs/operators';
 export class PatientFormComponent implements OnInit {
   avatarExists: Boolean;
   public avatarUrl: SafeStyle;
+  changingAvatar: boolean = false;
   dischargeLabels: PatientDischargeLabel[];
   patientForm: FormGroup;
   currentYear: number;
@@ -271,9 +272,11 @@ export class PatientFormComponent implements OnInit {
       })
     });
   }
+
   clickUploadInput() {
     let element: HTMLElement = document.querySelector('#fileUpload') as HTMLElement;
     element.click();
+    this.changingAvatar = true;
   }
   uploadPatientAvatarPhoto(files: FileList) {
     this.fileToUpload = files.item(0);
@@ -291,6 +294,7 @@ export class PatientFormComponent implements OnInit {
               var base64data = reader.result;
               self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
               self.avatarExists = true;
+              self.changingAvatar = false;
             };
           }
         });
@@ -546,6 +550,6 @@ export class PatientFormComponent implements OnInit {
     }
   }
   ngOnDestroy() {
-    console.log('Destroying component');
+    this.patient = null;
   }
 }

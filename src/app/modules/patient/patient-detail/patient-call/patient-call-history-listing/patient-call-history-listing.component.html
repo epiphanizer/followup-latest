@@ -16,7 +16,7 @@
           <span class="call-made-by">
             by {{ patientCall.patientCalledByUserFirstName }} {{ patientCall.patientCalledByUserLastName }}</span
           >
-          <span class="call-number-date">- {{ patientCall.patientCallEndTime | date: 'MM/dd/yyyy' }}</span>
+          <span class="call-number-date">- {{ patientCall.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}</span>
         </div>
       </div>
       <div class="call-question-container">

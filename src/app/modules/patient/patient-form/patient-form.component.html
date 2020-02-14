@@ -328,7 +328,8 @@
     <ion-col class="avatar-col">
       <div
         class="patient-avatar-image"
-        *ngIf="avatarExists; else defaultAvatar"
+        *ngIf="avatarExists && !changingAvatar; else defaultAvatar"
+        (click)="clickUploadInput()"
         [style.background-image]="avatarUrl"
       ></div>
       <ng-template #defaultAvatar>

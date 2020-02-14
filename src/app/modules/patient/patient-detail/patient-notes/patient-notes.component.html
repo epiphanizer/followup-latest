@@ -4,7 +4,7 @@
     <span class="label">
       Admitted: &nbsp;
     </span>
-    {{ patient.patientAdmitDate | date: 'MM/dd/yyyy' }}
+    {{ patient.patientAdmitDate | date: 'MM/dd/yyyy':'UTC' }}
   </ion-item>
   <ion-item>
     <span class="label ama" *ngIf="patient.patientDischargedAma">
@@ -13,7 +13,7 @@
     <span class="label">
       Discharged: &nbsp;
     </span>
-    {{ patient.patientDischargeDate | date: 'MM/dd/yyyy' }}
+    {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}
   </ion-item>
   <ion-item>
     <span class="label">

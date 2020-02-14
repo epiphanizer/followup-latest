@@ -69,10 +69,10 @@
       </span>
       <span class="patient label-line">{{ patient.patientAge }}, {{ operation?.operationName }}</span>
       <span class="patient additional-label-line"
-        >Discharge Date: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy' }}</span
+        >Discharge Date: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}</span
       >
       <span class="patient additional-label-line"
-        >Next Call Date: {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy' }}
+        >Next Call Date: {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }}
       </span>
     </div>
     <div class="call-queue-call-status-legend">

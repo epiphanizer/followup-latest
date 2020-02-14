@@ -4,7 +4,7 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Patient } from './patient';
 import { PatientService } from './patient.service';
-import { map, share } from 'rxjs/operators';
+import { map, share, take } from 'rxjs/operators';
 import { PatientContactService } from './patient-contact/patient-contact.service';
 import { PatientCallService } from './patient-detail/patient-call/patient-call.service';
 
@@ -20,6 +20,7 @@ export class PatientResolver implements Resolve<Patient> {
   resolve(route: ActivatedRouteSnapshot): Observable<Patient> {
     const patientId = route.paramMap.get('patientId');
     this.patient$ = this.patientService.getPatientByPatientId(+patientId).pipe(
+      take(1),
       map((patient: Patient) => {
         patient = patient[0];
         this.patient = patient;
