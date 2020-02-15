@@ -31,10 +31,14 @@
                 ? patientCall.patientCallCount
                 : patientCall.patientCallCount - 1
             }}
-            - ({{ patientCall.patientCallStatusLabel }}) &nbsp;|&nbsp;{{
-              patientCall.patientCallScheduledTime | date: 'MM/dd/yyyy'
-            }}</span
-          >
+            - ({{ patientCall.patientCallStatusLabel }}) &nbsp;|&nbsp;
+            <ng-container *ngIf="patientCall.patientCallEndTime; else callScheduledTime">
+              {{ patientCall.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}
+            </ng-container>
+            <ng-template #callScheduledTime>
+              {{ patientCall.patientCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }}
+            </ng-template>
+          </span>
         </a>
       </ion-item>
     </ion-list>

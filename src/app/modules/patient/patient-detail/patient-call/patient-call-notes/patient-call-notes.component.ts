@@ -43,9 +43,10 @@ export class PatientCallNotesComponent implements OnInit {
       this.patientCallNotesHighlightedChangeEmitter.emit(0);
     }
   }
-  private createForm() {
+  createForm() {
     this.patientCallNotesForm = this.fb.group({
       patientCallNotes: this.fb.control('')
     });
+    console.log(this.patientCallNotesForm);
   }
 }

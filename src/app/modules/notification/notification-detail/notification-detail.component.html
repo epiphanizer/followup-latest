@@ -24,7 +24,7 @@
           </div>
           <div class="notification-item">
             <span class="label">Date Received:&nbsp;</span>
-            {{ notification.notificationCreatedTime | date: 'MM/dd/yyyy' }}
+            {{ notification.notificationCreatedTime | date: 'MM/dd/yyyy':'UTC' }}
           </div>
           <div class="notification-item">
             <span class="label">Care Rep:&nbsp;</span> {{ notification.notificationUserFirstName }}

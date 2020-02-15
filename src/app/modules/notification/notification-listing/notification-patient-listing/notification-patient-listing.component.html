@@ -42,7 +42,7 @@
     [routerLink]="'/notifications/' + notification.notificationId"
   >
     <div class="notification-date">
-      {{ notification.notificationCreatedTime | date: 'M/d' }}
+      {{ notification.notificationCreatedTime | date: 'M/d':'UTC' }}
     </div>
 
     <div class="notification-listing-avatar">

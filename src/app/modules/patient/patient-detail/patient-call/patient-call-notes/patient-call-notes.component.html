@@ -16,6 +16,7 @@
           Edit & Review Call
         </ion-label>
         <ion-textarea
+          *ngIf="patientCallNotesForm.get('patientCallNotes')"
           [class.review]="
             patientCall.patientCallStatusLabel == 'In Review' ||
             patientCall.patientCallStatusLabel == 'User Selected Status'
