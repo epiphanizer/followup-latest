@@ -23,6 +23,7 @@ export class PatientResolver implements Resolve<Patient> {
       take(1),
       map((patient: Patient) => {
         patient = patient[0];
+        console.log(patient);
         this.patient = patient;
         this.patient.patientContacts$ = this.patientContactService
           .getPatientContactsByPatientId(this.patient.patientId)

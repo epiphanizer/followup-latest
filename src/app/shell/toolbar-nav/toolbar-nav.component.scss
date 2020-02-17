@@ -28,11 +28,21 @@ ion-list {
       font-family: AvenirBold;
       font-size: 12px;
       border-radius: 15%;
-
+      --background-activated: transparent;
+      --color-activated: white;
+      --color-focused: white;
+      --color-hover: white;
       &.kudos {
+        --border-color: var(--ion-color-primary);
         background-color: var(--ion-color-primary);
       }
+      &.history {
+        --border-color: var(--ion-color-primary);
+        color: var(--ion-color-primary);
+        --color-hover: var(--ion-color-primary);
+      }
       &.report {
+        --border-color: red;
         background-color: red;
       }
     }

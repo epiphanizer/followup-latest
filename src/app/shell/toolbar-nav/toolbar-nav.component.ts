@@ -40,6 +40,9 @@ export class ToolbarNavComponent implements OnInit {
       this.createNotificationModal();
     } else if (buttonAction == 'kudos') {
       this.createKudosModal();
+    } else if (buttonAction == 'history') {
+      // this.router.navigate()
+      alert('Switch to history view');
     }
   }
 

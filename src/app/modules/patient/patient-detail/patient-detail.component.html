@@ -2,7 +2,7 @@
   <ion-content>
     <ion-row>
       <ion-col class="left-hand-detail">
-        <div *ngIf="patientCall$ | async">
+        <ng-container *ngIf="patientCall$ | async">
           <app-patient-call-status-controls
             *ngIf="
               patientCall.patientCallStatusLabel == 'In Review' ||
@@ -83,7 +83,7 @@
             >
             </app-followup-complete-button>
           </ng-container>
-        </div>
+        </ng-container>
       </ion-col>
       <ion-col class="right-hand-detail">
         <ng-container>
