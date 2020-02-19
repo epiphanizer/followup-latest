@@ -45,8 +45,10 @@
                   <ion-item class="alternate-number" *ngIf="idx != 0">
                     <span class="alternate-contact">
                       {{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }}:
-                      {{ patientContact.patientContactCountryCode }}-{{ patientContact.patientContactAreaCode }}-
-                      {{ patientContact.patientContactPhoneNumber }} |
+                      {{ patientContact.patientContactCountryCode }}-{{ patientContact.patientContactAreaCode }}-{{
+                        patientContact.patientContactPhoneNumber
+                      }}
+                      |
                       {{ patientContact.patientContactRelationship }}
                       <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
                         <i class="icon-hipaa" *ngIf="patientContacts[0].patientContactResponsiblePartyBoolean"></i>
