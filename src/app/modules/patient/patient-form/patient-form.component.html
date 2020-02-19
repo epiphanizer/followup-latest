@@ -333,7 +333,11 @@
         [style.background-image]="avatarUrl"
       ></div>
       <ng-template #defaultAvatar>
-        <img src="/assets/default-avatar-patient-detail.png" />
+        <img
+          class="patient-avatar-image"
+          (click)="clickUploadInput()"
+          src="/assets/default-avatar-patient-detail.png"
+        />
       </ng-template>
 
       <input

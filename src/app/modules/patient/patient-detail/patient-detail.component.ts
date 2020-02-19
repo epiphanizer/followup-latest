@@ -150,7 +150,6 @@ export class PatientDetailComponent implements OnInit {
       return;
     }
     if (!this.patientCallNotes) {
-      debugger;
       alert('Please add patient call notes');
       let element = document.querySelector('#patientCallNotesForm');
       if (element) {
