@@ -52,6 +52,11 @@ ion-item.call-question {
     letter-spacing: 0.42px;
     text-align: left;
     border-bottom: none;
+
+    ion-label {
+      white-space: initial;
+      overflow: auto;
+    }
     ion-textarea {
       border-bottom: none;
       min-height: 80px;

@@ -101,6 +101,11 @@ form {
     --highlight-color-valid: transparent;
     border-bottom: none;
 
+    ion-label {
+      white-space: initial;
+      overflow: auto;
+    }
+
     a {
       width: 100%;
       margin-top: 15px;
