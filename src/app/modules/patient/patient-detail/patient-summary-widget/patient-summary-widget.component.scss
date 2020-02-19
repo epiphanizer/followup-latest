@@ -74,11 +74,11 @@
   cursor: pointer;
 }
 .alternate-numbers-list {
-  margin: 0;
+  margin: 1rem 0 0 0;
   padding: 0;
   ion-item {
     width: calc(100% + 55px);
-    height: 35px;
+    max-height: 30px;
     vertical-align: top;
     margin: 0;
     margin-left: -14px;
@@ -87,7 +87,7 @@
       line-height: 100%;
       vertical-align: middle;
       margin-top: -12px;
-      font-size: 13px;
+      font-size: 15px;
     }
   }
 }
