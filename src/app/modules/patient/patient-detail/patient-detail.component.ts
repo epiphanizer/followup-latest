@@ -18,7 +18,7 @@ import {
 } from './patient-call/patient-call-questions/patient-call-questions.service';
 import { PatientCallStatus } from './patient-call/patient-call-status.service';
 import { formatDate } from '@angular/common';
-import { share, map, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -49,8 +49,7 @@ export class PatientDetailComponent implements OnInit {
     private patientCallService: PatientCallService,
     private patientCallNotesService: PatientCallNotesService,
     private patientCallQuestionsService: PatientCallQuestionsService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
