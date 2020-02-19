@@ -71,8 +71,9 @@
   color: #343638;
 
   &.is-highlighted {
-    height: 23px;
+    height: auto;
     border-bottom: solid 5px #ffdf2c;
+    text-decoration: underline #ffdf2c;
   }
 }
 

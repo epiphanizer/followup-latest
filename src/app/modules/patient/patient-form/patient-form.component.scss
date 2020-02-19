@@ -19,6 +19,10 @@ ion-content {
   max-width: 220px;
   margin-left: 81.4px;
 
+  img.patient-avatar-image {
+    cursor: pointer;
+  }
+
   div.patient-avatar-image {
     height: 220px;
     width: 100%;
@@ -85,6 +89,7 @@ form {
   ion-textarea {
     padding-left: 15px !important;
   }
+
   ion-input,
   ion-textarea,
   ion-datetime {
@@ -283,7 +288,9 @@ form {
       font-size: 13px;
       font-family: Avenir;
     }
+
     border: none;
+
     i.icon-hipaa {
       background-image: url("/assets/icon-hipaa@2x.png");
       background-size: 100%;
@@ -292,6 +299,7 @@ form {
       margin-left: 5px;
       margin-top: -1px;
     }
+
     .add-additional-contact,
     .remove-additional-contact {
       cursor: pointer;
@@ -352,6 +360,7 @@ form {
         width: 60px;
         display: none !important;
       }
+
       &.responsible-party {
         ion-label {
           margin-right: 5px;
@@ -460,6 +469,7 @@ form {
 
         ion-datetime {
           padding-left: 42px;
+
           &::before {
             cursor: pointer;
             pointer-events: auto;
@@ -485,6 +495,7 @@ form {
         margin-left: 18px;
       }
     }
+
     .equal-sign {
       height: 50px;
       top: 44px;
@@ -710,6 +721,7 @@ fieldset.patient-intake-questions {
     line-height: 1.33;
     letter-spacing: 0.42px;
     text-align: left;
+
     ion-list {
       margin-left: 0.5rem;
     }
