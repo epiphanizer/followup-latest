@@ -12,7 +12,6 @@ export class UserService {
 
   deactivateUserByUserId(userId: number) {
     return this.http.delete('users/' + userId).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
@@ -36,7 +35,6 @@ export class UserService {
   }
   updateUserByUserId(userId: number, userPutObject: UserPutObject) {
     return this.http.put<UserPutObject>('users/' + userId, userPutObject).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
