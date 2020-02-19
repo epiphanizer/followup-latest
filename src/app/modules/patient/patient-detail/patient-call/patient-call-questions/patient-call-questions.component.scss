@@ -58,9 +58,10 @@ ion-item.call-question {
       overflow: auto;
     }
     ion-textarea {
+      width: 100%;
       border-bottom: none;
       min-height: 80px;
-      font-size: 13px;
+      font-size: 15px;
       font-family: Avenir;
       background-color: #f5f5f5;
       margin-top: 1.25rem;
