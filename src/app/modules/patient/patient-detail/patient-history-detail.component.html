@@ -1,1 +1,19 @@
-Notification Listing Here
+<ion-row>
+  <ion-col class="left-hand-detail">
+    <ng-container *ngIf="patientNotifications$">
+      <ion-list class="patient-notification-listings">
+        <ion-item *ngFor="let patientNotification of patientNotifications$ | async">
+          Notification
+        </ion-item>
+      </ion-list>
+    </ng-container>
+  </ion-col>
+  <ion-col class="right-hand-detail">
+    <ng-container>
+      <app-patient-summary-widget [patient]="patient"> </app-patient-summary-widget>
+    </ng-container>
+    <app-patient-notes [patient]="patient"> </app-patient-notes>
+    <app-patient-call-history-listing *ngIf="patient.patientCalls" [patientCalls]="patient.patientCalls">
+    </app-patient-call-history-listing>
+  </ion-col>
+</ion-row>

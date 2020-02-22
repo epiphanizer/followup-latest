@@ -39,12 +39,14 @@ export class UserCorkBoardComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe((data: any) => {
-      if (data) {
-        debugger;
-        this.userCorkBoardObjects = data;
-      }
-    });
+    this.userCorkBoardService
+      .getUserCorkBoardObjectsByUserId(this.user.userId)
+      .subscribe((data: UserCorkBoardObject[]) => {
+        if (data) {
+          // debugger;
+          this.userCorkBoardObjects = data;
+        }
+      });
   }
 
   addNewCorkboardItem = function(files: FileList) {

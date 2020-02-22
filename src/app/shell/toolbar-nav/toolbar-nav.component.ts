@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { KudosModalComponent } from '../kudos-modal/kudos-modal.component';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
@@ -12,7 +12,7 @@ import { User } from '@app/modules/user/user';
   styleUrls: ['./toolbar-nav.component.scss']
 })
 export class ToolbarNavComponent implements OnInit {
-  constructor(private route: ActivatedRoute, public modalController: ModalController) {}
+  constructor(private route: ActivatedRoute, private router: Router, public modalController: ModalController) {}
 
   @Input() navLinks: [string] | null;
   patient: Patient;
@@ -41,8 +41,8 @@ export class ToolbarNavComponent implements OnInit {
     } else if (buttonAction == 'kudos') {
       this.createKudosModal();
     } else if (buttonAction == 'history') {
-      // this.router.navigate()
-      alert('Switch to history view');
+      let routerUrl = this.router.url + '/history';
+      this.router.navigate([routerUrl]);
     }
   }
 

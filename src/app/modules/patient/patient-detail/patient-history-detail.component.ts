@@ -39,9 +39,6 @@ export class PatientHistoryDetailComponent implements OnInit {
   constructor(private notificationService: NotificationService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    if (this.patient !== null) {
-      location.reload();
-    }
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
     this.patientNotifications$ = this.notificationService.getNotificationsByPatientId(this.patient.patientId).pipe(

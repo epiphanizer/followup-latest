@@ -254,6 +254,7 @@ export class OperationFormComponent implements OnInit {
       .getOperationManagersByOperationId(this.operation.operationId)
       .pipe(take(1))
       .subscribe((operationManagers: OperationManager[]) => {
+        console.log(operationManagers);
         if (operationManagers.length) {
           this.operationManagers = operationManagers;
           operationManagers.forEach((operationManager: OperationManager) => {
@@ -303,6 +304,7 @@ export class OperationFormComponent implements OnInit {
       userId: 0
     };
     this.operationManagers.push(newManager);
+    debugger;
   }
 
   addAdditionalOperationContact() {
@@ -455,10 +457,11 @@ export class OperationFormComponent implements OnInit {
     if (!this.validateControls()) {
       return;
     }
-    if (!this.operationContacts.length) {
-      alert('Please add an operation contact');
-      return;
-    }
+    // Shold not
+    // if (!this.operationContacts.length) {
+    //   alert('Please add an operation contact');
+    //   return;
+    // }
 
     // Passing E2E
     this.operationManagersToRemove.forEach((managerUserId: number) => {
@@ -518,32 +521,87 @@ export class OperationFormComponent implements OnInit {
      * filter this.operationContactsOriginal's values
      *
      */
-    this.operationContactsToAdd = this.operationContacts.filter((operationContact: OperationContact, index: number) => {
-      return this.operationContactsOriginal.indexOf(operationContact.operationContactId) == -1;
-    });
-    /**
-     * We should have a test here
-     */
-    // Passing E2E
-    this.operationContactsToAdd.forEach((operationContact: OperationContact, idx: number) => {
-      let addOffset = formSubmission.operationContacts.length - 1 - idx;
-      let formContact = formSubmission.operationContacts[addOffset];
+    if (this.operationContacts.length) {
+      this.operationContactsToAdd = this.operationContacts.filter(
+        (operationContact: OperationContact, index: number) => {
+          return this.operationContactsOriginal.indexOf(operationContact.operationContactId) == -1;
+        }
+      );
+      /**
+       * We should have a test here
+       */
+      // Passing E2E
+      this.operationContactsToAdd.forEach((operationContact: OperationContact, idx: number) => {
+        let addOffset = formSubmission.operationContacts.length - 1 - idx;
+        let formContact = formSubmission.operationContacts[addOffset];
+
+        /**
+         * We get the formContact object from the formSubmission
+         */
+        let operationContactPost = this.operationContactPostFactory(formContact);
+        this.operationContactsService
+          .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
+          .subscribe((data: any) => {
+            if (data !== null) {
+              var operationContactId = data.operationContactId;
+              var notificationsToAdd = new Array();
+              formContact.operationContactNotifications.forEach((notificationType: any | boolean) => {
+                if (notificationType[Object.keys(notificationType)[0]] == true) {
+                  notificationsToAdd.push(parseInt(Object.keys(notificationType)[0]));
+                }
+              });
+              notificationsToAdd.forEach((notificationTypeId: number) => {
+                var notificationReceipientPostBody = {
+                  notificationOperationContactId: operationContactId,
+                  notificationOperationId: this.operation.operationId,
+                  notificationTypeId: notificationTypeId,
+                  notificationRecipientEmail: formContact.operationContactEmail
+                };
+                // Now that we have the contact, we add them to the notification recipients table
+                this.notificationRecipientService
+                  .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
+                  .subscribe(() => {});
+              });
+            }
+          });
+      });
 
       /**
-       * We get the formContact object from the formSubmission
+       * We simply filter out those that aren't to be added
+       * by comparing the operationContactId vs. the original array,
+       * and edit the rest.
        */
-      let operationContactPost = this.operationContactPostFactory(formContact);
-      this.operationContactsService
-        .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
-        .subscribe((data: any) => {
-          if (data !== null) {
-            var operationContactId = data.operationContactId;
+      this.operationContactsToEdit = this.operationContacts.filter(
+        (operationContact: OperationContact, index: number) => {
+          return this.operationContactsToAdd.indexOf(operationContact) == -1;
+        }
+      );
+      console.log(this.operationContactsToEdit);
+      debugger;
+
+      // Passing E2E
+      this.operationContactsToEdit.forEach((operationContact: OperationContact, idx: number) => {
+        let formContact = formSubmission.operationContacts[idx];
+        let operationContactPut = this.operationContactPutFactory(formContact);
+        this.operationContactsService
+          .editOperationContactByOperationContactId(
+            this.operation.operationId,
+            operationContact.operationContactId,
+            operationContactPut
+          )
+          .subscribe(() => {
+            var operationContactId = operationContact.operationContactId;
+            console.log(formContact);
             var notificationsToAdd = new Array();
-            formContact.operationContactNotifications.forEach((notificationType: any | boolean) => {
+            formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {
+              // Add to our notification add array if the value of the notificationTypeId (key) is true
+              console.log(notificationType);
+
               if (notificationType[Object.keys(notificationType)[0]] == true) {
                 notificationsToAdd.push(parseInt(Object.keys(notificationType)[0]));
               }
             });
+            console.log(notificationsToAdd);
             notificationsToAdd.forEach((notificationTypeId: number) => {
               var notificationReceipientPostBody = {
                 notificationOperationContactId: operationContactId,
@@ -556,75 +614,23 @@ export class OperationFormComponent implements OnInit {
                 .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
                 .subscribe(() => {});
             });
-          }
-        });
-    });
-
-    /**
-     * We simply filter out those that aren't to be added
-     * by comparing the operationContactId vs. the original array,
-     * and edit the rest.
-     */
-    this.operationContactsToEdit = this.operationContacts.filter(
-      (operationContact: OperationContact, index: number) => {
-        return this.operationContactsToAdd.indexOf(operationContact) == -1;
-      }
-    );
-    console.log(this.operationContactsToEdit);
-    debugger;
-
-    // Passing E2E
-    this.operationContactsToEdit.forEach((operationContact: OperationContact, idx: number) => {
-      let formContact = formSubmission.operationContacts[idx];
-      let operationContactPut = this.operationContactPutFactory(formContact);
-      this.operationContactsService
-        .editOperationContactByOperationContactId(
-          this.operation.operationId,
-          operationContact.operationContactId,
-          operationContactPut
-        )
-        .subscribe(() => {
-          var operationContactId = operationContact.operationContactId;
-          console.log(formContact);
-          var notificationsToAdd = new Array();
-          formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {
-            // Add to our notification add array if the value of the notificationTypeId (key) is true
-            console.log(notificationType);
-
-            if (notificationType[Object.keys(notificationType)[0]] == true) {
-              notificationsToAdd.push(parseInt(Object.keys(notificationType)[0]));
-            }
           });
-          console.log(notificationsToAdd);
-          notificationsToAdd.forEach((notificationTypeId: number) => {
-            var notificationReceipientPostBody = {
-              notificationOperationContactId: operationContactId,
-              notificationOperationId: this.operation.operationId,
-              notificationTypeId: notificationTypeId,
-              notificationRecipientEmail: formContact.operationContactEmail
-            };
-            // Now that we have the contact, we add them to the notification recipients table
-            this.notificationRecipientService
-              .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
-              .subscribe(() => {});
-          });
-        });
-    });
+      });
 
-    this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
-      if (operationContactId != null) {
-        this.operationContactsService
-          .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
-          .subscribe(() => {
-            alert('Successfully removed operation contact');
-          });
-      }
-    });
+      this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
+        if (operationContactId != null) {
+          this.operationContactsService
+            .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
+            .subscribe(() => {
+              alert('Successfully removed operation contact');
+            });
+        }
+      });
+    }
 
     let operationPut = this.operationPutFactory(formSubmission);
     this.operationService.editOperationByOperationId(this.operation.operationId, operationPut).subscribe(() => {
       alert('Operation successfully edited');
-      // this.router.navigate(['/operations']);
       window.location.href = '/operations';
     });
   }
