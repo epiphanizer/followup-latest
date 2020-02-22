@@ -316,6 +316,7 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
     contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
+    contactFormGroup.addControl('operationContactOrder', this.fb.control(''));
     formArray.push(contactFormGroup);
 
     let notificationsFormControlArray = this.fb.array([]);
@@ -334,7 +335,8 @@ export class OperationFormComponent implements OnInit {
     }
 
     this.operationContacts.push({
-      operationContactId: null
+      operationContactId: null,
+      operationContactOrder: this.operationContacts.length + 1
     });
   }
 

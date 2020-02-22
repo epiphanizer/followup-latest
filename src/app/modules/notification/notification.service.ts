@@ -33,6 +33,12 @@ export class NotificationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
+  getNotificationsByPatientId(patientId: number): Observable<Notification[]> {
+    return this.http.get<Notification[]>('notifications/patient/' + patientId).pipe(
+      retry(3),
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   getNotificationRecipientsByOperationIdAndNotificationTypeId(operationId: number, notificationTypeId: number) {
     return this.http
       .get<NotificationRecipient[]>(

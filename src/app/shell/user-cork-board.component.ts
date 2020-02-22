@@ -41,6 +41,7 @@ export class UserCorkBoardComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe((data: any) => {
       if (data) {
+        debugger;
         this.userCorkBoardObjects = data;
       }
     });

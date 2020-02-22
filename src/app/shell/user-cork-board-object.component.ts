@@ -18,13 +18,13 @@ export class UserCorkBoardObjectComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer, private userCorkBoardService: UserCorkBoardService) {}
 
   ngOnInit() {
-    // var fileAsBlob = this.userCorkBoardObject.userCorkBoardBlob as any;
-    // let TYPED_ARRAY = new Uint8Array(fileAsBlob.data);
-    // const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
-    //   return data + String.fromCharCode(byte);
-    // }, '');
-    // let base64String = btoa(STRING_CHAR);
-    // this.corkboardObjectUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64String);
+    var fileAsBlob = this.userCorkBoardObject.userCorkBoardBlob as any;
+    let TYPED_ARRAY = new Uint8Array(fileAsBlob.data);
+    const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
+      return data + String.fromCharCode(byte);
+    }, '');
+    let base64String = btoa(STRING_CHAR);
+    this.corkboardObjectUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64String);
   }
   removeCorkBoardObject(userCorkBoardObjectId: number) {
     if (this.deleteMode) {

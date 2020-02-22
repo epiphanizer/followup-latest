@@ -67,7 +67,7 @@ const routes: Routes = [
     {
       path: 'call-queue/operations/:operationId/patient/:patientId/history',
       pathMatch: 'full',
-      component: PatientDetailComponent,
+      component: PatientHistoryDetailComponent,
       resolve: {
         user: UserResolver,
         patient: PatientResolver
