@@ -9,6 +9,7 @@ import { PatientDetailComponent } from './patient-detail/patient-detail.componen
 import { PatientResolver } from './patient-resolver.service';
 import { UserResolver } from '../user/user-resolver.service';
 import { PatientListingComponent } from './patient-listing/patient-listing.component';
+import { PatientHistoryDetailComponent } from './patient-detail/patient-history-detail.component';
 
 const routes: Routes = [
   Shell.childRoutes([
