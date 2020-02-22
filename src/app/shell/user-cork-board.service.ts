@@ -33,9 +33,11 @@ export class UserCorkBoardService {
     );
   }
   getUserCorkBoardObjectsByUserId(userId: number) {
-    return this.http.get('users/' + userId + '/corkBoardObjects', { responseType: 'blob' as 'json' }).pipe(
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
+    return this.http
+      .get<UserCorkBoardObject[]>('users/' + userId + '/corkBoardObjects', { responseType: 'blob' as 'json' })
+      .pipe(
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   }
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
