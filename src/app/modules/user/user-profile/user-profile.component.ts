@@ -41,13 +41,13 @@ export class UserProfileComponent implements OnInit {
     let userInterests = JSON.stringify(formSubmission.userInterests);
     payload = {
       userFirstName: formSubmission.userFirstName,
-      userMiddleName: formSubmission.userMiddleName,
+      userMiddleName: formSubmission.userMiddleName || '',
       userLastName: formSubmission.userLastName,
-      userCountryCode: formSubmission.userPhoneCountryCode,
-      userAreaCode: formSubmission.userPhoneAreaCode,
-      userPhoneNumber: formSubmission.userPhoneNumber,
-      userDob: formSubmission.userDob,
-      userFavoriteDessert: formSubmission.userFavoriteDessert,
+      userCountryCode: formSubmission.userPhoneCountryCode || '',
+      userAreaCode: formSubmission.userPhoneAreaCode || '',
+      userPhoneNumber: formSubmission.userPhoneNumber || '',
+      userDob: formSubmission.userDob || '',
+      userFavoriteDessert: formSubmission.userFavoriteDessert || '',
       userInterests: userInterests,
       userAdditionalInfo: formSubmission.userAdditionalInfo
     };

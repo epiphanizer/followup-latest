@@ -44,7 +44,7 @@ export class ToolbarNavComponent implements OnInit {
       let routerUrl = this.router.url + '/history';
       this.router.navigate([routerUrl]);
     } else if (buttonAction == 'notes') {
-      let routerUrl = this.router.url;
+      let routerUrl = this.route.snapshot.data.url;
       this.router.navigate([routerUrl]);
     }
   }
