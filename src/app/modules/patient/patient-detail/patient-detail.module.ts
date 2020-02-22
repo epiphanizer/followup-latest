@@ -20,12 +20,14 @@ import { FollowupCompleteButtonComponent } from './followup-complete-button/foll
 import { PatientNextCallFinishButtonComponent } from './patient-call/patient-next-call-finish-button/patient-next-call-finish-button.component';
 import { PatientModule } from '../patient.module';
 import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.component';
+import { PatientHistoryDetailComponent } from './patient-history-detail.component';
 
 @NgModule({
   declarations: [
     FollowupCompleteModalComponent,
     FollowupCompleteButtonComponent,
     PatientDetailComponent,
+    PatientHistoryDetailComponent,
     PatientCallNotesComponent,
     PatientCallQuestionsComponent,
     PatientSummaryWidgetComponent,
@@ -43,6 +45,7 @@ import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.compone
   entryComponents: [
     PatientAvatarComponent,
     PatientDetailComponent,
+    PatientHistoryDetailComponent,
     FollowupCompleteModalComponent,
     FollowupCompleteButtonComponent
   ]
