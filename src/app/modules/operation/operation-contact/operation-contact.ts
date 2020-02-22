@@ -2,6 +2,7 @@ import { NotificationType } from '@app/modules/notification/notification';
 import { FormArray } from '@angular/forms';
 
 export interface OperationContact {
+  operationContactOrder: number;
   operationContactId?: number;
   operationContactFirstName?: string;
   operationContactMiddleName?: string;

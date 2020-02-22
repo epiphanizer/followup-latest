@@ -58,7 +58,10 @@
       <fieldset class="operation-contacts" *ngIf="operationContacts && notificationsLoaded">
         <ng-container>
           <ion-list class="operation-contacts-list" formArrayName="operationContacts" lines="none" inset>
-            <ion-item *ngFor="let operationContact of operationContacts; let idx = index">
+            <ion-item
+              class="operation-contact-item"
+              *ngFor="let operationContact of operationContacts; let idx = index"
+            >
               <div class="contact-header-wrapper">
                 <i class="icon-user"></i>
                 <ion-label position="stacked" color="medium">Contact {{ idx + 1 }}</ion-label>
@@ -112,6 +115,12 @@
                       Phone #
                     </ion-label>
                     <ion-input type="text" formControlName="operationContactPhoneNumber"></ion-input>
+                  </ion-item>
+                  <ion-item class="contact-order">
+                    <ion-label position="stacked" color="medium">
+                      Contact Order
+                    </ion-label>
+                    <ion-input ype="number" formControlName="operationContactOrder"></ion-input>
                   </ion-item>
                 </div>
                 <div class="section-header">

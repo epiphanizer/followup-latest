@@ -79,6 +79,12 @@ form {
     }
   }
 
+  .contact-order {
+    display: none;
+    width: 40px;
+    float: right;
+  }
+
   fieldset {
     border: none;
   }
@@ -326,6 +332,7 @@ form {
     text-align: left;
     color: var(--ion-color-primary);
   }
+
   .add-call-rep,
   .add-manager,
   .add-additional-contact {

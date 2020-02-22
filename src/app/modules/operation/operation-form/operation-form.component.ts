@@ -147,6 +147,13 @@ export class OperationFormComponent implements OnInit {
               contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
               contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
               contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
+              contactFormGroup.addControl(
+                'operationContactOrder',
+                this.fb.control({
+                  value: '',
+                  disabled: true
+                })
+              );
               formArray.push(contactFormGroup);
               var notificationTypesArray = new Array();
               this.notificationRecipientService
@@ -197,6 +204,7 @@ export class OperationFormComponent implements OnInit {
                       formGroup.controls.operationContactPhoneNumber.setValue(
                         operationContact.operationContactPhoneNumber
                       );
+                    formGroup.controls.operationContactOrder.setValue(operationContact.operationContactOrder);
                   })
                 )
                 .subscribe(() => {
@@ -512,10 +520,17 @@ export class OperationFormComponent implements OnInit {
     this.operationContactsToAdd = this.operationContacts.filter((operationContact: OperationContact, index: number) => {
       return this.operationContactsOriginal.indexOf(operationContact.operationContactId) == -1;
     });
+    /**
+     * We should have a test here
+     */
     // Passing E2E
     this.operationContactsToAdd.forEach((operationContact: OperationContact, idx: number) => {
       let addOffset = formSubmission.operationContacts.length - 1 - idx;
       let formContact = formSubmission.operationContacts[addOffset];
+
+      /**
+       * We get the formContact object from the formSubmission
+       */
       let operationContactPost = this.operationContactPostFactory(formContact);
       this.operationContactsService
         .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
@@ -640,7 +655,10 @@ export class OperationFormComponent implements OnInit {
     const firstError = <HTMLElement>document.getElementsByClassName('ng-invalid')[0];
 
     function scroll(el: HTMLElement) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
     }
     if (firstError) {
       scroll(firstError);

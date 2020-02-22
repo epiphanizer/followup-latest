@@ -156,7 +156,7 @@ export class PatientFormComponent implements OnInit {
             }
           });
           this.createForm();
-          // We for some reason need to explicitly set this
+          // We need to explicitly set this value we learned from testing.
           this.patientForm
             .get('patient.dischargeInfo.patientDischargedTo')
             .setValue(this.patient.patientDischargeLabelId.toString());
