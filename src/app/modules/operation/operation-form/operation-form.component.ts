@@ -277,7 +277,6 @@ export class OperationFormComponent implements OnInit {
   }
   updateOperation(operation: Operation) {
     this.operation = operation[0];
-    // Initial loadin, should probably be abstracted out here
     var operationFormControls = this.operationForm.get('operation') as FormGroup;
     operationFormControls.controls.operationId.setValue(this.operation.operationId);
     operationFormControls.controls.operationName.setValue(this.operation.operationName);

@@ -18,7 +18,7 @@
     display: inline-block;
     margin-right: 8px;
     font-family: Avenir;
-    font-size: 14px;
+    font-size: 12px;
   }
   &.active {
     span {
@@ -72,8 +72,7 @@
 
   &.is-highlighted {
     height: auto;
-    border-bottom: solid 5px #ffdf2c;
-    text-decoration: underline #ffdf2c;
+    border-bottom: solid 2.5px #ffdf2c;
   }
 }
 

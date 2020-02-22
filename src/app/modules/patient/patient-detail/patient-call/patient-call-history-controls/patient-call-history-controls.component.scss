@@ -1,5 +1,5 @@
 ion-list {
-  margin-top: -25px;
+  margin-top: -35px;
 }
 
 ion-item {
@@ -27,16 +27,18 @@ i.icon-phone-icon {
   div {
     background: url("/assets/call-history-legend-icon@2x.png");
     background-size: 100%;
+    padding-top: 2px;
     width: 22px;
     height: 22px;
     background-repeat: no-repeat;
     color: #13afe9;
     text-align: center;
     display: block;
-    font-family: Avenir;
-    font-size: 13px;
+    font-family: AvenirBold;
+    font-size: 10px;
+    line-height: 14px;
 
-    &.active {
+    &:hover {
       background: url("/assets/call-history-legend-icon-active@2x.png");
       color: white;
       font-family: AvenirBold;

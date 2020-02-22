@@ -16,7 +16,7 @@
     <li (click)="clickCorkboardInput()" class="new-item icon"></li>
     <li (click)="toggleCorkBoardDeleteFunction()" class="minus icon"></li>
   </ul>
-  <ng-container *ngIf="isOpen">
+  <ng-container *ngIf="isOpen && userCorkBoardObjects">
     <div class="corkboard-objects">
       <div *ngFor="let userCorkBoardObject of userCorkBoardObjects">
         <app-user-cork-board-object
