@@ -25,9 +25,9 @@ import { Notification } from '@app/modules/notification/notification';
 
 @Component({
   providers: [NotificationService],
-  selector: 'app-patient-detail',
-  templateUrl: './patient-detail.component.html',
-  styleUrls: ['./patient-detail.component.scss']
+  selector: 'app-patient-history-detail',
+  templateUrl: './patient-history-detail.component.html',
+  styleUrls: ['./patient-history-detail.component.scss']
 })
 export class PatientHistoryDetailComponent implements OnInit {
   user: User;
