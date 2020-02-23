@@ -81,7 +81,7 @@ const routes: Routes = [
             linkType: 'link'
           },
           {
-            linkAction: 'call-queue/operations/{{operationId}}/patient/{{patientId}}',
+            linkAction: 'notes',
             linkName: 'Notes',
             linkType: 'button'
           },

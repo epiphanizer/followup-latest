@@ -13,6 +13,9 @@ ion-router-outlet {
   width: calc(100% - 28px);
   margin-left: 28px;
 }
+.inner-scroll {
+  overflow: hidden;
+}
 ul {
   padding-top: 215px;
   list-style-type: none;

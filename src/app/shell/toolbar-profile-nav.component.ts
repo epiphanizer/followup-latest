@@ -22,7 +22,6 @@ export class ToolbarProfileNavComponent implements OnInit {
 
   ngOnInit() {
     this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((data: any) => {
-      console.log(data);
       if (data !== null) {
         var reader = new FileReader();
         reader.readAsDataURL(data);

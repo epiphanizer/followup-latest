@@ -2,7 +2,7 @@
   <i (click)="dismiss()" class="icon-close-modal"></i>
 </div>
 <ng-container *ngIf="status.notification.saved == false; else sendNotification">
-  <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
+  <form [formGroup]="createNotificationForm">
     <ion-row *ngIf="notification" class="notification-container">
       <ion-title>Notification</ion-title>
     </ion-row>

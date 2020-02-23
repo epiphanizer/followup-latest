@@ -41,6 +41,11 @@ ion-list {
         color: var(--ion-color-primary);
         --color-hover: var(--ion-color-primary);
       }
+      &.notes {
+        --border-color: var(--ion-color-primary);
+        color: var(--ion-color-primary);
+        --color-hover: var(--ion-color-primary);
+      }
       &.report {
         --border-color: red;
         background-color: red;

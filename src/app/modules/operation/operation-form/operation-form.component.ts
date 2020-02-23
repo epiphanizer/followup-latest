@@ -307,6 +307,7 @@ export class OperationFormComponent implements OnInit {
 
   addAdditionalOperationContact() {
     let formArray = this.operationForm.controls.operationContacts as FormArray;
+    console.log(formArray);
     var count = formArray.length;
 
     let contactFormGroup = this.fb.group({});
@@ -429,18 +430,20 @@ export class OperationFormComponent implements OnInit {
       var payload = {
         operationContactOrder: formContact.operationContactOrder,
         operationContactFirstName: formContact.operationContactFirstName,
-        operationContactMiddleName: formContact.operationContactMiddleName,
+        operationContactMiddleName: formContact.operationContactMiddleName || '',
         operationContactLastName: formContact.operationContactLastName,
-        operationContactTitle: formContact.operationContactTitle,
+        operationContactTitle: formContact.operationContactTitle || '',
         operationContactCountryCode: formContact.operationContactCountryCode.toString(),
-        operationContactAreaCode: formContact.operationContactAreaCode,
-        operationContactPhoneNumber: formContact.operationContactPhoneNumber,
+        operationContactAreaCode: formContact.operationContactAreaCode || '',
+        operationContactPhoneNumber: formContact.operationContactPhoneNumber || '',
         operationContactEmail: formContact.operationContactEmail,
         operationContactActive: 1
       };
+      console.log(payload);
       return <OperationContactPutBody>payload;
-    } catch {
-      throw 'Had a problem validating data in the call rep factory';
+    } catch (err) {
+      console.log(err);
+      throw 'Had a problem validating data in the operation contact put factory';
     }
   }
   operationContactPostFactory(formContact: any): OperationContactPostBody {
@@ -479,6 +482,7 @@ export class OperationFormComponent implements OnInit {
           console.log('Manager successfully removed');
         });
     });
+
     // This passes E2E
     this.operationManagersToAdd = this.operationManagers.filter((operationManager: OperationManager, index: number) => {
       return operationManager.userId !== this.operationManagersOriginal[index] && operationManager.userId !== 0;
@@ -519,11 +523,11 @@ export class OperationFormComponent implements OnInit {
     });
 
     let formSubmission = this.operationForm.getRawValue();
-
     /**
      * In order to see which contacts to add, we
      * filter this.operationContactsOriginal's values
-     *
+     * vs. the current this.operationContacts array
+     * by operationContactId
      */
     if (this.operationContacts.length) {
       this.operationContactsToAdd = this.operationContacts.filter(
@@ -531,6 +535,8 @@ export class OperationFormComponent implements OnInit {
           return this.operationContactsOriginal.indexOf(operationContact.operationContactId) == -1;
         }
       );
+      console.log(this.operationContactsToAdd);
+      debugger;
       /**
        * We should have a test here
        */
@@ -564,7 +570,15 @@ export class OperationFormComponent implements OnInit {
                 // Now that we have the contact, we add them to the notification recipients table
                 this.notificationRecipientService
                   .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
-                  .subscribe(() => {});
+                  .subscribe(() => {
+                    let operationPut = this.operationPutFactory(formSubmission);
+                    this.operationService
+                      .editOperationByOperationId(this.operation.operationId, operationPut)
+                      .subscribe(() => {
+                        alert('Operation successfully edited');
+                        window.location.href = '/operations';
+                      });
+                  });
               });
             }
           });
@@ -616,7 +630,15 @@ export class OperationFormComponent implements OnInit {
               // Now that we have the contact, we add them to the notification recipients table
               this.notificationRecipientService
                 .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
-                .subscribe(() => {});
+                .subscribe(() => {
+                  let operationPut = this.operationPutFactory(formSubmission);
+                  this.operationService
+                    .editOperationByOperationId(this.operation.operationId, operationPut)
+                    .subscribe(() => {
+                      alert('Operation successfully edited');
+                      window.location.href = '/operations';
+                    });
+                });
             });
           });
       });
@@ -626,17 +648,11 @@ export class OperationFormComponent implements OnInit {
           this.operationContactsService
             .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
             .subscribe(() => {
-              alert('Successfully removed operation contact');
+              console.log('Successfully removed operation contact');
             });
         }
       });
     }
-
-    let operationPut = this.operationPutFactory(formSubmission);
-    this.operationService.editOperationByOperationId(this.operation.operationId, operationPut).subscribe(() => {
-      alert('Operation successfully edited');
-      window.location.href = '/operations';
-    });
   }
 
   removeOperationCallRep(idx: number) {
