@@ -150,7 +150,7 @@ export class OperationFormComponent implements OnInit {
               contactFormGroup.addControl(
                 'operationContactOrder',
                 this.fb.control({
-                  value: '',
+                  value: idx + 1,
                   disabled: true
                 })
               );
@@ -254,7 +254,6 @@ export class OperationFormComponent implements OnInit {
       .getOperationManagersByOperationId(this.operation.operationId)
       .pipe(take(1))
       .subscribe((operationManagers: OperationManager[]) => {
-        console.log(operationManagers);
         if (operationManagers.length) {
           this.operationManagers = operationManagers;
           operationManagers.forEach((operationManager: OperationManager) => {
@@ -304,11 +303,12 @@ export class OperationFormComponent implements OnInit {
       userId: 0
     };
     this.operationManagers.push(newManager);
-    debugger;
   }
 
   addAdditionalOperationContact() {
     let formArray = this.operationForm.controls.operationContacts as FormArray;
+    var count = formArray.length;
+
     let contactFormGroup = this.fb.group({});
     contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
     contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
@@ -318,7 +318,13 @@ export class OperationFormComponent implements OnInit {
     contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
     contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
     contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
-    contactFormGroup.addControl('operationContactOrder', this.fb.control(''));
+    contactFormGroup.addControl(
+      'operationContactOrder',
+      this.fb.control({
+        value: count + 1,
+        disabled: true
+      })
+    );
     formArray.push(contactFormGroup);
 
     let notificationsFormControlArray = this.fb.array([]);
@@ -417,8 +423,11 @@ export class OperationFormComponent implements OnInit {
     }
   }
   operationContactPutFactory(formContact: any): OperationContactPutBody {
+    console.log(formContact);
+    debugger;
     try {
       var payload = {
+        operationContactOrder: formContact.operationContactOrder,
         operationContactFirstName: formContact.operationContactFirstName,
         operationContactMiddleName: formContact.operationContactMiddleName,
         operationContactLastName: formContact.operationContactLastName,
@@ -445,6 +454,7 @@ export class OperationFormComponent implements OnInit {
         operationContactAreaCode: formContact.operationContactAreaCode,
         operationContactPhoneNumber: formContact.operationContactPhoneNumber,
         operationContactEmail: formContact.operationContactEmail,
+        operationContactOrder: formContact.operationContactOrder,
         operationContactActive: 1
       };
       return <OperationContactPostBody>payload;
@@ -457,12 +467,6 @@ export class OperationFormComponent implements OnInit {
     if (!this.validateControls()) {
       return;
     }
-    // Shold not
-    // if (!this.operationContacts.length) {
-    //   alert('Please add an operation contact');
-    //   return;
-    // }
-
     // Passing E2E
     this.operationManagersToRemove.forEach((managerUserId: number) => {
       // Don't process default manager entry
@@ -472,7 +476,7 @@ export class OperationFormComponent implements OnInit {
       this.operationService
         .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
         .subscribe(() => {
-          alert('Manager successfully removed');
+          console.log('Manager successfully removed');
         });
     });
     // This passes E2E
@@ -483,7 +487,7 @@ export class OperationFormComponent implements OnInit {
       this.operationService
         .assignManagerToOperationByOperationIdAndUserId(operationManager.operationId, operationManager.userId)
         .subscribe(() => {
-          alert('Manager successfully added');
+          console.log('Manager successfully added');
         });
     });
 
@@ -495,7 +499,7 @@ export class OperationFormComponent implements OnInit {
       this.operationCallRepsService
         .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
         .subscribe(() => {
-          alert('Callrep successfully deleted');
+          console.log('Callrep successfully deleted');
         });
     });
 
@@ -510,7 +514,7 @@ export class OperationFormComponent implements OnInit {
       this.operationCallRepsService
         .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
         .subscribe(() => {
-          alert('Callrep successfully added');
+          console.log('Callrep successfully added');
         });
     });
 
@@ -674,9 +678,12 @@ export class OperationFormComponent implements OnInit {
       return true;
     }
   }
-  // ngOnDestroy() {
-  //   this.operationContacts = null;
-  //   this.operationContactsOriginal = null;
-  //   console.log('destroying component');
-  // }
+  ngOnDestroy() {
+    this.operationContacts = null;
+    this.operationContactsOriginal = null;
+    /**
+     * Todo: destroy route subscription
+     */
+    console.log('destroying ops form component');
+  }
 }
