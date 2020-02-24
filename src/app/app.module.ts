@@ -2,14 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
 
 import { environment } from '@env/environment';
 
-import { CoreModule } from '@app/core';
+import { CoreModule, ErrorHandlerInterceptor } from '@app/core';
 import { SharedModule } from '@app/shared';
 import { HomeModule } from './home/home.module';
 import { ShellModule } from './shell/shell.module';
@@ -22,7 +22,8 @@ import { NotificationModule } from '@app/modules/notification/notification.modul
 import { UserModule } from '@app/modules/user/user.module';
 
 import { AppRoutingModule } from './app-routing.module';
-import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { JwtHelperService, JwtModule, JwtInterceptor } from '@auth0/angular-jwt';
+import { AuthGuardService } from './core/authentication/auth-guard.service';
 
 export function tokenGetter() {
   return localStorage.getItem('followup-token');
@@ -32,7 +33,9 @@ export function tokenGetter() {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('./ngsw-worker.js', {
+      enabled: environment.production
+    }),
     FormsModule,
     HttpClientModule,
     TranslateModule.forRoot(),
@@ -43,7 +46,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['followup.care']
+        whitelistedDomains: ['localhost:3000', 'followupcare-api.azurewebsites.net']
       }
     }),
     SharedModule,
@@ -59,7 +62,21 @@ export function tokenGetter() {
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
-  providers: [JwtHelperService],
+  providers: [
+    JwtHelperService,
+    AuthGuardService,
+    // jwt interceptor
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorHandlerInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
