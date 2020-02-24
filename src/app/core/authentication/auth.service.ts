@@ -33,6 +33,23 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  public setLoginAs(token: string) {
+    localStorage.setItem('followup-token', token);
+    localStorage.setItem('tokenPayload', JSON.stringify(this.jwtHelper.decodeToken(token)));
+  }
+
+  public isAuthenticated(): boolean {
+    // get the token
+    const token = this.getToken();
+
+    // return a boolean reflecting
+    // whether or not the token is expired
+    return !this.jwtHelper.isTokenExpired(token);
+  }
+
+  public getPayload(): any {
+    return JSON.parse(localStorage.getItem('tokenPayload'));
+  }
   doLogin(username: string, password: string): Observable<any> {
     return this.http
       .post('users/login', {
@@ -54,12 +71,8 @@ export class AuthenticationService {
                 user: result
               })
             );
-            localStorage.setItem(
-              'followup-token',
-              JSON.stringify({
-                token: 'token'
-              })
-            );
+            localStorage.setItem('tokenPayload', JSON.stringify(this.jwtHelper.decodeToken(jwt.token)));
+
             return result;
           }
         }),
@@ -73,13 +86,13 @@ export class AuthenticationService {
        * This will be deprecated in the refactor.
        * We will use a token.
        */
-      // if (localStorage.getItem('followup-user')) {
-      //   let userObj = JSON.parse(localStorage.getItem('followup-user'));
-      //   return of(userObj).toPromise();
-      // } else {
-      //   window.location.href = '/login';
-      //   return null;
-      // }
+      if (localStorage.getItem('followup-user')) {
+        let userObj = JSON.parse(localStorage.getItem('followup-user'));
+        return of(userObj).toPromise();
+      } else {
+        window.location.href = '/login';
+        return null;
+      }
     }
 
     return this.user$;

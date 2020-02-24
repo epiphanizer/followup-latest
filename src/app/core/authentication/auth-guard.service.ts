@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRoute, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { AuthenticationService } from './auth.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
@@ -11,20 +12,44 @@ export class AuthGuardService implements CanActivate {
     public route: ActivatedRoute,
     public router: Router
   ) {}
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    return this.isAuthenticated();
+  }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const currentUser = this.authenticationService.currentUserValue;
-    if (currentUser) {
-      // logged in so return true
-      return true;
-    }
+  canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    return this.isAuthenticated();
+  }
 
-    // not logged in so redirect to login page with the return url
-    this.router.navigate(['/login'], {
-      queryParams: {
-        returnUrl: state.url
+  isAuthenticated(): Promise<boolean> {
+    return new Promise(resolve => {
+      const authenticated = this.authenticationService.isAuthenticated();
+      if (!authenticated) {
+        this.router.navigate(['/login']);
+        resolve(false);
+      } else {
+        resolve(true);
       }
     });
-    return false;
   }
+  // canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  //   const currentUser = this.authenticationService.currentUserValue;
+  //   if (currentUser) {
+  //     // logged in so return true
+  //     return true;
+  //   }
+
+  //   // not logged in so redirect to login page with the return url
+  //   this.router.navigate(['/login'], {
+  //     queryParams: {
+  //       returnUrl: state.url
+  //     }
+  //   });
+  //   return false;
+  // }
 }
