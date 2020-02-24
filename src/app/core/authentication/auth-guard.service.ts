@@ -12,44 +12,21 @@ export class AuthGuardService implements CanActivate {
     public route: ActivatedRoute,
     public router: Router
   ) {}
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.isAuthenticated();
-  }
-
-  canActivateChild(
-    childRoute: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.isAuthenticated();
-  }
-
-  isAuthenticated(): Promise<boolean> {
-    return new Promise(resolve => {
-      const authenticated = this.authenticationService.isAuthenticated();
-      if (!authenticated) {
-        this.router.navigate(['/login']);
-        resolve(false);
-      } else {
-        resolve(true);
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    const currentUser = this.authenticationService.currentUserValue;
+    if (currentUser) {
+      // check if route is restricted by role
+      if (route.data.roles && route.data.roles.indexOf(currentUser.userLevel) === -1) {
+        // role not authorised so redirect to home page
+        this.router.navigate(['/']);
+        return false;
       }
-    });
-  }
-  // canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-  //   const currentUser = this.authenticationService.currentUserValue;
-  //   if (currentUser) {
-  //     // logged in so return true
-  //     return true;
-  //   }
 
-  //   // not logged in so redirect to login page with the return url
-  //   this.router.navigate(['/login'], {
-  //     queryParams: {
-  //       returnUrl: state.url
-  //     }
-  //   });
-  //   return false;
-  // }
+      // authorised so return true
+      return true;
+    }
+    // not logged in so redirect to login page with the return url
+    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+    return false;
+  }
 }

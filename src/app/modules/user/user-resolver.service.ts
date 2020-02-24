@@ -11,7 +11,7 @@ export class UserResolver implements Resolve<User> {
   constructor(private authService: AuthenticationService, private operationService: OperationService) {}
   resolve(): Promise<User> {
     return this.authService.getUser().then((result: any) => {
-      console.log(result);
+      console.log(result.user);
       if (!result) {
         console.log('assigning user from cache');
         if (localStorage.getItem('followup-user')) {
@@ -19,9 +19,8 @@ export class UserResolver implements Resolve<User> {
           this.user = userObj;
         }
       } else {
-        console.log('assigning user');
-        console.log(result.user);
-        this.user = result.user;
+        console.log(result);
+        this.user = result.user[0];
       }
       console.log(this.user);
       // console.log(this.user);

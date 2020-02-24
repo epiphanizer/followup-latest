@@ -76,7 +76,7 @@ export class AuthenticationService {
                 user: user
               })
             );
-            localStorage.setItem('tokenPayload', JSON.stringify(this.jwtHelper.decodeToken(user.token)));
+            localStorage.setItem('tokenPayload', JSON.stringify('token'));
 
             this.currentUserSubject.next(user);
             return user;
@@ -122,10 +122,7 @@ export class AuthenticationService {
     const userId = result.userId;
 
     this.user$ = this.getUserByUserId(userId).toPromise();
-    /**
-     * Check best practice on this token stuff here.
-     * This could very well be deprecated.
-     */
+
     this.getUserByUserId(userId).subscribe((user: User) => {
       localStorage.setItem(
         'followup-user',
@@ -140,8 +137,8 @@ export class AuthenticationService {
         })
       );
     });
-    // if (this.jwtHelper.isTokenExpired() !== false) {
-    //   this.authenticated = true;
+    // if (this.jwtHelper.isTokenExpired()) {
+    //   this.authenticated = false;
     // }
     this.authenticated = true;
     return true;
@@ -174,9 +171,7 @@ export class AuthenticationService {
     }
     // return an observable with a user-facing error message
     return throwError({
-      message:
-        'We had trouble within the Auth route. \
-        Please contact your IT department and relay this message.'
+      message: 'We had trouble within the authentication service.'
     });
   }
 }
