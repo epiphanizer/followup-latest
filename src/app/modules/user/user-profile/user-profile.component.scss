@@ -170,6 +170,7 @@ form {
   }
 
   ion-input {
+    font-family: Avenir;
     height: 39px;
     width: 100%;
     --padding-start: 12px;
@@ -177,6 +178,8 @@ form {
   }
 
   ion-datetime {
+    font-family: Avenir;
+    font-size: 14px;
     margin-top: 15px;
     height: 34px;
   }

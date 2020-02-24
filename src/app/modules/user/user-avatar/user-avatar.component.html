@@ -1,9 +1,9 @@
-<img
+<div
   class="user-avatar-image add-photo"
   (click)="clickUploadInput()"
   *ngIf="avatarExists; else defaultAvatar"
-  [src]="avatarUrl"
-/>
+  [style.background-image]="avatarUrl"
+></div>
 <ng-template #defaultAvatar>
   <img class="add-photo" (click)="clickUploadInput()" src="/assets/default-avatar-patient-detail.png" />
 </ng-template>

@@ -25,6 +25,7 @@ export class UserAvatarComponent implements OnInit {
       if (data !== null) {
         var reader = new FileReader();
         reader.readAsDataURL(data);
+        var self = this;
         reader.onloadend = function() {
           var base64data = reader.result;
           self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);

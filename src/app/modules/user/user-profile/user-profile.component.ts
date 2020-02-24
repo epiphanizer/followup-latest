@@ -32,6 +32,14 @@ export class UserProfileComponent implements OnInit {
     let formSubmission = this.userProfileForm.getRawValue();
     let userPutPayload = this.userFormSubmissionFactory(formSubmission);
     this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe((data: any) => {
+      console.log(data);
+      localStorage.removeItem('followup-user');
+      localStorage.setItem(
+        'followup-user',
+        JSON.stringify({
+          user: 'test'
+        })
+      );
       window.location.href = '/user/profile';
     });
   }
@@ -73,8 +81,6 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.user.userInterests = JSON.parse(<string>this.user.userInterests);
     }
-    // console.log(this.user.userInterests);
-    // debugger;
     this.userProfileForm = this.fb.group({
       userFirstName: this.fb.control(this.user.userFirstName, [Validators.required]),
       userMiddleName: this.fb.control(this.user.userMiddleName),
