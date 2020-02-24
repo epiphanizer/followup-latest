@@ -424,8 +424,6 @@ export class OperationFormComponent implements OnInit {
     }
   }
   operationContactPutFactory(formContact: any): OperationContactPutBody {
-    console.log(formContact);
-    debugger;
     try {
       var payload = {
         operationContactOrder: formContact.operationContactOrder,
@@ -560,6 +558,8 @@ export class OperationFormComponent implements OnInit {
                   notificationsToAdd.push(parseInt(Object.keys(notificationType)[0]));
                 }
               });
+              var count = 0;
+              var finalCount = notificationsToAdd.length;
               notificationsToAdd.forEach((notificationTypeId: number) => {
                 var notificationReceipientPostBody = {
                   notificationOperationContactId: operationContactId,
@@ -571,13 +571,16 @@ export class OperationFormComponent implements OnInit {
                 this.notificationRecipientService
                   .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
                   .subscribe(() => {
+                    count++;
                     let operationPut = this.operationPutFactory(formSubmission);
-                    this.operationService
-                      .editOperationByOperationId(this.operation.operationId, operationPut)
-                      .subscribe(() => {
-                        alert('Operation successfully edited');
-                        window.location.href = '/operations';
-                      });
+                    if (count == finalCount) {
+                      this.operationService
+                        .editOperationByOperationId(this.operation.operationId, operationPut)
+                        .subscribe(() => {
+                          alert('Operation successfully edited');
+                          window.location.href = '/operations';
+                        });
+                    }
                   });
               });
             }
@@ -609,7 +612,6 @@ export class OperationFormComponent implements OnInit {
           )
           .subscribe(() => {
             var operationContactId = operationContact.operationContactId;
-            console.log(formContact);
             var notificationsToAdd = new Array();
             formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {
               // Add to our notification add array if the value of the notificationTypeId (key) is true
@@ -620,6 +622,8 @@ export class OperationFormComponent implements OnInit {
               }
             });
             console.log(notificationsToAdd);
+            var count = 0;
+            var finalCount = notificationsToAdd.length;
             notificationsToAdd.forEach((notificationTypeId: number) => {
               var notificationReceipientPostBody = {
                 notificationOperationContactId: operationContactId,
@@ -631,13 +635,16 @@ export class OperationFormComponent implements OnInit {
               this.notificationRecipientService
                 .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
                 .subscribe(() => {
+                  count++;
                   let operationPut = this.operationPutFactory(formSubmission);
-                  this.operationService
-                    .editOperationByOperationId(this.operation.operationId, operationPut)
-                    .subscribe(() => {
-                      alert('Operation successfully edited');
-                      window.location.href = '/operations';
-                    });
+                  console.log(count);
+                  if (count == finalCount) {
+                    this.operationService
+                      .editOperationByOperationId(this.operation.operationId, operationPut)
+                      .subscribe(() => {
+                        window.location.href = '/operations';
+                      });
+                  }
                 });
             });
           });

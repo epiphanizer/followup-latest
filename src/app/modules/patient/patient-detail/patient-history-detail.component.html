@@ -7,8 +7,8 @@
           <div class="notification-info-container">
             <div class="notification-information">
               <div class="notification-item">
-                <span class="label">Facility:&nbsp;</span>
-                {{ notification.notificationOperationName }}
+                <span class="label">Notification Type:&nbsp;</span>
+                {{ notification.notificationTypeLabel }}
               </div>
               <div class="notification-item">
                 <span class="label">Date Received:&nbsp;</span>
@@ -33,7 +33,5 @@
       <app-patient-summary-widget [patient]="patient"> </app-patient-summary-widget>
     </ng-container>
     <app-patient-notes [patient]="patient"> </app-patient-notes>
-    <app-patient-call-history-listing *ngIf="patient.patientCalls" [patientCalls]="patient.patientCalls">
-    </app-patient-call-history-listing>
   </ion-col>
 </ion-row>
