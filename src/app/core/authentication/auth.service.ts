@@ -73,13 +73,13 @@ export class AuthenticationService {
        * This will be deprecated in the refactor.
        * We will use a token.
        */
-      if (localStorage.getItem('followup-user')) {
-        let userObj = JSON.parse(localStorage.getItem('followup-user'));
-        return of(userObj).toPromise();
-      } else {
-        window.location.href = '/login';
-        return null;
-      }
+      // if (localStorage.getItem('followup-user')) {
+      //   let userObj = JSON.parse(localStorage.getItem('followup-user'));
+      //   return of(userObj).toPromise();
+      // } else {
+      //   window.location.href = '/login';
+      //   return null;
+      // }
     }
 
     return this.user$;

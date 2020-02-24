@@ -22,6 +22,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
+    // console.log(this.user);
     this.createForm();
   }
   // Passing E2E minus auth
@@ -32,14 +33,6 @@ export class UserProfileComponent implements OnInit {
     let formSubmission = this.userProfileForm.getRawValue();
     let userPutPayload = this.userFormSubmissionFactory(formSubmission);
     this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe((data: any) => {
-      console.log(data);
-      localStorage.removeItem('followup-user');
-      localStorage.setItem(
-        'followup-user',
-        JSON.stringify({
-          user: 'test'
-        })
-      );
       window.location.href = '/user/profile';
     });
   }
