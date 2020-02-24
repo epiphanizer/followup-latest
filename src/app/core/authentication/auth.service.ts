@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError, of, BehaviorSubject } from 'rxjs';
-import { map, share, catchError, retry } from 'rxjs/operators';
+import { map, share, catchError, retry, tap } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
@@ -22,7 +22,12 @@ export class AuthenticationService {
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-  constructor(private http: HttpService, private jwtHelper: JwtHelperService, private router: Router) {}
+
+  constructor(private http: HttpService, private jwtHelper: JwtHelperService, private router: Router) {
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
+
   ngOnInit() {}
 
   public getToken(): string {
@@ -57,23 +62,24 @@ export class AuthenticationService {
         password: password
       })
       .pipe(
-        map((result: User) => {
-          console.log(result);
-          if (result == null) {
+        map((user: User) => {
+          console.log(user);
+          if (user == null) {
             this.authenticated = false;
             return;
           }
-          if (result.userId) {
+          if (user.userId) {
             this.authenticated = true;
             localStorage.setItem(
               'followup-user',
               JSON.stringify({
-                user: result
+                user: user
               })
             );
-            localStorage.setItem('tokenPayload', JSON.stringify(this.jwtHelper.decodeToken(jwt.token)));
+            localStorage.setItem('tokenPayload', JSON.stringify(this.jwtHelper.decodeToken(user.token)));
 
-            return result;
+            this.currentUserSubject.next(user);
+            return user;
           }
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
@@ -150,6 +156,8 @@ export class AuthenticationService {
      */
     localStorage.removeItem('followup-user');
     localStorage.removeItem('followup-token');
+    localStorage.clear();
+    this.currentUserSubject.next(null);
     window.location.href = '/login';
   }
 

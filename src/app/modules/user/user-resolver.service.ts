@@ -12,7 +12,7 @@ export class UserResolver implements Resolve<User> {
   resolve(): Promise<User> {
     return this.authService.getUser().then((result: any) => {
       console.log(result);
-      if (!result.user) {
+      if (!result) {
         console.log('assigning user from cache');
         if (localStorage.getItem('followup-user')) {
           let userObj = JSON.parse(localStorage.getItem('followup-user')).user[0] as User;

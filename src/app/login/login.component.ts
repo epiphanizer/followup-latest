@@ -22,13 +22,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private platform: Platform,
-    private authService: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private router: Router
   ) {
     this.createForm();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.authenticationService.currentUserValue) {
+      this.router.navigate(['/home']);
+    }
+  }
 
   ngOnDestroy() {}
 
@@ -36,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     let username = this.loginForm.controls.username.value;
     let password = this.loginForm.controls.password.value;
-    let result = await this.authService.signIn(username, password);
+    let result = await this.authenticationService.signIn(username, password);
     if (!result) {
       this.error = 'Login Error';
       this.isLoading = false;
