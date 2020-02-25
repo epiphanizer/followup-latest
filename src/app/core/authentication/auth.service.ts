@@ -62,24 +62,23 @@ export class AuthenticationService {
         password: password
       })
       .pipe(
-        map((user: User) => {
-          console.log(user);
-          if (user == null) {
-            this.authenticated = false;
-            return;
-          }
-          if (user.userId) {
+        map((jwt: any) => {
+          console.log(jwt);
+          debugger;
+          if (jwt.userId && jwt.userLevel) {
             this.authenticated = true;
             localStorage.setItem(
               'followup-user',
               JSON.stringify({
-                user: user
+                user: jwt.user,
+                userLevel: jwt.userLevel
               })
             );
-            localStorage.setItem('tokenPayload', JSON.stringify('token'));
-
-            this.currentUserSubject.next(user);
-            return user;
+            this.currentUserSubject.next(jwt);
+            return jwt;
+          } else {
+            this.authenticated = false;
+            window.location.href = '/login';
           }
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
@@ -115,6 +114,7 @@ export class AuthenticationService {
   async signIn(username: string, password: string): Promise<any> {
     let result = await this.doLogin(username, password).toPromise();
     if (!(await result)) {
+      debugger;
       this.authenticated = false;
       return false;
     }
@@ -133,7 +133,7 @@ export class AuthenticationService {
       localStorage.setItem(
         'followup-token',
         JSON.stringify({
-          token: 'token'
+          token: 'jwt-token'
         })
       );
     });

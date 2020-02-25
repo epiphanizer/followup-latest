@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     let username = this.loginForm.controls.username.value;
     let password = this.loginForm.controls.password.value;
     let result = await this.authenticationService.signIn(username, password);
-    alert(result);
     if (!result) {
       this.error = 'Login Error';
       this.isLoading = false;

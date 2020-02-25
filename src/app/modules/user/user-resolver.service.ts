@@ -10,25 +10,18 @@ export class UserResolver implements Resolve<User> {
   user$: Promise<User>;
   constructor(private authService: AuthenticationService, private operationService: OperationService) {}
   resolve(): Promise<User> {
-    return this.authService.getUser().then((result: any) => {
-      console.log(result.user);
-      if (!result) {
-        console.log('assigning user from cache');
-        if (localStorage.getItem('followup-user')) {
-          let userObj = JSON.parse(localStorage.getItem('followup-user')).user[0] as User;
-          this.user = userObj;
-        }
+    return this.authService.getUser().then((jwt: any) => {
+      console.log(jwt);
+      if (!jwt.user) {
+        this.user = jwt[0];
       } else {
-        console.log(result);
-        this.user = result.user[0];
+        // console.log(result);
+        this.user = jwt.user[0];
       }
-      console.log(this.user);
-      // console.log(this.user);
       if (this.user.userLevel != 1) {
         this.user.operations$ = this.operationService.getOperationsByUserId(this.user.userId);
       } else {
         this.user.operations$ = this.operationService.getAllOperations();
-        // console.log(this.user);
       }
       return this.user;
     });
