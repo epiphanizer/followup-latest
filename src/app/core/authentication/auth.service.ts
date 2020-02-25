@@ -153,6 +153,7 @@ export class AuthenticationService {
      */
     localStorage.removeItem('followup-user');
     localStorage.removeItem('followup-token');
+    localStorage.removeItem('followup-payload');
     localStorage.clear();
     this.currentUserSubject.next(null);
     window.location.href = '/login';

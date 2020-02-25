@@ -6,7 +6,7 @@ export interface User {
   userId: number;
   userLevel: number;
   username: string;
-  email: string;
+  userEmail: string;
   avatar?: boolean;
   operations: Array<Operation>;
   operations$: Observable<Array<Operation>>;

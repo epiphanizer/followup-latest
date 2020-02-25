@@ -22,7 +22,6 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    // console.log(this.user);
     this.createForm();
   }
   // Passing E2E minus auth
@@ -80,7 +79,7 @@ export class UserProfileComponent implements OnInit {
       userLastName: this.fb.control(this.user.userLastName, [Validators.required]),
       userEmail: [
         {
-          value: this.user.email,
+          value: this.user.userEmail,
           disabled: true
         }
       ],
@@ -108,9 +107,10 @@ export class UserProfileComponent implements OnInit {
   }
 
   /**
-   * A function to validate controls,
+   * A function to validate form controls
    * and if there are any validation errors,
-   * bounce the user to the top.
+   * bounce the user to that error while spitting
+   * out what the error is in the console.
    */
   validateControls(): boolean {
     console.log('Finding invalid controls...');
@@ -118,7 +118,6 @@ export class UserProfileComponent implements OnInit {
     console.log(JSON.stringify(errors));
     const errorsFlat = SuperForm.getAllErrorsFlat(this.userProfileForm);
     console.log(JSON.stringify(errorsFlat));
-    // Double check this
     const firstError = <HTMLElement>document.getElementsByClassName('ng-invalid')[0];
 
     function scroll(el: HTMLElement) {
