@@ -35,56 +35,67 @@
     </i>
   </li>
 </ul>
-<ul class="call-queue-patient-list" *ngIf="patients$ | async">
-  <li
-    *ngFor="let patient of patients"
-    class="active"
-    [class.new-discharge]="patient.patientCallCount == 1"
-    [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"
-    [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
-  >
-    <div class="call-queue-number">
-      {{ patient.patientCallCount - 1 }}
-    </div>
-    <div class="call-queue-avatar">
-      <div class="badge-container">
-        <ng-container *ngIf="patient.patientNotificationCount > 0">
-          <span class="notification-badge">
-            {{ patient.patientNotificationCount }}
-          </span>
-        </ng-container>
-        <ng-container *ngIf="patient.patientKudosCount > 0">
-          <span class="kudos-badge">
-            {{ patient.patientKudosCount }}
-          </span>
-        </ng-container>
+<ion-content>
+  <ion-list class="call-queue-patient-list" *ngIf="patients$ | async">
+    <ion-item
+      *ngFor="let patient of patients"
+      class="active"
+      [class.new-discharge]="patient.patientCallCount == 1"
+      [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"
+      [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
+    >
+      <div class="call-queue-number">
+        {{ patient.patientCallCount - 1 }}
       </div>
-      <app-patient-avatar [patient]="patient"></app-patient-avatar>
-    </div>
-    <div class="call-queue-patient-information">
-      <span class="call-queue-patient-name">
-        <a href="'/operations/' + {{ operation.operationId }} + '/patient/' + {{ patient.patientId }}">
-          {{ patient.patientFirstName }} {{ patient.patientLastName }}
-        </a>
-      </span>
-      <span class="patient label-line">{{ patient.patientAge }}, {{ operation?.operationName }}</span>
-      <span class="patient additional-label-line"
-        >Discharge Date: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}</span
-      >
-      <span class="patient additional-label-line"
-        >Next Call Date: {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }}
-      </span>
-    </div>
-    <div class="call-queue-call-status-legend">
-      <ion-list *ngIf="patient.patientCallCount > 1" inset lines="none">
-        <ion-item *ngFor="let patientCallStatus of patientCallStatuses">
-          <i
-            class="icon-{{ patientCallStatus.patientCallStatusLabel.replace(' ', '-') | lowercase }}"
-            [class.active]="patient.patientLastCallStatus == patientCallStatus.patientCallStatusLabelId"
-          >
-          </i>
-        </ion-item>
-      </ion-list>
-    </div>
-  </li>
-</ul>
+      <div class="call-queue-avatar">
+        <div class="badge-container">
+          <ng-container *ngIf="patient.patientNotificationCount > 0">
+            <span class="notification-badge">
+              {{ patient.patientNotificationCount }}
+            </span>
+          </ng-container>
+          <ng-container *ngIf="patient.patientKudosCount > 0">
+            <span class="kudos-badge">
+              {{ patient.patientKudosCount }}
+            </span>
+          </ng-container>
+        </div>
+        <app-patient-avatar [patient]="patient"></app-patient-avatar>
+      </div>
+      <div class="call-queue-patient-information">
+        <span class="call-queue-patient-name">
+          <a href="'/operations/' + {{ operation.operationId }} + '/patient/' + {{ patient.patientId }}">
+            {{ patient.patientFirstName }} {{ patient.patientLastName }}
+          </a>
+        </span>
+        <span class="patient label-line">{{ patient.patientAge }}, {{ operation?.operationName }}</span>
+        <span class="patient additional-label-line"
+          >Discharge Date: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}</span
+        >
+        <span class="patient additional-label-line"
+          >Next Call Date:
+          {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }}
+        </span>
+      </div>
+      <div class="call-queue-call-status-legend">
+        <ion-list inset lines="none">
+          <ion-item *ngFor="let patientCallStatus of patientCallStatuses">
+            <i
+              class="icon-{{ patientCallStatus.patientCallStatusLabel.replace(' ', '-') | lowercase }}"
+              [class.active]="
+                patient.patientCallCount > 1 &&
+                patient.patientLastCallStatus == patientCallStatus.patientCallStatusLabelId
+              "
+            >
+            </i>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

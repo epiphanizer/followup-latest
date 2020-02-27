@@ -10,7 +10,9 @@
   border-top: solid 3.9px var(--ion-color-primary);
   border-bottom: none;
 }
-
+.no-scroll {
+  --overflow: hidden;
+}
 h3 {
   font-family: AvenirBold;
   font-size: 18px;
