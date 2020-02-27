@@ -9,8 +9,10 @@
     ></i>
   </ion-item>
   <ul [@expandSidebar]="isOpen ? 'open' : 'closed'" class="facility-dropdown-list active">
-    <ion-item class="assigned-user ion-float-right" *ngFor="let user of operationAssignedUsers; let idx = index">
-      <span class="user-name">{{ user.userFirstName }} {{ user.userLastName }} - {{ user.userRoleLabel }}</span>
-    </ion-item>
+    <div *ngFor="let user of operationAssignedUsers; let idx = index">
+      <ion-item *ngIf="user.userRoleLabel != 'Admin'" class="assigned-user ion-float-right">
+        <span class="user-name"> {{ user.userFirstName }} {{ user.userLastName }} - {{ user.userRoleLabel }} </span>
+      </ion-item>
+    </div>
   </ul>
 </ion-list>
