@@ -23,6 +23,7 @@ export class NotificationPatientListingComponent implements OnInit {
     this.notifications$ = this.notificationService.getNotificationsByOperationId(this.operation.operationId).pipe(
       map((notifications: Notification[]) => {
         this.notifications = notifications;
+        this.notificationsFiltered = notifications;
         return notifications;
       })
     );
@@ -34,7 +35,7 @@ export class NotificationPatientListingComponent implements OnInit {
       this.operation = changes.operation.currentValue;
       this.notifications$ = this.notificationService.getNotificationsByOperationId(this.operation.operationId).pipe(
         map((notifications: [Notification]) => {
-          this.notifications = notifications;
+          this.notificationsFiltered = notifications;
           return notifications;
         })
       );
