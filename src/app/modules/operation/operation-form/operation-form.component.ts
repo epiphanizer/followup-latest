@@ -20,6 +20,7 @@ import { OperationPutBody, OperationCallRepPostBody, Operation, OperationManager
 import { OperationContact } from '../operation-contact/operation-contact';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { NotificationType } from '@app/modules/notification/notification';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   providers: [
@@ -27,7 +28,8 @@ import { NotificationType } from '@app/modules/notification/notification';
     OperationService,
     OperationContactsService,
     OperationCallRepsService,
-    OperationResolver
+    OperationResolver,
+    ToastrService
   ],
   selector: 'app-operation-form',
   templateUrl: './operation-form.component.html',
@@ -68,6 +70,7 @@ export class OperationFormComponent implements OnInit {
     private operationContactsService: OperationContactsService,
     private route: ActivatedRoute,
     private router: Router,
+    private toastr: ToastrService,
     private userService: UserService
   ) {}
   ngOnInit() {
@@ -551,6 +554,7 @@ export class OperationFormComponent implements OnInit {
           .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
           .subscribe((data: any) => {
             if (data !== null) {
+              this.toastr.success('Operation contact successfully added');
               var operationContactId = data.operationContactId;
               var notificationsToAdd = new Array();
               formContact.operationContactNotifications.forEach((notificationType: any | boolean) => {
@@ -577,7 +581,7 @@ export class OperationFormComponent implements OnInit {
                       this.operationService
                         .editOperationByOperationId(this.operation.operationId, operationPut)
                         .subscribe(() => {
-                          alert('Operation successfully edited');
+                          this.toastr.success('Operation successfully edited');
                           window.location.href = '/operations';
                         });
                     }
@@ -611,6 +615,7 @@ export class OperationFormComponent implements OnInit {
             operationContactPut
           )
           .subscribe(() => {
+            this.toastr.success('Operation contact successfully edited');
             var operationContactId = operationContact.operationContactId;
             var notificationsToAdd = new Array();
             formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {
