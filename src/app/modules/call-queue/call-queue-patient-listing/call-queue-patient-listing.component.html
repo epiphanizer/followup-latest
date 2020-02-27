@@ -38,6 +38,7 @@
 <ion-infinite-scroll class="call-queue-patient-list" *ngIf="patients$ | async">
   <ion-list>
     <ion-item
+      color="transparent"
       *ngFor="let patient of patients"
       class="active patient-list-item"
       [class.new-discharge]="patient.patientCallCount == 1"
@@ -77,7 +78,7 @@
         </span>
       </div>
       <div class="call-queue-call-status-legend">
-        <ion-list *ngIf="patient.patientCallCount > 1" inset lines="none">
+        <ion-list inset lines="none">
           <ion-item *ngFor="let patientCallStatus of patientCallStatuses">
             <i
               class="icon-{{ patientCallStatus.patientCallStatusLabel.replace(' ', '-') | lowercase }}"

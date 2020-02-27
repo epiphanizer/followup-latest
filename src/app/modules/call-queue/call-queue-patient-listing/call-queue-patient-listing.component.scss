@@ -115,7 +115,8 @@ ul.patient-filters {
 .operation-todays-calls {
   left: 44px;
 }
-ion-list.call-queue-patient-list {
+// Infinite scroll
+.call-queue-patient-list {
   clear: both;
   list-style-type: none;
   max-width: 431px;
