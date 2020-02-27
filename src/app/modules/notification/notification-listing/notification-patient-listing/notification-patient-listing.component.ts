@@ -94,14 +94,13 @@ export class NotificationPatientListingComponent implements OnInit {
   };
   sortNotificationsByStatus = function(sortFlag: string) {
     this.filterBy = 'status';
-    alert('Toggling notifications by status');
   };
 
   searchPatientNotifications($event: KeyboardEvent): Notification[] {
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
     this.notificationsFiltered = this.notifications.filter((notification: Notification) => {
-      let patientFullName = notification.notificationPatientFirstName + ' ' + notification.patientLastName;
+      let patientFullName = notification.notificationPatientFirstName + ' ' + notification.notificationPatientLastName;
       return patientFullName.toLowerCase().includes(searchText);
     });
     return this.notificationsFiltered;
