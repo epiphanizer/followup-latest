@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Logger, I18nService, untilDestroyed, AuthenticationService } from '@app/core';
+import { Logger, untilDestroyed } from '@app/core';
 import { Subscription } from 'rxjs';
 
 const log = new Logger('App');
@@ -11,7 +11,7 @@ const log = new Logger('App');
 })
 export class AppComponent implements OnInit, OnDestroy {
   authenticated: boolean;
-  constructor(private authService: AuthenticationService) {}
+  constructor() {}
 
   ngOnInit() {}
   ngOnDestroy() {}

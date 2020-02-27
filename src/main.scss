@@ -19,3 +19,39 @@
 
 // Theme customization
 @import "theme/theme";
+
+#toast-container {
+  .toast {
+    background-color: #030303;
+  }
+
+  .toast-success {
+    &::before {
+      position: absolute;
+      margin-left: -10px;
+      height: 18px;
+      width: 18px;
+      background: url("assets/icon-down-arrow@2x.png") center cover no-repeat;
+      display: block;
+      content: "";
+    }
+    border-top: 5px solid --ion-color-primary;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    color: #3171e0;
+    font-family: "AvenirBold";
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .toast-error {
+    background-color: #bd362f;
+  }
+
+  .toast-info {
+    background-color: #2f96b4;
+  }
+
+  .toast-warning {
+    background-color: #f89406;
+  }
+}

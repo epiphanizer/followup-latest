@@ -8,8 +8,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { OperationContact } from '@app/modules/operation/operation-contact/operation-contact';
 import { OperationContactsService } from '@app/modules/operation/operation-contacts.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
-  providers: [NotificationService],
+  providers: [NotificationService, ToastrService],
   selector: 'app-notification-modal',
   templateUrl: './notification-modal.component.html',
   styleUrls: ['./notification-modal.component.scss']
@@ -41,7 +42,8 @@ export class NotificationModalComponent {
     private fb: FormBuilder,
     private notificationService: NotificationService,
     private operationContactsService: OperationContactsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -122,7 +124,7 @@ export class NotificationModalComponent {
          * If successful, actually email out the notification
          */
         this.notificationService.sendNotificationByNotificationId(notificationId).subscribe(() => {
-          console.log('Sent notification');
+          this.toastr.success('Successfully sent notification!');
         });
         this.dismiss();
       });

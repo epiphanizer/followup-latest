@@ -33,7 +33,7 @@
               },
               "src/assets"
             ],
-            "styles": ["src/main.scss", "node_modules/ngx-toastr/toastr.css"],
+            "styles": ["node_modules/ngx-toastr/toastr.css", "src/main.scss"],
             "scripts": []
           },
           "configurations": {
