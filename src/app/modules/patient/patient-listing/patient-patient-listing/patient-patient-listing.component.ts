@@ -34,7 +34,7 @@ export class PatientPatientListingComponent implements OnInit {
       this.operation = changes.operation.currentValue;
       this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
         map((patients: Patient[]) => {
-          this.patients = patients;
+          this.patientsFiltered = patients;
           return patients;
         })
       );

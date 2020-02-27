@@ -6,10 +6,10 @@
   {{ operation?.operationName }}
 </h3>
 
-<table>
+<table class="notification-filter-search">
   <tr>
     <td>
-      <ion-input placeholder="Patient Search" (ionInput)="searchPatientNotifications($event)"> </ion-input>
+      <ion-input placeholder="Patient/Notification Search" (ionInput)="searchNotifications($event)"> </ion-input>
     </td>
     <td>
       <ion-icon name="search"></ion-icon>
@@ -49,7 +49,7 @@
 
 <ul class="notification-patient-list" *ngIf="notifications$ | async">
   <li
-    *ngFor="let notification of notifications"
+    *ngFor="let notification of notificationsFiltered"
     class="active"
     [routerLink]="'/notifications/' + notification.notificationId"
   >

@@ -93,7 +93,7 @@ export class NotificationPatientListingComponent implements OnInit {
     }
   };
 
-  searchPatientNotifications($event: KeyboardEvent): Notification[] {
+  searchNotifications($event: KeyboardEvent): Notification[] {
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
     this.notificationsFiltered = this.notifications.filter((notification: Notification) => {
