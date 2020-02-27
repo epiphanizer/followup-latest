@@ -1,6 +1,17 @@
 <h3 class="section-header">
   {{ operation?.operationName }}
 </h3>
+<table>
+  <tr>
+    <td>
+      <ion-input placeholder="Patient/Status Search" (ionInput)="searchPatients($event)"> </ion-input>
+    </td>
+    <td>
+      <ion-icon name="search"></ion-icon>
+    </td>
+  </tr>
+</table>
+
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="patient-filters ">
   <li class="ion-float-left discharge-date">

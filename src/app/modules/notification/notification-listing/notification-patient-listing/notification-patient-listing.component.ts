@@ -14,6 +14,7 @@ export class NotificationPatientListingComponent implements OnInit {
   @Input() operation: Operation;
   public notifications: Notification[];
   public notifications$: Observable<Notification[]>;
+  public notificationsFiltered: Notification[];
   public filterBy: string = 'notification-date';
   public selectedSortFlag: string = 'desc';
 
@@ -95,4 +96,14 @@ export class NotificationPatientListingComponent implements OnInit {
     this.filterBy = 'status';
     alert('Toggling notifications by status');
   };
+
+  searchPatientNotifications($event: KeyboardEvent): Notification[] {
+    let searchText = $event.currentTarget['value'];
+    searchText = searchText.toLowerCase();
+    this.notificationsFiltered = this.notifications.filter((notification: Notification) => {
+      let patientFullName = notification.notificationPatientFirstName + ' ' + notification.patientLastName;
+      return patientFullName.toLowerCase().includes(searchText);
+    });
+    return this.notificationsFiltered;
+  }
 }

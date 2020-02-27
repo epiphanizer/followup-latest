@@ -5,6 +5,18 @@
   </span>
   {{ operation?.operationName }}
 </h3>
+
+<table>
+  <tr>
+    <td>
+      <ion-input placeholder="Patient Search" (ionInput)="searchPatientNotifications($event)"> </ion-input>
+    </td>
+    <td>
+      <ion-icon name="search"></ion-icon>
+    </td>
+  </tr>
+</table>
+
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="notification-filters ">
   <li class="ion-float-left notification-date">

@@ -5,6 +5,7 @@ import { KudosModalComponent } from '../kudos-modal/kudos-modal.component';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-toolbar-nav',
@@ -12,7 +13,12 @@ import { User } from '@app/modules/user/user';
   styleUrls: ['./toolbar-nav.component.scss']
 })
 export class ToolbarNavComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private router: Router, public modalController: ModalController) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private _location: Location,
+    public modalController: ModalController
+  ) {}
 
   @Input() navLinks: [string] | null;
   patient: Patient;
@@ -44,8 +50,7 @@ export class ToolbarNavComponent implements OnInit {
       let routerUrl = this.router.url + '/history';
       this.router.navigate([routerUrl]);
     } else if (buttonAction == 'notes') {
-      let routerUrl = this.route.snapshot.data.url;
-      this.router.navigate([routerUrl]);
+      this._location.back();
     }
   }
 
