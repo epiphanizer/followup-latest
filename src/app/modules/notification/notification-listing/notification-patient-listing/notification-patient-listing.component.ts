@@ -92,9 +92,6 @@ export class NotificationPatientListingComponent implements OnInit {
       });
     }
   };
-  sortNotificationsByStatus = function(sortFlag: string) {
-    this.filterBy = 'status';
-  };
 
   searchPatientNotifications($event: KeyboardEvent): Notification[] {
     let searchText = $event.currentTarget['value'];
