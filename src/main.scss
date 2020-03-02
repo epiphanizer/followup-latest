@@ -55,3 +55,13 @@
     background-color: #f89406;
   }
 }
+
+ion-content {
+  --offset-bottom: auto !important;
+  --overflow: hidden;
+  overflow: auto;
+  padding-bottom: 10rem;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
