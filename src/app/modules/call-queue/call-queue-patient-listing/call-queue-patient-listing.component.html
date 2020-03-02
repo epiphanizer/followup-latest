@@ -1,15 +1,17 @@
 <div class="section-header">
   <ng-container>
-    <i class="icon-new-discharges"> </i>
-    <span class="operation-discharges">
-      {{ currentNewDischargeCount || 0 }}
-    </span>
+    <i class="icon-new-discharges">
+      <span class="operation-discharges">
+        {{ currentNewDischargeCount }}
+      </span>
+    </i>
   </ng-container>
   <ng-container>
-    <i class="icon-todays-calls"> </i>
-    <span class="operation-todays-calls">
-      {{ operation.todaysCallCount }}
-    </span>
+    <i class="icon-todays-calls">
+      <span class="operation-todays-calls">
+        {{ operation.todaysCallCount }}
+      </span>
+    </i>
   </ng-container>
   <h3 class="section-header">
     {{ operation.operationName }}
@@ -35,7 +37,7 @@
     </i>
   </li>
 </ul>
-<ion-content class="call-queue-patient-list no-scroll" *ngIf="patients$ | async">
+<ion-content class="call-queue-patient-list" *ngIf="patients$ | async">
   <ion-list>
     <ion-item
       color="transparent"
