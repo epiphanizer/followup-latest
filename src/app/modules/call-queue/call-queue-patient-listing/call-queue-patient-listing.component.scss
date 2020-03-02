@@ -1,3 +1,25 @@
+::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+  overflow: hidden;
+}
+
+ion-content {
+  height: 500px;
+  --offset-bottom: auto !important;
+  --overflow: hidden;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.scroll-content {
+  overflow: hidden;
+}
+.no-scroll {
+  --overflow: hidden;
+}
 .call-queue-feed {
   max-width: 431px;
 }
