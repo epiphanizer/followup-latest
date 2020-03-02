@@ -1,7 +1,7 @@
 <ion-row>
   <ion-col class="left-hand-detail">
     <ion-title>Notification History</ion-title>
-    <ng-container>
+    <ion-content>
       <ion-list class="patient-notification-listings">
         <ion-item *ngFor="let notification of patientNotifications$ | async">
           <div class="notification-info-container">
@@ -26,7 +26,7 @@
           </div>
         </ion-item>
       </ion-list>
-    </ng-container>
+    </ion-content>
   </ion-col>
   <ion-col class="right-hand-detail">
     <ng-container>

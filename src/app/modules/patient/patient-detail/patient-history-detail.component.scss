@@ -24,8 +24,17 @@
     text-align: left;
     color: #343638;
     padding-left: 0;
+    margin-bottom: 2rem;
   }
 
+  ion-content {
+    --offset-bottom: auto !important;
+    --overflow: hidden;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
   ion-textarea {
     --padding-start: 12px;
     height: 75px;
