@@ -4,219 +4,225 @@
     </app-operation-admin-sidebar>
   </ion-col>
   <ion-col class="operation-form-content">
-    <ion-title *ngIf="!editMode; else editOperation">New Facility</ion-title>
-    <ng-template #editOperation>
-      <ion-title>
-        Edit Facility
-      </ion-title>
-    </ng-template>
-    <form id="operation-form" [formGroup]="operationForm" novalidate>
-      <ion-list formGroupName="operation" lines="none" inset>
-        <i class="icon-info"></i>
-        <ion-item>
-          <ion-input
-            class="hidden-operation-input"
-            type="hidden"
-            formControlName="operationId"
-            [value]="operation?.operationId"
-          ></ion-input>
-          <ion-label color="medium" position="stacked">Facility</ion-label>
-          <ion-input type="text" formControlName="operationName"></ion-input>
-        </ion-item>
-        <ion-item class="address">
-          <ion-label color="medium" position="stacked">Address</ion-label>
-          <ion-input type="text" formControlName="operationAddress"></ion-input>
-        </ion-item>
-        <ion-item class="city">
-          <ion-label color="medium" position="stacked">City</ion-label>
-          <ion-input type="text" formControlName="operationCity"></ion-input>
-        </ion-item>
-        <ion-item class="state">
-          <ion-label color="medium" position="stacked">State</ion-label>
-          <ion-input type="text" formControlName="operationState"></ion-input>
-        </ion-item>
-        <ion-item class="zip">
-          <ion-label color="medium" position="stacked">Zip</ion-label>
-          <ion-input type="text" formControlName="operationZip"></ion-input>
-        </ion-item>
-        <ion-list inset lines="none" class="phone-container">
-          <ion-item class="country-code">
-            <ion-label color="medium" position="stacked">+1</ion-label>
-            <ion-input type="text" formControlName="operationCountryCode"></ion-input>
+    <ion-content>
+      <ion-title *ngIf="!editMode; else editOperation">New Facility</ion-title>
+      <ng-template #editOperation>
+        <ion-title>
+          Edit Facility
+        </ion-title>
+      </ng-template>
+      <form id="operation-form" [formGroup]="operationForm" novalidate>
+        <ion-list formGroupName="operation" lines="none" inset>
+          <i class="icon-info"></i>
+          <ion-item>
+            <ion-input
+              class="hidden-operation-input"
+              type="hidden"
+              formControlName="operationId"
+              [value]="operation?.operationId"
+            ></ion-input>
+            <ion-label color="medium" position="stacked">Facility</ion-label>
+            <ion-input type="text" formControlName="operationName"></ion-input>
           </ion-item>
-          <ion-item class="area-code">
-            <ion-label color="medium" position="stacked">(###)</ion-label>
-            <ion-input type="text" formControlName="operationAreaCode"></ion-input>
+          <ion-item class="address">
+            <ion-label color="medium" position="stacked">Address</ion-label>
+            <ion-input type="text" formControlName="operationAddress"></ion-input>
           </ion-item>
-          <ion-item class="phone-number">
-            <ion-label color="medium" position="stacked">Phone #</ion-label>
-            <ion-input type="text" formControlName="operationPhoneNumber"></ion-input>
+          <ion-item class="city">
+            <ion-label color="medium" position="stacked">City</ion-label>
+            <ion-input type="text" formControlName="operationCity"></ion-input>
           </ion-item>
-        </ion-list>
-      </ion-list>
-
-      <fieldset class="operation-contacts" *ngIf="operationContacts && notificationsLoaded">
-        <ng-container>
-          <ion-list class="operation-contacts-list" formArrayName="operationContacts" lines="none" inset>
-            <ion-item
-              class="operation-contact-item"
-              *ngFor="let operationContact of operationContacts; let idx = index"
-            >
-              <div class="contact-header-wrapper">
-                <i class="icon-user"></i>
-                <ion-label position="stacked" color="medium">Contact {{ idx + 1 }}</ion-label>
-              </div>
-              <ion-list formGroupName="{{ idx }}" class="operation-contact-entry" lines="none" inset>
-                <ion-item class="first-name">
-                  <ion-label position="stacked" color="medium">
-                    First Name
-                  </ion-label>
-                  <ion-input type="text" formControlName="operationContactFirstName"></ion-input>
-                </ion-item>
-                <ion-item class="middle-name">
-                  <ion-label position="stacked" color="medium">
-                    Middle Name
-                  </ion-label>
-                  <ion-input type="text" formControlName="operationContactMiddleName"></ion-input>
-                </ion-item>
-                <ion-item class="last-name">
-                  <ion-label position="stacked" color="medium">
-                    Last Name
-                  </ion-label>
-                  <ion-input type="text" formControlName="operationContactLastName"></ion-input>
-                </ion-item>
-                <ion-item class="title-position">
-                  <ion-label position="stacked" color="medium">
-                    Title / Position
-                  </ion-label>
-                  <ion-input type="text" formControlName="operationContactTitle"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label position="stacked" color="medium">
-                    Email
-                  </ion-label>
-                  <ion-input type="text" formControlName="operationContactEmail"></ion-input>
-                </ion-item>
-                <div class="phone-container">
-                  <ion-item class="country-code">
-                    <ion-label position="stacked" color="medium">
-                      +1
-                    </ion-label>
-                    <ion-input type="text" formControlName="operationContactCountryCode"></ion-input>
-                  </ion-item>
-                  <ion-item class="area-code">
-                    <ion-label position="stacked" color="medium">
-                      (###)
-                    </ion-label>
-                    <ion-input type="text" formControlName="operationContactAreaCode"></ion-input>
-                  </ion-item>
-                  <ion-item class="phone-number">
-                    <ion-label position="stacked" color="medium">
-                      Phone #
-                    </ion-label>
-                    <ion-input type="text" formControlName="operationContactPhoneNumber"></ion-input>
-                  </ion-item>
-                  <ion-item class="contact-order">
-                    <ion-label position="stacked" color="medium">
-                      Contact Order
-                    </ion-label>
-                    <ion-input ype="number" formControlName="operationContactOrder"></ion-input>
-                  </ion-item>
-                </div>
-                <div class="section-header">
-                  <span class="notification-header">
-                    Notifications
-                  </span>
-                </div>
-                <ion-list class="notification-container" formArrayName="operationContactNotifications">
-                  <ion-item
-                    class="notification-type-option"
-                    *ngFor="let notificationType of notificationTypes; let idx = index"
-                    formGroupName="{{ idx }}"
-                  >
-                    <ion-checkbox formControlName="{{ notificationType.notificationTypeId }}"></ion-checkbox>
-                    <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
-                  </ion-item>
-                </ion-list>
-              </ion-list>
-
-              <!-- only show removal option if it's past the first index -->
-              <ion-item class="ion-float-right remove-additional-contact" (click)="removeOperationContact(idx)">
-                [ - remove contact ]
-              </ion-item>
+          <ion-item class="state">
+            <ion-label color="medium" position="stacked">State</ion-label>
+            <ion-input type="text" formControlName="operationState"></ion-input>
+          </ion-item>
+          <ion-item class="zip">
+            <ion-label color="medium" position="stacked">Zip</ion-label>
+            <ion-input type="text" formControlName="operationZip"></ion-input>
+          </ion-item>
+          <ion-list inset lines="none" class="phone-container">
+            <ion-item class="country-code">
+              <ion-label color="medium" position="stacked">+1</ion-label>
+              <ion-input type="text" formControlName="operationCountryCode"></ion-input>
             </ion-item>
-            <span class="ion-float-right add-call-rep" (click)="addAdditionalOperationContact()"
-              >[ + add contact ]</span
-            >
+            <ion-item class="area-code">
+              <ion-label color="medium" position="stacked">(###)</ion-label>
+              <ion-input type="text" formControlName="operationAreaCode"></ion-input>
+            </ion-item>
+            <ion-item class="phone-number">
+              <ion-label color="medium" position="stacked">Phone #</ion-label>
+              <ion-input type="text" formControlName="operationPhoneNumber"></ion-input>
+            </ion-item>
           </ion-list>
-        </ng-container>
-      </fieldset>
-      <fieldset class="operation-team-members" formArray="operationManagers">
-        <div class="section-header">
-          <i class="icon-team-members"></i>
-          <span>Team Members</span>
-        </div>
-        <ion-list class="assigned-manager-list" *ngIf="operationManagers" lines="none">
-          <ng-container *ngFor="let operationManager of operationManagers; let idx = index">
-            <ion-item id="operation-manager-{{ idx }}">
-              <ion-label position="stacked" color="medium">
-                Assigned Manager
-              </ion-label>
-              <ion-select
-                (ionChange)="managerOnSelect($event, idx)"
-                class="operation-assigned-manager"
-                placeholder="Select User"
-              >
-                <ion-select-option
-                  *ngFor="let user of availableUsers"
-                  [selected]="user.userId == operationManager.userId"
-                  [value]="user.userId"
-                >
-                  {{ user.userLastName }}, {{ user.userFirstName }}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
-            <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeOperationManager(idx)"
-              >[ - remove manager ]</span
-            >
-          </ng-container>
-          <span class="ion-float-right add-manager" (click)="addAdditionalOperationManager()">[ + add manager ]</span>
         </ion-list>
-      </fieldset>
-      <fieldset class="operation-callreps">
-        <ng-container>
-          <ion-list class="assigned-callrep-list" lines="none" inset>
-            <ng-container *ngFor="let operationCallRep of operationCallReps; let idx = index">
-              <ion-item id="operationCallRep-{{ idx }}">
-                <ion-label position="stacked" color="medium">Care Rep {{ idx + 1 }} </ion-label>
-                <ion-select *ngIf="availableUsers" (ionChange)="callRepOnSelect($event, idx)" placeholder="Select User">
+
+        <fieldset class="operation-contacts" *ngIf="operationContacts && notificationsLoaded">
+          <ng-container>
+            <ion-list class="operation-contacts-list" formArrayName="operationContacts" lines="none" inset>
+              <ion-item
+                class="operation-contact-item"
+                *ngFor="let operationContact of operationContacts; let idx = index"
+              >
+                <div class="contact-header-wrapper">
+                  <i class="icon-user"></i>
+                  <ion-label position="stacked" color="medium">Contact {{ idx + 1 }}</ion-label>
+                </div>
+                <ion-list formGroupName="{{ idx }}" class="operation-contact-entry" lines="none" inset>
+                  <ion-item class="first-name">
+                    <ion-label position="stacked" color="medium">
+                      First Name
+                    </ion-label>
+                    <ion-input type="text" formControlName="operationContactFirstName"></ion-input>
+                  </ion-item>
+                  <ion-item class="middle-name">
+                    <ion-label position="stacked" color="medium">
+                      Middle Name
+                    </ion-label>
+                    <ion-input type="text" formControlName="operationContactMiddleName"></ion-input>
+                  </ion-item>
+                  <ion-item class="last-name">
+                    <ion-label position="stacked" color="medium">
+                      Last Name
+                    </ion-label>
+                    <ion-input type="text" formControlName="operationContactLastName"></ion-input>
+                  </ion-item>
+                  <ion-item class="title-position">
+                    <ion-label position="stacked" color="medium">
+                      Title / Position
+                    </ion-label>
+                    <ion-input type="text" formControlName="operationContactTitle"></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label position="stacked" color="medium">
+                      Email
+                    </ion-label>
+                    <ion-input type="text" formControlName="operationContactEmail"></ion-input>
+                  </ion-item>
+                  <div class="phone-container">
+                    <ion-item class="country-code">
+                      <ion-label position="stacked" color="medium">
+                        +1
+                      </ion-label>
+                      <ion-input type="text" formControlName="operationContactCountryCode"></ion-input>
+                    </ion-item>
+                    <ion-item class="area-code">
+                      <ion-label position="stacked" color="medium">
+                        (###)
+                      </ion-label>
+                      <ion-input type="text" formControlName="operationContactAreaCode"></ion-input>
+                    </ion-item>
+                    <ion-item class="phone-number">
+                      <ion-label position="stacked" color="medium">
+                        Phone #
+                      </ion-label>
+                      <ion-input type="text" formControlName="operationContactPhoneNumber"></ion-input>
+                    </ion-item>
+                    <ion-item class="contact-order">
+                      <ion-label position="stacked" color="medium">
+                        Contact Order
+                      </ion-label>
+                      <ion-input ype="number" formControlName="operationContactOrder"></ion-input>
+                    </ion-item>
+                  </div>
+                  <div class="section-header">
+                    <span class="notification-header">
+                      Notifications
+                    </span>
+                  </div>
+                  <ion-list class="notification-container" formArrayName="operationContactNotifications">
+                    <ion-item
+                      class="notification-type-option"
+                      *ngFor="let notificationType of notificationTypes; let idx = index"
+                      formGroupName="{{ idx }}"
+                    >
+                      <ion-checkbox formControlName="{{ notificationType.notificationTypeId }}"></ion-checkbox>
+                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
+                    </ion-item>
+                  </ion-list>
+                </ion-list>
+
+                <!-- only show removal option if it's past the first index -->
+                <ion-item class="ion-float-right remove-additional-contact" (click)="removeOperationContact(idx)">
+                  [ - remove contact ]
+                </ion-item>
+              </ion-item>
+              <span class="ion-float-right add-call-rep" (click)="addAdditionalOperationContact()"
+                >[ + add contact ]</span
+              >
+            </ion-list>
+          </ng-container>
+        </fieldset>
+        <fieldset class="operation-team-members" formArray="operationManagers">
+          <div class="section-header">
+            <i class="icon-team-members"></i>
+            <span>Team Members</span>
+          </div>
+          <ion-list class="assigned-manager-list" *ngIf="operationManagers" lines="none">
+            <ng-container *ngFor="let operationManager of operationManagers; let idx = index">
+              <ion-item id="operation-manager-{{ idx }}">
+                <ion-label position="stacked" color="medium">
+                  Assigned Manager
+                </ion-label>
+                <ion-select
+                  (ionChange)="managerOnSelect($event, idx)"
+                  class="operation-assigned-manager"
+                  placeholder="Select User"
+                >
                   <ion-select-option
                     *ngFor="let user of availableUsers"
+                    [selected]="user.userId == operationManager.userId"
                     [value]="user.userId"
-                    [selected]="user.userId == operationCallRep.userId"
                   >
                     {{ user.userLastName }}, {{ user.userFirstName }}
                   </ion-select-option>
                 </ion-select>
               </ion-item>
-              <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeOperationCallRep(idx)"
-                >[ - remove ]</span
+              <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeOperationManager(idx)"
+                >[ - remove manager ]</span
               >
             </ng-container>
-            <span class="ion-float-right add-call-rep" (click)="addAdditionalOperationCallRep()"
-              >[ + add care rep ]</span
-            >
+            <span class="ion-float-right add-manager" (click)="addAdditionalOperationManager()">[ + add manager ]</span>
           </ion-list>
-        </ng-container>
+        </fieldset>
+        <fieldset class="operation-callreps">
+          <ng-container>
+            <ion-list class="assigned-callrep-list" lines="none" inset>
+              <ng-container *ngFor="let operationCallRep of operationCallReps; let idx = index">
+                <ion-item id="operationCallRep-{{ idx }}">
+                  <ion-label position="stacked" color="medium">Care Rep {{ idx + 1 }} </ion-label>
+                  <ion-select
+                    *ngIf="availableUsers"
+                    (ionChange)="callRepOnSelect($event, idx)"
+                    placeholder="Select User"
+                  >
+                    <ion-select-option
+                      *ngFor="let user of availableUsers"
+                      [value]="user.userId"
+                      [selected]="user.userId == operationCallRep.userId"
+                    >
+                      {{ user.userLastName }}, {{ user.userFirstName }}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeOperationCallRep(idx)"
+                  >[ - remove ]</span
+                >
+              </ng-container>
+              <span class="ion-float-right add-call-rep" (click)="addAdditionalOperationCallRep()"
+                >[ + add care rep ]</span
+              >
+            </ion-list>
+          </ng-container>
 
-        <ion-item class="is-active ion-float-right">
-          <ion-checkbox formControlName="operationActive"></ion-checkbox>
-          <ion-label color="medium">Active?</ion-label>
-        </ion-item>
-      </fieldset>
+          <ion-item class="is-active ion-float-right">
+            <ion-checkbox formControlName="operationActive"></ion-checkbox>
+            <ion-label color="medium">Active?</ion-label>
+          </ion-item>
+        </fieldset>
 
-      <ion-button class="ion-float-right" (click)="onFormSubmit()">Save</ion-button>
-    </form>
+        <ion-button class="ion-float-right" (click)="onFormSubmit()">Save</ion-button>
+      </form>
+    </ion-content>
   </ion-col>
   <ion-col class="right-admin-col">
     <app-operation-admin-right-sidebar *ngIf="editMode && operation"></app-operation-admin-right-sidebar>

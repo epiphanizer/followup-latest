@@ -20,6 +20,7 @@ import {
 import { PatientIntakeQuestionService } from '../patient-intake-question/patient-intake-question.service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { take } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   providers: [PatientService, PatientIntakeQuestionService],
@@ -70,7 +71,8 @@ export class PatientFormComponent implements OnInit {
     private patientService: PatientService,
     private patientAvatarService: PatientAvatarService,
     private patientContactService: PatientContactService,
-    private patientIntakeQuestionService: PatientIntakeQuestionService
+    private patientIntakeQuestionService: PatientIntakeQuestionService,
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit() {
@@ -359,7 +361,13 @@ export class PatientFormComponent implements OnInit {
     var dayDiff = Math.round(timeDiff / (1000 * 3600 * 24));
     this.patientForm.get('patient.dischargeInfo.patientTotalDays').setValue(dayDiff);
   }
-
+  deletePatient(): void {
+    if (confirm('This will permanently delete the patient. Are you sure you want to do this?')) {
+    }
+    {
+      this.toastrService.success('Patient Successfully Deleted');
+    }
+  }
   onFormSubmit(): void {
     if (!this.validateControls()) {
       return;

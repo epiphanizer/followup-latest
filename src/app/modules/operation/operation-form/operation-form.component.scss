@@ -1,7 +1,3 @@
-ion-row {
-  overflow-y: scroll;
-}
-
 ion-content {
   padding-bottom: 132px;
 }
@@ -23,9 +19,9 @@ ion-title {
 }
 
 .operation-form-content {
-  margin-left: 90px;
+  margin-left: 60px;
+  height: auto;
   max-width: 720px;
-  padding-bottom: 160px;
 }
 
 form {
@@ -94,7 +90,7 @@ form {
 
   > fieldset {
     padding: 0;
-    margin-left: -25px;
+    margin-left: -15px;
   }
 
   > ion-list {
