@@ -96,7 +96,7 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallService.endPatientCall(this.patientCall.patientCallId);
     this.patientCall.patientCallStatusLabelId = 4;
     this.patientCall.patientCallStatusLabel = 'In Review';
-    // this.toastrService.success("Patient Call Ended");
+    this.toastrService.success('Call In Review');
     setTimeout(function() {
       let element = document.querySelector('#patientCallStatusControls');
       if (element) {
@@ -112,6 +112,7 @@ export class PatientDetailComponent implements OnInit {
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
     this.patientCall.patientCallStatusLabel = 'User Selected Status';
+    this.toastrService.success('User Selected Status');
   }
   patientFinalCallChangeHandler($event: boolean) {
     if ($event == true) {
@@ -124,6 +125,7 @@ export class PatientDetailComponent implements OnInit {
     let selectedDate = $event;
     let newDate = formatDate(selectedDate, 'MM-dd-yyyy', 'en-US');
     this.patientNextCall.date = newDate;
+    this.toastrService.success('User selected next call date: ' + newDate);
   }
   patientCallNotesChangeHandler($event: PatientCallNotes) {
     this.patientCallNotes = $event;
@@ -216,6 +218,7 @@ export class PatientDetailComponent implements OnInit {
       let navigateToUrl = '/call-queue/' + this.patient.patientOperationId;
 
       if (this.patientCall.patientCallStatusLabelId == 9) {
+        this.toastrService.success('Successfully Saved');
         window.location.href = navigateToUrl;
       } else {
         /**
@@ -254,6 +257,7 @@ export class PatientDetailComponent implements OnInit {
                 }
               });
             } else {
+              this.toastrService.success('Successfully Saved');
               window.location.href = navigateToUrl;
             }
           });
