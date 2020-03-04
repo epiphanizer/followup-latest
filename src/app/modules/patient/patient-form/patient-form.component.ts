@@ -361,7 +361,7 @@ export class PatientFormComponent implements OnInit {
     var dayDiff = Math.round(timeDiff / (1000 * 3600 * 24));
     this.patientForm.get('patient.dischargeInfo.patientTotalDays').setValue(dayDiff);
   }
-  deletePatient(patientId: string): void {
+  deletePatient(patientId: number): void {
     if (confirm('This will permanently delete the patient' + patientId + '. \
     Are you sure you want to do this?')) {
     }
