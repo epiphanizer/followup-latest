@@ -1,6 +1,8 @@
+ion-content,
 ion-grid,
 ion-row {
-  height: 100%;
+  --background: transparent;
+  height: 100vh;
 }
 ion-item {
   --inner-padding-start: 0;
@@ -20,7 +22,8 @@ ion-item {
   right: 0;
   bottom: 0;
   background-image: url("/assets/background.jpg");
-  background-size: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 #login-form {
   display: block;
