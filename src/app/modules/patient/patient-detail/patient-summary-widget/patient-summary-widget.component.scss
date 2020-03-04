@@ -1,10 +1,20 @@
 .avatar-container {
   width: 259px;
-  height: 297px;
+  height: 220px;
   padding: 0 10%;
   cursor: pointer;
 }
-
+app-patient-avatar {
+  margin-bottom: 0.75rem;
+}
+a.edit-patient {
+  text-align: center;
+  width: 100%;
+  display: block;
+  font-family: Avenir;
+  text-decoration: none;
+  color: #13afe9;
+}
 .patient-operation-name {
   font-family: Avenir;
   font-size: 13px;

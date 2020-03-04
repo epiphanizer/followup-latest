@@ -4,6 +4,7 @@
       <div class="avatar-container">
         <app-patient-avatar [patient]="patient" [routerLink]="'/patient/edit/' + patient.patientId">
         </app-patient-avatar>
+        <a class="edit-patient" [routerLink]="'/patient/edit/' + patient.patientId">Edit Patient</a>
       </div>
     </ion-col>
     <ion-col class="middle-summary-container">
