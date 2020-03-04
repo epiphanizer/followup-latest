@@ -886,6 +886,11 @@ ion-button {
   border-radius: 4px;
   background-color: transparent;
   color: var(--ion-color-primary);
+  &.save-button {
+    color: white;
+    float: right;
+    margin-bottom: 2rem;
+  }
   width: auto;
   height: 35px;
   font-family: AvenirBold;
