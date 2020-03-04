@@ -20,6 +20,7 @@ import { PatientCallStatus } from './patient-call/patient-call-status.service';
 import { formatDate } from '@angular/common';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   providers: [PatientCallService, PatientCallNotesService, PatientCallQuestionsService],
@@ -49,7 +50,8 @@ export class PatientDetailComponent implements OnInit {
     private patientCallService: PatientCallService,
     private patientCallNotesService: PatientCallNotesService,
     private patientCallQuestionsService: PatientCallQuestionsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit() {
@@ -85,6 +87,7 @@ export class PatientDetailComponent implements OnInit {
       .subscribe((data: any) => {
         this.patientCall.patientCallStatusLabelId = 3;
         this.patientCall.patientCallStatusLabel = 'Started';
+        this.toastrService.success('Call Started!');
       });
   }
 
@@ -93,6 +96,7 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallService.endPatientCall(this.patientCall.patientCallId);
     this.patientCall.patientCallStatusLabelId = 4;
     this.patientCall.patientCallStatusLabel = 'In Review';
+    // this.toastrService.success("Patient Call Ended");
     setTimeout(function() {
       let element = document.querySelector('#patientCallStatusControls');
       if (element) {

@@ -14,6 +14,7 @@ export class PatientPatientListingComponent implements OnInit {
   @Input() operation: Operation;
   public patients: Patient[];
   public patients$: Observable<Patient[]>;
+  public patientsFiltered: Patient[];
   public filterBy: string = 'discharge-date';
   public selectedSortFlag: string = 'desc';
 
@@ -22,6 +23,7 @@ export class PatientPatientListingComponent implements OnInit {
     this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
       map((patients: Patient[]) => {
         this.patients = patients;
+        this.patientsFiltered = patients;
         return patients;
       })
     );
@@ -33,7 +35,7 @@ export class PatientPatientListingComponent implements OnInit {
       this.operation = changes.operation.currentValue;
       this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
         map((patients: Patient[]) => {
-          this.patients = patients;
+          this.patientsFiltered = patients;
           return patients;
         })
       );
@@ -86,4 +88,14 @@ export class PatientPatientListingComponent implements OnInit {
       });
     }
   };
+
+  searchPatients($event: KeyboardEvent): Patient[] {
+    let searchText = $event.currentTarget['value'];
+    searchText = searchText.toLowerCase();
+    this.patientsFiltered = this.patients.filter((patient: Patient) => {
+      let patientFullName = patient.patientFirstName + ' ' + patient.patientLastName;
+      return patientFullName.toLowerCase().includes(searchText);
+    });
+    return this.patientsFiltered;
+  }
 }

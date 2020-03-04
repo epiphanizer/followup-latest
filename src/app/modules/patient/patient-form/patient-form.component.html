@@ -324,6 +324,11 @@
         </ion-list>
         <ion-button (click)="onFormSubmit()">Save</ion-button>
       </form>
+      <div class="app-delete-patient">
+        <a class="delete-patient" (click)="deletePatient(patient.patientId)">
+          Delete Patient
+        </a>
+      </div>
     </ion-col>
     <ion-col class="avatar-col">
       <div

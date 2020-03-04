@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
@@ -9,6 +9,7 @@ import {
   PatientCallStatusService
 } from '@app/modules/patient/patient-detail/patient-call/patient-call-status.service';
 import { PatientCallService } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   providers: [PatientService, PatientCallService],
@@ -17,6 +18,7 @@ import { PatientCallService } from '@app/modules/patient/patient-detail/patient-
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
+  @ViewChild(IonInfiniteScroll, { read: 'infinite-scroll', static: true }) infiniteScroll: IonInfiniteScroll;
   currentYear: number;
   currentNewDischargeCount: number;
   @Input() operation: Operation;
@@ -59,6 +61,19 @@ export class CallQueuePatientListingComponent implements OnInit {
         );
       }
     }
+  }
+
+  loadData(event: any) {
+    setTimeout(() => {
+      console.log('Done');
+      event.target.complete();
+
+      // App logic to determine if all data is loaded
+      // and disable the infinite scroll
+      if (this.patients.length == 1000) {
+        event.target.disabled = true;
+      }
+    }, 500);
   }
 
   public checkDateGreaterThanEqualToToday(patientNextCallScheduledTime: string) {

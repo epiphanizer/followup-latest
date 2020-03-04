@@ -11,6 +11,7 @@ ion-content {
   width: 565px;
   max-width: 565px;
   margin-top: 79px;
+  padding-bottom: 160px;
 }
 
 .avatar-col {
@@ -621,28 +622,6 @@ form {
     margin-top: 14px;
   }
 
-  ion-button {
-    margin-top: -12px;
-    margin-bottom: 96px;
-    margin-right: 20px;
-    float: right;
-    border-radius: 4px;
-    background-color: --ion-color-primary;
-    width: 76px;
-    height: 28px;
-    font-family: AvenirBold;
-    font-size: 15px;
-    font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 28px;
-    vertical-align: middle;
-    letter-spacing: 0.3px;
-    text-align: center;
-    color: #ffffff;
-    text-transform: uppercase;
-  }
-
   .checkboxes-inline {
     margin-top: 0px;
 
@@ -902,6 +881,34 @@ fieldset.patient-intake-questions {
   }
 }
 
+ion-button {
+  margin-top: 0.75rem;
+  border-radius: 4px;
+  background-color: transparent;
+  color: var(--ion-color-primary);
+  width: auto;
+  height: 35px;
+  font-family: AvenirBold;
+  font-size: 15px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 28px;
+  vertical-align: middle;
+  letter-spacing: 0.3px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .hidden-input {
   display: none;
+}
+
+.delete-patient {
+  color: red;
+  font-size: 16px;
+  font-family: Avenir;
+  clear: both;
+  float: right;
+  padding-bottom: 96px;
 }

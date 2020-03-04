@@ -1,3 +1,20 @@
+::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+  overflow: hidden;
+}
+ion-content {
+  --offset-bottom: auto !important;
+  --overflow: hidden;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+ion-content {
+  height: 500px;
+}
+
 .call-queue-feed {
   max-width: 431px;
 }
@@ -10,7 +27,9 @@
   border-top: solid 3.9px var(--ion-color-primary);
   border-bottom: none;
 }
-
+.no-scroll {
+  --overflow: hidden;
+}
 h3 {
   font-family: AvenirBold;
   font-size: 18px;
@@ -99,12 +118,14 @@ ul.patient-filters {
 
 .operation-discharges,
 .operation-todays-calls {
-  margin-top: 2.5px;
-  margin-left: -13px;
-  position: absolute;
+  margin-top: 1px;
+  display: block;
+  text-align: center;
+  width: 100%;
+  height: 100%;
   font-weight: bold;
   color: white;
-  font-size: 10px;
+  font-size: 11px;
   margin-right: 0.25rem;
 }
 .operation-discharges {
@@ -113,19 +134,29 @@ ul.patient-filters {
 .operation-todays-calls {
   left: 44px;
 }
+// Infinite scroll
 .call-queue-patient-list {
   clear: both;
   list-style-type: none;
   max-width: 431px;
   padding-left: 0;
 
-  li {
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none; // IE 10+
+  scrollbar-width: none; // Firefox
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    display: none; // Safari and Chrome
+  }
+  ion-item {
     cursor: pointer;
     width: 100%;
     height: 96px;
     display: block;
 
-    ul {
+    ion-list {
       padding-left: 0;
       list-style-type: none;
     }
@@ -293,6 +324,9 @@ ul.patient-filters {
       width: 25px;
       overflow: visible;
       --background: transparent;
+      &:hover {
+        background-color: transparent;
+      }
 
       i {
         position: absolute;

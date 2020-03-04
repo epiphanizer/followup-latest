@@ -8,8 +8,9 @@ import { Notification, NotificationRecipient } from '@app/modules/notification/n
 import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/user';
+import { ToastrService } from 'ngx-toastr';
 @Component({
-  providers: [NotificationService],
+  providers: [NotificationService, ToastrService],
   selector: 'app-kudos-modal',
   templateUrl: './kudos-modal.component.html',
   styleUrls: ['./kudos-modal.component.scss']
@@ -47,7 +48,8 @@ export class KudosModalComponent {
     private modalCtrl: ModalController,
     private fb: FormBuilder,
     private notificationService: NotificationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -64,6 +66,7 @@ export class KudosModalComponent {
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
+        this.toastr.success('Successfully sent kudos!');
         this.dismiss();
       });
   }

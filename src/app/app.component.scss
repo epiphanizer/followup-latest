@@ -1,0 +1,36 @@
+::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+  overflow: hidden;
+}
+ion-content {
+  height: 100%;
+  // --offset-bottom: auto !important;
+  --overflow: hidden;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+#toast-container {
+  .toast {
+    background-color: #030303;
+  }
+
+  .toast-success {
+    background-color: rgba(255, 255, 255, 0.4) !important;
+    color: white;
+  }
+
+  .toast-error {
+    background-color: #bd362f;
+  }
+
+  .toast-info {
+    background-color: #2f96b4;
+  }
+
+  .toast-warning {
+    background-color: #f89406;
+  }
+}

@@ -14,6 +14,7 @@ export class NotificationPatientListingComponent implements OnInit {
   @Input() operation: Operation;
   public notifications: Notification[];
   public notifications$: Observable<Notification[]>;
+  public notificationsFiltered: Notification[];
   public filterBy: string = 'notification-date';
   public selectedSortFlag: string = 'desc';
 
@@ -22,6 +23,7 @@ export class NotificationPatientListingComponent implements OnInit {
     this.notifications$ = this.notificationService.getNotificationsByOperationId(this.operation.operationId).pipe(
       map((notifications: Notification[]) => {
         this.notifications = notifications;
+        this.notificationsFiltered = notifications;
         return notifications;
       })
     );
@@ -33,7 +35,7 @@ export class NotificationPatientListingComponent implements OnInit {
       this.operation = changes.operation.currentValue;
       this.notifications$ = this.notificationService.getNotificationsByOperationId(this.operation.operationId).pipe(
         map((notifications: [Notification]) => {
-          this.notifications = notifications;
+          this.notificationsFiltered = notifications;
           return notifications;
         })
       );
@@ -91,8 +93,14 @@ export class NotificationPatientListingComponent implements OnInit {
       });
     }
   };
-  sortNotificationsByStatus = function(sortFlag: string) {
-    this.filterBy = 'status';
-    alert('Toggling notifications by status');
-  };
+
+  searchNotifications($event: KeyboardEvent): Notification[] {
+    let searchText = $event.currentTarget['value'];
+    searchText = searchText.toLowerCase();
+    this.notificationsFiltered = this.notifications.filter((notification: Notification) => {
+      let patientFullName = notification.notificationPatientFirstName + ' ' + notification.notificationPatientLastName;
+      return patientFullName.toLowerCase().includes(searchText);
+    });
+    return this.notificationsFiltered;
+  }
 }

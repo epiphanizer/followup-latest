@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError, of, BehaviorSubject } from 'rxjs';
-import { map, share, catchError, retry, tap } from 'rxjs/operators';
+import { map, share, catchError, retry, tap, timeout } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
@@ -63,8 +63,8 @@ export class AuthenticationService {
       })
       .pipe(
         map((jwt: any) => {
-          console.log(jwt);
-          debugger;
+          // console.log(jwt);
+          // debugger;
           if (jwt.userId && jwt.userLevel) {
             this.authenticated = true;
             localStorage.setItem(
@@ -78,7 +78,12 @@ export class AuthenticationService {
             return jwt;
           } else {
             this.authenticated = false;
-            window.location.href = '/login';
+            // If already on the login page stay there, otherwise
+            // send user there
+            if (window.location.href.indexOf('/login') != -1) {
+              window.location.href = '/login';
+            } else {
+            }
           }
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error

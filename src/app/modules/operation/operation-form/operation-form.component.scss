@@ -1,7 +1,3 @@
-ion-row {
-  overflow-y: scroll;
-}
-
 ion-content {
   padding-bottom: 132px;
 }
@@ -23,7 +19,9 @@ ion-title {
 }
 
 .operation-form-content {
-  margin-left: 90px;
+  margin-left: 60px;
+  margin-top: 80px;
+  height: auto;
   max-width: 720px;
 }
 
@@ -93,7 +91,7 @@ form {
 
   > fieldset {
     padding: 0;
-    margin-left: -25px;
+    margin-left: -15px;
   }
 
   > ion-list {
@@ -140,7 +138,8 @@ form {
   }
 
   i.icon-user {
-    margin-top: 16px;
+    margin-left: 14px;
+    margin-top: 12px;
     background-image: url("/assets/icon-user@2x.png");
   }
 

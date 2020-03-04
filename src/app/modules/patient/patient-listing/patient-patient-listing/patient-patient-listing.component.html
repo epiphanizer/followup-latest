@@ -1,6 +1,17 @@
 <h3 class="section-header">
   {{ operation?.operationName }}
 </h3>
+<table class="patient-filter-search">
+  <tr>
+    <td>
+      <ion-input placeholder="Patient/Status Search" (ionInput)="searchPatients($event)"> </ion-input>
+    </td>
+    <td>
+      <ion-icon name="search"></ion-icon>
+    </td>
+  </tr>
+</table>
+
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="patient-filters ">
   <li class="ion-float-left discharge-date">
@@ -34,7 +45,11 @@
 </ul>
 
 <ul class="patient-patient-list" *ngIf="patients$ | async">
-  <li *ngFor="let patient of patients" class="active" [routerLink]="'/patient/edit/' + patient.patientId">
+  <li
+    *ngFor="let patient of patientsFiltered"
+    class="active"
+    [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
+  >
     <div class="patient-discharge-date">
       {{ patient.patientDischargeDate | date: 'M/d':'UTC' }}
     </div>

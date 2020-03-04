@@ -1,6 +1,16 @@
+ion-content {
+  --offset-bottom: auto !important;
+  --overflow: hidden;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .left-hand-detail {
   max-width: 508px;
-  padding-bottom: 50px;
+  padding-bottom: 250px;
 
   .default-faded-questions {
     max-width: 65%;

@@ -5,6 +5,18 @@
   </span>
   {{ operation?.operationName }}
 </h3>
+
+<table class="notification-filter-search">
+  <tr>
+    <td>
+      <ion-input placeholder="Patient/Notification Search" (ionInput)="searchNotifications($event)"> </ion-input>
+    </td>
+    <td>
+      <ion-icon name="search"></ion-icon>
+    </td>
+  </tr>
+</table>
+
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="notification-filters ">
   <li class="ion-float-left notification-date">
@@ -37,7 +49,7 @@
 
 <ul class="notification-patient-list" *ngIf="notifications$ | async">
   <li
-    *ngFor="let notification of notifications"
+    *ngFor="let notification of notificationsFiltered"
     class="active"
     [routerLink]="'/notifications/' + notification.notificationId"
   >
