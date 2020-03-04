@@ -5,18 +5,9 @@ import { UserResolver } from './modules/user/user-resolver.service';
 
 const routes: Routes = [
   { path: 'logout', redirectTo: '/login', canActivate: [] },
-
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
-    resolve: {
-      user: UserResolver
-    }
-  },
   {
     path: '**',
-    redirectTo: 'home',
+    redirectTo: '',
     pathMatch: 'full',
     resolve: {
       user: UserResolver
