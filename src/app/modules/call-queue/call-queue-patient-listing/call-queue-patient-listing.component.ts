@@ -23,12 +23,12 @@ export class CallQueuePatientListingComponent implements OnInit {
   currentNewDischargeCount: number;
   @Input() operation: Operation;
   // we default to filtering by next call-date
-  filterBy: string = 'call-date';
+  filterBy: string = 'discharge-date';
   public patients: Patient[];
   public patients$: Observable<Patient[]> | void = null;
   public patientCallStatuses: PatientCallStatus[];
   public todaysDate: Date;
-  public selectedSortFlag: string = 'asc';
+  public selectedSortFlag: string = 'desc';
 
   constructor(private patientService: PatientService, private patientCallStatusService: PatientCallStatusService) {}
   ngOnInit() {
