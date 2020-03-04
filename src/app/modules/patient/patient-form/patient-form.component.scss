@@ -882,14 +882,11 @@ fieldset.patient-intake-questions {
 }
 
 ion-button {
-  // margin-top: -12px;
-  margin-bottom: 15px;
-  margin-right: 20px;
-  float: right;
+  margin-top: 36px;
   border-radius: 4px;
   background-color: --ion-color-primary;
-  width: 76px;
-  height: 28px;
+  width: auto;
+  height: 42px;
   font-family: AvenirBold;
   font-size: 15px;
   font-weight: bold;

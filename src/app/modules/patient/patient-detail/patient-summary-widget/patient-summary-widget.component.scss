@@ -1,3 +1,8 @@
+:host {
+  .patient-summary {
+    min-height: 270px;
+  }
+}
 .avatar-container {
   width: 259px;
   height: 220px;
@@ -5,7 +10,7 @@
   cursor: pointer;
 }
 app-patient-avatar {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 a.edit-patient {
   text-align: center;
