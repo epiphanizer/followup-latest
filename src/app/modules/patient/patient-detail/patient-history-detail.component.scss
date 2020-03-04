@@ -24,7 +24,7 @@
     text-align: left;
     color: #343638;
     padding-left: 0;
-    margin-bottom: 2rem;
+    margin-bottom: 0.125rem;
   }
 
   ion-content {
@@ -37,8 +37,7 @@
   }
   ion-textarea {
     --padding-start: 12px;
-    height: 75px;
-    overflow: auto;
+    height: auto;
     width: 475px;
     margin: 1rem auto;
     font-size: 13px;
@@ -86,6 +85,12 @@
   .label {
     font-weight: bold;
   }
+}
+hr {
+  height: 1px;
+  width: 80%;
+  margin: 0 auto;
+  background: #bdbdbd;
 }
 
 .right-hand-detail {

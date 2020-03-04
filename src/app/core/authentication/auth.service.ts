@@ -62,10 +62,9 @@ export class AuthenticationService {
         password: password
       })
       .pipe(
-        timeout(4000),
         map((jwt: any) => {
-          console.log(jwt);
-          debugger;
+          // console.log(jwt);
+          // debugger;
           if (jwt.userId && jwt.userLevel) {
             this.authenticated = true;
             localStorage.setItem(
