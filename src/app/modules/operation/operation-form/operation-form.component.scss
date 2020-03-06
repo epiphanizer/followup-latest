@@ -173,6 +173,9 @@ form {
 
   fieldset.operation-contacts,
   fieldset.operation-team-members {
+    i.icon-team-members {
+      margin-left: 15px;
+    }
     border: none;
 
     .operation-contact-entry {

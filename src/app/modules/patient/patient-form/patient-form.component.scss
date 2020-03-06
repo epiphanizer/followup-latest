@@ -886,11 +886,13 @@ ion-button {
   border-radius: 4px;
   background-color: transparent;
   color: var(--ion-color-primary);
+
   &.save-button {
     color: white;
     float: right;
     margin-bottom: 2rem;
   }
+
   width: auto;
   height: 35px;
   font-family: AvenirBold;
@@ -910,10 +912,16 @@ ion-button {
 }
 
 .delete-patient {
-  color: red;
+  cursor: pointer;
+  font-weight: bold;
+  border: 2px solid darkred;
   font-size: 16px;
   font-family: Avenir;
   clear: both;
   float: right;
-  padding-bottom: 96px;
+  margin-bottom: 96px;
+  padding: 10px 10px;
+  color: darkred;
+  width: auto;
+  border-radius: 7px;
 }

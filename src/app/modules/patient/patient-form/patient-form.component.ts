@@ -364,9 +364,11 @@ export class PatientFormComponent implements OnInit {
   deletePatient(patientId: number): void {
     if (confirm('This will permanently delete the patient' + patientId + '. \
     Are you sure you want to do this?')) {
-    }
-    {
-      this.toastrService.success('Patient Successfully Deleted');
+      this.patientService.deactivatePatientByPatientId(this.patient.patientId).subscribe(() => {
+        debugger;
+        this.toastrService.success('Patient Successfully Deleted');
+        window.location.href = '/operations/' + this.patient.patientOperationId + '/patients';
+      });
     }
   }
   onFormSubmit(): void {
@@ -467,7 +469,7 @@ export class PatientFormComponent implements OnInit {
 
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
-      // this.router.navigate(['operations/' + this.patientForm.get('operation').value + '/patients']);
+      this.toastrService.success('Successfully edited patient!');
       window.location.href = '/operations/' + this.patientForm.get('operation').value + '/patients';
       if (!this.editMode) {
         this.patientForm.reset();
