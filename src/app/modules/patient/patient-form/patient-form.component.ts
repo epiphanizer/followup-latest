@@ -362,7 +362,7 @@ export class PatientFormComponent implements OnInit {
     this.patientForm.get('patient.dischargeInfo.patientTotalDays').setValue(dayDiff);
   }
   deletePatient(patientId: number): void {
-    if (confirm('This will permanently delete the patient' + patientId + '. \
+    if (confirm('This will permanently delete the patient and their history. \
     Are you sure you want to do this?')) {
       this.patientService.deactivatePatientByPatientId(this.patient.patientId).subscribe(() => {
         debugger;

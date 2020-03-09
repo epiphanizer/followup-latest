@@ -1,5 +1,6 @@
 ion-content {
   padding-bottom: 132px;
+  overflow-y: scroll !important;
 }
 
 .patient-sidebar {
@@ -56,6 +57,8 @@ ion-title {
 }
 
 form {
+  margin-bottom: 5rem;
+
   fieldset {
     border: none;
   }
@@ -882,15 +885,22 @@ fieldset.patient-intake-questions {
 }
 
 ion-button {
-  margin-top: 0.75rem;
   border-radius: 4px;
   background-color: transparent;
   color: var(--ion-color-primary);
 
+  &.delete-patient {
+    cursor: pointer;
+    --border-color: red;
+    background-color: red;
+    color: white;
+    width: auto;
+    border-radius: 7px;
+  }
+
   &.save-button {
     color: white;
     float: right;
-    margin-bottom: 2rem;
   }
 
   width: auto;
@@ -909,19 +919,4 @@ ion-button {
 
 .hidden-input {
   display: none;
-}
-
-.delete-patient {
-  cursor: pointer;
-  font-weight: bold;
-  border: 2px solid darkred;
-  font-size: 16px;
-  font-family: Avenir;
-  clear: both;
-  float: right;
-  margin-bottom: 96px;
-  padding: 10px 10px;
-  color: darkred;
-  width: auto;
-  border-radius: 7px;
 }

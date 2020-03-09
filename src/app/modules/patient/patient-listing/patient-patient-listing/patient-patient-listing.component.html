@@ -60,7 +60,14 @@
       <span class="patient-patient-name ion-float-left">
         {{ patient.patientFirstName }} {{ patient.patientLastName }}
       </span>
-      <span class="patient-patient-status ion-float-right"> {{ patient.patientStatusLabel }} </span>
+      <span class="patient-patient-status ion-float-right" *ngIf="patient.patientActive; else inactive">
+        {{ patient.patientStatusLabel }}
+      </span>
+      <ng-template #inactive>
+        <span class="patient-patient-status ion-float-right">
+          Inactive
+        </span>
+      </ng-template>
     </div>
   </li>
 </ul>
