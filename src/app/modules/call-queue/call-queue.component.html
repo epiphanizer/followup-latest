@@ -1,37 +1,37 @@
-<ion-row>
-  <ion-col class="call-queue-sidebar">
-    <app-call-queue-sidebar (operationChangeEvent)="operationChangeEventHandler($event)"> </app-call-queue-sidebar>
-  </ion-col>
-  <ion-col class="call-queue-content">
-    <ion-grid>
-      <ion-row>
-        <ion-title>Call Queue</ion-title>
-      </ion-row>
-      <ion-row>
-        <app-call-queue-legend></app-call-queue-legend>
-      </ion-row>
-      <ion-row class="call-queue-row">
-        <ion-col class="call-queue-feed-wrapper">
-          <app-call-queue-patient-listing
-            *ngIf="selected.operation"
-            [operation]="selected.operation"
-          ></app-call-queue-patient-listing>
-        </ion-col>
-        <ion-col>
-          <app-call-queue-call-history-calendar
-            *ngIf="selected.operation"
-            [operation]="selected.operation"
-            (dateFilterChangeEvent)="handleDateFilterChangeEvent($event)"
-          >
-          </app-call-queue-call-history-calendar>
-          <app-call-queue-patient-filter
-            *ngIf="selected.operation"
-            [filterDate]="selected.filterDate"
-            [operation]="selected.operation"
-          >
-          </app-call-queue-patient-filter>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-col>
-</ion-row>
+<ion-content>
+  <ion-row>
+    <ion-col class="call-queue-sidebar">
+      <app-call-queue-sidebar (operationChangeEvent)="operationChangeEventHandler($event)"> </app-call-queue-sidebar>
+    </ion-col>
+    <ion-col class="call-queue-content">
+      <ion-grid>
+        <ion-row>
+          <ion-title>Call Queue</ion-title>
+        </ion-row>
+        <ion-row>
+          <app-call-queue-legend></app-call-queue-legend>
+        </ion-row>
+        <ion-row class="call-queue-row">
+          <ion-col class="call-queue-feed-wrapper">
+            <app-call-queue-patient-listing *ngIf="selected.operation" [operation]="selected.operation">
+            </app-call-queue-patient-listing>
+          </ion-col>
+          <ion-col>
+            <app-call-queue-call-history-calendar
+              *ngIf="selected.operation"
+              [operation]="selected.operation"
+              (dateFilterChangeEvent)="handleDateFilterChangeEvent($event)"
+            >
+            </app-call-queue-call-history-calendar>
+            <app-call-queue-patient-filter
+              *ngIf="selected.operation"
+              [filterDate]="selected.filterDate"
+              [operation]="selected.operation"
+            >
+            </app-call-queue-patient-filter>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-col>
+  </ion-row>
+</ion-content>
