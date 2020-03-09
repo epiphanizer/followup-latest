@@ -41,7 +41,12 @@ export class PatientPatientListingComponent implements OnInit {
       );
     }
   }
-
+  getPatientLink(patient: Patient) {
+    if (patient.patientStatusLabel != 'In Progress' || !patient.patientActive) {
+      return '/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId + '/history';
+    }
+    return '/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId;
+  }
   toggleAscDesc() {
     if (this.selectedSortFlag == 'asc') {
       this.selectedSortFlag = 'desc';
