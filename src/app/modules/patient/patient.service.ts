@@ -15,6 +15,11 @@ export class PatientService {
     );
   }
   deactivatePatientByPatientId(patientId: number): Observable<Patient> {
+    return this.http.post<Patient>('patients/deactivate' + patientId, {}).pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  deletePatientByPatientId(patientId: number): Observable<Patient> {
     return this.http.delete<Patient>('patients/' + patientId).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
