@@ -364,8 +364,7 @@ export class PatientFormComponent implements OnInit {
   deletePatient(patientId: number): void {
     if (confirm('This will permanently delete the patient and their history. \
     Are you sure you want to do this?')) {
-      this.patientService.deactivatePatientByPatientId(this.patient.patientId).subscribe(() => {
-        debugger;
+      this.patientService.deletePatientByPatientId(this.patient.patientId).subscribe(() => {
         this.toastrService.success('Patient Successfully Deleted');
         window.location.href = '/operations/' + this.patient.patientOperationId + '/patients';
       });

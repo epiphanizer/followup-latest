@@ -9,6 +9,7 @@ ion-content {
 .operation-form-content {
   margin-left: 60px;
   margin-top: 80px;
+  margin-bottom: 9rem;
   height: auto;
   width: 100%;
   max-width: 720px;
@@ -30,6 +31,7 @@ ion-title {
 }
 
 form {
+  margin-bottom: 5rem;
   ion-label {
     min-width: min-content;
     font-family: Avenir;
