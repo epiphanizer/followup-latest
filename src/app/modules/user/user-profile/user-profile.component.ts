@@ -6,9 +6,11 @@ import { UserService } from '@app/modules/user/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { UserAvatarService } from '../user-avatar/user-avatar.service';
+import { ToastrService } from 'ngx-toastr';
+import { take } from 'rxjs/operators';
 
 @Component({
-  providers: [UserService, UserAvatarService],
+  providers: [ToastrService, UserService, UserAvatarService],
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
@@ -18,40 +20,16 @@ export class UserProfileComponent implements OnInit {
   user: User;
   userProfileForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) {}
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private toastrService: ToastrService,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.createForm();
-  }
-  // Passing E2E minus auth
-  updateUserProfile() {
-    if (!this.validateControls()) {
-      return;
-    }
-    let formSubmission = this.userProfileForm.getRawValue();
-    let userPutPayload = this.userFormSubmissionFactory(formSubmission);
-    this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe((data: any) => {
-      window.location.href = '/user/profile';
-    });
-  }
-
-  userFormSubmissionFactory(formSubmission: any): UserPutObject {
-    var payload = {};
-    let userInterests = JSON.stringify(formSubmission.userInterests);
-    payload = {
-      userFirstName: formSubmission.userFirstName,
-      userMiddleName: formSubmission.userMiddleName || '',
-      userLastName: formSubmission.userLastName,
-      userCountryCode: formSubmission.userPhoneCountryCode || '',
-      userAreaCode: formSubmission.userPhoneAreaCode || '',
-      userPhoneNumber: formSubmission.userPhoneNumber || '',
-      userDob: formSubmission.userDob || '',
-      userFavoriteDessert: formSubmission.userFavoriteDessert || '',
-      userInterests: userInterests,
-      userAdditionalInfo: formSubmission.userAdditionalInfo
-    };
-    return <UserPutObject>payload;
   }
 
   private createForm() {
@@ -106,6 +84,40 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  // Passing E2E minus auth
+  updateUserProfile() {
+    if (!this.validateControls()) {
+      return;
+    }
+    let formSubmission = this.userProfileForm.getRawValue();
+    let userPutPayload = this.userFormSubmissionFactory(formSubmission);
+    this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe((data: any) => {
+      this.toastrService
+        .success('Successfully updated user profile!')
+        .onShown.pipe(take(1))
+        .subscribe(() => {
+          window.location.href = '/user/profile';
+        });
+    });
+  }
+
+  userFormSubmissionFactory(formSubmission: any): UserPutObject {
+    var payload = {};
+    let userInterests = JSON.stringify(formSubmission.userInterests);
+    payload = {
+      userFirstName: formSubmission.userFirstName,
+      userMiddleName: formSubmission.userMiddleName || '',
+      userLastName: formSubmission.userLastName,
+      userCountryCode: formSubmission.userPhoneCountryCode || '',
+      userAreaCode: formSubmission.userPhoneAreaCode || '',
+      userPhoneNumber: formSubmission.userPhoneNumber || '',
+      userDob: formSubmission.userDob || '',
+      userFavoriteDessert: formSubmission.userFavoriteDessert || '',
+      userInterests: userInterests,
+      userAdditionalInfo: formSubmission.userAdditionalInfo
+    };
+    return <UserPutObject>payload;
+  }
   /**
    * A function to validate form controls
    * and if there are any validation errors,
