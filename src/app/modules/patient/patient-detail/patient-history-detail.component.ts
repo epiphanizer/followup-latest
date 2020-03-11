@@ -48,5 +48,8 @@ export class PatientHistoryDetailComponent implements OnInit {
         return notifications;
       })
     );
+    this.patient.patientCalls$.subscribe((patientCalls: PatientCall[]) => {
+      this.patient.patientCalls = patientCalls;
+    });
   }
 }

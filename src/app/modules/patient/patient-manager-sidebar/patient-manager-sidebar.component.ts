@@ -80,6 +80,7 @@ export class PatientManagerSidebarComponent implements OnInit {
         }
       } else {
         this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
+        console.log(this.activeOperationId);
       }
     });
     this.route.paramMap.subscribe(params => {

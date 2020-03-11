@@ -43,6 +43,7 @@
     "angular-animations": "0.0.10",
     "angular-super-validator": "^2.0.0",
     "bn-ng-idle": "^1.0.1",
+    "compressorjs": "^1.0.6",
     "core-js": "^3.3.6",
     "ionic-logging-service": "^7.0.0",
     "lodash": "^4.17.14",
