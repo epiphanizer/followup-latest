@@ -63,10 +63,19 @@ export class KudosModalComponent {
     });
   }
   sendNotification() {
+    let formData = this.createNotificationForm.getRawValue();
+    this.notification.notificationTypeId = 7;
+    this.notification.notificationMessage = formData.notificationMessage;
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
-        this.toastr.success('Successfully sent kudos!');
+        let notificationId = data.notificationId;
+        /**
+         * If successful, actually email out the notification
+         */
+        this.notificationService.sendNotificationByNotificationId(notificationId).subscribe(() => {
+          this.toastr.success('Successfully sent kudos!');
+        });
         this.dismiss();
       });
   }
