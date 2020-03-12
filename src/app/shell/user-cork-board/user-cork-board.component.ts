@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, Output, EventEmitter } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { UserCorkBoardService, UserCorkBoardObject } from './user-cork-board.service';
 import { User } from '@app/user';
@@ -30,6 +30,7 @@ import { ActivatedRoute } from '@angular/router';
   ]
 })
 export class UserCorkBoardComponent implements OnInit {
+  @Output() corkBoardExpandedEmitter = new EventEmitter<boolean>();
   fileToUpload: File;
   isOpen = false;
   deleteMode = false;
@@ -79,5 +80,7 @@ export class UserCorkBoardComponent implements OnInit {
     this.isOpen = !this.isOpen;
     // Make sure to reset the deleting functionality of the cork board
     this.deleting = false;
+    console.log(this.isOpen);
+    this.corkBoardExpandedEmitter.emit(this.isOpen);
   };
 }

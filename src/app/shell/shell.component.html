@@ -1,6 +1,6 @@
-<ion-content class="expanded" [scrollEvents]="true" no-bounce>
-  <app-user-cork-board> </app-user-cork-board>
-  <div class="content-wrapper">
+<ion-content [scrollEvents]="true" no-bounce>
+  <app-user-cork-board (corkBoardExpandedEmitter)="corkBoardExpandedHandler($event)"> </app-user-cork-board>
+  <div class="content-wrapper" [class.expanded]="corkboardExpanded">
     <ion-toolbar>
       <app-toolbar-logo> </app-toolbar-logo>
       <app-toolbar-profile-nav *ngIf="user" [user]="user"> </app-toolbar-profile-nav>
