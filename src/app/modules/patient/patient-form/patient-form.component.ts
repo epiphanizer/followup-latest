@@ -31,16 +31,10 @@ import { NgxImageCompressService } from 'ngx-image-compress';
   styleUrls: ['./patient-form.component.scss']
 })
 export class PatientFormComponent implements OnInit {
-  avatarExists: Boolean;
-  public avatarUrl: SafeStyle;
-  changingAvatar: boolean = false;
   dischargeLabels: PatientDischargeLabel[];
   patientForm: FormGroup;
   currentYear: number;
   editMode: boolean = false;
-  fileToUpload: File;
-  imgResultBeforeCompress: string;
-  imgResultAfterCompress: string;
   patient: Patient;
   patientContacts: PatientContact[] = [];
   patientContactsOriginal: PatientContact[] = [];
@@ -68,9 +62,7 @@ export class PatientFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private imageCompress: NgxImageCompressService,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer,
     private operationService: OperationService,
     private patientService: PatientService,
     private patientAvatarService: PatientAvatarService,
@@ -281,75 +273,6 @@ export class PatientFormComponent implements OnInit {
 
   // compressFile() {
   // }
-
-  clickUploadInput() {
-    let element: HTMLElement = document.querySelector('#fileUpload') as HTMLElement;
-    element.click();
-    this.changingAvatar = true;
-  }
-
-  dataURItoBlob(dataURI: string) {
-    // convert base64 to raw binary data held in a string
-    var byteString = atob(dataURI.split(',')[1]);
-
-    // separate out the mime component
-    var mimeString = dataURI
-      .split(',')[0]
-      .split(':')[1]
-      .split(';')[0];
-
-    // write the bytes of the string to an ArrayBuffer
-    var arrayBuffer = new ArrayBuffer(byteString.length);
-    var _ia = new Uint8Array(arrayBuffer);
-    for (var i = 0; i < byteString.length; i++) {
-      _ia[i] = byteString.charCodeAt(i);
-    }
-
-    var dataView = new DataView(arrayBuffer);
-    var blob = new Blob([dataView], {
-      type: mimeString
-    });
-    return blob;
-  }
-
-  // files: FileList
-  uploadPatientAvatarPhoto(files: FileList) {
-    this.fileToUpload = files.item(0);
-
-    this.imageCompress.uploadFile().then(({ image, orientation }) => {
-      console.log(this.fileToUpload);
-      debugger;
-      this.imgResultBeforeCompress = image;
-      console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
-
-      this.imageCompress.compressFile(image, orientation, 50, 50).then(result => {
-        this.imgResultAfterCompress = result;
-        console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
-        const imageBlob = this.dataURItoBlob(this.imgResultAfterCompress.split(',')[1]);
-        // this.fileToUpload. = imageBlob;
-        this.patientAvatarService
-          .uploadPatientAvatarByPatientId(this.patient.patientId, this.fileToUpload)
-          .subscribe((data: any) => {
-            alert('Successfully uploaded patient avatar!');
-            let self = this;
-            this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
-              var self = this;
-              if (data !== null) {
-                var reader = new FileReader();
-                reader.readAsDataURL(data);
-                reader.onloadend = function() {
-                  var base64data = reader.result;
-                  self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
-                  self.avatarExists = true;
-                  self.changingAvatar = false;
-                };
-              }
-            });
-          });
-      });
-    });
-    // this.fileToUpload = this.imgResultAfterCompress;
-  }
 
   addAdditionalPatientContact() {
     this.patientContacts.push({

@@ -1,0 +1,20 @@
+<div
+  class="patient-avatar-image"
+  *ngIf="avatarExists && !changingAvatar; else defaultAvatar"
+  (click)="clickUploadInput()"
+  [style.background-image]="avatarUrl"
+></div>
+<ng-template #defaultAvatar>
+  <img class="patient-avatar-image" (click)="clickUploadInput()" src="/assets/default-avatar-patient-detail.png" />
+</ng-template>
+
+<input
+  type="file"
+  class="hidden-input"
+  name="fileUpload"
+  id="fileUpload"
+  (change)="uploadPatientAvatarPhoto($event.target.files)"
+/>
+<ion-button fill="outline" (click)="clickUploadInput()">
+  Change Photo
+</ion-button>
