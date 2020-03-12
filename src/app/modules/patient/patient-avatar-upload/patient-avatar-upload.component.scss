@@ -1,0 +1,17 @@
+img.patient-avatar-image {
+  cursor: pointer;
+}
+
+div.patient-avatar-image {
+  height: 220px;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+ion-button {
+  margin-left: 28px;
+  clear: both;
+}

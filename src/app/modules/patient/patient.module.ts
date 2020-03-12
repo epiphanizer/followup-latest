@@ -15,6 +15,7 @@ import { PatientListingComponent } from './patient-listing/patient-listing.compo
 import { PatientPatientListingComponent } from './patient-listing/patient-patient-listing/patient-patient-listing.component';
 import { FollowupCompleteModalComponent } from './patient-detail/followup-complete-modal/followup-complete-modal.component';
 import { FollowupCompleteButtonComponent } from './patient-detail/followup-complete-button/followup-complete-button.component';
+import { PatientAvatarUploadComponent } from './patient-avatar-upload/patient-avatar-upload.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { FollowupCompleteButtonComponent } from './patient-detail/followup-compl
     PatientListingComponent,
     PatientPatientListingComponent,
     PatientFormComponent,
+    PatientAvatarUploadComponent,
     PatientManagerSidebarComponent
   ],
   imports: [

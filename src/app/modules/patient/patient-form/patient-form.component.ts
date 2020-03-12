@@ -31,6 +31,8 @@ import { NgxImageCompressService } from 'ngx-image-compress';
   styleUrls: ['./patient-form.component.scss']
 })
 export class PatientFormComponent implements OnInit {
+  avatarExists: Boolean;
+  public avatarUrl: SafeStyle;
   dischargeLabels: PatientDischargeLabel[];
   patientForm: FormGroup;
   currentYear: number;
@@ -68,6 +70,7 @@ export class PatientFormComponent implements OnInit {
     private patientAvatarService: PatientAvatarService,
     private patientContactService: PatientContactService,
     private patientIntakeQuestionService: PatientIntakeQuestionService,
+    private sanitizer: DomSanitizer,
     private toastrService: ToastrService
   ) {}
 

@@ -11,13 +11,12 @@ import { Patient } from '../patient';
 
 @Component({
   providers: [NgxImageCompressService, PatientService, PatientIntakeQuestionService],
-  selector: 'app-patient-form',
-  templateUrl: './patient-form.component.html',
-  styleUrls: ['./patient-form.component.scss']
+  selector: 'app-patient-avatar-upload',
+  templateUrl: './patient-avatar-upload.component.html',
+  styleUrls: ['./patient-avatar-upload.component.scss']
 })
 export class PatientAvatarUploadComponent implements OnInit {
   @Input() patient: Patient;
-
   avatarExists: Boolean;
   public avatarUrl: SafeStyle;
   changingAvatar: boolean = false;
