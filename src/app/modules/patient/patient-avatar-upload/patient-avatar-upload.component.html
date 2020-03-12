@@ -13,7 +13,7 @@
   class="hidden-input"
   name="fileUpload"
   id="fileUpload"
-  (change)="uploadPatientAvatarPhoto($event.target.files)"
+  (change)="uploadPatientAvatarPhoto(patient, $event.target.files)"
 />
 <ion-button fill="outline" (click)="clickUploadInput()">
   Change Photo
