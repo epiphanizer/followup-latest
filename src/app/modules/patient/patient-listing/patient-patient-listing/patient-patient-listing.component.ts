@@ -15,7 +15,7 @@ export class PatientPatientListingComponent implements OnInit {
   public patients: Patient[];
   public patients$: Observable<Patient[]>;
   public patientsFiltered: Patient[];
-  public filterBy: string = 'discharge-date';
+  public filterBy: string = 'patient-name';
   public selectedSortFlag: string = 'desc';
 
   constructor(private patientService: PatientService) {}
