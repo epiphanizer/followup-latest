@@ -11,20 +11,15 @@ ion-router-outlet {
 }
 
 .content-wrapper {
-  width: calc(100% - 28px);
+  width: calc(100% - 250px);
+  float: left;
   &.expanded {
     width: 100%;
   }
-  margin-left: 28px;
+  position: relative;
   height: 100vh;
   overflow: hidden;
 }
-// .scroll-content {
-//   overflow-y: hidden !important;
-// }
-// .inner-scroll {
-//   overflow: hidden;
-// }
 ul {
   padding-top: 215px;
   list-style-type: none;
