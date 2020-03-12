@@ -49,9 +49,6 @@
     <div class="patient-discharge-date">
       {{ patient.patientDischargeDate | date: 'M/d':'UTC' }}
     </div>
-    <div class="patient-avatar-container">
-      <app-patient-avatar [patient]="patient"> </app-patient-avatar>
-    </div>
     <div class="patient-patient-information">
       <span class="patient-patient-name ion-float-left">
         {{ patient.patientFirstName }} {{ patient.patientLastName }}

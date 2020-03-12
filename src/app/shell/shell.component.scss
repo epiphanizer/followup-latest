@@ -10,20 +10,21 @@ ion-router-outlet {
   margin-left: 90px;
 }
 
-// margin-top: 168px;
-// margin-left: 111px;
 .content-wrapper {
   width: calc(100% - 28px);
+  &.expanded {
+    width: 100%;
+  }
   margin-left: 28px;
   height: 100vh;
   overflow: hidden;
 }
-.scroll-content {
-  overflow-y: hidden !important;
-}
-.inner-scroll {
-  overflow: hidden;
-}
+// .scroll-content {
+//   overflow-y: hidden !important;
+// }
+// .inner-scroll {
+//   overflow: hidden;
+// }
 ul {
   padding-top: 215px;
   list-style-type: none;
