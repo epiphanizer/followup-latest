@@ -56,6 +56,7 @@ export class CallQueuePatientListingComponent implements OnInit {
           map((patients: Patient[]) => {
             this.patients = patients;
             this.getCurrentNewDischargeCount(patients);
+            this.sortPatientsByCallDate(this.selectedSortFlag);
             return patients;
           })
         );
