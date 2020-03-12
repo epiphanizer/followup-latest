@@ -87,7 +87,6 @@ export class PatientDetailComponent implements OnInit {
       .subscribe((data: any) => {
         this.patientCall.patientCallStatusLabelId = 3;
         this.patientCall.patientCallStatusLabel = 'Started';
-        this.toastrService.success('Call Started!');
       });
   }
 
@@ -112,7 +111,6 @@ export class PatientDetailComponent implements OnInit {
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
     this.patientCall.patientCallStatusLabel = 'User Selected Status';
-    this.toastrService.success('User Selected Status');
   }
   patientFinalCallChangeHandler($event: boolean) {
     if ($event == true) {
@@ -125,7 +123,6 @@ export class PatientDetailComponent implements OnInit {
     let selectedDate = $event;
     let newDate = formatDate(selectedDate, 'MM-dd-yyyy', 'en-US');
     this.patientNextCall.date = newDate;
-    this.toastrService.success('User selected next call date: ' + newDate);
   }
   patientCallNotesChangeHandler($event: PatientCallNotes) {
     this.patientCallNotes = $event;

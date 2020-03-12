@@ -28,7 +28,7 @@ export class CallQueuePatientListingComponent implements OnInit {
   public patients$: Observable<Patient[]> | void = null;
   public patientCallStatuses: PatientCallStatus[];
   public todaysDate: Date;
-  public selectedSortFlag: string = 'desc';
+  public selectedSortFlag: string = 'asc';
 
   constructor(private patientService: PatientService, private patientCallStatusService: PatientCallStatusService) {}
   ngOnInit() {
