@@ -10,6 +10,8 @@ import { Patient } from '../patient';
 })
 export class PatientAvatarComponent implements OnInit {
   avatarUrl: SafeStyle;
+  imgResultBeforeCompress: string;
+  imgResultAfterCompress: string;
   @Input() patient: Patient;
   /**
    * This guy is plaintext encoded base64
