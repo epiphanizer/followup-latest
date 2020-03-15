@@ -22,6 +22,7 @@ import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { Notification } from '@app/modules/notification/notification';
+import { MenuService } from '@app/shared/menu/menu.service';
 
 @Component({
   providers: [NotificationService],
@@ -36,11 +37,17 @@ export class PatientHistoryDetailComponent implements OnInit {
   patientNotifications: Notification[];
   patientNotifications$: Observable<Notification[]> | null = null;
 
-  constructor(private notificationService: NotificationService, private route: ActivatedRoute) {}
+  constructor(
+    private menuService: MenuService,
+    private notificationService: NotificationService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
+    this.menuService.patientId = this.patient.patientId;
+    this.menuService.operationId = this.patient.patientOperationId;
     this.patientNotifications$ = this.notificationService.getNotificationsByPatientId(this.patient.patientId).pipe(
       take(1),
       map((notifications: Notification[]) => {

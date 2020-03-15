@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd, ActivationEnd } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, ActivationEnd, ActivatedRouteSnapshot } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { KudosModalComponent } from '../kudos-modal/kudos-modal.component';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
@@ -7,6 +7,7 @@ import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
 import { Location } from '@angular/common';
 import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
+import { map, filter } from 'rxjs/operators';
 
 @Component({
   providers: [MenuService],
@@ -15,22 +16,31 @@ import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
   styleUrls: ['./toolbar-nav.component.scss']
 })
 export class ToolbarNavComponent implements OnInit {
-  constructor(private menuService: MenuService, public modalController: ModalController, private router: Router) {}
+  constructor(
+    private menuService: MenuService,
+    public modalController: ModalController,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
   activeComponent: string;
   navLinks: MenuLink[];
   patient: Patient;
   user: User;
 
   ngOnInit() {
-    this.router.events.subscribe(val => {
-      if (val instanceof ActivationEnd) {
-        this.activeComponent = val.snapshot.component['name'];
+    this.router.events
+      .pipe(
+        filter(e => e instanceof ActivationEnd && Object.keys(e.snapshot.params).length > 0),
+        map(e => (e instanceof ActivationEnd ? e : {}))
+      )
+      .subscribe((e: any) => {
+        this.activeComponent = e.snapshot.component['name'];
+        this.menuService.patientId = e.snapshot.params['patientId'];
+        this.menuService.operationId = e.snapshot.params['operationId'];
         if (this.activeComponent != 'ShellComponent') {
-          console.log(this.activeComponent);
           this.navLinks = this.menuService.getComponentMenu(this.activeComponent);
         }
-      }
-    });
+      });
   }
 
   ngAfterViewInit() {}
