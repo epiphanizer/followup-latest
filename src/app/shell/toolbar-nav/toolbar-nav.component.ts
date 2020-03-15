@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, ActivationEnd } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { KudosModalComponent } from '../kudos-modal/kudos-modal.component';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
@@ -15,14 +15,22 @@ import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
   styleUrls: ['./toolbar-nav.component.scss']
 })
 export class ToolbarNavComponent implements OnInit {
-  constructor(private menuService: MenuService, public modalController: ModalController) {}
-
-  menu: MenuLink[];
+  constructor(private menuService: MenuService, public modalController: ModalController, private router: Router) {}
+  activeComponent: string;
+  navLinks: MenuLink[];
   patient: Patient;
   user: User;
 
   ngOnInit() {
-    this.menu = this.menuService.getCompnentMenu();
+    this.router.events.subscribe(val => {
+      if (val instanceof ActivationEnd) {
+        this.activeComponent = val.snapshot.component['name'];
+        if (this.activeComponent != 'ShellComponent') {
+          console.log(this.activeComponent);
+          this.navLinks = this.menuService.getComponentMenu(this.activeComponent);
+        }
+      }
+    });
   }
 
   ngAfterViewInit() {}
@@ -33,12 +41,6 @@ export class ToolbarNavComponent implements OnInit {
     } else if (buttonAction == 'kudos') {
       this.createKudosModal();
     }
-    // else if (buttonAction == 'history') {
-    //   let routerUrl = this.router.url + '/history';
-    //   this.router.navigate([routerUrl]);
-    // } else if (buttonAction == 'notes') {
-    //   this._location.back();
-    // }
   }
 
   async createNotificationModal() {

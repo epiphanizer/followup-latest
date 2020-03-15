@@ -62,8 +62,6 @@ export class CallQueuePatientFilterComponent implements OnInit {
   searchPatientCallHistoryBySelectedDate(selectedDate: string): PatientCall[] {
     let selectedDateObj = new Date(selectedDate);
     let transformedDate = this.datePipe.transform(selectedDateObj, 'yyyy-MM-dd');
-    console.log(this.patientCalls);
-    debugger;
     this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
       return patientCall.patientCallScheduledTime.toString().indexOf(transformedDate) !== -1;
     });
