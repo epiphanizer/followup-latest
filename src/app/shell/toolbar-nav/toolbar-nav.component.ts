@@ -35,8 +35,12 @@ export class ToolbarNavComponent implements OnInit {
       )
       .subscribe((e: any) => {
         this.activeComponent = e.snapshot.component['name'];
-        this.menuService.patientId = e.snapshot.params['patientId'];
-        this.menuService.operationId = e.snapshot.params['operationId'];
+        if (e.snapshot.params['patientId']) {
+          this.menuService.patientId = e.snapshot.params['patientId'];
+        }
+        if (e.snapshot.params['operationId']) {
+          this.menuService.operationId = e.snapshot.params['operationId'];
+        }
         if (this.activeComponent != 'ShellComponent') {
           this.navLinks = this.menuService.getComponentMenu(this.activeComponent);
         }
