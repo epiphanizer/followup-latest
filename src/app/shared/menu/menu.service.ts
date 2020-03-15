@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 
 export interface MenuLink {
   linkAction: string;
@@ -13,7 +13,7 @@ export interface MenuLink {
 export class MenuService {
   activeComponent: string;
   navLinks: MenuLink[];
-  constructor(private route: ActivatedRouteSnapshot) {}
+  constructor(private route: ActivatedRoute) {}
 
   getComponentMenu(activeComponent: string) {
     switch (activeComponent) {
@@ -92,8 +92,11 @@ export class MenuService {
         ];
         break;
       case 'PatientDetailComponent':
-        const patientId = this.route.paramMap.get('patientId');
-        const operationId = this.route.paramMap.get('operationId');
+        var routeData = this.route.data;
+        console.log(routeData);
+        debugger;
+        const patientId = 33;
+        const operationId = 1;
         let historyLink = '/call-queue/operations/' + operationId + '/patient/' + patientId + '/history';
         this.navLinks = [
           {
@@ -103,8 +106,8 @@ export class MenuService {
           },
           {
             linkAction: historyLink,
-            linkName: 'HISTORY',
-            linkType: 'button'
+            linkName: 'History',
+            linkType: 'link'
           },
           {
             linkAction: 'kudos',
@@ -129,7 +132,7 @@ export class MenuService {
           {
             linkAction: detailLink,
             linkName: 'Notes',
-            linkType: 'button'
+            linkType: 'link'
           },
           {
             linkAction: 'kudos',

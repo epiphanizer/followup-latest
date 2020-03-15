@@ -13,6 +13,7 @@ import { ApiPrefixInterceptor } from './http/api-prefix.interceptor';
 import { ErrorHandlerInterceptor } from './http/error-handler.interceptor';
 import { CacheInterceptor } from './http/cache.interceptor';
 import { OperationService } from '@app/modules/operation/operation.service';
+import { MenuService } from '@app/shared/menu/menu.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, TranslateModule, RouterModule, AlertsModule],
@@ -32,6 +33,7 @@ import { OperationService } from '@app/modules/operation/operation.service';
       provide: RouteReuseStrategy,
       useClass: RouteReusableStrategy
     },
+    MenuService,
     OperationService
   ]
 })
