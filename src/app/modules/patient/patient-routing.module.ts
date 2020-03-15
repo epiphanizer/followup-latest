@@ -21,13 +21,6 @@ const routes: Routes = [
         user: UserResolver
       },
       data: {
-        navLinks: [
-          {
-            linkAction: 'patient/add',
-            linkName: 'Add Patient',
-            linkType: 'link'
-          }
-        ],
         title: extract('Patient Listing')
       }
     },
@@ -40,28 +33,6 @@ const routes: Routes = [
         patient: PatientResolver
       },
       data: {
-        navLinks: [
-          {
-            linkAction: 'call-queue',
-            linkName: 'Call Queue',
-            linkType: 'link'
-          },
-          {
-            linkAction: 'history',
-            linkName: 'HISTORY',
-            linkType: 'button'
-          },
-          {
-            linkAction: 'kudos',
-            linkName: 'KUDOS',
-            linkType: 'button'
-          },
-          {
-            linkAction: 'report',
-            linkName: 'REPORT!',
-            linkType: 'button'
-          }
-        ],
         title: extract('Patient Detail')
       }
     },
@@ -74,28 +45,6 @@ const routes: Routes = [
         patient: PatientResolver
       },
       data: {
-        navLinks: [
-          {
-            linkAction: 'call-queue',
-            linkName: 'Call Queue',
-            linkType: 'link'
-          },
-          {
-            linkAction: 'notes',
-            linkName: 'Notes',
-            linkType: 'button'
-          },
-          {
-            linkAction: 'kudos',
-            linkName: 'KUDOS',
-            linkType: 'button'
-          },
-          {
-            linkAction: 'report',
-            linkName: 'REPORT!',
-            linkType: 'button'
-          }
-        ],
         title: extract('Patient History Listing')
       }
     },
@@ -107,18 +56,6 @@ const routes: Routes = [
         user: UserResolver
       },
       data: {
-        navLinks: [
-          {
-            linkAction: 'patient/add',
-            linkName: 'Add Patient',
-            linkType: 'link'
-          },
-          {
-            linkAction: 'notifications',
-            linkName: 'Notifications',
-            linkType: 'link'
-          }
-        ],
         title: extract('Patient Listing')
       }
     },
@@ -130,13 +67,6 @@ const routes: Routes = [
         user: UserResolver
       },
       data: {
-        navLinks: [
-          {
-            linkAction: 'patients',
-            linkName: 'Patients',
-            linkType: 'link'
-          }
-        ],
         title: extract('New Patient')
       }
     },
@@ -150,24 +80,6 @@ const routes: Routes = [
       },
       data: {
         editMode: true,
-        noReuse: true,
-        navLinks: [
-          {
-            linkAction: 'call-queue',
-            linkName: 'Call Queue',
-            linkType: 'link'
-          },
-          {
-            linkAction: 'kudos',
-            linkName: 'KUDOS',
-            linkType: 'button'
-          },
-          {
-            linkAction: 'report',
-            linkName: 'REPORT!',
-            linkType: 'button'
-          }
-        ],
         title: extract('Edit Patient')
       }
     }

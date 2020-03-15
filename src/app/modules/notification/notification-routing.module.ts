@@ -12,20 +12,7 @@ const routes: Routes = [
       path: 'notifications',
       component: NotificationListingComponent,
       pathMatch: 'full',
-      data: {
-        navLinks: [
-          {
-            linkAction: '/patient/add',
-            linkName: 'Add Patient',
-            linkType: 'link'
-          },
-          {
-            linkAction: '/notifications',
-            linkName: 'Notifications',
-            linkType: 'link'
-          }
-        ]
-      },
+      data: {},
       resolve: {
         user: UserResolver
       }
@@ -34,20 +21,6 @@ const routes: Routes = [
       path: 'notifications/:notificationId',
       component: NotificationDetailComponent,
       pathMatch: 'full',
-      data: {
-        navLinks: [
-          {
-            linkAction: '/patient/add',
-            linkName: 'Add Patient',
-            linkType: 'link'
-          },
-          {
-            linkAction: '/notifications',
-            linkName: 'Notifications',
-            linkType: 'link'
-          }
-        ]
-      },
       resolve: {
         notification: NotificationResolver,
         user: UserResolver

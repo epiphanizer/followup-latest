@@ -6,37 +6,23 @@ import { NotificationModalComponent } from '../notification-modal/notification-m
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
 import { Location } from '@angular/common';
+import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
 
 @Component({
+  providers: [MenuService],
   selector: 'app-toolbar-nav',
   templateUrl: './toolbar-nav.component.html',
   styleUrls: ['./toolbar-nav.component.scss']
 })
 export class ToolbarNavComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private _location: Location,
-    public modalController: ModalController
-  ) {}
+  constructor(private menuService: MenuService, public modalController: ModalController) {}
 
-  @Input() navLinks: [string] | null;
+  menu: MenuLink[];
   patient: Patient;
   user: User;
 
   ngOnInit() {
-    this.route.url.subscribe(() => {
-      if (this.route.snapshot.firstChild) {
-        if (this.route.snapshot.firstChild.data.patient) {
-          this.patient = this.route.snapshot.firstChild.data.patient;
-        }
-      }
-    });
-    this.route.url.subscribe(() => {
-      if (this.route.snapshot.data.user) {
-        this.user = this.route.snapshot.data.user;
-      }
-    });
+    this.menu = this.menuService.getCompnentMenu();
   }
 
   ngAfterViewInit() {}
@@ -46,12 +32,13 @@ export class ToolbarNavComponent implements OnInit {
       this.createNotificationModal();
     } else if (buttonAction == 'kudos') {
       this.createKudosModal();
-    } else if (buttonAction == 'history') {
-      let routerUrl = this.router.url + '/history';
-      this.router.navigate([routerUrl]);
-    } else if (buttonAction == 'notes') {
-      this._location.back();
     }
+    // else if (buttonAction == 'history') {
+    //   let routerUrl = this.router.url + '/history';
+    //   this.router.navigate([routerUrl]);
+    // } else if (buttonAction == 'notes') {
+    //   this._location.back();
+    // }
   }
 
   async createNotificationModal() {

@@ -14,7 +14,6 @@ const routes: Routes = [
       path: 'operations',
       component: OperationListingComponent,
       data: {
-        navLinks: [{ linkAction: 'operation/add', linkName: 'Add Operation', linkType: 'link' }],
         title: extract('Operations')
       }
     },
@@ -33,7 +32,6 @@ const routes: Routes = [
       component: OperationFormComponent,
       data: {
         editMode: true,
-        navLinks: [{ linkAction: 'operation/add', linkName: 'Add Operation', linkType: 'link' }],
         operationId: ':operationId'
       },
       resolve: {
