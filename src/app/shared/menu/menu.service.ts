@@ -96,10 +96,11 @@ export class MenuService {
         ];
         break;
       case 'PatientDetailComponent':
+        var callQueueLink = '/call-queue/operations/' + this.operationId;
         let historyLink = '/call-queue/operations/' + this.operationId + '/patient/' + this.patientId + '/history';
         this.navLinks = [
           {
-            linkAction: 'call-queue',
+            linkAction: callQueueLink,
             linkName: 'Call Queue',
             linkType: 'link'
           },
@@ -121,10 +122,11 @@ export class MenuService {
         ];
         break;
       case 'PatientHistoryDetailComponent':
+        var callQueueLink = '/call-queue/operations/' + this.operationId;
         let detailLink = '/call-queue/operations/' + this.operationId + '/patient/' + this.patientId;
         this.navLinks = [
           {
-            linkAction: 'call-queue',
+            linkAction: callQueueLink,
             linkName: 'Call Queue',
             linkType: 'link'
           },

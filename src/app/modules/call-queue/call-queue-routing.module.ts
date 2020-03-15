@@ -21,7 +21,7 @@ const routes: Routes = [
       }
     },
     {
-      path: 'call-queue/:operationId',
+      path: 'call-queue/operations/:operationId',
       component: CallQueueComponent,
       data: {
         title: extract('Call Queue')
