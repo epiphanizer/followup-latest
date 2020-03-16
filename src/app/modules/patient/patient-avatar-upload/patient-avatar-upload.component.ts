@@ -32,12 +32,6 @@ export class PatientAvatarUploadComponent implements OnInit {
 
   ngOnInit() {}
 
-  // clickUploadInput() {
-  //   let element: HTMLElement = document.querySelector('#fileUpload') as HTMLElement;
-  //   element.click();
-  //   this.changingAvatar = true;
-  // }
-
   dataURItoBlob(dataURI: string) {
     // convert base64 to raw binary data held in a string
     const byteString = window.atob(dataURI);
@@ -50,10 +44,7 @@ export class PatientAvatarUploadComponent implements OnInit {
     return blob;
   }
 
-  // files: FileList
-  uploadPatientAvatarPhoto(patient: Patient, files: FileList) {
-    // this.fileToUpload = files.item(0);
-
+  uploadPatientAvatarPhoto() {
     this.imageCompress.uploadFile().then(({ image, orientation }) => {
       this.imgResultBeforeCompress = image;
       let fileName = this.patient.patientId + '-avatar';
