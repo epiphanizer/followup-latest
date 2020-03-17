@@ -34,6 +34,7 @@ export class ToolbarNavComponent implements OnInit {
         map(e => (e instanceof ActivationEnd ? e : {}))
       )
       .subscribe((e: any) => {
+        debugger;
         this.activeComponent = e.snapshot.component['name'];
         if (e.snapshot.params['patientId']) {
           this.menuService.patientId = e.snapshot.params['patientId'];
