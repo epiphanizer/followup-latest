@@ -212,7 +212,7 @@ export class PatientDetailComponent implements OnInit {
         }
       });
 
-      let navigateToUrl = '/call-queue/' + this.patient.patientOperationId;
+      let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
 
       if (this.patientCall.patientCallStatusLabelId == 9) {
         this.toastrService.success('Successfully Saved');
