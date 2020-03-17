@@ -28,13 +28,19 @@ export class ToolbarNavComponent implements OnInit {
   user: User;
 
   ngOnInit() {
+    this.user = this.route.snapshot.data.user;
+    console.log(this.route.snapshot);
+    if (this.route.snapshot.firstChild.data.patient) {
+      this.patient = this.route.snapshot.firstChild.data.patient;
+    }
+
     this.router.events
       .pipe(
         filter(e => e instanceof ActivationEnd),
         map(e => (e instanceof ActivationEnd ? e : {}))
       )
       .subscribe((e: any) => {
-        this.activeComponent = e.snapshot.url[0].path;
+        this.activeComponent = e.snapshot.component['name'];
         console.log(this.activeComponent);
         if (e.snapshot.params['patientId']) {
           this.menuService.patientId = e.snapshot.params['patientId'];
