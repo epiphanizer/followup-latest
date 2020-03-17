@@ -17,7 +17,7 @@ import { Patient } from '../patient';
 })
 export class PatientAvatarUploadComponent implements OnInit {
   @Input() patient: Patient;
-  avatarExists: Boolean;
+  @Input() avatarExists: Boolean;
   public avatarUrl: SafeStyle;
   changingAvatar: boolean = false;
   fileToUpload: File;
@@ -30,7 +30,21 @@ export class PatientAvatarUploadComponent implements OnInit {
     private toastrService: ToastrService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // See if we have an avatar to load in
+    this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
+      var self = this;
+      if (data !== null) {
+        var reader = new FileReader();
+        reader.readAsDataURL(data);
+        reader.onloadend = function() {
+          var base64data = reader.result;
+          self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
+          self.avatarExists = true;
+        };
+      }
+    });
+  }
 
   dataURItoBlob(dataURI: string) {
     // convert base64 to raw binary data held in a string

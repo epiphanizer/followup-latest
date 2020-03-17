@@ -874,7 +874,12 @@ ion-button {
   &.delete-patient {
     cursor: pointer;
     --border-color: red;
-    background-color: red;
+    --background: red;
+    --background-hover: red;
+    --background-activated: transparent;
+    --color-activated: white;
+    --color-focused: white;
+    --color-hover: white;
     color: white;
     width: auto;
     border-radius: 7px;

@@ -143,19 +143,6 @@ export class PatientFormComponent implements OnInit {
             this.patient.patientMedicalConditions.pulmonaryBoolean = medicalConditions.pulmonaryBoolean;
             this.patient.patientMedicalConditions.otherBoolean = medicalConditions.otherBoolean;
           }
-          // See if we have an avatar to load in
-          this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
-            var self = this;
-            if (data !== null) {
-              var reader = new FileReader();
-              reader.readAsDataURL(data);
-              reader.onloadend = function() {
-                var base64data = reader.result;
-                self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
-                self.avatarExists = true;
-              };
-            }
-          });
           this.createForm();
           // We need to explicitly set this value we learned from testing.
           this.patientForm
