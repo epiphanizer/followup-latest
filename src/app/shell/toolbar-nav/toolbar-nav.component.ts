@@ -29,10 +29,6 @@ export class ToolbarNavComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    console.log(this.route.snapshot);
-    if (this.route.snapshot.firstChild.data.patient) {
-      this.patient = this.route.snapshot.firstChild.data.patient;
-    }
 
     this.router.events
       .pipe(
@@ -40,6 +36,9 @@ export class ToolbarNavComponent implements OnInit {
         map(e => (e instanceof ActivationEnd ? e : {}))
       )
       .subscribe((e: any) => {
+        if (this.route.snapshot.firstChild) {
+          this.patient = this.route.snapshot.firstChild.data.patient;
+        }
         this.activeComponent = e.snapshot.component['name'];
         console.log(this.activeComponent);
         if (e.snapshot.params['patientId']) {
