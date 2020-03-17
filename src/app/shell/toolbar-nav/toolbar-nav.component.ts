@@ -30,7 +30,7 @@ export class ToolbarNavComponent implements OnInit {
   ngOnInit() {
     this.router.events
       .pipe(
-        filter(e => e instanceof ActivationEnd && Object.keys(e.snapshot.params).length > 0),
+        filter(e => e instanceof ActivationEnd),
         map(e => (e instanceof ActivationEnd ? e : {}))
       )
       .subscribe((e: any) => {

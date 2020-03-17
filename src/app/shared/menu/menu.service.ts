@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, ActivatedRoute, ParamMap, Router, RoutesRecognized } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 export interface MenuLink {
   linkAction: string;
@@ -20,6 +18,7 @@ export class MenuService {
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   getComponentMenu(activeComponent: string) {
+    console.log(activeComponent);
     switch (activeComponent) {
       case 'NotificationDetailComponent':
         this.navLinks = [
