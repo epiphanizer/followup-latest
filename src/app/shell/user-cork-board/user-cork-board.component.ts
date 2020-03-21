@@ -77,15 +77,20 @@ export class UserCorkBoardComponent implements OnInit {
     if (!this.isOpen) {
       this.toggleCorkboardState();
     }
-
-    this.imageCompress.uploadFile().then((image: any) => {
-      debugger;
-      this.imgResultBeforeCompress = image.image;
-      let fileName = this.user.userId + '-corkboard-object-' + Math.random();
-      console.log(fileName);
-      this.imageCompress.compressFile(image, orientation, 50, 50).then((result: any) => {
+    /**
+     * imageObj: {image, orientation}
+     */
+    this.imageCompress.uploadFile().then((imageObj: any) => {
+      this.imgResultBeforeCompress = imageObj.image;
+      this.imageCompress.compressFile(imageObj.image, imageObj.orientation, 50, 50).then((result: any) => {
         this.imgResultAfterCompress = result;
         const imageBlob = this.dataURItoBlob(this.imgResultAfterCompress.split(',')[1]);
+        let fileName =
+          this.user.userId +
+          '-corkboard-object-' +
+          Math.random()
+            .toString()
+            .slice(2, 11);
         const imageFile = new File([imageBlob], fileName, {
           type: 'image/jpeg'
         });
