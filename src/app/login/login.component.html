@@ -6,7 +6,6 @@
         <div class="login-container">
           <form id="login-form" (ngSubmit)="signIn()" [formGroup]="loginForm" novalidate>
             <div class="toolbar-logo"></div>
-            <div class="login-loading" *ngIf="isLoading"></div>
             <ion-list lines="none" inset>
               <ion-item>
                 <ion-label color="medium" position="floating">Username</ion-label>

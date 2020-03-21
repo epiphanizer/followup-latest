@@ -38,11 +38,6 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  public setLoginAs(token: string) {
-    localStorage.setItem('followup-token', token);
-    localStorage.setItem('tokenPayload', JSON.stringify(this.jwtHelper.decodeToken(token)));
-  }
-
   public isAuthenticated(): boolean {
     // get the token
     const token = this.getToken();
@@ -52,9 +47,6 @@ export class AuthenticationService {
     return !this.jwtHelper.isTokenExpired(token);
   }
 
-  public getPayload(): any {
-    return JSON.parse(localStorage.getItem('tokenPayload'));
-  }
   doLogin(username: string, password: string): Observable<any> {
     return this.http
       .post('users/login', {
@@ -67,6 +59,7 @@ export class AuthenticationService {
           debugger;
           if (jwt.userId && jwt.userLevel) {
             this.authenticated = true;
+            localStorage.setItem('followup-token', jwt.token);
             localStorage.setItem(
               'followup-user',
               JSON.stringify({
@@ -82,7 +75,6 @@ export class AuthenticationService {
             // send user there
             if (window.location.href.indexOf('/login') != -1) {
               window.location.href = '/login';
-            } else {
             }
           }
         }),
@@ -90,26 +82,21 @@ export class AuthenticationService {
       );
   }
 
-  public getUser(): Promise<User> {
-    if (!this.authenticated) {
-      /**
-       * This will be deprecated in the refactor.
-       * We will use a token.
-       */
-      if (localStorage.getItem('followup-user')) {
-        let userObj = JSON.parse(localStorage.getItem('followup-user'));
-        return of(userObj).toPromise();
-      } else {
+  public getUser(): Observable<User> {
+    if (this.authenticated) {
+      return this.getUserByUserId(this.currentUserValue.userId).pipe(
+        map((user: User) => {
+          return user;
+        })
+      );
+    } else {
+      if (window.location.href.indexOf('/login') == -1) {
         window.location.href = '/login';
-        return null;
       }
     }
-
-    return this.user$;
   }
   getUserByUserId(userId: number): Observable<User> {
     return this.http.get<User>('users/' + userId).pipe(
-      retry(2),
       share(),
       catchError(error => this.handleAsyncError(error))
     );
@@ -119,16 +106,17 @@ export class AuthenticationService {
   async signIn(username: string, password: string): Promise<any> {
     let result = await this.doLogin(username, password).toPromise();
     if (!(await result)) {
-      debugger;
       this.authenticated = false;
       return false;
     }
 
     const userId = result.userId;
+    const userLevel = result.userLevel;
 
     this.user$ = this.getUserByUserId(userId).toPromise();
 
     this.getUserByUserId(userId).subscribe((user: User) => {
+      user[0].userLevel = userLevel;
       localStorage.setItem(
         'followup-user',
         JSON.stringify({
@@ -152,10 +140,6 @@ export class AuthenticationService {
   signOut(): void {
     this.user$ = null;
     this.authenticated = false;
-    /**
-     * Check best practice on this token stuff here.
-     * This could very well be deprecated.
-     */
     localStorage.removeItem('followup-user');
     localStorage.removeItem('followup-token');
     localStorage.removeItem('followup-payload');

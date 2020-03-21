@@ -660,7 +660,7 @@ export class OperationFormComponent implements OnInit {
           this.operationContactsService
             .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
             .subscribe(() => {
-              console.log('Successfully removed operation contact');
+              this.toastr.success('Successfully removed operation contact');
             });
         }
       });
@@ -709,9 +709,5 @@ export class OperationFormComponent implements OnInit {
   ngOnDestroy() {
     this.operationContacts = null;
     this.operationContactsOriginal = null;
-    /**
-     * Todo: destroy route subscription
-     */
-    console.log('destroying ops form component');
   }
 }
