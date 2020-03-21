@@ -55,9 +55,6 @@ export class PatientDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.patient !== null) {
-      location.reload();
-    }
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
     this.patientCall$ = this.patientCallService
@@ -112,6 +109,7 @@ export class PatientDetailComponent implements OnInit {
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
     this.patientCall.patientCallStatusLabel = 'User Selected Status';
   }
+
   patientFinalCallChangeHandler($event: boolean) {
     if ($event == true) {
       this.patientCall.finalCall = true;
@@ -119,14 +117,17 @@ export class PatientDetailComponent implements OnInit {
       this.patientCall.finalCall = false;
     }
   }
+
   patientNextCallDateSelectedEventHandler($event: string) {
     let selectedDate = $event;
     let newDate = formatDate(selectedDate, 'MM-dd-yyyy', 'en-US');
     this.patientNextCall.date = newDate;
   }
+
   patientCallNotesChangeHandler($event: PatientCallNotes) {
     this.patientCallNotes = $event;
   }
+
   patientCallNotesHighlightedChangeHandler($event: number) {
     this.patientCallNotesHighlighted = $event;
   }
@@ -134,13 +135,13 @@ export class PatientDetailComponent implements OnInit {
   patientCallQuestionsChangeHandler($event: PatientCallQuestionAnswer[]) {
     this.patientCallQuestionAnswers = $event;
   }
+
   patientNextCallQuestionsChangeHandler($event: PatientCallQuestion[]) {
     this.patientNextCallQuestions = $event;
   }
 
   patientCallFinishEventHandler($event: PatientCall) {
     this.patientCall = $event;
-
     if (this.patientCall.patientCallStatusLabel == 'In Review') {
       alert('Please select a call status');
       let element = document.querySelector('#patientCallStatusControls');
@@ -214,6 +215,7 @@ export class PatientDetailComponent implements OnInit {
 
       let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
 
+      debugger;
       if (this.patientCall.patientCallStatusLabelId == 9) {
         this.toastrService.success('Successfully Saved');
         window.location.href = navigateToUrl;

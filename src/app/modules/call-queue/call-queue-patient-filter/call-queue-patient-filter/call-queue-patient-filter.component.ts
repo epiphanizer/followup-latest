@@ -30,7 +30,7 @@ export class CallQueuePatientFilterComponent implements OnInit {
     this.patientCallService
       .getPatientCallsByOperationId(this.operation.operationId)
       .subscribe((patientCalls: PatientCall[]) => {
-        if (!patientCalls.length) {
+        if (!patientCalls) {
           this.patientCalls = [];
         }
         this.patientCalls = patientCalls;
@@ -62,9 +62,11 @@ export class CallQueuePatientFilterComponent implements OnInit {
   searchPatientCallHistoryBySelectedDate(selectedDate: string): PatientCall[] {
     let selectedDateObj = new Date(selectedDate);
     let transformedDate = this.datePipe.transform(selectedDateObj, 'yyyy-MM-dd');
-    this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
-      return patientCall.patientCallScheduledTime.toString().indexOf(transformedDate) !== -1;
-    });
+    if (this.patientCalls) {
+      this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
+        return patientCall.patientCallScheduledTime.toString().indexOf(transformedDate) !== -1;
+      });
+    }
     return this.patientCallsFiltered;
   }
   searchPatientCallHistoryByText($event: KeyboardEvent): PatientCall[] {

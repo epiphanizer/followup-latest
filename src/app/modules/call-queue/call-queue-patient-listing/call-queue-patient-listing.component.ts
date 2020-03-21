@@ -18,7 +18,11 @@ import { IonInfiniteScroll } from '@ionic/angular';
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
-  @ViewChild(IonInfiniteScroll, { read: 'infinite-scroll', static: true }) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonInfiniteScroll, {
+    read: 'infinite-scroll',
+    static: true
+  })
+  infiniteScroll: IonInfiniteScroll;
   currentYear: number;
   currentNewDischargeCount: number;
   @Input() operation: Operation;
@@ -41,8 +45,10 @@ export class CallQueuePatientListingComponent implements OnInit {
       take(1),
       map((patients: Patient[]) => {
         this.patients = patients;
-        this.getCurrentNewDischargeCount(patients);
-        this.sortPatientsByCallDate(this.selectedSortFlag);
+        if (patients) {
+          this.getCurrentNewDischargeCount(patients);
+          this.sortPatientsByCallDate(this.selectedSortFlag);
+        }
         return patients;
       })
     );
@@ -55,8 +61,10 @@ export class CallQueuePatientListingComponent implements OnInit {
         this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
           map((patients: Patient[]) => {
             this.patients = patients;
-            this.getCurrentNewDischargeCount(patients);
-            this.sortPatientsByCallDate(this.selectedSortFlag);
+            if (patients) {
+              this.getCurrentNewDischargeCount(patients);
+              this.sortPatientsByCallDate(this.selectedSortFlag);
+            }
             return patients;
           })
         );
@@ -87,9 +95,11 @@ export class CallQueuePatientListingComponent implements OnInit {
   }
   public getCurrentNewDischargeCount(patients: Patient[]) {
     let patientsWithNoCalls = [];
-    patientsWithNoCalls = patients.filter(function(patient: Patient) {
-      return patient.patientCallCount - 1 == 0;
-    });
+    if (patients) {
+      patientsWithNoCalls = patients.filter(function(patient: Patient) {
+        return patient.patientCallCount - 1 == 0;
+      });
+    }
     this.currentNewDischargeCount = patientsWithNoCalls.length;
   }
   public sortPatientsByDischargeDate = function(sortFlag: string) {
