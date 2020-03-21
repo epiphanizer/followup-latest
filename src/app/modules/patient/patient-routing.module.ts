@@ -10,6 +10,7 @@ import { PatientResolver } from './patient-resolver.service';
 import { UserResolver } from '../user/user-resolver.service';
 import { PatientListingComponent } from './patient-listing/patient-listing.component';
 import { PatientHistoryDetailComponent } from './patient-detail/patient-history-detail.component';
+import { AuthGuardService } from '@app/core/authentication/auth-guard.service';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -75,11 +76,13 @@ const routes: Routes = [
       pathMatch: 'full',
       component: PatientFormComponent,
       resolve: {
-        user: UserResolver,
-        patient: PatientResolver
+        patient: PatientResolver,
+        user: UserResolver
       },
+      canActivate: [AuthGuardService],
       data: {
         editMode: true,
+        roles: ['admin', 'manager'],
         title: extract('Edit Patient')
       }
     }
