@@ -57,7 +57,7 @@ export class MenuService {
           }
         ];
         break;
-      case 'OperationDetailComponent':
+      case 'OperationListingComponent':
         this.navLinks = [
           {
             linkAction: 'operation/add',

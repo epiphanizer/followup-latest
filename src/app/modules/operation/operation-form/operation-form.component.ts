@@ -480,7 +480,7 @@ export class OperationFormComponent implements OnInit {
       this.operationService
         .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
         .subscribe(() => {
-          console.log('Manager successfully removed');
+          this.toastr.success('Manager successfully removed');
         });
     });
 
@@ -492,7 +492,7 @@ export class OperationFormComponent implements OnInit {
       this.operationService
         .assignManagerToOperationByOperationIdAndUserId(operationManager.operationId, operationManager.userId)
         .subscribe(() => {
-          console.log('Manager successfully added');
+          this.toastr.success('Manager successfully added');
         });
     });
 
@@ -504,7 +504,7 @@ export class OperationFormComponent implements OnInit {
       this.operationCallRepsService
         .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
         .subscribe(() => {
-          console.log('Callrep successfully deleted');
+          this.toastr.success('Care Rep successfully added');
         });
     });
 
@@ -519,7 +519,7 @@ export class OperationFormComponent implements OnInit {
       this.operationCallRepsService
         .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
         .subscribe(() => {
-          console.log('Callrep successfully added');
+          this.toastr.success('Care Rep successfully added');
         });
     });
 

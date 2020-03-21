@@ -329,7 +329,11 @@
       </form>
     </ion-col>
     <ion-col class="avatar-col">
-      <app-patient-avatar-upload [avatarExists]="avatarExists" [patient]="patient"></app-patient-avatar-upload>
+      <app-patient-avatar-upload
+        *ngIf="patient"
+        [avatarExists]="avatarExists"
+        [patient]="patient"
+      ></app-patient-avatar-upload>
     </ion-col>
   </ion-row>
 </ion-content>
