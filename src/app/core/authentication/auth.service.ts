@@ -86,6 +86,7 @@ export class AuthenticationService {
     if (this.authenticated) {
       return this.getUserByUserId(this.currentUserValue.userId).pipe(
         map((user: User) => {
+          console.log(user);
           return user;
         })
       );
