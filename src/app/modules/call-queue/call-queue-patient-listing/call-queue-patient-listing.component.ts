@@ -72,19 +72,6 @@ export class CallQueuePatientListingComponent implements OnInit {
     }
   }
 
-  loadData(event: any) {
-    setTimeout(() => {
-      console.log('Done');
-      event.target.complete();
-
-      // App logic to determine if all data is loaded
-      // and disable the infinite scroll
-      if (this.patients.length == 1000) {
-        event.target.disabled = true;
-      }
-    }, 500);
-  }
-
   public checkDateGreaterThanEqualToToday(patientNextCallScheduledTime: string) {
     let patientNextCallDateObj = new Date(patientNextCallScheduledTime);
     if (patientNextCallDateObj <= this.todaysDate) {

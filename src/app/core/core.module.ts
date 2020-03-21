@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouteReuseStrategy, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { AlertsModule } from './alerts/alerts.module';
 import { RouteReusableStrategy } from './route-reusable-strategy';
 import { AuthenticationService } from './authentication/auth.service';
 import { I18nService } from './i18n.service';
@@ -16,7 +15,7 @@ import { OperationService } from '@app/modules/operation/operation.service';
 import { MenuService } from '@app/shared/menu/menu.service';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, TranslateModule, RouterModule, AlertsModule],
+  imports: [CommonModule, HttpClientModule, TranslateModule, RouterModule],
   providers: [
     AuthenticationService,
     I18nService,

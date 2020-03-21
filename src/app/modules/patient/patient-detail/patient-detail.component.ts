@@ -92,7 +92,6 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallService.endPatientCall(this.patientCall.patientCallId);
     this.patientCall.patientCallStatusLabelId = 4;
     this.patientCall.patientCallStatusLabel = 'In Review';
-    this.toastrService.success('Call In Review');
     setTimeout(function() {
       let element = document.querySelector('#patientCallStatusControls');
       if (element) {
@@ -173,12 +172,10 @@ export class PatientDetailComponent implements OnInit {
         this.patientCallNotes.patientCallNotes,
         this.patientCallNotesHighlighted
       )
-      .subscribe((data: any) => {
-        console.log('added patient call notes successfully');
-      });
+      .subscribe(() => {});
 
     if (!this.patientCallQuestionAnswers) {
-      alert('Please select an answer to at least one question');
+      alert('Please select an answer to at least one question.');
       let element = document.querySelector('#patientCallNotesForm');
       if (element) {
         element.scrollIntoView({
@@ -190,7 +187,7 @@ export class PatientDetailComponent implements OnInit {
     }
 
     if (!this.patientNextCall.date && !this.patientCall.finalCall) {
-      alert('Please schedule a call date');
+      alert('Please schedule a call date.');
       let element = document.querySelector('#next-call-calendar');
       if (element) {
         element.scrollIntoView({
@@ -215,6 +212,7 @@ export class PatientDetailComponent implements OnInit {
 
       let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
 
+      console.log(this.patientCall.patientCallStatusLabelId);
       debugger;
       if (this.patientCall.patientCallStatusLabelId == 9) {
         this.toastrService.success('Successfully Saved');
@@ -263,4 +261,5 @@ export class PatientDetailComponent implements OnInit {
       }
     });
   }
+  ngOnDestroy() {}
 }

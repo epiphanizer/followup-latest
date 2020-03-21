@@ -5,8 +5,9 @@ import { User } from '@app/user';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { ToastrService } from 'ngx-toastr';
 @Component({
-  providers: [NgxImageCompressService],
+  providers: [NgxImageCompressService, ToastrService],
   selector: 'app-user-cork-board',
   templateUrl: './user-cork-board.component.html',
   styleUrls: ['./user-cork-board.component.scss'],
@@ -43,7 +44,8 @@ export class UserCorkBoardComponent implements OnInit {
   constructor(
     private imageCompress: NgxImageCompressService,
     private userCorkBoardService: UserCorkBoardService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit() {
@@ -77,8 +79,10 @@ export class UserCorkBoardComponent implements OnInit {
     }
 
     this.imageCompress.uploadFile().then((image: any) => {
-      this.imgResultBeforeCompress = image;
-      let fileName = this.user.userId + '-avatar';
+      debugger;
+      this.imgResultBeforeCompress = image.image;
+      let fileName = this.user.userId + '-corkboard-object-' + Math.random();
+      console.log(fileName);
       this.imageCompress.compressFile(image, orientation, 50, 50).then((result: any) => {
         this.imgResultAfterCompress = result;
         const imageBlob = this.dataURItoBlob(this.imgResultAfterCompress.split(',')[1]);
@@ -88,6 +92,7 @@ export class UserCorkBoardComponent implements OnInit {
         this.userCorkBoardService
           .addNewUserCorkBoardObjectByUserId(this.user.userId, imageFile)
           .subscribe((data: any) => {
+            this.toastrService.success('Successfully added cork board item.');
             this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe((data: any) => {
               if (data) {
                 this.userCorkBoardObjects = data;
