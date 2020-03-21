@@ -61,10 +61,12 @@ export class PatientManagerSidebarComponent implements OnInit {
     operation: null
   };
   isOpen = true;
-  constructor(private route: ActivatedRoute, private router: Router) {}
   operations: Operation[];
   user: User;
   todaysDateDay: number;
+
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
   ngOnInit() {
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     this.user = this.route.snapshot.data.user;

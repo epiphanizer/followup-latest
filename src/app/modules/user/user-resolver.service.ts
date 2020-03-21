@@ -10,13 +10,10 @@ export class UserResolver implements Resolve<User> {
   user$: Promise<User>;
   constructor(private authService: AuthenticationService, private operationService: OperationService) {}
   resolve(): Promise<User> {
-    return this.authService.getUser().then((jwt: any) => {
-      console.log(jwt);
-      if (!jwt.user) {
-        this.user = jwt[0];
-      } else {
-        // console.log(result);
-        this.user = jwt.user[0];
+    return this.authService.getUser().then((user: User) => {
+      console.log(user);
+      if (user) {
+        this.user = user[0];
       }
       if (this.user.userLevel != 1) {
         this.user.operations$ = this.operationService.getOperationsByUserId(this.user.userId);

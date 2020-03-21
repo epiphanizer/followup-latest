@@ -24,7 +24,7 @@ export class AuthenticationService {
   public currentUser: Observable<User>;
 
   constructor(private http: HttpService, private jwtHelper: JwtHelperService, private router: Router) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('followup-user')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -63,14 +63,14 @@ export class AuthenticationService {
       })
       .pipe(
         map((jwt: any) => {
-          // console.log(jwt);
-          // debugger;
+          console.log(jwt);
+          debugger;
           if (jwt.userId && jwt.userLevel) {
             this.authenticated = true;
             localStorage.setItem(
               'followup-user',
               JSON.stringify({
-                user: jwt.user,
+                userId: jwt.userId,
                 userLevel: jwt.userLevel
               })
             );

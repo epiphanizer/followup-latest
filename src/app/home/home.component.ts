@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
     if (this.user.userLevel == 3) {
       this.router.navigate(['call-queue']);
     }
+    debugger;
     switch (this.user.userLevel) {
       case 1:
         this.menu = [
