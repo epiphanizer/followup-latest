@@ -212,9 +212,7 @@ export class PatientDetailComponent implements OnInit {
 
       let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
 
-      console.log(this.patientCall.patientCallStatusLabelId);
-      debugger;
-      if (this.patientCall.patientCallStatusLabelId == 9) {
+      if (this.patientCall.finalCall) {
         this.toastrService.success('Successfully Saved');
         window.location.href = navigateToUrl;
       } else {

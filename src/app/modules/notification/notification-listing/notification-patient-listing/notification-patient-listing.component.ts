@@ -24,7 +24,9 @@ export class NotificationPatientListingComponent implements OnInit {
       .pipe(
         take(1),
         map((notifications: Notification[]) => {
-          this.sortNotificationsByNotificationDate(this.selectedSortFlag);
+          if (notifications) {
+            this.sortNotificationsByNotificationDate(this.selectedSortFlag);
+          }
           this.notifications = notifications;
         })
       )
@@ -69,7 +71,6 @@ export class NotificationPatientListingComponent implements OnInit {
       this.notificationsFiltered.sort((a: Notification, b: Notification) => {
         return <any>new Date(a.notificationCreatedTime) - <any>new Date(b.notificationCreatedTime);
       });
-      console.log(this.notificationsFiltered);
     } else {
       this.notificationsFiltered = this.notifications;
       this.notificationsFiltered.sort((a: Notification, b: Notification) => {
