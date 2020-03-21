@@ -6,6 +6,7 @@ import { Logger, AuthenticationService, untilDestroyed } from '@app/core';
 
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 const log = new Logger('Login');
 
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private platform: Platform,
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private toastrService: ToastrService
   ) {
     this.createForm();
   }
@@ -42,7 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     let password = this.loginForm.controls.password.value;
     let result = await this.authenticationService.signIn(username, password);
     if (!result) {
-      this.error = 'Login Error';
+      this.toastrService.error('Login Error!');
       this.isLoading = false;
       return this.error;
     }

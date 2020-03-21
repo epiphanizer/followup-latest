@@ -12,27 +12,23 @@ export class UserCorkBoardObjectComponent implements OnInit {
   corkboardObjectUrl: SafeUrl;
   @Input() deleteMode: Boolean;
   @Input() userCorkBoardObject: UserCorkBoardObject;
-  /**
-   * This guy is plaintext encoded base64
-   */
+
   constructor(private sanitizer: DomSanitizer, private userCorkBoardService: UserCorkBoardService) {}
 
   ngOnInit() {
     var fileAsBlob = this.userCorkBoardObject.userCorkBoardBlob as any;
-    let TYPED_ARRAY = new Uint8Array(fileAsBlob.data);
-    const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
+    let typedArray = new Uint8Array(fileAsBlob.data);
+    const stringChar = typedArray.reduce((data, byte) => {
       return data + String.fromCharCode(byte);
     }, '');
-    let base64String = btoa(STRING_CHAR);
+    let base64String = btoa(stringChar);
     this.corkboardObjectUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64String);
   }
   removeCorkBoardObject(userCorkBoardObjectId: number) {
     if (this.deleteMode) {
       this.userCorkBoardService
         .deleteUserCorkBoardObjectByUserCorkBoardObjectId(userCorkBoardObjectId)
-        .subscribe((data: any) => {
-          console.log(data);
-
+        .subscribe(() => {
           let element: HTMLElement = document.querySelector(
             '#userCorkBoardObject-' + userCorkBoardObjectId
           ) as HTMLElement;

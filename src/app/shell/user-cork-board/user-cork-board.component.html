@@ -6,14 +6,7 @@
 >
   <ul class="corkboard-controls">
     <li (click)="toggleCorkboardState()" class="expand icon"></li>
-    <input
-      type="file"
-      class="hidden-input"
-      name="corkBoardUpload"
-      id="corkBoardUpload"
-      (change)="addNewCorkboardItem($event.target.files)"
-    />
-    <li (click)="clickCorkboardInput()" class="new-item icon"></li>
+    <li (click)="addNewCorkboardItem()" class="new-item icon"></li>
     <li (click)="toggleCorkBoardDeleteFunction()" class="minus icon"></li>
   </ul>
   <ng-container *ngIf="isOpen && userCorkBoardObjects">

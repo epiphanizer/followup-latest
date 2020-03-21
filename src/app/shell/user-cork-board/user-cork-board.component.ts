@@ -3,8 +3,10 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { UserCorkBoardService, UserCorkBoardObject } from './user-cork-board.service';
 import { User } from '@app/user';
 import { ActivatedRoute } from '@angular/router';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
+  providers: [NgxImageCompressService],
   selector: 'app-user-cork-board',
   templateUrl: './user-cork-board.component.html',
   styleUrls: ['./user-cork-board.component.scss'],
@@ -31,12 +33,18 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class UserCorkBoardComponent implements OnInit {
   @Output() corkBoardExpandedEmitter = new EventEmitter<boolean>();
-  fileToUpload: File;
   isOpen = false;
   deleteMode = false;
   user: User;
   userCorkBoardObjects: UserCorkBoardObject[];
-  constructor(private userCorkBoardService: UserCorkBoardService, private route: ActivatedRoute) {}
+  imgResultBeforeCompress: string;
+  imgResultAfterCompress: string;
+
+  constructor(
+    public imageCompress: NgxImageCompressService,
+    private userCorkBoardService: UserCorkBoardService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
@@ -44,26 +52,36 @@ export class UserCorkBoardComponent implements OnInit {
       .getUserCorkBoardObjectsByUserId(this.user.userId)
       .subscribe((data: UserCorkBoardObject[]) => {
         if (data) {
-          // debugger;
           this.userCorkBoardObjects = data;
         }
       });
   }
 
-  addNewCorkboardItem = function(files: FileList) {
+  addNewCorkboardItem = function() {
     if (!this.isOpen) {
       this.toggleCorkboardState();
     }
-    this.fileToUpload = files.item(0);
-    this.userCorkBoardService
-      .addNewUserCorkBoardObjectByUserId(this.user.userId, this.fileToUpload)
-      .subscribe((data: any) => {
-        this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe((data: any) => {
-          if (data) {
-            this.userCorkBoardObjects = data;
-          }
+
+    this.imageCompress.uploadFile().then(({ image, orientation }) => {
+      this.imgResultBeforeCompress = image;
+      let fileName = this.user.userId + '-avatar';
+      this.imageCompress.compressFile(image, orientation, 50, 50).then((result: any) => {
+        this.imgResultAfterCompress = result;
+        const imageBlob = this.dataURItoBlob(this.imgResultAfterCompress.split(',')[1]);
+        const imageFile = new File([imageBlob], fileName, {
+          type: 'image/jpeg'
         });
+        this.userCorkBoardService
+          .addNewUserCorkBoardObjectByUserId(this.user.userId, this.fileToUpload)
+          .subscribe((data: any) => {
+            this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe((data: any) => {
+              if (data) {
+                this.userCorkBoardObjects = data;
+              }
+            });
+          });
       });
+    });
   };
   toggleCorkBoardDeleteFunction = function() {
     if (!this.isOpen) {
