@@ -16,7 +16,7 @@ export interface AuthenticationBodyPost {
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public authenticated: boolean;
+  public authenticated: boolean = false;
   protected userId: number;
   public user$: Promise<User>;
 
@@ -83,17 +83,15 @@ export class AuthenticationService {
   }
 
   public getUser(): Observable<User> {
+    console.log(this.authenticated);
     if (this.authenticated) {
       return this.getUserByUserId(this.currentUserValue.userId).pipe(
         map((user: User) => {
           console.log(user);
+          debugger;
           return user;
         })
       );
-    } else {
-      if (window.location.href.indexOf('/login') == -1) {
-        window.location.href = '/login';
-      }
     }
   }
   getUserByUserId(userId: number): Observable<User> {
