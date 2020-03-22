@@ -6,11 +6,12 @@ import { UserDetailComponent } from '@app/modules/user/user-detail/user-detail.c
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { UserAvatarService } from './user-avatar/user-avatar.service';
 import { IonicModule } from '@ionic/angular';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @NgModule({
   declarations: [UserDetailComponent, UserAvatarComponent],
   imports: [CommonModule, IonicModule, UserProfileRoutingModule],
   exports: [UserAvatarComponent],
-  providers: [UserAvatarService]
+  providers: [UserAvatarService, NgxImageCompressService]
 })
 export class UserModule {}

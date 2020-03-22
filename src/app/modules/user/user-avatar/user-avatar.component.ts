@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
-  providers: [ToastrService],
+  providers: [ToastrService, NgxImageCompressService],
   selector: 'app-user-avatar',
   templateUrl: './user-avatar.component.html',
   styleUrls: ['./user-avatar.component.scss']
