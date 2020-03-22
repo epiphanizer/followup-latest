@@ -36,7 +36,7 @@ export class ToolbarNavComponent implements OnInit {
         map(e => (e instanceof ActivationEnd ? e : {}))
       )
       .subscribe((e: any) => {
-        console.log(this.route.routeConfig.path);
+        console.log(this.route.routeConfig);
         if (this.route.snapshot.firstChild) {
           this.patient = this.route.snapshot.firstChild.data.patient;
         }
