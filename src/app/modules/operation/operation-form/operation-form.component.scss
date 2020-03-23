@@ -101,8 +101,8 @@ form {
 
   > ion-list {
     margin-bottom: 0;
+    margin-left: 0;
   }
-
   ion-select,
   ion-select-option,
   ion-datetime {
@@ -150,6 +150,7 @@ form {
   .section-header {
     margin-top: 14px;
     overflow: hidden;
+    clear: both;
 
     span {
       font-family: Avenir;

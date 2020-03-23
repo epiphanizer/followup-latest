@@ -33,7 +33,8 @@
                 ? patientCall.patientCallCount
                 : patientCall.patientCallCount - 1
             }}
-            - ({{ patientCall.patientCallStatusLabel }}) &nbsp;|&nbsp;
+            - ({{ patientCall.patientCallStatusLabelId == 1 ? 'Discharged' : patientCall.patientCallStatusLabel }})
+            &nbsp;|&nbsp;
             <ng-container *ngIf="patientCall.patientCallEndTime; else callScheduledTime">
               {{ patientCall.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}
             </ng-container>

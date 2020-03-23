@@ -18,6 +18,7 @@
             <ion-input
               class="hidden-operation-input"
               type="hidden"
+              *ngIf="editMode"
               formControlName="operationId"
               [value]="operation?.operationId"
             ></ion-input>
