@@ -5,13 +5,12 @@ ion-content {
 
 .patient-sidebar {
   max-width: 177px;
-  margin-right: 60px;
+  margin-right: 25px;
 }
 
 .patient-content {
-  width: 565px;
+  width: 100%;
   max-width: 565px;
-  margin-top: 79px;
   padding-bottom: 160px;
 }
 
@@ -36,6 +35,7 @@ ion-title {
   text-align: left;
   color: #343638;
   padding-left: 0;
+  margin: 2.75rem 0;
 }
 
 form {
@@ -47,11 +47,11 @@ form {
 
   > fieldset {
     padding: 0;
-    margin-left: -25px;
+    // margin-left: -25px;
   }
 
   > ion-list {
-    margin-left: -25px;
+    // margin-left: -25px;
   }
 
   ion-select,

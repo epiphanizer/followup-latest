@@ -45,8 +45,11 @@
     }
     div.logout-nav {
       font-size: 13px;
-      width: 80%;
+      width: auto;
+      padding-top: 0.5rem;
       font-family: Avenir;
+      clear: both;
+      margin-left: 0.75rem;
       a {
         text-decoration: none;
       }

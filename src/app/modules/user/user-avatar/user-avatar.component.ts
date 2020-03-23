@@ -72,14 +72,16 @@ export class UserAvatarComponent implements OnInit {
           this.toastrService.success('Successfully uploaded user avatar!');
           this.userAvatarEventEmitter.emit(true);
           this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((data: any) => {
+            var self = this;
             if (data !== null) {
-              var uploadUrl = data[0].userAvatarUploadPath;
-              if (!uploadUrl) {
-                this.avatarExists = false;
-              } else {
-                this.avatarUrl = uploadUrl;
-                this.avatarExists = true;
-              }
+              var reader = new FileReader();
+              reader.readAsDataURL(data);
+              var self = this;
+              reader.onloadend = function() {
+                var base64data = reader.result;
+                self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
+                self.avatarExists = true;
+              };
             }
           });
         });

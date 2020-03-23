@@ -7,8 +7,7 @@ ion-content {
 }
 
 .operation-form-content {
-  margin-left: 60px;
-  margin-top: 80px;
+  margin-left: 50px;
   margin-bottom: 9rem;
   height: auto;
   width: 100%;
@@ -28,6 +27,7 @@ ion-title {
   text-align: left;
   color: #343638;
   padding-left: 0;
+  margin: 2.75rem 0;
 }
 
 form {
@@ -97,11 +97,9 @@ form {
 
   > fieldset {
     padding: 0;
-    margin-left: -15px;
   }
 
   > ion-list {
-    margin-left: -25px;
     margin-bottom: 0;
   }
 
@@ -189,25 +187,22 @@ form {
       margin-top: 0;
       margin-bottom: -1rem;
       ion-item {
+        float: left;
         &.first-name {
-          display: inline-block;
           width: 160px;
           margin-right: 10px;
         }
 
         &.middle-name {
-          display: inline-block;
           width: 140px;
           margin-right: 10px;
         }
 
         &.last-name {
-          display: inline-block;
           width: 160px;
         }
         &.title-position {
           width: 220px;
-          float: left;
         }
 
         &.country-code {
