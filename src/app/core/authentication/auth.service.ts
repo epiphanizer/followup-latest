@@ -47,10 +47,10 @@ export class AuthenticationService {
   public isAuthenticated(): boolean {
     // get the token
     const token = this.getToken();
-    console.log(token);
+    // console.log('Is authenticated token: ' + token);
     // return a boolean reflecting
     // whether or not the token is expired
-    console.log('token is expired? : ' + !this.jwtHelper.isTokenExpired(token));
+    // console.log('token is expired? : ' + !this.jwtHelper.isTokenExpired(token));
     return !this.jwtHelper.isTokenExpired(token);
   }
 

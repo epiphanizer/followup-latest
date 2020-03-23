@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Resolve, Router } from '@angular/router';
+import { Resolve } from '@angular/router';
 
 import { AuthenticationService, HttpService } from '@app/core';
 import { OperationService } from '../operation/operation.service';
-import { map, share, catchError } from 'rxjs/operators';
+import { share, catchError } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -23,8 +23,6 @@ export class UserResolver implements Resolve<User> {
     }
     this.user$ = of(this.authService.currentUserValue);
     this.user = this.authService.currentUserValue;
-    console.log(this.user);
-    debugger;
 
     /** Fetch all operations if user is admin, otherwise, get user ops. */
     if (this.user.userLevel != 1) {
