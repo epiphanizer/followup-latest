@@ -26,22 +26,6 @@ export class UserResolver implements Resolve<User> {
     console.log(this.user);
     debugger;
 
-    this.getUserByUserId(this.user.userId).subscribe((user: User) => {
-      this.user.userLevel = user.userLevel;
-      localStorage.setItem(
-        'followup-user',
-        JSON.stringify({
-          user: user
-        })
-      );
-      localStorage.setItem(
-        'followup-token',
-        JSON.stringify({
-          token: 'jwt-token'
-        })
-      );
-    });
-
     /** Fetch all operations if user is admin, otherwise, get user ops. */
     if (this.user.userLevel != 1) {
       this.user.operations$ = this.operationService.getOperationsByUserId(this.user.userId);

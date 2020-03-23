@@ -76,8 +76,6 @@ export class AuthenticationService {
             );
             this.currentUserSubject.next(jwt);
             return jwt;
-          } else {
-            this.toastrService.error('Incorrect username or password!');
           }
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
