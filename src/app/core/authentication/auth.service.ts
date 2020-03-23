@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, of, BehaviorSubject } from 'rxjs';
-import { map, share, catchError, retry, tap, timeout } from 'rxjs/operators';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ToastrService } from 'ngx-toastr';
 
 export interface AuthenticationBodyPost {
   username: string;
@@ -23,7 +24,12 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(private http: HttpService, private jwtHelper: JwtHelperService, private router: Router) {
+  constructor(
+    private http: HttpService,
+    private jwtHelper: JwtHelperService,
+    private router: Router,
+    private toastrService: ToastrService
+  ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('followup-user')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -41,9 +47,10 @@ export class AuthenticationService {
   public isAuthenticated(): boolean {
     // get the token
     const token = this.getToken();
-
+    console.log(token);
     // return a boolean reflecting
     // whether or not the token is expired
+    console.log('token is expired? : ' + !this.jwtHelper.isTokenExpired(token));
     return !this.jwtHelper.isTokenExpired(token);
   }
 
@@ -58,7 +65,7 @@ export class AuthenticationService {
           console.log(jwt);
           debugger;
           if (jwt.userId && jwt.userLevel) {
-            this.authenticated = true;
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('followup-token', jwt.token);
             localStorage.setItem(
               'followup-user',
@@ -70,70 +77,21 @@ export class AuthenticationService {
             this.currentUserSubject.next(jwt);
             return jwt;
           } else {
-            this.authenticated = false;
-            // If already on the login page stay there, otherwise
-            // send user there
-            if (window.location.href.indexOf('/login') != -1) {
-              window.location.href = '/login';
-            }
+            this.toastrService.error('Incorrect username or password!');
           }
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
 
-  public getUser(): Observable<User> {
-    console.log(this.authenticated);
-    if (this.authenticated) {
-      return this.getUserByUserId(this.currentUserValue.userId).pipe(
-        map((user: User) => {
-          console.log(user);
-          debugger;
-          return user;
-        })
-      );
-    }
-  }
-  getUserByUserId(userId: number): Observable<User> {
-    return this.http.get<User>('users/' + userId).pipe(
-      share(),
-      catchError(error => this.handleAsyncError(error))
-    );
-  }
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
   async signIn(username: string, password: string): Promise<any> {
     let result = await this.doLogin(username, password).toPromise();
     if (!(await result)) {
-      this.authenticated = false;
       return false;
     }
-
-    const userId = result.userId;
-    const userLevel = result.userLevel;
-
-    this.user$ = this.getUserByUserId(userId).toPromise();
-
-    this.getUserByUserId(userId).subscribe((user: User) => {
-      user[0].userLevel = userLevel;
-      localStorage.setItem(
-        'followup-user',
-        JSON.stringify({
-          user: user
-        })
-      );
-      localStorage.setItem(
-        'followup-token',
-        JSON.stringify({
-          token: 'jwt-token'
-        })
-      );
-    });
-    // if (this.jwtHelper.isTokenExpired()) {
-    //   this.authenticated = false;
-    // }
-    this.authenticated = true;
-    return true;
+    return result;
   }
   // Sign out
   signOut(): void {
@@ -141,7 +99,6 @@ export class AuthenticationService {
     this.authenticated = false;
     localStorage.removeItem('followup-user');
     localStorage.removeItem('followup-token');
-    localStorage.removeItem('followup-payload');
     localStorage.clear();
     this.currentUserSubject.next(null);
     window.location.href = '/login';

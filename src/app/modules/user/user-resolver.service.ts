@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
 
-import { AuthenticationService } from '@app/core';
+import { AuthenticationService, HttpService } from '@app/core';
 import { OperationService } from '../operation/operation.service';
-import { map } from 'rxjs/operators';
+import { map, share, catchError } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { Observable, of } from 'rxjs';
 
@@ -11,10 +11,35 @@ import { Observable, of } from 'rxjs';
 export class UserResolver implements Resolve<User> {
   user: User;
   user$: Observable<User>;
-  constructor(private authService: AuthenticationService, private operationService: OperationService) {}
+  constructor(
+    private authService: AuthenticationService,
+    private http: HttpService,
+    private operationService: OperationService
+  ) {}
   resolve(): Observable<User> {
+    if (!this.authService.currentUserValue) {
+      window.location.href = '/login';
+    }
     this.user$ = of(this.authService.currentUserValue);
     this.user = this.authService.currentUserValue;
+    console.log(this.user);
+    debugger;
+
+    this.getUserByUserId(this.user.userId).subscribe((user: User) => {
+      this.user.userLevel = user.userLevel;
+      localStorage.setItem(
+        'followup-user',
+        JSON.stringify({
+          user: user
+        })
+      );
+      localStorage.setItem(
+        'followup-token',
+        JSON.stringify({
+          token: 'jwt-token'
+        })
+      );
+    });
 
     /** Fetch all operations if user is admin, otherwise, get user ops. */
     if (this.user.userLevel != 1) {
@@ -23,5 +48,12 @@ export class UserResolver implements Resolve<User> {
       this.user.operations$ = this.operationService.getAllOperations();
     }
     return this.user$;
+  }
+
+  getUserByUserId(userId: number): Observable<User> {
+    return this.http.get<User>('users/' + userId).pipe(
+      share(),
+      catchError(error => this.handleAsyncError(error))
+    );
   }
 }
