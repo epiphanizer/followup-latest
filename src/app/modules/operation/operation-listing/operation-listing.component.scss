@@ -1,6 +1,6 @@
 ion-title {
-  font-family: Avenir;
-  font-size: 41px;
+  font-family: AvenirNextLTPro;
+  font-size: 38px;
   font-weight: 300;
   font-style: normal;
   font-stretch: normal;
@@ -8,6 +8,7 @@ ion-title {
   text-align: left;
   color: #3f3638;
   padding-left: 0;
+  margin: 2.5rem 0;
 }
 
 .operation-sidebar {
@@ -15,7 +16,7 @@ ion-title {
 }
 
 .operation-content-wrapper {
-  margin-left: 60px;
+  margin-left: 25px;
   max-width: 800px;
   padding-bottom: 160px;
 }

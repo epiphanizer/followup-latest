@@ -1,20 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Router,
-  ActivatedRoute,
-  NavigationEnd,
-  ResolveEnd,
-  ParamMap,
-  ActivatedRouteSnapshot,
-  ChildActivationEnd
-} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { AuthenticationService } from '@app/core';
 import { ModalController } from '@ionic/angular';
-import { NotificationModalComponent } from './notification-modal/notification-modal.component';
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
-import { startWith, switchMap, filter, map, mergeMap, tap } from 'rxjs/operators';
 import { of, Subscription } from 'rxjs';
 
 @Component({
@@ -23,6 +13,7 @@ import { of, Subscription } from 'rxjs';
   styleUrls: ['./shell.component.scss']
 })
 export class ShellComponent {
+  corkboardExpanded: boolean = false;
   user: User;
   patient: Patient;
   navLinks?: {
@@ -49,7 +40,10 @@ export class ShellComponent {
       }
     });
   }
-
+  corkBoardExpandedHandler(toggleState: boolean) {
+    console.log('corkboard state: ' + toggleState);
+    this.corkboardExpanded = toggleState;
+  }
   signOut() {
     this.authenticationService.signOut();
     this.router.navigate(['/login']);

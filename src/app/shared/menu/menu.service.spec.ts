@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AlertsService } from './alerts.service';
+import { MenuService } from './menu.service';
 
-describe('AlertsService', () => {
+describe('MenuService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: AlertsService = TestBed.get(AlertsService);
+    const service: MenuService = TestBed.get(MenuService);
     expect(service).toBeTruthy();
   });
 });

@@ -13,6 +13,7 @@ app-patient-avatar {
   margin-bottom: 0.5rem;
 }
 a.edit-patient {
+  font-size: 14px;
   text-align: center;
   width: 100%;
   display: block;
@@ -22,7 +23,7 @@ a.edit-patient {
 }
 .patient-operation-name {
   font-family: Avenir;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
@@ -105,20 +106,6 @@ a.edit-patient {
       font-size: 15px;
     }
   }
-}
-
-.edit-patient-jump {
-  display: block;
-  margin-bottom: 10px;
-  cursor: pointer;
-  font-family: AvenirNextLTPro;
-  font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 0.99;
-  letter-spacing: 0.59px;
-  text-align: left;
 }
 
 .patient-medical-record-number {

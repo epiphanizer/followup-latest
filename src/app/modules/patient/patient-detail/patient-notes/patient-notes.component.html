@@ -51,4 +51,8 @@
       </ng-template>
     </ion-item>
   </ng-container>
+  <ion-item *ngIf="patient.patientNeedToKnow">
+    <span class="label"> Need To Know: &nbsp; </span>
+    {{ patient.patientNeedToKnow }}
+  </ion-item>
 </ion-list>

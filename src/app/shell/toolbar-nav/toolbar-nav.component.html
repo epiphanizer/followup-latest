@@ -7,12 +7,7 @@
         </a>
       </ng-container>
       <ng-template #linkButton>
-        <ion-button
-          [disabled]="!patient"
-          [class]="link.linkAction"
-          fill="outline"
-          (click)="doButtonAction(link.linkAction)"
-        >
+        <ion-button *ngIf="patient" [class]="link.linkAction" fill="outline" (click)="doButtonAction(link.linkAction)">
           {{ link.linkName }}
         </ion-button>
       </ng-template>

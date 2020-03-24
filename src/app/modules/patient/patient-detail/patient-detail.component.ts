@@ -55,9 +55,6 @@ export class PatientDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.patient !== null) {
-      location.reload();
-    }
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
     this.patientCall$ = this.patientCallService
@@ -87,7 +84,6 @@ export class PatientDetailComponent implements OnInit {
       .subscribe((data: any) => {
         this.patientCall.patientCallStatusLabelId = 3;
         this.patientCall.patientCallStatusLabel = 'Started';
-        this.toastrService.success('Call Started!');
       });
   }
 
@@ -96,7 +92,6 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallService.endPatientCall(this.patientCall.patientCallId);
     this.patientCall.patientCallStatusLabelId = 4;
     this.patientCall.patientCallStatusLabel = 'In Review';
-    this.toastrService.success('Call In Review');
     setTimeout(function() {
       let element = document.querySelector('#patientCallStatusControls');
       if (element) {
@@ -112,8 +107,8 @@ export class PatientDetailComponent implements OnInit {
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
     this.patientCall.patientCallStatusLabel = 'User Selected Status';
-    this.toastrService.success('User Selected Status');
   }
+
   patientFinalCallChangeHandler($event: boolean) {
     if ($event == true) {
       this.patientCall.finalCall = true;
@@ -121,15 +116,17 @@ export class PatientDetailComponent implements OnInit {
       this.patientCall.finalCall = false;
     }
   }
+
   patientNextCallDateSelectedEventHandler($event: string) {
     let selectedDate = $event;
     let newDate = formatDate(selectedDate, 'MM-dd-yyyy', 'en-US');
     this.patientNextCall.date = newDate;
-    this.toastrService.success('User selected next call date: ' + newDate);
   }
+
   patientCallNotesChangeHandler($event: PatientCallNotes) {
     this.patientCallNotes = $event;
   }
+
   patientCallNotesHighlightedChangeHandler($event: number) {
     this.patientCallNotesHighlighted = $event;
   }
@@ -137,13 +134,13 @@ export class PatientDetailComponent implements OnInit {
   patientCallQuestionsChangeHandler($event: PatientCallQuestionAnswer[]) {
     this.patientCallQuestionAnswers = $event;
   }
+
   patientNextCallQuestionsChangeHandler($event: PatientCallQuestion[]) {
     this.patientNextCallQuestions = $event;
   }
 
   patientCallFinishEventHandler($event: PatientCall) {
     this.patientCall = $event;
-
     if (this.patientCall.patientCallStatusLabel == 'In Review') {
       alert('Please select a call status');
       let element = document.querySelector('#patientCallStatusControls');
@@ -175,12 +172,10 @@ export class PatientDetailComponent implements OnInit {
         this.patientCallNotes.patientCallNotes,
         this.patientCallNotesHighlighted
       )
-      .subscribe((data: any) => {
-        console.log('added patient call notes successfully');
-      });
+      .subscribe(() => {});
 
     if (!this.patientCallQuestionAnswers) {
-      alert('Please select an answer to at least one question');
+      alert('Please select an answer to at least one question.');
       let element = document.querySelector('#patientCallNotesForm');
       if (element) {
         element.scrollIntoView({
@@ -192,7 +187,7 @@ export class PatientDetailComponent implements OnInit {
     }
 
     if (!this.patientNextCall.date && !this.patientCall.finalCall) {
-      alert('Please schedule a call date');
+      alert('Please schedule a call date.');
       let element = document.querySelector('#next-call-calendar');
       if (element) {
         element.scrollIntoView({
@@ -215,9 +210,9 @@ export class PatientDetailComponent implements OnInit {
         }
       });
 
-      let navigateToUrl = '/call-queue/' + this.patient.patientOperationId;
+      let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
 
-      if (this.patientCall.patientCallStatusLabelId == 9) {
+      if (this.patientCall.finalCall) {
         this.toastrService.success('Successfully Saved');
         window.location.href = navigateToUrl;
       } else {
@@ -264,4 +259,5 @@ export class PatientDetailComponent implements OnInit {
       }
     });
   }
+  ngOnDestroy() {}
 }

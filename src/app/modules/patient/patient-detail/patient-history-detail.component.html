@@ -1,8 +1,11 @@
-<ion-row>
-  <ion-col class="left-hand-detail">
-    <ion-title>Notification History</ion-title>
-    <ion-content>
+<ion-content>
+  <ion-row>
+    <ion-col class="left-hand-detail">
+      <ion-title>Notification History</ion-title>
       <ion-list class="patient-notification-listings">
+        <ng-template #noNotifications>
+          No notifications yet.
+        </ng-template>
         <ion-item *ngFor="let notification of patientNotifications$ | async">
           <div class="notification-info-container">
             <div class="notification-information">
@@ -25,14 +28,15 @@
             </div>
           </div>
         </ion-item>
-        <hr />
       </ion-list>
-    </ion-content>
-  </ion-col>
-  <ion-col class="right-hand-detail">
-    <ng-container>
-      <app-patient-summary-widget [patient]="patient"> </app-patient-summary-widget>
-    </ng-container>
-    <app-patient-notes [patient]="patient"> </app-patient-notes>
-  </ion-col>
-</ion-row>
+    </ion-col>
+    <ion-col class="right-hand-detail">
+      <ng-container>
+        <app-patient-summary-widget [patient]="patient"> </app-patient-summary-widget>
+      </ng-container>
+      <app-patient-notes [patient]="patient"> </app-patient-notes>
+      <app-patient-call-history-listing *ngIf="patient.patientCalls" [patientCalls]="patient.patientCalls">
+      </app-patient-call-history-listing>
+    </ion-col>
+  </ion-row>
+</ion-content>

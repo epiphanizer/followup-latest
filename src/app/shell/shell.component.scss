@@ -7,21 +7,17 @@
 ion-router-outlet {
   height: 100vh;
   margin-top: 160px;
-  margin-left: 90px;
+  margin-left: 58px;
 }
 
-// margin-top: 168px;
-// margin-left: 111px;
 .content-wrapper {
   width: calc(100% - 28px);
-  margin-left: 28px;
+  float: left;
+  &.expanded {
+    width: calc(100% - 250px);
+  }
+  position: relative;
   height: 100vh;
-  overflow: hidden;
-}
-.scroll-content {
-  overflow-y: hidden !important;
-}
-.inner-scroll {
   overflow: hidden;
 }
 ul {

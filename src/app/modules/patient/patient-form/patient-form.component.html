@@ -322,39 +322,18 @@
             <ion-label color="medium">Active?</ion-label>
           </ion-item>
         </ion-list>
-        <ion-button (click)="onFormSubmit()">Save</ion-button>
+        <ion-button *ngIf="editMode" class="delete-patient" (click)="deletePatient(patient.patientId)">
+          Delete
+        </ion-button>
+        <ion-button class="save-button" (click)="onFormSubmit()">Save</ion-button>
       </form>
-      <div class="app-delete-patient">
-        <a class="delete-patient" (click)="deletePatient(patient.patientId)">
-          Delete Patient
-        </a>
-      </div>
     </ion-col>
     <ion-col class="avatar-col">
-      <div
-        class="patient-avatar-image"
-        *ngIf="avatarExists && !changingAvatar; else defaultAvatar"
-        (click)="clickUploadInput()"
-        [style.background-image]="avatarUrl"
-      ></div>
-      <ng-template #defaultAvatar>
-        <img
-          class="patient-avatar-image"
-          (click)="clickUploadInput()"
-          src="/assets/default-avatar-patient-detail.png"
-        />
-      </ng-template>
-
-      <input
-        type="file"
-        class="hidden-input"
-        name="fileUpload"
-        id="fileUpload"
-        (change)="uploadPatientAvatarPhoto($event.target.files)"
-      />
-      <ion-button fill="outline" (click)="clickUploadInput()">
-        Change Photo
-      </ion-button>
+      <app-patient-avatar-upload
+        *ngIf="patient"
+        [avatarExists]="avatarExists"
+        [patient]="patient"
+      ></app-patient-avatar-upload>
     </ion-col>
   </ion-row>
 </ion-content>

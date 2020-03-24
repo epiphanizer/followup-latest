@@ -1,3 +1,9 @@
-<div [hidden]="!isLoading" text-center>
-  <ion-spinner></ion-spinner> <span>{{ message }}</span>
+<div *ngIf="isLoading | async" class="overlay">
+  <div class="loading">
+    <div class="content">
+      <svg class="spinner" viewBox="0 0 50 50">
+        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+      </svg>
+    </div>
+  </div>
 </div>

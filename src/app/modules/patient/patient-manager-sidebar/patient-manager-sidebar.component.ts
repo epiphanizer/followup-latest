@@ -61,25 +61,30 @@ export class PatientManagerSidebarComponent implements OnInit {
     operation: null
   };
   isOpen = true;
-  constructor(private route: ActivatedRoute, private router: Router) {}
   operations: Operation[];
   user: User;
   todaysDateDay: number;
+
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
   ngOnInit() {
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     this.user = this.route.snapshot.data.user;
-
-    this.user.operations$.subscribe((data: Operation[]) => {
-      this.operations = data;
+    this.user.operations$.subscribe((operations: Operation[]) => {
+      this.operations = operations;
       if (!this.route.snapshot.params['operationId']) {
         /**
          * no active state if we are adding a patient
          */
         if (this.router.url.indexOf('patient/add') == -1) {
+          this.activeOperationId = operations[0].operationId;
+        } else {
           this.activeOperationId = null;
         }
       } else {
-        this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
+        if (this.route.snapshot.paramMap.get('operationId')) {
+          this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
+        }
       }
     });
     this.route.paramMap.subscribe(params => {

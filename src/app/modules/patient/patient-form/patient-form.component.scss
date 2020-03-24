@@ -1,16 +1,16 @@
 ion-content {
   padding-bottom: 132px;
+  overflow-y: scroll !important;
 }
 
 .patient-sidebar {
   max-width: 177px;
-  margin-right: 118px;
+  margin-right: 25px;
 }
 
 .patient-content {
-  width: 565px;
+  width: 100%;
   max-width: 565px;
-  margin-top: 79px;
   padding-bottom: 160px;
 }
 
@@ -19,24 +19,6 @@ ion-content {
   width: 220px;
   max-width: 220px;
   margin-left: 81.4px;
-
-  img.patient-avatar-image {
-    cursor: pointer;
-  }
-
-  div.patient-avatar-image {
-    height: 220px;
-    width: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    margin-bottom: 1rem;
-  }
-
-  ion-button {
-    margin-left: 28px;
-    clear: both;
-  }
 }
 
 .avatar-container {
@@ -53,20 +35,23 @@ ion-title {
   text-align: left;
   color: #343638;
   padding-left: 0;
+  margin: 2.75rem 0;
 }
 
 form {
+  margin-bottom: 5rem;
+
   fieldset {
     border: none;
   }
 
   > fieldset {
     padding: 0;
-    margin-left: -25px;
+    // margin-left: -25px;
   }
 
   > ion-list {
-    margin-left: -25px;
+    // margin-left: -25px;
   }
 
   ion-select,
@@ -127,7 +112,7 @@ form {
     }
 
     &.patient-first-name {
-      width: 160px;
+      width: 145px;
       margin-left: 10px;
       margin-right: 10px;
     }
@@ -138,7 +123,7 @@ form {
     }
 
     &.patient-last-name {
-      width: 160px;
+      width: 145px;
     }
 
     &.patient-medical-record-number {
@@ -882,10 +867,29 @@ fieldset.patient-intake-questions {
 }
 
 ion-button {
-  margin-top: 0.75rem;
   border-radius: 4px;
   background-color: transparent;
   color: var(--ion-color-primary);
+
+  &.delete-patient {
+    cursor: pointer;
+    --border-color: red;
+    --background: red;
+    --background-hover: red;
+    --background-activated: transparent;
+    --color-activated: white;
+    --color-focused: white;
+    --color-hover: white;
+    color: white;
+    width: auto;
+    border-radius: 7px;
+  }
+
+  &.save-button {
+    color: white;
+    float: right;
+  }
+
   width: auto;
   height: 35px;
   font-family: AvenirBold;
@@ -898,17 +902,4 @@ ion-button {
   letter-spacing: 0.3px;
   text-align: center;
   text-transform: uppercase;
-}
-
-.hidden-input {
-  display: none;
-}
-
-.delete-patient {
-  color: red;
-  font-size: 16px;
-  font-family: Avenir;
-  clear: both;
-  float: right;
-  padding-bottom: 96px;
 }

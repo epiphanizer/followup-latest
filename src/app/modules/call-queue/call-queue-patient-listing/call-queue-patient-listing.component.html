@@ -2,7 +2,7 @@
   <ng-container>
     <i class="icon-new-discharges">
       <span class="operation-discharges">
-        {{ currentNewDischargeCount }}
+        {{ currentNewDischargeCount || 0 }}
       </span>
     </i>
   </ng-container>
@@ -37,7 +37,7 @@
     </i>
   </li>
 </ul>
-<ion-content class="call-queue-patient-list" *ngIf="patients$ | async">
+<div class="call-queue-patient-list" *ngIf="patients$ | async">
   <ion-list>
     <ion-item
       color="transparent"
@@ -92,4 +92,4 @@
       </div>
     </ion-item>
   </ion-list>
-</ion-content>
+</div>

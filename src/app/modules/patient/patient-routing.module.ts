@@ -10,6 +10,7 @@ import { PatientResolver } from './patient-resolver.service';
 import { UserResolver } from '../user/user-resolver.service';
 import { PatientListingComponent } from './patient-listing/patient-listing.component';
 import { PatientHistoryDetailComponent } from './patient-detail/patient-history-detail.component';
+import { AuthGuardService } from '@app/core/authentication/auth-guard.service';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -21,13 +22,6 @@ const routes: Routes = [
         user: UserResolver
       },
       data: {
-        navLinks: [
-          {
-            linkAction: 'patient/add',
-            linkName: 'Add Patient',
-            linkType: 'link'
-          }
-        ],
         title: extract('Patient Listing')
       }
     },
@@ -40,28 +34,6 @@ const routes: Routes = [
         patient: PatientResolver
       },
       data: {
-        navLinks: [
-          {
-            linkAction: 'call-queue',
-            linkName: 'Call Queue',
-            linkType: 'link'
-          },
-          {
-            linkAction: 'history',
-            linkName: 'HISTORY',
-            linkType: 'button'
-          },
-          {
-            linkAction: 'kudos',
-            linkName: 'KUDOS',
-            linkType: 'button'
-          },
-          {
-            linkAction: 'report',
-            linkName: 'REPORT!',
-            linkType: 'button'
-          }
-        ],
         title: extract('Patient Detail')
       }
     },
@@ -74,28 +46,6 @@ const routes: Routes = [
         patient: PatientResolver
       },
       data: {
-        navLinks: [
-          {
-            linkAction: 'call-queue',
-            linkName: 'Call Queue',
-            linkType: 'link'
-          },
-          {
-            linkAction: 'notes',
-            linkName: 'Notes',
-            linkType: 'button'
-          },
-          {
-            linkAction: 'kudos',
-            linkName: 'KUDOS',
-            linkType: 'button'
-          },
-          {
-            linkAction: 'report',
-            linkName: 'REPORT!',
-            linkType: 'button'
-          }
-        ],
         title: extract('Patient History Listing')
       }
     },
@@ -107,18 +57,6 @@ const routes: Routes = [
         user: UserResolver
       },
       data: {
-        navLinks: [
-          {
-            linkAction: 'patient/add',
-            linkName: 'Add Patient',
-            linkType: 'link'
-          },
-          {
-            linkAction: 'notifications',
-            linkName: 'Notifications',
-            linkType: 'link'
-          }
-        ],
         title: extract('Patient Listing')
       }
     },
@@ -130,13 +68,6 @@ const routes: Routes = [
         user: UserResolver
       },
       data: {
-        navLinks: [
-          {
-            linkAction: 'patients',
-            linkName: 'Patients',
-            linkType: 'link'
-          }
-        ],
         title: extract('New Patient')
       }
     },
@@ -145,29 +76,13 @@ const routes: Routes = [
       pathMatch: 'full',
       component: PatientFormComponent,
       resolve: {
-        user: UserResolver,
-        patient: PatientResolver
+        patient: PatientResolver,
+        user: UserResolver
       },
+      canActivate: [AuthGuardService],
       data: {
         editMode: true,
-        noReuse: true,
-        navLinks: [
-          {
-            linkAction: 'call-queue',
-            linkName: 'Call Queue',
-            linkType: 'link'
-          },
-          {
-            linkAction: 'kudos',
-            linkName: 'KUDOS',
-            linkType: 'button'
-          },
-          {
-            linkAction: 'report',
-            linkName: 'REPORT!',
-            linkType: 'button'
-          }
-        ],
+        roles: ['admin', 'manager'],
         title: extract('Edit Patient')
       }
     }

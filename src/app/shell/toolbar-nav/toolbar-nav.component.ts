@@ -1,42 +1,58 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, ActivationEnd, ActivatedRouteSnapshot } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { KudosModalComponent } from '../kudos-modal/kudos-modal.component';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
 import { Location } from '@angular/common';
+import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
+import { map, filter } from 'rxjs/operators';
 
 @Component({
+  providers: [MenuService],
   selector: 'app-toolbar-nav',
   templateUrl: './toolbar-nav.component.html',
   styleUrls: ['./toolbar-nav.component.scss']
 })
 export class ToolbarNavComponent implements OnInit {
   constructor(
+    private menuService: MenuService,
+    public modalController: ModalController,
     private route: ActivatedRoute,
-    private router: Router,
-    private _location: Location,
-    public modalController: ModalController
+    private router: Router
   ) {}
-
-  @Input() navLinks: [string] | null;
+  activeComponent: string;
+  navLinks: MenuLink[];
   patient: Patient;
   user: User;
 
   ngOnInit() {
-    this.route.url.subscribe(() => {
-      if (this.route.snapshot.firstChild) {
-        if (this.route.snapshot.firstChild.data.patient) {
+    this.user = this.route.snapshot.data.user;
+
+    this.router.events
+      .pipe(
+        filter(e => e instanceof ActivationEnd),
+        map(e => (e instanceof ActivationEnd ? e : {}))
+      )
+      .subscribe((e: any) => {
+        console.log(this.route.routeConfig);
+        if (this.route.snapshot.firstChild) {
           this.patient = this.route.snapshot.firstChild.data.patient;
         }
-      }
-    });
-    this.route.url.subscribe(() => {
-      if (this.route.snapshot.data.user) {
-        this.user = this.route.snapshot.data.user;
-      }
-    });
+
+        this.activeComponent = e.snapshot.component['name'];
+        console.log(this.activeComponent);
+        if (e.snapshot.params['patientId']) {
+          this.menuService.patientId = e.snapshot.params['patientId'];
+        }
+        if (e.snapshot.params['operationId']) {
+          this.menuService.operationId = e.snapshot.params['operationId'];
+        }
+        if (this.activeComponent != 'ShellComponent') {
+          this.navLinks = this.menuService.getComponentMenu(this.activeComponent);
+        }
+      });
   }
 
   ngAfterViewInit() {}
@@ -46,11 +62,6 @@ export class ToolbarNavComponent implements OnInit {
       this.createNotificationModal();
     } else if (buttonAction == 'kudos') {
       this.createKudosModal();
-    } else if (buttonAction == 'history') {
-      let routerUrl = this.router.url + '/history';
-      this.router.navigate([routerUrl]);
-    } else if (buttonAction == 'notes') {
-      this._location.back();
     }
   }
 

@@ -41,18 +41,17 @@
   }
 }
 .user-cork-board {
-  position: absolute;
-  z-index: 1999;
+  position: relative;
+  float: left;
   width: 40px;
-  height: 100%;
-  min-height: 1024px;
+  height: 100vh;
   background-image: url("/assets/corkboard-closed@2x.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100%;
   &.open {
     .corkboard-controls {
-      left: 190px;
+      margin-left: 190px;
     }
   }
 

@@ -33,10 +33,6 @@ ion-item.call-question {
     line-height: 1.33;
     letter-spacing: 0.42px;
     width: auto;
-    .is-highlighted {
-      width: auto;
-      border-bottom: yellow 3px solid;
-    }
   }
   --inner-padding-start: 0;
   --padding-end: 0;
@@ -68,6 +64,10 @@ ion-item.call-question {
       padding-left: 8px;
     }
   }
+}
+.is-highlighted {
+  width: auto;
+  border-bottom: yellow 3px solid;
 }
 .call-question-answers {
   ul {

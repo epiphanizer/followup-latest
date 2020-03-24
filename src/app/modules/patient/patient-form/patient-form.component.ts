@@ -22,8 +22,10 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
+import { NgxImageCompressService } from 'ngx-image-compress';
+
 @Component({
-  providers: [PatientService, PatientIntakeQuestionService],
+  providers: [NgxImageCompressService, PatientService, PatientIntakeQuestionService],
   selector: 'app-patient-form',
   templateUrl: './patient-form.component.html',
   styleUrls: ['./patient-form.component.scss']
@@ -31,12 +33,10 @@ import { ToastrService } from 'ngx-toastr';
 export class PatientFormComponent implements OnInit {
   avatarExists: Boolean;
   public avatarUrl: SafeStyle;
-  changingAvatar: boolean = false;
   dischargeLabels: PatientDischargeLabel[];
   patientForm: FormGroup;
   currentYear: number;
   editMode: boolean = false;
-  fileToUpload: File;
   patient: Patient;
   patientContacts: PatientContact[] = [];
   patientContactsOriginal: PatientContact[] = [];
@@ -65,13 +65,12 @@ export class PatientFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router,
-    private sanitizer: DomSanitizer,
     private operationService: OperationService,
     private patientService: PatientService,
     private patientAvatarService: PatientAvatarService,
     private patientContactService: PatientContactService,
     private patientIntakeQuestionService: PatientIntakeQuestionService,
+    private sanitizer: DomSanitizer,
     private toastrService: ToastrService
   ) {}
 
@@ -144,19 +143,6 @@ export class PatientFormComponent implements OnInit {
             this.patient.patientMedicalConditions.pulmonaryBoolean = medicalConditions.pulmonaryBoolean;
             this.patient.patientMedicalConditions.otherBoolean = medicalConditions.otherBoolean;
           }
-          // See if we have an avatar to load in
-          this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
-            var self = this;
-            if (data !== null) {
-              var reader = new FileReader();
-              reader.readAsDataURL(data);
-              reader.onloadend = function() {
-                var base64data = reader.result;
-                self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
-                self.avatarExists = true;
-              };
-            }
-          });
           this.createForm();
           // We need to explicitly set this value we learned from testing.
           this.patientForm
@@ -275,33 +261,8 @@ export class PatientFormComponent implements OnInit {
     });
   }
 
-  clickUploadInput() {
-    let element: HTMLElement = document.querySelector('#fileUpload') as HTMLElement;
-    element.click();
-    this.changingAvatar = true;
-  }
-  uploadPatientAvatarPhoto(files: FileList) {
-    this.fileToUpload = files.item(0);
-    this.patientAvatarService
-      .uploadPatientAvatarByPatientId(this.patient.patientId, this.fileToUpload)
-      .subscribe((data: any) => {
-        alert('Successfully uploaded patient avatar!');
-        let self = this;
-        this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
-          var self = this;
-          if (data !== null) {
-            var reader = new FileReader();
-            reader.readAsDataURL(data);
-            reader.onloadend = function() {
-              var base64data = reader.result;
-              self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
-              self.avatarExists = true;
-              self.changingAvatar = false;
-            };
-          }
-        });
-      });
-  }
+  // compressFile() {
+  // }
 
   addAdditionalPatientContact() {
     this.patientContacts.push({
@@ -362,11 +323,12 @@ export class PatientFormComponent implements OnInit {
     this.patientForm.get('patient.dischargeInfo.patientTotalDays').setValue(dayDiff);
   }
   deletePatient(patientId: number): void {
-    if (confirm('This will permanently delete the patient' + patientId + '. \
+    if (confirm('This will permanently delete the patient and their history. \
     Are you sure you want to do this?')) {
-    }
-    {
-      this.toastrService.success('Patient Successfully Deleted');
+      this.patientService.deletePatientByPatientId(this.patient.patientId).subscribe(() => {
+        this.toastrService.success('Patient Successfully Deleted');
+        window.location.href = '/operations/' + this.patient.patientOperationId + '/patients';
+      });
     }
   }
   onFormSubmit(): void {
@@ -467,7 +429,7 @@ export class PatientFormComponent implements OnInit {
 
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
-      // this.router.navigate(['operations/' + this.patientForm.get('operation').value + '/patients']);
+      this.toastrService.success('Successfully edited patient!');
       window.location.href = '/operations/' + this.patientForm.get('operation').value + '/patients';
       if (!this.editMode) {
         this.patientForm.reset();
@@ -548,8 +510,12 @@ export class PatientFormComponent implements OnInit {
    */
   validateControls(): boolean {
     const firstError = <HTMLElement>document.querySelectorAll('ion-item .ng-invalid')[0];
+
     function scroll(el: HTMLElement) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
     }
     if (firstError) {
       scroll(firstError);

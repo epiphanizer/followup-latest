@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { NotificationService } from '../../notification.service';
 import { Notification } from '../../notification';
 
@@ -13,32 +13,40 @@ import { Notification } from '../../notification';
 export class NotificationPatientListingComponent implements OnInit {
   @Input() operation: Operation;
   public notifications: Notification[];
-  public notifications$: Observable<Notification[]>;
   public notificationsFiltered: Notification[];
   public filterBy: string = 'notification-date';
   public selectedSortFlag: string = 'desc';
 
   constructor(private notificationService: NotificationService) {}
   ngOnInit() {
-    this.notifications$ = this.notificationService.getNotificationsByOperationId(this.operation.operationId).pipe(
-      map((notifications: Notification[]) => {
-        this.notifications = notifications;
-        this.notificationsFiltered = notifications;
-        return notifications;
-      })
-    );
+    this.notificationService
+      .getNotificationsByOperationId(this.operation.operationId)
+      .pipe(
+        take(1),
+        map((notifications: Notification[]) => {
+          if (notifications) {
+            this.sortNotificationsByNotificationDate(this.selectedSortFlag);
+          }
+          this.notifications = notifications;
+        })
+      )
+      .subscribe();
   }
 
   ngOnChanges(changes: any) {
     if (changes.operation) {
       this.notifications = [];
       this.operation = changes.operation.currentValue;
-      this.notifications$ = this.notificationService.getNotificationsByOperationId(this.operation.operationId).pipe(
-        map((notifications: [Notification]) => {
-          this.notificationsFiltered = notifications;
-          return notifications;
-        })
-      );
+      this.notificationService
+        .getNotificationsByOperationId(this.operation.operationId)
+        .pipe(
+          take(1),
+          map((notifications: [Notification]) => {
+            this.notifications = notifications;
+            this.notificationsFiltered = notifications;
+          })
+        )
+        .subscribe();
     }
   }
   toggleAscDesc() {
@@ -59,13 +67,16 @@ export class NotificationPatientListingComponent implements OnInit {
   public sortNotificationsByNotificationDate = function(sortFlag: string) {
     this.filterBy = 'notification-date';
     if (sortFlag == 'asc') {
-      this.notifications.sort((a: Notification, b: Notification) => {
-        return <any>new Date(a.notificationCreatedDate) - <any>new Date(b.notificationCreatedDate);
+      this.notificationsFiltered = this.notifications;
+      this.notificationsFiltered.sort((a: Notification, b: Notification) => {
+        return <any>new Date(a.notificationCreatedTime) - <any>new Date(b.notificationCreatedTime);
       });
     } else {
-      this.notifications.sort((a: Notification, b: Notification) => {
-        return <any>new Date(b.notificationCreatedDate) - <any>new Date(a.notificationCreatedDate);
+      this.notificationsFiltered = this.notifications;
+      this.notificationsFiltered.sort((a: Notification, b: Notification) => {
+        return <any>new Date(b.notificationCreatedTime) - <any>new Date(a.notificationCreatedTime);
       });
+      console.log(this.notificationsFiltered);
     }
   };
 

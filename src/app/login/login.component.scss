@@ -44,28 +44,7 @@ ion-item {
     background-size: contain;
     background-position: center center;
   }
-  .login-loading {
-    height: 20px;
-    width: 20px;
-    margin: 0 auto;
-    display: block;
-    background: url("/assets/login-loading.gif");
-    background-repeat: no-repeat;
-    background-size: 100%;
-  }
-  .error-span {
-    width: 100%;
-    display: block;
-    text-align: center;
-    height: 16px;
-    font-size: 14px;
-    font-family: Avenir;
-    span {
-      width: 100%;
-      display: block;
-      text-align: center;
-    }
-  }
+
   ion-list {
     background: none;
     width: 307px;

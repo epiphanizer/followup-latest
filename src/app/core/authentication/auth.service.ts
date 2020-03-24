@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, of, BehaviorSubject } from 'rxjs';
-import { map, share, catchError, retry, tap, timeout } from 'rxjs/operators';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ToastrService } from 'ngx-toastr';
 
 export interface AuthenticationBodyPost {
   username: string;
@@ -16,7 +17,7 @@ export interface AuthenticationBodyPost {
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public authenticated: boolean;
+  public authenticated: boolean = false;
   protected userId: number;
   public user$: Promise<User>;
 
@@ -24,7 +25,9 @@ export class AuthenticationService {
   public currentUser: Observable<User>;
 
   constructor(private http: HttpService, private jwtHelper: JwtHelperService, private router: Router) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    console.log('in constructor');
+    console.log(JSON.parse(localStorage.getItem('followup-user')));
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('followup-user')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -38,23 +41,16 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  public setLoginAs(token: string) {
-    localStorage.setItem('followup-token', token);
-    localStorage.setItem('tokenPayload', JSON.stringify(this.jwtHelper.decodeToken(token)));
-  }
-
   public isAuthenticated(): boolean {
     // get the token
     const token = this.getToken();
-
+    // console.log('Is authenticated token: ' + token);
     // return a boolean reflecting
     // whether or not the token is expired
+    // console.log('token is expired? : ' + !this.jwtHelper.isTokenExpired(token));
     return !this.jwtHelper.isTokenExpired(token);
   }
 
-  public getPayload(): any {
-    return JSON.parse(localStorage.getItem('tokenPayload'));
-  }
   doLogin(username: string, password: string): Observable<any> {
     return this.http
       .post('users/login', {
@@ -63,102 +59,35 @@ export class AuthenticationService {
       })
       .pipe(
         map((jwt: any) => {
-          // console.log(jwt);
-          // debugger;
+          console.log(jwt);
+          debugger;
           if (jwt.userId && jwt.userLevel) {
-            this.authenticated = true;
-            localStorage.setItem(
-              'followup-user',
-              JSON.stringify({
-                user: jwt.user,
-                userLevel: jwt.userLevel
-              })
-            );
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('followup-token', jwt.token);
+            localStorage.setItem('followup-user', JSON.stringify(jwt));
             this.currentUserSubject.next(jwt);
             return jwt;
-          } else {
-            this.authenticated = false;
-            // If already on the login page stay there, otherwise
-            // send user there
-            if (window.location.href.indexOf('/login') != -1) {
-              window.location.href = '/login';
-            } else {
-            }
           }
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
 
-  public getUser(): Promise<User> {
-    if (!this.authenticated) {
-      /**
-       * This will be deprecated in the refactor.
-       * We will use a token.
-       */
-      if (localStorage.getItem('followup-user')) {
-        let userObj = JSON.parse(localStorage.getItem('followup-user'));
-        return of(userObj).toPromise();
-      } else {
-        window.location.href = '/login';
-        return null;
-      }
-    }
-
-    return this.user$;
-  }
-  getUserByUserId(userId: number): Observable<User> {
-    return this.http.get<User>('users/' + userId).pipe(
-      retry(2),
-      share(),
-      catchError(error => this.handleAsyncError(error))
-    );
-  }
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
   async signIn(username: string, password: string): Promise<any> {
     let result = await this.doLogin(username, password).toPromise();
     if (!(await result)) {
-      debugger;
-      this.authenticated = false;
       return false;
     }
-
-    const userId = result.userId;
-
-    this.user$ = this.getUserByUserId(userId).toPromise();
-
-    this.getUserByUserId(userId).subscribe((user: User) => {
-      localStorage.setItem(
-        'followup-user',
-        JSON.stringify({
-          user: user
-        })
-      );
-      localStorage.setItem(
-        'followup-token',
-        JSON.stringify({
-          token: 'jwt-token'
-        })
-      );
-    });
-    // if (this.jwtHelper.isTokenExpired()) {
-    //   this.authenticated = false;
-    // }
-    this.authenticated = true;
-    return true;
+    return result;
   }
   // Sign out
   signOut(): void {
     this.user$ = null;
     this.authenticated = false;
-    /**
-     * Check best practice on this token stuff here.
-     * This could very well be deprecated.
-     */
     localStorage.removeItem('followup-user');
     localStorage.removeItem('followup-token');
-    localStorage.removeItem('followup-payload');
     localStorage.clear();
     this.currentUserSubject.next(null);
     window.location.href = '/login';

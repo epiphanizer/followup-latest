@@ -468,9 +468,10 @@ export class OperationFormComponent implements OnInit {
   }
 
   onFormSubmit() {
-    if (!this.validateControls()) {
-      return;
-    }
+    console.log(this.operationForm.getRawValue());
+    // if (!this.validateControls()) {
+    //   return;
+    // }
     // Passing E2E
     this.operationManagersToRemove.forEach((managerUserId: number) => {
       // Don't process default manager entry
@@ -480,7 +481,7 @@ export class OperationFormComponent implements OnInit {
       this.operationService
         .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
         .subscribe(() => {
-          console.log('Manager successfully removed');
+          this.toastr.success('Manager successfully removed');
         });
     });
 
@@ -492,7 +493,7 @@ export class OperationFormComponent implements OnInit {
       this.operationService
         .assignManagerToOperationByOperationIdAndUserId(operationManager.operationId, operationManager.userId)
         .subscribe(() => {
-          console.log('Manager successfully added');
+          this.toastr.success('Manager successfully added');
         });
     });
 
@@ -504,7 +505,7 @@ export class OperationFormComponent implements OnInit {
       this.operationCallRepsService
         .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
         .subscribe(() => {
-          console.log('Callrep successfully deleted');
+          this.toastr.success('Care Rep successfully added');
         });
     });
 
@@ -519,7 +520,7 @@ export class OperationFormComponent implements OnInit {
       this.operationCallRepsService
         .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
         .subscribe(() => {
-          console.log('Callrep successfully added');
+          this.toastr.success('Care Rep successfully added');
         });
     });
 
@@ -575,16 +576,16 @@ export class OperationFormComponent implements OnInit {
                 this.notificationRecipientService
                   .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
                   .subscribe(() => {
-                    count++;
-                    let operationPut = this.operationPutFactory(formSubmission);
-                    if (count == finalCount) {
-                      this.operationService
-                        .editOperationByOperationId(this.operation.operationId, operationPut)
-                        .subscribe(() => {
-                          this.toastr.success('Operation successfully edited');
-                          window.location.href = '/operations';
-                        });
-                    }
+                    // count++;
+                    // let operationPut = this.operationPutFactory(formSubmission);
+                    // if (count == finalCount) {
+                    //   this.operationService
+                    //     .editOperationByOperationId(this.operation.operationId, operationPut)
+                    //     .subscribe(() => {
+                    //       this.toastr.success('Operation successfully edited');
+                    //       window.location.href = '/operations';
+                    //     });
+                    // }
                   });
               });
             }
@@ -644,11 +645,11 @@ export class OperationFormComponent implements OnInit {
                   let operationPut = this.operationPutFactory(formSubmission);
                   console.log(count);
                   if (count == finalCount) {
-                    this.operationService
-                      .editOperationByOperationId(this.operation.operationId, operationPut)
-                      .subscribe(() => {
-                        window.location.href = '/operations';
-                      });
+                    // this.operationService
+                    //   .editOperationByOperationId(this.operation.operationId, operationPut)
+                    //   .subscribe(() => {
+                    //     window.location.href = '/operations';
+                    //   });
                   }
                 });
             });
@@ -660,11 +661,16 @@ export class OperationFormComponent implements OnInit {
           this.operationContactsService
             .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
             .subscribe(() => {
-              console.log('Successfully removed operation contact');
+              this.toastr.success('Successfully removed operation contact');
             });
         }
       });
     }
+    let operationPut = this.operationPutFactory(formSubmission);
+    this.operationService.editOperationByOperationId(this.operation.operationId, operationPut).subscribe(() => {
+      this.toastr.success('Operation successfully edited');
+      window.location.href = '/operations';
+    });
   }
 
   removeOperationCallRep(idx: number) {
@@ -709,9 +715,5 @@ export class OperationFormComponent implements OnInit {
   ngOnDestroy() {
     this.operationContacts = null;
     this.operationContactsOriginal = null;
-    /**
-     * Todo: destroy route subscription
-     */
-    console.log('destroying ops form component');
   }
 }

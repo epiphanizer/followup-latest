@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
     if (this.user.userLevel == 3) {
       this.router.navigate(['call-queue']);
     }
+
     switch (this.user.userLevel) {
       case 1:
         this.menu = [
@@ -47,9 +48,9 @@ export class HomeComponent implements OnInit {
           },
           {
             name: 'View Data',
-            action: 'https://reports.followup.care',
+            action: '/',
             image: '/assets/icon-view-data@2x.png',
-            enabled: true
+            enabled: false
           }
         ];
         break;
@@ -87,12 +88,6 @@ export class HomeComponent implements OnInit {
             name: 'Call Queue',
             action: 'call-queue',
             image: '/assets/icon-call-queue@2x.png',
-            enabled: true
-          },
-          {
-            name: 'Notifications',
-            action: 'notifications',
-            image: '/assets/icon-manager-notifications@2x.png',
             enabled: true
           },
           {

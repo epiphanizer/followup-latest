@@ -18,12 +18,16 @@ import { IonInfiniteScroll } from '@ionic/angular';
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
-  @ViewChild(IonInfiniteScroll, { read: 'infinite-scroll', static: true }) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonInfiniteScroll, {
+    read: 'infinite-scroll',
+    static: true
+  })
+  infiniteScroll: IonInfiniteScroll;
   currentYear: number;
   currentNewDischargeCount: number;
   @Input() operation: Operation;
   // we default to filtering by next call-date
-  filterBy: string = 'call-date';
+  filterBy: string = 'discharge-date';
   public patients: Patient[];
   public patients$: Observable<Patient[]> | void = null;
   public patientCallStatuses: PatientCallStatus[];
@@ -41,8 +45,10 @@ export class CallQueuePatientListingComponent implements OnInit {
       take(1),
       map((patients: Patient[]) => {
         this.patients = patients;
-        this.getCurrentNewDischargeCount(patients);
-        this.sortPatientsByCallDate(this.selectedSortFlag);
+        if (patients) {
+          this.getCurrentNewDischargeCount(patients);
+          this.sortPatientsByCallDate(this.selectedSortFlag);
+        }
         return patients;
       })
     );
@@ -55,25 +61,15 @@ export class CallQueuePatientListingComponent implements OnInit {
         this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
           map((patients: Patient[]) => {
             this.patients = patients;
-            this.getCurrentNewDischargeCount(patients);
+            if (patients) {
+              this.getCurrentNewDischargeCount(patients);
+              this.sortPatientsByCallDate(this.selectedSortFlag);
+            }
             return patients;
           })
         );
       }
     }
-  }
-
-  loadData(event: any) {
-    setTimeout(() => {
-      console.log('Done');
-      event.target.complete();
-
-      // App logic to determine if all data is loaded
-      // and disable the infinite scroll
-      if (this.patients.length == 1000) {
-        event.target.disabled = true;
-      }
-    }, 500);
   }
 
   public checkDateGreaterThanEqualToToday(patientNextCallScheduledTime: string) {
@@ -86,9 +82,11 @@ export class CallQueuePatientListingComponent implements OnInit {
   }
   public getCurrentNewDischargeCount(patients: Patient[]) {
     let patientsWithNoCalls = [];
-    patientsWithNoCalls = patients.filter(function(patient: Patient) {
-      return patient.patientCallCount - 1 == 0;
-    });
+    if (patients) {
+      patientsWithNoCalls = patients.filter(function(patient: Patient) {
+        return patient.patientCallCount - 1 == 0;
+      });
+    }
     this.currentNewDischargeCount = patientsWithNoCalls.length;
   }
   public sortPatientsByDischargeDate = function(sortFlag: string) {

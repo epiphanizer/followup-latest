@@ -13,7 +13,8 @@ const routes: Routes = [
       path: 'call-queue',
       component: CallQueueComponent,
       data: {
-        title: extract('Call Queue')
+        title: extract('Call Queue'),
+        rolls: 'all'
       },
       pathMatch: 'full',
       resolve: {
@@ -21,10 +22,11 @@ const routes: Routes = [
       }
     },
     {
-      path: 'call-queue/:operationId',
+      path: 'call-queue/operations/:operationId',
       component: CallQueueComponent,
       data: {
-        title: extract('Call Queue')
+        title: extract('Call Queue'),
+        rolls: 'all'
       },
       resolve: {
         user: UserResolver

@@ -79,17 +79,17 @@ export class CallQueueSidebarComponent {
     this.user.operations$.subscribe((data: Operation[]) => {
       /** Init to the first assigned operation alphabetically */
       this.operations = data;
-      this.operations.forEach((operation: Operation, idx: number) => {
-        this.patientService
-          .getActivePatientListByOperationId(operation.operationId)
-          .subscribe((patients: Patient[]) => {
-            if (patients !== null) {
-              this.operations[idx].currentNewDischargeCount = this.getCurrentNewDischargeCount(patients);
-            } else {
-              this.operations[idx].currentNewDischargeCount = 0;
-            }
-          });
-      });
+      // this.operations.forEach((operation: Operation, idx: number) => {
+      //   this.patientService
+      //     .getActivePatientListByOperationId(operation.operationId)
+      //     .subscribe((patients: Patient[]) => {
+      //       if (patients !== null) {
+      //         this.operations[idx].currentNewDischargeCount = this.getCurrentNewDischargeCount(patients);
+      //       } else {
+      //         this.operations[idx].currentNewDischargeCount = 0;
+      //       }
+      //     });
+      // });
       this.route.paramMap.subscribe((data: any) => {
         if (data.params.operationId) {
           this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
@@ -97,7 +97,9 @@ export class CallQueueSidebarComponent {
             this.patientService
               .getActivePatientListByOperationId(this.selected.operation.operationId)
               .subscribe((patients: Patient[]) => {
-                this.getCurrentNewDischargeCount(patients);
+                if (patients !== null) {
+                  this.getCurrentNewDischargeCount(patients);
+                }
               });
           });
         } else {

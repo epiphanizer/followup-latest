@@ -9,8 +9,8 @@ ion-content {
 .user-profile-content {
   max-width: 565px;
   width: 565px;
-  margin-left: 60px;
-  margin-top: 79px;
+  margin-top: 5rem;
+  margin-left: 50px;
   padding-bottom: 160px;
 }
 
@@ -51,7 +51,7 @@ ion-textarea {
 }
 ion-title {
   font-family: AvenirNextLTPro;
-  font-size: 38px;
+  font-size: 34px;
   font-weight: 300;
   font-style: normal;
   font-stretch: normal;
@@ -59,6 +59,7 @@ ion-title {
   text-align: left;
   color: #343638;
   padding-left: 0;
+  margin-left: -30px;
 }
 
 form {
