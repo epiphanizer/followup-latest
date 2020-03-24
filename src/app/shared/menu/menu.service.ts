@@ -18,7 +18,8 @@ export class MenuService {
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   getComponentMenu(activeComponent: string) {
-    console.log(activeComponent);
+    console.log(this.route.routeConfig.component.name);
+    // console.log(activeComponent);
     switch (activeComponent) {
       case 'NotificationDetailComponent':
         this.navLinks = [
