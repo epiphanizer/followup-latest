@@ -70,6 +70,12 @@ export class HomeComponent implements OnInit {
             enabled: true
           },
           {
+            name: 'View Queue',
+            action: 'call-queue',
+            image: '/assets/icon-view-queue@2x.png',
+            enabled: true
+          },
+          {
             name: 'My Profile',
             action: 'user/profile',
             image: avatarImage,
@@ -85,7 +91,12 @@ export class HomeComponent implements OnInit {
             image: '/assets/icon-call-queue@2x.png',
             enabled: true
           },
-          { name: 'My Profile', action: 'user/profile', image: avatarImage, enabled: true }
+          {
+            name: 'My Profile',
+            action: 'user/profile',
+            image: avatarImage,
+            enabled: true
+          }
         ];
         break;
       default:
