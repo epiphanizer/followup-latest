@@ -15,4 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {}
   ngOnDestroy() {}
+  onActivate($event: Component) {
+    console.log($event);
+  }
 }
