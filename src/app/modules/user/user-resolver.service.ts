@@ -23,7 +23,7 @@ export class UserResolver implements Resolve<User> {
     }
     this.user$ = of(this.authService.currentUserValue);
     this.user = this.authService.currentUserValue;
-    console.log(this.user);
+    // console.log(this.user);
     /** Fetch all operations if user is admin, otherwise, get user ops. */
     if (this.user.userLevel != 1) {
       this.user.operations$ = this.operationService.getOperationsByUserId(this.user.userId);
