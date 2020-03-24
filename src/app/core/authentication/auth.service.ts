@@ -59,8 +59,6 @@ export class AuthenticationService {
       })
       .pipe(
         map((jwt: any) => {
-          console.log(jwt);
-          debugger;
           if (jwt.userId && jwt.userLevel) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('followup-token', jwt.token);

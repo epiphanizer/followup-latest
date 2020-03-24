@@ -71,6 +71,7 @@ form {
   }
 
   .phone-container {
+    display: inline-block;
     ion-item {
       display: inline-block;
       margin-right: 5px;
@@ -190,17 +191,17 @@ form {
       ion-item {
         float: left;
         &.first-name {
-          width: 160px;
-          margin-right: 10px;
-        }
-
-        &.middle-name {
           width: 140px;
           margin-right: 10px;
         }
 
+        &.middle-name {
+          width: 120px;
+          margin-right: 10px;
+        }
+
         &.last-name {
-          width: 160px;
+          width: 140px;
         }
         &.title-position {
           width: 220px;
