@@ -24,12 +24,9 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(
-    private http: HttpService,
-    private jwtHelper: JwtHelperService,
-    private router: Router,
-    private toastrService: ToastrService
-  ) {
+  constructor(private http: HttpService, private jwtHelper: JwtHelperService, private router: Router) {
+    console.log('in constructor');
+    console.log(JSON.parse(localStorage.getItem('followup-user')));
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('followup-user')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -67,13 +64,7 @@ export class AuthenticationService {
           if (jwt.userId && jwt.userLevel) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('followup-token', jwt.token);
-            localStorage.setItem(
-              'followup-user',
-              JSON.stringify({
-                userId: jwt.userId,
-                userLevel: jwt.userLevel
-              })
-            );
+            localStorage.setItem('followup-user', JSON.stringify(jwt));
             this.currentUserSubject.next(jwt);
             return jwt;
           }
