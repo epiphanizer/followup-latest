@@ -5,7 +5,6 @@ import { KudosModalComponent } from '../kudos-modal/kudos-modal.component';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
-import { Location } from '@angular/common';
 import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
 import { map, filter } from 'rxjs/operators';
 
@@ -36,13 +35,13 @@ export class ToolbarNavComponent implements OnInit {
         map(e => (e instanceof ActivationEnd ? e : {}))
       )
       .subscribe((e: any) => {
-        console.log(this.route.routeConfig);
+        // console.log(this.route.routeConfig);
         if (this.route.snapshot.firstChild) {
           this.patient = this.route.snapshot.firstChild.data.patient;
         }
 
         this.activeComponent = e.snapshot.component['name'];
-        console.log(this.activeComponent);
+        // console.log(this.activeComponent);
         if (e.snapshot.params['patientId']) {
           this.menuService.patientId = e.snapshot.params['patientId'];
         }
