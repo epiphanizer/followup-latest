@@ -1,6 +1,6 @@
 :host {
   .patient-summary {
-    min-height: 270px;
+    min-height: 275px;
   }
 }
 .avatar-container {
@@ -12,15 +12,7 @@
 app-patient-avatar {
   margin-bottom: 0.5rem;
 }
-a.edit-patient {
-  font-size: 14px;
-  text-align: center;
-  width: 100%;
-  display: block;
-  font-family: Avenir;
-  text-decoration: none;
-  color: #13afe9;
-}
+
 .patient-operation-name {
   font-family: Avenir;
   font-size: 14px;
@@ -33,7 +25,8 @@ a.edit-patient {
 }
 
 .patient-name {
-  margin-top: 18px;
+  margin-top: 10px;
+  margin-bottom: 0;
   font-family: Avenir;
   font-size: 40px;
   font-weight: normal;
@@ -51,10 +44,11 @@ a.edit-patient {
   font-size: 12px;
 }
 .patient-contact-container {
-  height: 85px;
+  height: auto;
   width: calc(100% + 105px);
 }
 .patient-contact-list {
+  margin: 0.75rem 0;
   list-style-type: none;
   padding-left: 0;
 
@@ -85,12 +79,11 @@ a.edit-patient {
   }
 }
 .alternate-numbers {
-  margin-top: 6px;
   display: block;
   cursor: pointer;
 }
 .alternate-numbers-list {
-  margin: 1rem 0 0 0;
+  margin: 4px auto;
   padding: 0;
   ion-item {
     width: calc(100% + 55px);
