@@ -25,8 +25,6 @@ export class AuthenticationService {
   public currentUser: Observable<User>;
 
   constructor(private http: HttpService, private jwtHelper: JwtHelperService, private router: Router) {
-    console.log('in constructor');
-    console.log(JSON.parse(localStorage.getItem('followup-user')));
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('followup-user')));
     this.currentUser = this.currentUserSubject.asObservable();
   }

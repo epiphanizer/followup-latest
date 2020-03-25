@@ -19,6 +19,8 @@ export class UserResolver implements Resolve<User> {
   ) {}
   resolve(): Observable<User> {
     if (!this.authService.currentUserValue) {
+      console.log(this.authService.currentUserValue);
+      debugger;
       window.location.href = '/login';
     }
     this.user$ = of(this.authService.currentUserValue);
