@@ -30,7 +30,7 @@
   </ion-item>
   <ion-item> <span class="label"> Discharged To: &nbsp;</span> {{ patient.patientDischargeLabel }} </ion-item>
   <ion-item>
-    <span class="label"> Medical Conditions: &nbsp; </span>
+    <span [class.is-highlighted]="patient.patientUrgencyScale == 5" class="label"> Medical Conditions: &nbsp; </span>
     <label class="medical-condition-item" *ngFor="let patientMedicalCondition of patientMedicalConditions">
       {{ patientMedicalCondition.replace('Boolean', '') }}
     </label>
@@ -54,5 +54,9 @@
   <ion-item *ngIf="patient.patientNeedToKnow">
     <span class="label"> Need To Know: &nbsp; </span>
     {{ patient.patientNeedToKnow }}
+  </ion-item>
+  <ion-item *ngIf="patient.patientUrgencyScale">
+    <span [class.is-highlighted]="patient.patientUrgencyScale == 5" class="label"> Urgency Rating: &nbsp; </span>
+    {{ patient.patientUrgencyScale }}
   </ion-item>
 </ion-list>

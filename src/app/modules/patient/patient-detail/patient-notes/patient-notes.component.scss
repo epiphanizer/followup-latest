@@ -54,6 +54,9 @@ ion-list {
         top: 0;
         left: -3px;
       }
+      &.is-highlighted {
+        border-bottom: 1px solid yellow;
+      }
     }
   }
 
