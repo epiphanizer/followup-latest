@@ -45,6 +45,9 @@ ion-list {
     &.label {
       color: #343638;
       font-size: 12px;
+      &.discharge {
+        margin-right: 18px;
+      }
       &.ama {
         color: red;
         position: absolute;

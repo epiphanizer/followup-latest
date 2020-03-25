@@ -232,11 +232,11 @@
               </ion-item>
               <ion-item class="textarea-item">
                 <ion-label color="medium" position="stacked">Primary Diagnosis</ion-label>
-                <ion-textarea formControlName="patientPrimaryDiagnosis"></ion-textarea>
+                <ion-textarea [autoGrow]="true" formControlName="patientPrimaryDiagnosis"></ion-textarea>
               </ion-item>
               <ion-item class="textarea-item" *ngIf="patient">
                 <ion-label color="medium" position="stacked">Discharged Condition</ion-label>
-                <ion-textarea formControlName="patientDischargedCondition"></ion-textarea>
+                <ion-textarea [autoGrow]="true" formControlName="patientDischargedCondition"></ion-textarea>
               </ion-item>
             </ion-list>
           </fieldset>
@@ -313,7 +313,7 @@
             <i class="icon-info"></i>
             <ion-item class="need-to-know">
               <ion-label color="medium" position="stacked">Need To Know</ion-label>
-              <ion-textarea formControlName="patientNeedToKnow"></ion-textarea>
+              <ion-textarea [autoGrow]="true" formControlName="patientNeedToKnow"></ion-textarea>
             </ion-item>
           </ion-list>
 
