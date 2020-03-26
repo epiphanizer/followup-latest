@@ -14,7 +14,12 @@
         <ion-list lines="none" inset>
           <i class="icon-new-facility"></i>
           <ion-item>
-            <ion-select placeholder="Select Facility" class="select-facility" formControlName="operation">
+            <ion-select
+              *ngIf="operations"
+              placeholder="Select Facility"
+              class="select-facility"
+              formControlName="operation"
+            >
               <ion-select-option
                 *ngFor="let operation of operations"
                 [selected]="operation.operationId == patient.patientOperationId"
