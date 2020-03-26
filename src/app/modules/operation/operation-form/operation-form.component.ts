@@ -682,7 +682,9 @@ export class OperationFormComponent implements OnInit {
     this.operationContacts.splice(idx, 1);
     let formGroup = this.operationForm.controls.operationContacts as FormArray;
     formGroup.removeAt(idx);
-    // console.log(this.operationContacts);
+    this.operationContacts.forEach((operationContact, idx) => {
+      this.operationContacts[idx].operationContactOrder = idx + 1;
+    });
   }
   removeOperationManager(idx: number) {
     this.operationManagersToRemove.push(this.operationManagers[idx].userId);
