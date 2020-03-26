@@ -164,7 +164,7 @@ ul.patient-filters {
     .call-queue-number {
       display: block;
       float: left;
-      width: 45px;
+      width: auto;
       overflow: hidden;
       height: 96px;
       padding-top: 34px;
@@ -232,7 +232,7 @@ ul.patient-filters {
     .call-queue-avatar {
       display: block;
       float: left;
-      margin-top: 10.5px;
+      margin-top: 6px;
       width: 74.8px;
       height: 75.2px;
       overflow: hidden;
@@ -257,7 +257,7 @@ ul.patient-filters {
       display: block;
       height: auto;
       font-family: Avenir;
-      font-size: 21px;
+      font-size: 18px;
       font-weight: normal;
       font-style: normal;
       font-stretch: normal;
