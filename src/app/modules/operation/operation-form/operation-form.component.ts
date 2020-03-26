@@ -139,8 +139,10 @@ export class OperationFormComponent implements OnInit {
           // console.log(operationContacts);
           if (operationContacts !== null) {
             // let formArray = this.operationForm.controls.operationContacts as FormArray;
-            this.operationContacts = operationContacts;
-            this.operationContacts.forEach((operationContact: OperationContact, idx: number) => {
+            this.operationContacts = [];
+            operationContacts.forEach((operationContact: OperationContact, idx: number) => {
+              console.log(idx + 1);
+              operationContact.operationContactOrder = idx + 1;
               let contactFormGroup = this.fb.group({});
               contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
               contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
@@ -158,6 +160,8 @@ export class OperationFormComponent implements OnInit {
                 })
               );
               formArray.push(contactFormGroup);
+              this.operationContacts.push(operationContact);
+
               var notificationTypesArray = new Array();
               this.notificationRecipientService
                 .getNotificationRecipientByOperationContactId(operationContact.operationContactId)
@@ -274,9 +278,6 @@ export class OperationFormComponent implements OnInit {
     this.userService.getAllManagerUsers().subscribe((users: User[]) => {
       this.availableManagers = users;
     });
-  }
-  operationChangeEventHandler($event: number) {
-    console.log('change occurred');
   }
   updateOperation(operation: Operation) {
     this.operation = operation[0];
@@ -655,7 +656,11 @@ export class OperationFormComponent implements OnInit {
             });
           });
       });
-
+      /**
+       * Test
+       */
+      console.log(this.operationContactsToRemove);
+      debugger;
       this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
         if (operationContactId != null) {
           this.operationContactsService
@@ -666,11 +671,6 @@ export class OperationFormComponent implements OnInit {
         }
       });
     }
-    let operationPut = this.operationPutFactory(formSubmission);
-    this.operationService.editOperationByOperationId(this.operation.operationId, operationPut).subscribe(() => {
-      this.toastr.success('Operation successfully edited');
-      window.location.href = '/operations';
-    });
   }
 
   removeOperationCallRep(idx: number) {
@@ -680,6 +680,9 @@ export class OperationFormComponent implements OnInit {
   removeOperationContact(idx: number) {
     this.operationContactsToRemove.push(this.operationContacts[idx].operationContactId);
     this.operationContacts.splice(idx, 1);
+    let formGroup = this.operationForm.controls.operationContacts as FormArray;
+    formGroup.removeAt(idx);
+    // console.log(this.operationContacts);
   }
   removeOperationManager(idx: number) {
     this.operationManagersToRemove.push(this.operationManagers[idx].userId);
