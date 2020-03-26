@@ -67,10 +67,8 @@ export class PatientFormComponent implements OnInit {
     private route: ActivatedRoute,
     private operationService: OperationService,
     private patientService: PatientService,
-    private patientAvatarService: PatientAvatarService,
     private patientContactService: PatientContactService,
     private patientIntakeQuestionService: PatientIntakeQuestionService,
-    private sanitizer: DomSanitizer,
     private toastrService: ToastrService
   ) {}
 
@@ -261,9 +259,6 @@ export class PatientFormComponent implements OnInit {
     });
   }
 
-  // compressFile() {
-  // }
-
   addAdditionalPatientContact() {
     this.patientContacts.push({
       patientContactFirstName: '',
@@ -297,6 +292,10 @@ export class PatientFormComponent implements OnInit {
     patientContactArray.removeAt(idx);
     this.patientContactsToRemove.push(this.patientContacts[idx].patientContactId);
     this.patientContacts.splice(idx, 1);
+    // Reset new contact order
+    this.patientContacts.forEach((patientContact, idx) => {
+      this.patientContacts[idx].patientContactOrder = (idx + 1).toString();
+    });
   }
 
   updateDischargeFields() {
