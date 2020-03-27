@@ -12,6 +12,9 @@ import {
 
 import { User } from '@app/modules/user/user';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OperationService } from '@app/modules/operation/operation.service';
+import { PatientService } from '../patient.service';
+import { Patient } from '../patient';
 
 @Component({
   selector: 'app-patient-manager-sidebar',
@@ -65,32 +68,53 @@ export class PatientManagerSidebarComponent implements OnInit {
   user: User;
   todaysDateDay: number;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private patientService: PatientService,
+    private router: Router,
+    private operationService: OperationService
+  ) {}
 
   ngOnInit() {
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     this.user = this.route.snapshot.data.user;
-    this.user.operations$.subscribe((operations: Operation[]) => {
-      this.operations = operations;
-      if (!this.route.snapshot.params['operationId']) {
-        /**
-         * no active state if we are adding a patient
-         */
-        if (this.router.url.indexOf('patient/add') == -1) {
-          this.activeOperationId = operations[0].operationId;
+
+    this.user.operations$.subscribe((data: Operation[]) => {
+      /** Init to the first assigned operation alphabetically */
+      this.operations = data;
+      // this.operations.forEach((operation: Operation, idx: number) => {
+      //   this.patientService
+      //     .getActivePatientListByOperationId(operation.operationId)
+      //     .subscribe((patients: Patient[]) => {
+      //       if (patients !== null) {
+      //         this.operations[idx].currentNewDischargeCount = this.getCurrentNewDischargeCount(patients);
+      //       } else {
+      //         this.operations[idx].currentNewDischargeCount = 0;
+      //       }
+      //     });
+      // });
+      this.route.paramMap.subscribe((data: any) => {
+        if (data.params.operationId) {
+          this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
+            this.selected.operation = data[0];
+            this.patientService
+              .getActivePatientListByOperationId(this.selected.operation.operationId)
+              .subscribe((patients: Patient[]) => {
+                if (patients !== null) {
+                  this.getCurrentNewDischargeCount(patients);
+                }
+              });
+          });
         } else {
-          this.activeOperationId = null;
+          /** Init to the first user operation (alphabetically,) */
+          this.selected.operation = this.operations[0];
         }
-      } else {
-        if (this.route.snapshot.paramMap.get('operationId')) {
-          this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
+      });
+      this.route.paramMap.subscribe(params => {
+        if (params.get('operationId')) {
+          this.activeOperationId = parseInt(params.get('operationId'));
         }
-      }
-    });
-    this.route.paramMap.subscribe(params => {
-      if (params.get('operationId')) {
-        this.activeOperationId = parseInt(params.get('operationId'));
-      }
+      });
     });
   }
   setActiveOperation = function(operation: Operation) {
@@ -101,4 +125,11 @@ export class PatientManagerSidebarComponent implements OnInit {
   public toggleOperationSidebarMenu = function() {
     this.isOpen = !this.isOpen;
   };
+  public getCurrentNewDischargeCount(patients: Patient[]) {
+    let patientsWithNoCalls = [];
+    patientsWithNoCalls = patients.filter(function(patient: Patient) {
+      return patient.patientCallCount - 1 == 0;
+    });
+    return patientsWithNoCalls.length;
+  }
 }

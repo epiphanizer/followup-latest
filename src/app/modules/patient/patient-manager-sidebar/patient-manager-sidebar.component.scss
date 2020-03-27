@@ -61,11 +61,13 @@
     li {
       vertical-align: top;
       display: inline-block;
-      width: calc(100% - 17px);
+      width: 100%;
       margin-top: 8px;
+
       a {
         display: inline-block;
-        line-height: 15px;
+        max-width: 69%;
+        line-height: 115%;
         vertical-align: middle;
         cursor: pointer;
         font-family: AvenirBold;
@@ -82,11 +84,42 @@
         &:hover {
           text-decoration: underline;
         }
+
         &.active {
-          font-weight: bold;
           font-family: AvenirBold;
           color: #343638;
         }
+      }
+
+      i {
+        color: white;
+        margin-left: 5px;
+        width: 16px;
+        height: 16px;
+        display: block;
+        float: right;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+
+        &.icon-new-discharges {
+          background-image: url("/assets/icon-new-discharges@2x.png");
+        }
+        &.icon-todays-calls {
+          background-image: url("/assets/icon-todays-calls@2x.png");
+        }
+      }
+
+      span.icon-discharge-counter,
+      span.icon-todays-calls-counter {
+        display: block;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        margin-top: 2px;
+        color: white;
+        font-weight: bold;
+        font-size: 11px;
       }
     }
   }
