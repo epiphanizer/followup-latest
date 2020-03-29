@@ -28,6 +28,7 @@ import { JwtHelperService, JwtModule, JwtInterceptor } from '@auth0/angular-jwt'
 import { AuthGuardService } from './core/authentication/auth-guard.service';
 import { LoaderService } from './shared/loader/loader.service';
 import { LoaderInterceptor } from './shared/interceptors/loader-interceptor';
+import { ApiKeyInterceptor } from './shared/interceptors/api-key.interceptor';
 
 export function tokenGetter() {
   return localStorage.getItem('followup-token');
@@ -80,6 +81,11 @@ export function tokenGetter() {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiKeyInterceptor,
       multi: true
     },
     {
