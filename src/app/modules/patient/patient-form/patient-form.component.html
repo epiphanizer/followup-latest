@@ -73,7 +73,6 @@
                 formGroupName="{{ idx }}"
                 id="additionalPatientContact-{{ idx }}"
               >
-                {{ patientContact | json }}
                 <div class="section-header">
                   <span *ngIf="idx == 0; else alternateContact">Primary Contact</span>
                   <ng-template #alternateContact>

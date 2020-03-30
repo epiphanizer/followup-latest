@@ -377,12 +377,15 @@ export class PatientFormComponent implements OnInit {
         .subscribe((data: any) => {});
     });
 
+    console.log(this.patientContacts);
     // Passing E2E
     this.patientContactsToRemove.forEach((patientContactId: number, index: number) => {
       this.patientContactService.removePatientContactByPatientContactId(patientContactId).subscribe(() => {
         this.toastrService.success('Successfully removed patient contact');
       });
     });
+    console.log(this.patientContactsToRemove);
+    debugger;
     /**
      * Get a diff from our original patient contacts
      */
@@ -404,10 +407,7 @@ export class PatientFormComponent implements OnInit {
         });
     });
 
-    /**
-     * Passing E2E
-     */
-    if (this.patientContactsToEdit.length) {
+    if (this.patientContacts.length) {
       this.patientContactsToEdit = this.patientContacts.filter((patientContact: any, index: number) => {
         if (!patientContact.patientContactId) {
           return false;
@@ -420,6 +420,8 @@ export class PatientFormComponent implements OnInit {
         formSubmission.patient.patientContacts[indexToGrab].patientContactId = patientContact.patientContactId;
         formSubmission.patient.patientContacts[indexToGrab].patientId = this.patient.patientId;
         this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
+        console.log(patientContact);
+        console.log(this.patientContacts[indexToGrab]);
         // Use lodash to see if these are deep-equal
         return !_.isEqual(patientContact, this.patientContacts[indexToGrab]);
       });
