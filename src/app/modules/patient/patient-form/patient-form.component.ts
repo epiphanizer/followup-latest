@@ -275,13 +275,13 @@ export class PatientFormComponent implements OnInit {
     let idx = patientContactArray.length;
     patientContactArray.push(
       this.fb.group({
-        patientContactFirstName: this.fb.control('', [Validators.required]),
-        patientContactLastName: this.fb.control('', [Validators.required]),
-        patientContactRelationship: this.fb.control('', [Validators.required]),
+        patientContactFirstName: this.fb.control(''),
+        patientContactLastName: this.fb.control(''),
+        patientContactRelationship: this.fb.control(''),
         patientContactCountryCode: this.fb.control('1'),
         patientContactAreaCode: this.fb.control(''),
         patientContactPhoneNumber: this.fb.control(''),
-        patientContactOrder: this.fb.control(idx + 1, [Validators.required]),
+        patientContactOrder: this.fb.control(idx + 1),
         patientContactResponsiblePartyBoolean: this.fb.control(false)
       })
     );
@@ -422,6 +422,7 @@ export class PatientFormComponent implements OnInit {
         return !_.isEqual(patientContact, this.patientContacts[indexToGrab]);
       });
       console.log(this.patientContactsToEdit);
+      debugger;
       this.patientContactsToEdit.forEach((patientContact: PatientContact, index: number) => {
         // Now that we have these, we need to reassign to the form-submitted value.
         var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
