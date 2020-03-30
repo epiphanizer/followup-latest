@@ -425,10 +425,10 @@ export class PatientFormComponent implements OnInit {
         // Use lodash to see if these are deep-equal
         return !_.isEqual(patientContact, this.patientContacts[indexToGrab]);
       });
-      if (!this.patientContactsToEdit) {
+      if (!this.patientContactsToEdit.length) {
         this.editPatient(formSubmission);
       }
-      console.log(this.patientContactsToEdit);
+      console.log(this.patientContactsToEdit.length);
       debugger;
       this.patientContactsToEdit.forEach((patientContact: PatientContact, index: number) => {
         // Now that we have these, we need to reassign to the form-submitted value.
