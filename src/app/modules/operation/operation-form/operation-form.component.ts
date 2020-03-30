@@ -112,25 +112,40 @@ export class OperationFormComponent implements OnInit {
       });
     }
     /**
-     * Quickly shift operations if url param changes
+     * We can pull in our operationId from the operation resolver
+     * if we're coming from the listing route. If we load by sidebar
+     * we will listen for the change.
      */
-    this.route.paramMap.subscribe(params => {
-      if (params.get('operationId')) {
-        let operationId = parseInt(params.get('operationId'));
-        this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
-          this.updateOperation(operation);
-          this.updateOperationContacts();
-          this.updateOperationManagers();
-          this.updateOperationCallReps();
-        });
-      }
+    if (this.route.snapshot.data.operation.operationId) {
+      let operationId = parseInt(this.route.snapshot.data.operation.operationId);
+      this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
+        this.cleanData();
+        this.updateOperation(operation);
+        this.updateOperationContacts();
+        this.updateOperationManagers();
+        this.updateOperationCallReps();
+      });
+    }
+  }
+  operationChangeEventHandler(operation: Operation) {
+    let operationId = operation.operationId;
+    this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
+      this.updateOperation(operation);
+      this.updateOperationContacts();
+      this.updateOperationManagers();
+      this.updateOperationCallReps();
     });
   }
-  updateOperationContacts() {
-    this.operationContacts = [];
-    this.operationContactsOriginal = [];
+  cleanData() {
+    this.notificationsLoaded = false;
     let formArray = this.operationForm.controls.operationContacts as FormArray;
     formArray.clear();
+    this.operationContacts = [];
+    this.operationContactsOriginal = [];
+  }
+  updateOperationContacts() {
+    this.cleanData();
+    let formArray = this.operationForm.controls.operationContacts as FormArray;
     this.operationContactsService
       .getOperationContactsByOperationId(this.operation.operationId)
       .pipe(
@@ -138,7 +153,6 @@ export class OperationFormComponent implements OnInit {
         map((operationContacts: OperationContact[]) => {
           // console.log(operationContacts);
           if (operationContacts !== null) {
-            // let formArray = this.operationForm.controls.operationContacts as FormArray;
             this.operationContacts = [];
             operationContacts.forEach((operationContact: OperationContact, idx: number) => {
               console.log(idx + 1);

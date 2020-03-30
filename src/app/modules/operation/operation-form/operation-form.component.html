@@ -125,7 +125,7 @@
                       <ion-input ype="number" formControlName="operationContactOrder"></ion-input>
                     </ion-item>
                   </div>
-                  <div class="section-header">
+                  <div class="section-header" *ngIf="notificationsLoaded">
                     <span class="notification-header">
                       Notifications
                     </span>
