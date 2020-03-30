@@ -76,28 +76,19 @@ export class MenuService {
           }
         ];
         break;
-      case 'EditPatientComponent':
+      case 'PatientFormComponent':
+        var historyLink = '/call-queue/operations/' + this.operationId + '/patient/' + this.patientId + '/history';
         this.navLinks = [
           {
-            linkAction: 'call-queue',
-            linkName: 'Call Queue',
+            linkAction: 'patient/add',
+            linkName: 'Add Patient',
             linkType: 'link'
-          },
-          {
-            linkAction: 'kudos',
-            linkName: 'KUDOS',
-            linkType: 'button'
-          },
-          {
-            linkAction: 'report',
-            linkName: 'REPORT!',
-            linkType: 'button'
           }
         ];
         break;
       case 'PatientDetailComponent':
         var callQueueLink = '/call-queue/operations/' + this.operationId;
-        let historyLink = '/call-queue/operations/' + this.operationId + '/patient/' + this.patientId + '/history';
+        var historyLink = '/call-queue/operations/' + this.operationId + '/patient/' + this.patientId + '/history';
         this.navLinks = [
           {
             linkAction: callQueueLink,
@@ -148,10 +139,16 @@ export class MenuService {
         ];
         break;
       case 'PatientListingComponent':
+        var callQueueLink = '/call-queue/operations/' + this.operationId;
         this.navLinks = [
           {
             linkAction: 'patient/add',
             linkName: 'Add Patient',
+            linkType: 'link'
+          },
+          {
+            linkAction: callQueueLink,
+            linkName: 'Call Queue',
             linkType: 'link'
           },
           {

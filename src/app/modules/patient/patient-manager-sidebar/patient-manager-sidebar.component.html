@@ -25,6 +25,7 @@
           <a
             (click)="setActiveOperation(operation)"
             [class.active]="selected.operation.operationId == operation.operationId"
+            [routerLink]="'/operations/' + operation.operationId + '/patients'"
           >
             {{ operation.operationName }}
             <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>

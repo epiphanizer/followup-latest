@@ -390,6 +390,8 @@ export class PatientFormComponent implements OnInit {
       return this.patientContactsOriginal.indexOf(patientContact) == -1;
     });
 
+    console.log(this.patientContactsToAdd);
+    debugger;
     // Passing E2E
     this.patientContactsToAdd.forEach((patientContact: PatientContact, index: number) => {
       var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
