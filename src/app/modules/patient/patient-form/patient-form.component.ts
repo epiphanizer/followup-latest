@@ -425,6 +425,9 @@ export class PatientFormComponent implements OnInit {
         // Use lodash to see if these are deep-equal
         return !_.isEqual(patientContact, this.patientContacts[indexToGrab]);
       });
+      if (!this.patientContactsToEdit) {
+        this.editPatient(formSubmission);
+      }
       console.log(this.patientContactsToEdit);
       debugger;
       this.patientContactsToEdit.forEach((patientContact: PatientContact, index: number) => {
@@ -450,6 +453,8 @@ export class PatientFormComponent implements OnInit {
   }
   editPatient(formSubmission: any) {
     let patientPutBody = this.formSubmissionFactory(formSubmission);
+    console.log(patientPutBody);
+    debugger;
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       this.toastrService.success('Successfully edited patient!');
       window.location.href = '/operations/' + this.patientForm.get('operation').value + '/patients';
