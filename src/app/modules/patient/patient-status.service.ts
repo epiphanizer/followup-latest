@@ -25,7 +25,6 @@ export class PatientStatusService {
         patientStatusNotes: patientStatusNotes
       })
       .pipe(
-        retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
@@ -40,7 +39,6 @@ export class PatientStatusService {
         patientStatusNotes: patientStatusNotes
       })
       .pipe(
-        retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
