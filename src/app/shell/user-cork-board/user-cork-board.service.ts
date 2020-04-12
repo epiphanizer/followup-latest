@@ -51,7 +51,7 @@ export class UserCorkBoardService {
     // return an observable with a user-facing error message
     return throwError(
       '<div class="alert alert-danger" role="alert"> \
-            <strong>Error</strong>: We had trouble connecting to the patient service\
+            <strong>Error</strong>: We had trouble connecting to the user cork board service\
           </div>'
     );
   }
