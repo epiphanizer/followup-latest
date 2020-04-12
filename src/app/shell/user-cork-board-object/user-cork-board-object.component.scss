@@ -15,13 +15,15 @@
     width: 27px;
     display: block;
     margin-left: 45%;
-    margin-top: 20px;
+    margin-top: -1rem;
   }
 }
-img {
-  max-height: 250px;
-  height: auto;
-  width: auto;
-  margin: 2rem auto;
+.corkboard-object-image {
+  display: block;
+  height: 250px;
   max-width: 80%;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
 }

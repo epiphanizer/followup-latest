@@ -18,15 +18,15 @@ export class UserCorkBoardObjectComponent implements OnInit {
   ngOnInit() {
     this.userCorkBoardService
       .getUserCorkBoardObjectsByUserCorkBoardObjectId(this.userCorkBoardObject.userCorkBoardObjectId)
-      .subscribe((data: UserCorkBoardObject) => {
-        var fileAsBlob = data.userCorkBoardBlob as any;
+      .subscribe((data: Blob) => {
+        var fileAsBlob = data as any;
         var self = this;
         if (fileAsBlob !== null) {
           var reader = new FileReader();
           reader.readAsDataURL(fileAsBlob);
           reader.onloadend = function() {
             var base64data = reader.result;
-            self.corkboardObjectUrl = self.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64data);
+            self.corkboardObjectUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
           };
         }
       });

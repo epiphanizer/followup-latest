@@ -38,7 +38,7 @@ export class UserCorkBoardService {
   }
   getUserCorkBoardObjectsByUserCorkBoardObjectId(userCorkBoardObjectId: number) {
     return this.http
-      .get<UserCorkBoardObject>('users/corkBoardObjects/' + userCorkBoardObjectId, { responseType: 'blob' as 'json' })
+      .get<Blob>('users/corkBoardObjects/' + userCorkBoardObjectId, { responseType: 'blob' as 'json' })
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
