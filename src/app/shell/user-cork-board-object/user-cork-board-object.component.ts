@@ -16,17 +16,22 @@ export class UserCorkBoardObjectComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer, private userCorkBoardService: UserCorkBoardService) {}
 
   ngOnInit() {
-    var fileAsBlob = this.userCorkBoardObject.userCorkBoardBlob as any;
-    var self = this;
-    if (fileAsBlob !== null) {
-      var reader = new FileReader();
-      reader.readAsDataURL(fileAsBlob);
-      reader.onloadend = function() {
-        var base64data = reader.result;
-        self.corkboardObjectUrl = self.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64data);
-      };
-    }
+    this.userCorkBoardService
+      .getUserCorkBoardObjectsByUserCorkBoardObjectId(this.userCorkBoardObject.userCorkBoardObjectId)
+      .subscribe((data: UserCorkBoardObject) => {
+        var fileAsBlob = data.userCorkBoardBlob as any;
+        var self = this;
+        if (fileAsBlob !== null) {
+          var reader = new FileReader();
+          reader.readAsDataURL(fileAsBlob);
+          reader.onloadend = function() {
+            var base64data = reader.result;
+            self.corkboardObjectUrl = self.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64, ' + base64data);
+          };
+        }
+      });
   }
+
   removeCorkBoardObject(userCorkBoardObjectId: number) {
     if (this.deleteMode) {
       this.userCorkBoardService

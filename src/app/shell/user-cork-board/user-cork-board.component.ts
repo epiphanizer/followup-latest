@@ -78,9 +78,6 @@ export class UserCorkBoardComponent implements OnInit {
     if (!this.isOpen) {
       this.toggleCorkboardState();
     }
-    /**
-     * imageObj: {image, orientation}
-     */
     this.imageCompress.uploadFile().then((imageObj: any) => {
       this.imgResultBeforeCompress = imageObj.image;
       this.imageCompress.compressFile(imageObj.image, imageObj.orientation, 50, 50).then((result: any) => {
@@ -99,11 +96,14 @@ export class UserCorkBoardComponent implements OnInit {
           .addNewUserCorkBoardObjectByUserId(this.user.userId, imageFile)
           .subscribe((data: any) => {
             this.toastrService.success('Successfully added cork board item.');
-            this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe((data: any) => {
-              if (data) {
-                this.userCorkBoardObjects = data;
-              }
-            });
+            this.userCorkBoardService
+              .getUserCorkBoardObjectsByUserId(this.user.userId)
+              .subscribe((data: UserCorkBoardObject[]) => {
+                if (data) {
+                  console.log(data);
+                  this.userCorkBoardObjects = data;
+                }
+              });
           });
       });
     });

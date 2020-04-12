@@ -23,18 +23,22 @@ export class UserCorkBoardService {
     let formData = new FormData();
     formData.append('userCorkBoardBlob', file, file.name);
     return this.http.post('users/' + userId + '/corkBoardObjects', formData).pipe(
-      retry(1), // retry a failed request up to 1 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
   deleteUserCorkBoardObjectByUserCorkBoardObjectId(userCorkBoardObjectId: number) {
-    return this.http.delete('users/userCorkBoardObjects/' + userCorkBoardObjectId).pipe(
+    return this.http.delete('users/corkBoardObjects/' + userCorkBoardObjectId).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
   getUserCorkBoardObjectsByUserId(userId: number) {
+    return this.http.get<UserCorkBoardObject[]>('users/' + userId + '/corkBoardObjects').pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  getUserCorkBoardObjectsByUserCorkBoardObjectId(userCorkBoardObjectId: number) {
     return this.http
-      .get<UserCorkBoardObject[]>('users/' + userId + '/corkBoardObjects', { responseType: 'blob' as 'json' })
+      .get<UserCorkBoardObject>('users/corkBoardObjects/' + userCorkBoardObjectId, { responseType: 'blob' as 'json' })
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
