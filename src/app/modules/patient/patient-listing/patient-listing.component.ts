@@ -15,6 +15,8 @@ import { LocationStrategy } from '@angular/common';
   styleUrls: ['./patient-listing.component.scss']
 })
 export class PatientListingComponent implements OnInit {
+  componentName: string = 'PatientListing';
+
   @Input() operation: Operation;
 
   public patients: Patient[];

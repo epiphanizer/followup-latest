@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ComponentRef, Component } from '@angular/core';
 import { ActivatedRouteSnapshot, ActivatedRoute, ParamMap, Router, RoutesRecognized } from '@angular/router';
 
 export interface MenuLink {
@@ -18,8 +18,6 @@ export class MenuService {
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   getComponentMenu(activeComponent: string) {
-    // console.log(this.route.routeConfig.component.name);
-    // console.log(activeComponent);
     switch (activeComponent) {
       case 'NotificationDetailComponent':
         this.navLinks = [
@@ -49,7 +47,7 @@ export class MenuService {
           }
         ];
         break;
-      case 'EditOperationComponent':
+      case 'OperationFormComponent':
         this.navLinks = [
           {
             linkAction: 'operation/add',
@@ -63,15 +61,6 @@ export class MenuService {
           {
             linkAction: 'operation/add',
             linkName: 'Add Operation',
-            linkType: 'link'
-          }
-        ];
-        break;
-      case 'AddPatientComponent':
-        this.navLinks = [
-          {
-            linkAction: 'patients',
-            linkName: 'Patients',
             linkType: 'link'
           }
         ];
@@ -139,7 +128,10 @@ export class MenuService {
         ];
         break;
       case 'PatientListingComponent':
-        var callQueueLink = '/call-queue/operations/' + this.operationId;
+        var callQueueLink = '/call-queue';
+        if (this.operationId) {
+          callQueueLink += '/operations/' + this.operationId;
+        }
         this.navLinks = [
           {
             linkAction: 'patient/add',

@@ -7,6 +7,14 @@ import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
 import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
 import { map, filter } from 'rxjs/operators';
+import { PatientListingComponent } from '@app/modules/patient/patient-listing/patient-listing.component';
+import { NotificationDetailComponent } from '@app/modules/notification/notification-detail/notification-detail.component';
+import { NotificationListingComponent } from '@app/modules/notification/notification-listing/notification-listing.component';
+import { OperationFormComponent } from '@app/modules/operation/operation-form/operation-form.component';
+import { OperationListingComponent } from '@app/modules/operation/operation-listing/operation-listing.component';
+import { PatientFormComponent } from '@app/modules/patient/patient-form/patient-form.component';
+import { PatientDetailComponent } from '@app/modules/patient/patient-detail/patient-detail.component';
+import { PatientHistoryDetailComponent } from '@app/modules/patient/patient-detail/patient-history-detail.component';
 
 @Component({
   providers: [MenuService],
@@ -39,9 +47,8 @@ export class ToolbarNavComponent implements OnInit {
         if (this.route.snapshot.firstChild) {
           this.patient = this.route.snapshot.firstChild.data.patient;
         }
-
-        this.activeComponent = e.snapshot.component['name'];
-        // console.log(this.activeComponent);
+        this.activeComponent = this.getType(e.snapshot.component);
+        console.log(this.activeComponent);
         if (e.snapshot.params['patientId']) {
           this.menuService.patientId = e.snapshot.params['patientId'];
         }
@@ -54,6 +61,30 @@ export class ToolbarNavComponent implements OnInit {
       });
   }
 
+  /**
+   * Refer to
+   * @link https://stackoverflow.com/questions/46561116/angular4-component-name-doesnt-work-on-production
+   * as to why we have to do this.
+   */
+  getType(o: any): string {
+    if (o === NotificationDetailComponent) {
+      return 'NotificationDetailComponent';
+    } else if (o === NotificationListingComponent) {
+      return 'NotificationListingComponent';
+    } else if (o === OperationFormComponent) {
+      return 'OperationFormComponent';
+    } else if (o === OperationListingComponent) {
+      return 'OperationListingComponent';
+    } else if (o === PatientFormComponent) {
+      return 'PatientFormComponent';
+    } else if (o === PatientDetailComponent) {
+      return 'PatientDetailComponent';
+    } else if (o === PatientHistoryDetailComponent) {
+      return 'PatientHistoryDetailComponent';
+    } else if (o === PatientListingComponent) {
+      return 'PatientListingComponent';
+    }
+  }
   ngAfterViewInit() {}
 
   doButtonAction(buttonAction: string) {
