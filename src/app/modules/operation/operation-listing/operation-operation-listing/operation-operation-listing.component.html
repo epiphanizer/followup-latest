@@ -1,6 +1,17 @@
 <h3 class="section-header">
   {{ operation?.operationName }}
 </h3>
+<table class="operation-filter-search">
+  <tr>
+    <td>
+      <ion-input placeholder="Operation Search" (ionInput)="searchOperations($event)"> </ion-input>
+    </td>
+    <td>
+      <ion-icon name="search"></ion-icon>
+    </td>
+  </tr>
+</table>
+
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="operation-filters ">
   <li class="ion-float-left operation-name">
@@ -20,16 +31,13 @@
     </span>
   </li>
   <li class="operation-status ion-float-right">
-    <a>
-      <!-- <a [class.active]="filterBy == 'operation-status'" (click)="sortOperationsByOperationStatus(selectedSortFlag)" -->
-      [Status]</a
-    >
+    <a> [Status]</a>
   </li>
 </ul>
 
-<ul class="operation-operation-list">
+<ul class="operation-operation-list" *ngIf="operations$ | async">
   <li
-    *ngFor="let operation of operations$ | async"
+    *ngFor="let operation of operationsFiltered"
     class="active"
     [routerLink]="'/operation/edit/' + operation.operationId"
   >

@@ -13,6 +13,7 @@ export class OperationOperationListingComponent implements OnInit {
   @Input() operation: Operation;
   public operations: Operation[];
   public operations$: Observable<Operation[]>;
+  public operationsFiltered: Operation[];
   public filterBy: string = 'operation-name';
   public selectedSortFlag: string = 'desc';
 
@@ -20,7 +21,10 @@ export class OperationOperationListingComponent implements OnInit {
   ngOnInit() {
     this.operations$ = this.operationService.getAllOperations().pipe(
       map((operations: Operation[]) => {
-        this.operations = operations;
+        /**
+         * Set our filtered operations also equal to initial operations.
+         */
+        this.operationsFiltered = this.operations = operations;
         return operations;
       })
     );
@@ -43,17 +47,14 @@ export class OperationOperationListingComponent implements OnInit {
       this.operations.sort();
     }
   };
-  // Per first release, we don't pull in inactive operations
-  // sortOperationsByOperationStatus = function(sortFlag: string) {
-  //   this.filterBy = 'operation-status';
-  //   if (sortFlag == 'asc') {
-  //     this.operations.sort((a: Operation, b: Operation) => {
-  //       return <any>new Date(a.operationActive) - <any>new Date(b.operationActive);
-  //     });
-  //   } else {
-  //     this.operations.sort((a: Operation, b: Operation) => {
-  //       return <any>new Date(b.operationActive) - <any>new Date(a.operationActive);
-  //     });
-  //   }
-  // };
+
+  searchOperations($event: KeyboardEvent): Operation[] {
+    let searchText = $event.currentTarget['value'];
+    searchText = searchText.toLowerCase();
+    this.operationsFiltered = this.operations.filter((operation: Operation) => {
+      let operationName = operation.operationName;
+      return operationName.toLowerCase().includes(searchText);
+    });
+    return this.operationsFiltered;
+  }
 }
