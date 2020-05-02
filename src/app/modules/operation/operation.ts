@@ -45,6 +45,7 @@ export interface OperationPutBody {
 
 export interface OperationManager {
   operationManagerId?: number;
+  operationManagerName?: string;
   operationId: number;
   userId: number;
 }

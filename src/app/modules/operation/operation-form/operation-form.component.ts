@@ -107,6 +107,7 @@ export class OperationFormComponent implements OnInit {
             operationCallRepName: ''
           }
         ];
+        this.addAdditionalOperationManager();
         this.createForm();
         this.armForm();
       });
@@ -116,7 +117,7 @@ export class OperationFormComponent implements OnInit {
      * if we're coming from the listing route. If we load by sidebar
      * we will listen for the change.
      */
-    if (this.route.snapshot.data.operation.operationId) {
+    if (this.route.snapshot.data.operation) {
       let operationId = parseInt(this.route.snapshot.data.operation.operationId);
       this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
         this.cleanData();
@@ -275,6 +276,7 @@ export class OperationFormComponent implements OnInit {
       .getOperationManagersByOperationId(this.operation.operationId)
       .pipe(take(1))
       .subscribe((operationManagers: OperationManager[]) => {
+        console.log(operationManagers);
         if (operationManagers.length) {
           this.operationManagers = operationManagers;
           operationManagers.forEach((operationManager: OperationManager) => {
@@ -320,6 +322,7 @@ export class OperationFormComponent implements OnInit {
       operationId: this.operation.operationId,
       userId: 0
     };
+    console.log(newManager);
     this.operationManagers.push(newManager);
   }
 
