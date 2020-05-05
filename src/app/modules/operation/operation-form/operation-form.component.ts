@@ -99,6 +99,13 @@ export class OperationFormComponent implements OnInit {
           queryParamsHandling: 'merge'
         });
         this.operation = data;
+        this.operationManagers = [
+          {
+            userId: 0,
+            operationId: this.operation.operationId,
+            operationManagerName: ''
+          }
+        ];
         // Arm an initial call rep
         this.operationCallReps = [
           {
@@ -107,7 +114,6 @@ export class OperationFormComponent implements OnInit {
             operationCallRepName: ''
           }
         ];
-        this.addAdditionalOperationManager();
         this.createForm();
         this.armForm();
       });
@@ -276,7 +282,6 @@ export class OperationFormComponent implements OnInit {
       .getOperationManagersByOperationId(this.operation.operationId)
       .pipe(take(1))
       .subscribe((operationManagers: OperationManager[]) => {
-        console.log(operationManagers);
         if (operationManagers.length) {
           this.operationManagers = operationManagers;
           operationManagers.forEach((operationManager: OperationManager) => {
@@ -322,13 +327,11 @@ export class OperationFormComponent implements OnInit {
       operationId: this.operation.operationId,
       userId: 0
     };
-    console.log(newManager);
     this.operationManagers.push(newManager);
   }
 
   addAdditionalOperationContact() {
     let formArray = this.operationForm.controls.operationContacts as FormArray;
-    console.log(formArray);
     var count = formArray.length;
 
     let contactFormGroup = this.fb.group({});
@@ -487,9 +490,9 @@ export class OperationFormComponent implements OnInit {
 
   onFormSubmit() {
     console.log(this.operationForm.getRawValue());
-    // if (!this.validateControls()) {
-    //   return;
-    // }
+    if (!this.validateControls()) {
+      return;
+    }
     // Passing E2E
     this.operationManagersToRemove.forEach((managerUserId: number) => {
       // Don't process default manager entry
