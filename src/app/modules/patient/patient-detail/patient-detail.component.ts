@@ -227,12 +227,7 @@ export class PatientDetailComponent implements OnInit {
          * Passing E2E as of now
          */
         this.patientCallService
-          .addNewPatientCallByPatientId(
-            this.patient.patientId,
-            isoString,
-            // (3 => 'scheduled' status)
-            3
-          )
+          .addNewPatientCallByPatientId(this.patient.patientId, isoString)
           .subscribe((data: any) => {
             let patientCallId = data.patientCallId;
             let itemsProcessed = 0;

@@ -101,15 +101,10 @@ export class PatientCallService {
   }
 
   // Needs accompanying swagger
-  public addNewPatientCallByPatientId(
-    patientId: number,
-    patientCallScheduledTime: string,
-    patientCallStatusLabelId: number
-  ) {
+  public addNewPatientCallByPatientId(patientId: number, patientCallScheduledTime: string) {
     return this.http
       .post('patients/' + patientId + '/calls', {
-        patientCallScheduledTime: patientCallScheduledTime,
-        patientCallStatusLabelId: patientCallStatusLabelId
+        patientCallScheduledTime: patientCallScheduledTime
       })
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error
