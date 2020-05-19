@@ -116,6 +116,9 @@ export class OperationFormComponent implements OnInit {
         ];
         this.createForm();
         this.armForm();
+        this.updateOperationContacts();
+        this.updateOperationManagers();
+        this.updateOperationCallReps();
       });
     }
     /**
