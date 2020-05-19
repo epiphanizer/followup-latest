@@ -28,11 +28,7 @@
           </span>
           <span class="patient-filter-call-date"
             >&nbsp; Call
-            {{
-              patientCall.patientCallStatusLabelId == 1 || patientCall.patientCallStatusLabelId == 2
-                ? patientCall.patientCallCount
-                : patientCall.patientCallCount - 1
-            }}
+            {{ patientCall.patientCallCount }}
             - ({{ patientCall.patientCallStatusLabelId == 1 ? 'New Discharge' : patientCall.patientCallStatusLabel }})
             &nbsp;|&nbsp;
             <ng-container *ngIf="patientCall.patientCallEndTime; else callScheduledTime">

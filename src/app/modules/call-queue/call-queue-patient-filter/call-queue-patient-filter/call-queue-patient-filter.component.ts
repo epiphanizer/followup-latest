@@ -64,7 +64,12 @@ export class CallQueuePatientFilterComponent implements OnInit {
     let transformedDate = this.datePipe.transform(selectedDateObj, 'yyyy-MM-dd');
     if (this.patientCalls) {
       this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
-        return patientCall.patientCallScheduledTime.toString().indexOf(transformedDate) !== -1;
+        console.log(patientCall);
+        if (patientCall.patientCallEndTime) {
+          return patientCall.patientCallEndTime.toString().indexOf(transformedDate) !== -1;
+        } else {
+          return patientCall.patientCallScheduledTime.toString().indexOf(transformedDate) !== -1;
+        }
       });
     }
     return this.patientCallsFiltered;
