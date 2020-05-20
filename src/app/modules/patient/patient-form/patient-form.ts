@@ -4,9 +4,13 @@ export interface FormEntry {
   submission: {};
 }
 
+/**
+ * Anything date related is a UTC-based,
+ * ISO date format inside of a string
+ */
 export interface PatientPutBody {
   patientActive: number | boolean;
-  patientDob: Date;
+  patientDob: string;
   patientOperationId: number;
   patientMedicalRecordNumber: string;
   patientFirstName: string;
@@ -14,8 +18,8 @@ export interface PatientPutBody {
   patientLastName: string;
   patientPrimaryInsurance: string;
   patientSecondaryInsurance: string;
-  patientAdmitDate: Date;
-  patientDischargeDate: Date;
+  patientAdmitDate: string;
+  patientDischargeDate: string;
   patientDischargedAma: number | boolean;
   patientDischargeLabelId: number;
   patientMedicalConditions: string;

@@ -505,9 +505,17 @@ export class PatientFormComponent implements OnInit {
    * @param formSubmission
    */
   private formSubmissionFactory(formSubmission: any) {
+    /**
+     * Do transforms so we have proper UTC times on the dates
+     */
+    var patientDob = formSubmission.patient.patientDob.substr(0, 10) + 'T12:00:00.00Z';
+    var patientAdmitDate = formSubmission.patient.dischargeInfo.patientAdmitDate.substr(0, 10) + 'T12:00:00.00Z';
+    var patientDischargeDate =
+      formSubmission.patient.dischargeInfo.patientDischargeDate.substr(0, 10) + 'T12:00:00.00Z';
+
     const patientMedicalConditions = JSON.stringify(formSubmission.patient.patientMedicalConditions);
     var payload = {
-      patientDob: formSubmission.patient.patientDob,
+      patientDob: patientDob,
       patientOperationId: formSubmission.operation,
       patientMedicalRecordNumber: formSubmission.patient.patientMedicalRecordNumber,
       patientFirstName: formSubmission.patient.patientName.patientFirstName,
@@ -515,8 +523,8 @@ export class PatientFormComponent implements OnInit {
       patientLastName: formSubmission.patient.patientName.patientLastName,
       patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
       patientSecondaryInsurance: formSubmission.patient.insurance.secondaryInsurance || '',
-      patientAdmitDate: formSubmission.patient.dischargeInfo.patientAdmitDate,
-      patientDischargeDate: formSubmission.patient.dischargeInfo.patientDischargeDate,
+      patientAdmitDate: patientAdmitDate,
+      patientDischargeDate: patientDischargeDate,
       patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma == true ? 1 : 0,
       patientDischargeLabelId: parseInt(formSubmission.patient.dischargeInfo.patientDischargedTo),
       patientDischargedCondition: formSubmission.patient.patientDischargedCondition,
