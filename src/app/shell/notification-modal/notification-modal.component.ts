@@ -77,27 +77,31 @@ export class NotificationModalComponent {
   }
   onChanges() {
     let notificationTypes = this.notificationTypes;
-    this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
-      this.notificationType = notificationTypes.find(notificationTypes => notificationTypes.notificationTypeId == val);
-      if (this.notificationType !== undefined) {
-        this.notification.notificationTypeId = this.notificationType.notificationTypeId;
-        this.notification.notificationTypeLabel = this.notificationType.notificationTypeLabel;
-        this.notification.notificationIconImage = this.notificationType.notificationIconImage;
-      }
-      this.notificationService
-        .getNotificationRecipientsByOperationIdAndNotificationTypeId(
-          this.notification.notificationOperationId,
-          this.notification.notificationTypeId
-        )
-        .subscribe((data: NotificationRecipient[]) => {
-          if (this.notificationRecipients !== null) {
-            this.notificationRecipients = data;
-          }
-        });
-    });
-    this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
-      this.notification.notificationMessage = val;
-    });
+    if (this.createNotificationForm) {
+      this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
+        this.notificationType = notificationTypes.find(
+          notificationTypes => notificationTypes.notificationTypeId == val
+        );
+        if (this.notificationType !== undefined) {
+          this.notification.notificationTypeId = this.notificationType.notificationTypeId;
+          this.notification.notificationTypeLabel = this.notificationType.notificationTypeLabel;
+          this.notification.notificationIconImage = this.notificationType.notificationIconImage;
+        }
+        this.notificationService
+          .getNotificationRecipientsByOperationIdAndNotificationTypeId(
+            this.notification.notificationOperationId,
+            this.notification.notificationTypeId
+          )
+          .subscribe((data: NotificationRecipient[]) => {
+            if (data !== null) {
+              this.notificationRecipients = data;
+            }
+          });
+      });
+      this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
+        this.notification.notificationMessage = val;
+      });
+    }
   }
 
   createForm() {
