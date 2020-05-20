@@ -4,8 +4,7 @@
       <table>
         <tr>
           <td>
-            <ion-input placeholder="Patient/Date Search" (ionInput)="searchPatientCallHistoryByText($event)">
-            </ion-input>
+            <ion-input placeholder="Patient Search" (ionInput)="searchPatientCallHistoryByText($event)"> </ion-input>
           </td>
           <td>
             <ion-icon name="search"></ion-icon>
@@ -29,8 +28,7 @@
           <span class="patient-filter-call-date"
             >&nbsp; Call
             {{ patientCall.patientCallCount }}
-            - ({{ patientCall.patientCallStatusLabelId == 1 ? 'New Discharge' : patientCall.patientCallStatusLabel }})
-            &nbsp;|&nbsp;
+            - ({{ patientCall.patientCallStatusLabel }}) &nbsp;|&nbsp;
             <ng-container *ngIf="patientCall.patientCallEndTime; else callScheduledTime">
               {{ patientCall.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}
             </ng-container>
@@ -49,5 +47,5 @@
   </span>
 </ng-template>
 <ng-template #noCalls>
-  <span class="no-calls"> No results for date or search. </span>
+  <span class="no-calls"> No results for search. </span>
 </ng-template>
