@@ -22,7 +22,7 @@
               formControlName="operationId"
               [value]="operation?.operationId"
             ></ion-input>
-            <ion-label color="medium" position="stacked">Facility</ion-label>
+            <ion-label color="medium" position="stacked">Facility <span class="alert-danger">*</span></ion-label>
             <ion-input type="text" formControlName="operationName" required></ion-input>
           </ion-item>
           <ion-item class="address">
@@ -94,10 +94,8 @@
                     <ion-input type="text" formControlName="operationContactTitle"></ion-input>
                   </ion-item>
                   <ion-item>
-                    <ion-label position="stacked" color="medium">
-                      Email
-                    </ion-label>
-                    <ion-input type="text" formControlName="operationContactEmail"></ion-input>
+                    <ion-label position="stacked" color="medium"> Email <span class="alert-danger">*</span> </ion-label>
+                    <ion-input type="text" formControlName="operationContactEmail" required></ion-input>
                   </ion-item>
                   <div class="phone-container">
                     <ion-item class="country-code">
