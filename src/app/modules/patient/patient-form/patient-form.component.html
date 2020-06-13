@@ -33,16 +33,16 @@
         <ion-list lines="none" inset formGroupName="patient">
           <i class="icon-info"></i>
           <ion-item class="patient-medical-record-number">
-            <ion-label color="medium" position="stacked">Patient #</ion-label>
+            <ion-label color="medium" position="stacked">Patient # <span class="alert-danger">*</span></ion-label>
             <ion-input type="text" formControlName="patientMedicalRecordNumber"></ion-input>
           </ion-item>
           <ion-item class="patient-dob">
-            <ion-label color="medium" position="stacked">Date of Birth</ion-label>
+            <ion-label color="medium" position="stacked">Date of Birth <span class="alert-danger">*</span></ion-label>
             <ion-datetime type="date" [max]="2005" formControlName="patientDob"></ion-datetime>
           </ion-item>
           <ion-list lines="none" inset formGroupName="patientName">
             <ion-item class="patient-first-name">
-              <ion-label color="medium" position="stacked">First Name</ion-label>
+              <ion-label color="medium" position="stacked">First Name <span class="alert-danger">*</span></ion-label>
               <ion-input type="text" formControlName="patientFirstName"></ion-input>
             </ion-item>
             <ion-item class="patient-middle-name">
@@ -50,7 +50,7 @@
               <ion-input type="text" formControlName="patientMiddleName"></ion-input>
             </ion-item>
             <ion-item class="patient-last-name">
-              <ion-label color="medium" position="stacked">Last Name</ion-label>
+              <ion-label color="medium" position="stacked">Last Name <span class="alert-danger">*</span></ion-label>
               <ion-input type="text" formControlName="patientLastName"></ion-input>
             </ion-item>
           </ion-list>
@@ -80,7 +80,9 @@
                   </ng-template>
                 </div>
                 <ion-item class="first-name">
-                  <ion-label color="medium" position="stacked">First Name</ion-label>
+                  <ion-label color="medium" position="stacked"
+                    >First Name <span class="alert-danger">*</span></ion-label
+                  >
                   <ion-input type="text" formControlName="patientContactFirstName"> </ion-input>
                 </ion-item>
                 <ion-item class="last-name">
@@ -88,21 +90,25 @@
                   <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
                 </ion-item>
                 <ion-item class="relationship">
-                  <ion-label color="medium" position="stacked">Relationship</ion-label>
+                  <ion-label color="medium" position="stacked"
+                    >Relationship <span class="alert-danger">*</span></ion-label
+                  >
                   <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
                 </ion-item>
                 <div class="phone-container">
                   <ion-item class="country-code">
-                    <ion-label color="medium" position="stacked">+(1)</ion-label>
+                    <ion-label color="medium" position="stacked"
+                      >+(1) <span class="alert-danger">*</span><span class="alert-danger">*</span></ion-label
+                    >
                     <ion-input type="text" formControlName="patientContactCountryCode"></ion-input>
                   </ion-item>
                   <ion-item class="area-code">
-                    <ion-label color="medium" position="stacked">(###)</ion-label>
-                    <ion-input type="text" formControlName="patientContactAreaCode"></ion-input>
+                    <ion-label color="medium" position="stacked">(###) <span class="alert-danger">*</span></ion-label>
+                    <ion-input type="text" mask="000" formControlName="patientContactAreaCode"></ion-input>
                   </ion-item>
                   <ion-item class="phone-number">
-                    <ion-label color="medium" position="stacked">Phone #</ion-label>
-                    <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
+                    <ion-label color="medium" position="stacked">Phone # <span class="alert-danger">*</span></ion-label>
+                    <ion-input type="text" mask="000-0000" formControlName="patientContactPhoneNumber"></ion-input>
                   </ion-item>
                   <ion-item class="patient-contact-order">
                     <ion-label color="medium" position="stacked">Order</ion-label>
@@ -154,7 +160,7 @@
             <ion-list class="discharge-dates" inset lines="none">
               <div class="patient-discharge-dates-container">
                 <ion-item class="discharge-admit-date">
-                  <ion-label color="medium" position="stacked">Admitted</ion-label>
+                  <ion-label color="medium" position="stacked">Admitted <span class="alert-danger">*</span></ion-label>
                   <ion-datetime
                     formControlName="patientAdmitDate"
                     [max]="patientMaxAdmitDate"
@@ -162,7 +168,9 @@
                   ></ion-datetime>
                 </ion-item>
                 <ion-item class="discharge-discharge-date">
-                  <ion-label color="medium" position="stacked">Discharged</ion-label>
+                  <ion-label color="medium" position="stacked"
+                    >Discharged <span class="alert-danger">*</span></ion-label
+                  >
                   <ion-datetime
                     formControlName="patientDischargeDate"
                     [min]="patientMinDischargeDate"
@@ -176,7 +184,7 @@
                 </ion-item>
               </div>
               <ion-label class="discharged-label" color="medium" position="stacked">
-                Discharged Against Medical Advice?
+                Discharged Against Medical Advice? <span class="alert-danger">*</span>
               </ion-label>
               <ion-item class="discharged-ama">
                 <ion-radio-group formControlName="patientDischargedAma">
@@ -195,7 +203,9 @@
                 </ion-radio-group>
               </ion-item>
               <ion-item class="discharge-to-location" *ngIf="dischargeLabels">
-                <ion-label color="medium" position="stacked">Discharged To:</ion-label>
+                <ion-label color="medium" position="stacked"
+                  >Discharged To: <span class="alert-danger">*</span></ion-label
+                >
                 <ion-radio-group formControlName="patientDischargedTo">
                   <ion-list inset lines="none">
                     <ion-item *ngFor="let dischargeLabel of dischargeLabels">
@@ -236,11 +246,15 @@
                 </ion-list>
               </ion-item>
               <ion-item class="textarea-item">
-                <ion-label color="medium" position="stacked">Primary Diagnosis</ion-label>
+                <ion-label color="medium" position="stacked"
+                  >Primary Diagnosis <span class="alert-danger">*</span></ion-label
+                >
                 <ion-textarea [autoGrow]="true" formControlName="patientPrimaryDiagnosis"></ion-textarea>
               </ion-item>
               <ion-item class="textarea-item" *ngIf="patient">
-                <ion-label color="medium" position="stacked">Discharged Condition</ion-label>
+                <ion-label color="medium" position="stacked"
+                  >Discharged Condition <span class="alert-danger">*</span></ion-label
+                >
                 <ion-textarea [autoGrow]="true" formControlName="patientDischargedCondition"></ion-textarea>
               </ion-item>
             </ion-list>
@@ -304,7 +318,7 @@
             <i class="icon-star"></i>
             <ion-item class="urgency-rating">
               <ion-label color="medium" position="stacked">
-                Urgency Rating
+                Urgency Rating <span class="alert-danger">*</span>
               </ion-label>
               <ion-radio-group formControlName="patientUrgencyScale">
                 <ion-item *ngFor="let rating of [1, 2, 3, 4, 5]">

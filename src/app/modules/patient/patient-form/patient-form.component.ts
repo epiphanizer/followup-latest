@@ -23,6 +23,7 @@ import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import { NgxImageCompressService } from 'ngx-image-compress';
+mask = '000';
 
 @Component({
   providers: [NgxImageCompressService, PatientService, PatientIntakeQuestionService],

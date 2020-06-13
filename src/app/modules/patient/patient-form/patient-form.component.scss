@@ -47,11 +47,6 @@ form {
 
   > fieldset {
     padding: 0;
-    // margin-left: -25px;
-  }
-
-  > ion-list {
-    // margin-left: -25px;
   }
 
   ion-select,
@@ -69,6 +64,9 @@ form {
     font-stretch: normal;
     letter-spacing: 0.42px;
     text-align: left;
+    .alert-danger {
+      color: --ion-color-danger;
+    }
   }
 
   ion-input,
@@ -85,7 +83,6 @@ form {
     font-size: 14px;
     font-family: Avenir;
   }
-
   .main-label-box {
     font-family: Avenir;
     font-size: 21px;
