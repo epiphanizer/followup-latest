@@ -561,8 +561,8 @@ export class OperationFormComponent implements OnInit {
           return this.operationContactsOriginal.indexOf(operationContact.operationContactId) == -1;
         }
       );
-      console.log(this.operationContactsToAdd);
-      debugger;
+      // console.log(this.operationContactsToAdd);
+      // debugger;
       /**
        * We should have a test here
        */
@@ -626,8 +626,8 @@ export class OperationFormComponent implements OnInit {
           return this.operationContactsToAdd.indexOf(operationContact) == -1;
         }
       );
-      console.log(this.operationContactsToEdit);
-      debugger;
+      // console.log(this.operationContactsToEdit);
+      // debugger;
 
       // Passing E2E
       this.operationContactsToEdit.forEach((operationContact: OperationContact, idx: number) => {
@@ -682,8 +682,8 @@ export class OperationFormComponent implements OnInit {
       /**
        * Test
        */
-      console.log(this.operationContactsToRemove);
-      debugger;
+      // console.log(this.operationContactsToRemove);
+      // debugger;
       this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
         if (operationContactId != null) {
           this.operationContactsService

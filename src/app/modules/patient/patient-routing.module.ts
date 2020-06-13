@@ -11,7 +11,6 @@ import { UserResolver } from '../user/user-resolver.service';
 import { PatientListingComponent } from './patient-listing/patient-listing.component';
 import { PatientHistoryDetailComponent } from './patient-detail/patient-history-detail.component';
 import { AuthGuardService } from '@app/core/authentication/auth-guard.service';
-import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -91,7 +90,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), NgxMaskModule.forRoot()],
+  imports: [
+    RouterModule.forChild(routes)
+    // NgxMaskModule.forRoot()
+  ],
   exports: [RouterModule],
   providers: [UserResolver, PatientResolver]
 })
