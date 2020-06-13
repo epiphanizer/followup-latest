@@ -23,7 +23,6 @@ import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import { NgxImageCompressService } from 'ngx-image-compress';
-mask = '000';
 
 @Component({
   providers: [NgxImageCompressService, PatientService, PatientIntakeQuestionService],
@@ -54,7 +53,6 @@ export class PatientFormComponent implements OnInit {
   patientIntakeQuestionAnswers: PatientIntakeQuestionAnswer[] = [];
   patientIntakeQuestionAnswersToAdd: PatientIntakeQuestionAnswer[] = [];
   patientMaxAdmitDate: string = new Date().getFullYear().toString();
-  // default to 2019 as our first year
   patientMinDischargeDate: string = (new Date().getFullYear() + 1).toString();
   patientMedicalConditions?: string;
   operations: Operation[];
@@ -386,7 +384,7 @@ export class PatientFormComponent implements OnInit {
       });
     });
     console.log(this.patientContactsToRemove);
-    debugger;
+
     /**
      * Get a diff from our original patient contacts
      */
@@ -395,7 +393,7 @@ export class PatientFormComponent implements OnInit {
     });
 
     console.log(this.patientContactsToAdd);
-    debugger;
+
     // Passing E2E
     this.patientContactsToAdd.forEach((patientContact: PatientContact, index: number) => {
       var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
@@ -430,14 +428,14 @@ export class PatientFormComponent implements OnInit {
         this.editPatient(formSubmission);
       }
       console.log(this.patientContactsToEdit.length);
-      debugger;
+
       this.patientContactsToEdit.forEach((patientContact: PatientContact, index: number) => {
         // Now that we have these, we need to reassign to the form-submitted value.
         var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
         this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
         var patientContactPut = this.patientContactPutFactory(this.patientContacts[indexToGrab]);
         console.log(patientContactPut);
-        debugger;
+
         this.patientContactService
           .editPatientContactByPatientId(this.patientContacts[indexToGrab].patientContactId, patientContactPut)
           .subscribe(() => {
@@ -455,7 +453,7 @@ export class PatientFormComponent implements OnInit {
   editPatient(formSubmission: any) {
     let patientPutBody = this.formSubmissionFactory(formSubmission);
     console.log(patientPutBody);
-    debugger;
+
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       this.toastrService.success('Successfully edited patient!');
       window.location.href = '/operations/' + this.patientForm.get('operation').value + '/patients';

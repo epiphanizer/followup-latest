@@ -16,7 +16,6 @@ import { PatientPatientListingComponent } from './patient-listing/patient-patien
 import { FollowupCompleteModalComponent } from './patient-detail/followup-complete-modal/followup-complete-modal.component';
 import { FollowupCompleteButtonComponent } from './patient-detail/followup-complete-button/followup-complete-button.component';
 import { PatientAvatarUploadComponent } from './patient-avatar-upload/patient-avatar-upload.component';
-import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -36,8 +35,7 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
     ReactiveFormsModule,
     PatientRoutingModule,
     PatientCallModule,
-    PatientNotesModule,
-    NgxMaskModule.forRoot()
+    PatientNotesModule
   ],
   entryComponents: [
     PatientManagerSidebarComponent,
