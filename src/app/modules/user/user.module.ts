@@ -7,6 +7,7 @@ import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { UserAvatarService } from './user-avatar/user-avatar.service';
 import { IonicModule } from '@ionic/angular';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [UserDetailComponent, UserAvatarComponent],
