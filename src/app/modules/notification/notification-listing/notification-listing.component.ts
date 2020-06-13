@@ -31,13 +31,17 @@ export class NotificationListingComponent implements OnInit {
   constructor(private notificationService: NotificationService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.user = this.route.snapshot.data.user;
-    this.user.operations$
-      .subscribe((operations: Operation[]) => {
-        /** Init to the first assigned operation alphabetically */
-        this.selected.operation = operations[0];
-      })
-      .unsubscribe();
+    if (!this.route.snapshot.data.operation) {
+      this.user = this.route.snapshot.data.user;
+      this.user.operations$
+        .subscribe((operations: Operation[]) => {
+          /** Init to the first assigned operation alphabetically */
+          this.selected.operation = operations[0];
+        })
+        .unsubscribe();
+    } else {
+      this.selected.operation = this.route.snapshot.data.operation;
+    }
   }
 
   operationChangeEventHandler($event: Operation) {
