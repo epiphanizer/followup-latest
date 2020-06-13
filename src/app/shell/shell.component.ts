@@ -6,6 +6,7 @@ import { ModalController } from '@ionic/angular';
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
 import { of, Subscription } from 'rxjs';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-shell',
@@ -21,6 +22,8 @@ export class ShellComponent {
     linkAction: string;
   }[];
   routeSubscription: Subscription;
+  version: string = environment.version;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
