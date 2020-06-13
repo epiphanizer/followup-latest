@@ -38,6 +38,7 @@ export class PatientFormComponent implements OnInit {
   currentYear: number;
   editMode: boolean = false;
   patient: Patient;
+  patient$: Observable<Patient> | void;
   patientContacts: PatientContact[] = [];
   patientContactsOriginal: PatientContact[] = [];
   patientContactsToAdd: PatientContact[] = [];
@@ -58,9 +59,9 @@ export class PatientFormComponent implements OnInit {
   patientMedicalConditions?: string;
   operations: Operation[];
   operations$: Observable<Operation[]>;
+  stringMinimumOneWordRegEx = RegExp(/^(?!\s*$).+/);
 
   user: User;
-  patient$: Observable<Patient> | void;
 
   constructor(
     private fb: FormBuilder,
@@ -218,11 +219,20 @@ export class PatientFormComponent implements OnInit {
     this.patientForm = this.fb.group({
       operation: this.fb.control(this.patient.patientOperationId, [Validators.required]),
       patient: this.fb.group({
-        patientMedicalRecordNumber: this.fb.control(this.patient.patientMedicalRecordNumber, [Validators.required]),
+        patientMedicalRecordNumber: this.fb.control(this.patient.patientMedicalRecordNumber, [
+          Validators.required,
+          Validators.pattern(this.stringMinimumOneWordRegEx)
+        ]),
         patientName: this.fb.group({
-          patientFirstName: this.fb.control(this.patient.patientFirstName, [Validators.required]),
+          patientFirstName: this.fb.control(this.patient.patientFirstName, [
+            Validators.required,
+            Validators.pattern(this.stringMinimumOneWordRegEx)
+          ]),
           patientMiddleName: this.fb.control(this.patient.patientMiddleName),
-          patientLastName: this.fb.control(this.patient.patientLastName, [Validators.required])
+          patientLastName: this.fb.control(this.patient.patientLastName, [
+            Validators.required,
+            Validators.pattern(this.stringMinimumOneWordRegEx)
+          ])
         }),
         patientDob: this.fb.control(this.patient.patientDob, [Validators.required]),
         patientContacts: this.fb.array([]),
@@ -248,7 +258,10 @@ export class PatientFormComponent implements OnInit {
           pulmonaryBoolean: this.fb.control(this.patient.patientMedicalConditions.pulmonaryBoolean == true ? 1 : 0),
           otherBoolean: this.fb.control(this.patient.patientMedicalConditions.otherBoolean == true ? 1 : 0)
         }),
-        patientPrimaryDiagnosis: this.fb.control(this.patient.patientPrimaryDiagnosis, [Validators.required]),
+        patientPrimaryDiagnosis: this.fb.control(this.patient.patientPrimaryDiagnosis, [
+          Validators.required,
+          Validators.pattern(this.stringMinimumOneWordRegEx)
+        ]),
         patientDischargedCondition: this.fb.control(this.patient.patientDischargedCondition, [Validators.required]),
         patientIntakeQuestionAnswers: this.fb.array([]),
         patientUrgencyScale: this.fb.control(
