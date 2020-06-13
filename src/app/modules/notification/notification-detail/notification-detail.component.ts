@@ -29,7 +29,11 @@ export class NotificationDetailComponent implements OnInit {
     });
   }
   operationChangeEventHandler($event: Operation) {
-    this.selected.operation = $event;
-    window.location.href = '/operations/' + this.selected.operation.operationId + '/notifications';
+    if (!this.selected.operation) {
+      this.selected.operation = $event;
+    } else {
+      this.selected.operation = $event;
+      window.location.href = '/operations/' + this.selected.operation.operationId + '/notifications';
+    }
   }
 }
