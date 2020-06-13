@@ -5,6 +5,7 @@ import { NotificationResolver } from '@app/modules/notification/notification-res
 import { NotificationListingComponent } from './notification-listing/notification-listing.component';
 import { Shell } from '@app/shell/shell.service';
 import { NotificationDetailComponent } from './notification-detail/notification-detail.component';
+import { OperationResolver } from '../operation/operation-resolver';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -14,6 +15,16 @@ const routes: Routes = [
       pathMatch: 'full',
       data: {},
       resolve: {
+        user: UserResolver
+      }
+    },
+    {
+      path: 'operations/:operationId/notifications',
+      component: NotificationListingComponent,
+      pathMatch: 'full',
+      data: {},
+      resolve: {
+        operation: OperationResolver,
         user: UserResolver
       }
     },

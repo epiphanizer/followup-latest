@@ -175,7 +175,7 @@ export class OperationFormComponent implements OnInit {
               contactFormGroup.addControl('operationContactCountryCode', this.fb.control('1'));
               contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
               contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
-              contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
+              contactFormGroup.addControl('operationContactEmail', this.fb.control('', [Validators.required]));
               contactFormGroup.addControl(
                 'operationContactOrder',
                 this.fb.control({
