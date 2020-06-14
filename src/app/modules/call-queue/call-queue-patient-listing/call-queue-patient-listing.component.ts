@@ -25,6 +25,7 @@ export class CallQueuePatientListingComponent implements OnInit {
   infiniteScroll: IonInfiniteScroll;
   currentYear: number;
   currentNewDischargeCount: number;
+  todaysCallCount: number;
   @Input() operation: Operation;
   // we default to filtering by next call-date
   filterBy: string = 'discharge-date';
@@ -47,6 +48,7 @@ export class CallQueuePatientListingComponent implements OnInit {
         this.patients = patients;
         if (patients) {
           this.getCurrentNewDischargeCount(patients);
+          this.getTodaysCallCount(patients);
           this.sortPatientsByCallDate(this.selectedSortFlag);
         }
         return patients;
@@ -63,6 +65,7 @@ export class CallQueuePatientListingComponent implements OnInit {
             this.patients = patients;
             if (patients) {
               this.getCurrentNewDischargeCount(patients);
+              this.getTodaysCallCount(patients);
               this.sortPatientsByCallDate(this.selectedSortFlag);
             }
             return patients;
@@ -88,6 +91,17 @@ export class CallQueuePatientListingComponent implements OnInit {
       });
     }
     this.currentNewDischargeCount = patientsWithNoCalls.length;
+  }
+  public getTodaysCallCount(patients: Patient[]) {
+    var patientsWithCallsTodayOrBefore = new Array();
+    var self = this;
+    if (patients) {
+      patientsWithCallsTodayOrBefore = patients.filter(function(patient: Patient) {
+        return new Date(patient.patientNextCallScheduledTime) <= self.todaysDate;
+      });
+    }
+    console.log(patientsWithCallsTodayOrBefore);
+    this.todaysCallCount = patientsWithCallsTodayOrBefore.length;
   }
   public sortPatientsByDischargeDate = function(sortFlag: string) {
     this.filterBy = 'discharge-date';
