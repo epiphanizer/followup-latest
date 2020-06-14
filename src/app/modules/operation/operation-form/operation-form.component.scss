@@ -55,6 +55,17 @@ form {
   ion-input {
     font-family: Avenir;
     font-size: 14px;
+    margin-right: 10px;
+  }
+  ion-item.city {
+    width: 125px;
+    display: inline-block;
+  }
+
+  ion-item.state,
+  ion-item.zip {
+    display: inline-block;
+    width: 100px;
   }
 
   ion-input,
@@ -83,7 +94,10 @@ form {
       }
 
       &.area-code {
-        width: 110px;
+        width: 55px;
+      }
+      &.phone-number {
+        width: 120px;
       }
     }
   }
@@ -205,12 +219,19 @@ form {
           width: 140px;
         }
         &.title-position {
-          width: 220px;
+          width: 50%;
+          margin-right: 10px;
+        }
+        &.email {
+          width: 50%;
         }
 
         &.country-code {
           margin-left: 0;
           padding-left: 0 !important;
+        }
+        &.contact-order {
+          display: none;
         }
       }
     }
