@@ -57,11 +57,16 @@ app-patient-avatar {
   padding-left: 0;
 
   font-family: AvenirNextLTPro;
-  font-size: 14px;
+  font-size: 16px;
+  .patient-contact-name {
+    display: block;
+    width: 100%;
+    font-weight: 900;
+  }
   .patient-contact-number {
     font-family: AvenirNextLTPro;
-    font-size: 20px;
-    font-weight: 900;
+    font-size: 15px;
+    font-weight: 500;
     font-style: normal;
     font-stretch: normal;
     line-height: 0.95;

@@ -24,7 +24,11 @@
         <div class="patient-age">Age: {{ patient.patientAge }}</div>
         <div class="patient-contact-container">
           <ul class="patient-contact-list">
+            <span style="font-style:italic;"><i class="icon-phone"></i></span>
             <li *ngIf="patient.primaryContactPhoneNumber">
+              <span class="patient-contact-name">
+                {{ patient.patientPrimaryContactFirstName }} {{ patient.patientPrimaryContactLastName }}
+              </span>
               <span class="patient-contact-number">
                 {{ patient.primaryContactPhoneNumber }}
               </span>
