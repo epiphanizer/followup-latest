@@ -100,7 +100,6 @@ export class CallQueuePatientListingComponent implements OnInit {
         return new Date(patient.patientNextCallScheduledTime) <= self.todaysDate;
       });
     }
-    console.log(patientsWithCallsTodayOrBefore);
     this.todaysCallCount = patientsWithCallsTodayOrBefore.length;
   }
   public sortPatientsByDischargeDate = function(sortFlag: string) {
