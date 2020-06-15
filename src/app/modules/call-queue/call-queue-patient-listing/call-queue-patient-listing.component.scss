@@ -256,6 +256,7 @@ ul.patient-filters {
     .call-queue-patient-name {
       display: block;
       height: auto;
+      text-transform: capitalize;
       font-family: Avenir;
       font-size: 18px;
       font-weight: normal;
