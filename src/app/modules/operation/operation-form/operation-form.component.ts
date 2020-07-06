@@ -398,14 +398,22 @@ export class OperationFormComponent implements OnInit {
 
   operationPutFactory(formSubmission: any): OperationPutBody {
     try {
+      var operationCountryCode = '';
+      var operationAreaCode = '';
+      if (formSubmission.operation.operationCountryCode) {
+        operationCountryCode = formSubmission.operation.operationCountryCode.toString();
+      }
+      if (formSubmission.operation.operationAreaCode) {
+        operationAreaCode = formSubmission.operation.operationAreaCode.toString();
+      }
       var payload = {
         operationName: formSubmission.operation.operationName,
         operationAddress: formSubmission.operation.operationAddress,
         operationCity: formSubmission.operation.operationCity,
         operationState: formSubmission.operation.operationState,
         operationZip: formSubmission.operation.operationZip,
-        operationCountryCode: formSubmission.operation.operationCountryCode.toString(),
-        operationAreaCode: formSubmission.operation.operationAreaCode.toString(),
+        operationCountryCode: operationCountryCode,
+        operationAreaCode: operationAreaCode,
         operationPhoneNumber: formSubmission.operation.operationPhoneNumber,
         operationActive: formSubmission.operationActive ? 1 : 0
       };
@@ -452,14 +460,22 @@ export class OperationFormComponent implements OnInit {
   }
   operationContactPutFactory(formContact: any): OperationContactPutBody {
     try {
+      var operationCountryCode = '';
+      var operationAreaCode = '';
+      if (formContact.operationContactCountryCode) {
+        operationCountryCode = formContact.operationContactCountryCode.toString();
+      }
+      if (formContact.operationContactAreaCode) {
+        operationAreaCode = formContact.operationContactAreaCode.toString();
+      }
       var payload = {
         operationContactOrder: formContact.operationContactOrder,
         operationContactFirstName: formContact.operationContactFirstName,
         operationContactMiddleName: formContact.operationContactMiddleName || '',
         operationContactLastName: formContact.operationContactLastName,
         operationContactTitle: formContact.operationContactTitle || '',
-        operationContactCountryCode: formContact.operationContactCountryCode.toString(),
-        operationContactAreaCode: formContact.operationContactAreaCode || '',
+        operationContactCountryCode: operationCountryCode,
+        operationContactAreaCode: operationAreaCode,
         operationContactPhoneNumber: formContact.operationContactPhoneNumber || '',
         operationContactEmail: formContact.operationContactEmail,
         operationContactActive: 1
@@ -651,7 +667,7 @@ export class OperationFormComponent implements OnInit {
                 notificationsToAdd.push(parseInt(Object.keys(notificationType)[0]));
               }
             });
-            console.log(notificationsToAdd);
+            // console.log(notificationsToAdd);
             var count = 0;
             var finalCount = notificationsToAdd.length;
             notificationsToAdd.forEach((notificationTypeId: number) => {
@@ -667,7 +683,7 @@ export class OperationFormComponent implements OnInit {
                 .subscribe(() => {
                   count++;
                   let operationPut = this.operationPutFactory(formSubmission);
-                  console.log(count);
+                  // console.log(count);
                   if (count == finalCount) {
                     this.operationService
                       .editOperationByOperationId(this.operation.operationId, operationPut)
@@ -684,17 +700,6 @@ export class OperationFormComponent implements OnInit {
        */
       // console.log(this.operationContactsToRemove);
       // debugger;
-      this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
-        if (operationContactId != null) {
-          this.operationContactsService
-            .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
-            .subscribe(() => {
-              this.toastr.success('Successfully removed operation contact');
-            });
-        }
-      });
-    } else {
-      let operationPut = this.operationPutFactory(formSubmission);
       if (this.operationContactsToRemove) {
         this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
           if (operationContactId != null) {
@@ -702,11 +707,29 @@ export class OperationFormComponent implements OnInit {
               .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
               .subscribe(() => {
                 this.toastr.success('Successfully removed operation contact');
-                this.operationService
-                  .editOperationByOperationId(this.operation.operationId, operationPut)
-                  .subscribe(() => {
-                    window.location.href = '/operations';
-                  });
+              });
+          }
+        });
+      }
+    } else {
+      let operationPut = this.operationPutFactory(formSubmission);
+      if (this.operationContactsToRemove) {
+        var count = 0;
+        var finalCount = this.operationContactsToRemove.length;
+        this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
+          if (operationContactId != null) {
+            this.operationContactsService
+              .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
+              .subscribe(() => {
+                count++;
+                this.toastr.success('Successfully removed operation contact');
+                if (count == finalCount) {
+                  this.operationService
+                    .editOperationByOperationId(this.operation.operationId, operationPut)
+                    .subscribe(() => {
+                      window.location.href = '/operations';
+                    });
+                }
               });
           }
         });
