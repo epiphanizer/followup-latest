@@ -175,7 +175,7 @@ export class OperationFormComponent implements OnInit {
               contactFormGroup.addControl('operationContactCountryCode', this.fb.control('1'));
               contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
               contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
-              contactFormGroup.addControl('operationContactEmail', this.fb.control('', [Validators.required]));
+              contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
               contactFormGroup.addControl(
                 'operationContactOrder',
                 this.fb.control({
@@ -380,7 +380,7 @@ export class OperationFormComponent implements OnInit {
     this.operationForm = this.fb.group({
       operation: this.fb.group({
         operationId: this.fb.control(this.operation.operationId),
-        operationName: this.fb.control('', [Validators.required]),
+        operationName: this.fb.control(this.operation.operationName),
         operationAddress: this.fb.control(this.operation.operationAddress),
         operationCity: this.fb.control(this.operation.operationCity),
         operationState: this.fb.control(this.operation.operationState),
@@ -493,9 +493,9 @@ export class OperationFormComponent implements OnInit {
 
   onFormSubmit() {
     console.log(this.operationForm.getRawValue());
-    if (!this.validateControls()) {
-      return;
-    }
+    // if (!this.validateControls()) {
+    //   return;
+    // }
     // Passing E2E
     this.operationManagersToRemove.forEach((managerUserId: number) => {
       // Don't process default manager entry
@@ -693,6 +693,28 @@ export class OperationFormComponent implements OnInit {
             });
         }
       });
+    } else {
+      let operationPut = this.operationPutFactory(formSubmission);
+      if (this.operationContactsToRemove) {
+        this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
+          if (operationContactId != null) {
+            this.operationContactsService
+              .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
+              .subscribe(() => {
+                this.toastr.success('Successfully removed operation contact');
+                this.operationService
+                  .editOperationByOperationId(this.operation.operationId, operationPut)
+                  .subscribe(() => {
+                    window.location.href = '/operations';
+                  });
+              });
+          }
+        });
+      } else {
+        this.operationService.editOperationByOperationId(this.operation.operationId, operationPut).subscribe(() => {
+          window.location.href = '/operations';
+        });
+      }
     }
   }
 
@@ -704,6 +726,8 @@ export class OperationFormComponent implements OnInit {
     this.operationContactsToRemove.push(this.operationContacts[idx].operationContactId);
     this.operationContacts.splice(idx, 1);
     let formGroup = this.operationForm.controls.operationContacts as FormArray;
+    formGroup.at(idx).clearValidators();
+    formGroup.at(idx).updateValueAndValidity();
     formGroup.removeAt(idx);
     this.operationContacts.forEach((operationContact, idx) => {
       this.operationContacts[idx].operationContactOrder = idx + 1;

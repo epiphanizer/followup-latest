@@ -68,7 +68,9 @@
       <div class="call-queue-patient-information">
         <span class="call-queue-patient-name">
           <a href="'/operations/' + {{ operation.operationId }} + '/patient/' + {{ patient.patientId }}">
-            {{ patient.patientFirstName }} {{ patient.patientLastName }}
+            {{ patient.patientFirstName }}
+            {{ patient.patientMiddleName }}
+            {{ patient.patientLastName }}
           </a>
         </span>
         <span class="patient label-line">{{ patient.patientAge }}, {{ operation?.operationName }}</span>
