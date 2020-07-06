@@ -73,20 +73,21 @@
             <span class="label">Facility:&nbsp;</span>
             {{ notification.notificationOperationName }}
           </ion-item>
-          <ion-item class="notification-review-item item-text-wrap">
-            <span class="label">Notify:&nbsp;</span>
-            <ng-container *ngIf="notificationRecipients; else noRecipients">
-              <span *ngFor="let notificationRecipient of notificationRecipients; let idx = index">
-                &nbsp;{{ notificationRecipient.notificationRecipientEmail
-                }}{{ idx + 1 == notificationRecipients.length ? '' : ',' }}
-                <br />
-              </span>
-            </ng-container>
-            <ng-template #noRecipients>
-              Woops! No recipients have been set. Click
-              <a href="/operations/" + {{ notification.notifcationOperationId }}>here</a>
-              to go set some recipients!
-            </ng-template>
+          <ion-item class="notification-review-item ion-text-wrap">
+            <ion-label class="label ion-text-wrap"
+              ><span class="label">Notify:&nbsp;</span>
+              <ng-container *ngIf="notificationRecipients; else noRecipients">
+                <span *ngFor="let notificationRecipient of notificationRecipients; let idx = index">
+                  {{ notificationRecipient.notificationRecipientEmail
+                  }}{{ idx + 1 == notificationRecipients.length ? '' : ', ' }}
+                </span>
+              </ng-container>
+              <ng-template #noRecipients>
+                Woops! No recipients have been set. Click
+                <a href="/operations/" + {{ notification.notifcationOperationId }}>here</a>
+                to go set some recipients!
+              </ng-template>
+            </ion-label>
           </ion-item>
           <ion-item class="notification-review-item">
             <span class="label">Date of Notification:&nbsp;</span> {{ todaysDate }}
