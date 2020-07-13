@@ -42,6 +42,7 @@
     "@ngx-translate/core": "^11.0.1",
     "angular-animations": "0.0.10",
     "angular-super-validator": "^2.0.0",
+    "angular-uuid": "0.0.4",
     "bn-ng-idle": "^1.0.1",
     "compressorjs": "^1.0.6",
     "core-js": "^3.3.6",
