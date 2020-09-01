@@ -167,8 +167,8 @@ export class PatientDetailComponent implements OnInit {
     /**
      * For iPad smart quote issue
      */
-    this.patientCallNotes.patientCallNotes = this.patientCallNotes.patientCallNotes.replace(/[‘’]/gi, "'");
-    this.patientCallNotes.patientCallNotes = this.patientCallNotes.patientCallNotes.replace(/[“”]/gi, '"');
+    this.patientCallNotes.patientCallNotes = this.patientCallNotes.patientCallNotes.replace(/[[\u2018\u2019]/gi, "'");
+    this.patientCallNotes.patientCallNotes = this.patientCallNotes.patientCallNotes.replace(/[\u201C\u201D]/gi, '"');
 
     this.patientCallNotesService
       .addPatientCallNotesByPatientCallId(
@@ -211,8 +211,8 @@ export class PatientDetailComponent implements OnInit {
           /**
            * For iPad smart quote issue
            */
-          patientCallQuestionAnswerText = patientCallQuestionAnswerText.replace(/[‘’]/gi, "'");
-          patientCallQuestionAnswerText = patientCallQuestionAnswerText.replace(/[‘’]/gi, "'");
+          patientCallQuestionAnswerText = patientCallQuestionAnswerText.replace(/[[\u2018\u2019]/gi, "'");
+          patientCallQuestionAnswerText = patientCallQuestionAnswerText.replace(/[\u201C\u201D]/gi, '"');
 
           this.patientCallQuestionsService
             .addPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestionId, patientCallQuestionAnswerText)

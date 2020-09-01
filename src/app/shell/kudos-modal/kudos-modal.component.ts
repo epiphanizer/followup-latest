@@ -68,11 +68,10 @@ export class KudosModalComponent {
     /**
      * For iPad smart quote issue
      */
-    // formData.notificationMessage.replace(/[\u2018\u2019\u201C\u201D]/g, (c: any) =>
-    //   '\'\'""'.substr('\u2018\u2019\u201C\u201D'.indexOf(c), 1)
-    // );
-    formData.notificationMessage = formData.notificationMessage.replace(/[‘’]/gi, "'");
-    formData.notificationMessage = formData.notificationMessage.replace(/[“”]/gi, '"');
+
+    formData.notificationMessage = formData.notificationMessage.replace(/[[\u2018\u2019]/gi, "'");
+    formData.notificationMessage = formData.notificationMessage.replace(/[\u201C\u201D]/gi, '"');
+
     this.notification.notificationMessage = formData.notificationMessage;
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
