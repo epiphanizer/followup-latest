@@ -28,6 +28,11 @@ export class UserResolver implements Resolve<User> {
     this.user = this.authService.currentUserValue;
     var date = new Date();
     var currentTime = date.getTime();
+
+    if (currentTime > this.user.userLoginExpires) {
+      alert('You have been timed out due to inactivity');
+      this.authService.signOut();
+    }
     /**
      * If we are under 5 mins, give the user another 5.
      */

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { HostListener } from '@angular/core';
@@ -28,17 +28,15 @@ export class ShellComponent {
   userActionSinceLastUpdate: boolean = false;
   version: string = environment.version;
 
-  @HostListener('document:keypress', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    this.userActionSinceLastUpdate = true;
-  }
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private platform: Platform,
     private authenticationService: AuthenticationService,
     public modalController: ModalController,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private _renderer: Renderer,
+    private _elementRef: ElementRef
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
@@ -51,10 +49,20 @@ export class ShellComponent {
         this.navLinks = null;
       }
     });
-
     this.setIdleLogoutTimer();
   }
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(e: any) {
+    this.updateUserExpiry();
+  }
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(e: any) {
+    this.updateUserExpiry();
+  }
+
   updateUserExpiry() {
+    console.log('updating user expiry');
     /**
      * Updates us within the component
      */
@@ -62,21 +70,12 @@ export class ShellComponent {
     this.userActionSinceLastUpdate = false;
   }
   setIdleLogoutTimer() {
-    var date = new Date();
     var self = this;
     setInterval(function() {
-      if (this.userActionSinceLastUpdate) {
-        console.log(
-          'user has performed an action (mouse movement or keypress), so we are updating their expiry date in localstorage'
-        );
-        this.updateUserExpiry();
-      }
+      var date = new Date();
       var currentTime = date.getTime();
-      console.log('checking if we need to time out...');
-      console.log('current time: ' + currentTime);
-      console.log('expiration time: ' + self.user.userLoginExpires);
       if (self.user.userLoginExpires - currentTime < 60000) {
-        var timeRemaining = (self.user.userLoginExpires - currentTime) / 1000;
+        var timeRemaining = Math.round((self.user.userLoginExpires - currentTime) / 1000);
         self.toastrService.success('Your session will log out in ' + timeRemaining + ' seconds due to inactivity!');
       }
       if (currentTime > self.user.userLoginExpires) {
