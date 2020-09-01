@@ -122,10 +122,9 @@ export class NotificationModalComponent {
     /**
      * For iPad smart quote issue
      */
-    console.log(formData.notificationMessage);
-    formData.notificationMessage.replace(/[“”‘’]/g, "'");
-    // formData.notificationMessage.replace(/[\u201C\u201D]/g, '"');
-    console.log(formData.notificationMessage);
+    formData.notificationMessage = formData.notificationMessage.replace(/[‘’]/gi, "'");
+    formData.notificationMessage = formData.notificationMessage.replace(/[“”]/gi, '"');
+    debugger;
 
     this.notification.notificationMessage = formData.notificationMessage;
     this.notificationService
