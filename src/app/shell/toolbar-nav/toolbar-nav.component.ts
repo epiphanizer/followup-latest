@@ -48,7 +48,7 @@ export class ToolbarNavComponent implements OnInit {
           this.patient = this.route.snapshot.firstChild.data.patient;
         }
         this.activeComponent = this.getType(e.snapshot.component);
-        console.log(this.activeComponent);
+        // console.log(this.activeComponent);
         if (e.snapshot.params['patientId']) {
           this.menuService.patientId = e.snapshot.params['patientId'];
         }

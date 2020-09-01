@@ -21,6 +21,9 @@ export class UserResolver implements Resolve<User> {
     if (!this.authService.currentUserValue) {
       window.location.href = '/login';
     }
+    /**
+     * Make sure timeout hasn't occurred;
+     */
     this.user$ = of(this.authService.currentUserValue);
     this.user = this.authService.currentUserValue;
     // console.log(this.user);

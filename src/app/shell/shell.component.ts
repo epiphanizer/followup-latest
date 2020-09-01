@@ -22,6 +22,7 @@ export class ShellComponent {
     linkAction: string;
   }[];
   routeSubscription: Subscription;
+  timeSinceLastAction: number;
   version: string = environment.version;
 
   constructor(
@@ -42,9 +43,22 @@ export class ShellComponent {
         this.navLinks = null;
       }
     });
+    this.setIdleLogoutTimer();
+  }
+  setIdleLogoutTimer() {
+    var date = new Date();
+    var self = this;
+    var token = JSON.parse(self.authenticationService.getToken());
+    setTimeout(function() {
+      var currentTime = date.getTime();
+      console.log('checking if we need to time out');
+      if (currentTime > token.expires) {
+        alert('You have been timed out due to inactivity');
+        self.authenticationService.signOut();
+      }
+    }, 15000);
   }
   corkBoardExpandedHandler(toggleState: boolean) {
-    console.log('corkboard state: ' + toggleState);
     this.corkboardExpanded = toggleState;
   }
   signOut() {

@@ -55,7 +55,6 @@ export class UserCorkBoardComponent implements OnInit {
       .subscribe((data: UserCorkBoardObject[]) => {
         if (data) {
           this.userCorkBoardObjects = data;
-          console.log(this.userCorkBoardObjects);
         }
       });
   }

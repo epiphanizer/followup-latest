@@ -42,11 +42,13 @@ export class AuthenticationService {
   public isAuthenticated(): boolean {
     // get the token
     const token = this.getToken();
-    // console.log('Is authenticated token: ' + token);
-    // return a boolean reflecting
-    // whether or not the token is expired
-    // console.log('token is expired? : ' + !this.jwtHelper.isTokenExpired(token));
-    return !this.jwtHelper.isTokenExpired(token);
+    if (typeof token === undefined) {
+      console.log('token is expired? : ' + this.jwtHelper.isTokenExpired(token));
+      return this.jwtHelper.isTokenExpired(token);
+    } else {
+      console.log('no token');
+      return false;
+    }
   }
 
   doLogin(username: string, password: string): Observable<any> {
@@ -57,12 +59,15 @@ export class AuthenticationService {
       })
       .pipe(
         map((jwt: any) => {
-          if (jwt.userId && jwt.userLevel) {
+          console.log(jwt);
+          var token = this.jwtHelper.decodeToken(jwt.token);
+          console.log(token);
+          if (token.user.userId && token.user.userLevel) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('followup-token', jwt.token);
-            localStorage.setItem('followup-user', JSON.stringify(jwt));
-            this.currentUserSubject.next(jwt);
-            return jwt;
+            localStorage.setItem('followup-token', JSON.stringify(token));
+            localStorage.setItem('followup-user', JSON.stringify(token.user));
+            this.currentUserSubject.next(token.user);
+            return token;
           }
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error

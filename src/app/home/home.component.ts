@@ -15,7 +15,11 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     const avatarImage = '/assets/default-avatar@2x.png';
+    console.log(this.user);
 
+    /**
+     * Bypass the menu for a call queue (lowest tier) user
+     */
     if (this.user.userLevel == 3) {
       this.router.navigate(['call-queue']);
     }
