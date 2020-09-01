@@ -62,9 +62,8 @@ export class ShellComponent {
   }
 
   updateUserExpiry() {
-    console.log('updating user expiry');
     /**
-     * Updates us within the component
+     * Updates our expire time within the shell component
      */
     this.user.userLoginExpires = this.user.userLoginExpires + 300000;
     this.userActionSinceLastUpdate = false;
