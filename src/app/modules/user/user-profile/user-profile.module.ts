@@ -10,6 +10,6 @@ import { UserModule } from '../user.module';
   declarations: [UserProfileComponent, UserProfileSidebarComponent],
   imports: [UserModule, IonicModule, CommonModule, ReactiveFormsModule],
   entryComponents: [UserProfileSidebarComponent],
-  exports: [UserProfileComponent]
+  exports: [UserProfileComponent, UserProfileSidebarComponent]
 })
 export class UserProfileModule {}
