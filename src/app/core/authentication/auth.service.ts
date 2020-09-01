@@ -39,18 +39,6 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  public isAuthenticated(): boolean {
-    // get the token
-    const token = this.getToken();
-    if (typeof token === undefined) {
-      console.log('token is expired? : ' + this.jwtHelper.isTokenExpired(token));
-      return this.jwtHelper.isTokenExpired(token);
-    } else {
-      console.log('no token');
-      return false;
-    }
-  }
-
   doLogin(username: string, password: string): Observable<any> {
     return this.http
       .post('users/login', {
@@ -59,12 +47,10 @@ export class AuthenticationService {
       })
       .pipe(
         map((jwt: any) => {
-          console.log(jwt);
           var token = this.jwtHelper.decodeToken(jwt.token);
-          console.log(token);
           if (token.user.userId && token.user.userLevel) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('followup-token', JSON.stringify(token));
+            localStorage.setItem('followup-token', JSON.stringify({ expires: token.expires }));
             localStorage.setItem('followup-user', JSON.stringify(token.user));
             this.currentUserSubject.next(token.user);
             return token;

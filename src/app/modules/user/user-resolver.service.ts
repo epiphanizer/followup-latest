@@ -26,6 +26,16 @@ export class UserResolver implements Resolve<User> {
      */
     this.user$ = of(this.authService.currentUserValue);
     this.user = this.authService.currentUserValue;
+    var date = new Date();
+    var currentTime = date.getTime();
+    /**
+     * If we are under 5 mins, give the user another 5.
+     */
+    if (this.user.userLoginExpires - currentTime < 300000) {
+      this.user.userLoginExpires = currentTime + 300000;
+    }
+    console.log(this.user);
+    localStorage.setItem('followup-token', JSON.stringify({ expires: this.user.userLoginExpires }));
     // console.log(this.user);
     /** Fetch all operations if user is admin, otherwise, get user ops. */
     if (this.user.userLevel != 1) {

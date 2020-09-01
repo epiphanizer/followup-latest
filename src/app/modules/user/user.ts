@@ -13,7 +13,6 @@ export interface User {
   operations$: Observable<Array<Operation>>;
   patientCalls: Array<PatientCall>;
   patientCalls$: Observable<PatientCall[]>;
-  token: string;
   userFirstName: string;
   userMiddleName?: string;
   userLastName: string;
@@ -40,6 +39,7 @@ export interface User {
     | any;
   userAdditionalInfo: string;
   userLastAccess?: Date;
+  userLoginExpires: number;
 }
 
 export interface UserPutObject {
