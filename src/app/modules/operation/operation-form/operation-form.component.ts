@@ -698,14 +698,14 @@ export class OperationFormComponent implements OnInit {
       /**
        * Test
        */
-      // console.log(this.operationContactsToRemove);
-      // debugger;
+
       if (this.operationContactsToRemove) {
         this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
           if (operationContactId != null) {
             this.operationContactsService
               .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
               .subscribe(() => {
+                // debugger;
                 this.toastr.success('Successfully removed operation contact');
               });
           }
@@ -724,6 +724,7 @@ export class OperationFormComponent implements OnInit {
                 count++;
                 this.toastr.success('Successfully removed operation contact');
                 if (count == finalCount) {
+                  // debugger;
                   this.operationService
                     .editOperationByOperationId(this.operation.operationId, operationPut)
                     .subscribe(() => {

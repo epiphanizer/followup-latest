@@ -163,13 +163,9 @@ export class PatientDetailComponent implements OnInit {
       }
       return;
     }
-
     /**
-     * For iPad smart quote issue
+     * Passing E2E
      */
-    this.patientCallNotes.patientCallNotes = this.patientCallNotes.patientCallNotes.replace(/[[\u2018\u2019]/gi, "'");
-    this.patientCallNotes.patientCallNotes = this.patientCallNotes.patientCallNotes.replace(/[\u201C\u201D]/gi, '"');
-
     this.patientCallNotesService
       .addPatientCallNotesByPatientCallId(
         this.patientCall.patientCallId,
@@ -208,12 +204,6 @@ export class PatientDetailComponent implements OnInit {
         let patientCallQuestionId = parseInt(Object.keys(patientCallQuestionAnswer).toString());
         let patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
         if (patientCallQuestionAnswerText !== undefined) {
-          /**
-           * For iPad smart quote issue
-           */
-          patientCallQuestionAnswerText = patientCallQuestionAnswerText.replace(/[[\u2018\u2019]/gi, "'");
-          patientCallQuestionAnswerText = patientCallQuestionAnswerText.replace(/[\u201C\u201D]/gi, '"');
-
           this.patientCallQuestionsService
             .addPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestionId, patientCallQuestionAnswerText)
             .subscribe();

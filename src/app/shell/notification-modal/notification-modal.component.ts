@@ -119,13 +119,6 @@ export class NotificationModalComponent {
   sendTheNotification() {
     let formData = this.createNotificationForm.getRawValue();
     this.notification.notificationTypeId = parseInt(formData.notificationTypeId);
-    /**
-     * For iPad smart quote issue
-     */
-
-    formData.notificationMessage = formData.notificationMessage.replace(/[[\u0018]/gi, "'");
-    formData.notificationMessage = formData.notificationMessage.replace(/[\u001c]/gi, '"');
-    debugger;
 
     this.notification.notificationMessage = formData.notificationMessage;
     this.notificationService

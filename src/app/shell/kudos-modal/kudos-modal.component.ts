@@ -65,13 +65,6 @@ export class KudosModalComponent {
   sendNotification() {
     let formData = this.createNotificationForm.getRawValue();
     this.notification.notificationTypeId = 7;
-    /**
-     * For iPad smart quote issue
-     */
-
-    formData.notificationMessage = formData.notificationMessage.replace(/[[\u2018\u2019]/gi, "'");
-    formData.notificationMessage = formData.notificationMessage.replace(/[\u201C\u201D]/gi, '"');
-
     this.notification.notificationMessage = formData.notificationMessage;
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
