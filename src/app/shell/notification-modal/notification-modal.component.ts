@@ -87,16 +87,21 @@ export class NotificationModalComponent {
           this.notification.notificationTypeLabel = this.notificationType.notificationTypeLabel;
           this.notification.notificationIconImage = this.notificationType.notificationIconImage;
         }
-        this.notificationService
-          .getNotificationRecipientsByOperationIdAndNotificationTypeId(
-            this.notification.notificationOperationId,
-            this.notification.notificationTypeId
-          )
-          .subscribe((data: NotificationRecipient[]) => {
-            if (data !== null) {
-              this.notificationRecipients = data;
-            }
-          });
+        // if (this.status.notification.saved) {
+        //   this.notificationService
+        //     .getNotificationRecipientsByOperationIdAndNotificationTypeId(
+        //       this.notification.notificationOperationId,
+        //       this.notification.notificationTypeId
+        //     )
+        //     .subscribe((data: NotificationRecipient[]) => {
+        //       if (data !== null) {
+        //         this.notificationRecipients = data;
+        //       } else {
+        //         alert("No notification recipients are configured, please configure notification recipients");
+        //         return;
+        //       }
+        //     });
+        //   }
       });
       this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
         this.notification.notificationMessage = val;
@@ -115,6 +120,20 @@ export class NotificationModalComponent {
   }
   saveNotification() {
     this.status.notification.saved = true;
+    this.notificationService
+      .getNotificationRecipientsByOperationIdAndNotificationTypeId(
+        this.notification.notificationOperationId,
+        this.notification.notificationTypeId
+      )
+      .subscribe((data: NotificationRecipient[]) => {
+        if (data !== null) {
+          this.notificationRecipients = data;
+        } else {
+          alert('No notification recipients are configured, please configure notification recipients');
+          this.status.notification.saved = false;
+          return;
+        }
+      });
   }
   sendTheNotification() {
     let formData = this.createNotificationForm.getRawValue();

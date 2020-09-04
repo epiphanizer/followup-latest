@@ -67,6 +67,9 @@ export class CallQueuePatientListingComponent implements OnInit {
               this.getCurrentNewDischargeCount(patients);
               this.getTodaysCallCount(patients);
               this.sortPatientsByCallDate(this.selectedSortFlag);
+            } else {
+              this.getCurrentNewDischargeCount([]);
+              this.getTodaysCallCount([]);
             }
             return patients;
           })
