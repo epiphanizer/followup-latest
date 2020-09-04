@@ -25,6 +25,23 @@
             <ion-label color="medium" position="stacked">Facility <span style="color:red">*</span></ion-label>
             <ion-input type="text" formControlName="operationName"></ion-input>
           </ion-item>
+          <ion-item class="operation-group">
+            <ion-label color="medium" position="stacked">Group <span style="color:red">*</span></ion-label>
+            <ion-select
+              formControlName="operationGroupId"
+              (ionChange)="operationGroupOnSelect($event, idx)"
+              class="operation-group-select"
+              placeholder="Select Group"
+            >
+              <ion-select-option
+                *ngFor="let operationGroup of operationGroups"
+                [selected]="operationGroup?.operationGroupId == operation?.operationGroupId"
+                [value]="operationGroup.operationGroupId"
+              >
+                {{ operationGroup.operationGroupName }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
           <ion-item class="address">
             <ion-label color="medium" position="stacked">Address</ion-label>
             <ion-input type="text" formControlName="operationAddress"></ion-input>

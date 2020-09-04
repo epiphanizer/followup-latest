@@ -45,6 +45,7 @@ form {
   }
 
   ion-item {
+    &.operation-group,
     &.address,
     &.city,
     &.state,
@@ -83,7 +84,9 @@ form {
   }
 
   .phone-container {
-    display: inline-block;
+    display: block;
+    clear: both;
+    width: 100%;
     ion-item {
       display: inline-block;
       margin-right: 5px;

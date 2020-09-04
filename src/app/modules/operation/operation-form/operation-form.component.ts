@@ -16,7 +16,7 @@ import { UserService } from '@app/modules/user/user.service';
 import { User } from '@app/modules/user/user';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { OperationResolver } from '../operation-resolver';
-import { OperationPutBody, OperationCallRepPostBody, Operation, OperationManager } from '../operation';
+import { OperationPutBody, OperationCallRepPostBody, Operation, OperationManager, OperationGroup } from '../operation';
 import { OperationContact } from '../operation-contact/operation-contact';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { NotificationType } from '@app/modules/notification/notification';
@@ -55,6 +55,7 @@ export class OperationFormComponent implements OnInit {
   operationContactsToAdd: OperationContact[] = [];
   operationContactsToEdit: OperationContact[] = [];
   operationContactsToRemove: number[] = [];
+  operationGroups: OperationGroup[] = [];
   operationManagers: OperationManager[] = [];
   operationManagersOriginal: number[] = [];
   operationManagersToAdd: OperationManager[] = [];
@@ -75,6 +76,9 @@ export class OperationFormComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
+    this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
+      this.operationGroups = operationGroups;
+    });
     this.notificationService.getNotificationTypes().subscribe((notificationTypes: NotificationType[]) => {
       this.notificationTypes = notificationTypes;
     });
@@ -379,8 +383,9 @@ export class OperationFormComponent implements OnInit {
   private createForm() {
     this.operationForm = this.fb.group({
       operation: this.fb.group({
-        operationId: this.fb.control(this.operation.operationId),
-        operationName: this.fb.control(this.operation.operationName),
+        operationId: this.fb.control(this.operation.operationId, [Validators.required]),
+        operationGroupId: this.fb.control(this.operation.operationGroupId, [Validators.required]),
+        operationName: this.fb.control(this.operation.operationName, [Validators.required]),
         operationAddress: this.fb.control(this.operation.operationAddress),
         operationCity: this.fb.control(this.operation.operationCity),
         operationState: this.fb.control(this.operation.operationState),
@@ -406,8 +411,10 @@ export class OperationFormComponent implements OnInit {
       if (formSubmission.operation.operationAreaCode) {
         operationAreaCode = formSubmission.operation.operationAreaCode.toString();
       }
+
       var payload = {
         operationName: formSubmission.operation.operationName,
+        operationGroupId: parseInt(formSubmission.operation.operationGroupId),
         operationAddress: formSubmission.operation.operationAddress,
         operationCity: formSubmission.operation.operationCity,
         operationState: formSubmission.operation.operationState,
@@ -443,6 +450,10 @@ export class OperationFormComponent implements OnInit {
       userId: managerUserId
     };
     this.operationManagers[index] = operationManagerObject;
+  }
+  operationGroupOnSelect(event: any, index: number) {
+    let operationGroupId = event.target.value;
+    this.operation.operationGroupId = operationGroupId;
   }
   operationCallRepPostFactory(formSubmission: any): OperationCallRepPostBody {
     try {

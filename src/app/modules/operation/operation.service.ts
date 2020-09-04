@@ -2,7 +2,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../user/user';
-import { Operation, OperationPutBody, OperationManager } from './operation';
+import { Operation, OperationPutBody, OperationManager, OperationGroup } from './operation';
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -32,6 +32,11 @@ export class OperationService {
   }
   public editOperationByOperationId(operationId: number, operationPutBody: OperationPutBody): Observable<Operation> {
     return this.http.put<Operation>('operations/' + operationId, operationPutBody).pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  public getOperationGroups(): Observable<OperationGroup[]> {
+    return this.http.get<OperationGroup[]>('operations/groups').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

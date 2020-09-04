@@ -5,6 +5,8 @@ import { PatientCall } from '../patient/patient-detail/patient-call/patient-call
 
 export interface Operation {
   operationId: number;
+  operationGroupId: number;
+  operationGroupName?: string;
   operationName?: string;
   operationAddress?: string;
   operationCity?: string;
@@ -33,6 +35,7 @@ export interface Operation {
 
 export interface OperationPutBody {
   operationName: string;
+  operationGroupId: number;
   operationAddress: string;
   operationCity: string;
   operationState: string;
@@ -42,7 +45,10 @@ export interface OperationPutBody {
   operationPhoneNumber: string;
   operationActive: number;
 }
-
+export interface OperationGroup {
+  operationGroupId: number;
+  operationGroupName: string;
+}
 export interface OperationManager {
   operationManagerId?: number;
   operationManagerName?: string;
