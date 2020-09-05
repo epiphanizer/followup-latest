@@ -312,6 +312,7 @@ export class OperationFormComponent implements OnInit {
     var operationFormControls = this.operationForm.get('operation') as FormGroup;
     operationFormControls.controls.operationId.setValue(this.operation.operationId);
     operationFormControls.controls.operationName.setValue(this.operation.operationName);
+    operationFormControls.controls.operationGroupId.setValue(this.operation.operationGroupId);
     operationFormControls.controls.operationAddress.setValue(this.operation.operationAddress);
     operationFormControls.controls.operationCity.setValue(this.operation.operationCity);
     operationFormControls.controls.operationState.setValue(this.operation.operationState);

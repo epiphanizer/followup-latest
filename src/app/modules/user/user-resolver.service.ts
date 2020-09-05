@@ -34,10 +34,10 @@ export class UserResolver implements Resolve<User> {
       this.authService.signOut();
     }
     /**
-     * If we are under 5 mins, give the user another 5.
+     * If we are under 15 mins, give the user another 15.
      */
-    if (this.user.userLoginExpires - currentTime < 300000) {
-      this.user.userLoginExpires = currentTime + 300000;
+    if (this.user.userLoginExpires - currentTime < 900000) {
+      this.user.userLoginExpires = currentTime + 900000;
     }
 
     /** Fetch all operations if user is admin, otherwise, get user ops. */

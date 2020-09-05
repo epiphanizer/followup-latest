@@ -25,7 +25,7 @@
             <ion-label color="medium" position="stacked">Facility <span style="color:red">*</span></ion-label>
             <ion-input type="text" formControlName="operationName"></ion-input>
           </ion-item>
-          <ion-item class="operation-group">
+          <ion-item class="operation-group" *ngIf="operationGroups">
             <ion-label color="medium" position="stacked">Group <span style="color:red">*</span></ion-label>
             <ion-select
               formControlName="operationGroupId"
