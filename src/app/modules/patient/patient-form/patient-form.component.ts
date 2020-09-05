@@ -400,8 +400,8 @@ export class PatientFormComponent implements OnInit {
         this.toastrService.success('Successfully removed patient contact');
       });
     });
-    console.log(this.patientContactsToRemove);
-    debugger;
+    // console.log(this.patientContactsToRemove);
+    // debugger;
     /**
      * Get a diff from our original patient contacts
      */
@@ -409,8 +409,8 @@ export class PatientFormComponent implements OnInit {
       return this.patientContactsOriginal.indexOf(patientContact) == -1;
     });
 
-    console.log(this.patientContactsToAdd);
-    debugger;
+    // console.log(this.patientContactsToAdd);
+    // debugger;
     // Passing E2E
     this.patientContactsToAdd.forEach((patientContact: PatientContact, index: number) => {
       var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
@@ -444,15 +444,15 @@ export class PatientFormComponent implements OnInit {
       if (!this.patientContactsToEdit.length) {
         this.editPatient(formSubmission);
       }
-      console.log(this.patientContactsToEdit.length);
-      debugger;
+      // console.log(this.patientContactsToEdit.length);
+      // debugger;
       this.patientContactsToEdit.forEach((patientContact: PatientContact, index: number) => {
         // Now that we have these, we need to reassign to the form-submitted value.
         var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
         this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
         var patientContactPut = this.patientContactPutFactory(this.patientContacts[indexToGrab]);
-        console.log(patientContactPut);
-        debugger;
+        // console.log(patientContactPut);
+        // debugger;
         this.patientContactService
           .editPatientContactByPatientId(this.patientContacts[indexToGrab].patientContactId, patientContactPut)
           .subscribe(() => {
@@ -469,8 +469,8 @@ export class PatientFormComponent implements OnInit {
   }
   editPatient(formSubmission: any) {
     let patientPutBody = this.formSubmissionFactory(formSubmission);
-    console.log(patientPutBody);
-    debugger;
+    // console.log(patientPutBody);
+    // debugger;
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       this.toastrService.success('Successfully edited patient!');
       window.location.href = '/operations/' + this.patientForm.get('operation').value + '/patients';

@@ -4,23 +4,29 @@ import { Routes, RouterModule } from '@angular/router';
 import { extract } from '@app/core';
 import { OperationFormComponent } from '@app/modules/operation/operation-form/operation-form.component';
 import { Shell } from '@app/shell/shell.service';
+import { UserRoles } from '@app/modules/user/user';
 import { UserResolver } from '../user/user-resolver.service';
 import { OperationResolver } from './operation-resolver';
 import { OperationListingComponent } from './operation-listing/operation-listing.component';
+import { AuthGuardService } from '@app/core/authentication/auth-guard.service';
 
 const routes: Routes = [
   Shell.childRoutes([
     {
       path: 'operations',
       component: OperationListingComponent,
+      canActivate: [AuthGuardService],
       data: {
+        roles: [UserRoles.admin],
         title: extract('Operations')
       }
     },
     {
       path: 'operation/add',
       component: OperationFormComponent,
+      canActivate: [AuthGuardService],
       data: {
+        roles: [UserRoles.admin],
         title: extract('Add Operation')
       },
       resolve: {
@@ -30,9 +36,11 @@ const routes: Routes = [
     {
       path: 'operation/edit/:operationId',
       component: OperationFormComponent,
+      canActivate: [AuthGuardService],
       data: {
         editMode: true,
-        operationId: ':operationId'
+        operationId: ':operationId',
+        roles: [UserRoles.admin, UserRoles.manager]
       },
       resolve: {
         operation: OperationResolver,

@@ -55,8 +55,8 @@ export interface UserPutObject {
   userAdditionalInfo?: string;
 }
 
-export interface UserRoles {
-  admin: 1;
-  manager: 2;
-  user: 3;
+export enum UserRoles {
+  admin = 1,
+  manager = 2,
+  user = 3
 }
