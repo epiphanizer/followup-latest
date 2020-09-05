@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { UserCorkBoardService, UserCorkBoardObject } from './user-cork-board.service';
-import { User } from '@app/user';
+import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgxImageCompressService } from 'ngx-image-compress';

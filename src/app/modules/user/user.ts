@@ -54,3 +54,9 @@ export interface UserPutObject {
   userInterests?: string;
   userAdditionalInfo?: string;
 }
+
+export interface UserRoles {
+  admin: 1;
+  manager: 2;
+  user: 3;
+}

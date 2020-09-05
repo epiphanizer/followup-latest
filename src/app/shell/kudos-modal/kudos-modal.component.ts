@@ -5,9 +5,7 @@ import { Patient } from '@app/modules/patient/patient';
 import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Notification, NotificationRecipient } from '@app/modules/notification/notification';
-import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '@app/user';
 import { ToastrService } from 'ngx-toastr';
 @Component({
   providers: [NotificationService, ToastrService],

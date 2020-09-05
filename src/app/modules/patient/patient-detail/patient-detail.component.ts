@@ -5,8 +5,8 @@ import {
   PatientCallService,
   PatientCallQuestionAnswer
 } from '../patient-detail/patient-call/patient-call.service';
-import { ActivatedRoute, Router, NavigationEnd, Event } from '@angular/router';
-import { User } from '@app/user';
+import { ActivatedRoute } from '@angular/router';
+import { User } from '@app/modules/user/user';
 import { Operation } from '@app/modules/operation/operation';
 import {
   PatientCallNotesService,
