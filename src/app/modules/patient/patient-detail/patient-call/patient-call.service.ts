@@ -95,15 +95,7 @@ export class PatientCallService {
       .post('patients/calls/' + patientCall.patientCallId + '/finalize', {
         patientCallStatusLabelId: patientCall.patientCallStatusLabelId
       })
-      .pipe(
-        catchError(
-          e =>
-            function() {
-              console.log(e);
-              alert('It looks like this call has already finished!');
-            }
-        ) // then handle the error
-      );
+      .pipe(catchError(e => this.handleAsyncError(e)));
   }
 
   // Needs accompanying swagger
@@ -123,6 +115,7 @@ export class PatientCallService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
+      alert('It looks like this call has already finished!');
       console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
     }
     // return an observable with a user-facing error message
