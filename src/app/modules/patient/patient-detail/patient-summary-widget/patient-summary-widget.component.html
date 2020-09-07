@@ -33,9 +33,10 @@
               <span class="patient-contact-number">
                 {{ patient.primaryContactPhoneNumber }}
               </span>
+
               <span class="patient-contact-number-type">
                 <ng-container>
-                  {{ patient.patientPrimaryContactRelationship }}
+                  | {{ patient.patientPrimaryContactRelationship }}
                   <ng-container *ngIf="patient.patientPrimaryContactResponsiblePartyBoolean">
                     <i class="icon-hipaa"></i>
                   </ng-container>

@@ -96,7 +96,13 @@ export class PatientCallService {
         patientCallStatusLabelId: patientCall.patientCallStatusLabelId
       })
       .pipe(
-        catchError(e => this.handleAsyncError(e)) // then handle the error
+        catchError(
+          e =>
+            function() {
+              console.log(e);
+              alert('It looks like this call has already finished!');
+            }
+        ) // then handle the error
       );
   }
 

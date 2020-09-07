@@ -131,6 +131,7 @@ export class OperationFormComponent implements OnInit {
      * we will listen for the change.
      */
     if (this.route.snapshot.data.operation) {
+      console.log(this.route.snapshot.data);
       let operationId = parseInt(this.route.snapshot.data.operation.operationId);
       this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
         this.cleanData();
@@ -144,6 +145,7 @@ export class OperationFormComponent implements OnInit {
   operationChangeEventHandler(operation: Operation) {
     let operationId = operation.operationId;
     this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
+      this.cleanData();
       this.updateOperation(operation);
       this.updateOperationContacts();
       this.updateOperationManagers();
@@ -169,7 +171,6 @@ export class OperationFormComponent implements OnInit {
           if (operationContacts !== null) {
             this.operationContacts = [];
             operationContacts.forEach((operationContact: OperationContact, idx: number) => {
-              console.log(idx + 1);
               operationContact.operationContactOrder = idx + 1;
               let contactFormGroup = this.fb.group({});
               contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));

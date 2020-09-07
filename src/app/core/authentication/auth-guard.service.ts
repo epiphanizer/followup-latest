@@ -17,9 +17,8 @@ export class AuthGuardService implements CanActivate {
     const user = this.authenticationService.currentUserValue;
     if (user) {
       if (route.data.roles && route.data.roles.indexOf(user.userLevel) === -1) {
-        console.log('Found user is not of a high enough access level');
         // role not authorised so redirect to home page
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
         return false;
       }
 
