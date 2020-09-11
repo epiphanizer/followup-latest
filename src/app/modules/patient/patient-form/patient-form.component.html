@@ -93,14 +93,17 @@
                 </ion-item>
                 <div class="phone-container">
                   <ion-item class="country-code">
-                    <ion-label color="medium" position="stacked"
-                      >+(1) <span style="color:red">*</span><span style="color:red">*</span></ion-label
-                    >
+                    <ion-label color="medium" position="stacked">+(1) <span style="color:red">*</span></ion-label>
                     <ion-input type="text" formControlName="patientContactCountryCode"></ion-input>
                   </ion-item>
                   <ion-item class="area-code">
                     <ion-label color="medium" position="stacked">(###) <span style="color:red">*</span></ion-label>
-                    <ion-input type="text" mask="000" formControlName="patientContactAreaCode"></ion-input>
+                    <ion-input
+                      type="text"
+                      mask="000"
+                      formControlName="patientContactAreaCode"
+                      placeholder="000"
+                    ></ion-input>
                   </ion-item>
                   <ion-item class="phone-number">
                     <ion-label color="medium" position="stacked">Phone # <span style="color:red">*</span></ion-label>

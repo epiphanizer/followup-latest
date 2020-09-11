@@ -326,7 +326,7 @@ form {
       }
 
       &.relationship {
-        width: 115px;
+        width: 125px;
       }
 
       &.patient-contact-order {
@@ -351,7 +351,7 @@ form {
 
         &.country-code {
           margin-left: 0;
-          width: 35px;
+          width: 50px;
         }
 
         &.area-code {
@@ -373,7 +373,7 @@ form {
             font-stretch: normal;
             letter-spacing: 0.59px;
             text-align: left;
-            margin-left: 20px;
+            margin-left: 18px;
             color: var(--ion-color-primary);
           }
 

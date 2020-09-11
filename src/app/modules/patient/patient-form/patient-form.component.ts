@@ -159,10 +159,16 @@ export class PatientFormComponent implements OnInit {
                     patientContactFirstName: this.fb.control(patientContact.patientContactFirstName),
                     patientContactLastName: this.fb.control(patientContact.patientContactLastName),
                     patientContactRelationship: this.fb.control(patientContact.patientContactRelationship),
-                    patientContactCountryCode: this.fb.control(patientContact.patientContactCountryCode),
-                    patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode),
+                    patientContactCountryCode: this.fb.control(patientContact.patientContactCountryCode, [
+                      Validators.pattern(/^[0-9]\d*$/)
+                    ]),
+                    patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode, [
+                      Validators.pattern(/^[0-9]\d*$/)
+                    ]),
                     patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber),
-                    patientContactOrder: this.fb.control(patientContact.patientContactOrder),
+                    patientContactOrder: this.fb.control(patientContact.patientContactOrder, [
+                      Validators.pattern(/^[0-9]\d*$/)
+                    ]),
                     patientContactResponsiblePartyBoolean: this.fb.control(
                       patientContact.patientContactResponsiblePartyBoolean
                     )
@@ -294,8 +300,8 @@ export class PatientFormComponent implements OnInit {
         patientContactFirstName: this.fb.control(''),
         patientContactLastName: this.fb.control(''),
         patientContactRelationship: this.fb.control(''),
-        patientContactCountryCode: this.fb.control('1'),
-        patientContactAreaCode: this.fb.control(''),
+        patientContactCountryCode: this.fb.control(1, Validators.pattern(/^[0-9]\d*$/)),
+        patientContactAreaCode: this.fb.control('', Validators.pattern(/^[0-9]\d*$/)),
         patientContactPhoneNumber: this.fb.control(''),
         patientContactOrder: this.fb.control(idx + 1),
         patientContactResponsiblePartyBoolean: this.fb.control(false)
@@ -512,7 +518,7 @@ export class PatientFormComponent implements OnInit {
       };
       return <PatientContactPostBody>payload;
     } catch {
-      throw 'Had a problem validating data in the call rep factory';
+      throw 'Had a problem validating data in the patient contact factory!';
     }
   }
   /**
