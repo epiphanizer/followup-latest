@@ -1,9 +1,7 @@
-import { environment } from '../../environments/environment';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
 import { DataService } from '@app/modules/data/data.service';
+import * as FileSaver from 'file-saver';
 
 @Component({
   providers: [DataService],
@@ -122,8 +120,9 @@ export class HomeComponent implements OnInit {
     }
   }
   getData() {
-    this.dataService.getData().subscribe((data: any) => {
-      console.log(data);
+    this.dataService.getData().subscribe((data: Blob) => {
+      var blob = new Blob([data], { type: data.type });
+      FileSaver.saveAs(blob, 'data.xlsx');
     });
   }
 }

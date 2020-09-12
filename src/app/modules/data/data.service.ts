@@ -9,8 +9,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class DataService {
   constructor(private http: HttpService) {}
 
-  public getData(): Observable<any> {
-    return this.http.get<any>('data').pipe(
+  public getData(): Observable<Blob> {
+    return this.http.get<Blob>('data').pipe(
       share(),
       catchError(error => this.handleAsyncError(error))
     );
