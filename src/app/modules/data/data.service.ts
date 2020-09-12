@@ -10,7 +10,7 @@ export class DataService {
   constructor(private http: HttpService) {}
 
   public getData(): Observable<Blob> {
-    return this.http.get<Blob>('data').pipe(
+    return this.http.get<Blob>('data', { responseType: 'blob' as 'json' }).pipe(
       share(),
       catchError(error => this.handleAsyncError(error))
     );
