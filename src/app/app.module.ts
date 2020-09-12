@@ -29,6 +29,7 @@ import { AuthGuardService } from './core/authentication/auth-guard.service';
 import { LoaderService } from './shared/loader/loader.service';
 import { LoaderInterceptor } from './shared/interceptors/loader-interceptor';
 import { ApiKeyInterceptor } from './shared/interceptors/api-key.interceptor';
+import { DataModule } from './modules/data/data.module';
 
 export function tokenGetter() {
   return localStorage.getItem('followup-token');
@@ -65,6 +66,7 @@ export function tokenGetter() {
     CallQueueModule,
     OperationModule,
     NotificationModule,
+    DataModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],

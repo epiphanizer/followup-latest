@@ -1,8 +1,12 @@
+import { environment } from '../../environments/environment';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
+import { DataService } from '@app/modules/data/data.service';
 
 @Component({
-  providers: [],
+  providers: [DataService],
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
@@ -10,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   public user: any;
   public menu: {}[] = [{}];
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
@@ -28,33 +32,34 @@ export class HomeComponent implements OnInit {
         this.menu = [
           {
             name: 'Facilities',
-            action: 'operations',
+            link: 'operations',
             image: '/assets/icon-facilities@2x.png',
             enabled: true
           },
           {
             name: 'Patients',
-            action: 'patients',
+            link: 'patients',
             image: '/assets/icon-patients@2x.png',
             enabled: true
           },
           {
             name: 'Notifications',
-            action: 'notifications',
+            link: 'notifications',
             image: '/assets/icon-manager-notifications@2x.png',
             enabled: true
           },
           {
             name: 'View Queue',
-            action: 'call-queue',
+            link: 'call-queue',
             image: '/assets/icon-view-queue@2x.png',
             enabled: true
           },
           {
             name: 'View Data',
-            action: '/',
+            action: 'getData',
+            type: 'action',
             image: '/assets/icon-view-data@2x.png',
-            enabled: false
+            enabled: true
           }
         ];
         break;
@@ -62,25 +67,25 @@ export class HomeComponent implements OnInit {
         this.menu = [
           {
             name: 'Patients',
-            action: 'patients',
+            link: 'patients',
             image: '/assets/icon-patients@2x.png',
             enabled: true
           },
           {
             name: 'Notifications',
-            action: 'notifications',
+            link: 'notifications',
             image: '/assets/icon-manager-notifications@2x.png',
             enabled: true
           },
           {
             name: 'View Queue',
-            action: 'call-queue',
+            link: 'call-queue',
             image: '/assets/icon-view-queue@2x.png',
             enabled: true
           },
           {
             name: 'My Profile',
-            action: 'user/profile',
+            link: 'user/profile',
             image: avatarImage,
             enabled: true
           }
@@ -90,13 +95,13 @@ export class HomeComponent implements OnInit {
         this.menu = [
           {
             name: 'Call Queue',
-            action: 'call-queue',
+            link: 'call-queue',
             image: '/assets/icon-call-queue@2x.png',
             enabled: true
           },
           {
             name: 'My Profile',
-            action: 'user/profile',
+            link: 'user/profile',
             image: avatarImage,
             enabled: true
           }
@@ -105,5 +110,20 @@ export class HomeComponent implements OnInit {
       default:
         throw 'No User Level assigned, something went wrong.';
     }
+  }
+  doAction(actionType: string, $event: any) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    /**
+     * Get an Excel with current Wizard Bridge definitions
+     */
+    if (actionType == 'getData') {
+      this.getData();
+    }
+  }
+  getData() {
+    this.dataService.getData().subscribe((data: any) => {
+      console.log(data);
+    });
   }
 }
