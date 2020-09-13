@@ -47,13 +47,15 @@ export class AuthenticationService {
       })
       .pipe(
         map((jwt: any) => {
-          var token = this.jwtHelper.decodeToken(jwt.token);
-          if (token.user.userId && token.user.userLevel) {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('followup-token', JSON.stringify({ expires: token.expires }));
-            localStorage.setItem('followup-user', JSON.stringify(token.user));
-            this.currentUserSubject.next(token.user);
-            return token;
+          if (jwt.token) {
+            var token = this.jwtHelper.decodeToken(jwt.token);
+            if (token.user.userId && token.user.userLevel) {
+              // store user details and jwt token in local storage to keep user logged in between page refreshes
+              localStorage.setItem('followup-token', JSON.stringify({ expires: token.expires }));
+              localStorage.setItem('followup-user', JSON.stringify(token.user));
+              this.currentUserSubject.next(token.user);
+              return token;
+            }
           }
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
@@ -83,6 +85,7 @@ export class AuthenticationService {
   ngOnDestroy() {}
 
   private handleAsyncError(error: HttpErrorResponse) {
+    console.log(error);
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);

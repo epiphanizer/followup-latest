@@ -42,12 +42,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     let username = this.loginForm.controls.username.value;
     let password = this.loginForm.controls.password.value;
+    if (!password.trim().length) {
+      this.toastrService.error('Enter password!');
+      return false;
+    }
     let result = await this.authenticationService.signIn(username, password);
     if (!result) {
       this.toastrService.error('Incorrect username or password!');
       this.isLoading = false;
       return this.error;
     }
+    console.log(result);
     this.router.navigate(['/home']);
   }
 

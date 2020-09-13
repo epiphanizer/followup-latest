@@ -1,3 +1,3 @@
 export const env: { [s: string]: string | null } = {
-  npm_package_version: '1.4.1'
+  npm_package_version: '1.4.3'
 };
