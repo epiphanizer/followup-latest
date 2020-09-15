@@ -64,6 +64,12 @@ export class HomeComponent implements OnInit {
       case 2:
         this.menu = [
           {
+            name: 'Facilities',
+            link: 'operations',
+            image: '/assets/icon-facilities@2x.png',
+            enabled: true
+          },
+          {
             name: 'Patients',
             link: 'patients',
             image: '/assets/icon-patients@2x.png',
@@ -80,12 +86,6 @@ export class HomeComponent implements OnInit {
             link: 'call-queue',
             image: '/assets/icon-view-queue@2x.png',
             enabled: true
-          },
-          {
-            name: 'My Profile',
-            link: 'user/profile',
-            image: avatarImage,
-            enabled: true
           }
         ];
         break;
@@ -95,12 +95,6 @@ export class HomeComponent implements OnInit {
             name: 'Call Queue',
             link: 'call-queue',
             image: '/assets/icon-call-queue@2x.png',
-            enabled: true
-          },
-          {
-            name: 'My Profile',
-            link: 'user/profile',
-            image: avatarImage,
             enabled: true
           }
         ];
