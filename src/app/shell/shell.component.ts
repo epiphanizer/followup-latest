@@ -65,7 +65,8 @@ export class ShellComponent {
     /**
      * Updates our expire time within the shell component
      */
-    this.user.userLoginExpires = this.user.userLoginExpires + 300000;
+    this.user.userLoginExpires = this.user.userLoginExpires + 900000;
+    this.authenticationService.currentUserValue.userLoginExpires = this.user.userLoginExpires;
     this.userActionSinceLastUpdate = false;
   }
   setIdleLogoutTimer() {
@@ -73,11 +74,11 @@ export class ShellComponent {
     setInterval(function() {
       var date = new Date();
       var currentTime = date.getTime();
-      if (self.user.userLoginExpires - currentTime < 60000) {
+      if (self.user.userLoginExpires - currentTime < 900000) {
         var timeRemaining = Math.round((self.user.userLoginExpires - currentTime) / 1000);
         self.toastrService.success('Your session will log out in ' + timeRemaining + ' seconds due to inactivity!');
       }
-      if (currentTime > self.user.userLoginExpires) {
+      if (currentTime > self.authenticationService.currentUserValue.userLoginExpires) {
         alert('You have been timed out due to inactivity');
         self.authenticationService.signOut();
       }
