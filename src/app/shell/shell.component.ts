@@ -56,6 +56,10 @@ export class ShellComponent {
   onMouseMove(e: any) {
     this.updateUserExpiry();
   }
+  @HostListener('document:touchstart', ['$event'])
+  onTouchStart(e: any) {
+    this.updateUserExpiry();
+  }
   @HostListener('document:keydown', ['$event'])
   onKeydown(e: any) {
     this.updateUserExpiry();
@@ -74,7 +78,7 @@ export class ShellComponent {
     setInterval(function() {
       var date = new Date();
       var currentTime = date.getTime();
-      if (self.user.userLoginExpires - currentTime < 900000) {
+      if (self.authenticationService.currentUserValue.userLoginExpires - currentTime < 30000) {
         var timeRemaining = Math.round((self.user.userLoginExpires - currentTime) / 1000);
         self.toastrService.success('Your session will log out in ' + timeRemaining + ' seconds due to inactivity!');
       }
