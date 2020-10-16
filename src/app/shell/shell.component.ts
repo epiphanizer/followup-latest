@@ -69,8 +69,12 @@ export class ShellComponent {
     /**
      * Updates our expire time within the shell component
      */
-    this.user.userLoginExpires = this.user.userLoginExpires + 900000;
-    this.authenticationService.currentUserValue.userLoginExpires = this.user.userLoginExpires;
+    console.log(
+      'Updating user expiration time... was: ' + this.authenticationService.currentUserValue.userLoginExpires
+    );
+    this.authenticationService.currentUserValue.userLoginExpires = this.user.userLoginExpires =
+      this.authenticationService.currentUserValue.userLoginExpires + 900000;
+    console.log('Now: ' + this.authenticationService.currentUserValue.userLoginExpires);
     this.userActionSinceLastUpdate = false;
   }
   setIdleLogoutTimer() {
