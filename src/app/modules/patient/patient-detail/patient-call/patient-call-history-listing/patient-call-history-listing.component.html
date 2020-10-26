@@ -1,7 +1,6 @@
 <ng-container *ngIf="patientCalls">
   <ion-list class="patient-call-history-list" inset lines="none">
     <div class="patient-call" *ngFor="let patientCall of patientCalls; let i = index">
-      {{ patientCall | json }}
       <!-- This logic assumes that the patientCallCounts come to us in the right order -->
 
       <div
