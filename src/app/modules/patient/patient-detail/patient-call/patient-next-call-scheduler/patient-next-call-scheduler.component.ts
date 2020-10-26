@@ -105,7 +105,6 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.todaysMonth), this.todaysYear);
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
     this.chosenYear = this.selectedYear.year = this.todaysYear;
-    console.log(this.chosenYear);
     this.createDaysArray();
   }
 
@@ -177,8 +176,6 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     this.selectedMonth.number = (parseInt(this.selectedMonth.number) + 1).toString();
     this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
 
-    console.log(this.currentCalendarMonth);
-    console.log(this.selectedMonth.number);
     if (this.selectedMonth.number !== '13') {
       this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
       this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
@@ -213,11 +210,6 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     this.selectedDay = selectedDay;
     this.chosenMonth = currentCalendarMonth;
     this.chosenYear = this.selectedYear.year;
-    console.log(this.selectedMonth.number);
-    console.log(this.chosenMonth);
-    console.log(this.selectedDay);
-    console.log(this.chosenYear);
-    console.log(this.selectedYear.year);
     this.scheduledCallDate = date;
     this.status.scheduled = true;
     this.patientNextCallDateSelectedEventEmitter.emit(this.scheduledCallDate);

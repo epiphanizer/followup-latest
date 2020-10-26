@@ -28,6 +28,7 @@
           <ion-item class="operation-group" *ngIf="operationGroups">
             <ion-label color="medium" position="stacked">Group <span style="color:red">*</span></ion-label>
             <ion-select
+              *ngIf="operationGroups || operation.operationGroup"
               formControlName="operationGroupId"
               (ionChange)="operationGroupOnSelect($event, idx)"
               class="operation-group-select"

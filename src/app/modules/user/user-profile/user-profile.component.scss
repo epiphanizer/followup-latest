@@ -175,7 +175,6 @@ form {
     font-family: Avenir;
     height: 39px;
     width: 100%;
-    --padding-start: 12px;
     margin-top: 14px;
   }
 
@@ -184,6 +183,7 @@ form {
     font-size: 14px;
     margin-top: 15px;
     height: 34px;
+    --padding-start: 12px;
   }
 
   ion-label {

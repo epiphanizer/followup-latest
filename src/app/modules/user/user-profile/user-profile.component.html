@@ -9,8 +9,8 @@
         <ion-list lines="none" inset>
           <i class="icon-user"></i>
           <ion-item class="first-name">
-            <ion-label color="medium" position="stacked">First Name</ion-label>
-            <ion-input type="text" formControlName="userFirstName"></ion-input>
+            <ion-label color="medium" position="stacked">First Name <span style="color:red">*</span></ion-label>
+            <ion-input type="text" formControlName="userFirstName" required></ion-input>
           </ion-item>
           <ion-item class="middle-name">
             <ion-label color="medium" position="stacked">Middle Name</ion-label>
@@ -18,12 +18,12 @@
           </ion-item>
           <i class="icon-placeholder"></i>
           <ion-item class="last-name">
-            <ion-label color="medium" position="stacked">Last Name</ion-label>
-            <ion-input type="text" formControlName="userLastName"></ion-input>
+            <ion-label color="medium" position="stacked">Last Name <span style="color:red">*</span></ion-label>
+            <ion-input type="text" formControlName="userLastName" required></ion-input>
           </ion-item>
           <i class="icon-placeholder"></i>
           <ion-item class="user-email">
-            <ion-label color="medium" position="stacked">Email</ion-label>
+            <ion-label color="medium" position="stacked">Email <span style="color:red">*</span></ion-label>
             <ion-input type="email" formControlName="userEmail"></ion-input>
           </ion-item>
           <ion-item class="user-phone-container">
@@ -125,7 +125,6 @@
                 >Anything else you want to share with the team?</ion-label
               >
               <ion-textarea
-                [autoGrow]="true"
                 formControlName="userAdditionalInfo"
                 placeholder="Cause sharin' is carin'..."
               ></ion-textarea>

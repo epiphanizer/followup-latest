@@ -8,6 +8,8 @@ import { User } from '@app/modules/user/user';
 import { UserAvatarService } from '../user-avatar/user-avatar.service';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
+import { AuthenticationService } from '@app/core';
+import { of } from 'rxjs';
 
 @Component({
   providers: [ToastrService, UserService, UserAvatarService],
@@ -20,15 +22,21 @@ export class UserProfileComponent implements OnInit {
   user: User;
   userProfileForm!: FormGroup;
 
+  numericRegEx = RegExp(/^[0-9]{1,7}$/);
+  phoneRegEx = RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/);
+  stringRegEx = RegExp(/^[a-z'?]*$/i);
+  stringMinimumOneWordRegEx = RegExp(/^(?!\s*$).+/);
+
   constructor(
+    private authenticationService: AuthenticationService,
     private fb: FormBuilder,
-    private route: ActivatedRoute,
     private toastrService: ToastrService,
     private userService: UserService
   ) {}
 
   ngOnInit() {
-    this.user = this.route.snapshot.data.user;
+    this.user = this.authenticationService.currentUserSubject.getValue();
+    console.log(this.user);
     this.createForm();
   }
 
@@ -52,18 +60,24 @@ export class UserProfileComponent implements OnInit {
       this.user.userInterests = JSON.parse(<string>this.user.userInterests);
     }
     this.userProfileForm = this.fb.group({
-      userFirstName: this.fb.control(this.user.userFirstName, [Validators.required]),
+      userFirstName: this.fb.control(this.user.userFirstName, [
+        Validators.required,
+        Validators.pattern(this.stringMinimumOneWordRegEx)
+      ]),
       userMiddleName: this.fb.control(this.user.userMiddleName),
-      userLastName: this.fb.control(this.user.userLastName, [Validators.required]),
+      userLastName: this.fb.control(this.user.userLastName, [
+        Validators.required,
+        Validators.pattern(this.stringMinimumOneWordRegEx)
+      ]),
       userEmail: [
         {
           value: this.user.userEmail,
           disabled: true
         }
       ],
-      userPhoneCountryCode: [this.user.userCountryCode],
-      userPhoneAreaCode: [this.user.userAreaCode],
-      userPhoneNumber: [this.user.userPhoneNumber],
+      userPhoneCountryCode: [this.user.userCountryCode, [Validators.pattern(this.numericRegEx)]],
+      userPhoneAreaCode: [this.user.userAreaCode, [Validators.pattern(this.numericRegEx)]],
+      userPhoneNumber: [this.user.userPhoneNumber, [Validators.pattern(this.phoneRegEx)]],
       userDob: [this.user.userDob],
       userFavoriteDessert: [this.user.userFavoriteDessert],
       userInterests: this.fb.group({
@@ -96,6 +110,27 @@ export class UserProfileComponent implements OnInit {
         .success('Successfully updated user profile!')
         .onShown.pipe(take(1))
         .subscribe(() => {
+          /**
+           * Setters
+           */
+          this.user.userFirstName = formSubmission.userFirstName;
+          this.user.userMiddleName = formSubmission.userMiddleName;
+          this.user.userLastName = formSubmission.userLastName;
+          this.user.userCountryCode = formSubmission.userPhoneCountryCode;
+          this.user.userAreaCode = formSubmission.userPhoneAreaCode;
+          this.user.userPhoneNumber = formSubmission.userPhoneNumber;
+          this.user.userFavoriteDessert = formSubmission.userFavoriteDessert;
+          this.user.userInterests = JSON.stringify(formSubmission.userInterests);
+          this.authenticationService.currentUserSubject.next(this.user);
+          this.authenticationService.currentUserSubject.complete();
+          this.user.operations$ = null;
+          // console.log(this.user);
+          var userToSet = JSON.stringify(this.user);
+          // console.log(userToSet);
+          localStorage.removeItem('followup-user');
+          localStorage.setItem('followup-user', userToSet);
+          // console.log(this.user);
+          // debugger;
           window.location.href = '/user/profile';
         });
     });

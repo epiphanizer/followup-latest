@@ -34,12 +34,13 @@ export class ShellComponent {
     private platform: Platform,
     private authenticationService: AuthenticationService,
     public modalController: ModalController,
-    private toastrService: ToastrService,
-    private _renderer: Renderer,
-    private _elementRef: ElementRef
+    private toastrService: ToastrService
   ) {}
   ngOnInit() {
-    this.user = this.route.snapshot.data.user;
+    this.user = this.authenticationService.currentUserSubject.getValue();
+    /**
+     * Slated for deprecation
+     */
     this.routeSubscription = this.route.url.subscribe(() => {
       if (this.route.snapshot.firstChild) {
         if (this.route.snapshot.firstChild.data.navLinks) {
@@ -69,24 +70,24 @@ export class ShellComponent {
     /**
      * Updates our expire time within the shell component
      */
-    console.log(
-      'Updating user expiration time... was: ' + this.authenticationService.currentUserValue.userLoginExpires
-    );
-    this.authenticationService.currentUserValue.userLoginExpires = this.user.userLoginExpires =
-      this.authenticationService.currentUserValue.userLoginExpires + 900000;
-    console.log('Now: ' + this.authenticationService.currentUserValue.userLoginExpires);
+    var date = new Date();
+    this.user = this.authenticationService.currentUserSubject.getValue();
+    this.user.userLoginExpires = date.getTime() + 900000;
+    this.authenticationService.currentUserSubject.next(this.user);
     this.userActionSinceLastUpdate = false;
   }
   setIdleLogoutTimer() {
     var self = this;
     setInterval(function() {
+      self.user = self.authenticationService.currentUserSubject.getValue();
       var date = new Date();
       var currentTime = date.getTime();
-      if (self.authenticationService.currentUserValue.userLoginExpires - currentTime < 30000) {
-        var timeRemaining = Math.round((self.user.userLoginExpires - currentTime) / 1000);
+      var timeRemaining = Math.round((self.user.userLoginExpires - currentTime) / 1000);
+      console.log('Time remaining: ' + timeRemaining);
+      if (self.user.userLoginExpires - currentTime < 30000) {
         self.toastrService.success('Your session will log out in ' + timeRemaining + ' seconds due to inactivity!');
       }
-      if (currentTime > self.authenticationService.currentUserValue.userLoginExpires) {
+      if (currentTime > self.user.userLoginExpires) {
         alert('You have been timed out due to inactivity');
         self.authenticationService.signOut();
       }

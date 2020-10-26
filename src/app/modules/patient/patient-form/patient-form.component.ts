@@ -399,15 +399,13 @@ export class PatientFormComponent implements OnInit {
         .subscribe((data: any) => {});
     });
 
-    console.log(this.patientContacts);
     // Passing E2E
     this.patientContactsToRemove.forEach((patientContactId: number, index: number) => {
       this.patientContactService.removePatientContactByPatientContactId(patientContactId).subscribe(() => {
         this.toastrService.success('Successfully removed patient contact');
       });
     });
-    // console.log(this.patientContactsToRemove);
-    // debugger;
+
     /**
      * Get a diff from our original patient contacts
      */
@@ -415,8 +413,6 @@ export class PatientFormComponent implements OnInit {
       return this.patientContactsOriginal.indexOf(patientContact) == -1;
     });
 
-    // console.log(this.patientContactsToAdd);
-    // debugger;
     // Passing E2E
     this.patientContactsToAdd.forEach((patientContact: PatientContact, index: number) => {
       var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
@@ -442,23 +438,19 @@ export class PatientFormComponent implements OnInit {
         formSubmission.patient.patientContacts[indexToGrab].patientContactId = patientContact.patientContactId;
         formSubmission.patient.patientContacts[indexToGrab].patientId = this.patient.patientId;
         this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
-        console.log(patientContact);
-        console.log(this.patientContacts[indexToGrab]);
         // Use lodash to see if these are deep-equal
         return !_.isEqual(patientContact, this.patientContacts[indexToGrab]);
       });
       if (!this.patientContactsToEdit.length) {
         this.editPatient(formSubmission);
       }
-      // console.log(this.patientContactsToEdit.length);
-      // debugger;
+
       this.patientContactsToEdit.forEach((patientContact: PatientContact, index: number) => {
         // Now that we have these, we need to reassign to the form-submitted value.
         var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
         this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
         var patientContactPut = this.patientContactPutFactory(this.patientContacts[indexToGrab]);
-        // console.log(patientContactPut);
-        // debugger;
+
         this.patientContactService
           .editPatientContactByPatientId(this.patientContacts[indexToGrab].patientContactId, patientContactPut)
           .subscribe(() => {
@@ -475,8 +467,7 @@ export class PatientFormComponent implements OnInit {
   }
   editPatient(formSubmission: any) {
     let patientPutBody = this.formSubmissionFactory(formSubmission);
-    // console.log(patientPutBody);
-    // debugger;
+
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       this.toastrService.success('Successfully edited patient!');
       window.location.href = '/operations/' + this.patientForm.get('operation').value + '/patients';

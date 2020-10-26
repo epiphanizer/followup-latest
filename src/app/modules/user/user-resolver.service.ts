@@ -25,16 +25,10 @@ export class UserResolver implements Resolve<User> {
      * Make sure timeout hasn't occurred;
      */
     this.user$ = of(this.authService.currentUserValue);
-    this.user = this.authService.currentUserValue;
+    this.user = this.authService.currentUserSubject.getValue();
     var date = new Date();
     var currentTime = date.getTime();
-
-    console.log('current time: ' + currentTime);
-    console.log('user logout time: ' + this.user.userLoginExpires);
-    console.log('session user logout time: ' + this.authService.currentUserValue.userLoginExpires);
-
     if (currentTime > this.user.userLoginExpires) {
-      debugger;
       alert('You have been timed out due to inactivity');
       this.authService.signOut();
     }
@@ -43,10 +37,7 @@ export class UserResolver implements Resolve<User> {
      */
     if (this.user.userLoginExpires - currentTime < 900000) {
       this.user.userLoginExpires = currentTime + 900000;
-      this.authService.currentUserValue.userLoginExpires = this.user.userLoginExpires;
-      console.log(
-        'should have given the user fifteen minutes more time. Currently sitting at: ' + this.user.userLoginExpires
-      );
+      this.authService.currentUserSubject.next(this.user);
     }
 
     /** Fetch all operations if user is admin, otherwise, get user ops. */

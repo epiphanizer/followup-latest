@@ -21,7 +21,7 @@ export class AuthenticationService {
   protected userId: number;
   public user$: Promise<User>;
 
-  private currentUserSubject: BehaviorSubject<User>;
+  public currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
   constructor(private http: HttpService, private jwtHelper: JwtHelperService, private router: Router) {

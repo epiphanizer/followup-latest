@@ -63,7 +63,6 @@ export class CallQueuePatientFilterComponent implements OnInit {
     let selectedDateObj = new Date(selectedDate);
     let transformedDate = this.datePipe.transform(selectedDateObj, 'yyyy-MM-dd');
     if (this.patientCalls) {
-      console.log(this.patientCalls);
       this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
         if (patientCall.patientCallEndTime) {
           return patientCall.patientCallEndTime.toString().indexOf(transformedDate) !== -1;
@@ -71,13 +70,7 @@ export class CallQueuePatientFilterComponent implements OnInit {
           return patientCall.patientCallScheduledTime.toString().indexOf(transformedDate) !== -1;
         }
       });
-      // console.log(this.patientCallsFiltered);
-      // this.patientCallsFiltered = this.patientCallsFiltered.sort(function(a, b){
-      //     if(a.patientCallEndTime < b.patientCallEndTime) { return 1; }
-      //     return 0;
-      // })
     }
-    console.log(this.patientCallsFiltered);
     return this.patientCallsFiltered;
   }
   searchPatientCallHistoryByText($event: KeyboardEvent): PatientCall[] {

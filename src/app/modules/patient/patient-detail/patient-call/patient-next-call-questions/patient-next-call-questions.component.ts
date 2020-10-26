@@ -26,7 +26,23 @@ export class PatientNextCallQuestionsComponent implements OnInit {
     });
   }
   addNextCallQuestion() {
+    var questionContent = true;
     let nextCallQuestions = this.patientNextCallQuestionsForm.controls.patientCallQuestions as FormArray;
+    console.log(nextCallQuestions);
+    for (let control of nextCallQuestions.controls) {
+      console.log(control);
+      if (control.value.trim().length) {
+        questionContent = true;
+      } else {
+        questionContent = false;
+      }
+      debugger;
+    }
+    debugger;
+    if (!questionContent) {
+      alert('Please make sure all prior questions have content before proceeding!');
+      return;
+    }
     nextCallQuestions.push(this.fb.control(''));
     this.patientCallQuestions.push(<PatientCallQuestion>{
       patientCallQuestion: 'What is your next question?'

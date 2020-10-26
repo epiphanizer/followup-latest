@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 /**
  * A class for talking to the user avatar API
@@ -21,7 +20,7 @@ export class UserAvatarService {
     let formData = new FormData();
     formData.append('avatarBlob', file, file.name);
     return this.http.post('users/' + userId + '/avatar', formData).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 1 time
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
