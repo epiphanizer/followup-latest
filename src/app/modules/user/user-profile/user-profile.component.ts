@@ -124,13 +124,9 @@ export class UserProfileComponent implements OnInit {
           this.authenticationService.currentUserSubject.next(this.user);
           this.authenticationService.currentUserSubject.complete();
           this.user.operations$ = null;
-          // console.log(this.user);
           var userToSet = JSON.stringify(this.user);
-          // console.log(userToSet);
           localStorage.removeItem('followup-user');
           localStorage.setItem('followup-user', userToSet);
-          // console.log(this.user);
-          // debugger;
           window.location.href = '/user/profile';
         });
     });
