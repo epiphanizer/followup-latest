@@ -38,6 +38,9 @@ export class UserResolver implements Resolve<User> {
     if (this.user.userLoginExpires - currentTime < 900000) {
       this.user.userLoginExpires = currentTime + 900000;
       this.authService.currentUserSubject.next(this.user);
+      this.user.operations$ = null;
+      localStorage.removeItem('followup-user');
+      localStorage.setItem('followup-user', JSON.stringify(this.user));
     }
 
     /** Fetch all operations if user is admin, otherwise, get user ops. */

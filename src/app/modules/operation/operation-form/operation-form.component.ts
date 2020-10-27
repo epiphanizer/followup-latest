@@ -1,8 +1,8 @@
-import { Component, OnInit, Renderer2, Injectable, Input } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, from, throwError, of } from 'rxjs';
-import { map, catchError, first, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { SuperForm } from 'angular-super-validator';
 import { OperationService } from '../operation.service';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
@@ -131,7 +131,6 @@ export class OperationFormComponent implements OnInit {
      * we will listen for the change.
      */
     if (this.route.snapshot.data.operation) {
-      console.log(this.route.snapshot.data);
       let operationId = parseInt(this.route.snapshot.data.operation.operationId);
       this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
         this.cleanData();

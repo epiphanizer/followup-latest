@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRoute, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, CanActivate, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { AuthenticationService } from './auth.service';
 import { Location } from '@angular/common';
@@ -13,7 +13,7 @@ export class AuthGuardService implements CanActivate {
     public route: ActivatedRoute,
     public router: Router
   ) {}
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(route: ActivatedRouteSnapshot) {
     const user = this.authenticationService.currentUserValue;
     if (user) {
       if (route.data.roles && route.data.roles.indexOf(user.userLevel) === -1) {
@@ -21,8 +21,6 @@ export class AuthGuardService implements CanActivate {
         this.router.navigate(['/home']);
         return false;
       }
-
-      console.log('Found user is role:' + user.userLevel);
       // authorised so return true
       return true;
     }
