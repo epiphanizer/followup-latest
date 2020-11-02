@@ -2,7 +2,7 @@
   max-width: 175px;
 
   .patient-manager-sidebar-calendar {
-    h4 {
+    h4.todays-date {
       width: 86%;
       height: 12px;
       font-family: AvenirBold;
@@ -12,7 +12,7 @@
       line-height: 0.86;
       letter-spacing: 1.2px;
       text-align: right;
-      color: var(--ion-color-primary);
+      color: #ef4627;
     }
 
     .caption {

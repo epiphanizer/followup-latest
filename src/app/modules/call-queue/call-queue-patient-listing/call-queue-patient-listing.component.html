@@ -1,22 +1,3 @@
-<div class="section-header">
-  <ng-container>
-    <i class="icon-new-discharges">
-      <span class="operation-discharges">
-        {{ currentNewDischargeCount || 0 }}
-      </span>
-    </i>
-  </ng-container>
-  <ng-container>
-    <i class="icon-todays-calls">
-      <span class="operation-todays-calls">
-        {{ todaysCallCount || 0 }}
-      </span>
-    </i>
-  </ng-container>
-  <h3 class="section-header">
-    {{ operation.operationName }}
-  </h3>
-</div>
 <ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="patient-filters">
   <li>
@@ -53,14 +34,7 @@
       <div class="call-queue-avatar">
         <div class="badge-container">
           <ng-container *ngIf="patient.patientNotificationCount > 0">
-            <span class="notification-badge">
-              {{ patient.patientNotificationCount }}
-            </span>
-          </ng-container>
-          <ng-container *ngIf="patient.patientKudosCount > 0">
-            <span class="kudos-badge">
-              {{ patient.patientKudosCount }}
-            </span>
+            <span class="notification-badge"> </span>
           </ng-container>
         </div>
         <app-patient-avatar [patient]="patient"></app-patient-avatar>
