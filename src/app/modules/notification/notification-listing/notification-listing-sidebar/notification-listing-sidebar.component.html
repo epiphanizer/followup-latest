@@ -1,19 +1,13 @@
 <div class="notification-listing-sidebar">
-  <div class="notification-listing-sidebar-calendar">
-    <h4>TODAY'S DATE</h4>
-    <div class="caption">
-      {{ todaysDateDay }}
-    </div>
-  </div>
-
-  <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">MY FACILITIES</a>
+  <!-- Sidebar calendar -->
+  <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
   <i
     class="expand-facilities-trigger"
     (click)="toggleOperationSidebarMenu()"
     [@turnArrow]="isOpen ? 'open' : 'closed'"
     class="expand-facilities-trigger active"
   ></i>
-  <ul
+  <!-- <ul
     class="facility-dropdown-list"
     [@expandSidebar]="isOpen ? 'open' : 'closed'"
     class="facility-dropdown-list active"
@@ -30,7 +24,7 @@
         </span>
       </div>
     </li>
-  </ul>
+  </ul> -->
   <ng-template #noOperations>
     You haven't been assigned any operations yet!
   </ng-template>
