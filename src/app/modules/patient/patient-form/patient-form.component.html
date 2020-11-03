@@ -4,7 +4,7 @@
       <app-patient-manager-sidebar></app-patient-manager-sidebar>
     </ion-col>
     <ion-col class="patient-content">
-      <ion-title *ngIf="!editMode; else editPatient">New Patient</ion-title>
+      <ion-title *ngIf="!editMode; else editPatient">Patient Portal</ion-title>
       <ng-template #editPatient>
         <ion-title>
           Edit Patient
@@ -12,14 +12,8 @@
       </ng-template>
       <form id="patient-form" *ngIf="patientForm" [formGroup]="patientForm" novalidate>
         <ion-list lines="none" inset>
-          <i class="icon-new-facility"></i>
           <ion-item>
-            <ion-select
-              *ngIf="operations"
-              placeholder="Select Facility"
-              class="select-facility"
-              formControlName="operation"
-            >
+            <ion-select *ngIf="operations" placeholder="Facility" class="select-facility" formControlName="operation">
               <ion-select-option
                 *ngFor="let operation of operations"
                 [selected]="operation.operationId == patient.patientOperationId"

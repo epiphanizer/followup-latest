@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { extract } from '@app/core';
 import { HomeComponent } from './home.component';
 import { Shell } from '@app/shell/shell.service';
@@ -10,7 +9,7 @@ import { AuthGuardService } from '@app/core/authentication/auth-guard.service';
 const routes: Routes = [
   Shell.childRoutes([
     {
-      path: 'home',
+      path: '',
       component: HomeComponent,
       data: { title: extract('Follow-Up') },
       resolve: {
@@ -19,8 +18,13 @@ const routes: Routes = [
       canActivate: [AuthGuardService]
     },
     {
-      path: '**',
-      redirectTo: '/home'
+      path: 'home',
+      component: HomeComponent,
+      data: { title: extract('Follow-Up') },
+      resolve: {
+        user: UserResolver
+      },
+      canActivate: [AuthGuardService]
     }
   ])
 ];

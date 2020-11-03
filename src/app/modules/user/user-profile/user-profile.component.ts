@@ -3,13 +3,11 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { SuperForm } from 'angular-super-validator';
 import { UserPutObject } from '@app/modules/user/user';
 import { UserService } from '@app/modules/user/user.service';
-import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { UserAvatarService } from '../user-avatar/user-avatar.service';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from '@app/core';
-import { of } from 'rxjs';
 
 @Component({
   providers: [ToastrService, UserService, UserAvatarService],

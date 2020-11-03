@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="navLinks">
   <ion-list lines="none">
     <ion-item *ngFor="let link of navLinks">
       <ng-container *ngIf="link.linkType != 'link'">
