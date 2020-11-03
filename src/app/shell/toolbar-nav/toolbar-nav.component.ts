@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd, ActivationEnd, ActivatedRouteSnapshot } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { KudosModalComponent } from '../kudos-modal/kudos-modal.component';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
@@ -87,12 +86,8 @@ export class ToolbarNavComponent implements OnInit {
   }
   ngAfterViewInit() {}
 
-  doButtonAction(buttonAction: string) {
-    if (buttonAction == 'report') {
-      this.createNotificationModal();
-    } else if (buttonAction == 'kudos') {
-      this.createKudosModal();
-    }
+  doButtonAction() {
+    this.createNotificationModal();
   }
 
   async createNotificationModal() {
@@ -112,28 +107,6 @@ export class ToolbarNavComponent implements OnInit {
           notificationPatientId: this.patient.patientId,
           notificationTypeId: 0,
           notificationTypeLabel: ''
-        }
-      }
-    });
-    return await modal.present();
-  }
-  async createKudosModal() {
-    const modal = await this.modalController.create({
-      component: KudosModalComponent,
-      cssClass: 'followup-modal',
-      componentProps: {
-        modalType: 'Kudos',
-        notification: {
-          notificationCreatedByUserId: this.user.userId,
-          notificationMessage: 'Give your Kudos!',
-          notificationOperationId: this.patient.patientOperationId,
-          notificationPatientFirstName: this.patient.patientFirstName,
-          notificationPatientLastName: this.patient.patientLastName,
-          notificationPatientMedicalRecordNumber: this.patient.patientMedicalRecordNumber,
-          notificationOperationName: this.patient.patientOperationName,
-          notificationPatientId: this.patient.patientId,
-          notificationTypeId: 7,
-          notificationTypeLabel: 'Kudos'
         }
       }
     });
