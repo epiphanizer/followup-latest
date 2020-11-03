@@ -17,6 +17,10 @@ const routes: Routes = [
         user: UserResolver
       },
       canActivate: [AuthGuardService]
+    },
+    {
+      path: '**',
+      redirectTo: '/home'
     }
   ])
 ];

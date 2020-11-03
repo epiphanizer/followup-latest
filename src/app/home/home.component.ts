@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
+    alert('home component');
     this.user = this.route.snapshot.data.user;
 
     /**

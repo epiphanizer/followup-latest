@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.authenticationService.currentUserValue) {
+      console.log('this far');
       this.router.navigate(['/home']);
     }
   }
@@ -52,7 +53,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.isLoading = false;
       return this.error;
     }
-    console.log(result);
     this.router.navigate(['/home']);
   }
 

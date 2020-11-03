@@ -6,7 +6,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { ToastrService } from 'ngx-toastr';
 
 export interface AuthenticationBodyPost {
   username: string;

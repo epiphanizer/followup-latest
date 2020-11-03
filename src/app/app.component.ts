@@ -1,8 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Logger, untilDestroyed } from '@app/core';
-import { Subscription } from 'rxjs';
-
-const log = new Logger('App');
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-root',
