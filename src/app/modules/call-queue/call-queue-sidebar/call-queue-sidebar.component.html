@@ -6,33 +6,36 @@
     </div>
   </div>
 
-  <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">MY FACILITIES</a>
-  <i
-    class="expand-facilities-trigger"
-    (click)="toggleOperationSidebarMenu()"
-    [@turnArrow]="isOpen ? 'open' : 'closed'"
-    class="expand-facilities-trigger active"
-  ></i>
-  <ul
-    class="facility-dropdown-list"
-    [@expandSidebar]="isOpen ? 'open' : 'closed'"
-    class="facility-dropdown-list active"
-    *ngIf="operations; else noOperations"
-  >
-    <div *ngFor="let operation of operations; let i = index">
-      <ng-container>
-        <li *ngIf="selected.operation">
-          <a
-            (click)="setActiveOperation(operation)"
-            [class.active]="selected.operation.operationId == operation.operationId"
-          >
-            {{ operation.operationName }}
-            <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
-          </a>
-        </li>
-      </ng-container>
-    </div>
-  </ul>
+  <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
+  <ng-container *ngIf="operationGroups">
+    <!-- <li *ngIf="selected.operation">
+      <a
+        (click)="setActiveOperation(operation)"
+        [class.active]="selected.operation.operationId == operation.operationId"
+      >
+        {{ operation.operationName }}
+        <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
+      </a>
+    </li> -->
+
+    <ul
+      class="facility-dropdown-list"
+      [@expandSidebar]="isOpen ? 'open' : 'closed'"
+      class="facility-dropdown-list active"
+      *ngIf="operations; else noOperations"
+    >
+      <div *ngFor="let operationGroup of operationGroups; let i = index">
+        {{ operationGroup.operationGroupName }}
+        <i
+          class="expand-facilities-trigger"
+          (click)="toggleOperationSidebarMenu()"
+          [@turnArrow]="isOpen ? 'open' : 'closed'"
+          class="expand-facilities-trigger active"
+        >
+        </i>
+      </div>
+    </ul>
+  </ng-container>
   <ng-template #noOperations>
     You haven't been assigned any operations yet!
   </ng-template>

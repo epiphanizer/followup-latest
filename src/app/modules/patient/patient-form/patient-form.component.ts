@@ -234,7 +234,6 @@ export class PatientFormComponent implements OnInit {
             Validators.required,
             Validators.pattern(this.stringMinimumOneWordRegEx)
           ]),
-          patientMiddleName: this.fb.control(this.patient.patientMiddleName),
           patientLastName: this.fb.control(this.patient.patientLastName, [
             Validators.required,
             Validators.pattern(this.stringMinimumOneWordRegEx)
@@ -532,10 +531,8 @@ export class PatientFormComponent implements OnInit {
       patientOperationId: formSubmission.operation,
       patientMedicalRecordNumber: formSubmission.patient.patientMedicalRecordNumber,
       patientFirstName: formSubmission.patient.patientName.patientFirstName,
-      patientMiddleName: formSubmission.patient.patientName.patientMiddleName || '',
       patientLastName: formSubmission.patient.patientName.patientLastName,
       patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
-      patientSecondaryInsurance: formSubmission.patient.insurance.secondaryInsurance || '',
       patientAdmitDate: patientAdmitDate,
       patientDischargeDate: patientDischargeDate,
       patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma == true ? 1 : 0,
@@ -543,7 +540,6 @@ export class PatientFormComponent implements OnInit {
       patientDischargedCondition: formSubmission.patient.patientDischargedCondition,
       patientPrimaryDiagnosis: formSubmission.patient.patientPrimaryDiagnosis,
       patientMedicalConditions: patientMedicalConditions,
-      patientUrgencyScale: parseInt(formSubmission.patient.patientUrgencyScale) || 1,
       patientNeedToKnow: formSubmission.patient.patientNeedToKnow || '',
       patientActive: formSubmission.patient.patientActive == true ? 1 : 0
     };

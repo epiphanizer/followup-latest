@@ -14,15 +14,12 @@ export interface PatientPutBody {
   patientOperationId: number;
   patientMedicalRecordNumber: string;
   patientFirstName: string;
-  patientMiddleName?: string;
   patientLastName: string;
   patientPrimaryInsurance: string;
-  patientSecondaryInsurance: string;
   patientAdmitDate: string;
   patientDischargeDate: string;
   patientDischargedAma: number | boolean;
   patientDischargeLabelId: number;
   patientMedicalConditions: string;
-  patientUrgencyScale: number;
   patientNeedToKnow: string;
 }

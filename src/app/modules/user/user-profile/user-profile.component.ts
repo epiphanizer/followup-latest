@@ -64,7 +64,6 @@ export class UserProfileComponent implements OnInit {
         Validators.required,
         Validators.pattern(this.stringMinimumOneWordRegEx)
       ]),
-      userMiddleName: this.fb.control(this.user.userMiddleName),
       userLastName: this.fb.control(this.user.userLastName, [
         Validators.required,
         Validators.pattern(this.stringMinimumOneWordRegEx)

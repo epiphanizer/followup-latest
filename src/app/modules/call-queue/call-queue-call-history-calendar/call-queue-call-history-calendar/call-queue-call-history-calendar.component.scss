@@ -24,20 +24,12 @@ h3 {
   letter-spacing: 3.15px;
   text-align: left;
   text-transform: uppercase;
-  color: var(--ion-color-primary);
-}
-
-.divider-line {
-  width: 100%;
-  min-height: 1px;
-  height: 1px;
-  display: block;
-  border-top: solid 3.9px var(--ion-color-primary);
-  border-bottom: none;
+  color: var(--ion-color-tertiary);
 }
 
 .calendar-month {
   display: inline-block;
+  text-align: center;
   text-transform: uppercase;
   font-family: AvenirBold;
   color: #8e8e93;

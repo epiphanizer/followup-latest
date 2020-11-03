@@ -45,10 +45,6 @@
               <ion-label color="medium" position="stacked">First Name <span style="color:red">*</span></ion-label>
               <ion-input type="text" formControlName="patientFirstName"></ion-input>
             </ion-item>
-            <ion-item class="patient-middle-name">
-              <ion-label color="medium" position="stacked">Middle Name</ion-label>
-              <ion-input type="text" formControlName="patientMiddleName"></ion-input>
-            </ion-item>
             <ion-item class="patient-last-name">
               <ion-label color="medium" position="stacked">Last Name <span style="color:red">*</span></ion-label>
               <ion-input type="text" formControlName="patientLastName"></ion-input>
@@ -145,10 +141,6 @@
                 <ion-label color="medium" position="stacked">Primary Insurance</ion-label>
                 <ion-input formControlName="primaryInsurance"></ion-input>
               </ion-item>
-              <ion-item class="secondary-insurance">
-                <ion-label color="medium" position="stacked">Secondary Insurance</ion-label>
-                <ion-input formControlName="secondaryInsurance"></ion-input>
-              </ion-item>
             </ion-list>
           </fieldset>
           <fieldset class="patient-discharge" formGroupName="dischargeInfo">
@@ -217,8 +209,8 @@
           <fieldset class="patient-medical-conditions">
             <ion-list class="patient-medical-conditions" lines="none" inset>
               <div class="section-header discharge">
-                <i class="icon-info"></i>
-                <span class="contact-header">Medical Conditions</span>
+                <i class="icon-medical"></i>
+                <span class="contact-header">Medical Condition</span>
               </div>
               <ion-item>
                 <ion-list inset lines="none" class="checkboxes-inline" formGroupName="patientMedicalConditions">
@@ -309,18 +301,6 @@
               </ion-item>
             </ion-list>
           </fieldset>
-          <ion-list class="urgency-rating-list" lines="none" inset>
-            <i class="icon-star"></i>
-            <ion-item class="urgency-rating">
-              <ion-label color="medium" position="stacked">Urgency Rating</ion-label>
-              <ion-radio-group formControlName="patientUrgencyScale">
-                <ion-item *ngFor="let rating of [1, 2, 3, 4, 5]">
-                  <ion-radio value="{{ rating }}"></ion-radio>
-                  <ion-label position="stacked">{{ rating }}</ion-label>
-                </ion-item>
-              </ion-radio-group>
-            </ion-item>
-          </ion-list>
           <ion-list class="need-to-know-list" inset lines="none">
             <i class="icon-info"></i>
             <ion-item class="need-to-know">

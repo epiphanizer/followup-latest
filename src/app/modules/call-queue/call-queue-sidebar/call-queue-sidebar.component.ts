@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { Operation } from '@app/modules/operation/operation';
+import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { formatDate } from '@angular/common';
 import {
   trigger,
@@ -70,6 +70,7 @@ export class CallQueueSidebarComponent {
     private operationService: OperationService,
     private patientService: PatientService
   ) {}
+  operationGroups: OperationGroup[] = null;
   operations: Operation[];
   user: User;
   todaysDateDay: number;
@@ -79,34 +80,34 @@ export class CallQueueSidebarComponent {
     this.user.operations$.subscribe((data: Operation[]) => {
       /** Init to the first assigned operation alphabetically */
       this.operations = data;
-      // this.operations.forEach((operation: Operation, idx: number) => {
-      //   this.patientService
-      //     .getActivePatientListByOperationId(operation.operationId)
-      //     .subscribe((patients: Patient[]) => {
-      //       if (patients !== null) {
-      //         this.operations[idx].currentNewDischargeCount = this.getCurrentNewDischargeCount(patients);
-      //       } else {
-      //         this.operations[idx].currentNewDischargeCount = 0;
-      //       }
-      //     });
-      // });
-      this.route.paramMap.subscribe((data: any) => {
-        if (data.params.operationId) {
-          this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
-            this.selected.operation = data[0];
-            this.patientService
-              .getActivePatientListByOperationId(this.selected.operation.operationId)
-              .subscribe((patients: Patient[]) => {
-                if (patients !== null) {
-                  this.getCurrentNewDischargeCount(patients);
-                }
-              });
-          });
-        } else {
-          /** Init to the first user operation (alphabetically,) */
-          this.selected.operation = this.operations[0];
+      this.operations.forEach((operation: Operation, idx: number) => {
+        var operationGroup = {
+          operationGroupId: operation.operationGroupId,
+          operationGroupName: operation.operationGroupName
+        };
+        console.log(this.operationGroups.indexOf(operationGroup));
+        if (this.operationGroups.indexOf(operationGroup) == -1) {
+          this.operationGroups.push(operationGroup);
+          console.log('pushing ops group');
         }
       });
+    });
+    this.route.paramMap.subscribe((data: any) => {
+      if (data.params.operationId) {
+        this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
+          this.selected.operation = data[0];
+          this.patientService
+            .getActivePatientListByOperationId(this.selected.operation.operationId)
+            .subscribe((patients: Patient[]) => {
+              if (patients !== null) {
+                this.getCurrentNewDischargeCount(patients);
+              }
+            });
+        });
+      } else {
+        /** Init to the first user operation (alphabetically,) */
+        this.selected.operation = this.operations[0];
+      }
     });
 
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));

@@ -6,15 +6,12 @@
     <ion-col class="user-profile-content">
       <ion-title>User Profile</ion-title>
       <form id="user-profile-form" [formGroup]="userProfileForm" novalidate>
+        <h4 class="form-subheadline">General Information</h4>
         <ion-list lines="none" inset>
           <i class="icon-user"></i>
           <ion-item class="first-name">
             <ion-label color="medium" position="stacked">First Name <span style="color:red">*</span></ion-label>
             <ion-input type="text" formControlName="userFirstName" required></ion-input>
-          </ion-item>
-          <ion-item class="middle-name">
-            <ion-label color="medium" position="stacked">Middle Name</ion-label>
-            <ion-input type="text" formControlName="userMiddleName"></ion-input>
           </ion-item>
           <i class="icon-placeholder"></i>
           <ion-item class="last-name">
@@ -42,6 +39,7 @@
           </ion-item>
         </ion-list>
         <ion-list lines="none">
+          <h4 class="form-subheadline">Get To Know You...</h4>
           <i class="icon-birthday"></i>
           <ion-item class="user-dob">
             <ion-label color="medium" position="stacked">Birthday</ion-label>

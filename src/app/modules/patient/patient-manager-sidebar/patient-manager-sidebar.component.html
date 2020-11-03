@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">MY FACILITIES</a>
+  <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
   <i
     class="expand-facilities-trigger"
     (click)="toggleOperationSidebarMenu()"
@@ -29,13 +29,6 @@
           >
             {{ operation.operationName }}
           </a>
-          <ng-container *ngIf="operation.todaysCallCount > -1">
-            <i class="icon-todays-calls">
-              <span class="icon-todays-calls-counter">
-                {{ operation.todaysCallCount }}
-              </span>
-            </i>
-          </ng-container>
           <ng-container *ngIf="operation.currentNewDischargeCount > -1">
             <i class="icon-new-discharges">
               <span class="icon-discharge-counter">
