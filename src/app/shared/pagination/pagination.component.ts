@@ -12,11 +12,16 @@ export class JwPaginationComponent implements OnInit, OnChanges {
   @Input() initialPage = 1;
   @Input() pageSize = 8;
   @Input() maxPages = 100;
-
-  setLength: number;
+  startLength: number;
+  endLength: number;
   pager: any = {};
 
   paginate(totalItems: number, currentPage: number, pageSize: number, maxPages: number) {
+    if (totalItems == 0) {
+      this.startLength = 0;
+    } else {
+      this.startLength = this.pager.pageSize * this.pager.currentPage - (this.pager.pageSize - 1);
+    }
     if (currentPage === void 0) {
       currentPage = 1;
     }
@@ -38,9 +43,9 @@ export class JwPaginationComponent implements OnInit, OnChanges {
       currentPage = totalPages;
     }
     if (pageSize * currentPage > totalItems) {
-      this.setLength = totalItems;
+      this.endLength = totalItems;
     } else {
-      this.setLength = pageSize * currentPage;
+      this.endLength = pageSize * currentPage;
     }
     var startPage: number, endPage: number;
     if (totalPages <= maxPages) {

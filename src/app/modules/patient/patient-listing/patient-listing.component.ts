@@ -66,6 +66,5 @@ export class PatientListingComponent implements OnInit {
   }
   ngOnDestroy() {
     this.patients = null;
-    console.log('patient listing component destroyed');
   }
 }
