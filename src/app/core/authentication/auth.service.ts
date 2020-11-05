@@ -4,9 +4,7 @@ import { map, catchError } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
-import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { ToastrService } from 'ngx-toastr';
 
 export interface AuthenticationBodyPost {
   username: string;
@@ -24,7 +22,7 @@ export class AuthenticationService {
   public currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(private http: HttpService, private jwtHelper: JwtHelperService, private router: Router) {
+  constructor(private http: HttpService, private jwtHelper: JwtHelperService) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('followup-user')));
     this.currentUser = this.currentUserSubject.asObservable();
   }

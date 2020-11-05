@@ -1,6 +1,6 @@
 {
   "name": "followup-care",
-  "version": "1.6",
+  "version": "1.6.0",
   "private": true,
   "main": "./main.js",
   "scripts": {
