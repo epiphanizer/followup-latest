@@ -65,33 +65,51 @@ export class PatientPatientListingComponent implements OnInit {
   sortPatientsByPatientName = function(sortFlag: string) {
     this.filterBy = 'patient-name';
     if (sortFlag == 'desc') {
-      this.patients.sort((a: Patient, b: Patient) => a.patientLastName.localeCompare(b.patientLastName));
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>a.patientLastName.localeCompare(b.patientLastName);
+        })
+        .slice();
     } else {
-      this.patients.sort((a: Patient, b: Patient) => b.patientLastName.localeCompare(a.patientLastName));
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>b.patientLastName.localeCompare(a.patientLastName);
+        })
+        .slice();
     }
   };
   sortPatientsByDischargeDate = function(sortFlag: string) {
     this.filterBy = 'discharge-date';
     if (sortFlag == 'asc') {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
-      });
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
+        })
+        .slice();
     } else {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(b.patientDischargeDate) - <any>new Date(a.patientDischargeDate);
-      });
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>new Date(b.patientDischargeDate) - <any>new Date(a.patientDischargeDate);
+        })
+        .slice();
     }
   };
   sortPatientsByPatientStatus = function(sortFlag: string) {
     this.filterBy = 'patient-status';
+
+    this.patientsFiltered = {};
     if (sortFlag == 'asc') {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>a.patientStatusLabel.localeCompare(b.patientStatusLabel);
-      });
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>a.patientStatusLabel.localeCompare(b.patientStatusLabel);
+        })
+        .slice();
     } else {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>b.patientStatusLabel.localeCompare(a.patientStatusLabel);
-      });
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>b.patientStatusLabel.localeCompare(a.patientStatusLabel);
+        })
+        .slice();
     }
   };
 
