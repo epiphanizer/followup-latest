@@ -16,6 +16,7 @@ import { PatientPatientListingComponent } from './patient-listing/patient-patien
 import { FollowupCompleteModalComponent } from './patient-detail/followup-complete-modal/followup-complete-modal.component';
 import { FollowupCompleteButtonComponent } from './patient-detail/followup-complete-button/followup-complete-button.component';
 import { PatientAvatarUploadComponent } from './patient-avatar-upload/patient-avatar-upload.component';
+import { SharedModule } from '@app/shared';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { PatientAvatarUploadComponent } from './patient-avatar-upload/patient-av
     ReactiveFormsModule,
     PatientRoutingModule,
     PatientCallModule,
-    PatientNotesModule
+    PatientNotesModule,
+    SharedModule
   ],
   entryComponents: [
     PatientManagerSidebarComponent,

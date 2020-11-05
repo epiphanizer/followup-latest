@@ -12,6 +12,7 @@ import { PatientService } from '@app/modules/patient/patient.service';
 })
 export class PatientPatientListingComponent implements OnInit {
   @Input() operation: Operation;
+  public pageOfItems: Patient[];
   public patients: Patient[];
   public patients$: Observable<Patient[]>;
   public patientsFiltered: Patient[];
@@ -102,5 +103,9 @@ export class PatientPatientListingComponent implements OnInit {
       return patientFullName.toLowerCase().includes(searchText);
     });
     return this.patientsFiltered;
+  }
+  onChangePage(pageOfItems: Array<any>) {
+    // update current page of items
+    this.pageOfItems = pageOfItems;
   }
 }
