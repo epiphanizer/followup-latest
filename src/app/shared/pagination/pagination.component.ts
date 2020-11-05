@@ -99,7 +99,7 @@ export class JwPaginationComponent implements OnInit, OnChanges {
     }
   }
 
-  private setPage(page: number) {
+  setPage(page: number) {
     // get new pager object for specified page
     this.pager = this.paginate(this.items.length, page, this.pageSize, this.maxPages);
 
