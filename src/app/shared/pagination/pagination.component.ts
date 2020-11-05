@@ -10,8 +10,8 @@ export class JwPaginationComponent implements OnInit, OnChanges {
   @Input() items: Array<any>;
   @Output() changePage = new EventEmitter<any>(true);
   @Input() initialPage = 1;
-  @Input() pageSize = 10;
-  @Input() maxPages = 10;
+  @Input() pageSize = 8;
+  @Input() maxPages = 100;
 
   setLength: number;
   pager: any = {};
