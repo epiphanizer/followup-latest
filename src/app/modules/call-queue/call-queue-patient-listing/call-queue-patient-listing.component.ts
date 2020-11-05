@@ -103,25 +103,33 @@ export class CallQueuePatientListingComponent implements OnInit {
   public sortPatientsByDischargeDate = function(sortFlag: string) {
     this.filterBy = 'discharge-date';
     if (sortFlag == 'asc') {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
-      });
+      this.patients = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
+        })
+        .slice();
     } else {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(b.patientDischargeDate) - <any>new Date(a.patientDischargeDate);
-      });
+      this.patients = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>new Date(b.patientDischargeDate) - <any>new Date(a.patientDischargeDate);
+        })
+        .slice();
     }
   };
   public sortPatientsByCallDate = function(sortFlag: string) {
     this.filterBy = 'call-date';
     if (sortFlag == 'asc') {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientNextCallScheduledTime) - <any>new Date(b.patientNextCallScheduledTime);
-      });
+      this.patients = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>new Date(a.patientNextCallScheduledTime) - <any>new Date(b.patientNextCallScheduledTime);
+        })
+        .slice();
     } else {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(b.patientNextCallScheduledTime) - <any>new Date(a.patientNextCallScheduledTime);
-      });
+      this.patients = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>new Date(b.patientNextCallScheduledTime) - <any>new Date(a.patientNextCallScheduledTime);
+        })
+        .slice();
     }
   };
   public toggleAscDesc = function() {
