@@ -9,7 +9,6 @@ import {
   PatientCallStatusService
 } from '@app/modules/patient/patient-detail/patient-call/patient-call-status.service';
 import { PatientCallService } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
-import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   providers: [PatientService, PatientCallService],
@@ -18,11 +17,7 @@ import { IonInfiniteScroll } from '@ionic/angular';
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
-  @ViewChild(IonInfiniteScroll, {
-    read: 'infinite-scroll',
-    static: true
-  })
-  infiniteScroll: IonInfiniteScroll;
+  pageOfItems: Patient[];
   currentYear: number;
   currentNewDischargeCount: number;
   todaysCallCount: number;
@@ -141,4 +136,9 @@ export class CallQueuePatientListingComponent implements OnInit {
       this.sortPatientsByDischargeDate(this.selectedSortFlag);
     }
   };
+
+  onChangePage(pageOfItems: Array<any>) {
+    // update current page of items
+    this.pageOfItems = pageOfItems;
+  }
 }

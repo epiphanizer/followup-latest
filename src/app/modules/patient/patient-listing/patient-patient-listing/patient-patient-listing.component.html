@@ -45,7 +45,7 @@
 </ul>
 
 <ul class="patient-patient-list" *ngIf="patients$ | async">
-  <li *ngFor="let patient of pageofItems" class="active" [routerLink]="getPatientLink(patient)">
+  <li *ngFor="let patient of pageOfItems" class="active" [routerLink]="getPatientLink(patient)">
     <div class="patient-discharge-date">
       {{ patient.patientDischargeDate | date: 'M/d':'UTC' }}
     </div>
@@ -67,14 +67,7 @@
     </div>
   </li>
 </ul>
-<!-- <div class="pagination">
-  <span class="pagination-information">
-    1-10 of 32 
-  </span>
-  <span class="page-last"></span>
-  <span class="page-next"></span>
-</div> -->
-<jw-pagination [items]="filteredPatients" (changePage)="onChangePage($event)"></jw-pagination>
+<jw-pagination *ngIf="patientsFiltered" [items]="patientsFiltered" (changePage)="onChangePage($event)"></jw-pagination>
 
 <ng-template #noPatients>
   Sorry! No patients exist for this operation

@@ -49,7 +49,7 @@
 
 <ul class="notification-patient-list" *ngIf="notifications">
   <li
-    *ngFor="let notification of notificationsFiltered"
+    *ngFor="let notification of pageOfItems"
     class="active"
     [routerLink]="'/notifications/' + notification.notificationId"
   >
@@ -69,6 +69,11 @@
     </div>
   </li>
 </ul>
+<jw-pagination
+  *ngIf="notificationsFiltered"
+  [items]="notificationsFiltered"
+  (changePage)="onChangePage($event)"
+></jw-pagination>
 
 <ng-template #noNotifications>
   Sorry! No notifications exist for this operation!

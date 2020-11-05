@@ -1,6 +1,6 @@
 {
   "name": "followup-care",
-  "version": "1.5.1",
+  "version": "1.6",
   "private": true,
   "main": "./main.js",
   "scripts": {
@@ -49,7 +49,7 @@
     "core-js": "^3.3.6",
     "file-saver": "^2.0.2",
     "ionic-logging-service": "^7.0.0",
-    "jw-angular-pagination": "^1.2.0",
+    "jw-paginate": "^1.0.4",
     "lodash": "^4.17.14",
     "moment": "^2.24.0",
     "ngx-image-compress": "^8.0.4",

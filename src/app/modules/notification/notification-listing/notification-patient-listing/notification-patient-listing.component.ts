@@ -14,6 +14,7 @@ export class NotificationPatientListingComponent implements OnInit {
   @Input() operation: Operation;
   public notifications: Notification[];
   public notificationsFiltered: Notification[];
+  public pageOfItems: Notification[];
   public filterBy: string = 'notification-date';
   public selectedSortFlag: string = 'desc';
 
@@ -113,5 +114,9 @@ export class NotificationPatientListingComponent implements OnInit {
       return patientFullName.toLowerCase().includes(searchText);
     });
     return this.notificationsFiltered;
+  }
+  onChangePage(pageOfItems: Array<any>) {
+    // update current page of items
+    this.pageOfItems = pageOfItems;
   }
 }
