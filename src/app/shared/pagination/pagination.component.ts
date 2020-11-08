@@ -51,7 +51,7 @@ export class JwPaginationComponent implements OnInit, OnChanges {
       // total pages more than max so calculate start and end pages
       var maxPagesBeforeCurrentPage = Math.floor(maxPages / 2);
       var maxPagesAfterCurrentPage = Math.ceil(maxPages / 2) - 1;
-      if (currentPage <= maxPagesBeforeCurrentPage) {
+      if (currentPage < maxPagesBeforeCurrentPage) {
         // current page near the start
         startPage = 1;
         endPage = maxPages;

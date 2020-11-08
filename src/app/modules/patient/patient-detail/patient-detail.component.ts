@@ -97,7 +97,7 @@ export class PatientDetailComponent implements OnInit {
       if (element) {
         element.scrollIntoView({
           behavior: 'auto',
-          block: 'start'
+          block: 'end'
         });
       }
     }, 50);
