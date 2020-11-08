@@ -31,6 +31,7 @@ export class UserResolver implements Resolve<User> {
     if (currentTime > this.user.userLoginExpires) {
       alert('You have been timed out due to inactivity');
       this.authService.signOut();
+      return;
     }
     /**
      * If we are under 15 mins, give the user another 15.
