@@ -68,41 +68,50 @@ export class NotificationPatientListingComponent implements OnInit {
   public sortNotificationsByNotificationDate = function(sortFlag: string) {
     this.filterBy = 'notification-date';
     if (sortFlag == 'asc') {
-      this.notificationsFiltered = this.notifications;
-      this.notificationsFiltered.sort((a: Notification, b: Notification) => {
-        return <any>new Date(a.notificationCreatedTime) - <any>new Date(b.notificationCreatedTime);
-      });
+      this.notificationsFiltered = this.notifications
+        .sort((a: Notification, b: Notification) => {
+          return <any>new Date(a.notificationCreatedTime) - <any>new Date(b.notificationCreatedTime);
+        })
+        .slice();
     } else {
-      this.notificationsFiltered = this.notifications;
-      this.notificationsFiltered.sort((a: Notification, b: Notification) => {
-        return <any>new Date(b.notificationCreatedTime) - <any>new Date(a.notificationCreatedTime);
-      });
-      console.log(this.notificationsFiltered);
+      this.notificationsFiltered = this.notifications
+        .sort((a: Notification, b: Notification) => {
+          return <any>new Date(b.notificationCreatedTime) - <any>new Date(a.notificationCreatedTime);
+        })
+        .slice();
     }
   };
 
   sortNotificationsByNotificationType = function(sortFlag: string) {
     this.filterBy = 'notification-type';
     if (sortFlag == 'desc') {
-      this.notifications.sort((a: Notification, b: Notification) => {
-        return a.notificationTypeLabel.localeCompare(b.notificationTypeLabel);
-      });
+      this.notificationsFiltered = this.notifications
+        .sort((a: Notification, b: Notification) => {
+          return a.notificationTypeLabel.localeCompare(b.notificationTypeLabel);
+        })
+        .slice();
     } else {
-      this.notifications.sort((a: Notification, b: Notification) => {
-        return b.notificationTypeLabel.localeCompare(a.notificationTypeLabel);
-      });
+      this.notificationsFiltered = this.notifications
+        .sort((a: Notification, b: Notification) => {
+          return b.notificationTypeLabel.localeCompare(a.notificationTypeLabel);
+        })
+        .slice();
     }
   };
   sortNotificationsByPatient = function(sortFlag: string) {
     this.filterBy = 'patient-name';
     if (sortFlag == 'desc') {
-      this.notifications.sort((a: Notification, b: Notification) => {
-        return a.notificationPatientLastName.localeCompare(b.notificationPatientLastName);
-      });
+      this.notificationsFiltered = this.notifications
+        .sort((a: Notification, b: Notification) => {
+          return a.notificationPatientLastName.localeCompare(b.notificationPatientLastName);
+        })
+        .slice();
     } else {
-      this.notifications.sort((a: Notification, b: Notification) => {
-        return b.notificationPatientLastName.localeCompare(a.notificationPatientLastName);
-      });
+      this.notificationsFiltered = this.notifications
+        .sort((a: Notification, b: Notification) => {
+          return b.notificationPatientLastName.localeCompare(a.notificationPatientLastName);
+        })
+        .slice();
     }
   };
 
