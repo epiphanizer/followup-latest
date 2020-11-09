@@ -26,9 +26,9 @@ export class NotificationPatientListingComponent implements OnInit {
         take(1),
         map((notifications: Notification[]) => {
           if (notifications) {
+            this.notificationsFiltered = this.notifications = notifications;
             this.sortNotificationsByNotificationDate(this.selectedSortFlag);
           }
-          this.notifications = notifications;
         })
       )
       .subscribe();
