@@ -16,7 +16,7 @@ export class PatientPatientListingComponent implements OnInit {
   public patients: Patient[];
   public patients$: Observable<Patient[]>;
   public patientsFiltered: Patient[];
-  public filterBy: string = 'patient-name';
+  public filterBy: string = 'discharge-date';
   public selectedSortFlag: string = 'desc';
 
   constructor(private patientService: PatientService) {}
@@ -25,6 +25,7 @@ export class PatientPatientListingComponent implements OnInit {
       map((patients: Patient[]) => {
         this.patients = patients;
         this.patientsFiltered = patients;
+        this.sortPatientsByDischargeDate(this.selectedSortFlag);
         return patients;
       })
     );
@@ -37,6 +38,7 @@ export class PatientPatientListingComponent implements OnInit {
       this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
         map((patients: Patient[]) => {
           this.patientsFiltered = patients;
+          this.sortPatientsByDischargeDate(this.selectedSortFlag);
           return patients;
         })
       );

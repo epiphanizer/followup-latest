@@ -54,7 +54,7 @@
     [routerLink]="'/notifications/' + notification.notificationId"
   >
     <div class="notification-date">
-      {{ notification.notificationCreatedTime | date: 'M/d':'UTC' }}
+      {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
     </div>
     <div class="notification-patient-information">
       <span class="notification-patient-name">
