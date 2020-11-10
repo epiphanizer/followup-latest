@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 
@@ -22,6 +22,7 @@ export class PatientPatientListingComponent implements OnInit {
   constructor(private patientService: PatientService) {}
   ngOnInit() {
     this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
+      take(1),
       map((patients: Patient[]) => {
         this.patients = patients;
         this.patientsFiltered = patients;
@@ -37,9 +38,10 @@ export class PatientPatientListingComponent implements OnInit {
       this.operation = changes.operation.currentValue;
       this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
         map((patients: Patient[]) => {
+          this.patients = patients;
           this.patientsFiltered = patients;
           this.sortPatientsByDischargeDate(this.selectedSortFlag);
-          return patients;
+          return this.patients;
         })
       );
     }
@@ -118,10 +120,12 @@ export class PatientPatientListingComponent implements OnInit {
   searchPatients($event: KeyboardEvent): Patient[] {
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
-    this.patientsFiltered = this.patients.filter((patient: Patient) => {
-      let patientFullName = patient.patientFirstName + ' ' + patient.patientLastName;
-      return patientFullName.toLowerCase().includes(searchText);
-    });
+    this.patientsFiltered = this.patients
+      .filter((patient: Patient) => {
+        let patientFullName = patient.patientFirstName + ' ' + patient.patientLastName;
+        return patientFullName.toLowerCase().includes(searchText);
+      })
+      .slice();
     return this.patientsFiltered;
   }
   onChangePage(pageOfItems: Array<any>) {

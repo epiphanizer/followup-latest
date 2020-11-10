@@ -50,6 +50,7 @@ export class NotificationListingComponent implements OnInit {
 
   operationChangeEventHandler($event: Operation) {
     this.selected.operation = $event;
+    this.notifications = [];
     this.notifications$ = this.notificationService
       .getNotificationsByOperationId(this.selected.operation.operationId)
       .pipe(
