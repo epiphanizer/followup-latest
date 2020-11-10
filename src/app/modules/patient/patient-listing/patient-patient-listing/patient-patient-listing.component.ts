@@ -24,9 +24,13 @@ export class PatientPatientListingComponent implements OnInit {
     this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
       take(1),
       map((patients: Patient[]) => {
-        this.patients = patients;
-        this.patientsFiltered = patients;
-        this.sortPatientsByDischargeDate(this.selectedSortFlag);
+        if (patients) {
+          this.patients = patients;
+          this.patientsFiltered = patients;
+          this.sortPatientsByDischargeDate(this.selectedSortFlag);
+        } else {
+          this.patientsFiltered = this.patients = [];
+        }
         return patients;
       })
     );
@@ -38,9 +42,13 @@ export class PatientPatientListingComponent implements OnInit {
       this.operation = changes.operation.currentValue;
       this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
         map((patients: Patient[]) => {
-          this.patients = patients;
-          this.patientsFiltered = patients;
-          this.sortPatientsByDischargeDate(this.selectedSortFlag);
+          if (patients) {
+            this.patients = patients;
+            this.patientsFiltered = patients;
+            this.sortPatientsByDischargeDate(this.selectedSortFlag);
+          } else {
+            this.patientsFiltered = this.patients = [];
+          }
           return this.patients;
         })
       );
