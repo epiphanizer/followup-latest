@@ -20,15 +20,16 @@ export class NotificationPatientListingComponent implements OnInit {
 
   constructor(private notificationService: NotificationService) {}
   ngOnInit() {
+    this.notifications = [];
+    this.operation = this.operation;
     this.notificationService
       .getNotificationsByOperationId(this.operation.operationId)
       .pipe(
         take(1),
-        map((notifications: Notification[]) => {
-          if (notifications) {
-            this.notificationsFiltered = this.notifications = notifications;
-            this.sortNotificationsByNotificationDate(this.selectedSortFlag);
-          }
+        map((notifications: [Notification]) => {
+          this.notifications = notifications;
+          this.notificationsFiltered = notifications;
+          this.sortNotificationsByNotificationDate(this.selectedSortFlag);
         })
       )
       .subscribe();

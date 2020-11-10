@@ -7,6 +7,7 @@ import { share, catchError } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Operation } from '../operation/operation';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {
@@ -26,6 +27,23 @@ export class UserResolver implements Resolve<User> {
      */
     this.user$ = of(this.authService.currentUserValue);
     this.user = this.authService.currentUserSubject.getValue();
+
+    var self = this;
+    function getUserOperations() {
+      console.log('getting user operations');
+      var userOperations$: Observable<Operation[]>;
+      /** Fetch all operations if user is admin, otherwise, get user ops. */
+      if (self.user.userLevel != 1) {
+        userOperations$ = self.operationService.getOperationsByUserId(self.user.userId);
+      } else {
+        userOperations$ = self.operationService.getAllOperations();
+      }
+      return userOperations$;
+    }
+
+    if (!this.user.operations$) {
+      this.user.operations$ = getUserOperations();
+    }
     var date = new Date();
     var currentTime = date.getTime();
     if (currentTime > this.user.userLoginExpires) {
@@ -44,12 +62,6 @@ export class UserResolver implements Resolve<User> {
       localStorage.setItem('followup-user', JSON.stringify(this.user));
     }
 
-    /** Fetch all operations if user is admin, otherwise, get user ops. */
-    if (this.user.userLevel != 1) {
-      this.user.operations$ = this.operationService.getOperationsByUserId(this.user.userId);
-    } else {
-      this.user.operations$ = this.operationService.getAllOperations();
-    }
     return this.user$;
   }
 
