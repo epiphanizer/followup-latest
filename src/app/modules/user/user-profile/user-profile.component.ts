@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from '@app/core';
 import { of } from 'rxjs';
+import { OperationService } from '@app/modules/operation/operation.service';
 
 @Component({
   providers: [ToastrService, UserService, UserAvatarService],
@@ -29,6 +30,7 @@ export class UserProfileComponent implements OnInit {
 
   constructor(
     private authenticationService: AuthenticationService,
+    private operationService: OperationService,
     private fb: FormBuilder,
     private toastrService: ToastrService,
     private userService: UserService
@@ -127,6 +129,7 @@ export class UserProfileComponent implements OnInit {
           var userToSet = JSON.stringify(this.user);
           localStorage.removeItem('followup-user');
           localStorage.setItem('followup-user', userToSet);
+          this.user.operations$ = this.operationService.getOperationsByUserId(this.user.userId);
           window.location.href = '/user/profile';
         });
     });
