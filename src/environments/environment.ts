@@ -13,7 +13,7 @@ import { env } from './.env';
 export const environment = {
   production: false,
   version: env.npm_package_version,
-  apiUrl: 'http://localhost:8080/',
+  apiUrl: 'https://alpha-followup-api.azurewebsites.net/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US', 'fr-FR']
 };
