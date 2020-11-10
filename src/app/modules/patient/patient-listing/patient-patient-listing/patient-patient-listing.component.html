@@ -52,15 +52,15 @@
     <div class="patient-avatar-container">
       <app-patient-avatar [patient]="patient"> </app-patient-avatar>
     </div>
-    <div class="patient-patient-information">
-      <span class="patient-patient-name ion-float-left">
-        {{ patient.patientFirstName }} {{ patient.patientLastName }}
-      </span>
-      <span class="patient-patient-status ion-float-right" *ngIf="patient.patientActive; else inactive">
+    <div class="patient-patient-information ion-float-left">
+      <span class="patient-patient-name"> {{ patient.patientFirstName }} {{ patient.patientLastName }} </span>
+    </div>
+    <div class="patient-patient-status-container ion-float-right">
+      <span class="patient-patient-status" *ngIf="patient.patientActive; else inactive">
         {{ patient.patientStatusLabel }}
       </span>
       <ng-template #inactive>
-        <span class="patient-patient-status ion-float-right">
+        <span class="patient-patient-status">
           Inactive
         </span>
       </ng-template>

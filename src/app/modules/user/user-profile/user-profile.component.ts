@@ -20,7 +20,7 @@ import { of } from 'rxjs';
 export class UserProfileComponent implements OnInit {
   error: string | undefined;
   user: User;
-  userProfileForm!: FormGroup;
+  userProfileForm: FormGroup;
 
   numericRegEx = RegExp(/^[0-9]{1,7}$/);
   phoneRegEx = RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/);

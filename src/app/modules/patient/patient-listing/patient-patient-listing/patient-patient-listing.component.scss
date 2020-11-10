@@ -178,8 +178,9 @@ ul.patient-filters {
       vertical-align: middle;
       line-height: 90px;
       margin: 0 1rem;
-      font-weight: bold;
-      width: 65px;
+      font-style: italic;
+      font-size: 15px;
+      width: 60px;
       height: 100%;
     }
 
@@ -223,12 +224,13 @@ ul.patient-filters {
       width: 80px;
       height: 100%;
       float: left;
-      margin: 0 15px;
+      margin: 0 7px;
       padding: 5px 0;
     }
     .patient-patient-status {
       line-height: 96px;
       font-size: 13px;
+      position: relative;
     }
     .patient-type {
       display: block;
@@ -249,7 +251,9 @@ ul.patient-filters {
         display: inline-block;
       }
     }
-
+    .patient-patient-status-container {
+      margin-right: 28px;
+    }
     .patient-status {
       display: block;
       width: 30px;
@@ -283,7 +287,6 @@ ul.patient-filters {
       line-height: 96px;
       float: left;
       padding-left: 11.2px;
-      width: 70%;
       max-width: 570px;
       margin-right: 22px;
       height: 96px;

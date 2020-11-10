@@ -30,7 +30,6 @@ export class UserResolver implements Resolve<User> {
 
     var self = this;
     function getUserOperations() {
-      console.log('getting user operations');
       var userOperations$: Observable<Operation[]>;
       /** Fetch all operations if user is admin, otherwise, get user ops. */
       if (self.user.userLevel != 1) {
@@ -41,9 +40,6 @@ export class UserResolver implements Resolve<User> {
       return userOperations$;
     }
 
-    if (!this.user.operations$) {
-      this.user.operations$ = getUserOperations();
-    }
     var date = new Date();
     var currentTime = date.getTime();
     if (currentTime > this.user.userLoginExpires) {
@@ -60,6 +56,7 @@ export class UserResolver implements Resolve<User> {
       this.user.operations$ = null;
       localStorage.removeItem('followup-user');
       localStorage.setItem('followup-user', JSON.stringify(this.user));
+      this.user.operations$ = getUserOperations();
     }
 
     return this.user$;

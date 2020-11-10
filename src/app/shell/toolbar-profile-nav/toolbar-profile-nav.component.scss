@@ -33,6 +33,9 @@
     div.username,
     div.logout {
       float: left;
+      a {
+        cursor: pointer;
+      }
     }
     div.username {
       width: calc(100% - 90px);
@@ -51,6 +54,7 @@
       clear: both;
       margin-left: 0.75rem;
       a {
+        cursor: pointer;
         text-decoration: none;
       }
     }

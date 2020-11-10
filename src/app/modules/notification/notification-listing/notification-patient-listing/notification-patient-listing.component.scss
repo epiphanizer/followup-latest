@@ -188,8 +188,9 @@ ul.notification-filters {
       vertical-align: middle;
       line-height: 90px;
       margin: 0 1rem;
-      font-weight: bold;
-      width: 65px;
+      font-style: italic;
+      font-size: 15px;
+      width: 60px;
       height: 100%;
       &.active {
         color: #08c400;
