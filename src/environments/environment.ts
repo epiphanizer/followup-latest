@@ -13,7 +13,7 @@ import { env } from './.env';
 export const environment = {
   production: false,
   version: env.npm_package_version,
-  apiUrl: 'https://followupcare-api.azurewebsites.net',
+  apiUrl: 'https://followupcare-api.azurewebsites.net/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US', 'fr-FR']
 };
