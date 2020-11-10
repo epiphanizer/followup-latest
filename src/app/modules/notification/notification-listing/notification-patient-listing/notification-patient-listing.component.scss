@@ -86,17 +86,17 @@ ul.notification-filters {
 
     &.notification-date {
       width: auto;
-      margin-right: 90px;
+      margin-right: 50px;
       height: 100%;
     }
 
     &.patient-filter {
       text-align: left;
-      width: 300px;
+      float: left;
       height: 100%;
     }
 
-    &.resolution-filter {
+    &.type-filter {
       float: right;
       margin-right: 25px;
     }
@@ -200,10 +200,11 @@ ul.notification-filters {
     .notification-type {
       display: block;
       margin-top: 35px;
+      margin-right: 50px;
       font-family: Avenir;
       font-size: 17px;
-      float: left;
-      width: 270px;
+      float: right;
+      width: auto;
       height: auto;
 
       img {
@@ -221,7 +222,7 @@ ul.notification-filters {
       display: block;
       width: 30px;
       height: 100%;
-      float: left;
+      float: right;
     }
 
     &:nth-child(even) {
