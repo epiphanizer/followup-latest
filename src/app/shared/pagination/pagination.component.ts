@@ -12,26 +12,24 @@ export class JwPaginationComponent implements OnInit, OnChanges {
   @Input() initialPage = 1;
   @Input() pageSize = 20;
   @Input() maxPages = 100;
+  currentPage: number = 1;
+  startPage: number = 1;
   startLength: number;
+  totalItems: number;
   endLength: number;
   pager: any = {};
 
   paginate(totalItems: number, currentPage: number, pageSize: number, maxPages: number) {
+    this.totalItems = totalItems;
+    /**
+     * If no objects exist, override and set the "start length" to 0.
+     */
     if (totalItems == 0) {
       this.startLength = 0;
     } else {
       this.startLength = this.pager.pageSize * currentPage - (this.pager.pageSize - 1);
     }
-    console.log('Current page: ' + currentPage);
-    if (currentPage === void 0) {
-      currentPage = 1;
-    }
-    if (pageSize === void 0) {
-      pageSize = 20;
-    }
-    if (maxPages === void 0) {
-      maxPages = 10;
-    }
+
     // calculate total pages
     var totalPages = Math.ceil(totalItems / pageSize);
     if (totalItems < pageSize) {
@@ -43,7 +41,6 @@ export class JwPaginationComponent implements OnInit, OnChanges {
     } else if (currentPage > totalPages) {
       currentPage = totalPages;
     }
-    console.log(currentPage);
     if (pageSize * currentPage > totalItems) {
       this.endLength = totalItems;
     } else {
@@ -107,12 +104,24 @@ export class JwPaginationComponent implements OnInit, OnChanges {
   }
 
   setPage(page: number) {
+    /**
+     * Disable the backward button if we are on the start page.
+     */
+    if (page < this.startPage) {
+      return;
+    }
+    /**
+     * Disable the forward button if we satisfy the proper criteria
+     */
+    if (0 >= this.totalItems - this.pageSize * (page - 1)) {
+      return;
+    }
     // get new pager object for specified page
     this.pager = this.paginate(this.items.length, page, this.pageSize, this.maxPages);
-    console.log('setting page to: ' + page);
+
     // get new page of items from items array
     var pageOfItems = this.items.slice(this.pager.startIndex, this.pager.endIndex + 1);
-    
+
     // call change page function in parent component
     this.changePage.emit(pageOfItems);
   }
