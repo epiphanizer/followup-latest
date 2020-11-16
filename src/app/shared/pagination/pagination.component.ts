@@ -20,13 +20,14 @@ export class JwPaginationComponent implements OnInit, OnChanges {
     if (totalItems == 0) {
       this.startLength = 0;
     } else {
-      this.startLength = this.pager.pageSize * this.pager.currentPage - (this.pager.pageSize - 1);
+      this.startLength = this.pager.pageSize * currentPage - (this.pager.pageSize - 1);
     }
+    console.log('Current page: ' + currentPage);
     if (currentPage === void 0) {
       currentPage = 1;
     }
     if (pageSize === void 0) {
-      pageSize = 10;
+      pageSize = 20;
     }
     if (maxPages === void 0) {
       maxPages = 10;
@@ -37,11 +38,12 @@ export class JwPaginationComponent implements OnInit, OnChanges {
       pageSize = totalItems;
     }
     // ensure current page isn't out of range
-    if (currentPage < 1) {
+    if (currentPage <= 1) {
       currentPage = 1;
     } else if (currentPage > totalPages) {
       currentPage = totalPages;
     }
+    console.log(currentPage);
     if (pageSize * currentPage > totalItems) {
       this.endLength = totalItems;
     } else {
@@ -56,7 +58,7 @@ export class JwPaginationComponent implements OnInit, OnChanges {
       // total pages more than max so calculate start and end pages
       var maxPagesBeforeCurrentPage = Math.floor(maxPages / 2);
       var maxPagesAfterCurrentPage = Math.ceil(maxPages / 2) - 1;
-      if (currentPage < maxPagesBeforeCurrentPage) {
+      if (currentPage <= maxPagesBeforeCurrentPage) {
         // current page near the start
         startPage = 1;
         endPage = maxPages;
@@ -107,10 +109,10 @@ export class JwPaginationComponent implements OnInit, OnChanges {
   setPage(page: number) {
     // get new pager object for specified page
     this.pager = this.paginate(this.items.length, page, this.pageSize, this.maxPages);
-
+    console.log('setting page to: ' + page);
     // get new page of items from items array
     var pageOfItems = this.items.slice(this.pager.startIndex, this.pager.endIndex + 1);
-
+    
     // call change page function in parent component
     this.changePage.emit(pageOfItems);
   }
