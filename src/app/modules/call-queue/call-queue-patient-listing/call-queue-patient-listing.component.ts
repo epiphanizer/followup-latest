@@ -9,7 +9,6 @@ import {
   PatientCallStatusService
 } from '@app/modules/patient/patient-detail/patient-call/patient-call-status.service';
 import { PatientCallService } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
-import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   providers: [PatientService, PatientCallService],
@@ -18,11 +17,7 @@ import { IonInfiniteScroll } from '@ionic/angular';
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
-  @ViewChild(IonInfiniteScroll, {
-    read: 'infinite-scroll',
-    static: true
-  })
-  infiniteScroll: IonInfiniteScroll;
+  pageOfItems: Patient[];
   currentYear: number;
   currentNewDischargeCount: number;
   todaysCallCount: number;
@@ -108,25 +103,33 @@ export class CallQueuePatientListingComponent implements OnInit {
   public sortPatientsByDischargeDate = function(sortFlag: string) {
     this.filterBy = 'discharge-date';
     if (sortFlag == 'asc') {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
-      });
+      this.patients = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
+        })
+        .slice();
     } else {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(b.patientDischargeDate) - <any>new Date(a.patientDischargeDate);
-      });
+      this.patients = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>new Date(b.patientDischargeDate) - <any>new Date(a.patientDischargeDate);
+        })
+        .slice();
     }
   };
   public sortPatientsByCallDate = function(sortFlag: string) {
     this.filterBy = 'call-date';
     if (sortFlag == 'asc') {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientNextCallScheduledTime) - <any>new Date(b.patientNextCallScheduledTime);
-      });
+      this.patients = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>new Date(a.patientNextCallScheduledTime) - <any>new Date(b.patientNextCallScheduledTime);
+        })
+        .slice();
     } else {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(b.patientNextCallScheduledTime) - <any>new Date(a.patientNextCallScheduledTime);
-      });
+      this.patients = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>new Date(b.patientNextCallScheduledTime) - <any>new Date(a.patientNextCallScheduledTime);
+        })
+        .slice();
     }
   };
   public toggleAscDesc = function() {
@@ -141,4 +144,9 @@ export class CallQueuePatientListingComponent implements OnInit {
       this.sortPatientsByDischargeDate(this.selectedSortFlag);
     }
   };
+
+  onChangePage(pageOfItems: Array<any>) {
+    // update current page of items
+    this.pageOfItems = pageOfItems;
+  }
 }

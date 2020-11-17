@@ -86,17 +86,17 @@ ul.notification-filters {
 
     &.notification-date {
       width: auto;
-      margin-right: 90px;
+      margin-right: 50px;
       height: 100%;
     }
 
     &.patient-filter {
       text-align: left;
-      width: 300px;
+      float: left;
       height: 100%;
     }
 
-    &.resolution-filter {
+    &.type-filter {
       float: right;
       margin-right: 25px;
     }
@@ -183,21 +183,15 @@ ul.notification-filters {
     }
 
     .notification-date {
-      display: block;
       float: left;
-      width: 60px;
-      margin-right: 85px;
+      height: 55px;
+      vertical-align: middle;
+      line-height: 90px;
+      margin: 0 1rem;
+      font-style: italic;
+      font-size: 15px;
+      width: 62px;
       height: 100%;
-      font-family: Avenir;
-      font-size: 16px;
-      font-weight: 900;
-      font-style: normal;
-      font-stretch: normal;
-      letter-spacing: 0.96px;
-      text-align: center;
-      color: #343638;
-      padding-top: 40px;
-
       &.active {
         color: #08c400;
       }
@@ -206,10 +200,11 @@ ul.notification-filters {
     .notification-type {
       display: block;
       margin-top: 35px;
+      margin-right: 50px;
       font-family: Avenir;
       font-size: 17px;
-      float: left;
-      width: 270px;
+      float: right;
+      width: auto;
       height: auto;
 
       img {
@@ -227,7 +222,7 @@ ul.notification-filters {
       display: block;
       width: 30px;
       height: 100%;
-      float: left;
+      float: right;
     }
 
     &:nth-child(even) {
@@ -349,4 +344,10 @@ ul.notification-filters {
       }
     }
   }
+}
+
+jw-pagination {
+  width: 100%;
+  display: block;
+  text-align: right;
 }

@@ -16,7 +16,6 @@ export class PatientCallNotesHighlightService {
   constructor(private http: HttpService) {}
   addPatientCallHighlightByPatientCallNoteId = function(patientCallNoteId: number) {
     return this.http.post('patients/calls/' + patientCallNoteId).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };

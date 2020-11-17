@@ -29,11 +29,6 @@
       [Patient]
     </a>
   </li>
-  <li class="type-filter">
-    <a [class.active]="filterBy == 'notification-type'" (click)="sortNotificationsByNotificationType(selectedSortFlag)">
-      [Notification Type]
-    </a>
-  </li>
   <li class="ion-float-right">
     <span class="ascending-descending-control">
       <i
@@ -45,30 +40,40 @@
       </i>
     </span>
   </li>
+  <li class="type-filter ion-float-right">
+    <a [class.active]="filterBy == 'notification-type'" (click)="sortNotificationsByNotificationType(selectedSortFlag)">
+      [Notification Type]
+    </a>
+  </li>
 </ul>
 
 <ul class="notification-patient-list" *ngIf="notifications">
   <li
-    *ngFor="let notification of notificationsFiltered"
+    *ngFor="let notification of pageOfItems"
     class="active"
     [routerLink]="'/notifications/' + notification.notificationId"
   >
     <div class="notification-date">
-      {{ notification.notificationCreatedTime | date: 'M/d':'UTC' }}
+      {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
     </div>
-    <div class="notification-patient-information">
+    <div class="notification-patient-information ion-float-left">
       <span class="notification-patient-name">
         <a [routerLink]="'/notifications/' + notification.notificationId">
           {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
         </a>
       </span>
     </div>
-    <div class="notification-type">
+    <div class="notification-type ion-float-right">
       <img src="{{ notification.notificationIconImage }}" />
       <span>{{ notification.notificationTypeLabel }} </span>
     </div>
   </li>
 </ul>
+<jw-pagination
+  *ngIf="notificationsFiltered"
+  [items]="notificationsFiltered"
+  (changePage)="onChangePage($event)"
+></jw-pagination>
 
 <ng-template #noNotifications>
   Sorry! No notifications exist for this operation!

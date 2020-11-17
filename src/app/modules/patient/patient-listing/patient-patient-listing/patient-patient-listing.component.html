@@ -45,28 +45,29 @@
 </ul>
 
 <ul class="patient-patient-list" *ngIf="patients$ | async">
-  <li *ngFor="let patient of patientsFiltered" class="active" [routerLink]="getPatientLink(patient)">
+  <li *ngFor="let patient of pageOfItems" class="active" [routerLink]="getPatientLink(patient)">
     <div class="patient-discharge-date">
-      {{ patient.patientDischargeDate | date: 'M/d':'UTC' }}
+      {{ patient.patientDischargeDate | date: 'MM/dd/yy':'UTC' }}
     </div>
     <div class="patient-avatar-container">
       <app-patient-avatar [patient]="patient"> </app-patient-avatar>
     </div>
-    <div class="patient-patient-information">
-      <span class="patient-patient-name ion-float-left">
-        {{ patient.patientFirstName }} {{ patient.patientLastName }}
-      </span>
-      <span class="patient-patient-status ion-float-right" *ngIf="patient.patientActive; else inactive">
+    <div class="patient-patient-information ion-float-left">
+      <span class="patient-patient-name"> {{ patient.patientFirstName }} {{ patient.patientLastName }} </span>
+    </div>
+    <div class="patient-patient-status-container ion-float-right">
+      <span class="patient-patient-status" *ngIf="patient.patientActive; else inactive">
         {{ patient.patientStatusLabel }}
       </span>
       <ng-template #inactive>
-        <span class="patient-patient-status ion-float-right">
+        <span class="patient-patient-status">
           Inactive
         </span>
       </ng-template>
     </div>
   </li>
 </ul>
+<jw-pagination *ngIf="patientsFiltered" [items]="patientsFiltered" (changePage)="onChangePage($event)"></jw-pagination>
 
 <ng-template #noPatients>
   Sorry! No patients exist for this operation

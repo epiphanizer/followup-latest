@@ -1,0 +1,12 @@
+<span class="pagination-information"> {{ startLength }} - {{ endLength }} of {{ items?.length }} </span>
+<span [ngClass]="{ disabled: 1 >= pager.currentPage }" class="page-item">
+  <a (click)="setPage(pager.currentPage - 1)" class="page-link previous-item"> </a>
+</span>
+<span
+  [ngClass]="{
+    disabled: pager.currentPage === pager.totalPages || 0 >= pager.totalItems - pager.currentPage * pager.pageSize
+  }"
+  class="page-item"
+>
+  <a (click)="setPage(pager.currentPage + 1)" class="page-link next-item"> </a>
+</span>

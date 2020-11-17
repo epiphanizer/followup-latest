@@ -3,9 +3,12 @@
   display: none;
   overflow: hidden;
 }
+primary-router-outlet {
+  position: absolute;
+  height: 100vh;
+}
 ion-content {
   height: 100%;
-  // --offset-bottom: auto !important;
   --overflow: hidden;
   overflow: auto;
   &::-webkit-scrollbar {

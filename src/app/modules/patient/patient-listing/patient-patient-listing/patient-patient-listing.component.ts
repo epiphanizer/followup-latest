@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 
@@ -12,18 +12,25 @@ import { PatientService } from '@app/modules/patient/patient.service';
 })
 export class PatientPatientListingComponent implements OnInit {
   @Input() operation: Operation;
+  public pageOfItems: Patient[];
   public patients: Patient[];
   public patients$: Observable<Patient[]>;
   public patientsFiltered: Patient[];
-  public filterBy: string = 'patient-name';
+  public filterBy: string = 'discharge-date';
   public selectedSortFlag: string = 'desc';
 
   constructor(private patientService: PatientService) {}
   ngOnInit() {
     this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
+      take(1),
       map((patients: Patient[]) => {
-        this.patients = patients;
-        this.patientsFiltered = patients;
+        if (patients) {
+          this.patients = patients;
+          this.patientsFiltered = patients;
+          this.sortPatientsByDischargeDate(this.selectedSortFlag);
+        } else {
+          this.patientsFiltered = this.patients = [];
+        }
         return patients;
       })
     );
@@ -35,8 +42,14 @@ export class PatientPatientListingComponent implements OnInit {
       this.operation = changes.operation.currentValue;
       this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
         map((patients: Patient[]) => {
-          this.patientsFiltered = patients;
-          return patients;
+          if (patients) {
+            this.patients = patients;
+            this.patientsFiltered = patients;
+            this.sortPatientsByDischargeDate(this.selectedSortFlag);
+          } else {
+            this.patientsFiltered = this.patients = [];
+          }
+          return this.patients;
         })
       );
     }
@@ -64,43 +77,67 @@ export class PatientPatientListingComponent implements OnInit {
   sortPatientsByPatientName = function(sortFlag: string) {
     this.filterBy = 'patient-name';
     if (sortFlag == 'desc') {
-      this.patients.sort((a: Patient, b: Patient) => a.patientLastName.localeCompare(b.patientLastName));
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>a.patientLastName.localeCompare(b.patientLastName);
+        })
+        .slice();
     } else {
-      this.patients.sort((a: Patient, b: Patient) => b.patientLastName.localeCompare(a.patientLastName));
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>b.patientLastName.localeCompare(a.patientLastName);
+        })
+        .slice();
     }
   };
   sortPatientsByDischargeDate = function(sortFlag: string) {
     this.filterBy = 'discharge-date';
     if (sortFlag == 'asc') {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
-      });
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
+        })
+        .slice();
     } else {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>new Date(b.patientDischargeDate) - <any>new Date(a.patientDischargeDate);
-      });
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>new Date(b.patientDischargeDate) - <any>new Date(a.patientDischargeDate);
+        })
+        .slice();
     }
   };
   sortPatientsByPatientStatus = function(sortFlag: string) {
     this.filterBy = 'patient-status';
+
+    this.patientsFiltered = {};
     if (sortFlag == 'asc') {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>a.patientStatusLabel.localeCompare(b.patientStatusLabel);
-      });
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>a.patientStatusLabel.localeCompare(b.patientStatusLabel);
+        })
+        .slice();
     } else {
-      this.patients.sort((a: Patient, b: Patient) => {
-        return <any>b.patientStatusLabel.localeCompare(a.patientStatusLabel);
-      });
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>b.patientStatusLabel.localeCompare(a.patientStatusLabel);
+        })
+        .slice();
     }
   };
 
   searchPatients($event: KeyboardEvent): Patient[] {
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
-    this.patientsFiltered = this.patients.filter((patient: Patient) => {
-      let patientFullName = patient.patientFirstName + ' ' + patient.patientLastName;
-      return patientFullName.toLowerCase().includes(searchText);
-    });
+    this.patientsFiltered = this.patients
+      .filter((patient: Patient) => {
+        let patientFullName = patient.patientFirstName + ' ' + patient.patientLastName;
+        return patientFullName.toLowerCase().includes(searchText);
+      })
+      .slice();
     return this.patientsFiltered;
+  }
+  onChangePage(pageOfItems: Array<any>) {
+    // update current page of items
+    this.pageOfItems = pageOfItems;
   }
 }

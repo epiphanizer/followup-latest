@@ -21,7 +21,7 @@
   <ion-list>
     <ion-item
       color="transparent"
-      *ngFor="let patient of patients"
+      *ngFor="let patient of pageOfItems"
       class="active patient-list-item"
       [class.new-discharge]="patient.patientCallCount == 1"
       [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"
@@ -67,4 +67,5 @@
       </div>
     </ion-item>
   </ion-list>
+  <jw-pagination *ngIf="patients" [items]="patients" (changePage)="onChangePage($event)"></jw-pagination>
 </div>

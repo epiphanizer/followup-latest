@@ -10,10 +10,10 @@ import { CallQueueCallHistoryCalendarComponent } from './call-queue-call-history
 import { CallQueuePatientFilterComponent } from './call-queue-patient-filter/call-queue-patient-filter/call-queue-patient-filter.component';
 import { CallQueuePatientListingComponent } from './call-queue-patient-listing/call-queue-patient-listing.component';
 import { PatientModule } from '../patient/patient.module';
+import { SharedModule } from '@app/shared';
 
 @NgModule({
-  imports: [CommonModule, IonicModule, PatientModule, RouterModule, CallQueueRoutingModule],
-
+  imports: [CommonModule, IonicModule, PatientModule, RouterModule, SharedModule, CallQueueRoutingModule],
   exports: [CallQueueSidebarComponent],
   declarations: [
     CallQueueComponent,
