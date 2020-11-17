@@ -14,6 +14,9 @@ export interface PatientIntakeQuestionAnswer {
   patientIntakeQuestionAnswer: string;
 }
 
+@Component({
+  template: ''
+})
 export class PatientIntakeQuestionComponent implements OnInit {
   ngOnInit() {}
 }
