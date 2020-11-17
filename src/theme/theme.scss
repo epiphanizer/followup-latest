@@ -5,22 +5,22 @@
 
 @font-face {
   font-family: Avenir;
-  src: url("assets/fonts/AvenirNextLTPro-Regular.otf") format("opentype");
+  src: url("/assets/fonts/AvenirNextLTPro-Regular.otf") format("opentype");
 }
 
 @font-face {
   font-family: AvenirLight;
-  src: url("assets/fonts/AvenirNextLTPro-LightCn.otf") format("opentype");
+  src: url("/assets/fonts/AvenirNextLTPro-LightCn.otf") format("opentype");
 }
 
 @font-face {
   font-family: AvenirBold;
-  src: url("assets/fonts/AvenirNextLTPro-Bold.otf") format("opentype");
+  src: url("/assets/fonts/AvenirNextLTPro-Bold.otf") format("opentype");
 }
 
 @font-face {
   font-family: AvenirNextLTPro;
-  src: url("assets/fonts/AvenirNextLTPro-Thin.otf") format("opentype");
+  src: url("/assets/fonts/AvenirNextLTPro-Thin.otf") format("opentype");
 }
 
 /* Workaround to hide android default validation colors */
