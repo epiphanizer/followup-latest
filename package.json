@@ -1,6 +1,6 @@
 {
   "name": "followup-care",
-  "version": "1.6.3",
+  "version": "2.0.0",
   "private": true,
   "main": "./main.js",
   "scripts": {
@@ -36,8 +36,7 @@
     "@angular/router": "^8.2.13",
     "@angular/service-worker": "^8.2.13",
     "@auth0/angular-jwt": "^4.0.0",
-    "@ionic-native/date-picker": "^5.12.0",
-    "@ionic/angular": "^4.11.13",
+    "@ionic/cli": "^6.12.1",
     "@ngx-rocket/scripts": "^4.0.0",
     "@ngx-translate/core": "^11.0.1",
     "@types/file-saver": "^2.0.1",
@@ -48,7 +47,7 @@
     "compressorjs": "^1.0.6",
     "core-js": "^3.3.6",
     "file-saver": "^2.0.2",
-    "ionic-logging-service": "^7.0.0",
+    "ionic": "^5.4.16",
     "jw-paginate": "^1.0.4",
     "lodash": "^4.17.14",
     "moment": "^2.24.0",
