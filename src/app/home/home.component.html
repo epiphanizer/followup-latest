@@ -1,8 +1,0 @@
-<ul class="user-home-menu">
-  <li *ngFor="let menuItem of menu" [class.disabled]="!menuItem?.enabled">
-    <a (click)="menuItem.action && doAction(menuItem.action, $event)" href="{{ menuItem?.link }}">
-      <img src="{{ menuItem?.image }}" />
-      <span class="icon-title">{{ menuItem.name }}</span>
-    </a>
-  </li>
-</ul>
