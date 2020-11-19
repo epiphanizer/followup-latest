@@ -75,9 +75,9 @@ ion-content {
 
         .ascending-descending-control-arrow {
           display: block;
-          width: 14px;
+          width: 11px;
           height: 9px;
-          margin-top: 20px;
+          margin-top: 22px;
           background-image: url("/assets/icon-list-sort@2x.png");
           background-size: 100%;
 
@@ -339,74 +339,6 @@ h3 {
       font-size: 11px;
       line-height: 18px;
       font-family: Avenir;
-    }
-  }
-
-  .call-queue-call-status-legend {
-    height: 118px;
-    display: block;
-    float: right;
-    width: 35px;
-
-    ion-list {
-      margin-top: -2px;
-      list-style-type: none;
-      padding-left: 0;
-      margin: 0;
-      width: 30px;
-      height: 118px;
-      display: table-cell;
-      background: transparent;
-      vertical-align: middle;
-    }
-
-    ion-item {
-      display: block;
-      height: 25px;
-      width: 25px;
-      overflow: visible;
-      background: transparent;
-      --background: transparent;
-
-      &:hover {
-        background-color: transparent;
-      }
-
-      i {
-        position: absolute;
-        margin-left: -15px;
-        margin-top: -6px;
-        width: 17px;
-        height: 17px;
-        display: block;
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: left;
-
-        &.icon-contacted {
-          background-image: url("/assets/icon-contacted@2x.png");
-
-          &.active {
-            background-image: url("/assets/icon-contacted-active@2x.png");
-          }
-        }
-
-        &.icon-left-message {
-          background-image: url("/assets/icon-left-message@2x.png");
-
-          &.active {
-            background-image: url("/assets/icon-left-message-active@2x.png");
-          }
-        }
-
-        &.icon-no-answer {
-          background-image: url("/assets/icon-no-answer@2x.png");
-
-          &.active {
-            background-image: url("/assets/icon-no-answer-active@2x.png");
-          }
-        }
-      }
     }
   }
 }

@@ -6,7 +6,7 @@
 
 .call-history-container {
   height: auto;
-  max-width: 357px;
+  width: 357px;
   margin-left: 73px;
   margin-bottom: 15px;
   text-align: center;
@@ -14,7 +14,7 @@
 
 h3 {
   font-size: 18px;
-  margin-top: 3px;
+  margin-top: 20px;
   font-family: AvenirBold;
   font-weight: 900;
   font-style: normal;
@@ -82,17 +82,15 @@ h3 {
     height: 28px;
     width: 28px;
     margin-top: 5px;
+    padding-top: 8px;
     margin-right: 14px;
     background-color: #dedede;
     color: black;
+    font-family: AvenirDemi;
 
     &.active {
       color: white;
       background-color: var(--ion-color-tertiary);
-
-      span {
-        font-weight: bold;
-      }
     }
 
     span {
@@ -100,15 +98,6 @@ h3 {
         cursor: not-allowed;
         color: transparent;
       }
-      font-family: AvenirNextLTPro;
-      font-size: 12px;
-      font-weight: 500;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 0.83;
-      letter-spacing: normal;
-      text-align: center;
-      color: #222222;
     }
   }
 }

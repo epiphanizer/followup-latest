@@ -2,13 +2,27 @@ ion-list {
   list-style-type: none;
   float: left;
   margin-top: 30px;
-  margin-right: 61px;
+  margin-left: 66px;
   ion-item {
     background: transparent;
     display: inline-block;
     box-shadow: none;
+    i {
+      margin-right: 3px;
+      height: 16px;
+      width: 16px;
+      background-size: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      &.notify {
+        background-image: url("/assets/icon-notification-counter@2x.png");
+      }
+      &.queue {
+        background-image: url("/assets/icon-queue@2x.png");
+      }
+    }
     a {
-      font-family: AvenirBold;
+      font-family: AvenirDemi;
       font-size: 18px;
       text-decoration: none;
       font-weight: normal;

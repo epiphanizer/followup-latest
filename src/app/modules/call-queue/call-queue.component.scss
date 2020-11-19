@@ -11,22 +11,26 @@ ion-title {
 }
 
 .call-queue-sidebar {
-  max-width: 177px;
+  max-width: 172px;
   padding-bottom: 160px;
+  margin-left: 26px;
 }
 
 .call-queue-content {
-  padding-left: 35px;
+  margin-left: 104px;
   margin-bottom: 16rem;
+  margin-top: 2rem;
   ion-grid {
     height: 100%;
 
     ion-row.call-queue-row {
       height: 100%;
+      margin-top: 2rem;
     }
   }
 }
 
 .call-queue-feed-wrapper {
   max-width: 392px;
+  margin-right: 90px;
 }

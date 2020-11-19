@@ -1,16 +1,10 @@
 <ng-container *ngIf="navLinks">
   <ion-list lines="none">
     <ion-item *ngFor="let link of navLinks">
-      <ng-container *ngIf="link.linkType != 'link'">
-        <ion-button *ngIf="patient" [class]="link.linkAction" fill="outline" (click)="doButtonAction()">
-          {{ link.linkName }}
-        </ion-button>
-      </ng-container>
-      <ng-container *ngIf="link.linkType == 'link'">
-        <a routerLink="/{{ link.linkAction }}">
-          {{ link.linkName }}
-        </a>
-      </ng-container>
+      <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
+      <a routerLink="/{{ link.linkAction }}">
+        {{ link.linkName }}
+      </a>
     </ion-item>
   </ion-list>
 </ng-container>

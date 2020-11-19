@@ -5,39 +5,42 @@
       {{ todaysDateDay }}
     </div>
   </div>
-
-  <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
-  <ng-container *ngIf="operationGroups">
-    <!-- <li *ngIf="selected.operation">
-      <a
-        (click)="setActiveOperation(operation)"
-        [class.active]="selected.operation.operationId == operation.operationId"
-      >
-        {{ operation.operationName }}
-        <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
-      </a>
-    </li> -->
-
-    <ul
-      class="facility-dropdown-list"
-      [@expandSidebar]="isOpen ? 'open' : 'closed'"
-      class="facility-dropdown-list active"
-      *ngIf="operations; else noOperations"
-    >
-      <div *ngFor="let operationGroup of operationGroups; let i = index">
-        {{ operationGroup | json }}
-        {{ operationGroup.operationGroupName }}
-        <i
-          class="expand-facilities-trigger"
-          (click)="toggleOperationSidebarMenu()"
-          [@turnArrow]="isOpen ? 'open' : 'closed'"
-          class="expand-facilities-trigger active"
+  <div class="facility-dropdown-container">
+    <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
+    <span class="spanish-indicator">SPANISH <i class="patient"></i><i class="indicator"></i></span>
+    <ng-container *ngIf="operationGroups">
+      <li *ngIf="selected.operation">
+        <a
+          (click)="setActiveOperation(operation)"
+          [class.active]="selected.operation.operationId == operation.operationId"
         >
-        </i>
-      </div>
-    </ul>
-  </ng-container>
-  <ng-template #noOperations>
-    You haven't been assigned any operations yet!
-  </ng-template>
+          {{ operation.operationName }}
+          <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
+        </a>
+      </li>
+
+      <ul
+        class="facility-dropdown-list"
+        [@expandSidebar]="isOpen ? 'open' : 'closed'"
+        class="facility-dropdown-list active"
+        *ngIf="operations; else noOperations"
+      >
+        <div *ngFor="let operationGroup of operationGroups; let i = index">
+          <span class="operation-group"
+            >{{ operationGroup.operationGroupName }}
+            <i
+              class="expand-facilities-trigger"
+              (click)="toggleOperationSidebarMenu()"
+              [@turnArrow]="isOpen ? 'open' : 'closed'"
+              class="expand-facilities-trigger active"
+            >
+            </i>
+          </span>
+        </div>
+      </ul>
+    </ng-container>
+    <ng-template #noOperations>
+      You haven't been assigned any operations yet!
+    </ng-template>
+  </div>
 </div>

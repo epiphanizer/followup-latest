@@ -1,32 +1,64 @@
 .call-queue-sidebar {
-  max-width: 175px;
+  height: 100%;
+  width: 100%;
 
   .call-queue-sidebar-calendar {
     h4.todays-date {
+      text-align: right;
       font-family: AvenirBold;
       font-size: 20px;
-      font-weight: bold;
       font-stretch: normal;
       font-style: normal;
       line-height: 0.65;
       letter-spacing: 0.08px;
-      text-align: center;
       color: #ef4627;
+      margin-bottom: 0;
     }
 
     .caption {
-      font-family: Avenir;
-      font-size: 89px;
-      font-weight: 900;
-      font-style: normal;
+      font-family: AvenirDemi;
+      font-size: 120px;
+      font-weight: normal;
       font-stretch: normal;
+      font-style: normal;
+      letter-spacing: -4.8px;
       text-align: center;
+      color: #222222;
+      margin-top: -10px;
+    }
+  }
+
+  .spanish-indicator {
+    display: block;
+    font-family: AvenirBold;
+    font-size: 16px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.81;
+    letter-spacing: 0.32px;
+    text-align: right;
+
+    i {
+      display: inline-block;
+      &.patient {
+        width: 16px;
+        height: 16px;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-image: url("/assets/icon-patient@2px.png");
+      }
+      &.indicator {
+        width: 16px;
+        height: 16px;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-image: url("/assets/icon-new-discharge@2px.png");
+      }
     }
   }
 
   .facility-dropdown-target {
-    width: 185px;
-    height: 27px;
+    display: block;
     font-family: AvenirBold;
     margin: 0 0 5px 19px;
     font-size: 20px;
@@ -103,18 +135,6 @@
         &.icon-new-discharges {
           background-image: url("/assets/icon-new-discharges@2x.png");
         }
-      }
-
-      span.icon-discharge-counter,
-      span.icon-todays-calls-counter {
-        display: block;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        margin-top: 2px;
-        color: white;
-        font-weight: bold;
-        font-size: 11px;
       }
     }
   }
