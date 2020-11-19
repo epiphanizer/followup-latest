@@ -30,7 +30,7 @@
   </ul>
 </div>
 <div class="call-queue-patient-list" *ngIf="patients$ | async">
-  <ion-list>
+  <ion-list lines="none">
     <ion-item
       color="transparent"
       *ngFor="let patient of pageOfItems"

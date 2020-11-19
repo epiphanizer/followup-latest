@@ -48,6 +48,8 @@
         background-image: url("/assets/icon-patient@2x.png");
       }
       &.indicator {
+        width: 10px;
+        height: 10px;
         background-repeat: no-repeat;
         background-size: 100%;
         background-image: url("/assets/icon-new-discharge@2x.png");

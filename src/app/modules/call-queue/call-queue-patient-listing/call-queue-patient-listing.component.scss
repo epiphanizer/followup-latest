@@ -30,6 +30,7 @@ ion-content {
     letter-spacing: 1.2px;
     text-align: left;
     color: #9acc38;
+    margin-bottom: 0;
   }
 
   ul.patient-filters {
@@ -45,7 +46,7 @@ ion-content {
       display: inline-block;
       width: auto;
       height: 13px;
-      font-family: AvenirNextLTPro-Demi;
+      font-family: AvenirDemi;
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
@@ -76,10 +77,10 @@ ion-content {
         .ascending-descending-control-arrow {
           display: block;
           width: 11px;
-          height: 9px;
-          margin-top: 22px;
-          background-image: url("/assets/icon-list-sort@2x.png");
+          height: 100%;
+          background-image: url(/assets/icon-list-sort@2x.png);
           background-size: 100%;
+          background-repeat: no-repeat;
 
           &.asc {
             transform: rotate(180deg);
@@ -91,7 +92,7 @@ ion-content {
 }
 
 .call-queue-feed {
-  max-width: 431px;
+  max-width: 518px;
 }
 
 .no-scroll {
@@ -135,10 +136,6 @@ h3 {
     &.icon-new-discharges {
       background-image: url("/assets/icon-new-discharges@2x.png");
     }
-
-    &.icon-todays-calls {
-      background-image: url("/assets/icon-todays-calls@2x.png");
-    }
   }
 }
 
@@ -162,7 +159,7 @@ h3 {
 .call-queue-patient-list {
   clear: both;
   list-style-type: none;
-  max-width: 431px;
+  max-width: 520px;
   padding-left: 0;
 
   overflow-x: scroll;
@@ -176,25 +173,26 @@ h3 {
   }
 
   ion-item {
+    --padding-top: 15px;
+    --padding-bottom: 15px;
+
     cursor: pointer;
     width: 100%;
-    height: 96px;
+    border-top: solid 1.5px #bbbbbb;
+    border-bottom: solid 1.5px #bbbbbb;
+    background-color: #ffffff;
+    display: table;
+
     &:active {
       background-color: #00b4b9;
     }
 
-    ion-list {
-      padding-left: 0;
-      list-style-type: none;
-    }
-
     .call-queue-number {
-      display: block;
-      float: left;
-      width: 14px;
-      height: 23px;
-      padding-top: 51px;
-      padding-left: 4px;
+      display: table-cell;
+      vertical-align: middle;
+      width: auto;
+      padding-left: 20px;
+      padding-top: 5.5px;
       font-family: Avenir;
       font-size: 24.1px;
       font-weight: 900;
@@ -219,11 +217,11 @@ h3 {
     }
 
     &.new-discharge {
-      background-color: rgba(20, 171, 52, 0.15);
+      background-color: rgba(154, 204, 56, 0.1);
 
-      &:hover {
-        background-color: rgba(20, 171, 52, 0.35);
-      }
+      // &:hover {
+      //   background-color: rgba(20, 171, 52, 0.35);
+      // }
     }
 
     .badge-container {
@@ -245,15 +243,13 @@ h3 {
     }
 
     .call-queue-avatar {
-      display: block;
-      float: left;
-      width: 65px;
-      height: 65px;
+      display: table-cell;
+      vertical-align: middle;
       overflow: hidden;
-      background-color: #ffffff;
       background-size: cover;
       background-position: center center;
       border-radius: 50%;
+      background-image: url("/assets/default-patient-badge@2x.png");
     }
 
     .call-queue-patient-information {
@@ -269,11 +265,11 @@ h3 {
       height: auto;
       text-transform: capitalize;
       font-family: Avenir;
-      font-size: 22px;
-      font-weight: 500;
+      font-size: 17px;
+      font-weight: bold;
       font-stretch: normal;
       font-style: normal;
-      line-height: 1.27;
+      /* line-height: 1.27; */
       letter-spacing: normal;
       text-align: left;
       color: #222222;
@@ -285,8 +281,6 @@ h3 {
     }
 
     .call-queue-patient-detail {
-      width: 177px;
-      height: 13px;
       font-family: AvenirNextLTPro;
       font-size: 13px;
       font-weight: normal;
@@ -308,7 +302,7 @@ h3 {
       width: 100%;
       height: auto;
       display: block;
-      color: #8e8e93;
+      font-family: AvenirPro;
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
