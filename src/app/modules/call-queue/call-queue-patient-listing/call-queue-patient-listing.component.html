@@ -3,12 +3,7 @@
   <ul class="patient-filters">
     <li>
       <a [class.active]="filterBy == 'discharge-date'" (click)="sortPatientsByDischargeDate(selectedSortFlag)"
-        >[Discharge Date]</a
-      >
-    </li>
-    <li>
-      <a [class.active]="filterBy == 'call-date'" (click)="sortPatientsByCallDate(selectedSortFlag)"
-        >[Next Call Date]</a
+        >Discharge Date</a
       >
     </li>
     <li class="ascending-descending-control">
@@ -20,58 +15,70 @@
       >
       </i>
     </li>
-  </ul>
-  <div class="call-queue-patient-list" *ngIf="patients$ | async">
-    <ion-list>
-      <ion-item
-        color="transparent"
-        *ngFor="let patient of pageOfItems"
-        class="active patient-list-item"
-        [class.new-discharge]="patient.patientCallCount == 1"
-        [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"
-        [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
+    <li>
+      <a [class.active]="filterBy == 'call-date'" (click)="sortPatientsByCallDate(selectedSortFlag)">Call Date</a>
+    </li>
+    <li class="ascending-descending-control">
+      <i
+        class="ascending-descending-control-arrow"
+        [class.asc]="selectedSortFlag == 'asc'"
+        [class.desc]="selectedSortFlag == 'desc'"
+        (click)="toggleAscDesc()"
       >
-        <div class="call-queue-number">
-          {{ patient.patientCallCount - 1 }}
+      </i>
+    </li>
+  </ul>
+</div>
+<div class="call-queue-patient-list" *ngIf="patients$ | async">
+  <ion-list>
+    <ion-item
+      color="transparent"
+      *ngFor="let patient of pageOfItems"
+      class="active patient-list-item"
+      [class.new-discharge]="patient.patientCallCount == 1"
+      [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"
+      [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
+    >
+      <div class="call-queue-number">
+        {{ patient.patientCallCount - 1 }}
+      </div>
+      <div class="call-queue-avatar">
+        <div class="badge-container">
+          <ng-container *ngIf="patient.patientNotificationCount > 0">
+            <span class="notification-badge"> </span>
+          </ng-container>
         </div>
-        <div class="call-queue-avatar">
-          <div class="badge-container">
-            <ng-container *ngIf="patient.patientNotificationCount > 0">
-              <span class="notification-badge"> </span>
-            </ng-container>
-          </div>
-          <app-patient-avatar [patient]="patient"></app-patient-avatar>
-        </div>
-        <div class="call-queue-patient-information">
-          <span class="call-queue-patient-name">
-            <a href="'/operations/' + {{ operation.operationId }} + '/patient/' + {{ patient.patientId }}">
-              {{ patient.patientFirstName }}
-              {{ patient.patientMiddleName }}
-              {{ patient.patientLastName }}
-            </a>
-          </span>
-          <span class="patient label-line">{{ patient.patientAge }}, {{ operation?.operationName }}</span>
-          <span class="patient additional-label-line"
-            >Discharge Date: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}</span
-          >
-          <span class="patient additional-label-line"
-            >Next Call Date:
-            {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }}
-          </span>
-        </div>
-        <div class="call-queue-call-status-legend">
-          <ion-list inset lines="none">
-            <ion-item *ngFor="let patientCallStatus of patientCallStatuses">
-              <i
-                class="icon-{{ patientCallStatus.patientCallStatusLabel.replace(' ', '-') | lowercase }}"
-                [class.active]="patient.patientLastCallStatus == patientCallStatus.patientCallStatusLabelId"
-              >
-              </i>
-            </ion-item>
-          </ion-list>
-        </div>
-      </ion-item>
-    </ion-list>
-    <jw-pagination *ngIf="patients" [items]="patients" (changePage)="onChangePage($event)"></jw-pagination>
-  </div>
+        <app-patient-avatar [patient]="patient"></app-patient-avatar>
+      </div>
+      <div class="call-queue-patient-information">
+        <span class="call-queue-patient-name">
+          <a href="'/operations/' + {{ operation.operationId }} + '/patient/' + {{ patient.patientId }}">
+            {{ patient.patientFirstName }}
+            {{ patient.patientMiddleName }}
+            {{ patient.patientLastName }}
+          </a>
+        </span>
+        <span class="patient label-line">{{ patient.patientAge }}, {{ operation?.operationName }}</span>
+        <span class="patient additional-label-line"
+          >Discharge Date: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}</span
+        >
+        <span class="patient additional-label-line"
+          >Next Call Date:
+          {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }}
+        </span>
+      </div>
+      <div class="call-queue-call-status-legend">
+        <ion-list inset lines="none">
+          <ion-item *ngFor="let patientCallStatus of patientCallStatuses">
+            <i
+              class="icon-{{ patientCallStatus.patientCallStatusLabel.replace(' ', '-') | lowercase }}"
+              [class.active]="patient.patientLastCallStatus == patientCallStatus.patientCallStatusLabelId"
+            >
+            </i>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-item>
+  </ion-list>
+  <jw-pagination *ngIf="patients" [items]="patients" (changePage)="onChangePage($event)"></jw-pagination>
 </div>

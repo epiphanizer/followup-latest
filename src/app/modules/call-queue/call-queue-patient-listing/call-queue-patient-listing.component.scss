@@ -43,10 +43,8 @@ ion-content {
     li {
       cursor: pointer;
       display: inline-block;
-      width: 184px;
+      width: auto;
       height: 13px;
-      margin: 33px 2.4px 8.5px 151px;
-      padding: 1px 72.6px 1px 96.4px;
       font-family: AvenirNextLTPro-Demi;
       font-size: 13px;
       font-weight: normal;
@@ -56,14 +54,20 @@ ion-content {
       letter-spacing: 0.13px;
       text-align: right;
       color: #222222;
-      margin-right: 18px;
+      margin-right: 4px;
 
       a {
         cursor: pointer;
-
-        &.active {
-          border-bottom: 1px solid var(--ion-color-primary);
-        }
+        font-family: AvenirBold;
+        font-size: 13px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.31;
+        letter-spacing: 0.13px;
+        text-align: right;
+        color: #222222;
+        text-decoration: none;
       }
 
       &.ascending-descending-control {
@@ -73,8 +77,8 @@ ion-content {
           display: block;
           width: 14px;
           height: 9px;
-          margin-top: 12px;
-          background-image: url("/assets/icon-down-arrow@2x.png");
+          margin-top: 20px;
+          background-image: url("/assets/icon-list-sort@2x.png");
           background-size: 100%;
 
           &.asc {
