@@ -25,6 +25,7 @@
       *ngIf="operations; else noOperations"
     >
       <div *ngFor="let operationGroup of operationGroups; let i = index">
+        {{ operationGroup | json }}
         {{ operationGroup.operationGroupName }}
         <i
           class="expand-facilities-trigger"

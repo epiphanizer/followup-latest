@@ -86,7 +86,6 @@ export class ShellComponent {
       var date = new Date();
       var currentTime = date.getTime();
       var timeRemaining = Math.round((self.user.userLoginExpires - currentTime) / 1000);
-      console.log('Time remaining: ' + timeRemaining);
       if (self.user.userLoginExpires - currentTime < 30000) {
         self.toastrService.success('Your session will log out in ' + timeRemaining + ' seconds due to inactivity!');
       }

@@ -3,16 +3,87 @@
   display: none;
   overflow: hidden;
 }
+
 ion-content {
   --offset-bottom: auto !important;
   --overflow: hidden;
   overflow: auto;
+
   &::-webkit-scrollbar {
     display: none;
   }
 }
+
 ion-content {
   height: 500px;
+}
+
+.queue-controls {
+  .call-queue-headline {
+    display: inline-block;
+    font-family: AvenirBold;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.65;
+    letter-spacing: 1.2px;
+    text-align: left;
+    color: #9acc38;
+  }
+
+  ul.patient-filters {
+    list-style-type: none;
+    float: right;
+    margin-top: 0;
+    margin-bottom: 0;
+    vertical-align: top;
+    cursor: pointer;
+
+    li {
+      cursor: pointer;
+      display: inline-block;
+      width: 184px;
+      height: 13px;
+      margin: 33px 2.4px 8.5px 151px;
+      padding: 1px 72.6px 1px 96.4px;
+      font-family: AvenirNextLTPro-Demi;
+      font-size: 13px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 2.31;
+      letter-spacing: 0.13px;
+      text-align: right;
+      color: #222222;
+      margin-right: 18px;
+
+      a {
+        cursor: pointer;
+
+        &.active {
+          border-bottom: 1px solid var(--ion-color-primary);
+        }
+      }
+
+      &.ascending-descending-control {
+        height: 30px;
+
+        .ascending-descending-control-arrow {
+          display: block;
+          width: 14px;
+          height: 9px;
+          margin-top: 12px;
+          background-image: url("/assets/icon-down-arrow@2x.png");
+          background-size: 100%;
+
+          &.asc {
+            transform: rotate(180deg);
+          }
+        }
+      }
+    }
+  }
 }
 
 .call-queue-feed {
@@ -27,9 +98,11 @@ ion-content {
   border-top: solid 3.9px var(--ion-color-primary);
   border-bottom: none;
 }
+
 .no-scroll {
   --overflow: hidden;
 }
+
 h3 {
   font-family: AvenirBold;
   font-size: 18px;
@@ -46,51 +119,6 @@ h3 {
   color: var(--ion-color-primary);
 }
 
-ul.patient-filters {
-  list-style-type: none;
-  float: right;
-  margin-top: 0;
-  margin-bottom: 0;
-  vertical-align: top;
-  cursor: pointer;
-
-  li {
-    cursor: pointer;
-    display: inline-block;
-    font-family: Avenir;
-    font-size: 11.8px;
-    font-weight: normal;
-    font-style: normal;
-    vertical-align: top;
-    font-stretch: normal;
-    line-height: 2.88;
-    letter-spacing: 0.53px;
-    text-align: right;
-    margin-right: 18px;
-    a {
-      cursor: pointer;
-      &.active {
-        border-bottom: 1px solid var(--ion-color-primary);
-      }
-    }
-    &.ascending-descending-control {
-      height: 30px;
-
-      .ascending-descending-control-arrow {
-        display: block;
-        width: 14px;
-        height: 9px;
-        margin-top: 12px;
-        background-image: url("/assets/icon-down-arrow@2x.png");
-        background-size: 100%;
-        &.asc {
-          transform: rotate(180deg);
-        }
-      }
-    }
-  }
-}
-
 .section-header {
   h3 {
     width: auto;
@@ -98,6 +126,7 @@ ul.patient-filters {
     margin-left: 0.5rem;
     margin-top: 3px;
   }
+
   i {
     width: 17px;
     height: 17px;
@@ -107,9 +136,11 @@ ul.patient-filters {
     background-repeat: no-repeat;
     background-position: center center;
     float: left;
+
     &.icon-new-discharges {
       background-image: url("/assets/icon-new-discharges@2x.png");
     }
+
     &.icon-todays-calls {
       background-image: url("/assets/icon-todays-calls@2x.png");
     }
@@ -128,12 +159,15 @@ ul.patient-filters {
   font-size: 11px;
   margin-right: 0.25rem;
 }
+
 .operation-discharges {
   left: 25px;
 }
+
 .operation-todays-calls {
   left: 44px;
 }
+
 // Infinite scroll
 .call-queue-patient-list {
   clear: both;
@@ -150,6 +184,7 @@ ul.patient-filters {
   &::-webkit-scrollbar {
     display: none; // Safari and Chrome
   }
+
   ion-item {
     cursor: pointer;
     width: 100%;
@@ -194,8 +229,10 @@ ul.patient-filters {
     &:hover {
       background-color: rgba(19, 175, 233, 0.35);
     }
+
     &.todays-call {
       background-color: rgba(102, 51, 204, 0.15);
+
       &:hover {
         background-color: rgba(102, 51, 204, 0.35);
       }
@@ -203,6 +240,7 @@ ul.patient-filters {
 
     &.new-discharge {
       background-color: rgba(20, 171, 52, 0.15);
+
       &:hover {
         background-color: rgba(20, 171, 52, 0.35);
       }
@@ -225,6 +263,7 @@ ul.patient-filters {
         font-size: 11px;
       }
     }
+
     .call-queue-avatar {
       display: block;
       float: left;
@@ -298,11 +337,13 @@ ul.patient-filters {
       font-family: Avenir;
     }
   }
+
   .call-queue-call-status-legend {
     height: 118px;
     display: block;
     float: right;
     width: 35px;
+
     ion-list {
       margin-top: -2px;
       list-style-type: none;
@@ -314,6 +355,7 @@ ul.patient-filters {
       background: transparent;
       vertical-align: middle;
     }
+
     ion-item {
       display: block;
       height: 25px;
@@ -321,6 +363,7 @@ ul.patient-filters {
       overflow: visible;
       background: transparent;
       --background: transparent;
+
       &:hover {
         background-color: transparent;
       }
@@ -338,18 +381,23 @@ ul.patient-filters {
 
         &.icon-contacted {
           background-image: url("/assets/icon-contacted@2x.png");
+
           &.active {
             background-image: url("/assets/icon-contacted-active@2x.png");
           }
         }
+
         &.icon-left-message {
           background-image: url("/assets/icon-left-message@2x.png");
+
           &.active {
             background-image: url("/assets/icon-left-message-active@2x.png");
           }
         }
+
         &.icon-no-answer {
           background-image: url("/assets/icon-no-answer@2x.png");
+
           &.active {
             background-image: url("/assets/icon-no-answer-active@2x.png");
           }

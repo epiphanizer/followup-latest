@@ -1,6 +1,6 @@
 ion-list {
   list-style-type: none;
-  float: right;
+  float: left;
   margin-top: 30px;
   margin-right: 61px;
   ion-item {
@@ -9,15 +9,15 @@ ion-list {
     box-shadow: none;
     a {
       font-family: AvenirBold;
-      font-size: 16px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 0.81;
-      letter-spacing: 0.64px;
-      text-align: right;
-      color: var(--ion-color-primary);
+      font-size: 18px;
       text-decoration: none;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 0.72;
+      letter-spacing: normal;
+      text-align: right;
+      color: #00b8be;
     }
     ion-button {
       width: 90px;

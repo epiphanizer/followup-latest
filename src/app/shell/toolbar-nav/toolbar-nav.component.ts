@@ -29,48 +29,22 @@ export class ToolbarNavComponent implements OnInit {
         map(e => (e instanceof ActivationEnd ? e : {}))
       )
       .subscribe((e: any) => {
-        // console.log(this.route.routeConfig);
-        // if (this.route.snapshot.firstChild) {
-        //   this.patient = this.route.snapshot.firstChild.data.patient;
-        // }
-        // this.activeComponent = this.getType(e.snapshot.component);
-        // // console.log(this.activeComponent);
-        // if (e.snapshot.params['patientId']) {
-        //   this.menuService.patientId = e.snapshot.params['patientId'];
-        // }
-        // if (e.snapshot.params['operationId']) {
-        //   this.menuService.operationId = e.snapshot.params['operationId'];
-        // }
-        // if (this.activeComponent != 'ShellComponent') {
-        //   this.navLinks = this.menuService.getComponentMenu(this.activeComponent);
-        // }
+        console.log('navigation activation end');
       });
+    this.navLinks = [
+      {
+        linkAction: '/notifications',
+        linkName: 'Notify',
+        linkType: 'link'
+      },
+      {
+        linkAction: '/call-queue',
+        linkName: 'Queue',
+        linkType: 'link'
+      }
+    ];
   }
 
-  /**
-   * Refer to
-   * @link https://stackoverflow.com/questions/46561116/angular4-component-name-doesnt-work-on-production
-   * as to why we have to do this.
-   */
-  // getType(o: any): string {
-  //   if (o === NotificationDetailComponent) {
-  //     return 'NotificationDetailComponent';
-  //   } else if (o === NotificationListingComponent) {
-  //     return 'NotificationListingComponent';
-  //   } else if (o === OperationFormComponent) {
-  //     return 'OperationFormComponent';
-  //   } else if (o === OperationListingComponent) {
-  //     return 'OperationListingComponent';
-  //   } else if (o === PatientFormComponent) {
-  //     return 'PatientFormComponent';
-  //   } else if (o === PatientDetailComponent) {
-  //     return 'PatientDetailComponent';
-  //   } else if (o === PatientHistoryDetailComponent) {
-  //     return 'PatientHistoryDetailComponent';
-  //   } else if (o === PatientListingComponent) {
-  //     return 'PatientListingComponent';
-  //   }
-  // }
   ngAfterViewInit() {}
 
   doButtonAction() {
