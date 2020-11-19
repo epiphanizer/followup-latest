@@ -6,7 +6,7 @@
 
 .call-history-container {
   height: auto;
-  max-width: 332px;
+  max-width: 357px;
   margin-left: 73px;
   margin-bottom: 15px;
   text-align: center;
@@ -100,10 +100,15 @@ h3 {
         cursor: not-allowed;
         color: transparent;
       }
-
+      font-family: AvenirNextLTPro;
       font-size: 12px;
-      line-height: 28px;
-      width: 100%;
+      font-weight: 500;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 0.83;
+      letter-spacing: normal;
+      text-align: center;
+      color: #222222;
     }
   }
 }
