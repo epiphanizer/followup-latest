@@ -94,15 +94,6 @@ ion-content {
   max-width: 431px;
 }
 
-.divider-line {
-  width: 100%;
-  min-height: 1px;
-  height: 1px;
-  display: block;
-  border-top: solid 3.9px var(--ion-color-primary);
-  border-bottom: none;
-}
-
 .no-scroll {
   --overflow: hidden;
 }
@@ -151,8 +142,7 @@ h3 {
   }
 }
 
-.operation-discharges,
-.operation-todays-calls {
+.operation-discharges {
   margin-top: 2px;
   display: block;
   text-align: center;
@@ -166,10 +156,6 @@ h3 {
 
 .operation-discharges {
   left: 25px;
-}
-
-.operation-todays-calls {
-  left: 44px;
 }
 
 // Infinite scroll
@@ -192,8 +178,10 @@ h3 {
   ion-item {
     cursor: pointer;
     width: 100%;
-    height: 118px;
-    display: block;
+    height: 96px;
+    &:active {
+      background-color: #00b4b9;
+    }
 
     ion-list {
       padding-left: 0;
@@ -203,43 +191,31 @@ h3 {
     .call-queue-number {
       display: block;
       float: left;
-      width: 45px;
-      overflow: hidden;
-      height: 118px;
+      width: 14px;
+      height: 23px;
       padding-top: 51px;
       padding-left: 4px;
       font-family: Avenir;
-      font-size: 18px;
-      color: #8e8e93;
+      font-size: 24.1px;
       font-weight: 900;
-      font-style: normal;
       font-stretch: normal;
-      letter-spacing: 0.118px;
+      font-style: normal;
+      line-height: 0.7;
+      letter-spacing: 0.96px;
       text-align: center;
-
-      &.active {
-        color: #08c400;
-      }
+      color: #222222;
     }
 
     &:nth-child(even) {
-      background-color: rgba(200, 200, 200, 0.05);
+      background-color: white;
     }
 
     &:nth-child(odd) {
-      background-color: RGBA(200, 200, 200, 0.15);
+      background-color: #c8c8c8;
     }
 
     &:hover {
       background-color: rgba(19, 175, 233, 0.35);
-    }
-
-    &.todays-call {
-      background-color: rgba(102, 51, 204, 0.15);
-
-      &:hover {
-        background-color: rgba(102, 51, 204, 0.35);
-      }
     }
 
     &.new-discharge {
@@ -271,11 +247,9 @@ h3 {
     .call-queue-avatar {
       display: block;
       float: left;
-      margin-top: 6px;
-      width: 74.8px;
-      height: 75.2px;
+      width: 65px;
+      height: 65px;
       overflow: hidden;
-      box-shadow: 1.4px 1.4px 1.4px 0 rgba(35, 31, 32, 0.15);
       background-color: #ffffff;
       background-size: cover;
       background-position: center center;
@@ -295,14 +269,14 @@ h3 {
       height: auto;
       text-transform: capitalize;
       font-family: Avenir;
-      font-size: 18px;
-      font-weight: normal;
-      font-style: normal;
+      font-size: 22px;
+      font-weight: 500;
       font-stretch: normal;
+      font-style: normal;
+      line-height: 1.27;
       letter-spacing: normal;
       text-align: left;
-      color: #343638;
-      width: 100%;
+      color: #222222;
 
       a {
         color: #343638;
@@ -330,15 +304,19 @@ h3 {
       width: 17px;
     }
 
-    .patient.label-line,
-    .additional-label-line {
+    .patient.label-line {
       width: 100%;
       height: auto;
       display: block;
       color: #8e8e93;
-      font-size: 11px;
-      line-height: 18px;
-      font-family: Avenir;
+      font-size: 13px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.46;
+      letter-spacing: normal;
+      text-align: left;
+      color: #333333;
     }
   }
 }

@@ -1,8 +1,8 @@
 <ng-container *ngIf="navLinks">
   <ion-list lines="none">
     <ion-item *ngFor="let link of navLinks">
-      <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
       <a routerLink="/{{ link.linkAction }}">
+        <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
         {{ link.linkName }}
       </a>
     </ion-item>

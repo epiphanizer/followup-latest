@@ -47,6 +47,16 @@
         color: #333333;
       }
     }
+    .dropdown-trigger {
+      width: 21px;
+      display: inline-block;
+      margin-top: 5px;
+      height: 14px;
+      background-size: 100%;
+      background-image: url("/assets/icon-large-arrow@2x.png");
+      background-repeat: no-repeat;
+      cursor: pointer;
+    }
     div.logout-nav {
       font-size: 13px;
       width: auto;

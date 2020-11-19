@@ -58,12 +58,9 @@
             {{ patient.patientLastName }}
           </a>
         </span>
-        <span class="patient label-line">{{ patient.patientAge }}, {{ operation?.operationName }}</span>
-        <span class="patient additional-label-line"
-          >Discharge Date: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}</span
-        >
-        <span class="patient additional-label-line"
-          >Next Call Date:
+        <span class="patient label-line"
+          >Discharge Date: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}
+          Next Call Date:
           {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }}
         </span>
       </div>

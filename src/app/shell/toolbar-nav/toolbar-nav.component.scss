@@ -2,25 +2,14 @@ ion-list {
   list-style-type: none;
   float: left;
   margin-top: 30px;
+  padding-top: 3px;
   margin-left: 66px;
+
   ion-item {
     background: transparent;
     display: inline-block;
     box-shadow: none;
-    i {
-      margin-right: 3px;
-      height: 16px;
-      width: 16px;
-      background-size: 100%;
-      background-position: center;
-      background-repeat: no-repeat;
-      &.notify {
-        background-image: url("/assets/icon-notification-counter@2x.png");
-      }
-      &.queue {
-        background-image: url("/assets/icon-queue@2x.png");
-      }
-    }
+
     a {
       font-family: AvenirDemi;
       font-size: 18px;
@@ -32,7 +21,26 @@ ion-list {
       letter-spacing: normal;
       text-align: right;
       color: #00b8be;
+
+      i {
+        display: inline-block;
+        margin-right: 3px;
+        height: 16px;
+        width: 16px;
+        background-size: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        &.notify {
+          background-image: url("/assets/icon-notification-counter@2x.png");
+        }
+
+        &.queue {
+          background-image: url("/assets/icon-queue@2x.png");
+        }
+      }
     }
+
     ion-button {
       width: 90px;
       height: 28px;
@@ -46,20 +54,24 @@ ion-list {
       --color-activated: white;
       --color-focused: white;
       --color-hover: white;
+
       &.kudos {
         --border-color: var(--ion-color-primary);
         background-color: var(--ion-color-primary);
       }
+
       &.history {
         --border-color: var(--ion-color-primary);
         color: var(--ion-color-primary);
         --color-hover: var(--ion-color-primary);
       }
+
       &.notes {
         --border-color: var(--ion-color-primary);
         color: var(--ion-color-primary);
         --color-hover: var(--ion-color-primary);
       }
+
       &.report {
         --border-color: red;
         background-color: red;
