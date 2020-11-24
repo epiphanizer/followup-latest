@@ -20,7 +20,6 @@ export class NotificationPatientListingComponent implements OnInit {
 
   constructor(private notificationService: NotificationService) {}
   ngOnInit() {
-    console.log(this.operation);
     this.notifications = [];
     this.operation = this.operation;
     this.notificationService
