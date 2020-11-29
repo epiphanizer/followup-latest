@@ -40,6 +40,7 @@ export interface User {
   userAdditionalInfo: string;
   userLastAccess?: Date;
   userLoginExpires: number;
+  userMessages: UserMessage[];
 }
 
 export interface UserPutObject {
@@ -53,6 +54,16 @@ export interface UserPutObject {
   userFavoriteDessert: string;
   userInterests?: string;
   userAdditionalInfo?: string;
+}
+
+export interface UserMessage {
+  messageId: number;
+  messageSenderUserId: number;
+  messageRecipientUserId?: number;
+  messageBody: string;
+  messageSentDate: Date;
+  messageAcknowledged: number;
+  messageAcknowledgedDate: Date | null;
 }
 
 export enum UserRoles {

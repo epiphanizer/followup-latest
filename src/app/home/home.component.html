@@ -7,10 +7,13 @@
 
   <div class="posted-notes">
     <ul>
-      <li>Posted Note #1</li>
-      <li>Posted Note #2</li>
-      <li>Posted Note #3</li>
+      <li *ngFor="messages; of: user.userMessages"></li>
     </ul>
+    <jw-pagination
+      *ngIf="user.userMessages"
+      [items]="user.userMessages"
+      (changePage)="onChangePage($event)"
+    ></jw-pagination>
   </div>
 
   <div class="everybody-is-callout">
