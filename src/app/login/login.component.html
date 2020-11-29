@@ -34,13 +34,7 @@
               </ion-text>
             </ion-list>
             <div class="login-controls-container ion-padding-horizontal">
-              <ion-button
-                type="submit"
-                [disabled]="loginForm.untouched"
-                (submit)="signIn()"
-                color="primary"
-                expand="block"
-              >
+              <ion-button type="submit" [disabled]="loginForm.untouched" (submit)="signIn()" expand="block">
                 Login
               </ion-button>
 
