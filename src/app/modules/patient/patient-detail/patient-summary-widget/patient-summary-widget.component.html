@@ -11,7 +11,7 @@
       <div class="patient-info">
         <div class="patient-meta-info">
           <span class="patient-operation-name">
-            {{ patient.patientOperationName }}
+            {{ patient.operation.operationGroupName }} - {{ patient.patientOperationName }}
           </span>
           <span class="patient-medical-record-number"> #{{ patient.patientMedicalRecordNumber }} </span>
         </div>
@@ -48,12 +48,10 @@
                   <!-- Skip the first contact number, which is already listed above ^ -->
                   <ion-item class="alternate-number" *ngIf="idx != 0">
                     <span class="alternate-contact">
-                      {{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }}:
-                      {{ patientContact.patientContactCountryCode }}-{{ patientContact.patientContactAreaCode }}-{{
+                      {{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }},
+                      {{ patientContact.patientContactRelationship }}: {{ patientContact.patientContactAreaCode }}-{{
                         patientContact.patientContactPhoneNumber
                       }}
-                      |
-                      {{ patientContact.patientContactRelationship }}
                       <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
                         <i class="icon-hipaa" *ngIf="patientContact.patientContactResponsiblePartyBoolean"></i>
                       </ng-container>

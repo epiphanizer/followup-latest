@@ -14,8 +14,8 @@ app-patient-avatar {
 }
 
 .patient-operation-name {
-  font-family: Avenir;
-  font-size: 14px;
+  font-family: AvenirDemi;
+  font-size: 15px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
@@ -101,11 +101,12 @@ app-patient-avatar {
     margin: 0;
     margin-left: -14px;
     span {
-      font-family: Avenir;
+      font-family: AvenirDemi;
       line-height: 100%;
       vertical-align: middle;
       margin-top: -12px;
       font-size: 15px;
+      color: #222222;
     }
   }
 }
