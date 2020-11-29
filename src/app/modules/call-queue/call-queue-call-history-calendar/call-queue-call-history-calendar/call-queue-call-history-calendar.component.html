@@ -2,9 +2,7 @@
 <div class="call-history-container">
   <div class="calendar-month-controls">
     <span class="left-month-arrow" (click)="calendarPrevMonth()"></span>
-    <span class="calendar-month">
-      {{ currentCalendarMonth.name }}
-    </span>
+    <span class="calendar-date"> {{ currentCalendarMonth.name }} {{ selectedYear.year }} </span>
     <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
   </div>
   <div class="calendar-wrapper">

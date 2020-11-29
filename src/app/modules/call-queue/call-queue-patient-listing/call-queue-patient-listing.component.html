@@ -59,8 +59,8 @@
           </a>
         </span>
         <span class="patient label-line"
-          >Discharge Date: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}
-          Next Call Date:
+          >Discharge: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}
+          Next Call:
           {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }}
         </span>
       </div>
