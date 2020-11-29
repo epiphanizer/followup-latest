@@ -2,10 +2,6 @@
   margin-top: 15px;
   max-width: 332px;
   margin-left: 73px;
-  .patient-filter-patient-name {
-    cursor: pointer;
-    text-transform: capitalize;
-  }
   ion-input {
     width: 330.6px;
     height: 33.9px;
@@ -63,6 +59,12 @@
       letter-spacing: -0.39px;
       text-align: left;
       color: #000000;
+      &.patient-filter-patient-name {
+        font-size: 15x;
+        cursor: pointer;
+        text-transform: capitalize;
+        font-family: AvenirProMedium;
+      }
     }
 
     &:after {

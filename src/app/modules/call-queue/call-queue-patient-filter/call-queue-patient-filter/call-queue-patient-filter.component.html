@@ -23,17 +23,15 @@
           "
         >
           <span class="patient-filter-patient-name">
-            {{ patientCall.patientFirstName }} {{ patientCall.patientLastName }}:
+            {{ patientCall.patientFirstName }} {{ patientCall.patientLastName }}:&nbsp;
           </span>
           <span class="patient-filter-call-date"
-            >&nbsp; Call
-            {{ patientCall.patientCallCount }}
-            - ({{ patientCall.patientCallStatusLabel }}) &nbsp;|&nbsp;
+            >Call {{ patientCall.patientCallCount }}/{{ patientCall.patientCallStatusLabel }} -
             <ng-container *ngIf="patientCall.patientCallEndTime; else callScheduledTime">
-              {{ patientCall.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}
+              {{ patientCall.patientCallEndTime | date: 'MM/dd/yy':'UTC' }}
             </ng-container>
             <ng-template #callScheduledTime>
-              {{ patientCall.patientCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }}
+              {{ patientCall.patientCallScheduledTime | date: 'MM/dd/yy':'UTC' }}
             </ng-template>
           </span>
         </a>
