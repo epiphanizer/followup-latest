@@ -40,8 +40,15 @@ app-patient-avatar {
 
 .patient-age,
 .patient-medical-record-number {
-  font-family: Avenir;
-  font-size: 12px;
+  font-family: AvenirPro;
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.47;
+  letter-spacing: 0.15px;
+  text-align: left;
+  color: #8e8e93;
 }
 .patient-age {
   font-size: 14px;

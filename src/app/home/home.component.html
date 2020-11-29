@@ -1,27 +1,33 @@
 <div class="user-dashboard">
-  <h1>Hello {{ user.userFirstName }}</h1>
+  <div class="message-container">
+    <h1>Hello {{ user.userFirstName }}</h1>
 
-  <div class="company-notes">
-    <h2>
-      {{ companyNote.companyNoteSubject }}
-    </h2>
-    <div>
-      {{ companyNote.companyNoteMessage }}
+    <div class="company-notes">
+      <h2>
+        {{ companyNote.companyNoteSubject }}
+      </h2>
+      <div>
+        {{ companyNote.companyNoteMessage }}
+      </div>
+    </div>
+
+    <div class="posted-notes">
+      <ul>
+        <li *ngFor="message; of: user.userMessages">
+          <p class="user-message">
+            {{ message.messageBody }}
+          </p>
+          <span class="from-sender">-{{ message.messageSenderFirstName }}</span>
+        </li>
+      </ul>
+      <jw-pagination
+        *ngIf="user.userMessages"
+        [items]="user.userMessages"
+        (changePage)="onChangePage($event)"
+      ></jw-pagination>
     </div>
   </div>
-
-  <div class="posted-notes">
-    <ul>
-      <li *ngFor="messages; of: user.userMessages"></li>
-    </ul>
-    <jw-pagination
-      *ngIf="user.userMessages"
-      [items]="user.userMessages"
-      (changePage)="onChangePage($event)"
-    ></jw-pagination>
-  </div>
-
   <div class="everybody-is-callout">
-    Everybody is a somebody.
+    <img src="/assets/everybody-graphic@2x.png" alt="" />
   </div>
 </div>

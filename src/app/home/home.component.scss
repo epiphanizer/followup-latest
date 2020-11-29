@@ -1,5 +1,5 @@
 .user-dashboard {
-  margin-top: 200px;
+  margin-top: 80px;
   margin-left: 234px;
   h1 {
     font-family: AvenirPro;
@@ -22,5 +22,21 @@
     letter-spacing: normal;
     text-align: left;
     color: #00b4b9;
+  }
+
+  jwt-pagination {
+    clear: both;
+    float: right;
+  }
+  .everybody-is-callout {
+    position: absolute;
+    bottom: 25px;
+    right: 50px;
+    width: 100%;
+    text-align: right;
+    img {
+      max-width: 215px;
+      height: 29px;
+    }
   }
 }

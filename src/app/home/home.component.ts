@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
         messageId: 0,
         messageSenderUserId: 0,
         messageSentDate: new Date(),
+        messageSenderFirstName: 'Steph',
         messageBody: 'This reminded me of you 0!',
         messageAcknowledged: 0,
         messageAcknowledgedDate: null
@@ -37,6 +38,7 @@ export class HomeComponent implements OnInit {
         messageId: 1,
         messageSenderUserId: 0,
         messageSentDate: new Date(),
+        messageSenderFirstName: 'Steph',
         messageBody: 'This reminded me of you 1!',
         messageAcknowledged: 0,
         messageAcknowledgedDate: null
@@ -45,6 +47,7 @@ export class HomeComponent implements OnInit {
         messageId: 2,
         messageSenderUserId: 0,
         messageSentDate: new Date(),
+        messageSenderFirstName: 'Steph',
         messageBody: 'This reminded me of you 2!',
         messageAcknowledged: 0,
         messageAcknowledgedDate: null
