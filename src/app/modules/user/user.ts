@@ -59,7 +59,9 @@ export interface UserPutObject {
 export interface UserMessage {
   messageId: number;
   messageSenderUserId: number;
+  messageSenderFirstName?: string;
   messageRecipientUserId?: number;
+  messageRecipientFirstName?: string;
   messageBody: string;
   messageSentDate: Date;
   messageAcknowledged: number;

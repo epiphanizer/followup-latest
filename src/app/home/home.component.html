@@ -1,8 +1,13 @@
 <div class="user-dashboard">
-  <h3>Hello {{ user.userFirstName }}</h3>
+  <h1>Hello {{ user.userFirstName }}</h1>
 
-  <div class="team-notes">
-    Most Recent Team Notes Here
+  <div class="company-notes">
+    <h2>
+      {{ companyNote.companyNoteSubject }}
+    </h2>
+    <div>
+      {{ companyNote.companyNoteMessage }}
+    </div>
   </div>
 
   <div class="posted-notes">

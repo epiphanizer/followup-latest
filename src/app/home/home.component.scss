@@ -1,7 +1,7 @@
 .user-dashboard {
   margin-top: 200px;
   margin-left: 234px;
-  h3 {
+  h1 {
     font-family: AvenirPro;
     font-size: 45px;
     font-weight: 300;
@@ -11,5 +11,16 @@
     letter-spacing: 0.45px;
     text-align: left;
     color: #343638;
+  }
+  h2 {
+    font-family: AvenirPro;
+    font-size: 26px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.08;
+    letter-spacing: normal;
+    text-align: left;
+    color: #00b4b9;
   }
 }
