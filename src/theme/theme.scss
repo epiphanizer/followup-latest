@@ -14,6 +14,7 @@
 }
 
 @font-face {
+  <<<<<<<HEAD
   font-family: AvenirDemi;
   src: url("/assets/fonts/AvenirNextLTPro-Demi.otf") format("opentype");
 }
@@ -28,6 +29,13 @@
 }
 @font-face {
   font-family: AvenirProThin;
+  =======font-family: AvenirBold;
+  src: url("/assets/fonts/AvenirNextLTPro-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: AvenirNextLTPro;
+  >>>>>>>1.6.4
   src: url("/assets/fonts/AvenirNextLTPro-Thin.otf") format("opentype");
 }
 
