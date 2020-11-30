@@ -59,7 +59,11 @@ export class UserProfileComponent implements OnInit {
         DND: false
       };
     } else {
-      this.user.userInterests = JSON.parse(<string>this.user.userInterests);
+      console.log(this.user.userInterests);
+      if (typeof this.user.userInterests == 'object') {
+      } else {
+        this.user.userInterests = JSON.parse(<string>this.user.userInterests);
+      }
     }
     this.userProfileForm = this.fb.group({
       userFirstName: this.fb.control(this.user.userFirstName, [
