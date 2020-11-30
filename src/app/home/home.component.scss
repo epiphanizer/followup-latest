@@ -1,6 +1,8 @@
 .user-dashboard {
-  margin-top: 80px;
-  margin-left: 234px;
+  margin-top: 135px;
+  margin-left: 260px;
+  max-width: 700px;
+  width: 100%;
   h1 {
     font-family: AvenirPro;
     font-size: 45px;
@@ -12,6 +14,7 @@
     text-align: left;
     color: #343638;
   }
+
   h2 {
     font-family: AvenirPro;
     font-size: 26px;
@@ -24,16 +27,53 @@
     color: #00b4b9;
   }
 
-  jwt-pagination {
+  .company-notes {
+    margin-bottom: 72px;
+    .note-message {
+      font-family: AvenirPro;
+      font-size: 15px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.6;
+      letter-spacing: normal;
+      text-align: left;
+      color: #222222;
+    }
+  }
+
+  .user-messages {
+    width: 100%;
+    height: auto;
+    display: block;
+    padding-left: 0;
+    list-style-type: none;
+
+    .user-message-note {
+      height: 269px;
+      width: 229px;
+      display: inline-block;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-image: url("/assets/sticky-note@2x.png");
+      padding: 48px 30px;
+      font-family: AvenirProMediumItalic;
+      font-size: 15px;
+    }
+  }
+
+  jw-pagination {
     clear: both;
     float: right;
   }
+
   .everybody-is-callout {
     position: absolute;
     bottom: 25px;
     right: 50px;
     width: 100%;
     text-align: right;
+
     img {
       max-width: 215px;
       height: 29px;

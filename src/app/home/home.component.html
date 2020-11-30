@@ -6,25 +6,21 @@
       <h2>
         {{ companyNote.companyNoteSubject }}
       </h2>
-      <div>
+      <div class="note-message">
         {{ companyNote.companyNoteMessage }}
       </div>
     </div>
 
     <div class="posted-notes">
-      <ul>
-        <li *ngFor="message; of: user.userMessages">
+      <ul class="user-messages">
+        <li class="user-message-note" *ngFor="let message of user.userMessages">
           <p class="user-message">
             {{ message.messageBody }}
           </p>
           <span class="from-sender">-{{ message.messageSenderFirstName }}</span>
         </li>
       </ul>
-      <jw-pagination
-        *ngIf="user.userMessages"
-        [items]="user.userMessages"
-        (changePage)="onChangePage($event)"
-      ></jw-pagination>
+      <jw-pagination *ngIf="user.userMessages" [items]="user.userMessages" [pageLength]="3"></jw-pagination>
     </div>
   </div>
   <div class="everybody-is-callout">

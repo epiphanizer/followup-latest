@@ -35,6 +35,10 @@
   font-family: AvenirProMedium;
   src: url("/assets/fonts/AvenirNextLTPro-Medium.otf") format("opentype");
 }
+@font-face {
+  font-family: AvenirProMediumItalic;
+  src: url("/assets/fonts/AvenirNextLTPro-MediumIt.otf") format("opentype");
+}
 /* Workaround to hide android default validation colors */
 ion-item.item-md.item-input.input-has-focus .item-inner,
 ion-item.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner,
