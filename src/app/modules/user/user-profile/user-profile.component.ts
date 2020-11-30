@@ -60,9 +60,10 @@ export class UserProfileComponent implements OnInit {
       };
     } else {
       console.log(this.user.userInterests);
-      if (typeof this.user.userInterests == 'object') {
-      } else {
+      if (typeof this.user.userInterests == 'string') {
         this.user.userInterests = JSON.parse(<string>this.user.userInterests);
+      } else {
+        this.user.userInterests = this.user.userInterests;
       }
     }
     this.userProfileForm = this.fb.group({
