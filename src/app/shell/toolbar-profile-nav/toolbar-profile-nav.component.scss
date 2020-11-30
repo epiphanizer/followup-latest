@@ -19,7 +19,6 @@
     div.user-avatar {
       margin-top: -20px;
       display: block;
-      width: 57px;
       height: 75px;
       margin-right: 8px;
       float: left;
@@ -39,7 +38,7 @@
       }
     }
     div.username {
-      width: calc(100% - 90px);
+      width: auto;
       font-family: Avenir;
       font-size: 24px;
       a {
