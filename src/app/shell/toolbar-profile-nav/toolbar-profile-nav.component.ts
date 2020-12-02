@@ -3,6 +3,7 @@ import { User } from '@app/modules/user/user';
 import { AuthenticationService } from '@app/core';
 import { UserAvatarService } from '@app/modules/user/user-avatar/user-avatar.service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   providers: [AuthenticationService, UserAvatarService],
@@ -15,6 +16,7 @@ export class ToolbarProfileNavComponent implements OnInit {
   avatarExists: Boolean;
   public avatarUrl: SafeStyle;
   constructor(
+    private router: Router,
     private authService: AuthenticationService,
     private userAvatarService: UserAvatarService,
     private sanitizer: DomSanitizer
@@ -48,5 +50,14 @@ export class ToolbarProfileNavComponent implements OnInit {
 
   signOut() {
     this.authService.signOut();
+  }
+  addPhotos() {
+    alert('adding photos');
+  }
+  editProfile() {
+    this.router.navigate['/profile'];
+  }
+  postNote() {
+    alert('add post it note');
   }
 }

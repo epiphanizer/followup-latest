@@ -35,12 +35,14 @@ export class ToolbarNavComponent implements OnInit {
       {
         linkAction: '/notifications',
         linkName: 'Notify',
-        linkIcon: 'notify'
+        linkIcon: 'notify',
+        dropdown: false
       },
       {
         linkAction: '/call-queue',
         linkName: 'Queue',
-        linkIcon: 'queue'
+        linkIcon: 'queue',
+        dropdown: false
       }
     ];
   }

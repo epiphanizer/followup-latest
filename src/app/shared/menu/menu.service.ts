@@ -2,6 +2,7 @@ import { Injectable, ComponentRef, Component } from '@angular/core';
 import { ActivatedRouteSnapshot, ActivatedRoute, ParamMap, Router, RoutesRecognized } from '@angular/router';
 
 export interface MenuLink {
+  dropdown: any;
   linkIcon: string;
   linkName: string;
   linkAction: string;

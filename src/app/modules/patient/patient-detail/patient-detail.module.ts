@@ -21,6 +21,7 @@ import { PatientNextCallFinishButtonComponent } from './patient-call/patient-nex
 import { PatientModule } from '../patient.module';
 import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.component';
 import { PatientHistoryDetailComponent } from './patient-history-detail.component';
+import { PatientIntakeQuestionComponent } from '../patient-intake-question/patient-intake-question.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { PatientHistoryDetailComponent } from './patient-history-detail.componen
     PatientHistoryDetailComponent,
     PatientCallNotesComponent,
     PatientCallQuestionsComponent,
+    PatientIntakeQuestionComponent,
     PatientSummaryWidgetComponent,
     PatientNotesComponent,
     PatientCallHistoryControlsComponent,
