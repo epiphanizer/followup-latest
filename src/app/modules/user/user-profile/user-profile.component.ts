@@ -36,7 +36,6 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authenticationService.currentUserSubject.getValue();
-    console.log(this.user);
     this.createForm();
   }
 
@@ -57,7 +56,11 @@ export class UserProfileComponent implements OnInit {
         DND: false
       };
     } else {
-      this.user.userInterests = JSON.parse(<string>this.user.userInterests);
+      if (typeof this.user.userInterests == 'string') {
+        this.user.userInterests = JSON.parse(<string>this.user.userInterests);
+      } else {
+        this.user.userInterests = this.user.userInterests;
+      }
     }
     this.userProfileForm = this.fb.group({
       userFirstName: this.fb.control(this.user.userFirstName, [
