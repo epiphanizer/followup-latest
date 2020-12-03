@@ -35,7 +35,18 @@ export class ToolbarNavComponent implements OnInit {
       {
         linkAction: '/admin',
         linkName: 'Admin',
-        dropdown: false,
+        dropdown: {
+          links: [
+            {
+              linkAction: '/team',
+              linkName: 'Team Members'
+            },
+            {
+              linkAction: '/team/message',
+              linkName: 'Team Message'
+            }
+          ]
+        },
         minRole: 1
       },
       {
