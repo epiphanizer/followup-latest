@@ -66,6 +66,18 @@ form {
     margin-left: -25px;
   }
 
+  .form-subheadline {
+    font-family: AvenirPro;
+    font-size: 26px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.08;
+    letter-spacing: normal;
+    text-align: left;
+    color: #00b4b9;
+  }
+
   i {
     float: left;
     clear: left;
@@ -147,14 +159,6 @@ form {
       width: 257px;
     }
 
-    &.user-password {
-      width: calc(100% - 20px);
-    }
-
-    &.user-confirm-password {
-      width: calc(100% - 20px);
-    }
-
     &.user-dob {
       width: 154.6px;
       float: left;
@@ -186,14 +190,15 @@ form {
   }
 
   ion-label {
-    font-family: Avenir;
-    font-size: 24px;
-    font-weight: normal;
-    font-style: normal;
+    font-family: AvenirPro;
+    font-size: 15px;
+    font-weight: 500;
     font-stretch: normal;
-    letter-spacing: 0.42px;
-    min-width: min-content;
+    font-style: normal;
+    line-height: 1.87;
+    letter-spacing: 0.3px;
     text-align: left;
+    color: #222222;
   }
 
   ion-input,

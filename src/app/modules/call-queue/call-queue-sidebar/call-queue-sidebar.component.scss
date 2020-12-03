@@ -140,22 +140,13 @@
   }
 }
 
-.divider-line {
-  width: 100%;
-  min-height: 1px;
-  height: 1px;
-  display: block;
-  border-top: solid 3.9px var(--ion-color-primary);
-  border-bottom: none;
-}
-
 .facility-dropdown-target {
   cursor: pointer;
 }
 
 .expand-facilities-trigger {
   cursor: pointer;
-  // background-image: url("/assets/icon-arrow-open@2x.png");
+  background-image: url("/assets/icon-arrow-down@2x.png");
   width: 100%;
   margin-left: 22px;
   display: block;
