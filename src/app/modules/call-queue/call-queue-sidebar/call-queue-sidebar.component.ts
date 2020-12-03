@@ -82,19 +82,19 @@ export class CallQueueSidebarComponent {
       this.operations = data;
       console.log(data);
       this.operations.forEach((operation: Operation, idx: number) => {
-        console.log(operation);
-        var thisOperationGroup = {
-          operationGroupId: operation.operationGroupId,
-          operationGroupName: operation.operationGroupName
-        };
-        if (
-          !this.operationGroups.find(
-            operationGroup => operationGroup.operationGroupId == thisOperationGroup.operationGroupId
-          )
-        )
-          // if (this.operationGroups.indexOf(operationGroup) == -1) {
-          this.operationGroups.push(thisOperationGroup);
-        console.log('pushing ops group');
+        // console.log(operation);
+        // var thisOperationGroup = {
+        //   operationGroupId: operation.operationGroupId,
+        //   operationGroupName: operation.operationGroupName
+        // };
+        // if (
+        //   !this.operationGroups.find(
+        //     operationGroup => operationGroup.operationGroupId == thisOperationGroup.operationGroupId
+        //   )
+        // )
+        //   // if (this.operationGroups.indexOf(operationGroup) == -1) {
+        //   this.operationGroups.push(thisOperationGroup);
+        // console.log('pushing ops group');
         // }
       });
     });
