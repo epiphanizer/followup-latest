@@ -14,7 +14,7 @@ import { Notification } from '../notification';
   providers: [AuthenticationService, DatePipe, PatientService, UserService],
   selector: 'app-notification-listing-filter',
   templateUrl: './notification-listing-filter.component.html',
-  styleUrls: ['./call-queue-patient-filter.component.scss']
+  styleUrls: ['./notification-listing-filter.component.scss']
 })
 export class NotificationListingFilterComponent implements OnInit {
   @Input() operation: Operation;

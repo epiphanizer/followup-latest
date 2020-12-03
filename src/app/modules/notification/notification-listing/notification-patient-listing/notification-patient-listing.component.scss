@@ -147,6 +147,18 @@ ul.notification-filters {
       list-style-type: none;
     }
 
+    &:nth-child(even) {
+      background-color: white;
+    }
+
+    &:nth-child(odd) {
+      background-color: #c8c8c8;
+    }
+
+    &:hover {
+      background-color: rgba(19, 175, 233, 0.35);
+    }
+
     .notification-date {
       font-family: AvenirBold;
       font-size: 16px;
@@ -157,18 +169,34 @@ ul.notification-filters {
       letter-spacing: 0.64px;
       text-align: left;
       color: #222222;
+      margin-right: 25px;
+    }
 
-      &.active {
-        color: #08c400;
+    .notification-patient-name {
+      font-family: AvenirPro;
+      font-size: 16px;
+      font-weight: 500;
+      max-width: 191px;
+      margin-right: 36px;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.75;
+      letter-spacing: normal;
+      text-align: left;
+      color: #222222;
+      text-transform: capitalize;
+
+      a {
+        color: #343638;
+        text-decoration: none;
       }
     }
 
     .notification-type {
       display: block;
-      margin-top: 35px;
       margin-right: 50px;
       font-family: Avenir;
-      font-size: 17px;
+      font-size: 16px;
       float: right;
       width: auto;
       height: auto;
@@ -183,129 +211,21 @@ ul.notification-filters {
         display: inline-block;
       }
     }
-
     .notification-status {
-      display: block;
-      width: 30px;
-      height: 100%;
-      float: right;
-    }
-
-    &:nth-child(even) {
-      background-color: white;
-    }
-
-    &:nth-child(odd) {
-      background-color: #c8c8c8;
-    }
-
-    &:hover {
-      background-color: rgba(19, 175, 233, 0.35);
-    }
-
-    .notification-patient-information {
       font-family: AvenirPro;
+      display: block;
+      width: 21px;
+      height: 21px;
       font-size: 16px;
       font-weight: 500;
+      max-width: 191px;
+      margin-right: 36px;
       font-stretch: normal;
       font-style: normal;
       line-height: 1.75;
       letter-spacing: normal;
       text-align: left;
       color: #222222;
-    }
-
-    .notification-patient-name {
-      display: block;
-      height: auto;
-      font-family: Avenir;
-      font-size: 21px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      letter-spacing: normal;
-      text-align: left;
-      color: #343638;
-      width: 100%;
-      line-height: 100%;
-      margin-top: 2.25rem;
-      text-transform: capitalize;
-
-      a {
-        color: #343638;
-        text-decoration: none;
-      }
-    }
-
-    .notification-patient-detail {
-      width: 177px;
-      height: 13px;
-      font-family: AvenirNextLTPro;
-      font-size: 13px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 0.85;
-      letter-spacing: normal;
-      text-align: left;
-      color: #8e8e93;
-    }
-
-    .notification-patient-listing-controls {
-      display: inline-block;
-      height: 215px;
-      width: 17px;
-    }
-
-    .patient.label-line {
-      color: #8e8e93;
-      font-size: 13px;
-      font-family: Avenir;
-    }
-  }
-
-  .notification-call-status-legend {
-    height: 96px;
-    display: block;
-    float: right;
-    width: 18.25px;
-    margin-right: 16px;
-
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
-
-    li {
-      display: block;
-      height: 17px;
-
-      margin-top: 8px;
-
-      &:first-child {
-        margin-top: 15px;
-      }
-
-      i {
-        width: 17px;
-        height: 17px;
-        display: block;
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: center center;
-
-        &.icon-contacted {
-          background-image: url("/assets/icon-contacted@2x.png");
-        }
-
-        &.icon-left-message {
-          background-image: url("/assets/icon-left-message@2x.png");
-        }
-
-        &.icon-no-answer {
-          background-image: url("/assets/icon-no-answer@2x.png");
-        }
-      }
     }
   }
 }
