@@ -80,16 +80,22 @@ export class CallQueueSidebarComponent {
     this.user.operations$.subscribe((data: Operation[]) => {
       /** Init to the first assigned operation alphabetically */
       this.operations = data;
+      console.log(data);
       this.operations.forEach((operation: Operation, idx: number) => {
-        var operationGroup = {
+        console.log(operation);
+        var thisOperationGroup = {
           operationGroupId: operation.operationGroupId,
           operationGroupName: operation.operationGroupName
         };
-        console.log(this.operationGroups.indexOf(operationGroup));
-        if (this.operationGroups.indexOf(operationGroup) == -1) {
-          this.operationGroups.push(operationGroup);
-          console.log('pushing ops group');
-        }
+        if (
+          !this.operationGroups.find(
+            operationGroup => operationGroup.operationGroupId == thisOperationGroup.operationGroupId
+          )
+        )
+          // if (this.operationGroups.indexOf(operationGroup) == -1) {
+          this.operationGroups.push(thisOperationGroup);
+        console.log('pushing ops group');
+        // }
       });
     });
     this.route.paramMap.subscribe((data: any) => {

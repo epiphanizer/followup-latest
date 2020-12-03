@@ -23,7 +23,7 @@
         class="facility-dropdown-list"
         [@expandSidebar]="isOpen ? 'open' : 'closed'"
         class="facility-dropdown-list active"
-        *ngIf="operations; else noOperations"
+        *ngIf="operationGroups; else noOperations"
       >
         <div *ngFor="let operationGroup of operationGroups; let i = index">
           <span class="operation-group"

@@ -46,7 +46,7 @@ export interface OperationPutBody {
   operationActive: number;
 }
 export interface OperationGroup {
-  operationGroupId: number;
+  operationGroupId?: number;
   operationGroupName: string;
 }
 export interface OperationManager {

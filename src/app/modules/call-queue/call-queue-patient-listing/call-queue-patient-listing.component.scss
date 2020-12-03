@@ -36,7 +36,7 @@ ion-content {
   ul.patient-filters {
     list-style-type: none;
     float: right;
-    margin-top: 0;
+    margin-top: 15px;
     margin-bottom: 0;
     vertical-align: top;
     cursor: pointer;
@@ -72,18 +72,18 @@ ion-content {
       }
 
       &.ascending-descending-control {
-        height: 30px;
-
         .ascending-descending-control-arrow {
           display: block;
           width: 11px;
-          height: 100%;
-          background-image: url(/assets/icon-list-sort@2x.png);
+          height: 11px;
+          background-image: url("/assets/icon-list-sort@2x.png");
           background-size: 100%;
           background-repeat: no-repeat;
+          margin-top: 6px;
 
           &.asc {
             transform: rotate(180deg);
+            margin-top: 3px;
           }
         }
       }
