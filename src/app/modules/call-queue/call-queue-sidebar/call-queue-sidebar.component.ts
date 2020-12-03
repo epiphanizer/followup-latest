@@ -100,7 +100,8 @@ export class CallQueueSidebarComponent {
             .getActivePatientListByOperationId(this.selected.operation.operationId)
             .subscribe((patients: Patient[]) => {
               if (patients !== null) {
-                this.getCurrentNewDischargeCount(patients);
+                console.log('getting patient count');
+                // this.getCurrentNewDischargeCount(patients);
               }
             });
         });

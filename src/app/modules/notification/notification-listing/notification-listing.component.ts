@@ -23,6 +23,7 @@ export class NotificationListingComponent implements OnInit {
   public patients$: Observable<[Patient]> | void = null;
   public selected:
     | {
+        filterDate: string;
         operation: Operation;
         operation$: Observable<Operation>;
       }
@@ -53,6 +54,9 @@ export class NotificationListingComponent implements OnInit {
     }
   }
 
+  handleDateFilterChangeEvent($event: string) {
+    this.selected.filterDate = $event;
+  }
   operationChangeEventHandler($event: Operation) {
     this.selected.operation = $event;
     this.notifications = [];
