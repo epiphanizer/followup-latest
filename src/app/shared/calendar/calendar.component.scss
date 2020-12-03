@@ -1,0 +1,115 @@
+:host {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 12px;
+  margin-left: 73px;
+  max-width: 357px;
+}
+
+.call-history-container {
+  height: auto;
+  width: 100%;
+  margin-bottom: 15px;
+  text-align: center;
+  border: 1px solid #dedede;
+  padding-bottom: 16.5px;
+}
+
+h3 {
+  font-size: 18px;
+  margin-top: 20px;
+  font-family: AvenirBold;
+  font-weight: 900;
+  font-style: normal;
+  font-weight: bold;
+  font-stretch: normal;
+  line-height: 1.01;
+  margin-bottom: 9px;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--ion-color-tertiary);
+}
+
+.calendar-date {
+  display: inline-block;
+  text-align: center;
+  font-family: AvenirBold;
+  color: black;
+  font-size: 13px;
+  margin-top: 16.5px;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.left-month-arrow,
+.right-month-arrow {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.left-month-arrow {
+  // background-image: url("/assets/calendar-left-arrow@2x.png");
+  height: 14px;
+  width: 8px;
+  margin-right: 18px;
+  background-size: 100%;
+}
+
+.right-month-arrow {
+  // background-image: url("/assets/calendar-right-arrow@2x.png");
+  height: 14px;
+  width: 8px;
+  margin-left: 18px;
+  background-size: 100%;
+}
+
+/*
+  Limited in height,
+  useful with grow mode stretch
+*/
+.wrapper-vertically-limited {
+  width: 100%;
+  height: 225px;
+  margin-top: -40px;
+}
+
+.calendar-wrapper {
+  width: 100%;
+
+  div {
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    height: 42px;
+    width: 42px;
+    margin-top: 5px;
+    padding-top: 8px;
+    font-size: 12px;
+    margin-right: 14px;
+    background-color: #f4f6f8;
+    color: black;
+    font-family: AvenirPro;
+
+    &.active {
+      font-family: AvenirBold;
+      color: white;
+      background-color: var(--ion-color-tertiary);
+    }
+
+    span {
+      &.hide {
+        cursor: not-allowed;
+        color: transparent;
+      }
+    }
+  }
+}
+
+.date-selected {
+  font-family: Avenir;
+  font-size: 12px;
+  width: 100%;
+  margin: 1.5rem 0;
+  text-align: right;
+  margin-right: 15%;
+}

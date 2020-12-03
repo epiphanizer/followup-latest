@@ -31,6 +31,10 @@ ion-list {
         background-position: center;
         background-repeat: no-repeat;
 
+        &.patient {
+          background-image: url("/assets/icon-patient-nav@2x.png");
+        }
+
         &.notify {
           background-image: url("/assets/icon-notification-counter@2x.png");
         }

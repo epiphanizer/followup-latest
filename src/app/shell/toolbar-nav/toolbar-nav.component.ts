@@ -33,16 +33,53 @@ export class ToolbarNavComponent implements OnInit {
       });
     this.navLinks = [
       {
+        linkAction: '/operations',
+        linkName: 'Operations',
+        dropdown: {
+          links: [
+            {
+              linkAction: '/operations',
+              linkName: 'Operations'
+            },
+            {
+              linkAction: '/operations/add',
+              linkName: 'Add Operation'
+            }
+          ]
+        },
+        minRole: 1
+      },
+      {
+        linkAction: '/patients',
+        linkName: 'Patients',
+        linkIcon: 'patient',
+        dropdown: {
+          links: [
+            {
+              linkAction: '/patients',
+              linkName: 'Patients'
+            },
+            {
+              linkAction: '/patients/add',
+              linkName: 'Add Patient'
+            }
+          ]
+        },
+        minRole: 2
+      },
+      {
         linkAction: '/notifications',
         linkName: 'Notify',
         linkIcon: 'notify',
-        dropdown: false
+        dropdown: false,
+        minRole: 3
       },
       {
         linkAction: '/call-queue',
         linkName: 'Queue',
         linkIcon: 'queue',
-        dropdown: false
+        dropdown: false,
+        minRole: 3
       }
     ];
   }

@@ -5,25 +5,33 @@
       </app-notification-listing-sidebar>
     </ion-col>
     <ion-col class="notification-content-wrapper">
-      <ion-title *ngIf="selected.operation">
-        {{ selected.operation.operationGroupName + ' - ' + selected.operation.operationName }}
-      </ion-title>
-      <app-notification-patient-listing *ngIf="selected.operation" [operation]="selected.operation">
-      </app-notification-patient-listing>
-    </ion-col>
-    <ion-col>
-      <!-- <app-call-queue-call-history-calendar
-        *ngIf="selected.operation"
-        [operation]="selected.operation"
-        (dateFilterChangeEvent)="handleDateFilterChangeEvent($event)"
-      >
-      </app-call-queue-call-history-calendar> -->
-      <!-- <app-call-queue-patient-filter
-        *ngIf="selected.operation"
-        [filterDate]="selected.filterDate"
-        [operation]="selected.operation"
-      >
-      </app-call-queue-patient-filter> -->
+      <ion-grid>
+        <ion-row>
+          <ion-title *ngIf="selected.operation">
+            {{ selected.operation.operationGroupName + ' - ' + selected.operation.operationName }}
+          </ion-title>
+        </ion-row>
+        <ion-row class="notification-listing-row">
+          <ion-col>
+            <app-notification-patient-listing *ngIf="selected.operation" [operation]="selected.operation">
+            </app-notification-patient-listing>
+          </ion-col>
+          <ion-col>
+            <app-calendar
+              *ngIf="selected.operation"
+              [operation]="selected.operation"
+              (dateFilterChangeEvent)="handleDateFilterChangeEvent($event)"
+            >
+            </app-calendar>
+            <app-notification-listing-filter
+              *ngIf="selected.operation"
+              [filterDate]="selected.filterDate"
+              [operation]="selected.operation"
+            >
+            </app-notification-listing-filter>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-col>
   </ion-row>
 </ion-content>

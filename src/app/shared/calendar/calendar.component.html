@@ -1,0 +1,20 @@
+<h3>History</h3>
+<div class="call-history-container">
+  <div class="calendar-month-controls">
+    <span class="left-month-arrow" (click)="calendarPrevMonth()"></span>
+    <span class="calendar-date"> {{ currentCalendarMonth.name }} {{ selectedYear.year }} </span>
+    <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
+  </div>
+  <div class="calendar-wrapper">
+    <div
+      class="calendar-day"
+      *ngFor="let day of selectedMonth.daysArray"
+      [class.active]="selectedDay == day && selectedMonth.number == chosenMonth"
+      (click)="selectDateEventHandler(day, currentCalendarMonth.number, selectedYear.year)"
+    >
+      <span [class.hide]="day < 0">
+        {{ day }}
+      </span>
+    </div>
+  </div>
+</div>
