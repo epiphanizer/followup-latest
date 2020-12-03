@@ -3,26 +3,58 @@
 
   .patient-manager-sidebar-calendar {
     h4.todays-date {
-      width: 86%;
-      height: 12px;
-      font-family: AvenirBold;
-      font-size: 15px;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 0.86;
-      letter-spacing: 1.2px;
       text-align: right;
+      font-family: AvenirBold;
+      font-size: 20px;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 0.65;
+      letter-spacing: 0.08px;
       color: #ef4627;
+      margin-bottom: 0;
     }
 
     .caption {
-      font-family: Avenir;
-      font-size: 89px;
-      font-weight: 900;
-      font-style: normal;
+      font-family: AvenirDemi;
+      font-size: 120px;
+      font-weight: normal;
       font-stretch: normal;
-      letter-spacing: -5px;
+      font-style: normal;
+      letter-spacing: -4.8px;
       text-align: center;
+      color: #222222;
+      margin-top: -10px;
+    }
+  }
+
+  .spanish-indicator {
+    display: block;
+    font-family: AvenirBold;
+    font-size: 16px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.81;
+    letter-spacing: 0.32px;
+    text-align: right;
+
+    i {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+
+      &.patient {
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-image: url("/assets/icon-patient@2x.png");
+      }
+
+      &.indicator {
+        width: 10px;
+        height: 10px;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-image: url("/assets/icon-new-discharge@2x.png");
+      }
     }
   }
 
@@ -105,6 +137,7 @@
         &.icon-new-discharges {
           background-image: url("/assets/icon-new-discharges@2x.png");
         }
+
         &.icon-todays-calls {
           background-image: url("/assets/icon-todays-calls@2x.png");
         }

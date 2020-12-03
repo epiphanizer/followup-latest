@@ -1,6 +1,6 @@
 <h1 class="notifications-listing-headline">NOTIFICATIONS</h1>
 <ul class="notification-filters ">
-  <li class="ion-float-left notification-date">
+  <li class="notification-date">
     <a (click)="sortNotificationsByNotificationDate(selectedSortFlag)">Date</a>
   </li>
   <li class="patient-filter">
@@ -8,7 +8,7 @@
       Patient
     </a>
   </li>
-  <li class="ion-float-right">
+  <li>
     <span class="ascending-descending-control">
       <i
         class="ascending-descending-control-arrow"
@@ -19,7 +19,7 @@
       </i>
     </span>
   </li>
-  <li class="type-filter ion-float-right">
+  <li class="type-filter">
     <a (click)="sortNotificationsByNotificationType(selectedSortFlag)">
       Type
     </a>

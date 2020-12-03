@@ -1,25 +1,24 @@
 ion-title {
-  font-family: AvenirNextLTPro;
-  font-size: 38px;
-  font-weight: 300;
+  font-family: AvenirPro;
+  font-size: 45px;
   font-style: normal;
-  font-stretch: normal;
-  letter-spacing: 0.9px;
+  line-height: 1.11;
+  letter-spacing: 0.45px;
   text-align: left;
   color: #3f3638;
   padding-left: 0;
-  margin: 2.5rem 0;
 }
 
 .patient-sidebar {
-  max-width: 177px;
+  max-width: 172px;
   padding-bottom: 160px;
+  margin-left: 26px;
 }
 
 .patient-content-wrapper {
-  margin-left: 25px;
+  margin-left: 104px;
   padding-bottom: 160px;
-  max-width: 800px;
+  margin-top: 2rem;
   margin-bottom: 8rem;
 }
 .patient-patient-list {

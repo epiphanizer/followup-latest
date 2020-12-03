@@ -1,25 +1,46 @@
 <div class="sidebar">
-  <!-- Sidebar calendar -->
-  <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
-  <i
-    class="expand-facilities-trigger"
-    (click)="toggleOperationSidebarMenu()"
-    [@turnArrow]="isOpen ? 'open' : 'closed'"
-    class="expand-facilities-trigger active"
-  ></i>
-  <ul
-    class="facility-dropdown-list"
-    [@expandSidebar]="isOpen ? 'open' : 'closed'"
-    class="facility-dropdown-list active"
-  >
-    <li *ngFor="let operation of operations; let i = index">
-      <a
-        [routerLink]="'/operation/edit/' + operation.operationId"
-        (click)="setActiveOperation(operation)"
-        [class.active]="editMode && activeOperationId == operation.operationId"
+  <div class="sidebar-calendar">
+    <h4 class="todays-date">TODAY'S DATE</h4>
+    <div class="caption">
+      {{ todaysDateDay }}
+    </div>
+  </div>
+  <div class="facility-dropdown-container">
+    <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
+    <span class="spanish-indicator">SPANISH <i class="patient"></i><i class="indicator"></i></span>
+    <ng-container *ngIf="operationGroups">
+      <li *ngIf="selected.operation">
+        <a
+          (click)="setActiveOperation(operation)"
+          [class.active]="selected.operation.operationId == operation.operationId"
+        >
+          {{ operation.operationName }}
+          <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
+        </a>
+      </li>
+      <!-- Sidebar calendar -->
+      <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
+      <i
+        class="expand-facilities-trigger"
+        (click)="toggleOperationSidebarMenu()"
+        [@turnArrow]="isOpen ? 'open' : 'closed'"
+        class="expand-facilities-trigger active"
+      ></i>
+      <ul
+        class="facility-dropdown-list"
+        [@expandSidebar]="isOpen ? 'open' : 'closed'"
+        class="facility-dropdown-list active"
       >
-        {{ operation.operationName }}
-      </a>
-    </li>
-  </ul>
+        <li *ngFor="let operation of operations; let i = index">
+          <a
+            [routerLink]="'/operation/edit/' + operation.operationId"
+            (click)="setActiveOperation(operation)"
+            [class.active]="editMode && activeOperationId == operation.operationId"
+          >
+            {{ operation.operationName }}
+          </a>
+        </li>
+      </ul>
+    </ng-container>
+  </div>
 </div>

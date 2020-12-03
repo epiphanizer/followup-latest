@@ -171,7 +171,6 @@ form {
 
   .user-profile-more-container {
     margin-top: 27px;
-    margin-left: -25px;
   }
 
   ion-input {
@@ -228,9 +227,11 @@ form {
     text-align: left;
     color: #343638;
   }
-
+  .get-to-know-you {
+    padding-left: 25px;
+  }
   .checkbox-list-container {
-    padding-left: 0;
+    padding-left: 25px;
 
     ion-item {
       margin-left: 0;

@@ -12,7 +12,7 @@ import { OperationService } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { Observable } from 'rxjs';
-import { Operation } from '../operation';
+import { Operation, OperationGroup } from '../operation';
 
 @Component({
   selector: 'app-operation-admin-sidebar',
@@ -64,6 +64,7 @@ export class OperationAdminSidebarComponent implements OnInit {
     operation: null
   };
   isOpen = true;
+  operationGroups: OperationGroup[] = [];
   operations: Operation[] = [];
   user: User;
   todaysDateDay: number;
