@@ -45,7 +45,7 @@
     >
       <li *ngFor="let operation of operations; let i = index">
         <a
-          [routerLink]="'/operation/edit/' + operation.operationId"
+          [routerLink]="'/operations/' + operation.operationId + '/notifications'"
           (click)="setActiveOperation(operation)"
           [class.active]="editMode && activeOperationId == operation.operationId"
         >
