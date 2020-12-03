@@ -60,7 +60,13 @@ ul.notification-filters {
     font-stretch: normal;
     line-height: 2.88;
     letter-spacing: 0.53px;
-    text-align: center;
+    text-align: left;
+    &.notification-date {
+      width: 115px;
+    }
+    &.patient-filter {
+      width: 175px;
+    }
 
     a {
       cursor: pointer;
