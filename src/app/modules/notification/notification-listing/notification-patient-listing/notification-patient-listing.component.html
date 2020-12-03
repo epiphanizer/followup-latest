@@ -35,14 +35,14 @@
     <div class="notification-date">
       {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
     </div>
-    <div class="notification-patient-information ion-float-left">
+    <div class="notification-patient-information">
       <span class="notification-patient-name">
         <a [routerLink]="'/notifications/' + notification.notificationId">
           {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
         </a>
       </span>
     </div>
-    <div class="notification-type ion-float-right">
+    <div class="notification-type">
       <img src="{{ notification.notificationIconImage }}" />
       <span>{{ notification.notificationTypeLabel }} </span>
     </div>

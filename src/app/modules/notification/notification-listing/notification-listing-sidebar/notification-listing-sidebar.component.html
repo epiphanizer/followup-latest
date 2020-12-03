@@ -18,8 +18,7 @@
           <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
         </a>
       </li>
-
-      <ul
+      <!-- <ul
         class="facility-dropdown-list"
         [@expandSidebar]="isOpen ? 'open' : 'closed'"
         class="facility-dropdown-list active"
@@ -37,8 +36,23 @@
             </i>
           </span>
         </div>
-      </ul>
+      </ul> -->
     </ng-container>
+    <ul
+      class="facility-dropdown-list"
+      [@expandSidebar]="isOpen ? 'open' : 'closed'"
+      class="facility-dropdown-list active"
+    >
+      <li *ngFor="let operation of operations; let i = index">
+        <a
+          [routerLink]="'/operation/edit/' + operation.operationId"
+          (click)="setActiveOperation(operation)"
+          [class.active]="editMode && activeOperationId == operation.operationId"
+        >
+          {{ operation.operationName }}
+        </a>
+      </li>
+    </ul>
     <ng-template #noOperations>
       You haven't been assigned any operations yet!
     </ng-template>

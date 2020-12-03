@@ -171,12 +171,11 @@ ul.notification-filters {
       color: #222222;
       margin-right: 25px;
     }
-
-    .notification-patient-name {
+    .notification-patient-information {
       font-family: AvenirPro;
       font-size: 16px;
       font-weight: 500;
-      max-width: 191px;
+      width: 150px;
       margin-right: 36px;
       font-stretch: normal;
       font-style: normal;
@@ -194,12 +193,8 @@ ul.notification-filters {
 
     .notification-type {
       display: block;
-      margin-right: 50px;
       font-family: Avenir;
       font-size: 16px;
-      float: right;
-      width: auto;
-      height: auto;
 
       img {
         max-width: 20px;
@@ -218,7 +213,6 @@ ul.notification-filters {
       height: 21px;
       font-size: 16px;
       font-weight: 500;
-      max-width: 191px;
       margin-right: 36px;
       font-stretch: normal;
       font-style: normal;
