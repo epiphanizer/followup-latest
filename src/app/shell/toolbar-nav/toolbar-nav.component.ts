@@ -33,6 +33,12 @@ export class ToolbarNavComponent implements OnInit {
       });
     this.navLinks = [
       {
+        linkAction: '/admin',
+        linkName: 'Admin',
+        dropdown: false,
+        minRole: 1
+      },
+      {
         linkAction: '/operations',
         linkName: 'Operations',
         dropdown: {

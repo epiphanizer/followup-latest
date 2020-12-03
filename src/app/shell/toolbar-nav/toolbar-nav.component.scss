@@ -80,6 +80,10 @@ ion-list {
 }
 
 .dropdown {
+  display: none;
+  &.active {
+    display: block;
+  }
   width: 195px;
   height: 76px;
   margin: 80px 41px 29px 6px;
