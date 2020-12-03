@@ -6,8 +6,12 @@
 }
 ion-router-outlet {
   height: 100vh;
+  margin-top: 95px;
 }
 
+ion-toolbar {
+  --background: transparent;
+}
 .content-wrapper {
   width: calc(100% - 28px);
   float: left;
@@ -36,10 +40,6 @@ ul {
       font-family: avenir;
     }
   }
-}
-
-.notification-wrapper {
-  clear: both;
 }
 
 .version-container {

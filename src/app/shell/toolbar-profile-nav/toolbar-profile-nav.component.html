@@ -8,7 +8,7 @@
           [style.background-image]="avatarUrl"
         ></div>
         <ng-template #defaultAvatar>
-          <img src="/assets/profile-default@2x.png" />
+          <img class="profile-default-avatar" src="/assets/profile-default@2x.png" />
         </ng-template>
       </a>
     </div>
@@ -20,13 +20,13 @@
       </span>
     </a>
   </div>
-  <i class="dropdown-trigger"></i>
-  <div class="user-dropdown">
-    <ul>
-      <li (click)="addPhotos()"></li>
-      <li (click)="postNote()"></li>
-      <li (click)="editProfile()"></li>
-      <li (click)="signOut()"></li>
-    </ul>
-  </div>
+  <i class="dropdown-trigger" (click)="toggleDropdown()"></i>
+</div>
+<div class="user-dropdown" *ngIf="dropdownActive">
+  <ul class="user-dropdown-actions">
+    <li (click)="addPhotos()">Add Photos</li>
+    <li (click)="postNote()">Post A Note</li>
+    <li (click)="editProfile()">Edit Profile</li>
+    <li (click)="signOut()">Logout</li>
+  </ul>
 </div>

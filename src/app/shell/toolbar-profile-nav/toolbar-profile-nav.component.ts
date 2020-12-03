@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class ToolbarProfileNavComponent implements OnInit {
   @Input() user: User;
   avatarExists: Boolean;
+  dropdownActive: Boolean = false;
   public avatarUrl: SafeStyle;
   constructor(
     private router: Router,
@@ -48,6 +49,9 @@ export class ToolbarProfileNavComponent implements OnInit {
     }
   }
 
+  toggleDropdown() {
+    this.dropdownActive = !this.dropdownActive;
+  }
   signOut() {
     this.authService.signOut();
   }
@@ -55,7 +59,7 @@ export class ToolbarProfileNavComponent implements OnInit {
     alert('adding photos');
   }
   editProfile() {
-    this.router.navigate['/profile'];
+    this.router.navigate['/user/profile'];
   }
   postNote() {
     alert('add post it note');
