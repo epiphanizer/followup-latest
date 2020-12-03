@@ -1,12 +1,11 @@
+<h1 class="notifications-listing-headline">NOTIFICATIONS</h1>
 <ul class="notification-filters ">
   <li class="ion-float-left notification-date">
-    <a [class.active]="filterBy == 'notification-date'" (click)="sortNotificationsByNotificationDate(selectedSortFlag)"
-      >[Date]</a
-    >
+    <a (click)="sortNotificationsByNotificationDate(selectedSortFlag)">Date</a>
   </li>
   <li class="patient-filter">
-    <a [class.active]="filterBy == 'patient-name'" (click)="sortNotificationsByPatient(selectedSortFlag)">
-      [Patient]
+    <a (click)="sortNotificationsByPatient(selectedSortFlag)">
+      Patient
     </a>
   </li>
   <li class="ion-float-right">
@@ -21,14 +20,14 @@
     </span>
   </li>
   <li class="type-filter ion-float-right">
-    <a [class.active]="filterBy == 'notification-type'" (click)="sortNotificationsByNotificationType(selectedSortFlag)">
-      [Type]
+    <a (click)="sortNotificationsByNotificationType(selectedSortFlag)">
+      Type
     </a>
   </li>
 </ul>
 
-<ul class="notification-patient-list" *ngIf="notifications">
-  <li
+<ion-list class="notification-patient-list" lines="none" *ngIf="notifications">
+  <ion-item
     *ngFor="let notification of pageOfItems"
     class="active"
     [routerLink]="'/notifications/' + notification.notificationId"
@@ -47,8 +46,8 @@
       <img src="{{ notification.notificationIconImage }}" />
       <span>{{ notification.notificationTypeLabel }} </span>
     </div>
-  </li>
-</ul>
+  </ion-item>
+</ion-list>
 <jw-pagination
   *ngIf="notificationsFiltered"
   [items]="notificationsFiltered"
