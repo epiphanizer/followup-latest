@@ -56,13 +56,18 @@ export class FollowupCompleteModalComponent implements OnInit {
       .addPatientStatusByPatientId(patient.patientId, patientStatusLabelId, patientStatusNotes)
       .subscribe((data: any) => {
         // Emitter here
-        this.dismiss();
+        this.dismissSuccess();
       });
   }
 
   dismiss() {
     this.modalCtrl.dismiss({
       dismissed: true
+    });
+  }
+  dismissSuccess() {
+    this.modalCtrl.dismiss({
+      dismissed: false
     });
   }
 }
