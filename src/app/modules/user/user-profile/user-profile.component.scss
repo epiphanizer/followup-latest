@@ -25,20 +25,19 @@ ion-title {
   margin-top: 5rem;
   margin-left: 50px;
   padding-bottom: 160px;
+  form {
+    margin-top: 32px;
+  }
 }
 
 .avatar-col {
   margin-top: 72px;
   max-width: 220px;
-  width: 220px;
+  width: 262px;
   margin-left: 81.4px;
 
   .hidden-input {
     display: none;
-  }
-
-  img {
-    cursor: pointer;
   }
 
   ion-button {
@@ -150,6 +149,8 @@ form {
     }
 
     &.user-dessert {
+      clear: both;
+      width: 100%;
       float: left;
     }
     &.user-spanish-speaking {
@@ -218,14 +219,14 @@ form {
   .main-label-box {
     margin-top: -8px;
     font-family: Avenir;
-    font-size: 27px;
-    font-weight: normal;
-    font-style: normal;
+    font-size: 15px;
+    font-weight: 500;
     font-stretch: normal;
-    line-height: 1.33;
-    letter-spacing: 0.42px;
+    font-style: normal;
+    line-height: 1.87;
+    letter-spacing: 0.3px;
     text-align: left;
-    color: #343638;
+    color: #222222;
   }
   .get-to-know-you {
     padding-left: 25px;
@@ -258,15 +259,15 @@ form {
     }
 
     ion-label {
-      font-family: AvenirNext;
+      font-family: Avenir;
       font-size: 15px;
-      font-weight: normal;
+      font-weight: 500;
       font-stretch: normal;
       font-style: normal;
       line-height: 1.87;
-      letter-spacing: normal;
+      letter-spacing: 0.3px;
       text-align: left;
-      color: #444444;
+      color: #222222;
     }
   }
 

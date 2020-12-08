@@ -12,16 +12,23 @@
 .hidden-input {
   display: none;
 }
-img {
-  max-height: 250px;
-  width: auto;
-  margin: 0 auto;
-}
+// img {
+//   width: 252px;
+//   height: 302px;
+//   cursor: pointer;
+//   border: 10px solid white;
+//   background-image: url('/assets/photo-mask@2x.png');
+//   background-size: 230px 280px;
+//   background-repeat: no-repeat;
+//   background-position: center center;
+// }
 .user-avatar-image {
-  display: block;
-  height: 220px;
-  width: 100%;
+  width: 252px;
+  height: 302px;
+  cursor: pointer;
+  border: 10px solid white;
+  background-image: url("/assets/photo-mask@2x.png");
+  background-size: 230px 280px;
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 100%;
 }
