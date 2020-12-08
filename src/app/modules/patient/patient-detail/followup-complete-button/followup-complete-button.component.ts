@@ -27,9 +27,9 @@ export class FollowupCompleteButtonComponent implements OnInit {
       }
     });
     modal.onDidDismiss().then(data => {
-      console.log(data);
-      console.log('dimissed modal');
-      this.patientCallFinalizeEventEmitter.emit(this.patientCall);
+      if (!data.data.dismissed) {
+        this.patientCallFinalizeEventEmitter.emit(this.patientCall);
+      }
     });
     await modal.present();
   }
