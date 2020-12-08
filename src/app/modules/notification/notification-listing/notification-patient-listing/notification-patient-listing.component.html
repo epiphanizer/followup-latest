@@ -9,7 +9,7 @@
     </a>
   </li>
   <li>
-    <!-- <span class="ascending-descending-control">
+    <span class="ascending-descending-control">
       <i
         class="ascending-descending-control-arrow"
         [class.asc]="selectedSortFlag == 'asc'"
@@ -17,12 +17,34 @@
         (click)="toggleAscDesc()"
       >
       </i>
-    </span> -->
+    </span>
+  </li>
+  <li>
+    <span class="ascending-descending-control">
+      <i
+        class="ascending-descending-control-arrow"
+        [class.asc]="selectedSortFlag == 'asc'"
+        [class.desc]="selectedSortFlag == 'desc'"
+        (click)="toggleAscDesc()"
+      >
+      </i>
+    </span>
   </li>
   <li class="type-filter">
     <a (click)="sortNotificationsByNotificationType(selectedSortFlag)">
       Type
     </a>
+  </li>
+  <li>
+    <span class="ascending-descending-control">
+      <i
+        class="ascending-descending-control-arrow"
+        [class.asc]="selectedSortFlag == 'asc'"
+        [class.desc]="selectedSortFlag == 'desc'"
+        (click)="toggleAscDesc()"
+      >
+      </i>
+    </span>
   </li>
 </ul>
 

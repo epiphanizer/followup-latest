@@ -26,6 +26,7 @@ ion-title {
   margin-top: 8rem;
   margin-left: 100px;
   padding-bottom: 160px;
+
   form {
     margin-top: 32px;
   }
@@ -72,6 +73,7 @@ form {
     background-size: 95%;
     margin-right: 14px;
   }
+
   .form-subheadline {
     font-family: AvenirPro;
     font-size: 26px;
@@ -100,9 +102,11 @@ form {
     margin-right: 10px;
     background-image: url("/assets/icon-question-mark@2x.png");
   }
+
   ion-list {
     margin-left: 36px;
   }
+
   ion-item {
     --inner-padding-start: 0;
     --inner-padding-end: 0;
@@ -155,9 +159,11 @@ form {
       width: 100%;
       float: left;
     }
+
     &.user-spanish-speaking {
       width: 100%;
       float: left;
+
       ion-item {
         float: left;
       }
@@ -230,20 +236,16 @@ form {
     text-align: left;
     color: #222222;
   }
-  .get-to-know-you {
-    padding-left: 25px;
-  }
-  .checkbox-list-container {
-    padding-left: 25px;
 
+  ion-list.checkbox-list-container {
     ion-item {
       margin-left: 0;
     }
   }
 
   ion-list.checkboxes {
+    margin-left: 0;
     margin-top: 6px;
-    margin-left: 32px;
     padding-left: 0;
 
     ion-item {

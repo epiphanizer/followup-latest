@@ -103,7 +103,7 @@ export class UserProfileComponent implements OnInit {
   cancelUpdateProfile() {
     window.location.reload();
   }
-  // Passing E2E minus auth
+
   updateUserProfile() {
     if (!this.validateControls()) {
       return;

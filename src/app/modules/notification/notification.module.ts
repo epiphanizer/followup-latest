@@ -7,7 +7,6 @@ import { NotificationListingComponent } from './notification-listing/notificatio
 import { NotificationPatientListingComponent } from './notification-listing/notification-patient-listing/notification-patient-listing.component';
 import { NotificationListingSidebarComponent } from './notification-listing/notification-listing-sidebar/notification-listing-sidebar.component';
 import { IonicModule } from '@ionic/angular';
-import { NotificationStatusLegendComponent } from './notification-listing/notification-status-legend/notification-status-legend.component';
 import { PatientModule } from '../patient/patient.module';
 import { SharedModule } from '@app/shared';
 import { NotificationListingFilterComponent } from './notification-listing-filter/notification-listing-filter.component';
@@ -18,8 +17,7 @@ import { NotificationListingFilterComponent } from './notification-listing-filte
     NotificationListingComponent,
     NotificationListingSidebarComponent,
     NotificationPatientListingComponent,
-    NotificationListingFilterComponent,
-    NotificationStatusLegendComponent
+    NotificationListingFilterComponent
   ],
   imports: [CommonModule, IonicModule, NotificationRoutingModule, PatientModule, SharedModule]
 })
