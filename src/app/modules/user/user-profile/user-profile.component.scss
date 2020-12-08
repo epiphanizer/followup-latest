@@ -250,23 +250,23 @@ form {
 
     ion-checkbox {
       --border-color: #8e8e8e;
-      width: 12px;
-      height: 12px;
-      margin-left: 6px;
+      width: 14px;
+      height: 14px;
+      margin-right: 8px;
       border-radius: 3px;
       background-color: #ffffff;
     }
 
     ion-label {
-      margin-left: 12px;
-      font-family: Avenir;
-      font-size: 21px;
+      font-family: AvenirNext;
+      font-size: 15px;
       font-weight: normal;
-      font-style: normal;
       font-stretch: normal;
-      line-height: 1.33;
-      letter-spacing: 0.42px;
+      font-style: normal;
+      line-height: 1.87;
+      letter-spacing: normal;
       text-align: left;
+      color: #444444;
     }
   }
 

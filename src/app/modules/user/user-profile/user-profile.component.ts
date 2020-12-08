@@ -82,6 +82,7 @@ export class UserProfileComponent implements OnInit {
       userPhoneNumber: [this.user.userPhoneNumber, [Validators.pattern(this.phoneRegEx)]],
       userDob: [this.user.userDob],
       userFavoriteDessert: [this.user.userFavoriteDessert],
+      userSpanishSpeaking: this.user.userSpanishSpeaking,
       userInterests: this.fb.group({
         celebrity: this.fb.control(this.user.userInterests.celebrity),
         helicopter: this.fb.control(this.user.userInterests.helicopter),
@@ -99,7 +100,9 @@ export class UserProfileComponent implements OnInit {
       userAdditionalInfo: this.fb.control(this.user.userAdditionalInfo)
     });
   }
-
+  cancelUpdateProfile() {
+    window.location.reload();
+  }
   // Passing E2E minus auth
   updateUserProfile() {
     if (!this.validateControls()) {
