@@ -125,7 +125,6 @@ form {
     }
 
     &.user-phone-container {
-      margin-left: 28px;
       width: calc(100% - 20px);
     }
 
@@ -173,6 +172,13 @@ form {
     height: 39px;
     width: 100%;
     margin-top: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: 0.28px;
+    text-align: left;
+    color: #a6a6a7;
   }
 
   ion-datetime {
