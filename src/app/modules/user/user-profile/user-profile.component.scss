@@ -23,7 +23,7 @@ ion-title {
   max-width: 565px;
   width: 565px;
   margin-top: 5rem;
-  margin-left: 50px;
+  margin-left: 100px;
   padding-bottom: 160px;
   form {
     margin-top: 32px;
@@ -50,7 +50,6 @@ ion-item {
   padding-bottom: 2px;
   --inner-padding-start: 0;
   --inner-padding-end: 0;
-  margin-left: 10px;
 }
 
 ion-input,
@@ -100,7 +99,9 @@ form {
     margin-right: 10px;
     background-image: url("/assets/icon-question-mark@2x.png");
   }
-
+  ion-list {
+    margin-left: 36px;
+  }
   ion-item {
     --inner-padding-start: 0;
     --inner-padding-end: 0;
@@ -241,7 +242,7 @@ form {
 
   ion-list.checkboxes {
     margin-top: 6px;
-    margin-left: 0px;
+    margin-left: 32px;
     padding-left: 0;
 
     ion-item {
