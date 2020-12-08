@@ -1,34 +1,23 @@
 .notification-sidebar {
-  max-width: 190px;
+  max-width: 172px;
+  padding-bottom: 160px;
+  margin-left: 26px;
+  padding-top: 58px;
 }
 
 .notification-content-wrapper {
   max-width: 720px;
-
+  margin-left: 92px;
+  margin-top: 8rem;
   ion-title {
-    text-align: left;
-    margin-left: 15px;
-    font-family: AvenirNextLTPro;
-    font-size: 38px;
-    font-weight: 300;
+    font-family: AvenirPro;
+    font-size: 45px;
     font-style: normal;
-    font-stretch: normal;
-    letter-spacing: 0.9px;
+    line-height: 1.11;
+    letter-spacing: 0.45px;
     text-align: left;
-    color: #343638;
+    color: #3f3638;
     padding-left: 0;
-  }
-
-  ion-textarea {
-    --padding-start: 12px;
-    height: 200px;
-    width: 475px;
-    margin: 1rem auto;
-    font-size: 13px;
-    font-family: Avenir;
-    background-color: #dedede;
-    padding: 15px;
-    padding-top: 12px;
   }
 
   .notification-icon {
@@ -37,8 +26,8 @@
 
   .notification-info-container {
     float: left;
-    width: 300px;
-    margin-left: 30px;
+    width: 436px;
+    margin-left: 62px;
     margin-top: 10px;
   }
 
@@ -62,19 +51,34 @@
   }
 
   .patient-name {
-    font-family: Avenir;
-    font-size: 31px;
+    font-family: Avenir-Roman;
+    font-size: 40px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: 1;
-    letter-spacing: 0.76px;
+    letter-spacing: 0.8px;
     text-align: left;
-    margin-top: 1rem;
-    float: left;
+    color: #222222;
   }
 
   .label {
     font-weight: bold;
+  }
+  .notification-container {
+    margin-top: 28px;
+  }
+  .notification-label {
+    width: 100%;
+    display: block;
+    font-family: AvenirBold;
+    font-size: 20px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.05;
+    letter-spacing: 1.2px;
+    text-align: left;
+    color: #ef4627;
+    text-transform: uppercase;
   }
 }

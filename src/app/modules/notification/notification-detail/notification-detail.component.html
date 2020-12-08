@@ -15,25 +15,22 @@
       </div>
 
       <div class="notification-info-container">
+        {{ notification.notificationOperationName }}
         <div class="patient-name">
           {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
         </div>
         <div class="notification-information">
           <div class="notification-item">
-            <span class="label">Operation:&nbsp;</span>
-            {{ notification.notificationOperationName }}
-          </div>
-          <div class="notification-item">
-            <span class="label">Date Received:&nbsp;</span>
+            <span class="label">Notification Date:&nbsp;</span>
             {{ notification.notificationCreatedTime | date: 'MM/dd/yyyy':'UTC' }}
           </div>
           <div class="notification-item">
             <span class="label">Care Rep:&nbsp;</span> {{ notification.notificationUserFirstName }}
             {{ notification.notificationUserLastName }}
           </div>
-          <div class="notification-item">
-            <span class="label">Notification:&nbsp;</span>
-            <ion-textarea readonly>{{ notification.notificationMessage }}</ion-textarea>
+          <div class="notification-item notification-container">
+            <span class="notification-label">Notification</span>
+            {{ notification.notificationMessage }}
           </div>
         </div>
       </div>
