@@ -4,9 +4,6 @@
   *ngIf="avatarExists; else defaultAvatar"
   [style.background-image]="avatarUrl"
 ></div>
-<ng-template #defaultAvatar>
-  <img class="add-photo" (click)="uploadUserAvatarPhoto()" src="/assets/default-avatar-patient-detail.png" />
-</ng-template>
 <div class="form-group">
   <ion-button class="add-photo" (click)="uploadUserAvatarPhoto()" fill="outline">
     Change Photo

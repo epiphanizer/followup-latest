@@ -37,16 +37,10 @@
             <ion-label color="medium" position="stacked">Do you speak Spanish?</ion-label>
             <ion-radio-group formControlName="userSpanishSpeaking">
               <ion-item>
-                <ion-radio value="1" class="spanish-speaking radio-yes"> </ion-radio>
-                <ion-label>
-                  Yes
-                </ion-label>
+                <ion-radio class="radio-button-yes" value="1" class="spanish-speaking radio-yes"> </ion-radio>
               </ion-item>
               <ion-item>
-                <ion-radio value="0" class="spanish-speaking radio-no"> </ion-radio>
-                <ion-label>
-                  No
-                </ion-label>
+                <ion-radio class="radio-button-no" value="0" class="spanish-speaking radio-no"> </ion-radio>
               </ion-item>
             </ion-radio-group>
           </ion-item>
@@ -139,7 +133,7 @@
             </ion-item>
           </ion-list>
         </div>
-        <ion-button (click)="cancelUpdateProfile()" type="submit">
+        <ion-button (click)="cancelUpdateProfile()">
           Cancel
         </ion-button>
         <ion-button (click)="updateUserProfile()" type="submit">
