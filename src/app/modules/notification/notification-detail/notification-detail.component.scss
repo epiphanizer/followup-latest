@@ -6,7 +6,7 @@
 }
 
 .notification-content-wrapper {
-  max-width: 720px;
+  max-width: 966px;
   margin-left: 92px;
   margin-top: 8rem;
   ion-title {
@@ -26,7 +26,8 @@
 
   .notification-info-container {
     float: left;
-    width: 436px;
+    width: 100%;
+    max-width: 662px;
     margin-left: 62px;
     margin-top: 10px;
   }
@@ -36,13 +37,15 @@
     clear: both;
     margin-top: 23px;
     margin-left: 23px;
-    width: 200px;
-    height: 200px;
+    width: 230px;
+    height: 280px;
+    border: 10px solid white;
   }
 
   .notification-information {
     float: left;
     width: auto;
+    max-width: 662px;
     .notification-item {
       margin: 1.25rem 0;
       font-family: Avenir;
