@@ -6,9 +6,11 @@
     <ion-col class="user-profile-content">
       <ion-title>User Profile</ion-title>
       <form id="user-profile-form" [formGroup]="userProfileForm" novalidate>
-        <h4 class="form-subheadline">General Information</h4>
+        <h4 class="form-subheadline">
+          <i class="icon-contact"></i>
+          General Information
+        </h4>
         <ion-list lines="none" inset>
-          <i class="icon-user"></i>
           <ion-item class="first-name">
             <ion-label color="medium" position="stacked">First Name <span style="color:red">*</span></ion-label>
             <ion-input type="text" formControlName="userFirstName" required></ion-input>
@@ -19,10 +21,6 @@
             <ion-input type="text" formControlName="userLastName" required></ion-input>
           </ion-item>
           <i class="icon-placeholder"></i>
-          <!-- <ion-item class="user-email">
-            <ion-label color="medium" position="stacked">Email <span style="color:red">*</span></ion-label>
-            <ion-input type="email" formControlName="userEmail"></ion-input>
-          </ion-item> -->
           <ion-item class="user-phone-container">
             <ion-item class="user-phone-country-code">
               <ion-label color="medium" position="stacked">+(1)</ion-label>
@@ -36,10 +34,23 @@
               <ion-label color="medium" position="stacked">Phone #</ion-label>
               <ion-input type="text" formControlName="userPhoneNumber"></ion-input>
             </ion-item>
-            <ion-item class="user-spanish-speaking">
-              <!-- <ion-label color="medium" position="stacked">Do you speak Spanish?</ion-label> -->
-              <!-- <ion-input type="text" formControlName="userSpanishSpeaking"></ion-input> -->
-            </ion-item>
+          </ion-item>
+          <ion-item class="user-spanish-speaking">
+            <ion-label color="medium" position="stacked">Do you speak Spanish?</ion-label>
+            <ion-radio-group formControlName="userSpanishSpeaking">
+              <ion-item>
+                <ion-radio value="1" class="spanish-speaking radio-yes"> </ion-radio>
+                <ion-label>
+                  Yes
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-radio value="0" class="spanish-speaking radio-no"> </ion-radio>
+                <ion-label>
+                  No
+                </ion-label>
+              </ion-item>
+            </ion-radio-group>
           </ion-item>
         </ion-list>
         <ion-list class="get-to-know-you" lines="none">
@@ -126,10 +137,8 @@
               <ion-label class="main-label-box" color="medium" position="stacked"
                 >Anything else you want to share with the team?</ion-label
               >
-              <ion-textarea
-                formControlName="userAdditionalInfo"
-                placeholder="Cause sharin' is carin'..."
-              ></ion-textarea>
+              <ion-textarea formControlName="userAdditionalInfo" placeholder="Cause sharin' is carin'...">
+              </ion-textarea>
             </ion-item>
           </ion-list>
         </div>

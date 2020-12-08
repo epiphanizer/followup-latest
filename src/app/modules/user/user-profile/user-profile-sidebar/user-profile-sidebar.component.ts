@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
+import { UserRoles } from '../../user';
 
 @Component({
   selector: 'app-user-profile-sidebar',
@@ -9,6 +10,7 @@ import { formatDate } from '@angular/common';
 export class UserProfileSidebarComponent implements OnInit {
   isOpen: boolean = true;
   todaysDateDay: number;
+  userRoleTypes: UserRoles[];
   constructor() {}
 
   ngOnInit() {

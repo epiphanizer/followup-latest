@@ -41,6 +41,7 @@ export interface User {
   userLastAccess?: Date;
   userLoginExpires: number;
   userMessages: UserMessage[];
+  userSpanishSpeaking?: boolean;
 }
 
 export interface UserPutObject {
