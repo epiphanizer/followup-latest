@@ -1,9 +1,4 @@
-<div
-  class="user-avatar-image add-photo"
-  (click)="uploadUserAvatarPhoto()"
-  *ngIf="avatarExists; else defaultAvatar"
-  [style.background-image]="avatarUrl"
-></div>
+<div class="user-avatar-image add-photo" (click)="uploadUserAvatarPhoto()" [style.background-image]="avatarUrl"></div>
 <div class="form-group">
   <ion-button class="add-photo" (click)="uploadUserAvatarPhoto()" fill="outline">
     Change Photo

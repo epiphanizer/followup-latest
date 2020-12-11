@@ -1,6 +1,6 @@
-<ion-list class="sidebar" lines="none" inset>
+<div class="sidebar" lines="none" inset>
   <ion-item>
-    <a class="facility-callreps-dropdown-target" (click)="toggleOperationUsersAssignedMenu()">Users Assigned</a>
+    <h3><i class="icon-team"></i> Team Members</h3>
     <i
       class="expand-users-assigned-trigger"
       (click)="toggleOperationUsersAssignedMenu()"
@@ -8,11 +8,56 @@
       class="expand-users-assigned-trigger active"
     ></i>
   </ion-item>
-  <ul [@expandSidebar]="isOpen ? 'open' : 'closed'" class="facility-dropdown-list active">
-    <div *ngFor="let user of operationAssignedUsers; let idx = index">
-      <ion-item *ngIf="user.userRoleLabel != 'Admin'" class="assigned-user ion-float-right">
-        <span class="user-name"> {{ user.userFirstName }} {{ user.userLastName }} - {{ user.userRoleLabel }} </span>
-      </ion-item>
-    </div>
-  </ul>
-</ion-list>
+  <fieldset class="operation-team-members" formArray="operationManagers">
+    <ion-list class="assigned-manager-list" *ngIf="operationManagers" lines="none">
+      <ng-container *ngFor="let operationManager of operationManagers; let idx = index">
+        <ion-item id="operation-manager-{{ idx }}">
+          <ion-label position="stacked" color="medium">
+            Assigned Manager
+          </ion-label>
+          <ion-select
+            (ionChange)="managerOnSelect($event, idx)"
+            class="operation-assigned-manager"
+            placeholder="Select User"
+          >
+            <ion-select-option
+              *ngFor="let user of availableUsers"
+              [selected]="user.userId == operationManager.userId"
+              [value]="user.userId"
+            >
+              {{ user.userLastName }}, {{ user.userFirstName }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeOperationManager(idx)"
+          >[ - remove manager ]</span
+        >
+      </ng-container>
+      <span class="ion-float-right add-manager" (click)="addAdditionalOperationManager()">[ + add manager ]</span>
+    </ion-list>
+  </fieldset>
+  <fieldset class="operation-callreps">
+    <ng-container>
+      <ion-list class="assigned-callrep-list" lines="none" inset>
+        <ng-container *ngFor="let operationCallRep of operationCallReps; let idx = index">
+          <ion-item id="operationCallRep-{{ idx }}">
+            <ion-label position="stacked" color="medium">Care Rep {{ idx + 1 }} </ion-label>
+            <ion-select *ngIf="availableUsers" (ionChange)="callRepOnSelect($event, idx)" placeholder="Select User">
+              <ion-select-option
+                *ngFor="let user of availableUsers"
+                [value]="user.userId"
+                [selected]="user.userId == operationCallRep.userId"
+              >
+                {{ user.userLastName }}, {{ user.userFirstName }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeOperationCallRep(idx)"
+            >[ - remove ]</span
+          >
+        </ng-container>
+        <span class="ion-float-right add-call-rep" (click)="addAdditionalOperationCallRep()">[ + add care rep ]</span>
+      </ion-list>
+    </ng-container>
+  </fieldset>
+</div>
