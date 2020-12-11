@@ -7,90 +7,86 @@
     <ion-col class="operation-form-content-wrapper">
       <ion-title *ngIf="!editMode; else editOperation">New Operation</ion-title>
       <ng-template #editOperation>
-        <ion-title> {{ operation.operationGroupName }} - {{ operation.opreationName }} </ion-title>
+        <ion-title> {{ operation.operationGroupName }} - {{ operation.operationName }} </ion-title>
       </ng-template>
       <form id="operation-form" [formGroup]="operationForm" novalidate>
-        <ion-list formGroupName="operation" lines="none" inset>
-          <ion-item class="is-active ion-float-right">
-            <ion-checkbox formControlName="operationActive"></ion-checkbox>
-            <ion-label color="medium">Active?</ion-label>
-          </ion-item>
-          <ion-item class="is-active ion-float-right">
-            <ion-checkbox formControlName="operationArchive"></ion-checkbox>
-            <ion-label color="medium">Archive</ion-label>
-          </ion-item>
-          <i class="icon-info"></i>
-          <ion-item>
-            <ion-input
-              class="hidden-operation-input"
-              type="hidden"
-              *ngIf="editMode"
-              formControlName="operationId"
-              [value]="operation?.operationId"
-            ></ion-input>
-            <ion-label color="medium" position="stacked">Operation <span style="color:red">*</span></ion-label>
-            <ion-input type="text" formControlName="operationName"></ion-input>
-          </ion-item>
-          <ion-item class="operation-group" *ngIf="operationGroups">
-            <ion-label color="medium" position="stacked">Group <span style="color:red">*</span></ion-label>
-            <ion-select
-              *ngIf="operationGroups || operation.operationGroup"
-              formControlName="operationGroupId"
-              (ionChange)="operationGroupOnSelect($event, idx)"
-              class="operation-group-select"
-              placeholder="Select Group"
-            >
-              <ion-select-option
-                *ngFor="let operationGroup of operationGroups"
-                [selected]="operationGroup?.operationGroupId == operation?.operationGroupId"
-                [value]="operationGroup.operationGroupId"
+        <fieldset formGroupName="operation">
+          <div class="operation-listing-header">
+            <h2 class="section-header ion-float-left"><i class="icon-info"></i> Operation</h2>
+            <div class="operation-controls">
+              <span class="control ion-float-right">
+                <ion-checkbox formControlName="operationArchive"> </ion-checkbox>
+                <ion-label color="medium">Archive</ion-label>
+              </span>
+              <span class="control ion-float-right">
+                <ion-checkbox formControlName="operationActive"> </ion-checkbox>
+                <ion-label color="medium">Active?</ion-label>
+              </span>
+            </div>
+          </div>
+          <ion-list class="operation-details" lines="none" inset>
+            <ion-item class="operation-group" *ngIf="operationGroups">
+              <ion-label color="medium" position="stacked">Ownership <span style="color:red">*</span></ion-label>
+              <ion-select
+                *ngIf="operationGroups || operation.operationGroup"
+                formControlName="operationGroupId"
+                (ionChange)="operationGroupOnSelect($event, idx)"
+                class="operation-group-select"
+                placeholder="Ownership"
               >
-                {{ operationGroup.operationGroupName }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-          <ion-item class="address">
-            <ion-label color="medium" position="stacked">Address</ion-label>
-            <ion-input type="text" formControlName="operationAddress"></ion-input>
-          </ion-item>
-          <ion-item class="city">
-            <ion-label color="medium" position="stacked">City</ion-label>
-            <ion-input type="text" formControlName="operationCity"></ion-input>
-          </ion-item>
-          <ion-item class="state">
-            <ion-label color="medium" position="stacked">State</ion-label>
-            <ion-input type="text" formControlName="operationState"></ion-input>
-          </ion-item>
-          <ion-item class="zip">
-            <ion-label color="medium" position="stacked">Zip</ion-label>
-            <ion-input type="text" formControlName="operationZip"></ion-input>
-          </ion-item>
-          <ion-list inset lines="none" class="phone-container">
-            <ion-item class="country-code">
-              <ion-label color="medium" position="stacked">+1</ion-label>
-              <ion-input type="text" formControlName="operationCountryCode"></ion-input>
+                <ion-select-option
+                  *ngFor="let operationGroup of operationGroups"
+                  [selected]="operationGroup?.operationGroupId == operation?.operationGroupId"
+                  [value]="operationGroup.operationGroupId"
+                >
+                  {{ operationGroup.operationGroupName }}
+                </ion-select-option>
+              </ion-select>
             </ion-item>
-            <ion-item class="area-code">
-              <ion-label color="medium" position="stacked">(###)</ion-label>
-              <ion-input type="text" formControlName="operationAreaCode"></ion-input>
+            <ion-item class="address">
+              <ion-label color="medium" position="stacked">Address</ion-label>
+              <ion-input type="text" formControlName="operationAddress"></ion-input>
             </ion-item>
-            <ion-item class="phone-number">
-              <ion-label color="medium" position="stacked">Phone #</ion-label>
-              <ion-input type="text" formControlName="operationPhoneNumber"></ion-input>
+            <ion-item class="city">
+              <ion-label color="medium" position="stacked">City</ion-label>
+              <ion-input type="text" formControlName="operationCity"></ion-input>
             </ion-item>
+            <ion-item class="state">
+              <ion-label color="medium" position="stacked">State</ion-label>
+              <ion-input type="text" formControlName="operationState"></ion-input>
+            </ion-item>
+            <ion-item class="zip">
+              <ion-label color="medium" position="stacked">Zip</ion-label>
+              <ion-input type="text" formControlName="operationZip"></ion-input>
+            </ion-item>
+            <ion-list inset lines="none" class="phone-container">
+              <ion-item class="country-code">
+                <ion-label color="medium" position="stacked">+1</ion-label>
+                <ion-input type="text" formControlName="operationCountryCode"></ion-input>
+              </ion-item>
+              <ion-item class="area-code">
+                <ion-label color="medium" position="stacked">(###)</ion-label>
+                <ion-input type="text" formControlName="operationAreaCode"></ion-input>
+              </ion-item>
+              <ion-item class="phone-number">
+                <ion-label color="medium" position="stacked">Phone #</ion-label>
+                <ion-input type="text" formControlName="operationPhoneNumber"></ion-input>
+              </ion-item>
+            </ion-list>
           </ion-list>
-        </ion-list>
+        </fieldset>
 
         <fieldset class="operation-contacts" *ngIf="operationContacts && notificationsLoaded">
           <ng-container>
+            <h2 class="section-header"><i class="icon-contact"></i> Contacts</h2>
             <ion-list class="operation-contacts-list" formArrayName="operationContacts" lines="none" inset>
-              <ion-item
-                class="operation-contact-item"
-                *ngFor="let operationContact of operationContacts; let idx = index"
-              >
+              <div class="operation-contact-item" *ngFor="let operationContact of operationContacts; let idx = index">
                 <div class="contact-header-wrapper">
-                  <i class="icon-user"></i>
-                  <ion-label position="stacked" color="medium">Contact {{ idx + 1 }}</ion-label>
+                  <span class="contact-label">Contact {{ idx + 1 }}</span>
+                  <!-- only show removal option if it's past the first index -->
+                  <span class="ion-float-right remove-contact-label" (click)="removeOperationContact(idx)">
+                    Remove contact
+                  </span>
                 </div>
                 <ion-list formGroupName="{{ idx }}" class="operation-contact-entry" lines="none" inset>
                   <ion-item class="first-name">
@@ -163,14 +159,9 @@
                     </ion-item>
                   </ion-list>
                 </ion-list>
-
-                <!-- only show removal option if it's past the first index -->
-                <ion-item class="ion-float-right remove-additional-contact" (click)="removeOperationContact(idx)">
-                  [ - remove contact ]
-                </ion-item>
-              </ion-item>
-              <span class="ion-float-right add-call-rep" (click)="addAdditionalOperationContact()"
-                >[ + add contact ]</span
+              </div>
+              <span class="ion-float-right add-contact-label" (click)="addAdditionalOperationContact()"
+                >Add Contact ]</span
               >
             </ion-list>
           </ng-container>

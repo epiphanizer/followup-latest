@@ -1,5 +1,5 @@
 ion-title {
-  font-family: AvenirPro;
+  font-family: Avenir;
   font-size: 45px;
   font-style: normal;
   line-height: 1.11;
@@ -13,13 +13,14 @@ ion-title {
   max-width: 172px;
   padding-bottom: 160px;
   margin-left: 26px;
+  padding-top: 58px;
 }
 
 .patient-content-wrapper {
-  margin-left: 104px;
-  padding-bottom: 160px;
-  margin-top: 2rem;
-  margin-bottom: 8rem;
+  margin-left: 92px;
+  margin-bottom: 16rem;
+  margin-top: 8rem;
+  max-width: 755px;
 }
 .patient-patient-list {
   width: 100%;

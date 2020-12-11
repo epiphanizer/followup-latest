@@ -16,13 +16,11 @@
 <ul class="patient-filters ">
   <li class="ion-float-left discharge-date">
     <a [class.active]="filterBy == 'discharge-date'" (click)="sortPatientsByDischargeDate(selectedSortFlag)"
-      >[Discharge Date]</a
+      >Discharge Date</a
     >
   </li>
   <li class="ion-float-left patient-filter">
-    <a [class.active]="filterBy == 'patient-name'" (click)="sortPatientsByPatientName(selectedSortFlag)"
-      >[Patient Name]</a
-    >
+    <a [class.active]="filterBy == 'patient-name'" (click)="sortPatientsByPatientName(selectedSortFlag)">Name</a>
   </li>
   <li class="ion-float-right">
     <span class="ascending-descending-control">
@@ -38,7 +36,7 @@
   <li class="patient-status ion-float-right">
     <span>
       <a [class.active]="filterBy == 'patient-status'" (click)="sortPatientsByPatientStatus(selectedSortFlag)">
-        [Status]
+        Status
       </a>
     </span>
   </li>

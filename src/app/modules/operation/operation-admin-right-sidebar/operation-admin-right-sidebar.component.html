@@ -9,12 +9,12 @@
     ></i>
   </ion-item>
   <fieldset class="operation-team-members" formArray="operationManagers">
+    <span class="section-label">
+      Assigned Managers
+    </span>
     <ion-list class="assigned-manager-list" *ngIf="operationManagers" lines="none">
       <ng-container *ngFor="let operationManager of operationManagers; let idx = index">
         <ion-item id="operation-manager-{{ idx }}">
-          <ion-label position="stacked" color="medium">
-            Assigned Manager
-          </ion-label>
           <ion-select
             (ionChange)="managerOnSelect($event, idx)"
             class="operation-assigned-manager"
@@ -38,10 +38,10 @@
   </fieldset>
   <fieldset class="operation-callreps">
     <ng-container>
+      <span class="section-label">
+        Assigned Care Reps
+      </span>
       <ion-list class="assigned-callrep-list" lines="none" inset>
-        <ion-label position="stacked" color="medium">
-          Assigned Care Reps
-        </ion-label>
         <ng-container *ngFor="let operationCallRep of operationCallReps; let idx = index">
           <ion-item id="operationCallRep-{{ idx }}">
             <ion-select *ngIf="availableUsers" (ionChange)="callRepOnSelect($event, idx)" placeholder="Select User">
@@ -54,11 +54,10 @@
               </ion-select-option>
             </ion-select>
           </ion-item>
-          <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeOperationCallRep(idx)"
-            >[ - remove ]</span
-          >
         </ng-container>
-        <!-- (click)="addAdditionalOperationCallRep()" -->
+        <div class="controls">
+          <a href="" class="add-members" (click)="addAdditionalOperationCallRep()">+ Team Members</a>
+        </div>
       </ion-list>
     </ng-container>
   </fieldset>

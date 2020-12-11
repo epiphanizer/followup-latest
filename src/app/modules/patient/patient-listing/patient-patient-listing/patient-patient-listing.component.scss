@@ -65,7 +65,7 @@ ul.patient-filters {
   li {
     cursor: pointer;
     display: inline-block;
-    font-family: AvenirNextLtPro;
+    font-family: AvenirPro;
     font-weight: normal;
     font-style: normal;
     vertical-align: top;
@@ -73,6 +73,7 @@ ul.patient-filters {
     line-height: 2.88;
     letter-spacing: 0.53px;
     text-align: center;
+    text-decoration: none;
 
     a {
       cursor: pointer;

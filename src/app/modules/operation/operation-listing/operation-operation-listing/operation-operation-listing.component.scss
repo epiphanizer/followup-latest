@@ -2,6 +2,24 @@
   width: 100%;
 }
 
+ion-title {
+  font-family: AvenirPro;
+  font-size: 45px;
+  font-style: normal;
+  line-height: 1.11;
+  letter-spacing: 0.45px;
+  text-align: left;
+  color: #3f3638;
+  padding-left: 0;
+}
+
+.operation-sidebar {
+  max-width: 172px;
+  padding-bottom: 160px;
+  margin-left: 26px;
+  padding-top: 58px;
+}
+
 .divider-line {
   width: 100%;
   min-height: 1px;
@@ -12,18 +30,15 @@
 }
 
 h3 {
-  font-family: AvenirBold;
-  font-size: 21px;
-  font-weight: 900;
-  font-style: normal;
-  font-weight: bold;
+  font-family: AvenirPro;
+  font-size: 26px;
+  font-weight: normal;
   font-stretch: normal;
-  line-height: 1.01;
-  letter-spacing: 3.15px;
+  font-style: normal;
+  line-height: 1.08;
+  letter-spacing: normal;
   text-align: left;
-  margin-bottom: 0;
-  text-transform: uppercase;
-  color: var(--ion-color-primary);
+  color: #00b4b9;
 }
 
 .operation-filter-search {
@@ -64,7 +79,7 @@ ul.operation-filters {
   li {
     cursor: pointer;
     display: inline-block;
-    font-family: AvenirNextLtPro;
+    font-family: AvenirPro;
     font-weight: normal;
     font-style: normal;
     vertical-align: top;
@@ -129,7 +144,7 @@ ul.operation-filters {
     width: 17px;
     height: 17px;
     display: inline-block;
-    margin-right: 8px;
+    margin-right: 16px;
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: center center;

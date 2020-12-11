@@ -1,23 +1,10 @@
 <h3 class="section-header">
   {{ operation?.operationName }}
 </h3>
-<table class="operation-filter-search">
-  <tr>
-    <td>
-      <ion-input placeholder="Operation Search" (ionInput)="searchOperations($event)"> </ion-input>
-    </td>
-    <td>
-      <ion-icon name="search"></ion-icon>
-    </td>
-  </tr>
-</table>
 
-<ion-item-divider class="divider-line"></ion-item-divider>
 <ul class="operation-filters ">
   <li class="ion-float-left operation-name">
-    <a [class.active]="filterBy == 'operation-name'" (click)="sortOperationsByOperationName(selectedSortFlag)"
-      >[Operation Name]</a
-    >
+    <a [class.active]="filterBy == 'operation-name'" (click)="sortOperationsByOperationName(selectedSortFlag)">Name</a>
   </li>
   <li class="ion-float-right">
     <span class="ascending-descending-control">
@@ -31,9 +18,10 @@
     </span>
   </li>
   <li class="operation-status ion-float-right">
-    <a> [Status]</a>
+    <a>Status</a>
   </li>
 </ul>
+<ion-item-divider class="divider-line"></ion-item-divider>
 
 <ul class="operation-operation-list" *ngIf="operations$ | async">
   <li
@@ -51,7 +39,16 @@
     </div>
   </li>
 </ul>
-
+<!-- <table class="operation-filter-search">
+  <tr>
+    <td>
+      <ion-input placeholder="Operation Search" (ionInput)="searchOperations($event)"> </ion-input>
+    </td>
+    <td>
+      <ion-icon name="search"></ion-icon>
+    </td>
+  </tr>
+</table> -->
 <ng-template #nooperations>
   Sorry! No operations exist for this operation
 </ng-template>
