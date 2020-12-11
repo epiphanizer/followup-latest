@@ -4,7 +4,7 @@
       <app-operation-admin-sidebar (operationChangeEvent)="operationChangeEventHandler($event)">
       </app-operation-admin-sidebar>
     </ion-col>
-    <ion-col class="operation-form-content">
+    <ion-col class="operation-form-content-wrapper">
       <ion-title *ngIf="!editMode; else editOperation">New Operation</ion-title>
       <ng-template #editOperation>
         <ion-title> {{ operation.operationGroupName }} - {{ operation.opreationName }} </ion-title>

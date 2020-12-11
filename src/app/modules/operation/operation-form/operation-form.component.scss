@@ -3,22 +3,30 @@ ion-content {
 }
 
 .operation-sidebar {
-  max-width: 177px;
+  max-width: 172px;
+  padding-bottom: 160px;
+  margin-left: 26px;
+  padding-top: 58px;
 }
 
-.operation-form-content {
+.operation-form-content-wrapper {
+  margin-left: 92px;
+  padding-bottom: 160px;
+  margin-top: 8rem;
+
   margin-left: 50px;
   margin-bottom: 9rem;
   height: auto;
   width: 100%;
   max-width: 720px;
 }
+
 .right-admin-sidebar {
   max-width: 200px;
 }
 
 ion-title {
-  font-family: AvenirNextLTPro;
+  font-family: AvenirNext;
   font-size: 38px;
   font-weight: 300;
   font-style: normal;
@@ -32,6 +40,7 @@ ion-title {
 
 form {
   margin-bottom: 5rem;
+
   ion-label {
     min-width: min-content;
     font-family: Avenir;
@@ -53,11 +62,13 @@ form {
       margin-left: 25px;
     }
   }
+
   ion-input {
     font-family: Avenir;
     font-size: 14px;
     margin-right: 10px;
   }
+
   ion-item.city {
     width: 125px;
     display: inline-block;
@@ -87,6 +98,7 @@ form {
     display: block;
     clear: both;
     width: 100%;
+
     ion-item {
       display: inline-block;
       margin-right: 5px;
@@ -99,6 +111,7 @@ form {
       &.area-code {
         width: 55px;
       }
+
       &.phone-number {
         width: 120px;
       }
@@ -122,6 +135,7 @@ form {
     margin-bottom: 0;
     margin-left: 0;
   }
+
   ion-select,
   ion-select-option,
   ion-datetime {
@@ -200,14 +214,17 @@ form {
     i.icon-team-members {
       margin-left: 15px;
     }
+
     border: none;
 
     .operation-contact-entry {
       width: 100%;
       margin-top: 0;
       margin-bottom: -1rem;
+
       ion-item {
         float: left;
+
         &.first-name {
           width: 140px;
           margin-right: 10px;
@@ -222,10 +239,12 @@ form {
           width: 140px;
           margin-right: 10px;
         }
+
         &.title-position {
           width: 50%;
           margin-right: 10px;
         }
+
         &.email {
           width: 50%;
         }
@@ -234,6 +253,7 @@ form {
           margin-left: 0;
           padding-left: 0 !important;
         }
+
         &.contact-order {
           display: none;
         }
@@ -341,39 +361,6 @@ form {
 
   .contact-header-wrapper {
     width: 100%;
-  }
-
-  .assigned-manager-list,
-  .assigned-callrep-list {
-    margin-left: 25px;
-
-    ion-item {
-      width: 100%;
-    }
-  }
-
-  .add-call-rep,
-  .add-manager,
-  .add-additional-contact,
-  .remove-additional-contact {
-    clear: right;
-    cursor: pointer;
-    font-family: Avenir;
-    font-size: 13px;
-    font-weight: normal;
-    font-style: normal;
-    margin-left: 10px;
-    font-stretch: normal;
-    line-height: 1.33;
-    letter-spacing: 0.42px;
-    text-align: left;
-    color: var(--ion-color-primary);
-  }
-
-  .add-call-rep,
-  .add-manager,
-  .add-additional-contact {
-    margin-top: 15px;
   }
 
   ion-button {
