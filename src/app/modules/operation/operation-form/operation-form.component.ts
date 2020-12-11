@@ -320,7 +320,8 @@ export class OperationFormComponent implements OnInit {
     operationFormControls.controls.operationCountryCode.setValue(this.operation.operationCountryCode);
     operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
     operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
-    this.operationForm.controls.operationActive.setValue(this.operation.operationActive);
+    operationFormControls.controls.operationActive.setValue(this.operation.operationActive);
+    operationFormControls.controls.operationArchive.setValue(this.operation.operationArchive);
   }
   addAdditionalOperationCallRep() {
     let newCallRep = {
