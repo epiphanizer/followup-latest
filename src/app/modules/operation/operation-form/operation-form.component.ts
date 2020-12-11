@@ -384,6 +384,8 @@ export class OperationFormComponent implements OnInit {
   private createForm() {
     this.operationForm = this.fb.group({
       operation: this.fb.group({
+        operationActive: this.fb.control(this.operation.operationActive),
+        operationArchive: this.fb.control(this.operation.operationArchive),
         operationId: this.fb.control(this.operation.operationId, [Validators.required]),
         operationGroupId: this.fb.control(this.operation.operationGroupId, [Validators.required]),
         operationName: this.fb.control(this.operation.operationName, [Validators.required]),
@@ -397,8 +399,7 @@ export class OperationFormComponent implements OnInit {
       }),
       operationContacts: this.fb.array([]),
       operationManagers: this.fb.array([]),
-      operationCallReps: this.fb.array([]),
-      operationActive: this.fb.control(this.operation.operationActive)
+      operationCallReps: this.fb.array([])
     });
   }
 

@@ -1,6 +1,6 @@
 <div class="sidebar" lines="none" inset>
   <ion-item>
-    <h3><i class="icon-team"></i> Team Members</h3>
+    <h3 class="headline"><i class="icon-team"></i> Team Members</h3>
     <i
       class="expand-users-assigned-trigger"
       (click)="toggleOperationUsersAssignedMenu()"
@@ -18,7 +18,7 @@
           <ion-select
             (ionChange)="managerOnSelect($event, idx)"
             class="operation-assigned-manager"
-            placeholder="Select User"
+            placeholder="Assign Manager"
           >
             <ion-select-option
               *ngFor="let user of availableUsers"
@@ -29,19 +29,21 @@
             </ion-select-option>
           </ion-select>
         </ion-item>
-        <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeOperationManager(idx)"
+        <!-- <span class="ion-float-right add-call-rep" *ngIf="idx > 0" (click)="removeOperationManager(idx)"
           >[ - remove manager ]</span
-        >
+        > -->
       </ng-container>
-      <span class="ion-float-right add-manager" (click)="addAdditionalOperationManager()">[ + add manager ]</span>
+      <!-- <span class="ion-float-right add-manager" (click)="addAdditionalOperationManager()">[ + add manager ]</span> -->
     </ion-list>
   </fieldset>
   <fieldset class="operation-callreps">
     <ng-container>
       <ion-list class="assigned-callrep-list" lines="none" inset>
+        <ion-label position="stacked" color="medium">
+          Assigned Care Reps
+        </ion-label>
         <ng-container *ngFor="let operationCallRep of operationCallReps; let idx = index">
           <ion-item id="operationCallRep-{{ idx }}">
-            <ion-label position="stacked" color="medium">Care Rep {{ idx + 1 }} </ion-label>
             <ion-select *ngIf="availableUsers" (ionChange)="callRepOnSelect($event, idx)" placeholder="Select User">
               <ion-select-option
                 *ngFor="let user of availableUsers"
@@ -56,7 +58,7 @@
             >[ - remove ]</span
           >
         </ng-container>
-        <span class="ion-float-right add-call-rep" (click)="addAdditionalOperationCallRep()">[ + add care rep ]</span>
+        <!-- (click)="addAdditionalOperationCallRep()" -->
       </ion-list>
     </ng-container>
   </fieldset>

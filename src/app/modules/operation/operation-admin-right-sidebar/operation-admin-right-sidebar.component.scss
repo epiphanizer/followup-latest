@@ -2,28 +2,24 @@
   max-width: 200px;
   text-align: right;
 
-  .facility-callreps-dropdown-target {
-    width: 200px;
-    height: 28.7px;
-    font-family: AvenirBold;
-    font-size: 15px;
-    font-weight: 700;
-    font-style: normal;
+  h3.headline {
+    font-family: Avenir;
+    font-size: 26px;
+    font-weight: normal;
     font-stretch: normal;
-    line-height: 1.05;
-    letter-spacing: 1.25px;
-    text-transform: uppercase;
+    font-style: normal;
+    line-height: 1.08;
+    letter-spacing: normal;
     text-align: right;
-    color: var(--ion-color-primary);
-    display: inline-block;
+    color: #00b4b9;
   }
 
-  i {
-    margin-left: 7px;
+  i.icon-team {
     display: inline-block;
-    width: 13px;
-    height: 13px;
-    margin-top: -12px;
+    margin-right: 7px;
+    background-image: url("/assets/icon-team@2x.png");
+    height: 14px;
+    width: 14px;
   }
 
   .facility-dropdown-list {
