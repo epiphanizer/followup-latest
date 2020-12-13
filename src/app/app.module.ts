@@ -29,6 +29,7 @@ import { LoaderService } from './shared/loader/loader.service';
 import { LoaderInterceptor } from './shared/interceptors/loader-interceptor';
 import { ApiKeyInterceptor } from './shared/interceptors/api-key.interceptor';
 import { DataModule } from './modules/data/data.module';
+import { TeamModule } from './modules/team/team.module';
 
 export function tokenGetter() {
   return localStorage.getItem('followup-token');
@@ -65,6 +66,7 @@ export function tokenGetter() {
     CallQueueModule,
     OperationModule,
     NotificationModule,
+    TeamModule,
     DataModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],

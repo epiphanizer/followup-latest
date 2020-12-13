@@ -13,8 +13,7 @@ ion-content {
   margin-left: 92px;
   padding-bottom: 160px;
   margin-top: 8rem;
-
-  margin-left: 50px;
+  margin-left: 92px;
   margin-bottom: 9rem;
   height: auto;
   width: 100%;
@@ -241,6 +240,7 @@ form {
 
   .contact-label,
   .add-contact-label {
+    cursor: pointer;
     font-family: AvenirDemi;
     font-size: 15px;
     font-weight: normal;

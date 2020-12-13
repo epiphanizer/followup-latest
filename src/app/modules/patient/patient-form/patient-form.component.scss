@@ -4,14 +4,20 @@ ion-content {
 }
 
 .patient-sidebar {
-  max-width: 177px;
-  margin-right: 25px;
+  max-width: 172px;
+  padding-bottom: 160px;
+  margin-left: 26px;
+  padding-top: 58px;
 }
 
 .patient-content {
-  width: 100%;
-  max-width: 565px;
   padding-bottom: 160px;
+  margin-top: 8rem;
+  margin-left: 92px;
+  margin-bottom: 9rem;
+  height: auto;
+  width: 100%;
+  max-width: 720px;
 }
 
 .avatar-col {
@@ -24,7 +30,6 @@ ion-content {
 .avatar-container {
   width: 100%;
 }
-
 ion-title {
   font-family: AvenirPro;
   font-size: 45px;
@@ -35,7 +40,6 @@ ion-title {
   color: #3f3638;
   padding-left: 0;
 }
-
 form {
   margin-bottom: 5rem;
 
@@ -46,7 +50,9 @@ form {
   > fieldset {
     padding: 0;
   }
-
+  ion-list {
+    margin: 0;
+  }
   ion-select,
   ion-select-option,
   ion-datetime {
