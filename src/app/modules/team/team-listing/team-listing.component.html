@@ -1,33 +1,23 @@
 <ion-content>
   <ion-row>
     <ion-col class="team-sidebar">
-      <app-team-listing-sidebar (operationChangeEvent)="operationChangeEventHandler($event)">
-      </app-team-listing-sidebar>
+      <app-team-sidebar (teamChangeEvent)="teamChangeEventHandler($event)"> </app-team-sidebar>
     </ion-col>
     <ion-col class="team-content-wrapper">
       <ion-grid>
         <ion-row>
-          <ion-title *ngIf="selected.operation">
-            {{ selected.operation.operationGroupName + ' - ' + selected.operation.operationName }}
+          <ion-title *ngIf="selected.team">
+            {{ selected.team.teamName }}
           </ion-title>
         </ion-row>
         <ion-row class="team-listing-row">
           <ion-col class="team-listing-wrapper">
-            <app-team-patient-listing *ngIf="selected.operation" [operation]="selected.operation">
-            </app-team-patient-listing>
+            <app-team-patient-listing *ngIf="selected.team" [operation]="selected.team"> </app-team-patient-listing>
           </ion-col>
           <ion-col class="calendar-wrapper">
-            <app-calendar
-              *ngIf="selected.operation"
-              [operation]="selected.operation"
-              (dateFilterChangeEvent)="handleDateFilterChangeEvent($event)"
-            >
+            <app-calendar *ngIf="selected.team" (dateFilterChangeEvent)="handleDateFilterChangeEvent($event)">
             </app-calendar>
-            <app-team-listing-filter
-              *ngIf="selected.operation"
-              [filterDate]="selected.filterDate"
-              [operation]="selected.operation"
-            >
+            <app-team-listing-filter *ngIf="selected.team" [filterDate]="selected.filterDate" [team]="selected.team">
             </app-team-listing-filter>
           </ion-col>
         </ion-row>

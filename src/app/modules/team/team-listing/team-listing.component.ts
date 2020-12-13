@@ -30,9 +30,6 @@ export class TeamListingComponent implements OnInit {
 
   ngOnInit() {}
 
-  handleDateFilterChangeEvent($event: string) {
-    this.selected.filterDate = $event;
-  }
   teamChangeEventHandler($event: Team) {
     this.selected.team = $event;
     this.teams = [];
