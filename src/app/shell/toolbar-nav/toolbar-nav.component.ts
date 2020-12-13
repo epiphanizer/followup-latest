@@ -6,6 +6,7 @@ import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
 import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
 import { map, filter } from 'rxjs/operators';
+import { DataService } from '@app/modules/data/data.service';
 
 @Component({
   providers: [MenuService],
@@ -14,7 +15,12 @@ import { map, filter } from 'rxjs/operators';
   styleUrls: ['./toolbar-nav.component.scss']
 })
 export class ToolbarNavComponent implements OnInit {
-  constructor(public modalController: ModalController, private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    public modalController: ModalController,
+    private route: ActivatedRoute,
+    private router: Router,
+    private dataService: DataService
+  ) {}
   activeComponent: string;
   navLinks: MenuLink[];
   patient: Patient;
@@ -42,8 +48,16 @@ export class ToolbarNavComponent implements OnInit {
               linkName: 'Team Members'
             },
             {
+              linkAction: '/team/add',
+              linkName: 'Add Team Members'
+            },
+            {
               linkAction: '/team/message',
               linkName: 'Team Message'
+            },
+            {
+              linkAction: '/data',
+              linkName: 'Excel Report'
             }
           ]
         },

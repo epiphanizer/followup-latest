@@ -243,8 +243,9 @@ h3 {
     }
 
     .call-queue-avatar {
-      display: table-cell;
-      vertical-align: middle;
+      margin-left: 12px;
+      display: block;
+      height: 100%;
       overflow: hidden;
       background-size: cover;
       background-position: center center;

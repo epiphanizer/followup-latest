@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '@app/modules/data/data.service';
 import * as FileSaver from 'file-saver';
 import { User } from '@app/modules/user/user';
-import { CompanyNote } from '@app/modules/team/team';
+import { TeamNote } from '@app/modules/team/team';
 
 @Component({
   providers: [DataService],
@@ -12,15 +12,15 @@ import { CompanyNote } from '@app/modules/team/team';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public companyNote: CompanyNote = {
-    companyNoteId: 0,
-    companyNoteFrom: 'Steph',
-    companyNoteSubject: 'Hey Team!',
-    companyNoteMessage: 'This is a test message!'
+  public teamNote: TeamNote = {
+    teamNoteId: 0,
+    teamNoteFrom: 'Steph',
+    teamNoteSubject: 'Hey Team!',
+    teamNoteMessage: 'This is a test message!'
   };
   public user: User;
   public menu: {}[] = [{}];
-  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
@@ -53,21 +53,5 @@ export class HomeComponent implements OnInit {
         messageAcknowledgedDate: null
       }
     ];
-  }
-  doAction(actionType: string, $event: any) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    /**
-     * Get an Excel with current Wizard Bridge definitions
-     */
-    if (actionType == 'getData') {
-      this.getData();
-    }
-  }
-  getData() {
-    this.dataService.getData().subscribe((data: Blob) => {
-      var blob = new Blob([data], { type: data.type });
-      FileSaver.saveAs(blob, 'data.xlsx');
-    });
   }
 }
