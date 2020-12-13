@@ -34,11 +34,39 @@ const routes: Routes = [
       }
     },
     {
+      path: 'operation/:operationId',
+      component: OperationFormComponent,
+      canActivate: [AuthGuardService],
+      data: {
+        mode: 'view',
+        operationId: ':operationId',
+        roles: [UserRoles.admin, UserRoles.manager]
+      },
+      resolve: {
+        operation: OperationResolver,
+        user: UserResolver
+      }
+    },
+    {
+      path: 'operation/add',
+      component: OperationFormComponent,
+      canActivate: [AuthGuardService],
+      data: {
+        mode: 'add',
+        operationId: ':operationId',
+        roles: [UserRoles.admin, UserRoles.manager]
+      },
+      resolve: {
+        operation: OperationResolver,
+        user: UserResolver
+      }
+    },
+    {
       path: 'operation/edit/:operationId',
       component: OperationFormComponent,
       canActivate: [AuthGuardService],
       data: {
-        editMode: true,
+        mode: 'edit',
         operationId: ':operationId',
         roles: [UserRoles.admin, UserRoles.manager]
       },

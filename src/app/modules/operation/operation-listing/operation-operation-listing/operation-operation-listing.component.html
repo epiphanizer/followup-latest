@@ -24,11 +24,7 @@
 <ion-item-divider class="divider-line"></ion-item-divider>
 
 <ul class="operation-operation-list" *ngIf="operations$ | async">
-  <li
-    *ngFor="let operation of operationsFiltered"
-    class="active"
-    [routerLink]="'/operation/edit/' + operation.operationId"
-  >
+  <li *ngFor="let operation of operationsFiltered" class="active" [routerLink]="'/operation/' + operation.operationId">
     <div class="operation-operation-information">
       <span class="operation-operation-name ion-float-left">
         {{ operation.operationName }}

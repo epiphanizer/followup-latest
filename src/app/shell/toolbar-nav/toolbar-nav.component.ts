@@ -9,7 +9,7 @@ import { map, filter } from 'rxjs/operators';
 import { DataService } from '@app/modules/data/data.service';
 
 @Component({
-  providers: [MenuService],
+  providers: [DataService, MenuService],
   selector: 'app-toolbar-nav',
   templateUrl: './toolbar-nav.component.html',
   styleUrls: ['./toolbar-nav.component.scss']
@@ -118,10 +118,10 @@ export class ToolbarNavComponent implements OnInit {
   ngAfterViewInit() {}
 
   doButtonAction() {
-    this.createNotificationModal();
+    this.createModal();
   }
 
-  async createNotificationModal() {
+  async createModal() {
     const modal = await this.modalController.create({
       component: NotificationModalComponent,
       cssClass: 'followup-modal',

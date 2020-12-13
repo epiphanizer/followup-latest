@@ -40,7 +40,11 @@ export class OperationFormComponent implements OnInit {
   availableUsers: User[];
   availableManagers: User[];
   operation: Operation;
-  editMode: boolean;
+  mode: any = {
+    add: null,
+    edit: null,
+    view: null
+  };
   notificationsLoaded: boolean = false;
   notificationTypes: NotificationType[];
   operationForm!: FormGroup;
@@ -83,16 +87,18 @@ export class OperationFormComponent implements OnInit {
       this.notificationTypes = notificationTypes;
     });
 
-    if (this.route.snapshot.data.editMode) {
-      this.editMode = true;
+    if (this.route.snapshot.data.mode == 'edit') {
+      this.mode.edit = true;
+    } else if (this.route.snapshot.data.mode == 'view') {
+      this.mode.view = true;
     }
 
-    if (this.editMode) {
+    if (this.mode.edit || this.mode.view) {
       this.operation = this.route.snapshot.data.operation;
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
       this.createForm();
       this.armForm();
-    } else {
+    } else if (this.mode.add) {
       this.operationService.addNewOperation().subscribe((data: Operation) => {
         let operation = data;
         this.router.navigate([], {

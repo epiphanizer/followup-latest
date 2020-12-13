@@ -5,28 +5,40 @@
       </app-operation-admin-sidebar>
     </ion-col>
     <ion-col class="operation-form-content-wrapper">
-      <ion-title *ngIf="!editMode; else editOperation">New Operation</ion-title>
-      <ng-template #editOperation>
-        <ion-title> {{ operation.operationGroupName }} - {{ operation.operationName }} </ion-title>
-      </ng-template>
+      <ion-title *ngIf="mode.add">New Operation</ion-title>
+      <ion-title *ngIf="mode.view || mode.edit"
+        >{{ operation.operationGroupName }} - {{ operation.operationName }}
+      </ion-title>
       <form id="operation-form" [formGroup]="operationForm" novalidate>
         <fieldset formGroupName="operation">
-          <div class="operation-listing-header">
-            <h2 class="section-header ion-float-left"><i class="icon-info"></i> Operation</h2>
-            <div class="operation-controls">
-              <span class="control ion-float-right">
-                <ion-checkbox formControlName="operationArchive">
-                  Archive
-                </ion-checkbox>
-              </span>
-              <span class="control ion-float-right">
-                <ion-checkbox formControlName="operationActive">
-                  Active?
-                </ion-checkbox>
-              </span>
+          <ion-list *ngIf="mode.view" class="operation-details" lines="none" inset>
+            <div class="operation-listing-header">
+              <h2 class="section-header ion-float-left"><i class="icon-info"></i> Operation</h2>
+              <div class="operation-controls">
+                <span class="control ion-float-right">
+                  <a routerlink="'/operations/edit/' + operation.operationId" class="edit-link">
+                    Edit
+                  </a>
+                </span>
+              </div>
             </div>
-          </div>
-          <ion-list class="operation-details" lines="none" inset>
+          </ion-list>
+          <ion-list *ngIf="mode.add || mode.edit" class="operation-details" lines="none" inset>
+            <div class="operation-listing-header">
+              <h2 class="section-header ion-float-left"><i class="icon-info"></i> Operation</h2>
+              <div class="operation-controls">
+                <span class="control ion-float-right">
+                  <ion-checkbox formControlName="operationArchive">
+                    Archive
+                  </ion-checkbox>
+                </span>
+                <span class="control ion-float-right">
+                  <ion-checkbox formControlName="operationActive">
+                    Active?
+                  </ion-checkbox>
+                </span>
+              </div>
+            </div>
             <ion-item class="operation-group" *ngIf="operationGroups">
               <ion-label color="medium" position="stacked">Ownership <span style="color:red">*</span></ion-label>
               <ion-select
@@ -81,7 +93,13 @@
         <fieldset class="operation-contacts" *ngIf="operationContacts && notificationsLoaded">
           <ng-container>
             <h2 class="section-header"><i class="icon-contact"></i> Contacts</h2>
-            <ion-list class="operation-contacts-list" formArrayName="operationContacts" lines="none" inset>
+            <ion-list
+              *ngIf="mode.add || mode.edit"
+              class="operation-contacts-list"
+              formArrayName="operationContacts"
+              lines="none"
+              inset
+            >
               <div class="operation-contact-item" *ngFor="let operationContact of operationContacts; let idx = index">
                 <div class="contact-header-wrapper">
                   <span class="contact-label">Contact {{ idx + 1 }}</span>
@@ -172,7 +190,7 @@
       </form>
     </ion-col>
     <ion-col class="right-admin-col">
-      <app-operation-admin-right-sidebar *ngIf="editMode && operation"></app-operation-admin-right-sidebar>
+      <app-operation-admin-right-sidebar *ngIf="operation"></app-operation-admin-right-sidebar>
     </ion-col>
   </ion-row>
 </ion-content>
