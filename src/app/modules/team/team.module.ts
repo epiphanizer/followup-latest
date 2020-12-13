@@ -7,12 +7,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@app/shared';
 import { TeamMemberDetailComponent } from './team-detail/team-detail.component';
 import { TeamListingComponent } from './team-listing/team-listing.component';
+import { TeamSidebar } from './team-listing/team-listing-sidebar/team-sidebar.component';
 
 @NgModule({
-  declarations: [TeamListingComponent, TeamMemberDetailComponent],
+  declarations: [TeamListingComponent, TeamMemberDetailComponent, TeamSidebar],
   imports: [CommonModule, IonicModule, RouterModule, FormsModule, ReactiveFormsModule, SharedModule, TeamRoutingModule],
-  // entryComponents: [TeamMemberDetailComponent],
-  // exports: [TeamListingComponent, TeamMemberDetailComponent],
+  entryComponents: [TeamListingComponent, TeamSidebar],
+  exports: [TeamListingComponent, TeamSidebar],
   providers: []
 })
 export class TeamModule {}
