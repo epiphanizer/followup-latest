@@ -11,8 +11,7 @@ import {
 import { OperationService } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
-import { Observable } from 'rxjs';
-import { Operation } from '../operation';
+import { Operation, OperationManager } from '../operation';
 import { take, map } from 'rxjs/operators';
 
 @Component({
@@ -64,6 +63,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
   operationAssignedUsers: User[];
+  operationAssignedManagers: OperationManager[];
   user: User;
   todaysDateDay: number;
   ngOnInit() {
@@ -78,6 +78,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         this.operationAssignedUsers = [];
         this.activeOperationId = parseInt(params.get('operationId'));
         this.updateAssignedUsers();
+        this.updateAssignedManagers();
       }
     });
   }
@@ -88,6 +89,17 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         take(1),
         map((users: User[]) => {
           this.operationAssignedUsers = users;
+        })
+      )
+      .subscribe();
+  }
+  updateAssignedManagers() {
+    this.operationService
+      .getOperationManagersByOperationId(this.activeOperationId)
+      .pipe(
+        take(1),
+        map((managers: OperationManager[]) => {
+          this.operationAssignedManagers = managers;
         })
       )
       .subscribe();

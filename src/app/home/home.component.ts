@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '@app/modules/data/data.service';
 import * as FileSaver from 'file-saver';
 import { User } from '@app/modules/user/user';
-import { TeamNote } from '@app/modules/team/team';
+import { TeamMessage } from '@app/modules/team/team';
 
 @Component({
   providers: [DataService],
@@ -12,11 +12,11 @@ import { TeamNote } from '@app/modules/team/team';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public teamNote: TeamNote = {
-    teamNoteId: 0,
-    teamNoteFrom: 'Steph',
-    teamNoteSubject: 'Hey Team!',
-    teamNoteMessage: 'This is a test message!'
+  public teamNote: TeamMessage = {
+    messageId: 0,
+    teamMessageFrom: 'Steph',
+    teamMessageSubject: 'Hey Team!',
+    teamMessageContent: 'This is a test message!'
   };
   public user: User;
   public menu: {}[] = [{}];

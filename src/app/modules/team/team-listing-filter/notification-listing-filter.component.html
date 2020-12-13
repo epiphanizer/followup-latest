@@ -1,0 +1,35 @@
+<div class="patient-filter">
+  <ion-row>
+    <ion-col col-auto>
+      <table>
+        <tr>
+          <td>
+            <ion-input placeholder="Patient Search" (ionInput)="searchNotificationPatientsByText($event)"> </ion-input>
+          </td>
+          <td>
+            <ion-icon name="search"></ion-icon>
+          </td>
+        </tr>
+      </table>
+    </ion-col>
+  </ion-row>
+  <ng-container class="notification-filter-results" *ngIf="notifications; else noPatientNotifications">
+    <ion-list *ngIf="notificationsFiltered.length >= 1; else noNotifications" lines="none" inset>
+      <ion-item class="notification-filter-listing" *ngFor="let notification of notificationsFiltered">
+        <a class="notification-link" [routerLink]="'/notifications' + notification.notificationId">
+          <span class="notification-filter-patient-name">
+            {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}:&nbsp;
+          </span>
+        </a>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+</div>
+<ng-template #noPatientNotifications>
+  <span class="no-calls">
+    No notifications found for selected date.
+  </span>
+</ng-template>
+<ng-template #noNotifications>
+  <span class="no-calls"> No results for search. </span>
+</ng-template>

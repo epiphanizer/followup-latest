@@ -1,0 +1,44 @@
+<h1 class="team-listing-headline">TEAM</h1>
+<ul class="team-filters ">
+  <li class="name-filter">
+    <a (click)="sortTeamMembersByName(selectedSortFlag)">
+      Name
+    </a>
+  </li>
+  <li>
+    <span class="ascending-descending-control">
+      <i
+        class="ascending-descending-control-arrow"
+        [class.asc]="selectedSortFlag == 'asc'"
+        [class.desc]="selectedSortFlag == 'desc'"
+        (click)="toggleAscDesc()"
+      >
+      </i>
+    </span>
+  </li>
+</ul>
+
+<ion-list class="team-member-list" lines="none" *ngIf="teamMembers">
+  <ion-item
+    *ngFor="let teamMember of pageOfItems"
+    class="active"
+    [routerLink]="'/teamMember/' + teamMember.teamMemberId"
+  >
+    <div class="team-member-information">
+      <span class="team-member-name">
+        <a [routerLink]="'/team/' + teamMember.teamId + '/members/' + teamMember.teamMemberId">
+          {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
+        </a>
+      </span>
+    </div>
+  </ion-item>
+</ion-list>
+<jw-pagination
+  *ngIf="teamMembersFiltered"
+  [items]="teamMembersFiltered"
+  (changePage)="onChangePage($event)"
+></jw-pagination>
+
+<ng-template #noTeamMembers>
+  Sorry! No team members are assigned to this team!
+</ng-template>

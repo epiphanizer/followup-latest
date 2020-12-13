@@ -6,11 +6,11 @@
         {{ link.linkName }}
       </a>
       <div class="dropdown" *ngIf="link.dropdown.links">
-        <div *ngIf="link.minRole >= user.userLevel">
-          <span *ngFor="let link of link.dropdown.links">
+        <ul *ngIf="link.minRole >= user.userLevel">
+          <li *ngFor="let link of link.dropdown.links">
             {{ link.linkName }}
-          </span>
-        </div>
+          </li>
+        </ul>
       </div>
     </ion-item>
   </ion-list>

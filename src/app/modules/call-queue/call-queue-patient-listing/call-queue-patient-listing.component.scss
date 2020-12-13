@@ -219,9 +219,9 @@ h3 {
     &.new-discharge {
       background-color: rgba(154, 204, 56, 0.1);
 
-      // &:hover {
-      //   background-color: rgba(20, 171, 52, 0.35);
-      // }
+      &:hover {
+        background-color: rgba(20, 171, 52, 0.35);
+      }
     }
 
     .badge-container {

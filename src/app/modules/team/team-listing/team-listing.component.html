@@ -1,0 +1,37 @@
+<ion-content>
+  <ion-row>
+    <ion-col class="team-sidebar">
+      <app-team-listing-sidebar (operationChangeEvent)="operationChangeEventHandler($event)">
+      </app-team-listing-sidebar>
+    </ion-col>
+    <ion-col class="team-content-wrapper">
+      <ion-grid>
+        <ion-row>
+          <ion-title *ngIf="selected.operation">
+            {{ selected.operation.operationGroupName + ' - ' + selected.operation.operationName }}
+          </ion-title>
+        </ion-row>
+        <ion-row class="team-listing-row">
+          <ion-col class="team-listing-wrapper">
+            <app-team-patient-listing *ngIf="selected.operation" [operation]="selected.operation">
+            </app-team-patient-listing>
+          </ion-col>
+          <ion-col class="calendar-wrapper">
+            <app-calendar
+              *ngIf="selected.operation"
+              [operation]="selected.operation"
+              (dateFilterChangeEvent)="handleDateFilterChangeEvent($event)"
+            >
+            </app-calendar>
+            <app-team-listing-filter
+              *ngIf="selected.operation"
+              [filterDate]="selected.filterDate"
+              [operation]="selected.operation"
+            >
+            </app-team-listing-filter>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-col>
+  </ion-row>
+</ion-content>

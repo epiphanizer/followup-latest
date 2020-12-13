@@ -80,14 +80,52 @@ ion-list {
 }
 
 .dropdown {
-  display: none;
-  &.active {
-    display: block;
-  }
+  // display: none;
+  // &.active {
+  display: block;
+  // }
   width: 195px;
-  height: 76px;
-  margin: 80px 41px 29px 6px;
+  height: auto;
   padding: 14px 5px 10px;
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.16);
   background-color: #f5f5f5;
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.16);
+  ul {
+    list-style-type: none;
+    background-color: #f5f5f5;
+    padding-left: 0;
+    margin: 0;
+    text-align: left;
+    li {
+      cursor: pointer;
+      display: inline-block;
+      width: 100%;
+      height: auto;
+      font-family: Avenir;
+      font-size: 15px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 2.27;
+      letter-spacing: 0.15px;
+      text-align: left;
+      color: #222222;
+      padding-left: 25px;
+      &:hover {
+        background-color: #00b8be;
+        color: white;
+      }
+      &:active {
+        ::before {
+          width: 11px;
+          height: 9px;
+          display: "block";
+          content: "";
+          margin-left: -8px;
+          background-image: url("/assets/icon-check@2x.png");
+          background-repeat: no-repeat;
+        }
+      }
+    }
+  }
 }

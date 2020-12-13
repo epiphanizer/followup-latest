@@ -48,12 +48,12 @@ export class ToolbarNavComponent implements OnInit {
               linkName: 'Team Members'
             },
             {
-              linkAction: '/team/add',
-              linkName: 'Add Team Members'
-            },
-            {
               linkAction: '/team/message',
               linkName: 'Team Message'
+            },
+            {
+              linkAction: '/team/add',
+              linkName: 'Add Team'
             },
             {
               linkAction: '/data',
