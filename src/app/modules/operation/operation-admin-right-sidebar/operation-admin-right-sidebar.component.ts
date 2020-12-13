@@ -55,6 +55,8 @@ import { take, map } from 'rxjs/operators';
   ]
 })
 export class OperationAdminRightSidebarComponent implements OnInit {
+  @Input() mode: any;
+
   activeOperationId: number;
   operation: Operation | null;
   editMode: boolean;

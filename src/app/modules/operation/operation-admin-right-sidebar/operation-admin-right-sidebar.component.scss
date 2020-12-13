@@ -2,27 +2,27 @@
   fieldset {
     border: none;
   }
-  width: 211px;
+  width: 215px;
 
   h3.headline {
-    text-align: right;
     font-family: Avenir;
-    font-size: 26px;
+    font-size: 22px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.08;
     letter-spacing: normal;
-    text-align: right;
     color: #00b4b9;
+    text-align: right;
   }
 
   i.icon-team {
     display: inline-block;
     margin-right: 7px;
-    background-image: url("/assets/icon-team@2x.png");
+    background-image: url("/assets/icon-team-members@2x.png");
     height: 14px;
     width: 14px;
+    background-size: cover;
   }
 }
 
@@ -36,7 +36,7 @@
 .section-label {
   font-family: AvenirPro;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.87;
@@ -53,7 +53,6 @@
   font-style: normal;
   line-height: 0.86;
   letter-spacing: 0.15px;
-  text-align: right;
   color: #00b8be;
   text-decoration: none;
   width: 100%;

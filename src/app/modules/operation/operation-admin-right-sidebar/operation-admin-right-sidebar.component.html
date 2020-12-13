@@ -56,7 +56,9 @@
           </ion-item>
         </ng-container>
         <div class="controls">
-          <a href="" class="add-members" (click)="addAdditionalOperationCallRep()">+ Team Members</a>
+          <a href="" *ngIf="mode.add || mode.edit" class="add-members" (click)="addAdditionalOperationCallRep()"
+            >+ Team Members</a
+          >
         </div>
       </ion-list>
     </ng-container>
