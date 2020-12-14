@@ -19,10 +19,12 @@ ion-content {
   width: 100%;
   max-width: 720px;
 }
+
 .right-admin-col {
   margin-left: 73px;
   margin-top: 13rem;
 }
+
 .right-admin-sidebar {
   max-width: 200px;
 }
@@ -41,13 +43,16 @@ ion-title {
 form {
   margin-top: 1.5rem;
   margin-bottom: 5rem;
+
   .operation-controls {
     padding-top: 1rem;
+
     span {
       font-size: 12px;
       margin-left: 0.5rem;
     }
   }
+
   h2.section-header {
     font-family: AvenirPro;
     font-size: 26px;
@@ -60,11 +65,61 @@ form {
     color: #00b4b9;
   }
 
+  .edit-pencil-icon {
+    background-image: url("/assets/icon-edit-pencil@2x.png");
+    background-size: cover;
+  }
+
+  .operation-information-view {
+    max-width: 340px;
+    margin-left: 32px;
+    ion-item.operation-name {
+      font-family: AvenirDemi;
+      font-size: 15px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.2;
+      letter-spacing: normal;
+      text-align: left;
+      color: #222222;
+    }
+
+    ion-item.operation-address,
+    ion-item.operation-phone {
+      max-width: 250px;
+      font-family: AvenirPro;
+      font-size: 15px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.87;
+      letter-spacing: normal;
+      text-align: left;
+      color: #444444;
+    }
+  }
+  .operation-contacts-view {
+    ion-item.contact-address,
+    ion-item.contact-phone {
+      max-width: 250px;
+      font-family: AvenirPro;
+      font-size: 15px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.87;
+      letter-spacing: normal;
+      text-align: left;
+      color: #444444;
+    }
+  }
+
   .edit-link {
     font-family: AvenirPro;
     font-size: 16px;
     font-weight: bold;
-    text-decoration: underline;
+    text-decoration: none;
     font-stretch: normal;
     font-style: normal;
     line-height: 1;
@@ -243,16 +298,20 @@ form {
     margin-left: 0;
     margin-bottom: 1rem;
   }
+
   .operation-contact-item {
     padding-left: 14px;
   }
+
   fieldset.operation-contacts .operation-contact-item:not(:last-child) {
     border-bottom: solid 1px rgba(112, 112, 112, 0.63);
   }
+
   .operation-details {
     clear: both;
     margin: 0;
   }
+
   border: none;
 
   .contact-label,
@@ -267,6 +326,7 @@ form {
     letter-spacing: 0.15px;
     color: #00b4b9;
   }
+
   .add-contact-label {
     margin-top: 1rem;
   }
@@ -435,6 +495,7 @@ form {
   width: 100%;
   margin-top: 1rem;
   padding: 0 1rem;
+
   span {
     cursor: pointer;
   }

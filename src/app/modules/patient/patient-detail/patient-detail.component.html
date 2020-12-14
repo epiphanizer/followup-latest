@@ -34,13 +34,10 @@
             (patientCallNotesHighlightedChangeEmitter)="patientCallNotesHighlightedChangeHandler($event)"
           >
           </app-patient-call-notes>
-          <ng-template #spacer>
-            <div class="call-notes-spacer"></div>
-          </ng-template>
 
           <!-- Hide our questions once we are in call status Review or Greater -->
           <app-patient-call-questions
-            *ngIf="patientCall.patientCallStatusLabelId >= 1 && patientCall.patientCallStatusLabelId <= 3"
+            *ngIf="patientCall.patientCallStatusLabelId >= 3 && patientCall.patientCallStatusLabelId <= 3"
             [patientCall]="patientCall"
             (patientCallAnwersChangeEmitter)="patientCallQuestionsChangeHandler($event)"
           >

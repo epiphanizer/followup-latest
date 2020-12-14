@@ -137,16 +137,3 @@ ion-radio-group {
 .boolean {
   display: inline-block;
 }
-
-.overlay {
-  position: absolute;
-
-  &.active {
-    display: block;
-    background: rgba(255, 255, 255, 0.5);
-    height: 100%;
-    width: 470px;
-    z-index: 1000;
-    background-size: 100%;
-  }
-}
