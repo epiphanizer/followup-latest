@@ -1,101 +1,117 @@
+:host {
+  display: block;
+}
 ion-list {
+  display: inline-block;
   list-style-type: none;
-  float: left;
   margin-top: 30px;
   padding-top: 3px;
   margin-left: 66px;
+  contain: none;
 
-  ion-item {
+  .nav-link-container {
     background: transparent;
     display: inline-block;
     box-shadow: none;
 
-    a {
-      font-family: AvenirDemi;
-      font-size: 18px;
-      text-decoration: none;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 0.72;
-      letter-spacing: normal;
-      text-align: right;
-      color: #00b8be;
+    ion-item {
+      contain: none;
 
-      i {
-        display: inline-block;
-        margin-right: 3px;
-        height: 16px;
-        width: 16px;
-        background-size: 100%;
-        background-position: center;
-        background-repeat: no-repeat;
+      a {
+        cursor: pointer;
+        font-family: AvenirDemi;
+        font-size: 18px;
+        text-decoration: none;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 0.72;
+        letter-spacing: normal;
+        text-align: right;
+        color: #00b8be;
 
-        &.patient {
-          background-image: url("/assets/icon-patient-nav@2x.png");
-        }
+        i {
+          display: inline-block;
+          margin-right: 3px;
+          height: 16px;
+          width: 16px;
+          background-size: 100%;
+          background-position: center;
+          background-repeat: no-repeat;
 
-        &.notify {
-          background-image: url("/assets/icon-notification-counter@2x.png");
-        }
+          &.patient {
+            background-image: url("/assets/icon-patient-nav@2x.png");
+          }
 
-        &.queue {
-          background-image: url("/assets/icon-queue@2x.png");
+          &.notify {
+            background-image: url("/assets/icon-notification-counter@2x.png");
+          }
+
+          &.queue {
+            background-image: url("/assets/icon-queue@2x.png");
+          }
         }
       }
-    }
 
-    ion-button {
-      width: 90px;
-      height: 28px;
-      cursor: disabled;
-      background-color: transparent;
-      color: white;
-      font-family: AvenirBold;
-      font-size: 12px;
-      border-radius: 15%;
-      --background-activated: transparent;
-      --color-activated: white;
-      --color-focused: white;
-      --color-hover: white;
+      ion-button {
+        width: 90px;
+        height: 28px;
+        cursor: disabled;
+        background-color: transparent;
+        color: white;
+        font-family: AvenirBold;
+        font-size: 12px;
+        border-radius: 15%;
+        --background-activated: transparent;
+        --color-activated: white;
+        --color-focused: white;
+        --color-hover: white;
 
-      &.history {
-        --border-color: var(--ion-color-primary);
-        color: var(--ion-color-primary);
-        --color-hover: var(--ion-color-primary);
-      }
+        &.history {
+          --border-color: var(--ion-color-primary);
+          color: var(--ion-color-primary);
+          --color-hover: var(--ion-color-primary);
+        }
 
-      &.notes {
-        --border-color: var(--ion-color-primary);
-        color: var(--ion-color-primary);
-        --color-hover: var(--ion-color-primary);
-      }
+        &.notes {
+          --border-color: var(--ion-color-primary);
+          color: var(--ion-color-primary);
+          --color-hover: var(--ion-color-primary);
+        }
 
-      &.report {
-        --border-color: red;
-        background-color: red;
+        &.report {
+          --border-color: red;
+          background-color: red;
+        }
       }
     }
   }
 }
 
 .dropdown {
-  // display: none;
-  // &.active {
-  display: block;
-  // }
+  display: none;
+  position: absolute;
+  top: 35px;
+
+  &.active {
+    display: block;
+  }
+
+  z-index: 10;
   width: 195px;
   height: auto;
   padding: 14px 5px 10px;
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.16);
   background-color: #f5f5f5;
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.16);
+
   ul {
     list-style-type: none;
     background-color: #f5f5f5;
     padding-left: 0;
     margin: 0;
     text-align: left;
+
     li {
       cursor: pointer;
       display: inline-block;
@@ -111,10 +127,12 @@ ion-list {
       text-align: left;
       color: #222222;
       padding-left: 25px;
+
       &:hover {
         background-color: #00b8be;
         color: white;
       }
+
       &:active {
         ::before {
           width: 11px;

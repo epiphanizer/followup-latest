@@ -21,7 +21,8 @@ export class ToolbarNavComponent implements OnInit {
     private router: Router,
     private dataService: DataService
   ) {}
-  activeComponent: string;
+
+  dropdownActivated: boolean = false;
   navLinks: MenuLink[];
   patient: Patient;
   user: User;
@@ -50,10 +51,6 @@ export class ToolbarNavComponent implements OnInit {
             {
               linkAction: '/team/message',
               linkName: 'Team Message'
-            },
-            {
-              linkAction: '/team/add',
-              linkName: 'Add Team'
             },
             {
               linkAction: '/data',
@@ -119,6 +116,10 @@ export class ToolbarNavComponent implements OnInit {
 
   doButtonAction() {
     this.createModal();
+  }
+
+  activateDropdown() {
+    this.dropdownActivated = true;
   }
 
   async createModal() {
