@@ -220,7 +220,10 @@ h3 {
       background-color: rgba(154, 204, 56, 0.1);
 
       &:hover {
-        background-color: rgba(20, 171, 52, 0.35);
+        background-color: #e8f4cf;
+      }
+      &:active {
+        background-color: #d6eaaf;
       }
     }
 

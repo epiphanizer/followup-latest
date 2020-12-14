@@ -14,12 +14,6 @@
           <ion-col class="team-listing-wrapper">
             <app-team-patient-listing *ngIf="selected.team" [operation]="selected.team"> </app-team-patient-listing>
           </ion-col>
-          <ion-col class="calendar-wrapper">
-            <app-calendar *ngIf="selected.team" (dateFilterChangeEvent)="handleDateFilterChangeEvent($event)">
-            </app-calendar>
-            <app-team-listing-filter *ngIf="selected.team" [filterDate]="selected.filterDate" [team]="selected.team">
-            </app-team-listing-filter>
-          </ion-col>
         </ion-row>
       </ion-grid>
     </ion-col>
