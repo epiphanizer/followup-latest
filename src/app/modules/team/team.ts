@@ -11,6 +11,7 @@ export interface Team {
 
 export interface TeamMember {
   teamMemberId: number;
+  teamId?: number;
   teamMemberFirstName: string;
   teamMemberLastName: string;
 }

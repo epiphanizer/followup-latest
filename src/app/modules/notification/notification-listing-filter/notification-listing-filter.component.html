@@ -16,7 +16,7 @@
   <ng-container class="notification-filter-results" *ngIf="notifications; else noPatientNotifications">
     <ion-list *ngIf="notificationsFiltered.length >= 1; else noNotifications" lines="none" inset>
       <ion-item class="notification-filter-listing" *ngFor="let notification of notificationsFiltered">
-        <a class="notification-link" [routerLink]="'/notifications' + notification.notificationId">
+        <a class="notification-link" [routerLink]="'/notifications/' + notification.notificationId">
           <span class="notification-filter-patient-name">
             {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}:&nbsp;
           </span>

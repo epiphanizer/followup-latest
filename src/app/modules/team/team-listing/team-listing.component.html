@@ -12,7 +12,7 @@
         </ion-row>
         <ion-row class="team-listing-row">
           <ion-col class="team-listing-wrapper">
-            <app-team-patient-listing *ngIf="selected.team" [operation]="selected.team"> </app-team-patient-listing>
+            <app-team-members-listing *ngIf="selected.team" [team]="selected.team"> </app-team-members-listing>
           </ion-col>
         </ion-row>
       </ion-grid>

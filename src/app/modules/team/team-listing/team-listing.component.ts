@@ -20,8 +20,8 @@ export class TeamListingComponent implements OnInit {
   public selected:
     | {
         filterDate: string;
-        operation: Team;
-        operation$: Observable<Team>;
+        team: Team;
+        team$: Observable<Team>;
       }
     | any = {};
   selectedSortFlag: string = 'asc';

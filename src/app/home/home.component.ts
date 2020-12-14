@@ -1,18 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataService } from '@app/modules/data/data.service';
-import * as FileSaver from 'file-saver';
 import { User } from '@app/modules/user/user';
 import { TeamMessage } from '@app/modules/team/team';
 
 @Component({
-  providers: [DataService],
+  providers: [],
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public teamNote: TeamMessage = {
+  public teamMessage: TeamMessage = {
     messageId: 0,
     teamMessageFrom: 'Steph',
     teamMessageSubject: 'Hey Team!',

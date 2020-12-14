@@ -5,11 +5,11 @@ import { TeamService } from '../../team.service';
 import { Team, TeamMember } from '../../team';
 
 @Component({
-  selector: 'app-team-listing',
-  templateUrl: './team-listing.component.html',
-  styleUrls: ['./team-listing.component.scss']
+  selector: 'app-team-members-listing',
+  templateUrl: './team-members-listing.component.html',
+  styleUrls: ['./team-members-listing.component.scss']
 })
-export class TeamListingComponent implements OnInit {
+export class TeamMembersListingComponent implements OnInit {
   @Input() team: Team;
   public teamMembers: TeamMember[];
   public teamMembersFiltered: TeamMember[];
