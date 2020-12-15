@@ -5,6 +5,7 @@ ion-list {
   display: inline-block;
   list-style-type: none;
   margin-top: 30px;
+  padding-bottom: 30px;
   padding-top: 3px;
   margin-left: 66px;
   contain: none;
@@ -91,7 +92,7 @@ ion-list {
 .dropdown {
   display: none;
   position: absolute;
-  top: 35px;
+  top: 75px;
 
   &.active {
     display: block;

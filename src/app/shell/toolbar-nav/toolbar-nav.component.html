@@ -6,9 +6,9 @@
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           {{ link.linkName }}
         </a>
-        <a *ngIf="link.dropdown.links" (click)="activateDropdown()">
+        <a *ngIf="link.dropdown.links" (hover)="toggleDropdown()">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
-          {{ link.linkName }}
+          <a routerLink="/{{ link.linkAction }}"> {{ link.linkName }} </a>
         </a>
       </ion-item>
       <div [class.active]="dropdownActivated" class="dropdown" *ngIf="link.dropdown.links">

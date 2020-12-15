@@ -118,8 +118,9 @@ export class ToolbarNavComponent implements OnInit {
     this.createModal();
   }
 
-  activateDropdown() {
-    this.dropdownActivated = true;
+  toggleDropdown() {
+    this.dropdownActivated = !this.dropdownActivated;
+    console.log(this.dropdownActivated);
   }
 
   async createModal() {
