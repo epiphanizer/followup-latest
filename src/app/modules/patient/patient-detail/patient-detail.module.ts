@@ -20,7 +20,6 @@ import { FollowupCompleteButtonComponent } from './followup-complete-button/foll
 import { PatientNextCallFinishButtonComponent } from './patient-call/patient-next-call-finish-button/patient-next-call-finish-button.component';
 import { PatientModule } from '../patient.module';
 import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.component';
-import { PatientHistoryDetailComponent } from './patient-history-detail.component';
 import { PatientIntakeQuestionComponent } from '../patient-intake-question/patient-intake-question.component';
 
 @NgModule({
@@ -28,7 +27,6 @@ import { PatientIntakeQuestionComponent } from '../patient-intake-question/patie
     FollowupCompleteModalComponent,
     FollowupCompleteButtonComponent,
     PatientDetailComponent,
-    PatientHistoryDetailComponent,
     PatientCallNotesComponent,
     PatientCallQuestionsComponent,
     PatientIntakeQuestionComponent,
@@ -47,7 +45,6 @@ import { PatientIntakeQuestionComponent } from '../patient-intake-question/patie
   entryComponents: [
     PatientAvatarComponent,
     PatientDetailComponent,
-    PatientHistoryDetailComponent,
     FollowupCompleteModalComponent,
     FollowupCompleteButtonComponent
   ]
