@@ -39,18 +39,6 @@ const routes: Routes = [
       }
     },
     {
-      path: 'call-queue/operations/:operationId/patient/:patientId/history',
-      pathMatch: 'full',
-      component: PatientHistoryDetailComponent,
-      resolve: {
-        user: UserResolver,
-        patient: PatientResolver
-      },
-      data: {
-        title: extract('Patient History Listing')
-      }
-    },
-    {
       path: 'patients',
       pathMatch: 'full',
       component: PatientListingComponent,
