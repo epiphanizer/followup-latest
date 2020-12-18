@@ -47,7 +47,7 @@ h3 {
 }
 
 .left-month-arrow {
-  // background-image: url("/assets/calendar-left-arrow@2x.png");
+  background-image: url("/assets/calendar-left-arrow@2x.png");
   height: 14px;
   width: 8px;
   margin-right: 18px;
@@ -55,7 +55,7 @@ h3 {
 }
 
 .right-month-arrow {
-  // background-image: url("/assets/calendar-right-arrow@2x.png");
+  background-image: url("/assets/calendar-right-arrow@2x.png");
   height: 14px;
   width: 8px;
   margin-left: 18px;
@@ -74,13 +74,13 @@ h3 {
 
 .calendar-wrapper {
   width: 100%;
-
-  div {
+  padding: 0 18px;
+  div.calendar-day {
     cursor: pointer;
     display: inline-block;
     text-align: center;
-    height: 42px;
-    width: 42px;
+    height: 40px;
+    width: 40px;
     margin-top: 5px;
     padding-top: 8px;
     font-size: 12px;
@@ -102,13 +102,4 @@ h3 {
       }
     }
   }
-}
-
-.date-selected {
-  font-family: Avenir;
-  font-size: 12px;
-  width: 100%;
-  margin: 1.5rem 0;
-  text-align: right;
-  margin-right: 15%;
 }

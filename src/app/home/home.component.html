@@ -14,10 +14,12 @@
     <div class="posted-notes">
       <ul class="user-messages">
         <li class="user-message-note" *ngFor="let message of user.userMessages">
-          <p class="user-message">
-            {{ message.messageBody }}
-          </p>
-          <span class="from-sender">-{{ message.messageSenderFirstName }}</span>
+          <div class="user-message-body">
+            <p class="user-message">
+              {{ message.messageBody }}
+            </p>
+            <span class="from-sender">-{{ message.messageSenderFirstName }}</span>
+          </div>
         </li>
       </ul>
       <jw-pagination *ngIf="user.userMessages" [items]="user.userMessages" [pageSize]="3"></jw-pagination>

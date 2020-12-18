@@ -49,7 +49,6 @@
     display: block;
     padding-left: 0;
     list-style-type: none;
-
     .user-message-note {
       height: 269px;
       width: 229px;
@@ -57,9 +56,11 @@
       background-repeat: no-repeat;
       background-size: 100%;
       background-image: url("/assets/sticky-note@2x.png");
-      padding: 48px 30px;
       font-family: AvenirProMediumItalic;
       font-size: 15px;
+      .user-message-body {
+        padding: 48px 30px;
+      }
     }
   }
 

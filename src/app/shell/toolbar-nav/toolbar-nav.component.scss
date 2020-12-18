@@ -1,5 +1,6 @@
 :host {
-  display: block;
+  width: calc(77% - 330px);
+  display: inline-block;
 }
 ion-list {
   display: inline-block;
