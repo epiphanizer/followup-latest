@@ -38,7 +38,7 @@
         Assigned Care Reps
       </span>
       <ion-list class="assigned-callrep-list" lines="none" inset>
-        <ng-container *ngFor="let operationCallRep of operationAssignedCallReps; let idx = index">
+        <ng-container *ngFor="let operationCallRep of operationAssignedUsers; let idx = index">
           <ion-item id="operationCallRep-{{ idx }}">
             <ion-select *ngIf="availableUsers" (ionChange)="callRepOnSelect($event, idx)" placeholder="Select User">
               <ion-select-option

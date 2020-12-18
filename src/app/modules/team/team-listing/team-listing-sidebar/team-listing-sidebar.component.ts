@@ -3,11 +3,11 @@ import { formatDate } from '@angular/common';
 import { Team } from '../../team';
 
 @Component({
-  selector: 'app-team-sidebar',
-  templateUrl: './team-sidebar.component.html',
-  styleUrls: ['./team-sidebar.component.scss']
+  selector: 'app-team-listing-sidebar',
+  templateUrl: './team-listing-sidebar.component.html',
+  styleUrls: ['./team-listing-sidebar.component.scss']
 })
-export class TeamSidebar implements OnInit {
+export class TeamListingSidebar implements OnInit {
   isOpen: boolean = true;
   todaysDateDay: number;
   @Input() team: Team;

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
-import { Team } from '@app/modules/team/team';
+import { Team, TeamMember } from '@app/modules/team/team';
 import { Operation } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
 import { TeamService } from '../team.service';
@@ -12,23 +12,21 @@ import { TeamService } from '../team.service';
   styleUrls: ['./team-detail.component.scss']
 })
 export class TeamMemberDetailComponent implements OnInit {
+  teamMember: TeamMember;
   team: Team;
-  user: User;
   public selected:
     | {
-        user: User;
-        user$: Observable<User>;
+        teamMember: TeamMember;
+        teamMember$: Observable<TeamMember>;
       }
     | any = {};
   constructor(private route: ActivatedRoute, private teamService: TeamService) {}
 
   ngOnInit() {}
-  teamMemberChangeEventHandler($event: Operation) {
-    if (!this.selected.user) {
-      this.selected.user = $event;
-    } else {
-      this.selected.user = $event;
-      window.location.href = '/team/' + this.team.teamId + '/user/' + this.user.userId;
+
+  teamMemberChangeEventHandler($event: TeamMember) {
+    if ($event) {
+      this.teamMember = $event;
     }
   }
 }
