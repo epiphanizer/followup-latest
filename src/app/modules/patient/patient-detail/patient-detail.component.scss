@@ -8,11 +8,13 @@ ion-content {
     display: none;
   }
 }
-
+ion-row {
+  margin-top: 1rem;
+}
 .left-hand-detail {
   max-width: 508px;
   padding-bottom: 250px;
-  margin-left: 98px;
+  margin-left: 45px;
 }
 
 .right-hand-detail {

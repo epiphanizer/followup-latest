@@ -4,17 +4,15 @@
       <div class="avatar-container">
         <app-patient-avatar [patient]="patient" [routerLink]="'/patient/edit/' + patient.patientId">
         </app-patient-avatar>
-        <a class="edit-patient" [routerLink]="'/patient/edit/' + patient.patientId">Edit Patient</a>
       </div>
     </ion-col>
     <ion-col class="middle-summary-container">
       <div class="patient-info">
         <div class="patient-meta-info">
+          <span class="patient-medical-record-number"> #{{ patient.patientMedicalRecordNumber }} </span>
           <span class="patient-operation-name">
-            <!-- {{ patient.operation.operationGroupName }} -  -->
             {{ patient.patientOperationName }}
           </span>
-          <span class="patient-medical-record-number"> #{{ patient.patientMedicalRecordNumber }} </span>
         </div>
         <div class="patient-name">
           <h2>
@@ -26,8 +24,10 @@
         <div class="patient-age">Age: {{ patient.patientAge }}</div>
         <div class="patient-contact-container">
           <ul class="patient-contact-list">
-            <span style="font-style:italic;"><i class="icon-phone"></i></span>
             <li *ngIf="patient.primaryContactPhoneNumber">
+              <ng-container *ngIf="patient.patientPrimaryContactResponsiblePartyBoolean">
+                <i class="icon-hipaa"></i>
+              </ng-container>
               <span class="patient-contact-name">
                 {{ patient.patientPrimaryContactFirstName }} {{ patient.patientPrimaryContactLastName }}
               </span>
@@ -36,12 +36,7 @@
               </span>
 
               <span class="patient-contact-number-type">
-                <ng-container>
-                  | {{ patient.patientPrimaryContactRelationship }}
-                  <ng-container *ngIf="patient.patientPrimaryContactResponsiblePartyBoolean">
-                    <i class="icon-hipaa"></i>
-                  </ng-container>
-                </ng-container>
+                <ng-container> | {{ patient.patientPrimaryContactRelationship }} </ng-container>
               </span>
               <br />
               <ion-list lines="none" inset class="alternate-numbers-list">

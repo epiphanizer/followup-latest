@@ -1,15 +1,6 @@
 <ion-list class="inline-discharge" lines="none" inset>
-  <i class="icon-facility"></i>
+  <i class="icon-discharged"></i>
   <ion-item>
-    <span class="label">
-      Admitted: &nbsp;
-    </span>
-    {{ patient.patientAdmitDate | date: 'MM/dd/yyyy':'UTC' }}
-  </ion-item>
-  <ion-item>
-    <span class="label ama" *ngIf="patient.patientDischargedAma">
-      &nbsp;(AMA)
-    </span>
     <span class="label">
       Discharged: &nbsp;
     </span>
@@ -17,46 +8,37 @@
   </ion-item>
   <ion-item>
     <span class="label">
+      Admitted: &nbsp;
+    </span>
+    {{ patient.patientAdmitDate | date: 'MM/dd/yyyy':'UTC' }}
+  </ion-item>
+  <ion-item>
+    <span class="label">
       Length of Stay: &nbsp;
     </span>
     {{ patient.patientTotalDays }} Days
   </ion-item>
+  <ion-item>
+    <span class="label"> Discharged To: &nbsp;</span> {{ patient.patientDischargeLabel }}
+    <span class="label ama" *ngIf="patient.patientDischargedAma">
+      &nbsp;(AMA)
+    </span>
+  </ion-item>
 </ion-list>
 <ion-list class="more-info" inset lines="none">
-  <i class="icon-info"></i>
-  <ion-item> <span class="label"> Primary Diagnosis: &nbsp; </span> {{ patient.patientPrimaryDiagnosis }} </ion-item>
-  <ion-item>
-    <span class="discharge label"> Discharged Condition: &nbsp; </span> {{ patient.patientDischargedCondition }}
-  </ion-item>
-  <ion-item> <span class="label"> Discharged To: &nbsp;</span> {{ patient.patientDischargeLabel }} </ion-item>
+  <i class="icon-medical"></i>
   <ion-item>
     <span [class.is-highlighted]="patient.patientUrgencyScale == 5" class="label"> Medical Conditions: &nbsp; </span>
     <label class="medical-condition-item" *ngFor="let patientMedicalCondition of patientMedicalConditions">
       {{ patientMedicalCondition.replace('Boolean', '') }}
     </label>
   </ion-item>
-  <ng-container>
-    <ion-item *ngFor="let patientIntakeQuestion of patientIntakeQuestions">
-      <span class="label">{{ patientIntakeQuestion.patientIntakeQuestion }}: &nbsp;</span>
-      <ng-container *ngIf="patientIntakeQuestion.patientIntakeQuestionAnswer; else noAnswer">
-        <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'boolean'; else nonBoolean">
-          {{ patientIntakeQuestion.patientIntakeQuestionAnswer === '1' ? 'Yes' : 'No' }}
-        </ng-container>
-        <ng-template #nonBoolean>
-          {{ patientIntakeQuestion.patientIntakeQuestionAnswer }}
-        </ng-template>
-      </ng-container>
-      <ng-template #noAnswer>
-        N/A
-      </ng-template>
-    </ion-item>
-  </ng-container>
+  <ion-item>
+    <span class="discharge label"> Discharged Condition: &nbsp; </span> {{ patient.patientDischargedCondition }}
+  </ion-item>
+  <ion-item> <span class="label"> Primary Diagnosis: &nbsp; </span> {{ patient.patientPrimaryDiagnosis }} </ion-item>
   <ion-item *ngIf="patient.patientNeedToKnow">
     <span class="label"> Need To Know: &nbsp; </span>
     {{ patient.patientNeedToKnow }}
-  </ion-item>
-  <ion-item *ngIf="patient.patientUrgencyScale">
-    <span [class.is-highlighted]="patient.patientUrgencyScale == 5" class="label"> Urgency Rating: &nbsp; </span>
-    {{ patient.patientUrgencyScale }}
   </ion-item>
 </ion-list>

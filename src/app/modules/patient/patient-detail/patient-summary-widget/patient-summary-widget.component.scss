@@ -3,12 +3,17 @@
     min-height: 275px;
   }
 }
+
 .avatar-container {
-  width: 259px;
-  height: 220px;
-  padding: 0 10%;
+  width: 230px;
+  height: 280px;
+  padding: 10px;
+  object-fit: contain;
+  box-shadow: 2px 3px 3px 0 rgba(35, 31, 32, 0.25);
+  background-image: linear-gradient(139deg, #f5f5f5 -3%, #ffffff 96%);
   cursor: pointer;
 }
+
 app-patient-avatar {
   margin-bottom: 0.5rem;
 }
@@ -50,14 +55,17 @@ app-patient-avatar {
   text-align: left;
   color: #8e8e93;
 }
+
 .patient-age {
   font-size: 14px;
   margin: 0 0px 1.75rem 3px;
 }
+
 .patient-contact-container {
   height: auto;
   width: calc(100% + 105px);
 }
+
 .patient-contact-list {
   margin: 0.75rem 0;
   list-style-type: none;
@@ -65,48 +73,42 @@ app-patient-avatar {
 
   font-family: AvenirNextLTPro;
   font-size: 16px;
+
   .patient-contact-name {
     display: block;
     width: 100%;
     font-weight: 900;
   }
+  .patient-age,
   .patient-contact-number {
-    font-family: AvenirNextLTPro;
+    font-family: AvenirDemi;
     font-size: 15px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 0.95;
-    letter-spacing: 0.42px;
-    text-align: left;
-  }
-
-  .patient-contact-phone-number-type {
-    font-family: AvenirNextLTPro;
-    font-size: 12px;
     font-weight: normal;
-    font-style: italic;
-    padding-left: 2.85px;
     font-stretch: normal;
-    line-height: 1.36;
-    letter-spacing: -0.28px;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: 0.15px;
     text-align: left;
-    color: #8e8e93;
+    color: #00b4b9;
   }
 }
+
 .alternate-numbers {
   display: block;
   cursor: pointer;
 }
+
 .alternate-numbers-list {
   margin: 19px auto 0;
   padding: 0;
+
   ion-item {
     width: calc(100% + 55px);
     max-height: 30px;
     vertical-align: top;
     margin: 0;
     margin-left: -14px;
+
     span {
       font-family: AvenirDemi;
       line-height: 100%;
@@ -119,22 +121,32 @@ app-patient-avatar {
 }
 
 .patient-medical-record-number {
-  float: right;
-  font-family: Avenir;
-  font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
+  font-family: AvenirNextLTPro;
+  font-size: 15px;
+  font-weight: 500;
   font-stretch: normal;
-  line-height: 1.56;
-  letter-spacing: 0.36px;
+  font-style: normal;
+  line-height: 1.47;
+  letter-spacing: 0.15px;
+  text-align: left;
+  color: #8e8e93;
 }
-.patient-name {
-  h2 {
-    font-size: 40px;
-    clear: both;
-    margin-bottom: 0;
+
+.patient-meta-info {
+  .patient-medical-record-number {
+    width: 100%;
+  }
+  .patient-name {
+    width: 100%;
+
+    h2 {
+      font-size: 40px;
+      clear: both;
+      margin-bottom: 0;
+    }
   }
 }
+
 i.icon-hipaa {
   display: inline-block;
   margin-left: 5px;
@@ -145,23 +157,4 @@ i.icon-hipaa {
   background-image: url("/assets/icon-hipaa@2x.png");
   background-repeat: no-repeat;
   background-size: 100%;
-}
-a.edit-patient {
-  font-size: 14px;
-  text-align: center;
-  width: 100%;
-  display: block;
-  font-family: Avenir;
-  text-decoration: none;
-  color: #13afe9;
-}
-.right-col-controls {
-  max-width: 50px;
-  float: right;
-  app-patient-call-history-controls {
-    width: 40px;
-    float: right;
-    display: block;
-    min-height: 200px;
-  }
 }
