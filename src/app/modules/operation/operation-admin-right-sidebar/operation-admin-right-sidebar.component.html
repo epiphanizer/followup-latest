@@ -12,8 +12,8 @@
     <span class="section-label">
       Assigned Managers
     </span>
-    <ion-list class="assigned-manager-list" *ngIf="operationManagers" lines="none">
-      <ng-container *ngFor="let operationManager of operationManagers; let idx = index">
+    <ion-list class="assigned-manager-list" *ngIf="operationAssignedManagers" lines="none">
+      <ng-container *ngFor="let operationManager of operationAssignedManagers; let idx = index">
         <ion-item id="operation-manager-{{ idx }}">
           <ion-select
             (ionChange)="managerOnSelect($event, idx)"
@@ -38,7 +38,7 @@
         Assigned Care Reps
       </span>
       <ion-list class="assigned-callrep-list" lines="none" inset>
-        <ng-container *ngFor="let operationCallRep of operationCallReps; let idx = index">
+        <ng-container *ngFor="let operationCallRep of operationAssignedCallReps; let idx = index">
           <ion-item id="operationCallRep-{{ idx }}">
             <ion-select *ngIf="availableUsers" (ionChange)="callRepOnSelect($event, idx)" placeholder="Select User">
               <ion-select-option

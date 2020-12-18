@@ -30,6 +30,15 @@ export class TeamListingComponent implements OnInit {
 
   ngOnInit() {}
 
+  searchTeamMembersByTeam($event: KeyboardEvent): Team[] {
+    let searchText = $event.currentTarget['value'];
+    searchText = searchText.toLowerCase();
+    this.teams = this.teams.filter((team: Team) => {
+      let teamName = team.teamName;
+      return teamName.toLowerCase().includes(searchText);
+    });
+    return this.teams;
+  }
   teamChangeEventHandler($event: Team) {
     this.selected.team = $event;
     this.teams = [];
