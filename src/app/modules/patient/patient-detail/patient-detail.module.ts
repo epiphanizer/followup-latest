@@ -8,8 +8,6 @@ import { PatientNotesComponent } from './patient-notes/patient-notes.component';
 import { PatientCallNotesComponent } from './patient-call/patient-call-notes/patient-call-notes.component';
 import { PatientCallQuestionsComponent } from './patient-call/patient-call-questions/patient-call-questions.component';
 import { PatientSummaryWidgetComponent } from './patient-summary-widget/patient-summary-widget.component';
-import { PatientCallHistoryControlsComponent } from './patient-call/patient-call-history-controls/patient-call-history-controls.component';
-import { PatientCallHistoryListingComponent } from './patient-call/patient-call-history-listing/patient-call-history-listing.component';
 import { PatientCallStatusControlsComponent } from './patient-call/patient-call-status-controls/patient-call-status-controls.component';
 import { PatientCallStartButtonComponent } from './patient-call/patient-call-start-button/patient-call-start-button.component';
 import { PatientCallStopButtonComponent } from './patient-call/patient-call-stop-button/patient-call-stop-button.component';
@@ -21,6 +19,7 @@ import { PatientNextCallFinishButtonComponent } from './patient-call/patient-nex
 import { PatientModule } from '../patient.module';
 import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.component';
 import { PatientIntakeQuestionComponent } from '../patient-intake-question/patient-intake-question.component';
+import { PatientHistoryListingComponent } from './patient-history-listing/patient-history-listing.component';
 
 @NgModule({
   declarations: [
@@ -32,8 +31,7 @@ import { PatientIntakeQuestionComponent } from '../patient-intake-question/patie
     PatientIntakeQuestionComponent,
     PatientSummaryWidgetComponent,
     PatientNotesComponent,
-    PatientCallHistoryControlsComponent,
-    PatientCallHistoryListingComponent,
+    PatientHistoryListingComponent,
     PatientCallStatusControlsComponent,
     PatientCallStartButtonComponent,
     PatientCallStopButtonComponent,

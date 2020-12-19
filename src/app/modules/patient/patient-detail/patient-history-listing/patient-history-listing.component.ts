@@ -1,19 +1,22 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PatientCall, PatientCallQuestionAnswer } from '../../patient-call/patient-call.service';
+import {
+  PatientCall,
+  PatientCallQuestionAnswer
+} from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 import {
   PatientCallQuestion,
   PatientCallQuestionsService
-} from '../patient-call-questions/patient-call-questions.service';
+} from '@app/modules/patient/patient-detail/patient-call/patient-call-questions/patient-call-questions.service';
 import { map } from 'rxjs/operators';
 import { Notification } from '@app/modules/notification/notification';
 
 @Component({
   providers: [PatientCallQuestionsService],
   selector: 'app-patient-call-history-listing',
-  templateUrl: './patient-call-history-listing.component.html',
-  styleUrls: ['./patient-call-history-listing.component.scss']
+  templateUrl: './patient-history-listing.component.html',
+  styleUrls: ['./patient-history-listing.component.scss']
 })
-export class PatientActivityListingComponent implements OnInit {
+export class PatientHistoryListingComponent implements OnInit {
   @Input() patientCalls: PatientCall[];
   @Input() patientNotifications: Notification[];
   patientCallQuestions: PatientCallQuestion[] = [];
