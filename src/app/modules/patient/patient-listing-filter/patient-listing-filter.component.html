@@ -1,0 +1,30 @@
+<div class="patient-filter">
+  <ion-row>
+    <ion-col col-auto>
+      <table>
+        <tr>
+          <td>
+            <ion-input placeholder="Patient Search" (ionInput)="searchPatientsByText($event)"> </ion-input>
+          </td>
+          <td>
+            <ion-icon name="search"></ion-icon>
+          </td>
+        </tr>
+      </table>
+    </ion-col>
+  </ion-row>
+  <ng-container class="patient-filter-results" *ngIf="patients; else noPatients">
+    <ion-list *ngIf="patientsFiltered.length >= 1; else noPatients" lines="none" inset>
+      <ion-item class="patient-filter-listing" *ngFor="let patient of patientsFiltered">
+        <a class="patient-link" [routerLink]="'/patients/' + patient.patientId">
+          <span class="patient-filter-patient-name">
+            {{ patient.patientPatientFirstName }} {{ patient.patientPatientLastName }}:&nbsp;
+          </span>
+        </a>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+</div>
+<ng-template #noPatients>
+  <span class="no-calls"> No results for search.</span>
+</ng-template>

@@ -11,7 +11,7 @@
   margin-bottom: 15px;
   text-align: center;
   border: 1px solid #dedede;
-  padding-bottom: 16.5px;
+  padding: 0 15px 16px 15px;
 }
 
 h3 {
@@ -44,22 +44,29 @@ h3 {
 .right-month-arrow {
   cursor: pointer;
   display: inline-block;
+  margin-top: 15px;
 }
 
 .left-month-arrow {
-  // background-image: url("/assets/calendar-left-arrow@2x.png");
+  background-image: url("/assets/calendar-left-arrow@2x.png");
   height: 14px;
   width: 8px;
-  margin-right: 18px;
+  float: left;
+  margin-left: 3px;
   background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: bottom;
 }
 
 .right-month-arrow {
-  // background-image: url("/assets/calendar-right-arrow@2x.png");
+  background-image: url("/assets/calendar-right-arrow@2x.png");
   height: 14px;
   width: 8px;
-  margin-left: 18px;
+  float: right;
+  margin-right: 3px;
   background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: bottom;
 }
 
 /*
@@ -75,19 +82,20 @@ h3 {
 .calendar-wrapper {
   width: 100%;
 
-  div {
+  div.calendar-day {
     cursor: pointer;
     display: inline-block;
-    text-align: center;
-    height: 42px;
-    width: 42px;
-    margin-top: 5px;
-    padding-top: 8px;
     font-size: 12px;
-    margin-right: 14px;
+    font-family: AvenirPro;
+    text-align: center;
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    margin-top: 5px;
+    margin-left: 3px;
+    margin-right: 3px;
     background-color: #f4f6f8;
     color: black;
-    font-family: AvenirPro;
 
     &.active {
       font-family: AvenirBold;
@@ -102,13 +110,4 @@ h3 {
       }
     }
   }
-}
-
-.date-selected {
-  font-family: Avenir;
-  font-size: 12px;
-  width: 100%;
-  margin: 1.5rem 0;
-  text-align: right;
-  margin-right: 15%;
 }

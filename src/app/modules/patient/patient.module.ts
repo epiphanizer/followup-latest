@@ -17,12 +17,14 @@ import { FollowupCompleteModalComponent } from './patient-detail/followup-comple
 import { FollowupCompleteButtonComponent } from './patient-detail/followup-complete-button/followup-complete-button.component';
 import { PatientAvatarUploadComponent } from './patient-avatar-upload/patient-avatar-upload.component';
 import { SharedModule } from '@app/shared';
+import { PatientListingFilterComponent } from './patient-listing-filter/patient-listing-filter.component';
 
 @NgModule({
   declarations: [
     PatientAvatarComponent,
     PatientComponent,
     PatientListingComponent,
+    PatientListingFilterComponent,
     PatientPatientListingComponent,
     PatientFormComponent,
     PatientAvatarUploadComponent,
@@ -43,6 +45,7 @@ import { SharedModule } from '@app/shared';
     PatientManagerSidebarComponent,
     PatientPatientListingComponent,
     PatientListingComponent,
+    PatientListingFilterComponent,
     PatientAvatarComponent,
     FollowupCompleteModalComponent,
     FollowupCompleteButtonComponent

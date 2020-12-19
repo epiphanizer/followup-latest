@@ -5,13 +5,33 @@
       </app-patient-manager-sidebar>
     </ion-col>
     <ion-col class="patient-content-wrapper">
-      <ion-row>
-        <ion-title *ngIf="selected.operation">
-          {{ selected.operation.operationGroupName + ' - ' + selected.operation.operationName }}
-        </ion-title>
-      </ion-row>
-      <app-patient-patient-listing *ngIf="selected.operation" [operation]="selected.operation">
-      </app-patient-patient-listing>
+      <ion-grid>
+        <ion-row>
+          <ion-title *ngIf="selected.operation">
+            {{ selected.operation.operationGroupName + ' - ' + selected.operation.operationName }}
+          </ion-title>
+        </ion-row>
+        <ion-row class="patient-listing-row">
+          <ion-col class="patient-listing-wrapper">
+            <app-patient-patient-listing *ngIf="selected.operation" [operation]="selected.operation">
+            </app-patient-patient-listing>
+          </ion-col>
+          <ion-col class="calendar-wrapper">
+            <app-calendar
+              *ngIf="selected.operation"
+              [operation]="selected.operation"
+              (dateFilterChangeEvent)="handleDateFilterChangeEvent($event)"
+            >
+            </app-calendar>
+            <app-patient-listing-filter
+              *ngIf="selected.operation"
+              [filterDate]="selected.filterDate"
+              [operation]="selected.operation"
+            >
+            </app-patient-listing-filter>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-col>
   </ion-row>
 </ion-content>
