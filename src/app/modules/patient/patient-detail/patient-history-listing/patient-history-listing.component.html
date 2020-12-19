@@ -7,7 +7,17 @@
       <ng-template #patientCall>
         <div class="patient-call" *ngFor="let patientCall of patientCalls; let i = index">
           <!-- This logic assumes that the patientCallCounts come to us in the right order -->
-
+          <!-- <div class="call-queue-call-status-legend">
+            <ion-list inset lines="none">
+              <ion-item *ngFor="let patientCallStatus of patientCallStatuses">
+                <i
+                  class="icon-{{ patientCallStatus.patientCallStatusLabel.replace(' ', '-') | lowercase }}"
+                  [class.active]="patient.patientLastCallStatus == patientCallStatus.patientCallStatusLabelId"
+                >
+                </i>
+              </ion-item>
+            </ion-list>
+          </div> -->
           <div
             id="{{ 'call-' + patientCall.patientCallCount }}"
             class="call-headline-container {{ i == 0 ? 'active' : '' }} "
