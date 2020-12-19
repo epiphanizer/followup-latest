@@ -1,5 +1,5 @@
 <i class="icon-discharge"></i>
-<ion-list class="inline-discharge" inset lines="none">
+<ion-list class="inline-discharge-section" inset lines="none">
   <ion-item class="discharged-date-item">
     <span class="label">
       Discharged: &nbsp;
@@ -24,9 +24,9 @@
   </ion-item>
 </ion-list>
 <i class="icon-medical"></i>
-<ion-list class="more-info" inset lines="none">
+<ion-list class="more-info-section" inset lines="none">
   <ion-item>
-    <span [class.is-highlighted]="patient.patientUrgencyScale == 5" class="medical-condition-label label">
+    <span class="medical-condition-label label">
       Medical Conditions: &nbsp;
     </span>
     <label class="medical-condition-item" *ngFor="let patientMedicalCondition of patientMedicalConditions">
@@ -36,10 +36,11 @@
   <ion-item> <span class="label">Primary Diagnosis: &nbsp; </span> {{ patient.patientPrimaryDiagnosis }} </ion-item>
 
   <p></p>
-  <ion-item>
-    <span class="discharge label">Discharged Condition: &nbsp; </span> {{ patient.patientDischargedCondition }}
+  <ion-item class="discharged-condition">
+    <span class="discharge label">Discharged Condition: &nbsp; </span>
+    <p>{{ patient.patientDischargedCondition }}</p>
   </ion-item>
-  <ion-item *ngIf="patient.patientNeedToKnow">
+  <ion-item class="need-to-know" *ngIf="patient.patientNeedToKnow">
     <span class="label"> Need To Know: &nbsp; </span>
     {{ patient.patientNeedToKnow }}
   </ion-item>

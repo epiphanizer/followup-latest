@@ -23,7 +23,7 @@ i {
 }
 
 ion-list {
-  width: calc(100% - 32px);
+  width: calc(100% - 55px);
   --padding-start: 0;
   --padding-end: 0;
   display: inline-block;
@@ -52,7 +52,15 @@ ion-list {
       }
 
       &.is-highlighted {
-        border-bottom: 1px solid yellow;
+        &::after {
+          display: block;
+          content: "";
+          width: 172px;
+          height: 4px;
+          position: absolute;
+          bottom: 10px;
+          background-color: #ffcc00;
+        }
       }
     }
   }
@@ -60,11 +68,10 @@ ion-list {
   .discharged-date-item {
     width: 100%;
     display: block;
-
     &::after {
       display: block;
       content: "";
-      width: 130px;
+      width: 172px;
       height: 4px;
       position: absolute;
       bottom: 10px;
@@ -72,17 +79,19 @@ ion-list {
     }
   }
 
-  &.inline-discharge {
+  &.inline-discharge-section {
     margin-top: 0;
-    margin-left: 5px;
-    margin-bottom: -25px;
+    margin-left: 10px;
+    ion-item:not(.discharged-date-item) {
+      line-height: 18px;
+      height: 32px;
+      padding: 0;
+    }
   }
 
-  &.more-info {
-    display: block;
+  &.more-info-section {
     margin-top: 0;
-    margin-left: 5px;
-    margin-bottom: -25px;
+    margin-left: 10px;
 
     .medical-condition-item {
       text-transform: capitalize;
