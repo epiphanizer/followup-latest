@@ -15,6 +15,9 @@
   cursor: pointer;
 }
 
+ion-col.patient-summary-container {
+  margin-left: 42px;
+}
 .patient-medical-record-number {
   display: block;
   width: 100%;
@@ -85,7 +88,7 @@
   list-style-type: none;
   padding-left: 0;
 
-  font-family: AvenirNextLTPro;
+  font-family: AvenirNext;
   font-size: 16px;
 
   .patient-contact-name {
@@ -120,18 +123,6 @@
       color: #222222;
     }
   }
-}
-
-.patient-medical-record-number {
-  font-family: AvenirNextLTPro;
-  font-size: 15px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.47;
-  letter-spacing: 0.15px;
-  text-align: left;
-  color: #8e8e93;
 }
 
 .patient-meta-info {
