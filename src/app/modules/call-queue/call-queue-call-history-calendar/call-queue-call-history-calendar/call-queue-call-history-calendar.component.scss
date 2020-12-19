@@ -11,7 +11,7 @@
   margin-bottom: 15px;
   text-align: center;
   border: 1px solid #dedede;
-  padding-bottom: 16.5px;
+  padding: 0 15px 16px 15px;
 }
 
 h3 {
@@ -78,20 +78,21 @@ h3 {
 
 .calendar-wrapper {
   width: 100%;
-  padding: 0 18px;
+
   div.calendar-day {
     cursor: pointer;
     display: inline-block;
+    font-size: 12px;
+    font-family: AvenirPro;
     text-align: center;
     height: 40px;
     width: 40px;
+    line-height: 40px;
     margin-top: 5px;
-    padding-top: 8px;
-    font-size: 12px;
-    margin-right: 14px;
+    margin-left: 3px;
+    margin-right: 3px;
     background-color: #f4f6f8;
     color: black;
-    font-family: AvenirPro;
 
     &.active {
       font-family: AvenirBold;
