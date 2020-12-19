@@ -1,0 +1,75 @@
+<ng-container *ngIf="patientActivity">
+  <ion-list class="patient-call-history-list" inset lines="none">
+    <div class="patient-activity" *ngFor="let patientActivity of patientAcivity; let i = index">
+      <ng-container *ngIf="patientActivity.patientActivityType == 'notification'; else patientCall">
+        A notification
+      </ng-container>
+      <ng-template #patientCall>
+        <div class="patient-call" *ngFor="let patientCall of patientCalls; let i = index">
+          <!-- This logic assumes that the patientCallCounts come to us in the right order -->
+
+          <div
+            id="{{ 'call-' + patientCall.patientCallCount }}"
+            class="call-headline-container {{ i == 0 ? 'active' : '' }} "
+          >
+            <i class="icon-phone-icon"></i>
+
+            <span class="call-number-headline">
+              Call {{ patientCall.patientCallCount }}: {{ patientCall.patientCallStatusLabel }}</span
+            >
+            <div class="call-detail-container">
+              <span class="call-made-by">
+                by {{ patientCall.patientCalledByUserFirstName }} {{ patientCall.patientCalledByUserLastName }}</span
+              >
+              <span class="call-number-date">- {{ patientCall.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}</span>
+            </div>
+          </div>
+          <div class="call-question-container">
+            <div
+              *ngFor="let patientCallQuestion of patientCall.patientCallQuestions; let idx = index"
+              lines="none"
+              inset
+            >
+              <ion-item class="ion-float-left">
+                <span
+                  class="call-question-label"
+                  [class.is-highlighted]="patientCallQuestion.patientCallQuestionIsHighlighted"
+                >
+                  {{ patientCallQuestion.patientCallQuestion }}:
+                </span>
+                <span class="call-question-answer-label">
+                  <ng-container *ngIf="patientCallQuestion.patientCallQuestionAnswer; else noAnswer">
+                    <ng-container *ngIf="patientCallQuestion.patientQuestionTypeLabel == 'boolean'; else nonBoolean">
+                      {{ patientCallQuestion.patientCallQuestionAnswer === 'true' ? 'Yes' : 'No' }}
+                    </ng-container>
+                    <ng-template #nonBoolean>
+                      {{ patientCallQuestion.patientCallQuestionAnswer }}
+                    </ng-template>
+                  </ng-container>
+                  <ng-template #noAnswer>
+                    N/A
+                  </ng-template>
+                </span>
+              </ion-item>
+            </div>
+          </div>
+
+          <div class="patient-call-notes-container">
+            <span class="call-question-label" [class.is-highlighted]="patientCall.patientCallNotesHighlighted">
+              Call Notes:
+            </span>
+            <div class="patient-call-notes" *ngIf="patientCall.patientCallNotes; else noCallNotes">
+              {{ patientCall.patientCallNotes }}
+            </div>
+            <!-- Should never happen, but let's be defensive -->
+            <ng-template #noCallNotes>
+              <div class="patient-call-notes">
+                No call notes.
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </ion-list>
+</ng-container>

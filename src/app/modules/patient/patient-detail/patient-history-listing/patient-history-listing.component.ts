@@ -5,6 +5,7 @@ import {
   PatientCallQuestionsService
 } from '../patient-call-questions/patient-call-questions.service';
 import { map } from 'rxjs/operators';
+import { Notification } from '@app/modules/notification/notification';
 
 @Component({
   providers: [PatientCallQuestionsService],
@@ -12,8 +13,9 @@ import { map } from 'rxjs/operators';
   templateUrl: './patient-call-history-listing.component.html',
   styleUrls: ['./patient-call-history-listing.component.scss']
 })
-export class PatientCallHistoryListingComponent implements OnInit {
+export class PatientActivityListingComponent implements OnInit {
   @Input() patientCalls: PatientCall[];
+  @Input() patientNotifications: Notification[];
   patientCallQuestions: PatientCallQuestion[] = [];
 
   constructor(
