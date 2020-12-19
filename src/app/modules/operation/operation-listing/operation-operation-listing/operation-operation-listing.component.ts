@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Operation } from '@app/modules/operation/operation';
+import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { OperationService } from '@app/modules/operation/operation.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { OperationService } from '@app/modules/operation/operation.service';
   styleUrls: ['./operation-operation-listing.component.scss']
 })
 export class OperationOperationListingComponent implements OnInit {
-  @Input() operation: Operation;
+  @Input() operationGroup: OperationGroup;
   public operations: Operation[];
   public operations$: Observable<Operation[]>;
   public operationsFiltered: Operation[];
@@ -18,17 +18,7 @@ export class OperationOperationListingComponent implements OnInit {
   public selectedSortFlag: string = 'desc';
 
   constructor(private operationService: OperationService) {}
-  ngOnInit() {
-    this.operations$ = this.operationService.getAllOperations().pipe(
-      map((operations: Operation[]) => {
-        /**
-         * Set our filtered operations also equal to initial operations.
-         */
-        this.operationsFiltered = this.operations = operations;
-        return operations;
-      })
-    );
-  }
+  ngOnInit() {}
 
   toggleAscDesc() {
     if (this.selectedSortFlag == 'asc') {

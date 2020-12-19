@@ -20,6 +20,18 @@ export class OperationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
+
+  public getOperationGroups(): Observable<OperationGroup[]> {
+    return this.http.get<OperationGroup[]>('operations/groups').pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  public getOperationsByOperationGroupId(operationGroup: OperationGroup): Observable<Operation[]> {
+    var operationGroupId = operationGroup.operationGroupId;
+    return this.http.get<Operation[]>('operations/groups/' + operationGroupId).pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   public removeOperationManagerByOperationIdAndUserId(operationId: number, userId: number) {
     return this.http.delete('operations/' + operationId + '/managers/' + userId, {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
@@ -32,11 +44,6 @@ export class OperationService {
   }
   public editOperationByOperationId(operationId: number, operationPutBody: OperationPutBody): Observable<Operation> {
     return this.http.put<Operation>('operations/' + operationId, operationPutBody).pipe(
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
-  }
-  public getOperationGroups(): Observable<OperationGroup[]> {
-    return this.http.get<OperationGroup[]>('operations/groups').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

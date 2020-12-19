@@ -41,13 +41,11 @@
       display: inline-block;
       width: 16px;
       height: 16px;
-
       &.patient {
         background-repeat: no-repeat;
         background-size: 100%;
         background-image: url("/assets/icon-patient@2x.png");
       }
-
       &.indicator {
         width: 10px;
         height: 10px;
@@ -57,19 +55,18 @@
       }
     }
   }
-
   .facility-dropdown-target {
-    width: 138px;
-    height: 28.7px;
+    display: block;
     font-family: AvenirBold;
-    font-size: 15px;
-    font-style: normal;
+    margin: 0 0 5px 19px;
+    font-size: 20px;
+    font-weight: bold;
     font-stretch: normal;
-    line-height: 1.05;
-    letter-spacing: 2.25px;
+    font-style: normal;
+    line-height: 1.4;
+    letter-spacing: 1.2px;
     text-align: right;
-    color: var(--ion-color-primary);
-    display: inline-block;
+    color: #00b4b9;
   }
 
   i {
@@ -93,13 +90,11 @@
     li {
       vertical-align: top;
       display: inline-block;
-      width: 100%;
+      width: calc(100% - 17px);
       margin-top: 8px;
-
       a {
         display: inline-block;
-        max-width: 69%;
-        line-height: 115%;
+        line-height: 100%;
         vertical-align: middle;
         cursor: pointer;
         font-family: AvenirBold;
@@ -116,43 +111,33 @@
         &:hover {
           text-decoration: underline;
         }
-
         &.active {
           font-family: AvenirBold;
           color: #343638;
         }
       }
-
       i {
         color: white;
-        margin-left: 5px;
-        width: 16px;
-        height: 16px;
-        display: block;
-        float: right;
+        margin-left: 8px;
+        width: 17px;
+        height: 17px;
+        display: inline-block;
         background-size: 100%;
         background-repeat: no-repeat;
         background-position: center center;
 
         &.icon-new-discharges {
-          background-image: url("/assets/icon-new-discharges@2x.png");
-        }
-
-        &.icon-todays-calls {
-          background-image: url("/assets/icon-todays-calls@2x.png");
+          background-image: url("/assets/icon-new-discharges.png");
         }
       }
-
-      span.icon-discharge-counter,
-      span.icon-todays-calls-counter {
-        display: block;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        margin-top: 2px;
+      span.icon-discharge-counter {
+        margin-left: -12px;
+        margin-top: -4px;
         color: white;
+        position: absolute;
         font-weight: bold;
-        font-size: 11px;
+        font-size: 12px;
+        line-height: 2.17;
       }
     }
   }

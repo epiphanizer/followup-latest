@@ -19,6 +19,7 @@ import { Notification } from '@app/modules/notification/notification';
 export class PatientHistoryListingComponent implements OnInit {
   @Input() patientCalls: PatientCall[];
   @Input() patientNotifications: Notification[];
+  patientActivity: [Notification[] | PatientCall[]];
   patientHistory: PatientCall[];
   patientCallQuestions: PatientCallQuestion[] = [];
 
@@ -28,10 +29,6 @@ export class PatientHistoryListingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    /**
-     * Combine the patientCalls and patientNotifications and sort them by the date that they occurred.
-     */
-    this.patientHistory = this.patientCalls;
     // Go get our calls and warm up the observables.
     this.patientCalls.forEach((patientCall: PatientCall, index: number) => {
       this.patientCallQuestionService
@@ -60,5 +57,11 @@ export class PatientHistoryListingComponent implements OnInit {
           );
         });
     });
+
+    /**
+     * Combine the patientCalls and patientNotifications and sort them by the date that they occurred.
+     */
+    this.patientActivity.push(this.patientCalls);
+    this.patientActivity.push(this.patientNotifications);
   }
 }

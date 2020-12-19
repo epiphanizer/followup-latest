@@ -102,14 +102,18 @@ ion-list {
       color: #ef4627;
       font-size: 15px;
       font-family: AvenirBold;
-      &:first-child {
+      :first-child {
         &:before {
           content: "";
         }
       }
       &:before {
         content: ", ";
+        text-decoration: none;
       }
     }
+  }
+  .discharged-condition {
+    margin-top: 26px;
   }
 }

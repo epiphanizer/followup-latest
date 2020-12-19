@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Operation } from '@app/modules/operation/operation';
+import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
-import { ActivatedRoute } from '@angular/router';
 import { OperationService } from '@app/modules/operation/operation.service';
 
 @Component({
@@ -12,7 +10,10 @@ import { OperationService } from '@app/modules/operation/operation.service';
   styleUrls: ['./operation-listing.component.scss']
 })
 export class OperationListingComponent implements OnInit {
-  @Input() operation: Operation;
+  public operationGroups: OperationGroup[];
+  public operationGroups$: Observable<OperationGroup[]>;
+
+  @Input() operationGroup: OperationGroup;
 
   public operations: Operation[];
   public operations$: Observable<[Operation]> | void = null;
@@ -25,5 +26,10 @@ export class OperationListingComponent implements OnInit {
   user: User;
   constructor(private operationService: OperationService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.operationGroups$ = this.operationService.getOperationGroups();
+    this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
+      this.operationGroups = operationGroups;
+    });
+  }
 }
