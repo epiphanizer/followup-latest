@@ -1,9 +1,10 @@
+<i class="icon-discharge"></i>
 <ion-list class="inline-discharge" lines="none" inset>
-  <i class="icon-discharged"></i>
-  <ion-item>
+  <ion-item class="discharged-date-item">
     <span class="label">
       Discharged: &nbsp;
     </span>
+    <span class="discharge-date"></span>
     {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}
   </ion-item>
   <ion-item>
@@ -25,10 +26,12 @@
     </span>
   </ion-item>
 </ion-list>
+<i class="icon-medical"></i>
 <ion-list class="more-info" inset lines="none">
-  <i class="icon-medical"></i>
   <ion-item>
-    <span [class.is-highlighted]="patient.patientUrgencyScale == 5" class="label"> Medical Conditions: &nbsp; </span>
+    <span [class.is-highlighted]="patient.patientUrgencyScale == 5" class="medical-condition-label label">
+      Medical Conditions: &nbsp;
+    </span>
     <label class="medical-condition-item" *ngFor="let patientMedicalCondition of patientMedicalConditions">
       {{ patientMedicalCondition.replace('Boolean', '') }}
     </label>

@@ -2,6 +2,7 @@
   .patient-summary {
     min-height: 275px;
   }
+  margin-bottom: 3.33rem;
 }
 
 .avatar-container {
@@ -14,37 +15,9 @@
   cursor: pointer;
 }
 
-app-patient-avatar {
-  margin-bottom: 0.5rem;
-}
-
-.patient-operation-name {
-  font-family: AvenirDemi;
-  font-size: 15px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.56;
-  letter-spacing: 0.36px;
-  text-align: left;
-}
-
-.patient-name {
-  margin-top: 10px;
-  margin-bottom: 0;
-  font-family: Avenir;
-  font-size: 40px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1;
-  letter-spacing: 0.8px;
-  text-align: left;
-  height: auto;
-}
-
-.patient-age,
 .patient-medical-record-number {
+  display: block;
+  width: 100%;
   font-family: AvenirPro;
   font-size: 15px;
   font-weight: 500;
@@ -56,9 +29,50 @@ app-patient-avatar {
   color: #8e8e93;
 }
 
-.patient-age {
-  font-size: 14px;
-  margin: 0 0px 1.75rem 3px;
+.patient-operation-name {
+  display: block;
+  width: 100%;
+  font-family: AvenirDemi;
+  font-weight: bold;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #222222;
+}
+
+.patient-name {
+  font-family: AvenirPro;
+  font-weight: bold;
+  font-size: 40px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0.8px;
+  text-align: left;
+  color: #222222;
+}
+
+.patient-age,
+.patient-contact-number {
+  &:first-child {
+    margin-right: 8px;
+  }
+  display: inline-block;
+  width: auto;
+  font-family: AvenirDemi;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: 0.15px;
+  text-align: left;
+  color: #00b4b9;
 }
 
 .patient-contact-container {
@@ -78,18 +92,6 @@ app-patient-avatar {
     display: block;
     width: 100%;
     font-weight: 900;
-  }
-  .patient-age,
-  .patient-contact-number {
-    font-family: AvenirDemi;
-    font-size: 15px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.2;
-    letter-spacing: 0.15px;
-    text-align: left;
-    color: #00b4b9;
   }
 }
 

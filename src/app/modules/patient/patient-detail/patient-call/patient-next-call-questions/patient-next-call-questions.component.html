@@ -1,17 +1,18 @@
 <form [formGroup]="patientNextCallQuestionsForm">
+  <i class="icon-question"></i>
+  <ion-label [class.is-highlighted]="patientCallQuestion.patientCallQuestionIsHighlighted" position="stacked">
+    Next Call
+  </ion-label>
   <ion-list lines="none" formArrayName="patientCallQuestions">
     <ion-item
       class="next-call-question-textarea"
       *ngFor="let patientCallQuestion of patientCallQuestions; let idx = index"
     >
-      <ion-label [class.is-highlighted]="patientCallQuestion.patientCallQuestionIsHighlighted" position="stacked">
-        Question for next follow-up
-      </ion-label>
       <ion-textarea
-        rows="2"
+        rows="1"
         [class.is-highlighted]="patientCallQuestion.patientCallQuestionIsHighlighted"
         formControlName="{{ idx }}"
-        placeholder="Enter your question..."
+        placeholder="Question {{ idx + 1 }}"
       ></ion-textarea>
       <a class="highlight-flag" (click)="togglePatientCallQuestionHighlight(idx)">
         <img class="ion-float-right" src="/assets/highlight-flag@2x.png" />

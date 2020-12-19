@@ -15,48 +15,33 @@
           </span>
         </div>
         <div class="patient-name">
-          <h2>
+          <h2 class="patient-name">
             {{ patient.patientFirstName }}
             {{ patient.patientMiddleName }}
             {{ patient.patientLastName }}
           </h2>
         </div>
-        <div class="patient-age">Age: {{ patient.patientAge }}</div>
+        <span class="patient-age">Age: {{ patient.patientAge }}</span>
+        <span class="patient-contact-number">
+          {{ patient.primaryContactPhoneNumber }}
+        </span>
         <div class="patient-contact-container">
-          <ul class="patient-contact-list">
-            <li *ngIf="patient.primaryContactPhoneNumber">
-              <ng-container *ngIf="patient.patientPrimaryContactResponsiblePartyBoolean">
-                <i class="icon-hipaa"></i>
-              </ng-container>
-              <span class="patient-contact-name">
-                {{ patient.patientPrimaryContactFirstName }} {{ patient.patientPrimaryContactLastName }}
-              </span>
-              <span class="patient-contact-number">
-                {{ patient.primaryContactPhoneNumber }}
-              </span>
-
-              <span class="patient-contact-number-type">
-                <ng-container> | {{ patient.patientPrimaryContactRelationship }} </ng-container>
-              </span>
-              <br />
-              <ion-list lines="none" inset class="alternate-numbers-list">
-                <div *ngFor="let patientContact of patientContacts; let idx = index">
-                  <!-- Skip the first contact number, which is already listed above ^ -->
-                  <ion-item class="alternate-number" *ngIf="idx != 0">
-                    <span class="alternate-contact">
-                      {{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }},
-                      {{ patientContact.patientContactRelationship }}: {{ patientContact.patientContactAreaCode }}-{{
-                        patientContact.patientContactPhoneNumber
-                      }}
-                      <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
-                        <i class="icon-hipaa" *ngIf="patientContact.patientContactResponsiblePartyBoolean"></i>
-                      </ng-container>
-                    </span>
-                  </ion-item>
-                </div>
-              </ion-list>
-            </li>
-          </ul>
+          <ion-list lines="none" inset class="alternate-numbers-list">
+            <div *ngFor="let patientContact of patientContacts; let idx = index">
+              <!-- Skip the first contact number, which is already listed above ^ -->
+              <ion-item class="alternate-number" *ngIf="idx != 0">
+                <span class="alternate-contact">
+                  {{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }},
+                  {{ patientContact.patientContactRelationship }}: {{ patientContact.patientContactAreaCode }}-{{
+                    patientContact.patientContactPhoneNumber
+                  }}
+                  <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
+                    <i class="icon-hipaa" *ngIf="patientContact.patientContactResponsiblePartyBoolean"></i>
+                  </ng-container>
+                </span>
+              </ion-item>
+            </div>
+          </ion-list>
         </div>
       </div>
     </ion-col>

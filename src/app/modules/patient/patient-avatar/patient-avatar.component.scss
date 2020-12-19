@@ -5,7 +5,6 @@
   text-align: center;
 }
 div {
-  max-height: 220px;
   width: auto;
   margin: 0 auto;
   height: 100%;
@@ -13,8 +12,8 @@ div {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+  cursor: pointer;
   &.default {
-    max-height: 220px;
     width: auto;
     min-width: 50px;
     margin: 0 auto;
