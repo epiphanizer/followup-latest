@@ -21,7 +21,7 @@ export class PatientPatientListingComponent implements OnInit {
 
   constructor(private patientService: PatientService) {}
   ngOnInit() {
-    this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
+    this.patients$ = this.patientService.getPatientsByOperationId(this.operation.operationId).pipe(
       take(1),
       map((patients: Patient[]) => {
         if (patients) {
@@ -40,7 +40,7 @@ export class PatientPatientListingComponent implements OnInit {
     if (changes.operation) {
       this.patients = [];
       this.operation = changes.operation.currentValue;
-      this.patients$ = this.patientService.getPatientListByOperationId(this.operation.operationId).pipe(
+      this.patients$ = this.patientService.getPatientsByOperationId(this.operation.operationId).pipe(
         map((patients: Patient[]) => {
           if (patients) {
             this.patients = patients;

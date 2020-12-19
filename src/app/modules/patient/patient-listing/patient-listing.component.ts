@@ -18,6 +18,7 @@ export class PatientListingComponent implements OnInit {
   componentName: string = 'PatientListing';
 
   @Input() operation: Operation;
+  filterDate: Date;
 
   public patients: Patient[];
   public patients$: Observable<[Patient]> | void = null;
@@ -57,7 +58,7 @@ export class PatientListingComponent implements OnInit {
 
   operationChangeEventHandler($event: Operation) {
     this.selected.operation = $event;
-    this.patients$ = this.patientService.getPatientListByOperationId(this.selected.operation.operationId).pipe(
+    this.patients$ = this.patientService.getPatientsByOperationId(this.selected.operation.operationId).pipe(
       map((patients: [Patient]) => {
         this.patients = patients;
         return patients;
