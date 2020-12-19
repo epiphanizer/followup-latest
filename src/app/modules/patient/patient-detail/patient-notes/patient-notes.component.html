@@ -36,12 +36,14 @@
   <ion-item> <span class="label">Primary Diagnosis: &nbsp; </span> {{ patient.patientPrimaryDiagnosis }} </ion-item>
 
   <p></p>
-  <ion-item class="discharged-condition">
+  <div class="discharged-condition">
     <span class="discharge label">Discharged Condition: &nbsp; </span>
     <p>{{ patient.patientDischargedCondition }}</p>
-  </ion-item>
-  <ion-item class="need-to-know" *ngIf="patient.patientNeedToKnow">
+  </div>
+  <div class="need-to-know" *ngIf="patient.patientNeedToKnow">
     <span class="label"> Need To Know: &nbsp; </span>
-    {{ patient.patientNeedToKnow }}
-  </ion-item>
+    <p>
+      {{ patient.patientNeedToKnow }}
+    </p>
+  </div>
 </ion-list>

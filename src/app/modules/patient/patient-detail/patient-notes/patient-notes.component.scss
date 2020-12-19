@@ -92,7 +92,9 @@ ion-list {
   &.more-info-section {
     margin-top: 0;
     margin-left: 10px;
-
+    ion-item {
+      height: 32px;
+    }
     .medical-condition-item {
       text-transform: capitalize;
       text-decoration: underline;
