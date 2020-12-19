@@ -6,6 +6,7 @@ import {
   PatientIntakeQuestion,
   PatientIntakeQuestionAnswer
 } from './patient-intake-question/patient-intake-question.component';
+import { Notification } from '@app/modules/notification/notification';
 
 /**
  * Regarding this interface ---
@@ -45,6 +46,8 @@ export interface Patient {
   patientSecondaryInsurance?: string;
   patientCalls?: PatientCall[];
   patientCalls$?: Observable<PatientCall[]>;
+  patientNotifications?: Notification[];
+  patientNotifications$?: Observable<Notification[]>;
   patientCallCount?: number;
   patientLastCallDate?: Date;
   patientNextCallScheduledTime?: Date;

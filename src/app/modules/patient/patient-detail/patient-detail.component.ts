@@ -21,6 +21,8 @@ import { formatDate } from '@angular/common';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '@app/modules/notification/notification.service';
+import { Notification } from '@app/modules/notification/notification';
 
 @Component({
   providers: [PatientCallService, PatientCallNotesService, PatientCallQuestionsService],
@@ -48,6 +50,7 @@ export class PatientDetailComponent implements OnInit {
 
   constructor(
     private patientCallService: PatientCallService,
+    private notificationService: NotificationService,
     private patientCallNotesService: PatientCallNotesService,
     private patientCallQuestionsService: PatientCallQuestionsService,
     private route: ActivatedRoute,
@@ -76,6 +79,19 @@ export class PatientDetailComponent implements OnInit {
       patientCallStatusLabelId: 1
     };
     this.patientNextCallQuestions = [];
+
+    this.patient.patientNotifications$ = this.notificationService
+      .getNotificationsByPatientId(this.patient.patientId)
+      .pipe(
+        take(1),
+        map((notifications: Notification[]) => {
+          this.patient.patientNotifications = notifications;
+          return this.patient.patientNotifications;
+        })
+      );
+    this.patient.patientNotifications$.subscribe((notifications: Notification[]) => {
+      this.patient.patientNotifications = notifications;
+    });
   }
 
   patientCallStartEventHandler(userId: number) {

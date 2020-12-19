@@ -5,8 +5,12 @@
         <app-patient-summary-widget [patient]="patient"> </app-patient-summary-widget>
       </ng-container>
       <app-patient-notes [patient]="patient"> </app-patient-notes>
-      <app-patient-call-history-listing *ngIf="patient.patientCalls" [patientCalls]="patient.patientCalls">
-      </app-patient-call-history-listing>
+      <app-patient-history-listing
+        *ngIf="patient.patientCalls && patient.patientNotifications"
+        [patientCalls]="patient.patientCalls"
+        [patientNotifications]="patient.patientNotifications"
+      >
+      </app-patient-history-listing>
     </ion-col>
     <ion-col class="right-hand-detail">
       <ng-container *ngIf="patientCall$ | async">

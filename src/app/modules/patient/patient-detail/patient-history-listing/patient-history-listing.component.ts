@@ -12,13 +12,14 @@ import { Notification } from '@app/modules/notification/notification';
 
 @Component({
   providers: [PatientCallQuestionsService],
-  selector: 'app-patient-call-history-listing',
+  selector: 'app-patient-history-listing',
   templateUrl: './patient-history-listing.component.html',
   styleUrls: ['./patient-history-listing.component.scss']
 })
 export class PatientHistoryListingComponent implements OnInit {
   @Input() patientCalls: PatientCall[];
   @Input() patientNotifications: Notification[];
+  patientHistory: PatientCall[];
   patientCallQuestions: PatientCallQuestion[] = [];
 
   constructor(
@@ -27,6 +28,10 @@ export class PatientHistoryListingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    /**
+     * Combine the patientCalls and patientNotifications and sort them by the date that they occurred.
+     */
+    this.patientHistory = this.patientCalls;
     // Go get our calls and warm up the observables.
     this.patientCalls.forEach((patientCall: PatientCall, index: number) => {
       this.patientCallQuestionService
