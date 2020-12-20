@@ -22,6 +22,7 @@ import { NotificationModule } from '@app/modules/notification/notification.modul
 import { UserModule } from '@app/modules/user/user.module';
 
 import { ToastrModule } from 'ngx-toastr';
+import { NgxMaskModule } from 'ngx-mask';
 import { AppRoutingModule } from './app-routing.module';
 import { JwtHelperService, JwtModule, JwtInterceptor } from '@auth0/angular-jwt';
 import { AuthGuardService } from './core/authentication/auth-guard.service';
@@ -56,6 +57,7 @@ export function tokenGetter() {
         whitelistedDomains: ['localhost:3000', 'followupcare-api.azurewebsites.net']
       }
     }),
+    NgxMaskModule.forRoot(),
     SharedModule,
     ShellModule,
     ReactiveFormsModule,
