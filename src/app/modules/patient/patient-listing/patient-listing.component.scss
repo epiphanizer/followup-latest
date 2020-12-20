@@ -1,5 +1,5 @@
 ion-title {
-  font-family: Avenir;
+  font-family: AvenirPro;
   font-size: 45px;
   font-style: normal;
   line-height: 1.11;
@@ -7,7 +7,12 @@ ion-title {
   text-align: left;
   color: #3f3638;
   padding-left: 0;
-  margin-bottom: 26px;
+}
+
+.patient-content-wrapper {
+  margin-left: 92px;
+  padding-bottom: 160px;
+  margin-top: 8rem;
 }
 
 .patient-sidebar {
@@ -17,14 +22,18 @@ ion-title {
   padding-top: 58px;
 }
 
-.patient-content-wrapper {
-  margin-left: 92px;
-  margin-bottom: 16rem;
-  margin-top: 8rem;
-  max-width: 755px;
+.patient-listing-row {
+  margin-top: 1rem;
+}
+
+.patient-listing-wrapper {
+  max-width: 532px;
 }
 .patient-patient-list {
   width: 100%;
   height: auto;
   display: block;
+}
+.calendar-wrapper {
+  margin-left: 72px;
 }

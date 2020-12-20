@@ -50,6 +50,8 @@ export interface OperationPutBody {
 export interface OperationGroup {
   operationGroupId?: number;
   operationGroupName: string;
+  operations?: Operation[];
+  operations$?: Observable<Operation[]>;
 }
 export interface OperationManager {
   operationManagerId?: number;

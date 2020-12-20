@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { Patient } from '@app/modules/patient/patient';
+import { Observable } from 'rxjs';
 
 @Component({
   providers: [],
@@ -64,17 +65,24 @@ export class CallQueueSidebarComponent {
   } = {
     operation: null
   };
-  isOpen = true;
+
   constructor(
     private route: ActivatedRoute,
     private operationService: OperationService,
     private patientService: PatientService
   ) {}
   operationGroups: OperationGroup[] = null;
+  operationGroups$: Observable<OperationGroup[]>;
   operations: Operation[];
   user: User;
   todaysDateDay: number;
   ngOnInit() {
+    this.operationGroups$ = this.operationService.getOperationGroups();
+    this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
+      if (operationGroups) {
+        this.operationGroups = operationGroups;
+      }
+    });
     this.user = this.route.snapshot.data.user;
     // this.operations = this.user.operations;
     this.user.operations$.subscribe((data: Operation[]) => {
@@ -129,8 +137,5 @@ export class CallQueueSidebarComponent {
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
     this.operationChangeEvent.emit(operation);
-  };
-  public toggleOperationSidebarMenu = function() {
-    this.isOpen = !this.isOpen;
   };
 }

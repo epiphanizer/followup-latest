@@ -24,6 +24,7 @@ export class PatientListingComponent implements OnInit {
   public patients$: Observable<[Patient]> | void = null;
   public selected:
     | {
+        filterDate: string;
         operation: Operation;
         operation$: Observable<Operation>;
       }
@@ -56,6 +57,9 @@ export class PatientListingComponent implements OnInit {
     }
   }
 
+  handleDateFilterChangeEvent($event: string) {
+    this.selected.filterDate = $event;
+  }
   operationChangeEventHandler($event: Operation) {
     this.selected.operation = $event;
     this.patients$ = this.patientService.getPatientsByOperationId(this.selected.operation.operationId).pipe(

@@ -26,10 +26,21 @@
       </a>
     </span>
   </li>
+  <li>
+    <span class="ascending-descending-control">
+      <i
+        class="ascending-descending-control-arrow"
+        [class.asc]="selectedSortFlag == 'asc'"
+        [class.desc]="selectedSortFlag == 'desc'"
+        (click)="toggleAscDesc()"
+      >
+      </i>
+    </span>
+  </li>
 </ul>
 
-<ul class="patient-patient-list" *ngIf="patients$ | async">
-  <li *ngFor="let patient of pageOfItems" class="active" [routerLink]="getPatientLink(patient)">
+<ion-list class="patient-patient-list" lines="none" *ngIf="patients$ | async">
+  <ion-item *ngFor="let patient of pageOfItems" class="active" [routerLink]="getPatientLink(patient)">
     <div class="patient-discharge-date">
       {{ patient.patientDischargeDate | date: 'MM/dd/yy':'UTC' }}
     </div>
@@ -49,8 +60,8 @@
         </span>
       </ng-template>
     </div>
-  </li>
-</ul>
+  </ion-item>
+</ion-list>
 <jw-pagination *ngIf="patientsFiltered" [items]="patientsFiltered" (changePage)="onChangePage($event)"></jw-pagination>
 
 <ng-template #noPatients>

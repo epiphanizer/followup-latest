@@ -19,17 +19,6 @@
       </i>
     </span>
   </li>
-  <li>
-    <span class="ascending-descending-control">
-      <i
-        class="ascending-descending-control-arrow"
-        [class.asc]="selectedSortFlag == 'asc'"
-        [class.desc]="selectedSortFlag == 'desc'"
-        (click)="toggleAscDesc()"
-      >
-      </i>
-    </span>
-  </li>
   <li class="type-filter">
     <a (click)="sortNotificationsByNotificationType(selectedSortFlag)">
       Type
