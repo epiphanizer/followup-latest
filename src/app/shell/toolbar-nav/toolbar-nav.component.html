@@ -2,20 +2,26 @@
   <ion-list lines="none">
     <div class="nav-link-container" *ngFor="let link of navLinks; let i = index">
       <ion-item>
-        <a *ngIf="!link.dropdown.links" routerLink="/{{ link.linkAction }}">
+        <a *ngIf="!link.dropdown.links" (click)="closeDropdowns()" routerLink="/{{ link.linkAction }}">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           {{ link.linkName }}
         </a>
-        <a *ngIf="link.dropdown.links" (mouseover)="toggleDropdown(i, $event)" (mouseout)="toggleDropdown(i, $event)">
+        <a *ngIf="link.dropdown.links" (click)="closeDropdowns()" (mouseover)="openDropdown(i)">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           <a routerLink="/{{ link.linkAction }}">{{ link.linkName }} </a>
         </a>
       </ion-item>
       <div *ngIf="dropdowns[i]">
-        <div [class.active]="dropdowns[i].activated" class="dropdown" *ngIf="link.dropdown.links">
+        <div
+          [class.active]="dropdowns[i].activated"
+          class="dropdown"
+          *ngIf="link.dropdown.links"
+          (mouseenter)="openDropdown(i)"
+          (mouseleave)="closeDropdown(i)"
+        >
           <ul *ngIf="link.minRole >= user.userLevel">
             <li *ngFor="let link of link.dropdown.links">
-              <a (click)="closeDropdown(i)" routerLink="/{{ link.linkAction }}"> {{ link.linkName }}</a>
+              <a (click)="closeDropdowns()" routerLink="/{{ link.linkAction }}"> {{ link.linkName }}</a>
             </li>
           </ul>
         </div>

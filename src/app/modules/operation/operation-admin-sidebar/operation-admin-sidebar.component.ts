@@ -73,7 +73,13 @@ export class OperationAdminSidebarComponent implements OnInit {
   ngOnInit() {
     this.operationGroups$ = this.operationService.getOperationGroups();
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-      this.operationGroups = operationGroups;
+      if (operationGroups) {
+        operationGroups.forEach((operationGroup: OperationGroup) => {
+          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+          operationGroup.sidebarDropdownOpen = true;
+        });
+        this.operationGroups = operationGroups;
+      }
     });
     this.user = this.route.snapshot.data.user;
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));

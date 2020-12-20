@@ -11,6 +11,7 @@ import { OperationContactComponent } from './operation-contact/operation-contact
 import { OperationAdminRightSidebarComponent } from './operation-admin-right-sidebar/operation-admin-right-sidebar.component';
 import { OperationListingComponent } from './operation-listing/operation-listing.component';
 import { OperationOperationListingComponent } from './operation-listing/operation-operation-listing/operation-operation-listing.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,13 @@ import { OperationOperationListingComponent } from './operation-listing/operatio
     OperationOperationListingComponent
   ],
   entryComponents: [OperationOperationListingComponent],
-  imports: [CommonModule, IonicModule, FormsModule, OperationRoutingModule, ReactiveFormsModule]
+  imports: [
+    CommonModule,
+    IonicModule,
+    FormsModule,
+    NgxMaskModule.forRoot(),
+    OperationRoutingModule,
+    ReactiveFormsModule
+  ]
 })
 export class OperationModule {}

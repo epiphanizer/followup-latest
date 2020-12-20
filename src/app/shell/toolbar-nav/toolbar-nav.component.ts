@@ -124,10 +124,17 @@ export class ToolbarNavComponent implements OnInit {
     this.createModal();
   }
 
+  closeDropdowns() {
+    this.dropdowns.forEach(dropdown => {
+      dropdown.activated = false;
+    });
+  }
   closeDropdown(i: number) {
     this.dropdowns[i].activated = false;
   }
-
+  openDropdown(i: number) {
+    this.dropdowns[i].activated = true;
+  }
   toggleDropdown(i: number, $event: any) {
     console.log('toggling dropdown: ' + i);
     console.log(this.dropdowns);
