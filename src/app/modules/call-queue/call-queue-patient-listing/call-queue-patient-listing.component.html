@@ -1,5 +1,5 @@
 <div class="queue-controls">
-  <h1 class="call-queue-headline">QUEUE</h1>
+  <h1 class="call-queue-headline">QUEUE [{{ operation.currentAssignedPatientCount }}]</h1>
   <ul class="patient-filters">
     <li>
       <a [class.active]="filterBy == 'discharge-date'" (click)="sortPatientsByDischargeDate(selectedSortFlag)"

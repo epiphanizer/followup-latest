@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '@app/shared';
 @NgModule({
-  imports: [CommonModule, SharedModule]
+  imports: [CommonModule]
 })
 export class PatientCallModule {}

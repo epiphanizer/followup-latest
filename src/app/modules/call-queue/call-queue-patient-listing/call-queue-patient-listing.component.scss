@@ -191,7 +191,7 @@ h3 {
       display: table-cell;
       vertical-align: middle;
       width: auto;
-      padding-left: 20px;
+      margin-right: 16px;
       padding-top: 5.5px;
       font-family: Avenir;
       font-size: 24.1px;
@@ -254,6 +254,9 @@ h3 {
       background-position: center center;
       border-radius: 50%;
       background-image: url("/assets/default-patient-badge@2x.png");
+      width: 75px;
+      height: 75px;
+      background-color: white;
     }
 
     .call-queue-patient-information {

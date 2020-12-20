@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
-import { Observable } from 'rxjs';
-import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 import { Operation } from '@app/modules/operation/operation';
 
 @Component({
