@@ -38,6 +38,14 @@ export class OperationOperationListingComponent implements OnInit {
     }
   };
 
+  sortOperationsByOperationStatus = function(sortFlag: string) {
+    this.filterBy = 'operation-status';
+    if ((this.selectedSortFlag = 'asc')) {
+      this.operations.reverse();
+    } else {
+      this.operations.sort();
+    }
+  };
   searchOperations($event: KeyboardEvent): Operation[] {
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();

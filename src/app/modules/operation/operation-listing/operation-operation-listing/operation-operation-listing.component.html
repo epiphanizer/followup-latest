@@ -2,12 +2,12 @@
   OPERATIONS
 </h1>
 
-<ul class="operation-filters ">
-  <li class="ion-float-left operation-name">
-    <a [class.active]="filterBy == 'operation-name'" (click)="sortOperationsByOperationName(selectedSortFlag)">Name</a>
-  </li>
-  <li class="ion-float-right">
-    <span class="ascending-descending-control">
+<ul class="operation-filters">
+  <div class="date-filter-container">
+    <li class="date-filter">
+      <a (click)="sortOperationsByOperationName(selectedSortFlag)">Name</a>
+    </li>
+    <li class="ascending-descending-control">
       <i
         class="ascending-descending-control-arrow"
         [class.asc]="selectedSortFlag == 'asc'"
@@ -15,13 +15,25 @@
         (click)="toggleAscDesc()"
       >
       </i>
-    </span>
-  </li>
-  <li class="operation-status ion-float-right">
-    <a>Status</a>
-  </li>
+    </li>
+  </div>
+  <div class="status-filter-container">
+    <li class="status-filter">
+      <a (click)="sortOperationsByStatus(selectedSortFlag)">
+        Status
+      </a>
+    </li>
+    <li class="ascending-descending-control">
+      <i
+        class="ascending-descending-control-arrow"
+        [class.asc]="selectedSortFlag == 'asc'"
+        [class.desc]="selectedSortFlag == 'desc'"
+        (click)="toggleAscDesc()"
+      >
+      </i>
+    </li>
+  </div>
 </ul>
-<ion-item-divider class="divider-line"></ion-item-divider>
 
 <ul class="operation-operation-list" *ngIf="operations$ | async">
   <li *ngFor="let operation of operationsFiltered" class="active" [routerLink]="'/operation/' + operation.operationId">
@@ -35,16 +47,6 @@
     </div>
   </li>
 </ul>
-<!-- <table class="operation-filter-search">
-  <tr>
-    <td>
-      <ion-input placeholder="Operation Search" (ionInput)="searchOperations($event)"> </ion-input>
-    </td>
-    <td>
-      <ion-icon name="search"></ion-icon>
-    </td>
-  </tr>
-</table> -->
 <ng-template #nooperations>
   Sorry! No operations exist for this operation
 </ng-template>

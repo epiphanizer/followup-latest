@@ -18,7 +18,7 @@ import { Patient } from '@app/modules/patient/patient';
 import { Observable } from 'rxjs';
 
 @Component({
-  providers: [],
+  providers: [OperationService],
   selector: 'app-call-queue-sidebar',
   templateUrl: './call-queue-sidebar.component.html',
   styleUrls: ['./call-queue-sidebar.component.scss'],

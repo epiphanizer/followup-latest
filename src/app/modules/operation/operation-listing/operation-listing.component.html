@@ -3,7 +3,7 @@
     <ion-col class="operation-sidebar">
       <app-operation-admin-sidebar> </app-operation-admin-sidebar>
     </ion-col>
-    <ion-col class="operation-content-wrapper">
+    <ion-col class="operation-content-wrapper" *ngIf="selected.operationGroup">
       <ion-title>{{ selected.operationGroup.operationGroupName }}</ion-title>
       <app-operation-operation-listing> </app-operation-operation-listing>
     </ion-col>

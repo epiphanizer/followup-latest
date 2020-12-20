@@ -20,15 +20,6 @@ ion-title {
   padding-top: 58px;
 }
 
-.divider-line {
-  width: 100%;
-  min-height: 1px;
-  height: 1px;
-  display: block;
-  border-top: solid 3.9px var(--ion-color-primary);
-  border-bottom: none;
-}
-
 h1 {
   display: inline-block;
   font-family: AvenirBold;
@@ -43,98 +34,56 @@ h1 {
   margin-bottom: 0;
 }
 
-.operation-filter-search {
-  float: right;
-  ion-input {
-    width: 330.6px;
-    height: 33.9px;
-    border: solid 1px rgba(112, 112, 112, 0.15);
-    background-color: #f5f5f5;
-    font-size: 11px;
-    --placeholder-font-style: "Avenir";
-    --placeholder-font-size: 11px;
-    --placeholder-font-weight: 300;
-    text-align: left;
-    color: #8e8e93;
-  }
-
-  ion-icon {
-    background: transparent;
-    color: --azure;
-    height: 34px;
-    font-size: 18px;
-    margin-left: -30px;
-    margin-top: -18px;
-    z-index: 25;
-    position: absolute;
-  }
-}
-
 ul.operation-filters {
   list-style-type: none;
   display: block;
   width: 100%;
-  padding-left: 0;
+  padding-left: 16px;
   margin-top: 0;
   margin-bottom: 0;
-
+  div {
+    display: inline-block;
+  }
   li {
     cursor: pointer;
     display: inline-block;
-    font-family: AvenirPro;
+    font-family: AvenirDemi;
+    text-transform: uppercase;
+    font-size: 13px;
     font-weight: normal;
-    font-style: normal;
-    vertical-align: top;
     font-stretch: normal;
-    line-height: 2.88;
-    letter-spacing: 0.53px;
-    text-align: center;
-
+    font-style: normal;
+    line-height: 2.31;
+    letter-spacing: 0.13px;
+    text-align: left;
+    color: #222222;
     a {
       cursor: pointer;
-      &.active {
-        border-bottom: 1px solid var(--ion-color-primary);
-      }
+      font-family: AvenirBold;
+      font-size: 13px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 2.31;
+      letter-spacing: 0.13px;
+      text-align: right;
+      color: #222222;
+      text-decoration: none;
     }
+
     &.ascending-descending-control {
-      height: 30px;
-
       .ascending-descending-control-arrow {
         display: block;
-        width: 14px;
-        height: 9px;
-        margin-top: 12px;
-        background-image: url("/assets/icon-down-arrow@2x.png");
+        width: 11px;
+        height: 11px;
+        background-image: url("/assets/icon-list-sort@2x.png");
         background-size: 100%;
+        background-repeat: no-repeat;
+        margin-top: 6px;
+
         &.asc {
           transform: rotate(180deg);
-        }
-      }
-    }
-
-    &.operation-filter {
-      width: 245px;
-      height: 100%;
-      margin-right: 145px;
-    }
-
-    .ascending-descending-control {
-      height: 30px;
-      width: 30px;
-      float: right;
-      display: block;
-      margin-top: 20px;
-      margin-left: 8px;
-      cursor: pointer;
-
-      .ascending-descending-control-arrow {
-        display: block;
-        width: 14px;
-        height: 9px;
-        background-image: url("/assets/icon-down-arrow@2x.png");
-        background-size: 100%;
-        &.asc {
-          transform: rotate(180deg);
+          margin-top: 3px;
         }
       }
     }

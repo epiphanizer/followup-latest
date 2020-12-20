@@ -1,29 +1,35 @@
 <h1 class="patients-listing-headline">PATIENTS</h1>
 <ul class="patient-filters">
-  <li class="patient-discharge-date">
-    <a [class.active]="filterBy == 'discharge-date'" (click)="sortPatientsByDischargeDate(selectedSortFlag)">Date</a>
-  </li>
-  <li class="ascending-descending-control">
-    <i
-      class="ascending-descending-control-arrow"
-      [class.asc]="selectedSortFlag == 'asc'"
-      [class.desc]="selectedSortFlag == 'desc'"
-      (click)="toggleAscDesc()"
-    >
-    </i>
-  </li>
-  <li class="patient-name-filter">
-    <a [class.active]="filterBy == 'patient-name'" (click)="sortPatientsByPatientName(selectedSortFlag)">Name</a>
-  </li>
-  <li class="ascending-descending-control">
-    <i
-      class="ascending-descending-control-arrow"
-      [class.asc]="selectedSortFlag == 'asc'"
-      [class.desc]="selectedSortFlag == 'desc'"
-      (click)="toggleAscDesc()"
-    >
-    </i>
-  </li>
+  <div class="date-filter-container">
+    <li class="patient-discharge-date">
+      <a [class.active]="filterBy == 'discharge-date'" (click)="sortPatientsByDischargeDate(selectedSortFlag)">Date</a>
+    </li>
+    <li class="ascending-descending-control">
+      <i
+        class="ascending-descending-control-arrow"
+        [class.asc]="selectedSortFlag == 'asc'"
+        [class.desc]="selectedSortFlag == 'desc'"
+        (click)="toggleAscDesc()"
+      >
+      </i>
+    </li>
+  </div>
+  <div class="name-filter-container">
+    <li class="patient-name-filter">
+      <a [class.active]="filterBy == 'patient-name'" (click)="sortPatientsByPatientName(selectedSortFlag)">
+        Patient
+      </a>
+    </li>
+    <li class="ascending-descending-control">
+      <i
+        class="ascending-descending-control-arrow"
+        [class.asc]="selectedSortFlag == 'asc'"
+        [class.desc]="selectedSortFlag == 'desc'"
+        (click)="toggleAscDesc()"
+      >
+      </i>
+    </li>
+  </div>
   <li class="patient-status">
     <span>
       <a [class.active]="filterBy == 'patient-status'" (click)="sortPatientsByPatientStatus(selectedSortFlag)">
@@ -44,17 +50,13 @@
 
 <ion-list class="patient-patient-list" lines="none" *ngIf="patients$ | async">
   <ion-item *ngFor="let patient of pageOfItems" class="active" [routerLink]="getPatientLink(patient)">
+    {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}
     <div class="patient-avatar-container">
       <app-patient-avatar [patient]="patient"> </app-patient-avatar>
     </div>
 
     <div class="patient-patient-information ion-float-left">
       <span class="patient-patient-name"> {{ patient.patientFirstName }} {{ patient.patientLastName }} </span>
-      <span class="patient label-line"
-        >Discharge: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}
-        Next Call:
-        {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }}
-      </span>
     </div>
     <div class="patient-patient-status-container ion-float-right">
       <span class="patient-patient-status" *ngIf="patient.patientActive; else inactive">

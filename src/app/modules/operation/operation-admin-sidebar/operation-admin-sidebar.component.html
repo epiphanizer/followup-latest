@@ -6,33 +6,6 @@
     </div>
   </div>
   <div class="facility-dropdown-container">
-    <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
-    <span class="spanish-indicator">SPANISH <i class="patient"></i><i class="indicator"></i></span>
-    <ng-container *ngIf="operationGroups">
-      <li *ngIf="selected.operation">
-        <a
-          (click)="setActiveOperation(operation)"
-          [class.active]="selected.operation.operationId == operation.operationId"
-        >
-          {{ operation.operationName }}
-          <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
-        </a>
-      </li>
-      <ul
-        class="facility-dropdown-list"
-        [@expandSidebar]="isOpen ? 'open' : 'closed'"
-        class="facility-dropdown-list active"
-      >
-        <li *ngFor="let operation of operations; let i = index">
-          <a
-            [routerLink]="'/operation/' + operation.operationId"
-            (click)="setActiveOperation(operation)"
-            [class.active]="activeOperationId == operation.operationId"
-          >
-            {{ operation.operationName }}
-          </a>
-        </li>
-      </ul>
-    </ng-container>
+    <ng-container *ngIf="operationGroups"> </ng-container>
   </div>
 </div>

@@ -63,21 +63,17 @@ export class OperationAdminSidebarComponent implements OnInit {
   } = {
     operation: null
   };
-  isOpen = true;
+
   operationGroups: OperationGroup[] = [];
+  operationGroups$: Observable<OperationGroup[]>;
   operations: Operation[] = [];
   user: User;
   todaysDateDay: number;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   ngOnInit() {
-    this.operationService.getAllOperations().subscribe((data: Operation[]) => {
-      this.operations = data;
-      if (!this.route.snapshot.paramMap.get('operationId')) {
-        this.editMode = false;
-      } else {
-        this.editMode = true;
-        this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
-      }
+    this.operationGroups$ = this.operationService.getOperationGroups();
+    this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
+      this.operationGroups = operationGroups;
     });
     this.user = this.route.snapshot.data.user;
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
