@@ -7,10 +7,11 @@ import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { UserAvatarService } from './user-avatar/user-avatar.service';
 import { IonicModule } from '@ionic/angular';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [UserDetailComponent, UserAvatarComponent],
-  imports: [CommonModule, IonicModule, UserProfileRoutingModule],
+  imports: [CommonModule, IonicModule, NgxMaskModule.forRoot(), UserProfileRoutingModule],
   exports: [UserDetailComponent, UserAvatarComponent],
   providers: [UserAvatarService, NgxImageCompressService]
 })

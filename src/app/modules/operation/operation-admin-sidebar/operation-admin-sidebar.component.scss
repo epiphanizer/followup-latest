@@ -59,6 +59,7 @@
       }
     }
   }
+
   .spanish-indicator {
     margin-top: 22px;
   }
@@ -85,10 +86,6 @@
   }
 }
 
-.facility-dropdown-target {
-  cursor: pointer;
-}
-
 .expand-facilities-trigger {
   cursor: pointer;
   background-image: url("/assets/icon-arrow-down@2x.png");
@@ -102,13 +99,21 @@
 .operation-group-container {
   margin-bottom: 22px;
 }
+
+.operation-group-link {
+  text-decoration: none;
+  color: #222222;
+}
+
 .group-operations {
   display: none;
   transition: 0.25s all;
   padding-right: 4px;
+
   &.show {
     display: block;
   }
+
   list-style-type: none;
   padding-left: 0;
 
@@ -122,6 +127,7 @@
     line-height: 1.86;
     letter-spacing: 0.14px;
     color: #343638;
+
     a.operation-link {
       margin-right: 17px;
       text-align: right;
@@ -129,6 +135,7 @@
       text-transform: capitalize;
       color: #343638;
     }
+
     span.current-patients {
       display: inline-block;
       min-width: 8px;

@@ -18,6 +18,7 @@ import { FollowupCompleteButtonComponent } from './patient-detail/followup-compl
 import { PatientAvatarUploadComponent } from './patient-avatar-upload/patient-avatar-upload.component';
 import { SharedModule } from '@app/shared';
 import { PatientListingFilterComponent } from './patient-listing-filter/patient-listing-filter.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { PatientListingFilterComponent } from './patient-listing-filter/patient-
     IonicModule,
     RouterModule,
     FormsModule,
+    NgxMaskModule.forRoot(),
     ReactiveFormsModule,
     PatientRoutingModule,
     PatientCallModule,

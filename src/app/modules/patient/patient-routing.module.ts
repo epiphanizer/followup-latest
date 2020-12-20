@@ -49,7 +49,7 @@ const routes: Routes = [
       }
     },
     {
-      path: 'patient/add',
+      path: 'patients/add',
       pathMatch: 'full',
       component: PatientFormComponent,
       canActivate: [AuthGuardService],

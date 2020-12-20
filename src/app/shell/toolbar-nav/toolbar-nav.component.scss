@@ -3,6 +3,7 @@
   display: inline-block;
   height: 300px;
 }
+
 ion-list {
   display: inline-block;
   list-style-type: none;
@@ -120,20 +121,29 @@ ion-list {
       display: inline-block;
       width: 100%;
       height: auto;
-      font-family: Avenir;
-      font-size: 15px;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 2.27;
-      letter-spacing: 0.15px;
       text-align: left;
-      color: #222222;
-      padding-left: 25px;
+
+      a {
+        padding-left: 25px;
+        display: block;
+        width: 100%;
+        font-family: Avenir;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.27;
+        letter-spacing: 0.15px;
+        color: #222222;
+        text-decoration: none;
+      }
 
       &:hover {
         background-color: #00b8be;
-        color: white;
+
+        a {
+          color: white;
+        }
       }
 
       &:active {

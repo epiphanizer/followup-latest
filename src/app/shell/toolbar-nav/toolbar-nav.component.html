@@ -6,16 +6,16 @@
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           {{ link.linkName }}
         </a>
-        <a *ngIf="link.dropdown.links" (mouseover)="toggleDropdown(i)" (mouseout)="toggleDropdown(i)">
+        <a *ngIf="link.dropdown.links" (mouseover)="toggleDropdown(i, $event)" (mouseout)="toggleDropdown(i, $event)">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
-          <a routerLink="/{{ link.linkAction }}"> {{ link.linkName }} </a>
+          <a routerLink="/{{ link.linkAction }}">{{ link.linkName }} </a>
         </a>
       </ion-item>
       <div *ngIf="dropdowns[i]">
         <div [class.active]="dropdowns[i].activated" class="dropdown" *ngIf="link.dropdown.links">
           <ul *ngIf="link.minRole >= user.userLevel">
             <li *ngFor="let link of link.dropdown.links">
-              {{ link.linkName }}
+              <a (click)="closeDropdown(i)" routerLink="/{{ link.linkAction }}"> {{ link.linkName }}</a>
             </li>
           </ul>
         </div>

@@ -71,7 +71,7 @@ export class ToolbarNavComponent implements OnInit {
               linkName: 'Operations'
             },
             {
-              linkAction: '/operations/add',
+              linkAction: '/operation/add',
               linkName: 'Add Operation'
             }
           ]
@@ -124,10 +124,14 @@ export class ToolbarNavComponent implements OnInit {
     this.createModal();
   }
 
-  toggleDropdown(i: number) {
+  closeDropdown(i: number) {
+    this.dropdowns[i].activated = false;
+  }
+
+  toggleDropdown(i: number, $event: any) {
     console.log('toggling dropdown: ' + i);
-    this.dropdowns[i].activated = !this.dropdowns[i].activated;
     console.log(this.dropdowns);
+    this.dropdowns[i].activated = !this.dropdowns[i].activated;
     /**
      * We do a quick check here for our mouseout event...
      * We only want to toggle off if we are not inside of an open dropdown.
@@ -136,6 +140,12 @@ export class ToolbarNavComponent implements OnInit {
     if (activeDropdown[0]) {
       var boundingBox = activeDropdown[0].getBoundingClientRect();
       console.log(boundingBox);
+      console.log($event);
+      console.log($event.clientX - (boundingBox.x + boundingBox.width));
+      if ($event.clientX - (boundingBox.x + boundingBox.width) < 0) {
+        console.log('condition met on x axis');
+        this.dropdowns[i].activated = !this.dropdowns[i].activated;
+      }
     }
   }
 

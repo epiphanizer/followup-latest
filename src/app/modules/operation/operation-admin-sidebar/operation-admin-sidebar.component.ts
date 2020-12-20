@@ -83,4 +83,7 @@ export class OperationAdminSidebarComponent implements OnInit {
     this.activeOperationId = operation.operationId;
     this.operationChangeEvent.emit(operation);
   };
+  toggleOperationSidebarMenu(operationGroup: OperationGroup) {
+    operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
+  }
 }
