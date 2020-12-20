@@ -28,14 +28,16 @@ ul.patient-filters {
   li {
     cursor: pointer;
     display: inline-block;
-    font-family: AvenirNextLtPro;
+    font-family: AvenirProDemi;
+    text-transform: uppercase;
+    font-size: 13px;
     font-weight: normal;
-    font-style: normal;
-    vertical-align: top;
     font-stretch: normal;
-    line-height: 2.88;
-    letter-spacing: 0.53px;
-    text-align: left;
+    font-style: normal;
+    line-height: 2.31;
+    letter-spacing: 0.13px;
+    text-align: right;
+    color: #222222;
     &.patient-date {
       width: 115px;
     }

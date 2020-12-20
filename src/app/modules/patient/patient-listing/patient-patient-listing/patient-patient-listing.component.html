@@ -1,9 +1,7 @@
 <h1 class="patients-listing-headline">PATIENTS</h1>
 <ul class="patient-filters ion-float-right">
   <li class="patient-discharge-date">
-    <a [class.active]="sfilterBy == 'discharge-date'" (click)="sortPatientsByDischargeDate(selectedSortFlag)"
-      >Discharge Date</a
-    >
+    <a [class.active]="filterBy == 'discharge-date'" (click)="sortPatientsByDischargeDate(selectedSortFlag)">Date</a>
   </li>
   <li class="ascending-descending-control">
     <i

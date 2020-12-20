@@ -96,7 +96,9 @@ h3 {
     margin-right: 3px;
     background-color: #f4f6f8;
     color: black;
-
+    &.disabled {
+      color: #f4f6f8;
+    }
     &.active {
       font-family: AvenirBold;
       color: white;
