@@ -80,37 +80,13 @@ export class CallQueueSidebarComponent {
     this.operationGroups$ = this.operationService.getOperationGroups();
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
       if (operationGroups) {
-        this.operationGroups = operationGroups;
-        console.log(operationGroups);
-        this.operationGroups.forEach((operationGroup: OperationGroup) => {
+        operationGroups.forEach((operationGroup: OperationGroup) => {
           operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
-          console.log('got operatoin group stuff');
         });
+        this.operationGroups = operationGroups;
       }
     });
-    this.user = this.route.snapshot.data.user;
-    // this.operations = this.user.operations;
-    this.user.operations$.subscribe((data: Operation[]) => {
-      /** Init to the first assigned operation alphabetically */
-      this.operations = data;
-      console.log(data);
-      this.operations.forEach((operation: Operation, idx: number) => {
-        // console.log(operation);
-        // var thisOperationGroup = {
-        //   operationGroupId: operation.operationGroupId,
-        //   operationGroupName: operation.operationGroupName
-        // };
-        // if (
-        //   !this.operationGroups.find(
-        //     operationGroup => operationGroup.operationGroupId == thisOperationGroup.operationGroupId
-        //   )
-        // )
-        //   // if (this.operationGroups.indexOf(operationGroup) == -1) {
-        //   this.operationGroups.push(thisOperationGroup);
-        // console.log('pushing ops group');
-        // }
-      });
-    });
+
     this.route.paramMap.subscribe((data: any) => {
       if (data.params.operationId) {
         this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
@@ -126,7 +102,13 @@ export class CallQueueSidebarComponent {
         });
       } else {
         /** Init to the first user operation (alphabetically,) */
-        this.selected.operation = this.operations[0];
+        this.user = this.route.snapshot.data.user;
+        // this.operations = this.user.operations;
+        this.user.operations$.subscribe((data: Operation[]) => {
+          /** Init to the first assigned operation alphabetically */
+          this.operations = data;
+          this.selected.operation = this.operations[0];
+        });
       }
     });
 

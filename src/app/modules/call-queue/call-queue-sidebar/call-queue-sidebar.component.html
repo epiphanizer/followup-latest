@@ -20,7 +20,7 @@
           >
           </i>
           <ul *ngIf="operationGroup.operations$ | async">
-            <li *ngFor="let operation of operationGroup.operations$">
+            <li *ngFor="let operation of operationGroup.operations">
               <a
                 [routerLink]="'/call-queue/operations/' + operation.operationId"
                 (click)="setActiveOperation(operation)"
