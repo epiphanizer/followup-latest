@@ -7,6 +7,44 @@
   </div>
   <div class="facility-dropdown-container">
     <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
+    <ng-container *ngIf="operationGroups">
+      <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
+        <span class="operation-group"
+          >{{ operationGroup.operationGroupName }}
+          <i
+            class="expand-facilities-trigger"
+            (click)="toggleOperationSidebarMenu(operationGroup)"
+            [@turnArrow]="operationGroup.sidebarDropdownOpen ? 'open' : 'closed'"
+            class="expand-facilities-trigger active"
+          >
+          </i>
+          <ul
+            class="group-operations"
+            [class.show]="operationGroup.sidebarDropdownOpen"
+            *ngIf="operationGroup.operations$"
+          >
+            <li
+              *ngFor="let operation of operationGroup.operations$ | async"
+              [class.spanish]="operation.spanishSpeaking"
+            >
+              <a
+                class="operation-link"
+                [routerLink]="'/call-queue/operations/' + operation.operationId"
+                (click)="setActiveOperation(operation)"
+                [class.active]="activeOperationId == operation.operationId"
+              >
+                {{ operation.operationName }}
+              </a>
+
+              <span class="current-patients">
+                {{ operation.currentAssignedPatientCount }}
+              </span>
+            </li>
+          </ul>
+        </span>
+      </div>
+    </ng-container>
+
     <span class="spanish-indicator">SPANISH <i class="patient"></i><i class="indicator"></i></span>
 
     <ng-template #noOperations>

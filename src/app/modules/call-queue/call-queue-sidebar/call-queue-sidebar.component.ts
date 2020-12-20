@@ -65,7 +65,7 @@ export class CallQueueSidebarComponent {
   } = {
     operation: null
   };
-
+  activeOperationId: number;
   constructor(
     private route: ActivatedRoute,
     private operationService: OperationService,
@@ -96,7 +96,6 @@ export class CallQueueSidebarComponent {
             .getActivePatientListByOperationId(this.selected.operation.operationId)
             .subscribe((patients: Patient[]) => {
               if (patients !== null) {
-                console.log('getting patient count');
                 // this.getCurrentNewDischargeCount(patients);
               }
             });
@@ -109,6 +108,7 @@ export class CallQueueSidebarComponent {
           /** Init to the first assigned operation alphabetically */
           this.operations = data;
           this.selected.operation = this.operations[0];
+          this.activeOperationId = this.selected.operation.operationId;
         });
       }
     });

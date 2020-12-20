@@ -10,10 +10,13 @@ import {
 } from '@angular/animations';
 
 import { User } from '@app/modules/user/user';
-import { Operation } from '@app/modules/operation/operation';
+import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { OperationService } from '@app/modules/operation/operation.service';
 
 @Component({
+  providers: [OperationService],
   selector: 'app-notification-listing-sidebar',
   templateUrl: './notification-listing-sidebar.component.html',
   styleUrls: ['./notification-listing-sidebar.component.scss'],
@@ -59,12 +62,25 @@ export class NotificationListingSidebarComponent implements OnInit {
   } = {
     operation: null
   };
-  isOpen = true;
-  constructor(private route: ActivatedRoute) {}
+  operationGroups: OperationGroup[] = null;
+  operationGroups$: Observable<OperationGroup[]>;
+
+  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
   user: User;
   todaysDateDay: number;
   ngOnInit() {
+    this.operationGroups$ = this.operationService.getOperationGroups();
+    this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
+      if (operationGroups) {
+        operationGroups.forEach((operationGroup: OperationGroup) => {
+          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+          operationGroup.sidebarDropdownOpen = true;
+        });
+        this.operationGroups = operationGroups;
+      }
+    });
+
     this.user = this.route.snapshot.data.user;
     this.user.operations$.subscribe((data: Operation[]) => {
       /** Init to the first assigned operation alphabetically */
@@ -75,13 +91,14 @@ export class NotificationListingSidebarComponent implements OnInit {
         this.setActiveOperation(this.selected.operation);
       }
     });
+
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
     this.operationChangeEvent.emit(operation);
   };
-  public toggleOperationSidebarMenu = function() {
-    this.isOpen = !this.isOpen;
-  };
+  toggleOperationSidebarMenu(operationGroup: OperationGroup) {
+    operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
+  }
 }
