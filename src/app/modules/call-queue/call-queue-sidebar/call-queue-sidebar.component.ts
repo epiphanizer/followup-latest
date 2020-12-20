@@ -82,6 +82,7 @@ export class CallQueueSidebarComponent {
       if (operationGroups) {
         operationGroups.forEach((operationGroup: OperationGroup) => {
           operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+          operationGroup.sidebarDropdownOpen = true;
         });
         this.operationGroups = operationGroups;
       }
@@ -125,4 +126,7 @@ export class CallQueueSidebarComponent {
     this.selected.operation = operation;
     this.operationChangeEvent.emit(operation);
   };
+  toggleOperationSidebarMenu(operationGroup: OperationGroup) {
+    operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
+  }
 }

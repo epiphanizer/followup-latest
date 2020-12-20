@@ -8,17 +8,21 @@
   <div class="facility-dropdown-container">
     <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
     <ng-container *ngIf="operationGroups">
-      <div *ngFor="let operationGroup of operationGroups; let i = index">
+      <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
         <span class="operation-group"
           >{{ operationGroup.operationGroupName }}
           <i
             class="expand-facilities-trigger"
-            (click)="toggleOperationSidebarMenu()"
-            [@turnArrow]="isOpen ? 'open' : 'closed'"
+            (click)="toggleOperationSidebarMenu(operationGroup)"
+            [@turnArrow]="operationGroup.sidebarDropdownOpen ? 'open' : 'closed'"
             class="expand-facilities-trigger active"
           >
           </i>
-          <ul class="group-operations" *ngIf="operationGroup.operations$">
+          <ul
+            class="group-operations"
+            [class.show]="operationGroup.sidebarDropdownOpen"
+            *ngIf="operationGroup.operations$"
+          >
             <li
               *ngFor="let operation of operationGroup.operations$ | async"
               [class.spanish]="operation.spanishSpeaking"

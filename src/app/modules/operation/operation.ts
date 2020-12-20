@@ -53,6 +53,8 @@ export interface OperationGroup {
   operationGroupName: string;
   operations?: Operation[];
   operations$?: Observable<Operation[]>;
+  // control for the sidebar
+  sidebarDropdownOpen?: Boolean;
 }
 export interface OperationManager {
   operationManagerId?: number;

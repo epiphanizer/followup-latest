@@ -100,7 +100,15 @@
   background-repeat: no-repeat;
 }
 
+.operation-group-container {
+  margin-bottom: 22px;
+}
 .group-operations {
+  display: none;
+  transition: 0.25s all;
+  &.show {
+    display: block;
+  }
   list-style-type: none;
   padding-left: 0;
 
