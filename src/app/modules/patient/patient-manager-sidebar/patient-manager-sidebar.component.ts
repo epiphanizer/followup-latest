@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { Operation } from '@app/modules/operation/operation';
+import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { formatDate } from '@angular/common';
 import {
   trigger,
@@ -15,8 +15,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientService } from '../patient.service';
 import { Patient } from '../patient';
+import { Observable } from 'rxjs';
 
 @Component({
+  providers: [OperationService],
   selector: 'app-patient-manager-sidebar',
   templateUrl: './patient-manager-sidebar.component.html',
   styleUrls: ['./patient-manager-sidebar.component.scss'],
@@ -63,7 +65,9 @@ export class PatientManagerSidebarComponent implements OnInit {
   } = {
     operation: null
   };
-  isOpen = true;
+  operationGroups: OperationGroup[] = null;
+  operationGroups$: Observable<OperationGroup[]>;
+
   operations: Operation[];
   user: User;
   todaysDateDay: number;
@@ -78,6 +82,16 @@ export class PatientManagerSidebarComponent implements OnInit {
   ngOnInit() {
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     this.user = this.route.snapshot.data.user;
+    this.operationGroups$ = this.operationService.getOperationGroups();
+    this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
+      if (operationGroups) {
+        operationGroups.forEach((operationGroup: OperationGroup) => {
+          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+          operationGroup.sidebarDropdownOpen = true;
+        });
+        this.operationGroups = operationGroups;
+      }
+    });
 
     this.user.operations$.subscribe((data: Operation[]) => {
       /** Init to the first assigned operation alphabetically */
@@ -111,14 +125,15 @@ export class PatientManagerSidebarComponent implements OnInit {
     this.activeOperationId = this.selected.operation.operationId;
     this.operationChangeEvent.emit(operation);
   };
-  public toggleOperationSidebarMenu = function() {
-    this.isOpen = !this.isOpen;
-  };
+
   public getCurrentNewDischargeCount(patients: Patient[]) {
     let patientsWithNoCalls = [];
     patientsWithNoCalls = patients.filter(function(patient: Patient) {
       return patient.patientCallCount - 1 == 0;
     });
     return patientsWithNoCalls.length;
+  }
+  toggleOperationSidebarMenu(operationGroup: OperationGroup) {
+    operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
   }
 }
