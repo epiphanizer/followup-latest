@@ -22,6 +22,7 @@ export class CalendarComponent implements OnInit {
     name: string;
   };
   chosenMonth: string;
+  offsetNumber: number;
   selectedDay: number;
   selectedDate: Date | string;
   selectedMonth: {
@@ -116,13 +117,13 @@ export class CalendarComponent implements OnInit {
     );
 
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
-    let offsetNumber = this.getFirstDayOffset(firstDayOfMonthIndex);
+    this.offsetNumber = this.getFirstDayOffset(firstDayOfMonthIndex);
     /**
      * Add negative values to the start of the daysArray loop (unshift)
      * We hide the actual value from the frontend in terms of <span>{{day}}</span>
      * but we use use the values to provide the placeholder we need.
      */
-    for (var j = offsetNumber; j < 0; j++) {
+    for (var j = this.offsetNumber; j < 0; j++) {
       this.selectedMonth.daysArray.unshift(j);
     }
   }

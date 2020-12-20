@@ -8,7 +8,8 @@
   <div class="calendar-wrapper">
     <div
       class="calendar-day"
-      *ngFor="let day of selectedMonth.daysArray"
+      *ngFor="let day of selectedMonth.daysArray; let i = index"
+      [class.disabled]="(i + 1) % 7 == 0 || i % 7 == 0"
       [class.active]="selectedDay == day && selectedMonth.number == chosenMonth"
       (click)="selectDateEventHandler(day, currentCalendarMonth.number, selectedYear.year)"
     >

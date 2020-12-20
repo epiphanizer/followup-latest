@@ -97,7 +97,7 @@ h3 {
     background-color: #f4f6f8;
     color: black;
     &.disabled {
-      color: #f4f6f8;
+      color: #666;
     }
     &.active {
       font-family: AvenirBold;
@@ -108,7 +108,7 @@ h3 {
     span {
       &.hide {
         cursor: not-allowed;
-        color: transparent;
+        color: #666;
       }
     }
   }
