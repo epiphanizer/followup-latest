@@ -40,7 +40,7 @@ export class OperationOperationListingComponent implements OnInit {
     }
   };
 
-  sortOperationsByOperationStatus = function(sortFlag: string) {
+  sortOperationsByStatus = function(sortFlag: string) {
     this.filterBy = 'operation-status';
     if ((this.selectedSortFlag = 'asc')) {
       this.operations.reverse();
