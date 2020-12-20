@@ -163,7 +163,7 @@ ul.patient-filters {
       background-image: url("/assets/default-patient-badge@2x.png");
     }
 
-    .patient-patient-information {
+    .operation-information {
       font-family: AvenirPro;
       font-size: 16px;
       font-weight: 500;
@@ -181,7 +181,7 @@ ul.patient-filters {
         color: #343638;
         text-decoration: none;
       }
-      .patient-patient-name {
+      .operation-name {
         display: block;
         height: auto;
         text-transform: capitalize;
@@ -195,23 +195,7 @@ ul.patient-filters {
         color: #222222;
       }
     }
-
-    .patient-type {
-      display: block;
-      font-family: Avenir;
-      font-size: 16px;
-
-      img {
-        max-width: 20px;
-        margin-right: 6px;
-      }
-
-      img,
-      span {
-        display: inline-block;
-      }
-    }
-    .patient-status {
+    .opreation-status {
       font-family: AvenirPro;
       display: block;
       width: 21px;

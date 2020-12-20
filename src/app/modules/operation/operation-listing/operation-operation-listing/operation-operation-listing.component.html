@@ -35,18 +35,22 @@
   </div>
 </ul>
 
-<ul class="operation-operation-list" *ngIf="operations$ | async">
-  <li *ngFor="let operation of operationsFiltered" class="active" [routerLink]="'/operation/' + operation.operationId">
-    <div class="operation-operation-information">
-      <span class="operation-operation-name ion-float-left">
+<ion-list class="operation-list" *ngIf="operationGroup.operations$ | async; else noOperations">
+  <ion-item
+    *ngFor="let operation of operationGroup.operations$ | async"
+    class="active"
+    [routerLink]="'/operation/' + operation.operationId"
+  >
+    <div class="operation-information">
+      <span class="operation-name">
         {{ operation.operationName }}
       </span>
-      <span class="operation-operation-status ion-float-right">
+      <span class="operation-status">
         {{ operation.operationActive == 1 ? 'Active' : 'Inactive' }}
       </span>
     </div>
-  </li>
-</ul>
-<ng-template #nooperations>
+  </ion-item>
+</ion-list>
+<ng-template #noOperations>
   Sorry! No operations exist for this operation
 </ng-template>

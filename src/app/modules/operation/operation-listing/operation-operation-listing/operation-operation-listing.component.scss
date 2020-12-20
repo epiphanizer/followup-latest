@@ -41,9 +41,17 @@ ul.operation-filters {
   padding-left: 16px;
   margin-top: 0;
   margin-bottom: 0;
+
   div {
     display: inline-block;
+    padding-left: 16px;
+    &.name-filter {
+      width: 84px;
+    }
+    &.status-filter {
+    }
   }
+
   li {
     cursor: pointer;
     display: inline-block;
@@ -57,6 +65,7 @@ ul.operation-filters {
     letter-spacing: 0.13px;
     text-align: left;
     color: #222222;
+
     a {
       cursor: pointer;
       font-family: AvenirBold;
@@ -90,64 +99,23 @@ ul.operation-filters {
   }
 }
 
-.section-header {
-  i {
-    width: 17px;
-    height: 17px;
-    display: inline-block;
-    margin-right: 16px;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
-
-    &.icon-new-discharges {
-      background-image: url("/assets/icon-new-discharges@2x.png");
-    }
-  }
-}
-
-.operation-operations {
-  color: white;
-  font-style: normal;
-  font-size: 12px;
-  line-height: 2.17;
-  margin-left: -29px;
-  margin-top: -3.5px;
-  position: absolute;
-}
-
-.operation-operation-list {
-  clear: both;
+.operation-list {
   list-style-type: none;
   width: 100%;
   padding-left: 0;
 
-  li {
+  ion-item {
+    --padding-top: 15px;
+    --padding-bottom: 15px;
     cursor: pointer;
     width: 100%;
-    display: block;
-    height: 96px;
-    .operation-discharge-date {
-      float: left;
-      height: 55px;
-      vertical-align: middle;
-      line-height: 90px;
-      margin: 0 1rem;
-      font-weight: bold;
-      width: 96px;
-      height: 100%;
-    }
+    border-top: solid 1.5px #bbbbbb;
+    border-bottom: solid 1.5px #bbbbbb;
+    background-color: #ffffff;
+    display: table;
 
-    &.active {
-      background-color: rgba(8, 196, 0, 0.1);
-
-      &:hover {
-        background-color: rgba(19, 175, 233, 0.35);
-      }
-    }
-
-    &:hover {
-      background-color: rgba(19, 175, 233, 0.35);
+    &:active {
+      background-color: #00b4b9;
     }
 
     ul {
@@ -155,102 +123,31 @@ ul.operation-filters {
       list-style-type: none;
     }
 
-    .operation-date {
-      display: block;
-      float: left;
-      width: 96px;
-      height: 100%;
-      font-family: Avenir;
-      font-size: 16px;
-      font-weight: 900;
-      font-style: normal;
-      font-stretch: normal;
-      letter-spacing: 0.96px;
-      text-align: center;
-      color: #343638;
-      padding-top: 40px;
-
-      &.active {
-        color: #08c400;
-      }
-    }
-    .operation-operation-status {
-      line-height: 96px;
-      font-size: 13px;
-      margin-right: 50px;
-    }
-    .operation-type {
-      display: block;
-      margin-top: 35px;
-      font-family: Avenir;
-      font-size: 17px;
-      float: left;
-      width: 270px;
-      height: auto;
-
-      img {
-        max-width: 20px;
-        margin-right: 6px;
-      }
-
-      img,
-      span {
-        display: inline-block;
-      }
-    }
-
-    .operation-status {
-      display: block;
-      width: 30px;
-      height: 100%;
-      float: left;
-    }
-
     &:nth-child(even) {
-      background-color: rgba(200, 200, 200, 0.05);
+      background-color: white;
     }
 
     &:nth-child(odd) {
-      background-color: RGBA(200, 200, 200, 0.15);
+      background-color: #c8c8c8;
     }
 
-    .operation-listing-avatar {
-      float: left;
-      margin-top: 10.5px;
-      margin-right: 1.5rem;
-      width: 74.8px;
-      height: 75.2px;
-      max-height: 60px;
-      box-shadow: 1.4px 1.4px 1.4px 0 rgba(35, 31, 32, 0.15);
-      background-color: #ffffff;
-      background-image: url("/assets/default-avatar-operation-detail@2x.png");
-      background-size: cover;
-      background-position: center center;
-      border-radius: 50%;
+    &:hover {
+      background-color: rgba(19, 175, 233, 0.35);
     }
 
-    .operation-operation-information {
-      line-height: 96px;
-      float: left;
-      padding-left: 11.2px;
-      width: 100%;
-      margin-right: 22px;
-      height: 96px;
-      color: black;
-    }
-
-    .operation-operation-name {
-      display: block;
-      height: 18px;
-      font-family: Avenir;
-      font-size: 21px;
-      font-weight: normal;
-      font-style: normal;
+    .operation-name {
+      font-family: AvenirPro;
+      font-size: 16px;
+      font-weight: 500;
+      width: 175px;
+      margin-right: 36px;
       font-stretch: normal;
+      font-style: normal;
+      line-height: 1.75;
       letter-spacing: normal;
       text-align: left;
-      color: #343638;
-      width: auto;
+      color: #222222;
+      text-transform: capitalize;
 
       a {
         color: #343638;
@@ -258,75 +155,20 @@ ul.operation-filters {
       }
     }
 
-    .operation-operation-detail {
-      width: 177px;
-      height: 13px;
-      font-family: AvenirNextLTPro;
-      font-size: 13px;
-      font-weight: normal;
-      font-style: normal;
+    .operation-status {
+      font-family: AvenirPro;
+      display: block;
+      width: 21px;
+      height: 21px;
+      font-size: 16px;
+      font-weight: 500;
+      margin-right: 36px;
       font-stretch: normal;
-      line-height: 0.85;
+      font-style: normal;
+      line-height: 1.75;
       letter-spacing: normal;
       text-align: left;
-      color: #8e8e93;
-    }
-
-    .operation-operation-listing-controls {
-      display: inline-block;
-      height: 215px;
-      width: 17px;
-    }
-
-    .operation.label-line {
-      color: #8e8e93;
-      font-size: 13px;
-      font-family: Avenir;
-    }
-  }
-
-  .operation-call-status-legend {
-    height: 96px;
-    display: block;
-    float: right;
-    width: 18.25px;
-    margin-right: 16px;
-
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
-
-    li {
-      display: block;
-      height: 17px;
-
-      margin-top: 8px;
-
-      &:first-child {
-        margin-top: 15px;
-      }
-
-      i {
-        width: 17px;
-        height: 17px;
-        display: block;
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: center center;
-
-        &.icon-contacted {
-          background-image: url("/assets/icon-contacted@2x.png");
-        }
-
-        &.icon-left-message {
-          background-image: url("/assets/icon-left-message@2x.png");
-        }
-
-        &.icon-no-answer {
-          background-image: url("/assets/icon-no-answer@2x.png");
-        }
-      }
+      color: #222222;
     }
   }
 }

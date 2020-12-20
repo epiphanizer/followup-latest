@@ -6,6 +6,32 @@
     </div>
   </div>
   <div class="facility-dropdown-container">
-    <ng-container *ngIf="operationGroups"> </ng-container>
+    <a class="facility-dropdown-target">GROLUPS</a>
+    <ng-container *ngIf="operationGroups">
+      <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
+        <span class="operation-group"
+          >{{ operationGroup.operationGroupName }}
+          <ul class="group-operations" *ngIf="operationGroup.operations$">
+            <li
+              *ngFor="let operation of operationGroup.operations$ | async"
+              [class.spanish]="operation.spanishSpeaking"
+            >
+              <a
+                class="operation-link"
+                [routerLink]="'/call-queue/operations/' + operation.operationId"
+                (click)="setActiveOperation(operation)"
+                [class.active]="activeOperationId == operation.operationId"
+              >
+                {{ operation.operationName }}
+              </a>
+
+              <span class="current-patients">
+                {{ operation.currentAssignedPatientCount }}
+              </span>
+            </li>
+          </ul>
+        </span>
+      </div>
+    </ng-container>
   </div>
 </div>

@@ -18,7 +18,9 @@ export class OperationOperationListingComponent implements OnInit {
   public selectedSortFlag: string = 'desc';
 
   constructor(private operationService: OperationService) {}
-  ngOnInit() {}
+  ngOnInit() {
+    this.operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(this.operationGroup);
+  }
 
   toggleAscDesc() {
     if (this.selectedSortFlag == 'asc') {
