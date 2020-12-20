@@ -31,6 +31,7 @@ export interface Operation {
   currentNewDischargeCount?: number;
   patientCalls?: PatientCall[];
   patientCalls$?: Observable<PatientCall[]>;
+  spanishSpeaking?: Boolean;
   todaysCallCount?: number;
 }
 

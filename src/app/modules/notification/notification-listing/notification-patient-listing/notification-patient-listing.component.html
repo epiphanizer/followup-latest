@@ -48,15 +48,15 @@
     class="active"
     [routerLink]="'/notifications/' + notification.notificationId"
   >
+    <div class="notification-date">
+      {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
+    </div>
     <div class="notification-patient-information">
       <span class="notification-patient-name">
         <a [routerLink]="'/notifications/' + notification.notificationId">
           {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
         </a>
       </span>
-      <div class="notification-date">
-        Notification Date: {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
-      </div>
     </div>
     <div class="notification-type">
       <img src="{{ notification.notificationIconImage }}" />

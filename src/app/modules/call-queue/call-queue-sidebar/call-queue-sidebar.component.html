@@ -7,7 +7,6 @@
   </div>
   <div class="facility-dropdown-container">
     <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
-    <span class="spanish-indicator">SPANISH <i class="patient"></i><i class="indicator"></i></span>
     <ng-container *ngIf="operationGroups">
       <div *ngFor="let operationGroup of operationGroups; let i = index">
         <span class="operation-group"
@@ -19,36 +18,31 @@
             class="expand-facilities-trigger active"
           >
           </i>
-          <ul *ngIf="operationGroup.operations$ | async">
-            <li *ngFor="let operation of operationGroup.operations">
+          <ul class="group-operations" *ngIf="operationGroup.operations$">
+            <li
+              *ngFor="let operation of operationGroup.operations$ | async"
+              [class.spanish]="operation.spanishSpeaking"
+            >
               <a
+                class="operation-link"
                 [routerLink]="'/call-queue/operations/' + operation.operationId"
                 (click)="setActiveOperation(operation)"
                 [class.active]="activeOperationId == operation.operationId"
               >
                 {{ operation.operationName }}
               </a>
+
+              <span class="current-patients">
+                {{ operation.currentAssignedPatientCount }}
+              </span>
             </li>
           </ul>
         </span>
       </div>
     </ng-container>
 
-    <!-- <ul
-      class="facility-dropdown-list"
-      [@expandSidebar]="isOpen ? 'open' : 'closed'"
-      class="facility-dropdown-list active"
-    >
-      <li *ngFor="let operation of operations; let i = index">
-        <a
-          [routerLink]="'/call-queue/operations/' + operation.operationId"
-          (click)="setActiveOperation(operation)"
-          [class.active]="activeOperationId == operation.operationId"
-        >
-          {{ operation.operationName }}
-        </a>
-      </li>
-    </ul> -->
+    <span class="spanish-indicator">SPANISH <i class="patient"></i><i class="indicator"></i></span>
+
     <ng-template #noOperations>
       You haven't been assigned any operations yet!
     </ng-template>
