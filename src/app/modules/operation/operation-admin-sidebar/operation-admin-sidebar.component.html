@@ -10,7 +10,7 @@
     <ng-container *ngIf="operationGroups">
       <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
         <span class="operation-group"
-          ><a [routerLink]="/operations/group/" + {{operationGroup.operationGroupId}}>{{
+          ><a [routerLink]="'/operations/group/' + operationGroup.operationGroupId">{{
             operationGroup.operationGroupName
           }}</a>
           <i
