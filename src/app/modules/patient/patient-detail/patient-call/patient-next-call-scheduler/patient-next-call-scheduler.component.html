@@ -3,41 +3,4 @@
   <ion-title *ngIf="status.scheduled">Next Call is Scheduled on:</ion-title>
   <span class="scheduled-call-date">{{ scheduledCallDate }}</span>
 </ion-row>
-<div class="call-history-container">
-  <div class="calendar-month-controls">
-    <span
-      class="left-month-arrow"
-      *ngIf="selectedMonth != currentCalendarMonth || selectedYear.year != todaysYear"
-      (click)="calendarPrevMonth()"
-    ></span>
-    <span class="calendar-month">
-      {{ currentCalendarMonth.name }}
-    </span>
-    <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
-  </div>
-  <div class="calendar-wrapper">
-    <div class="day-legend">
-      <span class="day-header" *ngFor="let dayHeader of dayHeaders">
-        {{ dayHeader }}
-      </span>
-    </div>
-    <div
-      class="calendar-day"
-      *ngFor="let day of selectedMonth.daysArray"
-      [class.active]="selectedDay == day && selectedMonth.number == chosenMonth && selectedYear.year == chosenYear"
-      [class.disabled]="
-        day <= todaysDateDay && selectedMonth == currentCalendarMonth && selectedYear.year == todaysYear
-      "
-      (click)="selectDateEventHandler(day, currentCalendarMonth.number, selectedYear.year)"
-    >
-      <span
-        [class.hide]="day < 0"
-        [class.disabled]="
-          day <= todaysDateDay && selectedMonth == currentCalendarMonth && selectedYear.year == todaysYear
-        "
-      >
-        {{ day }}
-      </span>
-    </div>
-  </div>
-</div>
+<app-calendar></app-calendar>
