@@ -29,31 +29,18 @@ export class OperationListingComponent implements OnInit {
 
   ngOnInit() {
     this.operationGroups$ = this.operationService.getOperationGroups();
-    this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-      this.operationGroups = operationGroups;
-      this.selected.operationGroup = operationGroups[0];
+    this.route.paramMap.subscribe((data: any) => {
+      console.log(data);
+      if (data.params.operationGroupId) {
+        /**
+         * Assign this operation group if passed thru router
+         */
+      } else {
+        this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
+          this.operationGroups = operationGroups;
+          this.selected.operationGroup = operationGroups[0];
+        });
+      }
     });
-
-    // this.route.paramMap.subscribe((data: any) => {
-    //   if (data.params.operationId) {
-    //     this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
-    //       this.selected.operation = data[0];
-    //     });
-    //   } else {
-    //     /** Init to the first user operation (alphabetically,) */
-    //     // this.user = this.route.snapshot.data.user;
-    //     // // this.operations = this.user.operations;
-    //     // this.user.operations$.subscribe((data: Operation[]) => {
-    //     //   /** Init to the first assigned operation alphabetically */
-    //     //   this.operations = data;
-    //     //   console.log(this.operations);
-    //       /**
-    //        * Filter for the proper ops group here
-    //        */
-    //       // this.selected.operation = this.operations[0];
-    //       // this.activeOperationGroupId = this.selected.operationGroup.operationGroupId;
-    //     // });
-    //   }
-    // });
   }
 }

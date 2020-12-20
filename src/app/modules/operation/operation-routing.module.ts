@@ -22,6 +22,16 @@ const routes: Routes = [
       }
     },
     {
+      path: 'operations/group/:operationGroupId',
+      component: OperationListingComponent,
+      canActivate: [AuthGuardService],
+      data: {
+        operationGroupId: ':operationGroupId',
+        roles: [UserRoles.admin],
+        title: extract('Operations')
+      }
+    },
+    {
       path: 'operation/add',
       component: OperationFormComponent,
       canActivate: [AuthGuardService],

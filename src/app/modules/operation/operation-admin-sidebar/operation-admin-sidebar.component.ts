@@ -17,7 +17,41 @@ import { Operation, OperationGroup } from '../operation';
 @Component({
   selector: 'app-operation-admin-sidebar',
   templateUrl: './operation-admin-sidebar.component.html',
-  styleUrls: ['./operation-admin-sidebar.component.scss']
+  styleUrls: ['./operation-admin-sidebar.component.scss'],
+  animations: [
+    trigger('expandSidebar', [
+      state(
+        'open',
+        style({
+          opacity: 1
+        })
+      ),
+      state(
+        'closed',
+        style({
+          opacity: 0
+        })
+      ),
+      transition('open => closed', [animate('0.5s')]),
+      transition('closed => open', [animate('0.25s')])
+    ]),
+    trigger('turnArrow', [
+      state(
+        'open',
+        style({
+          transform: 'rotate(0deg)'
+        })
+      ),
+      state(
+        'closed',
+        style({
+          transform: 'rotate(-90deg)'
+        })
+      ),
+      transition('open => closed', [animate('0.125s')]),
+      transition('closed => open', [animate('0.125s')])
+    ])
+  ]
 })
 export class OperationAdminSidebarComponent implements OnInit {
   availableOperations$: Observable<Operation[]>;

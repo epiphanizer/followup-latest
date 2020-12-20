@@ -24,17 +24,21 @@ ul.patient-filters {
   margin-top: 15px;
   margin-bottom: 0;
   text-align: left;
+
   div {
     display: inline-block;
     text-align: left;
+
     &.date-filter-container {
       width: 84px;
       margin-right: 65px;
     }
+
     &.name-filter-container {
       width: 182px;
     }
   }
+
   li {
     cursor: pointer;
     display: inline-block;
@@ -48,9 +52,11 @@ ul.patient-filters {
     letter-spacing: 0.13px;
     text-align: left;
     color: #222222;
+
     &.patient-date {
       width: 115px;
     }
+
     &.patient-filter {
       width: 175px;
     }
@@ -151,6 +157,18 @@ ul.patient-filters {
       background-color: rgba(19, 175, 233, 0.35);
     }
 
+    .patient-discharge-date {
+      font-family: AvenirPro;
+      font-size: 16px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.06;
+      letter-spacing: 0.64px;
+      text-align: left;
+      color: #222222;
+    }
+
     .patient-avatar-container {
       margin-left: 12px;
       margin-right: 12px;
@@ -163,7 +181,7 @@ ul.patient-filters {
       background-image: url("/assets/default-patient-badge@2x.png");
     }
 
-    .operation-information {
+    .patient-information {
       font-family: AvenirPro;
       font-size: 16px;
       font-weight: 500;
@@ -181,7 +199,8 @@ ul.patient-filters {
         color: #343638;
         text-decoration: none;
       }
-      .operation-name {
+
+      .patient-name {
         display: block;
         height: auto;
         text-transform: capitalize;
@@ -195,7 +214,8 @@ ul.patient-filters {
         color: #222222;
       }
     }
-    .opreation-status {
+
+    .operation-status {
       font-family: AvenirPro;
       display: block;
       width: 21px;
@@ -212,6 +232,7 @@ ul.patient-filters {
     }
   }
 }
+
 jw-pagination {
   width: 100%;
   display: block;

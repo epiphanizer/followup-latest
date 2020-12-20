@@ -1,22 +1,24 @@
 <ng-container *ngIf="navLinks">
   <ion-list lines="none">
-    <div class="nav-link-container" *ngFor="let link of navLinks">
+    <div class="nav-link-container" *ngFor="let link of navLinks; let i = index">
       <ion-item>
         <a *ngIf="!link.dropdown.links" routerLink="/{{ link.linkAction }}">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           {{ link.linkName }}
         </a>
-        <a *ngIf="link.dropdown.links" (hover)="toggleDropdown()">
+        <a *ngIf="link.dropdown.links" (mouseover)="toggleDropdown(i)" (mouseout)="toggleDropdown(i)">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           <a routerLink="/{{ link.linkAction }}"> {{ link.linkName }} </a>
         </a>
       </ion-item>
-      <div [class.active]="dropdownActivated" class="dropdown" *ngIf="link.dropdown.links">
-        <ul *ngIf="link.minRole >= user.userLevel">
-          <li *ngFor="let link of link.dropdown.links">
-            {{ link.linkName }}
-          </li>
-        </ul>
+      <div *ngIf="dropdowns[i]">
+        <div [class.active]="dropdowns[i].activated" class="dropdown" *ngIf="link.dropdown.links">
+          <ul *ngIf="link.minRole >= user.userLevel">
+            <li *ngFor="let link of link.dropdown.links">
+              {{ link.linkName }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </ion-list>

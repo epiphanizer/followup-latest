@@ -21,8 +21,7 @@ export class ToolbarNavComponent implements OnInit {
     private router: Router,
     private dataService: DataService
   ) {}
-
-  dropdownActivated: boolean = false;
+  dropdowns: any[] = [];
   navLinks: MenuLink[];
   patient: Patient;
   user: User;
@@ -43,6 +42,7 @@ export class ToolbarNavComponent implements OnInit {
         linkAction: '/admin',
         linkName: 'Admin',
         dropdown: {
+          activated: false,
           links: [
             {
               linkAction: '/team',
@@ -64,6 +64,7 @@ export class ToolbarNavComponent implements OnInit {
         linkAction: '/operations',
         linkName: 'Operations',
         dropdown: {
+          activated: false,
           links: [
             {
               linkAction: '/operations',
@@ -82,6 +83,7 @@ export class ToolbarNavComponent implements OnInit {
         linkName: 'Patients',
         linkIcon: 'patient',
         dropdown: {
+          activated: false,
           links: [
             {
               linkAction: '/patients',
@@ -110,6 +112,10 @@ export class ToolbarNavComponent implements OnInit {
         minRole: 3
       }
     ];
+    this.navLinks.forEach(dropdown => {
+      if (!dropdown.dropdown) return;
+      this.dropdowns.push(dropdown);
+    });
   }
 
   ngAfterViewInit() {}
@@ -118,9 +124,19 @@ export class ToolbarNavComponent implements OnInit {
     this.createModal();
   }
 
-  toggleDropdown() {
-    this.dropdownActivated = !this.dropdownActivated;
-    console.log(this.dropdownActivated);
+  toggleDropdown(i: number) {
+    console.log('toggling dropdown: ' + i);
+    this.dropdowns[i].activated = !this.dropdowns[i].activated;
+    console.log(this.dropdowns);
+    /**
+     * We do a quick check here for our mouseout event...
+     * We only want to toggle off if we are not inside of an open dropdown.
+     */
+    var activeDropdown = document.getElementsByClassName('active dropdown');
+    if (activeDropdown[0]) {
+      var boundingBox = activeDropdown[0].getBoundingClientRect();
+      console.log(boundingBox);
+    }
   }
 
   async createModal() {
