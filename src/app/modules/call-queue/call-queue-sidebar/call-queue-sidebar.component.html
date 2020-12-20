@@ -32,36 +32,6 @@
           </ul>
         </span>
       </div>
-      <!--       
-      <li *ngIf="selected.operation">
-        <a
-          (click)="setActiveOperation(operation)"
-          [class.active]="selected.operation.operationId == operation.operationId"
-        >
-          {{ operation.operationName }}
-          <span class="icon-patient-counter"> [{{ operation.currentAssignedPatientCount }}] </span>
-        </a>
-      </li> -->
-
-      <!-- <ul
-        class="facility-dropdown-list"
-        [@expandSidebar]="isOpen ? 'open' : 'closed'"
-        class="facility-dropdown-list active"
-        *ngIf="operationGroups; else noOperations"
-      >
-        <div *ngFor="let operationGroup of operationGroups; let i = index">
-          <span class="operation-group"
-            >{{ operationGroup.operationGroupName }}
-            <i
-              class="expand-facilities-trigger"
-              (click)="toggleOperationSidebarMenu()"
-              [@turnArrow]="isOpen ? 'open' : 'closed'"
-              class="expand-facilities-trigger active"
-            >
-            </i>
-          </span>
-        </div>
-      </ul> -->
     </ng-container>
 
     <!-- <ul

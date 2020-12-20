@@ -81,6 +81,11 @@ export class CallQueueSidebarComponent {
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
       if (operationGroups) {
         this.operationGroups = operationGroups;
+        console.log(operationGroups);
+        this.operationGroups.forEach((operationGroup: OperationGroup) => {
+          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+          console.log('got operatoin group stuff');
+        });
       }
     });
     this.user = this.route.snapshot.data.user;
