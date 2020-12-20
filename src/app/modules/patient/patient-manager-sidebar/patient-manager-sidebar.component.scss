@@ -27,7 +27,8 @@
     }
   }
 
-  .spanish-indicator {
+  .spanish-indicator,
+  .operation-group {
     display: block;
     font-family: AvenirBold;
     font-size: 16px;
@@ -36,16 +37,19 @@
     line-height: 0.81;
     letter-spacing: 0.32px;
     text-align: right;
+    text-transform: uppercase;
 
     i {
       display: inline-block;
       width: 16px;
       height: 16px;
+
       &.patient {
         background-repeat: no-repeat;
         background-size: 100%;
         background-image: url("/assets/icon-patient@2x.png");
       }
+
       &.indicator {
         width: 10px;
         height: 10px;
@@ -55,6 +59,10 @@
       }
     }
   }
+  .spanish-indicator {
+    margin-top: 22px;
+  }
+
   .facility-dropdown-target {
     display: block;
     font-family: AvenirBold;
@@ -75,81 +83,6 @@
     width: 10px;
     height: 10px;
   }
-
-  .facility-dropdown-list {
-    margin-top: 0;
-    display: none;
-    list-style-type: none;
-    padding-left: 0;
-    text-align: right;
-
-    &.active {
-      display: block;
-    }
-
-    li {
-      vertical-align: top;
-      display: inline-block;
-      width: calc(100% - 17px);
-      margin-top: 8px;
-      a {
-        display: inline-block;
-        line-height: 100%;
-        vertical-align: middle;
-        cursor: pointer;
-        font-family: AvenirBold;
-        font-size: 11.8px;
-        font-weight: bold;
-        font-style: normal;
-        font-stretch: normal;
-        letter-spacing: 0.53px;
-        text-align: right;
-        color: #8e8e93;
-        text-decoration: none;
-        text-transform: uppercase;
-
-        &:hover {
-          text-decoration: underline;
-        }
-        &.active {
-          font-family: AvenirBold;
-          color: #343638;
-        }
-      }
-      i {
-        color: white;
-        margin-left: 8px;
-        width: 17px;
-        height: 17px;
-        display: inline-block;
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: center center;
-
-        &.icon-new-discharges {
-          background-image: url("/assets/icon-new-discharges.png");
-        }
-      }
-      span.icon-discharge-counter {
-        margin-left: -12px;
-        margin-top: -4px;
-        color: white;
-        position: absolute;
-        font-weight: bold;
-        font-size: 12px;
-        line-height: 2.17;
-      }
-    }
-  }
-}
-
-.divider-line {
-  width: 100%;
-  min-height: 1px;
-  height: 1px;
-  display: block;
-  border-top: solid 3.9px var(--ion-color-primary);
-  border-bottom: none;
 }
 
 .facility-dropdown-target {
@@ -158,10 +91,47 @@
 
 .expand-facilities-trigger {
   cursor: pointer;
-  // background-image: url("assets/icon-arrow-open@2x.png");
+  background-image: url("/assets/icon-arrow-down@2x.png");
   width: 100%;
   margin-left: 22px;
   display: block;
   background-size: 100%;
   background-repeat: no-repeat;
+}
+
+.operation-group-container {
+  margin-bottom: 22px;
+}
+.group-operations {
+  display: none;
+  transition: 0.25s all;
+  padding-right: 4px;
+  &.show {
+    display: block;
+  }
+  list-style-type: none;
+  padding-left: 0;
+
+  li {
+    text-align: right;
+    font-family: AvenirDemi;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.86;
+    letter-spacing: 0.14px;
+    color: #343638;
+    a.operation-link {
+      margin-right: 17px;
+      text-align: right;
+      text-decoration: none;
+      text-transform: capitalize;
+      color: #343638;
+    }
+    span.current-patients {
+      display: inline-block;
+      min-width: 8px;
+    }
+  }
 }
