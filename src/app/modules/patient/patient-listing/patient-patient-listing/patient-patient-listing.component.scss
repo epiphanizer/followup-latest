@@ -19,10 +19,11 @@ h1 {
 ul.patient-filters {
   list-style-type: none;
   display: block;
-  width: 100%;
+  width: 400px;
   padding-left: 0;
   margin-top: 0;
   margin-bottom: 0;
+  text-align: right;
 
   li {
     cursor: pointer;
@@ -110,7 +111,6 @@ ul.patient-filters {
   ion-item {
     --padding-top: 15px;
     --padding-bottom: 15px;
-    height: 65px;
     cursor: pointer;
     width: 100%;
     border-top: solid 1.5px #bbbbbb;
@@ -139,18 +139,17 @@ ul.patient-filters {
       background-color: rgba(19, 175, 233, 0.35);
     }
 
-    .patient-date {
-      font-family: AvenirBold;
-      font-size: 16px;
-      font-weight: bold;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.06;
-      letter-spacing: 0.64px;
-      text-align: left;
-      color: #222222;
-      margin-right: 25px;
+    .patient-avatar-container {
+      margin-left: 12px;
+      display: block;
+      height: 100%;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center center;
+      border-radius: 50%;
+      background-image: url("/assets/default-patient-badge@2x.png");
     }
+
     .patient-patient-information {
       font-family: AvenirPro;
       font-size: 16px;
@@ -168,6 +167,19 @@ ul.patient-filters {
       a {
         color: #343638;
         text-decoration: none;
+      }
+      .patient-patient-name {
+        display: block;
+        height: auto;
+        text-transform: capitalize;
+        font-family: Avenir;
+        font-size: 17px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #222222;
       }
     }
 

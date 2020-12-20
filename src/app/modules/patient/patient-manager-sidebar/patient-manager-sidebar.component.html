@@ -5,42 +5,12 @@
       {{ todaysDateDay }}
     </div>
   </div>
+  <div class="facility-dropdown-container">
+    <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
+    <span class="spanish-indicator">SPANISH <i class="patient"></i><i class="indicator"></i></span>
 
-  <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
-  <i
-    class="expand-facilities-trigger"
-    (click)="toggleOperationSidebarMenu()"
-    [@turnArrow]="isOpen ? 'open' : 'closed'"
-    class="expand-facilities-trigger active"
-  ></i>
-  <ul
-    class="facility-dropdown-list"
-    [@expandSidebar]="isOpen ? 'open' : 'closed'"
-    class="facility-dropdown-list active"
-    *ngIf="operations; else noOperations"
-  >
-    <div *ngFor="let operation of operations; let i = index">
-      <ng-container>
-        <li *ngIf="selected.operation">
-          <a
-            (click)="setActiveOperation(operation)"
-            [class.active]="selected.operation.operationId == operation.operationId"
-            [routerLink]="'/operations/' + operation.operationId + '/patients'"
-          >
-            {{ operation.operationName }}
-          </a>
-          <ng-container *ngIf="operation.currentNewDischargeCount > -1">
-            <i class="icon-new-discharges">
-              <span class="icon-discharge-counter">
-                {{ operation.currentNewDischargeCount }}
-              </span>
-            </i>
-          </ng-container>
-        </li>
-      </ng-container>
-    </div>
-  </ul>
-  <ng-template #noOperations>
-    You haven't been assigned any operations yet!
-  </ng-template>
+    <ng-template #noOperations>
+      You haven't been assigned any operations yet!
+    </ng-template>
+  </div>
 </div>

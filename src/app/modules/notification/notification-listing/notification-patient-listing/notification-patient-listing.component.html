@@ -1,39 +1,44 @@
 <h1 class="notifications-listing-headline">NOTIFICATIONS</h1>
-<ul class="notification-filters ">
+<ul class="notification-filters ion-float-right">
   <li class="notification-date">
     <a (click)="sortNotificationsByNotificationDate(selectedSortFlag)">Date</a>
+  </li>
+  <li class="ascending-descending-control">
+    <i
+      class="ascending-descending-control-arrow"
+      [class.asc]="selectedSortFlag == 'asc'"
+      [class.desc]="selectedSortFlag == 'desc'"
+      (click)="toggleAscDesc()"
+    >
+    </i>
   </li>
   <li class="patient-filter">
     <a (click)="sortNotificationsByPatient(selectedSortFlag)">
       Patient
     </a>
   </li>
-  <li>
-    <span class="ascending-descending-control">
-      <i
-        class="ascending-descending-control-arrow"
-        [class.asc]="selectedSortFlag == 'asc'"
-        [class.desc]="selectedSortFlag == 'desc'"
-        (click)="toggleAscDesc()"
-      >
-      </i>
-    </span>
+  <li class="ascending-descending-control">
+    <i
+      class="ascending-descending-control-arrow"
+      [class.asc]="selectedSortFlag == 'asc'"
+      [class.desc]="selectedSortFlag == 'desc'"
+      (click)="toggleAscDesc()"
+    >
+    </i>
   </li>
   <li class="type-filter">
     <a (click)="sortNotificationsByNotificationType(selectedSortFlag)">
       Type
     </a>
   </li>
-  <li>
-    <span class="ascending-descending-control">
-      <i
-        class="ascending-descending-control-arrow"
-        [class.asc]="selectedSortFlag == 'asc'"
-        [class.desc]="selectedSortFlag == 'desc'"
-        (click)="toggleAscDesc()"
-      >
-      </i>
-    </span>
+  <li class="ascending-descending-control">
+    <i
+      class="ascending-descending-control-arrow"
+      [class.asc]="selectedSortFlag == 'asc'"
+      [class.desc]="selectedSortFlag == 'desc'"
+      (click)="toggleAscDesc()"
+    >
+    </i>
   </li>
 </ul>
 
@@ -43,15 +48,15 @@
     class="active"
     [routerLink]="'/notifications/' + notification.notificationId"
   >
-    <div class="notification-date">
-      {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
-    </div>
     <div class="notification-patient-information">
       <span class="notification-patient-name">
         <a [routerLink]="'/notifications/' + notification.notificationId">
           {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
         </a>
       </span>
+      <div class="notification-date">
+        Notification Date: {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
+      </div>
     </div>
     <div class="notification-type">
       <img src="{{ notification.notificationIconImage }}" />
