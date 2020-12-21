@@ -45,7 +45,7 @@ form {
   margin-bottom: 5rem;
 
   .operation-controls {
-    padding-top: 1rem;
+    padding-top: 2rem;
 
     span {
       font-size: 12px;
@@ -65,9 +65,14 @@ form {
     color: #00b4b9;
   }
 
-  .edit-pencil-icon {
-    background-image: url("/assets/icon-edit-pencil@2x.png");
+  .icon-edit {
+    height: 12px;
+    width: 12px;
+    display: inline-block;
+    background-image: url("/assets/icon-edit@2x.png");
     background-size: cover;
+    margin-right: 8px;
+    margin-top: 0;
   }
 
   .operation-information-view {

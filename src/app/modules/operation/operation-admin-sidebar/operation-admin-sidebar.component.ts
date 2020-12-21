@@ -58,6 +58,7 @@ export class OperationAdminSidebarComponent implements OnInit {
   activeOperationId: number;
   editMode: boolean;
   @Output() operationChangeEvent = new EventEmitter<number>();
+  @Output() operationGroupChangeEvent = new EventEmitter<number>();
   selected: {
     operation?: Operation | null;
   } = {
@@ -84,10 +85,15 @@ export class OperationAdminSidebarComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
-  setActiveOperationGroup = function(operationGroup: Operation) {
+  setActiveOperation = function(operation: Operation) {
+    this.selected.operation = operation;
+    this.activeOperationId = operation.operationId;
+    this.operationChangeEvent.emit(this.activeOperationId);
+  };
+  setActiveOperationGroup = function(operationGroup: OperationGroup) {
     this.selected.operationGroup = operationGroup;
     this.activeOperationGroupId = operationGroup.operationGroupId;
-    this.operationChangeEvent.emit(operationGroup);
+    this.operationGroupChangeEvent.emit(this.activeOperationGroupId);
   };
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
     operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
