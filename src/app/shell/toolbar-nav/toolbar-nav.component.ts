@@ -39,13 +39,13 @@ export class ToolbarNavComponent implements OnInit {
       });
     this.navLinks = [
       {
-        linkAction: '/admin',
+        linkAction: '/teams',
         linkName: 'Admin',
         dropdown: {
           activated: false,
           links: [
             {
-              linkAction: '/team',
+              linkAction: '/teams',
               linkName: 'Team Members'
             },
             {

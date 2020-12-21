@@ -41,10 +41,12 @@
 
     i {
       display: inline-block;
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 11px;
 
       &.patient {
+        width: 16px;
+        height: 16px;
         background-repeat: no-repeat;
         background-size: 100%;
         background-image: url("/assets/icon-patient@2x.png");
@@ -66,7 +68,7 @@
   .facility-dropdown-target {
     display: block;
     font-family: AvenirBold;
-    margin: 0 0 5px 19px;
+    margin: 0 0 15px 19px;
     font-size: 20px;
     font-weight: bold;
     font-stretch: normal;

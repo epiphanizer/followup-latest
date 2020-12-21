@@ -222,6 +222,7 @@ h3 {
       &:hover {
         background-color: #e8f4cf;
       }
+
       &:active {
         background-color: #d6eaaf;
       }
@@ -246,16 +247,15 @@ h3 {
     }
 
     .call-queue-avatar {
-      margin-left: 12px;
       display: block;
       height: 100%;
       overflow: hidden;
       background-size: cover;
       background-position: center center;
       border-radius: 50%;
-      background-image: url("/assets/default-patient-badge@2x.png");
-      width: 75px;
-      height: 75px;
+      background-image: url(/assets/default-patient-badge@2x.png);
+      width: 65px;
+      height: 65px;
       background-color: white;
     }
 
