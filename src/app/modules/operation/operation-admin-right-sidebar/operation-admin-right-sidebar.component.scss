@@ -88,12 +88,22 @@ ion-item {
 }
 ion-item.sidebar-listing {
   height: 32px;
+  width: auto;
   --padding-start: 0;
   --padding-end: 0;
   a {
-    font-family: AvenirPro;
+    font-family: AvenirDemi;
     text-decoration: none;
-    color: #222222;
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.86;
+    letter-spacing: 0.14px;
+    text-align: right;
+    color: #343638;
   }
 }
 
