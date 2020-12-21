@@ -25,11 +25,28 @@
     background-size: cover;
   }
 }
+.operation-callrep,
+.operation-manager {
+  width: 100%;
+  font-family: AvenirDemi;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.86;
+  letter-spacing: 0.14px;
+  text-align: right;
+  color: #343638;
+}
 ion-select {
   display: contents;
   padding: 10px 7px 9px 15px;
   border: solid 1px #e2e2e2;
   background-color: #f5f5f5;
+}
+ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
 }
 .divider-line {
   width: 100%;

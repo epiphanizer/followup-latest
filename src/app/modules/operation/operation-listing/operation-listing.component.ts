@@ -30,7 +30,6 @@ export class OperationListingComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe((data: any) => {
-      console.log(data);
       if (data.params.operationGroupId) {
         var operationGroupId = data.params.operationGroupId;
         /**
@@ -49,7 +48,6 @@ export class OperationListingComponent implements OnInit {
       } else {
         this.operationGroups$ = this.operationService.getOperationGroups();
         this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-          console.log(operationGroups);
           this.operationGroups = operationGroups;
           this.selected.operationGroup = operationGroups[0];
         });
