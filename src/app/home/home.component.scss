@@ -3,6 +3,7 @@
   margin-left: 260px;
   max-width: 700px;
   width: 100%;
+
   h1 {
     font-family: AvenirPro;
     font-size: 45px;
@@ -30,6 +31,7 @@
 
   .team-messages {
     margin-bottom: 72px;
+
     .team-message {
       font-family: AvenirPro;
       font-size: 15px;
@@ -49,6 +51,11 @@
     display: block;
     padding-left: 0;
     list-style-type: none;
+
+    .posted-notes {
+      margin-left: -12px;
+    }
+
     .user-message-note {
       height: 269px;
       width: 229px;
@@ -58,6 +65,7 @@
       background-image: url("/assets/sticky-note@2x.png");
       font-family: AvenirProMediumItalic;
       font-size: 15px;
+
       .user-message-body {
         padding: 48px 30px;
       }
