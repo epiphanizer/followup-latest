@@ -76,7 +76,7 @@ export class OperationAdminSidebarComponent implements OnInit {
       if (operationGroups) {
         operationGroups.forEach((operationGroup: OperationGroup) => {
           operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
-          operationGroup.sidebarDropdownOpen = false;
+          operationGroup.sidebarDropdownOpen = true;
         });
         this.operationGroups = operationGroups;
       }

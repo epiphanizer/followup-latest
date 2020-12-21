@@ -62,7 +62,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   isOpen: boolean = true;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
-  operationAssignedUsers: User[];
+  operationAssignedUsers: any[];
   operationAssignedManagers: OperationManager[];
   user: User;
   todaysDateDay: number;
@@ -88,7 +88,13 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       .pipe(
         take(1),
         map((users: User[]) => {
-          this.operationAssignedUsers = users;
+          if (users) {
+            this.operationAssignedUsers = users;
+          } else {
+            for (var i = 0; i < 3; i++) {
+              this.operationAssignedUsers.push({});
+            }
+          }
         })
       )
       .subscribe();

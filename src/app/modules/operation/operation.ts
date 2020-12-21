@@ -56,6 +56,7 @@ export interface OperationGroup {
   // control for the sidebar
   sidebarDropdownOpen?: Boolean;
 }
+
 export interface OperationManager {
   operationManagerId?: number;
   operationManagerName?: string;

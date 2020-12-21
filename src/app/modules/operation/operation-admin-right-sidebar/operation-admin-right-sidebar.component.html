@@ -23,9 +23,7 @@
           </ion-select>
           <ng-template #managerSpan>
             <span class="operation-manager">
-              <a [routerLink]="'/users/' + operationManager.userId"
-                >{{ operationManager.userFirstName }} {{ operationManager.userLastName }}</a
-              >
+              <a [routerLink]="'/users/' + operationManager.userId">{{ operationManager.operationManagerName }}</a>
             </span>
           </ng-template>
         </ion-item>
