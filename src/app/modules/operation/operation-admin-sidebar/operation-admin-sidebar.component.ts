@@ -76,7 +76,7 @@ export class OperationAdminSidebarComponent implements OnInit {
       if (operationGroups) {
         operationGroups.forEach((operationGroup: OperationGroup) => {
           operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
-          operationGroup.sidebarDropdownOpen = true;
+          operationGroup.sidebarDropdownOpen = false;
         });
         this.operationGroups = operationGroups;
       }
@@ -84,10 +84,10 @@ export class OperationAdminSidebarComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
-  setActiveOperation = function(operation: Operation) {
-    this.selected.operation = operation;
-    this.activeOperationId = operation.operationId;
-    this.operationChangeEvent.emit(operation);
+  setActiveOperationGroup = function(operationGroup: Operation) {
+    this.selected.operationGroup = operationGroup;
+    this.activeOperationGroupId = operationGroup.operationGroupId;
+    this.operationChangeEvent.emit(operationGroup);
   };
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
     operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;

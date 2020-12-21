@@ -10,9 +10,12 @@
     <ng-container *ngIf="operationGroups">
       <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
         <span class="operation-group"
-          ><a class="operation-group-link" [routerLink]="'/operations/group/' + operationGroup.operationGroupId">{{
-            operationGroup.operationGroupName
-          }}</a>
+          ><a
+            class="operation-group-link"
+            (click)="setActiveOperationGroup(operationGroup)"
+            [routerLink]="'/operations/group/' + operationGroup.operationGroupId"
+            >{{ operationGroup.operationGroupName }}</a
+          >
           <i
             class="expand-facilities-trigger"
             (click)="toggleOperationSidebarMenu(operationGroup)"
@@ -31,7 +34,7 @@
             >
               <a
                 class="operation-link"
-                [routerLink]="'/call-queue/operations/' + operation.operationId"
+                [routerLink]="'/operation/' + operation.operationId"
                 (click)="setActiveOperation(operation)"
                 [class.active]="activeOperationId == operation.operationId"
               >

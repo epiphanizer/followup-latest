@@ -16,6 +16,7 @@
       <ng-container *ngFor="let operationManager of operationAssignedManagers; let idx = index">
         <ion-item id="operation-manager-{{ idx }}">
           <ion-select
+            *ngIf="mode.edit; else managerSpan"
             (ionChange)="managerOnSelect($event, idx)"
             class="operation-assigned-manager"
             placeholder="Assign Manager"
@@ -28,6 +29,9 @@
               {{ user.userLastName }}, {{ user.userFirstName }}
             </ion-select-option>
           </ion-select>
+          <ng-template #managerSpan>
+            <span> {{ user.userLastName }}, {{ user.userFirstName }} </span>
+          </ng-template>
         </ion-item>
       </ng-container>
     </ion-list>
@@ -40,7 +44,11 @@
       <ion-list class="assigned-callrep-list" lines="none" inset>
         <ng-container *ngFor="let operationCallRep of operationAssignedUsers; let idx = index">
           <ion-item id="operationCallRep-{{ idx }}">
-            <ion-select *ngIf="availableUsers" (ionChange)="callRepOnSelect($event, idx)" placeholder="Select User">
+            <ion-select
+              *ngIf="availableUsers && mode.edit; else memberSpan"
+              (ionChange)="callRepOnSelect($event, idx)"
+              placeholder="Select User"
+            >
               <ion-select-option
                 *ngFor="let user of availableUsers"
                 [value]="user.userId"
@@ -49,6 +57,9 @@
                 {{ user.userLastName }}, {{ user.userFirstName }}
               </ion-select-option>
             </ion-select>
+            <ng-template #memberSpan>
+              <span> {{ user.userLastName }}, {{ user.userFirstName }} </span>
+            </ng-template>
           </ion-item>
         </ng-container>
         <div class="controls">

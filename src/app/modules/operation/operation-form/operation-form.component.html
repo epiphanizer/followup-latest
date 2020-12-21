@@ -16,7 +16,7 @@
               <h2 class="section-header ion-float-left"><i class="icon-info"></i> Operation</h2>
               <div class="operation-controls">
                 <span class="control ion-float-right">
-                  <a routerLink="'/operations/edit/' + operation.operationId" class="edit-link">
+                  <a [routerLink]="'/operation/edit/' + operation.operationId" class="edit-link">
                     Edit
                   </a>
                 </span>
@@ -45,16 +45,14 @@
           <ion-list *ngIf="mode.add || mode.edit" class="operation-details" lines="none" inset>
             <div class="operation-listing-header">
               <h2 class="section-header ion-float-left"><i class="icon-info"></i> Operation</h2>
-              <div class="operation-controls">
-                <span class="control ion-float-right">
-                  <ion-checkbox formControlName="operationArchive">
-                    Archive
-                  </ion-checkbox>
+              <div class="operation-controls ion-float-right">
+                <span class="control">
+                  <ion-checkbox formControlName="operationActive"> </ion-checkbox>
+                  Active?
                 </span>
-                <span class="control ion-float-right">
-                  <ion-checkbox formControlName="operationActive">
-                    Active?
-                  </ion-checkbox>
+                <span class="control">
+                  <ion-checkbox formControlName="operationArchive"> </ion-checkbox>
+                  Archive
                 </span>
               </div>
             </div>
@@ -113,30 +111,34 @@
           <ng-container>
             <h2 class="section-header"><i class="icon-contact"></i> Contacts</h2>
             <ion-list lines="none" class="operation-contacts-view" *ngIf="mode.view">
-              <ion-item class="contact-name">
-                {{ operationContact.operationContactFirstName + ' ' + operationContact.operationContactFirstName }},
-                {{ operationContact.operationContactTitle }}
-              </ion-item>
-              <ion-item class="contact-email">
-                <a href="mailto:{{ operationContact.operationContactEmail }}">{{
-                  operationContact.operationContactEmail
-                }}</a>
-              </ion-item>
-              <ion-item class="contact-phone">
-                <a
-                  href="tel:{{ operationContact.operationCountryCode }}-{{ operationContact.operationAreaCode }}-{{
-                    operationContact.operationPhoneNumber.substring(0, 3) +
-                      '-' +
-                      operation.operationPhoneNumber.substring(3, 7)
-                  }}"
-                >
-                  +{{ operationContact.operationCountryCode }}-{{ operationContact.operationAreaCode }}-{{
-                    operationContact.operationPhoneNumber.substring(0, 3) +
-                      '-' +
-                      operation.operationPhoneNumber.substring(3, 7)
-                  }}
-                </a>
-              </ion-item>
+              <div class="operation-contact-container" *ngFor="let operationContact of operationContacts">
+                <ion-item class="contact-name">
+                  {{ operationContact.operationContactFirstName + ' ' + operationContact.operationContactFirstName
+                  }}<span class="contact-title" *ngIf="operationContact.operationContactTitle"
+                    >, {{ operationContact.operationContactTitle }}</span
+                  >
+                </ion-item>
+                <ion-item class="contact-email" *ngIf="operationContact.operationContactEmail">
+                  <a href="mailto:{{ operationContact.operationContactEmail }}">{{
+                    operationContact.operationContactEmail
+                  }}</a>
+                </ion-item>
+                <ion-item class="contact-phone" *ngIf="operationContact.operationPhoneNumber">
+                  <a
+                    href="tel:{{ operationContact.operationCountryCode }}-{{ operationContact.operationAreaCode }}-{{
+                      operationContact.operationPhoneNumber.substring(0, 3) +
+                        '-' +
+                        operation.operationPhoneNumber.substring(3, 7)
+                    }}"
+                  >
+                    +{{ operationContact.operationCountryCode }}-{{ operationContact.operationAreaCode }}-{{
+                      operationContact.operationPhoneNumber.substring(0, 3) +
+                        '-' +
+                        operation.operationPhoneNumber.substring(3, 7)
+                    }}
+                  </a>
+                </ion-item>
+              </div>
             </ion-list>
             <ion-list
               *ngIf="mode.add || mode.edit"
@@ -199,11 +201,8 @@
                       <ion-label position="stacked" color="medium">
                         Phone #
                       </ion-label>
-                      <ion-input
-                        type="text"
-                        formControlName="operationContactPhoneNumber"
-                        [mask]="000 - 0000"
-                      ></ion-input>
+                      <ion-input type="text" formControlName="operationContactPhoneNumber" [mask]="000 - 0000">
+                      </ion-input>
                     </ion-item>
                     <ion-item class="contact-order">
                       <ion-label position="stacked" color="medium">

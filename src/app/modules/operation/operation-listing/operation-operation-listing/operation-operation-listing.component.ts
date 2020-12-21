@@ -20,6 +20,24 @@ export class OperationOperationListingComponent implements OnInit {
   constructor(private operationService: OperationService) {}
   ngOnInit() {
     this.operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(this.operationGroup);
+    this.operationGroup.operations$.subscribe((operations: Operation[]) => {
+      if (operations[0]) {
+        this.operations = operations;
+      }
+    });
+  }
+
+  ngOnChanges(changes: any) {
+    if (changes.operationGroup) {
+      if (!changes.operationGroup.firstChange) {
+        this.operationGroup = changes.operationGroup.currentValue;
+        this.operationGroup.operations$.subscribe((operations: Operation[]) => {
+          if (operations[0]) {
+            this.operations = operations;
+          }
+        });
+      }
+    }
   }
 
   toggleAscDesc() {

@@ -35,7 +35,7 @@
   </div>
 </ul>
 
-<ion-list class="operation-list" *ngIf="operationGroup.operations$ | async; else noOperations">
+<ion-list class="operation-list" lines="none">
   <ion-item
     *ngFor="let operation of operationGroup.operations$ | async"
     class="active"

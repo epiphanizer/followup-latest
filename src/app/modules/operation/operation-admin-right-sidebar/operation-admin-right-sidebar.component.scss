@@ -25,7 +25,12 @@
     background-size: cover;
   }
 }
-
+ion-select {
+  display: contents;
+  padding: 10px 7px 9px 15px;
+  border: solid 1px #e2e2e2;
+  background-color: #f5f5f5;
+}
 .divider-line {
   width: 100%;
   min-height: 1px;

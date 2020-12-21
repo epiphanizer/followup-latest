@@ -1,3 +1,7 @@
+:host {
+  display: block;
+  margin-top: 1.65rem;
+}
 .operation-feed {
   width: 100%;
 }
@@ -31,7 +35,6 @@ h1 {
   letter-spacing: 1.2px;
   text-align: left;
   color: #9acc38;
-  margin-bottom: 0;
 }
 
 ul.operation-filters {
@@ -50,7 +53,8 @@ ul.operation-filters {
       width: 84px;
     }
 
-    &.status-filter {
+    &.status-filter-container {
+      margin-left: 250px;
     }
   }
 
@@ -105,6 +109,7 @@ ul.operation-filters {
   list-style-type: none;
   width: 100%;
   padding-left: 0;
+  max-width: 532px;
 
   ion-item {
     --padding-top: 15px;
@@ -136,40 +141,42 @@ ul.operation-filters {
     &:hover {
       background-color: rgba(19, 175, 233, 0.35);
     }
+    .operation-information {
+      padding-left: 20px;
+      .operation-name {
+        display: inline-block;
+        font-family: AvenirPro;
+        font-size: 16px;
+        font-weight: 800;
+        width: 270px;
+        margin-right: 52px;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.75;
+        letter-spacing: normal;
+        text-align: left;
+        color: #222222;
+        text-transform: capitalize;
 
-    .operation-name {
-      display: inline-block;
-      font-family: AvenirPro;
-      font-size: 16px;
-      font-weight: 500;
-      width: 175px;
-      margin-right: 36px;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.75;
-      letter-spacing: normal;
-      text-align: left;
-      color: #222222;
-      text-transform: capitalize;
-
-      a {
-        color: #343638;
-        text-decoration: none;
+        a {
+          color: #343638;
+          text-decoration: none;
+        }
       }
-    }
 
-    .operation-status {
-      font-family: AvenirPro;
-      display: inline-block;
-      font-size: 16px;
-      font-weight: 500;
-      margin-right: 36px;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.75;
-      letter-spacing: normal;
-      text-align: left;
-      color: #222222;
+      .operation-status {
+        font-family: AvenirPro;
+        display: inline-block;
+        font-size: 16px;
+        font-weight: 500;
+        margin-right: 36px;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.75;
+        letter-spacing: normal;
+        text-align: left;
+        color: #222222;
+      }
     }
   }
 }

@@ -10,7 +10,7 @@ import { TeamListingComponent } from './team-listing/team-listing.component';
 const routes: Routes = [
   Shell.childRoutes([
     {
-      path: 'team/:teamId',
+      path: 'teams',
       pathMatch: 'full',
       component: TeamListingComponent,
       data: {
@@ -18,7 +18,15 @@ const routes: Routes = [
       }
     },
     {
-      path: 'team/:teamId/members/:userId',
+      path: 'teams/:teamId',
+      pathMatch: 'full',
+      component: TeamListingComponent,
+      data: {
+        title: extract('Team Listing')
+      }
+    },
+    {
+      path: 'teams/:teamId/members/:userId',
       pathMatch: 'full',
       component: TeamMemberDetailComponent,
       data: {

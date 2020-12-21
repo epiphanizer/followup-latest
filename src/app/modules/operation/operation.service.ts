@@ -26,6 +26,11 @@ export class OperationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
+  public getOperationGroupByOperationGroupId(operationGroupId: number): Observable<OperationGroup> {
+    return this.http.get<OperationGroup>('groups/' + operationGroupId).pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   public getOperationsByOperationGroupId(operationGroup: OperationGroup): Observable<Operation[]> {
     var operationGroupId = operationGroup.operationGroupId;
     return this.http.get<Operation[]>('operations/groups/' + operationGroupId).pipe(

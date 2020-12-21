@@ -136,8 +136,6 @@ export class ToolbarNavComponent implements OnInit {
     this.dropdowns[i].activated = true;
   }
   toggleDropdown(i: number, $event: any) {
-    console.log('toggling dropdown: ' + i);
-    console.log(this.dropdowns);
     this.dropdowns[i].activated = !this.dropdowns[i].activated;
     /**
      * We do a quick check here for our mouseout event...
@@ -146,11 +144,7 @@ export class ToolbarNavComponent implements OnInit {
     var activeDropdown = document.getElementsByClassName('active dropdown');
     if (activeDropdown[0]) {
       var boundingBox = activeDropdown[0].getBoundingClientRect();
-      console.log(boundingBox);
-      console.log($event);
-      console.log($event.clientX - (boundingBox.x + boundingBox.width));
       if ($event.clientX - (boundingBox.x + boundingBox.width) < 0) {
-        console.log('condition met on x axis');
         this.dropdowns[i].activated = !this.dropdowns[i].activated;
       }
     }
