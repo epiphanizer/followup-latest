@@ -30,14 +30,14 @@
             <div *ngFor="let patientContact of patientContacts; let idx = index">
               <!-- Skip the first contact number, which is already listed above ^ -->
               <ion-item class="alternate-number" *ngIf="idx != 0">
+                <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
+                  <i class="icon-hipaa" *ngIf="patientContact.patientContactResponsiblePartyBoolean"></i>
+                </ng-container>
                 <span class="alternate-contact">
                   {{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }},
                   {{ patientContact.patientContactRelationship }}: {{ patientContact.patientContactAreaCode }}-{{
                     patientContact.patientContactPhoneNumber
                   }}
-                  <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
-                    <i class="icon-hipaa" *ngIf="patientContact.patientContactResponsiblePartyBoolean"></i>
-                  </ng-container>
                 </span>
               </ion-item>
             </div>
