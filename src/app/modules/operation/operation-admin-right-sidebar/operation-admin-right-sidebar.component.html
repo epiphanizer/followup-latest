@@ -3,10 +3,10 @@
     <h3 class="headline"><i class="icon-team"></i> Team Members</h3>
   </ion-item>
   <fieldset class="operation-team-members" formArray="operationManagers">
-    <span class="section-label"> <span *ngIf="mode.edit">Assigned </span>Managers </span>
-    <ion-list class="assigned-manager-list" *ngIf="operationAssignedManagers" lines="none">
+    <span class="section-label"> <span *ngIf="mode.edit">Assigned </span>Managers <i class="icon-dropdown"></i></span>
+    <ion-list class="assigned-manager-list" *ngIf="operationAssignedManagers" inset lines="none">
       <ng-container *ngFor="let operationManager of operationAssignedManagers; let idx = index">
-        <ion-item id="operation-manager-{{ idx }}">
+        <ion-item class="sidebar-listing" id="operation-manager-{{ idx }}">
           <ion-select
             *ngIf="mode.edit; else managerSpan"
             (ionChange)="managerOnSelect($event, idx)"
@@ -23,7 +23,9 @@
           </ion-select>
           <ng-template #managerSpan>
             <span class="operation-manager">
-              {{ operationManager.userLastName }}, {{ operationManager.userFirstName }}
+              <a [routerLink]="'/users/' + operationManager.userId"
+                >{{ operationManager.userFirstName }} {{ operationManager.userLastName }}</a
+              >
             </span>
           </ng-template>
         </ion-item>
@@ -32,10 +34,12 @@
   </fieldset>
   <fieldset class="operation-callreps">
     <ng-container>
-      <span class="section-label"> <span *ngIf="mode.edit">Assigned </span>Care Reps </span>
+      <span class="section-label">
+        <span *ngIf="mode.edit">Assigned </span>Care Reps <i class="icon-dropdown"></i
+      ></span>
       <ion-list class="assigned-callrep-list" lines="none" inset *ngIf="operationAssignedUsers">
         <ng-container *ngFor="let operationCallRep of operationAssignedUsers; let idx = index">
-          <ion-item id="operationCallRep-{{ idx }}">
+          <ion-item class="sidebar-listing" id="operationCallRep-{{ idx }}">
             <ion-select
               *ngIf="availableUsers && mode.edit; else memberSpan"
               (ionChange)="callRepOnSelect($event, idx)"
@@ -51,7 +55,9 @@
             </ion-select>
             <ng-template #memberSpan>
               <span class="operation-callrep">
-                {{ operationCallRep.userLastName }}, {{ operationCallRep.userFirstName }}
+                <a [routerLink]="'/users/' + operationCallRep.userId"
+                  >{{ operationCallRep.userFirstName }} {{ operationCallRep.userLastName }}</a
+                >
               </span>
             </ng-template>
           </ion-item>

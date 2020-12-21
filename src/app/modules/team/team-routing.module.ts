@@ -26,7 +26,7 @@ const routes: Routes = [
       }
     },
     {
-      path: 'teams/:teamId/members/:userId',
+      path: 'users/:userId',
       pathMatch: 'full',
       component: TeamMemberDetailComponent,
       data: {
