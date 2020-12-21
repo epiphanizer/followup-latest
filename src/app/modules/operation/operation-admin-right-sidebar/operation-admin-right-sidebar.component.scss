@@ -76,7 +76,7 @@ ion-item {
   i {
     width: 15px;
     height: 11px;
-
+    cursor: pointer;
     &.icon-dropdown {
       background-image: url("/assets/icon-list-sort@2x.png");
     }

@@ -68,6 +68,7 @@ ion-list {
   .discharged-date-item {
     width: 100%;
     display: block;
+
     &::after {
       display: block;
       content: "";
@@ -82,6 +83,7 @@ ion-list {
   &.inline-discharge-section {
     margin-top: 0;
     margin-left: 10px;
+
     ion-item:not(.discharged-date-item) {
       line-height: 18px;
       height: 32px;
@@ -92,9 +94,11 @@ ion-list {
   &.more-info-section {
     margin-top: 0;
     margin-left: 10px;
+
     ion-item {
       height: 32px;
     }
+
     .medical-condition-item {
       text-transform: capitalize;
       text-decoration: underline;
@@ -102,18 +106,37 @@ ion-list {
       color: #ef4627;
       font-size: 15px;
       font-family: AvenirBold;
-      :first-child {
-        &:before {
-          content: "";
+
+      span {
+        &.first {
+          &:before {
+            content: "";
+          }
         }
-      }
-      &:before {
-        content: ", ";
-        text-decoration: none;
+
+        &:before {
+          content: ", ";
+          text-decoration: none;
+        }
       }
     }
   }
+
   .discharged-condition {
     margin-top: 26px;
+  }
+  .discharged-condition,
+  .need-to-know {
+    p {
+      font-family: AvenirPro;
+      font-size: 15px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.2;
+      letter-spacing: normal;
+      text-align: left;
+      color: #222222;
+    }
   }
 }

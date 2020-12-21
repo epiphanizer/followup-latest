@@ -29,8 +29,11 @@
     <span class="medical-condition-label label">
       Medical Conditions: &nbsp;
     </span>
-    <label class="medical-condition-item" *ngFor="let patientMedicalCondition of patientMedicalConditions">
-      {{ patientMedicalCondition.replace('Boolean', '') }}
+    <label
+      class="medical-condition-item"
+      *ngFor="let patientMedicalCondition of patientMedicalConditions; let i = index"
+    >
+      <span [class.first]="i == 0">{{ patientMedicalCondition.replace('Boolean', '') }}</span>
     </label>
   </ion-item>
   <ion-item> <span class="label">Primary Diagnosis: &nbsp; </span> {{ patient.patientPrimaryDiagnosis }} </ion-item>
