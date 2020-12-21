@@ -31,6 +31,7 @@ export class OperationOperationListingComponent implements OnInit {
     if (changes.operationGroup) {
       if (!changes.operationGroup.firstChange) {
         this.operationGroup = changes.operationGroup.currentValue;
+        this.operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(this.operationGroup);
         this.operationGroup.operations$.subscribe((operations: Operation[]) => {
           if (operations[0]) {
             this.operations = operations;
