@@ -20,28 +20,24 @@
             <ion-input type="text" formControlName="userLastName" required></ion-input>
           </ion-item>
           <ion-item class="user-phone-container">
-            <ion-item class="user-phone-country-code">
+            <ion-item class="user-phone-country-code" style="display: none;">
               <ion-label color="medium" position="stacked">+(1)</ion-label>
               <ion-input type="text" formControlName="userPhoneCountryCode"></ion-input>
             </ion-item>
-            <ion-item class="user-phone-area-code">
+            <ion-item class="user-phone-area-code" style="display: none;">
               <ion-label color="medium" position="stacked">(###)</ion-label>
               <ion-input type="text" formControlName="userPhoneAreaCode"></ion-input>
             </ion-item>
             <ion-item class="user-phone-number">
               <ion-label color="medium" position="stacked">Phone #</ion-label>
-              <ion-input type="text" formControlName="userPhoneNumber" mask="000-0000"></ion-input>
+              <ion-input type="text" formControlName="userPhoneNumber" mask="0-000-000-0000"></ion-input>
             </ion-item>
           </ion-item>
           <ion-item class="user-spanish-speaking">
             <ion-label color="medium" position="stacked">Do you speak Spanish?</ion-label>
             <ion-radio-group formControlName="userSpanishSpeaking">
-              <ion-item>
-                <ion-radio class="radio-button-yes" value="1" class="spanish-speaking radio-yes"> </ion-radio>
-              </ion-item>
-              <ion-item>
-                <ion-radio class="radio-button-no" value="0" class="spanish-speaking radio-no"> </ion-radio>
-              </ion-item>
+              <ion-radio value="1" class="spanish-speaking radio-button-yes"> </ion-radio>
+              <ion-radio value="0" class="spanish-speaking radio-button-no"> </ion-radio>
             </ion-radio-group>
           </ion-item>
         </ion-list>
