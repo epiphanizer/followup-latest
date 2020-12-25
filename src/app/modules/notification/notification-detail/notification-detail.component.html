@@ -4,7 +4,7 @@
       <app-notification-listing-sidebar (operationChangeEvent)="operationChangeEventHandler($event)">
       </app-notification-listing-sidebar>
     </ion-col>
-    <ion-col class="notification-content-wrapper" *ngIf="patient; else patientError">
+    <ion-col class="notification-content-wrapper" *ngIf="patient">
       <ion-title class="ion-float-left">
         {{ notification.notificationTypeLabel }}
       </ion-title>
