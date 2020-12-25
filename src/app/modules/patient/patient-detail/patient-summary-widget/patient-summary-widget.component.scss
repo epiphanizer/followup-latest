@@ -2,6 +2,7 @@
   .patient-summary {
     min-height: 275px;
   }
+
   margin-bottom: 3.33rem;
 }
 
@@ -18,6 +19,22 @@
 ion-col.patient-summary-container {
   margin-left: 42px;
 }
+
+.patient-meta-info {
+  .patient-medical-record-number {
+    width: 100%;
+  }
+
+  .patient-name {
+    width: 100%;
+
+    h2 {
+      font-size: 40px;
+      clear: both;
+      margin-bottom: 0;
+    }
+  }
+}
 .patient-medical-record-number {
   display: block;
   width: 100%;
@@ -32,123 +49,111 @@ ion-col.patient-summary-container {
   color: #8e8e93;
 }
 
-.patient-operation-name {
-  display: block;
-  width: 100%;
-  font-family: AvenirDemi;
-  font-weight: bold;
-  font-size: 15px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.2;
-  letter-spacing: normal;
-  text-align: left;
-  color: #222222;
-}
-
-.patient-name {
-  margin-top: 49px;
-  font-family: AvenirPro;
-  font-weight: bold;
-  font-size: 40px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1;
-  letter-spacing: 0.8px;
-  text-align: left;
-  color: #222222;
-}
-
-.patient-age,
-.patient-contact-number {
-  &:first-child {
-    margin-right: 8px;
-  }
-  display: inline-block;
-  width: auto;
-  font-family: AvenirDemi;
-  font-size: 15px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.2;
-  letter-spacing: 0.15px;
-  text-align: left;
-  color: #00b4b9;
-}
-
-.patient-contact-container {
-  height: auto;
-  width: calc(100% + 105px);
-}
-
-.patient-contact-list {
-  margin: 0.75rem 0;
-  list-style-type: none;
-  padding-left: 0;
-
-  font-family: AvenirNext;
-  font-size: 16px;
-
-  .patient-contact-name {
+.patient-info {
+  .patient-operation-name {
     display: block;
     width: 100%;
-    font-weight: 900;
+    font-family: AvenirDemi;
+    font-weight: bold;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #222222;
   }
-}
 
-.alternate-numbers {
-  display: block;
-  cursor: pointer;
-}
-
-.alternate-numbers-list {
-  margin: 19px auto 0;
-  padding: 0;
-
-  ion-item {
-    width: calc(100% + 55px);
-    max-height: 30px;
-    vertical-align: top;
-    margin: 0;
-    margin-left: -14px;
-
-    span {
-      font-family: AvenirDemi;
-      line-height: 100%;
-      vertical-align: middle;
-      margin-top: -12px;
-      font-size: 15px;
-      color: #222222;
-    }
-  }
-}
-
-.patient-meta-info {
-  .patient-medical-record-number {
-    width: 100%;
-  }
   .patient-name {
-    width: 100%;
+    margin-top: 49px;
+    font-family: AvenirPro;
+    font-weight: bold;
+    font-size: 40px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: 0.8px;
+    text-align: left;
+    color: #222222;
+  }
 
-    h2 {
-      font-size: 40px;
-      clear: both;
-      margin-bottom: 0;
+  .patient-age,
+  .patient-contact-number {
+    &:first-child {
+      margin-right: 8px;
+    }
+
+    display: inline-block;
+    width: auto;
+    font-family: AvenirDemi;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: 0.15px;
+    text-align: left;
+    color: #00b4b9;
+  }
+
+  .patient-contact-container {
+    height: auto;
+    width: calc(100% + 105px);
+  }
+
+  .patient-contact-list {
+    margin: 0.75rem 0;
+    list-style-type: none;
+    padding-left: 0;
+
+    font-family: AvenirNext;
+    font-size: 16px;
+
+    .patient-contact-name {
+      display: block;
+      width: 100%;
+      font-weight: 900;
     }
   }
-}
 
-i.icon-hipaa {
-  display: inline-block;
-  margin-right: 5px;
-  margin-top: -3px;
-  vertical-align: middle;
-  width: 16px;
-  height: 16px;
-  background-image: url("/assets/icon-hipaa@2x.png");
-  background-repeat: no-repeat;
-  background-size: 100%;
+  .alternate-numbers {
+    display: block;
+    cursor: pointer;
+  }
+
+  .alternate-numbers-list {
+    margin: 19px auto 0;
+    padding: 0;
+
+    ion-item {
+      width: calc(100% + 55px);
+      max-height: 30px;
+      vertical-align: top;
+      margin: 0;
+      margin-left: -14px;
+
+      span {
+        font-family: AvenirDemi;
+        line-height: 100%;
+        vertical-align: middle;
+        margin-top: -12px;
+        font-size: 15px;
+        color: #222222;
+      }
+    }
+  }
+
+  i.icon-hipaa {
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: -3px;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background-image: url("/assets/icon-hipaa@2x.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
 }

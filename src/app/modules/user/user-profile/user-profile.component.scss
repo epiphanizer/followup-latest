@@ -64,6 +64,17 @@ ion-item {
 }
 
 form {
+  ion-label {
+    font-family: AvenirPro;
+    font-size: 18px;
+    font-weight: 800;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.87;
+    letter-spacing: 0.3px;
+    text-align: left;
+    color: #222222;
+  }
   i {
     float: left;
     clear: left;
@@ -105,6 +116,7 @@ form {
   }
 
   ion-list {
+    margin-bottom: 0;
     margin-left: 36px;
   }
 
@@ -194,10 +206,6 @@ form {
     }
   }
 
-  .user-profile-more-container {
-    margin-top: 27px;
-  }
-
   ion-input {
     font-family: Avenir;
     width: 100%;
@@ -208,7 +216,7 @@ form {
     line-height: 2;
     letter-spacing: 0.28px;
     text-align: left;
-    color: #a6a6a7;
+    --placeholder-color: #a6a6a7;
   }
 
   ion-datetime {
@@ -217,18 +225,6 @@ form {
     margin-top: 15px;
     height: 34px;
     --padding-start: 12px;
-  }
-
-  ion-label {
-    font-family: AvenirPro;
-    font-size: 18px;
-    font-weight: 800;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.87;
-    letter-spacing: 0.3px;
-    text-align: left;
-    color: #222222;
   }
 
   ion-input,
@@ -246,19 +242,6 @@ form {
     :root {
       min-height: 100% !important;
     }
-  }
-
-  .main-label-box {
-    margin-top: -8px;
-    font-family: Avenir;
-    font-size: 15px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.87;
-    letter-spacing: 0.3px;
-    text-align: left;
-    color: #222222;
   }
 
   ion-list.checkbox-list-container {

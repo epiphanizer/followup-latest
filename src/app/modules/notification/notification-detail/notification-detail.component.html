@@ -4,20 +4,31 @@
       <app-notification-listing-sidebar (operationChangeEvent)="operationChangeEventHandler($event)">
       </app-notification-listing-sidebar>
     </ion-col>
-    <ion-col class="notification-content-wrapper">
+    <ion-col class="notification-content-wrapper" *ngIf="patient; else patientError">
       <ion-title class="ion-float-left">
         {{ notification.notificationTypeLabel }}
       </ion-title>
       <img class="ion-float-left notification-icon" src="{{ notification.notificationIconImage }}" />
 
-      <div class="notification-listing-avatar" *ngIf="patient">
+      <div class="notification-listing-avatar">
         <app-patient-avatar [patient]="patient"></app-patient-avatar>
       </div>
 
       <div class="notification-info-container">
-        {{ notification.notificationOperationName }}
-        <div class="patient-name">
-          {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
+        <div class="patient-info">
+          <div class="patient-meta-info">
+            <span class="patient-medical-record-number"> #{{ patient.patientMedicalRecordNumber }} </span>
+            <span class="patient-operation-name">
+              {{ patient.patientOperationName }}
+            </span>
+          </div>
+          <div class="patient-name">
+            <h2>
+              {{ patient.patientFirstName }}
+              {{ patient.patientMiddleName }}
+              {{ patient.patientLastName }}
+            </h2>
+          </div>
         </div>
         <div class="notification-information">
           <div class="notification-item">
@@ -30,7 +41,19 @@
           </div>
           <div class="notification-item notification-container">
             <span class="notification-label">Notification</span>
-            {{ notification.notificationMessage }}
+            <div class="notification-message">
+              {{ notification.notificationMessage }}
+            </div>
+            <span class="notification-date"><strong>Date: </strong>xx/xx/xx</span>
+            <span class="notification-care-rep"></span>
+          </div>
+          <div class="resolution-item resolution-container" *ngIf="notification.notificationResolved">
+            <span class="resolution-label">Resolution</span>
+            <div class="resolution-message">
+              {{ notification.notificationMessage }}
+            </div>
+            <span class="notification-date"><strong>Date: </strong>xx/xx/xx</span>
+            <span class="notification-care-rep"></span>
           </div>
         </div>
       </div>
