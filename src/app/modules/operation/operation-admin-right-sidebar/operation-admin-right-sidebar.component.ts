@@ -58,7 +58,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
 
   activeOperationId: number;
   operation: Operation | null;
-  editMode: boolean;
   isOpen: boolean = true;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
@@ -69,7 +68,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   ngOnInit() {
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     if (this.route.snapshot.paramMap.get('operationId')) {
-      this.editMode = true;
+      this.mode.edit = true;
       this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
       this.updateAssignedUsers();
     }

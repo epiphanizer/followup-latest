@@ -5,7 +5,7 @@
   <fieldset class="operation-team-members" formArray="operationManagers">
     <span class="section-label"> <span *ngIf="mode.edit">Assigned </span>Managers <i class="icon-dropdown"></i></span>
     <ion-list class="assigned-manager-list" *ngIf="operationAssignedManagers" inset lines="none">
-      <ng-container *ngFor="let operationManager of operationAssignedManagers; let idx = index">
+      <div class="manager-container" *ngFor="let operationManager of operationAssignedManagers; let idx = index">
         <ion-item class="sidebar-listing" id="operation-manager-{{ idx }}">
           <ion-select
             *ngIf="mode.edit; else managerSpan"
@@ -27,7 +27,7 @@
             </span>
           </ng-template>
         </ion-item>
-      </ng-container>
+      </div>
     </ion-list>
   </fieldset>
   <fieldset class="operation-callreps">
@@ -36,7 +36,7 @@
         <span *ngIf="mode.edit">Assigned </span>Care Reps <i class="icon-dropdown"></i
       ></span>
       <ion-list class="assigned-callrep-list" lines="none" *ngIf="operationAssignedUsers">
-        <ng-container *ngFor="let operationCallRep of operationAssignedUsers; let idx = index">
+        <div class="callrep-container" *ngFor="let operationCallRep of operationAssignedUsers; let idx = index">
           <ion-item class="sidebar-listing" id="operationCallRep-{{ idx }}">
             <ion-select
               *ngIf="availableUsers && mode.edit; else memberSpan"
@@ -59,7 +59,7 @@
               </span>
             </ng-template>
           </ion-item>
-        </ng-container>
+        </div>
         <div class="controls">
           <a href="" *ngIf="mode.add || mode.edit" class="add-members" (click)="addAdditionalOperationCallRep()"
             >+ Team Members</a

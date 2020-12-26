@@ -51,6 +51,7 @@ export interface UserPutObject {
   userCountryCode?: number;
   userAreaCode?: number;
   userPhoneNumber?: number;
+  userSpanishSpeaking?: boolean;
   userDob?: Date;
   userFavoriteDessert: string;
   userInterests?: string;

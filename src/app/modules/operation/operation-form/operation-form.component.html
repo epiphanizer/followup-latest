@@ -159,9 +159,9 @@
                 <ion-list formGroupName="{{ idx }}" class="operation-contact-entry" lines="none" inset>
                   <ion-item class="first-name">
                     <ion-label position="stacked" color="medium">
-                      First Name
+                      First Name <span style="color:red">*</span>
                     </ion-label>
-                    <ion-input type="text" formControlName="operationContactFirstName"></ion-input>
+                    <ion-input type="text" formControlName="operationContactFirstName" required></ion-input>
                   </ion-item>
                   <ion-item class="middle-name">
                     <ion-label position="stacked" color="medium">
@@ -171,9 +171,9 @@
                   </ion-item>
                   <ion-item class="last-name">
                     <ion-label position="stacked" color="medium">
-                      Last Name
+                      Last Name <span style="color:red">*</span>
                     </ion-label>
-                    <ion-input type="text" formControlName="operationContactLastName"></ion-input>
+                    <ion-input type="text" formControlName="operationContactLastName" required></ion-input>
                   </ion-item>
                   <ion-item class="title-position">
                     <ion-label position="stacked" color="medium">

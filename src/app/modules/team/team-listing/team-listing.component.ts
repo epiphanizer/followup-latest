@@ -28,7 +28,9 @@ export class TeamListingComponent implements OnInit {
   user: User;
   constructor(private teamService: TeamService, private route: ActivatedRoute) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.teamService.getTeams();
+  }
 
   searchTeamMembersByTeam($event: KeyboardEvent): Team[] {
     let searchText = $event.currentTarget['value'];

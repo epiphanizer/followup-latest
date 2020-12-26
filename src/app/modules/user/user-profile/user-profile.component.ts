@@ -148,6 +148,7 @@ export class UserProfileComponent implements OnInit {
       userCountryCode: formSubmission.userPhoneCountryCode || '',
       userAreaCode: formSubmission.userPhoneAreaCode || '',
       userPhoneNumber: formSubmission.userPhoneNumber || '',
+      userSpanishSpeaking: formSubmission.userSpanishSpeaking,
       userDob: formSubmission.userDob || '',
       userFavoriteDessert: formSubmission.userFavoriteDessert || '',
       userInterests: userInterests,

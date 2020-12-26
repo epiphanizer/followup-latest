@@ -27,4 +27,10 @@ export class TeamService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
+  getTeams = function() {
+    return this.http.get('teams').pipe(
+      retry(3),
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  };
 }
