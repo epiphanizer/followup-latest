@@ -178,12 +178,16 @@ form {
 
       ion-item {
         float: left;
+        margin-right: 9px;
       }
       ion-radio {
         display: inline-block;
+        --color: transparent;
+        --color-checked: transparent;
       }
       .radio-button-yes,
       .radio-button-no {
+        border: 0;
         width: 34px;
         height: 32px;
         background-size: cover;
@@ -192,14 +196,14 @@ form {
       .radio-button-yes {
         background-image: url("/assets/button-yes@2x.png");
         &:active,
-        &.selected {
+        &.item-radio-checked {
           background-image: url("/assets/button-yes-select@2x.png");
         }
       }
       .radio-button-no {
         background-image: url("/assets/button-no@2x.png");
         &:active,
-        &.selected {
+        &.item-radio-checked {
           background-image: url("/assets/button-no-select@2x.png");
         }
       }

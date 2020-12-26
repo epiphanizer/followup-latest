@@ -41,7 +41,8 @@ export interface User {
   userLastAccess?: Date;
   userLoginExpires: number;
   userMessages: UserMessage[];
-  userSpanishSpeaking?: boolean;
+  userLanguages$?: Observable<any>;
+  userLanguages: UserLanguage;
 }
 
 export interface UserPutObject {
@@ -68,6 +69,12 @@ export interface UserMessage {
   messageSentDate: Date;
   messageAcknowledged: number;
   messageAcknowledgedDate: Date | null;
+}
+
+export interface UserLanguage {
+  userLanguageId: number;
+  languageId: number;
+  languageLabel: string;
 }
 
 export enum UserRoles {
