@@ -7,6 +7,7 @@ import {
   PatientIntakeQuestionAnswer
 } from './patient-intake-question/patient-intake-question.component';
 import { Notification } from '@app/modules/notification/notification';
+import { UserLanguage } from '../user/user';
 
 /**
  * Regarding this interface ---
@@ -74,6 +75,8 @@ export interface Patient {
   patientNeedToKnow?: string;
   nextPatientCallId?: number;
   patientActive?: number;
+  patientLanguages$: Observable<UserLanguage[]>;
+  patientLanguages: UserLanguage[];
 }
 
 export interface PatientDischargeLabel {
