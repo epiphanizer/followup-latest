@@ -33,8 +33,7 @@ export interface Operation {
   patientCalls$?: Observable<PatientCall[]>;
   spanishSpeaking?: Boolean;
   todaysCallCount?: number;
-  languages$: Observable<UserLanguage[]>;
-  languages: UserLanguage[];
+  currentSpanishSpeakingPatients?: boolean;
 }
 
 export interface OperationPutBody {
