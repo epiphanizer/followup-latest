@@ -3,6 +3,7 @@ import { HttpService } from '@app/core';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { OperationCallRep } from './operation';
 
 @Injectable({
   providedIn: 'root'
