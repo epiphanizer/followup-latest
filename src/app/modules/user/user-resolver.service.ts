@@ -30,14 +30,10 @@ export class UserResolver implements Resolve<User> {
     this.user$ = of(this.authService.currentUserValue);
     this.user = this.authService.currentUserSubject.getValue();
 
-    this.userService.getUserLanguagesByUserId(this.user.userId).subscribe((userLanguages: UserLanguage[]) => {
-      this.user.userLanguages = userLanguages;
-    });
-
     var self = this;
     function getUserLanguages() {
       var userLanguages$: Observable<UserLanguage[]>;
-      this.userLanguages$ = this.userService.getUserLanguagesByUserId(self.user.userId);
+      userLanguages$ = self.userService.getUserLanguagesByUserId(self.user.userId);
       return userLanguages$;
     }
     function getUserOperations() {
@@ -65,7 +61,7 @@ export class UserResolver implements Resolve<User> {
       this.user.userLoginExpires = currentTime + 900000;
       this.authService.currentUserSubject.next(this.user);
       this.user.operations$ = null;
-      this.user.userLanguages = null;
+      this.user.userLanguages$ = null;
       localStorage.removeItem('followup-user');
       localStorage.setItem('followup-user', JSON.stringify(this.user));
       this.user.operations$ = getUserOperations();

@@ -72,8 +72,9 @@ export interface OperationManager {
  */
 export interface OperationCallRep {
   userId: number;
-  operationCallRepId: number;
-  operationCallRepName: string;
+  operationId: number;
+  operationCallRepId?: number;
+  operationCallRepName?: string;
 }
 export interface OperationManagerPostBody {
   operationId: number;
