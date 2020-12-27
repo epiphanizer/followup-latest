@@ -41,8 +41,8 @@ export interface User {
   userLastAccess?: Date;
   userLoginExpires: number;
   userMessages: UserMessage[];
-  userLanguages$?: Observable<any>;
-  userLanguages: UserLanguage;
+  userLanguages$?: Observable<UserLanguage[]>;
+  userLanguages: UserLanguage[];
 }
 
 export interface UserPutObject {

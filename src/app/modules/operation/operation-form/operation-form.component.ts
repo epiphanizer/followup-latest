@@ -6,7 +6,7 @@ import { map, take } from 'rxjs/operators';
 import { SuperForm } from 'angular-super-validator';
 import { OperationService } from '../operation.service';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
-import { OperationCallRepsService, OperationCallRep } from '../operation-callreps.service';
+import { OperationCallRepsService } from '../operation-callreps.service';
 import {
   OperationContactsService,
   OperationContactPostBody,
@@ -16,7 +16,14 @@ import { UserService } from '@app/modules/user/user.service';
 import { User } from '@app/modules/user/user';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { OperationResolver } from '../operation-resolver';
-import { OperationPutBody, OperationCallRepPostBody, Operation, OperationManager, OperationGroup } from '../operation';
+import {
+  OperationPutBody,
+  OperationCallRepPostBody,
+  Operation,
+  OperationManager,
+  OperationGroup,
+  OperationCallRep
+} from '../operation';
 import { OperationContact } from '../operation-contact/operation-contact';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { NotificationType } from '@app/modules/notification/notification';

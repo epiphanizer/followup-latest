@@ -70,8 +70,10 @@ export interface OperationManager {
  * Generally, just extend the user, but also
  * give them a call rep id (future proofing)
  */
-export interface OperationCallRep extends User {
+export interface OperationCallRep {
+  userId: number;
   operationCallRepId: number;
+  operationCallRepName: string;
 }
 export interface OperationManagerPostBody {
   operationId: number;
