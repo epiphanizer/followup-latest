@@ -1,7 +1,7 @@
 import { OperationContact } from './operation-contact/operation-contact';
-import { OperationCallRep } from './operation-callreps.service';
 import { Observable } from 'rxjs';
 import { PatientCall } from '../patient/patient-detail/patient-call/patient-call.service';
+import { User, UserLanguage } from '../user/user';
 
 export interface Operation {
   operationId: number;
@@ -33,6 +33,8 @@ export interface Operation {
   patientCalls$?: Observable<PatientCall[]>;
   spanishSpeaking?: Boolean;
   todaysCallCount?: number;
+  languages$: Observable<UserLanguage[]>;
+  languages: UserLanguage[];
 }
 
 export interface OperationPutBody {
@@ -53,7 +55,7 @@ export interface OperationGroup {
   operationGroupName: string;
   operations?: Operation[];
   operations$?: Observable<Operation[]>;
-  // control for the sidebar
+  // control state for the sidebar
   sidebarDropdownOpen?: Boolean;
 }
 
@@ -62,6 +64,14 @@ export interface OperationManager {
   operationManagerName?: string;
   operationId: number;
   userId: number;
+}
+
+/**
+ * Generally, just extend the user, but also
+ * give them a call rep id (future proofing)
+ */
+export interface OperationCallRep extends User {
+  operationCallRepId: number;
 }
 export interface OperationManagerPostBody {
   operationId: number;

@@ -39,6 +39,9 @@
               <span class="current-patients">
                 {{ operation.currentAssignedPatientCount }}
               </span>
+              <span class="spanish-indicator" *ngIf="operation.languages.spanish">
+                <i class="indicator"></i>
+              </span>
             </li>
           </ul>
         </span>

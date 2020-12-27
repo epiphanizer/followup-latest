@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { UserPutObject, User } from './user';
+import { UserPutObject, User, UserLanguage } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +30,12 @@ export class UserService {
   getAllAdminUsers(): Observable<User[]> {
     return this.http.get<User[]>('users/admins').pipe(
       retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+
+  getUserLanguagesByUserId(userId: number) {
+    return this.http.get<UserLanguage[]>('users/' + userId + '/languages').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

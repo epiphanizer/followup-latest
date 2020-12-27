@@ -4,10 +4,11 @@ import { Resolve } from '@angular/router';
 import { AuthenticationService, HttpService } from '@app/core';
 import { OperationService } from '../operation/operation.service';
 import { share, catchError } from 'rxjs/operators';
-import { User } from '@app/modules/user/user';
+import { User, UserLanguage } from '@app/modules/user/user';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Operation } from '../operation/operation';
+import { UserService } from './user.service';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {
@@ -16,7 +17,8 @@ export class UserResolver implements Resolve<User> {
   constructor(
     private authService: AuthenticationService,
     private http: HttpService,
-    private operationService: OperationService
+    private operationService: OperationService,
+    private userService: UserService
   ) {}
   resolve(): Observable<User> {
     if (!this.authService.currentUserValue) {
@@ -27,6 +29,8 @@ export class UserResolver implements Resolve<User> {
      */
     this.user$ = of(this.authService.currentUserValue);
     this.user = this.authService.currentUserSubject.getValue();
+
+    this.user.userLanguages$ = this.userService.getUserLanguagesByUserId(this.user.userId);
 
     var self = this;
     function getUserOperations() {
