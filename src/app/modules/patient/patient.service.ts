@@ -4,6 +4,7 @@ import { catchError, retry, take } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Patient, PatientDischargeLabel } from './patient';
 import { PatientPutBody } from './patient-form/patient-form';
+import { UserLanguage } from '../user/user';
 
 @Injectable()
 export class PatientService {
@@ -31,6 +32,12 @@ export class PatientService {
   }
   getActivePatientListByOperationId(operationId: number): Observable<[Patient]> {
     return this.http.get<[Patient]>('operations/' + operationId + '/patients').pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+  getPatientLanguagesByPatientId(patientId: number): Observable<[UserLanguage]> {
+    return this.http.get<[UserLanguage]>('patients/' + patientId + '/languages').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
