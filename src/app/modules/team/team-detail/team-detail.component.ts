@@ -29,6 +29,7 @@ export class TeamMemberDetailComponent implements OnInit {
       this.teamMember = $event;
     }
   }
+
   postNote() {
     alert('posting note');
   }

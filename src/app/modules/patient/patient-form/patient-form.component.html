@@ -4,12 +4,7 @@
       <app-patient-manager-sidebar></app-patient-manager-sidebar>
     </ion-col>
     <ion-col class="patient-content">
-      <ion-title *ngIf="!editMode; else editPatient">Patient Portal</ion-title>
-      <ng-template #editPatient>
-        <ion-title>
-          Edit Patient
-        </ion-title>
-      </ng-template>
+      <ion-title>Patient Portal</ion-title>
       <form id="patient-form" *ngIf="patientForm" [formGroup]="patientForm" novalidate>
         <ion-list lines="none" inset>
           <ion-item>

@@ -62,6 +62,8 @@ export class UserResolver implements Resolve<User> {
       this.authService.currentUserSubject.next(this.user);
       this.user.operations$ = null;
       this.user.userLanguages$ = null;
+      this.user.operations = null;
+      this.user.userLanguages = null;
       localStorage.removeItem('followup-user');
       localStorage.setItem('followup-user', JSON.stringify(this.user));
       this.user.operations$ = getUserOperations();
