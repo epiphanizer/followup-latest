@@ -22,7 +22,24 @@ ion-col.patient-summary-container {
 
 .patient-meta-info {
   .patient-medical-record-number {
-    width: 100%;
+    width: auto;
+    float: left;
+  }
+  .patient-edit-icon {
+    float: right;
+  }
+  .patient-operation-name {
+    clear: both;
+  }
+  .icon-edit {
+    cursor: pointer;
+    height: 12px;
+    width: 12px;
+    display: inline-block;
+    background-image: url("/assets/icon-edit@2x.png");
+    background-size: cover;
+    margin-right: 8px;
+    margin-top: 0;
   }
 
   .patient-name {
@@ -64,7 +81,6 @@ ion-col.patient-summary-container {
     text-align: left;
     color: #222222;
   }
-
   .patient-name {
     margin-top: 49px;
     font-family: AvenirPro;

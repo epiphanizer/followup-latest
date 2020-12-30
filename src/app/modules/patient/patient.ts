@@ -75,8 +75,8 @@ export interface Patient {
   patientNeedToKnow?: string;
   nextPatientCallId?: number;
   patientActive?: number;
-  patientLanguages$: Observable<UserLanguage[]>;
-  patientLanguages: UserLanguage[];
+  patientLanguages$?: Observable<UserLanguage[]>;
+  patientLanguages?: UserLanguage[];
 }
 
 export interface PatientDischargeLabel {
