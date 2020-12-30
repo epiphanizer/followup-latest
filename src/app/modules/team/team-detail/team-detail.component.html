@@ -11,6 +11,12 @@
 
       <div class="user-avatar" *ngIf="selected.user">
         <app-user-avatar [user]="user"></app-user-avatar>
+        <div class="user-info-container">
+          <div class="user-email" *ngIf="user.userEmail">
+            {{ user.userEmail }}
+          </div>
+          <div class="user-phone" *ngIf="user.userPhoneNumber"></div>
+        </div>
       </div>
 
       <div class="team-member-info-container">

@@ -20,6 +20,17 @@
     padding-left: 0;
   }
 
+  .post-it-note {
+    float: right;
+    i.post-it {
+      width: 18px;
+      height: 18px;
+      background-image: url("/assets/icon-post-it@2x.png");
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
+  }
+
   .team-member-info-container {
     float: left;
     width: 100%;
@@ -37,7 +48,17 @@
     height: 280px;
     border: 10px solid white;
   }
-
+  .user-info-container {
+    font-family: AvenirDemi;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.87;
+    letter-spacing: normal;
+    text-align: left;
+    color: #222222;
+  }
   .user-information {
     float: left;
     width: auto;
