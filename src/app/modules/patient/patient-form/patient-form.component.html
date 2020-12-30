@@ -25,10 +25,6 @@
             <ion-label color="medium" position="stacked">Patient # <span style="color:red">*</span></ion-label>
             <ion-input type="text" formControlName="patientMedicalRecordNumber"></ion-input>
           </ion-item>
-          <ion-item class="patient-dob">
-            <ion-label color="medium" position="stacked">Date of Birth <span style="color:red">*</span></ion-label>
-            <ion-datetime type="date" [max]="2005" formControlName="patientDob"></ion-datetime>
-          </ion-item>
           <ion-list lines="none" inset formGroupName="patientName">
             <ion-item class="patient-first-name">
               <ion-label color="medium" position="stacked">First Name <span style="color:red">*</span></ion-label>
@@ -38,9 +34,34 @@
               <ion-label color="medium" position="stacked">Last Name <span style="color:red">*</span></ion-label>
               <ion-input type="text" formControlName="patientLastName"></ion-input>
             </ion-item>
+            <ion-item class="patient-dob">
+              <ion-label color="medium" position="stacked">Date of Birth <span style="color:red">*</span></ion-label>
+              <ion-datetime type="date" [max]="2005" formControlName="patientDob"></ion-datetime>
+            </ion-item>
+            <ion-item class="patient-gender">
+              <ion-radio-group formControlName="patientGender">
+                <ion-item>
+                  <ion-radio value="male">Male</ion-radio>
+                </ion-item>
+                <ion-item>
+                  <ion-radio value="female">Female</ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-item>
+            <ion-item class="patient-country-code">
+              <ion-label color="medium" position="stacked">+(1) <span style="color:red">*</span></ion-label>
+              <ion-input type="text" formControlName="patientCountryCode"></ion-input>
+            </ion-item>
+            <ion-item class="patient-phone">
+              <ion-label color="medium" position="stacked">(***) <span style="color:red">*</span></ion-label>
+              <ion-input type="text" mask="000" formControlName="patientAreaCode" placeholder="000"></ion-input>
+            </ion-item>
+            <ion-item class="patient-phone">
+              <ion-label color="medium" position="stacked">Patient Phone # <span style="color:red">*</span></ion-label>
+              <ion-input type="text" formControlName="patientPhoneNumber"></ion-input>
+            </ion-item>
           </ion-list>
 
-          <!-- This should come from a loop -->
           <fieldset class="patient-contacts" formArrayName="patientContacts">
             <div class="section-header contacts">
               <i class="icon-contacts"></i>

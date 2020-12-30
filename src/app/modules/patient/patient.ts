@@ -31,6 +31,14 @@ export interface Patient {
   patientTotalDays?: number;
   patientDob?: Date;
   patientAge?: number | null;
+  patientGender?: string;
+  patientCountryCode?: number;
+  patientAreaCode?: number;
+  patientPhoneNumber?: string;
+  patientSpeaksEnglish?: boolean;
+  patientIsResponsibleParty?: boolean;
+  patientLanguages$?: Observable<UserLanguage[]>;
+  patientLanguages?: UserLanguage[];
   avatar?: string;
   patientContacts$?: Observable<PatientContact[]>;
   patientContactNumberId?: number | null;
@@ -75,8 +83,6 @@ export interface Patient {
   patientNeedToKnow?: string;
   nextPatientCallId?: number;
   patientActive?: number;
-  patientLanguages$?: Observable<UserLanguage[]>;
-  patientLanguages?: UserLanguage[];
 }
 
 export interface PatientDischargeLabel {

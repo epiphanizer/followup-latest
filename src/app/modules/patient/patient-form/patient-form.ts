@@ -15,6 +15,12 @@ export interface PatientPutBody {
   patientMedicalRecordNumber: string;
   patientFirstName: string;
   patientLastName: string;
+  patientGender: boolean;
+  patientSpeaksEnglish: boolean;
+  patientIsResponsibleParty: boolean;
+  patientCountryCode: number;
+  patientAreaCode: number;
+  patientPhoneNumber: string;
   patientPrimaryInsurance: string;
   patientAdmitDate: string;
   patientDischargeDate: string;

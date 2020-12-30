@@ -240,6 +240,8 @@ export class PatientFormComponent implements OnInit {
           ])
         }),
         patientDob: this.fb.control(this.patient.patientDob, [Validators.required]),
+        patientGender: this.fb.control(this.patient.patientGender, [Validators.required]),
+        patientIsResponsibleParty: this.fb.control(this.patient.patientIsResponsibleParty),
         patientContacts: this.fb.array([]),
         insurance: this.fb.group({
           primaryInsurance: this.fb.control(this.patient.patientPrimaryInsurance),
@@ -532,7 +534,13 @@ export class PatientFormComponent implements OnInit {
       patientMedicalRecordNumber: formSubmission.patient.patientMedicalRecordNumber,
       patientFirstName: formSubmission.patient.patientName.patientFirstName,
       patientLastName: formSubmission.patient.patientName.patientLastName,
+      patientGender: formSubmission.patient.patientGender,
+      patientSpeaksEnglish: formSubmission.patient.patientSpeaksEnglish,
+      patientIsResponsibleParty: formSubmission.patient.patientGender,
       patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
+      patientCountryCode: formSubmission.patient.patientCountryCode,
+      patientAreaCode: formSubmission.patient.patientAreaCode,
+      patientPhoneNumber: formSubmission.patient.patientPhoneNumber,
       patientAdmitDate: patientAdmitDate,
       patientDischargeDate: patientDischargeDate,
       patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma == true ? 1 : 0,
