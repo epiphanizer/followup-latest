@@ -1,11 +1,11 @@
-.notification-sidebar {
+.team-sidebar {
   max-width: 172px;
   padding-bottom: 160px;
   margin-left: 26px;
   padding-top: 58px;
 }
 
-.notification-content-wrapper {
+.team-content-wrapper {
   max-width: 966px;
   margin-left: 92px;
   margin-top: 8rem;
@@ -20,11 +20,7 @@
     padding-left: 0;
   }
 
-  .notification-icon {
-    max-width: 35px;
-  }
-
-  .notification-info-container {
+  .team-member-info-container {
     float: left;
     width: 100%;
     max-width: 662px;
@@ -32,7 +28,7 @@
     margin-top: 10px;
   }
 
-  .notification-listing-avatar {
+  .user-avatar {
     float: left;
     clear: both;
     margin-top: 23px;
@@ -42,46 +38,35 @@
     border: 10px solid white;
   }
 
-  .notification-information {
+  .user-information {
     float: left;
     width: auto;
     max-width: 662px;
-    .notification-item {
+    .user-name {
+      font-family: Avenir-Roman;
+      font-size: 40px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1;
+      letter-spacing: 0.8px;
+      text-align: left;
+      color: #222222;
+    }
+
+    .user-need-to-know {
       margin: 1.25rem 0;
       font-family: Avenir;
       font-size: 13px;
     }
+    .user-interests {
+      list-style-type: none;
+      padding-left: 0;
+      margin-left: 0;
+    }
   }
 
-  .patient-name {
-    font-family: Avenir-Roman;
-    font-size: 40px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1;
-    letter-spacing: 0.8px;
-    text-align: left;
-    color: #222222;
-  }
-
-  .label {
-    font-weight: bold;
-    width: 241px;
-    height: 14px;
-    font-family: AvenirDemi;
-    font-size: 15px;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.2;
-    letter-spacing: normal;
-    text-align: left;
-    color: #222222;
-  }
-  .notification-container {
-    margin-top: 28px;
-  }
-  .notification-label {
+  .about-me-label {
     width: 100%;
     display: block;
     font-family: AvenirBold;
@@ -91,7 +76,7 @@
     line-height: 1.05;
     letter-spacing: 1.2px;
     text-align: left;
-    color: #ef4627;
+    color: #00b4b9;
     text-transform: uppercase;
   }
 }
