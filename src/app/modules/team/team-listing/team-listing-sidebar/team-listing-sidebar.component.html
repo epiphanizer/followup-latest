@@ -28,7 +28,7 @@
       </span>
       <ul class="team-members-list">
         <li *ngFor="let teamMember of careRepTeamMembers">
-          <a [routerLink]="'/team/members/' + teamMember.teamMemberTeamId" class="team-member-link">
+          <a [routerLink]="'/team/members/' + teamMember.userTeamId" class="team-member-link">
             {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
           </a>
         </li>
@@ -41,7 +41,7 @@
       </span>
       <ul class="team-members-list">
         <li *ngFor="let teamMember of spanishSpeakingTeamMembers">
-          <a [routerLink]="'/team/members/' + teamMember.teamMemberTeamId" class="team-member-link">
+          <a [routerLink]="'/team/members/' + teamMember.userTeamId" class="team-member-link">
             {{ teamMember.userFirstName }} {{ teamMember.userLastName }}
           </a>
         </li>
