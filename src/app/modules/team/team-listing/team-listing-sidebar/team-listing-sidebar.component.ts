@@ -42,7 +42,7 @@ export class TeamListingSidebar implements OnInit {
            * Check for Spanish speaking
            */
           if (teamMember.spanishSpeaking) {
-            this.spanishSpeakingUsers.push(teamMember);
+            this.spanishSpeakingTeamMembers.push(teamMember);
           }
         });
       } catch (error) {

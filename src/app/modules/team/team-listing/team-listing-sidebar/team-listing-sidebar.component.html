@@ -12,21 +12,21 @@
       <span class="sidebar-label">MANAGERS</span>
       <i class="expand-facilities-trigger"> </i>
       <ul class="team-members-list">
-        <li *ngFor="let user of managerTeamMembers"></li>
+        <li *ngFor="let user of managerTeamMembers">{{ user.userFirstName }} {{ user.userLastName }}</li>
       </ul>
     </div>
     <div class="carerep-container">
       <span class="sidebar-label">CARE REPS</span>
       <i class="expand-facilities-trigger"> </i>
       <ul class="team-members-list">
-        <li *ngFor="let user of careRepTeamMembers"></li>
+        <li *ngFor="let user of careRepTeamMembers">{{ user.userFirstName }} {{ user.userLastName }}</li>
       </ul>
     </div>
     <div class="spanish-container">
       <span class="sidebar-label">SPANISH</span>
       <i class="expand-facilities-trigger"> </i>
       <ul class="team-members-list">
-        <li *ngFor="let user of spanishSpeakingTeamMembers"></li>
+        <li *ngFor="let user of spanishSpeakingTeamMembers">{{ user.userFirstName }} {{ user.userLastName }}</li>
       </ul>
     </div>
   </div>
