@@ -50,7 +50,7 @@ export class ToolbarNavComponent implements OnInit {
             },
             {
               linkAction: '/team/message',
-              linkName: 'Team Message'
+              linkName: 'Post Message'
             },
             {
               linkAction: '/data',

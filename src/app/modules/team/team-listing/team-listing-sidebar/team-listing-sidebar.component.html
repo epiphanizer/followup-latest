@@ -7,9 +7,27 @@
   </div>
 
   <div class="team-dropdown-container">
-    <a class="team-dropdown-target" (click)="toggleUserSidebarMenu()">THE TEAM</a>
-    <span class="spanish-indicator">SPANISH</span>
-    <span class="spanish-indicator">CARE REPS</span>
-    <span class="spanish-indicator">MANAGERS</span>
+    <a class="team-dropdown-target">THE TEAM</a>
+    <div class="manager-container">
+      <span class="sidebar-label">MANAGERS</span>
+      <i class="expand-facilities-trigger"> </i>
+      <ul class="team-members-list">
+        <li *ngFor="let user of managerTeamMembers"></li>
+      </ul>
+    </div>
+    <div class="carerep-container">
+      <span class="sidebar-label">CARE REPS</span>
+      <i class="expand-facilities-trigger"> </i>
+      <ul class="team-members-list">
+        <li *ngFor="let user of careRepTeamMembers"></li>
+      </ul>
+    </div>
+    <div class="spanish-container">
+      <span class="sidebar-label">SPANISH</span>
+      <i class="expand-facilities-trigger"> </i>
+      <ul class="team-members-list">
+        <li *ngFor="let user of spanishSpeakingTeamMembers"></li>
+      </ul>
+    </div>
   </div>
 </div>
