@@ -12,25 +12,19 @@ const routes: Routes = [
     {
       path: 'teams',
       pathMatch: 'full',
-      component: TeamListingComponent,
-      data: {
-        title: extract('Team Listing')
-      }
+      component: TeamListingComponent
     },
     {
       path: 'teams/:teamId',
       pathMatch: 'full',
-      component: TeamListingComponent,
-      data: {
-        title: extract('Team Listing')
-      }
+      component: TeamListingComponent
     },
     {
-      path: 'users/:userId',
+      path: 'team/members/:teamMemberId',
       pathMatch: 'full',
       component: TeamMemberDetailComponent,
       data: {
-        title: extract('Team Member Detail')
+        teamMemberId: ':teamMemberId'
       }
     }
   ])

@@ -41,6 +41,16 @@
     color: #00b4b9;
   }
 
+  .expand-members-trigger {
+    cursor: pointer;
+    background-image: url("/assets/icon-arrow-down@2x.png");
+    width: 100%;
+    margin-left: 22px;
+    display: block;
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+
   i {
     margin-left: 12px;
     display: inline-block;
@@ -48,13 +58,8 @@
     height: 10px;
   }
 
-  .team-members-list {
-    list-style-type: none;
-  }
-  .team-dropdown-list {
+  .team-member-container {
     margin-top: 0;
-    display: none;
-    list-style-type: none;
     padding-left: 0;
     text-align: right;
 
@@ -62,58 +67,46 @@
       display: block;
     }
 
-    li {
-      vertical-align: top;
-      display: inline-block;
-      width: 100%;
-      margin-top: 8px;
+    .team-members-list {
+      list-style-type: none;
 
-      a {
+      li {
+        vertical-align: top;
         display: inline-block;
-        max-width: 69%;
-        line-height: 115%;
-        vertical-align: middle;
-        cursor: pointer;
-        font-family: AvenirBold;
-        font-size: 11.8px;
-        font-weight: bold;
-        font-style: normal;
-        font-stretch: normal;
-        text-align: right;
-        color: #8e8e93;
-        text-decoration: none;
-        text-transform: uppercase;
+        width: 100%;
+        margin-top: 8px;
 
-        &:hover {
-          text-decoration: underline;
-        }
-
-        &.active {
-          font-family: AvenirBold;
+        a {
+          display: inline-block;
+          line-height: 115%;
+          text-decoration: none;
+          vertical-align: middle;
+          cursor: pointer;
+          font-family: AvenirDemi;
+          font-size: 14px;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.86;
+          letter-spacing: 0.14px;
+          text-align: right;
           color: #343638;
-        }
-      }
 
-      i {
-        color: white;
-        margin-left: 5px;
-        width: 16px;
-        height: 16px;
-        display: block;
-        float: right;
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: center center;
+          &:hover {
+            text-decoration: underline;
+          }
 
-        &.icon-new-discharges {
-          background-image: url("/assets/icon-new-discharges@2x.png");
+          &.active {
+            font-family: AvenirBold;
+            color: #343638;
+          }
         }
       }
     }
   }
 
   .sidebar-label {
-    display: block;
+    display: inline-block;
     font-family: AvenirBold;
     font-size: 16px;
     font-stretch: normal;
@@ -123,23 +116,10 @@
     text-align: right;
 
     i {
+      float: right;
       display: inline-block;
       width: 16px;
       height: 16px;
-
-      &.patient {
-        background-repeat: no-repeat;
-        background-size: 100%;
-        background-image: url("/assets/icon-patient@2x.png");
-      }
-
-      &.indicator {
-        width: 10px;
-        height: 10px;
-        background-repeat: no-repeat;
-        background-size: 100%;
-        background-image: url("/assets/icon-new-discharge@2x.png");
-      }
     }
   }
 }

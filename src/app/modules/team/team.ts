@@ -10,7 +10,7 @@ export interface Team {
 }
 
 export interface TeamMember {
-  teamMemberId: number;
+  userTeamId: number;
   teamId?: number;
   teamMemberFirstName: string;
   teamMemberLastName: string;

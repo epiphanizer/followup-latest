@@ -8,25 +8,43 @@
 
   <div class="team-dropdown-container">
     <a class="team-dropdown-target">THE TEAM</a>
-    <div class="manager-container">
-      <span class="sidebar-label">MANAGERS</span>
-      <i class="expand-facilities-trigger"> </i>
+    <div class="team-member-container">
+      <span class="sidebar-label"
+        >MANAGERS
+        <i class="expand-members-trigger"> </i>
+      </span>
       <ul class="team-members-list">
-        <li *ngFor="let user of managerTeamMembers">{{ user.userFirstName }} {{ user.userLastName }}</li>
+        <li *ngFor="let teamMember of managerTeamMembers">
+          <a [routerLink]="'/team/members/' + teamMember.userTeamId" class="team-member-link">
+            {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
+          </a>
+        </li>
       </ul>
     </div>
-    <div class="carerep-container">
-      <span class="sidebar-label">CARE REPS</span>
-      <i class="expand-facilities-trigger"> </i>
+    <div class="team-member-container">
+      <span class="sidebar-label"
+        >CARE REPS
+        <i class="expand-members-trigger"> </i>
+      </span>
       <ul class="team-members-list">
-        <li *ngFor="let user of careRepTeamMembers">{{ user.userFirstName }} {{ user.userLastName }}</li>
+        <li *ngFor="let teamMember of careRepTeamMembers">
+          <a [routerLink]="'/team/members/' + teamMember.teamMemberTeamId" class="team-member-link">
+            {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
+          </a>
+        </li>
       </ul>
     </div>
-    <div class="spanish-container">
-      <span class="sidebar-label">SPANISH</span>
-      <i class="expand-facilities-trigger"> </i>
+    <div class="team-member-container">
+      <span class="sidebar-label"
+        >SPANISH
+        <i class="expand-members-trigger"> </i>
+      </span>
       <ul class="team-members-list">
-        <li *ngFor="let user of spanishSpeakingTeamMembers">{{ user.userFirstName }} {{ user.userLastName }}</li>
+        <li *ngFor="let teamMember of spanishSpeakingTeamMembers">
+          <a [routerLink]="'/team/members/' + teamMember.teamMemberTeamId" class="team-member-link">
+            {{ teamMember.userFirstName }} {{ teamMember.userLastName }}
+          </a>
+        </li>
       </ul>
     </div>
   </div>
