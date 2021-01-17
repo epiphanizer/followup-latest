@@ -143,7 +143,8 @@ export class ToolbarNavComponent implements OnInit {
      */
     var activeDropdown = document.getElementsByClassName('active dropdown');
     if (activeDropdown[0]) {
-      var boundingBox = activeDropdown[0].getBoundingClientRect();
+      var box = activeDropdown[0] as HTMLElement;
+      var boundingBox = box.getBoundingClientRect() as DOMRect;
       if ($event.clientX - (boundingBox.x + boundingBox.width) < 0) {
         this.dropdowns[i].activated = !this.dropdowns[i].activated;
       }
