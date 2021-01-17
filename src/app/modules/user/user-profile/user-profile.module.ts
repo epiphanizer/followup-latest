@@ -6,10 +6,11 @@ import { IonicModule } from '@ionic/angular';
 import { UserModule } from '../user.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { TeamListingSidebar } from '@app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component';
+import { TeamModule } from '@app/modules/team/team.module';
 
 @NgModule({
   declarations: [UserProfileComponent],
-  imports: [UserModule, IonicModule, CommonModule, NgxMaskModule.forRoot(), ReactiveFormsModule],
+  imports: [UserModule, IonicModule, CommonModule, NgxMaskModule.forRoot(), ReactiveFormsModule, TeamModule],
   entryComponents: [TeamListingSidebar],
   exports: [UserProfileComponent]
 })
