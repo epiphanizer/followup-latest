@@ -30,7 +30,7 @@
   .team-dropdown-target {
     display: block;
     font-family: AvenirBold;
-    margin: 0 0 5px 19px;
+    margin: 0 0 7px 19px;
     font-size: 20px;
     font-weight: bold;
     font-stretch: normal;
@@ -69,6 +69,7 @@
 
     .team-members-list {
       list-style-type: none;
+      margin-top: 0;
 
       li {
         vertical-align: top;
@@ -116,7 +117,7 @@
     text-align: right;
 
     i {
-      float: right;
+      text-align: right;
       display: inline-block;
       width: 16px;
       height: 16px;

@@ -1,0 +1,116 @@
+:root {
+  padding-top: 55px;
+  --height: 450px !important;
+  width: 645px;
+  padding: 75px;
+}
+
+.modal-exit-container {
+  display: block;
+  max-height: 20px;
+  float: right;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.icon-close-modal {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  display: block;
+  width: 15px;
+  height: 30px;
+  background: url("/assets/icon-close-modal@2x.png");
+  background-size: 100%;
+}
+
+.notification-container {
+  padding-top: 55px;
+
+  h3 {
+    margin-top: 8px;
+  }
+
+  img.notification-icon-image {
+    margin-top: 33px;
+    margin-right: 38px;
+    max-width: 61px;
+    height: auto;
+    position: absolute;
+    right: 0;
+    z-index: 5000;
+  }
+}
+
+ion-title {
+  display: block;
+  margin-bottom: 5px;
+  margin-left: 28px;
+  margin-right: 9px;
+  font-family: AvenirNextLTPro;
+  font-size: 24px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.93;
+  letter-spacing: 0.6px;
+  text-align: left;
+}
+ion-textarea {
+  --padding-start: 12px;
+  height: 200px;
+  width: 475px;
+  margin: 0 auto;
+  font-size: 13px;
+  font-family: Avenir;
+  background-color: #f5f5f5;
+  --inner-padding-start: 12px;
+  --inner-padding-end: 0;
+  padding-top: 0;
+  margin-top: 0.25rem;
+}
+
+h3 {
+  font-family: Avenir;
+  font-size: 23px;
+  font-weight: 900;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.48;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ef4136;
+  position: absolute;
+  top: 55px;
+  right: 40px;
+}
+.notification-review-item {
+  font-family: Avenir;
+  font-size: 12px;
+  margin-right: 10px;
+  --min-height: 28px;
+  span.label {
+    font-family: AvenirBold;
+  }
+}
+
+.send-container {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.save-button {
+  margin-top: 20px;
+  margin-right: 55px;
+}
+
+.edit-button {
+  margin-left: 55px;
+}
+
+.send-button {
+  margin-right: 55px;
+  background-color: red;
+}

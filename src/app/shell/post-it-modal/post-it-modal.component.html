@@ -1,0 +1,25 @@
+<div class="modal-exit-container ">
+  <i (click)="dismiss()" class="icon-close-modal"></i>
+</div>
+<ng-container>
+  <form *ngIf="createTeamMessageForm" [formGroup]="createTeamMessageForm">
+    <ion-row *ngIf="teamMessage" class="team-message-container">
+      <ion-title>Post A Note</ion-title>
+    </ion-row>
+    To:
+    <ion-textarea
+      [autoGrow]="true"
+      class="team-message-textarea"
+      formControlName="teamMessageContent"
+      placeholder="Leave Your Message Here"
+    ></ion-textarea>
+    <ion-button
+      [disabled]="createTeamMessageForm.invalid"
+      fill="outline"
+      class="save-button ion-float-right"
+      type="button"
+      (click)="sendTeamMessage()"
+      >Send
+    </ion-button>
+  </form>
+</ng-container>

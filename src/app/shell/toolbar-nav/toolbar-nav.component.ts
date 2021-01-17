@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd, ActivationEnd, ActivatedRouteSnapshot } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
+import { PostItModalComponent } from '../post-it-modal/post-it-modal.component';
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
 import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
@@ -151,6 +152,20 @@ export class ToolbarNavComponent implements OnInit {
     }
   }
 
+  async postItModal() {
+    const modal = await this.modalController.create({
+      component: PostItModalComponent,
+      cssClass: 'followup-post-it-modal',
+      componentProps: {
+        modalType: 'Post A Note',
+        teamMessage: {
+          teamMessageId: 0,
+          teamMessageContent: ''
+        }
+      }
+    });
+    return await modal.present();
+  }
   async createModal() {
     const modal = await this.modalController.create({
       component: NotificationModalComponent,
