@@ -156,6 +156,7 @@ export class UserProfileComponent implements OnInit {
     };
     return <UserPutObject>payload;
   }
+
   /**
    * A function to validate form controls
    * and if there are any validation errors,
