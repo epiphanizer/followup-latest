@@ -36,7 +36,10 @@ export class PatientFormComponent implements OnInit {
   dischargeLabels: PatientDischargeLabel[];
   patientForm: FormGroup;
   currentYear: number;
-  editMode: boolean = false;
+  mode: any = {
+    add: null,
+    edit: null
+  };
   patient: Patient;
   patient$: Observable<Patient> | void;
   patientContacts: PatientContact[] = [];
@@ -83,11 +86,13 @@ export class PatientFormComponent implements OnInit {
       this.dischargeLabels = data;
     });
 
-    if (this.route.snapshot.data.editMode) {
-      this.editMode = true;
+    if (this.route.snapshot.data.mode == 'edit') {
+      this.mode.edit = true;
       this.patient = this.route.snapshot.data.patient;
+    } else if (this.route.snapshot.data.mode == 'add') {
+      this.mode.add = true;
     }
-    if (!this.patient) {
+    if (this.mode.add) {
       /**
        * Creating a shell of the patient object within the database first
        * allows us to post avatars, uploads, etc. to a known patientId
@@ -241,6 +246,8 @@ export class PatientFormComponent implements OnInit {
         }),
         patientDob: this.fb.control(this.patient.patientDob, [Validators.required]),
         patientGender: this.fb.control(this.patient.patientGender, [Validators.required]),
+        patientPhoneNumber: this.fb.control(this.patient.patientPhoneNumber),
+        patientHIPAA: this.fb.control(this.patient.patientHIPAA),
         patientIsResponsibleParty: this.fb.control(this.patient.patientIsResponsibleParty),
         patientContacts: this.fb.array([]),
         insurance: this.fb.group({
@@ -472,7 +479,7 @@ export class PatientFormComponent implements OnInit {
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       this.toastrService.success('Successfully edited patient!');
       window.location.href = '/operations/' + this.patientForm.get('operation').value + '/patients';
-      if (!this.editMode) {
+      if (!this.mode.edit) {
         this.patientForm.reset();
       }
     });
@@ -535,8 +542,9 @@ export class PatientFormComponent implements OnInit {
       patientFirstName: formSubmission.patient.patientName.patientFirstName,
       patientLastName: formSubmission.patient.patientName.patientLastName,
       patientGender: formSubmission.patient.patientGender,
-      patientSpeaksEnglish: formSubmission.patient.patientSpeaksEnglish,
+      patientHIPAA: formSubmission.patient.patientHIPAA,
       patientIsResponsibleParty: formSubmission.patient.patientGender,
+      patientSpeaksEnglish: formSubmission.patient.patientSpeaksEnglish,
       patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
       patientCountryCode: formSubmission.patient.patientCountryCode,
       patientAreaCode: formSubmission.patient.patientAreaCode,

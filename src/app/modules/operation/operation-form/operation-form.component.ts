@@ -93,13 +93,13 @@ export class OperationFormComponent implements OnInit {
     this.notificationService.getNotificationTypes().subscribe((notificationTypes: NotificationType[]) => {
       this.notificationTypes = notificationTypes;
     });
-
+    console.log(this.route.snapshot.data);
     if (this.route.snapshot.data.mode == 'edit') {
       this.mode.edit = true;
     } else if (this.route.snapshot.data.mode == 'view') {
       this.mode.view = true;
     }
-
+    console.log(this.mode);
     if (this.mode.edit || this.mode.view) {
       this.operation = this.route.snapshot.data.operation;
       this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);

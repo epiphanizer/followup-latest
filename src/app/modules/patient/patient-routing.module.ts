@@ -57,6 +57,7 @@ const routes: Routes = [
         user: UserResolver
       },
       data: {
+        mode: 'add',
         roles: [UserRoles.admin, UserRoles.manager],
         title: extract('New Patient')
       }
@@ -71,7 +72,7 @@ const routes: Routes = [
       },
       canActivate: [AuthGuardService],
       data: {
-        editMode: true,
+        mode: 'edit',
         roles: [UserRoles.admin, UserRoles.manager],
         title: extract('Edit Patient')
       }

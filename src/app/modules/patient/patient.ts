@@ -35,6 +35,7 @@ export interface Patient {
   patientCountryCode?: number;
   patientAreaCode?: number;
   patientPhoneNumber?: string;
+  patientHIPAA?: boolean;
   patientSpeaksEnglish?: boolean;
   patientIsResponsibleParty?: boolean;
   patientLanguages$?: Observable<UserLanguage[]>;
@@ -88,4 +89,14 @@ export interface Patient {
 export interface PatientDischargeLabel {
   patientDischargeLabelId: number;
   patientDischargeLabel: string;
+}
+
+export enum PatientRelationshipTypes {
+  'Spouse',
+  'Child',
+  'Parent',
+  'Relative',
+  'Friend',
+  'Sig. Other',
+  'Other'
 }
