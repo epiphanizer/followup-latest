@@ -52,6 +52,7 @@ export interface OperationPutBody {
 export interface OperationGroup {
   operationGroupId?: number;
   operationGroupName: string;
+  operationGroupShortName?: string;
   operations?: Operation[];
   operations$?: Observable<Operation[]>;
   // control state for the sidebar

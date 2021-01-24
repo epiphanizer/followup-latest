@@ -11,7 +11,7 @@
       <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
         <span class="operation-group"
           >{{
-            operationGroup.operationGroupShortName.length
+            operationGroup.operationGroupShortName?.length
               ? operationGroup.operationGroupShortName
               : operationGroup.operationGroupName
           }}
