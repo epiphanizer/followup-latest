@@ -1,7 +1,7 @@
 <ion-content>
   <ion-row *ngIf="operation">
     <ion-col class="operation-sidebar">
-      <app-operation-admin-sidebar (operationChangeEvent)="operationChangeEventHandler($event)">
+      <app-operation-admin-sidebar (operationChangeEvent)="operationChangeEventHandler($event)" [mode]="mode">
       </app-operation-admin-sidebar>
     </ion-col>
     <ion-col class="operation-form-content-wrapper">
