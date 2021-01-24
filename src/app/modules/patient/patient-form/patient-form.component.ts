@@ -251,8 +251,7 @@ export class PatientFormComponent implements OnInit {
         patientIsResponsibleParty: this.fb.control(this.patient.patientIsResponsibleParty),
         patientContacts: this.fb.array([]),
         insurance: this.fb.group({
-          primaryInsurance: this.fb.control(this.patient.patientPrimaryInsurance),
-          secondaryInsurance: this.fb.control(this.patient.patientSecondaryInsurance)
+          primaryInsurance: this.fb.control(this.patient.patientPrimaryInsurance)
         }),
         dischargeInfo: this.fb.group({
           patientAdmitDate: this.fb.control(this.patient.patientAdmitDate, [Validators.required]),
@@ -546,6 +545,7 @@ export class PatientFormComponent implements OnInit {
       patientIsResponsibleParty: formSubmission.patient.patientGender,
       patientSpeaksEnglish: formSubmission.patient.patientSpeaksEnglish,
       patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
+      primaryInsurancePhoneNumber: formSubmission.patient.insurance.primaryInsurancePhoneNumber || '',
       patientCountryCode: formSubmission.patient.patientCountryCode,
       patientAreaCode: formSubmission.patient.patientAreaCode,
       patientPhoneNumber: formSubmission.patient.patientPhoneNumber,

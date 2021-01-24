@@ -82,9 +82,9 @@
                 id="additionalPatientContact-{{ idx }}"
               >
                 <div class="section-header">
-                  <span *ngIf="idx == 0; else alternateContact">Primary Contact</span>
+                  <span class="patient-contact-header" *ngIf="idx == 0; else alternateContact">Primary Contact</span>
                   <ng-template #alternateContact>
-                    <span>Alternate Contact</span>
+                    <span class="patient-contact-header">Contact {{ idx + 1 }}</span>
                   </ng-template>
                 </div>
                 <ion-item class="first-name">
