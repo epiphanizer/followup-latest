@@ -14,6 +14,12 @@ export class CalendarComponent implements OnInit {
     number: string;
     name: string;
   }[];
+  lastMonth: {
+    number: string;
+    numberOfDays?: number;
+  };
+  lastMonthString: string;
+  lastMonthYear: number;
   todaysDateDay: number | string;
   currentCalendarMonth: {
     number: string;
@@ -100,13 +106,25 @@ export class CalendarComponent implements OnInit {
     this.selectedMonth = this.currentCalendarMonth = this.months[parseInt(this.todaysMonth) - 1];
     this.chosenMonth = this.months[parseInt(this.todaysMonth) - 1].number;
     this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.selectedMonth.number), this.selectedYear.year);
+    if ((parseInt(this.selectedMonth.number) - 1).toString() !== '0') {
+      this.lastMonthYear = this.selectedYear.year;
+      this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
+      this.lastMonthString = this.months[parseInt(this.todaysMonth) - 2].number;
+    } else {
+      this.lastMonthYear = this.selectedYear.year - 1;
+      this.lastMonthString = '12';
+    }
     this.createDaysArray();
+
     let formattedDay = this.selectedDay.toString();
     if (formattedDay.length == 1) {
       formattedDay = '0' + formattedDay;
     }
     this.selectedDate = this.selectedMonth.number + '/' + formattedDay + '/' + this.todaysYear;
     this.dateFilterChangeEvent.emit(this.selectedDate);
+  }
+  getLastMonthNumberOfDays() {
+    this.lastMonth.numberOfDays = this.daysInMonth(parseInt(this.selectedMonth.number), this.selectedYear.year);
   }
   createDaysArray() {
     let firstDayOfMonthIndex = this.getFirstDayOfMonthIndex(
@@ -116,14 +134,37 @@ export class CalendarComponent implements OnInit {
 
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
     this.offsetNumber = this.getFirstDayOffset(firstDayOfMonthIndex);
+
+    var priorMonthLastDays = this.daysInMonth(parseInt(this.lastMonthString), this.lastMonthYear);
+
+    /**
+     * A fun, and confusing (unless you wrote it)
+     * equation to get back the last (offset_days) of
+     * last month.
+     */
+    var lastMonthDaysArray = Array.from(Array(priorMonthLastDays + 1).keys()).slice(
+      priorMonthLastDays - Math.abs(this.offsetNumber + 1),
+      priorMonthLastDays + 1
+    );
+    /**
+     * reverse the array for proper ordering for unshift
+     */
+    lastMonthDaysArray = lastMonthDaysArray.reverse();
+    /**
+     * Translate our negative offset number into the days from the prior month
+     */
+
+    lastMonthDaysArray.forEach(j => {
+      this.selectedMonth.daysArray.unshift(j);
+    });
     /**
      * Add negative values to the start of the daysArray loop (unshift)
      * We hide the actual value from the frontend in terms of <span>{{day}}</span>
      * but we use use the values to provide the placeholder we need.
      */
-    for (var j = this.offsetNumber; j < 0; j++) {
-      this.selectedMonth.daysArray.unshift(j);
-    }
+    // for (var j = this.offsetNumber; j < 0; j++) {
+    //   this.selectedMonth.daysArray.unshift(j);
+    // }
   }
   /**
    * A function to get which day Sun = 0 -> Sat = 6
@@ -159,6 +200,9 @@ export class CalendarComponent implements OnInit {
       this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
       this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
     } else {
+      /**
+       * Case when we are in January, going backward.
+       */
       this.currentCalendarMonth = this.months[11];
       this.selectedMonth.number = '12';
       this.selectedYear.year = this.selectedYear.year - 1;
