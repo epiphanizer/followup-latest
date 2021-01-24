@@ -10,7 +10,11 @@
     <ng-container *ngIf="operationGroups">
       <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
         <span class="operation-group"
-          >{{ operationGroup.operationGroupName }}
+          >{{
+            operationGroup.operationGroupShortName?.length
+              ? operationGroup.operationGroupShortName
+              : operationGroup.operationGroupName
+          }}
           <i
             class="expand-facilities-trigger"
             (click)="toggleOperationSidebarMenu(operationGroup)"

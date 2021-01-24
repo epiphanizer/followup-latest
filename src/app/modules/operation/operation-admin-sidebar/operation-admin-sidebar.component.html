@@ -14,7 +14,11 @@
             class="operation-group-link"
             (click)="setActiveOperationGroup(operationGroup)"
             [routerLink]="'/operations/group/' + operationGroup.operationGroupId"
-            >{{ operationGroup.operationGroupName }}</a
+            >{{
+              operationGroup.operationGroupShortName?.length
+                ? operationGroup.operationGroupShortName
+                : operationGroup.operationGroupName
+            }}</a
           >
           <i
             class="expand-facilities-trigger"
