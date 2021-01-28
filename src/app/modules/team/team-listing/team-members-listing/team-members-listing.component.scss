@@ -28,7 +28,7 @@ h3 {
   color: var(--ion-color-primary);
 }
 
-.teams-listing-headline {
+.team-listing-headline {
   display: inline-block;
   font-family: AvenirBold;
   font-size: 20px;
@@ -53,20 +53,17 @@ ul.team-filters {
   li {
     cursor: pointer;
     display: inline-block;
-    font-family: AvenirNextLtPro;
+    font-family: AvenirDemi;
+    text-transform: uppercase;
+    font-size: 13px;
     font-weight: normal;
-    font-style: normal;
-    vertical-align: top;
     font-stretch: normal;
-    line-height: 2.88;
-    letter-spacing: 0.53px;
+    font-style: normal;
+    line-height: 2.31;
+    letter-spacing: 0.13px;
     text-align: left;
-    &.team-date {
-      width: 115px;
-    }
-    &.patient-filter {
-      width: 175px;
-    }
+    color: #222222;
+    text-align: center;
 
     a {
       cursor: pointer;
@@ -127,7 +124,7 @@ ul.team-filters {
   position: absolute;
 }
 
-.team-patient-list {
+.team-member-list {
   clear: both;
   list-style-type: none;
   width: 100%;
@@ -177,7 +174,8 @@ ul.team-filters {
       color: #222222;
       margin-right: 25px;
     }
-    .team-patient-information {
+
+    .team-member-information {
       font-family: AvenirPro;
       font-size: 16px;
       font-weight: 500;
@@ -212,6 +210,7 @@ ul.team-filters {
         display: inline-block;
       }
     }
+
     .team-status {
       font-family: AvenirPro;
       display: block;

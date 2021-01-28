@@ -29,7 +29,13 @@ export class TeamListingComponent implements OnInit {
   constructor(private teamService: TeamService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.teamService.getTeams();
+    this.teams$ = this.teamService.getTeams().pipe(
+      map((teams: [Team]) => {
+        this.teams = teams;
+        this.selected.team = teams[0];
+        return teams;
+      })
+    );
   }
 
   searchTeamMembersByTeam($event: KeyboardEvent): Team[] {
@@ -46,6 +52,7 @@ export class TeamListingComponent implements OnInit {
     this.teams = [];
     this.teams$ = this.teamService.getTeamMembersByTeamId(this.selected.team.teamId).pipe(
       map((teams: [Team]) => {
+        console.log(teams);
         this.teams = teams;
         return teams;
       })
