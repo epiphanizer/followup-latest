@@ -7,9 +7,9 @@ export interface TeamMessage {
 export interface Team {
   teamId: number;
   teamName: string;
-  teamManagerSidebarOpen?: boolean;
-  teamCareRepSidebarOpen?: boolean;
-  teamSpanishSidebarOpen?: boolean;
+  teamManagerSidebarDropdownOpen?: boolean;
+  teamCareRepSidebarDropdownOpen?: boolean;
+  teamSpanishSidebarDropdownOpen?: boolean;
   teamMembers?: TeamMember[];
   teamManagers?: TeamMember[];
   teamCareReps?: TeamMember[];

@@ -86,9 +86,9 @@ export class TeamListingSidebar implements OnInit {
                 /**
                  * Set defaults on the sidebar collapse states for each team
                  */
-                team.teamManagerSidebarOpen = true;
-                team.teamCareRepSidebarOpen = true;
-                team.teamSpanishSidebarOpen = true;
+                team.teamManagerSidebarDropdownOpen = true;
+                team.teamCareRepSidebarDropdownOpen = true;
+                team.teamSpanishSidebarDropdownOpen = true;
                 teamMembers.forEach((teamMember: TeamMember, index: number) => {
                   if (teamMember.teamMemberRoleLabel == 'Manager') {
                     team.teamManagers.push(teamMember);
@@ -115,12 +115,12 @@ export class TeamListingSidebar implements OnInit {
       });
   }
   toggleTeamManagerSidebarMenu(team: Team) {
-    team.teamManagerSidebarOpen = !team.teamManagerSidebarOpen;
+    team.teamManagerSidebarDropdownOpen = !team.teamManagerSidebarDropdownOpen;
   }
   toggleTeamCareRepSidebarMenu(team: Team) {
-    team.teamCareRepSidebarOpen = !team.teamCareRepSidebarOpen;
+    team.teamCareRepSidebarDropdownOpen = !team.teamCareRepSidebarDropdownOpen;
   }
   toggleTeamSpanishSidebarMenu(team: Team) {
-    team.teamSpanishSidebarOpen = !team.teamSpanishSidebarOpen;
+    team.teamSpanishSidebarDropdownOpen = !team.teamSpanishSidebarDropdownOpen;
   }
 }
