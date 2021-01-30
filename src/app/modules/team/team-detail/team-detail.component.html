@@ -8,7 +8,7 @@
       <ion-title class="ion-float-left">
         Team Members
       </ion-title>
-
+      <!--       
       <div class="user-avatar" *ngIf="selected.user">
         <app-user-avatar [user]="user"></app-user-avatar>
         <div class="user-info-container">
@@ -17,24 +17,29 @@
           </div>
           <div class="user-phone" *ngIf="user.userPhoneNumber"></div>
         </div>
-      </div>
+      </div> -->
 
       <div class="team-member-info-container">
-        <div class="team-member-info-container" *ngIf="selected.user">
+        <div class="team-member-info-container" *ngIf="teamMember">
           <div class="user-info">
-            <span class="post-it-note"><i class="post-it"></i> <a (click)="postNote(user)">Post a note</a></span>
+            <span class="post-it-note"><i class="post-it"></i> <a (click)="postNote(teamMember)">Post a note</a></span>
             <div class="greeting">
-              Hello my name is...
+              <span *ngIf="!teamMember.languages.spanish; else spanish">
+                Hello my name is...
+              </span>
+              <ng-template #spanish>
+                Hola! Mi nombre es...
+              </ng-template>
             </div>
             <div class="user-name">
               <h2 class="user-name">
-                {{ user.userFirstName }}
-                {{ user.userLastName }}
+                {{ teamMember.teamMemberFirstName }}
+                {{ teamMember.teamMemberLastName }}
               </h2>
             </div>
           </div>
           <div class="user-information">
-            {{ user.needToKnow }}
+            {{ teamMember.needToKnow }}
           </div>
           <!-- <p>
             <ul class="user-interests"> 

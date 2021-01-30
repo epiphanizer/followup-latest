@@ -15,8 +15,8 @@ export class TeamService {
   };
   constructor(private http: HttpService) {}
 
-  getTeamByTeamId = function(teamId: number) {
-    return this.http.get('team/' + teamId).pipe(
+  getTeamMemberByTeamMemberId = function(teamId: number, teamMemberId: number) {
+    return this.http.get('teams/' + teamId + '/members/' + teamMemberId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

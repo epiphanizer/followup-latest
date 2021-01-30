@@ -1,4 +1,4 @@
-<ng-container *ngIf="patientActivity; else noActivity">
+<ng-container *ngIf="patientActivity">
   <ion-list class="patient-call-history-list" inset lines="none">
     <div class="patient-activity" *ngFor="let patientActivity of patientActivity; let i = index">
       <ng-container *ngIf="patientActivity.patientActivityType == 'notification'; else patientCall">

@@ -5,13 +5,17 @@ import { Team, TeamMember } from '@app/modules/team/team';
 import { Operation } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
 import { TeamService } from '../team.service';
+import { map, take } from 'rxjs/operators';
 
 @Component({
+  providers: [TeamService],
   selector: 'app-team-detail',
   templateUrl: './team-detail.component.html',
   styleUrls: ['./team-detail.component.scss']
 })
 export class TeamMemberDetailComponent implements OnInit {
+  teamId: number;
+  teamMemberId: number;
   teamMember: TeamMember;
   team: Team;
   public selected:
@@ -22,7 +26,16 @@ export class TeamMemberDetailComponent implements OnInit {
     | any = {};
   constructor(private route: ActivatedRoute, private teamService: TeamService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.teamMemberId = this.route.snapshot.data.teamId;
+    this.teamMemberId = this.route.snapshot.data.teamMemberId;
+    this.teamService.getTeamMemberByTeamMemberId(this.teamId, this.teamMemberId).pipe(
+      take(1),
+      map((teamMember: TeamMember) => {
+        this.teamMember = teamMember;
+      })
+    );
+  }
 
   teamMemberChangeEventHandler($event: TeamMember) {
     if ($event) {
