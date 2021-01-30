@@ -51,6 +51,11 @@
     </div>
   </ion-item>
 </ion-list>
+<jw-pagination
+  *ngIf="operationsFiltered"
+  [items]="operationsFiltered"
+  (changePage)="onChangePage($event)"
+></jw-pagination>
 <ng-template #noOperations>
   Sorry! No operations exist for this group!
 </ng-template>

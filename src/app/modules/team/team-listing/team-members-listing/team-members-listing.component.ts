@@ -34,25 +34,25 @@ export class TeamMembersListingComponent implements OnInit {
   }
 
   ngOnChanges(changes: any) {
-    if (changes.team) {
-      this.teamMembers = [];
-      this.team = changes.team.currentValue;
-      this.teamService
-        .getTeamMembersByTeamId(this.team.teamId)
-        .pipe(
-          take(1),
-          map((teamMembers: [TeamMember]) => {
-            if (teamMembers) {
-              this.teamMembers = teamMembers;
-              this.teamMembersFiltered = teamMembers;
-              this.sortTeamMembersByTeamMemberName(this.selectedSortFlag);
-            } else {
-              this.teamMembersFiltered = this.teamMembers = [];
-            }
-          })
-        )
-        .subscribe();
-    }
+    // if (changes.team) {
+    //   this.teamMembers = [];
+    //   this.team = changes.team.currentValue;
+    //   this.teamService
+    //     .getTeamMembersByTeamId(this.team.teamId)
+    //     .pipe(
+    //       take(1),
+    //       map((teamMembers: [TeamMember]) => {
+    //         if (teamMembers) {
+    //           this.teamMembers = teamMembers;
+    //           this.teamMembersFiltered = teamMembers;
+    //           this.sortTeamMembersByTeamMemberName(this.selectedSortFlag);
+    //         } else {
+    //           this.teamMembersFiltered = this.teamMembers = [];
+    //         }
+    //       })
+    //     )
+    //     .subscribe();
+    // }
   }
   toggleAscDesc() {
     if (this.selectedSortFlag == 'asc') {

@@ -14,6 +14,7 @@ export class OperationOperationListingComponent implements OnInit {
   public operations: Operation[];
   public operations$: Observable<Operation[]>;
   public operationsFiltered: Operation[];
+  public pageOfItems: Operation[];
   public filterBy: string = 'operation-name';
   public selectedSortFlag: string = 'desc';
 
@@ -75,5 +76,9 @@ export class OperationOperationListingComponent implements OnInit {
       return operationName.toLowerCase().includes(searchText);
     });
     return this.operationsFiltered;
+  }
+  onChangePage(pageOfItems: Array<any>) {
+    // update current page of items
+    this.pageOfItems = pageOfItems;
   }
 }

@@ -157,14 +157,6 @@ export class CalendarComponent implements OnInit {
     lastMonthDaysArray.forEach(j => {
       this.selectedMonth.daysArray.unshift(j);
     });
-    /**
-     * Add negative values to the start of the daysArray loop (unshift)
-     * We hide the actual value from the frontend in terms of <span>{{day}}</span>
-     * but we use use the values to provide the placeholder we need.
-     */
-    // for (var j = this.offsetNumber; j < 0; j++) {
-    //   this.selectedMonth.daysArray.unshift(j);
-    // }
   }
   /**
    * A function to get which day Sun = 0 -> Sat = 6

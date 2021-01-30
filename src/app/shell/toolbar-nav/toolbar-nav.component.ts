@@ -130,6 +130,15 @@ export class ToolbarNavComponent implements OnInit {
     this.dropdowns[i].activated = false;
   }
   openDropdown(i: number) {
+    /**
+     * Close all dropdowns that may already be open.
+     */
+    this.dropdowns.forEach((dropdown, index) => {
+      dropdown.activated = false;
+    });
+    /**
+     * Check for any existing dropdowns;
+     */
     this.dropdowns[i].activated = true;
   }
   toggleDropdown(i: number, $event: any) {
