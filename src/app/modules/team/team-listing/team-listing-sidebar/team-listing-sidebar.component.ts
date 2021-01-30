@@ -1,15 +1,57 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+  // ...
+} from '@angular/animations';
 import { formatDate } from '@angular/common';
 import { Team, TeamMember } from '../../team';
-import { User } from '@app/modules/user/user';
 import { TeamService } from '../../team.service';
 import { LogService } from '@app/shared/log/log.service';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   providers: [LogService, TeamService],
   selector: 'app-team-listing-sidebar',
   templateUrl: './team-listing-sidebar.component.html',
-  styleUrls: ['./team-listing-sidebar.component.scss']
+  styleUrls: ['./team-listing-sidebar.component.scss'],
+  animations: [
+    trigger('expandSidebar', [
+      state(
+        'open',
+        style({
+          opacity: 1
+        })
+      ),
+      state(
+        'closed',
+        style({
+          opacity: 0
+        })
+      ),
+      transition('open => closed', [animate('0.5s')]),
+      transition('closed => open', [animate('0.25s')])
+    ]),
+    trigger('turnArrow', [
+      state(
+        'open',
+        style({
+          transform: 'rotate(0deg)'
+        })
+      ),
+      state(
+        'closed',
+        style({
+          transform: 'rotate(-90deg)'
+        })
+      ),
+      transition('open => closed', [animate('0.125s')]),
+      transition('closed => open', [animate('0.125s')])
+    ])
+  ]
 })
 export class TeamListingSidebar implements OnInit {
   primaryTeam: number = 1;
@@ -17,6 +59,7 @@ export class TeamListingSidebar implements OnInit {
   careRepTeamMembers: TeamMember[] = [];
   managerTeamMembers: TeamMember[] = [];
   spanishSpeakingTeamMembers: TeamMember[] = [];
+  teams: Team[];
   teamMembers: TeamMember[];
   todaysDateDay: number;
   @Input() team: Team;
@@ -24,30 +67,60 @@ export class TeamListingSidebar implements OnInit {
 
   ngOnInit() {
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
-    /**
-     * Until we add in more functionality to add teams, default to primaryTeam
-     */
-    this.teamService.getTeamMembersByTeamId(this.primaryTeam).subscribe((teamMembers: TeamMember[]) => {
-      console.log(teamMembers);
-      try {
-        this.teamMembers = teamMembers;
-        this.teamMembers.forEach((teamMember: TeamMember, index: number) => {
-          if (teamMember.teamMemberRoleLabel == 'Manager') {
-            this.managerTeamMembers.push(teamMember);
-          }
-          if (teamMember.teamMemberRoleLabel == 'Care Rep') {
-            this.careRepTeamMembers.push(teamMember);
-          }
-          /**
-           * Check for Spanish speaking
-           */
-          if (teamMember.spanishSpeaking) {
-            this.spanishSpeakingTeamMembers.push(teamMember);
-          }
-        });
-      } catch (error) {
-        this.logService.log(error);
-      }
-    });
+    this.teamService
+      .getTeams()
+      .pipe(
+        take(1),
+        map((teams: Team[]) => {
+          this.teams = teams;
+          this.teams.forEach((team: Team) => {
+            this.teamService.getTeamMembersByTeamId(team.teamId).subscribe((teamMembers: TeamMember[]) => {
+              try {
+                /**
+                 * Initiate local team variables
+                 */
+                team.teamMembers = teamMembers;
+                team.teamManagers = [];
+                team.teamCareReps = [];
+                team.teamSpanishSpeaking = [];
+                /**
+                 * Set defaults on the sidebar collapse states for each team
+                 */
+                team.teamManagerSidebarOpen = true;
+                team.teamCareRepSidebarOpen = true;
+                team.teamSpanishSidebarOpen = true;
+                teamMembers.forEach((teamMember: TeamMember, index: number) => {
+                  if (teamMember.teamMemberRoleLabel == 'Manager') {
+                    team.teamManagers.push(teamMember);
+                  }
+                  if (teamMember.teamMemberRoleLabel == 'Care Rep') {
+                    team.teamCareReps.push(teamMember);
+                  }
+                  /**
+                   * Check for Spanish speaking
+                   */
+                  if (teamMember.spanishSpeaking) {
+                    team.teamSpanishSpeaking.push(teamMember);
+                  }
+                });
+              } catch (error) {
+                this.logService.log(error);
+              }
+            });
+          });
+        })
+      )
+      .subscribe(() => {
+        //
+      });
+  }
+  toggleTeamManagerSidebarMenu(team: Team) {
+    team.teamManagerSidebarOpen = !team.teamManagerSidebarOpen;
+  }
+  toggleTeamCareRepSidebarMenu(team: Team) {
+    team.teamCareRepSidebarOpen = !team.teamCareRepSidebarOpen;
+  }
+  toggleTeamSpanishSidebarMenu(team: Team) {
+    team.teamSpanishSidebarOpen = !team.teamSpanishSidebarOpen;
   }
 }

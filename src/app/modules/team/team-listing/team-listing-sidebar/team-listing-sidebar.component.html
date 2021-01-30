@@ -6,46 +6,63 @@
     </div>
   </div>
 
-  <div class="team-dropdown-container">
-    <a class="team-dropdown-target">THE TEAM</a>
-    <div class="team-member-container">
-      <span class="sidebar-label"
-        >MANAGERS
-        <i class="expand-members-trigger"> </i>
-      </span>
-      <ul class="team-members-list">
-        <li *ngFor="let teamMember of managerTeamMembers">
-          <a [routerLink]="'/team/members/' + teamMember.userTeamId" class="team-member-link">
-            {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="team-member-container">
-      <span class="sidebar-label"
-        >CARE REPS
-        <i class="expand-members-trigger"> </i>
-      </span>
-      <ul class="team-members-list">
-        <li *ngFor="let teamMember of careRepTeamMembers">
-          <a [routerLink]="'/team/members/' + teamMember.userTeamId" class="team-member-link">
-            {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="team-member-container">
-      <span class="sidebar-label"
-        >SPANISH
-        <i class="expand-members-trigger"> </i>
-      </span>
-      <ul class="team-members-list">
-        <li *ngFor="let teamMember of spanishSpeakingTeamMembers">
-          <a [routerLink]="'/team/members/' + teamMember.userTeamId" class="team-member-link">
-            {{ teamMember.userFirstName }} {{ teamMember.userLastName }}
-          </a>
-        </li>
-      </ul>
+  <div class="team-dropdown-container" *ngIf="teams">
+    <a class="team-dropdown-target">THE TEAM<span *ngIf="teams.length > 1">s</span></a>
+    <div *ngFor="let team of teams">
+      <div class="team-member-container">
+        <span class="sidebar-label"
+          >MANAGERS
+          <i
+            class="expand-members-trigger"
+            (click)="toggleTeamManagerSidebarMenu(team)"
+            [@turnArrow]="team.sidebarManagerDropdownOpen ? 'open' : 'closed'"
+          >
+          </i>
+        </span>
+        <ul class="team-members-list">
+          <li *ngFor="let teamMember of team.teamManagers">
+            <a [routerLink]="'/team/members/' + teamMember.userTeamId" class="team-member-link">
+              {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="team-member-container">
+        <span class="sidebar-label"
+          >CARE REPS
+          <i
+            class="expand-members-trigger"
+            (click)="toggleTeamCareRepSidebarMenu(team)"
+            [@turnArrow]="team.sidebarCareRepDropdownOpen ? 'open' : 'closed'"
+          >
+          </i>
+        </span>
+        <ul class="team-members-list">
+          <li *ngFor="let teamMember of team.teamCareReps">
+            <a [routerLink]="'/team/members/' + teamMember.userTeamId" class="team-member-link">
+              {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="team-member-container">
+        <span class="sidebar-label"
+          >SPANISH
+          <i
+            class="expand-members-trigger"
+            (click)="toggleTeamSpanishSidebarMenu(team)"
+            [@turnArrow]="team.sidebarSpanishDropdownOpen ? 'open' : 'closed'"
+          >
+          </i>
+        </span>
+        <ul class="team-members-list">
+          <li *ngFor="let teamMember of team.teamSpanishSpeaking">
+            <a [routerLink]="'/team/members/' + teamMember.userTeamId" class="team-member-link">
+              {{ teamMember.userFirstName }} {{ teamMember.userLastName }}
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

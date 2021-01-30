@@ -19,7 +19,7 @@ import { Notification } from '@app/modules/notification/notification';
 export class PatientHistoryListingComponent implements OnInit {
   @Input() patientCalls: PatientCall[];
   @Input() patientNotifications: Notification[];
-  patientActivity: [Notification[] | PatientCall[]];
+  patientActivity: [Notification[] | PatientCall[]] | any;
   patientHistory: PatientCall[];
   patientCallQuestions: PatientCallQuestion[] = [];
 
@@ -29,6 +29,7 @@ export class PatientHistoryListingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.patientActivity = [];
     // Go get our calls and warm up the observables.
     this.patientCalls.forEach((patientCall: PatientCall, index: number) => {
       this.patientCallQuestionService

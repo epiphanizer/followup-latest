@@ -1,12 +1,13 @@
 <h1 class="team-listing-headline">TEAM</h1>
 <ul class="team-filters ">
-  <li class="name-filter">
-    <a (click)="sortTeamMembersByTeamMemberName(selectedSortFlag)">
-      Name
-    </a>
-  </li>
-  <li>
-    <span class="ascending-descending-control">
+  <div class="team-name-container">
+    <li class="name-filter">
+      <a (click)="sortTeamMembersByTeamMemberName(selectedSortFlag)">
+        Name
+      </a>
+    </li>
+
+    <li class="ascending-descending-control">
       <i
         class="ascending-descending-control-arrow"
         [class.asc]="selectedSortFlag == 'asc'"
@@ -14,8 +15,26 @@
         (click)="toggleAscDesc()"
       >
       </i>
-    </span>
-  </li>
+    </li>
+  </div>
+  <div class="team-role-container">
+    <li>
+      <a (click)="sortTeamMembersByTeamMemberRole(selectedSortFlag)">
+        Role
+      </a>
+    </li>
+    <li>
+      <span class="ascending-descending-control">
+        <i
+          class="ascending-descending-control-arrow"
+          [class.asc]="selectedSortFlag == 'asc'"
+          [class.desc]="selectedSortFlag == 'desc'"
+          (click)="toggleAscDesc()"
+        >
+        </i>
+      </span>
+    </li>
+  </div>
 </ul>
 
 <ion-list class="team-member-list" lines="none" *ngIf="teamMembers">
@@ -29,6 +48,9 @@
         <a [routerLink]="'/team/' + teamMember.teamId + '/members/' + teamMember.userTeamId">
           {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
         </a>
+      </span>
+      <span class="team-member-role">
+        {{ teamMember.teamMemberRoleLabel }}
       </span>
     </div>
   </ion-item>

@@ -39,7 +39,7 @@ h3 {
   letter-spacing: 1.2px;
   text-align: left;
   color: #9acc38;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
 }
 
 ul.team-filters {
@@ -50,48 +50,60 @@ ul.team-filters {
   margin-top: 0;
   margin-bottom: 0;
 
-  li {
-    cursor: pointer;
+  div {
     display: inline-block;
-    font-family: AvenirDemi;
-    text-transform: uppercase;
-    font-size: 13px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 2.31;
-    letter-spacing: 0.13px;
-    text-align: left;
-    color: #222222;
-    text-align: center;
+    padding-left: 16px;
 
-    a {
+    &.team-name-container {
+      width: 84px;
+    }
+
+    &.team-role-container {
+      margin-left: 250px;
+    }
+    li {
       cursor: pointer;
-      font-family: AvenirBold;
+      display: inline-block;
+      font-family: AvenirDemi;
+      text-transform: uppercase;
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
       font-style: normal;
       line-height: 2.31;
       letter-spacing: 0.13px;
-      text-align: right;
+      text-align: left;
       color: #222222;
-      text-decoration: none;
-    }
+      text-align: center;
 
-    &.ascending-descending-control {
-      .ascending-descending-control-arrow {
-        display: block;
-        width: 11px;
-        height: 11px;
-        background-image: url("/assets/icon-list-sort@2x.png");
-        background-size: 100%;
-        background-repeat: no-repeat;
-        margin-top: 6px;
+      a {
+        cursor: pointer;
+        font-family: AvenirBold;
+        font-size: 13px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.31;
+        letter-spacing: 0.13px;
+        text-align: right;
+        color: #222222;
+        text-decoration: none;
+      }
 
-        &.asc {
-          transform: rotate(180deg);
-          margin-top: 3px;
+      &.ascending-descending-control {
+        .ascending-descending-control-arrow {
+          display: block;
+          width: 11px;
+          height: 11px;
+          background-image: url("/assets/icon-list-sort@2x.png");
+          background-size: 100%;
+          background-repeat: no-repeat;
+          margin-top: 6px;
+
+          &.asc {
+            transform: rotate(180deg);
+            margin-top: 3px;
+          }
         }
       }
     }
@@ -162,24 +174,11 @@ ul.team-filters {
       background-color: rgba(19, 175, 233, 0.35);
     }
 
-    .team-date {
-      font-family: AvenirBold;
-      font-size: 16px;
-      font-weight: bold;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.06;
-      letter-spacing: 0.64px;
-      text-align: left;
-      color: #222222;
-      margin-right: 25px;
-    }
-
     .team-member-information {
       font-family: AvenirPro;
       font-size: 16px;
       font-weight: 500;
-      width: 150px;
+      width: 100%;
       margin-right: 36px;
       font-stretch: normal;
       font-style: normal;
@@ -192,6 +191,42 @@ ul.team-filters {
       a {
         color: #343638;
         text-decoration: none;
+      }
+
+      padding-left: 20px;
+      .team-member-name {
+        display: inline-block;
+        font-family: AvenirPro;
+        font-size: 16px;
+        font-weight: 800;
+        width: 270px;
+        margin-right: 52px;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.75;
+        letter-spacing: normal;
+        text-align: left;
+        color: #222222;
+        text-transform: capitalize;
+
+        a {
+          color: #343638;
+          text-decoration: none;
+        }
+      }
+
+      .team-member-role {
+        font-family: AvenirPro;
+        display: inline-block;
+        font-size: 16px;
+        font-weight: 500;
+        margin-right: 36px;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.75;
+        letter-spacing: normal;
+        text-align: left;
+        color: #222222;
       }
     }
 

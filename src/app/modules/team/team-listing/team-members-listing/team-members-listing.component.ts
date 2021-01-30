@@ -21,38 +21,37 @@ export class TeamMembersListingComponent implements OnInit {
   ngOnInit() {
     this.teamMembers = [];
     this.teamService
-      .getTeamByTeamId(this.team.teamId)
+      .getTeamMembersByTeamId(this.team.teamId)
       .pipe(
         take(1),
         map((teamMembers: [TeamMember]) => {
           this.teamMembers = teamMembers;
           this.teamMembersFiltered = teamMembers;
-          this.sortTeamMembersByTeamMemberName(this.selectedSortFlag);
         })
       )
       .subscribe();
   }
 
   ngOnChanges(changes: any) {
-    // if (changes.team) {
-    //   this.teamMembers = [];
-    //   this.team = changes.team.currentValue;
-    //   this.teamService
-    //     .getTeamMembersByTeamId(this.team.teamId)
-    //     .pipe(
-    //       take(1),
-    //       map((teamMembers: [TeamMember]) => {
-    //         if (teamMembers) {
-    //           this.teamMembers = teamMembers;
-    //           this.teamMembersFiltered = teamMembers;
-    //           this.sortTeamMembersByTeamMemberName(this.selectedSortFlag);
-    //         } else {
-    //           this.teamMembersFiltered = this.teamMembers = [];
-    //         }
-    //       })
-    //     )
-    //     .subscribe();
-    // }
+    if (changes.team) {
+      this.teamMembers = [];
+      this.team = changes.team.currentValue;
+      this.teamService
+        .getTeamMembersByTeamId(this.team.teamId)
+        .pipe(
+          take(1),
+          map((teamMembers: [TeamMember]) => {
+            if (teamMembers) {
+              this.teamMembers = teamMembers;
+              this.teamMembersFiltered = teamMembers;
+              // this.sortTeamMembersByTeamMemberName(this.selectedSortFlag);
+            } else {
+              this.teamMembersFiltered = this.teamMembers = [];
+            }
+          })
+        )
+        .subscribe();
+    }
   }
   toggleAscDesc() {
     if (this.selectedSortFlag == 'asc') {
@@ -61,26 +60,26 @@ export class TeamMembersListingComponent implements OnInit {
       this.selectedSortFlag = 'asc';
     }
     if (this.filterBy == 'team-member-name') {
-      this.sortTeamMembersByTeamMemberName(this.selectedSortFlag);
+      // this.sortTeamMembersByTeamMemberName(this.selectedSortFlag);
     }
   }
 
-  sortTeamMembersByTeamMemberName = function(sortFlag: string) {
-    this.filterBy = 'team-member-name';
-    if (sortFlag == 'desc') {
-      this.teamMembersFiltered = this.teams
-        .sort((a: TeamMember, b: TeamMember) => {
-          return a.teamMemberFirstName.localeCompare(b.teamMemberFirstName);
-        })
-        .slice();
-    } else {
-      this.teamMembersFiltered = this.teams
-        .sort((a: TeamMember, b: TeamMember) => {
-          return b.teamMemberFirstName.localeCompare(a.teamMemberFirstName);
-        })
-        .slice();
-    }
-  };
+  // sortTeamMembersByTeamMemberName = function(sortFlag: string) {
+  //   this.filterBy = 'team-member-name';
+  //   if (sortFlag == 'desc') {
+  //     this.teamMembersFiltered = this.teams
+  //       .sort((a: TeamMember, b: TeamMember) => {
+  //         return a.teamMemberFirstName.localeCompare(b.teamMemberFirstName);
+  //       })
+  //       .slice();
+  //   } else {
+  //     this.teamMembersFiltered = this.teams
+  //       .sort((a: TeamMember, b: TeamMember) => {
+  //         return b.teamMemberFirstName.localeCompare(a.teamMemberFirstName);
+  //       })
+  //       .slice();
+  //   }
+  // };
 
   searchTeams($event: KeyboardEvent): TeamMember[] {
     let searchText = $event.currentTarget['value'];
