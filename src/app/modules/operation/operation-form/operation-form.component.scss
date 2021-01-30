@@ -38,6 +38,7 @@ ion-title {
   text-align: left;
   color: #3f3638;
   padding-left: 0;
+  text-transform: capitalize;
 }
 
 form {
@@ -79,6 +80,7 @@ form {
     max-width: 340px;
     margin-left: 32px;
     ion-item.operation-name {
+      text-transform: capitalize;
       font-family: AvenirDemi;
       font-size: 15px;
       font-weight: bold;
