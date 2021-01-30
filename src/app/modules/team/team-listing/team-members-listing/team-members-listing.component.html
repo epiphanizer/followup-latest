@@ -41,11 +41,11 @@
   <ion-item
     *ngFor="let teamMember of pageOfItems"
     class="active"
-    [routerLink]="'/team/' + teamMember.teamId + '/members/' + teamMember.userTeamId"
+    [routerLink]="'/teams/' + teamMember.teamId + '/members/' + teamMember.userTeamId"
   >
     <div class="team-member-information">
       <span class="team-member-name">
-        <a [routerLink]="'/team/' + teamMember.teamId + '/members/' + teamMember.userTeamId">
+        <a [routerLink]="'/teams/' + teamMember.teamId + '/members/' + teamMember.userTeamId">
           {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
         </a>
       </span>

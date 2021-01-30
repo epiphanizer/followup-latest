@@ -19,7 +19,7 @@
           >
           </i>
         </span>
-        <ul class="team-members-list">
+        <ul class="team-members-list" *ngIf="team.teamManagerSidebarDropdownOpen">
           <li *ngFor="let teamMember of team.teamManagers">
             <a [routerLink]="'/team/members/' + teamMember.userTeamId" class="team-member-link">
               {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
@@ -37,7 +37,7 @@
           >
           </i>
         </span>
-        <ul class="team-members-list">
+        <ul class="team-members-list" *ngIf="team.teamCareRepSidebarDropdownOpen">
           <li *ngFor="let teamMember of team.teamCareReps">
             <a [routerLink]="'/team/members/' + teamMember.userTeamId" class="team-member-link">
               {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
@@ -55,7 +55,7 @@
           >
           </i>
         </span>
-        <ul class="team-members-list">
+        <ul class="team-members-list" *ngIf="team.teamSpanishSidebarDropdownOpen">
           <li *ngFor="let teamMember of team.teamSpanishSpeaking">
             <a [routerLink]="'/team/members/' + teamMember.userTeamId" class="team-member-link">
               {{ teamMember.userFirstName }} {{ teamMember.userLastName }}
