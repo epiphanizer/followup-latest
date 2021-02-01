@@ -22,7 +22,7 @@ export class TeamService {
     );
   };
   getTeamMembersByTeamId = function(teamId: number) {
-    return this.http.get('team/' + teamId + '/members/').pipe(
+    return this.http.get('teams/' + teamId + '/members/').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
