@@ -29,6 +29,7 @@ export class UserAvatarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log(this.user);
     this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((data: any) => {
       var self = this;
       if (data !== null) {

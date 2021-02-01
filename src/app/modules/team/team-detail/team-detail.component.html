@@ -10,12 +10,12 @@
       </ion-title>
 
       <div class="team-member-avatar">
-        <app-user-avatar *ngIf="teamMember" [user]="user"></app-user-avatar>
+        <app-user-avatar [user]="user"></app-user-avatar>
         <div class="team-member-info-details">
-          <div class="team-member-email" *ngIf="teamMember.teamMemberEmail">
+          <div class="team-member-email" *ngIf="teamMember?.teamMemberEmail">
             {{ teamMember.teamMemberEmail }}
           </div>
-          <div class="team-member-phone" *ngIf="teamMember.teamMemberPhoneNumber"></div>
+          <div class="team-member-phone" *ngIf="teamMember?.teamMemberPhoneNumber"></div>
         </div>
       </div>
 

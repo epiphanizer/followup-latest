@@ -33,7 +33,12 @@ export class UserService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-
+  getUserByUserId(userId: number) {
+    return this.http.get<User>('users/' + userId).pipe(
+      retry(3),
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   getUserLanguagesByUserId(userId: number) {
     return this.http.get<UserLanguage[]>('users/' + userId + '/languages').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error

@@ -6,6 +6,7 @@ import { Operation } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
 import { TeamService } from '../team.service';
 import { map, take } from 'rxjs/operators';
+import { UserService } from '@app/modules/user/user.service';
 
 @Component({
   providers: [TeamService],
@@ -18,24 +19,36 @@ export class TeamMemberDetailComponent implements OnInit {
   teamMemberId: number;
   teamMember: TeamMember;
   team: Team;
+  /**
+   * get the user object for our user-avatar
+   */
+  user: User;
   public selected:
     | {
         teamMember: TeamMember;
         teamMember$: Observable<TeamMember>;
       }
     | any = {};
-  constructor(private route: ActivatedRoute, private teamService: TeamService) {}
+  constructor(private route: ActivatedRoute, private teamService: TeamService, private userService: UserService) {}
 
   ngOnInit() {
     this.teamId = this.route.snapshot.params.teamId;
     this.teamMemberId = this.route.snapshot.params.teamMemberId;
     this.teamService
-      .getTeamMemberByTeamMemberId(this.teamId, this.teamMemberId)
+      .getTeamMemberByTeamIdAndTeamMemberId(this.teamId, this.teamMemberId)
       .pipe(
         take(1),
         map((teamMember: TeamMember) => {
-          console.log(teamMember);
-          this.teamMember = teamMember;
+          this.teamMember = teamMember[0];
+          this.userService
+            .getUserByUserId(this.teamMember.userId)
+            .pipe(
+              take(1),
+              map((user: User) => {
+                this.user = user[0];
+              })
+            )
+            .subscribe();
         })
       )
       .subscribe();
