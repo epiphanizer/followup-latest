@@ -8,23 +8,23 @@
       <ion-title class="ion-float-left">
         Team Members
       </ion-title>
-      <!--       
-      <div class="user-avatar" *ngIf="selected.user">
-        <app-user-avatar [user]="user"></app-user-avatar>
-        <div class="user-info-container">
-          <div class="user-email" *ngIf="user.userEmail">
-            {{ user.userEmail }}
+
+      <div class="team-member-avatar">
+        <app-user-avatar *ngIf="teamMember" [user]="user"></app-user-avatar>
+        <div class="team-member-info-details">
+          <div class="team-member-email" *ngIf="teamMember.teamMemberEmail">
+            {{ teamMember.teamMemberEmail }}
           </div>
-          <div class="user-phone" *ngIf="user.userPhoneNumber"></div>
+          <div class="team-member-phone" *ngIf="teamMember.teamMemberPhoneNumber"></div>
         </div>
-      </div> -->
+      </div>
 
       <div class="team-member-info-container">
-        <div class="team-member-info-container" *ngIf="teamMember">
+        <div class="team-member-info" *ngIf="teamMember">
           <div class="user-info">
             <span class="post-it-note"><i class="post-it"></i> <a (click)="postNote(teamMember)">Post a note</a></span>
             <div class="greeting">
-              <span *ngIf="!teamMember.languages.spanish; else spanish">
+              <span *ngIf="!teamMember.spanishSpeaking; else spanish">
                 Hello my name is...
               </span>
               <ng-template #spanish>

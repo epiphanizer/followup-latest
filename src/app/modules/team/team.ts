@@ -22,5 +22,8 @@ export interface TeamMember {
   teamMemberFirstName: string;
   teamMemberLastName: string;
   teamMemberRoleLabel?: string;
+  teamMemberEmail?: string;
+  teamMemberPhoneNumber?: string;
   spanishSpeaking?: boolean;
+  needToKnow?: any;
 }
