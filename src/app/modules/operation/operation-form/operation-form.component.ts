@@ -48,9 +48,9 @@ export class OperationFormComponent implements OnInit {
   availableManagers: User[];
   operation: Operation;
   mode: any = {
-    add: null,
-    edit: null,
-    view: null
+    add: false,
+    edit: false,
+    view: false
   };
   notificationsLoaded: boolean = false;
   notificationTypes: NotificationType[];
@@ -96,9 +96,13 @@ export class OperationFormComponent implements OnInit {
     console.log(this.route.snapshot.data);
     if (this.route.snapshot.data.mode == 'edit') {
       this.mode.edit = true;
+      this.mode.view = false;
     } else if (this.route.snapshot.data.mode == 'view') {
       this.mode.view = true;
+      this.mode.edit = false;
+    } else {
     }
+    console.log(this.mode);
 
     if (this.mode.edit || this.mode.view) {
       this.operation = this.route.snapshot.data.operation;
@@ -179,7 +183,6 @@ export class OperationFormComponent implements OnInit {
       .pipe(
         take(1),
         map((operationContacts: OperationContact[]) => {
-          // console.log(operationContacts);
           if (operationContacts !== null) {
             this.operationContacts = [];
             operationContacts.forEach((operationContact: OperationContact, idx: number) => {

@@ -66,10 +66,8 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   user: User;
   todaysDateDay: number;
   ngOnInit() {
-    console.log(this.mode);
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     if (this.route.snapshot.paramMap.get('operationId')) {
-      this.mode.edit = true;
       this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
       this.updateAssignedUsers();
     }

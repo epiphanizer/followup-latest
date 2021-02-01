@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { Shell } from '@app/shell/shell.service';
 import { TeamMemberDetailComponent } from './team-detail/team-detail.component';
 import { TeamListingComponent } from './team-listing/team-listing.component';
+import { UserRoles } from '../user/user';
+import { AuthGuardService } from '@app/core/authentication/auth-guard.service';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -20,7 +22,9 @@ const routes: Routes = [
       path: 'teams/:teamId/members/:teamMemberId',
       pathMatch: 'full',
       component: TeamMemberDetailComponent,
+      canActivate: [AuthGuardService],
       data: {
+        roles: [UserRoles.admin, UserRoles.manager],
         teamId: ':teamId',
         teamMemberId: ':teamMemberId'
       }

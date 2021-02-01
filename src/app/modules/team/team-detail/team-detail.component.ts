@@ -27,14 +27,18 @@ export class TeamMemberDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute, private teamService: TeamService) {}
 
   ngOnInit() {
-    this.teamMemberId = this.route.snapshot.data.teamId;
-    this.teamMemberId = this.route.snapshot.data.teamMemberId;
-    this.teamService.getTeamMemberByTeamMemberId(this.teamId, this.teamMemberId).pipe(
-      take(1),
-      map((teamMember: TeamMember) => {
-        this.teamMember = teamMember;
-      })
-    );
+    this.teamId = this.route.snapshot.params.teamId;
+    this.teamMemberId = this.route.snapshot.params.teamMemberId;
+    this.teamService
+      .getTeamMemberByTeamMemberId(this.teamId, this.teamMemberId)
+      .pipe(
+        take(1),
+        map((teamMember: TeamMember) => {
+          console.log(teamMember);
+          this.teamMember = teamMember;
+        })
+      )
+      .subscribe();
   }
 
   teamMemberChangeEventHandler($event: TeamMember) {

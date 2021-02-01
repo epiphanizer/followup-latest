@@ -64,22 +64,38 @@ export class TeamMembersListingComponent implements OnInit {
     }
   }
 
-  // sortTeamMembersByTeamMemberName = function(sortFlag: string) {
-  //   this.filterBy = 'team-member-name';
-  //   if (sortFlag == 'desc') {
-  //     this.teamMembersFiltered = this.teams
-  //       .sort((a: TeamMember, b: TeamMember) => {
-  //         return a.teamMemberFirstName.localeCompare(b.teamMemberFirstName);
-  //       })
-  //       .slice();
-  //   } else {
-  //     this.teamMembersFiltered = this.teams
-  //       .sort((a: TeamMember, b: TeamMember) => {
-  //         return b.teamMemberFirstName.localeCompare(a.teamMemberFirstName);
-  //       })
-  //       .slice();
-  //   }
-  // };
+  sortTeamMembersByTeamMemberName = function(sortFlag: string) {
+    this.filterBy = 'team-member-name';
+    if (sortFlag == 'desc') {
+      this.teamMembersFiltered = this.teams
+        .sort((a: TeamMember, b: TeamMember) => {
+          return a.teamMemberFirstName.localeCompare(b.teamMemberFirstName);
+        })
+        .slice();
+    } else {
+      this.teamMembersFiltered = this.teams
+        .sort((a: TeamMember, b: TeamMember) => {
+          return b.teamMemberFirstName.localeCompare(a.teamMemberFirstName);
+        })
+        .slice();
+    }
+  };
+  sortTeamMembersByTeamMemberRole = function(sortFlag: string) {
+    this.filterBy = 'team-member-role';
+    if (sortFlag == 'desc') {
+      this.teamMembersFiltered = this.teams
+        .sort((a: TeamMember, b: TeamMember) => {
+          return a.teamMemberRoleLabel.localeCompare(b.teamMemberRoleLabel);
+        })
+        .slice();
+    } else {
+      this.teamMembersFiltered = this.teams
+        .sort((a: TeamMember, b: TeamMember) => {
+          return b.teamMemberRoleLabel.localeCompare(a.teamMemberRoleLabel);
+        })
+        .slice();
+    }
+  };
 
   searchTeams($event: KeyboardEvent): TeamMember[] {
     let searchText = $event.currentTarget['value'];

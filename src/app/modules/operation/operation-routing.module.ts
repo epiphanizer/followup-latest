@@ -32,18 +32,6 @@ const routes: Routes = [
       }
     },
     {
-      path: 'operation/add',
-      component: OperationFormComponent,
-      canActivate: [AuthGuardService],
-      data: {
-        roles: [UserRoles.admin],
-        title: extract('Add Operation')
-      },
-      resolve: {
-        user: UserResolver
-      }
-    },
-    {
       path: 'operation/:operationId',
       component: OperationFormComponent,
       canActivate: [AuthGuardService],
