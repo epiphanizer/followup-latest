@@ -8,8 +8,8 @@
       <form id="patient-form" *ngIf="patientForm" [formGroup]="patientForm" novalidate>
         <div class="patient-section-title">
           <i class="icon-patient"></i>
-          <span *ngIf="mode.add">New Patient</span>
-          <span *ngIf="mode.edit">Edit Patient</span>
+          <span class="patient-header" *ngIf="mode.add">New Patient</span>
+          <span class="patient-header" *ngIf="mode.edit">Edit Patient</span>
         </div>
         <ion-list class="patient-primary-info-list" lines="none" inset formGroupName="patient">
           <ion-item class="patient-facility">
@@ -92,11 +92,11 @@
             </ion-item>
           </ion-list>
 
+          <div class="section-header contacts">
+            <i class="icon-contacts"></i>
+            <span class="contact-header">Contacts</span>
+          </div>
           <fieldset class="patient-contacts" formArrayName="patientContacts">
-            <div class="section-header contacts">
-              <i class="icon-contacts"></i>
-              <span class="contact-header">Contacts</span>
-            </div>
             <ng-template #loadingContacts>
               <span class="loading-contacts">
                 Loading Patient Contacts...
@@ -166,6 +166,23 @@
                 >Add Contact</ion-item
               >
             </ng-container>
+          </fieldset>
+          <fieldset class="insurance-info" formGroupName="primaryCarePhysician">
+            <div class="section-header">
+              <i class="icon-primary-care-physician"></i>
+              <span class="discharge-header">Primary Care Physician</span>
+            </div>
+
+            <ion-list lines="none" inset>
+              <ion-item class="primary-care-physician">
+                <ion-label color="medium" position="stacked">Physician</ion-label>
+                <ion-input formControlName="primaryCarePhysician"></ion-input>
+              </ion-item>
+              <ion-item class="primary-care-physician">
+                <ion-label color="medium" position="stacked">Phone #</ion-label>
+                <ion-input formControlName="primaryCarePhysicianPhoneNumber"></ion-input>
+              </ion-item>
+            </ion-list>
           </fieldset>
           <fieldset class="insurance-info" formGroupName="insurance">
             <div class="section-header">

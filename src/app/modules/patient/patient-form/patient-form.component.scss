@@ -302,7 +302,7 @@ form {
   }
 
   i.icon-contacts {
-    background-image: url("/assets/icon-contact@2x.png");
+    background-image: url("/assets/icon-phone@2x.png");
   }
 
   i.icon-medical {
@@ -342,7 +342,6 @@ form {
     &.contacts {
       padding-bottom: 2px;
       margin-left: -13px;
-      border-bottom: 1px solid #e0e0e0;
     }
 
     span {
@@ -367,6 +366,8 @@ form {
   }
 
   fieldset.patient-contacts {
+    margin-left: 0;
+    padding-left: 0;
     span.loading-contacts {
       margin-left: 8px;
       width: auto;
@@ -412,10 +413,20 @@ form {
     .section-header {
       span {
         margin-left: 0px;
-
+        &.patient-contact-header {
+          margin-left: 0px;
+          font-family: AvenirDemi;
+          font-size: 16px;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.75;
+          letter-spacing: 0.16px;
+          text-align: left;
+          color: #00b4b9;
+        }
         &.contact-header {
           margin-left: 10px;
-          margin-bottom: -33px;
         }
       }
     }
@@ -426,23 +437,17 @@ form {
     }
 
     ion-item {
-      &.first-name,
-      &.last-name,
-      &.relationship {
-        display: inline-block;
-      }
-
       &.first-name {
-        width: 180px;
+        width: 100%;
       }
 
       &.last-name {
-        margin-left: 12px;
-        width: 180px;
+        width: 100%;
       }
 
       &.relationship {
-        width: 125px;
+        width: 170px;
+        display: inline-block;
       }
 
       &.patient-contact-order {
@@ -523,7 +528,6 @@ form {
 
     .section-header {
       width: 100%;
-      border-bottom: 1px solid #e0e0e0;
     }
 
     ion-list {
@@ -543,7 +547,6 @@ form {
 
     .section-header {
       width: 100%;
-      border-bottom: 1px solid #e0e0e0;
     }
 
     .discharged-label {
@@ -768,7 +771,6 @@ fieldset.patient-intake-questions {
 
   .section-header {
     width: 100%;
-    border-bottom: 1px solid #e0e0e0;
     margin-bottom: 0.75rem;
   }
 

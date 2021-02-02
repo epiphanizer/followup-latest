@@ -20,6 +20,10 @@ export class TeamMemberDetailComponent implements OnInit {
   teamMember: TeamMember;
   team: Team;
   /**
+   * We assign user interests here out of a JSON string
+   */
+  userInterests: any;
+  /**
    * get the user object for our user-avatar
    */
   user: User;
@@ -47,6 +51,7 @@ export class TeamMemberDetailComponent implements OnInit {
               map((user: User) => {
                 if (user !== null) {
                   this.user = user;
+                  this.user.userInterests = JSON.parse(this.user.userInterests);
                 } else {
                   throw "Something went wrong, couldn't find user!";
                 }

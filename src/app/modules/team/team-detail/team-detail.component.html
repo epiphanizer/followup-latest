@@ -54,8 +54,8 @@
                   {{ user.userAdditionalInfo }}
                 </p>
                 <ul class="user-interests" *ngIf="user">
-                  <li *ngFor="let userInterest of user.userInterests">
-                    {{ userInterest }}
+                  <li *ngFor="let interest of user.userInterests | keyvalue">
+                    {{ interest.value ? '' : interest.key }}
                   </li>
                 </ul>
               </div>
