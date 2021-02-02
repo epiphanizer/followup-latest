@@ -43,8 +43,14 @@
             </ion-item>
             <ion-item class="patient-gender">
               <ion-radio-group class="patient-gender-radio" formControlName="patientGender">
-                <ion-item> <ion-radio value="male"></ion-radio><ion-label>Male</ion-label> </ion-item>
-                <ion-item> <ion-radio value="female"></ion-radio><ion-label>Female</ion-label> </ion-item>
+                <ion-item>
+                  <ion-radio value="male"></ion-radio>
+                  <ion-label>Male</ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-radio value="female"></ion-radio>
+                  <ion-label>Female</ion-label>
+                </ion-item>
               </ion-radio-group>
             </ion-item>
             <div class="patient-phone-container">
@@ -58,15 +64,24 @@
               </ion-item>
               <ion-item class="patient-phone-number">
                 <ion-label color="medium" position="stacked"
-                  >Patient Phone # <span style="color:red">*</span></ion-label
-                >
+                  >Patient Phone # <span style="color:red">*</span>
+                </ion-label>
                 <ion-input type="text" formControlName="patientPhoneNumber"></ion-input>
               </ion-item>
             </div>
-            <ion-item> <ion-checkbox></ion-checkbox><ion-label>HIPAA</ion-label> </ion-item>
-            <ion-item> <ion-checkbox></ion-checkbox><ion-label>Responsible Party</ion-label> </ion-item>
+            <ion-item class="inline-patient-responsibility-container">
+              <ion-item class="patientHIPAA" formControlName="patientHIPAA">
+                <ion-checkbox></ion-checkbox>
+                <ion-label>HIPAA</ion-label>
+              </ion-item>
+              <ion-item class="patient-is-responsible" formControlName="patientIsResponsibleParty">
+                <ion-checkbox></ion-checkbox>
+                <ion-label>Responsible Party</ion-label>
+              </ion-item>
+            </ion-item>
             <ion-item class="speaks-english">
-              <ion-checkbox></ion-checkbox><ion-label>Doesn't speak English</ion-label>
+              <ion-checkbox></ion-checkbox>
+              <ion-label>Doesn't speak English</ion-label>
             </ion-item>
             <ion-item class="fluent-language">
               <ion-select placeholder="Fluent Language">
@@ -119,12 +134,8 @@
                   </ion-item>
                   <ion-item class="area-code">
                     <ion-label color="medium" position="stacked">(###) <span style="color:red">*</span></ion-label>
-                    <ion-input
-                      type="text"
-                      mask="000"
-                      formControlName="patientContactAreaCode"
-                      placeholder="000"
-                    ></ion-input>
+                    <ion-input type="text" mask="000" formControlName="patientContactAreaCode" placeholder="000">
+                    </ion-input>
                   </ion-item>
                   <ion-item class="phone-number">
                     <ion-label color="medium" position="stacked">Phone # <span style="color:red">*</span></ion-label>
@@ -259,14 +270,14 @@
               </ion-item>
               <ion-item class="textarea-item">
                 <ion-label color="medium" position="stacked"
-                  >Primary Diagnosis <span style="color:red">*</span></ion-label
-                >
+                  >Primary Diagnosis <span style="color:red">*</span>
+                </ion-label>
                 <ion-textarea [autoGrow]="true" formControlName="patientPrimaryDiagnosis"></ion-textarea>
               </ion-item>
               <ion-item class="textarea-item" *ngIf="patient">
                 <ion-label color="medium" position="stacked"
-                  >Discharged Condition <span style="color:red">*</span></ion-label
-                >
+                  >Discharged Condition <span style="color:red">*</span>
+                </ion-label>
                 <ion-textarea [autoGrow]="true" formControlName="patientDischargedCondition"></ion-textarea>
               </ion-item>
             </ion-list>
@@ -346,11 +357,8 @@
       </form>
     </ion-col>
     <ion-col class="avatar-col">
-      <app-patient-avatar-upload
-        *ngIf="patient"
-        [avatarExists]="avatarExists"
-        [patient]="patient"
-      ></app-patient-avatar-upload>
+      <app-patient-avatar-upload *ngIf="patient" [avatarExists]="avatarExists" [patient]="patient">
+      </app-patient-avatar-upload>
     </ion-col>
   </ion-row>
 </ion-content>

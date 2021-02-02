@@ -21,7 +21,7 @@ ion-content {
 }
 
 .avatar-col {
-  margin-top: 72px;
+  padding-top: 18rem;
   width: 220px;
   max-width: 220px;
   margin-left: 81.4px;
@@ -40,7 +40,7 @@ ion-title {
   text-align: left;
   color: #3f3638;
   padding-left: 0;
-  margin-bottom: 1.75rem;
+  margin-bottom: 2.5rem;
 }
 
 form {
@@ -68,11 +68,12 @@ form {
     font-weight: 800;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.87;
     letter-spacing: 0.3px;
     text-align: left;
     color: #222222;
+    margin-bottom: -0.45rem;
   }
+
   ion-select,
   ion-select-option,
   ion-datetime {
@@ -135,12 +136,14 @@ form {
   ion-item {
     &.patient-facility {
       display: inline-block;
+
       .select-facility {
         width: 340px;
         height: 39px;
         padding-left: 11px;
       }
     }
+
     &.patient-medical-record-number {
       width: 180px;
       margin-left: 10px;
@@ -195,6 +198,56 @@ form {
       display: inline-block;
     }
 
+    .patient-gender {
+      ion-checkbox {
+        height: 14px;
+        width: 14px;
+      }
+      ion-label {
+        font-family: AvenirPro;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.2;
+        letter-spacing: normal;
+        text-align: left;
+        color: #444444;
+      }
+    }
+    /**
+    * All the inline binary questions
+    **/
+    &.speaks-english,
+    &.patientHIPAA,
+    &.patient-is-responsible {
+      display: inline-block;
+
+      ion-checkbox {
+        height: 14px;
+        width: 14px;
+      }
+
+      ion-label {
+        font-family: AvenirPro;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.2;
+        letter-spacing: normal;
+        text-align: left;
+        color: #444444;
+        margin-bottom: 0;
+        margin-left: 6px;
+      }
+    }
+
+    &.fluent-language {
+      display: inline-block;
+      width: 170px;
+    }
+
     ion-datetime {
       height: auto;
       font-family: Avenir;
@@ -210,7 +263,7 @@ form {
         content: "";
         display: block;
         position: absolute;
-        top: 58px;
+        top: 40px;
         right: 8px;
         filter: grayscale(1);
         z-index: 8;
@@ -519,8 +572,8 @@ form {
             content: "";
             display: block;
             position: absolute;
-            top: 51px;
-            left: 8px;
+            top: 40px;
+            right: 8px;
             filter: grayscale(1);
             z-index: 8;
             background-image: url("/assets/icon-calendar@2x.png");
@@ -679,7 +732,6 @@ fieldset.patient-medical-conditions {
 
   .section-header {
     width: 100%;
-    border-bottom: 1px solid #e0e0e0;
   }
 
   .patient-medical-conditions {
@@ -812,7 +864,6 @@ fieldset.patient-intake-questions {
         font-weight: 500;
         font-stretch: normal;
         font-style: normal;
-        line-height: 1.87;
         letter-spacing: 0.3px;
         text-align: left;
         color: #222222;

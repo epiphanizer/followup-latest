@@ -87,3 +87,11 @@ $item-md-padding-end: 0;
 .alert-danger {
   color: --ion-color-danger !important;
 }
+/**
+* Handles the date-picker, md. confirmation & interfaces
+**/
+[aria-checked="true"].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
+  color: var(--ion-color-step-850, #262626);
+  font-family: "AvenirPro";
+  font-size: 17px;
+}
