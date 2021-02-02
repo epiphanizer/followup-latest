@@ -1,14 +1,37 @@
 .patient-activity {
-  object-fit: contain;
-  opacity: 0.5;
-  border-top: solid 1.5px #707070;
+  border-top: solid 1.5px rgba(112, 112, 112, 0.5);
   padding-top: 29.5px;
+
+  /**
+    * Handle globals
+    */
+  .activity-bold {
+    font-family: AvenirNextLTPro;
+    font-size: 23.3px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: 0.47px;
+    text-align: left;
+    color: #222222;
+    text-transform: uppercase;
+  }
 }
+
+.ion-item {
+  display: block;
+  width: 100%;
+}
+
+/**
+* Handle calls
+**/
 .icon-phone-icon {
   display: block;
-  height: 15px;
+  height: 20px;
+  width: 20px;
   float: left;
-  width: 15px;
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -17,10 +40,6 @@
   margin-top: 5px;
 }
 
-.ion-item {
-  display: block;
-  width: 100%;
-}
 .call-notes-label {
   font-family: AvenirPro;
   text-transform: uppercase;
@@ -33,6 +52,7 @@
   text-align: left;
   color: #222222;
 }
+
 // .call-question-container {
 //   width: 100%;
 //   display: block;
@@ -81,6 +101,7 @@
 
 ion-list {
   padding-bottom: 160px;
+
   ion-item {
     display: inline-block;
     width: auto;
@@ -109,6 +130,7 @@ ion-list {
 .patient-activity {
   .patient-notification {
   }
+
   .patient-call {
     .call-headline-container {
       width: 100%;
@@ -119,10 +141,12 @@ ion-list {
       padding-top: 2px;
       color: #343638;
       line-height: 1.65rem;
+
       .call-detail-container {
         display: block;
         margin-left: 1.75rem;
       }
+
       .call-made-by,
       .call-number-date {
         text-transform: initial;
@@ -131,6 +155,7 @@ ion-list {
         font-family: Avenir;
         font-size: 12px;
       }
+
       &.active {
         span {
           color: #13afe9;

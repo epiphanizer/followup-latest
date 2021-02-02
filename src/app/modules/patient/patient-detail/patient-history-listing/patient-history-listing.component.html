@@ -7,20 +7,19 @@
       <ng-template #patientCall>
         <div class="patient-call">
           <!-- This logic assumes that the patientCallCounts come to us in the right order -->
-          <div
-            id="{{ 'call-' + patientCall.patientCallCount }}"
-            class="call-headline-container {{ i == 0 ? 'active' : '' }} "
-          >
+          <div id="{{ 'call-' + patientCall.patientCallCount }}" class="activity-headline-container">
             <i class="icon-phone-icon"></i>
 
-            <span class="call-number-headline">
-              Call {{ patientCall.patientCallCount }}: {{ patientCall.patientCallStatusLabel }}</span
-            >
+            <span class="activity-headline">
+              {{ patientCall | json }}
+              <span class="activity-bold">Call {{ patientCall.patientCallCount }}</span> &mdash;
+              {{ patientCall.patientCallStatusLabel }}
+            </span>
             <div class="call-detail-container">
               <span class="call-made-by">
                 by {{ patientCall.patientCalledByUserFirstName }} {{ patientCall.patientCalledByUserLastName }}</span
               >
-              <span class="call-number-date">- {{ patientCall.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}</span>
+              <span class="call-number-date"> - {{ patientCall.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}</span>
             </div>
           </div>
           <div class="call-question-container">
@@ -60,18 +59,12 @@
             <div class="patient-call-notes" *ngIf="patientCall.patientCallNotes; else noCallNotes">
               {{ patientCall.patientCallNotes }}
             </div>
-            <!-- Should never happen, but let's be defensive -->
-            <ng-template #noCallNotes>
-              <div class="patient-call-notes">
-                No call notes.
-              </div>
-            </ng-template>
           </div>
         </div>
       </ng-template>
     </div>
   </ion-list>
   <ng-template #noActivity>
-    No activity yet!
+    No patient activity yet!
   </ng-template>
 </ng-container>

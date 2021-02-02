@@ -169,36 +169,13 @@ form {
       width: 100%;
     }
 
-    .patient-phone-container {
-      float: left;
-      display: block;
-      width: 50%;
-
-      ion-item {
-        margin-right: 8px;
-        display: inline-block;
-
-        &.patient-country-code {
-          margin-left: 0;
-          width: 50px;
-        }
-
-        &.patient-area-code {
-          width: 60px;
-        }
-
-        &.patient-phone-number {
-          width: 120px;
-        }
-      }
-    }
-
     &.patient-dob {
       width: 170px;
       display: inline-block;
     }
 
-    .patient-gender {
+    &.patient-gender {
+      margin-left: 24px;
       ion-checkbox {
         height: 14px;
         width: 14px;
@@ -283,6 +260,30 @@ form {
     }
   }
 
+  div.patient-phone-container {
+    float: left;
+    display: block;
+    width: 50%;
+
+    ion-item {
+      margin-right: 8px;
+      display: inline-block;
+
+      &.patient-country-code {
+        margin-left: 0;
+        width: 50px;
+      }
+
+      &.patient-area-code {
+        width: 60px;
+      }
+
+      &.patient-phone-number {
+        width: 170px;
+      }
+    }
+  }
+
   i {
     float: left;
     clear: left;
@@ -345,16 +346,16 @@ form {
     }
 
     span {
-      font-family: Avenir;
-      font-size: 19px;
+      font-family: AvenirPro;
+      margin-left: 0px;
+      font-size: 26px;
       font-weight: normal;
-      font-style: normal;
-      margin-left: 10px;
       font-stretch: normal;
-      line-height: 1.33;
-      letter-spacing: 0.42px;
+      font-style: normal;
+      line-height: 1.08;
+      letter-spacing: normal;
       text-align: left;
-      color: var(--ion-color-primary);
+      color: #00b4b9;
 
       &.contact-header,
       &.discharge-header {
@@ -412,7 +413,6 @@ form {
 
     .section-header {
       span {
-        margin-left: 0px;
         &.patient-contact-header {
           margin-left: 0px;
           font-family: AvenirDemi;

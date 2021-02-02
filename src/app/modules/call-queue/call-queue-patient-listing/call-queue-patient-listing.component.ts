@@ -19,7 +19,6 @@ import { PatientCallService } from '@app/modules/patient/patient-detail/patient-
 export class CallQueuePatientListingComponent implements OnInit {
   pageOfItems: Patient[];
   currentYear: number;
-  currentNewDischargeCount: number;
   todaysCallCount: number;
   @Input() operation: Operation;
   // we default to filtering by next call-date
@@ -42,8 +41,6 @@ export class CallQueuePatientListingComponent implements OnInit {
       map((patients: Patient[]) => {
         this.patients = patients;
         if (patients) {
-          this.getCurrentNewDischargeCount(patients);
-          this.getTodaysCallCount(patients);
           this.sortPatientsByCallDate(this.selectedSortFlag);
         }
         return patients;
@@ -59,12 +56,8 @@ export class CallQueuePatientListingComponent implements OnInit {
           map((patients: Patient[]) => {
             this.patients = patients;
             if (patients) {
-              this.getCurrentNewDischargeCount(patients);
-              this.getTodaysCallCount(patients);
               this.sortPatientsByCallDate(this.selectedSortFlag);
             } else {
-              this.getCurrentNewDischargeCount([]);
-              this.getTodaysCallCount([]);
             }
             return patients;
           })
@@ -81,25 +74,7 @@ export class CallQueuePatientListingComponent implements OnInit {
       return false;
     }
   }
-  public getCurrentNewDischargeCount(patients: Patient[]) {
-    let patientsWithNoCalls = [];
-    if (patients) {
-      patientsWithNoCalls = patients.filter(function(patient: Patient) {
-        return patient.patientCallCount - 1 == 0;
-      });
-    }
-    this.currentNewDischargeCount = patientsWithNoCalls.length;
-  }
-  public getTodaysCallCount(patients: Patient[]) {
-    var patientsWithCallsTodayOrBefore = new Array();
-    var self = this;
-    if (patients) {
-      patientsWithCallsTodayOrBefore = patients.filter(function(patient: Patient) {
-        return new Date(patient.patientNextCallScheduledTime) <= self.todaysDate;
-      });
-    }
-    this.todaysCallCount = patientsWithCallsTodayOrBefore.length;
-  }
+
   public sortPatientsByDischargeDate = function(sortFlag: string) {
     this.filterBy = 'discharge-date';
     if (sortFlag == 'asc') {
