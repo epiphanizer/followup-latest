@@ -6,8 +6,12 @@
   text-align: center;
 }
 .add-photo {
+  text-align: center;
   margin-top: 0.75rem;
   cursor: pointer;
+  &.hidden {
+    display: none;
+  }
 }
 .hidden-input {
   display: none;

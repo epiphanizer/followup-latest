@@ -45,7 +45,11 @@ export class TeamMemberDetailComponent implements OnInit {
             .pipe(
               take(1),
               map((user: User) => {
-                this.user = user[0];
+                if (user !== null) {
+                  this.user = user;
+                } else {
+                  throw "Something went wrong, couldn't find user!";
+                }
               })
             )
             .subscribe();

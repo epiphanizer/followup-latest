@@ -4,6 +4,7 @@ import { User } from '../user';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { Router } from '@angular/router';
 
 @Component({
   providers: [ToastrService, NgxImageCompressService],
@@ -21,15 +22,22 @@ export class UserAvatarComponent implements OnInit {
    * This guy is plaintext encoded base64
    */
   avatarExists: boolean;
+  teamProfile: boolean = false;
   constructor(
     private imageCompress: NgxImageCompressService,
+    private route: Router,
     private sanitizer: DomSanitizer,
     private toastrService: ToastrService,
     private userAvatarService: UserAvatarService
   ) {}
 
   ngOnInit() {
-    console.log(this.user);
+    /**
+     * See if we are on the team profile page
+     */
+    if (this.route.url.includes('team')) {
+      this.teamProfile = true;
+    }
     this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((data: any) => {
       var self = this;
       if (data !== null) {

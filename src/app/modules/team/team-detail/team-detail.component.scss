@@ -9,6 +9,7 @@
   max-width: 966px;
   margin-left: 92px;
   margin-top: 8rem;
+
   ion-title {
     font-family: AvenirPro;
     font-size: 45px;
@@ -20,23 +21,12 @@
     padding-left: 0;
   }
 
-  .post-it-note {
-    float: right;
-    i.post-it {
-      width: 18px;
-      height: 18px;
-      background-image: url("/assets/icon-post-it@2x.png");
-      background-repeat: no-repeat;
-      background-size: 100%;
-    }
-  }
-
   .team-member-info-container {
     float: left;
-    width: 100%;
     max-width: 662px;
     margin-left: 62px;
     margin-top: 10px;
+    width: calc(100% - 320px);
   }
 
   .team-member-avatar {
@@ -48,6 +38,7 @@
     height: 280px;
     border: 10px solid white;
   }
+
   .user-info-container {
     font-family: AvenirDemi;
     font-size: 15px;
@@ -59,45 +50,132 @@
     text-align: left;
     color: #222222;
   }
+
   .team-member-info {
     float: left;
     width: auto;
     max-width: 662px;
-    .user-name {
-      font-family: Avenir-Roman;
-      font-size: 40px;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1;
-      letter-spacing: 0.8px;
-      text-align: left;
-      color: #222222;
-    }
 
-    .user-need-to-know {
-      margin: 1.25rem 0;
-      font-family: Avenir;
-      font-size: 13px;
-    }
-    .user-interests {
-      list-style-type: none;
-      padding-left: 0;
-      margin-left: 0;
+    .user-details-container {
+      width: 100%;
+
+      span.team-member-role {
+        float: left;
+        font-family: AvenirNextLTPro;
+        font-size: 15px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.47;
+        letter-spacing: 0.15px;
+        text-align: left;
+        color: #8e8e93;
+      }
+
+      .greeting {
+        font-family: AvenirProDemi;
+        font-size: 20px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 0.9;
+        letter-spacing: normal;
+        text-align: left;
+
+        span {
+          &.english {
+            color: #ef4627;
+          }
+
+          &.spanish {
+            color: #9acc38;
+          }
+        }
+
+        .post-it-note {
+          float: right;
+          font-family: AvenirDemi;
+          font-size: 15px;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 0.86;
+          letter-spacing: 0.15px;
+          text-align: left;
+          color: #00b8be;
+        }
+
+        cursor: pointer;
+        float: right;
+
+        i.post-it {
+          width: 18px;
+          height: 18px;
+          background-image: url("/assets/icon-post-it@2x.png");
+          background-repeat: no-repeat;
+          background-size: 100%;
+        }
+      }
     }
   }
 
-  .about-me-label {
-    width: 100%;
-    display: block;
-    font-family: AvenirBold;
+  .user-name {
+    font-family: Avenir-Roman;
+    font-size: 40px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: 0.8px;
+    text-align: left;
+    color: #222222;
+  }
+
+  .additional-details {
+    span {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  span.team-member-birthday {
+  }
+
+  h3.about-me {
+    font-family: Avenir;
     font-size: 20px;
+    font-weight: 900;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.05;
     letter-spacing: 1.2px;
     text-align: left;
     color: #00b4b9;
-    text-transform: uppercase;
   }
+
+  .user-need-to-know {
+    margin: 1.25rem 0;
+    font-family: Avenir;
+    font-size: 13px;
+  }
+
+  .user-interests {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
+}
+
+.about-me-label {
+  width: 100%;
+  display: block;
+  font-family: AvenirBold;
+  font-size: 20px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.05;
+  letter-spacing: 1.2px;
+  text-align: left;
+  color: #00b4b9;
+  text-transform: uppercase;
 }

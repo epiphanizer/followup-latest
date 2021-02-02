@@ -10,44 +10,57 @@
       </ion-title>
 
       <div class="team-member-avatar">
-        <app-user-avatar [user]="user"></app-user-avatar>
+        <app-user-avatar *ngIf="user" [user]="user"></app-user-avatar>
         <div class="team-member-info-details">
-          <div class="team-member-email" *ngIf="teamMember?.teamMemberEmail">
+          <i class="info-icon"></i>
+          <span class="team-member-email" *ngIf="teamMember?.teamMemberEmail">
             {{ teamMember.teamMemberEmail }}
-          </div>
-          <div class="team-member-phone" *ngIf="teamMember?.teamMemberPhoneNumber"></div>
+          </span>
+          <span class="team-member-phone" *ngIf="teamMember?.teamMemberPhoneNumber"></span>
         </div>
       </div>
 
       <div class="team-member-info-container">
         <div class="team-member-info" *ngIf="teamMember">
-          <div class="user-info">
+          <div class="team-member-details-container">
+            <span class="team-member-role">
+              {{ teamMember.teamMemberRole }}
+            </span>
             <span class="post-it-note"><i class="post-it"></i> <a (click)="postNote(teamMember)">Post a note</a></span>
             <div class="greeting">
-              <span *ngIf="!teamMember.spanishSpeaking; else spanish">
+              <span class="english" *ngIf="!teamMember.spanishSpeaking; else spanish">
                 Hello my name is...
               </span>
               <ng-template #spanish>
-                Hola! Mi nombre es...
+                <span class="spanish">Hola! Mi nombre es...</span>
               </ng-template>
             </div>
-            <div class="user-name">
-              <h2 class="user-name">
-                {{ teamMember.teamMemberFirstName }}
-                {{ teamMember.teamMemberLastName }}
-              </h2>
+          </div>
+          <div class="team-member-details">
+            <h2 class="user-name">
+              {{ teamMember.teamMemberFirstName }}
+              {{ teamMember.teamMemberLastName }}
+            </h2>
+            <div class="additional-details" *ngIf="user">
+              <span class="team-member-birthday">
+                <strong>Birthday: </strong>{{ user.userDob | date: 'mm/dd/yy' }}
+              </span>
+              <span class="team-member-dessert">
+                <strong>Favorite Dessert: </strong>{{ user.userFavoriteDessert }}
+              </span>
+              <div class="user-information">
+                <h3 class="about-me">ABOUT ME</h3>
+                <p class="team-member-info">
+                  {{ user.userAdditionalInformation }}
+                </p>
+                <ul class="user-interests" *ngIf="user">
+                  <li *ngFor="let userInterest of user.userInterests">
+                    {{ userInterest }}
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-          <div class="user-information">
-            {{ teamMember.needToKnow }}
-          </div>
-          <!-- <p>
-            <ul class="user-interests"> 
-            <li *ngFor="let userInterest of user.userInterests">
-                {{ userInterest }}
-              </li>
-            </ul>
-          </p> -->
         </div>
       </div>
     </ion-col>
