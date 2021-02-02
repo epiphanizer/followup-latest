@@ -388,18 +388,11 @@ form {
       float: left;
 
       &.first-name {
-        width: 140px;
-        margin-right: 10px;
-      }
-
-      &.middle-name {
-        width: 120px;
-        margin-right: 10px;
+        width: 100%;
       }
 
       &.last-name {
-        width: 140px;
-        margin-right: 10px;
+        width: 100%;
       }
 
       &.title-position {
@@ -504,6 +497,16 @@ form {
 
   ion-select {
     padding-left: 12px;
+
+    // &:after {
+    //   display: block;
+    //   content: "";
+    //   background-image: url("/assets/icon-arrow-down@2x.png");
+    //   background-size: 100%;
+    //   background-repeat: no-repeat;
+    //   height: 11px;
+    //   width: 15px;
+    // }
   }
 
   ion-button {

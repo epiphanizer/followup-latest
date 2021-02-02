@@ -33,7 +33,7 @@
             >
               <a
                 class="operation-link"
-                [routerLink]="'/notifications/operations/' + operation.operationId"
+                [routerLink]="'/operations/' + operation.operationId + '/notifications'"
                 (click)="setActiveOperation(operation)"
                 [class.active]="activeOperationId == operation.operationId"
               >

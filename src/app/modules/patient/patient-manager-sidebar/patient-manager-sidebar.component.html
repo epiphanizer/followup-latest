@@ -33,7 +33,7 @@
             >
               <a
                 class="operation-link"
-                [routerLink]="'/patients/operation/' + operation.operationId"
+                [routerLink]="'/operations/' + operation.operationId + '/patients'"
                 (click)="setActiveOperation(operation)"
                 [class.active]="activeOperationId == operation.operationId"
               >

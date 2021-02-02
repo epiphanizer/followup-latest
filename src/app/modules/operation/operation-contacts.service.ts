@@ -7,7 +7,6 @@ import { OperationContact } from './operation-contact/operation-contact';
 
 export interface OperationContactPutBody {
   operationContactFirstName: string;
-  operationContactMiddleName: string;
   operationContactLastName: string;
   operationContactCountryCode: string;
   operationContactAreaCode: string;
@@ -17,7 +16,6 @@ export interface OperationContactPutBody {
 }
 export interface OperationContactPostBody {
   operationContactFirstName: string;
-  operationContactMiddleName: string;
   operationContactLastName: string;
   operationContactCountryCode: string;
   operationContactAreaCode: string;

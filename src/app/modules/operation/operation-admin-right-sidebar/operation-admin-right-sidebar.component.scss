@@ -49,6 +49,9 @@ ion-select {
   padding: 10px 7px 9px 15px;
   border: solid 1px #e2e2e2;
   background-color: #f5f5f5;
+  ::part(icon) {
+    display: none !important;
+  }
   &:after {
     display: block;
     content: "";

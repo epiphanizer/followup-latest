@@ -289,7 +289,7 @@ form {
     clear: left;
     width: 17px;
     height: 22px;
-    margin-top: 0;
+    margin-top: 14px;
     background-repeat: no-repeat;
     background-size: 100%;
   }
@@ -303,7 +303,7 @@ form {
   }
 
   i.icon-contacts {
-    background-image: url("/assets/icon-phone@2x.png");
+    background-image: url("/assets/icon-phone-blue@2x.png");
   }
 
   i.icon-medical {
@@ -327,6 +327,9 @@ form {
   i.icon-discharge-calendar {
     background-image: url("/assets/icon-discharge-calendar@2x.png");
   }
+  i.icon-questions {
+    background-image: url("/assets/icon-questions@2x.png");
+  }
 
   i.icon-medical-condition {
     background-image: url("/assets/icon-medical-condition@2x.png");
@@ -342,7 +345,7 @@ form {
 
     &.contacts {
       padding-bottom: 2px;
-      margin-left: -13px;
+      margin-left: -26px;
     }
 
     span {

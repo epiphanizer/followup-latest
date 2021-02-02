@@ -22,7 +22,10 @@
               {{ patient.patientOperationName }}
             </span>
           </div>
-          <div class="patient-name">
+          <div
+            class="patient-name"
+            [routerLink]="'/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
+          >
             <h2>
               {{ patient.patientFirstName }}
               {{ patient.patientMiddleName }}
@@ -44,15 +47,13 @@
             <div class="notification-message">
               {{ notification.notificationMessage }}
             </div>
-            <span class="notification-date"><strong>Date: </strong>xx/xx/xx</span>
-            <span class="notification-care-rep"></span>
           </div>
           <div class="resolution-item resolution-container" *ngIf="notification.notificationResolved">
             <span class="resolution-label">Resolution</span>
             <div class="resolution-message">
               {{ notification.notificationMessage }}
             </div>
-            <span class="notification-date"><strong>Date: </strong>xx/xx/xx</span>
+            <span class="notification-date"><strong>Date: test</strong>xx/xx/xx</span>
             <span class="notification-care-rep"></span>
           </div>
         </div>

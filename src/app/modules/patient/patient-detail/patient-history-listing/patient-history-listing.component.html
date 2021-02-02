@@ -2,7 +2,10 @@
   <ion-list class="patient-call-history-list" inset lines="none">
     <div class="patient-activity" *ngFor="let patientActivity of patientActivity; let i = index">
       <ng-container *ngIf="patientActivity.patientActivityType == 'notification'; else patientCall">
-        A notification
+        <i class="notification-counter"></i>
+        <span class="activity-headline">
+          <span class="activity-bold"> NOTIFICATION</span> &mdash; {{ patientActivity.notificationStatusLabel }}
+        </span>
       </ng-container>
       <ng-template #patientCall>
         <div class="patient-call">
@@ -11,14 +14,15 @@
             <i class="icon-phone-icon"></i>
 
             <span class="activity-headline">
-              {{ patientCall | json }}
               <span class="activity-bold">Call {{ patientCall.patientCallCount }}</span> &mdash;
-              {{ patientCall.patientCallStatusLabel }}
+              <span class="activity-label">
+                {{ patientCall.patientCallStatusLabel }}
+              </span>
             </span>
             <div class="call-detail-container">
               <span class="call-made-by">
-                by {{ patientCall.patientCalledByUserFirstName }} {{ patientCall.patientCalledByUserLastName }}</span
-              >
+                by {{ patientCall.patientCalledByUserFirstName }} {{ patientCall.patientCalledByUserLastName }}
+              </span>
               <span class="call-number-date"> - {{ patientCall.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}</span>
             </div>
           </div>
@@ -53,8 +57,8 @@
           </div>
 
           <div class="patient-call-notes-container">
-            <span class="call-question-label" [class.is-highlighted]="patientCall.patientCallNotesHighlighted">
-              Call Notes:
+            <span class="call-notes-label" [class.is-highlighted]="patientCall.patientCallNotesHighlighted">
+              Call Notes
             </span>
             <div class="patient-call-notes" *ngIf="patientCall.patientCallNotes; else noCallNotes">
               {{ patientCall.patientCallNotes }}

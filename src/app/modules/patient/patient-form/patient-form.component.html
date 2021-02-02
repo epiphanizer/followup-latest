@@ -169,7 +169,7 @@
           </fieldset>
           <fieldset class="insurance-info" formGroupName="primaryCarePhysician">
             <div class="section-header">
-              <i class="icon-primary-care-physician"></i>
+              <i class="icon-physician"></i>
               <span class="discharge-header">Primary Care Physician</span>
             </div>
 
@@ -302,7 +302,7 @@
           <fieldset class="patient-intake-questions">
             <ion-list lines="none" class="patient-intake-questions" inset formArrayName="patientIntakeQuestionAnswers">
               <div class="section-header">
-                <i class="icon-question-mark"></i>
+                <i class="icon-questions"></i>
                 <span class="contact-header">Intake Questions</span>
               </div>
               <ion-item
@@ -310,7 +310,6 @@
                 [formGroupName]="idx"
               >
                 <div class="call-question-body-container">
-                  <i class="icon-question"></i>
                   <div class="call-question">
                     <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'rating'">
                       <ion-label color="medium">{{ patientIntakeQuestion.patientIntakeQuestion }}</ion-label>

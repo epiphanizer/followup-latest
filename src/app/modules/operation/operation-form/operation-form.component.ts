@@ -93,14 +93,13 @@ export class OperationFormComponent implements OnInit {
     this.notificationService.getNotificationTypes().subscribe((notificationTypes: NotificationType[]) => {
       this.notificationTypes = notificationTypes;
     });
-    console.log(this.route.snapshot.data);
-    if (this.route.snapshot.data.mode == 'edit') {
+
+    if (this.route.snapshot.data.mode == 'add') {
+      this.mode.add = true;
+    } else if (this.route.snapshot.data.mode == 'edit') {
       this.mode.edit = true;
-      this.mode.view = false;
     } else if (this.route.snapshot.data.mode == 'view') {
       this.mode.view = true;
-      this.mode.edit = false;
-    } else {
     }
     console.log(this.mode);
 
@@ -111,6 +110,8 @@ export class OperationFormComponent implements OnInit {
       this.armForm();
     } else if (this.mode.add) {
       this.operationService.addNewOperation().subscribe((data: Operation) => {
+        console.log(data);
+        debugger;
         let operation = data;
         this.router.navigate([], {
           relativeTo: this.route,
@@ -189,7 +190,6 @@ export class OperationFormComponent implements OnInit {
               operationContact.operationContactOrder = idx + 1;
               let contactFormGroup = this.fb.group({});
               contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
-              contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
               contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
               contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
               contactFormGroup.addControl('operationContactCountryCode', this.fb.control('1'));
@@ -242,9 +242,6 @@ export class OperationFormComponent implements OnInit {
 
                     var formGroup = formArray.controls[idx] as FormGroup;
                     formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
-                      formGroup.controls.operationContactMiddleName.setValue(
-                        operationContact.operationContactMiddleName
-                      ),
                       formGroup.controls.operationContactLastName.setValue(operationContact.operationContactLastName),
                       formGroup.controls.operationContactTitle.setValue(operationContact.operationContactTitle),
                       formGroup.controls.operationContactEmail.setValue(operationContact.operationContactEmail),
@@ -361,7 +358,6 @@ export class OperationFormComponent implements OnInit {
 
     let contactFormGroup = this.fb.group({});
     contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
-    contactFormGroup.addControl('operationContactMiddleName', this.fb.control(''));
     contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
     contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
     contactFormGroup.addControl('operationContactCountryCode', this.fb.control('1'));
@@ -501,7 +497,6 @@ export class OperationFormComponent implements OnInit {
       var payload = {
         operationContactOrder: formContact.operationContactOrder,
         operationContactFirstName: formContact.operationContactFirstName,
-        operationContactMiddleName: formContact.operationContactMiddleName || '',
         operationContactLastName: formContact.operationContactLastName,
         operationContactTitle: formContact.operationContactTitle || '',
         operationContactCountryCode: operationCountryCode,
@@ -521,7 +516,6 @@ export class OperationFormComponent implements OnInit {
     try {
       var payload = {
         operationContactFirstName: formContact.operationContactFirstName,
-        operationContactMiddleName: formContact.operationContactMiddleName,
         operationContactLastName: formContact.operationContactLastName,
         operationContactTitle: formContact.operationContactTitle,
         operationContactCountryCode: formContact.operationContactCountryCode.toString(),
