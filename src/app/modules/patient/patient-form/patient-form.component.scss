@@ -218,12 +218,19 @@ form {
     /**
     * All the inline binary questions
     **/
+    &.patient-gender,
     &.speaks-english,
     &.patientHIPAA,
     &.patient-is-responsible {
       display: inline-block;
-
-      ion-checkbox {
+      margin-right: 32px;
+      .patient-gender-male,
+      .patient-gender-female {
+        display: inline-block;
+        margin-right: 32px;
+      }
+      ion-checkbox,
+      ion-radio {
         height: 14px;
         width: 14px;
       }
