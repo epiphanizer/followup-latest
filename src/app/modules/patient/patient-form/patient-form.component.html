@@ -6,13 +6,13 @@
     <ion-col class="patient-content">
       <ion-title>Patient Portal</ion-title>
       <form id="patient-form" *ngIf="patientForm" [formGroup]="patientForm" novalidate>
-        <ion-list lines="none" inset formGroupName="patient">
-          <div class="patient-section-title">
-            <i class="icon-patient"></i>
-            <span *ngIf="mode.add">New Patient</span>
-            <span *ngIf="mode.edit">Edit Patient</span>
-          </div>
-          <ion-item class="operation-dropdown">
+        <div class="patient-section-title">
+          <i class="icon-patient"></i>
+          <span *ngIf="mode.add">New Patient</span>
+          <span *ngIf="mode.edit">Edit Patient</span>
+        </div>
+        <ion-list class="patient-primary-info-list" lines="none" inset formGroupName="patient">
+          <ion-item class="patient-facility">
             <ion-label color="medium" position="stacked">Facility<span style="color:red">*</span></ion-label>
             <ion-select *ngIf="operations" placeholder="Facility" class="select-facility" formControlName="operation">
               <ion-select-option
@@ -38,8 +38,8 @@
               <ion-input type="text" formControlName="patientLastName"></ion-input>
             </ion-item>
             <ion-item class="patient-dob">
-              <ion-label color="medium" position="stacked">Date of Birth <span style="color:red">*</span></ion-label>
-              <ion-datetime type="date" [max]="2005" formControlName="patientDob"></ion-datetime>
+              <ion-label color="medium" position="stacked">Birthday<span style="color:red">*</span></ion-label>
+              <ion-datetime type="date" [max]="2005" formControlName="patientDob" placeholder="Birthday"></ion-datetime>
             </ion-item>
             <ion-item class="patient-gender">
               <ion-radio-group class="patient-gender-radio" formControlName="patientGender">
@@ -70,9 +70,9 @@
             </ion-item>
             <ion-item class="fluent-language">
               <ion-select placeholder="Fluent Language">
-                <option selected value="1">English</option>
-                <option value="2">Spanish</option>
-                <option value="3">Navajo</option>
+                <ion-select-option selected value="1">English</ion-select-option>
+                <ion-select-option value="2">Spanish</ion-select-option>
+                <ion-select-option value="3">Navajo</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-list>
