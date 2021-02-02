@@ -19,6 +19,7 @@
     text-align: left;
     color: #3f3638;
     padding-left: 0;
+    margin-bottom: 2rem;
   }
 
   .team-member-info-container {
@@ -32,8 +33,6 @@
   .team-member-avatar {
     float: left;
     clear: both;
-    margin-top: 23px;
-    margin-left: 23px;
     width: 230px;
     height: 280px;
     border: 10px solid white;
@@ -53,10 +52,10 @@
 
   .team-member-info {
     float: left;
-    width: auto;
+    width: 100%;
     max-width: 662px;
 
-    .user-details-container {
+    .team-member-details-container {
       width: 100%;
 
       span.team-member-role {
@@ -73,54 +72,58 @@
       }
 
       .greeting {
-        font-family: AvenirProDemi;
-        font-size: 20px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 0.9;
-        letter-spacing: normal;
-        text-align: left;
+        display: block;
+        width: 100%;
+        height: auto;
 
         span {
-          &.english {
-            color: #ef4627;
-          }
-
-          &.spanish {
-            color: #9acc38;
-          }
-        }
-
-        .post-it-note {
-          float: right;
           font-family: AvenirDemi;
-          font-size: 15px;
+          font-size: 20px;
           font-weight: normal;
           font-stretch: normal;
           font-style: normal;
-          line-height: 0.86;
-          letter-spacing: 0.15px;
+          line-height: 0.9;
+          letter-spacing: normal;
           text-align: left;
-          color: #00b8be;
-        }
 
+          &.english {
+            color: #9acc38;
+          }
+
+          &.spanish {
+            color: #ef4627;
+          }
+        }
+      }
+
+      .post-it-note {
         cursor: pointer;
         float: right;
+        font-family: AvenirDemi;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 0.86;
+        letter-spacing: 0.15px;
+        text-align: left;
+        color: #00b8be;
+      }
 
-        i.post-it {
-          width: 18px;
-          height: 18px;
-          background-image: url("/assets/icon-post-it@2x.png");
-          background-repeat: no-repeat;
-          background-size: 100%;
-        }
+      i.post-it {
+        display: inline-block;
+        vertical-align: bottom;
+        width: 20px;
+        height: 20px;
+        background-image: url("/assets/icon-post-it@2x.png");
+        background-repeat: no-repeat;
+        background-size: 100%;
       }
     }
   }
 
   .user-name {
-    font-family: Avenir-Roman;
+    font-family: AvenirPro;
     font-size: 40px;
     font-weight: normal;
     font-stretch: normal;
@@ -135,14 +138,15 @@
     span {
       display: block;
       width: 100%;
+      padding-top: 6px;
+      padding-bottom: 6px;
+      font-family: Avenir;
+      color: #222222;
     }
   }
 
-  span.team-member-birthday {
-  }
-
   h3.about-me {
-    font-family: Avenir;
+    font-family: AvenirDemi;
     font-size: 20px;
     font-weight: 900;
     font-stretch: normal;
@@ -151,8 +155,20 @@
     letter-spacing: 1.2px;
     text-align: left;
     color: #00b4b9;
+    margin-bottom: 0;
   }
-
+  .user-information {
+    margin-top: 0;
+    font-family: Avenir;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    text-align: left;
+    color: #222222;
+  }
   .user-need-to-know {
     margin: 1.25rem 0;
     font-family: Avenir;

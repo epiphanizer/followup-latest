@@ -4,13 +4,17 @@
   width: 100%;
   display: block;
   text-align: center;
+  overflow: hidden;
+  cursor: pointer;
 }
 .add-photo {
+  display: block;
   text-align: center;
   margin-top: 0.75rem;
   cursor: pointer;
   &.hidden {
     display: none;
+    margin-top: 0 !important;
   }
 }
 .hidden-input {

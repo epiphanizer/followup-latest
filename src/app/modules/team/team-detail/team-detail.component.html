@@ -26,7 +26,7 @@
             <span class="team-member-role">
               {{ teamMember.teamMemberRole }}
             </span>
-            <span class="post-it-note"><i class="post-it"></i> <a (click)="postNote(teamMember)">Post a note</a></span>
+            <span (click)="postNote(teamMember)" class="post-it-note"><i class="post-it"></i> <a>Post a note</a></span>
             <div class="greeting">
               <span class="english" *ngIf="!teamMember.spanishSpeaking; else spanish">
                 Hello my name is...
@@ -50,8 +50,8 @@
               </span>
               <div class="user-information">
                 <h3 class="about-me">ABOUT ME</h3>
-                <p class="team-member-info">
-                  {{ user.userAdditionalInformation }}
+                <p class="additional-info">
+                  {{ user.userAdditionalInfo }}
                 </p>
                 <ul class="user-interests" *ngIf="user">
                   <li *ngFor="let userInterest of user.userInterests">
