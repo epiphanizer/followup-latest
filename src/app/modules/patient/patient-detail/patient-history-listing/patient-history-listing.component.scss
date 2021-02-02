@@ -1,27 +1,35 @@
 .patient-activity {
   border-top: solid 1.5px rgba(112, 112, 112, 0.5);
-  padding-top: 29.5px;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 
   /**
     * Handle globals
     */
   .activity-bold {
-    font-family: AvenirNextLTPro;
-    font-size: 23.3px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.2;
-    letter-spacing: 0.47px;
-    text-align: left;
-    color: #222222;
-    text-transform: uppercase;
+    font-weight: 800;
   }
 }
 
 .ion-item {
   display: block;
   width: 100%;
+}
+
+/**
+* Handle notifications
+**/
+.icon-notify-counter {
+  display: block;
+  height: 20px;
+  width: 20px;
+  float: left;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("/assets/icon-notify-counter@2x.png");
+  margin-right: 12px;
+  margin-top: 5px;
 }
 
 /**
@@ -40,64 +48,40 @@
   margin-top: 5px;
 }
 
-.call-notes-label {
-  font-family: AvenirPro;
-  text-transform: uppercase;
-  font-size: 16px;
-  font-weight: bold;
+.call-question-container {
+  width: 100%;
+  display: block;
+  height: 100%;
+  margin-top: 1rem;
+  padding-left: 1rem;
+  overflow: hidden;
+}
+
+// // history listing
+
+.call-question-label {
+  font-family: AvenirDemi;
+  font-size: 15px;
+  font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.75;
-  letter-spacing: 0.16px;
+  line-height: 1.2;
+  letter-spacing: normal;
   text-align: left;
   color: #222222;
 }
 
-// .call-question-container {
-//   width: 100%;
-//   display: block;
-//   height: 100%;
-//   padding-left: 15px;
-//   overflow: hidden;
-// }
-
-// // history listing
-
-// .call-question-label {
-//   font-family: AvenirBold;
-//   font-size: 12px;
-//   font-weight: bold;
-//   font-style: normal;
-//   font-stretch: normal;
-//   line-height: 1.86;
-//   letter-spacing: normal;
-//   text-align: left;
-//   color: #343638;
-
-//   &.is-highlighted {
-//     height: auto;
-//     border-bottom: solid 2.5px #ffdf2c;
-//   }
-// }
-
-// .call-question-answer-label {
-//   font-family: Avenir;
-//   margin-left: 0.25rem;
-//   font-size: 12px;
-//   font-weight: bold;
-//   font-style: normal;
-//   font-stretch: normal;
-//   line-height: 1.86;
-//   letter-spacing: normal;
-//   text-align: left;
-//   color: #343638;
-// }
-
-// .patient-call {
-//   margin-bottom: 4rem;
-//   clear: both;
-//   overflow: auto;
-// }
+.call-question-answer-label {
+  font-family: AvenirPro;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-align: left;
+  color: #222222;
+}
 
 ion-list {
   padding-bottom: 160px;
@@ -109,58 +93,75 @@ ion-list {
   }
 }
 
-// .patient-call-notes-container {
-//   clear: both;
-//   width: 100%;
-//   display: block;
-//   margin-top: 12px;
-//   padding-left: 30px;
+.activity-headline-container {
+  width: 100%;
+  height: auto;
+  font-family: AvenirBold;
+  font-size: 18px;
+  padding-top: 2px;
+  color: #343638;
+  line-height: 1.65rem;
 
-//   .patient-call-notes {
-//     font-size: 12px;
-//     font-family: Avenir;
-//     clear: both;
-//     float: left;
-//     width: 100%;
-//     display: block;
-//     margin-top: 18px;
-//   }
-// }
-
-.patient-activity {
-  .patient-notification {
-  }
-
-  .patient-call {
-    .call-headline-container {
-      width: 100%;
-      height: auto;
-      font-family: AvenirBold;
+  .activity-headline {
+    span {
+      font-family: AvenirPro;
+      font-size: 23.3px;
+      font-weight: 800;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.2;
+      letter-spacing: 0.47px;
+      text-align: left;
+      color: #222222;
       text-transform: uppercase;
-      font-size: 18px;
-      padding-top: 2px;
-      color: #343638;
-      line-height: 1.65rem;
 
-      .call-detail-container {
-        display: block;
-        margin-left: 1.75rem;
-      }
-
-      .call-made-by,
-      .call-number-date {
-        text-transform: initial;
-        line-height: 14px;
-        display: inline-block;
-        font-family: Avenir;
-        font-size: 12px;
-      }
-
-      &.active {
-        span {
-          color: #13afe9;
-        }
+      &.activity-label {
+        text-transform: capitalize;
       }
     }
+  }
+
+  .activity-detail-container {
+    padding-left: 2rem;
+
+    .activity-by,
+    .activity-date {
+      font-family: AvenirDemi;
+      font-size: 15px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.2;
+      letter-spacing: 0.15px;
+      text-align: left;
+      color: #00b4b9;
+    }
+  }
+}
+
+.patient-call-notes-container {
+  clear: both;
+  width: 100%;
+  display: block;
+  margin-top: 12px;
+  padding-left: 30px;
+
+  .call-notes-label {
+    font-family: AvenirPro;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: 0.16px;
+    text-align: left;
+    color: #222222;
+  }
+  .patient-call-notes {
+    font-family: Avenir;
+    width: 100%;
+    display: block;
+    margin-top: 0.25rem;
   }
 }

@@ -66,6 +66,30 @@ export class TeamMemberDetailComponent implements OnInit {
   teamMemberChangeEventHandler($event: TeamMember) {
     if ($event) {
       this.teamMember = $event;
+      this.teamMemberId = $event.teamMemberId;
+      this.teamService
+        .getTeamMemberByTeamIdAndTeamMemberId(this.teamId, this.teamMemberId)
+        .pipe(
+          take(1),
+          map((teamMember: TeamMember) => {
+            this.teamMember = teamMember[0];
+            this.userService
+              .getUserByUserId(this.teamMember.userId)
+              .pipe(
+                take(1),
+                map((user: User) => {
+                  if (user !== null) {
+                    this.user = user;
+                    this.user.userInterests = JSON.parse(this.user.userInterests);
+                  } else {
+                    throw "Something went wrong, couldn't find user!";
+                  }
+                })
+              )
+              .subscribe();
+          })
+        )
+        .subscribe();
     }
   }
 

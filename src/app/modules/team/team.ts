@@ -20,6 +20,7 @@ export interface TeamMember {
   userTeamId: number;
   userId?: number;
   teamId?: number;
+  teamMemberId: number;
   teamMemberFirstName: string;
   teamMemberLastName: string;
   teamMemberRoleLabel?: string;

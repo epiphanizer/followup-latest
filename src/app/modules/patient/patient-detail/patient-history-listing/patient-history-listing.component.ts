@@ -63,10 +63,14 @@ export class PatientHistoryListingComponent implements OnInit {
      * Combine the patientCalls and patientNotifications and sort them by the date that they occurred.
      */
     if (this.patientCalls) {
-      this.patientActivity.push(this.patientCalls);
+      this.patientCalls.forEach(patientCall => {
+        this.patientActivity.push(patientCall);
+      });
     }
     if (this.patientNotifications) {
-      this.patientActivity.push(this.patientNotifications);
+      this.patientNotifications.forEach(patientNotification => {
+        this.patientActivity.push(patientNotification);
+      });
     }
   }
 }

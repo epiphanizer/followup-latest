@@ -13,7 +13,7 @@
         </div>
         <ion-list class="patient-primary-info-list" lines="none" inset formGroupName="patient">
           <ion-item class="patient-facility">
-            <ion-label color="medium" position="stacked">Facility<span style="color:red">*</span></ion-label>
+            <!-- <ion-label color="medium" position="stacked">Facility<span style="color:red">*</span></ion-label> -->
             <ion-select *ngIf="operations" placeholder="Facility" class="select-facility" formControlName="operation">
               <ion-select-option
                 *ngFor="let operation of operations"
@@ -26,16 +26,16 @@
           </ion-item>
           <ion-item class="patient-medical-record-number">
             <ion-label color="medium" position="stacked">Patient # <span style="color:red">*</span></ion-label>
-            <ion-input type="text" formControlName="patientMedicalRecordNumber"></ion-input>
+            <ion-input type="text" formControlName="patientMedicalRecordNumber" placeholder="Patient #"></ion-input>
           </ion-item>
           <ion-list lines="none" inset formGroupName="patientName">
             <ion-item class="patient-first-name">
               <ion-label color="medium" position="stacked">First Name <span style="color:red">*</span></ion-label>
-              <ion-input type="text" formControlName="patientFirstName"></ion-input>
+              <ion-input type="text" formControlName="patientFirstName" placeholder="First Name"></ion-input>
             </ion-item>
             <ion-item class="patient-last-name">
               <ion-label color="medium" position="stacked">Last Name <span style="color:red">*</span></ion-label>
-              <ion-input type="text" formControlName="patientLastName"></ion-input>
+              <ion-input type="text" formControlName="patientLastName" placeholder="Last Name"></ion-input>
             </ion-item>
             <ion-item class="patient-dob">
               <ion-label color="medium" position="stacked">Birthday<span style="color:red">*</span></ion-label>
@@ -56,7 +56,7 @@
             <div class="patient-phone-container">
               <ion-item class="patient-country-code">
                 <ion-label color="medium" position="stacked">+(1) <span style="color:red">*</span></ion-label>
-                <ion-input type="text" formControlName="patientCountryCode"></ion-input>
+                <ion-input type="text" formControlName="patientCountryCode" placeholder="1"></ion-input>
               </ion-item>
               <ion-item class="patient-area-code">
                 <ion-label color="medium" position="stacked">(***) <span style="color:red">*</span></ion-label>
@@ -66,7 +66,7 @@
                 <ion-label color="medium" position="stacked"
                   >Patient Phone # <span style="color:red">*</span>
                 </ion-label>
-                <ion-input type="text" formControlName="patientPhoneNumber"></ion-input>
+                <ion-input type="text" formControlName="patientPhoneNumber" placeholder="000-0000"></ion-input>
               </ion-item>
             </div>
             <ion-item class="inline-patient-responsibility-container">
@@ -173,7 +173,7 @@
               <span class="discharge-header">Primary Care Physician</span>
             </div>
 
-            <ion-list lines="none" inset>
+            <ion-list class="patient-physician" lines="none" inset>
               <ion-item class="primary-care-physician">
                 <ion-label color="medium" position="stacked">Physician</ion-label>
                 <ion-input formControlName="primaryCarePhysician"></ion-input>

@@ -110,8 +110,6 @@ export class OperationFormComponent implements OnInit {
       this.armForm();
     } else if (this.mode.add) {
       this.operationService.addNewOperation().subscribe((data: Operation) => {
-        console.log(data);
-        debugger;
         let operation = data;
         this.router.navigate([], {
           relativeTo: this.route,
@@ -601,8 +599,7 @@ export class OperationFormComponent implements OnInit {
           return this.operationContactsOriginal.indexOf(operationContact.operationContactId) == -1;
         }
       );
-      // console.log(this.operationContactsToAdd);
-      // debugger;
+
       /**
        * We should have a test here
        */
@@ -666,8 +663,6 @@ export class OperationFormComponent implements OnInit {
           return this.operationContactsToAdd.indexOf(operationContact) == -1;
         }
       );
-      // console.log(this.operationContactsToEdit);
-      // debugger;
 
       // Passing E2E
       this.operationContactsToEdit.forEach((operationContact: OperationContact, idx: number) => {
@@ -729,7 +724,6 @@ export class OperationFormComponent implements OnInit {
             this.operationContactsService
               .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
               .subscribe(() => {
-                // debugger;
                 this.toastr.success('Successfully removed operation contact');
               });
           }
@@ -748,7 +742,6 @@ export class OperationFormComponent implements OnInit {
                 count++;
                 this.toastr.success('Successfully removed operation contact');
                 if (count == finalCount) {
-                  // debugger;
                   this.operationService
                     .editOperationByOperationId(this.operation.operationId, operationPut)
                     .subscribe(() => {

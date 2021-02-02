@@ -1,37 +1,40 @@
 <ng-container *ngIf="patientActivity">
   <ion-list class="patient-call-history-list" inset lines="none">
-    <div class="patient-activity" *ngFor="let patientActivity of patientActivity; let i = index">
-      <ng-container *ngIf="patientActivity.patientActivityType == 'notification'; else patientCall">
+    <div class="patient-activity" *ngFor="let activity of patientActivity; let i = index">
+      <ng-container *ngIf="activity.notificationId; else patientCall">
         <i class="notification-counter"></i>
         <span class="activity-headline">
-          <span class="activity-bold"> NOTIFICATION</span> &mdash; {{ patientActivity.notificationStatusLabel }}
+          <i class="icon-notify-counter"></i>
+          <span class="activity-bold"> NOTIFICATION</span> &mdash; {{ activity.notificationTypeLabel }}
         </span>
+        <div class="activity-detail-container">
+          <span class="activity-by">
+            by {{ activity.patientCalledByUserFirstName }} {{ activity.patientCalledByUserLastName }}
+          </span>
+          <span class="activity-date"> - {{ activity.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}</span>
+        </div>
       </ng-container>
       <ng-template #patientCall>
         <div class="patient-call">
           <!-- This logic assumes that the patientCallCounts come to us in the right order -->
-          <div id="{{ 'call-' + patientCall.patientCallCount }}" class="activity-headline-container">
+          <div id="{{ 'call-' + activity.patientCallCount }}" class="activity-headline-container">
             <i class="icon-phone-icon"></i>
 
             <span class="activity-headline">
-              <span class="activity-bold">Call {{ patientCall.patientCallCount }}</span> &mdash;
+              <span class="activity-bold">Call {{ activity.patientCallCount }}</span> &mdash;
               <span class="activity-label">
-                {{ patientCall.patientCallStatusLabel }}
+                {{ activity.patientCallStatusLabel }}
               </span>
             </span>
-            <div class="call-detail-container">
-              <span class="call-made-by">
-                by {{ patientCall.patientCalledByUserFirstName }} {{ patientCall.patientCalledByUserLastName }}
+            <div class="activity-detail-container">
+              <span class="activity-by">
+                by {{ activity.patientCalledByUserFirstName }} {{ activity.patientCalledByUserLastName }}
               </span>
-              <span class="call-number-date"> - {{ patientCall.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}</span>
+              <span class="activity-date"> - {{ activity.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}</span>
             </div>
           </div>
           <div class="call-question-container">
-            <div
-              *ngFor="let patientCallQuestion of patientCall.patientCallQuestions; let idx = index"
-              lines="none"
-              inset
-            >
+            <div *ngFor="let patientCallQuestion of activity.patientCallQuestions; let idx = index" lines="none" inset>
               <ion-item class="ion-float-left">
                 <span
                   class="call-question-label"
@@ -42,10 +45,15 @@
                 <span class="call-question-answer-label">
                   <ng-container *ngIf="patientCallQuestion.patientCallQuestionAnswer; else noAnswer">
                     <ng-container *ngIf="patientCallQuestion.patientQuestionTypeLabel == 'boolean'; else nonBoolean">
-                      {{ patientCallQuestion.patientCallQuestionAnswer === 'true' ? 'Yes' : 'No' }}
+                      <span class="call-question-answer"
+                        >&nbsp;
+                        {{ patientCallQuestion.patientCallQuestionAnswer === 'true' ? 'Yes' : 'No' }}
+                      </span>
                     </ng-container>
                     <ng-template #nonBoolean>
-                      {{ patientCallQuestion.patientCallQuestionAnswer }}
+                      <span class="call-question-answer">
+                        {{ patientCallQuestion.patientCallQuestionAnswer }}
+                      </span>
                     </ng-template>
                   </ng-container>
                   <ng-template #noAnswer>
@@ -57,11 +65,11 @@
           </div>
 
           <div class="patient-call-notes-container">
-            <span class="call-notes-label" [class.is-highlighted]="patientCall.patientCallNotesHighlighted">
+            <span class="call-notes-label" [class.is-highlighted]="activity.patientCallNotesHighlighted">
               Call Notes
             </span>
-            <div class="patient-call-notes" *ngIf="patientCall.patientCallNotes; else noCallNotes">
-              {{ patientCall.patientCallNotes }}
+            <div class="patient-call-notes" *ngIf="activity.patientCallNotes; else noCallNotes">
+              {{ activity.patientCallNotes }}
             </div>
           </div>
         </div>
