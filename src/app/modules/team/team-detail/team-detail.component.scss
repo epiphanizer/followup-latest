@@ -22,20 +22,30 @@
     margin-bottom: 2rem;
   }
 
-  .team-member-info-container {
-    float: left;
-    max-width: 662px;
-    margin-left: 62px;
-    margin-top: 10px;
-    width: calc(100% - 320px);
-  }
-
   .team-member-avatar {
     float: left;
     clear: both;
     width: 230px;
     height: 280px;
     border: 10px solid white;
+
+    i.icon-info {
+      display: inline-block;
+      vertical-align: bottom;
+      width: 20px;
+      height: 20px;
+      background-image: url("/assets/icon-info@2x.png");
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
+  }
+
+  .team-member-info-container {
+    float: left;
+    max-width: 662px;
+    margin-left: 62px;
+    margin-top: 10px;
+    width: calc(100% - 320px);
   }
 
   .user-info-container {
