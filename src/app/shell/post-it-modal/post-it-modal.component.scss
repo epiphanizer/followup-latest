@@ -1,8 +1,11 @@
 :root {
-  padding-top: 55px;
-  --height: 450px !important;
+  padding-top: 46px;
+  --height: 301px !important;
   width: 645px;
   padding: 75px;
+}
+form {
+  padding: 0 45px 45px 45px;
 }
 
 .modal-exit-container {
@@ -14,27 +17,14 @@
   top: 10px;
 }
 
-.icon-close-modal {
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-  margin-right: 10px;
-  display: block;
-  width: 15px;
-  height: 30px;
-  background: url("/assets/icon-close-modal@2x.png");
-  background-size: 100%;
-}
-
-.notification-container {
+.team-message-container {
   padding-top: 55px;
 
   h3 {
     margin-top: 8px;
   }
 
-  img.notification-icon-image {
-    margin-top: 33px;
+  img.post-it-icon-image {
     margin-right: 38px;
     max-width: 61px;
     height: auto;
@@ -45,19 +35,34 @@
 }
 
 ion-title {
-  display: block;
-  margin-bottom: 5px;
-  margin-left: 28px;
-  margin-right: 9px;
-  font-family: AvenirNextLTPro;
-  font-size: 24px;
+  font-family: AvenirPro;
+  font-size: 45px;
   font-weight: 300;
-  font-style: normal;
   font-stretch: normal;
-  line-height: 0.93;
-  letter-spacing: 0.6px;
+  font-style: normal;
+  line-height: 1.11;
+  letter-spacing: 0.45px;
   text-align: left;
+  color: #343638;
+  margin-bottom: 23px;
 }
+
+span {
+  display: block;
+  width: 90px;
+  text-align: right;
+  font-family: AvenirPro;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: right;
+  color: #222222;
+  margin-bottom: 6px;
+}
+
 ion-textarea {
   --padding-start: 12px;
   height: 200px;
@@ -86,31 +91,8 @@ h3 {
   top: 55px;
   right: 40px;
 }
-.notification-review-item {
-  font-family: Avenir;
-  font-size: 12px;
-  margin-right: 10px;
-  --min-height: 28px;
-  span.label {
-    font-family: AvenirBold;
-  }
-}
 
-.send-container {
-  width: 100%;
-  margin-bottom: 2rem;
-}
-
-.save-button {
+.button-container {
+  float: right;
   margin-top: 20px;
-  margin-right: 55px;
-}
-
-.edit-button {
-  margin-left: 55px;
-}
-
-.send-button {
-  margin-right: 55px;
-  background-color: red;
 }

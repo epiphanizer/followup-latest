@@ -87,21 +87,6 @@ export class NotificationModalComponent {
           this.notification.notificationTypeLabel = this.notificationType.notificationTypeLabel;
           this.notification.notificationIconImage = this.notificationType.notificationIconImage;
         }
-        // if (this.status.notification.saved) {
-        //   this.notificationService
-        //     .getNotificationRecipientsByOperationIdAndNotificationTypeId(
-        //       this.notification.notificationOperationId,
-        //       this.notification.notificationTypeId
-        //     )
-        //     .subscribe((data: NotificationRecipient[]) => {
-        //       if (data !== null) {
-        //         this.notificationRecipients = data;
-        //       } else {
-        //         alert("No notification recipients are configured, please configure notification recipients");
-        //         return;
-        //       }
-        //     });
-        //   }
       });
       this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
         this.notification.notificationMessage = val;

@@ -11,12 +11,14 @@
 
       <div class="team-member-avatar">
         <app-user-avatar *ngIf="user" [user]="user"></app-user-avatar>
-        <div class="team-member-info-details">
-          <i class="info-icon"></i>
+        <div class="team-member-info-details" *ngIf="teamMember?.teamMemberEmail || teamMember?.teamMemberPhoneNumber">
+          <i class="icon-info"></i>
           <span class="team-member-email" *ngIf="teamMember?.teamMemberEmail">
-            {{ teamMember.teamMemberEmail }}
+            <a href="mailto:{{ teamMember.teamMemberEmail }}">{{ teamMember.teamMemberEmail }}</a>
           </span>
-          <span class="team-member-phone" *ngIf="teamMember?.teamMemberPhoneNumber"></span>
+          <span class="team-member-phone" *ngIf="teamMember?.teamMemberPhoneNumber">
+            <a href="tel:{{ teamMember.teamMemberPhoneNumber }}">{{ teamMember.teamMemberPhoneNumber }}</a>
+          </span>
         </div>
       </div>
 

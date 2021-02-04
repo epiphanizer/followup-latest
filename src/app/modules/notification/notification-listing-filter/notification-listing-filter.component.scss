@@ -1,6 +1,7 @@
 .notification-filter {
   margin-top: 15px;
   max-width: 332px;
+
   ion-input {
     width: 360px;
     height: 33px;
@@ -33,52 +34,61 @@
     list-style-type: none;
   }
 
-  ion-item.notification-call-filter-listing {
-    margin-left: 0;
-    padding-left: 0;
-    width: 100%;
-    height: 44px;
-    border-bottom: 1px #c8c7cc solid;
-    cursor: pointer;
-    &:hover {
-      background-color: #c8c7cc;
-    }
-    &:active {
-      background-color: --azure;
-      font-family: AvenirBold;
-    }
+  .notification-filter-results {
+    ion-item.notification-call-filter-listing {
+      margin-left: 0;
+      padding-left: 0;
+      width: 100%;
+      height: 44px;
+      border-bottom: 1px #c8c7cc solid;
+      cursor: pointer;
 
-    span {
-      padding-top: 6px;
-      font-family: Avenir;
-      font-size: 13px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      letter-spacing: -0.39px;
-      text-align: left;
-      color: #000000;
-      &.notification-filter-patient-name {
-        font-size: 15x;
-        cursor: pointer;
-        text-transform: capitalize;
-        font-family: AvenirProMedium;
+      &:hover {
+        background-color: #c8c7cc;
       }
-    }
 
-    &:after {
-      display: block;
-      content: "";
-      width: 16px;
-      height: 16px;
-      background-image: url("/assets/calendar-right-arrow@2x.png");
-      background-size: 100%;
+      &:active {
+        background-color: --azure;
+        font-family: AvenirBold;
+      }
+
+      span {
+        span {
+          padding-top: 6px;
+          font-family: Avenir;
+          font-size: 13px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          letter-spacing: -0.39px;
+          text-align: left;
+          color: #000000;
+
+          &.notification-filter-patient-name {
+            font-size: 15px;
+            cursor: pointer;
+            text-transform: capitalize;
+            font-family: AvenirProMedium;
+          }
+        }
+      }
+
+      &:after {
+        display: block;
+        content: "";
+        width: 16px;
+        height: 16px;
+        background-image: url("/assets/calendar-right-arrow@2x.png");
+        background-size: 100%;
+      }
     }
   }
 }
+
 a.notification-link {
   text-decoration: none;
 }
+
 .no-calls {
   font-style: italic;
   font-size: 12px;

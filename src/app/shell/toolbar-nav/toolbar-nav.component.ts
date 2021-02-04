@@ -95,10 +95,18 @@ export class ToolbarNavComponent implements OnInit {
         minRole: 2
       },
       {
-        linkAction: '/notifications',
+        linkAction: 'notifyFacility',
         linkName: 'Notify',
         linkIcon: 'notify',
-        dropdown: false,
+        dropdown: {
+          activated: false,
+          links: [
+            {
+              linkAction: '/notifications',
+              linkName: 'Notifications'
+            }
+          ]
+        },
         minRole: 3
       },
       {
@@ -117,8 +125,8 @@ export class ToolbarNavComponent implements OnInit {
 
   ngAfterViewInit() {}
 
-  doButtonAction() {
-    this.createModal();
+  notifyFacility() {
+    this.createNotificationModal();
   }
 
   closeDropdowns() {
@@ -157,21 +165,7 @@ export class ToolbarNavComponent implements OnInit {
     }
   }
 
-  async postItModal() {
-    const modal = await this.modalController.create({
-      component: PostItModalComponent,
-      cssClass: 'followup-post-it-modal',
-      componentProps: {
-        modalType: 'Post A Note',
-        teamMessage: {
-          teamMessageId: 0,
-          teamMessageContent: ''
-        }
-      }
-    });
-    return await modal.present();
-  }
-  async createModal() {
+  async createNotificationModal() {
     const modal = await this.modalController.create({
       component: NotificationModalComponent,
       cssClass: 'followup-modal',

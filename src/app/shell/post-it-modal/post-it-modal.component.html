@@ -1,25 +1,28 @@
-<div class="modal-exit-container ">
-  <i (click)="dismiss()" class="icon-close-modal"></i>
-</div>
 <ng-container>
   <form *ngIf="createTeamMessageForm" [formGroup]="createTeamMessageForm">
     <ion-row *ngIf="teamMessage" class="team-message-container">
       <ion-title>Post A Note</ion-title>
+      <img class="post-it-icon-image" src="/assets/icon-postit-lg@2x.png" alt="" />
     </ion-row>
-    To:
+    <span class="message-to-label"
+      ><strong>To:</strong> {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}</span
+    >
+    <span class="message-label"><strong>Message:</strong></span>
     <ion-textarea
       [autoGrow]="true"
       class="team-message-textarea"
       formControlName="teamMessageContent"
       placeholder="Leave Your Message Here"
     ></ion-textarea>
-    <ion-button
-      [disabled]="createTeamMessageForm.invalid"
-      fill="outline"
-      class="save-button ion-float-right"
-      type="button"
-      (click)="sendTeamMessage()"
-      >Send
-    </ion-button>
+    <div class="button-container">
+      <ion-button class="cancel-button" type="button" (click)="dismiss()">Cancel </ion-button>
+      <ion-button
+        [disabled]="createTeamMessageForm.invalid"
+        class="save-button"
+        type="button"
+        (click)="sendTeamMessage()"
+        >Send
+      </ion-button>
+    </div>
   </form>
 </ng-container>

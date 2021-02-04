@@ -33,7 +33,7 @@
     list-style-type: none;
   }
 
-  ion-item.patient-call-filter-listing {
+  ion-item.patient-filter-listing {
     margin-left: 0;
     padding-left: 0;
     width: 100%;
@@ -59,7 +59,7 @@
       text-align: left;
       color: #000000;
       &.patient-filter-patient-name {
-        font-size: 15x;
+        font-size: 15px;
         cursor: pointer;
         text-transform: capitalize;
         font-family: AvenirProMedium;

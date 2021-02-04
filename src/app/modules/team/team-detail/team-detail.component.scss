@@ -26,17 +26,37 @@
     float: left;
     clear: both;
     width: 230px;
-    height: 280px;
+    height: auto;
+    min-height: 302px;
     border: 10px solid white;
 
     i.icon-info {
       display: inline-block;
-      vertical-align: bottom;
+      vertical-align: middle;
       width: 20px;
       height: 20px;
       background-image: url("/assets/icon-info@2x.png");
       background-repeat: no-repeat;
       background-size: 100%;
+    }
+    span {
+      margin-left: 8px;
+      &:nth-child(1) {
+        margin-left: 28px;
+      }
+      a {
+        text-decoration: none;
+        color: #222222;
+      }
+      font-family: AvenirDemi;
+      font-size: 15px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.87;
+      letter-spacing: normal;
+      text-align: left;
+      color: #222222;
     }
   }
 

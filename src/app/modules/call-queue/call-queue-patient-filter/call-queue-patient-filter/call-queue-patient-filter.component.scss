@@ -47,32 +47,33 @@
       background-color: --azure;
       font-family: AvenirBold;
     }
-
-    span {
-      padding-top: 6px;
-      font-family: Avenir;
-      font-size: 13px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      letter-spacing: -0.39px;
-      text-align: left;
-      color: #000000;
-      &.patient-filter-patient-name {
-        font-size: 15x;
-        cursor: pointer;
-        text-transform: capitalize;
-        font-family: AvenirProMedium;
+    a {
+      span {
+        padding-top: 6px;
+        font-family: Avenir;
+        font-size: 13px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        letter-spacing: -0.39px;
+        text-align: left;
+        color: #000000;
+        &.patient-filter-patient-name {
+          font-size: 15px;
+          cursor: pointer;
+          text-transform: capitalize;
+          font-family: AvenirProMedium;
+        }
       }
-    }
 
-    &:after {
-      display: block;
-      content: "";
-      width: 16px;
-      height: 16px;
-      background-image: url("/assets/calendar-right-arrow@2x.png");
-      background-size: 100%;
+      &:after {
+        display: block;
+        content: "";
+        width: 16px;
+        height: 16px;
+        background-image: url("/assets/calendar-right-arrow@2x.png");
+        background-size: 100%;
+      }
     }
   }
 }

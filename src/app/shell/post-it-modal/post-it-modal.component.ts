@@ -4,10 +4,9 @@ import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { OperationContact } from '@app/modules/operation/operation-contact/operation-contact';
-import { OperationContactsService } from '@app/modules/operation/operation-contacts.service';
 import { ToastrService } from 'ngx-toastr';
 import { TeamMessageService } from '@app/modules/team/team-messages.service';
+import { TeamMessage } from '@app/modules/team/team';
 @Component({
   providers: [TeamMessageService, ToastrService],
   selector: 'app-post-it-modal',
@@ -16,7 +15,7 @@ import { TeamMessageService } from '@app/modules/team/team-messages.service';
 })
 export class PostItModalComponent {
   createTeamMessageForm: FormGroup;
-
+  teamMessage: TeamMessage;
   todaysDate: string;
   todaysDateDay: number;
 
@@ -29,6 +28,13 @@ export class PostItModalComponent {
   ) {}
 
   ngOnInit() {
+    this.teamMessage = {
+      teamId: null,
+      teamMessageId: null,
+      teamMessageRecipientId: null,
+      teamMessageFromId: null,
+      teamMessageContent: null
+    };
     this.createForm();
     this.todaysDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
@@ -43,21 +49,12 @@ export class PostItModalComponent {
   sendTheMessage() {
     let formData = this.createTeamMessageForm.getRawValue();
 
-    // this.notification.notificationTypeId = parseInt(formData.notificationTypeId);
-
-    // this.teamMessageForm.teamMessageContent = formData.notificationMessage;
-    // this.notificationService
-    //   .addNotificationByOperationIdAndNotificationTypeId(this.notification)
-    //   .subscribe((data: any) => {
-    //     let notificationId = data.notificationId;
-    //     /**
-    //      * If successful, actually email out the notification
-    //      */
-    //     this.notificationService.sendNotificationByNotificationId(notificationId).subscribe(() => {
-    //       this.toastr.success('Successfully sent notification!');
-    //     });
-    //     this.dismiss();
-    //   });
+    this.teamMessage.teamMessageContent = formData.teamMessageContent;
+    this.teamMessageService.sendTeamMessage(this.teamMessage).subscribe((data: any) => {
+      let teamMessageId = data.teamMessageId;
+      console.log(teamMessageId);
+      this.dismiss();
+    });
   }
 
   dismiss() {
