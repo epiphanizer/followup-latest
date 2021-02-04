@@ -10,7 +10,7 @@ import { TeamMessage } from '@app/modules/team/team';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public teamMessage: TeamMessage = {
+  public teamMessage: any = {
     messageId: 0,
     teamMessageFrom: 'Steph',
     teamMessageSubject: 'Hey Team!',
