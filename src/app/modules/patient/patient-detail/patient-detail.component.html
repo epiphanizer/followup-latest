@@ -34,6 +34,14 @@
         >
         </app-patient-call-start-button>
 
+        <!-- Hide our questions once we are in call status Review or Greater -->
+        <app-patient-call-questions
+          *ngIf="patientCall.patientCallStatusLabelId >= 3 && patientCall.patientCallStatusLabelId <= 3"
+          [patientCall]="patientCall"
+          (patientCallAnwersChangeEmitter)="patientCallQuestionsChangeHandler($event)"
+        >
+        </app-patient-call-questions>
+
         <app-patient-call-notes
           *ngIf="
             patientCall.patientCallStatusLabel == 'Started' ||
@@ -46,14 +54,6 @@
           (patientCallNotesHighlightedChangeEmitter)="patientCallNotesHighlightedChangeHandler($event)"
         >
         </app-patient-call-notes>
-
-        <!-- Hide our questions once we are in call status Review or Greater -->
-        <app-patient-call-questions
-          *ngIf="patientCall.patientCallStatusLabelId >= 3 && patientCall.patientCallStatusLabelId <= 3"
-          [patientCall]="patientCall"
-          (patientCallAnwersChangeEmitter)="patientCallQuestionsChangeHandler($event)"
-        >
-        </app-patient-call-questions>
 
         <app-patient-call-stop-button
           *ngIf="patientCall.patientCallStatusLabel == 'Started'"

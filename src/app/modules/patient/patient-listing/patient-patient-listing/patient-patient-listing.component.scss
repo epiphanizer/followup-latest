@@ -179,6 +179,9 @@ ul.patient-filters {
       background-position: center center;
       border-radius: 50%;
       background-image: url("/assets/default-patient-badge@2x.png");
+      app-patient-avatar {
+        width: 50px;
+      }
     }
 
     .patient-information {

@@ -20,9 +20,8 @@
           class="patient-link"
           [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
         >
-          {{ patient }}
           <span class="patient-filter-patient-name">
-            {{ patient.patientPatientFirstName }} {{ patient.patientPatientLastName }}:&nbsp;
+            {{ patient.patientFirstName }} {{ patient.patientLastName }}&nbsp;
           </span>
         </a>
       </ion-item>
