@@ -1,37 +1,17 @@
 <ng-container>
   <form id="patientCallNotesForm" [formGroup]="patientCallNotesForm">
     <ion-list lines="none" inset>
-      <ion-item class="patient-call-notes" *ngIf="patientCall; else placeholder">
-        <ion-label position="stacked" *ngIf="patientCall.patientCallStatusLabel == 'Started'">
-          Notes
-        </ion-label>
-        <ion-label
-          position="stacked"
-          *ngIf="
-            patientCall.patientCallStatusLabel == 'In Review' ||
-            patientCall.patientCallStatusLabel == 'User Selected Status' ||
-            patientCall.patientCallStatusLabel == 'Final Call'
-          "
-        >
-          Edit & Review Call
+      <ion-item class="patient-call-notes" *ngIf="patientCall">
+        <ion-label position="stacked">
+          Call Notes
         </ion-label>
         <ion-textarea
           *ngIf="patientCallNotesForm.get('patientCallNotes')"
-          [class.review]="
-            patientCall.patientCallStatusLabel == 'In Review' ||
-            patientCall.patientCallStatusLabel == 'User Selected Status'
-          "
           [class.is-highlighted]="highlighterActive"
           formControlName="patientCallNotes"
         ></ion-textarea>
       </ion-item>
-      <ion-item
-        *ngIf="
-          patientCall.patientCallStatusLabel == 'In Review' ||
-          patientCall.patientCallStatusLabel == 'User Selected Status'
-        "
-        class="patient-call-note-highlight-controls"
-      >
+      <ion-item class="patient-call-note-highlight-controls">
         <a (click)="highlightPatientCallNotes()">
           <img src="/assets/highlight-flag@2x.png" />
         </a>
@@ -39,7 +19,3 @@
     </ion-list>
   </form>
 </ng-container>
-
-<ng-template #placeholder>
-  <div class="placeholder"></div>
-</ng-template>

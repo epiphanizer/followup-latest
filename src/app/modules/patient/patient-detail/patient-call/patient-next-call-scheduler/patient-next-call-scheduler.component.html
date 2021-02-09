@@ -1,8 +1,25 @@
 <ion-row id="next-call-calendar" class="next-call-scheduler">
-  <ion-title *ngIf="!status.scheduled">Schedule Next Call:</ion-title>
-  <ion-title *ngIf="status.scheduled">Next Call is Scheduled on:</ion-title>
-  <span class="scheduled-call-date">{{ scheduledCallDate }}</span>
+  <ion-title *ngIf="!status.scheduled"
+    ><i class="icon-phone"></i>
+    Next Call
+  </ion-title>
 </ion-row>
+<div class="next-call-options-container">
+  <span class="next-call-label">Next Call is Scheduled in:</span>
+  <div class="next-call-radio-group-container">
+    <ion-radio-group (change)="selectNextCallShortcut($event)">
+      <ion-radio value="24h">
+        24h
+      </ion-radio>
+      <ion-radio value="72h">
+        72h
+      </ion-radio>
+      <ion-radio value="1w">
+        1w
+      </ion-radio>
+    </ion-radio-group>
+  </div>
+</div>
 <div class="call-history-container">
   <div class="calendar-month-controls">
     <span

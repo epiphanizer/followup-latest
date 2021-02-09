@@ -20,8 +20,9 @@
           <span class="notification-filter-patient-name">
             {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}:&nbsp;
           </span>
-          <span class="notification-filter-type">
-            {{ notification.notificationTypeLabel }}
+          <span class="notification-filter-type"> {{ notification.notificationTypeLabel }} - </span>
+          <span class="notification-filter-date">
+            {{ notification.notificationCreatedTime | date: 'short' }}
           </span>
         </a>
       </ion-item>

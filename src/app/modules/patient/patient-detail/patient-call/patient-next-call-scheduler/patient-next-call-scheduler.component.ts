@@ -214,4 +214,7 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     this.status.scheduled = true;
     this.patientNextCallDateSelectedEventEmitter.emit(this.scheduledCallDate);
   }
+  selectNextCallShortcut(timeframe: string) {
+    alert('selecting shortcut date :' + timeframe);
+  }
 }

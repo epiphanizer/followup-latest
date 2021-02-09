@@ -16,10 +16,6 @@
     <ion-col class="right-hand-detail">
       <ng-container *ngIf="patientCall$ | async">
         <app-patient-call-status-controls
-          *ngIf="
-            patientCall.patientCallStatusLabel == 'In Review' ||
-            patientCall.patientCallStatusLabel == 'User Selected Status'
-          "
           [patientCall]="patientCall"
           (patientCallStatusChangeEmitter)="patientCallStatusLabelChangeHandler($event)"
           (patientFinalCallStatusChangeEmitter)="patientFinalCallChangeHandler($event)"
@@ -45,9 +41,8 @@
         <app-patient-call-notes
           *ngIf="
             patientCall.patientCallStatusLabel == 'Started' ||
-              patientCall.patientCallStatusLabel == 'In Review' ||
-              patientCall.patientCallStatusLabel == 'User Selected Status';
-            else spacer
+            patientCall.patientCallStatusLabel == 'User Selected Status' ||
+            patientCall.patientCallStatusLabel == 'Final Call'
           "
           [patientCall]="patientCall"
           (patientCallNotesChangeEmitter)="patientCallNotesChangeHandler($event)"
@@ -79,7 +74,7 @@
             [patientCall]="patientCall"
             (patientCallFinalizeEventEmitter)="patientCallFinishEventHandler(patientCall)"
           >
-            Finish & Save
+            Save
           </app-patient-next-call-finish-button>
         </ng-container>
         <ng-container *ngIf="patientCall.finalCall && patientCall.patientCallStatusLabel == 'User Selected Status'">

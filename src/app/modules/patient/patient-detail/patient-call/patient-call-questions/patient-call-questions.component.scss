@@ -3,9 +3,11 @@
   list-style-type: none;
   padding-left: 0;
 }
+
 .ion-scroll-questions {
   height: 400px;
 }
+
 i.icon-question-mark {
   width: 20px;
   height: 20px;
@@ -25,22 +27,34 @@ i.icon-question-mark {
 
 ion-item.call-question {
   ion-label {
+    display: inline-block;
     font-family: Avenir;
-    font-size: 28px;
-    font-weight: normal;
+    font-size: 14px;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.33;
     letter-spacing: 0.42px;
     width: auto;
   }
+
+  .patient-call-question-label {
+    font-family: Avenir;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  ion-radio-group {
+    display: inline-block;
+  }
+
   --inner-padding-start: 0;
   --padding-end: 0;
   --highlight-color-focused: transparent;
   --highlight-color-valid: transparent;
+
   .call-question {
     font-family: Avenir;
-    font-size: 21px;
+    font-size: 14px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
@@ -48,11 +62,13 @@ ion-item.call-question {
     letter-spacing: 0.42px;
     text-align: left;
     border-bottom: none;
+    vertical-align: middle;
 
     ion-label {
       white-space: initial;
       overflow: auto;
     }
+
     ion-textarea {
       width: 100%;
       border-bottom: none;
@@ -65,10 +81,12 @@ ion-item.call-question {
     }
   }
 }
+
 .is-highlighted {
   width: auto;
   border-bottom: yellow 3px solid;
 }
+
 .call-question-answers {
   ul {
     list-style-type: none;
@@ -77,60 +95,38 @@ ion-item.call-question {
   }
 }
 
-.rating {
-  margin-left: -16px;
-  border-radius: 3px;
-
-  ion-radio-group {
-    ion-item {
-      --ion-background-color: #fff;
-      --background-focused: #fff;
-      --inner-padding-start: 0;
-      --inner-padding-end: 0;
-      width: auto !important;
-      max-width: 10% !important;
-      display: inline-block;
-    }
-
-    ion-label {
-      transform: none !important;
-      display: block !important;
-      margin-right: 0 !important;
-      font-family: Avenir;
-      font-size: 11px;
-      width: 14px;
-      font-style: normal;
-      font-stretch: normal;
-      text-align: center;
-    }
-
-    ion-radio {
-      border-radius: 3px;
-      margin-right: 2px;
-    }
-  }
+.boolean-question {
+  display: inline-block;
 }
+.boolean {
+  margin: 0;
+  vertical-align: bottom;
 
-ion-radio-group {
-  .boolean,
-  .rating {
-    margin: 0;
-    margin-left: -16px;
+  ion-item {
+    vertical-align: bottom;
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
+    margin-right: 10px;
+    width: auto !important;
+    max-width: 20px;
+    display: inline-block;
+  }
 
-    ion-item {
-      display: inline-block;
-    }
+  ion-checkbox {
+    height: 14px;
+    width: 14px;
+  }
 
-    ion-label {
-      font-size: 16px;
-      font-family: Avenir;
-      display: inline-block;
-    }
-
-    ion-radio {
-      display: inline-block;
-      margin-bottom: -15px;
-    }
+  ion-label {
+    font-family: AvenirPro;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #444444;
   }
 }
 

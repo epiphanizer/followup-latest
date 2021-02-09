@@ -34,6 +34,9 @@ export class PatientCallStatusControlsComponent implements OnInit {
     }
   }
   updatePatientCallStatus(patientCallStatusLabelId: number) {
-    this.patientCallStatusChangeEmitter.emit(patientCallStatusLabelId);
+    // Inert if the call hasn't actually been started and we are just showing a legend.
+    if (this.patientCall.patientCallStatusLabel != 'Pending') {
+      this.patientCallStatusChangeEmitter.emit(patientCallStatusLabelId);
+    }
   }
 }

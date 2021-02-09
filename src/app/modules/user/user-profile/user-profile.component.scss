@@ -73,7 +73,7 @@ form {
     letter-spacing: 0.3px;
     text-align: left;
     color: #222222;
-    margin-top: -0.45rem;
+    margin-top: -0.25rem;
   }
   i {
     float: left;
@@ -179,6 +179,9 @@ form {
       ion-item {
         float: left;
         margin-right: 9px;
+      }
+      ion-radio-group {
+        margin-top: 0.5rem;
       }
       ion-radio {
         display: inline-block;

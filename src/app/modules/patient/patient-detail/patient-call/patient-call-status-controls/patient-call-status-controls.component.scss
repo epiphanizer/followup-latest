@@ -1,7 +1,7 @@
 .patient-call-status-legend {
   list-style-type: none;
   padding-left: 0;
-  margin-bottom: 29px;
+  margin-bottom: 0;
   .current-call-status {
     font-family: AvenirBold;
     font-weight: 11px;
@@ -66,9 +66,9 @@
         }
       }
       &.icon-final {
-        background-image: url("/assets/icon-final-call@2x.png");
+        background-image: url("/assets/icon-final@2x.png");
         &.active {
-          background-image: url("/assets/icon-final-call-active@2x.png");
+          background-image: url("/assets/icon-final@2x.png");
         }
       }
     }
