@@ -20,7 +20,6 @@ i.icon-question-mark {
 
 .call-question-body-container {
   height: auto;
-  margin-bottom: 36px;
   width: 100%;
   text-align: left;
 }
@@ -112,7 +111,7 @@ ion-item.call-question {
     display: inline-block;
   }
 
-  ion-checkbox {
+  ion-radio {
     height: 14px;
     width: 14px;
   }

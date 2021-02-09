@@ -31,11 +31,16 @@ export class PatientCallQuestionsComponent implements OnInit {
         map((patientCallQuestions: PatientCallQuestion[]) => {
           this.questions = patientCallQuestions;
           patientCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
-            let formArray = this.patientCallQuestionsAnswersForm.controls.patientCallQuestionsAnswers as FormArray;
-            let newFormGroup = this.fb.group({});
-            let newControl = new FormControl('');
-            newFormGroup.addControl(patientCallQuestion.patientCallQuestionId.toString(), newControl);
-            formArray.push(newFormGroup);
+            /**
+             * Backwards compatibility check
+             */
+            if (patientCallQuestion.patientQuestionTypeLabel != 'rating') {
+              let formArray = this.patientCallQuestionsAnswersForm.controls.patientCallQuestionsAnswers as FormArray;
+              let newFormGroup = this.fb.group({});
+              let newControl = new FormControl('');
+              newFormGroup.addControl(patientCallQuestion.patientCallQuestionId.toString(), newControl);
+              formArray.push(newFormGroup);
+            }
           });
         })
       )

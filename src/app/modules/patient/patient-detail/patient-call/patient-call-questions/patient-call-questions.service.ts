@@ -16,6 +16,7 @@ export interface PatientCallQuestion {
   patientCallQuestionIsHighlighted: number;
   patientCallQuestionAnswer?: PatientCallQuestionAnswer;
   patientCallQuestionAnswer$?: Observable<PatientCallQuestionAnswer>;
+  patientQuestionTypeLabel?: string;
 }
 @Injectable({
   providedIn: 'root'
