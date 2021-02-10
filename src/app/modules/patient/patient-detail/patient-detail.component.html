@@ -32,7 +32,7 @@
 
         <!-- Hide our questions once we are in call status Review or Greater -->
         <app-patient-call-questions
-          *ngIf="patientCall.patientCallStatusLabelId >= 3"
+          *ngIf="patientCall.patientCallStatusLabel == 'Started'"
           [patientCall]="patientCall"
           (patientCallAnwersChangeEmitter)="patientCallQuestionsChangeHandler($event)"
         >
@@ -51,16 +51,17 @@
         >
         </app-patient-call-notes>
 
-        <ng-container *ngIf="patientCall.patientCallStatusLabelId >= 5 && !patientCall.finalCall">
+        <app-patient-next-call-questions
+          (patientNextCallQuestionsEmitter)="patientNextCallQuestionsChangeHandler($event)"
+          *ngIf="patient.patientCallStatusLabel == 'Started'"
+        >
+        </app-patient-next-call-questions>
+
+        <ng-container *ngIf="patientCall.patientCallStatusLabel == 'User Selected Status' && !patientCall.finalCall">
           <app-patient-next-call-scheduler
             (patientNextCallDateSelectedEventEmitter)="patientNextCallDateSelectedEventHandler($event)"
           >
           </app-patient-next-call-scheduler>
-          <app-patient-next-call-questions
-            (patientNextCallQuestionsEmitter)="patientNextCallQuestionsChangeHandler($event)"
-          >
-          </app-patient-next-call-questions>
-
           <app-patient-next-call-finish-button
             *ngIf="patientNextCall.date && patientCall.patientCallStatusLabel == 'User Selected Status'"
             [patient]="patient"
