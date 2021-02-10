@@ -1,3 +1,14 @@
+h3 {
+  font-family: AvenirPro;
+  font-size: 26px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.08;
+  letter-spacing: normal;
+  text-align: left;
+  color: #00b4b9;
+}
 form {
   ion-label {
     width: 40px;
@@ -50,6 +61,7 @@ form {
     &.is-highlighted {
       &::before {
         background-image: url("/assets/note-highlight-flag@2x.png");
+        background-repeat: no-repeat;
         display: block;
         position: absolute;
         content: "";

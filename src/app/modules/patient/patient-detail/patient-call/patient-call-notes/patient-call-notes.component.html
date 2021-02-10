@@ -2,7 +2,13 @@
   <form id="patientCallNotesForm" [formGroup]="patientCallNotesForm">
     <ion-list lines="none" inset>
       <ion-item class="patient-call-notes" *ngIf="patientCall">
-        <ion-label position="stacked" *ngIf="patientCall.patientCallStatusLabel != 'Review'">
+        <ion-label
+          position="stacked"
+          *ngIf="
+            patientCall.patientCallStatusLabel == 'Started' ||
+            patientCall.patientCallStatusLabel == 'User Selected Status'
+          "
+        >
           Call Notes
         </ion-label>
         <ion-label position="stacked" *ngIf="patientCall.patientCallStatusLabel == 'In Review'">
@@ -16,7 +22,8 @@
       </ion-item>
       <ion-item class="patient-call-note-highlight-controls">
         <a (click)="highlightPatientCallNotes()">
-          <img src="/assets/highlight-flag@2x.png" />
+          <img src="/assets/icon-highlight-flag@2x.png" />
+          Highlight
         </a>
       </ion-item>
     </ion-list>

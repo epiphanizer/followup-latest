@@ -5,8 +5,10 @@
         <div class="activity-headline-container">
           <i class="notification-counter"></i>
           <span class="activity-headline">
-            <img class="notification-icon-image" src="{{ notification.notificationIconImage }}" alt="" />
-            <span class="activity-bold"> NOTIFICATION</span> &mdash;
+            <i class="icon-notification-resolved" *ngIf="activity.notificationResolved"></i>
+            <i class="icon-notication-counter" *ngIf="!activity.notificationResolved"></i>
+            <span class="activity-bold" *ngIf="activity.notificationResolved">NOTIFICATION RESOLVED</span>
+            <span class="activity-bold" *ngIf="!activity.notificationResolved">NOTIFICATION</span> &mdash;
             <span class="activity-label">{{ activity.notificationTypeLabel }}</span>
           </span>
           <div class="activity-detail-container">
@@ -28,8 +30,11 @@
         <div class="patient-call">
           <!-- This logic assumes that the patientCallCounts come to us in the right order -->
           <div id="{{ 'call-' + activity.patientCallCount }}" class="activity-headline-container">
+            <img
+              *ngIf="activity.patientCallStatusLabel == 'Final Call'"
+              src="/assets/patient-graduated-banner@2x.png"
+            />
             <i class="icon-phone-icon"></i>
-
             <span class="activity-headline">
               <span class="activity-bold">Call {{ activity.patientCallCount }}</span> &mdash;
               <span class="activity-label">

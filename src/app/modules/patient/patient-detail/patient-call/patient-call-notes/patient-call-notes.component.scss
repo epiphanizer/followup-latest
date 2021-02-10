@@ -2,11 +2,24 @@ form {
   .patient-call-note-highlight-controls {
     float: right;
     margin-top: 10px;
+    margin-right: 105px;
     height: 35px;
     cursor: pointer;
+    font-family: AvenirPro;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.86;
+    letter-spacing: normal;
+    text-align: right;
+
+    a {
+      color: #8e8e93;
+    }
 
     img {
-      height: 15px;
+      height: 10px;
       width: auto;
     }
   }
@@ -44,22 +57,25 @@ ion-item {
     padding-right: 10px;
     padding: 6px 3px;
     line-height: 27px;
+
     &.is-highlighted,
     &.is-highlighting {
       &::before {
         background-image: url("/assets/note-highlight-flag@2x.png");
         display: block;
         position: absolute;
+        background-repeat: no-repeat;
         content: "";
         top: 0;
         left: 0;
-        width: 25px;
+        width: 14px;
         height: 25px;
         background-size: 100%;
         z-index: 50;
         background-color: transparent;
       }
     }
+
     &.highlighting {
       cursor: crosshair;
     }

@@ -35,7 +35,6 @@
   margin-right: 12px;
   margin-top: 5px;
 }
-
 /**
 * Handle calls
 **/
@@ -172,4 +171,27 @@ ion-list {
     display: block;
     margin-top: 0.25rem;
   }
+}
+
+.icon-notication-counter {
+  display: block;
+  height: 22px;
+  width: 22px;
+  float: left;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("/assets/icon-notification-counter@2x.png");
+  margin-right: 6px;
+}
+.icon-notication-resolved {
+  display: block;
+  height: 22px;
+  width: 22px;
+  float: left;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("/assets/icon-notification-resolved@2x.png");
+  margin-right: 6px;
 }

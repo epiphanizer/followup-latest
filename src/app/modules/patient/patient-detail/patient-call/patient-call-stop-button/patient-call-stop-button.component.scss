@@ -1,6 +1,10 @@
 ion-button {
-  height: 28px;
-  width: 158px;
-  background-image: url("/assets/stop-and-review-button@2x.png");
+  background-image: url("/assets/save-button@2x.png");
   background-size: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 73px;
+  height: 30px;
+  border: none;
+  --border-style: none;
 }
