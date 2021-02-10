@@ -98,6 +98,12 @@ ion-item.call-question {
   display: inline-block;
   width: 160px;
   vertical-align: bottom;
+  height: 35px;
+}
+
+ion-radio {
+  height: 14px;
+  width: 14px;
 }
 .boolean {
   margin: 0;
@@ -111,11 +117,6 @@ ion-item.call-question {
     width: auto !important;
     max-width: 20px;
     display: inline-block;
-  }
-
-  ion-radio {
-    height: 14px;
-    width: 14px;
   }
 
   ion-label {

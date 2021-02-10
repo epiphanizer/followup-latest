@@ -10,7 +10,7 @@
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           <a routerLink="/{{ link.linkAction }}">{{ link.linkName }} </a>
         </a>
-        <a *ngIf="link.dynamic" (click)="dynamicLink(link.linkAction)">
+        <a *ngIf="link.dynamic" [class.disabled]="!callQueuePage" (click)="dynamicLink(link.linkAction)">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           {{ link.linkName }}
         </a>

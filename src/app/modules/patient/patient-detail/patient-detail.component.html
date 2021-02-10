@@ -41,6 +41,7 @@
         <app-patient-call-notes
           *ngIf="
             patientCall.patientCallStatusLabel == 'Started' ||
+            patientCall.patientCallStatusLabel == 'In Review' ||
             patientCall.patientCallStatusLabel == 'User Selected Status' ||
             patientCall.patientCallStatusLabel == 'Final Call'
           "
@@ -50,7 +51,7 @@
         >
         </app-patient-call-notes>
 
-        <ng-container *ngIf="patientCall.patientCallStatusLabelId >= 3 && !patientCall.finalCall">
+        <ng-container *ngIf="patientCall.patientCallStatusLabelId >= 5 && !patientCall.finalCall">
           <app-patient-next-call-scheduler
             (patientNextCallDateSelectedEventEmitter)="patientNextCallDateSelectedEventHandler($event)"
           >

@@ -2,8 +2,11 @@
   <form id="patientCallNotesForm" [formGroup]="patientCallNotesForm">
     <ion-list lines="none" inset>
       <ion-item class="patient-call-notes" *ngIf="patientCall">
-        <ion-label position="stacked">
+        <ion-label position="stacked" *ngIf="patientCall.patientCallStatusLabel != 'Review'">
           Call Notes
+        </ion-label>
+        <ion-label position="stacked" *ngIf="patientCall.patientCallStatusLabel == 'In Review'">
+          Edit &amp; Review Call
         </ion-label>
         <ion-textarea
           *ngIf="patientCallNotesForm.get('patientCallNotes')"

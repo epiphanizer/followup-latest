@@ -14,6 +14,9 @@
             <span class="activity-date"> - {{ activity.notificationCreatedTime | date: 'MM/dd/yyyy':'UTC' }}</span>
           </div>
         </div>
+        <div class="notification-message">
+          {{ activity.notificationMessage }}
+        </div>
       </ng-container>
       <ng-template #patientCall>
         <div class="patient-call">
@@ -34,7 +37,7 @@
               <span class="activity-date"> - {{ activity.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}</span>
             </div>
           </div>
-          <div class="call-question-container">
+          <div class="call-question-container" *ngIf="activity.patientCallStatusLabel == 'Contacted'">
             <div *ngFor="let patientCallQuestion of activity.patientCallQuestions; let idx = index" lines="none" inset>
               <ion-item class="ion-float-left">
                 <span
