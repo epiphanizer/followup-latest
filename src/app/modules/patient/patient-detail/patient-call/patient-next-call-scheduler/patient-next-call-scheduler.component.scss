@@ -1,4 +1,6 @@
 .next-call-scheduler {
+  max-width: 355px;
+  margin-top: 1rem;
   clear: both;
 }
 
@@ -42,12 +44,15 @@ ion-item {
 }
 
 .call-history-container {
+  margin-top: 1rem;
   height: auto;
   width: 100%;
   margin-bottom: 15px;
   text-align: center;
   border: 1px solid #dedede;
   padding: 0 15px 16px 15px;
+  margin-left: 1.5rem;
+  max-width: 355px;
 }
 
 h3 {

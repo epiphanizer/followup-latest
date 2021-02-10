@@ -2,16 +2,17 @@
   <ion-list class="patient-call-history-list" inset lines="none">
     <div class="patient-activity" *ngFor="let activity of patientActivity; let i = index">
       <ng-container *ngIf="activity.notificationId; else patientCall">
-        <i class="notification-counter"></i>
-        <span class="activity-headline">
-          <i class="icon-notify-counter"></i>
-          <span class="activity-bold"> NOTIFICATION</span> &mdash; {{ activity.notificationTypeLabel }}
-        </span>
-        <div class="activity-detail-container">
-          <span class="activity-by">
-            by {{ activity.patientCalledByUserFirstName }} {{ activity.patientCalledByUserLastName }}
+        <div class="activity-headline-container">
+          <i class="notification-counter"></i>
+          <span class="activity-headline">
+            <i class="icon-notify-counter"></i>
+            <span class="activity-bold"> NOTIFICATION</span> &mdash;
+            <span class="activity-label">{{ activity.notificationTypeLabel }}</span>
           </span>
-          <span class="activity-date"> - {{ activity.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}</span>
+          <div class="activity-detail-container">
+            <span class="activity-by"> by {{ activity.notificationRecipientUserId }} </span>
+            <span class="activity-date"> - {{ activity.notificationCreatedTime | date: 'MM/dd/yyyy':'UTC' }}</span>
+          </div>
         </div>
       </ng-container>
       <ng-template #patientCall>

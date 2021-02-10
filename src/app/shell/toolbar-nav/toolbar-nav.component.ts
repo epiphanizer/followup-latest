@@ -22,6 +22,8 @@ export class ToolbarNavComponent implements OnInit {
     private router: Router,
     private dataService: DataService
   ) {}
+  // Are we on call-queue page?
+  callQueuePage: boolean = false;
   dropdowns: any[] = [];
   navLinks: MenuLink[];
   patient: Patient;
@@ -36,12 +38,19 @@ export class ToolbarNavComponent implements OnInit {
         map(e => (e instanceof ActivationEnd ? e : {}))
       )
       .subscribe((e: any) => {
+        if (window.location.href.indexOf('call') != -1 && window.location.href.indexOf('patient') != -1) {
+          this.callQueuePage = true;
+        } else {
+          this.callQueuePage = false;
+        }
+        console.log('call queue page? ' + this.callQueuePage);
         console.log('navigation activation end');
       });
     this.navLinks = [
       {
         linkAction: '/teams',
         linkName: 'Admin',
+        dynamic: false,
         dropdown: {
           activated: false,
           links: [
@@ -60,6 +69,7 @@ export class ToolbarNavComponent implements OnInit {
       {
         linkAction: '/operations',
         linkName: 'Operations',
+        dynamic: false,
         dropdown: {
           activated: false,
           links: [
@@ -79,6 +89,7 @@ export class ToolbarNavComponent implements OnInit {
         linkAction: '/patients',
         linkName: 'Patients',
         linkIcon: 'patient',
+        dynamic: false,
         dropdown: {
           activated: false,
           links: [
@@ -89,31 +100,29 @@ export class ToolbarNavComponent implements OnInit {
             {
               linkAction: '/patients/add',
               linkName: 'Add Patient'
+            },
+            {
+              linkAction: '/notifications',
+              linkName: 'Patient Notifications'
             }
           ]
         },
         minRole: 2
       },
       {
-        linkAction: 'notifyFacility',
-        linkName: 'Notify',
-        linkIcon: 'notify',
-        dropdown: {
-          activated: false,
-          links: [
-            {
-              linkAction: '/notifications',
-              linkName: 'Notifications'
-            }
-          ]
-        },
-        minRole: 3
-      },
-      {
         linkAction: '/call-queue',
         linkName: 'Queue',
         linkIcon: 'queue',
         dropdown: false,
+        dynamic: false,
+        minRole: 3
+      },
+      {
+        linkAction: 'createNotification',
+        linkName: 'Notify',
+        linkIcon: 'notify',
+        dropdown: false,
+        dynamic: true,
         minRole: 3
       }
     ];
@@ -125,10 +134,17 @@ export class ToolbarNavComponent implements OnInit {
 
   ngAfterViewInit() {}
 
-  notifyFacility() {
+  createNotification() {
     this.createNotificationModal();
   }
-
+  // switch for any dynamic linking
+  dynamicLink(link: MenuLink) {
+    if (link.linkAction == 'doNotification') {
+      if (this.callQueuePage) {
+        this.createNotification();
+      }
+    }
+  }
   closeDropdowns() {
     this.dropdowns.forEach(dropdown => {
       dropdown.activated = false;

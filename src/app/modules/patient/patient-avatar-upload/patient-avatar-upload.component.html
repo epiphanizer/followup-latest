@@ -5,11 +5,7 @@
   [style.background-image]="avatarUrl"
 ></div>
 <ng-template #defaultAvatar>
-  <img
-    class="patient-avatar-image"
-    (click)="uploadPatientAvatarPhoto()"
-    src="/assets/default-avatar-patient-detail.png"
-  />
+  <img class="patient-avatar-image" (click)="uploadPatientAvatarPhoto()" src="/assets/photo-mask@2x.png" />
 </ng-template>
 <ion-button fill="outline" (click)="uploadPatientAvatarPhoto()">
   Change Photo

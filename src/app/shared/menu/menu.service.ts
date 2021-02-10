@@ -6,6 +6,7 @@ export interface MenuLink {
   linkIcon?: string;
   linkName: string;
   linkAction: string;
+  dynamic: boolean;
   minRole?: number;
 }
 

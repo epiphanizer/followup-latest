@@ -2,13 +2,17 @@
   <ion-list lines="none">
     <div class="nav-link-container" *ngFor="let link of navLinks; let i = index">
       <ion-item>
-        <a *ngIf="!link.dropdown.links" (click)="closeDropdowns()" routerLink="/{{ link.linkAction }}">
+        <a *ngIf="!link.dropdown.links && !link.dynamic" (click)="closeDropdowns()" routerLink="/{{ link.linkAction }}">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           {{ link.linkName }}
         </a>
         <a *ngIf="link.dropdown.links" (click)="closeDropdowns()" (mouseover)="openDropdown(i)">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           <a routerLink="/{{ link.linkAction }}">{{ link.linkName }} </a>
+        </a>
+        <a *ngIf="link.dynamic" (click)="dynamicLink(link.linkAction)">
+          <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
+          {{ link.linkName }}
         </a>
       </ion-item>
       <div *ngIf="dropdowns[i]">

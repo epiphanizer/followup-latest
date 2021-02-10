@@ -4,7 +4,7 @@
     Next Call
   </ion-title>
 </ion-row>
-<div class="next-call-options-container">
+<!-- <div class="next-call-options-container">
   <span class="next-call-label">Next Call is Scheduled in:</span>
   <div class="next-call-radio-group-container">
     <ion-radio-group (change)="selectNextCallShortcut($event)">
@@ -19,40 +19,22 @@
       </ion-radio>
     </ion-radio-group>
   </div>
-</div>
+</div> -->
 <div class="call-history-container">
   <div class="calendar-month-controls">
-    <span
-      class="left-month-arrow"
-      *ngIf="selectedMonth != currentCalendarMonth || selectedYear.year != todaysYear"
-      (click)="calendarPrevMonth()"
-    ></span>
-    <span class="calendar-month">
-      {{ currentCalendarMonth.name }}
-    </span>
+    <span class="left-month-arrow" (click)="calendarPrevMonth()"></span>
+    <span class="calendar-date"> {{ currentCalendarMonth.name }} {{ selectedYear.year }} </span>
     <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
   </div>
   <div class="calendar-wrapper">
-    <div class="day-legend">
-      <span class="day-header" *ngFor="let dayHeader of dayHeaders">
-        {{ dayHeader }}
-      </span>
-    </div>
     <div
       class="calendar-day"
-      *ngFor="let day of selectedMonth.daysArray"
-      [class.active]="selectedDay == day && selectedMonth.number == chosenMonth && selectedYear.year == chosenYear"
-      [class.disabled]="
-        day <= todaysDateDay && selectedMonth == currentCalendarMonth && selectedYear.year == todaysYear
-      "
+      *ngFor="let day of selectedMonth.daysArray; let i = index"
+      [class.disabled]="(i + 1) % 7 == 0 || i % 7 == 0"
+      [class.active]="selectedDay == day && selectedMonth.number == chosenMonth"
       (click)="selectDateEventHandler(day, currentCalendarMonth.number, selectedYear.year)"
     >
-      <span
-        [class.hide]="day < 0"
-        [class.disabled]="
-          day <= todaysDateDay && selectedMonth == currentCalendarMonth && selectedYear.year == todaysYear
-        "
-      >
+      <span [class.hide]="day < 0">
         {{ day }}
       </span>
     </div>

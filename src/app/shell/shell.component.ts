@@ -106,7 +106,4 @@ export class ShellComponent {
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
   }
-  get isWeb(): boolean {
-    return !this.platform.is('cordova');
-  }
 }
