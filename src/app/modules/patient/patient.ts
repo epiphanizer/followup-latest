@@ -47,10 +47,7 @@ export interface Patient {
   primaryContactPhoneTypeId?: number;
   primaryContactPhoneTypeLabel?: string;
   primaryContactPhoneNumber?: number | null;
-  patientPhysicianFirstName?: string;
-  patientPhysicianLastName?: string;
-  patientPhysicianCountryCode?: number;
-  patientPhysicianAreaCode?: number;
+  patientPhysicianName?: string;
   patientPhysicianPhoneNumber?: string;
   patientPrimaryInsurance?: string;
   patientSecondaryInsurance?: string;
