@@ -13,7 +13,7 @@
         </div>
         <ion-list class="patient-primary-info-list" lines="none" inset formGroupName="patient">
           <ion-item class="patient-facility">
-            <!-- <ion-label color="medium" position="stacked">Facility<span style="color:red">*</span></ion-label> -->
+            <ion-label color="medium" position="stacked">Facility<span style="color:red">*</span></ion-label>
             <ion-select *ngIf="operations" placeholder="Facility" class="select-facility" formControlName="operation">
               <ion-select-option
                 *ngFor="let operation of operations"
@@ -84,6 +84,7 @@
               <ion-label>Doesn't speak English</ion-label>
             </ion-item>
             <ion-item class="fluent-language">
+              <ion-label position="stacked">Fluent Language <span style="color:red">*</span></ion-label>
               <ion-select placeholder="Fluent Language">
                 <ion-select-option selected value="1">English</ion-select-option>
                 <ion-select-option value="2">Spanish</ion-select-option>
@@ -109,7 +110,7 @@
                 formGroupName="{{ idx }}"
                 id="additionalPatientContact-{{ idx }}"
               >
-                <div class="section-header">
+                <div class="patient-contact-header-container">
                   <span class="patient-contact-header" *ngIf="idx == 0; else alternateContact">Primary Contact</span>
                   <ng-template #alternateContact>
                     <span class="patient-contact-header">Contact {{ idx + 1 }}</span>
@@ -167,12 +168,12 @@
               >
             </ng-container>
           </fieldset>
-          <fieldset class="insurance-info" formGroupName="primaryCarePhysician">
-            <div class="section-header">
-              <i class="icon-physician"></i>
-              <span class="discharge-header">Primary Care Physician</span>
-            </div>
 
+          <div class="section-header">
+            <i class="icon-physician"></i>
+            <span class="discharge-header">Primary Care Physician</span>
+          </div>
+          <fieldset class="insurance-info" formGroupName="primaryCarePhysician">
             <ion-list class="patient-physician" lines="none" inset>
               <ion-item class="primary-care-physician">
                 <ion-label color="medium" position="stacked">Physician</ion-label>
@@ -184,11 +185,11 @@
               </ion-item>
             </ion-list>
           </fieldset>
+          <div class="section-header">
+            <i class="icon-insurance"></i>
+            <span class="discharge-header">Insurance</span>
+          </div>
           <fieldset class="insurance-info" formGroupName="insurance">
-            <div class="section-header">
-              <i class="icon-insurance"></i>
-              <span class="discharge-header">Insurance</span>
-            </div>
             <ion-list lines="none" inset>
               <ion-item class="primary-insurance">
                 <ion-label color="medium" position="stacked">Primary Insurance</ion-label>
@@ -196,11 +197,11 @@
               </ion-item>
             </ion-list>
           </fieldset>
+          <div class="section-header">
+            <i class="icon-discharge-calendar"></i>
+            <span class="discharge-header">Discharge Info</span>
+          </div>
           <fieldset class="patient-discharge" formGroupName="dischargeInfo">
-            <div class="section-header">
-              <i class="icon-discharge-calendar"></i>
-              <span class="discharge-header">Discharge Info</span>
-            </div>
             <ion-list class="discharge-dates" inset lines="none">
               <div class="patient-discharge-dates-container">
                 <ion-item class="discharge-admit-date">
@@ -259,12 +260,12 @@
               </ion-item>
             </ion-list>
           </fieldset>
+          <div class="section-header discharge">
+            <i class="icon-medical"></i>
+            <span class="contact-header">Medical Condition</span>
+          </div>
           <fieldset class="patient-medical-conditions">
             <ion-list class="patient-medical-conditions" lines="none" inset>
-              <div class="section-header discharge">
-                <i class="icon-medical"></i>
-                <span class="contact-header">Medical Condition</span>
-              </div>
               <ion-item>
                 <ion-list inset lines="none" class="checkboxes-inline" formGroupName="patientMedicalConditions">
                   <ion-item>
