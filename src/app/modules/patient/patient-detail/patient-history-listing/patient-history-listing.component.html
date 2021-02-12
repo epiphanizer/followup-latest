@@ -12,7 +12,9 @@
             <span class="activity-label">{{ activity.notificationTypeLabel }}</span>
           </span>
           <div class="activity-detail-container">
-            <span class="activity-by"> by {{ activity.notificationRecipientUserId }} </span>
+            <span class="activity-by">
+              by {{ activity.notificationUserFirstName }} {{ activity.notificationUserLastName }}
+            </span>
             <span class="activity-date"> - {{ activity.notificationCreatedTime | date: 'MM/dd/yyyy':'UTC' }}</span>
           </div>
         </div>

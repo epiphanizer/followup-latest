@@ -88,7 +88,7 @@ form {
     }
 
     float: left;
-    max-width: calc(100% - 20px);
+    max-width: calc(100% - 40px);
     --inner-padding-start: 0;
     --inner-padding-end: 0;
     padding-left: 8px;
@@ -105,6 +105,7 @@ form {
   }
 
   .next-call-question-textarea {
+    margin-left: 1rem;
     --inner-padding-start: 0;
     --inner-padding-start: 0;
     --padding-start: 0;
@@ -122,20 +123,10 @@ form {
       width: 100%;
       margin-top: 15px;
     }
-
-    img {
-      float: right;
-      max-height: 16px;
-      margin-right: 19px;
-      height: 17px;
-    }
-  }
-
-  .highlight-flag {
-    cursor: pointer;
   }
 
   .add-next-question {
+    cursor: pointer;
     font-family: AvenirPro;
     font-size: 14px;
     font-weight: 500;
@@ -143,7 +134,8 @@ form {
     font-style: normal;
     line-height: 1.86;
     letter-spacing: normal;
-    text-align: left;
+    float: right;
+    padding-right: 100px;
     color: #00b4b9;
   }
 }

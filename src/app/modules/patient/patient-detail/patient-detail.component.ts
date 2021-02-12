@@ -85,7 +85,7 @@ export class PatientDetailComponent implements OnInit {
       .pipe(
         take(1),
         map((notifications: Notification[]) => {
-          console.log('patient notifications');
+          console.log(notifications);
           this.patient.patientNotifications = notifications;
           return this.patient.patientNotifications;
         })
