@@ -104,6 +104,11 @@ ion-item.call-question {
 ion-radio {
   height: 14px;
   width: 14px;
+  --border-radius: 0px;
+  --inner-border-radius: 0px;
+  .radio-icon {
+    border-radius: 0px;
+  }
 }
 .boolean {
   margin: 0;
