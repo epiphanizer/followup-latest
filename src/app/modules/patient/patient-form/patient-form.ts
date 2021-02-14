@@ -18,10 +18,13 @@ export interface PatientPutBody {
   patientGender: boolean;
   patientSpeaksEnglish: boolean;
   patientIsResponsibleParty: boolean;
+  patientHIPAA: boolean;
   patientCountryCode: number;
   patientAreaCode: number;
   patientPhoneNumber: string;
   patientPrimaryInsurance: string;
+  patientPhysicianName: string;
+  patientPhysicianPhoneNumber: string;
   patientAdmitDate: string;
   patientDischargeDate: string;
   patientDischargedAma: number | boolean;

@@ -36,7 +36,7 @@
               *ngIf="activity.patientCallStatusLabel == 'Final Call'"
               src="/assets/patient-graduated-banner@2x.png"
             />
-            <i class="icon-phone-icon"></i>
+            <i class="icon-phone-icon" style="background-image: url('{{ activity.patientCallStatusIconImage }}')"></i>
             <span class="activity-headline">
               <span class="activity-bold">Call {{ activity.patientCallCount }}</span> &mdash;
               <span class="activity-label">

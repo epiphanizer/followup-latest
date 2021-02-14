@@ -548,6 +548,8 @@ export class PatientFormComponent implements OnInit {
       patientHIPAA: formSubmission.patient.patientHIPAA,
       patientIsResponsibleParty: formSubmission.patient.patientGender,
       patientSpeaksEnglish: formSubmission.patient.patientSpeaksEnglish,
+      patientPhysicianName: formSubmission.patient.primaryCarePhysician.patientPhysicianName,
+      patientPhysicianPhoneNumber: formSubmission.patient.primaryCarePhysician.patientPhysicianPhoneNumber,
       patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
       primaryInsurancePhoneNumber: formSubmission.patient.insurance.primaryInsurancePhoneNumber || '',
       patientCountryCode: formSubmission.patient.patientCountryCode,

@@ -139,7 +139,7 @@ export class ToolbarNavComponent implements OnInit {
   }
   // switch for any dynamic linking
   dynamicLink(link: MenuLink) {
-    if (link.linkAction == 'doNotification') {
+    if (link.linkAction == 'createNotification') {
       if (this.callQueuePage) {
         this.createNotification();
       }
@@ -182,6 +182,16 @@ export class ToolbarNavComponent implements OnInit {
   }
 
   async createNotificationModal() {
+    if (this.route.snapshot.children) {
+      this.patient = this.route.snapshot.children[0].data.patient;
+    } else {
+      this.patient = this.route.snapshot.data.patient;
+    }
+    console.log(this.route.snapshot.children);
+    console.log(this.patient);
+    console.log(this.route.snapshot.data);
+    // var patientId = ;
+    this.patient;
     const modal = await this.modalController.create({
       component: NotificationModalComponent,
       cssClass: 'followup-modal',

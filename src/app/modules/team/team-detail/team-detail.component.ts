@@ -47,7 +47,6 @@ export class TeamMemberDetailComponent implements OnInit {
     this.teamMemberId = this.route.snapshot.params.teamMemberId;
 
     this.route.paramMap.subscribe((params: ParamMap) => {
-      console.log('here');
       this.teamMember = null;
       this.user = null;
       this.teamId = parseInt(params.get('teamId'));
@@ -70,6 +69,54 @@ export class TeamMemberDetailComponent implements OnInit {
                 if (user !== null) {
                   this.user = user;
                   this.user.userInterests = JSON.parse(this.user.userInterests);
+                  // Write the switch
+                  var val = '';
+                  var i = 0;
+                  var self = this;
+                  Object.entries(this.user.userInterests).forEach(([key, value], index) => {
+                    switch (key) {
+                      case 'celebrity':
+                        val = 'Met favorite celebrity';
+                        break;
+                      case 'helicopter':
+                        val = 'Flown in a helicopter';
+                        break;
+                      case 'kidney':
+                        val = 'Donated a kidney';
+                        break;
+                      case 'skydivedOrBungeed':
+                        val = 'Skydived or bungee jumped';
+                        break;
+                      case 'appearedOnTv':
+                        val = 'Appeared on TV';
+                        break;
+                      case 'janeAusten':
+                        val = 'Read Pride & Prejudice';
+                        break;
+                      case 'escargo':
+                        val = 'Eaten Escargo';
+                        break;
+                      case 'deployed':
+                        val = 'Been deployed';
+                        break;
+                      case 'instrument':
+                        val = 'Play an instrument';
+                        break;
+                      case 'seenTornado':
+                        val = 'Seen a tornado';
+                        break;
+                      case 'hitchhiked':
+                        val = 'Hitchhiked';
+                        break;
+                      case 'DND':
+                        val = 'Played Dungeons & Dragons';
+                        break;
+                    }
+                    self.user.userInterests[index] = {
+                      value: value,
+                      nicename: val
+                    };
+                  });
                 } else {
                   throw "Something went wrong, couldn't find user!";
                 }

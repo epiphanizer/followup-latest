@@ -56,7 +56,7 @@
                 </p>
                 <ul class="user-interests" *ngIf="user">
                   <li *ngFor="let interest of user.userInterests | keyvalue">
-                    {{ interest.value ? '' : interest.key }}
+                    {{ interest.value.value ? '' : interest.value.nicename }}
                   </li>
                 </ul>
               </div>

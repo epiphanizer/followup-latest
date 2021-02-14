@@ -20,21 +20,22 @@ export interface User {
   userAreaCode?: number;
   userPhoneNumber?: number;
   userDob?: Date;
+  userSpeaksSpanish: boolean;
   userFavoriteDessert?: string;
   userInterests:
     | {
-        celebrity: boolean;
-        helicopter: boolean;
-        kidney: boolean;
-        skydivedOrBungeed: boolean;
-        appearedOnTv: boolean;
-        janeAusten: boolean;
-        escargo: boolean;
-        deployed: boolean;
-        instrument: boolean;
-        seenTornado: boolean;
-        hitchhiked: boolean;
-        DND: boolean;
+        celebrity: any;
+        helicopter: any;
+        kidney: any;
+        skydivedOrBungeed: any;
+        appearedOnTv: any;
+        janeAusten: any;
+        escargo: any;
+        deployed: any;
+        instrument: any;
+        seenTornado: any;
+        hitchhiked: any;
+        DND: any;
       }
     | any;
   userAdditionalInfo: string;

@@ -82,7 +82,7 @@ export class UserProfileComponent implements OnInit {
       userPhoneNumber: [this.user.userPhoneNumber, [Validators.pattern(this.phoneRegEx)]],
       userDob: [this.user.userDob],
       userFavoriteDessert: [this.user.userFavoriteDessert],
-      userSpanishSpeaking: 1,
+      userSpeaksSpanish: this.user.userSpeaksSpanish,
       userInterests: this.fb.group({
         celebrity: this.fb.control(this.user.userInterests.celebrity),
         helicopter: this.fb.control(this.user.userInterests.helicopter),

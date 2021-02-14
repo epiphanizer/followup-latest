@@ -126,7 +126,11 @@ ion-list {
       width: 100%;
       height: auto;
       text-align: left;
-
+      &:active {
+        a {
+          padding-left: 33px;
+        }
+      }
       a {
         padding-left: 25px;
         display: block;

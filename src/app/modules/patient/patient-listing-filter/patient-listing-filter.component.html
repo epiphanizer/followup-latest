@@ -21,7 +21,10 @@
           [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
         >
           <span class="patient-filter-patient-name">
-            {{ patient.patientFirstName }} {{ patient.patientLastName }}&nbsp;
+            {{ patient.patientFirstName }} {{ patient.patientLastName }}:&nbsp;
+          </span>
+          <span class="patient-discharge-date">
+            {{ patient.patientDischargeDate | date: 'dd/mm/yy' }}
           </span>
         </a>
       </ion-item>

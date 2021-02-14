@@ -50,7 +50,6 @@ export interface Patient {
   patientPhysicianName?: string;
   patientPhysicianPhoneNumber?: string;
   patientPrimaryInsurance?: string;
-  patientSecondaryInsurance?: string;
   patientCalls?: PatientCall[];
   patientCalls$?: Observable<PatientCall[]>;
   patientNotifications?: Notification[];

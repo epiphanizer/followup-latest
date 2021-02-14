@@ -60,6 +60,9 @@ form {
     &.patient-primary-info-list {
       padding-left: 28px;
     }
+    .fluent-language {
+      margin-bottom: 34px;
+    }
   }
 
   ion-label {
@@ -194,6 +197,11 @@ form {
         color: #444444;
       }
     }
+    &.responsible-party {
+      ion-label {
+        margin-bottom: 0.33rem;
+      }
+    }
     /**
     * All the inline binary questions
     **/
@@ -224,7 +232,7 @@ form {
         letter-spacing: normal;
         text-align: left;
         color: #444444;
-        margin-bottom: 0;
+        margin-bottom: 0.33rem;
         margin-left: 6px;
       }
     }
@@ -597,7 +605,7 @@ form {
 
     .equal-sign {
       height: 50px;
-      top: 44px;
+      top: 33px;
       margin-left: -18px;
       width: 30px;
       position: absolute;

@@ -1,10 +1,8 @@
-<div class="modal-exit-container ">
-  <i (click)="dismiss()" class="icon-close-modal"></i>
-</div>
 <ng-container *ngIf="status.notification.saved == false; else sendNotification">
   <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
     <ion-row *ngIf="notification" class="notification-container">
       <ion-title>Notification</ion-title>
+      <img class="notification-icon-image" src="/assets/icon-notification-counter@2x.png" alt="" />
     </ion-row>
     <ion-list *ngIf="notificationTypes" class="notification-options" lines="none" inset>
       <ion-radio-group formControlName="notificationTypeId">
@@ -30,33 +28,27 @@
       formControlName="notificationMessage"
       placeholder="Leave Your Notes Here"
     ></ion-textarea>
-    <ion-button
-      [disabled]="createNotificationForm.invalid"
-      fill="outline"
-      class="save-button ion-float-right"
-      type="button"
-      (click)="saveNotification()"
-      >Save
-    </ion-button>
+    <ion-row>
+      <div class="send-container">
+        <ion-button fill="outline" class="cancel-button" type="button" (click)="dismiss()">Cancel </ion-button>
+        <ion-button
+          [disabled]="createNotificationForm.invalid"
+          fill="outline"
+          class="save-button"
+          type="button"
+          (click)="saveNotification()"
+          >Save
+        </ion-button>
+      </div>
+    </ion-row>
   </form>
 </ng-container>
 <ng-template #sendNotification>
   <ion-row class="notification-container">
-    <ion-title class="ion-float-left">Notification</ion-title>
-    <h3 class="notification-type ion-float-right warning">
-      {{ notification.notificationTypeLabel }}
-    </h3>
+    <ion-title class="ion-float-left">{{ notification.notificationTypeLabel }}</ion-title>
     <img class="notification-icon-image" src="{{ notification.notificationIconImage }}" alt="" />
   </ion-row>
   <ion-row>
-    <ion-col class="left-col">
-      <div class="sidebar-calendar">
-        <h4>TODAY'S DATE</h4>
-        <div class="caption">
-          {{ todaysDateDay }}
-        </div>
-      </div>
-    </ion-col>
     <ion-col class="right-col">
       <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
         <ion-list class="review-notification-list" lines="none" inset>
