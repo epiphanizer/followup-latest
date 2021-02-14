@@ -6,7 +6,7 @@
           <div class="call-question">
             <ng-container>
               <span class="patient-call-question-label">
-                {{ question.patientCallQuestion | slice: 0:20 }}
+                {{ question.patientCallQuestion }}
               </span>
               <ion-radio-group formControlName="{{ question.patientCallQuestionId }}">
                 <ion-item class="boolean-question">

@@ -32,10 +32,7 @@
         <div class="patient-call">
           <!-- This logic assumes that the patientCallCounts come to us in the right order -->
           <div id="{{ 'call-' + activity.patientCallCount }}" class="activity-headline-container">
-            <img
-              *ngIf="activity.patientCallStatusLabel == 'Final Call'"
-              src="/assets/patient-graduated-banner@2x.png"
-            />
+            <img *ngIf="activity.finalCall" src="/assets/patient-graduated-banner@2x.png" />
             <i class="icon-phone-icon" style="background-image: url('{{ activity.patientCallStatusIconImage }}')"></i>
             <span class="activity-headline">
               <span class="activity-bold">Call {{ activity.patientCallCount }}</span> &mdash;

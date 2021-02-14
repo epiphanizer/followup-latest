@@ -106,21 +106,27 @@ export class PatientDetailComponent implements OnInit {
 
   patientCallEndEventHandler($event: PatientCall) {
     this.patientCall = $event;
+
+    if (this.patientCall.patientCallStatusLabel == 'Started') {
+      alert('Please select a call status.');
+      return;
+    }
     this.patientCallService.endPatientCall(this.patientCall.patientCallId);
-    this.patientCall.patientCallStatusLabelId = 4;
+    /**
+     * Change the label, but not the ID.
+     */
     this.patientCall.patientCallStatusLabel = 'In Review';
-    setTimeout(function() {
-      let element = document.querySelector('#patientCallStatusControls');
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'auto',
-          block: 'end'
-        });
-      }
-    }, 50);
+    console.log('changed call to In Review');
   }
 
   patientCallStatusLabelChangeHandler($event: number) {
+    if (
+      this.patientCall.patientCallStatusLabel == 'New Discharge' ||
+      this.patientCall.patientCallStatusLabel == 'Scheduled'
+    ) {
+      alert('Please begin call first.');
+      return;
+    }
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
     this.patientCall.patientCallStatusLabel = 'User Selected Status';
@@ -158,17 +164,6 @@ export class PatientDetailComponent implements OnInit {
 
   patientCallFinishEventHandler($event: PatientCall) {
     this.patientCall = $event;
-    if (this.patientCall.patientCallStatusLabel == 'In Review') {
-      alert('Please select a call status');
-      let element = document.querySelector('#patientCallStatusControls');
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'auto',
-          block: 'start'
-        });
-      }
-      return;
-    }
     if (!this.patientCallNotes) {
       alert('Please add patient call notes');
       let element = document.querySelector('#patientCallNotesForm');
@@ -178,6 +173,11 @@ export class PatientDetailComponent implements OnInit {
           block: 'start'
         });
       }
+      return;
+    }
+
+    if (!this.patientNextCall.date) {
+      alert('Please add patient next call date');
       return;
     }
     /**

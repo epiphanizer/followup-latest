@@ -6,7 +6,7 @@
       </ng-container>
       <app-patient-notes [patient]="patient"> </app-patient-notes>
       <app-patient-history-listing
-        *ngIf="patient.patientCalls && patient.patientNotifications"
+        *ngIf="patient.patientCalls || patient.patientNotifications"
         [patientCalls]="patient.patientCalls"
         [patientNotifications]="patient.patientNotifications"
       >
@@ -67,6 +67,7 @@
             patientCall.patientCallStatusLabel == 'Started' ||
             patientCall.patientCallStatusLabel == 'User Selected Status'
           "
+          (patientCallEndEventEmitter)="patientCallEndEventHandler(patientCall)"
         >
         </app-patient-call-stop-button>
         <ng-container *ngIf="patientCall.patientCallStatusLabel == 'In Review' && !patientCall.finalCall">
@@ -76,7 +77,7 @@
           </app-patient-next-call-scheduler>
 
           <app-patient-next-call-finish-button
-            *ngIf="patientNextCall.date && patientCall.patientCallStatusLabel == 'In Review'"
+            *ngIf="patientCall.patientCallStatusLabel == 'In Review'"
             [patient]="patient"
             [patientCall]="patientCall"
             (patientCallFinalizeEventEmitter)="patientCallFinishEventHandler(patientCall)"

@@ -199,14 +199,14 @@ form {
       .radio-button-yes {
         background-image: url("/assets/button-yes@2x.png");
         &:active,
-        &.item-radio-checked {
+        &.radio-checked {
           background-image: url("/assets/button-yes-select@2x.png");
         }
       }
       .radio-button-no {
         background-image: url("/assets/button-no@2x.png");
         &:active,
-        &.item-radio-checked {
+        &.radio-checked {
           background-image: url("/assets/button-no-select@2x.png");
         }
       }
@@ -267,6 +267,7 @@ form {
     }
 
     ion-checkbox {
+      margin-top: 0;
       --border-color: #8e8e8e;
       width: 14px;
       height: 14px;
@@ -294,7 +295,9 @@ form {
   }
 
   ion-textarea {
+    font-family: "Avenir";
     min-height: 176px;
+    height: auto;
   }
 
   ion-button {

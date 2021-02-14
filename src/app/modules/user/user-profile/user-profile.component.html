@@ -35,12 +35,12 @@
           </ion-item>
           <ion-item class="user-spanish-speaking">
             <ion-label color="medium" position="stacked">Do you speak Spanish?</ion-label>
-            <ion-radio-group formControlName="userSpanishSpeaking">
+            <ion-radio-group formControlName="userSpeaksSpanish">
               <ion-item>
                 <ion-radio value="1" class="spanish-speaking radio-button-yes"> </ion-radio>
               </ion-item>
               <ion-item>
-                <ion-radio value="0" class="spanish-speaking radio-button-no"> </ion-radio>
+                <ion-radio value="0" selected class="spanish-speaking radio-button-no"> </ion-radio>
               </ion-item>
             </ion-radio-group>
           </ion-item>
@@ -129,7 +129,7 @@
               <ion-label class="main-label-box" color="medium" position="stacked"
                 >Anything else you want to share with the team?</ion-label
               >
-              <ion-textarea autoGrow formControlName="userAdditionalInfo"></ion-textarea>
+              <ion-textarea formControlName="userAdditionalInfo"></ion-textarea>
             </ion-item>
           </ion-list>
         </div>

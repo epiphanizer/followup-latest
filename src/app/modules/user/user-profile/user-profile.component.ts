@@ -82,7 +82,7 @@ export class UserProfileComponent implements OnInit {
       userPhoneNumber: [this.user.userPhoneNumber, [Validators.pattern(this.phoneRegEx)]],
       userDob: [this.user.userDob],
       userFavoriteDessert: [this.user.userFavoriteDessert],
-      userSpeaksSpanish: this.user.userSpeaksSpanish,
+      userSpeaksSpanish: this.user.userSpeaksSpanish == true ? 1 : 0,
       userInterests: this.fb.group({
         celebrity: this.fb.control(this.user.userInterests.celebrity),
         helicopter: this.fb.control(this.user.userInterests.helicopter),
@@ -124,6 +124,7 @@ export class UserProfileComponent implements OnInit {
           this.user.userCountryCode = formSubmission.userPhoneCountryCode;
           this.user.userAreaCode = formSubmission.userPhoneAreaCode;
           this.user.userPhoneNumber = formSubmission.userPhoneNumber;
+          this.user.userSpeaksSpanish = formSubmission.userSpeaksSpanish;
           this.user.userFavoriteDessert = formSubmission.userFavoriteDessert;
           this.user.userInterests = JSON.stringify(formSubmission.userInterests);
           this.authenticationService.currentUserSubject.next(this.user);
@@ -148,7 +149,7 @@ export class UserProfileComponent implements OnInit {
       userCountryCode: formSubmission.userPhoneCountryCode || '',
       userAreaCode: formSubmission.userPhoneAreaCode || '',
       userPhoneNumber: formSubmission.userPhoneNumber || '',
-      userSpanishSpeaking: formSubmission.userSpanishSpeaking,
+      userSpeaksSpanish: parseInt(formSubmission.userSpeaksSpanish),
       userDob: formSubmission.userDob || '',
       userFavoriteDessert: formSubmission.userFavoriteDessert || '',
       userInterests: userInterests,
