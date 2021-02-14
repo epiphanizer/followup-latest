@@ -72,5 +72,11 @@ export class PatientHistoryListingComponent implements OnInit {
         this.patientActivity.push(patientNotification);
       });
     }
+
+    this.patientActivity = this.patientActivity.sort(function(a: any, b: any) {
+      var createdDate = a.notificationCreatedTime ? a.notificationCreatedTime : a.patientCallEndTime;
+      var createdCompareDate = b.notificationCreatedTime ? b.notificationCreatedTime : b.patientCallEndTime;
+      return new Date(createdCompareDate).getTime() - new Date(createdDate).getTime();
+    });
   }
 }

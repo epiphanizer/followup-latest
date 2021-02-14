@@ -21,20 +21,17 @@
                 </ion-item>
               </ion-radio-group>
             </ng-container>
-
-            <ng-container *ngIf="question.patientQuestionTypeLabel == 'textarea'">
-              <div class="patient-call-question-container call-question">
-                <div [class.is-highlighted]="question.patientCallQuestionIsHighlighted">
-                  {{ question.patientCallQuestion }}
-                </div>
-                <ion-item class="rating">
-                  <ion-textarea formControlName="{{ question.patientCallQuestionId }}"> </ion-textarea>
-                </ion-item>
-              </div>
-            </ng-container>
           </div>
         </div>
       </ion-item>
+      <ng-container *ngIf="question.patientQuestionTypeLabel == 'textarea'">
+        <ion-item class="patient-call-question-container call-question">
+          <ion-label position="stacked" class="patient-call-question-label">
+            {{ question.patientCallQuestion }}
+          </ion-label>
+          <ion-textarea formControlName="{{ question.patientCallQuestionId }}"></ion-textarea>
+        </ion-item>
+      </ng-container>
     </div>
   </ion-list>
 </form>

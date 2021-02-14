@@ -71,7 +71,12 @@ export class PatientDetailComponent implements OnInit {
       );
 
     this.patient.patientCalls$.subscribe((patientCalls: PatientCall[]) => {
-      this.patient.patientCalls = patientCalls;
+      console.log(patientCalls);
+      if (patientCalls != null) {
+        this.patient.patientCalls = patientCalls;
+      } else {
+        this.patient.patientCalls = [];
+      }
     });
 
     this.patientNextCall = {
@@ -86,7 +91,11 @@ export class PatientDetailComponent implements OnInit {
         take(1),
         map((notifications: Notification[]) => {
           console.log(notifications);
-          this.patient.patientNotifications = notifications;
+          if (notifications != null) {
+            this.patient.patientNotifications = notifications;
+          } else {
+            this.patient.patientNotifications = [];
+          }
           return this.patient.patientNotifications;
         })
       );
