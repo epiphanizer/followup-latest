@@ -71,7 +71,6 @@ export class PatientDetailComponent implements OnInit {
       );
 
     this.patient.patientCalls$.subscribe((patientCalls: PatientCall[]) => {
-      console.log(patientCalls);
       if (patientCalls != null) {
         this.patient.patientCalls = patientCalls;
       } else {
@@ -90,7 +89,6 @@ export class PatientDetailComponent implements OnInit {
       .pipe(
         take(1),
         map((notifications: Notification[]) => {
-          console.log(notifications);
           if (notifications != null) {
             this.patient.patientNotifications = notifications;
           } else {
@@ -125,7 +123,6 @@ export class PatientDetailComponent implements OnInit {
      * Change the label, but not the ID.
      */
     this.patientCall.patientCallStatusLabel = 'In Review';
-    console.log('changed call to In Review');
   }
 
   patientCallStatusLabelChangeHandler($event: number) {

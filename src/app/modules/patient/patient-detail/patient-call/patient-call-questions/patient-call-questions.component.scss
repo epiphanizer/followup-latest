@@ -25,6 +25,7 @@ i.icon-question-mark {
 }
 
 ion-item.call-question {
+  margin-bottom: 0.5rem;
   ion-label {
     display: inline-block;
     font-family: Avenir;
@@ -66,6 +67,9 @@ ion-item.call-question {
     ion-label {
       white-space: initial;
       overflow: auto;
+      font-weight: normal;
+      margin-top: 12px;
+      width: 25px;
     }
   }
 
@@ -75,7 +79,9 @@ ion-item.call-question {
     font-size: 14px;
     font-weight: bold;
     width: 100%;
+    margin-left: 5px;
   }
+
   ion-textarea {
     padding-right: 10px;
     padding: 6px 3px;
@@ -127,15 +133,19 @@ ion-item.call-question {
 .boolean-question {
   display: inline-block;
   width: 160px;
-  vertical-align: bottom;
-  height: 35px;
+  vertical-align: middle;
+}
+
+ion-radio-group .item-radio-checked ion-icon {
+  fill: #00b8be;
 }
 
 ion-radio {
-  height: 14px;
-  width: 14px;
-  --border-radius: 0px;
-  --inner-border-radius: 0px;
+  height: 16px;
+  width: 16px;
+  border-radius: 3px !important;
+  border: solid 2px #666666;
+  margin-right: 5px;
 
   .radio-icon {
     border-radius: 0px;
