@@ -5,27 +5,6 @@
   padding: 75px;
 }
 
-.modal-exit-container {
-  display: block;
-  max-height: 20px;
-  float: right;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-
-.icon-close-modal {
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-  margin-right: 10px;
-  display: block;
-  width: 15px;
-  height: 30px;
-  background: url("/assets/icon-close-modal@2x.png");
-  background-size: 100%;
-}
-
 .notification-container {
   padding-top: 55px;
 
@@ -35,8 +14,8 @@
 
   img.notification-icon-image {
     margin-right: 38px;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     position: absolute;
     right: 0;
     z-index: 5000;
@@ -74,7 +53,7 @@ ion-textarea {
   margin: 0 auto;
 
   ion-item {
-    height: 30px;
+    --min-height: 32px;
     margin-left: 0;
     padding-left: 0;
   }
@@ -90,6 +69,9 @@ ion-textarea {
 
 ion-radio {
   display: inline-block;
+  height: 15px !important;
+  width: 15px !important;
+  border: 2px solid #666;
 }
 
 h3 {
@@ -189,14 +171,16 @@ h3 {
   }
 }
 
+.item-radio-checked ion-icon {
+  fill: #ef4627;
+}
+
 ion-radio {
   :host {
-    border-radius: 0;
     width: 15px !important;
     height: 15px !important;
   }
   .radio-icon {
-    border-radius: 0;
     width: 15px !important;
     height: 15px !important;
   }
