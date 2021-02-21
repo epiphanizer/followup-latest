@@ -2,23 +2,19 @@
   <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
     <ion-row *ngIf="notification" class="notification-container">
       <ion-title>Notification</ion-title>
-      <img class="notification-icon-image" src="/assets/icon-notification-counter.png" alt="" />
+      <img class="notification-icon-image" src="/assets/icon-notify-counter.png" alt="" />
     </ion-row>
     <ion-list *ngIf="notificationTypes" class="notification-options" lines="none" inset>
       <ion-radio-group formControlName="notificationTypeId">
         <ion-row>
-          <ion-col width-50>
-            <ion-item *ngFor="let notificationType of notificationTypesListLeft">
-              <ion-radio mode="ios" value="{{ notificationType.notificationTypeId }}"> </ion-radio>
-              <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
-            </ion-item>
-          </ion-col>
-          <ion-col width-50>
-            <ion-item *ngFor="let notificationType of notificationTypesListRight">
-              <ion-radio mode="ios" value="{{ notificationType.notificationTypeId }}"> </ion-radio>
-              <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
-            </ion-item>
-          </ion-col>
+          <ul class="notification-list-container">
+            <li *ngFor="let notificationType of notificationTypes">
+              <ion-item class="notification-list-choice">
+                <ion-radio mode="ios" value="{{ notificationType.notificationTypeId }}"> </ion-radio>
+                <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
+              </ion-item>
+            </li>
+          </ul>
         </ion-row>
       </ion-radio-group>
     </ion-list>
@@ -49,7 +45,7 @@
     <img class="notification-icon-image" src="{{ notification.notificationIconImage }}" alt="" />
   </ion-row>
   <ion-row>
-    <ion-col class="right-col">
+    <div class="review-container">
       <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm">
         <ion-list class="review-notification-list" lines="none" inset>
           <ion-item class="notification-review-item">
@@ -92,7 +88,7 @@
           </ion-item>
         </ion-list>
       </form>
-    </ion-col>
+    </div>
   </ion-row>
   <ion-row>
     <div class="send-container">

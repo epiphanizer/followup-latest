@@ -24,7 +24,7 @@
 
 ion-title {
   font-family: AvenirPro;
-  font-size: 45px;
+  font-size: 40px;
   font-weight: 300;
   font-stretch: normal;
   margin-left: 40px;
@@ -34,6 +34,29 @@ ion-title {
   text-align: left;
   color: #343638;
 }
+
+.notification-list-container {
+  list-style-type: none;
+  padding-left: 18px;
+  margin-bottom: 0;
+
+  li {
+    width: 33.333333%;
+    float: left;
+  }
+
+  ion-item {
+    --padding-start: 0;
+    height: 35px;
+    line-height: 35px;
+    vertical-align: middle;
+
+    ion-radio {
+      margin: 0;
+    }
+  }
+}
+
 ion-textarea {
   --padding-start: 12px;
   height: 200px;
@@ -61,7 +84,7 @@ ion-textarea {
   ion-label {
     display: inline-block;
     font-family: Avenir;
-    font-size: 14px;
+    font-size: 12px;
     margin-left: 10px;
     line-height: 25px;
   }
@@ -88,11 +111,13 @@ h3 {
   top: 55px;
   right: 40px;
 }
+
 .notification-review-item {
   font-family: Avenir;
   font-size: 12px;
   margin-right: 10px;
   --min-height: 28px;
+
   span.label {
     font-family: AvenirBold;
   }
@@ -101,6 +126,7 @@ h3 {
 .notification-review-item-message {
   max-width: 380px;
 }
+
 .left-col {
   max-width: 170px;
   float: left;
@@ -116,33 +142,6 @@ h3 {
   }
 }
 
-.sidebar-calendar {
-  width: 120px;
-  height: 90px;
-  text-align: center;
-  margin-left: 40px;
-  margin-top: 20px;
-
-  h4 {
-    font-family: AvenirBold;
-    font-size: 13px;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 0.86;
-    letter-spacing: 1.2px;
-    color: var(--ion-color-primary);
-  }
-
-  .caption {
-    font-family: AvenirBold;
-    font-size: 42px;
-    font-style: normal;
-    font-stretch: normal;
-    letter-spacing: -5px;
-    text-align: center;
-  }
-}
-
 .review-notification-list {
   margin: 0;
   margin-left: 5px;
@@ -151,6 +150,7 @@ h3 {
     max-width: 300px;
     max-height: 150px;
   }
+
   ion-item.notification-review-item-message {
     --inner-padding-start: 0;
     width: 350px;
@@ -159,6 +159,7 @@ h3 {
     --padding-end: 0;
     margin-left: 15px;
   }
+
   ion-textarea {
     padding-left: 12px;
     height: 115px;
@@ -180,10 +181,14 @@ ion-radio {
     width: 15px !important;
     height: 15px !important;
   }
+
   .radio-icon {
     width: 15px !important;
     height: 15px !important;
   }
+}
+.review-container {
+  margin-left: 40px;
 }
 .notification-options {
   height: auto;
@@ -198,13 +203,14 @@ ion-radio {
 .cancel-button {
   margin-top: 10px;
 }
+
 .save-button {
   margin-top: 10px;
   margin-right: 62px;
 }
 
 .edit-button {
-  margin-left: 55px;
+  margin-left: 58px;
 }
 
 .send-button {
