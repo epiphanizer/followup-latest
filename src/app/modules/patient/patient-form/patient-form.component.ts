@@ -230,8 +230,8 @@ export class PatientFormComponent implements OnInit {
   private createForm() {
     console.log(this.patient);
     this.patientForm = this.fb.group({
-      operation: this.fb.control(this.patient.patientOperationId, [Validators.required]),
       patient: this.fb.group({
+        operation: this.fb.control(this.patient.patientOperationId, [Validators.required]),
         patientMedicalRecordNumber: this.fb.control(this.patient.patientMedicalRecordNumber, [
           Validators.required,
           Validators.pattern(this.stringMinimumOneWordRegEx)
@@ -550,7 +550,7 @@ export class PatientFormComponent implements OnInit {
     debugger;
     var payload = {
       patientDob: patientDob,
-      patientOperationId: formSubmission.operation,
+      patientOperationId: formSubmission.patient.operation,
       patientMedicalRecordNumber: formSubmission.patient.patientMedicalRecordNumber,
       patientFirstName: formSubmission.patient.patientName.patientFirstName,
       patientLastName: formSubmission.patient.patientName.patientLastName,
