@@ -70,7 +70,7 @@
               </ion-item>
             </div>
             <ion-item class="inline-patient-responsibility-container">
-              <ion-item class="patientHIPAA" formControlName="patientHIPAA">
+              <ion-item class="patient-is-hipaa" formControlName="patientHIPAA">
                 <ion-checkbox></ion-checkbox>
                 <ion-label>HIPAA</ion-label>
               </ion-item>
@@ -158,16 +158,10 @@
                   <ion-item class="patient-contact-hipaa">
                     <ion-label color="medium" type="stacked">HIPAA</ion-label>
                     <ion-checkbox formControlName="patientContactHIPAA"></ion-checkbox>
-                    <ng-container *ngIf="1 == 1">
-                      <i class="icon-hipaa"></i>
-                    </ng-container>
                   </ion-item>
                   <ion-item class="responsible-party">
                     <ion-label color="medium" type="stacked">Responsible Party</ion-label>
                     <ion-checkbox formControlName="patientContactResponsiblePartyBoolean"></ion-checkbox>
-                    <ng-container *ngIf="1 == 1">
-                      <i class="icon-hipaa"></i>
-                    </ng-container>
                   </ion-item>
                 </div>
               </ion-list>

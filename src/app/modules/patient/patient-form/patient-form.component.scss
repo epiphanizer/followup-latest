@@ -214,7 +214,7 @@ form {
     **/
     &.patient-gender,
     &.speaks-english,
-    &.patientHIPAA,
+    &.patient-is-hipaa,
     &.patient-is-responsible {
       display: inline-block;
       margin-right: 32px;
@@ -491,6 +491,11 @@ form {
         display: none !important;
       }
 
+      &.patient-contact-hipaa {
+        ion-label {
+          margin-right: 5px;
+        }
+      }
       &.responsible-party {
         ion-label {
           margin-right: 5px;
@@ -533,6 +538,7 @@ form {
           }
         }
 
+        &.patient-contact-hipaa,
         &.responsible-party {
           vertical-align: bottom;
 
