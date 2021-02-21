@@ -501,16 +501,6 @@ form {
 
   ion-select {
     padding-left: 12px;
-
-    // &:after {
-    //   display: block;
-    //   content: "";
-    //   background-image: url("/assets/icon-arrow-down@2x.png");
-    //   background-size: 100%;
-    //   background-repeat: no-repeat;
-    //   height: 11px;
-    //   width: 15px;
-    // }
   }
 
   ion-button {
@@ -564,6 +554,9 @@ ion-button {
   text-align: center;
   color: #ffffff;
   text-transform: uppercase;
+  --background: #019ca2;
+  --background-hover: #019ca2;
+  --border-activated: 1px solid #009999;
 }
 
 .section-header {

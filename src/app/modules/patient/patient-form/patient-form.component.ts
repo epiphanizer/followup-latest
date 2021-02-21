@@ -228,6 +228,7 @@ export class PatientFormComponent implements OnInit {
   }
 
   private createForm() {
+    console.log(this.patient);
     this.patientForm = this.fb.group({
       operation: this.fb.control(this.patient.patientOperationId, [Validators.required]),
       patient: this.fb.group({
@@ -544,12 +545,16 @@ export class PatientFormComponent implements OnInit {
       formSubmission.patient.dischargeInfo.patientDischargeDate.substr(0, 10) + 'T12:00:00.00Z';
 
     const patientMedicalConditions = JSON.stringify(formSubmission.patient.patientMedicalConditions);
+    console.log(formSubmission);
     var payload = {
       patientDob: patientDob,
       patientOperationId: formSubmission.operation,
       patientMedicalRecordNumber: formSubmission.patient.patientMedicalRecordNumber,
       patientFirstName: formSubmission.patient.patientName.patientFirstName,
       patientLastName: formSubmission.patient.patientName.patientLastName,
+      patientCountryCode: formSubmission.patient.patientCountryCode,
+      patientAreaCode: formSubmission.patient.patientAreaCode,
+      patientPhoneNumber: formSubmission.patient.patientPhoneNumber,
       patientGender: formSubmission.patient.patientGender,
       patientHIPAA: formSubmission.patient.patientHIPAA,
       patientIsResponsibleParty: formSubmission.patient.patientGender,
@@ -558,9 +563,6 @@ export class PatientFormComponent implements OnInit {
       patientPhysicianName: formSubmission.patient.primaryCarePhysician.patientPhysicianName,
       patientPhysicianPhoneNumber: formSubmission.patient.primaryCarePhysician.patientPhysicianPhoneNumber,
       patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
-      patientCountryCode: formSubmission.patient.patientCountryCode,
-      patientAreaCode: formSubmission.patient.patientAreaCode,
-      patientPhoneNumber: formSubmission.patient.patientPhoneNumber,
       patientAdmitDate: patientAdmitDate,
       patientDischargeDate: patientDischargeDate,
       patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma == true ? 1 : 0,
