@@ -234,16 +234,10 @@
               <ion-item class="discharged-ama">
                 <ion-radio-group formControlName="patientDischargedAma">
                   <ion-item>
-                    <ion-radio mode="ios" value="1" class="discharged-ama radio-yes"> </ion-radio>
-                    <ion-label>
-                      Yes
-                    </ion-label>
+                    <ion-radio class="radio-button-yes discharged-ama" value="1"> </ion-radio>
                   </ion-item>
                   <ion-item>
-                    <ion-radio mode="ios" value="0" class="discharged-ama radio-no"> </ion-radio>
-                    <ion-label>
-                      No
-                    </ion-label>
+                    <ion-radio class="radio-button-no discharged-ama" value="0"> </ion-radio>
                   </ion-item>
                 </ion-radio-group>
               </ion-item>
@@ -251,7 +245,7 @@
                 <ion-label color="medium" position="stacked">Discharged To: <span style="color:red">*</span></ion-label>
                 <ion-radio-group formControlName="patientDischargedTo">
                   <ion-list inset lines="none">
-                    <ion-item *ngFor="let dischargeLabel of dischargeLabels">
+                    <ion-item class="discharge-location" *ngFor="let dischargeLabel of dischargeLabels">
                       <ion-radio mode="ios" value="{{ dischargeLabel.patientDischargeLabelId }}"> </ion-radio>
                       <ion-label>
                         {{ dischargeLabel.patientDischargeLabel }}
@@ -321,13 +315,9 @@
                           formControlName="{{ patientIntakeQuestion.patientIntakeQuestionId }}"
                           [value]="1"
                         >
-                          <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; let idx = index">
-                            <ion-radio class="mental-scale" value="{{ rating }}">
-                              {{ rating }}
+                          <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+                            <ion-radio class="rating-option rating-button-{{ rating }}" value="{{ rating }}">
                             </ion-radio>
-                            <ion-label position="stacked">
-                              {{ rating }}
-                            </ion-label>
                           </ion-item>
                         </ion-radio-group>
                       </ion-list>
@@ -337,16 +327,10 @@
                       <ion-list lines="none">
                         <ion-radio-group formControlName="{{ patientIntakeQuestion.patientIntakeQuestionId }}">
                           <ion-item class="boolean">
-                            <ion-radio class="intake-boolean-radio" value="1" class="radio-yes">Y</ion-radio>
-                            <ion-label position="stacked">
-                              Yes
-                            </ion-label>
+                            <ion-radio class="intake-boolean-radio radio-button-yes" value="1"></ion-radio>
                           </ion-item>
                           <ion-item class="boolean">
-                            <ion-radio value="0" class="radio-no">N</ion-radio>
-                            <ion-label position="stacked">
-                              No
-                            </ion-label>
+                            <ion-radio value="0" class="intake-boolean-radio radio-button-no"></ion-radio>
                           </ion-item>
                         </ion-radio-group>
                       </ion-list>
@@ -369,10 +353,15 @@
             <ion-label color="medium">Active?</ion-label>
           </ion-item>
         </ion-list>
-        <ion-button *ngIf="mode.edit" class="delete-patient" (click)="deletePatient(patient.patientId)">
-          Delete
+        <ion-button
+          class="ion-float-right"
+          *ngIf="mode.edit"
+          class="cancel-button"
+          (click)="deletePatient(patient.patientId)"
+        >
+          Cancel
         </ion-button>
-        <ion-button class="save-button" (click)="onFormSubmit()">Save</ion-button>
+        <ion-button class="save-button ion-float-right" (click)="onFormSubmit()">Save</ion-button>
       </form>
     </ion-col>
     <ion-col class="avatar-col">

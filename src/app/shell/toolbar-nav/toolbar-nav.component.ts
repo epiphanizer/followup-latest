@@ -43,8 +43,6 @@ export class ToolbarNavComponent implements OnInit {
         } else {
           this.callQueuePage = false;
         }
-        console.log('call queue page? ' + this.callQueuePage);
-        console.log('navigation activation end');
       });
     this.navLinks = [
       {

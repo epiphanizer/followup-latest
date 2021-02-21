@@ -48,7 +48,8 @@ export function tokenGetter() {
     HttpClientModule,
     TranslateModule.forRoot(),
     IonicModule.forRoot({
-      mode: 'md'
+      mode: 'md',
+      animated: false
     }),
     CoreModule,
     JwtModule.forRoot({

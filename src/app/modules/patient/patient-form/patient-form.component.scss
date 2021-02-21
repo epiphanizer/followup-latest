@@ -3,6 +3,43 @@ ion-content {
   overflow-y: scroll !important;
 }
 
+ion-radio {
+  display: inline-block;
+  height: 15px !important;
+  width: 15px !important;
+  border: 2px solid #666;
+}
+
+.rating-option,
+.radio-button-yes,
+.radio-button-no {
+  --color: transparent;
+  --color-checked: transparent;
+  border: 0;
+  width: 34px !important;
+  height: 32px !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.radio-button-yes {
+  background-image: url("/assets/button-yes@2x.png");
+
+  &:active,
+  &.radio-checked {
+    background-image: url("/assets/button-yes-select@2x.png");
+  }
+}
+
+.radio-button-no {
+  background-image: url("/assets/button-no@2x.png");
+
+  &:active,
+  &.radio-checked {
+    background-image: url("/assets/button-no-select@2x.png");
+  }
+}
+
 .patient-sidebar {
   max-width: 172px;
   padding-bottom: 160px;
@@ -124,6 +161,7 @@ form {
     i.icon-patient {
       background-image: url("/assets/icon-contact@2x.png");
       margin-right: 12px;
+      margin-top: 2px;
     }
 
     span {
@@ -493,9 +531,11 @@ form {
 
       &.patient-contact-hipaa {
         ion-label {
+          margin-bottom: 0;
           margin-right: 5px;
         }
       }
+
       &.responsible-party {
         ion-label {
           margin-right: 5px;
@@ -564,10 +604,8 @@ form {
     }
   }
 
-  .patient-physician {
-    ion-item {
-    }
-  }
+  // .patient-physician {
+  // }
 
   fieldset.insurance-info {
     margin-left: 0;
@@ -680,7 +718,14 @@ form {
         margin-bottom: 0;
         margin-top: 0.8rem;
 
+        .discharge-location {
+          width: 50%;
+          float: left;
+          height: 41px;
+        }
+
         ion-label {
+          margin-top: 0;
           min-width: min-content;
           font-family: Avenir;
           font-size: 14px;
@@ -725,11 +770,7 @@ form {
     }
 
     ion-radio {
-      width: 12px;
-      height: 12px;
       margin-left: 6px;
-      border: solid 1px #8e8e8e;
-      background-color: #ffffff;
     }
 
     ion-label {
@@ -852,8 +893,6 @@ fieldset.patient-intake-questions {
   ion-radio-group {
     ion-item {
       display: inline-block;
-      width: 20px;
-      margin-left: 10px;
     }
 
     ion-label {
@@ -885,9 +924,7 @@ fieldset.patient-intake-questions {
   }
 
   ion-item.rating {
-    border-radius: 3px;
     width: 100%;
-    margin-left: 14px;
 
     ion-radio-group {
       ion-item {
@@ -895,24 +932,109 @@ fieldset.patient-intake-questions {
         --inner-padding-end: 0;
         margin-right: 10px;
         width: auto !important;
-        max-width: 20px;
         display: inline-block;
-      }
-
-      ion-label {
-        font-family: AvenirPro;
-        font-size: 15px;
-        font-weight: 500;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: 0.3px;
-        text-align: left;
-        color: #222222;
       }
 
       ion-radio {
         border-radius: 3px;
         margin-right: 2px;
+        --color: transparent;
+        --color-checked: transparent;
+        border: 0;
+        width: 34px !important;
+        height: 32px !important;
+        background-size: cover;
+        background-repeat: no-repeat;
+
+        &.rating-button-1 {
+          background-image: url("/assets/rating-button-1@2x.png");
+
+          &:active,
+          &.radio-checked {
+            background-image: url("/assets/rating-button-1-select@2x.png");
+          }
+        }
+
+        &.rating-button-2 {
+          background-image: url("/assets/rating-button-2@2x.png");
+
+          &:active,
+          &.radio-checked {
+            background-image: url("/assets/rating-button-2-select@2x.png");
+          }
+        }
+
+        &.rating-button-3 {
+          background-image: url("/assets/rating-button-3@2x.png");
+
+          &:active,
+          &.radio-checked {
+            background-image: url("/assets/rating-button-3-select@2x.png");
+          }
+        }
+
+        &.rating-button-4 {
+          background-image: url("/assets/rating-button-4@2x.png");
+
+          &:active,
+          &.radio-checked {
+            background-image: url("/assets/rating-button-4-select@2x.png");
+          }
+        }
+
+        &.rating-button-5 {
+          background-image: url("/assets/rating-button-5@2x.png");
+
+          &:active,
+          &.radio-checked {
+            background-image: url("/assets/rating-button-5-select@2x.png");
+          }
+        }
+
+        &.rating-button-6 {
+          background-image: url("/assets/rating-button-6@2x.png");
+
+          &:active,
+          &.radio-checked {
+            background-image: url("/assets/rating-button-6-select@2x.png");
+          }
+        }
+
+        &.rating-button-7 {
+          background-image: url("/assets/rating-button-7@2x.png");
+
+          &:active,
+          &.radio-checked {
+            background-image: url("/assets/rating-button-7-select@2x.png");
+          }
+        }
+
+        &.rating-button-8 {
+          background-image: url("/assets/rating-button-8@2x.png");
+
+          &:active,
+          &.radio-checked {
+            background-image: url("/assets/rating-button-8-select@2x.png");
+          }
+        }
+
+        &.rating-button-9 {
+          background-image: url("/assets/rating-button-9@2x.png");
+
+          &:active,
+          &.radio-checked {
+            background-image: url("/assets/rating-button-9-select@2x.png");
+          }
+        }
+
+        &.rating-button-10 {
+          background-image: url("/assets/rating-button-10@2x.png");
+
+          &:active,
+          &.radio-checked {
+            background-image: url("/assets/rating-button-10-select@2x.png");
+          }
+        }
       }
     }
   }
@@ -920,29 +1042,20 @@ fieldset.patient-intake-questions {
   ion-radio-group {
     .boolean,
     .rating {
-      margin-left: 14px;
-      width: 22px;
-
       ion-item {
-        display: inline-block;
-      }
-
-      ion-label {
-        font-size: 16px;
-        font-family: Avenir;
         display: inline-block;
       }
 
       ion-radio {
         display: inline-block;
-        margin-bottom: -15px;
       }
     }
   }
 
   ion-item.boolean {
     display: inline-block;
-    margin-left: 14px;
+
+    margin-right: 4px;
 
     .boolean {
       margin-left: 0;
@@ -1019,11 +1132,11 @@ ion-button {
   background-color: transparent;
   color: var(--ion-color-primary);
 
-  &.delete-patient {
+  &.cancel-button {
     cursor: pointer;
-    --border-color: red;
-    --background: red;
-    --background-hover: red;
+    --border-color: #d1d1d1;
+    --background: #d1d1d1;
+    --background-hover: #d1d1d1;
     --background-activated: transparent;
     --color-activated: white;
     --color-focused: white;
