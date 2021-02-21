@@ -6,9 +6,6 @@
           <h1>Hello {{ user.userFirstName }}</h1>
 
           <div class="team-messages">
-            <h2>
-              {{ teamMessage.teamMessageSubject }}
-            </h2>
             <div class="team-message">
               {{ teamMessage.teamMessageContent }}
             </div>
@@ -32,7 +29,11 @@
       </ion-col>
       <ion-col class="confetti-box"></ion-col>
     </ion-row>
-    <ion-row></ion-row>
+    <ion-row>
+      <ion-col class="patient-pipeline"></ion-col>
+      <ion-col class="red-data-box"></ion-col>
+      <ion-col class="green-data-box"></ion-col>
+    </ion-row>
   </ion-grid>
   <div class="everybody-is-callout">
     <img src="/assets/everybody-graphic@2x.png" alt="" />

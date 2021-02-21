@@ -13,7 +13,6 @@ export class HomeComponent implements OnInit {
   public teamMessage: any = {
     messageId: 0,
     teamMessageFrom: 'Steph',
-    teamMessageSubject: 'Hey Team!',
     teamMessageContent: 'This is a test message!'
   };
   userMessagesPage: UserMessage;

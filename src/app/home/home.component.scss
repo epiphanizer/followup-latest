@@ -3,102 +3,109 @@
   margin-left: 295px;
   margin-right: 295px;
   width: calc(100% - 490px);
-  ion-col {
-    height: 350px;
-    display: block;
-    float: left;
-    &.left-box {
-      width: 50%;
-    }
-    &.post-it-box {
-      text-align: center;
-      width: 25%;
-    }
-    &.confetti-box {
-      width: 25%;
-      background-image: url("/assets/confetti@2x.png");
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-  }
-  h1 {
-    font-family: AvenirPro;
-    font-size: 45px;
-    font-weight: 300;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.11;
-    letter-spacing: 0.45px;
-    text-align: left;
-    color: #343638;
-    margin-bottom: 51px;
-    margin-top: 0;
-  }
 
-  h2 {
-    font-family: AvenirPro;
-    font-size: 26px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.08;
-    letter-spacing: normal;
-    text-align: left;
-    color: #00b4b9;
-  }
-
-  .team-messages {
-    margin-bottom: 72px;
-
-    .team-message {
-      font-family: AvenirPro;
-      font-size: 15px;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.6;
-      letter-spacing: normal;
-      text-align: left;
-      color: #222222;
-    }
-  }
   ion-row {
     width: 100%;
     display: block;
-  }
-  .confetti-box {
-    width: 350px;
-    background-repeat: none;
-    background-size: cover;
-    background-image: url("/assets/confetti@2x.png");
-    background-repeat: no-repeat;
-  }
-  .posted-notes {
-    margin-left: -12px;
-  }
-  .user-messages {
-    width: 100%;
-    height: auto;
-    display: block;
-    padding-left: 0;
-    list-style-type: none;
-    margin: 0;
-    margin-bottom: 0.75rem;
+    height: 350px;
 
-    .user-message-note {
-      height: 318px;
-      width: 100%;
+    ion-col {
+      height: 350px;
       display: block;
-      background-repeat: no-repeat;
-      background-size: 100%;
-      background-image: url("/assets/sticky-note@2x.png");
-      font-family: AvenirProMediumItalic;
-      font-size: 15px;
+      float: left;
 
-      .user-message-body {
-        padding: 48px 30px;
+      &.left-box {
+        width: 50%;
       }
+
+      &.post-it-box {
+        text-align: center;
+        width: 23%;
+        margin-right: 2%;
+      }
+
+      &.confetti-box {
+        width: 25%;
+        background-image: url("/assets/confetti@2x.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+    }
+
+    h1 {
+      font-family: AvenirPro;
+      font-size: 45px;
+      font-weight: 300;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.11;
+      letter-spacing: 0.45px;
+      text-align: left;
+      color: #343638;
+      margin-bottom: 51px;
+      margin-top: 1rem;
+    }
+
+    h2 {
+      font-family: AvenirPro;
+      font-size: 26px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.08;
+      letter-spacing: normal;
+      text-align: left;
+      color: #00b4b9;
+    }
+
+    .team-messages {
+      margin-bottom: 72px;
+
+      .team-message {
+        font-family: AvenirPro;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.6;
+        letter-spacing: normal;
+        text-align: left;
+        color: #222222;
+      }
+    }
+
+    .user-messages {
+      width: 100%;
+      height: auto;
+      display: block;
+      padding-left: 0;
+      list-style-type: none;
+      margin: 0;
+      margin-bottom: 0.75rem;
+
+      .user-message-note {
+        height: 318px;
+        width: 100%;
+        display: block;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-image: url("/assets/sticky-note@2x.png");
+        font-family: AvenirProMediumItalic;
+        font-size: 15px;
+
+        .user-message-body {
+          padding: 48px 30px;
+        }
+      }
+    }
+
+    .confetti-box {
+      width: 350px;
+      background-repeat: none;
+      background-size: cover;
+      background-image: url("/assets/confetti@2x.png");
+      background-repeat: no-repeat;
     }
   }
 
