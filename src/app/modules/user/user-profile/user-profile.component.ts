@@ -124,6 +124,7 @@ export class UserProfileComponent implements OnInit {
           this.user.userCountryCode = formSubmission.userPhoneCountryCode;
           this.user.userAreaCode = formSubmission.userPhoneAreaCode;
           this.user.userPhoneNumber = formSubmission.userPhoneNumber;
+          this.user.userDob = formSubmission.userDob;
           this.user.userSpeaksSpanish = formSubmission.userSpeaksSpanish;
           this.user.userFavoriteDessert = formSubmission.userFavoriteDessert;
           this.user.userInterests = JSON.stringify(formSubmission.userInterests);
