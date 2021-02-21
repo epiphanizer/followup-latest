@@ -96,9 +96,12 @@ button {
   margin: 0 auto;
   width: 104px;
   height: 43px;
-  background: url("/assets/button-login@2x.png");
+  background-image: url("/assets/button-login@2x.png");
   background-size: 100%;
   background-repeat: no-repeat;
+  --background-hover: #019ca2;
+  --background-activated: #019ca2;
+  --border-activated: 1px solid #009999;
 }
 
 .login-container {

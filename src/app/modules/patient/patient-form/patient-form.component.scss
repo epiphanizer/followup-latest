@@ -384,16 +384,8 @@ form {
     background-image: url("/assets/icon-discharge-calendar@2x.png");
   }
 
-  i.icon-questions {
-    background-image: url("/assets/icon-questions@2x.png");
-  }
-
   i.icon-medical-condition {
     background-image: url("/assets/icon-medical-condition@2x.png");
-  }
-
-  i.icon-question {
-    background-image: url("/assets/icon-question@2x.png");
   }
 
   .section-header {
@@ -842,6 +834,14 @@ fieldset.patient-intake-questions {
     margin-left: 0;
   }
 
+  i.icon-questions {
+    background-image: url("/assets/icon-questions@2x.png");
+  }
+
+  i.icon-info {
+    background-image: url("/assets/icon-info@2x.png");
+  }
+
   .section-header {
     width: 100%;
     margin-bottom: 0.75rem;
@@ -877,164 +877,147 @@ fieldset.patient-intake-questions {
     letter-spacing: 0.42px;
     text-align: left;
 
-    ion-list {
-      margin-left: 0.5rem;
-    }
-  }
+    ion-radio {
+      margin-right: 4px;
+      --background-hover: transparent;
+      --color: transparent;
+      --color-checked: transparent;
+      border: 0;
+      width: 34px !important;
+      height: 32px !important;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
 
-  ion-label {
-    font-size: 16px;
-    line-height: 26px;
-    font-family: Avenir;
-    display: inline-block;
-    margin-right: 0.5rem;
-  }
+      &.rating-button-1 {
+        background-image: url("/assets/rating-button-1@2x.png");
 
-  ion-radio-group {
-    ion-item {
-      display: inline-block;
+        &:active,
+        &.radio-checked {
+          background-image: url("/assets/rating-button-1-select@2x.png");
+        }
+      }
+
+      &.rating-button-2 {
+        background-image: url("/assets/rating-button-2@2x.png");
+
+        &:active,
+        &.radio-checked {
+          background-image: url("/assets/rating-button-2-select@2x.png");
+        }
+      }
+
+      &.rating-button-3 {
+        background-image: url("/assets/rating-button-3@2x.png");
+
+        &:active,
+        &.radio-checked {
+          background-image: url("/assets/rating-button-3-select@2x.png");
+        }
+      }
+
+      &.rating-button-4 {
+        background-image: url("/assets/rating-button-4@2x.png");
+
+        &:active,
+        &.radio-checked {
+          background-image: url("/assets/rating-button-4-select@2x.png");
+        }
+      }
+
+      &.rating-button-5 {
+        background-image: url("/assets/rating-button-5@2x.png");
+
+        &:active,
+        &.radio-checked {
+          background-image: url("/assets/rating-button-5-select@2x.png");
+        }
+      }
+
+      &.rating-button-6 {
+        background-image: url("/assets/rating-button-6@2x.png");
+
+        &:active,
+        &.radio-checked {
+          background-image: url("/assets/rating-button-6-select@2x.png");
+        }
+      }
+
+      &.rating-button-7 {
+        background-image: url("/assets/rating-button-7@2x.png");
+
+        &:active,
+        &.radio-checked {
+          background-image: url("/assets/rating-button-7-select@2x.png");
+        }
+      }
+
+      &.rating-button-8 {
+        background-image: url("/assets/rating-button-8@2x.png");
+
+        &:active,
+        &.radio-checked {
+          background-image: url("/assets/rating-button-8-select@2x.png");
+        }
+      }
+
+      &.rating-button-9 {
+        background-image: url("/assets/rating-button-9@2x.png");
+
+        &:active,
+        &.radio-checked {
+          background-image: url("/assets/rating-button-9-select@2x.png");
+        }
+      }
+
+      &.rating-button-10 {
+        background-image: url("/assets/rating-button-10@2x.png");
+
+        &:active,
+        &.radio-checked {
+          background-image: url("/assets/rating-button-10-select@2x.png");
+        }
+      }
     }
 
     ion-label {
       font-size: 16px;
-      line-height: 31px;
-      position: absolute;
-      top: 15px;
-      left: 3px;
-      width: 100%;
-      text-align: center;
+      line-height: 26px;
       font-family: Avenir;
       display: inline-block;
-      margin: 0 auto;
+      margin-right: 0.5rem;
     }
-
-    ion-radio {
-      display: inline-block;
-      width: 100%;
-      text-align: center;
-    }
-  }
-
-  .call-question-answers {
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-      padding-top: 18px;
-    }
-  }
-
-  ion-item.rating {
-    width: 100%;
 
     ion-radio-group {
       ion-item {
-        --inner-padding-start: 0;
-        --inner-padding-end: 0;
-        margin-right: 10px;
-        width: auto !important;
         display: inline-block;
       }
 
+      ion-label {
+        font-size: 16px;
+        line-height: 31px;
+        position: absolute;
+        top: 15px;
+        left: 3px;
+        width: 100%;
+        text-align: center;
+        font-family: Avenir;
+        display: inline-block;
+        margin: 0 auto;
+      }
+
       ion-radio {
-        border-radius: 3px;
-        margin-right: 2px;
-        --color: transparent;
-        --color-checked: transparent;
-        border: 0;
-        width: 34px !important;
-        height: 32px !important;
-        background-size: cover;
-        background-repeat: no-repeat;
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+      }
+    }
 
-        &.rating-button-1 {
-          background-image: url("/assets/rating-button-1@2x.png");
-
-          &:active,
-          &.radio-checked {
-            background-image: url("/assets/rating-button-1-select@2x.png");
-          }
-        }
-
-        &.rating-button-2 {
-          background-image: url("/assets/rating-button-2@2x.png");
-
-          &:active,
-          &.radio-checked {
-            background-image: url("/assets/rating-button-2-select@2x.png");
-          }
-        }
-
-        &.rating-button-3 {
-          background-image: url("/assets/rating-button-3@2x.png");
-
-          &:active,
-          &.radio-checked {
-            background-image: url("/assets/rating-button-3-select@2x.png");
-          }
-        }
-
-        &.rating-button-4 {
-          background-image: url("/assets/rating-button-4@2x.png");
-
-          &:active,
-          &.radio-checked {
-            background-image: url("/assets/rating-button-4-select@2x.png");
-          }
-        }
-
-        &.rating-button-5 {
-          background-image: url("/assets/rating-button-5@2x.png");
-
-          &:active,
-          &.radio-checked {
-            background-image: url("/assets/rating-button-5-select@2x.png");
-          }
-        }
-
-        &.rating-button-6 {
-          background-image: url("/assets/rating-button-6@2x.png");
-
-          &:active,
-          &.radio-checked {
-            background-image: url("/assets/rating-button-6-select@2x.png");
-          }
-        }
-
-        &.rating-button-7 {
-          background-image: url("/assets/rating-button-7@2x.png");
-
-          &:active,
-          &.radio-checked {
-            background-image: url("/assets/rating-button-7-select@2x.png");
-          }
-        }
-
-        &.rating-button-8 {
-          background-image: url("/assets/rating-button-8@2x.png");
-
-          &:active,
-          &.radio-checked {
-            background-image: url("/assets/rating-button-8-select@2x.png");
-          }
-        }
-
-        &.rating-button-9 {
-          background-image: url("/assets/rating-button-9@2x.png");
-
-          &:active,
-          &.radio-checked {
-            background-image: url("/assets/rating-button-9-select@2x.png");
-          }
-        }
-
-        &.rating-button-10 {
-          background-image: url("/assets/rating-button-10@2x.png");
-
-          &:active,
-          &.radio-checked {
-            background-image: url("/assets/rating-button-10-select@2x.png");
-          }
-        }
+    .call-question-answers {
+      ul {
+        list-style-type: none;
+        padding-left: 0;
+        padding-top: 18px;
       }
     }
   }
@@ -1063,43 +1046,6 @@ fieldset.patient-intake-questions {
   }
 }
 
-.urgency-rating-list {
-  margin-left: 0px;
-  margin-top: -30px;
-
-  i {
-    margin-right: 12px;
-  }
-
-  ion-item {
-    display: inline-block;
-
-    ion-radio-group {
-      margin-top: 18px;
-
-      ion-item {
-        ion-radio {
-          display: inline-block;
-          margin-right: 7px;
-        }
-
-        ion-label {
-          min-width: min-content;
-          font-family: Avenir;
-          font-size: 14px;
-          margin-left: 8px;
-          margin-top: -12px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          letter-spacing: 0.42px;
-          text-align: left;
-        }
-      }
-    }
-  }
-}
-
 .need-to-know-list {
   margin-left: 2rem;
 
@@ -1113,8 +1059,6 @@ fieldset.patient-intake-questions {
   height: auto;
   overflow: hidden;
   float: right;
-  font-size: 14px;
-  font-family: Avenir;
 
   ion-checkbox,
   ion-label {
@@ -1123,44 +1067,60 @@ fieldset.patient-intake-questions {
   }
 
   ion-label {
-    font-size: 11px;
+    margin-top: 0;
+    font-family: AvenirPro;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.87;
+    letter-spacing: normal;
+    text-align: left;
+    color: #222222;
   }
 }
 
-ion-button {
-  border-radius: 4px;
-  background-color: transparent;
-  color: var(--ion-color-primary);
+.form-button-controls {
+  display: block;
+  width: 100%;
+  text-align: right;
 
-  &.cancel-button {
-    cursor: pointer;
-    --border-color: #d1d1d1;
-    --background: #d1d1d1;
-    --background-hover: #d1d1d1;
-    --background-activated: transparent;
-    --color-activated: white;
-    --color-focused: white;
-    --color-hover: white;
-    color: white;
+  ion-button {
+    border-radius: 4px;
+    background-color: transparent;
+    color: var(--ion-color-primary);
+
+    &.cancel-button {
+      display: inline-block;
+      cursor: pointer;
+      --background: #d1d1d1;
+      --background-hover: #bebebe;
+      --background-activated: #bebebe;
+      --border-activated: 1px solid #a2a2a2;
+      color: white;
+      width: auto;
+      border-radius: 7px;
+    }
+
+    &.save-button {
+      display: inline-block;
+      color: white;
+      --background-hover: #019ca2;
+      --background-activated: #019ca2;
+      --border-activated: 1px solid #009999;
+    }
+
     width: auto;
-    border-radius: 7px;
+    height: 35px;
+    font-family: AvenirBold;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 28px;
+    vertical-align: middle;
+    letter-spacing: 0.3px;
+    text-align: center;
+    text-transform: uppercase;
   }
-
-  &.save-button {
-    color: white;
-    float: right;
-  }
-
-  width: auto;
-  height: 35px;
-  font-family: AvenirBold;
-  font-size: 15px;
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 28px;
-  vertical-align: middle;
-  letter-spacing: 0.3px;
-  text-align: center;
-  text-transform: uppercase;
 }

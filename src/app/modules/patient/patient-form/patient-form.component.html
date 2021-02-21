@@ -353,15 +353,12 @@
             <ion-label color="medium">Active?</ion-label>
           </ion-item>
         </ion-list>
-        <ion-button
-          class="ion-float-right"
-          *ngIf="mode.edit"
-          class="cancel-button"
-          (click)="deletePatient(patient.patientId)"
-        >
-          Cancel
-        </ion-button>
-        <ion-button class="save-button ion-float-right" (click)="onFormSubmit()">Save</ion-button>
+        <div class="form-button-controls">
+          <ion-button *ngIf="mode.edit" class="cancel-button" (click)="deletePatient(patient.patientId)">
+            Cancel
+          </ion-button>
+          <ion-button class="save-button" (click)="onFormSubmit()">Save</ion-button>
+        </div>
       </form>
     </ion-col>
     <ion-col class="avatar-col">
