@@ -1,30 +1,39 @@
 <div class="user-dashboard">
-  <div class="message-container">
-    <h1>Hello {{ user.userFirstName }}</h1>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="left-box">
+        <div class="message-container">
+          <h1>Hello {{ user.userFirstName }}</h1>
 
-    <div class="team-messages">
-      <h2>
-        {{ teamMessage.teamMessageSubject }}
-      </h2>
-      <div class="team-message">
-        {{ teamMessage.teamMessageContent }}
-      </div>
-    </div>
-
-    <div class="posted-notes">
-      <ul class="user-messages">
-        <li class="user-message-note" *ngFor="let message of user.userMessages">
-          <div class="user-message-body">
-            <p class="user-message">
-              {{ message.messageBody }}
-            </p>
-            <span class="from-sender">-{{ message.messageSenderFirstName }}</span>
+          <div class="team-messages">
+            <h2>
+              {{ teamMessage.teamMessageSubject }}
+            </h2>
+            <div class="team-message">
+              {{ teamMessage.teamMessageContent }}
+            </div>
           </div>
-        </li>
-      </ul>
-      <jw-pagination *ngIf="user.userMessages" [items]="user.userMessages" [pageSize]="3"></jw-pagination>
-    </div>
-  </div>
+        </div>
+      </ion-col>
+      <ion-col class="post-it-box">
+        <div class="posted-notes">
+          <ul class="user-messages">
+            <li class="user-message-note" *ngFor="let message of userMessagesPage">
+              <div class="user-message-body">
+                <p class="user-message">
+                  {{ message.messageBody }}
+                </p>
+                <span class="from-sender">-{{ message.messageSenderFirstName }}</span>
+              </div>
+            </li>
+          </ul>
+          <jw-pagination *ngIf="user.userMessages" [items]="user.userMessages" [pageSize]="1"></jw-pagination>
+        </div>
+      </ion-col>
+      <ion-col class="confetti-box"></ion-col>
+    </ion-row>
+    <ion-row></ion-row>
+  </ion-grid>
   <div class="everybody-is-callout">
     <img src="/assets/everybody-graphic@2x.png" alt="" />
   </div>

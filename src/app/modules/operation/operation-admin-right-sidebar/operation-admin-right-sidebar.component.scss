@@ -1,6 +1,7 @@
 .sidebar {
   fieldset {
     border: none;
+    padding-top: 1rem;
   }
 
   width: 215px;
@@ -26,7 +27,9 @@
     background-size: cover;
   }
 }
-
+ion-list {
+  text-align: right;
+}
 .operation-callrep,
 .operation-manager {
   width: 100%;
@@ -134,4 +137,18 @@ ion-item.sidebar-listing {
   text-decoration: none;
   width: 100%;
   text-align: right;
+}
+
+.assigned-callrep-list,
+.assigned-manager-list {
+  display: none;
+
+  margin: 0;
+  &.show {
+    display: block;
+  }
+}
+
+.controls {
+  margin-top: 2rem;
 }

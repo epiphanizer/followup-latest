@@ -57,12 +57,14 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   @Input() mode: any;
 
   activeOperationId: number;
+  managerSidebarDropdownOpen: boolean = true;
+  callRepSidebarDropdownOpen: boolean = true;
   operation: Operation | null;
   isOpen: boolean = true;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
   operationAssignedUsers: any[];
-  operationAssignedManagers: OperationManager[];
+  operationAssignedManagers: any[];
   user: User;
   todaysDateDay: number;
   ngOnInit() {
@@ -89,8 +91,12 @@ export class OperationAdminRightSidebarComponent implements OnInit {
           if (users) {
             this.operationAssignedUsers = users;
           } else {
-            for (var i = 0; i < 3; i++) {
-              this.operationAssignedUsers.push({});
+            if (!this.mode.edit) {
+              this.callRepSidebarDropdownOpen = false;
+            } else {
+              for (var i = 0; i < 3; i++) {
+                this.operationAssignedUsers.push({});
+              }
             }
           }
         })
@@ -103,12 +109,25 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       .pipe(
         take(1),
         map((managers: OperationManager[]) => {
-          this.operationAssignedManagers = managers;
+          if (managers) {
+            this.operationAssignedManagers = managers;
+          } else {
+            if (!this.mode.edit) {
+              this.managerSidebarDropdownOpen = false;
+            } else {
+              for (var i = 0; i < 1; i++) {
+                this.operationAssignedManagers.push({});
+              }
+            }
+          }
         })
       )
       .subscribe();
   }
-  public toggleOperationUsersAssignedMenu = function() {
-    this.isOpen = !this.isOpen;
+  public toggleOperationManagersAssignedMenu = function() {
+    this.managerSidebarDropdownOpen = !this.managerSidebarDropdownOpen;
+  };
+  public toggleOperationCallRepsAssignedMenu = function() {
+    this.callRepSidebarDropdownOpen = !this.callRepSidebarDropdownOpen;
   };
 }

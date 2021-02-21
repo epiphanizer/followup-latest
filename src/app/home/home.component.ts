@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '@app/modules/user/user';
+import { User, UserMessage } from '@app/modules/user/user';
 import { TeamMessage } from '@app/modules/team/team';
 
 @Component({
@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
     teamMessageSubject: 'Hey Team!',
     teamMessageContent: 'This is a test message!'
   };
+  userMessagesPage: UserMessage;
   public user: User;
   public menu: {}[] = [{}];
   constructor(private route: ActivatedRoute, private router: Router) {}
@@ -51,5 +52,6 @@ export class HomeComponent implements OnInit {
         messageAcknowledgedDate: null
       }
     ];
+    this.userMessagesPage = this.user.userMessages[0];
   }
 }

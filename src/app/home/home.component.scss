@@ -15,6 +15,7 @@
     text-align: left;
     color: #343638;
     margin-bottom: 51px;
+    margin-top: 0;
   }
 
   h2 {
@@ -44,7 +45,17 @@
       color: #222222;
     }
   }
-
+  ion-row {
+    width: 100%;
+    display: block;
+  }
+  .confetti-box {
+    width: 350px;
+    background-repeat: none;
+    background-size: cover;
+    background-image: url("/assets/confetti@2x.png");
+    background-repeat: no-repeat;
+  }
   .posted-notes {
     margin-left: -12px;
   }
