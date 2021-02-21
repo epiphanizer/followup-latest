@@ -10,12 +10,13 @@ export class DataService {
   constructor(private http: HttpService) {}
 
   public getData(): Observable<Blob> {
-    return this.http.get<Blob>('data', { responseType: 'blob' as 'json' }).pipe(
-      share(),
-      catchError(error => this.handleAsyncError(error))
-    );
+    return this.http
+      .get<Blob>('data', { responseType: 'blob' as 'json' })
+      .pipe(
+        share(),
+        catchError(error => this.handleAsyncError(error))
+      );
   }
-
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

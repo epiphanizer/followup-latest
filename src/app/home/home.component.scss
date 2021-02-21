@@ -1,6 +1,6 @@
 .user-dashboard {
-  margin-top: 85px;
-  margin-left: 295px;
+  margin-top: 50px;
+  margin-left: 110px;
   margin-right: 295px;
   width: calc(100% - 490px);
 
@@ -8,6 +8,7 @@
     width: 100%;
     display: block;
     height: 350px;
+    margin-bottom: 20px;
 
     ion-col {
       height: 350px;
@@ -15,17 +16,18 @@
       float: left;
 
       &.left-box {
-        width: 50%;
+        width: 525px;
+        margin-right: 34px;
       }
 
       &.post-it-box {
         text-align: center;
-        width: 23%;
-        margin-right: 2%;
+        width: 315px;
+        margin-right: 34px;
       }
 
       &.confetti-box {
-        width: 25%;
+        width: 325px;
         background-image: url("/assets/confetti@2x.png");
         background-size: cover;
         background-repeat: no-repeat;
@@ -112,6 +114,125 @@
 
   jw-pagination {
     clear: both;
+  }
+
+  .patient-pipeline,
+  .red-data-box,
+  .blue-data-box {
+    display: block;
+    height: 350px;
+    margin-right: 30px;
+  }
+
+  .patient-pipeline {
+    background-color: #f5f5f5;
+    width: 525px;
+    padding: 28.2px 37.5px 32px 28.2px;
+    border-radius: 13.7px;
+
+    .pipeline-title {
+      display: block;
+      text-transform: uppercase;
+      font-family: AvenirBold;
+      font-size: 16px;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 0.81;
+      letter-spacing: 0.32px;
+      text-align: left;
+      color: #222222;
+    }
+
+    .metric-list {
+      list-style-type: none;
+      padding-left: 0;
+
+      .metric {
+        width: 100%;
+        margin-top: 21px;
+
+        .label-container {
+          width: 100%;
+          display: block;
+          height: 20px;
+
+          .metric-label {
+            float: left;
+            font-family: AvenirDemi;
+            font-size: 15px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.2;
+            letter-spacing: normal;
+            text-align: left;
+            color: #222222;
+          }
+
+          .metric-description {
+            float: right;
+            font-family: AvenirDemi;
+            font-size: 15px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.2;
+            letter-spacing: normal;
+            text-align: right;
+            color: #8e8e93;
+          }
+        }
+
+        .progress-bar {
+          display: block;
+          width: 100%;
+          height: 30px;
+          margin: 0.5px 0 0.5px 0.5px;
+          border: solid 1px #ffffff;
+          background-color: #ffffff;
+          .start-metric,
+          .finish-metric {
+            font-size: 23px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.2;
+            letter-spacing: 0.47px;
+            text-align: left;
+            color: #ffffff;
+            vertical-align: bottom;
+            height: 30px;
+            line-height: 30px;
+          }
+          .start-metric {
+            float: left;
+            margin-left: 13px;
+            color: black;
+          }
+          .finish-metric {
+            float: right;
+            color: black;
+            margin-right: 11px;
+          }
+        }
+      }
+    }
+  }
+
+  .red-data-box {
+    width: 327px;
+    background-size: 100%;
+    background-image: url("/assets/red-data-box@2x.png");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .blue-data-box {
+    width: 327px;
+    background-size: 100%;
+    background-image: url("/assets/blue-data-box@2x.png");
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   .everybody-is-callout {

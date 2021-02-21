@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, share } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UserPutObject, User, UserLanguage } from './user';
 
@@ -37,6 +37,21 @@ export class UserService {
     return this.http.get<User>('users/' + userId).pipe(
       retry(3),
       catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+
+  public getUserCalls(user: User): Observable<any> {
+    var userId = user.userId;
+    return this.http.get<Blob>('users/' + userId + '/calls').pipe(
+      share(),
+      catchError(error => this.handleAsyncError(error))
+    );
+  }
+  public getUserNotifications(user: User): Observable<any> {
+    var userId = user.userId;
+    return this.http.get<Blob>('users/' + userId + '/notifications').pipe(
+      share(),
+      catchError(error => this.handleAsyncError(error))
     );
   }
   getUserLanguagesByUserId(userId: number) {

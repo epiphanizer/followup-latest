@@ -2,23 +2,46 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User, UserMessage } from '@app/modules/user/user';
 import { TeamMessage } from '@app/modules/team/team';
+import { UserService } from '@app/modules/user/user.service';
 
 @Component({
-  providers: [],
+  providers: [UserService],
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  todaysCallsProgress: number;
+  weeklyCallsProgress: number;
+  callsMadeProgress: number;
+  notificationsProgress: number;
+  todaysCalls: any = {
+    todaysCalls: 0,
+    queueCalls: 0
+  };
+  weeklyCalls: any = {
+    weeklyCalls: 0,
+    queueCalls: 0
+  };
+  callsMade: any = {
+    callsMade: 0,
+    totalCalls: 0
+  };
+  notificationsSent: any = {
+    notificationsSent: 0,
+    totalNotificationsSent: 0
+  };
+
   public teamMessage: any = {
     messageId: 0,
     teamMessageFrom: 'Steph',
-    teamMessageContent: 'This is a test message!'
+    teamMessageContent:
+      'Good Morning Team! Don’t forget this Friday is…Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci.'
   };
   userMessagesPage: UserMessage;
   public user: User;
   public menu: {}[] = [{}];
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router, private userService: UserService) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
@@ -52,5 +75,14 @@ export class HomeComponent implements OnInit {
       }
     ];
     this.userMessagesPage = this.user.userMessages[0];
+    /**
+     * Data dashboard calls
+     */
+    this.userService.getUserCalls(this.user).subscribe((data: any) => {
+      console.log(data);
+    });
+    this.userService.getUserNotifications(this.user).subscribe((data: any) => {
+      console.log(data);
+    });
   }
 }
