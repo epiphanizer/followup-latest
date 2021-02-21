@@ -1,16 +1,27 @@
-ion-content,
-ion-grid,
-ion-row {
+ion-content {
   --background: transparent;
   height: 100vh;
 }
+ion-list {
+  background: transparent;
+  margin: 0;
+}
 ion-item {
+  background: transparent;
   --inner-padding-start: 0;
   --inner-padding-end: 0;
+  --background: transparent;
+  &.password {
+    width: 190px;
+    display: inline-block;
+  }
+  &.login-button {
+    display: inline-block;
+  }
 }
 .login-header,
 .login-background {
-  background-color: var(--ion-color-primary);
+  background-color: #ffcc00;
 }
 
 .login-background {
@@ -21,72 +32,46 @@ ion-item {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url("/assets/background.jpg");
-  background-size: cover;
+  background-image: url("/assets/background@2x.png");
+  background-size: 75%;
   background-repeat: no-repeat;
+  background-position: bottom left;
 }
 #login-form {
   display: block;
-  width: 401px;
-  height: 424px;
+  width: 331px;
+  height: auto;
   margin: 0 auto;
-  background-image: url("/assets/container@2x.png");
+  margin-left: 196px;
+  margin-top: 30vh;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100%;
   padding-top: 37px;
   .toolbar-logo {
     display: block;
-    height: 61px;
+    height: 44px;
     width: 183px;
-    margin: 14px auto;
-    background-image: url("/assets/logo@2x.png");
+    margin: 0px 20px;
+    background-image: url("/assets/logo-white@2x.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
   }
 
-  ion-list {
-    background: none;
-    width: 307px;
-    overflow: hidden;
-    margin: 22px auto;
-    ion-item {
-      margin: 0 auto;
-      width: 304px;
-      height: auto;
-      display: block;
-      :host {
-        border: 0 !important;
-      }
-    }
-  }
-  ion-label {
-    width: 100%;
-    object-fit: contain;
-    font-family: Avenir;
-    font-size: 10.8px;
-    font-weight: 300;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.2;
-    letter-spacing: 0.43px;
-    text-align: left;
-    color: #969696;
-  }
   ion-input {
     --padding-start: 8px;
     font-family: Avenir;
     font-size: 14px;
+    height: 34px;
+    &.username {
+      width: 305px;
+    }
+    &.password {
+      width: 190px;
+    }
     input.native-input {
       --inner-padding-end: 0px !important;
     }
-    background: none;
-    margin: 16px auto 0;
-    display: block;
-    width: 100%;
-    height: 39px;
-    object-fit: contain;
-    opacity: 0.5;
     border: solid 0.9px rgba(112, 112, 112, 0.34);
     background-image: linear-gradient(190deg, #fafbfb 14%, #e6e7e8 75%);
   }
@@ -96,39 +81,26 @@ ion-item {
     text-align: center;
   }
 }
-
-ion-button {
-  cursor: pointer;
-  margin: 0 auto;
-  width: 134px;
-  height: 35.9px;
-  &:hover {
-    background: var(--ion-main-button-color-hover) !important;
+ion-item {
+  &.login-button {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 3px;
+    --padding-start: 0;
+    width: auto;
+    height: 43px;
   }
 }
+button {
+  cursor: pointer;
+  margin: 0 auto;
+  width: 104px;
+  height: 43px;
+  background: url("/assets/button-login@2x.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
 
-.forgot-password,
-.welcome-back {
-  object-fit: contain;
-  font-family: Avenir;
-  font-size: 10.8px;
-  font-weight: 300;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.2;
-  letter-spacing: 0.43px;
-  text-align: left;
-  color: #969696;
-  text-decoration: none;
-  text-transform: lowercase;
-  margin-top: 9px;
-}
-.welcome-back {
-  margin: 0 auto;
-  color: var(--ion-color-primary);
-}
 .login-container {
-  max-width: 401px;
-  margin: 0 auto;
   background: none;
 }

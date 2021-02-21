@@ -1,50 +1,32 @@
 <div class="login-background"></div>
 <ion-content no-bounce>
-  <ion-grid class="ion-no-padding">
-    <ion-row class="ion-justify-content-center no-padding">
-      <ion-col size-sm="8" size-lg="6" size-xl="4" class="ion-align-self-center ion-no-padding">
-        <div class="login-container">
-          <form id="login-form" (ngSubmit)="signIn()" [formGroup]="loginForm" novalidate>
-            <div class="toolbar-logo"></div>
-            <ion-list lines="none" inset>
-              <ion-item>
-                <ion-label color="medium" position="floating">Username</ion-label>
-                <ion-input type="text" formControlName="username" autocomplete="username"></ion-input>
-              </ion-item>
-              <ion-text
-                color="danger"
-                [hidden]="loginForm.controls.username.valid || loginForm.controls.username.untouched"
-              >
-                <span class="ion-padding">Valid username is required</span>
-              </ion-text>
-              <ion-item>
-                <ion-label color="medium" position="floating">Password</ion-label>
-                <ion-input
-                  (keydown.enter)="signIn()"
-                  type="password"
-                  formControlName="password"
-                  autocomplete="current-password"
-                ></ion-input>
-              </ion-item>
-              <ion-text
-                color="danger"
-                [hidden]="loginForm.controls.password.valid || loginForm.controls.password.untouched"
-              >
-                <span class="ion-padding" translate>Password is required</span>
-              </ion-text>
-            </ion-list>
-            <div class="login-controls-container ion-padding-horizontal">
-              <ion-button type="submit" [disabled]="loginForm.untouched" (submit)="signIn()" expand="block">
-                Login
-              </ion-button>
-
-              <span href="#" class="welcome-back">
-                [welcome back]
-              </span>
-            </div>
-          </form>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div class="login-container">
+    <form id="login-form" (ngSubmit)="signIn()" [formGroup]="loginForm" novalidate>
+      <div class="toolbar-logo"></div>
+      <ion-list lines="none" inset>
+        <ion-item class="username">
+          <ion-input
+            type="text"
+            class="username"
+            formControlName="username"
+            autocomplete="username"
+            placeholder="Username"
+          ></ion-input>
+        </ion-item>
+        <ion-item class="password">
+          <ion-input
+            class="password"
+            placeholder="Password"
+            (keydown.enter)="signIn()"
+            type="password"
+            formControlName="password"
+            autocomplete="current-password"
+          ></ion-input>
+        </ion-item>
+        <ion-item class="login-button">
+          <button type="submit" [disabled]="loginForm.untouched" (submit)="signIn()"></button>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
 </ion-content>
