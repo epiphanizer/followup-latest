@@ -104,8 +104,7 @@ export class PatientFormComponent implements OnInit {
           // Set some defaults
           this.patient = {
             patientId: patientId,
-            patientDischargeLabelId: 1,
-            patientUrgencyScale: 1
+            patientDischargeLabelId: 1
           };
         }
         this.patient.patientMedicalConditions = {
@@ -148,6 +147,7 @@ export class PatientFormComponent implements OnInit {
             this.patient.patientMedicalConditions.otherBoolean = medicalConditions.otherBoolean;
           }
           this.createForm();
+
           // We need to explicitly set this value we learned from testing.
           this.patientForm
             .get('patient.dischargeInfo.patientDischargedTo')
@@ -253,6 +253,7 @@ export class PatientFormComponent implements OnInit {
         patientPhoneNumber: this.fb.control(this.patient.patientPhoneNumber),
         patientHIPAA: this.fb.control(this.patient.patientHIPAA),
         patientIsResponsibleParty: this.fb.control(this.patient.patientIsResponsibleParty),
+        patientSpeaksEnglish: this.fb.control(this.patient.patientSpeaksEnglish),
         patientFluentLanguage: this.fb.control(this.patient.patientFluentLanguage),
         patientContacts: this.fb.array([]),
         primaryCarePhysician: this.fb.group({
@@ -289,9 +290,6 @@ export class PatientFormComponent implements OnInit {
           Validators.pattern(this.stringMinimumOneWordRegEx)
         ]),
         patientIntakeQuestionAnswers: this.fb.array([]),
-        patientUrgencyScale: this.fb.control(
-          this.patient.patientUrgencyScale !== null ? this.patient.patientUrgencyScale.toString() : null
-        ),
         patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow),
         patientActive: this.fb.control(this.patient.patientActive)
       })
@@ -321,6 +319,7 @@ export class PatientFormComponent implements OnInit {
         patientContactAreaCode: this.fb.control('', Validators.pattern(/^[0-9]\d*$/)),
         patientContactPhoneNumber: this.fb.control(''),
         patientContactOrder: this.fb.control(idx + 1),
+        patientContactHIPAABoolean: this.fb.control(false),
         patientContactResponsiblePartyBoolean: this.fb.control(false)
       })
     );
@@ -546,6 +545,7 @@ export class PatientFormComponent implements OnInit {
 
     const patientMedicalConditions = JSON.stringify(formSubmission.patient.patientMedicalConditions);
     console.log(formSubmission);
+    debugger;
     var payload = {
       patientDob: patientDob,
       patientOperationId: formSubmission.operation,

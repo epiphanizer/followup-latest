@@ -3,15 +3,27 @@
   z-index: 4;
   margin-top: 105px;
   margin-left: 25px;
+
   ion-button {
-    border: none;
-    background-image: url("/assets/patient-call-start-button@2x.png");
-    background-size: 100%;
-    background-position: center center;
-    background-repeat: no-repeat;
+    text-transform: uppercase;
     width: 190px;
     height: 40px;
+    color: var(--ion-color-primary);
+    font-family: AvenirBold;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 28px;
+    vertical-align: middle;
+    letter-spacing: 0.3px;
+    text-align: center;
+    text-transform: uppercase;
     border: none;
+    color: white;
+    --background: #00b4b9;
     --border-style: none;
+    --background-hover: #019ca2;
+    --border-activated: 1px solid #009999;
   }
 }
