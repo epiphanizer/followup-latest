@@ -248,13 +248,17 @@ export class PatientFormComponent implements OnInit {
         }),
         patientDob: this.fb.control(this.patient.patientDob, [Validators.required]),
         patientGender: this.fb.control(this.patient.patientGender),
-        patientCountryCode: this.fb.control(this.patient.patientCountryCode),
+        patientCountryCode: this.fb.control(this.patient.patientCountryCode ? this.patient.patientCountryCode : '1'),
         patientAreaCode: this.fb.control(this.patient.patientAreaCode),
         patientPhoneNumber: this.fb.control(this.patient.patientPhoneNumber),
         patientHIPAA: this.fb.control(this.patient.patientHIPAA),
         patientIsResponsibleParty: this.fb.control(this.patient.patientIsResponsibleParty),
-        patientSpeaksEnglish: this.fb.control(this.patient.patientSpeaksEnglish ? 0 : 1),
-        patientFluentLanguage: this.fb.control(this.patient.patientFluentLanguage),
+        patientSpeaksEnglish: this.fb.control(
+          this.patient.patientSpeaksEnglish ? this.patient.patientSpeaksEnglish : 1
+        ),
+        patientFluentLanguage: this.fb.control(
+          this.patient.patientFluentLanguage ? this.patient.patientFluentLanguage : 'English'
+        ),
         patientContacts: this.fb.array([]),
         primaryCarePhysician: this.fb.group({
           patientPhysicianName: this.fb.control(this.patient.patientPhysicianName),
@@ -546,24 +550,22 @@ export class PatientFormComponent implements OnInit {
       formSubmission.patient.dischargeInfo.patientDischargeDate.substr(0, 10) + 'T12:00:00.00Z';
 
     const patientMedicalConditions = JSON.stringify(formSubmission.patient.patientMedicalConditions);
-    console.log(formSubmission);
-    debugger;
     var payload = {
       patientDob: patientDob,
       patientOperationId: formSubmission.patient.operation,
       patientMedicalRecordNumber: formSubmission.patient.patientMedicalRecordNumber,
       patientFirstName: formSubmission.patient.patientName.patientFirstName,
       patientLastName: formSubmission.patient.patientName.patientLastName,
-      patientCountryCode: formSubmission.patient.patientCountryCode,
+      patientCountryCode: parseInt(formSubmission.patient.patientCountryCode),
       patientAreaCode: formSubmission.patient.patientAreaCode,
-      patientPhoneNumber: formSubmission.patient.patientPhoneNumber,
+      patientPhoneNumber: formSubmission.patient.patientPhoneNumber || '',
       patientGender: formSubmission.patient.patientGender,
-      patientHIPAA: formSubmission.patient.patientHIPAA,
-      patientIsResponsibleParty: formSubmission.patient.patientGender,
-      patientSpeaksEnglish: formSubmission.patient.patientSpeaksEnglish,
+      patientHIPAA: formSubmission.patient.patientHIPAA == true ? 1 : 0,
+      patientIsResponsibleParty: formSubmission.patient.patientIsResponsibleParty == true ? 1 : 0,
+      patientSpeaksEnglish: formSubmission.patient.patientSpeaksEnglish == true ? 1 : 0,
       patientFluentLanguage: formSubmission.patient.patientFluentLanguage,
-      patientPhysicianName: formSubmission.patient.primaryCarePhysician.patientPhysicianName,
-      patientPhysicianPhoneNumber: formSubmission.patient.primaryCarePhysician.patientPhysicianPhoneNumber,
+      patientPhysicianName: formSubmission.patient.primaryCarePhysician.patientPhysicianName || '',
+      patientPhysicianPhoneNumber: formSubmission.patient.primaryCarePhysician.patientPhysicianPhoneNumber || '',
       patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
       patientAdmitDate: patientAdmitDate,
       patientDischargeDate: patientDischargeDate,
