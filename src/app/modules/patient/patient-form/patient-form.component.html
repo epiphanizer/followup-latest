@@ -115,6 +115,15 @@
                   <ng-template #alternateContact>
                     <span class="patient-contact-header">Contact {{ idx + 1 }}</span>
                   </ng-template>
+
+                  <!-- only show removal option if it's past the first index -->
+                  <ion-item
+                    *ngIf="idx > 0"
+                    class="ion-float-right remove-contact-label"
+                    (click)="removeAdditionalPatientContact(idx)"
+                  >
+                    Remove Contact
+                  </ion-item>
                 </div>
                 <ion-item class="first-name">
                   <ion-label color="medium" position="stacked">First Name <span style="color:red">*</span></ion-label>
@@ -152,14 +161,6 @@
                     <ng-container *ngIf="1 == 1">
                       <i class="icon-hipaa"></i>
                     </ng-container>
-                  </ion-item>
-                  <!-- only show removal option if it's past the first index -->
-                  <ion-item
-                    *ngIf="idx > 0"
-                    class="ion-float-right remove-additional-contact"
-                    (click)="removeAdditionalPatientContact(idx)"
-                  >
-                    Remove Contact
                   </ion-item>
                 </div>
               </ion-list>

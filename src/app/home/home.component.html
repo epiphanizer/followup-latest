@@ -18,12 +18,12 @@
       <ion-col class="post-it-box">
         <div class="posted-notes">
           <ul class="user-messages">
-            <li class="user-message-note" *ngFor="let message of userMessagesPage">
+            <li class="user-message-note">
               <div class="user-message-body">
                 <p class="user-message">
-                  {{ message.messageBody }}
+                  {{ userMessagesPage.messageBody }}
                 </p>
-                <span class="from-sender">-{{ message.messageSenderFirstName }}</span>
+                <span class="from-sender">-{{ userMessagesPage.messageSenderFirstName }}</span>
               </div>
             </li>
           </ul>

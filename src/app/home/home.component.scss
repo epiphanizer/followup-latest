@@ -1,9 +1,27 @@
 .user-dashboard {
-  margin-top: 135px;
+  margin-top: 85px;
   margin-left: 295px;
-  max-width: 700px;
-  width: 100%;
-
+  margin-right: 295px;
+  width: calc(100% - 490px);
+  ion-col {
+    height: 350px;
+    display: block;
+    float: left;
+    &.left-box {
+      width: 50%;
+    }
+    &.post-it-box {
+      text-align: center;
+      width: 25%;
+    }
+    &.confetti-box {
+      width: 25%;
+      background-image: url("/assets/confetti@2x.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
   h1 {
     font-family: AvenirPro;
     font-size: 45px;
@@ -65,11 +83,13 @@
     display: block;
     padding-left: 0;
     list-style-type: none;
+    margin: 0;
+    margin-bottom: 0.75rem;
 
     .user-message-note {
-      height: 269px;
-      width: 229px;
-      display: inline-block;
+      height: 318px;
+      width: 100%;
+      display: block;
       background-repeat: no-repeat;
       background-size: 100%;
       background-image: url("/assets/sticky-note@2x.png");
@@ -84,7 +104,6 @@
 
   jw-pagination {
     clear: both;
-    float: right;
   }
 
   .everybody-is-callout {

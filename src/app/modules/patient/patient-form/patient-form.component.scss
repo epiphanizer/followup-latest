@@ -60,6 +60,7 @@ form {
     &.patient-primary-info-list {
       padding-left: 28px;
     }
+
     .fluent-language {
       margin-bottom: 34px;
     }
@@ -76,9 +77,11 @@ form {
     color: #222222;
     margin-bottom: -0.45rem;
   }
+
   ion-select {
     margin-top: 0.8rem;
   }
+
   ion-select,
   ion-select-option,
   ion-datetime {
@@ -181,10 +184,12 @@ form {
 
     &.patient-gender {
       margin-left: 24px;
+
       ion-checkbox {
         height: 14px;
         width: 14px;
       }
+
       ion-label {
         font-family: AvenirPro;
         font-size: 15px;
@@ -197,11 +202,13 @@ form {
         color: #444444;
       }
     }
+
     &.responsible-party {
       ion-label {
         margin-bottom: 0.33rem;
       }
     }
+
     /**
     * All the inline binary questions
     **/
@@ -211,11 +218,13 @@ form {
     &.patient-is-responsible {
       display: inline-block;
       margin-right: 32px;
+
       .patient-gender-male,
       .patient-gender-female {
         display: inline-block;
         margin-right: 32px;
       }
+
       ion-checkbox,
       ion-radio {
         height: 14px;
@@ -336,6 +345,7 @@ form {
   i.icon-discharge-calendar {
     background-image: url("/assets/icon-discharge-calendar@2x.png");
   }
+
   i.icon-questions {
     background-image: url("/assets/icon-questions@2x.png");
   }
@@ -381,6 +391,7 @@ form {
   fieldset.patient-contacts {
     margin-left: 0;
     padding-left: 0;
+
     span.loading-contacts {
       margin-left: 8px;
       width: auto;
@@ -403,8 +414,20 @@ form {
       margin-top: -1px;
     }
 
-    .add-additional-contact,
-    .remove-additional-contact {
+    .remove-contact-label {
+      cursor: pointer;
+      font-family: AvenirDemi;
+      font-size: 15px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 0.86;
+      letter-spacing: 0.15px;
+      text-align: right;
+      color: #ef4627;
+    }
+
+    .add-additional-contact {
       cursor: pointer;
       clear: right;
       font-family: Avenir;
@@ -437,6 +460,7 @@ form {
           text-align: left;
           color: #00b4b9;
         }
+
         &.contact-header {
           margin-left: 10px;
         }
@@ -533,10 +557,12 @@ form {
       }
     }
   }
+
   .patient-physician {
     ion-item {
     }
   }
+
   fieldset.insurance-info {
     margin-left: 0;
   }

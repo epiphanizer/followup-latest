@@ -79,6 +79,7 @@ form {
   .operation-information-view {
     max-width: 340px;
     margin-left: 32px;
+
     ion-item.operation-name {
       text-transform: capitalize;
       font-family: AvenirDemi;
@@ -106,9 +107,11 @@ form {
       color: #444444;
     }
   }
+
   .operation-contacts-view {
     max-width: 340px;
     margin-left: 32px;
+
     ion-item.contact-name,
     ion-item.contact-title {
       font-family: AvenirDemi;
@@ -123,6 +126,7 @@ form {
       text-transform: capitalize;
       height: 32px;
     }
+
     ion-item.contact-address,
     ion-item.contact-phone,
     ion-item.contact-email {
@@ -139,6 +143,7 @@ form {
       height: 32px;
     }
   }
+
   .control {
     font-family: AvenirPro;
     font-size: 15px;
@@ -150,6 +155,7 @@ form {
     text-align: left;
     color: #444444;
   }
+
   .edit-link {
     font-family: AvenirPro;
     font-size: 16px;
@@ -184,9 +190,11 @@ form {
       margin-left: 25px;
     }
   }
+
   ion-item.operation-group {
     clear: both;
   }
+
   ion-input {
     font-family: Avenir;
     font-size: 14px;
@@ -365,6 +373,7 @@ form {
   }
 
   .remove-contact-label {
+    cursor: pointer;
     font-family: AvenirDemi;
     font-size: 15px;
     font-weight: normal;
