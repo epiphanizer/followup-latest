@@ -7,6 +7,7 @@ export interface PatientContact {
   patientContactAreaCode: string;
   patientContactPhoneNumber: string;
   patientContactOrder: string;
+  patientContactHIPAABoolean: boolean;
   patientContactResponsiblePartyBoolean: boolean;
 }
 export interface PatientContactPutBody {
@@ -18,6 +19,7 @@ export interface PatientContactPutBody {
   patientContactAreaCode: string;
   patientContactPhoneNumber: string;
   patientContactOrder: number;
+  patientContactHIPAABoolean: number;
   patientContactResponsiblePartyBoolean: number;
 }
 export interface PatientContactPostBody {

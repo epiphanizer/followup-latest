@@ -246,16 +246,19 @@ export class PatientFormComponent implements OnInit {
         }),
         patientDob: this.fb.control(this.patient.patientDob, [Validators.required]),
         patientGender: this.fb.control(this.patient.patientGender, [Validators.required]),
+        patientCountryCode: this.fb.control(this.patient.patientCountryCode),
+        patientAreaCode: this.fb.control(this.patient.patientAreaCode),
         patientPhoneNumber: this.fb.control(this.patient.patientPhoneNumber),
         patientHIPAA: this.fb.control(this.patient.patientHIPAA),
         patientIsResponsibleParty: this.fb.control(this.patient.patientIsResponsibleParty),
+        patientFluentLanguage: this.fb.control(this.patient.patientFluentLanguage),
         patientContacts: this.fb.array([]),
-        insurance: this.fb.group({
-          primaryInsurance: this.fb.control(this.patient.patientPrimaryInsurance)
-        }),
         primaryCarePhysician: this.fb.group({
           patientPhysicianName: this.fb.control(this.patient.patientPhysicianName),
           patientPhysicianPhoneNumber: this.fb.control(this.patient.patientPhysicianPhoneNumber)
+        }),
+        insurance: this.fb.group({
+          primaryInsurance: this.fb.control(this.patient.patientPrimaryInsurance)
         }),
         dischargeInfo: this.fb.group({
           patientAdmitDate: this.fb.control(this.patient.patientAdmitDate, [Validators.required]),
@@ -548,10 +551,10 @@ export class PatientFormComponent implements OnInit {
       patientHIPAA: formSubmission.patient.patientHIPAA,
       patientIsResponsibleParty: formSubmission.patient.patientGender,
       patientSpeaksEnglish: formSubmission.patient.patientSpeaksEnglish,
+      patientFluentLanguage: formSubmission.patient.patientFluentLanguage,
       patientPhysicianName: formSubmission.patient.primaryCarePhysician.patientPhysicianName,
       patientPhysicianPhoneNumber: formSubmission.patient.primaryCarePhysician.patientPhysicianPhoneNumber,
       patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
-      primaryInsurancePhoneNumber: formSubmission.patient.insurance.primaryInsurancePhoneNumber || '',
       patientCountryCode: formSubmission.patient.patientCountryCode,
       patientAreaCode: formSubmission.patient.patientAreaCode,
       patientPhoneNumber: formSubmission.patient.patientPhoneNumber,

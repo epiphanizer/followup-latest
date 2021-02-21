@@ -44,11 +44,11 @@
             <ion-item class="patient-gender">
               <ion-radio-group class="patient-gender-radio" formControlName="patientGender">
                 <ion-item class="patient-gender-male">
-                  <ion-radio value="male"></ion-radio>
+                  <ion-radio mode="ios" value="male"></ion-radio>
                   <ion-label>Male</ion-label>
                 </ion-item>
                 <ion-item class="patient-gender-female">
-                  <ion-radio value="female"></ion-radio>
+                  <ion-radio mode="ios" value="female"></ion-radio>
                   <ion-label>Female</ion-label>
                 </ion-item>
               </ion-radio-group>
@@ -85,10 +85,10 @@
             </ion-item>
             <ion-item class="fluent-language">
               <ion-label position="stacked">Fluent Language <span style="color:red">*</span></ion-label>
-              <ion-select placeholder="Fluent Language">
-                <ion-select-option selected value="1">English</ion-select-option>
-                <ion-select-option value="2">Spanish</ion-select-option>
-                <ion-select-option value="3">Navajo</ion-select-option>
+              <ion-select formControlname="patientFluentLanguage" placeholder="Fluent Language">
+                <ion-select-option selected value="English">English</ion-select-option>
+                <ion-select-option value="Spanish">Spanish</ion-select-option>
+                <ion-select-option value="Navajo">Navajo</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-list>
@@ -155,8 +155,15 @@
                     <ion-label color="medium" position="stacked">Order</ion-label>
                     <ion-input type="number" formControlName="patientContactOrder" [value]="idx + 1"></ion-input>
                   </ion-item>
+                  <ion-item class="patient-contact-hipaa">
+                    <ion-label color="medium" type="stacked">HIPAA</ion-label>
+                    <ion-checkbox formControlName="patientContactHIPAA"></ion-checkbox>
+                    <ng-container *ngIf="1 == 1">
+                      <i class="icon-hipaa"></i>
+                    </ng-container>
+                  </ion-item>
                   <ion-item class="responsible-party">
-                    <ion-label color="medium" type="stacked">Responsible Party?</ion-label>
+                    <ion-label color="medium" type="stacked">Responsible Party</ion-label>
                     <ion-checkbox formControlName="patientContactResponsiblePartyBoolean"></ion-checkbox>
                     <ng-container *ngIf="1 == 1">
                       <i class="icon-hipaa"></i>
@@ -233,13 +240,13 @@
               <ion-item class="discharged-ama">
                 <ion-radio-group formControlName="patientDischargedAma">
                   <ion-item>
-                    <ion-radio value="1" class="discharged-ama radio-yes"> </ion-radio>
+                    <ion-radio mode="ios" value="1" class="discharged-ama radio-yes"> </ion-radio>
                     <ion-label>
                       Yes
                     </ion-label>
                   </ion-item>
                   <ion-item>
-                    <ion-radio value="0" class="discharged-ama radio-no"> </ion-radio>
+                    <ion-radio mode="ios" value="0" class="discharged-ama radio-no"> </ion-radio>
                     <ion-label>
                       No
                     </ion-label>
@@ -251,7 +258,7 @@
                 <ion-radio-group formControlName="patientDischargedTo">
                   <ion-list inset lines="none">
                     <ion-item *ngFor="let dischargeLabel of dischargeLabels">
-                      <ion-radio value="{{ dischargeLabel.patientDischargeLabelId }}"> </ion-radio>
+                      <ion-radio mode="ios" value="{{ dischargeLabel.patientDischargeLabelId }}"> </ion-radio>
                       <ion-label>
                         {{ dischargeLabel.patientDischargeLabel }}
                       </ion-label>
@@ -321,7 +328,7 @@
                           [value]="1"
                         >
                           <ion-item *ngFor="let rating of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; let idx = index">
-                            <ion-radio value="{{ rating }}">
+                            <ion-radio class="mental-scale" value="{{ rating }}">
                               {{ rating }}
                             </ion-radio>
                             <ion-label position="stacked">
@@ -336,7 +343,7 @@
                       <ion-list lines="none">
                         <ion-radio-group formControlName="{{ patientIntakeQuestion.patientIntakeQuestionId }}">
                           <ion-item class="boolean">
-                            <ion-radio value="1" class="radio-yes">Y</ion-radio>
+                            <ion-radio class="intake-boolean-radio" value="1" class="radio-yes">Y</ion-radio>
                             <ion-label position="stacked">
                               Yes
                             </ion-label>

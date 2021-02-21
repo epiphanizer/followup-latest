@@ -38,6 +38,7 @@ export interface Patient {
   patientHIPAA?: boolean;
   patientSpeaksEnglish?: boolean;
   patientIsResponsibleParty?: boolean;
+  patientFluentLanguage?: string;
   patientLanguages$?: Observable<UserLanguage[]>;
   patientLanguages?: UserLanguage[];
   avatar?: string;
