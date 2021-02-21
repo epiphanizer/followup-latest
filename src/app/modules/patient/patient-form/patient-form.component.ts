@@ -247,13 +247,13 @@ export class PatientFormComponent implements OnInit {
           ])
         }),
         patientDob: this.fb.control(this.patient.patientDob, [Validators.required]),
-        patientGender: this.fb.control(this.patient.patientGender, [Validators.required]),
+        patientGender: this.fb.control(this.patient.patientGender),
         patientCountryCode: this.fb.control(this.patient.patientCountryCode),
         patientAreaCode: this.fb.control(this.patient.patientAreaCode),
         patientPhoneNumber: this.fb.control(this.patient.patientPhoneNumber),
         patientHIPAA: this.fb.control(this.patient.patientHIPAA),
         patientIsResponsibleParty: this.fb.control(this.patient.patientIsResponsibleParty),
-        patientSpeaksEnglish: this.fb.control(this.patient.patientSpeaksEnglish),
+        patientSpeaksEnglish: this.fb.control(this.patient.patientSpeaksEnglish ? 0 : 1),
         patientFluentLanguage: this.fb.control(this.patient.patientFluentLanguage),
         patientContacts: this.fb.array([]),
         primaryCarePhysician: this.fb.group({
@@ -294,6 +294,7 @@ export class PatientFormComponent implements OnInit {
         patientActive: this.fb.control(this.patient.patientActive)
       })
     });
+    console.log(this.patientForm);
   }
 
   addAdditionalPatientContact() {
@@ -522,6 +523,7 @@ export class PatientFormComponent implements OnInit {
         patientContactAreaCode: patientContact.patientContactAreaCode.toString(),
         patientContactPhoneNumber: patientContact.patientContactPhoneNumber.toString(),
         patientContactOrder: parseInt(patientContact.patientContactOrder),
+        patientContactHIPAABoolean: patientContact.patientContactHIPAABoolean == true ? 1 : 0,
         patientContactResponsiblePartyBoolean: patientContact.patientContactResponsiblePartyBoolean == true ? 1 : 0
       };
       return <PatientContactPostBody>payload;
