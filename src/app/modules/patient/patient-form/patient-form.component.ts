@@ -174,6 +174,7 @@ export class PatientFormComponent implements OnInit {
                     patientContactOrder: this.fb.control(patientContact.patientContactOrder, [
                       Validators.pattern(/^[0-9]\d*$/)
                     ]),
+                    patientContactHIPAABoolean: this.fb.control(patientContact.patientContactHIPAABoolean),
                     patientContactResponsiblePartyBoolean: this.fb.control(
                       patientContact.patientContactResponsiblePartyBoolean
                     )
@@ -305,6 +306,7 @@ export class PatientFormComponent implements OnInit {
       patientContactAreaCode: '',
       patientContactPhoneNumber: '',
       patientContactOrder: (this.patientContacts.length + 1).toString(),
+      patientContactHIPAABoolean: false,
       patientContactResponsiblePartyBoolean: false
     });
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
@@ -501,6 +503,7 @@ export class PatientFormComponent implements OnInit {
         patientContactAreaCode: patientContact.patientContactAreaCode.toString(),
         patientContactPhoneNumber: patientContact.patientContactPhoneNumber.toString(),
         patientContactOrder: parseInt(patientContact.patientContactOrder),
+        patientContactHIPAABoolean: patientContact.patientContactHIPAABoolean == true ? 1 : 0,
         patientContactResponsiblePartyBoolean: patientContact.patientContactResponsiblePartyBoolean == true ? 1 : 0
       };
       return <PatientContactPutBody>payload;

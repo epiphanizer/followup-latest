@@ -31,5 +31,6 @@ export interface PatientContactPostBody {
   patientContactAreaCode: string;
   patientContactPhoneNumber: string;
   patientContactOrder: number;
+  patientContactHIPAABoolean: number;
   patientContactResponsiblePartyBoolean: number;
 }
