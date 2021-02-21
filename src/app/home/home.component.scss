@@ -1,13 +1,13 @@
 .user-dashboard {
-  margin-top: 50px;
-  margin-left: 110px;
-  margin-right: 295px;
-  width: calc(100% - 490px);
-
+  width: calc(100% - 110px);
+  margin: 50px auto 0 110px;
+  height: 100%;
   ion-row {
     width: 100%;
     display: block;
-    height: 350px;
+    height: 100%;
+    overflow: hidden;
+    max-height: 350px;
     margin-bottom: 20px;
 
     ion-col {
@@ -16,22 +16,25 @@
       float: left;
 
       &.left-box {
-        width: 525px;
+        max-width: 525px;
+        width: 42.5%;
         margin-right: 34px;
       }
 
       &.post-it-box {
         text-align: center;
-        width: 315px;
+        max-width: 315px;
+        width: 24%;
         margin-right: 34px;
       }
 
       &.confetti-box {
-        width: 325px;
-        background-image: url("/assets/confetti@2x.png");
-        background-size: cover;
+        max-width: 325px;
+        width: 23%;
+        background-image: url(/assets/confetti@2x.png);
+        background-size: 100%;
         background-repeat: no-repeat;
-        background-position: center;
+        background-position: top;
       }
     }
 
@@ -84,8 +87,7 @@
       padding-left: 0;
       list-style-type: none;
       margin: 0;
-      margin-bottom: 0.75rem;
-      text-align: left;
+      text-align: center;
 
       .user-message-note {
         height: 318px;
@@ -96,6 +98,7 @@
         background-image: url("/assets/sticky-note@2x.png");
         font-family: AvenirProMediumItalic;
         font-size: 15px;
+        text-align: left;
 
         .user-message-body {
           padding: 48px 30px;
@@ -126,7 +129,8 @@
 
   .patient-pipeline {
     background-color: #f5f5f5;
-    width: 525px;
+    max-width: 525px;
+    width: 42.5%;
     padding: 28.2px 37.5px 32px 28.2px;
     border-radius: 13.7px;
 
@@ -190,10 +194,22 @@
           margin: 0.5px 0 0.5px 0.5px;
           border: solid 1px #ffffff;
           background-color: #ffffff;
+          &.red {
+            background-color: #ef4627;
+          }
+          &.blue {
+            background-color: #1cb4b9;
+          }
+          &.green {
+            background-color: #9acc38;
+          }
+          &.yellow {
+            background-color: #fecc04;
+          }
           .start-metric,
           .finish-metric {
+            font-family: AvenirBold;
             font-size: 23px;
-            font-weight: bold;
             font-stretch: normal;
             font-style: normal;
             line-height: 1.2;
@@ -202,13 +218,15 @@
             color: #ffffff;
             vertical-align: bottom;
             height: 30px;
-            line-height: 30px;
+            line-height: 35px;
           }
+
           .start-metric {
             float: left;
             margin-left: 13px;
-            color: black;
+            color: white;
           }
+
           .finish-metric {
             float: right;
             color: black;
@@ -220,24 +238,26 @@
   }
 
   .red-data-box {
-    width: 327px;
+    max-width: 327px;
+    width: 23%;
     background-size: 100%;
     background-image: url("/assets/red-data-box@2x.png");
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: top;
   }
 
   .blue-data-box {
-    width: 327px;
+    max-width: 327px;
+    width: 23%;
     background-size: 100%;
     background-image: url("/assets/blue-data-box@2x.png");
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: top;
   }
 
   .everybody-is-callout {
     position: absolute;
-    bottom: 110px;
+    bottom: 100px;
     right: 50px;
     width: 100%;
     text-align: right;

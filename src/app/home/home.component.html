@@ -23,8 +23,8 @@
                 <span class="from-sender">-{{ userMessagesPage.messageSenderFirstName }}</span>
               </div>
             </li>
+            <jw-pagination *ngIf="user.userMessages" [items]="user.userMessages" [pageSize]="1"></jw-pagination>
           </ul>
-          <jw-pagination *ngIf="user.userMessages" [items]="user.userMessages" [pageSize]="1"></jw-pagination>
         </div>
       </ion-col>
       <ion-col class="confetti-box"></ion-col>
@@ -40,7 +40,7 @@
                 Queue
               </span>
             </span>
-            <div class="progress-bar">
+            <div class="red progress-bar">
               <span class="start-metric">9</span>
               <span class="finish-metric">81</span>
             </div>
@@ -52,7 +52,7 @@
                 Queue
               </span>
             </span>
-            <div class="progress-bar">
+            <div class="blue progress-bar">
               <span class="start-metric">9</span>
               <span class="finish-metric">81</span>
             </div>
@@ -64,7 +64,7 @@
                 Total Calls Made
               </span>
             </span>
-            <div class="progress-bar">
+            <div class="green progress-bar">
               <span class="start-metric">96</span>
               <span class="finish-metric">156</span>
             </div>
@@ -76,7 +76,7 @@
                 Total Notifications
               </span>
             </span>
-            <div class="progress-bar">
+            <div class="yellow progress-bar">
               <span class="start-metric">162</span>
               <span class="finish-metric">235</span>
             </div>
