@@ -1,36 +1,29 @@
-<div class="modal-exit-container ">
-  <i (click)="dismiss()" class="icon-close-modal"></i>
-</div>
 <form [formGroup]="followupCompleteForm" novalidate>
-  <ng-container>
-    <ion-title>Follow-up Complete</ion-title>
-    <ion-radio-group formControlName="patientStatusLabelId">
-      <ion-row>
-        <ion-col width-50>
-          <ion-list class="graduation-options" lines="none">
-            <ion-item *ngFor="let patientStatus of completionTypesListLeft">
-              <ion-radio value="{{ patientStatus.patientStatusLabelId }}">
+  <ng-container *ngIf="patient">
+    <ion-row class="graduation-container">
+      <ion-title>Follow-up</ion-title>
+      <img class="ion-float-right graduation-image" src="/assets/complete-graphic@2x.png" />
+    </ion-row>
+    <ion-row>
+      <ion-radio-group formControlName="patientStatusLabelId">
+        <ul class="graduation-options-container" lines="none">
+          <li *ngFor="let patientStatus of completionTypes">
+            <ion-item>
+              <ion-radio mode="ios" value="{{ patientStatus.patientStatusLabelId }}">
                 {{ patientStatus.patientStatusLabelId }}
               </ion-radio>
               <ion-label class="patient-status-label ion-text-wrap">
                 {{ patientStatus.patientStatusLabel }}
               </ion-label>
             </ion-item>
-          </ion-list>
-        </ion-col>
-        <ion-col width-50>
-          <ion-list class="graduation-options" lines="none">
-            <ion-item *ngFor="let patientStatus of completionTypesListRight" class="ion-text-wrap">
-              <ion-radio value="{{ patientStatus.patientStatusLabelId }}"></ion-radio>
-              <ion-label class="patient-status-label ion-text-wrap">
-                {{ patientStatus.patientStatusLabel }}
-              </ion-label>
-            </ion-item>
-          </ion-list>
-        </ion-col>
-      </ion-row>
-    </ion-radio-group>
+          </li>
+        </ul>
+      </ion-radio-group>
+    </ion-row>
     <ion-textarea formControlName="completionNotes" placeholder="Any Notes?"> </ion-textarea>
-    <ion-button class="save-button" type="submit" (click)="archivePatient(patient)">Archive</ion-button>
+    <div class="send-container">
+      <ion-button fill="outline" class="cancel-button" (click)="dismiss()">Cancel</ion-button>
+      <ion-button fill="outline" class="save-button" type="submit" (click)="archivePatient(patient)">Save</ion-button>
+    </div>
   </ng-container>
 </form>

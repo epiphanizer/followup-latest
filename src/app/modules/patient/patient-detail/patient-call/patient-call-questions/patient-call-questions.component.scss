@@ -130,10 +130,11 @@ ion-item.call-question {
   }
 }
 
-.boolean-question {
+ion-item.boolean-question {
   display: inline-block;
   width: 160px;
   vertical-align: middle;
+  --padding-start: 0;
 }
 
 ion-radio-group .item-radio-checked ion-icon {

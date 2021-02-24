@@ -1,9 +1,22 @@
 ion-button {
-  clear: both;
-  margin-top: 0rem;
-  position: relative;
-  float: right;
-  height: 28px;
-  width: 139px;
-  background-image: url("/assets/save-button@2x.png");
+  text-transform: uppercase;
+  width: 190px;
+  height: 40px;
+  color: var(--ion-color-primary);
+  font-family: AvenirBold;
+  font-size: 15px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 28px;
+  vertical-align: middle;
+  letter-spacing: 0.3px;
+  text-align: center;
+  text-transform: uppercase;
+  border: none;
+  color: white;
+  --background: #00b4b9;
+  --border-style: none;
+  --background-hover: #019ca2;
+  --border-activated: 1px solid #009999;
 }

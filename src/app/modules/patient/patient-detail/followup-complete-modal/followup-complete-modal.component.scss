@@ -3,48 +3,51 @@
   max-height: 450px !important;
   width: 645px;
 }
-.modal-exit-container {
-  display: block;
-  max-height: 20px;
-  float: right;
-  position: absolute;
-  right: 10px;
-  top: 10px;
+
+.graduation-container {
+  padding-top: 55px;
+
+  img {
+    width: 281px;
+    margin-right: 38px;
+    height: auto;
+    position: absolute;
+    right: 0;
+    z-index: 5000;
+  }
 }
-.icon-close-modal {
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-  margin-right: 10px;
-  display: block;
-  width: 15px;
-  height: 30px;
-  background: url("/assets/icon-close-modal@2x.png");
-  background-size: 100%;
-}
-ion-col {
-  max-width: 42%;
-}
+
 ion-title {
-  width: 100%;
-  margin-top: 37px;
-  margin-left: 37px;
-  font-family: Avenir;
-  font-size: 30px;
+  font-family: AvenirPro;
+  font-size: 40px;
   font-weight: 300;
-  font-style: normal;
   font-stretch: normal;
-  line-height: 0.93;
-  letter-spacing: 0.6px;
+  margin-left: 40px;
+  font-style: normal;
+  line-height: 1.11;
+  letter-spacing: 0.45px;
   text-align: left;
   color: #343638;
 }
-ion-list {
-  margin-left: 37px;
-  margin-top: 15px;
+.graduation-options-container {
+  list-style-type: none;
+  padding-left: 18px;
+  margin-bottom: 0;
+
+  li {
+    width: 33.333333%;
+    float: left;
+  }
+
   ion-item {
-    margin-top: -14px;
-    height: auto;
+    --padding-start: 0;
+    height: 35px;
+    line-height: 35px;
+    vertical-align: middle;
+
+    ion-radio {
+      margin: 0;
+    }
   }
 }
 ion-radio,
@@ -88,4 +91,28 @@ ion-textarea {
   border-radius: 17px;
   margin-bottom: 2rem;
   font-weight: bold;
+}
+
+.send-container {
+  width: 100%;
+  margin-bottom: 2rem;
+  text-align: right;
+}
+
+.cancel-button {
+  width: 85px;
+  height: 30px;
+  margin-top: 10px;
+  --background: #d1d1d1;
+  --background-hover: #bebebe;
+  --background-activated: #bebebe;
+  --border-activated: 1px solid #a2a2a2;
+}
+
+.save-button {
+  margin-top: 10px;
+  margin-right: 62px;
+  --background: #019ca2;
+  --background-hover: #019ca2;
+  --border-activated: 1px solid #009999;
 }

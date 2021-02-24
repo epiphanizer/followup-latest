@@ -19,27 +19,10 @@ export class FollowupCompleteModalComponent implements OnInit {
   @Input() patient: Patient;
   followupCompleteForm: FormGroup;
   completionTypes: PatientStatus[] = [];
-  completionTypesListLeft: PatientStatus[] = [];
-  completionTypesListRight: PatientStatus[] = [];
-
   ngOnInit() {
     this.createForm();
     this.patientStatusService.getPatientStatusLabels().subscribe((data: PatientStatus[]) => {
       this.completionTypes = data;
-      var i;
-      for (i = 0; i <= this.completionTypes.length; i++) {
-        if (this.completionTypes[i] !== undefined) {
-          this.completionTypesListLeft.push(this.completionTypes[i]);
-          i++;
-          if (i == this.completionTypes.length) {
-            return;
-          }
-          this.completionTypesListRight.push(this.completionTypes[i]);
-          if (i == this.completionTypes.length) {
-            return;
-          }
-        }
-      }
     });
   }
   createForm() {
