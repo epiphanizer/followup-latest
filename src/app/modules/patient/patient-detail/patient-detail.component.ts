@@ -182,7 +182,7 @@ export class PatientDetailComponent implements OnInit {
       return;
     }
 
-    if (!this.patientNextCall.date) {
+    if (!this.patientNextCall.date && !this.patientCall.finalCall) {
       alert('Please add patient next call date');
       return;
     }
