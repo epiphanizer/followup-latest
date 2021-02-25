@@ -52,7 +52,11 @@ export class PostItModalComponent {
     this.teamMessage.teamMessageContent = formData.teamMessageContent;
     this.teamMessageService.sendTeamMessage(this.teamMessage).subscribe((data: any) => {
       let teamMessageId = data.teamMessageId;
-      console.log(teamMessageId);
+      if (teamMessageId) {
+        this.toastr.success('Successfully sent team message');
+      } else {
+        this.toastr.error('Uh oh! Something went wrong! Please try again.');
+      }
       this.dismiss();
     });
   }

@@ -1,20 +1,14 @@
-:root {
-  padding-top: 46px;
-  --height: 301px !important;
-  width: 645px;
-  padding: 75px;
-}
-form {
-  padding: 0 45px 45px 45px;
+.followup-post-it-modal {
+  .modal-wrapper {
+    height: 380px;
+  }
 }
 
-.modal-exit-container {
-  display: block;
-  max-height: 20px;
-  float: right;
-  position: absolute;
-  right: 10px;
-  top: 10px;
+:host {
+}
+
+form {
+  padding: 0 45px 45px 45px;
 }
 
 .team-message-container {
@@ -49,8 +43,7 @@ ion-title {
 
 span {
   display: block;
-  width: 90px;
-  text-align: right;
+  width: 100%;
   font-family: AvenirPro;
   font-size: 15px;
   font-weight: normal;
@@ -58,9 +51,10 @@ span {
   font-style: normal;
   line-height: 1.2;
   letter-spacing: normal;
-  text-align: right;
+  text-align: left;
   color: #222222;
-  margin-bottom: 6px;
+  margin-bottom: 11px;
+  margin-left: 20px;
 }
 
 ion-textarea {

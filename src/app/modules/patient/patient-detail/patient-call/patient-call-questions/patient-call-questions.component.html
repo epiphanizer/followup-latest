@@ -25,12 +25,14 @@
         </div>
       </ion-item>
       <ng-container *ngIf="question.patientQuestionTypeLabel == 'textarea'">
-        <ion-item class="patient-call-question-container call-question">
-          <ion-label position="stacked" class="patient-call-question-label">
+        <div class="custom-question-container">
+          <ion-label class="patient-call-question-label">
             {{ question.patientCallQuestion }}
           </ion-label>
-          <ion-textarea formControlName="{{ question.patientCallQuestionId }}"></ion-textarea>
-        </ion-item>
+          <ion-item class="patient-call-question-container call-question">
+            <ion-textarea formControlName="{{ question.patientCallQuestionId }}"></ion-textarea>
+          </ion-item>
+        </div>
       </ng-container>
     </div>
   </ion-list>

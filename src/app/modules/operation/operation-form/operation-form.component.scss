@@ -471,6 +471,8 @@ form {
       max-height: 37px;
       margin-left: 0;
       margin-right: 35px;
+      --ripple-color: transparent;
+      --background-hover: transparent;
 
       ion-checkbox {
         width: 14px;

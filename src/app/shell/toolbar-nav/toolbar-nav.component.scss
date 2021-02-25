@@ -24,10 +24,12 @@ ion-list {
 
       a {
         cursor: pointer;
+
         &.disabled {
           color: #999;
           cursor: not-allowed;
         }
+
         font-family: AvenirDemi;
         font-size: 18px;
         text-decoration: none;
@@ -47,6 +49,18 @@ ion-list {
           background-size: 100%;
           background-position: center;
           background-repeat: no-repeat;
+
+          &.nav-caret {
+            height: 16px;
+            width: 11px;
+            margin-left: 3px;
+            margin-top: -1px;
+            vertical-align: middle;
+            background-size: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url("/assets/icon-nav-caret@2x.png");
+          }
 
           &.patient {
             background-image: url("/assets/icon-patient-nav@2x.png");
@@ -127,11 +141,13 @@ ion-list {
       width: 100%;
       height: auto;
       text-align: left;
+
       &:active {
         a {
           padding-left: 33px;
         }
       }
+
       a {
         padding-left: 25px;
         display: block;

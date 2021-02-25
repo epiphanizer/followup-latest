@@ -23,6 +23,16 @@
   }
   .patient-edit-icon {
     float: right;
+    cursor: pointer;
+    font-family: AvenirDemi;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.86;
+    letter-spacing: 0.15px;
+    text-align: right;
+    color: #ef4627;
   }
   .patient-operation-name {
     clear: both;
@@ -36,16 +46,6 @@
     background-size: cover;
     margin-right: 8px;
     margin-top: 0;
-  }
-
-  .patient-name {
-    width: 100%;
-
-    h2 {
-      font-size: 40px;
-      clear: both;
-      margin-bottom: 0;
-    }
   }
 }
 .patient-medical-record-number {
@@ -78,7 +78,8 @@
     color: #222222;
   }
   .patient-name {
-    margin-top: 49px;
+    margin-top: 40px;
+    text-transform: capitalize;
     font-family: AvenirPro;
     font-weight: bold;
     font-size: 40px;

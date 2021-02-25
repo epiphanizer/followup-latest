@@ -179,6 +179,8 @@ form {
       ion-item {
         float: left;
         margin-right: 9px;
+        --ripple-color: transparent;
+        --background-hover: transparent;
       }
       ion-radio-group {
         margin-top: 0.5rem;
@@ -264,6 +266,8 @@ form {
     ion-item {
       margin-left: 0;
       max-height: 36px;
+      --ripple-color: transparent;
+      --background-hover: transparent;
     }
 
     ion-checkbox {

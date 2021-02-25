@@ -29,7 +29,6 @@ export class PatientCallQuestionsComponent implements OnInit {
       .getPatientCallQuestionsByPatientCallId(this.patientCall.patientCallId)
       .pipe(
         map((patientCallQuestions: PatientCallQuestion[]) => {
-          console.log(patientCallQuestions);
           this.questions = patientCallQuestions.filter(patientCallQuestion => {
             return patientCallQuestion.patientCallQuestionType != 'rating';
           });

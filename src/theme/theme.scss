@@ -93,6 +93,12 @@ $item-md-padding-end: 0;
   }
 }
 
+.followup-post-it-modal {
+  .modal-wrapper {
+    height: 475px;
+  }
+}
+
 .alert-danger {
   color: --ion-color-danger !important;
 }

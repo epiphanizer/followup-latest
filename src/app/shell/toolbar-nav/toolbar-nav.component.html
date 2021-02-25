@@ -9,6 +9,7 @@
         <a *ngIf="link.dropdown.links" (click)="closeDropdowns()" (mouseover)="openDropdown(i)">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           <a routerLink="/{{ link.linkAction }}">{{ link.linkName }} </a>
+          <i class="nav-caret" *ngIf="link.dropdown.links"></i>
         </a>
         <a *ngIf="link.dynamic" [class.disabled]="!callQueuePage" (click)="dynamicLink(link)">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>

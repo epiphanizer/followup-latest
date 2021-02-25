@@ -39,15 +39,19 @@
       background-repeat: no-repeat;
       background-size: 100%;
     }
+
     span {
       margin-left: 8px;
+
       &:nth-child(1) {
         margin-left: 28px;
       }
+
       a {
         text-decoration: none;
         color: #222222;
       }
+
       font-family: AvenirDemi;
       font-size: 15px;
       font-weight: normal;
@@ -189,11 +193,14 @@
     color: #00b4b9;
     margin-bottom: 0;
   }
+
   .user-information {
     margin-top: 0;
+
     p {
       margin-top: 0;
     }
+
     font-family: Avenir;
     font-size: 15px;
     font-weight: normal;

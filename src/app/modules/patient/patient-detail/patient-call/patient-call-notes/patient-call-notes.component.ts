@@ -47,6 +47,5 @@ export class PatientCallNotesComponent implements OnInit {
     this.patientCallNotesForm = this.fb.group({
       patientCallNotes: this.fb.control('')
     });
-    console.log(this.patientCallNotesForm);
   }
 }
