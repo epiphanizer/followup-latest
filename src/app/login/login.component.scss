@@ -7,8 +7,8 @@ ion-list {
   margin: 0;
 }
 ion-item {
-  --highlight-color-focused: none;
   background: transparent;
+  --highlight-color-focused: none;
   --inner-padding-start: 0;
   --inner-padding-end: 0;
   --background: transparent;
@@ -94,13 +94,19 @@ ion-item {
   }
 }
 button {
+  text-align: center;
+  float: right;
+  margin-top: 1.25rem;
+  margin-right: 64px;
+  color: white;
+  background: var(--ion-color-primary);
+  font-size: 12px;
+  border-radius: 17px;
+  font-weight: bold;
   cursor: pointer;
   margin: 0 auto;
   width: 104px;
   height: 43px;
-  background-image: url("/assets/button-login@2x.png");
-  background-size: 100%;
-  background-repeat: no-repeat;
   --background-hover: #019ca2;
   --background-activated: #019ca2;
   --border-activated: 1px solid #009999;
