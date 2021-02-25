@@ -2,25 +2,30 @@ ion-content {
   --background: transparent;
   height: 100vh;
 }
+
 ion-list {
   background: transparent;
   margin: 0;
 }
+
 ion-item {
   background: transparent;
   --highlight-color-focused: none;
   --inner-padding-start: 0;
   --inner-padding-end: 0;
   --background: transparent;
+
   &.password {
     width: 190px;
     display: inline-block;
   }
+
   &.login-button {
     background: transparent;
     display: inline-block;
   }
 }
+
 .login-header,
 .login-background {
   background-color: #ffcc00;
@@ -39,6 +44,7 @@ ion-item {
   background-repeat: no-repeat;
   background-position: bottom left;
 }
+
 #login-form {
   display: block;
   width: 331px;
@@ -49,6 +55,7 @@ ion-item {
   background-repeat: no-repeat;
   background-size: 100%;
   padding-top: 37px;
+
   .toolbar-logo {
     display: block;
     height: 44px;
@@ -65,15 +72,19 @@ ion-item {
     font-family: Avenir;
     font-size: 14px;
     height: 34px;
+
     &.username {
       width: 305px;
     }
+
     &.password {
       width: 190px;
     }
+
     input.native-input {
       --inner-padding-end: 0px !important;
     }
+
     border: solid 0.9px rgba(112, 112, 112, 0.34);
     background-image: linear-gradient(190deg, #fafbfb 14%, #e6e7e8 75%);
   }
@@ -83,30 +94,37 @@ ion-item {
     text-align: center;
   }
 }
+
 ion-item {
   &.login-button {
     display: inline-block;
     vertical-align: top;
-    margin-top: 3px;
+    margin-left: 2px;
     --padding-start: 0;
     width: auto;
-    height: 43px;
+    height: 42px;
   }
 }
+
 button {
   text-align: center;
   float: right;
-  margin-top: 1.25rem;
-  margin-right: 64px;
-  color: white;
+  text-transform: uppercase;
   background: var(--ion-color-primary);
-  font-size: 12px;
-  border-radius: 17px;
-  font-weight: bold;
   cursor: pointer;
   margin: 0 auto;
-  width: 104px;
-  height: 43px;
+  width: 100px;
+  height: 35px;
+  line-height: 32px;
+  font-family: AvenirBold;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.72;
+  letter-spacing: 0.3px;
+  text-align: center;
+  color: #ffffff;
   --background-hover: #019ca2;
   --background-activated: #019ca2;
   --border-activated: 1px solid #009999;
