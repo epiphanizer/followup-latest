@@ -13,22 +13,24 @@
       </table>
     </ion-col>
   </ion-row>
-  <ng-container class="patient-filter-results" *ngIf="patients; else noPatients">
-    <ion-list *ngIf="patientsFiltered.length >= 1; else noPatients" lines="none" inset>
-      <ion-item class="patient-filter-listing" *ngFor="let patient of patientsFiltered">
-        <a
-          class="patient-link"
-          [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
-        >
-          <span class="patient-filter-patient-name">
-            {{ patient.patientFirstName }} {{ patient.patientLastName }}:&nbsp;
-          </span>
-          <span class="patient-discharge-date">
-            {{ patient.patientDischargeDate | date: 'dd/mm/yy' }}
-          </span>
-        </a>
-      </ion-item>
-    </ion-list>
+  <ng-container *ngIf="patients; else noPatients">
+    <div class="patient-filter-results">
+      <ion-list *ngIf="patientsFiltered.length >= 1; else noPatients" lines="none" inset>
+        <ion-item class="patient-filter-listing" *ngFor="let patient of patientsFiltered">
+          <a
+            class="patient-link"
+            [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
+          >
+            <span class="patient-filter-patient-name">
+              {{ patient.patientFirstName }} {{ patient.patientLastName }}:&nbsp;
+            </span>
+            <span class="patient-discharge-date">
+              {{ patient.patientDischargeDate | date: 'dd/mm/yy' }}
+            </span>
+          </a>
+        </ion-item>
+      </ion-list>
+    </div>
   </ng-container>
 </div>
 <ng-template #noPatients>
