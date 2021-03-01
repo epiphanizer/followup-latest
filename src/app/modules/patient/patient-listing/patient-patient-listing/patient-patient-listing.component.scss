@@ -52,6 +52,7 @@ ul.patient-filters {
     letter-spacing: 0.13px;
     text-align: left;
     color: #222222;
+    vertical-align: middle;
 
     &.patient-date {
       width: 115px;
@@ -83,11 +84,10 @@ ul.patient-filters {
         background-image: url("/assets/icon-list-sort@2x.png");
         background-size: 100%;
         background-repeat: no-repeat;
-        margin-top: 6px;
 
         &.asc {
           transform: rotate(180deg);
-          margin-top: 3px;
+          margin-top: -6px;
         }
       }
     }

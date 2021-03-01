@@ -25,7 +25,7 @@
               {{ patient.patientFirstName }} {{ patient.patientLastName }}:&nbsp;
             </span>
             <span class="patient-discharge-date">
-              {{ patient.patientDischargeDate | date: 'dd/mm/yy' }}
+              {{ patient.patientDischargeDate | date: 'MM/dd/yy':'UTC' }}
             </span>
           </a>
         </ion-item>

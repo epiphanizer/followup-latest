@@ -76,6 +76,7 @@ export class PatientPatientListingComponent implements OnInit {
   }
   sortPatientsByPatientName = function(sortFlag: string) {
     this.filterBy = 'patient-name';
+    console.log('sorting by patient name fn.');
     if (sortFlag == 'desc') {
       this.patientsFiltered = this.patients
         .sort((a: Patient, b: Patient) => {
