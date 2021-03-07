@@ -2,6 +2,8 @@ export interface TeamMessage {
   teamId: number;
   teamMessageId: number;
   teamMessageFromId: number;
+  teamMessageFromUserFirstName?: string;
+  teamMessageFromUserLastName?: string;
   teamMessageRecipientId: number;
   teamMessageSubject?: string;
   teamMessageContent: string;

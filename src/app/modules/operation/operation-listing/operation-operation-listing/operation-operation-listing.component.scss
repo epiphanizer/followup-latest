@@ -49,14 +49,6 @@ ul.operation-filters {
   div {
     display: inline-block;
     padding-left: 16px;
-
-    &.name-filter {
-      width: 84px;
-    }
-
-    &.status-filter-container {
-      margin-left: 250px;
-    }
   }
 
   li {
@@ -106,50 +98,33 @@ ul.operation-filters {
   }
 }
 
-.operation-list {
+table.operation-table {
   list-style-type: none;
   width: 100%;
   padding-left: 0;
-  max-width: 532px;
 
-  ion-item {
-    --padding-top: 15px;
-    --padding-bottom: 15px;
+  td {
+    padding: 15px 0;
     cursor: pointer;
     width: 100%;
-    border-top: solid 1.5px #bbbbbb;
-    border-bottom: solid 1.5px #bbbbbb;
+    border-top: solid 1px black;
     background-color: #ffffff;
-    display: table;
+    display: table-cell;
 
-    &:active {
-      background-color: #00b4b9;
-    }
-
-    ul {
-      padding-left: 0;
-      list-style-type: none;
-    }
-
-    &:nth-child(even) {
-      background-color: white;
-    }
-
-    &:nth-child(odd) {
-      background-color: #c8c8c8;
-    }
-
-    &:hover {
-      background-color: rgba(19, 175, 233, 0.35);
-    }
-    .operation-information {
+    tr {
+      td {
+        display: table-cell;
+        vertical-align: middle;
+      }
+      &.archived {
+        opacity: 0.6;
+      }
       padding-left: 20px;
       .operation-name {
         display: inline-block;
         font-family: AvenirPro;
         font-size: 16px;
         font-weight: 800;
-        width: 270px;
         margin-right: 52px;
         font-stretch: normal;
         font-style: normal;
@@ -177,6 +152,9 @@ ul.operation-filters {
         letter-spacing: normal;
         text-align: left;
         color: #222222;
+        &.archived {
+          color: #ef4627;
+        }
       }
     }
   }

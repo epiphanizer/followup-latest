@@ -1,56 +1,172 @@
-<h1 class="section-header">
-  OPERATIONS
-</h1>
-
-<ul class="operation-filters">
-  <div class="date-filter-container">
-    <li class="date-filter">
-      <a (click)="sortOperationsByOperationName(selectedSortFlag)">Name</a>
-    </li>
-    <li class="ascending-descending-control">
-      <i
-        class="ascending-descending-control-arrow"
-        [class.asc]="selectedSortFlag == 'asc'"
-        [class.desc]="selectedSortFlag == 'desc'"
-        (click)="toggleAscDesc()"
-      >
-      </i>
-    </li>
-  </div>
-  <div class="status-filter-container">
-    <li class="status-filter">
-      <a (click)="sortOperationsByStatus(selectedSortFlag)">
-        Status
-      </a>
-    </li>
-    <li class="ascending-descending-control">
-      <i
-        class="ascending-descending-control-arrow"
-        [class.asc]="selectedSortFlag == 'asc'"
-        [class.desc]="selectedSortFlag == 'desc'"
-        (click)="toggleAscDesc()"
-      >
-      </i>
-    </li>
-  </div>
-</ul>
-
-<ion-list class="operation-list" lines="none">
-  <ion-item
-    *ngFor="let operation of operationGroup.operations$ | async"
-    class="active"
-    [routerLink]="'/operation/' + operation.operationId"
-  >
-    <div class="operation-information">
-      <span class="operation-name">
-        {{ operation.operationName }}
-      </span>
-      <span class="operation-status">
-        {{ operation.operationActive == 1 ? 'Active' : 'Inactive' }}
-      </span>
-    </div>
-  </ion-item>
-</ion-list>
+<table class="operation-table">
+  <thead>
+    <tr>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)="sortOperationsByStatus(selectedSortFlag)">
+                Facility
+              </a>
+            </li>
+            <li class="ascending-descending-control">
+              <i
+                class="ascending-descending-control-arrow"
+                [class.asc]="selectedSortFlag == 'asc'"
+                [class.desc]="selectedSortFlag == 'desc'"
+                (click)="toggleAscDesc()"
+              >
+              </i>
+            </li>
+          </ul>
+        </div>
+      </th>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)="sortOperationsByStatus(selectedSortFlag)">
+                Ownership
+              </a>
+            </li>
+            <li class="ascending-descending-control">
+              <i
+                class="ascending-descending-control-arrow"
+                [class.asc]="selectedSortFlag == 'asc'"
+                [class.desc]="selectedSortFlag == 'desc'"
+                (click)="toggleAscDesc()"
+              >
+              </i>
+            </li>
+          </ul>
+        </div>
+      </th>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)="sortOperationsByStatus(selectedSortFlag)">
+                Queue
+              </a>
+            </li>
+            <li class="ascending-descending-control">
+              <i
+                class="ascending-descending-control-arrow"
+                [class.asc]="selectedSortFlag == 'asc'"
+                [class.desc]="selectedSortFlag == 'desc'"
+                (click)="toggleAscDesc()"
+              >
+              </i>
+            </li>
+          </ul>
+        </div>
+      </th>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)="sortOperationsByStatus(selectedSortFlag)">
+                Notifs
+              </a>
+            </li>
+            <li class="ascending-descending-control">
+              <i
+                class="ascending-descending-control-arrow"
+                [class.asc]="selectedSortFlag == 'asc'"
+                [class.desc]="selectedSortFlag == 'desc'"
+                (click)="toggleAscDesc()"
+              >
+              </i>
+            </li>
+          </ul>
+        </div>
+      </th>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)="sortOperationsByStatus(selectedSortFlag)">
+                Grads
+              </a>
+            </li>
+            <li class="ascending-descending-control">
+              <i
+                class="ascending-descending-control-arrow"
+                [class.asc]="selectedSortFlag == 'asc'"
+                [class.desc]="selectedSortFlag == 'desc'"
+                (click)="toggleAscDesc()"
+              >
+              </i>
+            </li>
+          </ul>
+        </div>
+      </th>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)="sortOperationsByStatus(selectedSortFlag)">
+                Status
+              </a>
+            </li>
+            <li class="ascending-descending-control">
+              <i
+                class="ascending-descending-control-arrow"
+                [class.asc]="selectedSortFlag == 'asc'"
+                [class.desc]="selectedSortFlag == 'desc'"
+                (click)="toggleAscDesc()"
+              >
+              </i>
+            </li>
+          </ul>
+        </div>
+      </th>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)="sortOperationsByStatus(selectedSortFlag)">
+                Date
+              </a>
+            </li>
+            <li class="ascending-descending-control">
+              <i
+                class="ascending-descending-control-arrow"
+                [class.asc]="selectedSortFlag == 'asc'"
+                [class.desc]="selectedSortFlag == 'desc'"
+                (click)="toggleAscDesc()"
+              >
+              </i>
+            </li>
+          </ul>
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let operation of operationGroup.operations$ | async"
+      class="active"
+      [class.archived]="operation.operationStatus != 'active'"
+      [routerLink]="'/operation/' + operation.operationId"
+    >
+      <td class="listing-body-cell">
+        <div class="operation-information">
+          <span class="operation-name">
+            {{ operation.operationName }}
+          </span>
+        </div>
+      </td>
+      <td class="listing-body-cell">
+        <div class="operation-group-information">
+          <span class="operation-group-name">
+            {{ operation.operationGroupName }}
+          </span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <jw-pagination
   *ngIf="operationsFiltered"
   [items]="operationsFiltered"

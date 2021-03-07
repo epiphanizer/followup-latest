@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, share } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { UserPutObject, User, UserLanguage } from './user';
+import { UserPutObject, User, UserLanguage, UserMessage } from './user';
+import { TeamMessage } from '../team/team';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,13 @@ export class UserService {
   public getUserCalls(user: User): Observable<any> {
     var userId = user.userId;
     return this.http.get<Blob>('users/' + userId + '/calls').pipe(
+      share(),
+      catchError(error => this.handleAsyncError(error))
+    );
+  }
+  public getUserMessages(user: User): Observable<UserMessage[]> {
+    var userId = user.userId;
+    return this.http.get<UserMessage[]>('users/' + userId + '/messages').pipe(
       share(),
       catchError(error => this.handleAsyncError(error))
     );

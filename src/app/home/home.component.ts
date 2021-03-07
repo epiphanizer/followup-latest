@@ -32,49 +32,28 @@ export class HomeComponent implements OnInit {
     totalNotificationsSent: 0
   };
 
-  public teamMessage: any = {
-    messageId: 0,
-    teamMessageFrom: 'Steph',
+  public teamMessage: TeamMessage = {
+    teamId: 1,
+    teamMessageId: 0,
+    teamMessageFromId: 0,
+    teamMessageRecipientId: 0,
+
+    teamMessageFromUserFirstName: 'Stub',
+    teamMessageFromUserLastName: 'User',
     teamMessageContent:
       'Good Morning Team! Don’t forget this Friday is…Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci.'
   };
-  userMessagesPage: UserMessage;
+  userMessage: UserMessage;
   public user: User;
   public menu: {}[] = [{}];
   constructor(private route: ActivatedRoute, private router: Router, private userService: UserService) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.user.userMessages = [
-      {
-        messageId: 0,
-        messageSenderUserId: 0,
-        messageSentDate: new Date(),
-        messageSenderFirstName: 'Steph',
-        messageBody: 'This reminded me of you 0!',
-        messageAcknowledged: 0,
-        messageAcknowledgedDate: null
-      },
-      {
-        messageId: 1,
-        messageSenderUserId: 0,
-        messageSentDate: new Date(),
-        messageSenderFirstName: 'Steph',
-        messageBody: 'This reminded me of you 1!',
-        messageAcknowledged: 0,
-        messageAcknowledgedDate: null
-      },
-      {
-        messageId: 2,
-        messageSenderUserId: 0,
-        messageSentDate: new Date(),
-        messageSenderFirstName: 'Steph',
-        messageBody: 'This reminded me of you 2!',
-        messageAcknowledged: 0,
-        messageAcknowledgedDate: null
-      }
-    ];
-    this.userMessagesPage = this.user.userMessages[0];
+    this.userService.getUserMessages(this.user).subscribe((userMessages: UserMessage[]) => {
+      console.log(userMessages);
+      this.userMessage = userMessages[0];
+    });
     /**
      * Data dashboard calls
      */
