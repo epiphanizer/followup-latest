@@ -69,7 +69,7 @@ export class OperationAdminSidebarComponent implements OnInit {
   operationGroups$: Observable<OperationGroup[]>;
   operations: Operation[] = [];
   user: User;
-  todaysDateDay: number;
+  todaysDateDay: string;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   ngOnInit() {
     this.operationGroups$ = this.operationService.getOperationGroups();
@@ -83,7 +83,7 @@ export class OperationAdminSidebarComponent implements OnInit {
       }
     });
     this.user = this.route.snapshot.data.user;
-    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+    this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;

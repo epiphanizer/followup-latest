@@ -17,6 +17,7 @@ export interface Operation {
   operationPhoneNumber?: string;
   operationActive?: number;
   operationArchive?: number;
+  operationStartDate: Date;
   operationContacts$?: Observable<OperationContact[]>;
   operationAssignedManagerUserId?: number;
   operationAssignedManagerName?: string;
@@ -33,6 +34,8 @@ export interface Operation {
   patientCalls$?: Observable<PatientCall[]>;
   spanishSpeaking?: Boolean;
   todaysCallCount?: number;
+  totalNotifications?: number;
+  totalGraduates?: number;
   currentSpanishSpeakingPatients?: boolean;
 }
 

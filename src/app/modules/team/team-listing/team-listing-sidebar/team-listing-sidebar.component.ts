@@ -61,12 +61,12 @@ export class TeamListingSidebar implements OnInit {
   spanishSpeakingTeamMembers: TeamMember[] = [];
   teams: Team[];
   teamMembers: TeamMember[];
-  todaysDateDay: number;
+  todaysDateDay: string;
   @Input() team: Team;
   constructor(private logService: LogService, private teamService: TeamService) {}
 
   ngOnInit() {
-    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+    this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
     this.teamService
       .getTeams()
       .pipe(

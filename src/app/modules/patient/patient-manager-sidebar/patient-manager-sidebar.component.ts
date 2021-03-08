@@ -70,7 +70,7 @@ export class PatientManagerSidebarComponent implements OnInit {
 
   operations: Operation[];
   user: User;
-  todaysDateDay: number;
+  todaysDateDay: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -80,7 +80,7 @@ export class PatientManagerSidebarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+    this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
     this.user = this.route.snapshot.data.user;
     this.operationGroups$ = this.operationService.getOperationGroups();
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {

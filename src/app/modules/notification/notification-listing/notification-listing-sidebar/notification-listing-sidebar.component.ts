@@ -68,7 +68,7 @@ export class NotificationListingSidebarComponent implements OnInit {
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   operations: Operation[];
   user: User;
-  todaysDateDay: number;
+  todaysDateDay: string;
   ngOnInit() {
     this.operationGroups$ = this.operationService.getOperationGroups();
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
@@ -92,7 +92,7 @@ export class NotificationListingSidebarComponent implements OnInit {
       }
     });
 
-    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+    this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
