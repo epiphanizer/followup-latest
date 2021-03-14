@@ -102,16 +102,20 @@ table.operation-table {
   list-style-type: none;
   width: 100%;
   padding-left: 0;
-
+  td,
+  th {
+    text-align: left;
+  }
   td {
-    padding: 15px 0;
+    padding: 15px 16px;
     cursor: pointer;
-    width: 100%;
+    width: auto;
     border-top: solid 1px black;
     background-color: #ffffff;
     display: table-cell;
     font-family: "Avenir";
     tr {
+      padding-left: 16px;
       td {
         display: table-cell;
         vertical-align: middle;
