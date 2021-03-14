@@ -44,15 +44,16 @@
             </h2>
             <div class="additional-details" *ngIf="user">
               <span class="team-member-birthday">
-                <strong>Birthday: </strong>{{ user.userDob | date: 'mm/dd/yy' }}
+                <strong>Birthday: </strong>{{ user.userDob ? (user.userDob | date: 'mm/dd/yy') : 'Not Provided' }}
               </span>
               <span class="team-member-dessert">
-                <strong>Favorite Dessert: </strong>{{ user.userFavoriteDessert }}
+                <strong>Favorite Dessert: </strong
+                >{{ user.userFavoriteDessert ? user.userFavoriteDessert : 'Not Provided' }}
               </span>
               <div class="user-information">
                 <h3 class="about-me">ABOUT ME</h3>
                 <p class="additional-info">
-                  {{ user.userAdditionalInfo }}
+                  {{ user.userAdditionalInfo ? user.userAdditionalInfo : 'Not Provided' }}
                 </p>
                 <ul class="user-interests" *ngIf="user">
                   <li *ngFor="let interest of user.userInterests | keyvalue">
