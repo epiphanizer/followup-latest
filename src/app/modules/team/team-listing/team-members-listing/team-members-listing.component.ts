@@ -73,19 +73,20 @@ export class TeamMembersListingComponent implements OnInit {
       cssClass: 'followup-post-it-modal',
       componentProps: {
         modalType: 'Post A Note',
-        teamMember: this.teamMember,
+        teamMember: teamMember,
         teamMessage: {
+          teamId: teamMember.teamId,
           teamMessageId: 0,
           teamMessageContent: '',
-          teamMessageRecipientId: this.teamMember.teamMemberId
+          teamMessageRecipientId: teamMember.teamMemberId
         }
       }
     });
     return await modal.present();
   }
 
-  postNote() {
-    this.postItModal();
+  postNote(teamMember: TeamMember) {
+    this.postItModal(teamMember);
   }
   sortTeamMembersByTeamMemberName = function(sortFlag: string) {
     this.filterBy = 'team-member-name';

@@ -28,13 +28,7 @@ export class PostItModalComponent {
   ) {}
 
   ngOnInit() {
-    this.teamMessage = {
-      teamId: null,
-      teamMessageId: null,
-      teamMessageRecipientId: null,
-      teamMessageFromId: null,
-      teamMessageContent: null
-    };
+    console.log(this.teamMessage);
     this.createForm();
     this.todaysDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
@@ -48,7 +42,6 @@ export class PostItModalComponent {
   }
   sendTheMessage() {
     let formData = this.createTeamMessageForm.getRawValue();
-
     this.teamMessage.teamMessageContent = formData.teamMessageContent;
     this.teamMessageService.sendTeamMessage(this.teamMessage).subscribe((data: any) => {
       let teamMessageId = data.teamMessageId;

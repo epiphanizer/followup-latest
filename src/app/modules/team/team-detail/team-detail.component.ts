@@ -135,6 +135,7 @@ export class TeamMemberDetailComponent implements OnInit {
         modalType: 'Post A Note',
         teamMember: this.teamMember,
         teamMessage: {
+          teamId: this.teamMember.teamId,
           teamMessageId: 0,
           teamMessageContent: '',
           teamMessageRecipientId: this.teamMember.teamMemberId
