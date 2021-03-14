@@ -101,7 +101,6 @@ export class OperationFormComponent implements OnInit {
     } else if (this.route.snapshot.data.mode == 'view') {
       this.mode.view = true;
     }
-    console.log(this.mode);
 
     if (this.mode.edit || this.mode.view) {
       this.operation = this.route.snapshot.data.operation;
@@ -332,7 +331,7 @@ export class OperationFormComponent implements OnInit {
     operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
     operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
     operationFormControls.controls.operationActive.setValue(this.operation.operationActive);
-    operationFormControls.controls.operationArchive.setValue(this.operation.operationArchive);
+    operationFormControls.controls.operationArchived.setValue(this.operation.operationArchived);
   }
   addAdditionalOperationCallRep() {
     let newCallRep = {
@@ -396,7 +395,7 @@ export class OperationFormComponent implements OnInit {
     this.operationForm = this.fb.group({
       operation: this.fb.group({
         operationActive: this.fb.control(this.operation.operationActive),
-        operationArchive: this.fb.control(this.operation.operationArchive),
+        operationArchived: this.fb.control(this.operation.operationArchived),
         operationId: this.fb.control(this.operation.operationId, [Validators.required]),
         operationGroupId: this.fb.control(this.operation.operationGroupId, [Validators.required]),
         operationName: this.fb.control(this.operation.operationName, [Validators.required]),
@@ -416,6 +415,7 @@ export class OperationFormComponent implements OnInit {
 
   operationPutFactory(formSubmission: any): OperationPutBody {
     try {
+      console.log(formSubmission);
       var operationCountryCode = '';
       var operationAreaCode = '';
       if (formSubmission.operation.operationCountryCode) {
@@ -435,6 +435,7 @@ export class OperationFormComponent implements OnInit {
         operationCountryCode: operationCountryCode,
         operationAreaCode: operationAreaCode,
         operationPhoneNumber: formSubmission.operation.operationPhoneNumber,
+        operationArchived: formSubmission.operationArchived ? 1 : 0,
         operationActive: formSubmission.operationActive ? 1 : 0
       };
       return <OperationPutBody>payload;
