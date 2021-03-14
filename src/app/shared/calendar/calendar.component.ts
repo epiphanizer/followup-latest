@@ -123,8 +123,14 @@ export class CalendarComponent implements OnInit {
     this.selectedDate = this.selectedMonth.number + '/' + formattedDay + '/' + this.todaysYear;
     this.dateFilterChangeEvent.emit(this.selectedDate);
   }
-  getLastMonthNumberOfDays() {
-    this.lastMonth.numberOfDays = this.daysInMonth(parseInt(this.selectedMonth.number), this.selectedYear.year);
+  /**
+   * To use between selection & setting
+   * @param currentCalendarMonth
+   * @param currentCalendarYear
+   */
+  getLastMonthNumberOfDays(selectedCalendarMonth: number, selectedCalendarYear: number) {
+    var lastMonthNumberOfDays = this.daysInMonth(selectedCalendarMonth, selectedCalendarYear);
+    return lastMonthNumberOfDays;
   }
   createDaysArray() {
     let firstDayOfMonthIndex = this.getFirstDayOfMonthIndex(
@@ -136,7 +142,7 @@ export class CalendarComponent implements OnInit {
     this.offsetNumber = this.getFirstDayOffset(firstDayOfMonthIndex);
 
     var priorMonthLastDays = this.daysInMonth(parseInt(this.lastMonthString), this.lastMonthYear);
-
+    console.log('prior months days' + priorMonthLastDays);
     /**
      * A fun, and confusing (unless you wrote it)
      * equation to get back the last (offset_days) of
@@ -187,7 +193,19 @@ export class CalendarComponent implements OnInit {
     return new Date(year, month, 0).getDate();
   }
   calendarPrevMonth() {
+    if (parseInt(this.selectedMonth.number) - 2 !== 0) {
+      console.log('selected number ' + this.selectedMonth.number);
+      this.lastMonthYear = this.selectedYear.year;
+      this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
+      console.log(this.selectedMonth);
+      this.lastMonthString = this.months[parseInt(this.selectedMonth.number) - 3].number;
+    } else {
+      this.lastMonthYear = this.selectedYear.year - 1;
+      this.lastMonthString = '12';
+    }
+    console.log('last month string ' + this.lastMonthString);
     this.selectedMonth.number = (parseInt(this.selectedMonth.number) - 1).toString();
+
     if (this.selectedMonth.number !== '0') {
       this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
       this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
@@ -203,9 +221,19 @@ export class CalendarComponent implements OnInit {
         this.selectedYear.year
       );
     }
+    console.log('create days array prev');
     this.createDaysArray();
   }
   calendarNextMonth() {
+    if ((parseInt(this.selectedMonth.number) - 1).toString() !== '0') {
+      this.lastMonthYear = this.selectedYear.year;
+      this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
+      this.lastMonthString = this.months[parseInt(this.selectedMonth.number) - 1].number;
+    } else {
+      this.lastMonthYear = this.selectedYear.year - 1;
+      this.lastMonthString = '12';
+    }
+    console.log('last month string' + this.lastMonthString);
     this.selectedMonth.number = (parseInt(this.selectedMonth.number) + 1).toString();
     this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
     if (this.selectedMonth.number !== '13') {
@@ -220,6 +248,7 @@ export class CalendarComponent implements OnInit {
         this.selectedYear.year
       );
     }
+    console.log('create days array next');
     this.createDaysArray();
   }
   selectDateEventHandler(day: number, currentCalendarMonth: number, todaysYear: number) {

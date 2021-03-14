@@ -1,60 +1,166 @@
 <h1 class="team-listing-headline">TEAM</h1>
-<ul class="team-filters ">
-  <div class="team-name-container">
-    <li class="name-filter">
-      <a (click)="sortTeamMembersByTeamMemberName(selectedSortFlag)">
-        Name
-      </a>
-    </li>
-
-    <li class="ascending-descending-control">
-      <i
-        class="ascending-descending-control-arrow"
-        [class.asc]="selectedSortFlag == 'asc'"
-        [class.desc]="selectedSortFlag == 'desc'"
-        (click)="toggleAscDesc()"
-      >
-      </i>
-    </li>
-  </div>
-  <div class="team-role-container">
-    <li>
-      <a (click)="sortTeamMembersByTeamMemberRole(selectedSortFlag)">
-        Role
-      </a>
-    </li>
-    <li>
-      <span class="ascending-descending-control">
-        <i
-          class="ascending-descending-control-arrow"
-          [class.asc]="selectedSortFlag == 'asc'"
-          [class.desc]="selectedSortFlag == 'desc'"
-          (click)="toggleAscDesc()"
-        >
-        </i>
-      </span>
-    </li>
-  </div>
-</ul>
-
-<ion-list class="team-member-list" lines="none" *ngIf="teamMembers">
-  <ion-item
-    *ngFor="let teamMember of pageOfItems"
-    class="active"
-    [routerLink]="'/teams/' + teamMember.teamId + '/members/' + teamMember.userTeamId"
-  >
-    <div class="team-member-information">
-      <span class="team-member-name">
-        <a [routerLink]="'/teams/' + teamMember.teamId + '/members/' + teamMember.userTeamId">
-          {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
-        </a>
-      </span>
-      <span class="team-member-role">
-        {{ teamMember.teamMemberRoleLabel }}
-      </span>
-    </div>
-  </ion-item>
-</ion-list>
+<table class="team-member-table">
+  <thead>
+    <tr>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)="">
+                Hired
+              </a>
+            </li>
+            <li class="ascending-descending-control">
+              <i
+                class="ascending-descending-control-arrow"
+                [class.asc]="selectedSortFlag == 'asc'"
+                [class.desc]="selectedSortFlag == 'desc'"
+                (click)="toggleAscDesc()"
+              >
+              </i>
+            </li>
+          </ul>
+        </div>
+      </th>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)="">
+                Name
+              </a>
+            </li>
+            <li class="ascending-descending-control">
+              <i
+                class="ascending-descending-control-arrow"
+                [class.asc]="selectedSortFlag == 'asc'"
+                [class.desc]="selectedSortFlag == 'desc'"
+                (click)="toggleAscDesc()"
+              >
+              </i>
+            </li>
+          </ul>
+        </div>
+      </th>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)="">
+                Position
+              </a>
+            </li>
+            <li class="ascending-descending-control">
+              <i
+                class="ascending-descending-control-arrow"
+                [class.asc]="selectedSortFlag == 'asc'"
+                [class.desc]="selectedSortFlag == 'desc'"
+                (click)="toggleAscDesc()"
+              >
+              </i>
+            </li>
+          </ul>
+        </div>
+      </th>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)="">
+                Birthday
+              </a>
+            </li>
+            <li class="ascending-descending-control">
+              <i
+                class="ascending-descending-control-arrow"
+                [class.asc]="selectedSortFlag == 'asc'"
+                [class.desc]="selectedSortFlag == 'desc'"
+                (click)="toggleAscDesc()"
+              >
+              </i>
+            </li>
+          </ul>
+        </div>
+      </th>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)="">
+                Language
+              </a>
+            </li>
+            <li class="ascending-descending-control">
+              <i
+                class="ascending-descending-control-arrow"
+                [class.asc]="selectedSortFlag == 'asc'"
+                [class.desc]="selectedSortFlag == 'desc'"
+                (click)="toggleAscDesc()"
+              >
+              </i>
+            </li>
+          </ul>
+        </div>
+      </th>
+      <th>
+        <div class="status-filter-container">
+          <ul class="operation-filters">
+            <li class="status-filter">
+              <a (click)=""> </a>
+            </li>
+          </ul>
+        </div>
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let teamMember of teamMembers" class="active">
+      <td class="listing-body-cell">
+        <div class="team-member-information">
+          <span class="team-member-hired">
+            00/00/00
+          </span>
+        </div>
+      </td>
+      <td class="listing-body-cell">
+        <div>
+          <span class="team-member-name">
+            {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
+          </span>
+        </div>
+      </td>
+      <td class="listing-body-cell">
+        <div>
+          <span class="team-member-role">
+            {{ teamMember.teamMemberRoleLabel }}
+          </span>
+        </div>
+      </td>
+      <td class="listing-body-cell">
+        <div>
+          <span class="team-member-birthday">
+            {{ teamMember.teamMemberBirthday ? teamMember.teamMemberBirthday : 'Not Provided' }}
+          </span>
+        </div>
+      </td>
+      <td class="listing-body-cell">
+        <div>
+          <span class="team-member-languages">
+            {{ teamMember.teamMemberLanguages ? teamMember.teamMemberLanauges : 'Not Provided' }}
+          </span>
+        </div>
+      </td>
+      <td class="listing-body-cell">
+        <div>
+          <span class="post-it-note" (click)="postItModal(teamMember)">
+            <img src="/assets/icon-post-it@2x.png" alt="" />
+          </span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <jw-pagination
   *ngIf="teamMembersFiltered"
   [items]="teamMembersFiltered"

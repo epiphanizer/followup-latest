@@ -3,6 +3,8 @@ import { Operation } from '@app/modules/operation/operation';
 import { map, take } from 'rxjs/operators';
 import { TeamService } from '../../team.service';
 import { Team, TeamMember } from '../../team';
+import { PostItModalComponent } from '@app/shell/post-it-modal/post-it-modal.component';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-team-members-listing',
@@ -17,7 +19,7 @@ export class TeamMembersListingComponent implements OnInit {
   public filterBy: string = 'team-date';
   public selectedSortFlag: string = 'desc';
 
-  constructor(private teamService: TeamService) {}
+  constructor(private modalController: ModalController, private teamService: TeamService) {}
   ngOnInit() {
     this.teamMembers = [];
     this.teamService
@@ -64,6 +66,27 @@ export class TeamMembersListingComponent implements OnInit {
     }
   }
 
+  async postItModal(teamMember: TeamMember) {
+    var teamMemberId = teamMember.teamMemberId;
+    const modal = await this.modalController.create({
+      component: PostItModalComponent,
+      cssClass: 'followup-post-it-modal',
+      componentProps: {
+        modalType: 'Post A Note',
+        teamMember: this.teamMember,
+        teamMessage: {
+          teamMessageId: 0,
+          teamMessageContent: '',
+          teamMessageRecipientId: this.teamMember.teamMemberId
+        }
+      }
+    });
+    return await modal.present();
+  }
+
+  postNote() {
+    this.postItModal();
+  }
   sortTeamMembersByTeamMemberName = function(sortFlag: string) {
     this.filterBy = 'team-member-name';
     if (sortFlag == 'desc') {
