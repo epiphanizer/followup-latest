@@ -28,7 +28,6 @@ export class TeamMessageModalComponent {
   ) {}
 
   ngOnInit() {
-    console.log(this.teamMessage);
     this.createForm();
     this.todaysDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));

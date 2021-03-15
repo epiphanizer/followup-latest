@@ -55,6 +55,19 @@ export class UserService {
       catchError(error => this.handleAsyncError(error))
     );
   }
+  public sendUserMessage(userMessage: UserMessage): Observable<any> {
+    var userId = userMessage.messageRecipientUserId;
+    return this.http
+      .post<UserMessage[]>('users/' + userId + '/messages', {
+        messageSenderUserId: userMessage.messageSenderUserId,
+        messageRecipientUserId: userMessage.messageRecipientUserId,
+        messageBody: userMessage.messageBody
+      })
+      .pipe(
+        share(),
+        catchError(error => this.handleAsyncError(error))
+      );
+  }
   public getUserNotifications(user: User): Observable<any> {
     var userId = user.userId;
     return this.http.get<Blob>('users/' + userId + '/notifications').pipe(

@@ -1,6 +1,6 @@
 <ng-container>
-  <form *ngIf="createTeamMessageForm" [formGroup]="createTeamMessageForm">
-    <ion-row *ngIf="teamMessage" class="team-message-container">
+  <form *ngIf="createUserMessageForm" [formGroup]="createUserMessageForm">
+    <ion-row *ngIf="userMessage" class="user-message-container">
       <ion-title>Post A Note</ion-title>
       <img class="post-it-icon-image" src="/assets/icon-postit-lg@2x.png" alt="" />
     </ion-row>
@@ -10,19 +10,19 @@
     <span class="message-label"><strong>Message:</strong></span>
     <ion-textarea
       [autoGrow]="true"
-      class="team-message-textarea"
-      formControlName="teamMessageContent"
+      class="user-message-textarea"
+      formControlName="messageBody"
       placeholder="Leave Your Message Here"
     ></ion-textarea>
     <div class="button-container">
-      <ion-button class="cancel-button" type="button" (click)="dismiss()">Cancel </ion-button>
+      <ion-button class="cancel-button" type="button" (click)="dismiss()">Cancel</ion-button>
       <ion-button
-        [disabled]="createTeamMessageForm.invalid"
+        [disabled]="createUserMessageForm.invalid"
         class="save-button"
         type="button"
         (click)="sendTheMessage()"
-        >Send
-      </ion-button>
+        >Send</ion-button
+      >
     </div>
   </form>
 </ng-container>

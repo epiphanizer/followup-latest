@@ -28,6 +28,7 @@ export class PostItModalComponent {
   ) {}
 
   ngOnInit() {
+    console.log(this.userMessage);
     this.createForm();
     this.todaysDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
@@ -35,7 +36,6 @@ export class PostItModalComponent {
 
   createForm() {
     this.createUserMessageForm = this.fb.group({
-      messageId: this.fb.control(false, [Validators.required]),
       messageBody: this.fb.control('', [Validators.required])
     });
   }
@@ -43,8 +43,8 @@ export class PostItModalComponent {
     let formData = this.createUserMessageForm.getRawValue();
     this.userMessage.messageBody = formData.messageBody;
     this.userMessageService.sendUserMessage(this.userMessage).subscribe((data: any) => {
-      let teamMessageId = data.teamMessageId;
-      if (teamMessageId) {
+      console.log(data);
+      if (data) {
         this.toastr.success('Successfully sent team message');
       } else {
         this.toastr.error('Uh oh! Something went wrong! Please try again.');

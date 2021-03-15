@@ -1,12 +1,10 @@
 <ng-container>
   <form *ngIf="createTeamMessageForm" [formGroup]="createTeamMessageForm">
     <ion-row *ngIf="teamMessage" class="team-message-container">
-      <ion-title>Post A Note</ion-title>
+      <ion-title>Post Team Message</ion-title>
       <img class="post-it-icon-image" src="/assets/icon-postit-lg@2x.png" alt="" />
     </ion-row>
-    <span class="message-to-label"
-      ><strong>To:</strong> {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}</span
-    >
+    <span class="message-to-label"><strong>To:</strong> All Team</span>
     <span class="message-label"><strong>Message:</strong></span>
     <ion-textarea
       [autoGrow]="true"

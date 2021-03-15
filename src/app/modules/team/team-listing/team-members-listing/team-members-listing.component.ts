@@ -5,6 +5,8 @@ import { TeamService } from '../../team.service';
 import { Team, TeamMember } from '../../team';
 import { PostItModalComponent } from '@app/shell/post-it-modal/post-it-modal.component';
 import { ModalController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { User } from '@app/modules/user/user';
 
 @Component({
   selector: 'app-team-members-listing',
@@ -13,14 +15,23 @@ import { ModalController } from '@ionic/angular';
 })
 export class TeamMembersListingComponent implements OnInit {
   @Input() team: Team;
+  user: User;
   public teamMembers: TeamMember[];
   public teamMembersFiltered: TeamMember[];
   public pageOfItems: Team[];
   public filterBy: string = 'team-date';
   public selectedSortFlag: string = 'desc';
 
-  constructor(private modalController: ModalController, private teamService: TeamService) {}
+  constructor(
+    private modalController: ModalController,
+    private route: ActivatedRoute,
+    private teamService: TeamService
+  ) {}
   ngOnInit() {
+    /**
+     * Track current user for use in messaging
+     */
+    this.user = this.route.snapshot.data.user;
     this.teamMembers = [];
     this.teamService
       .getTeamMembersByTeamId(this.team.teamId)
@@ -67,18 +78,17 @@ export class TeamMembersListingComponent implements OnInit {
   }
 
   async postItModal(teamMember: TeamMember) {
-    var teamMemberId = teamMember.teamMemberId;
     const modal = await this.modalController.create({
       component: PostItModalComponent,
       cssClass: 'followup-post-it-modal',
       componentProps: {
         modalType: 'Post A Note',
         teamMember: teamMember,
-        teamMessage: {
-          teamId: teamMember.teamId,
-          teamMessageId: 0,
-          teamMessageContent: '',
-          teamMessageRecipientId: teamMember.teamMemberId
+        userMessage: {
+          messageId: 0,
+          messageBody: '',
+          messageSenderUserId: this.user.userId,
+          messageRecipientUserId: teamMember.userId
         }
       }
     });

@@ -67,9 +67,9 @@ export interface UserMessage {
   messageRecipientUserId?: number;
   messageRecipientFirstName?: string;
   messageBody: string;
-  messageSentDate: Date;
-  messageAcknowledged: number;
-  messageAcknowledgedDate: Date | null;
+  messageSentDate?: Date;
+  messageAcknowledged?: number;
+  messageAcknowledgedDate?: Date | null;
 }
 
 export interface UserLanguage {
