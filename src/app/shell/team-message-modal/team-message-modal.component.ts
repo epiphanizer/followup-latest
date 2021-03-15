@@ -5,44 +5,45 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { UserService } from '@app/modules/user/user.service';
-import { UserMessage } from '@app/modules/user/user';
+import { TeamMessageService } from '@app/modules/team/team-messages.service';
+import { TeamMessage } from '@app/modules/team/team';
 @Component({
-  providers: [UserService, ToastrService],
-  selector: 'app-post-it-modal',
-  templateUrl: './post-it-modal.component.html',
-  styleUrls: ['./post-it-modal.component.scss']
+  providers: [TeamMessageService, ToastrService],
+  selector: 'app-team-message-modal',
+  templateUrl: './team-message-modal.component.html',
+  styleUrls: ['./team-message-modal.component.scss']
 })
-export class PostItModalComponent {
-  createUserMessageForm: FormGroup;
-  userMessage: UserMessage;
+export class TeamMessageModalComponent {
+  createTeamMessageForm: FormGroup;
+  teamMessage: TeamMessage;
   todaysDate: string;
   todaysDateDay: number;
 
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
-    private userMessageService: UserService,
+    private teamMessageService: TeamMessageService,
     private route: ActivatedRoute,
     private toastr: ToastrService
   ) {}
 
   ngOnInit() {
+    console.log(this.teamMessage);
     this.createForm();
     this.todaysDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
   }
 
   createForm() {
-    this.createUserMessageForm = this.fb.group({
-      messageId: this.fb.control(false, [Validators.required]),
-      messageBody: this.fb.control('', [Validators.required])
+    this.createTeamMessageForm = this.fb.group({
+      teamMessageId: this.fb.control(false, [Validators.required]),
+      teamMessageContent: this.fb.control('', [Validators.required])
     });
   }
   sendTheMessage() {
-    let formData = this.createUserMessageForm.getRawValue();
-    this.userMessage.messageBody = formData.messageBody;
-    this.userMessageService.sendUserMessage(this.userMessage).subscribe((data: any) => {
+    let formData = this.createTeamMessageForm.getRawValue();
+    this.teamMessage.teamMessageContent = formData.teamMessageContent;
+    this.teamMessageService.sendTeamMessage(this.teamMessage).subscribe((data: any) => {
       let teamMessageId = data.teamMessageId;
       if (teamMessageId) {
         this.toastr.success('Successfully sent team message');
