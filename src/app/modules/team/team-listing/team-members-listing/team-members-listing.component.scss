@@ -61,6 +61,7 @@ ul.team-filters {
     &.team-role-container {
       margin-left: 250px;
     }
+
     li {
       cursor: pointer;
       display: inline-block;
@@ -135,10 +136,12 @@ ul.team-filters {
   margin-top: -3.5px;
   position: absolute;
 }
+
 :host {
   display: block;
   margin-top: 1.65rem;
 }
+
 .operation-feed {
   width: 100%;
 }
@@ -244,6 +247,7 @@ table.team-member-table {
   th {
     text-align: left;
   }
+
   td {
     border: 1px solid rgba(217, 217, 217, 0.8);
     padding: 15px 16px;
@@ -253,23 +257,35 @@ table.team-member-table {
     background-color: #ffffff;
     display: table-cell;
     font-family: "Avenir";
+
     tr {
       border-bottom: 1px solid #dfdfdf;
       padding-left: 16px;
+
       td {
         display: table-cell;
         vertical-align: middle;
       }
+
       &.archived {
         opacity: 0.6;
       }
+
       padding-left: 20px;
     }
+  }
+
+  img.post-it-note {
+    max-width: 30px;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
   }
 }
 
 jw-pagination {
   width: 100%;
+  margin-top: 0.75rem;
   display: block;
   text-align: right;
 }

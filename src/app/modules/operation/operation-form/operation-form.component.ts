@@ -415,7 +415,6 @@ export class OperationFormComponent implements OnInit {
 
   operationPutFactory(formSubmission: any): OperationPutBody {
     try {
-      console.log(formSubmission);
       var operationCountryCode = '';
       var operationAreaCode = '';
       if (formSubmission.operation.operationCountryCode) {
@@ -424,7 +423,6 @@ export class OperationFormComponent implements OnInit {
       if (formSubmission.operation.operationAreaCode) {
         operationAreaCode = formSubmission.operation.operationAreaCode.toString();
       }
-      debugger;
       var payload = {
         operationName: formSubmission.operation.operationName,
         operationGroupId: parseInt(formSubmission.operation.operationGroupId),
@@ -435,8 +433,8 @@ export class OperationFormComponent implements OnInit {
         operationCountryCode: operationCountryCode,
         operationAreaCode: operationAreaCode,
         operationPhoneNumber: formSubmission.operation.operationPhoneNumber,
-        operationArchived: formSubmission.operationArchived ? 1 : 0,
-        operationActive: formSubmission.operationActive ? 1 : 0
+        operationArchived: formSubmission.operation.operationArchived ? 1 : 0,
+        operationActive: formSubmission.operation.operationActive ? 1 : 0
       };
       return <OperationPutBody>payload;
     } catch {

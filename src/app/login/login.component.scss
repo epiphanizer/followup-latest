@@ -112,6 +112,10 @@ button {
   float: right;
   text-transform: uppercase;
   background: var(--ion-color-primary);
+  --border-activated: 1px solid #009999;
+  &:active {
+    border: 1px solid #009999;
+  }
   cursor: pointer;
   margin: 0 auto;
   width: 100px;

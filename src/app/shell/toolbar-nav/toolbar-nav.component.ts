@@ -185,11 +185,7 @@ export class ToolbarNavComponent implements OnInit {
     } else {
       this.patient = this.route.snapshot.data.patient;
     }
-    console.log(this.route.snapshot.children);
-    console.log(this.patient);
-    console.log(this.route.snapshot.data);
-    // var patientId = ;
-    this.patient;
+
     const modal = await this.modalController.create({
       component: NotificationModalComponent,
       cssClass: 'followup-modal',
