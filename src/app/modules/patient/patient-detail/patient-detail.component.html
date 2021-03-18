@@ -76,8 +76,6 @@
             (patientNextCallDateSelectedEventEmitter)="patientNextCallDateSelectedEventHandler($event)"
           >
           </app-patient-next-call-scheduler>
-          {{ patientCall | json }}
-          {{ patientNextCallQuestions | json }}
           <app-review-patient-next-call-questions
             *ngIf="patientCall.patientCallStatusLabel == 'In Review'"
             [patientCallQuestions]="patientNextCallQuestions"

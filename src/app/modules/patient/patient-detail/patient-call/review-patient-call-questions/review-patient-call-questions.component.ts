@@ -14,10 +14,6 @@ export class ReviewPatientNextCallQuestionsComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.createForm();
     console.log(this.patientCallQuestions);
-    this.onChanges();
   }
-  onChanges() {}
-  createForm() {}
 }

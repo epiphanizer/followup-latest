@@ -16,7 +16,6 @@ export interface Operation {
   operationAreaCode?: number;
   operationPhoneNumber?: string;
   operationActive?: number;
-  operationArchived?: number;
   operationStartDate: Date;
   operationContacts$?: Observable<OperationContact[]>;
   operationAssignedManagerUserId?: number;
@@ -50,7 +49,6 @@ export interface OperationPutBody {
   operationAreaCode: string;
   operationPhoneNumber: string;
   operationActive: number;
-  operationArchived: number;
 }
 export interface OperationGroup {
   operationGroupId?: number;

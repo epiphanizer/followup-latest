@@ -331,7 +331,6 @@ export class OperationFormComponent implements OnInit {
     operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
     operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
     operationFormControls.controls.operationActive.setValue(this.operation.operationActive);
-    operationFormControls.controls.operationArchived.setValue(this.operation.operationArchived);
   }
   addAdditionalOperationCallRep() {
     let newCallRep = {
@@ -395,7 +394,6 @@ export class OperationFormComponent implements OnInit {
     this.operationForm = this.fb.group({
       operation: this.fb.group({
         operationActive: this.fb.control(this.operation.operationActive),
-        operationArchived: this.fb.control(this.operation.operationArchived),
         operationId: this.fb.control(this.operation.operationId, [Validators.required]),
         operationGroupId: this.fb.control(this.operation.operationGroupId, [Validators.required]),
         operationName: this.fb.control(this.operation.operationName, [Validators.required]),
@@ -433,7 +431,6 @@ export class OperationFormComponent implements OnInit {
         operationCountryCode: operationCountryCode,
         operationAreaCode: operationAreaCode,
         operationPhoneNumber: formSubmission.operation.operationPhoneNumber,
-        operationArchived: formSubmission.operation.operationArchived ? 1 : 0,
         operationActive: formSubmission.operation.operationActive ? 1 : 0
       };
       return <OperationPutBody>payload;

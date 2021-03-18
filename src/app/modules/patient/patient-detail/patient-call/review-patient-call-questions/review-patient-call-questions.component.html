@@ -1,3 +1,5 @@
+here
+{{ patientCallQuestions | json }}
 <ion-list scrollY="true" lines="none" class="patient-call-question-list">
   <div *ngFor="let question of patientCallQuestions; let idx = index" formGroupName="{{ idx }}">
     <ng-container *ngIf="question.patientQuestionTypeLabel == 'textarea'">

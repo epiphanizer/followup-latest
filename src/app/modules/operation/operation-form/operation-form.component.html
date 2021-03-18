@@ -47,14 +47,20 @@
             <div class="operation-listing-header">
               <h2 class="section-header ion-float-left"><i class="icon-info"></i> Operation</h2>
               <div class="operation-controls ion-float-right">
-                <span class="control">
-                  <ion-checkbox formControlName="operationActive"> </ion-checkbox>
-                  Active?
-                </span>
-                <span class="control">
-                  <ion-checkbox formControlName="operationArchived"> </ion-checkbox>
-                  Archive
-                </span>
+                <ion-radio-group formControlName="operationActive">
+                  <ion-item>
+                    <span class="control">
+                      <ion-radio mode="ios" value="true"></ion-radio>
+                      Active?
+                    </span>
+                  </ion-item>
+                  <ion-item>
+                    <span class="control">
+                      <ion-radio mode="ios" value="false"></ion-radio>
+                      Archive
+                    </span>
+                  </ion-item>
+                </ion-radio-group>
               </div>
             </div>
             <ion-item class="operation-group" *ngIf="operationGroups">
