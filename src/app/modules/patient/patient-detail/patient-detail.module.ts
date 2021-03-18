@@ -21,6 +21,7 @@ import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.compone
 import { PatientIntakeQuestionComponent } from '../patient-intake-question/patient-intake-question.component';
 import { PatientHistoryListingComponent } from './patient-history-listing/patient-history-listing.component';
 import { SharedModule } from '@app/shared';
+import { ReviewPatientNextCallQuestionsComponent } from './patient-call/review-patient-call-questions/review-patient-call-questions.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { SharedModule } from '@app/shared';
     PatientCallStopButtonComponent,
     PatientNextCallSchedulerComponent,
     PatientNextCallQuestionsComponent,
+    ReviewPatientNextCallQuestionsComponent,
     PatientNextCallFinishButtonComponent
   ],
   imports: [CommonModule, PatientModule, RouterModule, IonicModule, FormsModule, ReactiveFormsModule, SharedModule],

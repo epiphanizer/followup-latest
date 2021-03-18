@@ -51,10 +51,10 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     let date = $event;
     let dateToCompare = new Date(date);
     if (this.compareDates(dateToCompare)) {
-      alert('Please select a future date!');
+      // alert('Please select a future date!');
       return;
     }
-    console.log(date);
+    // console.log(date);
     // this.selectedDay = selectedDay;
     this.scheduledCallDate = date;
     this.status.scheduled = true;
