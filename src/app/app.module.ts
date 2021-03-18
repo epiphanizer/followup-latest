@@ -31,6 +31,7 @@ import { LoaderInterceptor } from './shared/interceptors/loader-interceptor';
 import { ApiKeyInterceptor } from './shared/interceptors/api-key.interceptor';
 import { DataModule } from './modules/data/data.module';
 import { TeamModule } from './modules/team/team.module';
+import { nl2brPipe } from './shared/pipes/nl2br.pipe';
 
 export function tokenGetter() {
   return localStorage.getItem('followup-token');
