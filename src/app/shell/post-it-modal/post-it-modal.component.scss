@@ -37,7 +37,23 @@ ion-title {
   color: #343638;
   margin-bottom: 23px;
 }
+ion-radio-group {
+  ion-radio {
+    display: inline-block;
+    height: 15px !important;
+    width: 15px !important;
+    border: 2px solid #666;
+    :host {
+      width: 15px !important;
+      height: 15px !important;
+    }
 
+    .radio-icon {
+      width: 15px !important;
+      height: 15px !important;
+    }
+  }
+}
 span {
   display: block;
   width: 100%;

@@ -4,7 +4,6 @@ import { User, UserMessage } from '@app/modules/user/user';
 import { TeamMessage } from '@app/modules/team/team';
 import { UserService } from '@app/modules/user/user.service';
 import { TeamService } from '@app/modules/team/team.service';
-import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 
 @Component({
   providers: [UserService],
@@ -48,13 +47,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    console.log(this.user);
-    // this.teamService.getTeamMessages().subscribe((teamMessages: TeamMessage[]) => {
-    //   console.log(teamMessages);
-    //   this.teamMessage = teamMessages[0];
-    // });
+    this.teamService.getTeamMessagesByTeamId(1).subscribe((teamMessages: TeamMessage[]) => {
+      this.teamMessage = teamMessages[0];
+    });
     this.teamService.getTeamTotals().subscribe((data: any) => {
-      console.log(data);
       this.callsMade.totalCalls = data[0].totalCalls;
       this.notificationsSent.totalNotifications = data[0].totalNotifications;
     });
@@ -65,7 +61,6 @@ export class HomeComponent implements OnInit {
      * Data dashboard calls
      */
     this.userService.getUserCallCount(this.user).subscribe((data: any) => {
-      console.log(data);
       this.todaysCalls.completed = data[0].todaysCompletedCalls;
       this.todaysCalls.scheduled = data[0].todaysScheduledCalls;
       this.weeklyCalls.completed = data[0].weeklyCompletedCalls;
@@ -74,7 +69,6 @@ export class HomeComponent implements OnInit {
     });
 
     this.userService.getUserNotifications(this.user).subscribe((data: any) => {
-      console.log(data);
       this.notificationsSent.notifications = data[0].notifications;
     });
   }

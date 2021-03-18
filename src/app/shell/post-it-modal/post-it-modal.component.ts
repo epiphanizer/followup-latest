@@ -45,14 +45,12 @@ export class PostItModalComponent {
   }
   sendTheMessage() {
     let formData = this.createUserMessageForm.getRawValue();
-    this.messageType = formData.control.messageType;
-    console.log(this.messageType);
+    this.messageType = formData.messageType;
     this.userMessage.messageBody = formData.messageBody;
     if (this.messageType == 'user') {
       this.userMessageService.sendUserMessage(this.userMessage).subscribe((data: any) => {
-        console.log(data);
         if (data) {
-          this.toastr.success('Successfully sent team message');
+          this.toastr.success('Successfully sent user message');
         } else {
           this.toastr.error('Uh oh! Something went wrong! Please try again.');
         }
@@ -60,7 +58,6 @@ export class PostItModalComponent {
       });
     } else if (this.messageType == 'team') {
       this.teamMessageService.sendTeamMessage(this.userMessage).subscribe((data: any) => {
-        console.log(data);
         if (data) {
           this.toastr.success('Successfully sent team message');
         } else {

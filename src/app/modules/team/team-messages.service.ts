@@ -18,14 +18,14 @@ export class TeamMessageService {
   constructor(private http: HttpService) {}
 
   getTeamMessagesByTeamId = function(teamId: number) {
-    return this.http.get('team/' + teamId + '/messages/').pipe(
+    return this.http.get('teams/' + teamId + '/messages/').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
   sendTeamMessage = function(userMessage: UserMessage) {
     return this.http
-      .post('team/' + userMessage.teamId + '/messages/', {
+      .post('teams/1/messages/', {
         teamMessageFromId: userMessage.messageSenderUserId,
         teamMessageRecipientId: userMessage.messageRecipientUserId,
         teamMessageContent: userMessage.messageBody
