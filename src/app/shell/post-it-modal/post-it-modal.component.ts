@@ -45,6 +45,8 @@ export class PostItModalComponent {
   }
   sendTheMessage() {
     let formData = this.createUserMessageForm.getRawValue();
+    this.messageType = formData.control.messageType;
+    console.log(this.messageType);
     this.userMessage.messageBody = formData.messageBody;
     if (this.messageType == 'user') {
       this.userMessageService.sendUserMessage(this.userMessage).subscribe((data: any) => {

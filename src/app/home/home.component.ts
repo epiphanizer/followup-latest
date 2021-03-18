@@ -18,12 +18,12 @@ export class HomeComponent implements OnInit {
   callsMadeProgress: number;
   notificationsProgress: number;
   todaysCalls: any = {
-    todaysCalls: 0,
-    queueCalls: 0
+    completed: 0,
+    scheduled: 0
   };
   weeklyCalls: any = {
-    weeklyCalls: 0,
-    queueCalls: 0
+    completed: 0,
+    scheduled: 0
   };
 
   callsMade: any = {
@@ -59,20 +59,20 @@ export class HomeComponent implements OnInit {
       this.notificationsSent.totalNotifications = data[0].totalNotifications;
     });
     this.userService.getUserMessages(this.user).subscribe((userMessages: UserMessage[]) => {
-      console.log(userMessages);
       this.userMessage = userMessages[0];
     });
     /**
      * Data dashboard calls
      */
-    this.userService.getUserCalls(this.user).subscribe((data: any) => {
+    this.userService.getUserCallCount(this.user).subscribe((data: any) => {
       console.log(data);
-    });
-
-    this.userService.getUserCompletedCalls(this.user).subscribe((data: any) => {
-      console.log(data);
+      this.todaysCalls.completed = data[0].todaysCompletedCalls;
+      this.todaysCalls.scheduled = data[0].todaysScheduledCalls;
+      this.weeklyCalls.completed = data[0].weeklyCompletedCalls;
+      this.weeklyCalls.scheduled = data[0].weeklyScheduledCalls;
       this.callsMade.callsMade = data[0].totalCalls;
     });
+
     this.userService.getUserNotifications(this.user).subscribe((data: any) => {
       console.log(data);
       this.notificationsSent.notifications = data[0].notifications;

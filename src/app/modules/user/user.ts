@@ -61,6 +61,7 @@ export interface UserPutObject {
 }
 
 export interface UserMessage {
+  teamId?: number;
   messageId: number;
   messageSenderUserId: number;
   messageSenderFirstName?: string;

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
 import { catchError, retry, delay } from 'rxjs/operators';
 import { TeamMessage } from './team';
+import { UserMessage } from '../user/user';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +23,12 @@ export class TeamMessageService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
-  sendTeamMessage = function(teamMessage: TeamMessage) {
+  sendTeamMessage = function(userMessage: UserMessage) {
     return this.http
-      .post('team/' + teamMessage.teamId + '/messages/' + teamMessage.teamMessageRecipientId, {
-        teamMessageFromId: teamMessage.teamMessageFromId,
-        teamMessageRecipientId: teamMessage.teamMessageRecipientId,
-        teamMessageContent: teamMessage.teamMessageContent
+      .post('team/' + userMessage.teamId + '/messages/', {
+        teamMessageFromId: userMessage.messageSenderUserId,
+        teamMessageRecipientId: userMessage.messageRecipientUserId,
+        teamMessageContent: userMessage.messageBody
       })
       .pipe(
         retry(3), // retry a failed request up to 3 times
