@@ -115,7 +115,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let teamMember of teamMembers" class="active">
+    <tr
+      *ngFor="let teamMember of teamMembers"
+      class="active"
+      [routerLink]="'/teams/' + teamMember.teamId + '/members/' + teamMember.teamMemberId"
+    >
       <td class="listing-body-cell">
         <div class="team-member-information">
           <span class="team-member-hired">

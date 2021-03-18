@@ -35,4 +35,18 @@ ion-title {
 }
 .right-col-wrapper {
   margin-left: 73px;
+  h3 {
+    font-size: 18px;
+    margin-top: 20px;
+    font-family: AvenirBold;
+    font-weight: 900;
+    font-style: normal;
+    font-weight: bold;
+    font-stretch: normal;
+    line-height: 1.01;
+    margin-bottom: 9px;
+    text-align: left;
+    text-transform: uppercase;
+    color: var(--ion-color-tertiary);
+  }
 }

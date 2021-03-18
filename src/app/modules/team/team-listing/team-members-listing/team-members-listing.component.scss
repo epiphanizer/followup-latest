@@ -272,6 +272,11 @@ table.team-member-table {
     border-bottom: 1px solid #dfdfdf;
     padding-left: 16px;
 
+    &:hover {
+      td {
+        background-color: rgba(19, 175, 233, 0.15);
+      }
+    }
     td {
       display: table-cell;
       vertical-align: middle;

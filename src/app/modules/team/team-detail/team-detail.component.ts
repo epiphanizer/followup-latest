@@ -73,50 +73,52 @@ export class TeamMemberDetailComponent implements OnInit {
                   var val = '';
                   var i = 0;
                   var self = this;
-                  Object.entries(this.user.userInterests).forEach(([key, value], index) => {
-                    switch (key) {
-                      case 'celebrity':
-                        val = 'Met favorite celebrity';
-                        break;
-                      case 'helicopter':
-                        val = 'Flown in a helicopter';
-                        break;
-                      case 'kidney':
-                        val = 'Donated a kidney';
-                        break;
-                      case 'skydivedOrBungeed':
-                        val = 'Skydived or bungee jumped';
-                        break;
-                      case 'appearedOnTv':
-                        val = 'Appeared on TV';
-                        break;
-                      case 'janeAusten':
-                        val = 'Read Pride & Prejudice';
-                        break;
-                      case 'escargo':
-                        val = 'Eaten Escargo';
-                        break;
-                      case 'deployed':
-                        val = 'Been deployed';
-                        break;
-                      case 'instrument':
-                        val = 'Play an instrument';
-                        break;
-                      case 'seenTornado':
-                        val = 'Seen a tornado';
-                        break;
-                      case 'hitchhiked':
-                        val = 'Hitchhiked';
-                        break;
-                      case 'DND':
-                        val = 'Played Dungeons & Dragons';
-                        break;
-                    }
-                    self.user.userInterests[index] = {
-                      value: value,
-                      nicename: val
-                    };
-                  });
+                  if (this.user.userInterests) {
+                    Object.entries(this.user.userInterests).forEach(([key, value], index) => {
+                      switch (key) {
+                        case 'celebrity':
+                          val = 'Met favorite celebrity';
+                          break;
+                        case 'helicopter':
+                          val = 'Flown in a helicopter';
+                          break;
+                        case 'kidney':
+                          val = 'Donated a kidney';
+                          break;
+                        case 'skydivedOrBungeed':
+                          val = 'Skydived or bungee jumped';
+                          break;
+                        case 'appearedOnTv':
+                          val = 'Appeared on TV';
+                          break;
+                        case 'janeAusten':
+                          val = 'Read Pride & Prejudice';
+                          break;
+                        case 'escargo':
+                          val = 'Eaten Escargo';
+                          break;
+                        case 'deployed':
+                          val = 'Been deployed';
+                          break;
+                        case 'instrument':
+                          val = 'Play an instrument';
+                          break;
+                        case 'seenTornado':
+                          val = 'Seen a tornado';
+                          break;
+                        case 'hitchhiked':
+                          val = 'Hitchhiked';
+                          break;
+                        case 'DND':
+                          val = 'Played Dungeons & Dragons';
+                          break;
+                      }
+                      self.user.userInterests[index] = {
+                        value: value,
+                        nicename: val
+                      };
+                    });
+                  }
                 } else {
                   throw "Something went wrong, couldn't find user!";
                 }
@@ -134,11 +136,11 @@ export class TeamMemberDetailComponent implements OnInit {
       componentProps: {
         modalType: 'Post A Note',
         teamMember: this.teamMember,
-        teamMessage: {
-          teamId: this.teamMember.teamId,
-          teamMessageId: 0,
-          teamMessageContent: '',
-          teamMessageRecipientId: this.teamMember.teamMemberId
+        userMessage: {
+          messageId: 0,
+          messageBody: '',
+          messageSenderUserId: this.user.userId,
+          messageRecipientUserId: this.teamMember.userId
         }
       }
     });

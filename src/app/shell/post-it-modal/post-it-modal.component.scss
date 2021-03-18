@@ -35,11 +35,18 @@ ion-title {
   letter-spacing: 0.45px;
   text-align: left;
   color: #343638;
-  margin-bottom: 23px;
+  margin-bottom: 15px;
 }
 ion-radio-group {
+  ion-item {
+    max-height: 32px;
+    --padding-start: 0;
+    margin-left: 16px;
+    margin-bottom: 8px;
+  }
   ion-radio {
     display: inline-block;
+    margin-left: 0 !important;
     height: 15px !important;
     width: 15px !important;
     border: 2px solid #666;
@@ -66,13 +73,14 @@ span {
   letter-spacing: normal;
   text-align: left;
   color: #222222;
-  margin-bottom: 11px;
-  margin-left: 20px;
 }
-
+.message-label {
+  margin-left: 18px;
+  margin-top: 24px;
+}
 ion-textarea {
   --padding-start: 12px;
-  height: 200px;
+  height: 160px;
   width: 475px;
   margin: 0 auto;
   font-size: 13px;
