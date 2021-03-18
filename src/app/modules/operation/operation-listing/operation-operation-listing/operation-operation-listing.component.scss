@@ -2,6 +2,7 @@
   display: block;
   margin-top: 1.65rem;
 }
+
 .operation-feed {
   width: 100%;
 }
@@ -108,6 +109,7 @@ table.operation-table {
   th {
     text-align: left;
   }
+
   td {
     padding: 15px 16px;
     border: 1px solid rgba(217, 217, 217, 0.8);
@@ -117,51 +119,30 @@ table.operation-table {
     background-color: #ffffff;
     display: table-cell;
     font-family: "Avenir";
-    tr {
-      padding-left: 16px;
+  }
+
+  tr {
+    padding-left: 16px;
+
+    &.archived {
       td {
-        display: table-cell;
-        vertical-align: middle;
+        color: #c8c8c8;
       }
+    }
+
+    td {
+      display: table-cell;
+      vertical-align: middle;
+    }
+    .operation-name {
+      text-transform: capitalize;
+    }
+
+    padding-left: 20px;
+
+    .operation-status {
       &.archived {
-        opacity: 0.6;
-      }
-      padding-left: 20px;
-      .operation-name {
-        display: inline-block;
-        font-family: AvenirPro;
-        font-size: 16px;
-        font-weight: 800;
-        margin-right: 52px;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.75;
-        letter-spacing: normal;
-        text-align: left;
-        color: #222222;
-        text-transform: capitalize;
-
-        a {
-          color: #343638;
-          text-decoration: none;
-        }
-      }
-
-      .operation-status {
-        font-family: AvenirPro;
-        display: inline-block;
-        font-size: 16px;
-        font-weight: 500;
-        margin-right: 36px;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.75;
-        letter-spacing: normal;
-        text-align: left;
-        color: #222222;
-        &.archived {
-          color: #ef4627;
-        }
+        color: #ef4627;
       }
     }
   }

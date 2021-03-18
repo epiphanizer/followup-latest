@@ -11,8 +11,11 @@ import {
 import { OperationService } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
-import { Operation, OperationManager } from '../operation';
+import { Operation, OperationManager, OperationCallRep } from '../operation';
 import { take, map } from 'rxjs/operators';
+import { OperationCallRepsService } from '../operation-callreps.service';
+import { ToastrService } from 'ngx-toastr';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-operation-admin-right-sidebar',
@@ -57,11 +60,21 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   @Input() mode: any;
 
   activeOperationId: number;
+  fb: FormBuilder;
+  operationUsersForm: FormGroup;
   managerSidebarDropdownOpen: boolean = true;
   callRepSidebarDropdownOpen: boolean = true;
   operation: Operation | null;
   isOpen: boolean = true;
-  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
+  operationCallReps: OperationCallRep[];
+  operationCallRepsToAdd: OperationCallRep[];
+  operationCallRepsOriginal: number[];
+  constructor(
+    private route: ActivatedRoute,
+    private operationService: OperationService,
+    private operationCallRepsService: OperationCallRepsService,
+    private toastr: ToastrService
+  ) {}
   operations: Operation[];
   operationAssignedUsers: any[];
   operationAssignedManagers: any[];
@@ -75,11 +88,20 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     }
     this.route.paramMap.subscribe(params => {
       if (params.get('operationId')) {
+        if (this.mode.edit) {
+          this.createForm();
+        }
         this.operationAssignedUsers = [];
         this.activeOperationId = parseInt(params.get('operationId'));
         this.updateAssignedUsers();
         this.updateAssignedManagers();
       }
+    });
+  }
+  private createForm() {
+    this.operationUsersForm = this.fb.group({
+      operationManagers: this.fb.array([]),
+      operationCallReps: this.fb.array([])
     });
   }
   updateAssignedUsers() {
@@ -131,7 +153,37 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     this.callRepSidebarDropdownOpen = !this.callRepSidebarDropdownOpen;
   };
 
-  public addAdditionalOperationCallRep(operation: Operation) {
-    alert('adding new call rep');
+  public addAdditionalOperationCallRep() {
+    this.operationCallRepsToAdd = this.operationCallReps.filter((operationCallRep: OperationCallRep, index: number) => {
+      return operationCallRep.userId !== this.operationCallRepsOriginal[index] && operationCallRep.userId !== 0;
+    });
+    /**
+     * Make sure we only add uniques
+     */
+    this.operationCallRepsToAdd = Array.from(new Set(this.operationCallRepsToAdd));
+    this.operationCallRepsToAdd.forEach((operationCallRep: OperationCallRep) => {
+      this.operationCallRepsService
+        .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
+        .subscribe(() => {
+          this.toastr.success('Care Rep successfully added');
+        });
+    });
+  }
+  updateOperationCallReps() {
+    this.operationCallReps = [];
+    this.operationCallRepsOriginal = [];
+    let formArray = this.operationUsersForm.controls.operationCallReps as FormArray;
+    formArray.clear();
+    this.operationCallRepsService
+      .getOperationCallRepsByOperationId(this.operation.operationId)
+      .subscribe((operationCallReps: OperationCallRep[]) => {
+        if (operationCallReps !== null) {
+          this.operationCallReps = operationCallReps;
+          operationCallReps.forEach((operationCallRep: OperationCallRep) => {
+            this.operationCallRepsOriginal.push(operationCallRep.userId);
+          });
+        }
+      });
+    this.addAdditionalOperationCallRep();
   }
 }
