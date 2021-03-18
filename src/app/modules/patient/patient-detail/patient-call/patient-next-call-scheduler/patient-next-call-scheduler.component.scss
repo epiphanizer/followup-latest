@@ -180,14 +180,14 @@ h3 {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 100%;
-    &.24h {
-      background-image: ("/assets/button-24-hours@2x.png");
+    &.tomorrow {
+      background-image: url("/assets/button-24-hours@2x.png");
     }
-    &.72h {
-      background-image: ("/assets/button-72-hours@2x.png");
+    &.three-days {
+      background-image: url("/assets/button-72-hours@2x.png");
     }
-    &.1w {
-      background-image: ("/assets/button-1-week@2x.png");
+    &.one-week {
+      background-image: url("/assets/button-1-week@2x.png");
     }
   }
 }
