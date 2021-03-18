@@ -101,7 +101,9 @@ ul.operation-filters {
 
 table.operation-table {
   list-style-type: none;
-  width: 100%;
+  width: 80%;
+  min-width: 850px;
+  max-width: 1020px;
   padding-left: 0;
   margin-bottom: 0.75rem;
 
@@ -115,7 +117,11 @@ table.operation-table {
     border: 1px solid rgba(217, 217, 217, 0.8);
     cursor: pointer;
     width: auto;
-    border-top: solid 1px black;
+    border: solid 1px rgb(187, 187, 187);
+    border-left: 0px;
+    &:last-child {
+      border-right: 0px;
+    }
     background-color: #ffffff;
     display: table-cell;
     font-family: "Avenir";
