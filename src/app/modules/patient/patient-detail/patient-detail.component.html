@@ -7,6 +7,7 @@
       <app-patient-notes [patient]="patient"> </app-patient-notes>
       <app-patient-history-listing
         *ngIf="patient.patientCalls && patient.patientNotifications"
+        [patient]="patient"
         [patientCalls]="patient.patientCalls"
         [patientNotifications]="patient.patientNotifications"
       >

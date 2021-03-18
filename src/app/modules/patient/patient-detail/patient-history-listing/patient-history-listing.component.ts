@@ -9,6 +9,7 @@ import {
 } from '@app/modules/patient/patient-detail/patient-call/patient-call-questions/patient-call-questions.service';
 import { map } from 'rxjs/operators';
 import { Notification } from '@app/modules/notification/notification';
+import { Patient } from '../../patient';
 
 @Component({
   providers: [PatientCallQuestionsService],
@@ -17,6 +18,7 @@ import { Notification } from '@app/modules/notification/notification';
   styleUrls: ['./patient-history-listing.component.scss']
 })
 export class PatientHistoryListingComponent implements OnInit {
+  @Input() patient: Patient;
   @Input() patientCalls: PatientCall[];
   @Input() patientNotifications: Notification[];
   patientActivity: [Notification[] | PatientCall[]] | any;
