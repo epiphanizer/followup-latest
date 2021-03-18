@@ -4,37 +4,38 @@
     Next Call
   </ion-title>
 </ion-row>
-<!-- <div class="next-call-options-container">
+<div class="next-call-options-container">
   <span class="next-call-label">Next Call is Scheduled in:</span>
   <div class="next-call-radio-group-container">
     <ion-radio-group (change)="selectNextCallShortcut($event)">
-      <ion-radio value="24h">
-        24h
-      </ion-radio>
-      <ion-radio value="72h">
-        72h
-      </ion-radio>
-      <ion-radio value="1w">
-        1w
-      </ion-radio>
+      <ion-item>
+        <ion-radio class="24h" value="24h"> </ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-radio class="72h" value="72h"> </ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-radio class="1wk" value="1wk"> </ion-radio>
+      </ion-item>
     </ion-radio-group>
   </div>
-</div> -->
+</div>
 <div class="call-history-container">
   <div class="calendar-month-controls">
     <span class="left-month-arrow" (click)="calendarPrevMonth()"></span>
     <span class="calendar-date"> {{ currentCalendarMonth.name }} {{ selectedYear.year }} </span>
     <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
   </div>
+
   <div class="calendar-wrapper">
     <div
       class="calendar-day"
       *ngFor="let day of selectedMonth.daysArray; let i = index"
-      [class.disabled]="(i + 1) % 7 == 0 || i % 7 == 0"
-      [class.active]="selectedDay == day && selectedMonth.number == chosenMonth"
-      (click)="selectDateEventHandler(day, currentCalendarMonth.number, selectedYear.year)"
+      [class.disabled]="(i + 1) % 7 == 0 || i % 7 == 0 || 0 > i + offsetNumber"
+      [class.active]="selectedDay == day && selectedMonth.number == chosenMonth && i + offsetNumber >= 0"
+      (click)="i + offsetNumber >= 0 && selectDateEventHandler(day, currentCalendarMonth.number, selectedYear.year)"
     >
-      <span [class.hide]="day < 0">
+      <span>
         {{ day }}
       </span>
     </div>
