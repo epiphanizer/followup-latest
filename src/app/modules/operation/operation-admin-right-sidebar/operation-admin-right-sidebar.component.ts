@@ -88,9 +88,9 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     }
     this.route.paramMap.subscribe(params => {
       if (params.get('operationId')) {
-        if (this.mode.edit) {
-          this.createForm();
-        }
+        // if (this.mode.edit) {
+        //   this.createForm();
+        // }
         this.operationAssignedUsers = [];
         this.activeOperationId = parseInt(params.get('operationId'));
         this.updateAssignedUsers();
@@ -99,10 +99,10 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     });
   }
   private createForm() {
-    this.operationUsersForm = this.fb.group({
-      operationManagers: this.fb.array([]),
-      operationCallReps: this.fb.array([])
-    });
+    // this.operationUsersForm = this.fb.group({
+    //   operationManagers: this.fb.array([]),
+    //   operationCallReps: this.fb.array([])
+    // });
   }
   updateAssignedUsers() {
     this.operationService
@@ -153,37 +153,37 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     this.callRepSidebarDropdownOpen = !this.callRepSidebarDropdownOpen;
   };
 
-  public addAdditionalOperationCallRep() {
-    this.operationCallRepsToAdd = this.operationCallReps.filter((operationCallRep: OperationCallRep, index: number) => {
-      return operationCallRep.userId !== this.operationCallRepsOriginal[index] && operationCallRep.userId !== 0;
-    });
-    /**
-     * Make sure we only add uniques
-     */
-    this.operationCallRepsToAdd = Array.from(new Set(this.operationCallRepsToAdd));
-    this.operationCallRepsToAdd.forEach((operationCallRep: OperationCallRep) => {
-      this.operationCallRepsService
-        .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
-        .subscribe(() => {
-          this.toastr.success('Care Rep successfully added');
-        });
-    });
-  }
-  updateOperationCallReps() {
-    this.operationCallReps = [];
-    this.operationCallRepsOriginal = [];
-    let formArray = this.operationUsersForm.controls.operationCallReps as FormArray;
-    formArray.clear();
-    this.operationCallRepsService
-      .getOperationCallRepsByOperationId(this.operation.operationId)
-      .subscribe((operationCallReps: OperationCallRep[]) => {
-        if (operationCallReps !== null) {
-          this.operationCallReps = operationCallReps;
-          operationCallReps.forEach((operationCallRep: OperationCallRep) => {
-            this.operationCallRepsOriginal.push(operationCallRep.userId);
-          });
-        }
-      });
-    this.addAdditionalOperationCallRep();
-  }
+  // public addAdditionalOperationCallRep() {
+  //   this.operationCallRepsToAdd = this.operationCallReps.filter((operationCallRep: OperationCallRep, index: number) => {
+  //     return operationCallRep.userId !== this.operationCallRepsOriginal[index] && operationCallRep.userId !== 0;
+  //   });
+  //   /**
+  //    * Make sure we only add uniques
+  //    */
+  //   this.operationCallRepsToAdd = Array.from(new Set(this.operationCallRepsToAdd));
+  //   this.operationCallRepsToAdd.forEach((operationCallRep: OperationCallRep) => {
+  //     this.operationCallRepsService
+  //       .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
+  //       .subscribe(() => {
+  //         this.toastr.success('Care Rep successfully added');
+  //       });
+  //   });
+  // }
+  // updateOperationCallReps() {
+  //   this.operationCallReps = [];
+  //   this.operationCallRepsOriginal = [];
+  //   let formArray = this.operationUsersForm.controls.operationCallReps as FormArray;
+  //   formArray.clear();
+  //   this.operationCallRepsService
+  //     .getOperationCallRepsByOperationId(this.operation.operationId)
+  //     .subscribe((operationCallReps: OperationCallRep[]) => {
+  //       if (operationCallReps !== null) {
+  //         this.operationCallReps = operationCallReps;
+  //         operationCallReps.forEach((operationCallRep: OperationCallRep) => {
+  //           this.operationCallRepsOriginal.push(operationCallRep.userId);
+  //         });
+  //       }
+  //     });
+  //   this.addAdditionalOperationCallRep();
+  // }
 }
