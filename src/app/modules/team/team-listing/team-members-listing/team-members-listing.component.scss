@@ -240,8 +240,11 @@ ul.operation-filters {
 
 table.team-member-table {
   list-style-type: none;
-  width: 100%;
+  width: 80%;
+  min-width: 850px;
+  max-width: 1020px;
   padding-left: 0;
+  margin-bottom: 0.75rem;
 
   td,
   th {
@@ -249,38 +252,44 @@ table.team-member-table {
   }
 
   td {
-    border: 1px solid rgba(217, 217, 217, 0.8);
     padding: 15px 16px;
+    border: 1px solid rgba(217, 217, 217, 0.8);
     cursor: pointer;
     width: auto;
-    border-top: solid 1px black;
+    border: solid 1px rgb(187, 187, 187);
+    border-left: 0px;
+
+    &:last-child {
+      border-right: 0px;
+    }
+
     background-color: #ffffff;
     display: table-cell;
     font-family: "Avenir";
+  }
 
-    tr {
-      border-bottom: 1px solid #dfdfdf;
-      padding-left: 16px;
+  tr {
+    border-bottom: 1px solid #dfdfdf;
+    padding-left: 16px;
 
-      td {
-        display: table-cell;
-        vertical-align: middle;
-      }
-
-      &.archived {
-        opacity: 0.6;
-      }
-
-      padding-left: 20px;
+    td {
+      display: table-cell;
+      vertical-align: middle;
     }
-  }
 
-  img.post-it-note {
-    max-width: 30px;
-    margin: 0 auto;
-    text-align: center;
-    display: block;
+    &.archived {
+      opacity: 0.6;
+    }
+
+    padding-left: 20px;
   }
+}
+
+img.post-it-note {
+  max-width: 30px;
+  margin: 0 auto;
+  text-align: center;
+  display: block;
 }
 
 jw-pagination {
