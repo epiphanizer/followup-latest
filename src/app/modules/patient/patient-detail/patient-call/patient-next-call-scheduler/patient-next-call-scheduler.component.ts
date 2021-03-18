@@ -47,14 +47,15 @@ export class PatientNextCallSchedulerComponent implements OnInit {
     }
     return false;
   }
-  dateFilterChangeEvent(selectedDay: number, currentCalendarMonth: number, todaysYear: number) {
-    let date = currentCalendarMonth + '/' + selectedDay + '/' + this.selectedYear.year;
+  handleDateFilterChangeEvent($event: any) {
+    let date = $event;
     let dateToCompare = new Date(date);
     if (this.compareDates(dateToCompare)) {
       alert('Please select a future date!');
       return;
     }
-    this.selectedDay = selectedDay;
+    console.log(date);
+    // this.selectedDay = selectedDay;
     this.scheduledCallDate = date;
     this.status.scheduled = true;
     this.patientNextCallDateSelectedEventEmitter.emit(this.scheduledCallDate);

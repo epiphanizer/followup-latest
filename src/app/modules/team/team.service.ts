@@ -41,6 +41,13 @@ export class TeamService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
+
+  getTeamTotals = function() {
+    return this.http.get('teams/totals').pipe(
+      retry(3),
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  };
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

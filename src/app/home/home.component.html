@@ -64,8 +64,8 @@
               </span>
             </span>
             <div class="green progress-bar">
-              <span class="start-metric">96</span>
-              <span class="finish-metric">156</span>
+              <span class="start-metric">{{ callsMade.callsMade }}</span>
+              <span class="finish-metric">{{ callsMade.totalCalls }}</span>
             </div>
           </li>
           <li class="metric">
@@ -76,8 +76,8 @@
               </span>
             </span>
             <div class="yellow progress-bar">
-              <span class="start-metric">162</span>
-              <span class="finish-metric">235</span>
+              <span class="start-metric">{{ notificationsSent.notifications }}</span>
+              <span class="finish-metric">{{ notificationsSent.totalNotifications }}</span>
             </div>
           </li>
         </ul>

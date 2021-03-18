@@ -4,9 +4,18 @@
       <ion-title>Post A Note</ion-title>
       <img class="post-it-icon-image" src="/assets/icon-postit-lg@2x.png" alt="" />
     </ion-row>
-    <span class="message-to-label"
-      ><strong>To:</strong> {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}</span
-    >
+    <ion-radio-group formGroupName="messageType">
+      <ion-item lines="none">
+        <ion-radio selected value="user"> </ion-radio>
+        <span class="message-to-label"
+          ><strong>To:</strong> {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}</span
+        >
+      </ion-item>
+      <ion-item lines="none">
+        <ion-radio value="team"> </ion-radio>
+        <span class="message-to-label"><strong>To:</strong> Dashboard Message</span>
+      </ion-item>
+    </ion-radio-group>
     <span class="message-label"><strong>Message:</strong></span>
     <ion-textarea
       [autoGrow]="true"

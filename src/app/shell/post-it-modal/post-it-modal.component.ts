@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '@app/modules/user/user.service';
 import { UserMessage } from '@app/modules/user/user';
+import { TeamMessageService } from '@app/modules/team/team-messages.service';
 @Component({
   providers: [UserService, ToastrService],
   selector: 'app-post-it-modal',
@@ -15,6 +16,7 @@ import { UserMessage } from '@app/modules/user/user';
 })
 export class PostItModalComponent {
   createUserMessageForm: FormGroup;
+  messageType: string;
   userMessage: UserMessage;
   todaysDate: string;
   todaysDateDay: number;
@@ -22,6 +24,7 @@ export class PostItModalComponent {
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
+    private teamMessageService: TeamMessageService,
     private userMessageService: UserService,
     private route: ActivatedRoute,
     private toastr: ToastrService
@@ -36,21 +39,34 @@ export class PostItModalComponent {
 
   createForm() {
     this.createUserMessageForm = this.fb.group({
+      messageType: this.fb.control('', [Validators.required]),
       messageBody: this.fb.control('', [Validators.required])
     });
   }
   sendTheMessage() {
     let formData = this.createUserMessageForm.getRawValue();
     this.userMessage.messageBody = formData.messageBody;
-    this.userMessageService.sendUserMessage(this.userMessage).subscribe((data: any) => {
-      console.log(data);
-      if (data) {
-        this.toastr.success('Successfully sent team message');
-      } else {
-        this.toastr.error('Uh oh! Something went wrong! Please try again.');
-      }
-      this.dismiss();
-    });
+    if (this.messageType == 'user') {
+      this.userMessageService.sendUserMessage(this.userMessage).subscribe((data: any) => {
+        console.log(data);
+        if (data) {
+          this.toastr.success('Successfully sent team message');
+        } else {
+          this.toastr.error('Uh oh! Something went wrong! Please try again.');
+        }
+        this.dismiss();
+      });
+    } else if (this.messageType == 'team') {
+      this.teamMessageService.sendTeamMessage(this.userMessage).subscribe((data: any) => {
+        console.log(data);
+        if (data) {
+          this.toastr.success('Successfully sent team message');
+        } else {
+          this.toastr.error('Uh oh! Something went wrong! Please try again.');
+        }
+        this.dismiss();
+      });
+    }
   }
 
   dismiss() {

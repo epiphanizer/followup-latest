@@ -90,7 +90,11 @@
             <span class="call-notes-label" [class.is-highlighted]="activity.patientCallNotesHighlighted">
               Call Notes
             </span>
-            <div class="patient-call-notes" *ngIf="activity.patientCallNotes; else noCallNotes">
+            <div
+              class="patient-call-notes"
+              style="white-space: pre-wrap;"
+              *ngIf="activity.patientCallNotes; else noCallNotes"
+            >
               {{ activity.patientCallNotes }}
             </div>
           </div>

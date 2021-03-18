@@ -118,7 +118,6 @@ export class NotificationModalComponent {
           this.toastr.success('Successfully sent notification!');
         });
         this.dismiss();
-        window.location.reload();
       });
   }
 

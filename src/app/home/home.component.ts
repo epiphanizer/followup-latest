@@ -4,6 +4,7 @@ import { User, UserMessage } from '@app/modules/user/user';
 import { TeamMessage } from '@app/modules/team/team';
 import { UserService } from '@app/modules/user/user.service';
 import { TeamService } from '@app/modules/team/team.service';
+import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 
 @Component({
   providers: [UserService],
@@ -24,13 +25,14 @@ export class HomeComponent implements OnInit {
     weeklyCalls: 0,
     queueCalls: 0
   };
+
   callsMade: any = {
     callsMade: 0,
     totalCalls: 0
   };
   notificationsSent: any = {
-    notificationsSent: 0,
-    totalNotificationsSent: 0
+    notifications: 0,
+    totalNotifications: 0
   };
 
   public teamMessage: TeamMessage;
@@ -51,6 +53,11 @@ export class HomeComponent implements OnInit {
     //   console.log(teamMessages);
     //   this.teamMessage = teamMessages[0];
     // });
+    this.teamService.getTeamTotals().subscribe((data: any) => {
+      console.log(data);
+      this.callsMade.totalCalls = data[0].totalCalls;
+      this.notificationsSent.totalNotifications = data[0].totalNotifications;
+    });
     this.userService.getUserMessages(this.user).subscribe((userMessages: UserMessage[]) => {
       console.log(userMessages);
       this.userMessage = userMessages[0];
@@ -61,8 +68,14 @@ export class HomeComponent implements OnInit {
     this.userService.getUserCalls(this.user).subscribe((data: any) => {
       console.log(data);
     });
+
+    this.userService.getUserCompletedCalls(this.user).subscribe((data: any) => {
+      console.log(data);
+      this.callsMade.callsMade = data[0].totalCalls;
+    });
     this.userService.getUserNotifications(this.user).subscribe((data: any) => {
       console.log(data);
+      this.notificationsSent.notifications = data[0].notifications;
     });
   }
 }

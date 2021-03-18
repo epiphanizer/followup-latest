@@ -48,6 +48,13 @@ export class UserService {
       catchError(error => this.handleAsyncError(error))
     );
   }
+  public getUserCompletedCalls(user: User): Observable<any> {
+    var userId = user.userId;
+    return this.http.get<Blob>('users/' + userId + '/calls/completed').pipe(
+      share(),
+      catchError(error => this.handleAsyncError(error))
+    );
+  }
   public getUserMessages(user: User): Observable<UserMessage[]> {
     var userId = user.userId;
     return this.http.get<UserMessage[]>('users/' + userId + '/messages').pipe(
