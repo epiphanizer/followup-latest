@@ -130,4 +130,8 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   public toggleOperationCallRepsAssignedMenu = function() {
     this.callRepSidebarDropdownOpen = !this.callRepSidebarDropdownOpen;
   };
+
+  public addAdditionalOperationCallRep(operation: Operation) {
+    alert('adding new call rep');
+  }
 }

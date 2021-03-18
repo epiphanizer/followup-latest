@@ -1,3 +1,6 @@
+.alert-button.sc-ion-alert-md {
+  font-family: AvenirBold;
+}
 .sidebar {
   fieldset {
     border: none;
@@ -22,13 +25,16 @@
     display: inline-block;
     margin-right: 7px;
     background-image: url("/assets/icon-team-members@2x.png");
-    height: 14px;
-    width: 14px;
+    height: 21px;
+    width: 21px;
     background-size: cover;
   }
 }
 ion-list {
   text-align: right;
+  ion-item {
+    --inner-padding-end: 0;
+  }
 }
 .operation-callrep,
 .operation-manager {
@@ -48,21 +54,35 @@ ion-list {
   visibility: hidden;
 }
 ion-select {
-  display: contents;
-  padding: 10px 7px 9px 15px;
-  border: solid 1px #e2e2e2;
+  :host {
+    max-width: unset;
+  }
+  max-width: unset;
+  font-family: Avenir;
+  font-size: 14px;
+  width: 100%;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  color: #0a0a0a;
+  letter-spacing: 0.28px;
+  text-align: left;
+  display: block;
   background-color: #f5f5f5;
   ::part(icon) {
     display: none !important;
   }
   &:after {
     display: block;
+    position: absolute;
     content: "";
+    top: 14px;
     background-image: url("/assets/icon-arrow-down@2x.png");
     background-size: 100%;
     background-repeat: no-repeat;
     height: 11px;
-    width: 15px;
+    width: 14px;
+    right: 12px;
   }
 }
 
