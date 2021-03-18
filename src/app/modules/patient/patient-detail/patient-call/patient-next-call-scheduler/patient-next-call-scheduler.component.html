@@ -14,24 +14,4 @@
     </ion-radio-group>
   </div>
 </div>
-<div class="call-history-container">
-  <div class="calendar-month-controls">
-    <span class="left-month-arrow" (click)="calendarPrevMonth()"></span>
-    <span class="calendar-date"> {{ currentCalendarMonth.name }} {{ selectedYear.year }} </span>
-    <span class="right-month-arrow" (click)="calendarNextMonth()"></span>
-  </div>
-
-  <div class="calendar-wrapper">
-    <div
-      class="calendar-day"
-      *ngFor="let day of selectedMonth.daysArray; let i = index"
-      [class.disabled]="(i + 1) % 7 == 0 || i % 7 == 0 || 0 > i + offsetNumber"
-      [class.active]="selectedDay == day && selectedMonth.number == chosenMonth && i + offsetNumber >= 0"
-      (click)="i + offsetNumber >= 0 && selectDateEventHandler(day, currentCalendarMonth.number, selectedYear.year)"
-    >
-      <span>
-        {{ day }}
-      </span>
-    </div>
-  </div>
-</div>
+<app-calendar (dateFilterChangeEvent)="handleDateFilterChangeEvent($event)"> </app-calendar>

@@ -29,6 +29,12 @@ export class TeamService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
+  getTeamMessagesByTeamId = function(teamId: number) {
+    return this.http.get('teams/' + teamId + '/messages/').pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  };
   getTeams = function() {
     return this.http.get('teams').pipe(
       retry(3),

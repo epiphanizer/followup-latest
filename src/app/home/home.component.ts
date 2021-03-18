@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User, UserMessage } from '@app/modules/user/user';
 import { TeamMessage } from '@app/modules/team/team';
 import { UserService } from '@app/modules/user/user.service';
+import { TeamService } from '@app/modules/team/team.service';
 
 @Component({
   providers: [UserService],
@@ -32,24 +33,24 @@ export class HomeComponent implements OnInit {
     totalNotificationsSent: 0
   };
 
-  public teamMessage: TeamMessage = {
-    teamId: 1,
-    teamMessageId: 0,
-    teamMessageFromId: 0,
-    teamMessageRecipientId: 0,
-
-    teamMessageFromUserFirstName: 'Stub',
-    teamMessageFromUserLastName: 'User',
-    teamMessageContent:
-      'Good Morning Team! Don’t forget this Friday is…Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci.'
-  };
+  public teamMessage: TeamMessage;
   userMessage: UserMessage;
   public user: User;
   public menu: {}[] = [{}];
-  constructor(private route: ActivatedRoute, private router: Router, private userService: UserService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private teamService: TeamService,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
+    console.log(this.user);
+    // this.teamService.getTeamMessages().subscribe((teamMessages: TeamMessage[]) => {
+    //   console.log(teamMessages);
+    //   this.teamMessage = teamMessages[0];
+    // });
     this.userService.getUserMessages(this.user).subscribe((userMessages: UserMessage[]) => {
       console.log(userMessages);
       this.userMessage = userMessages[0];

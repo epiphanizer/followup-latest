@@ -20,6 +20,7 @@ import { PatientModule } from '../patient.module';
 import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.component';
 import { PatientIntakeQuestionComponent } from '../patient-intake-question/patient-intake-question.component';
 import { PatientHistoryListingComponent } from './patient-history-listing/patient-history-listing.component';
+import { SharedModule } from '@app/shared';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,7 @@ import { PatientHistoryListingComponent } from './patient-history-listing/patien
     PatientNextCallQuestionsComponent,
     PatientNextCallFinishButtonComponent
   ],
-  imports: [CommonModule, PatientModule, RouterModule, IonicModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, PatientModule, RouterModule, IonicModule, FormsModule, ReactiveFormsModule, SharedModule],
   entryComponents: [
     PatientAvatarComponent,
     PatientDetailComponent,
