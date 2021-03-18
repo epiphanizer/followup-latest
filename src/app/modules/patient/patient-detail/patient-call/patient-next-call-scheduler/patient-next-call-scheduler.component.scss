@@ -3,7 +3,17 @@
   margin-top: 1rem;
   clear: both;
 }
-
+.next-call-label {
+  font-family: AvenirDemi;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.75;
+  letter-spacing: 0.32px;
+  text-align: left;
+  color: rgb(34, 34, 34);
+}
 .scheduled-call-date {
   font-family: Avenir;
   font-size: 16px;

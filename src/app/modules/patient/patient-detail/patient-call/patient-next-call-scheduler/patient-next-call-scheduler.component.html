@@ -1,21 +1,15 @@
-<ion-row id="next-call-calendar" class="next-call-scheduler">
-  <ion-title *ngIf="!status.scheduled"
-    ><i class="icon-phone"></i>
-    Next Call
-  </ion-title>
-</ion-row>
 <div class="next-call-options-container">
   <span class="next-call-label">Next Call is Scheduled in:</span>
   <div class="next-call-radio-group-container">
     <ion-radio-group (change)="selectNextCallShortcut($event)">
-      <ion-item>
-        <ion-radio class="tomorrow" value="24h"> </ion-radio>
+      <ion-item class="tomorrow">
+        <ion-radio value="24h"> </ion-radio>
       </ion-item>
-      <ion-item>
-        <ion-radio class="three-days" value="72h"> </ion-radio>
+      <ion-item class="three-days">
+        <ion-radio value="72h"> </ion-radio>
       </ion-item>
-      <ion-item>
-        <ion-radio class="one-week" value="1wk"> </ion-radio>
+      <ion-item class="one-week">
+        <ion-radio value="1wk"> </ion-radio>
       </ion-item>
     </ion-radio-group>
   </div>
