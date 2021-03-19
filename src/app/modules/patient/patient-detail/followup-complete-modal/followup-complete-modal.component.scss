@@ -31,7 +31,7 @@ ion-title {
 }
 
 .patient-status-container {
-  max-width: 488px;
+  max-width: 545px;
   margin-left: 40px;
   margin-top: 1rem;
 }
@@ -53,11 +53,19 @@ ion-title {
     vertical-align: middle;
 
     ion-radio {
-      height: 15px !important;
-      width: 15px !important;
-      border: 2px solid #666;
-      margin: 0;
+      --color-checked: transparent;
+      display: inline-block;
+      height: 14px !important;
+      width: 14px !important;
       margin-right: 4px;
+    }
+    .radio-button-notify {
+      background-size: cover;
+      background-image: url("/assets/button-radio@2x.png");
+      &:active,
+      &.radio-checked {
+        background-image: url("/assets/button-radio-checked-red@2x.png");
+      }
     }
 
     ion-item {
@@ -70,7 +78,7 @@ ion-title {
       display: inline-block;
       font-family: Avenir;
       font-size: 12px;
-      margin-left: 10px;
+      margin-left: 6px;
       line-height: 25px;
     }
   }

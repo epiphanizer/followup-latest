@@ -6,13 +6,13 @@
     </ion-row>
     <ion-radio-group value="user" formControlName="messageType">
       <ion-item lines="none">
-        <ion-radio mode="ios" value="user"> </ion-radio>
+        <ion-radio class="radio-button-notify" mode="ios" value="user"> </ion-radio>
         <span class="message-to-label"
           ><strong>To:</strong> {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}</span
         >
       </ion-item>
       <ion-item lines="none">
-        <ion-radio mode="ios" value="team"> </ion-radio>
+        <ion-radio class="radio-button-notify" mode="ios" value="team"> </ion-radio>
         <span class="message-to-label"><strong>To:</strong> Dashboard Message</span>
       </ion-item>
     </ion-radio-group>

@@ -9,7 +9,7 @@
         <ion-radio-group formControlName="patientStatusLabelId">
           <li *ngFor="let patientStatus of completionTypes">
             <ion-item>
-              <ion-radio mode="ios" value="{{ patientStatus.patientStatusLabelId }}">
+              <ion-radio class="radio-button-notify" mode="ios" value="{{ patientStatus.patientStatusLabelId }}">
                 {{ patientStatus.patientStatusLabelId }}
               </ion-radio>
               <ion-label class="patient-status-label ion-text-wrap">

@@ -136,19 +136,18 @@ ion-item.boolean-question {
   --padding-start: 0;
 }
 
-ion-radio-group .item-radio-checked ion-icon {
-  fill: #00b8be;
-}
-
 ion-radio {
-  height: 16px;
-  width: 16px;
-  border-radius: 3px !important;
-  border: solid 2px #666666;
-  margin-right: 5px;
-
-  .radio-icon {
-    border-radius: 0px;
+  --color-checked: transparent;
+  display: inline-block;
+  height: 14px !important;
+  width: 14px !important;
+}
+.radio-button {
+  background-size: cover;
+  background-image: url("/assets/button-radio@2x.png");
+  &:active,
+  &.radio-checked {
+    background-image: url("/assets/button-radio-checked-green@2x.png");
   }
 }
 
