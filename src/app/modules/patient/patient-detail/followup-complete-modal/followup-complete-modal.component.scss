@@ -114,6 +114,9 @@ ion-textarea {
   margin-bottom: 1rem;
 }
 
+ion-button {
+  font-family: "AvenirDemi";
+}
 .save-button {
   text-align: center;
   width: 109px;
@@ -127,10 +130,6 @@ ion-textarea {
   border-radius: 17px;
   margin-bottom: 2rem;
   font-weight: bold;
-}
-
-.item-radio-checked ion-icon {
-  fill: #ef4627;
 }
 
 .send-container {
