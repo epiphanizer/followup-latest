@@ -187,24 +187,31 @@
           }
         }
 
-        .progress-bar {
+        .progress-bar-container {
           display: block;
           width: 100%;
           height: 30px;
           margin: 0.5px 0 0.5px 0.5px;
           border: solid 1px #ffffff;
           background-color: #ffffff;
-          &.red {
-            background-color: #ef4627;
-          }
-          &.blue {
-            background-color: #1cb4b9;
-          }
-          &.green {
-            background-color: #9acc38;
-          }
-          &.yellow {
-            background-color: #fecc04;
+          .progress-bar {
+            display: block;
+            height: 30px;
+            margin-bottom: -30px;
+            min-width: 80px;
+            width: 100%;
+            &.red {
+              background-color: #ef4627;
+            }
+            &.blue {
+              background-color: #1cb4b9;
+            }
+            &.green {
+              background-color: #9acc38;
+            }
+            &.yellow {
+              background-color: #fecc04;
+            }
           }
           .start-metric,
           .finish-metric {

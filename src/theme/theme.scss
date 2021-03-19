@@ -43,10 +43,6 @@
   src: url("/assets/fonts/AvenirNextLTPro-MediumIt.otf") format("opentype");
 }
 
-// @font-face {
-//   font-family: AvenirRoman;
-//   src: url("/assets/fonts/AvenirNextLTPro-Bold.otf") format("opentype");
-// }
 /* Workaround to hide android default validation colors */
 ion-item.item-md.item-input.input-has-focus .item-inner,
 ion-item.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner,
@@ -106,11 +102,11 @@ $item-md-padding-end: 0;
 /**
 * Handles the date-picker, md. confirmation & interfaces
 **/
-[aria-checked="true"].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
-  color: var(--ion-color-step-850, #262626);
-  font-family: "AvenirPro";
-  font-size: 17px;
-}
+// [aria-checked="true"].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
+//   color: var(--ion-color-step-850, #262626);
+//   font-family: "AvenirPro";
+//   font-size: 17px;
+// }
 ion-radio {
   :host {
     border-radius: 0;

@@ -10,7 +10,8 @@
           <ul class="notification-list-container">
             <li *ngFor="let notificationType of notificationTypes">
               <ion-item class="notification-list-choice">
-                <ion-radio mode="ios" value="{{ notificationType.notificationTypeId }}"> </ion-radio>
+                <ion-radio class="radio-button-notify" mode="ios" value="{{ notificationType.notificationTypeId }}">
+                </ion-radio>
                 <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
               </ion-item>
             </li>

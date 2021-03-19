@@ -45,19 +45,17 @@ ion-radio-group {
     margin-bottom: 8px;
   }
   ion-radio {
+    --color-checked: transparent;
     display: inline-block;
-    margin-left: 0 !important;
-    height: 15px !important;
-    width: 15px !important;
-    border: 2px solid #666;
-    :host {
-      width: 15px !important;
-      height: 15px !important;
-    }
-
-    .radio-icon {
-      width: 15px !important;
-      height: 15px !important;
+    height: 14px !important;
+    width: 14px !important;
+  }
+  .radio-button-notify {
+    background-size: cover;
+    background-image: url("/assets/button-radio@2x.png");
+    &:active,
+    &.radio-checked {
+      background-image: url("/assets/button-radio-checked-red@2x.png");
     }
   }
 }

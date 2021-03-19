@@ -49,27 +49,37 @@ export class HomeComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.teamService.getTeamMessagesByTeamId(1).subscribe((teamMessages: TeamMessage[]) => {
       this.teamMessage = teamMessages[0];
-    });
-    this.teamService.getTeamTotals().subscribe((data: any) => {
-      this.callsMade.totalCalls = data[0].totalCalls;
-      this.notificationsSent.totalNotifications = data[0].totalNotifications;
-    });
-    this.userService.getUserMessages(this.user).subscribe((userMessages: UserMessage[]) => {
-      this.userMessage = userMessages[0];
-    });
-    /**
-     * Data dashboard calls
-     */
-    this.userService.getUserCallCount(this.user).subscribe((data: any) => {
-      this.todaysCalls.completed = data[0].todaysCompletedCalls;
-      this.todaysCalls.scheduled = data[0].todaysScheduledCalls;
-      this.weeklyCalls.completed = data[0].weeklyCompletedCalls;
-      this.weeklyCalls.scheduled = data[0].weeklyScheduledCalls;
-      this.callsMade.callsMade = data[0].totalCalls;
-    });
+      this.teamService.getTeamTotals().subscribe((data: any) => {
+        this.callsMade.totalCalls = data[0].totalCalls;
+        this.notificationsSent.totalNotifications = data[0].totalNotifications;
 
-    this.userService.getUserNotifications(this.user).subscribe((data: any) => {
-      this.notificationsSent.notifications = data[0].notifications;
+        this.userService.getUserMessages(this.user).subscribe((userMessages: UserMessage[]) => {
+          this.userMessage = userMessages[0];
+
+          /**
+           * Data dashboard calls
+           */
+          this.userService.getUserCallCount(this.user).subscribe((data: any) => {
+            this.todaysCalls.completed = data[0].todaysCompletedCalls;
+            this.todaysCalls.scheduled = data[0].todaysScheduledCalls;
+            this.weeklyCalls.completed = data[0].weeklyCompletedCalls;
+            this.weeklyCalls.scheduled = data[0].weeklyScheduledCalls;
+            this.callsMade.callsMade = data[0].totalCalls;
+            this.userService.getUserNotifications(this.user).subscribe((data: any) => {
+              this.notificationsSent.notifications = data[0].notifications;
+
+              this.todaysCallsProgress =
+                (parseInt(this.todaysCalls.completed) / parseInt(this.todaysCalls.scheduled)) * 100;
+              this.weeklyCallsProgress =
+                (parseInt(this.weeklyCalls.completed) / parseInt(this.weeklyCalls.scheduled)) * 100;
+              this.callsMadeProgress = (parseInt(this.callsMade.callsMade) / parseInt(this.callsMade.totalCalls)) * 100;
+              this.notificationsProgress =
+                (parseInt(this.notificationsSent.notifications) / parseInt(this.notificationsSent.totalNotifications)) *
+                100;
+            });
+          });
+        });
+      });
     });
   }
 }

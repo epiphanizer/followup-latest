@@ -39,7 +39,8 @@
                 Queue
               </span>
             </span>
-            <div class="red progress-bar">
+            <div class="progress-bar-container">
+              <div class="red progress-bar" [style.width.%]="todaysCallsProgress"></div>
               <span class="start-metric">{{ todaysCalls.completed }}</span>
               <span class="finish-metric">{{ todaysCalls.scheduled }}</span>
             </div>
@@ -51,7 +52,8 @@
                 Queue
               </span>
             </span>
-            <div class="blue progress-bar">
+            <div class="progress-bar-container">
+              <div class="blue progress-bar" [style.width.%]="weeklyCallsProgress"></div>
               <span class="start-metric">{{ weeklyCalls.completed }}</span>
               <span class="finish-metric">{{ weeklyCalls.scheduled }}</span>
             </div>
@@ -63,7 +65,8 @@
                 Total Calls Made
               </span>
             </span>
-            <div class="green progress-bar">
+            <div class="progress-bar-container">
+              <div class="green progress-bar" [style.width.%]="callsMadeProgress"></div>
               <span class="start-metric">{{ callsMade.callsMade }}</span>
               <span class="finish-metric">{{ callsMade.totalCalls }}</span>
             </div>
@@ -75,7 +78,8 @@
                 Total Notifications
               </span>
             </span>
-            <div class="yellow progress-bar">
+            <div class="progress-bar-container">
+              <div class="yellow progress-bar" [style.width.%]="notificationsProgress"></div>
               <span class="start-metric">{{ notificationsSent.notifications }}</span>
               <span class="finish-metric">{{ notificationsSent.totalNotifications }}</span>
             </div>

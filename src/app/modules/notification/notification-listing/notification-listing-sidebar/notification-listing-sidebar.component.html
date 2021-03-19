@@ -31,18 +31,21 @@
               *ngFor="let operation of operationGroup.operations$ | async"
               [class.spanish]="operation.spanishSpeaking"
             >
-              <a
-                class="operation-link"
-                [routerLink]="'/operations/' + operation.operationId + '/notifications'"
-                (click)="setActiveOperation(operation)"
-                [class.active]="activeOperationId == operation.operationId"
-              >
-                {{ operation.operationName | slice: 0:13 }}<span *ngIf="operation.operationName.length > 16">...</span>
-              </a>
+              <div class="operation-link-container" *ngIf="operation.operationActive">
+                <a
+                  class="operation-link"
+                  [routerLink]="'/operations/' + operation.operationId + '/notifications'"
+                  (click)="setActiveOperation(operation)"
+                  [class.active]="activeOperationId == operation.operationId"
+                >
+                  {{ operation.operationName | slice: 0:13
+                  }}<span *ngIf="operation.operationName.length > 16">...</span>
+                </a>
 
-              <span class="current-patients">
-                {{ operation.currentAssignedPatientCount }}
-              </span>
+                <span class="current-patients">
+                  {{ operation.currentAssignedPatientCount }}
+                </span>
+              </div>
             </li>
           </ul>
         </span>

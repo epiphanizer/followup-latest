@@ -141,6 +141,7 @@
           </ul>
         </div>
       </th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -148,9 +149,8 @@
       *ngFor="let operation of operationGroup.operations$ | async"
       class="active"
       [class.archived]="!operation.operationActive"
-      [routerLink]="'/operation/' + operation.operationId"
     >
-      <td class="listing-body-cell">
+      <td class="listing-body-cell" [routerLink]="'/operation/' + operation.operationId">
         <div class="operation-information">
           <span class="operation-name">
             {{ operation.operationName }}
@@ -196,6 +196,15 @@
         <div class="operation-group-information">
           <span class="operation-start-date">
             {{ operation.operationStartDate | date: 'MM/dd/YY' }}
+          </span>
+        </div>
+      </td>
+      <td class="listing-body-cell">
+        <div class="operation-group-information">
+          <span class="operation-patients-link">
+            <a href="/operations/{{ operation.operationId }}/patients"
+              ><img src="/assets/icon-patient@2x.png" alt=""
+            /></a>
           </span>
         </div>
       </td>
