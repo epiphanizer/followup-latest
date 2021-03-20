@@ -10,7 +10,6 @@ import {
 import { map } from 'rxjs/operators';
 import { Notification } from '@app/modules/notification/notification';
 import { Patient } from '../../patient';
-import { nl2brPipe } from '@app/shared/pipes/nl2brPipe';
 
 @Component({
   providers: [PatientCallQuestionsService],

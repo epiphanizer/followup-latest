@@ -3,7 +3,7 @@
     <ion-item>
       <h3 class="headline"><i class="icon-team"></i> Team Members</h3>
     </ion-item>
-    <fieldset class="operation-team-members" formArray="operationManagers">
+    <fieldset class="operation-team-members">
       <span class="section-label">
         <span *ngIf="mode.edit">Assigned </span>Managers
         <i
@@ -25,6 +25,7 @@
             <ion-select
               *ngIf="mode.edit; else managerSpan"
               (ionChange)="managerOnSelect($event, idx)"
+              formControlName="{{ idx }}"
               class="operation-assigned-manager"
               placeholder="Assign Manager"
             >
@@ -47,7 +48,7 @@
         </div>
       </ion-list>
     </fieldset>
-    <fieldset class="operation-callreps" formArray="operationCallReps">
+    <fieldset class="operation-callreps">
       <ng-container>
         <span class="section-label">
           <span *ngIf="mode.edit">Assigned </span>Care Reps

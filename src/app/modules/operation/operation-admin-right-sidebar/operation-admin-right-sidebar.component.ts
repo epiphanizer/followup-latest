@@ -61,7 +61,8 @@ export class OperationAdminRightSidebarComponent implements OnInit {
 
   activeOperationId: number;
   fb: FormBuilder;
-  operationUsersForm: FormGroup;
+  callRepsForm: FormArray;
+  managersForm: FormArray;
   managerSidebarDropdownOpen: boolean = true;
   callRepSidebarDropdownOpen: boolean = true;
   operation: Operation | null;
@@ -88,21 +89,12 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     }
     this.route.paramMap.subscribe(params => {
       if (params.get('operationId')) {
-        // if (this.mode.edit) {
-        //   this.createForm();
-        // }
         this.operationAssignedUsers = [];
         this.activeOperationId = parseInt(params.get('operationId'));
         this.updateAssignedUsers();
         this.updateAssignedManagers();
       }
     });
-  }
-  private createForm() {
-    // this.operationUsersForm = this.fb.group({
-    //   operationManagers: this.fb.array([]),
-    //   operationCallReps: this.fb.array([])
-    // });
   }
   updateAssignedUsers() {
     this.operationService
