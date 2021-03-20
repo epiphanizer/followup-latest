@@ -74,6 +74,7 @@
                     </ng-container>
                     <ng-template #nonBoolean>
                       <span class="call-question-answer">
+                        &nbsp;
                         {{ patientCallQuestion.patientCallQuestionAnswer }}
                       </span>
                     </ng-template>
@@ -94,9 +95,8 @@
               class="patient-call-notes"
               style="white-space: pre-wrap;"
               *ngIf="activity.patientCallNotes; else noCallNotes"
-            >
-              {{ activity.patientCallNotes }}
-            </div>
+              [innerHTML]="activity.patientCallNotes"
+            ></div>
           </div>
         </div>
       </ng-template>

@@ -1,10 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'nl2br'
+  name: 'newLines'
 })
 export class nl2brPipe implements PipeTransform {
   transform(value: string): string {
-    return value.replace(/%0A/g, '<br/>');
+    value.replace(/%0A/g, '<br/>').replace(/%20/g, '&nbsp;');
+    return value;
   }
 }

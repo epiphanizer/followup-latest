@@ -10,6 +10,7 @@ import {
 import { map } from 'rxjs/operators';
 import { Notification } from '@app/modules/notification/notification';
 import { Patient } from '../../patient';
+import { nl2brPipe } from '@app/shared/pipes/nl2brPipe';
 
 @Component({
   providers: [PatientCallQuestionsService],
@@ -30,6 +31,12 @@ export class PatientHistoryListingComponent implements OnInit {
     private patientCallQuestionAnswerService: PatientCallQuestionsService
   ) {}
 
+  returnHTML(value: string): string {
+    return value
+      .replace(/%0A/g, '<br/>')
+      .replace(/%20/g, '&nbsp;')
+      .replace(/%22/g, '"');
+  }
   ngOnInit() {
     this.patientActivity = [];
     // Go get our calls and warm up the observables.
@@ -66,11 +73,14 @@ export class PatientHistoryListingComponent implements OnInit {
      */
     if (this.patientCalls) {
       this.patientCalls.forEach(patientCall => {
+        patientCall.patientCallNotes = this.returnHTML(patientCall.patientCallNotes);
+        console.log(patientCall.patientCallNotes);
         this.patientActivity.push(patientCall);
       });
     }
     if (this.patientNotifications) {
       this.patientNotifications.forEach(patientNotification => {
+        patientNotification.notificationMessage = this.returnHTML(patientNotification.notificationMessage);
         this.patientActivity.push(patientNotification);
       });
     }

@@ -19,6 +19,7 @@ import { PatientAvatarUploadComponent } from './patient-avatar-upload/patient-av
 import { SharedModule } from '@app/shared';
 import { PatientListingFilterComponent } from './patient-listing-filter/patient-listing-filter.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { nl2brPipe } from '@app/shared/pipes/nl2br.pipe';
 
 @NgModule({
   declarations: [
