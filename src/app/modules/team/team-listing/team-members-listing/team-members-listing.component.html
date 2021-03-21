@@ -87,7 +87,7 @@
           <ul class="operation-filters">
             <li class="status-filter">
               <a>
-                Language
+                Languages
               </a>
             </li>
             <li class="ascending-descending-control">
@@ -143,14 +143,16 @@
       <td class="listing-body-cell">
         <div>
           <span class="team-member-birthday">
-            {{ teamMember.teamMemberBirthday ? teamMember.teamMemberBirthday : 'Not Provided' }}
+            {{
+              teamMember.teamMemberBirthday ? (teamMember.teamMemberBirthday | date: 'MM/dd/yy':'UTC') : 'Not Provided'
+            }}
           </span>
         </div>
       </td>
       <td class="listing-body-cell">
         <div>
           <span class="team-member-languages">
-            {{ teamMember.teamMemberLanguages ? teamMember.teamMemberLanauges : 'Not Provided' }}
+            {{ teamMember.spanishSpeaking ? 'English, Spanish' : 'English' }}
           </span>
         </div>
       </td>

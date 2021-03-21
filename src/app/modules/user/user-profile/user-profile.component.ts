@@ -80,7 +80,7 @@ export class UserProfileComponent implements OnInit {
       userPhoneCountryCode: [this.user.userCountryCode, [Validators.pattern(this.numericRegEx)]],
       userPhoneAreaCode: [this.user.userAreaCode, [Validators.pattern(this.numericRegEx)]],
       userPhoneNumber: [this.user.userPhoneNumber, [Validators.pattern(this.phoneRegEx)]],
-      userDob: [this.user.userDob],
+      userDob: [this.user.userDob, [Validators.required]],
       userFavoriteDessert: [this.user.userFavoriteDessert],
       userSpeaksSpanish: this.user.userSpeaksSpanish,
       userInterests: this.fb.group({
@@ -145,7 +145,6 @@ export class UserProfileComponent implements OnInit {
     let userInterests = JSON.stringify(formSubmission.userInterests);
     payload = {
       userFirstName: formSubmission.userFirstName,
-      userMiddleName: formSubmission.userMiddleName || '',
       userLastName: formSubmission.userLastName,
       userCountryCode: formSubmission.userPhoneCountryCode || '',
       userAreaCode: formSubmission.userPhoneAreaCode || '',

@@ -20,12 +20,17 @@
 .hidden-input {
   display: none;
 }
-
+.photo-frame {
+  background-image: url("/assets/photo-frame@2x.png");
+  width: 262px;
+  height: 312px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .user-avatar-image {
   width: 252px;
   height: 302px;
   cursor: pointer;
-  border: 10px solid white;
   background-image: url("/assets/photo-mask@2x.png");
   background-size: 230px 280px;
   background-repeat: no-repeat;
