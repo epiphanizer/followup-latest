@@ -8,7 +8,6 @@
       class="next-call-question-textarea"
       *ngFor="let patientCallQuestion of patientCallQuestions; let idx = index"
     >
-      <ion-label color="medium" position="stacked">Next Question</ion-label>
       <ion-textarea
         rows="1"
         [class.is-highlighted]="patientCallQuestion.patientCallQuestionIsHighlighted"

@@ -7,6 +7,7 @@ import { User } from '@app/modules/user/user';
 import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
 import { map, filter } from 'rxjs/operators';
 import { DataService } from '@app/modules/data/data.service';
+import * as FileSaver from 'file-saver';
 
 @Component({
   providers: [DataService, MenuService],
@@ -24,6 +25,7 @@ export class ToolbarNavComponent implements OnInit {
   // Are we on call-queue page?
   callQueuePage: boolean = false;
   dropdowns: any[] = [];
+  dropdownActivated: boolean = false;
   navLinks: MenuLink[];
   patient: Patient;
   user: User;
@@ -56,7 +58,8 @@ export class ToolbarNavComponent implements OnInit {
               linkName: 'Team Members'
             },
             {
-              linkAction: '/data',
+              linkAction: 'getExcelReport',
+              dynamic: true,
               linkName: 'Excel Report'
             }
           ]
@@ -141,14 +144,23 @@ export class ToolbarNavComponent implements OnInit {
         this.createNotification();
       }
     }
+    console.log(link);
+    if (link.linkAction == 'getExcelReport') {
+      this.dataService.getData().subscribe((data: Blob) => {
+        var blob = new Blob([data], { type: data.type });
+        FileSaver.saveAs(blob, 'data.xlsx');
+      });
+    }
   }
   closeDropdowns() {
     this.dropdowns.forEach(dropdown => {
       dropdown.activated = false;
     });
+    this.dropdownActivated = false;
   }
   closeDropdown(i: number) {
     this.dropdowns[i].activated = false;
+    this.dropdownActivated = false;
   }
   openDropdown(i: number) {
     /**
@@ -160,6 +172,7 @@ export class ToolbarNavComponent implements OnInit {
     /**
      * Check for any existing dropdowns;
      */
+    this.dropdownActivated = true;
     this.dropdowns[i].activated = true;
   }
   toggleDropdown(i: number, $event: any) {

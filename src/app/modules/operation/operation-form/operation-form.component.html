@@ -31,7 +31,7 @@
             <ion-item class="operation-address">
               {{ operation.operationAddress }}, {{ operation.operationState }}, {{ operation.operationZip }}
             </ion-item>
-            <ion-item class="operation-phone">
+            <ion-item class="operation-phone" *ngIf="operation.operationPhoneNumber">
               <a
                 href="tel:{{ operation.operationCountryCode }}-{{ operation.operationAreaCode }}-{{
                   operation.operationPhoneNumber.substring(0, 3) + '-' + operation.operationPhoneNumber.substring(3, 7)
@@ -239,7 +239,7 @@
             </ion-list>
           </ng-container>
         </fieldset>
-        <ion-button class="ion-float-right" (click)="onFormSubmit()">Save</ion-button>
+        <ion-button *ngIf="!mode.view" class="ion-float-right" (click)="onFormSubmit()">Save</ion-button>
       </form>
     </ion-col>
     <ion-col class="right-admin-col">

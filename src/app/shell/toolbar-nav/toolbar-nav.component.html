@@ -1,4 +1,4 @@
-<ng-container *ngIf="navLinks">
+<nav [class.dropdown-active]="dropdownActivated" *ngIf="navLinks">
   <ion-list lines="none">
     <div class="nav-link-container" *ngFor="let link of navLinks; let i = index">
       <ion-item *ngIf="link.minRole >= user.userLevel">
@@ -38,4 +38,4 @@
       </div>
     </div>
   </ion-list>
-</ng-container>
+</nav>

@@ -113,7 +113,8 @@ table.operation-table {
   }
 
   td {
-    padding: 15px 16px;
+    height: 50px;
+    padding: 0 15px;
     border: 1px solid rgba(217, 217, 217, 0.8);
     cursor: pointer;
     width: auto;
@@ -121,6 +122,14 @@ table.operation-table {
     background-color: #ffffff;
     display: table-cell;
     font-family: "Avenir";
+    &:last-child {
+      text-align: center;
+      img {
+        width: 24px;
+        height: 24px;
+        margin: 0 auto;
+      }
+    }
   }
 
   tr {

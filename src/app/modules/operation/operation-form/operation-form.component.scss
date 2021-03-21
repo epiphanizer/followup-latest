@@ -105,6 +105,10 @@ form {
       letter-spacing: normal;
       text-align: left;
       color: #444444;
+      a {
+        color: #444444;
+        text-decoration: none;
+      }
     }
   }
 
@@ -330,6 +334,9 @@ form {
     background-size: 95%;
     margin-right: 6px;
     margin-top: 6px;
+    &.icon-contact {
+      margin-top: 2px;
+    }
   }
 
   i.icon-info {

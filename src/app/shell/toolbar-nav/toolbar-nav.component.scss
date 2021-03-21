@@ -1,7 +1,11 @@
 :host {
+}
+nav {
   width: calc(77% - 330px);
   display: inline-block;
-  height: 200px;
+  &.dropdown-active {
+    height: 200px;
+  }
 }
 
 ion-list {

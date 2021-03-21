@@ -4,6 +4,10 @@
   display: block;
   text-align: center;
 }
+.patient-avatar-badge {
+  background-image: url("/assets/patient-badge-frame@2x.png");
+  background-size: 100%;
+}
 div {
   width: auto;
   margin: 0 auto;
