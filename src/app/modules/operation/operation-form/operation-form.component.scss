@@ -167,6 +167,8 @@ form {
       width: 14px !important;
       margin: 0;
       margin-right: 4px;
+      --ripple-color: transparent;
+      --background-hover: transparent;
     }
     .radio-button {
       background-size: cover;

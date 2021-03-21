@@ -19,6 +19,7 @@ import { UserLanguage } from '../user/user';
 export interface Patient {
   patientId: number;
   patientOperationId?: number;
+  patientOperationGroup?: string;
   patientOperationName?: string;
   operation?: Operation;
   operation$?: Observable<Operation>;

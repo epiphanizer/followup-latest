@@ -8,7 +8,6 @@
       <ion-title class="ion-float-left">
         {{ notification.notificationTypeLabel }}
       </ion-title>
-      <img class="ion-float-left notification-icon" src="{{ notification.notificationIconImage }}" />
 
       <div class="notification-listing-avatar">
         <app-patient-avatar [patient]="patient"></app-patient-avatar>
@@ -19,6 +18,7 @@
           <div class="patient-meta-info">
             <span class="patient-medical-record-number"> #{{ patient.patientMedicalRecordNumber }} </span>
             <span class="patient-operation-name">
+              {{ operation.operationGroupName }} -
               {{ patient.patientOperationName }}
             </span>
           </div>

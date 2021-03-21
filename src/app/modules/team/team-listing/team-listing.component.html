@@ -6,9 +6,7 @@
     <ion-col class="team-content-wrapper" *ngIf="teams$ | async">
       <ion-grid>
         <ion-row>
-          <ion-title *ngIf="selected.team">
-            {{ selected.team.teamName }}
-          </ion-title>
+          <ion-title *ngIf="selected.team"> {{ selected.team.teamName }} - Team Members </ion-title>
         </ion-row>
         <ion-row class="team-listing-row">
           <ion-col class="team-listing-wrapper">

@@ -257,11 +257,6 @@ table.team-member-table {
     cursor: pointer;
     width: auto;
     border: solid 1px rgb(187, 187, 187);
-    border-left: 0px;
-
-    &:last-child {
-      border-right: 0px;
-    }
 
     background-color: #ffffff;
     display: table-cell;

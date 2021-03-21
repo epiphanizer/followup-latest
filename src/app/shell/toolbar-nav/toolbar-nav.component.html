@@ -26,7 +26,12 @@
         >
           <ul *ngIf="link.minRole >= user.userLevel">
             <li *ngFor="let link of link.dropdown.links">
-              <a (click)="closeDropdowns()" routerLink="/{{ link.linkAction }}"> {{ link.linkName }}</a>
+              <a *ngIf="!link.dynamic" (click)="closeDropdowns()" routerLink="/{{ link.linkAction }}">
+                {{ link.linkName }}</a
+              >
+              <a *ngIf="link.dynamic" (click)="dynamicLink(link)">
+                {{ link.linkName }}
+              </a>
             </li>
           </ul>
         </div>

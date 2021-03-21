@@ -103,6 +103,17 @@
         .user-message-body {
           padding: 48px 30px;
         }
+        &:after {
+          content: "";
+          display: block;
+          position: absolute;
+          background: url("/assets/sticky-note-shadow@2x.png");
+          width: 96.75%;
+          height: 29px;
+          background-size: cover;
+          bottom: 7px;
+          z-index: -1;
+        }
       }
     }
 

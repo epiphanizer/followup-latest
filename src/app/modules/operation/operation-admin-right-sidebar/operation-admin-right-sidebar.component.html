@@ -5,9 +5,9 @@
     </ion-item>
     <fieldset class="operation-team-members">
       <span class="section-label">
-        <span *ngIf="mode.edit">Assigned </span>Managers
+        <span *ngIf="mode.edit || mode.add">Assigned </span>Managers
         <i
-          *ngIf="!mode.edit"
+          *ngIf="!mode.edit || mode.add"
           class="icon-dropdown"
           (click)="toggleOperationManagersAssignedMenu()"
           [@turnArrow]="managerSidebarDropdownOpen ? 'open' : 'closed'"
@@ -23,7 +23,7 @@
         <div class="manager-container" *ngFor="let operationManager of operationAssignedManagers; let idx = index">
           <ion-item class="sidebar-listing" id="operation-manager-{{ idx }}">
             <ion-select
-              *ngIf="mode.edit; else managerSpan"
+              *ngIf="mode.edit || mode.add; else managerSpan"
               (ionChange)="managerOnSelect($event, idx)"
               formControlName="{{ idx }}"
               class="operation-assigned-manager"
@@ -51,9 +51,9 @@
     <fieldset class="operation-callreps">
       <ng-container>
         <span class="section-label">
-          <span *ngIf="mode.edit">Assigned </span>Care Reps
+          <span *ngIf="mode.edit || mode.add">Assigned </span>Care Reps
           <i
-            *ngIf="!mode.edit"
+            *ngIf="!mode.edit || mode.add"
             class="icon-dropdown"
             (click)="toggleOperationCallRepsAssignedMenu()"
             [@turnArrow]="callRepSidebarDropdownOpen ? 'open' : 'closed'"
@@ -68,7 +68,7 @@
           <div class="callrep-container" *ngFor="let operationCallRep of operationAssignedUsers; let idx = index">
             <ion-item class="sidebar-listing" id="operationCallRep-{{ idx }}">
               <ion-select
-                *ngIf="availableUsers && mode.edit; else memberSpan"
+                *ngIf="availableUsers && (mode.edit || mode.add); else memberSpan"
                 (ionChange)="callRepOnSelect($event, idx)"
                 placeholder="Select User"
               >
