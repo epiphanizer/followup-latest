@@ -1,4 +1,8 @@
-<div class="user-avatar-image" (click)="uploadUserAvatarPhoto()" [style.background-image]="avatarUrl"></div>
+<div (click)="uploadUserAvatarPhoto()">
+  <div class="photo-frame">
+    <div class="user-avatar-image" [style.background-image]="avatarUrl"></div>
+  </div>
+</div>
 <div class="form-group">
   <ion-button class="add-photo" [class.hidden]="teamProfile" (click)="uploadUserAvatarPhoto()">
     Change Photo

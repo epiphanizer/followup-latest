@@ -75,7 +75,7 @@ export class NotificationListingSidebarComponent implements OnInit {
       if (operationGroups) {
         operationGroups.forEach((operationGroup: OperationGroup) => {
           operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
-          operationGroup.sidebarDropdownOpen = true;
+          operationGroup.sidebarDropdownOpen = false;
         });
         this.operationGroups = operationGroups;
       }

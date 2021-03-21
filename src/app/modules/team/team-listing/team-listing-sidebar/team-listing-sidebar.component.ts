@@ -86,9 +86,9 @@ export class TeamListingSidebar implements OnInit {
                 /**
                  * Set defaults on the sidebar collapse states for each team
                  */
-                team.teamManagerSidebarDropdownOpen = true;
-                team.teamCareRepSidebarDropdownOpen = true;
-                team.teamSpanishSidebarDropdownOpen = true;
+                team.teamManagerSidebarDropdownOpen = false;
+                team.teamCareRepSidebarDropdownOpen = false;
+                team.teamSpanishSidebarDropdownOpen = false;
                 teamMembers.forEach((teamMember: TeamMember, index: number) => {
                   if (teamMember.teamMemberRoleLabel == 'Manager') {
                     team.teamManagers.push(teamMember);

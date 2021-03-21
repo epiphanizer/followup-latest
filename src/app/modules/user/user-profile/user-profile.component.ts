@@ -119,7 +119,6 @@ export class UserProfileComponent implements OnInit {
            * Setters
            */
           this.user.userFirstName = formSubmission.userFirstName;
-          this.user.userMiddleName = formSubmission.userMiddleName;
           this.user.userLastName = formSubmission.userLastName;
           this.user.userCountryCode = formSubmission.userPhoneCountryCode;
           this.user.userAreaCode = formSubmission.userPhoneAreaCode;

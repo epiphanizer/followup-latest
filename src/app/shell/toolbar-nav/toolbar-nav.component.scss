@@ -28,6 +28,9 @@ ion-list {
         &.disabled {
           color: #999;
           cursor: not-allowed;
+          .notify {
+            filter: grayscale(1);
+          }
         }
 
         font-family: AvenirDemi;

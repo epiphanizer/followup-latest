@@ -1,7 +1,7 @@
 <ng-container *ngIf="navLinks">
   <ion-list lines="none">
     <div class="nav-link-container" *ngFor="let link of navLinks; let i = index">
-      <ion-item>
+      <ion-item *ngIf="link.minRole >= user.userLevel">
         <a *ngIf="!link.dropdown.links && !link.dynamic" (click)="closeDropdowns()" routerLink="/{{ link.linkAction }}">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           {{ link.linkName }}
