@@ -11,6 +11,10 @@ ion-router-outlet {
 
 ion-toolbar {
   --background: transparent;
+  // height: 95px;
+  // &.dropdown-active {
+  //   height: 250px;
+  // }
 }
 .content-wrapper {
   width: calc(100% - 28px);

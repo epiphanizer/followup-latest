@@ -14,6 +14,19 @@ div.patient-avatar-image {
 ion-button {
   margin-left: 28px;
   clear: both;
+  --background: #d1d1d1;
+  --background-hover: #bebebe;
+  --background-activated: #bebebe;
+  --border-activated: 1px solid #a2a2a2;
+  color: white;
+  font-family: "AvenirBold";
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.67;
+  letter-spacing: 0.3px;
+  text-align: center;
 }
 
 .hidden-input {

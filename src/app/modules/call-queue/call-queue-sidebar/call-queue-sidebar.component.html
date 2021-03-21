@@ -29,8 +29,9 @@
           >
             <li
               *ngFor="let operation of operationGroup.operations$ | async"
-              [class.spanish]="operation.spanishSpeaking"
+              [class.spanish]="operation.operationSpanishSpeaking"
             >
+              {{ operation | json }}
               <div class="operation-link-container" *ngIf="operation.operationActive">
                 <a
                   class="operation-link"

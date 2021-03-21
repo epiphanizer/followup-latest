@@ -7,19 +7,23 @@
   overflow: hidden;
   cursor: pointer;
 }
+
 .add-photo {
   display: block;
   text-align: center;
   margin-top: 0.75rem;
   cursor: pointer;
+
   &.hidden {
     display: none;
     margin-top: 0 !important;
   }
 }
+
 .hidden-input {
   display: none;
 }
+
 .photo-frame {
   background-image: url("/assets/photo-frame@2x.png");
   width: 262px;
@@ -27,12 +31,23 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
+
 .user-avatar-image {
-  width: 252px;
   height: 302px;
   cursor: pointer;
   background-image: url("/assets/photo-mask@2x.png");
   background-size: 230px 280px;
   background-repeat: no-repeat;
   background-position: center center;
+}
+
+button {
+  margin: 0 auto;
+  clear: both;
+  text-align: center;
+  height: 30px;
+  width: 120px;
+  background-image: url("/assets/button-add-photo@2x.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
 }

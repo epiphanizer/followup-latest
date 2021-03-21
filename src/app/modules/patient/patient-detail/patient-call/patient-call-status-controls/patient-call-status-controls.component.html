@@ -1,4 +1,9 @@
-<ion-list id="patientCallStatusControls" lines="none" class="patient-call-status-legend">
+<ion-list
+  id="patientCallStatusControls"
+  lines="none"
+  class="patient-call-status-legend"
+  [class.inactive]="patientCall.patientCallStatusLabel == 'Scheduled'"
+>
   <ion-item
     *ngFor="let patientCallStatus of patientCallStatuses"
     class="patient-status-control"

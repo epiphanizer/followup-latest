@@ -147,7 +147,10 @@ form {
       height: 32px;
     }
   }
-
+  ion-item.active-control {
+    --ripple-color: transparent;
+    --background-hover: transparent;
+  }
   .control {
     font-family: AvenirPro;
     font-size: 15px;
@@ -171,8 +174,6 @@ form {
       width: 14px !important;
       margin: 0;
       margin-right: 4px;
-      --ripple-color: transparent;
-      --background-hover: transparent;
     }
     .radio-button {
       background-size: cover;
@@ -183,6 +184,8 @@ form {
       }
     }
     .radio-button-notify {
+      --ripple-color: transparent;
+      --background-hover: transparent;
       background-size: cover;
       background-image: url("/assets/button-radio@2x.png");
       &:active,
@@ -511,8 +514,6 @@ form {
       max-height: 37px;
       margin-left: 0;
       margin-right: 35px;
-      --ripple-color: transparent;
-      --background-hover: transparent;
 
       ion-checkbox {
         width: 14px;

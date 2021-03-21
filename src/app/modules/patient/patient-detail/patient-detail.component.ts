@@ -116,6 +116,13 @@ export class PatientDetailComponent implements OnInit {
 
     if (this.patientCall.patientCallStatusLabel == 'Started') {
       alert('Please select a call status.');
+      let element = document.querySelector('#patientCallStatusControls');
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'auto',
+          block: 'start'
+        });
+      }
       return;
     }
     this.patientCallService.endPatientCall(this.patientCall.patientCallId);
@@ -123,6 +130,13 @@ export class PatientDetailComponent implements OnInit {
      * Change the label, but not the ID.
      */
     this.patientCall.patientCallStatusLabel = 'In Review';
+    let element = document.querySelector('#patientCallNotesForm');
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'auto',
+        block: 'start'
+      });
+    }
   }
 
   patientCallStatusLabelChangeHandler($event: number) {

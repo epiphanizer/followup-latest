@@ -4,10 +4,19 @@ ion-content {
 }
 
 ion-radio {
+  --color-checked: transparent;
   display: inline-block;
-  height: 15px !important;
-  width: 15px !important;
-  border: 2px solid #666;
+  height: 14px !important;
+  width: 14px !important;
+  margin-right: 0;
+}
+.radio-button {
+  background-size: cover;
+  background-image: url("/assets/button-radio@2x.png");
+  &:active,
+  &.radio-checked {
+    background-image: url("/assets/button-radio-checked-green@2x.png");
+  }
 }
 
 .rating-option,
@@ -221,12 +230,7 @@ form {
     }
 
     &.patient-gender {
-      margin-left: 24px;
-
-      ion-checkbox {
-        height: 14px;
-        width: 14px;
-      }
+      margin-left: 158px;
 
       ion-label {
         font-family: AvenirPro;
@@ -255,7 +259,7 @@ form {
     &.patient-is-hipaa,
     &.patient-is-responsible {
       display: inline-block;
-      margin-right: 32px;
+      margin-right: 35px;
 
       .patient-gender-male,
       .patient-gender-female {
@@ -285,8 +289,11 @@ form {
     }
 
     &.fluent-language {
-      display: inline-block;
-      width: 100%;
+      display: none;
+      &.show {
+        display: inline-block;
+        width: 100%;
+      }
     }
 
     ion-datetime {

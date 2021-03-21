@@ -38,6 +38,7 @@ export interface Patient {
   patientPhoneNumber?: string;
   patientHIPAA?: boolean;
   patientSpeaksEnglish?: boolean;
+  patientSpeaksSpanish?: boolean;
   patientIsResponsibleParty?: boolean;
   patientFluentLanguage?: string;
   patientLanguages$?: Observable<UserLanguage[]>;

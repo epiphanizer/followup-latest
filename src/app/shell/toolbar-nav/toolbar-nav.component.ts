@@ -87,8 +87,7 @@ export class ToolbarNavComponent implements OnInit {
       },
       {
         linkAction: '/patients',
-        linkName: 'Patients',
-        linkIcon: 'patient',
+        linkName: 'Patient Portal',
         dynamic: false,
         dropdown: {
           activated: false,

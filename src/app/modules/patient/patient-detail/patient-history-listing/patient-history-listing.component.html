@@ -13,7 +13,7 @@
           </span>
           <div class="activity-detail-container">
             <span class="activity-by">
-              by {{ activity.notificationUserFirstName }} {{ activity.notificationUserLastName }}
+              {{ activity.notificationUserFirstName }} {{ activity.notificationUserLastName }}
             </span>
             <span class="activity-date"> - {{ activity.notificationCreatedTime | date: 'MM/dd/yyyy':'UTC' }}</span>
           </div>
@@ -50,7 +50,7 @@
             </span>
             <div class="activity-detail-container">
               <span class="activity-by">
-                by {{ activity.patientCalledByUserFirstName }} {{ activity.patientCalledByUserLastName }}
+                {{ activity.patientCalledByUserFirstName }} {{ activity.patientCalledByUserLastName }}
               </span>
               <span class="activity-date"> - {{ activity.patientCallEndTime | date: 'MM/dd/yyyy':'UTC' }}</span>
             </div>

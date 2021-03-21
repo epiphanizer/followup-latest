@@ -108,6 +108,14 @@ $item-md-padding-end: 0;
 //   font-family: "AvenirPro";
 //   font-size: 17px;
 // }
+.sc-ion-alert-md-h {
+  border-radius: 0;
+  font-family: "Avenir";
+}
+ion-item {
+  --ripple-color: transparent;
+  --background-hover: transparent;
+}
 ion-radio {
   :host {
     border-radius: 0;

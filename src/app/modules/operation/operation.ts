@@ -35,7 +35,7 @@ export interface Operation {
   todaysCallCount?: number;
   totalNotifications?: number;
   totalGraduates?: number;
-  currentSpanishSpeakingPatients?: boolean;
+  operationSpanishSpeaking?: boolean;
 }
 
 export interface OperationPutBody {

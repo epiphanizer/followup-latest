@@ -2,6 +2,9 @@
   <ion-row class="patient-summary">
     <ion-col>
       <div class="avatar-container">
+        <div class="spanish-flag" *ngIf="!patient.patientSpeaksEnglish">
+          <div class="hola-bg"></div>
+        </div>
         <app-patient-avatar [patient]="patient" [routerLink]="'/patient/edit/' + patient.patientId">
         </app-patient-avatar>
       </div>
@@ -36,7 +39,7 @@
                 <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
                   <i class="icon-hipaa" *ngIf="patientContact.patientContactResponsiblePartyBoolean"></i>
                 </ng-container>
-                <span class="alternate-contact">
+                <span class="alternate-contact" [class.first]="patientContact.patientContactResponsiblePartyBoolean">
                   {{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }},
                   {{ patientContact.patientContactRelationship }}: {{ patientContact.patientContactAreaCode }}-{{
                     patientContact.patientContactPhoneNumber

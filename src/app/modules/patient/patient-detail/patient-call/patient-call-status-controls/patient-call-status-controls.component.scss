@@ -1,3 +1,8 @@
+ion-list {
+  &.inactive {
+    opacity: 0.2;
+  }
+}
 .patient-call-status-legend {
   list-style-type: none;
   padding-top: 0;
