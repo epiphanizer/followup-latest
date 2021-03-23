@@ -2,6 +2,7 @@
   width: calc(100% - 110px);
   margin: 50px auto 0 110px;
   height: 100%;
+
   ion-row {
     width: 100%;
     display: block;
@@ -90,7 +91,7 @@
       text-align: center;
 
       .user-message-note {
-        height: 318px;
+        height: 345px;
         width: 100%;
         display: block;
         background-repeat: no-repeat;
@@ -99,21 +100,10 @@
         font-family: AvenirProMediumItalic;
         font-size: 15px;
         text-align: left;
+      }
 
-        .user-message-body {
-          padding: 48px 30px;
-        }
-        &:after {
-          content: "";
-          display: block;
-          position: absolute;
-          background: url("/assets/sticky-note-shadow@2x.png");
-          width: 96.75%;
-          height: 29px;
-          background-size: cover;
-          bottom: 7px;
-          z-index: -1;
-        }
+      .user-message-body {
+        padding: 48px 30px;
       }
     }
 
@@ -205,25 +195,31 @@
           margin: 0.5px 0 0.5px 0.5px;
           border: solid 1px #ffffff;
           background-color: #ffffff;
+
           .progress-bar {
             display: block;
             height: 30px;
             margin-bottom: -30px;
             min-width: 80px;
             width: 100%;
+
             &.red {
               background-color: #ef4627;
             }
+
             &.blue {
               background-color: #1cb4b9;
             }
+
             &.green {
               background-color: #9acc38;
             }
+
             &.yellow {
               background-color: #fecc04;
             }
           }
+
           .start-metric,
           .finish-metric {
             font-family: AvenirBold;

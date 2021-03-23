@@ -39,6 +39,7 @@
   background-position: center center;
   background-size: 100%;
   &.open {
+    background-image: url("/assets/expanded-corkboard@2x.png");
     .corkboard-controls {
       margin-left: 190px;
     }

@@ -1,6 +1,7 @@
 .alert-button.sc-ion-alert-md {
   font-family: AvenirBold;
 }
+
 .sidebar {
   fieldset {
     border: none;
@@ -8,6 +9,10 @@
   }
 
   width: 215px;
+
+  ion-item.headline-item {
+    --border-style: none;
+  }
 
   h3.headline {
     font-family: Avenir;
@@ -30,12 +35,15 @@
     background-size: cover;
   }
 }
+
 ion-list {
   text-align: right;
+
   ion-item {
     --inner-padding-end: 0;
   }
 }
+
 .operation-callrep,
 .operation-manager {
   width: 100%;
@@ -53,10 +61,12 @@ ion-list {
 .select-icon {
   visibility: hidden;
 }
+
 ion-select {
   :host {
     max-width: unset;
   }
+
   max-width: unset;
   font-family: Avenir;
   font-size: 14px;
@@ -69,9 +79,11 @@ ion-select {
   text-align: left;
   display: block;
   background-color: #f5f5f5;
+
   ::part(icon) {
     display: none !important;
   }
+
   &:after {
     display: block;
     position: absolute;
@@ -115,6 +127,7 @@ ion-item {
     width: 15px;
     height: 11px;
     cursor: pointer;
+
     &.icon-dropdown {
       background-image: url("/assets/icon-list-sort@2x.png");
     }
@@ -124,16 +137,19 @@ ion-item {
     display: inline-block;
   }
 }
+
 ion-item.sidebar-listing {
   height: 32px;
   width: auto;
   --padding-start: 0;
   --padding-end: 0;
   border-bottom: none;
+
   form {
     text-align: right;
     width: 100%;
   }
+
   a {
     font-family: AvenirDemi;
     text-decoration: none;
@@ -169,6 +185,7 @@ ion-item.sidebar-listing {
   display: none;
 
   margin: 0;
+
   &.show {
     display: block;
   }
