@@ -22,6 +22,7 @@ ion-list {
     box-shadow: none;
 
     ion-item {
+      --padding-start: 0;
       contain: none;
 
       a {
@@ -41,14 +42,12 @@ ion-list {
         font-weight: normal;
         font-stretch: normal;
         font-style: normal;
-        line-height: 0.72;
         letter-spacing: normal;
         text-align: right;
         color: #00b8be;
 
         i {
           display: inline-block;
-          margin-right: 3px;
           height: 16px;
           width: 16px;
           background-size: 100%;
@@ -56,12 +55,12 @@ ion-list {
           background-repeat: no-repeat;
 
           &.nav-caret {
-            height: 16px;
+            height: 8px;
             width: 11px;
-            margin-left: 3px;
-            margin-top: -1px;
+            margin-left: 0px;
+            margin-top: -2px;
             vertical-align: middle;
-            background-size: 100%;
+            background-size: 94%;
             background-position: center;
             background-repeat: no-repeat;
             background-image: url("/assets/icon-nav-caret@2x.png");

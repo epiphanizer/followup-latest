@@ -31,6 +31,17 @@ const routes: Routes = [
       resolve: {
         user: UserResolver
       }
+    },
+    {
+      path: 'call-queue/spanish',
+      component: CallQueueComponent,
+      data: {
+        title: extract('Call Queue'),
+        rolls: 'all'
+      },
+      resolve: {
+        user: UserResolver
+      }
     }
   ])
 ];

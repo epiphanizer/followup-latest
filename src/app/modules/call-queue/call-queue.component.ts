@@ -19,6 +19,7 @@ export class CallQueueComponent implements OnInit {
         operation$: Observable<Operation>;
       }
     | any = {};
+  spanishListing: Boolean;
   user: User;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   ngOnInit() {

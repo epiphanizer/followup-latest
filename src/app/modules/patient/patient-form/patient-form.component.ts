@@ -48,6 +48,7 @@ export class PatientFormComponent implements OnInit {
   patientContactsToEdit: PatientContact[] = [];
   patientContactsToRemove: number[] = [];
   patientContacts$: Observable<PatientContact[]>;
+  patientContactRelationships = [''];
   patientIntakeQuestions: PatientIntakeQuestion[] = [];
   patientIntakeQuestions$: Observable<PatientIntakeQuestion[]>;
   patientIntakeQuestionAnswersOriginal: {

@@ -11,12 +11,12 @@
             {{ selected.operation.operationGroupName + ' - ' + selected.operation.operationName }}
           </ion-title>
         </ion-row>
-        <app-notification-listing-filter
+        <!-- <app-notification-listing-filter
           *ngIf="selected.operation"
           [filterDate]="selected.filterDate"
           [operation]="selected.operation"
         >
-        </app-notification-listing-filter>
+        </app-notification-listing-filter> -->
         <ion-row class="notification-listing-row">
           <ion-col class="notification-listing-wrapper">
             <app-notification-patient-listing *ngIf="selected.operation" [operation]="selected.operation">

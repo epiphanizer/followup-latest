@@ -161,6 +161,7 @@ h3 {
   list-style-type: none;
   max-width: 520px;
   padding-left: 0;
+  border-top: 1px solid black;
 
   overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
@@ -173,20 +174,40 @@ h3 {
   }
 
   ion-item {
-    --padding-top: 15px;
-    --padding-bottom: 15px;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
 
     cursor: pointer;
     width: 100%;
-    border-top: solid 1.5px #bbbbbb;
-    border-bottom: solid 1.5px #bbbbbb;
+    border-bottom: solid 1px #bbbbbb;
     background-color: #ffffff;
     display: table;
 
     &:active {
       background-color: #00b4b9;
     }
+    .patient-current-status {
+      opacity: 0.2;
+      display: inline-block;
+      width: 8px;
+      margin-right: 12px;
+      height: 100%;
+      &.todays-call {
+        background-color: #ffcc00;
+      }
+      &.new-discharge {
+        background-color: #9acc38;
 
+        &:hover {
+          // background-color: #e8f4cf;
+        }
+
+        &:active {
+          // background-color: #d6eaaf;
+        }
+      }
+    }
     .call-queue-number {
       display: table-cell;
       vertical-align: middle;
@@ -216,18 +237,6 @@ h3 {
       background-color: #f4f4f4;
     }
 
-    &.new-discharge {
-      // background-color: rgba(154, 204, 56, 0.1);
-
-      &:hover {
-        // background-color: #e8f4cf;
-      }
-
-      &:active {
-        // background-color: #d6eaaf;
-      }
-    }
-
     .badge-container {
       span {
         width: 15px;
@@ -247,6 +256,7 @@ h3 {
     }
 
     .call-queue-avatar {
+      margin: 15px 0;
       display: block;
       height: 100%;
       overflow: hidden;
@@ -260,6 +270,8 @@ h3 {
     }
 
     .call-queue-patient-information {
+      padding-top: 15px;
+      padding-bottom: 15px;
       vertical-align: middle;
       padding-left: 11px;
       display: table-cell;
