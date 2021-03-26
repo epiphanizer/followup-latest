@@ -1,81 +1,41 @@
-<h1 class="patients-listing-headline">PATIENTS</h1>
-<ul class="patient-filters">
-  <div class="date-filter-container">
-    <li class="patient-discharge-date">
-      <a [class.active]="filterBy == 'discharge-date'" (click)="sortPatientsByDischargeDate(selectedSortFlag)"
-        >Dis. Date</a
-      >
-    </li>
-    <li class="ascending-descending-control">
-      <i
-        class="ascending-descending-control-arrow"
-        [class.asc]="selectedSortFlag == 'asc'"
-        [class.desc]="selectedSortFlag == 'desc'"
-        (click)="toggleAscDesc()"
-      >
-      </i>
-    </li>
-  </div>
-  <div class="name-filter-container">
-    <li class="patient-name-filter">
-      <a [class.active]="filterBy == 'patient-name'" (click)="sortPatientsByPatientName(selectedSortFlag)">
+<h1 class="patients-listing-headline">PATIENTS - {{ operation.operationName }}</h1>
+
+<table class="operation-table">
+  <thead>
+    <tr>
+      <th>
+        Discharge
+      </th>
+      <th>
         Patient
-      </a>
-    </li>
-    <li class="ascending-descending-control">
-      <i
-        class="ascending-descending-control-arrow"
-        [class.asc]="selectedSortFlag == 'asc'"
-        [class.desc]="selectedSortFlag == 'desc'"
-        (click)="toggleAscDesc()"
-      >
-      </i>
-    </li>
-  </div>
-  <li class="patient-status">
-    <span>
-      <a [class.active]="filterBy == 'patient-status'" (click)="sortPatientsByPatientStatus(selectedSortFlag)">
+      </th>
+      <th>
+        Sex
+      </th>
+      <th>
+        Patient #
+      </th>
+      <th>
         Status
-      </a>
-    </span>
-  </li>
-  <li class="ascending-descending-control">
-    <i
-      class="ascending-descending-control-arrow"
-      [class.asc]="selectedSortFlag == 'asc'"
-      [class.desc]="selectedSortFlag == 'desc'"
-      (click)="toggleAscDesc()"
-    >
-    </i>
-  </li>
-</ul>
-
-<ion-list class="patient-patient-list" lines="none" *ngIf="patients$ | async">
-  <ion-item *ngFor="let patient of pageOfItems" class="active" [routerLink]="getPatientLink(patient)">
-    <div class="patient-discharge-date">
-      {{ patient.patientDischargeDate | date: 'MM/dd/yy':'UTC' }}
-    </div>
-    <div class="patient-avatar-container">
-      <app-patient-avatar [patient]="patient"> </app-patient-avatar>
-    </div>
-
-    <div class="patient-information ion-float-left">
-      <span class="patient-name"> {{ patient.patientFirstName }} {{ patient.patientLastName }} </span>
-    </div>
-    <div class="patient-status-container ion-float-right">
-      <span class="patient-status" *ngIf="patient.patientActive; else inactive">
-        {{ patient.patientStatusLabel }}
-      </span>
-      <ng-template #inactive>
-        <span class="patient-status">
-          Inactive
-        </span>
-      </ng-template>
-    </div>
-  </ion-item>
-</ion-list>
-<jw-pagination *ngIf="patientsFiltered" [items]="patientsFiltered" (changePage)="onChangePage($event)"></jw-pagination>
+      </th>
+      <th>
+        Completed
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let patient of patients$ | async" class="active" [class.archived]="!patient.patientActive">
+      <td class="listing-body-cell" [routerLink]="'/operation/' + operation.operationId"></td>
+      <td class="listing-body-cell"></td>
+      <td class="listing-body-cell"></td>
+      <td class="listing-body-cell"></td>
+      <td class="listing-body-cell"></td>
+      <td class="listing-body-cell"></td>
+    </tr>
+  </tbody>
+</table>
+<jw-pagination *ngIf="patientsFiltered" [items]="patientsFiltered" (changePage)="onChangePage($event)"> </jw-pagination>
 
 <ng-template #noPatients>
-  Sorry! No patients exist for this operation
+  Sorry! No patients exist for this operation!
 </ng-template>

@@ -1,75 +1,45 @@
 <h1 class="notifications-listing-headline">NOTIFICATIONS</h1>
-<ul class="notification-filters">
-  <div class="date-filter-container">
-    <li class="notification-date">
-      <a (click)="sortNotificationsByNotificationDate(selectedSortFlag)">Date</a>
-    </li>
-    <li class="ascending-descending-control">
-      <i
-        class="ascending-descending-control-arrow"
-        [class.asc]="selectedSortFlag == 'asc'"
-        [class.desc]="selectedSortFlag == 'desc'"
-        (click)="toggleAscDesc()"
-      >
-      </i>
-    </li>
-  </div>
-  <div class="name-filter-container">
-    <li class="patient-filter">
-      <a (click)="sortNotificationsByPatient(selectedSortFlag)">
+<table class="notification-table">
+  <thead>
+    <tr>
+      <th>
+        Date
+      </th>
+      <th>
         Patient
-      </a>
-    </li>
-    <li class="ascending-descending-control">
-      <i
-        class="ascending-descending-control-arrow"
-        [class.asc]="selectedSortFlag == 'asc'"
-        [class.desc]="selectedSortFlag == 'desc'"
-        (click)="toggleAscDesc()"
-      >
-      </i>
-    </li>
-  </div>
-  <li class="type-filter">
-    <a (click)="sortNotificationsByNotificationType(selectedSortFlag)">
-      Type
-    </a>
-  </li>
-  <li class="ascending-descending-control">
-    <i
-      class="ascending-descending-control-arrow"
-      [class.asc]="selectedSortFlag == 'asc'"
-      [class.desc]="selectedSortFlag == 'desc'"
-      (click)="toggleAscDesc()"
-    >
-    </i>
-  </li>
-</ul>
-
-<ion-list class="notification-patient-list" lines="none" *ngIf="notifications">
-  <ion-item
-    *ngFor="let notification of pageOfItems"
-    class="active"
-    [routerLink]="'/notifications/' + notification.notificationId"
-  >
-    <div class="notification-date">
-      {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
-    </div>
-    <div class="notification-patient-information">
-      <span class="notification-patient-name">
-        <a [routerLink]="'/notifications/' + notification.notificationId">
-          {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
-        </a>
-      </span>
-    </div>
-    <div class="notification-type">
-      <img src="{{ notification.notificationIconImage }}" />
-      <span>{{ notification.notificationTypeLabel }} </span>
-    </div>
-  </ion-item>
-</ion-list>
-<jw-pagination *ngIf="notificationsFiltered" [items]="notificationsFiltered" (changePage)="onChangePage($event)">
-</jw-pagination>
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Care Rep
+      </th>
+      <th>
+        Status
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let notification of pageOfItems" class="active">
+      <td>
+        {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
+      </td>
+      <td [routerLink]="'/notifications/' + notification.notificationId">
+        {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
+      </td>
+      <td>
+        <img src="{{ notification.notificationIconImage }}" />
+        <span>{{ notification.notificationTypeLabel }} </span>
+      </td>
+      <td>
+        {{ notification.notificationCreatedByUser }}
+      </td>
+      <td>
+        <span>{{ notification.notificationStatus }} </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <ng-template #noNotifications>
   Sorry! No notifications exist for this operation!
