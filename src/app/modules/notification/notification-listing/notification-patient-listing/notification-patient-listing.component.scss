@@ -28,207 +28,76 @@ h3 {
   color: var(--ion-color-primary);
 }
 
-.notifications-listing-headline {
-  display: inline-block;
-  font-family: AvenirBold;
-  font-size: 20px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 0.65;
-  letter-spacing: 1.2px;
-  text-align: left;
-  color: #9acc38;
-  margin-bottom: 0;
-}
-
-ul.notification-filters {
-  list-style-type: none;
-  display: block;
-  width: 100%;
-  padding-left: 16px;
-  margin-top: 15px;
-  margin-bottom: 0;
-  text-align: left;
-
-  div {
-    display: inline-block;
-    text-align: left;
-    &.date-filter-container {
-      width: 84px;
-    }
-
-    &.name-filter-container {
-      width: 175px;
-    }
-  }
-
-  li {
-    cursor: pointer;
-    display: inline-block;
-    font-family: AvenirDemi;
-    text-transform: uppercase;
-    font-size: 13px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 2.31;
-    letter-spacing: 0.13px;
-    text-align: left;
-    color: #222222;
-    text-align: center;
-
-    a {
-      cursor: pointer;
-      font-family: AvenirBold;
-      font-size: 13px;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 2.31;
-      letter-spacing: 0.13px;
-      text-align: right;
-      color: #222222;
-      text-decoration: none;
-    }
-
-    &.ascending-descending-control {
-      .ascending-descending-control-arrow {
-        display: block;
-        width: 11px;
-        height: 11px;
-        background-image: url("/assets/icon-list-sort@2x.png");
-        background-size: 100%;
-        background-repeat: no-repeat;
-        margin-top: 6px;
-
-        &.asc {
-          transform: rotate(180deg);
-          margin-top: 3px;
-        }
-      }
-    }
-  }
-}
-
-.section-header {
-  i {
-    width: 17px;
-    height: 17px;
-    display: inline-block;
-    margin-right: 8px;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
-
-    &.icon-new-discharges {
-      background-image: url("/assets/icon-new-discharges@2x.png");
-    }
-  }
-}
-
-.notification-patient-list {
-  clear: both;
+table {
   list-style-type: none;
   width: 100%;
+  min-width: 850px;
+  max-width: 1020px;
   padding-left: 0;
+  margin-bottom: 0.75rem;
+  thead {
+    th {
+      padding-left: 15px;
+      font-family: "AvenirBold";
+      font-size: 15px;
+      text-transform: uppercase;
+    }
+  }
+  tbody {
+    border-top: 1px solid black;
+  }
 
-  ion-item {
-    --padding-top: 15px;
-    --padding-bottom: 15px;
+  td,
+  th {
+    text-align: left;
+  }
+
+  td {
+    height: 50px;
+    padding: 0 15px;
+    border-left: 1px solid rgba(217, 217, 217, 0.8);
+    border-right: 1px solid rgba(217, 217, 217, 0.8);
+    border-bottom: 1px solid rgba(217, 217, 217, 0.8);
     cursor: pointer;
-    width: 100%;
-    border-top: solid 1.5px #bbbbbb;
-    border-bottom: solid 1.5px #bbbbbb;
+    width: auto;
+
     background-color: #ffffff;
-    display: table;
-
-    &:active {
-      background-color: #00b4b9;
-    }
-
-    ul {
-      padding-left: 0;
-      list-style-type: none;
-    }
-
-    &:nth-child(even) {
-      background-color: white;
-    }
-
-    &:nth-child(odd) {
-      background-color: RGBA(200, 200, 200, 0.2);
-    }
-
-    &:hover {
-      background-color: rgba(19, 175, 233, 0.35);
-    }
-
-    .notification-date {
-      height: auto;
-      display: block;
-      font-family: AvenirPro;
-      font-size: 16px;
-      font-weight: bold;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.06;
-      letter-spacing: 0.64px;
-      text-align: left;
-      color: #222222;
-      width: 92px;
-    }
-
-    .notification-patient-information {
-      font-family: AvenirPro;
-      font-size: 16px;
-      width: 175px;
-      font-weight: 800;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.75;
-      letter-spacing: normal;
-      text-align: left;
-      text-transform: capitalize;
-      color: #222222;
-
-      a {
-        color: #343638;
-        text-decoration: none;
-      }
-    }
-
-    .notification-type {
-      display: block;
-      font-family: Avenir;
-      font-size: 16px;
-
-      img {
-        max-width: 20px;
-        margin-right: 6px;
-      }
-
-      img,
-      span {
-        display: inline-block;
-      }
-    }
-
-    .notification-status {
-      font-family: AvenirPro;
-      display: block;
+    display: table-cell;
+    font-family: "Avenir";
+    .notification-icon {
       width: 21px;
       height: 21px;
-      font-size: 16px;
-      font-weight: 500;
-      margin-right: 36px;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.75;
-      letter-spacing: normal;
-      text-align: left;
-      color: #222222;
+      &.candidate {
+      }
+      &.assist {
+      }
+      &.hospital {
+      }
+      &.legal {
+      }
+      &.feedback {
+      }
     }
+  }
+
+  tr {
+    padding-left: 16px;
+    &:hover {
+      td {
+        background-color: rgba(19, 175, 233, 0.15);
+      }
+    }
+
+    td {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    &.archived {
+      opacity: 0.6;
+    }
+
+    padding-left: 20px;
   }
 }
 

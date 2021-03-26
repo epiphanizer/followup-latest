@@ -2,237 +2,64 @@
   width: 100%;
 }
 
-h1 {
-  display: inline-block;
-  font-family: AvenirBold;
-  font-size: 20px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 0.65;
-  letter-spacing: 1.2px;
-  text-align: left;
-  color: #9acc38;
-  margin-bottom: 0;
-}
-
-ul.patient-filters {
-  padding-left: 16px;
-  list-style-type: none;
-  display: block;
-  width: 100%;
-  margin-top: 15px;
-  margin-bottom: 0;
-  text-align: left;
-
-  div {
-    display: inline-block;
-    text-align: left;
-
-    &.date-filter-container {
-      width: 84px;
-      margin-right: 65px;
-    }
-
-    &.name-filter-container {
-      width: 182px;
-    }
-  }
-
-  li {
-    cursor: pointer;
-    display: inline-block;
-    font-family: AvenirDemi;
-    text-transform: uppercase;
-    font-size: 13px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 2.31;
-    letter-spacing: 0.13px;
-    text-align: left;
-    color: #222222;
-    vertical-align: middle;
-
-    &.patient-date {
-      width: 115px;
-    }
-
-    &.patient-filter {
-      width: 175px;
-    }
-
-    a {
-      cursor: pointer;
-      font-family: AvenirBold;
-      font-size: 13px;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 2.31;
-      letter-spacing: 0.13px;
-      text-align: right;
-      color: #222222;
-      text-decoration: none;
-    }
-
-    &.ascending-descending-control {
-      .ascending-descending-control-arrow {
-        display: block;
-        width: 11px;
-        height: 11px;
-        background-image: url("/assets/icon-list-sort@2x.png");
-        background-size: 100%;
-        background-repeat: no-repeat;
-
-        &.asc {
-          transform: rotate(180deg);
-          margin-top: -6px;
-        }
-      }
-    }
-  }
-}
-
-.section-header {
-  i {
-    width: 17px;
-    height: 17px;
-    display: inline-block;
-    margin-right: 8px;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
-
-    &.icon-new-discharges {
-      background-image: url("/assets/icon-new-discharges@2x.png");
-    }
-  }
-}
-
-.operation-patients {
-  color: white;
-  font-style: normal;
-  font-size: 12px;
-  line-height: 2.17;
-  margin-left: -29px;
-  margin-top: -3.5px;
-  position: absolute;
-}
-
-.patient-patient-list {
-  clear: both;
+table {
   list-style-type: none;
   width: 100%;
+  min-width: 850px;
+  max-width: 1020px;
   padding-left: 0;
+  margin-bottom: 0.75rem;
 
-  ion-item {
-    --padding-top: 15px;
-    --padding-bottom: 15px;
+  thead {
+    th {
+      padding-left: 15px;
+      font-family: "AvenirBold";
+      font-size: 15px;
+      text-transform: uppercase;
+    }
+  }
+  tbody {
+    border-top: 1px solid black;
+  }
+
+  td,
+  th {
+    text-align: left;
+  }
+
+  td {
+    height: 50px;
+    padding: 0 15px;
+    border: 1px solid rgba(217, 217, 217, 0.8);
     cursor: pointer;
-    width: 100%;
-    border-top: solid 1.5px #bbbbbb;
-    border-bottom: solid 1.5px #bbbbbb;
+    width: auto;
+    border: solid 1px rgb(187, 187, 187);
+
     background-color: #ffffff;
-    display: table;
+    display: table-cell;
+    font-family: "Avenir";
+  }
 
-    &:active {
-      background-color: #00b4b9;
-    }
-
-    ul {
-      padding-left: 0;
-      list-style-type: none;
-    }
-
-    &:nth-child(even) {
-      background-color: white;
-    }
-
-    &:nth-child(odd) {
-      background-color: RGBA(200, 200, 200, 0.2);
-    }
+  tr {
+    border-bottom: 1px solid #dfdfdf;
+    padding-left: 16px;
 
     &:hover {
-      background-color: rgba(19, 175, 233, 0.35);
-    }
-
-    .patient-discharge-date {
-      font-family: AvenirPro;
-      font-size: 16px;
-      font-weight: bold;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.06;
-      letter-spacing: 0.64px;
-      text-align: left;
-      color: #222222;
-    }
-
-    .patient-avatar-container {
-      margin-left: 12px;
-      margin-right: 12px;
-      display: block;
-      height: 100%;
-      overflow: hidden;
-      background-size: cover;
-      background-position: center center;
-      border-radius: 50%;
-      background-image: url("/assets/default-patient-badge@2x.png");
-      app-patient-avatar {
-        width: 50px;
+      td {
+        background-color: rgba(19, 175, 233, 0.15);
       }
     }
 
-    .patient-information {
-      font-family: AvenirPro;
-      font-size: 16px;
-      font-weight: 500;
-      width: 150px;
-      margin-right: 43px;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.75;
-      letter-spacing: normal;
-      text-align: left;
-      color: #222222;
-      text-transform: capitalize;
+    td {
+      display: table-cell;
+      vertical-align: middle;
+    }
 
-      a {
-        color: #343638;
-        text-decoration: none;
-      }
+    &.archived {
+      opacity: 0.6;
+    }
 
-      .patient-name {
-        display: block;
-        height: auto;
-        text-transform: capitalize;
-        font-family: Avenir;
-        font-size: 17px;
-        font-weight: bold;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
-        text-align: left;
-        color: #222222;
-      }
-    }
-    .patient-status-container {
-      max-width: 200px;
-    }
-    .patient-status {
-      font-family: AvenirPro;
-      display: block;
-      font-size: 16px;
-      font-weight: 500;
-      padding-right: 36px;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.75;
-      letter-spacing: normal;
-      text-align: left;
-      color: #222222;
-    }
+    padding-left: 20px;
   }
 }
 

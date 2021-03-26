@@ -19,6 +19,7 @@ import { PatientCallService } from '@app/modules/patient/patient-detail/patient-
 export class CallQueuePatientListingComponent implements OnInit {
   pageOfItems: Patient[];
   currentYear: number;
+  spanishPatientsCount: number;
   todaysCallCount: number;
   @Input() operation: Operation;
   // we default to filtering by next call-date

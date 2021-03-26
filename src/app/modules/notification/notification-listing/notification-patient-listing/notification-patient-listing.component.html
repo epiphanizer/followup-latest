@@ -19,7 +19,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let notification of pageOfItems" class="active">
+    <tr *ngFor="let notification of notificationsFiltered" class="active">
       <td>
         {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
       </td>
@@ -27,14 +27,15 @@
         {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
       </td>
       <td>
-        <img src="{{ notification.notificationIconImage }}" />
+        <img class="notification-icon" src="{{ notification.notificationIconImage }}" />
         <span>{{ notification.notificationTypeLabel }} </span>
       </td>
       <td>
-        {{ notification.notificationCreatedByUser }}
+        {{ notification.notificationCreatedByUserFirstName }}
+        {{ notification.notificationCreatedByUserLastName }}
       </td>
       <td>
-        <span>{{ notification.notificationStatus }} </span>
+        <span>{{ notification.notificationResolved ? 'Resolved' : 'Unresolved' }} </span>
       </td>
     </tr>
   </tbody>
