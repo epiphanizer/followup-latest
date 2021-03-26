@@ -31,7 +31,6 @@
               *ngFor="let operation of operationGroup.operations$ | async"
               [class.spanish]="operation.operationSpanishSpeaking"
             >
-              {{ operation | json }}
               <div class="operation-link-container" *ngIf="operation.operationActive">
                 <a
                   class="operation-link"
@@ -56,7 +55,9 @@
       </div>
     </ng-container>
 
-    <span class="spanish-indicator">SPANISH <i class="patient"></i><i class="indicator"></i></span>
+    <span class="spanish-indicator">
+      <a href="/call-queue/spanish">SPANISH</a> <i class="patient"></i><i class="indicator"></i
+    ></span>
 
     <ng-template #noOperations>
       You haven't been assigned any operations yet!

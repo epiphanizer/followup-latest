@@ -11,25 +11,16 @@
             {{ selected.operation.operationGroupName + ' - ' + selected.operation.operationName }}
           </ion-title>
         </ion-row>
+        <app-notification-listing-filter
+          *ngIf="selected.operation"
+          [filterDate]="selected.filterDate"
+          [operation]="selected.operation"
+        >
+        </app-notification-listing-filter>
         <ion-row class="notification-listing-row">
           <ion-col class="notification-listing-wrapper">
             <app-notification-patient-listing *ngIf="selected.operation" [operation]="selected.operation">
             </app-notification-patient-listing>
-          </ion-col>
-          <ion-col class="calendar-wrapper">
-            <h3>History</h3>
-            <app-calendar
-              *ngIf="selected.operation"
-              [operation]="selected.operation"
-              (dateFilterChangeEvent)="handleDateFilterChangeEvent($event)"
-            >
-            </app-calendar>
-            <app-notification-listing-filter
-              *ngIf="selected.operation"
-              [filterDate]="selected.filterDate"
-              [operation]="selected.operation"
-            >
-            </app-notification-listing-filter>
           </ion-col>
         </ion-row>
       </ion-grid>
