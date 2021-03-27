@@ -28,24 +28,6 @@ ion-list {
       a {
         cursor: pointer;
 
-        &.disabled {
-          color: #999;
-          cursor: not-allowed;
-          .notify {
-            filter: grayscale(1);
-          }
-        }
-
-        font-family: AvenirDemi;
-        font-size: 18px;
-        text-decoration: none;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
-        text-align: right;
-        color: #00b8be;
-
         i {
           display: inline-block;
           height: 16px;
@@ -78,6 +60,23 @@ ion-list {
             background-image: url("/assets/icon-queue@2x.png");
           }
         }
+        &.disabled {
+          color: #e1e1e1;
+          cursor: not-allowed;
+          i {
+            background-image: url("/assets/icon-notify-inactive@2x.png");
+          }
+        }
+
+        font-family: AvenirDemi;
+        font-size: 18px;
+        text-decoration: none;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: right;
+        color: #00b8be;
       }
 
       ion-button {

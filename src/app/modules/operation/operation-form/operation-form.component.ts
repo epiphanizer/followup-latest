@@ -6,7 +6,6 @@ import { map, take } from 'rxjs/operators';
 import { SuperForm } from 'angular-super-validator';
 import { OperationService } from '../operation.service';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
-import { OperationCallRepsService } from '../operation-callreps.service';
 import {
   OperationContactsService,
   OperationContactPostBody,
@@ -34,7 +33,6 @@ import { ToastrService } from 'ngx-toastr';
     NotificationRecipientService,
     OperationService,
     OperationContactsService,
-    OperationCallRepsService,
     OperationResolver,
     ToastrService
   ],
@@ -67,10 +65,6 @@ export class OperationFormComponent implements OnInit {
   operationContactsToEdit: OperationContact[] = [];
   operationContactsToRemove: number[] = [];
   operationGroups: OperationGroup[] = [];
-  operationManagers: OperationManager[] = [];
-  operationManagersOriginal: number[] = [];
-  operationManagersToAdd: OperationManager[] = [];
-  operationManagersToRemove: number[] = [];
   user: User;
 
   constructor(
@@ -78,7 +72,6 @@ export class OperationFormComponent implements OnInit {
     private notificationService: NotificationService,
     private notificationRecipientService: NotificationRecipientService,
     private operationService: OperationService,
-    private operationCallRepsService: OperationCallRepsService,
     private operationContactsService: OperationContactsService,
     private route: ActivatedRoute,
     private router: Router,
@@ -118,26 +111,9 @@ export class OperationFormComponent implements OnInit {
           queryParamsHandling: 'merge'
         });
         this.operation = data;
-        this.operationManagers = [
-          {
-            userId: 0,
-            operationId: this.operation.operationId,
-            operationManagerName: ''
-          }
-        ];
-        // Arm an initial call rep
-        this.operationCallReps = [
-          {
-            userId: 0,
-            operationId: this.operation.operationId,
-            operationCallRepName: ''
-          }
-        ];
         this.createForm();
         this.armForm();
         this.updateOperationContacts();
-        this.updateOperationManagers();
-        this.updateOperationCallReps();
       });
     }
     /**
@@ -151,8 +127,6 @@ export class OperationFormComponent implements OnInit {
         this.cleanData();
         this.updateOperation(operation);
         this.updateOperationContacts();
-        this.updateOperationManagers();
-        this.updateOperationCallReps();
       });
     }
   }
@@ -162,8 +136,6 @@ export class OperationFormComponent implements OnInit {
       this.cleanData();
       this.updateOperation(operation);
       this.updateOperationContacts();
-      this.updateOperationManagers();
-      this.updateOperationCallReps();
     });
   }
   cleanData() {
@@ -273,42 +245,7 @@ export class OperationFormComponent implements OnInit {
       )
       .subscribe(() => {});
   }
-  updateOperationCallReps() {
-    this.operationCallReps = [];
-    this.operationCallRepsOriginal = [];
-    let formArray = this.operationForm.controls.operationCallReps as FormArray;
-    formArray.clear();
-    this.operationCallRepsService
-      .getOperationCallRepsByOperationId(this.operation.operationId)
-      .subscribe((operationCallReps: OperationCallRep[]) => {
-        if (operationCallReps !== null) {
-          this.operationCallReps = operationCallReps;
-          operationCallReps.forEach((operationCallRep: OperationCallRep) => {
-            this.operationCallRepsOriginal.push(operationCallRep.userId);
-          });
-        }
-      });
-    this.addAdditionalOperationCallRep();
-  }
-  updateOperationManagers() {
-    this.operationManagers = [];
-    this.operationManagersOriginal = [];
-    let formArray = this.operationForm.controls.operationManagers as FormArray;
-    formArray.clear();
-    this.operationService
-      .getOperationManagersByOperationId(this.operation.operationId)
-      .pipe(take(1))
-      .subscribe((operationManagers: OperationManager[]) => {
-        if (operationManagers.length) {
-          this.operationManagers = operationManagers;
-          operationManagers.forEach((operationManager: OperationManager) => {
-            this.operationManagersOriginal.push(operationManager.userId);
-          });
-        } else {
-          this.addAdditionalOperationManager();
-        }
-      });
-  }
+
   armForm() {
     this.userService.getAllUsers().subscribe((users: User[]) => {
       this.availableUsers = users;
@@ -331,21 +268,6 @@ export class OperationFormComponent implements OnInit {
     operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
     operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
     operationFormControls.controls.operationActive.setValue(this.operation.operationActive);
-  }
-  addAdditionalOperationCallRep() {
-    let newCallRep = {
-      userId: 0,
-      operationId: this.operation.operationId,
-      operationCallRepName: ''
-    };
-    this.operationCallReps.push(newCallRep);
-  }
-  addAdditionalOperationManager() {
-    let newManager = {
-      operationId: this.operation.operationId,
-      userId: 0
-    };
-    this.operationManagers.push(newManager);
   }
 
   addAdditionalOperationContact() {
@@ -438,28 +360,7 @@ export class OperationFormComponent implements OnInit {
       throw 'Had a problem validating data in the operation form factory';
     }
   }
-  callRepOnSelect(event: any, index: number) {
-    let callRepUserId = event.target.value;
-    if (this.operationCallReps[index].userId !== 0) {
-      this.operationCallRepsToRemove.push(this.operationCallReps[index].userId);
-    }
-    var operationCallRepObject = {
-      operationId: this.operation.operationId,
-      userId: callRepUserId
-    };
-    this.operationCallReps[index] = operationCallRepObject;
-  }
-  managerOnSelect(event: any, index: number) {
-    let managerUserId = event.target.value;
-    if (this.operationManagers[index].userId !== 0) {
-      this.operationManagersToRemove.push(this.operationManagers[index].userId);
-    }
-    var operationManagerObject = {
-      operationId: this.operation.operationId,
-      userId: managerUserId
-    };
-    this.operationManagers[index] = operationManagerObject;
-  }
+
   operationGroupOnSelect(event: any, index: number) {
     let operationGroupId = event.target.value;
     this.operation.operationGroupId = operationGroupId;
@@ -526,61 +427,10 @@ export class OperationFormComponent implements OnInit {
   }
 
   onFormSubmit() {
-    console.log(this.operationForm.getRawValue());
-    // if (!this.validateControls()) {
-    //   return;
-    // }
+    if (!this.validateControls()) {
+      return;
+    }
     // Passing E2E
-    this.operationManagersToRemove.forEach((managerUserId: number) => {
-      // Don't process default manager entry
-      if (managerUserId == 0) {
-        return;
-      }
-      this.operationService
-        .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
-        .subscribe(() => {
-          this.toastr.success('Manager successfully removed');
-        });
-    });
-
-    // This passes E2E
-    this.operationManagersToAdd = this.operationManagers.filter((operationManager: OperationManager, index: number) => {
-      return operationManager.userId !== this.operationManagersOriginal[index] && operationManager.userId !== 0;
-    });
-    this.operationManagersToAdd.forEach((operationManager: OperationManager) => {
-      this.operationService
-        .assignManagerToOperationByOperationIdAndUserId(operationManager.operationId, operationManager.userId)
-        .subscribe(() => {
-          this.toastr.success('Manager successfully added');
-        });
-    });
-
-    // Passes E2E
-    this.operationCallRepsToRemove.forEach((callRepUserId: number, index: number) => {
-      if (callRepUserId == 0) {
-        return;
-      }
-      this.operationCallRepsService
-        .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
-        .subscribe(() => {
-          this.toastr.success('Care Rep successfully added');
-        });
-    });
-
-    this.operationCallRepsToAdd = this.operationCallReps.filter((operationCallRep: OperationCallRep, index: number) => {
-      return operationCallRep.userId !== this.operationCallRepsOriginal[index] && operationCallRep.userId !== 0;
-    });
-    /**
-     * Make sure we only add uniques
-     */
-    this.operationCallRepsToAdd = Array.from(new Set(this.operationCallRepsToAdd));
-    this.operationCallRepsToAdd.forEach((operationCallRep: OperationCallRep) => {
-      this.operationCallRepsService
-        .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
-        .subscribe(() => {
-          this.toastr.success('Care Rep successfully added');
-        });
-    });
 
     let formSubmission = this.operationForm.getRawValue();
     /**
@@ -676,13 +526,10 @@ export class OperationFormComponent implements OnInit {
             var notificationsToAdd = new Array();
             formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {
               // Add to our notification add array if the value of the notificationTypeId (key) is true
-              console.log(notificationType);
-
               if (notificationType[Object.keys(notificationType)[0]] == true) {
                 notificationsToAdd.push(parseInt(Object.keys(notificationType)[0]));
               }
             });
-            // console.log(notificationsToAdd);
             var count = 0;
             var finalCount = notificationsToAdd.length;
             notificationsToAdd.forEach((notificationTypeId: number) => {
@@ -698,7 +545,6 @@ export class OperationFormComponent implements OnInit {
                 .subscribe(() => {
                   count++;
                   let operationPut = this.operationPutFactory(formSubmission);
-                  // console.log(count);
                   if (count == finalCount) {
                     this.operationService
                       .editOperationByOperationId(this.operation.operationId, operationPut)
@@ -755,10 +601,6 @@ export class OperationFormComponent implements OnInit {
     }
   }
 
-  removeOperationCallRep(idx: number) {
-    this.operationCallRepsToRemove.push(this.operationCallReps[idx].userId);
-    this.operationCallReps.splice(idx, 1);
-  }
   removeOperationContact(idx: number) {
     this.operationContactsToRemove.push(this.operationContacts[idx].operationContactId);
     this.operationContacts.splice(idx, 1);
@@ -769,10 +611,6 @@ export class OperationFormComponent implements OnInit {
     this.operationContacts.forEach((operationContact, idx) => {
       this.operationContacts[idx].operationContactOrder = idx + 1;
     });
-  }
-  removeOperationManager(idx: number) {
-    this.operationManagersToRemove.push(this.operationManagers[idx].userId);
-    this.operationManagers.splice(idx, 1);
   }
   /**
    * A function to validate controls,

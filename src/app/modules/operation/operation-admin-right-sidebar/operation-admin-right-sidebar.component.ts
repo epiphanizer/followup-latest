@@ -21,6 +21,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
   selector: 'app-operation-admin-right-sidebar',
   templateUrl: './operation-admin-right-sidebar.component.html',
   styleUrls: ['./operation-admin-right-sidebar.component.scss'],
+  providers: [OperationCallRepsService],
   animations: [
     trigger('expandSidebar', [
       state(
@@ -70,6 +71,11 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   operationCallReps: OperationCallRep[];
   operationCallRepsToAdd: OperationCallRep[];
   operationCallRepsOriginal: number[];
+  operationCallRepsToRemove: number[] = [];
+  operationManagers: OperationManager[] = [];
+  operationManagersOriginal: number[] = [];
+  operationManagersToAdd: OperationManager[] = [];
+  operationManagersToRemove: number[] = [];
   constructor(
     private route: ActivatedRoute,
     private operationService: OperationService,
@@ -95,6 +101,23 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         this.updateAssignedManagers();
       }
     });
+    if (this.mode.add) {
+      this.operationManagers = [
+        {
+          userId: 0,
+          operationId: this.operation.operationId,
+          operationManagerName: ''
+        }
+      ];
+      // Arm an initial call rep
+      this.operationCallReps = [
+        {
+          userId: 0,
+          operationId: this.operation.operationId,
+          operationCallRepName: ''
+        }
+      ];
+    }
   }
   updateAssignedUsers() {
     this.operationService
@@ -138,10 +161,91 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       )
       .subscribe();
   }
+
+  // removeOperationManager(idx: number) {
+  //   this.operationManagersToRemove.push(this.operationManagers[idx].userId);
+  //   this.operationManagers.splice(idx, 1);
+  // }
+  // removeOperationCallRep(idx: number) {
+  //   this.operationCallRepsToRemove.push(this.operationCallReps[idx].userId);
+  //   this.operationCallReps.splice(idx, 1);
+  // }
+  // callRepOnSelect(event: any, index: number) {
+  //   let callRepUserId = event.target.value;
+  //   if (this.operationCallReps[index].userId !== 0) {
+  //     this.operationCallRepsToRemove.push(this.operationCallReps[index].userId);
+  //   }
+  //   var operationCallRepObject = {
+  //     operationId: this.operation.operationId,
+  //     userId: callRepUserId
+  //   };
+  //   this.operationCallReps[index] = operationCallRepObject;
+  // }
+  // managerOnSelect(event: any, index: number) {
+  //   let managerUserId = event.target.value;
+  //   if (this.operationManagers[index].userId !== 0) {
+  //     this.operationManagersToRemove.push(this.operationManagers[index].userId);
+  //   }
+  //   var operationManagerObject = {
+  //     operationId: this.operation.operationId,
+  //     userId: managerUserId
+  //   };
+  //   this.operationManagers[index] = operationManagerObject;
+  // }
   public toggleOperationManagersAssignedMenu = function() {
     this.managerSidebarDropdownOpen = !this.managerSidebarDropdownOpen;
   };
   public toggleOperationCallRepsAssignedMenu = function() {
     this.callRepSidebarDropdownOpen = !this.callRepSidebarDropdownOpen;
   };
+  // this.operationManagersToRemove.forEach((managerUserId: number) => {
+  //   // Don't process default manager entry
+  //   if (managerUserId == 0) {
+  //     return;
+  //   }
+  //   this.operationService
+  //     .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
+  //     .subscribe(() => {
+  //       this.toastr.success('Manager successfully removed');
+  //     });
+  // });
+
+  // This passes E2E
+  // this.operationManagersToAdd = this.operationManagers.filter((operationManager: OperationManager, index: number) => {
+  //   return operationManager.userId !== this.operationManagersOriginal[index] && operationManager.userId !== 0;
+  // });
+  // this.operationManagersToAdd.forEach((operationManager: OperationManager) => {
+  //   this.operationService
+  //     .assignManagerToOperationByOperationIdAndUserId(operationManager.operationId, operationManager.userId)
+  //     .subscribe(() => {
+  //       this.toastr.success('Manager successfully added');
+  //     });
+  // });
+
+  // // Passes E2E
+  // this.operationCallRepsToRemove.forEach((callRepUserId: number, index: number) => {
+  //   if (callRepUserId == 0) {
+  //     return;
+  //   }
+  //   this.operationCallRepsService
+  //     .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
+  //     .subscribe(() => {
+  //       this.toastr.success('Care Rep successfully added');
+  //     });
+  // });
+
+  // this.operationCallRepsToAdd = this.operationCallReps.filter((operationCallRep: OperationCallRep, index: number) => {
+  //   return operationCallRep.userId !== this.operationCallRepsOriginal[index] && operationCallRep.userId !== 0;
+  // });
+  // /**
+  //  * Make sure we only add uniques
+  //  */
+  // this.operationCallRepsToAdd = Array.from(new Set(this.operationCallRepsToAdd));
+  // this.operationCallRepsToAdd.forEach((operationCallRep: OperationCallRep) => {
+  //   this.operationCallRepsService
+  //     .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
+  //     .subscribe(() => {
+  //       this.toastr.success('Care Rep successfully added');
+  //     });
+  // });
 }
