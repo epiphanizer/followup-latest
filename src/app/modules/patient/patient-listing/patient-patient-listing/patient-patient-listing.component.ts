@@ -18,6 +18,7 @@ export class PatientPatientListingComponent implements OnInit {
   public patientsFiltered: Patient[];
   public filterBy: string = 'discharge-date';
   public selectedSortFlag: string = 'desc';
+  public selectedSortOption: string = 'Discharge Date';
 
   constructor(private patientService: PatientService) {}
   ngOnInit() {

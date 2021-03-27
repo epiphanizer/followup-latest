@@ -32,63 +32,6 @@ ion-content {
     color: #9acc38;
     margin-bottom: 0;
   }
-
-  ul.patient-filters {
-    list-style-type: none;
-    float: right;
-    margin-top: 15px;
-    margin-bottom: 0;
-    vertical-align: top;
-    cursor: pointer;
-
-    li {
-      cursor: pointer;
-      display: inline-block;
-      width: auto;
-      height: 13px;
-      font-family: AvenirDemi;
-      font-size: 13px;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 2.31;
-      letter-spacing: 0.13px;
-      text-align: right;
-      color: #222222;
-      margin-right: 4px;
-
-      a {
-        cursor: pointer;
-        font-family: AvenirBold;
-        font-size: 13px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 2.31;
-        letter-spacing: 0.13px;
-        text-align: right;
-        color: #222222;
-        text-decoration: none;
-      }
-
-      &.ascending-descending-control {
-        .ascending-descending-control-arrow {
-          display: block;
-          width: 11px;
-          height: 11px;
-          background-image: url("/assets/icon-list-sort@2x.png");
-          background-size: 100%;
-          background-repeat: no-repeat;
-          margin-top: 6px;
-
-          &.asc {
-            transform: rotate(180deg);
-            margin-top: 3px;
-          }
-        }
-      }
-    }
-  }
 }
 
 .call-queue-feed {
@@ -158,10 +101,16 @@ h3 {
 // Infinite scroll
 .call-queue-patient-list {
   clear: both;
+  ion-list {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+  }
+
   list-style-type: none;
   max-width: 520px;
   padding-left: 0;
-  border-top: 1px solid black;
 
   overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
@@ -181,6 +130,9 @@ h3 {
     cursor: pointer;
     width: 100%;
     border-bottom: solid 1px #bbbbbb;
+    &:last-child {
+      border-bottom: none;
+    }
     background-color: #ffffff;
     display: table;
 

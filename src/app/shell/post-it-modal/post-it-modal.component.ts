@@ -1,9 +1,8 @@
-import { Input, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '@app/modules/user/user.service';
 import { UserMessage } from '@app/modules/user/user';
@@ -46,7 +45,7 @@ export class PostItModalComponent {
   sendTheMessage() {
     let formData = this.createUserMessageForm.getRawValue();
     this.messageType = formData.messageType;
-    this.userMessage.messageBody = formData.messageBody;
+    this.userMessage.messageBody = encodeURI(formData.messageBody);
     if (this.messageType == 'user') {
       this.userMessageService.sendUserMessage(this.userMessage).subscribe((data: any) => {
         if (data) {

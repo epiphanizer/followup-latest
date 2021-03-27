@@ -17,6 +17,7 @@ import { PatientCallService } from '@app/modules/patient/patient-detail/patient-
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
+  @Input() spanishListing: boolean;
   pageOfItems: Patient[];
   currentYear: number;
   spanishPatientsCount: number;

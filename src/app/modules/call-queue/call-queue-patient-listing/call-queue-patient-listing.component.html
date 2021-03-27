@@ -9,11 +9,13 @@
       color="transparent"
       *ngFor="let patient of pageOfItems"
       class="active patient-list-item"
-      [class.new-discharge]="patient.patientCallCount == 1"
-      [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"
       [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
     >
-      <div class="patient-current-status" [class.todays-call]="true" [class.new-discharge]=""></div>
+      <div
+        class="patient-current-status"
+        [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"
+        [class.new-discharge]="patient.patientCallCount == 1"
+      ></div>
       <div class="call-queue-number">
         {{ patient.patientCallCount - 1 }}
       </div>

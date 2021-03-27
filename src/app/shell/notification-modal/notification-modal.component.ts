@@ -1,4 +1,4 @@
-import { Input, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { formatDate } from '@angular/common';
@@ -71,7 +71,7 @@ export class NotificationModalComponent {
         }
       });
       this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
-        this.notification.notificationMessage = val;
+        this.notification.notificationMessage = encodeURI(val);
       });
     }
   }

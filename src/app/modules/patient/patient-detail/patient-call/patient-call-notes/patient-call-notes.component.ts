@@ -31,7 +31,6 @@ export class PatientCallNotesComponent implements OnInit {
   onChanges() {
     this.patientCallNotesForm.get('patientCallNotes').valueChanges.subscribe(val => {
       this.patientCallNotes.patientCallNotes = encodeURI(val);
-      console.log(this.patientCallNotes.patientCallNotes);
       this.patientCallNotesChangeEmitter.emit(this.patientCallNotes);
     });
   }
