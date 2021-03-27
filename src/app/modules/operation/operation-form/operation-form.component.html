@@ -7,7 +7,7 @@
     <ion-col class="operation-form-content-wrapper">
       <ion-title *ngIf="mode.add">New Operation</ion-title>
       <ion-title *ngIf="mode.view || mode.edit"
-        >{{ operation.operationGroupName }} - {{ operation.operationName }}
+        >{{ operation.operationGroupShortName }} - {{ operation.operationName }}
       </ion-title>
       <form id="operation-form" [formGroup]="operationForm" novalidate>
         <fieldset formGroupName="operation">

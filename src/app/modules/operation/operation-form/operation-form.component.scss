@@ -46,7 +46,7 @@ form {
   margin-bottom: 5rem;
 
   .operation-controls {
-    padding-top: 2rem;
+    padding-top: 1.55rem;
 
     span {
       font-size: 14px;
@@ -91,6 +91,7 @@ form {
       letter-spacing: normal;
       text-align: left;
       color: #222222;
+      height: 27px;
     }
 
     ion-item.operation-address,
@@ -113,8 +114,10 @@ form {
   }
 
   .operation-contacts-view {
-    max-width: 340px;
     margin-left: 32px;
+    h2 {
+      margin-bottom: 0;
+    }
 
     ion-item.contact-name,
     ion-item.contact-title {
@@ -145,6 +148,20 @@ form {
       text-align: left;
       color: #444444;
       height: 32px;
+    }
+    .operation-contact-container {
+      padding: 26.5px 0;
+      &:first-child {
+        padding: 0 0 26.5px 0;
+      }
+      a {
+        text-decoration: none;
+        color: black;
+      }
+      border-bottom: 1px solid #707070;
+      &:last-child {
+        border-bottom: none;
+      }
     }
   }
   ion-item.active-control {
@@ -180,7 +197,7 @@ form {
       background-image: url("/assets/button-radio@2x.png");
       &:active,
       &.radio-checked {
-        background-image: url("/assets/button-radio-checked-green@2x.png");
+        background-image: url("/assets/button-radio-checked-red@2x.png");
       }
     }
     .radio-button-notify {

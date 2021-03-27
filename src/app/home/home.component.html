@@ -12,11 +12,11 @@
           </div>
         </div>
       </ion-col>
-      <ion-col class="post-it-box" *ngIf="userMessage">
+      <ion-col class="post-it-box">
         <div class="posted-notes">
           <ul class="user-messages">
             <li class="user-message-note">
-              <div class="user-message-body">
+              <div class="user-message-body" *ngIf="userMessage">
                 <p class="user-message">
                   {{ userMessage.messageBody }}
                 </p>

@@ -33,6 +33,8 @@
 }
 
 ion-list {
+  padding-top: 0;
+  padding-bottom: 0;
   text-align: right;
 
   ion-item {
@@ -43,7 +45,7 @@ ion-list {
 .operation-callrep,
 .operation-manager {
   width: 100%;
-  font-family: AvenirDemi;
+  font-family: Avenir;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -147,7 +149,7 @@ ion-item.sidebar-listing {
   }
 
   a {
-    font-family: AvenirDemi;
+    font-family: Avenir;
     text-decoration: none;
     display: block;
     width: 100%;
