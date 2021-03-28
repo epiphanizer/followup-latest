@@ -2,15 +2,6 @@
   width: 100%;
 }
 
-.divider-line {
-  width: 100%;
-  min-height: 1px;
-  height: 1px;
-  display: block;
-  border-top: solid 3.9px var(--ion-color-primary);
-  border-bottom: none;
-}
-
 h3 {
   width: auto;
   float: left;
@@ -30,21 +21,28 @@ h3 {
 
 table {
   list-style-type: none;
-  width: 100%;
+  width: 95%;
   min-width: 850px;
-  max-width: 1020px;
   padding-left: 0;
   margin-bottom: 0.75rem;
+
   thead {
     th {
       padding-left: 15px;
       font-family: "AvenirBold";
       font-size: 15px;
       text-transform: uppercase;
+      letter-spacing: 0.3px;
+      line-height: 12.9px;
     }
-  }
-  tbody {
-    border-top: 1px solid black;
+
+    ::after {
+      content: "";
+      display: block;
+      height: 0.25em;
+      width: 100%;
+      background: white;
+    }
   }
 
   td,
@@ -52,52 +50,63 @@ table {
     text-align: left;
   }
 
-  td {
-    height: 50px;
-    padding: 0 15px;
-    border-left: 1px solid rgba(217, 217, 217, 0.8);
-    border-right: 1px solid rgba(217, 217, 217, 0.8);
-    border-bottom: 1px solid rgba(217, 217, 217, 0.8);
-    cursor: pointer;
-    width: auto;
-
-    background-color: #ffffff;
-    display: table-cell;
-    font-family: "Avenir";
-    .notification-icon {
-      width: 21px;
-      height: 21px;
-      &.candidate {
-      }
-      &.assist {
-      }
-      &.hospital {
-      }
-      &.legal {
-      }
-      &.feedback {
-      }
-    }
-  }
-
-  tr {
-    padding-left: 16px;
-    &:hover {
-      td {
-        background-color: rgba(19, 175, 233, 0.15);
-      }
-    }
+  tbody {
+    border-top: 1px solid black;
 
     td {
+      height: 50px;
+      padding: 0 15px;
+      border-left: 1px solid rgba(217, 217, 217, 0.8);
+      border-right: 1px solid rgba(217, 217, 217, 0.8);
+      border-bottom: 1px solid rgba(217, 217, 217, 0.8);
+      cursor: pointer;
+      width: auto;
+
+      background-color: #ffffff;
       display: table-cell;
-      vertical-align: middle;
+      font-family: "Avenir";
+
+      .notification-icon {
+        width: 21px;
+        height: 21px;
+
+        &.candidate {
+        }
+
+        &.assist {
+        }
+
+        &.hospital {
+        }
+
+        &.legal {
+        }
+
+        &.feedback {
+        }
+      }
     }
 
-    &.archived {
-      opacity: 0.6;
-    }
+    tr {
+      padding-left: 16px;
 
-    padding-left: 20px;
+      &:hover {
+        td {
+          background-color: rgba(19, 175, 233, 0.15);
+        }
+      }
+
+      td {
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      &.archived {
+        opacity: 0.6;
+      }
+
+      padding-left: 20px;
+    }
   }
 }
 

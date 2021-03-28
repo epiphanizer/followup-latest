@@ -53,7 +53,7 @@ import { nl2brPipe } from '@app/shared/pipes/nl2br.pipe';
     FollowupCompleteModalComponent,
     FollowupCompleteButtonComponent
   ],
-  exports: [PatientAvatarComponent],
+  exports: [PatientAvatarComponent, PatientListingFilterComponent],
   providers: [PatientService]
 })
 export class PatientModule {}

@@ -7,9 +7,7 @@
     <ion-col class="notification-content-wrapper">
       <ion-grid>
         <ion-row>
-          <ion-title *ngIf="selected.operation">
-            {{ selected.operation.operationGroupName + ' - ' + selected.operation.operationName }}
-          </ion-title>
+          <ion-title *ngIf="selected.operation"> Notifications - {{ selected.operation.operationName }} </ion-title>
         </ion-row>
         <!-- <app-notification-listing-filter
           *ngIf="selected.operation"

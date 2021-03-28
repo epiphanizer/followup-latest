@@ -1,3 +1,17 @@
+<!-- Filter UI -->
+<section class="table-filter">
+  <img src="/assets/ui-mockup-operations@2x.png" alt="" />
+  <!--   
+  <i class="filter-icon"></i>
+  <div class="sort-select">
+    <span class="selected-option">{{ selectedSortOption }}</span>
+  </div>
+  <div class="sort-controls">
+    <i class="desc-control"></i>
+    <i class="asc-control"></i>
+  </div> -->
+  <app-notification-listing-filter [notifications]="notificationsFiltered"></app-notification-listing-filter>
+</section>
 <table class="notification-table">
   <thead>
     <tr>
@@ -40,7 +54,11 @@
     </tr>
   </tbody>
 </table>
-
+<ng-template #noPatientNotifications>
+  <span class="no-calls">
+    No notifications found for selected date.
+  </span>
+</ng-template>
 <ng-template #noNotifications>
-  Sorry! No notifications exist for this operation!
+  <span class="no-calls"> No results for search. </span>
 </ng-template>

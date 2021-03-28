@@ -1,6 +1,7 @@
 :host {
   margin-bottom: 0.5rem;
 }
+
 .patient-feed {
   width: 100%;
 }
@@ -18,62 +19,75 @@ table {
       font-family: "AvenirBold";
       font-size: 15px;
       text-transform: uppercase;
+      letter-spacing: 0.3px;
+      line-height: 12.9px;
+    }
+
+    ::after {
+      content: "";
+      display: block;
+      height: 0.25em;
+      width: 100%;
+      background: white;
     }
   }
+
   tbody {
     border-top: 1px solid black;
+
+    td {
+      height: 50px;
+      padding: 0 15px;
+      cursor: pointer;
+      width: auto;
+      border-left: solid 1px rgb(187, 187, 187);
+      border-right: solid 1px rgb(187, 187, 187);
+      border-bottom: solid 1px rgb(187, 187, 187);
+      background-color: #ffffff;
+      display: table-cell;
+      font-family: "Avenir";
+    }
+
+    tr {
+      border-bottom: 1px solid #dfdfdf;
+      padding-left: 16px;
+
+      &:hover {
+        td {
+          background-color: rgba(19, 175, 233, 0.15);
+        }
+      }
+
+      td {
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      &.archived {
+        opacity: 0.6;
+      }
+
+      padding-left: 20px;
+    }
+
+    app-patient-avatar {
+      float: left;
+      display: block;
+      margin-right: 15px;
+      max-width: 45px;
+      height: auto;
+    }
   }
 
   td,
   th {
     text-align: left;
   }
-
-  td {
-    height: 50px;
-    padding: 0 15px;
-    border: 1px solid rgba(217, 217, 217, 0.8);
-    cursor: pointer;
-    width: auto;
-    border: solid 1px rgb(187, 187, 187);
-
-    background-color: #ffffff;
-    display: table-cell;
-    font-family: "Avenir";
-  }
-
-  tr {
-    border-bottom: 1px solid #dfdfdf;
-    padding-left: 16px;
-
-    &:hover {
-      td {
-        background-color: rgba(19, 175, 233, 0.15);
-      }
-    }
-
-    td {
-      display: table-cell;
-      vertical-align: middle;
-    }
-
-    &.archived {
-      opacity: 0.6;
-    }
-
-    padding-left: 20px;
-  }
-  app-patient-avatar {
-    float: left;
-    display: block;
-    margin-right: 15px;
-    max-width: 45px;
-    height: auto;
-  }
 }
 
 jw-pagination {
-  width: 100%;
+  width: 94%;
+  margin-top: 1.25rem;
   display: block;
   text-align: right;
 }

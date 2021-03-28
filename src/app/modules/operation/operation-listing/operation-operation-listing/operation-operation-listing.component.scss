@@ -7,21 +7,9 @@
   width: 100%;
 }
 
-ion-title {
-  font-family: AvenirPro;
-  font-size: 45px;
-  font-style: normal;
-  line-height: 1.11;
-  letter-spacing: 0.45px;
-  text-align: left;
-  color: #3f3638;
-  padding-left: 0;
-}
-
 table {
   list-style-type: none;
   width: 95%;
-  min-width: 850px;
   padding-left: 0;
   margin-bottom: 0.75rem;
 
@@ -31,6 +19,8 @@ table {
       font-family: "AvenirBold";
       font-size: 15px;
       text-transform: uppercase;
+      letter-spacing: 0.3px;
+      line-height: 12.9px;
     }
     ::after {
       content: "";

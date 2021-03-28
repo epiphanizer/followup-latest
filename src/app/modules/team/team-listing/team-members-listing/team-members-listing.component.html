@@ -16,69 +16,32 @@
     <tr>
       <th>
         <div class="status-filter-container">
-          <ul class="operation-filters">
-            <li class="status-filter">
-              <a>
-                Hired
-              </a>
-            </li>
-          </ul>
+          Hired
         </div>
       </th>
       <th>
         <div class="status-filter-container">
-          <ul class="operation-filters">
-            <li class="status-filter">
-              <a>
-                Name
-              </a>
-            </li>
-          </ul>
+          Name
         </div>
       </th>
       <th>
         <div class="status-filter-container">
-          <ul class="operation-filters">
-            <li class="status-filter">
-              <a>
-                Position
-              </a>
-            </li>
-          </ul>
+          Position
         </div>
       </th>
       <th>
         <div class="status-filter-container">
-          <ul class="operation-filters">
-            <li class="status-filter">
-              <a>
-                Birthday
-              </a>
-            </li>
-          </ul>
+          Birthday
         </div>
       </th>
       <th>
         <div class="status-filter-container">
-          <ul class="operation-filters">
-            <li class="status-filter">
-              <a>
-                Languages
-              </a>
-            </li>
-          </ul>
+          Languages
         </div>
       </th>
-      <th>
-        <div class="status-filter-container">
-          <ul class="operation-filters">
-            <li class="status-filter">
-              <a> </a>
-            </li>
-          </ul>
-        </div>
+      <th style="text-align: center; padding-left: 0;">
+        Message
       </th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -133,11 +96,8 @@
     </tr>
   </tbody>
 </table>
-<jw-pagination
-  *ngIf="teamMembersFiltered"
-  [items]="teamMembersFiltered"
-  (changePage)="onChangePage($event)"
-></jw-pagination>
+<jw-pagination *ngIf="teamMembersFiltered" [items]="teamMembersFiltered" (changePage)="onChangePage($event)">
+</jw-pagination>
 
 <ng-template #noTeamMembers>
   Sorry! No team members are assigned to this team!

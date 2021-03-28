@@ -73,41 +73,6 @@ export class UserCorkBoardComponent implements OnInit {
     return blob;
   }
 
-  addNewCorkboardItem = function() {
-    if (!this.isOpen) {
-      this.toggleCorkboardState();
-    }
-    this.imageCompress.uploadFile().then((imageObj: any) => {
-      this.imgResultBeforeCompress = imageObj.image;
-      this.imageCompress.compressFile(imageObj.image, imageObj.orientation, 50, 50).then((result: any) => {
-        this.imgResultAfterCompress = result;
-        const imageBlob = this.dataURItoBlob(this.imgResultAfterCompress.split(',')[1]);
-        let fileName =
-          this.user.userId +
-          '-corkboard-object-' +
-          Math.random()
-            .toString()
-            .slice(2, 11);
-        const imageFile = new File([imageBlob], fileName, {
-          type: 'image/jpeg'
-        });
-        this.userCorkBoardService
-          .addNewUserCorkBoardObjectByUserId(this.user.userId, imageFile)
-          .subscribe((data: any) => {
-            this.toastrService.success('Successfully added cork board item.');
-            this.userCorkBoardService
-              .getUserCorkBoardObjectsByUserId(this.user.userId)
-              .subscribe((data: UserCorkBoardObject[]) => {
-                if (data) {
-                  console.log(data);
-                  this.userCorkBoardObjects = data;
-                }
-              });
-          });
-      });
-    });
-  };
-
   toggleCorkBoardDeleteFunction = function() {
     if (!this.isOpen) {
       this.toggleCorkboardState();

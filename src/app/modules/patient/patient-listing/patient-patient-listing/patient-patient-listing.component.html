@@ -10,7 +10,9 @@
     <i class="desc-control"></i>
     <i class="asc-control"></i>
   </div> -->
+  <app-patient-listing-filter [patients]="patientsFiltered" [operation]="operation"></app-patient-listing-filter>
 </section>
+
 <table>
   <thead>
     <tr>
@@ -34,8 +36,8 @@
       </th>
     </tr>
   </thead>
-  <tbody>
-    <tr *ngFor="let patient of patients$ | async" class="active" [class.archived]="!patient.patientActive">
+  <tbody *ngIf="patients$ | async">
+    <tr *ngFor="let patient of pageOfItems" class="active" [class.archived]="!patient.patientActive">
       <td class="listing-body-cell">
         {{ patient.patientDischargeDate | date: 'MM/dd/YY' }}
       </td>

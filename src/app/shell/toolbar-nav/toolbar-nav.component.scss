@@ -1,5 +1,5 @@
 nav {
-  width: calc(77% - 330px);
+  min-width: 535px;
   display: inline-block;
   &.dropdown-active {
     height: 200px;
@@ -13,6 +13,9 @@ ion-list {
   padding-bottom: 30px;
   padding-top: 3px;
   margin-left: 66px;
+  @media screen and (max-width: 1056px) {
+    margin-left: 1rem;
+  }
   contain: none;
   background: transparent;
 

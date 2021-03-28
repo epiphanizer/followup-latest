@@ -7,7 +7,7 @@
   width: auto;
   height: auto;
   padding: 5px 0;
-  margin-right: 4rem;
+  margin-right: 2rem;
   .toolbar-profile-nav {
     display: block;
     margin-left: 25px;
@@ -49,12 +49,15 @@
         text-decoration: none;
         color: #333333;
       }
+      @media screen and (max-width: 1225px) {
+        display: none;
+      }
     }
     .dropdown-trigger {
       width: 21px;
       display: inline-block;
       margin-top: 5px;
-      margin-left: 16px;
+      margin-left: 8px;
       height: 14px;
       background-size: 100%;
       background-image: url("/assets/icon-large-arrow@2x.png");

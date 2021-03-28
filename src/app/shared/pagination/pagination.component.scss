@@ -2,19 +2,21 @@
   font-family: Avenir;
   font-weight: bold;
   font-size: 13px;
-  vertical-align: bottom;
+  vertical-align: top;
 }
 
 .page-link {
   cursor: pointer;
   height: 13px;
   width: 11px;
+  vertical-align: top;
+  margin: 0px 4px;
   display: inline-block;
   background-image: url("/assets/icon-pagination@2x.png");
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center center;
-  vertical-align: bottom;
+  vertical-align: top;
   &.previous-item {
     transform: rotate(180deg);
   }

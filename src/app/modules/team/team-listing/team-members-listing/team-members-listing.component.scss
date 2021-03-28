@@ -2,117 +2,9 @@
   display: block;
   margin-top: 0.5rem;
 }
+
 .team-feed {
   width: 100%;
-}
-
-.divider-line {
-  width: 100%;
-  min-height: 1px;
-  height: 1px;
-  display: block;
-  border-top: solid 3.9px var(--ion-color-primary);
-  border-bottom: none;
-}
-
-h3 {
-  width: auto;
-  float: left;
-  font-family: AvenirBold;
-  font-size: 21px;
-  font-weight: 900;
-  font-style: normal;
-  font-weight: bold;
-  font-stretch: normal;
-  line-height: 1.01;
-  letter-spacing: 3.15px;
-  text-align: left;
-  margin-bottom: 0;
-  text-transform: uppercase;
-  color: var(--ion-color-primary);
-}
-
-.team-listing-headline {
-  display: inline-block;
-  font-family: AvenirBold;
-  font-size: 20px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 0.65;
-  letter-spacing: 1.2px;
-  text-align: left;
-  color: #9acc38;
-  margin-bottom: 1rem;
-}
-
-ul.team-filters {
-  list-style-type: none;
-  display: block;
-  width: 100%;
-  padding-left: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-
-  div {
-    display: inline-block;
-    padding-left: 16px;
-
-    &.team-name-container {
-      width: 84px;
-    }
-
-    &.team-role-container {
-      margin-left: 250px;
-    }
-
-    li {
-      cursor: pointer;
-      display: inline-block;
-      font-family: AvenirDemi;
-      text-transform: uppercase;
-      font-size: 13px;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 2.31;
-      letter-spacing: 0.13px;
-      text-align: left;
-      color: #222222;
-      text-align: center;
-
-      a {
-        cursor: pointer;
-        font-family: AvenirBold;
-        font-size: 13px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 2.31;
-        letter-spacing: 0.13px;
-        text-align: right;
-        color: #222222;
-        text-decoration: none;
-      }
-
-      &.ascending-descending-control {
-        .ascending-descending-control-arrow {
-          display: block;
-          width: 11px;
-          height: 11px;
-          background-image: url("/assets/icon-list-sort@2x.png");
-          background-size: 100%;
-          background-repeat: no-repeat;
-          margin-top: 6px;
-
-          &.asc {
-            transform: rotate(180deg);
-            margin-top: 3px;
-          }
-        }
-      }
-    }
-  }
 }
 
 .section-header {
@@ -163,139 +55,89 @@ ion-title {
   padding-top: 58px;
 }
 
-h1 {
-  display: inline-block;
-  font-family: AvenirBold;
-  font-size: 20px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 0.65;
-  letter-spacing: 1.2px;
-  text-align: left;
-  color: #9acc38;
-  margin-bottom: 1rem;
-}
-
-ul.operation-filters {
-  list-style-type: none;
-  display: block;
-  width: 100%;
-  padding-left: 16px;
-  margin-top: 0;
-  margin-bottom: 0;
-
-  div {
-    display: inline-block;
-    padding-left: 16px;
-  }
-
-  li {
-    cursor: pointer;
-    display: inline-block;
-    font-family: AvenirDemi;
-    text-transform: uppercase;
-    font-size: 13px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 2.31;
-    letter-spacing: 0.13px;
-    text-align: left;
-    color: #222222;
-
-    a {
-      cursor: pointer;
-      font-family: AvenirBold;
-      font-size: 13px;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 2.31;
-      letter-spacing: 0.13px;
-      text-align: right;
-      color: #222222;
-      text-decoration: none;
-    }
-
-    &.ascending-descending-control {
-      .ascending-descending-control-arrow {
-        display: block;
-        width: 11px;
-        height: 11px;
-        background-image: url("/assets/icon-list-sort@2x.png");
-        background-size: 100%;
-        background-repeat: no-repeat;
-        margin-top: 6px;
-
-        &.asc {
-          transform: rotate(180deg);
-          margin-top: 3px;
-        }
-      }
-    }
-  }
-}
-
 table.team-member-table {
   list-style-type: none;
-  width: 100%;
+  width: 95%;
   min-width: 850px;
-  max-width: 1020px;
   padding-left: 0;
   margin-bottom: 0.75rem;
+  margin-top: 1rem;
+
+  th {
+    padding-left: 15px;
+    font-family: "AvenirBold";
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 12.9px;
+  }
+
+  thead {
+    ::after {
+      content: "";
+      display: block;
+      height: 0.25em;
+      width: 100%;
+      background: white;
+    }
+  }
 
   td,
   th {
     text-align: left;
   }
 
-  td {
-    height: 50px;
-    padding: 0 15px;
-    border: 1px solid rgba(217, 217, 217, 0.8);
-    cursor: pointer;
-    width: auto;
-    border: solid 1px rgb(187, 187, 187);
-
-    background-color: #ffffff;
-    display: table-cell;
-    font-family: "Avenir";
-  }
-
-  tr {
-    border-bottom: 1px solid #dfdfdf;
-    padding-left: 16px;
-
-    &:hover {
-      td {
-        background-color: rgba(19, 175, 233, 0.15);
-      }
-    }
+  tbody {
+    border-top: 1px solid black;
 
     td {
+      height: 50px;
+      padding: 0 15px;
+      cursor: pointer;
+      width: auto;
+      border-left: solid 1px rgb(187, 187, 187);
+      border-right: solid 1px rgb(187, 187, 187);
+      border-bottom: solid 1px rgb(187, 187, 187);
+
+      background-color: #ffffff;
       display: table-cell;
-      vertical-align: middle;
+      font-family: "Avenir";
     }
 
-    &.archived {
-      opacity: 0.6;
-    }
+    tr {
+      border-bottom: 1px solid #dfdfdf;
+      padding-left: 16px;
 
-    padding-left: 20px;
+      &:hover {
+        td {
+          background-color: rgba(19, 175, 233, 0.15);
+        }
+      }
+
+      td {
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      &.archived {
+        opacity: 0.6;
+      }
+
+      padding-left: 20px;
+    }
   }
-}
 
-img.post-it-note {
-  max-width: 30px;
-  margin: 0 auto;
-  text-align: center;
-  display: block;
+  img.post-it-note {
+    max-width: 30px;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+  }
 }
 
 jw-pagination {
-  width: 80%;
-  margin-top: 0.75rem;
+  width: 94%;
+  margin-top: 1.25rem;
   display: block;
   text-align: right;
 }

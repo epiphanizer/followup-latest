@@ -17,7 +17,6 @@ import { OperationService } from '@app/modules/operation/operation.service';
 })
 export class PatientListingFilterComponent implements OnInit {
   @Input() operation: Operation;
-  @Input() filterDate: string;
   patients: Patient[];
   patientsFiltered: Patient[] = [];
   user: User;
@@ -34,16 +33,9 @@ export class PatientListingFilterComponent implements OnInit {
         this.patients = [];
       }
       this.patients = patients;
-      this.searchPatientsBySelectedDate(this.filterDate);
     });
   }
   ngOnChanges(changes: SimpleChanges) {
-    if (this.patients) {
-      if (changes.filterDate) {
-        this.filterDate = changes.filterDate.currentValue;
-        this.searchPatientsBySelectedDate(this.filterDate);
-      }
-    }
     if (this.operation) {
       if (changes.operation) {
         this.patientService.getPatientsByOperationId(this.operation.operationId).subscribe((patients: Patient[]) => {
@@ -51,26 +43,12 @@ export class PatientListingFilterComponent implements OnInit {
             this.patients = [];
           }
           this.patients = patients;
-          this.searchPatientsBySelectedDate(this.filterDate);
+          // this.searchPatientsByText();
         });
       }
     }
   }
 
-  searchPatientsBySelectedDate(selectedDate: string): Patient[] {
-    let selectedDateObj = new Date(selectedDate);
-    let transformedDate = this.datePipe.transform(selectedDateObj, 'yyyy-MM-dd');
-    if (this.patients) {
-      this.patientsFiltered = this.patients.filter((patient: Patient) => {
-        if (patient.patientAdmitDate) {
-          return patient.patientAdmitDate.toString().indexOf(transformedDate) !== -1;
-        } else {
-          return patient.patientAdmitDate.toString().indexOf(transformedDate) !== -1;
-        }
-      });
-    }
-    return this.patientsFiltered;
-  }
   searchPatientsByText($event: KeyboardEvent): Patient[] {
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
