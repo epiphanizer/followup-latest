@@ -84,29 +84,33 @@
       }
     }
 
-    .user-messages {
-      width: 100%;
+    .posted-notes {
       height: 100%;
-      display: block;
-      padding-left: 0;
-      list-style-type: none;
-      margin: 0;
-      text-align: center;
 
-      .user-message-note {
-        height: 100%;
+      .user-messages {
         width: 100%;
+        height: 100%;
         display: block;
-        background-repeat: no-repeat;
-        background-size: 100%;
-        background-image: url("/assets/sticky-note@2x.png");
-        font-family: AvenirProMediumItalic;
-        font-size: 15px;
-        text-align: left;
-      }
+        padding-left: 0;
+        list-style-type: none;
+        margin: 0;
+        text-align: center;
 
-      .user-message-body {
-        padding: 48px 30px;
+        .user-message-note {
+          height: 100%;
+          width: 100%;
+          display: block;
+          background-repeat: no-repeat;
+          background-size: 100%;
+          background-image: url("/assets/sticky-note@2x.png");
+          font-family: AvenirProMediumItalic;
+          font-size: 15px;
+          text-align: left;
+        }
+
+        .user-message-body {
+          padding: 48px 30px;
+        }
       }
     }
 
@@ -134,6 +138,7 @@
   ion-col.patient-pipeline-col {
     width: 34%;
     margin-right: 2%;
+
     @media screen and (max-width: 1335px) {
       width: 95%;
     }
@@ -147,6 +152,7 @@
       width: 95%;
       max-width: unset;
     }
+
     width: 100%;
     padding: 28.2px 37.5px 32px 28.2px;
     border-radius: 13.7px;

@@ -6,11 +6,10 @@ import { AuthenticationService } from '@app/core';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { Operation } from '@app/modules/operation/operation';
-import { DatePipe } from '@angular/common';
 import { OperationService } from '@app/modules/operation/operation.service';
 
 @Component({
-  providers: [AuthenticationService, DatePipe, OperationService, PatientService, UserService],
+  providers: [AuthenticationService, OperationService, PatientService, UserService],
   selector: 'app-patient-listing-filter',
   templateUrl: './patient-listing-filter.component.html',
   styleUrls: ['./patient-listing-filter.component.scss']
@@ -22,11 +21,7 @@ export class PatientListingFilterComponent implements OnInit {
   user: User;
   todaysDate: string;
 
-  constructor(
-    private operationService: OperationService,
-    private patientService: PatientService,
-    private datePipe: DatePipe
-  ) {}
+  constructor(private operationService: OperationService, private patientService: PatientService) {}
   ngOnInit() {
     this.patientService.getPatientsByOperationId(this.operation.operationId).subscribe((patients: Patient[]) => {
       if (!patients) {

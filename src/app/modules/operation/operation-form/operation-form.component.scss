@@ -92,6 +92,7 @@ form {
       text-align: left;
       color: #222222;
       height: 27px;
+      margin-bottom: 8px;
     }
 
     ion-item.operation-address,
@@ -361,7 +362,14 @@ form {
 
   i.icon-info {
     background-image: url("/assets/icon-info@2x.png");
-    margin-right: 12px;
+    margin-right: 8px;
+    float: left;
+    clear: left;
+    width: 21px;
+    height: 21px;
+    background-repeat: no-repeat;
+    background-size: 95%;
+    margin-top: 4px;
   }
 
   i.icon-team-members {
@@ -591,9 +599,11 @@ form {
   width: 100%;
   margin-top: 1rem;
   padding: 0 1rem;
+  vertical-align: bottom;
 
   span {
     cursor: pointer;
+    float: left;
   }
 }
 

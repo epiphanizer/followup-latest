@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class NotificationDetailComponent implements OnInit {
   notification: Notification;
+  notificationDecoded: string;
   patient: Patient;
   public selected:
     | {
@@ -22,8 +23,15 @@ export class NotificationDetailComponent implements OnInit {
     | any = {};
   constructor(private route: ActivatedRoute, private patientService: PatientService) {}
 
+  returnHTML(value: string): string {
+    return value
+      .replace(/%0A/g, '<br/>')
+      .replace(/%20/g, '&nbsp;')
+      .replace(/%22/g, '"');
+  }
   ngOnInit() {
     this.notification = this.route.snapshot.data.notification;
+    this.notification.notificationMessage = this.returnHTML(this.notification.notificationMessage);
     this.patientService.getPatientByPatientId(this.notification.notificationPatientId).subscribe((patient: Patient) => {
       this.patient = patient[0];
     });

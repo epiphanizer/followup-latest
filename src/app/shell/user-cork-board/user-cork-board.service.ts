@@ -17,6 +17,7 @@ export interface UserCorkBoardObject {
  * Provides helper methods to create routes.
  */
 export class UserCorkBoardService {
+  public isOpen: boolean;
   constructor(private http: HttpService) {}
 
   addNewUserCorkBoardObjectByUserId(userId: number, file: File) {
@@ -43,6 +44,11 @@ export class UserCorkBoardService {
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
+
+  public toggleCorkboardState = function() {
+    this.isOpen = !this.isOpen;
+  };
+
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

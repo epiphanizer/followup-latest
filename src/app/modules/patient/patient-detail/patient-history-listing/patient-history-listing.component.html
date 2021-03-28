@@ -23,9 +23,7 @@
           <span class="notification-label">
             Message
           </span>
-          <div class="notification-message">
-            {{ activity.notificationMessage }}
-          </div>
+          <div class="notification-message" [innerHTML]="activity.notificationMessage"></div>
         </div>
       </ng-container>
       <ng-template #patientCall>

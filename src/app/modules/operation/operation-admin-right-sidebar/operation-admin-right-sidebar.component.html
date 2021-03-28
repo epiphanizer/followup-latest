@@ -16,6 +16,7 @@
       <div class="manager-container" *ngFor="let operationManager of operationAssignedManagers; let idx = index">
         <ion-list class="assigned-manager-list" inset lines="none" [class.show]="managerSidebarDropdownOpen">
           <ion-item class="sidebar-listing" id="operation-manager-{{ idx }}">
+            <ion-label color="medium" position="stacked" style="visibility:hidden">Assign Manager</ion-label>
             <ion-select
               *ngIf="mode.edit || mode.add; else managerSpan"
               (ionChange)="managerOnSelect($event, idx)"
@@ -61,6 +62,7 @@
         >
           <div class="callrep-container" *ngFor="let operationCallRep of operationAssignedUsers; let idx = index">
             <ion-item class="sidebar-listing" id="operationCallRep-{{ idx }}">
+              <ion-label color="medium" position="stacked" style="visibility:hidden">Assign Call Rep</ion-label>
               <ion-select
                 *ngIf="availableUsers && (mode.edit || mode.add); else memberSpan"
                 (ionChange)="callRepOnSelect($event, idx)"

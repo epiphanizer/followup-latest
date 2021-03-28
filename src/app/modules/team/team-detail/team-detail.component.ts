@@ -21,6 +21,8 @@ export class TeamMemberDetailComponent implements OnInit {
   teamMemberId: number;
   teamMember: TeamMember;
   team: Team;
+
+  teamInfoDecoded: string;
   /**
    * We assign user interests here out of a JSON string
    */
@@ -54,6 +56,13 @@ export class TeamMemberDetailComponent implements OnInit {
       this.loadTeamMember();
     });
   }
+
+  returnHTML(value: string): string {
+    return value
+      .replace(/%0A/g, '<br/>')
+      .replace(/%20/g, '&nbsp;')
+      .replace(/%22/g, '"');
+  }
   loadTeamMember() {
     this.teamService
       .getTeamMemberByTeamIdAndTeamMemberId(this.teamId, this.teamMemberId)
@@ -68,6 +77,8 @@ export class TeamMemberDetailComponent implements OnInit {
               map((user: User) => {
                 if (user !== null) {
                   this.user = user;
+                  this.teamInfoDecoded = this.returnHTML(this.user.userAdditionalInfo);
+
                   this.user.userInterests = JSON.parse(this.user.userInterests);
                   // Write the switch
                   var val = '';

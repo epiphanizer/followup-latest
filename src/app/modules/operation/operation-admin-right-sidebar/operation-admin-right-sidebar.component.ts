@@ -16,6 +16,8 @@ import { take, map } from 'rxjs/operators';
 import { OperationCallRepsService } from '../operation-callreps.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { UserService } from '@app/modules/user/user.service';
+import { LogService } from '@app/shared/log/log.service';
 
 @Component({
   selector: 'app-operation-admin-right-sidebar',
@@ -61,6 +63,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   @Input() mode: any;
 
   activeOperationId: number;
+  availableUsers: User[];
   fb: FormBuilder;
   callRepsForm: FormArray;
   managersForm: FormArray;
@@ -78,9 +81,11 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   operationManagersToRemove: number[] = [];
   constructor(
     private route: ActivatedRoute,
+    private logService: LogService,
     private operationService: OperationService,
     private operationCallRepsService: OperationCallRepsService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private userService: UserService
   ) {}
   operations: Operation[];
   operationAssignedUsers: any[];
@@ -88,6 +93,22 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   user: User;
   todaysDateDay: number;
   ngOnInit() {
+    this.userService.getAllUsers().subscribe((users: User[]) => {
+      try {
+        if (users) {
+          this.availableUsers = users;
+        } else {
+          throw 'No users found!';
+        }
+      } catch (error) {
+        this.logService.log(error);
+      }
+      if (users) {
+        this.availableUsers = users;
+      } else {
+        throw 'No users found!';
+      }
+    });
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
     if (this.route.snapshot.paramMap.get('operationId')) {
       this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));

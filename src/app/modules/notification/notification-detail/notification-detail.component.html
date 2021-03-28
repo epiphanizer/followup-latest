@@ -43,15 +43,11 @@
           </div>
           <div class="notification-item notification-container">
             <span class="notification-label">Notification</span>
-            <div class="notification-message">
-              {{ notification.notificationMessage }}
-            </div>
+            <div class="notification-message" [innerHTML]="notification.notificationMessage"></div>
           </div>
           <div class="resolution-item resolution-container" *ngIf="notification.notificationResolved">
             <span class="resolution-label">Resolution</span>
-            <div class="resolution-message">
-              {{ notification.notificationMessage }}
-            </div>
+            <div class="resolution-message"></div>
             <span class="notification-date"><strong>Date: test</strong>xx/xx/xx</span>
             <span class="notification-care-rep"></span>
           </div>

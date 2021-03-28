@@ -10,7 +10,10 @@
     <i class="desc-control"></i>
     <i class="asc-control"></i>
   </div> -->
-  <app-notification-listing-filter [notifications]="notificationsFiltered"></app-notification-listing-filter>
+  <app-notification-listing-filter
+    [operation]="operation"
+    [notifications]="notificationsFiltered"
+  ></app-notification-listing-filter>
 </section>
 <table class="notification-table">
   <thead>
@@ -38,7 +41,7 @@
         {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
       </td>
       <td [routerLink]="'/notifications/' + notification.notificationId">
-        {{ notification.notificationPatientFirstName }} {{ notification.notificationPatientLastName }}
+        {{ notification.notificationPatientFirstName }}, {{ notification.notificationPatientLastName }}
       </td>
       <td>
         <img class="notification-icon" src="{{ notification.notificationIconImage }}" />

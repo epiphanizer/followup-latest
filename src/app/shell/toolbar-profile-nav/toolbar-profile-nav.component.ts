@@ -4,6 +4,7 @@ import { AuthenticationService } from '@app/core';
 import { UserAvatarService } from '@app/modules/user/user-avatar/user-avatar.service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { UserCorkBoardObject } from '../user-cork-board/user-cork-board.service';
 
 @Component({
   providers: [AuthenticationService, UserAvatarService],
@@ -55,9 +56,41 @@ export class ToolbarProfileNavComponent implements OnInit {
   signOut() {
     this.authService.signOut();
   }
-  addPhotos() {
-    alert('adding photos');
-  }
+  addNewCorkboardItem = function() {
+    if (!this.isOpen) {
+      this.toggleCorkboardState();
+    }
+    this.imageCompress.uploadFile().then((imageObj: any) => {
+      this.imgResultBeforeCompress = imageObj.image;
+      this.imageCompress.compressFile(imageObj.image, imageObj.orientation, 50, 50).then((result: any) => {
+        this.imgResultAfterCompress = result;
+        const imageBlob = this.dataURItoBlob(this.imgResultAfterCompress.split(',')[1]);
+        let fileName =
+          this.user.userId +
+          '-corkboard-object-' +
+          Math.random()
+            .toString()
+            .slice(2, 11);
+        const imageFile = new File([imageBlob], fileName, {
+          type: 'image/jpeg'
+        });
+        this.userCorkBoardService
+          .addNewUserCorkBoardObjectByUserId(this.user.userId, imageFile)
+          .subscribe((data: any) => {
+            this.toastrService.success('Successfully added cork board item.');
+            this.userCorkBoardService
+              .getUserCorkBoardObjectsByUserId(this.user.userId)
+              .subscribe((data: UserCorkBoardObject[]) => {
+                if (data) {
+                  console.log(data);
+                  this.userCorkBoardObjects = data;
+                }
+              });
+          });
+      });
+    });
+  };
+
   editProfile() {
     this.router.navigate['/user/profile'];
   }

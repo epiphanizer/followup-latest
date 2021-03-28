@@ -6,7 +6,7 @@ export interface TeamMessage {
   teamMessageFromUserLastName?: string;
   teamMessageRecipientId: number;
   teamMessageSubject?: string;
-  teamMessageContent: string;
+  messageBody: string;
 }
 export interface Team {
   teamId: number;
