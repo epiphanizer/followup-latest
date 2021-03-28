@@ -51,13 +51,17 @@
                   <ion-item class="active-control">
                     <span class="control">
                       <ion-radio class="radio-button" mode="ios" value="true"></ion-radio>
-                      Active?
+                      <span>
+                        Active
+                      </span>
                     </span>
                   </ion-item>
                   <ion-item class="active-control">
                     <span class="control">
                       <ion-radio class="radio-button-notify" mode="ios" value="false"></ion-radio>
-                      Archive
+                      <span>
+                        Archive
+                      </span>
                     </span>
                   </ion-item>
                 </ion-radio-group>
@@ -66,7 +70,7 @@
             <ion-item class="operation-group">
               <ion-label color="medium" position="stacked">Ownership <span style="color:red">*</span></ion-label>
               <ion-select
-                *ngIf="operationGroups || operation.operationGroup"
+                *ngIf="(operationGroups && mode.add) || operation.operationGroupShortName"
                 formControlName="operationGroupId"
                 (ionChange)="operationGroupOnSelect($event, idx)"
                 class="operation-group-select"
@@ -185,9 +189,17 @@
                     <ion-input type="text" formControlName="operationContactLastName" placeholder="Last Name" required>
                     </ion-input>
                   </ion-item>
-                  <ion-item>
+                  <ion-item class="contact-email">
                     <ion-label position="stacked" color="medium"> Email <span style="color:red">*</span> </ion-label>
                     <ion-input type="text" formControlName="operationContactEmail" placeholder="Email"></ion-input>
+                  </ion-item>
+
+                  <ion-item class="title-position">
+                    <ion-label position="stacked" color="medium">
+                      Title / Position
+                    </ion-label>
+                    <ion-input type="text" formControlName="operationContactTitle" placeholder="Title / Position">
+                    </ion-input>
                   </ion-item>
                   <div class="phone-container">
                     <ion-item class="country-code">
@@ -210,13 +222,6 @@
                       </ion-input>
                     </ion-item>
 
-                    <ion-item class="title-position">
-                      <ion-label position="stacked" color="medium">
-                        Title / Position
-                      </ion-label>
-                      <ion-input type="text" formControlName="operationContactTitle" placeholder="Title / Position">
-                      </ion-input>
-                    </ion-item>
                     <ion-item class="contact-order">
                       <ion-label position="stacked" color="medium">
                         Contact Order
