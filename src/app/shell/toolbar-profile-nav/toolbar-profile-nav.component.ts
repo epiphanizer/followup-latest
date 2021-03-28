@@ -56,6 +56,21 @@ export class ToolbarProfileNavComponent implements OnInit {
   signOut() {
     this.authService.signOut();
   }
+
+  dataURItoBlob(dataURI: string) {
+    // convert base64 to raw binary data held in a string
+    const byteString = window.atob(dataURI);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], {
+      type: 'image/jpeg'
+    });
+    return blob;
+  }
+
   addNewCorkboardItem = function() {
     if (!this.isOpen) {
       this.toggleCorkboardState();

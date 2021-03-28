@@ -39,6 +39,7 @@ ion-list {
 
   ion-item {
     --inner-padding-end: 0;
+    margin: 8px 0;
   }
 }
 
@@ -77,6 +78,7 @@ ion-select {
   text-align: left;
   display: block;
   background-color: #f5f5f5;
+  padding-left: 10px;
 
   ::part(icon) {
     display: none !important;
@@ -99,6 +101,10 @@ ion-select {
 ion-item {
   --padding-start: 0;
   --padding-end: 0;
+
+  ion-label {
+    display: none;
+  }
 }
 
 .divider-line {

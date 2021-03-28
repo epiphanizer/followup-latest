@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
 import { catchError, retry, delay } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { throwError, Observable } from 'rxjs';
+import { throwError, Observable, BehaviorSubject } from 'rxjs';
 
 export interface UserCorkBoardObject {
   userCorkBoardObjectId?: number;
@@ -18,6 +18,8 @@ export interface UserCorkBoardObject {
  */
 export class UserCorkBoardService {
   public isOpen: boolean;
+  public menuStateBSubject: BehaviorSubject<boolean>;
+
   constructor(private http: HttpService) {}
 
   addNewUserCorkBoardObjectByUserId(userId: number, file: File) {
@@ -47,6 +49,7 @@ export class UserCorkBoardService {
 
   public toggleCorkboardState = function() {
     this.isOpen = !this.isOpen;
+    this.menuStateBSubject.next();
   };
 
   private handleAsyncError(error: HttpErrorResponse) {

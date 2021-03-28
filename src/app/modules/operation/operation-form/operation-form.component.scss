@@ -91,7 +91,7 @@ form {
       letter-spacing: normal;
       text-align: left;
       color: #222222;
-      height: 27px;
+      height: 31px;
       margin-bottom: 8px;
     }
 
@@ -461,11 +461,13 @@ form {
       float: left;
 
       &.first-name {
-        width: 100%;
+        width: 220px;
+        margin-right: 12px;
       }
 
       &.last-name {
-        width: 100%;
+        width: 220px;
+        margin-right: 12px;
       }
 
       &.title-position {
@@ -474,7 +476,9 @@ form {
       }
 
       &.email {
-        width: 50%;
+        width: 305px;
+        clear: left;
+        float: none;
       }
 
       &.country-code {

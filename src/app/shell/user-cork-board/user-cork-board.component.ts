@@ -59,19 +59,19 @@ export class UserCorkBoardComponent implements OnInit {
       });
   }
 
-  dataURItoBlob(dataURI: string) {
-    // convert base64 to raw binary data held in a string
-    const byteString = window.atob(dataURI);
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const int8Array = new Uint8Array(arrayBuffer);
-    for (let i = 0; i < byteString.length; i++) {
-      int8Array[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([int8Array], {
-      type: 'image/jpeg'
-    });
-    return blob;
-  }
+  // dataURItoBlob(dataURI: string) {
+  //   // convert base64 to raw binary data held in a string
+  //   const byteString = window.atob(dataURI);
+  //   const arrayBuffer = new ArrayBuffer(byteString.length);
+  //   const int8Array = new Uint8Array(arrayBuffer);
+  //   for (let i = 0; i < byteString.length; i++) {
+  //     int8Array[i] = byteString.charCodeAt(i);
+  //   }
+  //   const blob = new Blob([int8Array], {
+  //     type: 'image/jpeg'
+  //   });
+  //   return blob;
+  // }
 
   toggleCorkBoardDeleteFunction = function() {
     if (!this.isOpen) {
@@ -81,9 +81,6 @@ export class UserCorkBoardComponent implements OnInit {
   };
 
   public toggleCorkboardState = function() {
-    this.isOpen = !this.isOpen;
-    // Make sure to reset the deleting functionality of the cork board
-    this.deleting = false;
     this.corkBoardExpandedEmitter.emit(this.isOpen);
   };
 }

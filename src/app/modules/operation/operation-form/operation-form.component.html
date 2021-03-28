@@ -171,42 +171,50 @@
                     <ion-label position="stacked" color="medium">
                       First Name <span style="color:red">*</span>
                     </ion-label>
-                    <ion-input type="text" formControlName="operationContactFirstName" required></ion-input>
+                    <ion-input
+                      type="text"
+                      formControlName="operationContactFirstName"
+                      placeholder="First Name"
+                      required
+                    ></ion-input>
                   </ion-item>
                   <ion-item class="last-name">
                     <ion-label position="stacked" color="medium">
                       Last Name <span style="color:red">*</span>
                     </ion-label>
-                    <ion-input type="text" formControlName="operationContactLastName" required></ion-input>
-                  </ion-item>
-                  <ion-item class="title-position">
-                    <ion-label position="stacked" color="medium">
-                      Title / Position
-                    </ion-label>
-                    <ion-input type="text" formControlName="operationContactTitle"></ion-input>
+                    <ion-input type="text" formControlName="operationContactLastName" placeholder="Last Name" required>
+                    </ion-input>
                   </ion-item>
                   <ion-item>
                     <ion-label position="stacked" color="medium"> Email <span style="color:red">*</span> </ion-label>
-                    <ion-input type="text" formControlName="operationContactEmail"></ion-input>
+                    <ion-input type="text" formControlName="operationContactEmail" placeholder="Email"></ion-input>
                   </ion-item>
                   <div class="phone-container">
                     <ion-item class="country-code">
                       <ion-label position="stacked" color="medium">
                         +1
                       </ion-label>
-                      <ion-input type="text" formControlName="operationContactCountryCode"></ion-input>
+                      <ion-input type="text" formControlName="operationContactCountryCode" placeholder="1"></ion-input>
                     </ion-item>
                     <ion-item class="area-code">
                       <ion-label position="stacked" color="medium">
                         (###)
                       </ion-label>
-                      <ion-input type="text" formControlName="operationContactAreaCode"></ion-input>
+                      <ion-input type="text" formControlName="operationContactAreaCode" placeholder="(###)"></ion-input>
                     </ion-item>
                     <ion-item class="phone-number">
                       <ion-label position="stacked" color="medium">
                         Phone #
                       </ion-label>
-                      <ion-input type="text" formControlName="operationContactPhoneNumber" [mask]="000 - 0000">
+                      <ion-input type="text" formControlName="operationContactPhoneNumber" placeholder="Phone #">
+                      </ion-input>
+                    </ion-item>
+
+                    <ion-item class="title-position">
+                      <ion-label position="stacked" color="medium">
+                        Title / Position
+                      </ion-label>
+                      <ion-input type="text" formControlName="operationContactTitle" placeholder="Title / Position">
                       </ion-input>
                     </ion-item>
                     <ion-item class="contact-order">

@@ -73,7 +73,6 @@ export class PatientHistoryListingComponent implements OnInit {
     if (this.patientCalls) {
       this.patientCalls.forEach(patientCall => {
         patientCall.patientCallNotes = this.returnHTML(patientCall.patientCallNotes);
-        console.log(patientCall.patientCallNotes);
         this.patientActivity.push(patientCall);
       });
     }

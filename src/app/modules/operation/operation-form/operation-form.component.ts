@@ -296,7 +296,7 @@ export class OperationFormComponent implements OnInit {
     for (i = 0; i < this.notificationTypes.length; i++) {
       let newFormGroup = this.fb.group({});
       let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
-      var newControl = new FormControl(false);
+      var newControl = new FormControl(true);
       newFormGroup.addControl(notificationTypeId, newControl);
       notificationsFormControlArray.push(newFormGroup);
     }
