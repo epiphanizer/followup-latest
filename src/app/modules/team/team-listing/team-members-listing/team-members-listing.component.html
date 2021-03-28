@@ -1,3 +1,16 @@
+<!-- Filter UI -->
+<section class="table-filter" style="margin-bottom:1rem; overflow: auto;">
+  <img style="float:left; height:34px;" src="/assets/ui-mockup-team-member@2x.png" alt="" />
+  <!--   
+  <i class="filter-icon"></i>
+  <div class="sort-select">
+    <span class="selected-option">{{ selectedSortOption }}</span>
+  </div>
+  <div class="sort-controls">
+    <i class="desc-control"></i>
+    <i class="asc-control"></i>
+  </div> -->
+</section>
 <table class="team-member-table">
   <thead>
     <tr>
@@ -8,15 +21,6 @@
               <a>
                 Hired
               </a>
-            </li>
-            <li class="ascending-descending-control">
-              <i
-                class="ascending-descending-control-arrow"
-                [class.asc]="selectedSortFlag == 'asc'"
-                [class.desc]="selectedSortFlag == 'desc'"
-                (click)="toggleAscDesc()"
-              >
-              </i>
             </li>
           </ul>
         </div>
@@ -29,15 +33,6 @@
                 Name
               </a>
             </li>
-            <li class="ascending-descending-control">
-              <i
-                class="ascending-descending-control-arrow"
-                [class.asc]="selectedSortFlag == 'asc'"
-                [class.desc]="selectedSortFlag == 'desc'"
-                (click)="toggleAscDesc()"
-              >
-              </i>
-            </li>
           </ul>
         </div>
       </th>
@@ -48,15 +43,6 @@
               <a>
                 Position
               </a>
-            </li>
-            <li class="ascending-descending-control">
-              <i
-                class="ascending-descending-control-arrow"
-                [class.asc]="selectedSortFlag == 'asc'"
-                [class.desc]="selectedSortFlag == 'desc'"
-                (click)="toggleAscDesc()"
-              >
-              </i>
             </li>
           </ul>
         </div>
@@ -69,15 +55,6 @@
                 Birthday
               </a>
             </li>
-            <li class="ascending-descending-control">
-              <i
-                class="ascending-descending-control-arrow"
-                [class.asc]="selectedSortFlag == 'asc'"
-                [class.desc]="selectedSortFlag == 'desc'"
-                (click)="toggleAscDesc()"
-              >
-              </i>
-            </li>
           </ul>
         </div>
       </th>
@@ -88,15 +65,6 @@
               <a>
                 Languages
               </a>
-            </li>
-            <li class="ascending-descending-control">
-              <i
-                class="ascending-descending-control-arrow"
-                [class.asc]="selectedSortFlag == 'asc'"
-                [class.desc]="selectedSortFlag == 'desc'"
-                (click)="toggleAscDesc()"
-              >
-              </i>
             </li>
           </ul>
         </div>

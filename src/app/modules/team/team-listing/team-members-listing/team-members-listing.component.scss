@@ -1,3 +1,7 @@
+:host {
+  display: block;
+  margin-top: 0.5rem;
+}
 .team-feed {
   width: 100%;
 }
@@ -135,11 +139,6 @@ ul.team-filters {
   margin-left: -29px;
   margin-top: -3.5px;
   position: absolute;
-}
-
-:host {
-  display: block;
-  margin-top: 1.65rem;
 }
 
 .operation-feed {

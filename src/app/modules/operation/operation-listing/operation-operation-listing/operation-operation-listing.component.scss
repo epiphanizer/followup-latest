@@ -1,6 +1,6 @@
 :host {
   display: block;
-  margin-top: 1.65rem;
+  margin-top: 0.5rem;
 }
 
 .operation-feed {
@@ -20,9 +20,8 @@ ion-title {
 
 table {
   list-style-type: none;
-  width: 100%;
+  width: 95%;
   min-width: 850px;
-  max-width: 1020px;
   padding-left: 0;
   margin-bottom: 0.75rem;
 
@@ -33,10 +32,19 @@ table {
       font-size: 15px;
       text-transform: uppercase;
     }
+    ::after {
+      content: "";
+      display: block;
+      height: 0.5em;
+      width: 100%;
+      background: white;
+    }
   }
+
   tbody {
     border-top: 1px solid black;
   }
+
   td,
   th {
     text-align: left;
@@ -45,15 +53,18 @@ table {
   td {
     height: 50px;
     padding: 0 15px;
-    border: 1px solid rgba(217, 217, 217, 0.8);
     cursor: pointer;
     width: auto;
-    border: solid 1px rgb(187, 187, 187);
+    border-left: solid 1px rgb(187, 187, 187);
+    border-right: solid 1px rgb(187, 187, 187);
+    border-bottom: solid 1px rgb(187, 187, 187);
     background-color: #ffffff;
     display: table-cell;
     font-family: "Avenir";
+
     &:last-child {
       text-align: center;
+
       img {
         width: 24px;
         height: 24px;
@@ -64,6 +75,7 @@ table {
 
   tr {
     padding-left: 16px;
+
     &:hover {
       td {
         background-color: rgba(19, 175, 233, 0.15);
@@ -80,6 +92,7 @@ table {
       display: table-cell;
       vertical-align: middle;
     }
+
     .operation-name {
       text-transform: capitalize;
     }

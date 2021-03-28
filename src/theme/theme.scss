@@ -134,3 +134,14 @@ ion-radio {
   width: 15px !important;
   height: 15px !important;
 }
+
+// Sort filter styles
+
+.table-filter {
+  margin-bottom: 22px;
+  overflow: auto;
+  img {
+    float: left;
+    height: 34px;
+  }
+}
