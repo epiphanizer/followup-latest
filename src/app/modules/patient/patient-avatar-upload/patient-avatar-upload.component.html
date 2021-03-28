@@ -1,9 +1,11 @@
-<div
-  class="patient-avatar-image"
-  *ngIf="avatarExists && !changingAvatar; else defaultAvatar"
-  (click)="uploadPatientAvatarPhoto()"
-  [style.background-image]="avatarUrl"
-></div>
+<div class="patient-avatar-container">
+  <div
+    class="patient-avatar-image"
+    *ngIf="avatarExists && !changingAvatar; else defaultAvatar"
+    (click)="uploadPatientAvatarPhoto()"
+    [style.background-image]="avatarUrl"
+  ></div>
+</div>
 <ng-template #defaultAvatar>
   <img class="patient-avatar-image" (click)="uploadPatientAvatarPhoto()" src="/assets/photo-mask@2x.png" />
 </ng-template>

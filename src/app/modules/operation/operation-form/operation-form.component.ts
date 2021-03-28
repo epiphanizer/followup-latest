@@ -400,7 +400,6 @@ export class OperationFormComponent implements OnInit {
         operationContactEmail: formContact.operationContactEmail,
         operationContactActive: 1
       };
-      console.log(payload);
       return <OperationContactPutBody>payload;
     } catch (err) {
       console.log(err);

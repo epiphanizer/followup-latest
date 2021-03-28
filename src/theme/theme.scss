@@ -112,16 +112,19 @@ $item-md-padding-end: 0;
   border-radius: 0;
   font-family: "Avenir";
 }
+
 ion-item {
   --ripple-color: transparent;
   --background-hover: transparent;
 }
+
 ion-radio {
   :host {
     border-radius: 0;
     width: 15px !important;
     height: 15px !important;
   }
+
   .radio-icon {
     border-radius: 0;
     width: 15px !important;
@@ -140,8 +143,48 @@ ion-radio {
 .table-filter {
   margin-bottom: 22px;
   overflow: auto;
+
   img {
     float: left;
     height: 34px;
+  }
+}
+
+.alert-head.sc-ion-alert-md {
+  font-family: "AvenirDemi";
+  text-transform: uppercase;
+  font-size: 16px;
+  border-bottom: 0;
+  padding-bottom: 4px;
+}
+
+.alert-radio-label.sc-ion-alert-md {
+  font-family: "AvenirDemi";
+  font-size: 15px;
+}
+
+.alert-radio-icon.sc-ion-alert-md {
+  margin-top: 0;
+  --border-color: #8e8e8e;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  border-radius: 3px;
+  background-color: #ffffff;
+}
+.alert-radio-group.sc-ion-alert-md {
+  border-top: none;
+  border-bottom: none;
+}
+.sc-ion-alert-md.alert-radio-label.sc-ion-alert-md {
+  padding-left: 35px;
+}
+.alert-button.sc-ion-alert-md {
+  font-family: "AvenirDemi";
+  color: white;
+  background-color: #08b4b9;
+  // Cancel button
+  &:first-child {
+    background-color: #d1d1d1;
   }
 }

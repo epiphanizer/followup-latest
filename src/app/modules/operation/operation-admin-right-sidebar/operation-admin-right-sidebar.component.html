@@ -14,11 +14,17 @@
         ></i
       ></span>
       <div class="manager-container" *ngFor="let operationManager of operationAssignedManagers; let idx = index">
-        <ion-list class="assigned-manager-list" inset lines="none" [class.show]="managerSidebarDropdownOpen">
+        <ion-list
+          class="assigned-manager-list"
+          [class.edit]="mode.edit || mode.add"
+          inset
+          lines="none"
+          [class.show]="managerSidebarDropdownOpen"
+        >
           <ion-item class="sidebar-listing" id="operation-manager-{{ idx }}">
             <ion-label color="medium" position="stacked">Assign Manager</ion-label>
             <ion-select
-              *ngIf="mode.edit || mode.add; else managerSpan"
+              *ngIf="(mode.edit || mode.add) && availableUsers; else managerSpan"
               (ionChange)="managerOnSelect($event, idx)"
               formControlName="{{ idx }}"
               class="operation-assigned-manager"
@@ -34,9 +40,7 @@
             </ion-select>
             <ng-template #managerSpan>
               <span class="operation-manager">
-                <a [routerLink]="'/users/' + operationManager.userId"
-                  >{{ operationManager.userFirstName }} {{ operationManager.userLastName }}</a
-                >
+                {{ operationManager.userFirstName }} {{ operationManager.userLastName }}
               </span>
             </ng-template>
           </ion-item>
@@ -59,6 +63,7 @@
           lines="none"
           *ngIf="operationAssignedUsers"
           [class.show]="callRepSidebarDropdownOpen"
+          [class.edit]="mode.edit || mode.add"
         >
           <div class="callrep-container" *ngFor="let operationCallRep of operationAssignedUsers; let idx = index">
             <ion-item class="sidebar-listing" id="operationCallRep-{{ idx }}">
@@ -78,9 +83,7 @@
               </ion-select>
               <ng-template #memberSpan>
                 <span class="operation-callrep">
-                  <a [routerLink]="'/users/' + operationCallRep.userId"
-                    >{{ operationCallRep.userFirstName }} {{ operationCallRep.userLastName }}</a
-                  >
+                  {{ operationCallRep.userFirstName }} {{ operationCallRep.userLastName }}
                 </span>
               </ng-template>
             </ion-item>

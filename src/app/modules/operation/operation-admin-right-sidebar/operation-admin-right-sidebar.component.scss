@@ -2,6 +2,7 @@
   fieldset {
     border: none;
     padding-top: 1rem;
+    padding-bottom: 0;
   }
 
   width: 215px;
@@ -39,7 +40,11 @@ ion-list {
 
   ion-item {
     --inner-padding-end: 0;
-    margin: 8px 0;
+  }
+  &.edit {
+    ion-item {
+      margin: 8px 0;
+    }
   }
 }
 

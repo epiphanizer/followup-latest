@@ -57,6 +57,9 @@
     </tr>
   </tbody>
 </table>
+<jw-pagination *ngIf="notificationsFiltered" [items]="notificationsFiltered" (changePage)="onChangePage($event)">
+</jw-pagination>
+
 <ng-template #noPatientNotifications>
   <span class="no-calls">
     No notifications found for selected date.

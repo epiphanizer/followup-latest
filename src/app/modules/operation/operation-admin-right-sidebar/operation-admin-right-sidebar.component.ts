@@ -190,14 +190,14 @@ export class OperationAdminRightSidebarComponent implements OnInit {
 
   callRepOnSelect(event: any, index: number) {
     let callRepUserId = event.target.value;
-    if (this.operationCallReps[index].userId !== 0) {
-      this.operationCallRepsToRemove.push(this.operationCallReps[index].userId);
+    if (this.operationAssignedUsers[index].userId !== 0) {
+      this.operationCallRepsToRemove.push(this.operationAssignedUsers[index].userId);
     }
     var operationCallRepObject = {
       operationId: this.operation.operationId,
       userId: callRepUserId
     };
-    this.operationCallReps[index] = operationCallRepObject;
+    this.operationAssignedUsers[index] = operationCallRepObject;
   }
   managerOnSelect(event: any, index: number) {
     let managerUserId = event.target.value;

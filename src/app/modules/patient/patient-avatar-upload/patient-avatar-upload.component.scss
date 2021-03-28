@@ -1,7 +1,23 @@
+:host {
+  height: 265px;
+  width: 100%;
+  display: block;
+}
 img.patient-avatar-image {
   cursor: pointer;
 }
 
+.patient-avatar-container {
+  background-image: url("/assets/patient-badge-frame@2x.png");
+  display: block;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-width: 75px;
+  min-height: 75px;
+  height: 100%;
+  width: 100%;
+}
 div.patient-avatar-image {
   height: 220px;
   width: 100%;

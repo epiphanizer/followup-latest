@@ -255,7 +255,6 @@ form {
     * All the inline binary questions
     **/
     &.patient-gender,
-    &.speaks-english,
     &.patient-is-hipaa,
     &.patient-is-responsible {
       display: inline-block;
@@ -287,7 +286,23 @@ form {
         margin-left: 6px;
       }
     }
-
+    &.speaks-english {
+      display: block;
+      clear: both;
+      ion-label {
+        font-family: AvenirPro;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.2;
+        letter-spacing: normal;
+        text-align: left;
+        color: #444444;
+        margin-bottom: 0.33rem;
+        margin-left: 6px;
+      }
+    }
     &.fluent-language {
       display: none;
       &.show {
@@ -511,16 +526,20 @@ form {
 
     ion-item {
       &.first-name {
-        width: 100%;
+        width: 155px;
+        float: left;
+        margin-right: 12px;
       }
 
       &.last-name {
-        width: 100%;
+        width: 250px;
+        float: left;
       }
 
       &.relationship {
         width: 170px;
-        display: inline-block;
+        float: left;
+        clear: both;
       }
 
       &.patient-contact-order {
@@ -529,6 +548,7 @@ form {
       }
 
       &.patient-contact-hipaa {
+        margin-left: 8px;
         ion-label {
           margin-bottom: 0;
           margin-right: 5px;
