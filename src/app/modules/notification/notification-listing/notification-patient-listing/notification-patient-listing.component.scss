@@ -69,20 +69,31 @@ table {
       .notification-icon {
         width: 21px;
         height: 21px;
-
-        &.candidate {
+        background-size: cover;
+        display: inline-block;
+        vertical-align: bottom;
+        margin-right: 8px;
+        &.Candidate {
+          background-image: url("/assets/icon-candidate-lg@2x.png");
         }
 
-        &.assist {
+        &.Assistance {
+          background-image: url("/assets/icon-assist-lg@2x.png");
         }
 
-        &.hospital {
+        &.Hospital {
+          background-image: url("/assets/icon-hospital-lg@2x.png");
         }
 
-        &.legal {
+        &.Litigation {
+          background-image: url("/assets/icon-legal-lg@2x.png");
         }
 
-        &.feedback {
+        &.Feedback {
+          background-image: url("/assets/icon-feedback-lg@2x.png");
+        }
+        &.Death {
+          background-image: url("/assets/icon-death-lg@2x.png");
         }
       }
     }
