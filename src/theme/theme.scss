@@ -162,17 +162,23 @@ ion-radio {
   font-family: "AvenirDemi";
   font-size: 15px;
 }
-
+.alert-button-inner.sc-ion-alert-md {
+  height: 25px;
+}
 .alert-radio-icon.sc-ion-alert-md {
   margin-top: 0;
-  --border-color: #8e8e8e;
   width: 14px;
   height: 14px;
   margin-right: 8px;
-  border-radius: 3px;
-  background-color: #ffffff;
+  border: none;
+  background-image: url("/assets/button-radio@2x.png");
+  border-radius: 0;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 .alert-radio-group.sc-ion-alert-md {
+  padding-top: 1rem;
   border-top: none;
   border-bottom: none;
 }
@@ -187,4 +193,24 @@ ion-radio {
   &:first-child {
     background-color: #d1d1d1;
   }
+}
+
+.alert-radio-inner.sc-ion-alert-md {
+  left: 0px;
+  top: 0px;
+  background-image: url("/assets/button-radio@2x.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.alert-radio-inner.sc-ion-alert-md {
+  border-radius: 0;
+  border: none;
+  display: none;
+}
+[aria-checked="true"].sc-ion-alert-md .alert-radio-icon.sc-ion-alert-md {
+  background-image: url("/assets/button-radio-checked-red@2x.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
 }

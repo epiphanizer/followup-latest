@@ -72,10 +72,6 @@ table {
         }
       }
 
-      &.archived {
-        opacity: 0.6;
-      }
-
       padding-left: 20px;
     }
 
@@ -87,7 +83,11 @@ table {
       margin: 15px 0;
     }
   }
-
+  .patient-status {
+    &.archived {
+      color: #ef4627;
+    }
+  }
   td,
   th {
     text-align: left;

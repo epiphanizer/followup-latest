@@ -46,8 +46,6 @@ form {
   margin-bottom: 5rem;
 
   .operation-controls {
-    padding-top: 1.55rem;
-
     span {
       font-size: 14px;
       margin-left: 0.5rem;
@@ -67,12 +65,12 @@ form {
   }
 
   .icon-edit {
-    height: 12px;
-    width: 12px;
+    height: 11px;
+    width: 11px;
     display: inline-block;
     background-image: url("/assets/icon-edit@2x.png");
     background-size: cover;
-    margin-right: 8px;
+    margin-right: 6px;
     margin-top: 0;
   }
 
@@ -215,7 +213,7 @@ form {
 
   .edit-link {
     font-family: AvenirPro;
-    font-size: 16px;
+    font-size: 13px;
     font-weight: bold;
     text-decoration: none;
     font-stretch: normal;
@@ -369,7 +367,7 @@ form {
     height: 21px;
     background-repeat: no-repeat;
     background-size: 95%;
-    margin-top: 4px;
+    margin-top: 2px;
   }
 
   i.icon-team-members {
@@ -458,7 +456,7 @@ form {
     margin-top: 0;
 
     ion-item {
-      float: left;
+      display: inline-block;
 
       &.first-name {
         width: 220px;
@@ -475,10 +473,8 @@ form {
         margin-right: 10px;
       }
 
-      &.email {
-        width: 305px;
-        clear: left;
-        float: none;
+      &.contact-email {
+        width: 425px;
       }
 
       &.country-code {

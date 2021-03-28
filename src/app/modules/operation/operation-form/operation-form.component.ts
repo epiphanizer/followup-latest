@@ -257,6 +257,7 @@ export class OperationFormComponent implements OnInit {
   updateOperation(operation: Operation) {
     this.operation = operation[0];
     var operationFormControls = this.operationForm.get('operation') as FormGroup;
+    console.log(operationFormControls);
     operationFormControls.controls.operationId.setValue(this.operation.operationId);
     operationFormControls.controls.operationName.setValue(this.operation.operationName);
     operationFormControls.controls.operationGroupId.setValue(this.operation.operationGroupId);
@@ -268,6 +269,7 @@ export class OperationFormComponent implements OnInit {
     operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
     operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
     operationFormControls.controls.operationActive.setValue(this.operation.operationActive);
+    console.log(operationFormControls);
   }
 
   addAdditionalOperationContact() {
@@ -313,9 +315,10 @@ export class OperationFormComponent implements OnInit {
   }
 
   private createForm() {
+    console.log(this.operation);
     this.operationForm = this.fb.group({
       operation: this.fb.group({
-        operationActive: this.fb.control(this.operation.operationActive),
+        operationActive: this.fb.control(this.operation.operationActive, [Validators.required]),
         operationId: this.fb.control(this.operation.operationId, [Validators.required]),
         operationGroupId: this.fb.control(this.operation.operationGroupId, [Validators.required]),
         operationName: this.fb.control(this.operation.operationName, [Validators.required]),
