@@ -47,8 +47,8 @@
             <span class="notification-badge"> </span>
           </ng-container>
         </div>
-        <app-patient-avatar [patient]="patient"></app-patient-avatar>
-        {{ patient.patientFirstName }} {{ patient.patientLastName }}
+        <app-patient-avatar [type]="'circle'" [patient]="patient"></app-patient-avatar>
+        <div class="patient-name">{{ patient.patientFirstName }} {{ patient.patientLastName }}</div>
       </td>
       <td class="listing-body-cell">
         {{ patient.patientGender }}

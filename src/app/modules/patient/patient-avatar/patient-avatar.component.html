@@ -1,8 +1,10 @@
-<div class="patient-avatar-badge" *ngIf="avatarExists; else defaultAvatar">
-  <div class="patient-avatar-image" [style.background-image]="avatarUrl"></div>
+<div class="patient-avatar-container">
+  <div class="patient-avatar-image" [style.background-image]="avatarUrl" [class.is-circle]="isCircle"></div>
+  <ng-template #defaultAvatar>
+    <div
+      class="default patient-avatar-image"
+      [class.is-circle]="isCircle"
+      style="background-image:url('/assets/photo-mask@2x.png');"
+    ></div>
+  </ng-template>
 </div>
-<ng-template #defaultAvatar>
-  <div class="patient-avatar-badge">
-    <div class="default patient-avatar-image" style="background-image:url('/assets/photo-mask@2x.png');"></div>
-  </div>
-</ng-template>

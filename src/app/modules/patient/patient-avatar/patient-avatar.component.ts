@@ -12,7 +12,9 @@ export class PatientAvatarComponent implements OnInit {
   avatarUrl: SafeStyle;
   imgResultBeforeCompress: string;
   imgResultAfterCompress: string;
+  isCircle: boolean = false;
   @Input() patient: Patient;
+  @Input() type: string;
   /**
    * This guy is plaintext encoded base64
    */
@@ -21,6 +23,9 @@ export class PatientAvatarComponent implements OnInit {
 
   ngOnInit() {
     var self = this;
+    if (this.type == 'circle') {
+      this.isCircle = true;
+    }
     this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
       if (data !== null) {
         var reader = new FileReader();
