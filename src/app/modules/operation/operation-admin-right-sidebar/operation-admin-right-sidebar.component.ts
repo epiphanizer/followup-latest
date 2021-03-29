@@ -80,6 +80,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   operationAssignedManagersOriginal: number[] = [];
   operationAssignedManagersToAdd: OperationManager[] = [];
   operationAssignedManagersToRemove: number[] = [];
+  operationManager: OperationManager;
   constructor(
     private route: ActivatedRoute,
     private logService: LogService,
@@ -148,6 +149,9 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         map((users: User[]) => {
           if (users) {
             this.operationAssignedUsers = users;
+            this.operationAssignedUsers.forEach((operationCallRep: OperationCallRep) => {
+              this.operationAssignedUsersOriginal.push(operationCallRep.userId);
+            });
           } else {
             if (!this.mode.edit) {
               this.callRepSidebarDropdownOpen = false;
@@ -171,6 +175,9 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         map((managers: OperationManager[]) => {
           if (managers) {
             this.operationAssignedManagers = managers;
+            this.operationAssignedManagers.forEach((operationManager: OperationManager) => {
+              this.operationAssignedManagersOriginal.push(operationManager.userId);
+            });
           } else {
             if (!this.mode.edit) {
               this.managerSidebarDropdownOpen = false;
@@ -209,7 +216,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       this.operationCallRepsService
         .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
         .subscribe(() => {
-          this.toastr.success('Care Rep successfully removed');
           this.operationAssignedUsersToAdd = this.operationAssignedUsers.filter(
             (operationCallRep: OperationCallRep, index: number) => {
               return (
@@ -217,7 +223,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
               );
             }
           );
-          console.log('went thru deletes for callreps');
           /**
            * Make sure we only add uniques
            */
@@ -226,7 +231,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
             this.operationCallRepsService
               .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
               .subscribe(() => {
-                this.toastr.success('Care Rep successfully added');
+                this.toastr.success('Care Rep successfully Added');
               });
           });
         });
@@ -258,7 +263,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       this.operationService
         .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
         .subscribe(() => {
-          this.toastr.success('Manager successfully removed');
           this.operationAssignedManagersToAdd = this.operationAssignedManagers.filter(
             (operationManager: OperationManager, index: number) => {
               return (
@@ -271,7 +275,8 @@ export class OperationAdminRightSidebarComponent implements OnInit {
             this.operationService
               .assignManagerToOperationByOperationIdAndUserId(operationManager.operationId, operationManager.userId)
               .subscribe(() => {
-                this.toastr.success('Manager successfully added');
+                this.operationManager = operationManager;
+                this.toastr.success('Manager successfully Added');
               });
           });
         });

@@ -24,16 +24,15 @@
           <ion-item class="sidebar-listing" id="operation-manager-{{ idx }}">
             <ion-label color="medium" position="stacked">Assign Manager</ion-label>
             <ion-select
-              *ngIf="(mode.edit || mode.add) && availableUsers; else managerSpan"
+              *ngIf="(mode.edit || mode.add) && availableUsers.length; else managerSpan"
               (ionChange)="managerOnSelect($event, idx)"
-              formControlName="{{ idx }}"
               class="operation-assigned-manager"
               placeholder="Assign Manager"
             >
               <ion-select-option
                 *ngFor="let user of availableUsers"
-                [selected]="user.userId == operationManager.userId"
                 [value]="user.userId"
+                [selected]="user.userId == operationManager.userId"
               >
                 {{ user.userLastName }}, {{ user.userFirstName }}
               </ion-select-option>
