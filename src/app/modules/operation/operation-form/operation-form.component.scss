@@ -259,12 +259,14 @@ form {
   ion-item.city {
     width: 125px;
     display: inline-block;
+    margin-right: 8px;
   }
 
   ion-item.state,
   ion-item.zip {
     display: inline-block;
     width: 100px;
+    margin-right: 8px;
   }
 
   ion-input,
@@ -435,6 +437,7 @@ form {
 
   .add-contact-label {
     margin-top: 1rem;
+    margin-right: 1rem;
   }
 
   .remove-contact-label {
@@ -458,23 +461,23 @@ form {
       display: inline-block;
 
       &.first-name {
-        width: 220px;
-        margin-right: 12px;
+        width: 225px;
+        margin-right: 8px;
       }
 
       &.last-name {
-        width: 220px;
-        margin-right: 12px;
+        width: 225px;
+        margin-right: 8px;
       }
 
       &.title-position {
-        width: 325px;
-        margin-right: 10px;
+        width: 225px;
+        margin-right: 8px;
       }
 
       &.contact-email {
         width: 225px;
-        margin-right: 12px;
+        margin-right: 8px;
       }
 
       &.country-code {
@@ -570,6 +573,12 @@ form {
   ion-select {
     padding-left: 12px;
     margin-top: 5px;
+    :host {
+      max-width: unset;
+      .select-icon {
+        display: none;
+      }
+    }
     ::part(icon) {
       display: none !important;
     }

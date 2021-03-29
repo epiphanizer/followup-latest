@@ -50,7 +50,7 @@
                 <ion-radio-group class="operation-active-controls" formControlName="operationActive">
                   <ion-item class="active-control">
                     <span class="control">
-                      <ion-radio class="radio-button" mode="ios" value="true"></ion-radio>
+                      <ion-radio class="radio-button" mode="ios" value="1"></ion-radio>
                       <span>
                         Active
                       </span>
@@ -58,7 +58,7 @@
                   </ion-item>
                   <ion-item class="active-control">
                     <span class="control">
-                      <ion-radio class="radio-button-notify" mode="ios" value="false"></ion-radio>
+                      <ion-radio class="radio-button-notify" mode="ios" value="0"></ion-radio>
                       <span>
                         Archive
                       </span>
@@ -78,7 +78,7 @@
               >
                 <ion-select-option
                   *ngFor="let operationGroup of operationGroups"
-                  [selected]="operationGroup?.operationGroupId == operation?.operationGroupId"
+                  [selected]="operationGroup.operationGroupId == operation.operationGroupId"
                   [value]="operationGroup.operationGroupId"
                 >
                   {{ operationGroup.operationGroupName }}
@@ -256,7 +256,11 @@
       </form>
     </ion-col>
     <ion-col class="right-admin-col">
-      <app-operation-admin-right-sidebar *ngIf="operation" [mode]="mode"></app-operation-admin-right-sidebar>
+      <app-operation-admin-right-sidebar
+        *ngIf="operation"
+        [operation]="operation"
+        [mode]="mode"
+      ></app-operation-admin-right-sidebar>
     </ion-col>
   </ion-row>
 </ion-content>

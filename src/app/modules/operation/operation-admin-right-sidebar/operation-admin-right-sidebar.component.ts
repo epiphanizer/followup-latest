@@ -61,6 +61,7 @@ import { LogService } from '@app/shared/log/log.service';
 })
 export class OperationAdminRightSidebarComponent implements OnInit {
   @Input() mode: any;
+  @Input() operation: Operation;
 
   activeOperationId: number;
   availableUsers: User[];
@@ -69,7 +70,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   managersForm: FormArray;
   managerSidebarDropdownOpen: boolean = true;
   callRepSidebarDropdownOpen: boolean = true;
-  operation: Operation | null;
+
   isOpen: boolean = true;
   operationCallReps: OperationCallRep[];
   operationCallRepsToAdd: OperationCallRep[];
@@ -87,11 +88,10 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     private toastr: ToastrService,
     private userService: UserService
   ) {}
-  operations: Operation[];
+
   operationAssignedUsers: any[];
   operationAssignedManagers: any[];
   user: User;
-  todaysDateDay: number;
   ngOnInit() {
     this.userService.getAllUsers().subscribe((users: User[]) => {
       try {
@@ -193,11 +193,48 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     if (this.operationAssignedUsers[index].userId !== 0) {
       this.operationCallRepsToRemove.push(this.operationAssignedUsers[index].userId);
     }
+    console.log(this.operation);
     var operationCallRepObject = {
       operationId: this.operation.operationId,
       userId: callRepUserId
     };
     this.operationAssignedUsers[index] = operationCallRepObject;
+
+    // Passes E2E
+    this.operationCallRepsToRemove.forEach((callRepUserId: number, index: number) => {
+      if (callRepUserId == 0) {
+        return;
+      }
+      this.operationCallRepsService
+        .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
+        .subscribe(() => {
+          this.toastr.success('Care Rep successfully removed');
+          this.operationCallRepsToAdd = this.operationCallReps.filter(
+            (operationCallRep: OperationCallRep, index: number) => {
+              return operationCallRep.userId !== this.operationCallRepsOriginal[index] && operationCallRep.userId !== 0;
+            }
+          );
+          /**
+           * Make sure we only add uniques
+           */
+          this.operationCallRepsToAdd = Array.from(new Set(this.operationCallRepsToAdd));
+          this.operationCallRepsToAdd.forEach((operationCallRep: OperationCallRep) => {
+            this.operationCallRepsService
+              .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
+              .subscribe(() => {
+                this.toastr.success('Care Rep successfully added');
+              });
+          });
+        });
+    });
+  }
+  addAdditionalOperationCallRep() {
+    let newCallRep = {
+      userId: 0,
+      operationId: this.operation.operationId,
+      operationCallRepName: ''
+    };
+    this.operationAssignedUsers.push(newCallRep);
   }
   managerOnSelect(event: any, index: number) {
     let managerUserId = event.target.value;
@@ -209,6 +246,29 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       userId: managerUserId
     };
     this.operationManagers[index] = operationManagerObject;
+    this.operationManagersToRemove.forEach((managerUserId: number) => {
+      // Don't process default manager entry
+      if (managerUserId == 0) {
+        return;
+      }
+      this.operationService
+        .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
+        .subscribe(() => {
+          this.toastr.success('Manager successfully removed');
+          this.operationManagersToAdd = this.operationManagers.filter(
+            (operationManager: OperationManager, index: number) => {
+              return operationManager.userId !== this.operationManagersOriginal[index] && operationManager.userId !== 0;
+            }
+          );
+          this.operationManagersToAdd.forEach((operationManager: OperationManager) => {
+            this.operationService
+              .assignManagerToOperationByOperationIdAndUserId(operationManager.operationId, operationManager.userId)
+              .subscribe(() => {
+                this.toastr.success('Manager successfully added');
+              });
+          });
+        });
+    });
   }
   public toggleOperationManagersAssignedMenu = function() {
     this.managerSidebarDropdownOpen = !this.managerSidebarDropdownOpen;
@@ -216,55 +276,4 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   public toggleOperationCallRepsAssignedMenu = function() {
     this.callRepSidebarDropdownOpen = !this.callRepSidebarDropdownOpen;
   };
-
-  // this.operationManagersToRemove.forEach((managerUserId: number) => {
-  //   // Don't process default manager entry
-  //   if (managerUserId == 0) {
-  //     return;
-  //   }
-  //   this.operationService
-  //     .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
-  //     .subscribe(() => {
-  //       this.toastr.success('Manager successfully removed');
-  //     });
-  // });
-
-  // This passes E2E
-  // this.operationManagersToAdd = this.operationManagers.filter((operationManager: OperationManager, index: number) => {
-  //   return operationManager.userId !== this.operationManagersOriginal[index] && operationManager.userId !== 0;
-  // });
-  // this.operationManagersToAdd.forEach((operationManager: OperationManager) => {
-  //   this.operationService
-  //     .assignManagerToOperationByOperationIdAndUserId(operationManager.operationId, operationManager.userId)
-  //     .subscribe(() => {
-  //       this.toastr.success('Manager successfully added');
-  //     });
-  // });
-
-  // // Passes E2E
-  // this.operationCallRepsToRemove.forEach((callRepUserId: number, index: number) => {
-  //   if (callRepUserId == 0) {
-  //     return;
-  //   }
-  //   this.operationCallRepsService
-  //     .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
-  //     .subscribe(() => {
-  //       this.toastr.success('Care Rep successfully added');
-  //     });
-  // });
-
-  // this.operationCallRepsToAdd = this.operationCallReps.filter((operationCallRep: OperationCallRep, index: number) => {
-  //   return operationCallRep.userId !== this.operationCallRepsOriginal[index] && operationCallRep.userId !== 0;
-  // });
-  // /**
-  //  * Make sure we only add uniques
-  //  */
-  // this.operationCallRepsToAdd = Array.from(new Set(this.operationCallRepsToAdd));
-  // this.operationCallRepsToAdd.forEach((operationCallRep: OperationCallRep) => {
-  //   this.operationCallRepsService
-  //     .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
-  //     .subscribe(() => {
-  //       this.toastr.success('Care Rep successfully added');
-  //     });
-  // });
 }
