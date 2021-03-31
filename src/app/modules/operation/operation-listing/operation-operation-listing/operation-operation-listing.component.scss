@@ -6,7 +6,12 @@
 .operation-feed {
   width: 100%;
 }
-
+.listing-controls {
+  display: block;
+  width: 100%;
+  height: 30px;
+  margin-bottom: 1.5rem;
+}
 table {
   list-style-type: none;
   width: 95%;

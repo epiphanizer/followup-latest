@@ -1,10 +1,12 @@
-<app-listing-filter
-  [options]="colDefs"
-  (sortOptionSelectedEventEmitter)="handleSortOptionEvent($event)"
-  (sortDirectionSelectedEventEmitter)="handleSortDirectionEvent($event)"
->
-</app-listing-filter>
-<app-listing-search (searchFilterEventEmitted)="handleSearchFilterEvent($event)"></app-listing-search>
+<div class="listing-controls">
+  <app-listing-filter
+    [options]="colDefs"
+    (sortOptionSelectedEventEmitter)="handleSortOptionEvent($event)"
+    (sortDirectionSelectedEventEmitter)="handleSortDirectionEvent($event)"
+  >
+  </app-listing-filter>
+  <app-listing-search (searchFilterEventEmitted)="handleSearchFilterEvent($event)"> </app-listing-search>
+</div>
 <table class="operation-table">
   <thead>
     <tr>

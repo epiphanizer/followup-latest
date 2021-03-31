@@ -2,10 +2,15 @@
 <section class="table-filter">
   <!-- <img src="/assets/ui-mockup-operations@2x.png" alt="" /> -->
   <i class="filter-icon"></i>
-  <div class="custom-select">
-    <span *ngFor="option; of: options">
-      {{ option }}
+  <div class="custom-select" (click)="toggleDropdown()">
+    <span class="selected-sort-column">
+      {{ selectedOption }}
     </span>
+    <div class="dropdown" *ngIf="options" [class.hidden]="!dropdownOpen">
+      <span *ngFor="option; of: options">
+        {{ option }}
+      </span>
+    </div>
   </div>
   <div class="sort-controls">
     <i class="desc-control"></i>
