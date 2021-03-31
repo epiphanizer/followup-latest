@@ -44,7 +44,10 @@ export class OperationOperationListingComponent implements OnInit {
       }
     }
   }
-  handleSearchFilterEvent($event: string) {}
+  handleSearchFilterEvent($event: KeyboardEvent) {
+    this.searchOperations($event);
+  }
+
   handleSortDirectionEvent($event: string) {
     this.selectedSortFlag = $event;
     if (this.selectedSortFlag == 'asc') {
@@ -52,37 +55,36 @@ export class OperationOperationListingComponent implements OnInit {
     } else {
       this.selectedSortFlag = 'asc';
     }
+    this.runSortSwitch();
   }
-  toggleAscDesc() {
-    if (this.selectedSortFlag == 'asc') {
-      this.selectedSortFlag = 'desc';
-    } else {
-      this.selectedSortFlag = 'asc';
-    }
-    // Only option
-    this.triggerSort(this.selectedSortCol, this.selectedSortFlag);
+  handleSortOptionEvent($event: string) {
+    this.selectedSortCol = $event;
+    this.runSortSwitch();
   }
-  triggerSort(sortCol: string, sortFlag: string) {
+  runSortSwitch() {
     console.log('triggered sort');
-    // sortOperationsByOperationName = function(sortFlag: string) {
-    //   this.filterBy = 'operation-name';
-    //   if ((this.selectedSortFlag = 'asc')) {
-    //     this.operations.reverse();
-    //   } else {
-    //     this.operations.sort();
-    //   }
-    // };
-
-    // sortOperationsByStatus = function(sortFlag: string) {
-    //   this.filterBy = 'operation-status';
-    //   if ((this.selectedSortFlag = 'asc')) {
-    //     this.operations.reverse();
-    //   } else {
-    //     this.operations.sort();
-    //   }
-    // };
+    switch (this.selectedSortCol) {
+      case 'Operation':
+        this.sortOperationsByOperationName(this.selectedSortFlag);
+        break;
+      case 'Status':
+        this.sortOperationsByStatus(this.selectedSortFlag);
+    }
   }
-
+  sortOperationsByOperationName = function(sortFlag: string) {
+    if ((this.selectedSortFlag = 'asc')) {
+      this.operations.reverse();
+    } else {
+      this.operations.sort();
+    }
+  };
+  sortOperationsByStatus = function(sortFlag: string) {
+    if ((this.selectedSortFlag = 'asc')) {
+      this.operations.reverse();
+    } else {
+      this.operations.sort();
+    }
+  };
   searchOperations($event: KeyboardEvent): Operation[] {
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();

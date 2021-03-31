@@ -17,7 +17,6 @@ import { FollowupCompleteModalComponent } from './patient-detail/followup-comple
 import { FollowupCompleteButtonComponent } from './patient-detail/followup-complete-button/followup-complete-button.component';
 import { PatientAvatarUploadComponent } from './patient-avatar-upload/patient-avatar-upload.component';
 import { SharedModule } from '@app/shared';
-import { PatientListingFilterComponent } from './patient-listing-filter/patient-listing-filter.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { nl2brPipe } from '@app/shared/pipes/nl2br.pipe';
 
@@ -26,7 +25,6 @@ import { nl2brPipe } from '@app/shared/pipes/nl2br.pipe';
     PatientAvatarComponent,
     PatientComponent,
     PatientListingComponent,
-    PatientListingFilterComponent,
     PatientPatientListingComponent,
     PatientFormComponent,
     PatientAvatarUploadComponent,
@@ -48,12 +46,11 @@ import { nl2brPipe } from '@app/shared/pipes/nl2br.pipe';
     PatientManagerSidebarComponent,
     PatientPatientListingComponent,
     PatientListingComponent,
-    PatientListingFilterComponent,
     PatientAvatarComponent,
     FollowupCompleteModalComponent,
     FollowupCompleteButtonComponent
   ],
-  exports: [PatientAvatarComponent, PatientListingFilterComponent],
+  exports: [PatientAvatarComponent],
   providers: [PatientService]
 })
 export class PatientModule {}

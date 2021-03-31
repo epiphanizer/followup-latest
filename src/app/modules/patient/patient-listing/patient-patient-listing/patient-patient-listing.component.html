@@ -1,17 +1,5 @@
-<!-- Filter UI -->
-<section class="table-filter">
-  <img src="/assets/ui-mockup-patients@2x.png" alt="" />
-  <!--   
-  <i class="filter-icon"></i>
-  <div class="sort-select">
-    <span class="selected-option">{{ selectedSortOption }}</span>
-  </div>
-  <div class="sort-controls">
-    <i class="desc-control"></i>
-    <i class="asc-control"></i>
-  </div> -->
-  <app-patient-listing-filter [operation]="operation"></app-patient-listing-filter>
-</section>
+<app-listing-filter [options]="colDefs"> </app-listing-filter>
+<app-listing-search (searchFilterEventEmitted)="searchPatients($event)"></app-listing-search>
 
 <table>
   <thead>

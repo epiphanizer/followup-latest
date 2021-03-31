@@ -13,8 +13,19 @@ import { OperationListingComponent } from './operation-listing/operation-listing
 import { OperationOperationListingComponent } from './operation-listing/operation-operation-listing/operation-operation-listing.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from '@app/shared';
+import { ListingFilterComponent } from '@app/shared/listing-filter/listing-filter.component';
+import { ListingSearchComponent } from '@app/shared/listing-search/listing-search.component';
 
 @NgModule({
+  imports: [
+    CommonModule,
+    IonicModule,
+    FormsModule,
+    NgxMaskModule.forRoot(),
+    OperationRoutingModule,
+    ReactiveFormsModule,
+    SharedModule
+  ],
   declarations: [
     OperationFormComponent,
     OperationAdminComponent,
@@ -24,15 +35,6 @@ import { SharedModule } from '@app/shared';
     OperationListingComponent,
     OperationOperationListingComponent
   ],
-  entryComponents: [OperationOperationListingComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    FormsModule,
-    NgxMaskModule.forRoot(),
-    OperationRoutingModule,
-    ReactiveFormsModule,
-    SharedModule
-  ]
+  entryComponents: [OperationOperationListingComponent, ListingFilterComponent, ListingSearchComponent]
 })
 export class OperationModule {}

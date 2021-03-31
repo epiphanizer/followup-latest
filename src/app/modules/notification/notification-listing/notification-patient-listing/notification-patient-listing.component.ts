@@ -14,8 +14,10 @@ export class NotificationPatientListingComponent implements OnInit {
   public notifications: Notification[];
   public notificationsFiltered: Notification[];
   public pageOfItems: Notification[];
-  public filterBy: string = 'notification-date';
+  // Default to sorting by notification date descending.
   public selectedSortFlag: string = 'desc';
+  public colDefs = ['Date', 'Patient', 'Type', 'Care Rep', 'Status'];
+  public selectedSortOption = this.colDefs[0];
 
   constructor(private notificationService: NotificationService) {}
   ngOnInit() {
@@ -61,17 +63,22 @@ export class NotificationPatientListingComponent implements OnInit {
     } else {
       this.selectedSortFlag = 'asc';
     }
-
-    if (this.filterBy == 'notification-date') {
-      this.sortNotificationsByNotificationDate(this.selectedSortFlag);
-    } else if (this.filterBy == 'patient-name') {
-      this.sortNotificationsByPatient(this.selectedSortFlag);
-    } else if (this.filterBy == 'notification-type') {
-      this.sortNotificationsByNotificationType(this.selectedSortFlag);
+    this.runSortSwitch();
+  }
+  public runSortSwitch() {
+    switch (this.selectedSortOption) {
+      case 'Date':
+        this.sortNotificationsByNotificationDate(this.selectedSortFlag);
+        break;
+      case 'Patient':
+        this.sortNotificationsByPatient(this.selectedSortFlag);
+        break;
+      case 'Type':
+        this.sortNotificationsByNotificationType(this.selectedSortFlag);
+        break;
     }
   }
   public sortNotificationsByNotificationDate = function(sortFlag: string) {
-    this.filterBy = 'notification-date';
     if (sortFlag == 'asc') {
       this.notificationsFiltered = this.notifications
         .sort((a: Notification, b: Notification) => {
@@ -88,7 +95,6 @@ export class NotificationPatientListingComponent implements OnInit {
   };
 
   sortNotificationsByNotificationType = function(sortFlag: string) {
-    this.filterBy = 'notification-type';
     if (sortFlag == 'desc') {
       this.notificationsFiltered = this.notifications
         .sort((a: Notification, b: Notification) => {
@@ -104,7 +110,6 @@ export class NotificationPatientListingComponent implements OnInit {
     }
   };
   sortNotificationsByPatient = function(sortFlag: string) {
-    this.filterBy = 'patient-name';
     if (sortFlag == 'desc') {
       this.notificationsFiltered = this.notifications
         .sort((a: Notification, b: Notification) => {

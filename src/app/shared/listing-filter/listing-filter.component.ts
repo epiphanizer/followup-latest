@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
-  selector: 'listing-filter',
+  selector: 'app-listing-filter',
   templateUrl: './listing-filter.component.html',
   styleUrls: ['./listing-filter.component.scss']
 })

@@ -9,15 +9,12 @@ import { NotificationListingSidebarComponent } from './notification-listing/noti
 import { IonicModule } from '@ionic/angular';
 import { PatientModule } from '../patient/patient.module';
 import { SharedModule } from '@app/shared';
-import { NotificationListingFilterComponent } from './notification-listing-filter/notification-listing-filter.component';
-
 @NgModule({
   declarations: [
     NotificationDetailComponent,
     NotificationListingComponent,
     NotificationListingSidebarComponent,
-    NotificationPatientListingComponent,
-    NotificationListingFilterComponent
+    NotificationPatientListingComponent
   ],
   imports: [CommonModule, IonicModule, NotificationRoutingModule, PatientModule, SharedModule]
 })

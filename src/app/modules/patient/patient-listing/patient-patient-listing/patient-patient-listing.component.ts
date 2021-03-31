@@ -18,8 +18,8 @@ export class PatientPatientListingComponent implements OnInit {
   public patientsFiltered: Patient[];
   public filterBy: string = 'discharge-date';
   public selectedSortFlag: string = 'desc';
-  public selectedSortOption: string = 'Discharge Date';
-
+  public colDefs = ['Discharge', 'Patient', 'Sex', 'Status', 'Completed'];
+  public selectedSortOption: string = this.colDefs[0];
   constructor(private patientService: PatientService) {}
   ngOnInit() {
     this.patients$ = this.patientService.getPatientsByOperationId(this.operation.operationId).pipe(
@@ -67,12 +67,20 @@ export class PatientPatientListingComponent implements OnInit {
     } else {
       this.selectedSortFlag = 'asc';
     }
-    if (this.filterBy == 'patient-name') {
-      this.sortPatientsByPatientName(this.selectedSortFlag);
-    } else if (this.filterBy == 'discharge-date') {
-      this.sortPatientsByDischargeDate(this.selectedSortFlag);
-    } else if (this.filterBy == 'patient-status') {
-      this.sortPatientsByPatientStatus(this.selectedSortFlag);
+    this.runSortSwitch();
+  }
+
+  runSortSwitch() {
+    switch (this.selectedSortOption) {
+      case 'Date':
+        this.sortPatientsByDischargeDate(this.selectedSortFlag);
+        break;
+      case 'Patient':
+        this.sortPatientsByPatientName(this.selectedSortFlag);
+        break;
+      case 'Status':
+        this.sortPatientsByPatientStatus(this.selectedSortFlag);
+        break;
     }
   }
   sortPatientsByPatientName = function(sortFlag: string) {
@@ -126,7 +134,9 @@ export class PatientPatientListingComponent implements OnInit {
         .slice();
     }
   };
-
+  searchFilterEventEmitted($event: KeyboardEvent) {
+    this.searchPatients($event);
+  }
   searchPatients($event: KeyboardEvent): Patient[] {
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
