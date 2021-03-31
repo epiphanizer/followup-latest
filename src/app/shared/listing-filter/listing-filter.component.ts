@@ -4,7 +4,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange
   moduleId: module.id,
   selector: 'listing-filter',
   templateUrl: './listing-filter.component.html',
-  styleUrls: ['./listing-filter-component.scss']
+  styleUrls: ['./listing-filter.component.scss']
 })
 export class ListingFilterComponent implements OnInit, OnChanges {
   @Input() options: Array<any>;

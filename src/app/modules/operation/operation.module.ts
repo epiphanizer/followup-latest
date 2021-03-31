@@ -12,6 +12,7 @@ import { OperationAdminRightSidebarComponent } from './operation-admin-right-sid
 import { OperationListingComponent } from './operation-listing/operation-listing.component';
 import { OperationOperationListingComponent } from './operation-listing/operation-operation-listing/operation-operation-listing.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { SharedModule } from '@app/shared';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { NgxMaskModule } from 'ngx-mask';
     FormsModule,
     NgxMaskModule.forRoot(),
     OperationRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class OperationModule {}
