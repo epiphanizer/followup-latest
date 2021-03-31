@@ -44,6 +44,7 @@ export class OperationOperationListingComponent implements OnInit {
       }
     }
   }
+  handleSearchFilterEvent($event: string) {}
   handleSortDirectionEvent($event: string) {
     this.selectedSortFlag = $event;
     if (this.selectedSortFlag == 'asc') {

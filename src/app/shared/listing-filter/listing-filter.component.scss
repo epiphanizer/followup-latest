@@ -1,21 +1,32 @@
-.filter-icon {
-  background: url("/assets/icon-filter@2x.png");
-  background-size: 100%;
-  width: 22px;
-  height: 21px;
-  display: inline-block;
-}
-.desc-control {
-  background: url("/assets/icon-filter-descend@2x.png");
-  background-size: 100%;
-  width: 13px;
-  height: 18px;
-  display: inline-block;
-}
-.asc-control {
-  background: url("/assets/icon-filter-descend@2x.png");
-  background-size: 100%;
-  width: 13px;
-  height: 18px;
-  display: inline-block;
+.table-filter {
+  display: block;
+  width: 100%;
+  height: 22px;
+  margin-bottom: 8px;
+
+  i {
+    .filter-icon {
+      background: url("/assets/icon-filter@2x.png");
+      background-size: 100%;
+      width: 22px;
+      height: 21px;
+      display: inline-block;
+    }
+
+    .desc-control {
+      background: url("/assets/icon-filter-descend@2x.png");
+      background-size: 100%;
+      width: 13px;
+      height: 18px;
+      display: inline-block;
+    }
+
+    .asc-control {
+      background: url("/assets/icon-filter-descend@2x.png");
+      background-size: 100%;
+      width: 13px;
+      height: 18px;
+      display: inline-block;
+    }
+  }
 }
