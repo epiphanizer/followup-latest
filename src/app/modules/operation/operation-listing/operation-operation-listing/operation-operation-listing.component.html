@@ -1,4 +1,8 @@
-<app-listing-filter [inputs]="['Facility', 'Ownership', 'Queue', 'Notifs', 'Grads', 'Status', 'Date']">
+<app-listing-filter
+  [inputs]="colDefs"
+  (optionSelectedEventEmitter)="handleSortOptionEvent($event)"
+  (sortDirectionSelectedEventEmitter)="handleSortDirectionEvent($event)"
+>
 </app-listing-filter>
 <table class="operation-table">
   <thead>

@@ -15,8 +15,11 @@ export class OperationOperationListingComponent implements OnInit {
   public operations$: Observable<Operation[]>;
   public operationsFiltered: Operation[];
   public pageOfItems: Operation[];
-  public filterBy: string = 'operation-name';
   public selectedSortFlag: string = 'desc';
+  // col definitions
+  public colDefs = ['Facility', 'Ownership', 'Queue', 'Notifs', 'Grads', 'Status', 'Date'];
+  // Default to facility descending
+  public selectedSortCol: string = this.colDefs[0];
 
   constructor(private operationService: OperationService) {}
   ngOnInit() {
@@ -41,7 +44,14 @@ export class OperationOperationListingComponent implements OnInit {
       }
     }
   }
-
+  handleSortDirectionEvent($event: string) {
+    this.selectedSortFlag = $event;
+    if (this.selectedSortFlag == 'asc') {
+      this.selectedSortFlag = 'desc';
+    } else {
+      this.selectedSortFlag = 'asc';
+    }
+  }
   toggleAscDesc() {
     if (this.selectedSortFlag == 'asc') {
       this.selectedSortFlag = 'desc';
@@ -49,25 +59,29 @@ export class OperationOperationListingComponent implements OnInit {
       this.selectedSortFlag = 'asc';
     }
     // Only option
-    this.sortOperationsByOperationName(this.selectedSortFlag);
+    this.triggerSort(this.selectedSortCol, this.selectedSortFlag);
   }
-  sortOperationsByOperationName = function(sortFlag: string) {
-    this.filterBy = 'operation-name';
-    if ((this.selectedSortFlag = 'asc')) {
-      this.operations.reverse();
-    } else {
-      this.operations.sort();
-    }
-  };
+  triggerSort(sortCol: string, sortFlag: string) {
+    console.log('triggered sort');
+    // sortOperationsByOperationName = function(sortFlag: string) {
+    //   this.filterBy = 'operation-name';
+    //   if ((this.selectedSortFlag = 'asc')) {
+    //     this.operations.reverse();
+    //   } else {
+    //     this.operations.sort();
+    //   }
+    // };
 
-  sortOperationsByStatus = function(sortFlag: string) {
-    this.filterBy = 'operation-status';
-    if ((this.selectedSortFlag = 'asc')) {
-      this.operations.reverse();
-    } else {
-      this.operations.sort();
-    }
-  };
+    // sortOperationsByStatus = function(sortFlag: string) {
+    //   this.filterBy = 'operation-status';
+    //   if ((this.selectedSortFlag = 'asc')) {
+    //     this.operations.reverse();
+    //   } else {
+    //     this.operations.sort();
+    //   }
+    // };
+  }
+
   searchOperations($event: KeyboardEvent): Operation[] {
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
