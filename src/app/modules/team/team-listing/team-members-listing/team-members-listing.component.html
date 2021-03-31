@@ -1,16 +1,7 @@
-<!-- Filter UI -->
-<section class="table-filter" style="margin-bottom:1rem; overflow: auto;">
-  <img style="float:left; height:34px;" src="/assets/ui-mockup-team-member@2x.png" alt="" />
-  <!--   
-  <i class="filter-icon"></i>
-  <div class="sort-select">
-    <span class="selected-option">{{ selectedSortOption }}</span>
-  </div>
-  <div class="sort-controls">
-    <i class="desc-control"></i>
-    <i class="asc-control"></i>
-  </div> -->
-</section>
+<div class="listing-controls">
+  <app-listing-filter [options]="colDefs"> </app-listing-filter>
+  <app-listing-search (searchFilterEventEmitted)="searchTeamMembers($event)"></app-listing-search>
+</div>
 <table class="team-member-table">
   <thead>
     <tr>

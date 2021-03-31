@@ -19,7 +19,8 @@ export class TeamMembersListingComponent implements OnInit {
   public teamMembers: TeamMember[];
   public teamMembersFiltered: TeamMember[];
   public pageOfItems: Team[];
-  public filterBy: string = 'team-date';
+  public colDefs = ['Hired', 'Name', 'Position', 'Birthday', 'Languages'];
+  public selectedSortOption = this.colDefs[0];
   public selectedSortFlag: string = 'desc';
 
   constructor(
@@ -72,8 +73,18 @@ export class TeamMembersListingComponent implements OnInit {
     } else {
       this.selectedSortFlag = 'asc';
     }
-    if (this.filterBy == 'team-member-name') {
-      // this.sortTeamMembersByTeamMemberName(this.selectedSortFlag);
+    this.runSortSwitch();
+  }
+  public runSortSwitch() {
+    switch (this.selectedSortOption) {
+      case 'Hired':
+        break;
+      case 'Name':
+        this.sortTeamMembersByTeamMemberName(this.selectedSortFlag);
+        break;
+      case 'Position':
+        this.sortTeamMembersByTeamMemberRole(this.selectedSortFlag);
+        break;
     }
   }
 
@@ -131,7 +142,7 @@ export class TeamMembersListingComponent implements OnInit {
     }
   };
 
-  searchTeams($event: KeyboardEvent): TeamMember[] {
+  searchTeamMembers($event: KeyboardEvent): TeamMember[] {
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
     this.teamMembersFiltered = this.teamMembers.filter((team: TeamMember) => {

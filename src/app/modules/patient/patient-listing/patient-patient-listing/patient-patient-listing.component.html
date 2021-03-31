@@ -1,6 +1,7 @@
-<app-listing-filter [options]="colDefs"> </app-listing-filter>
-<app-listing-search (searchFilterEventEmitted)="searchPatients($event)"></app-listing-search>
-
+<div class="listing-controls">
+  <app-listing-filter [options]="colDefs"> </app-listing-filter>
+  <app-listing-search (searchFilterEventEmitted)="searchPatients($event)"></app-listing-search>
+</div>
 <table>
   <thead>
     <tr>
