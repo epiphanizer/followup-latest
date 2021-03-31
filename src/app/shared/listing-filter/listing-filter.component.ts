@@ -7,7 +7,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange
 })
 export class ListingFilterComponent implements OnInit, OnChanges {
   @Input() options: Array<any>;
-  @Output() optionSelectedEventEmitter: EventEmitter<string> = new EventEmitter();
+  @Output() sortOptionSelectedEventEmitter: EventEmitter<string> = new EventEmitter();
   @Output() sortDirectionSelectedEventEmitter: EventEmitter<string> = new EventEmitter();
 
   // either 'asc' or 'desc'

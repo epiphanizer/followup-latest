@@ -10,7 +10,14 @@ import { ListingFilterComponent } from './listing-filter/listing-filter.componen
 
 @NgModule({
   imports: [IonicModule, CommonModule],
-  declarations: [LoaderComponent, DialogComponent, JwPaginationComponent, CalendarComponent, nl2brPipe],
+  declarations: [
+    LoaderComponent,
+    DialogComponent,
+    JwPaginationComponent,
+    CalendarComponent,
+    nl2brPipe,
+    ListingFilterComponent
+  ],
   exports: [LoaderComponent, JwPaginationComponent, CalendarComponent, nl2brPipe, ListingFilterComponent]
 })
 export class SharedModule {}
