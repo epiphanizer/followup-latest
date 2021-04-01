@@ -12,6 +12,7 @@ ion-title {
   color: #3f3638;
   padding-left: 0;
 }
+
 ion-input {
   font-family: Avenir;
   color: black;
@@ -75,6 +76,7 @@ form {
     color: #222222;
     margin-top: -0.25rem;
   }
+
   i {
     float: left;
     clear: left;
@@ -167,6 +169,7 @@ form {
     &.user-dob {
       width: 154.6px;
       float: left;
+      margin-bottom: 0.5rem;
     }
 
     &.user-dessert {
@@ -185,14 +188,17 @@ form {
         --ripple-color: transparent;
         --background-hover: transparent;
       }
+
       ion-radio-group {
         margin-top: 0.5rem;
       }
+
       ion-radio {
         display: inline-block;
         --color: transparent;
         --color-checked: transparent;
       }
+
       .radio-button-yes,
       .radio-button-no {
         border: 0;
@@ -201,15 +207,19 @@ form {
         background-size: cover;
         background-repeat: no-repeat;
       }
+
       .radio-button-yes {
         background-image: url("/assets/button-yes@2x.png");
+
         &:active,
         &.radio-checked {
           background-image: url("/assets/button-yes-select@2x.png");
         }
       }
+
       .radio-button-no {
         background-image: url("/assets/button-no@2x.png");
+
         &:active,
         &.radio-checked {
           background-image: url("/assets/button-no-select@2x.png");
@@ -230,15 +240,10 @@ form {
     text-align: left;
   }
 
-  ion-datetime {
-    font-family: Avenir;
-    font-size: 14px;
-    margin-top: 8px;
-  }
-
   ion-input,
   ion-textarea,
   ion-datetime {
+    font-size: 14px;
     --padding-top: 10px;
     --padding-start: 10px;
     border: solid 1px rgba(112, 112, 112, 0.15);
@@ -246,12 +251,11 @@ form {
     --placeholder-color: #a6a6a7;
   }
 
-  ion-textarea {
+  ion-datetime {
+    font-family: Avenir;
     margin-top: 8px;
-
-    :root {
-      min-height: 100% !important;
-    }
+    --padding-top: 6px;
+    --padding-bottom: 6px;
   }
 
   ion-list.checkbox-list-container {
@@ -302,31 +306,40 @@ form {
   }
 
   ion-textarea {
+    margin-top: 8px;
     font-family: "Avenir";
     min-height: 176px;
-    height: auto;
+    height: 100%;
+
+    :root {
+      height: 100%;
+    }
   }
 
-  ion-button {
-    margin-top: 36px;
-    margin-bottom: 96px;
+  button {
     float: right;
-    border-radius: 4px;
-    background-color: --ion-color-primary;
-    width: 76px;
-    height: 28px;
-    font-family: AvenirBold;
-    font-size: 15px;
-    font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 28px;
-    vertical-align: middle;
-    letter-spacing: 0.3px;
-    text-align: center;
-    color: #ffffff;
-    text-transform: uppercase;
-    --background-hover: #019ca2;
-    --border-activated: 1px solid #009999;
+    margin-left: 10px;
+    margin-top: 36px;
+    &.save {
+      width: 76px;
+      height: 30px;
+      background-repeat: no-repeat;
+      background-image: url("/assets/button-save@2x.png");
+      background-size: 100%;
+
+      &:hover {
+      }
+
+      &:focus {
+      }
+    }
+
+    &.cancel {
+      width: 71px;
+      height: 30px;
+      background-repeat: no-repeat;
+      background-image: url("/assets/button-cancel@2x.png");
+      background-size: 100%;
+    }
   }
 }
