@@ -127,7 +127,7 @@
             <h2 class="section-header"><i class="icon-contact"></i> Contacts</h2>
             <ion-list lines="none" class="operation-contacts-view" *ngIf="mode.view">
               <div class="operation-contact-container" *ngFor="let operationContact of operationContacts">
-                <ion-item class="contact-name">
+                <ion-item class="contact-name" *ngIf="operationContact.operationContactFirstName">
                   {{ operationContact.operationContactFirstName + ' ' + operationContact.operationContactFirstName
                   }}<span class="contact-title" *ngIf="operationContact.operationContactTitle"
                     >, {{ operationContact.operationContactTitle }}</span
@@ -252,8 +252,11 @@
             </ion-list>
           </ng-container>
         </fieldset>
-        <button *ngIf="!mode.view" class="ion-float-right primary button" (click)="onFormSubmit()">
+        <button *ngIf="!mode.view" class="ion-float-right button save" (click)="onFormSubmit()">
           <!-- Save -->
+        </button>
+        <button *ngIf="!mode.view" class="ion-float-right button cancel" (click)="onCancelSubmit()">
+          <!-- Cancel -->
         </button>
       </form>
     </ion-col>

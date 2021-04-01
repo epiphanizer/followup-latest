@@ -601,8 +601,9 @@ form {
       display: none !important;
     }
 
+    // needs fixing
     &:after {
-      display: block;
+      display: none;
       position: absolute;
       content: "";
       top: 12px;
@@ -616,19 +617,29 @@ form {
   }
 
   button {
-    margin-top: 36px;
-    margin-bottom: 96px;
     float: right;
-    width: 76px;
-    width: 140px;
-    background-repeat: no-repeat;
-    background-image: url("/assets/button-stop-call@2x.png");
-    background-size: 100%;
+    margin-left: 10px;
+    margin-top: 36px;
+    &.save {
+      width: 76px;
+      height: 30px;
+      background-repeat: no-repeat;
+      background-image: url("/assets/button-save@2x.png");
+      background-size: 100%;
 
-    &:hover {
+      &:hover {
+      }
+
+      &:focus {
+      }
     }
 
-    &:focus {
+    &.cancel {
+      width: 71px;
+      height: 30px;
+      background-repeat: no-repeat;
+      background-image: url("/assets/button-cancel@2x.png");
+      background-size: 100%;
     }
   }
 }

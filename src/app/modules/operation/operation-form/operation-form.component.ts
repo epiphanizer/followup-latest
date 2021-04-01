@@ -424,7 +424,13 @@ export class OperationFormComponent implements OnInit {
       throw 'Had a problem validating data in the call rep factory';
     }
   }
-
+  onCancelSubmit() {
+    // display a prompt to confirm
+    if (confirm('Are you sure?')) {
+      window.location.reload();
+    }
+    // do nothing
+  }
   onFormSubmit() {
     if (!this.validateControls()) {
       return;
