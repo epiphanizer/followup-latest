@@ -11,6 +11,7 @@
   overflow: hidden;
 
   .custom-select {
+    vertical-align: bottom;
     cursor: pointer;
     margin-left: 12px;
     width: 170px;
@@ -46,8 +47,8 @@
     &.filter-icon {
       background: url("/assets/icon-filter@2x.png");
       background-size: cover;
-      width: 20px;
-      height: 20px;
+      width: 23px;
+      height: 23px;
       display: inline-block;
     }
 
