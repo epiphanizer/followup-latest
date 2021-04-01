@@ -214,3 +214,27 @@ ion-radio {
   background-repeat: no-repeat;
   background-position: center center;
 }
+
+// buttons
+
+button {
+  text-transform: uppercase;
+  width: 170px;
+  height: 30px;
+  font-family: AvenirBold;
+  font-size: 15px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 28px;
+  vertical-align: middle;
+  letter-spacing: 0.3px;
+  text-align: center;
+  text-transform: uppercase;
+  border: none;
+  &.primary {
+    color: white;
+    background: #00b4b9;
+  }
+  border-style: none;
+}

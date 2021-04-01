@@ -106,6 +106,7 @@ form {
       letter-spacing: normal;
       text-align: left;
       color: #444444;
+
       a {
         color: #444444;
         text-decoration: none;
@@ -115,6 +116,7 @@ form {
 
   .operation-contacts-view {
     margin-left: 32px;
+
     h2 {
       margin-bottom: 0;
     }
@@ -149,25 +151,32 @@ form {
       color: #444444;
       height: 32px;
     }
+
     .operation-contact-container {
       padding: 26.5px 0;
+
       &:first-child {
         padding: 0 0 26.5px 0;
       }
+
       a {
         text-decoration: none;
         color: black;
       }
+
       border-bottom: 1px solid #707070;
+
       &:last-child {
         border-bottom: none;
       }
     }
   }
+
   ion-item.active-control {
     --ripple-color: transparent;
     --background-hover: transparent;
   }
+
   .control {
     font-family: AvenirPro;
     font-size: 13px;
@@ -179,6 +188,7 @@ form {
     text-align: left;
     color: #444444;
   }
+
   .operation-active-controls {
     .active-control {
       display: inline-block;
@@ -192,19 +202,23 @@ form {
       width: 14px !important;
       margin: 0;
     }
+
     .radio-button {
       background-size: cover;
       background-image: url("/assets/button-radio@2x.png");
+
       &:active,
       &.radio-checked {
         background-image: url("/assets/button-radio-checked-red@2x.png");
       }
     }
+
     .radio-button-notify {
       --ripple-color: transparent;
       --background-hover: transparent;
       background-size: cover;
       background-image: url("/assets/button-radio@2x.png");
+
       &:active,
       &.radio-checked {
         background-image: url("/assets/button-radio-checked-red@2x.png");
@@ -354,6 +368,7 @@ form {
     background-size: 95%;
     margin-right: 6px;
     margin-top: 6px;
+
     &.icon-contact {
       margin-top: 2px;
     }
@@ -573,12 +588,15 @@ form {
   ion-select {
     padding-left: 12px;
     margin-top: 5px;
+
     :host {
       max-width: unset;
+
       .select-icon {
         display: none;
       }
     }
+
     ::part(icon) {
       display: none !important;
     }
@@ -597,27 +615,21 @@ form {
     }
   }
 
-  ion-button {
+  button {
     margin-top: 36px;
     margin-bottom: 96px;
     float: right;
-    border-radius: 4px;
-    background-color: --ion-color-primary;
-    --background-hover: #019ca2;
-    --border-activated: 1px solid #009999;
     width: 76px;
-    height: 28px;
-    font-family: AvenirBold;
-    font-size: 15px;
-    font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 28px;
-    vertical-align: middle;
-    letter-spacing: 0.3px;
-    text-align: center;
-    color: #ffffff;
-    text-transform: uppercase;
+    width: 140px;
+    background-repeat: no-repeat;
+    background-image: url("/assets/button-stop-call@2x.png");
+    background-size: 100%;
+
+    &:hover {
+    }
+
+    &:focus {
+    }
   }
 }
 
@@ -633,28 +645,11 @@ form {
   }
 }
 
-ion-button {
+button {
   margin-top: 36px;
   margin-bottom: 96px;
   float: right;
-  border-radius: 4px;
-  background-color: --ion-color-primary;
-  width: 76px;
   height: 28px;
-  font-family: AvenirBold;
-  font-size: 15px;
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 28px;
-  vertical-align: middle;
-  letter-spacing: 0.3px;
-  text-align: center;
-  color: #ffffff;
-  text-transform: uppercase;
-  --background: #019ca2;
-  --background-hover: #019ca2;
-  --border-activated: 1px solid #009999;
 }
 
 .section-header {

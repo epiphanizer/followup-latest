@@ -177,9 +177,10 @@
       margin-left: -14px;
 
       span {
-        &:not(.first) {
-          margin-left: 22px;
-        }
+        // this belongs on the HIPAA icon actually
+        // &:not(.first) {
+        //   margin-left: 22px;
+        // }
       }
 
       span {

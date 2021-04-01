@@ -252,7 +252,9 @@
             </ion-list>
           </ng-container>
         </fieldset>
-        <ion-button *ngIf="!mode.view" class="ion-float-right" (click)="onFormSubmit()">Save</ion-button>
+        <button *ngIf="!mode.view" class="ion-float-right primary button" (click)="onFormSubmit()">
+          <!-- Save -->
+        </button>
       </form>
     </ion-col>
     <ion-col class="right-admin-col">

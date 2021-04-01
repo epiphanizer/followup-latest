@@ -27,10 +27,16 @@
   </thead>
   <tbody *ngIf="patients$ | async">
     <tr *ngFor="let patient of pageOfItems" class="active" [class.archived]="!patient.patientActive">
-      <td class="listing-body-cell">
+      <td
+        class="listing-body-cell"
+        [routerLink]="/operations/' + patient.patientOperationId + 'patients/' + patient.patientId"
+      >
         {{ patient.patientDischargeDate | date: 'MM/dd/YY' }}
       </td>
-      <td class="listing-body-cell">
+      <td
+        class="listing-body-cell"
+        [routerLink]="/operations/' + patient.patientOperationId + 'patients/' + patient.patientId"
+      >
         <div class="badge-container">
           <ng-container *ngIf="patient.patientNotificationCount > 0">
             <span class="notification-badge"> </span>
@@ -39,16 +45,28 @@
         <app-patient-avatar [type]="'circle'" [patient]="patient"></app-patient-avatar>
         <div class="patient-name">{{ patient.patientFirstName }} {{ patient.patientLastName }}</div>
       </td>
-      <td class="listing-body-cell">
+      <td
+        class="listing-body-cell"
+        [routerLink]="/operations/' + patient.patientOperationId + 'patients/' + patient.patientId"
+      >
         {{ patient.patientGender }}
       </td>
-      <td class="listing-body-cell">
+      <td
+        class="listing-body-cell"
+        [routerLink]="/operations/' + patient.patientOperationId + 'patients/' + patient.patientId"
+      >
         {{ patient.patientMedicalRecordNumber }}
       </td>
-      <td class="listing-body-cell">
+      <td
+        class="listing-body-cell"
+        [routerLink]="/operations/' + patient.patientOperationId + 'patients/' + patient.patientId"
+      >
         {{ patient.patientStatusLabel }}
       </td>
-      <td class="listing-body-cell">
+      <td
+        class="listing-body-cell"
+        [routerLink]="/operations/' + patient.patientOperationId + 'patients/' + patient.patientId"
+      >
         {{ patient.patientGraduated ? 'Yes' : 'No' }}
       </td>
     </tr>
