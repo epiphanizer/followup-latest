@@ -37,11 +37,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr
-      *ngFor="let operation of operationGroup.operations$ | async"
-      class="active"
-      [class.archived]="!operation.operationActive"
-    >
+    <tr *ngFor="let operation of operationsFiltered" class="active" [class.archived]="!operation.operationActive">
       <td class="listing-body-cell" [routerLink]="'/operation/' + operation.operationId">
         <div class="operation-information">
           <span class="operation-name">

@@ -26,7 +26,8 @@ export class OperationOperationListingComponent implements OnInit {
     this.operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(this.operationGroup);
     this.operationGroup.operations$.subscribe((operations: Operation[]) => {
       if (operations[0]) {
-        this.operations = operations;
+        this.operationsFiltered = this.operations = operations;
+        this.runSortSwitch();
       }
     });
   }
@@ -51,9 +52,9 @@ export class OperationOperationListingComponent implements OnInit {
   handleSortDirectionEvent($event: string) {
     this.selectedSortFlag = $event;
     if (this.selectedSortFlag == 'asc') {
-      this.selectedSortFlag = 'desc';
-    } else {
       this.selectedSortFlag = 'asc';
+    } else {
+      this.selectedSortFlag = 'desc';
     }
     this.runSortSwitch();
   }
@@ -62,67 +63,115 @@ export class OperationOperationListingComponent implements OnInit {
     this.runSortSwitch();
   }
   runSortSwitch() {
-    console.log('triggered sort switch');
+    console.log('triggered sort switch for ' + this.selectedSortCol + ' by: ' + this.selectedSortFlag);
     switch (this.selectedSortCol) {
-      case 'Operation':
-        this.sortOperationsByOperationName(this.selectedSortFlag);
+      case 'Facility':
+        this.sortOperationsByOperationName();
         break;
       case 'Ownership':
-        this.sortOperationsByOwnershipName(this.selectedSortFlag);
+        this.sortOperationsByOwnershipName();
         break;
       case 'Queue':
-        this.sortOperationsByQueueCount(this.selectedSortFlag);
+        this.sortOperationsByQueueCount();
         break;
       case 'Notifs':
-        this.sortOperationsByNotifCount(this.selectedSortFlag);
+        this.sortOperationsByNotifCount();
         break;
       case 'Grads':
-        this.sortOperationsByGradCount(this.selectedSortFlag);
+        this.sortOperationsByGradCount();
         break;
       case 'Status':
-        this.sortOperationsByStatus(this.selectedSortFlag);
+        this.sortOperationsByStatus();
     }
   }
-  sortOperationsByOperationName = function(sortFlag: string) {
-    if ((this.selectedSortFlag = 'asc')) {
-      this.operations.reverse();
+  sortOperationsByOperationName = function() {
+    if (this.selectedSortFlag == 'desc') {
+      this.operationsFiltered = this.operations
+        .sort((a: Operation, b: Operation) => {
+          return <any>a.operationName.localeCompare(b.operationName);
+        })
+        .slice();
     } else {
-      this.operations.sort();
+      this.operationsFiltered = this.operations
+        .sort((a: Operation, b: Operation) => {
+          return <any>b.operationName.localeCompare(a.operationName);
+        })
+        .slice();
     }
   };
-  sortOperationsByOwnershipName = function(sortFlag: string) {
-    if ((this.selectedSortFlag = 'asc')) {
-      this.operations.reverse();
+  sortOperationsByOwnershipName = function() {
+    if (this.selectedSortFlag == 'desc') {
+      this.operationsFiltered = this.operations
+        .sort((a: Operation, b: Operation) => {
+          return <any>a.operationGroupName.localeCompare(b.operationGroupName);
+        })
+        .slice();
     } else {
-      this.operations.sort();
+      this.operationsFiltered = this.operations
+        .sort((a: Operation, b: Operation) => {
+          return <any>b.operationGroupName.localeCompare(a.operationGroupName);
+        })
+        .slice();
     }
   };
-  sortOperationsByQueueCount = function(sortFlag: string) {
-    if ((this.selectedSortFlag = 'asc')) {
-      this.operations.reverse();
+  sortOperationsByQueueCount = function() {
+    if ((this.selectedSortFlag = 'desc')) {
+      this.operationsFiltered = this.operations
+        .sort((a: Operation, b: Operation) => {
+          return <any>b.currentAssignedPatientCount - a.currentAssignedPatientCount;
+        })
+        .slice();
     } else {
-      this.operations.sort();
+      this.operationsFiltered = this.operations
+        .sort((a: Operation, b: Operation) => {
+          return <any>b.currentAssignedPatientCount + a.currentAssignedPatientCount;
+        })
+        .slice();
     }
   };
-  sortOperationsByNotifCount = function(sortFlag: string) {
-    if ((this.selectedSortFlag = 'asc')) {
-      this.operations.reverse();
+  sortOperationsByNotifCount = function() {
+    if ((this.selectedSortFlag = 'desc')) {
+      this.operationsFiltered = this.operations
+        .sort((a: Operation, b: Operation) => {
+          return <any>b.totalNotifications - a.totalNotifications;
+        })
+        .slice();
     } else {
-      this.operations.sort();
+      this.operationsFiltered = this.operations
+        .sort((a: Operation, b: Operation) => {
+          return <any>a.totalNotifications - b.totalNotifications;
+        })
+        .slice();
     }
   };
-  sortOperationsByGradCount = function(sortFlag: string) {
-    if ((this.selectedSortFlag = 'asc')) {
-      this.operations.reverse();
+  sortOperationsByGradCount = function() {
+    if ((this.selectedSortFlag = 'desc')) {
+      this.operationsFiltered = this.operations
+        .sort((a: Operation, b: Operation) => {
+          return <any>b.totalGraduates - a.totalGraduates;
+        })
+        .slice();
     } else {
-      this.operations.sort();
+      this.operationsFiltered = this.operations
+        .sort((a: Operation, b: Operation) => {
+          return <any>a.totalGraduates - b.totalGraduates;
+        })
+        .slice();
     }
   };
-  sortOperationsByStatus = function(sortFlag: string) {
-    if ((this.selectedSortFlag = 'asc')) {
-      this.operations.reverse();
+  sortOperationsByStatus = function() {
+    if (this.selectedSortFlag == 'desc') {
+      this.patientsFiltered = this.patients
+        .sort((a: Operation, b: Operation) => {
+          return <any>a.operationActive > b.operationActive;
+        })
+        .slice();
     } else {
-      this.operations.sort();
+      this.patientsFiltered = this.patients
+        .sort((a: Operation, b: Operation) => {
+          return <any>b.operationActive > a.operationActive;
+        })
+        .slice();
     }
   };
   searchOperations($event: KeyboardEvent): Operation[] {
