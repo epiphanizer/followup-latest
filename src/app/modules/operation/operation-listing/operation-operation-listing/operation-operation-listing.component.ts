@@ -73,6 +73,9 @@ export class OperationOperationListingComponent implements OnInit {
       case 'Queue':
         this.sortOperationsByQueueCount(this.selectedSortFlag);
         break;
+      case 'Notifs':
+        this.sortOperationsByNotifCount(this.selectedSortFlag);
+        break;
       case 'Grads':
         this.sortOperationsByGradCount(this.selectedSortFlag);
         break;
@@ -95,6 +98,13 @@ export class OperationOperationListingComponent implements OnInit {
     }
   };
   sortOperationsByQueueCount = function(sortFlag: string) {
+    if ((this.selectedSortFlag = 'asc')) {
+      this.operations.reverse();
+    } else {
+      this.operations.sort();
+    }
+  };
+  sortOperationsByNotifCount = function(sortFlag: string) {
     if ((this.selectedSortFlag = 'asc')) {
       this.operations.reverse();
     } else {
