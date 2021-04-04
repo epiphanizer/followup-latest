@@ -63,7 +63,6 @@ export class OperationOperationListingComponent implements OnInit {
     this.runSortSwitch();
   }
   runSortSwitch() {
-    console.log('triggered sort switch for ' + this.selectedSortCol + ' by: ' + this.selectedSortFlag);
     switch (this.selectedSortCol) {
       case 'Facility':
         this.sortOperationsByOperationName();
@@ -82,6 +81,10 @@ export class OperationOperationListingComponent implements OnInit {
         break;
       case 'Status':
         this.sortOperationsByStatus();
+        break;
+      case 'Date':
+        this.sortOperationsByStartDate();
+        break;
     }
   }
 
@@ -116,7 +119,7 @@ export class OperationOperationListingComponent implements OnInit {
     }
   };
   sortOperationsByQueueCount = function() {
-    if ((this.selectedSortFlag = 'desc')) {
+    if (this.selectedSortFlag == 'desc') {
       this.operationsFiltered = this.operations
         .sort((a: Operation, b: Operation) => {
           return <any>b.currentAssignedPatientCount - a.currentAssignedPatientCount;
@@ -131,7 +134,7 @@ export class OperationOperationListingComponent implements OnInit {
     }
   };
   sortOperationsByNotifCount = function() {
-    if ((this.selectedSortFlag = 'desc')) {
+    if (this.selectedSortFlag == 'desc') {
       this.operationsFiltered = this.operations
         .sort((a: Operation, b: Operation) => {
           return <any>b.totalNotifications - a.totalNotifications;
@@ -146,7 +149,7 @@ export class OperationOperationListingComponent implements OnInit {
     }
   };
   sortOperationsByGradCount = function() {
-    if ((this.selectedSortFlag = 'desc')) {
+    if (this.selectedSortFlag == 'desc') {
       this.operationsFiltered = this.operations
         .sort((a: Operation, b: Operation) => {
           return <any>b.totalGraduates - a.totalGraduates;
@@ -162,15 +165,30 @@ export class OperationOperationListingComponent implements OnInit {
   };
   sortOperationsByStatus = function() {
     if (this.selectedSortFlag == 'desc') {
-      this.patientsFiltered = this.patients
+      this.operationsFiltered = this.operations
         .sort((a: Operation, b: Operation) => {
-          return <any>a.operationActive > b.operationActive;
+          return <any>a.operationActive - b.operationActive;
         })
         .slice();
     } else {
-      this.patientsFiltered = this.patients
+      this.operationsFiltered = this.operations
         .sort((a: Operation, b: Operation) => {
-          return <any>b.operationActive > a.operationActive;
+          return <any>b.operationActive - a.operationActive;
+        })
+        .slice();
+    }
+  };
+  sortOperationsByStartDate = function() {
+    if (this.selectedSortFlag == 'desc') {
+      this.operationsFiltered = this.operations
+        .sort((a: Operation, b: Operation) => {
+          return <any>new Date(a.operationStartDate) - <any>new Date(b.operationActive);
+        })
+        .slice();
+    } else {
+      this.operationsFiltered = this.operations
+        .sort((a: Operation, b: Operation) => {
+          return <any>new Date(b.operationActive) - <any>new Date(a.operationActive);
         })
         .slice();
     }

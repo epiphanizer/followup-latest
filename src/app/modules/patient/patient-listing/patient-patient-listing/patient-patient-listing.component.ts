@@ -16,9 +16,8 @@ export class PatientPatientListingComponent implements OnInit {
   public patients: Patient[];
   public patients$: Observable<Patient[]>;
   public patientsFiltered: Patient[];
-  public filterBy: string = 'discharge-date';
   public selectedSortFlag: string = 'desc';
-  public colDefs = ['Discharge', 'Patient', 'Sex', 'Status', 'Completed'];
+  public colDefs = ['Date', 'Patient', 'Sex', 'Patient #', 'Status', 'Completed'];
   public selectedSortOption: string = this.colDefs[0];
   constructor(private patientService: PatientService) {}
   ngOnInit() {
@@ -28,7 +27,7 @@ export class PatientPatientListingComponent implements OnInit {
         if (patients) {
           this.patients = patients;
           this.patientsFiltered = patients;
-          this.sortPatientsByDischargeDate(this.selectedSortFlag);
+          this.sortPatientsByDischargeDate();
         } else {
           this.patientsFiltered = this.patients = [];
         }
@@ -46,7 +45,7 @@ export class PatientPatientListingComponent implements OnInit {
           if (patients) {
             this.patients = patients;
             this.patientsFiltered = patients;
-            this.sortPatientsByDischargeDate(this.selectedSortFlag);
+            this.sortPatientsByDischargeDate();
           } else {
             this.patientsFiltered = this.patients = [];
           }
@@ -73,29 +72,29 @@ export class PatientPatientListingComponent implements OnInit {
   }
 
   runSortSwitch() {
-    console.log('in sort switch, sorting by ' + this.selectedSortOption + ' ' + this.selectedSortFlag);
     switch (this.selectedSortOption) {
       case 'Date':
-        this.sortPatientsByDischargeDate(this.selectedSortFlag);
+        this.sortPatientsByDischargeDate();
         break;
       case 'Patient':
-        this.sortPatientsByPatientName(this.selectedSortFlag);
-        break;
-      case 'Patient #':
-        this.sortPatientsByPatientRecordNumber(this.selectedSortFlag);
+        this.sortPatientsByPatientName();
         break;
       case 'Sex':
-        this.sortPatientsByPatientStatus(this.selectedSortFlag);
+        this.sortPatientsByPatientGender();
+        break;
+      case 'Patient #':
+        this.sortPatientsByPatientRecordNumber();
         break;
       case 'Status':
-        this.sortPatientsByPatientStatus(this.selectedSortFlag);
+        this.sortPatientsByPatientStatus();
+        break;
+      case 'Completed':
+        this.sortPatientsByCompletedStatus();
         break;
     }
   }
-  sortPatientsByPatientName = function(sortFlag: string) {
-    this.filterBy = 'patient-name';
-    console.log('sorting by patient name fn.');
-    if (sortFlag == 'desc') {
+  sortPatientsByPatientName = function() {
+    if (this.selectedSortFlag == 'desc') {
       this.patientsFiltered = this.patients
         .sort((a: Patient, b: Patient) => {
           return <any>a.patientLastName.localeCompare(b.patientLastName);
@@ -109,26 +108,23 @@ export class PatientPatientListingComponent implements OnInit {
         .slice();
     }
   };
-  sortPatientsByPatientRecordNumber = function(sortFlag: string) {
-    this.filterBy = 'patient-name';
-    console.log('sorting by patient name fn.');
-    if (sortFlag == 'desc') {
+  sortPatientsByPatientRecordNumber = function() {
+    if (this.selectedSortFlag == 'desc') {
       this.patientsFiltered = this.patients
         .sort((a: Patient, b: Patient) => {
-          return <any>a.patientLastName.localeCompare(b.patientLastName);
+          return <any>a.patientMedicalRecordNumber.localeCompare(b.patientMedicalRecordNumber);
         })
         .slice();
     } else {
       this.patientsFiltered = this.patients
         .sort((a: Patient, b: Patient) => {
-          return <any>b.patientLastName.localeCompare(a.patientLastName);
+          return <any>b.patientMedicalRecordNumber.localeCompare(a.patientMedicalRecordNumber);
         })
         .slice();
     }
   };
-  sortPatientsByDischargeDate = function(sortFlag: string) {
-    this.filterBy = 'discharge-date';
-    if (sortFlag == 'asc') {
+  sortPatientsByDischargeDate = function() {
+    if (this.selectedSortFlag == 'asc') {
       this.patientsFiltered = this.patients
         .sort((a: Patient, b: Patient) => {
           return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
@@ -142,11 +138,24 @@ export class PatientPatientListingComponent implements OnInit {
         .slice();
     }
   };
-  sortPatientsByPatientStatus = function(sortFlag: string) {
-    this.filterBy = 'patient-status';
+  sortPatientsByPatientGender = function() {
+    if (this.selectedSortFlag == 'asc') {
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>a.patientGender.localeCompare(b.patientGender);
+        })
+        .slice();
+    } else {
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>b.patientGender.localeCompare(a.patientGender);
+        })
+        .slice();
+    }
+  };
 
-    this.patientsFiltered = {};
-    if (sortFlag == 'asc') {
+  sortPatientsByPatientStatus = function() {
+    if (this.selectedSortFlag == 'asc') {
       this.patientsFiltered = this.patients
         .sort((a: Patient, b: Patient) => {
           return <any>a.patientStatusLabel.localeCompare(b.patientStatusLabel);
@@ -160,11 +169,26 @@ export class PatientPatientListingComponent implements OnInit {
         .slice();
     }
   };
+
+  sortPatientsByCompletedStatus = function() {
+    if (this.selectedSortFlag == 'asc') {
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>a.patientGraduated - <any>b.patientGraduated;
+        })
+        .slice();
+    } else {
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>b.patientGraduated - <any>a.patientGraduated;
+        })
+        .slice();
+    }
+  };
   searchFilterEventEmitted($event: KeyboardEvent) {
     this.searchPatients($event);
   }
   searchPatients($event: KeyboardEvent): Patient[] {
-    console.log($event);
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
     this.patientsFiltered = this.patients
@@ -173,7 +197,6 @@ export class PatientPatientListingComponent implements OnInit {
         return patientFullName.toLowerCase().includes(searchText);
       })
       .slice();
-    console.log(this.patientsFiltered);
     return this.patientsFiltered;
   }
   onChangePage(pageOfItems: Array<any>) {
