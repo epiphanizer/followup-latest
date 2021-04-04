@@ -62,16 +62,46 @@ export class OperationOperationListingComponent implements OnInit {
     this.runSortSwitch();
   }
   runSortSwitch() {
-    console.log('triggered sort');
+    console.log('triggered sort switch');
     switch (this.selectedSortCol) {
       case 'Operation':
         this.sortOperationsByOperationName(this.selectedSortFlag);
+        break;
+      case 'Ownership':
+        this.sortOperationsByOwnershipName(this.selectedSortFlag);
+        break;
+      case 'Queue':
+        this.sortOperationsByQueueCount(this.selectedSortFlag);
+        break;
+      case 'Grads':
+        this.sortOperationsByGradCount(this.selectedSortFlag);
         break;
       case 'Status':
         this.sortOperationsByStatus(this.selectedSortFlag);
     }
   }
   sortOperationsByOperationName = function(sortFlag: string) {
+    if ((this.selectedSortFlag = 'asc')) {
+      this.operations.reverse();
+    } else {
+      this.operations.sort();
+    }
+  };
+  sortOperationsByOwnershipName = function(sortFlag: string) {
+    if ((this.selectedSortFlag = 'asc')) {
+      this.operations.reverse();
+    } else {
+      this.operations.sort();
+    }
+  };
+  sortOperationsByQueueCount = function(sortFlag: string) {
+    if ((this.selectedSortFlag = 'asc')) {
+      this.operations.reverse();
+    } else {
+      this.operations.sort();
+    }
+  };
+  sortOperationsByGradCount = function(sortFlag: string) {
     if ((this.selectedSortFlag = 'asc')) {
       this.operations.reverse();
     } else {

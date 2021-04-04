@@ -21,7 +21,20 @@ export class ListingFilterComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {}
 
+  selectAscEvent() {
+    this.sortDirection = 'asc';
+    this.sortDirectionSelectedEventEmitter.emit(this.sortDirection);
+  }
+  selectDescEvent() {
+    this.sortDirection = 'desc';
+    this.sortDirectionSelectedEventEmitter.emit(this.sortDirection);
+  }
+  selectOption(option: string) {
+    this.selectedOption = option;
+    this.sortOptionSelectedEventEmitter.emit(this.selectedOption);
+  }
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
+    console.log('dropdown now :' + this.dropdownOpen);
   }
 }

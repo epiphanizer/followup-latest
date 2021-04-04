@@ -2,7 +2,7 @@
   <ion-row class="patient-summary">
     <ion-col>
       <div class="avatar-container">
-        <div class="spanish-flag" *ngIf="!patient.patientSpeaksEnglish">
+        <div class="spanish-flag" *ngIf="patient.patientSpeaksSpanish">
           <div class="hola-bg"></div>
         </div>
         <app-patient-avatar [patient]="patient" [routerLink]="'/patient/edit/' + patient.patientId">
@@ -27,7 +27,7 @@
             {{ patient.patientLastName }}
           </h2>
         </div>
-        <span class="patient-age">Age: {{ patient.patientAge }}</span>
+        <span class="patient-age">Age: {{ patient.patientAge }}&nbsp;&nbsp;&nbsp;</span>
         <span class="patient-contact-number">
           {{ patient.primaryContactPhoneNumber }}
         </span>

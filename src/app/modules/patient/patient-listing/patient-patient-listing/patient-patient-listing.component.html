@@ -1,5 +1,9 @@
 <div class="listing-controls">
-  <app-listing-filter [options]="colDefs"> </app-listing-filter>
+  <app-listing-filter
+    [options]="colDefs"
+    (sortOptionSelectedEventEmitter)="sortOptionSelected($event)"
+    (sortDirectionSelectedEventEmitter)="toggleAscDesc($event)"
+  ></app-listing-filter>
   <app-listing-search (searchFilterEventEmitted)="searchPatients($event)"></app-listing-search>
 </div>
 <table>
@@ -26,7 +30,12 @@
     </tr>
   </thead>
   <tbody *ngIf="patients$ | async">
-    <tr *ngFor="let patient of pageOfItems" class="active" [class.archived]="!patient.patientActive">
+    <tr
+      *ngFor="let patient of patientsFiltered"
+      [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
+      class="active"
+      [class.archived]="!patient.patientActive"
+    >
       <td class="listing-body-cell">
         {{ patient.patientDischargeDate | date: 'MM/dd/YY' }}
       </td>
@@ -40,7 +49,7 @@
         <div class="patient-name">{{ patient.patientFirstName }} {{ patient.patientLastName }}</div>
       </td>
       <td class="listing-body-cell">
-        {{ patient.patientGender }}
+        {{ patient.patientGender == 'male' ? 'M' : 'F' }}
       </td>
       <td class="listing-body-cell">
         {{ patient.patientMedicalRecordNumber }}

@@ -24,14 +24,13 @@
       placeholder="Leave Your Message Here"
     ></ion-textarea>
     <div class="button-container">
-      <ion-button class="cancel-button" type="button" (click)="dismiss()">Cancel</ion-button>
-      <ion-button
+      <button class="cancel button" type="button" (click)="dismiss()"></button>
+      <button
         [disabled]="createUserMessageForm.invalid"
-        class="save-button"
+        class="send button"
         type="button"
         (click)="sendTheMessage()"
-        >Send</ion-button
-      >
+      ></button>
     </div>
   </form>
 </ng-container>

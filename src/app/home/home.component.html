@@ -15,9 +15,7 @@
           <ul class="user-messages">
             <li class="user-message-note">
               <div class="user-message-body" *ngIf="userMessage">
-                <p class="user-message">
-                  {{ userMessage.messageBody }}
-                </p>
+                <p class="user-message" [innerHTML]="userMessage.messageBody"></p>
                 <span class="from-sender">-{{ userMessage.messageSenderFirstName }}</span>
               </div>
             </li>

@@ -188,6 +188,8 @@ ion-radio {
 .alert-button.sc-ion-alert-md {
   font-family: "AvenirDemi";
   color: white;
+  width: auto;
+  padding: 0 1rem;
   background-color: #08b4b9;
   // Cancel button
   &:first-child {

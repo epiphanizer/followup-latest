@@ -26,12 +26,76 @@
     color: #8e8e93;
     .dropdown {
       display: block;
-      width: 170px;
-      height: auto;
-      background-color: gray;
-      color: black;
+      position: absolute;
+
       &.hidden {
         display: none;
+      }
+      z-index: 10;
+      margin-left: -12px;
+      margin-top: 5px;
+      width: 195px;
+      height: auto;
+      padding: 14px 5px 10px;
+      box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.16);
+      background-color: #f5f5f5;
+      box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.16);
+
+      ul {
+        list-style-type: none;
+        background-color: #f5f5f5;
+        padding-left: 0;
+        margin: 0;
+        text-align: left;
+
+        li {
+          cursor: pointer;
+          display: inline-block;
+          width: 100%;
+          height: auto;
+          text-align: left;
+
+          &:active {
+            a {
+              padding-left: 33px;
+            }
+          }
+
+          a {
+            padding-left: 25px;
+            display: block;
+            width: 100%;
+            font-family: Avenir;
+            font-size: 15px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 2.27;
+            letter-spacing: 0.15px;
+            color: #222222;
+            text-decoration: none;
+          }
+
+          &:hover {
+            background-color: #00b8be;
+
+            a {
+              color: white;
+            }
+          }
+
+          &:active {
+            ::before {
+              width: 11px;
+              height: 9px;
+              display: "block";
+              content: "";
+              margin-left: -8px;
+              background-image: url("/assets/icon-check@2x.png");
+              background-repeat: no-repeat;
+            }
+          }
+        }
       }
     }
   }

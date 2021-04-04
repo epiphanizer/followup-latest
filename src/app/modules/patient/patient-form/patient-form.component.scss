@@ -10,9 +10,11 @@ ion-radio {
   width: 14px !important;
   margin-right: 0;
 }
+
 .radio-button {
   background-size: cover;
   background-image: url("/assets/button-radio@2x.png");
+
   &:active,
   &.radio-checked {
     background-image: url("/assets/button-radio-checked-green@2x.png");
@@ -188,6 +190,10 @@ form {
     margin-bottom: 0.5rem;
   }
 
+  .inline-patient-responsibility-container {
+    margin-top: 1.5rem;
+  }
+
   ion-item {
     &.patient-facility {
       display: inline-block;
@@ -212,16 +218,9 @@ form {
 
     &.patient-first-name,
     &.patient-last-name {
-      display: block;
-      width: 100%;
-    }
-
-    &.patient-first-name {
-      width: 100%;
-    }
-
-    &.patient-last-name {
-      width: 100%;
+      display: inline-block;
+      width: 165px;
+      margin-right: 10px;
     }
 
     &.patient-dob {
@@ -286,30 +285,6 @@ form {
         margin-left: 6px;
       }
     }
-    &.speaks-english {
-      display: block;
-      clear: both;
-      ion-label {
-        font-family: AvenirPro;
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.2;
-        letter-spacing: normal;
-        text-align: left;
-        color: #444444;
-        margin-bottom: 0.33rem;
-        margin-left: 6px;
-      }
-    }
-    &.fluent-language {
-      display: none;
-      &.show {
-        display: inline-block;
-        width: 100%;
-      }
-    }
 
     ion-datetime {
       height: auto;
@@ -359,6 +334,36 @@ form {
 
       &.patient-phone-number {
         width: 170px;
+      }
+    }
+  }
+
+  div.language-container {
+    ion-item.speaks-english {
+      display: block;
+      clear: both;
+
+      ion-label {
+        font-family: AvenirPro;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.2;
+        letter-spacing: normal;
+        text-align: left;
+        color: #444444;
+        margin-bottom: 0.33rem;
+        margin-left: 6px;
+      }
+    }
+
+    ion-item.fluent-language {
+      display: none;
+
+      &.show {
+        display: inline-block;
+        width: 100%;
       }
     }
   }
@@ -481,21 +486,20 @@ form {
 
     .add-additional-contact {
       cursor: pointer;
-      clear: right;
-      font-family: Avenir;
-      font-size: 13px;
+      font-family: AvenirDemi;
+      font-size: 15px;
       font-weight: normal;
-      font-style: normal;
-      margin-left: 10px;
       font-stretch: normal;
-      line-height: 1.33;
-      letter-spacing: 0.42px;
-      text-align: left;
+      font-style: normal;
+      line-height: 0.86;
+      letter-spacing: 0.15px;
+      text-align: right;
       color: var(--ion-color-primary);
     }
 
     ion-list {
       padding-left: 4px;
+      margin-bottom: 1rem;
     }
 
     .patient-contact-header-container {
@@ -532,7 +536,7 @@ form {
       }
 
       &.last-name {
-        width: 250px;
+        width: 155px;
         float: left;
       }
 
@@ -549,6 +553,7 @@ form {
 
       &.patient-contact-hipaa {
         margin-left: 8px;
+
         ion-label {
           margin-bottom: 0;
           margin-right: 5px;
@@ -565,6 +570,7 @@ form {
     .phone-container {
       padding-left: 0;
       width: calc(100% - 20px);
+      clear: both;
 
       ion-item {
         margin-right: 8px;
@@ -602,15 +608,17 @@ form {
           vertical-align: bottom;
 
           ion-label {
-            font-family: Avenir;
-            font-size: 13px;
+            font-family: AvenirPro;
+            font-size: 15px;
             font-weight: normal;
-            font-style: normal;
             font-stretch: normal;
-            letter-spacing: 0.59px;
+            font-style: normal;
+            line-height: 1.2;
+            letter-spacing: normal;
             text-align: left;
-            margin-left: 18px;
-            color: var(--ion-color-primary);
+            color: #444444;
+            margin-bottom: 0.33rem;
+            margin-left: 6px;
           }
 
           ion-radio {
@@ -623,17 +631,16 @@ form {
     }
   }
 
-  // .patient-physician {
-  // }
-
   fieldset.insurance-info {
     margin-left: 0;
+    padding-left: 0;
   }
 
   fieldset.patient-discharge {
     border: none;
     margin-left: 0;
     padding-left: 0;
+    padding-top: 2rem;
 
     .section-header {
       width: 100%;
@@ -648,7 +655,6 @@ form {
 
       &.discharge-dates,
       &.discharged-ama {
-        padding-left: 1rem;
       }
     }
 
@@ -738,9 +744,9 @@ form {
         margin-top: 0.8rem;
 
         .discharge-location {
-          width: 50%;
+          width: 300px;
           float: left;
-          height: 41px;
+          height: 34px;
         }
 
         ion-label {
@@ -831,7 +837,7 @@ form {
 
 fieldset.patient-medical-conditions {
   margin-left: 0;
-  padding-left: 1rem;
+  padding-left: 0;
 
   .section-header {
     width: 100%;
@@ -853,8 +859,8 @@ fieldset.patient-medical-conditions {
 }
 
 fieldset.patient-intake-questions {
-  padding-left: 1rem;
   margin-bottom: 0;
+  padding-left: 0;
 
   ion-list {
     padding-left: 0;
@@ -863,10 +869,6 @@ fieldset.patient-intake-questions {
 
   i.icon-questions {
     background-image: url("/assets/icon-questions@2x.png");
-  }
-
-  i.icon-info {
-    background-image: url("/assets/icon-info@2x.png");
   }
 
   .section-header {
@@ -905,7 +907,6 @@ fieldset.patient-intake-questions {
     text-align: left;
 
     ion-radio {
-      margin-right: 4px;
       --background-hover: transparent;
       --color: transparent;
       --color-checked: transparent;
@@ -915,6 +916,7 @@ fieldset.patient-intake-questions {
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
+      margin-right: 8px;
 
       &.rating-button-1 {
         background-image: url("/assets/rating-button-1@2x.png");
@@ -1065,8 +1067,6 @@ fieldset.patient-intake-questions {
   ion-item.boolean {
     display: inline-block;
 
-    margin-right: 4px;
-
     .boolean {
       margin-left: 0;
     }
@@ -1074,6 +1074,9 @@ fieldset.patient-intake-questions {
 }
 
 .need-to-know-list {
+  i.icon-info {
+    background-image: url("/assets/icon-info@2x.png");
+  }
   margin-left: 2rem;
 
   i {

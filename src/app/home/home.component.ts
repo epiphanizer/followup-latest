@@ -4,9 +4,10 @@ import { User, UserMessage } from '@app/modules/user/user';
 import { TeamMessage } from '@app/modules/team/team';
 import { UserService } from '@app/modules/user/user.service';
 import { TeamService } from '@app/modules/team/team.service';
+import { SharedFunctions } from '@app/shared/shared.functions';
 
 @Component({
-  providers: [UserService],
+  providers: [UserService, SharedFunctions],
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
@@ -35,28 +36,23 @@ export class HomeComponent implements OnInit {
   };
 
   public teamMessage: TeamMessage;
-  userMessage: UserMessage;
+  public userMessage: UserMessage;
   public user: User;
   public menu: {}[] = [{}];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private sharedFunctions: SharedFunctions,
     private teamService: TeamService,
     private userService: UserService
   ) {}
 
-  returnHTML(value: string): string {
-    return value
-      .replace(/%0A/g, '<br/>')
-      .replace(/%20/g, '&nbsp;')
-      .replace(/%22/g, '"');
-  }
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.teamService.getTeamMessagesByTeamId(1).subscribe((teamMessages: TeamMessage[]) => {
       this.teamMessage = teamMessages[0];
       // Decode our message to preserve line breaks, other symbols.
-      this.teamMessage.messageBody = this.returnHTML(this.teamMessage.messageBody);
+      this.teamMessage.messageBody = this.sharedFunctions.returnHTML(this.teamMessage.messageBody);
       this.teamService.getTeamTotals().subscribe((data: any) => {
         this.callsMade.totalCalls = data[0].totalCalls;
         this.notificationsSent.totalNotifications = data[0].totalNotifications;

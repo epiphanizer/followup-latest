@@ -15,6 +15,10 @@ import { TeamService } from '@app/modules/team/team.service';
 export class TeamListingComponent implements OnInit {
   @Input() team: Team;
   filterBy: string;
+  // asc or desc
+  selectedSortFlag: string;
+  // column by which we will search
+  selectedSortOption: string;
   public teams: Team[];
   public teams$: Observable<[Team]> | void = null;
   public selected:
@@ -24,7 +28,7 @@ export class TeamListingComponent implements OnInit {
         team$: Observable<Team>;
       }
     | any = {};
-  selectedSortFlag: string = 'asc';
+
   user: User;
   constructor(private teamService: TeamService, private route: ActivatedRoute) {}
 
@@ -37,16 +41,41 @@ export class TeamListingComponent implements OnInit {
       })
     );
   }
-
-  searchTeamMembersByTeam($event: KeyboardEvent): Team[] {
-    let searchText = $event.currentTarget['value'];
-    searchText = searchText.toLowerCase();
-    this.teams = this.teams.filter((team: Team) => {
-      let teamName = team.teamName;
-      return teamName.toLowerCase().includes(searchText);
-    });
-    return this.teams;
+  // We get passsed asc or desc back from event emitter
+  toggleAscDesc($event: string) {
+    this.selectedSortFlag = $event;
+    this.runSortSwitch();
   }
+
+  runSortSwitch() {
+    console.log('in sort switch, sorting by ' + this.selectedSortFlag);
+    switch (this.selectedSortOption) {
+      case 'Hired':
+        // this.sortTeam(this.selectedSortFlag);
+        break;
+      case 'Name':
+      // this.sortPatientsByPatientName(this.selectedSortFlag);
+      // break;
+      case 'Position':
+      // this.sortPatientsByPatientRecordNumber(this.selectedSortFlag);
+      // break;
+      case 'Birthday':
+      // this.sortPatientsByPatientStatus(this.selectedSortFlag);
+      // break;
+      case 'Languages':
+      // this.sortPatientsByPatientStatus(this.selectedSortFlag);
+      // break;
+    }
+  }
+  // searchTeamMembersByTeam($event: KeyboardEvent): Team[] {
+  //   let searchText = $event.currentTarget['value'];
+  //   searchText = searchText.toLowerCase();
+  //   this.teams = this.teams.filter((team: Team) => {
+  //     let teamName = team.teamName;
+  //     return teamName.toLowerCase().includes(searchText);
+  //   });
+  //   return this.teams;
+  // }
   teamChangeEventHandler($event: Team) {
     this.selected.team = $event;
     this.teams = [];

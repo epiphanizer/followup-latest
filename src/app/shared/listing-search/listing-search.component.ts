@@ -15,5 +15,6 @@ export class ListingSearchComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {}
   updateSearchText($event: string) {
     this.searchText = $event;
+    this.searchFilterEventEmitted.emit(this.searchText);
   }
 }

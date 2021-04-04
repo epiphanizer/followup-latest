@@ -8,6 +8,7 @@ h3 {
   letter-spacing: normal;
   text-align: left;
   color: #00b4b9;
+  margin-bottom: 0;
 }
 form {
   ion-label {
@@ -95,6 +96,7 @@ form {
   }
 
   .next-call-question-textarea {
+    margin-top: 0;
     margin-left: 1rem;
     max-width: 480px;
     --inner-padding-start: 0;

@@ -61,16 +61,19 @@ export class PatientPatientListingComponent implements OnInit {
     }
     return '/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId;
   }
-  toggleAscDesc() {
-    if (this.selectedSortFlag == 'asc') {
-      this.selectedSortFlag = 'desc';
-    } else {
-      this.selectedSortFlag = 'asc';
-    }
+
+  sortOptionSelected($event: string) {
+    this.selectedSortOption = $event;
+    this.runSortSwitch();
+  }
+  // We get passsed asc or desc back from event emitter
+  toggleAscDesc($event: string) {
+    this.selectedSortFlag = $event;
     this.runSortSwitch();
   }
 
   runSortSwitch() {
+    console.log('in sort switch, sorting by ' + this.selectedSortOption + ' ' + this.selectedSortFlag);
     switch (this.selectedSortOption) {
       case 'Date':
         this.sortPatientsByDischargeDate(this.selectedSortFlag);
@@ -78,12 +81,35 @@ export class PatientPatientListingComponent implements OnInit {
       case 'Patient':
         this.sortPatientsByPatientName(this.selectedSortFlag);
         break;
+      case 'Patient #':
+        this.sortPatientsByPatientRecordNumber(this.selectedSortFlag);
+        break;
+      case 'Sex':
+        this.sortPatientsByPatientStatus(this.selectedSortFlag);
+        break;
       case 'Status':
         this.sortPatientsByPatientStatus(this.selectedSortFlag);
         break;
     }
   }
   sortPatientsByPatientName = function(sortFlag: string) {
+    this.filterBy = 'patient-name';
+    console.log('sorting by patient name fn.');
+    if (sortFlag == 'desc') {
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>a.patientLastName.localeCompare(b.patientLastName);
+        })
+        .slice();
+    } else {
+      this.patientsFiltered = this.patients
+        .sort((a: Patient, b: Patient) => {
+          return <any>b.patientLastName.localeCompare(a.patientLastName);
+        })
+        .slice();
+    }
+  };
+  sortPatientsByPatientRecordNumber = function(sortFlag: string) {
     this.filterBy = 'patient-name';
     console.log('sorting by patient name fn.');
     if (sortFlag == 'desc') {
@@ -138,6 +164,7 @@ export class PatientPatientListingComponent implements OnInit {
     this.searchPatients($event);
   }
   searchPatients($event: KeyboardEvent): Patient[] {
+    console.log($event);
     let searchText = $event.currentTarget['value'];
     searchText = searchText.toLowerCase();
     this.patientsFiltered = this.patients
@@ -146,6 +173,7 @@ export class PatientPatientListingComponent implements OnInit {
         return patientFullName.toLowerCase().includes(searchText);
       })
       .slice();
+    console.log(this.patientsFiltered);
     return this.patientsFiltered;
   }
   onChangePage(pageOfItems: Array<any>) {

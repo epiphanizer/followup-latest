@@ -10,9 +10,10 @@ import {
 import { map } from 'rxjs/operators';
 import { Notification } from '@app/modules/notification/notification';
 import { Patient } from '../../patient';
+import { SharedFunctions } from '@app/shared/shared.functions';
 
 @Component({
-  providers: [PatientCallQuestionsService],
+  providers: [PatientCallQuestionsService, SharedFunctions],
   selector: 'app-patient-history-listing',
   templateUrl: './patient-history-listing.component.html',
   styleUrls: ['./patient-history-listing.component.scss']
@@ -27,15 +28,10 @@ export class PatientHistoryListingComponent implements OnInit {
 
   constructor(
     private patientCallQuestionService: PatientCallQuestionsService,
-    private patientCallQuestionAnswerService: PatientCallQuestionsService
+    private patientCallQuestionAnswerService: PatientCallQuestionsService,
+    private sharedFunctions: SharedFunctions
   ) {}
 
-  returnHTML(value: string): string {
-    return value
-      .replace(/%0A/g, '<br/>')
-      .replace(/%20/g, '&nbsp;')
-      .replace(/%22/g, '"');
-  }
   ngOnInit() {
     this.patientActivity = [];
     // Go get our calls and warm up the observables.
@@ -72,13 +68,15 @@ export class PatientHistoryListingComponent implements OnInit {
      */
     if (this.patientCalls) {
       this.patientCalls.forEach(patientCall => {
-        patientCall.patientCallNotes = this.returnHTML(patientCall.patientCallNotes);
+        patientCall.patientCallNotes = this.sharedFunctions.returnHTML(patientCall.patientCallNotes);
         this.patientActivity.push(patientCall);
       });
     }
     if (this.patientNotifications) {
       this.patientNotifications.forEach(patientNotification => {
-        patientNotification.notificationMessage = this.returnHTML(patientNotification.notificationMessage);
+        patientNotification.notificationMessage = this.sharedFunctions.returnHTML(
+          patientNotification.notificationMessage
+        );
         this.patientActivity.push(patientNotification);
       });
     }

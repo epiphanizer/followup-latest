@@ -78,18 +78,19 @@
               <ion-label>Responsible Party</ion-label>
             </ion-item>
           </ion-item>
-          <ion-item class="speaks-english">
-            <ion-checkbox formControlName="patientSpeaksEnglish"></ion-checkbox>
-            <ion-label>Doesn't Speaks English</ion-label>
-          </ion-item>
-          <ion-item class="fluent-language" [class.show]="!patient.patientSpeaksEnglish">
-            <ion-label position="stacked">Fluent Language <span style="color:red">*</span></ion-label>
-            <ion-select formControlName="patientFluentLanguage" placeholder="Fluent Language">
-              <ion-select-option selected value="English">English</ion-select-option>
-              <ion-select-option value="Spanish">Spanish</ion-select-option>
-            </ion-select>
-          </ion-item>
-
+          <div class="language-container">
+            <ion-item class="speaks-english">
+              <ion-checkbox formControlName="patientSpeaksNoEnglish"></ion-checkbox>
+              <ion-label>Doesn't Speaks English</ion-label>
+            </ion-item>
+            <ion-item class="fluent-language" [class.show]="patient.patientSpeaksEnglish == 0">
+              <ion-label position="stacked">Fluent Language <span style="color:red">*</span></ion-label>
+              <ion-select formControlName="patientFluentLanguage" placeholder="Fluent Language">
+                <ion-select-option selected value="English">English</ion-select-option>
+                <ion-select-option value="Spanish">Spanish</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </div>
           <div class="section-header contacts">
             <i class="icon-contacts"></i>
             <span class="contact-header">Contacts</span>
@@ -201,6 +202,19 @@
             <span class="discharge-header">Discharge Info</span>
           </div>
           <fieldset class="patient-discharge" formGroupName="dischargeInfo">
+            <ion-label class="discharged-label" color="medium" position="stacked">
+              Discharged Against Medical Advice? <span style="color:red">*</span>
+            </ion-label>
+            <ion-item class="discharged-ama">
+              <ion-radio-group formControlName="patientDischargedAma">
+                <ion-item>
+                  <ion-radio class="radio-button-yes discharged-ama" value="1"> </ion-radio>
+                </ion-item>
+                <ion-item>
+                  <ion-radio class="radio-button-no discharged-ama" value="0"> </ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-item>
             <ion-list class="discharge-dates" inset lines="none">
               <div class="patient-discharge-dates-container">
                 <ion-item class="discharge-admit-date">
@@ -225,19 +239,6 @@
                   <ion-input formControlName="patientTotalDays" readonly></ion-input>
                 </ion-item>
               </div>
-              <ion-label class="discharged-label" color="medium" position="stacked">
-                Discharged Against Medical Advice? <span style="color:red">*</span>
-              </ion-label>
-              <ion-item class="discharged-ama">
-                <ion-radio-group formControlName="patientDischargedAma">
-                  <ion-item>
-                    <ion-radio class="radio-button-yes discharged-ama" value="1"> </ion-radio>
-                  </ion-item>
-                  <ion-item>
-                    <ion-radio class="radio-button-no discharged-ama" value="0"> </ion-radio>
-                  </ion-item>
-                </ion-radio-group>
-              </ion-item>
               <ion-item class="discharge-to-location" *ngIf="dischargeLabels">
                 <ion-label color="medium" position="stacked">Discharged To: <span style="color:red">*</span></ion-label>
                 <ion-radio-group formControlName="patientDischargedTo">
@@ -295,11 +296,11 @@
             </ion-list>
           </fieldset>
           <fieldset class="patient-intake-questions">
+            <div class="section-header">
+              <i class="icon-questions"></i>
+              <span class="contact-header">Intake Questions</span>
+            </div>
             <ion-list lines="none" class="patient-intake-questions" inset formArrayName="patientIntakeQuestionAnswers">
-              <div class="section-header">
-                <i class="icon-questions"></i>
-                <span class="contact-header">Intake Questions</span>
-              </div>
               <ion-item
                 *ngFor="let patientIntakeQuestion of patientIntakeQuestions; let idx = index"
                 [formGroupName]="idx"
@@ -338,14 +339,13 @@
               </ion-item>
             </ion-list>
           </fieldset>
-          <ion-list class="need-to-know-list" inset lines="none">
-            <i class="icon-info"></i>
-            <ion-item class="need-to-know">
-              <ion-label color="medium" position="stacked">Need To Know</ion-label>
-              <ion-textarea [autoGrow]="true" formControlName="patientNeedToKnow"></ion-textarea>
-            </ion-item>
-          </ion-list>
-
+          <fieldset>
+            <div class="section-header">
+              <i class="icon-info"></i>
+              <span class="contact-header">Need To Know</span>
+            </div>
+            <ion-textarea [autoGrow]="true" formControlName="patientNeedToKnow"></ion-textarea>
+          </fieldset>
           <ion-item class="is-active ion-float-right">
             <ion-checkbox formControlName="patientActive"></ion-checkbox>
             <ion-label color="medium">Active?</ion-label>
