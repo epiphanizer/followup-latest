@@ -1,5 +1,10 @@
 <div class="listing-controls">
-  <app-listing-filter [options]="colDefs"> </app-listing-filter>
+  <app-listing-filter
+    [options]="cols"
+    (sortOptionSelectedEventEmitter)="handleSortOptionEvent($event)"
+    (sortDirectionSelectedEventEmitter)="handleSortDirectionEvent($event)"
+  >
+  </app-listing-filter>
   <app-listing-search (searchFilterEventEmitted)="searchTeamMembers($event)"></app-listing-search>
 </div>
 <table class="team-member-table">
@@ -36,11 +41,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let teamMember of teamMembers" class="active">
+    <tr *ngFor="let teamMember of teamMembersFiltered" class="active">
       <td class="listing-body-cell">
         <div class="team-member-information">
           <span class="team-member-hired">
-            00/00/00
+            {{ teamMember.teamMemberHired | date: 'MM/dd/yy' }}
           </span>
         </div>
       </td>

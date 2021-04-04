@@ -19,9 +19,11 @@ export class TeamMembersListingComponent implements OnInit {
   public teamMembers: TeamMember[];
   public teamMembersFiltered: TeamMember[];
   public pageOfItems: Team[];
-  public colDefs = ['Hired', 'Name', 'Position', 'Birthday', 'Languages'];
-  public selectedSortOption = this.colDefs[0];
-  public selectedSortFlag: string = 'desc';
+  // asc or desc
+  selectedSortFlag: string;
+  // column by which we will search
+  cols: string[] = ['Hired', 'Name', 'Position', 'Birthday', 'Languages'];
+  selectedSortOption: string = this.cols[0];
 
   constructor(
     private modalController: ModalController,
@@ -41,6 +43,7 @@ export class TeamMembersListingComponent implements OnInit {
         map((teamMembers: [TeamMember]) => {
           this.teamMembers = teamMembers;
           this.teamMembersFiltered = teamMembers;
+          this.runSortSwitch();
         })
       )
       .subscribe();
@@ -67,27 +70,127 @@ export class TeamMembersListingComponent implements OnInit {
         .subscribe();
     }
   }
-  toggleAscDesc() {
-    if (this.selectedSortFlag == 'asc') {
-      this.selectedSortFlag = 'desc';
-    } else {
-      this.selectedSortFlag = 'asc';
-    }
+
+  handleSearchFilterEvent($event: KeyboardEvent) {
+    this.searchTeamMembers($event);
+  }
+
+  handleSortDirectionEvent($event: string) {
+    this.selectedSortFlag = $event;
     this.runSortSwitch();
   }
-  public runSortSwitch() {
+
+  handleSortOptionEvent($event: string) {
+    this.selectedSortOption = $event;
+    this.runSortSwitch();
+  }
+  // We get passsed asc or desc back from event emitter
+  toggleAscDesc($event: string) {
+    this.selectedSortFlag = $event;
+    this.runSortSwitch();
+  }
+
+  runSortSwitch() {
+    console.log('in sort switch, sorting by ' + this.selectedSortFlag);
     switch (this.selectedSortOption) {
       case 'Hired':
+        this.sortTeamByTeamMemberHiredDate();
         break;
       case 'Name':
-        this.sortTeamMembersByTeamMemberName(this.selectedSortFlag);
+        this.sortTeamByTeamMemberName();
         break;
       case 'Position':
-        this.sortTeamMembersByTeamMemberRole(this.selectedSortFlag);
+        this.sortTeamByTeamMemberPosition();
+        break;
+      case 'Birthday':
+        this.sortTeamByTeamMemberBirthday();
+        break;
+      case 'Languages':
+        this.sortTeamByTeamMemberLanguages();
         break;
     }
   }
 
+  sortTeamByTeamMemberHiredDate = function() {
+    if (this.selectedSortFlag == 'desc') {
+      this.teamMembersFiltered = this.teamMembers
+        .sort((a: TeamMember, b: TeamMember) => {
+          return <any>new Date(a.teamMemberHired) - <any>new Date(b.teamMemberHired);
+        })
+        .slice();
+    } else {
+      this.teamMembersFiltered = this.teamMembers
+        .sort((a: TeamMember, b: TeamMember) => {
+          return <any>new Date(b.teamMemberHired) - <any>new Date(a.teamMemberHired);
+        })
+        .slice();
+    }
+  };
+  sortTeamByTeamMemberName = function() {
+    if (this.selectedSortFlag == 'desc') {
+      this.teamMembersFiltered = this.teamMembers
+        .sort((a: TeamMember, b: TeamMember) => {
+          return <any>(
+            (a.teamMemberFirstName + a.teamMemberLastName).localeCompare(b.teamMemberFirstName + b.teamMemberLastName)
+          );
+        })
+        .slice();
+    } else {
+      this.teamMembersFiltered = this.teamMembers
+        .sort((a: TeamMember, b: TeamMember) => {
+          return <any>(
+            (b.teamMemberFirstName + b.teamMemberLastName).localeCompare(a.teamMemberFirstName + a.teamMemberLastName)
+          );
+        })
+        .slice();
+    }
+  };
+  sortTeamByTeamMemberPosition = function() {
+    if (this.selectedSortFlag == 'desc') {
+      this.teamMembersFiltered = this.teamMembers
+        .sort((a: TeamMember, b: TeamMember) => {
+          return <any>b.teamMemberRoleLabel.localeCompare(a.teamMemberRoleLabel);
+        })
+        .slice();
+    } else {
+      this.teamMembersFiltered = this.teamMembers
+        .sort((a: TeamMember, b: TeamMember) => {
+          return <any>a.teamMemberRoleLabel.localeCompare(b.teamMemberRoleLabel);
+        })
+        .slice();
+    }
+  };
+  sortTeamByTeamMemberBirthday = function() {
+    if (this.selectedSortFlag == 'desc') {
+      this.teamMembersFiltered = this.teamMembers
+        .sort((a: TeamMember, b: TeamMember) => {
+          return <any>new Date(a.teamMemberBirthday) - <any>new Date(b.teamMemberBirthday);
+        })
+        .slice();
+    } else {
+      this.teamMembersFiltered = this.teamMembers
+        .sort((a: TeamMember, b: TeamMember) => {
+          return <any>new Date(b.teamMemberBirthday) - <any>new Date(a.teamMemberBirthday);
+        })
+        .slice();
+    }
+  };
+
+  sortTeamByTeamMemberLanguages = function() {
+    if (this.selectedSortFlag == 'desc') {
+      this.teamMembersFiltered = this.teamMembers
+        .sort((a: TeamMember, b: TeamMember) => {
+          return <any>(b.spanishSpeaking ? 1 : 0) - (a.spanishSpeaking ? 1 : 0);
+        })
+        .slice();
+    } else {
+      this.teamMembersFiltered = this.teamMembers
+        .sort((a: TeamMember, b: TeamMember) => {
+          return <any>(a.spanishSpeaking ? 1 : 0) - (b.spanishSpeaking ? 1 : 0);
+        })
+        .slice();
+    }
+  };
   async postItModal(teamMember: TeamMember) {
     const modal = await this.modalController.create({
       component: PostItModalComponent,

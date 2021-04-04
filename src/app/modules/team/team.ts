@@ -25,10 +25,12 @@ export interface TeamMember {
   userId?: number;
   teamId?: number;
   teamMemberId: number;
+  teamMemberHired: string;
   teamMemberFirstName: string;
   teamMemberLastName: string;
   teamMemberRoleLabel?: string;
   teamMemberEmail?: string;
+  teamMemberBirthday?: string;
   teamMemberPhoneNumber?: string;
   spanishSpeaking?: boolean;
   needToKnow?: any;

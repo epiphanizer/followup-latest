@@ -84,6 +84,7 @@ export class OperationOperationListingComponent implements OnInit {
         this.sortOperationsByStatus();
     }
   }
+
   sortOperationsByOperationName = function() {
     if (this.selectedSortFlag == 'desc') {
       this.operationsFiltered = this.operations
@@ -124,7 +125,7 @@ export class OperationOperationListingComponent implements OnInit {
     } else {
       this.operationsFiltered = this.operations
         .sort((a: Operation, b: Operation) => {
-          return <any>b.currentAssignedPatientCount + a.currentAssignedPatientCount;
+          return <any>a.currentAssignedPatientCount - b.currentAssignedPatientCount;
         })
         .slice();
     }
