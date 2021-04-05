@@ -339,7 +339,7 @@
               </ion-item>
             </ion-list>
           </fieldset>
-          <fieldset>
+          <fieldset class="need-to-know">
             <div class="section-header">
               <i class="icon-info"></i>
               <span class="contact-header">Need To Know</span>
@@ -352,10 +352,8 @@
           </ion-item>
         </ion-list>
         <div class="form-button-controls">
-          <ion-button *ngIf="mode.edit" class="cancel-button" (click)="window.location.reload()">
-            Cancel
-          </ion-button>
-          <ion-button class="save-button" (click)="onFormSubmit()">Save</ion-button>
+          <button class="button save" (click)="onFormSubmit()"></button>
+          <button *ngIf="mode.edit" class="button cancel" (click)="window.location.reload()"></button>
         </div>
       </form>
     </ion-col>

@@ -1,6 +1,11 @@
 <div class="listing-controls">
-  <app-listing-filter [options]="colDefs"> </app-listing-filter>
-  <app-listing-search></app-listing-search>
+  <app-listing-filter
+    [options]="colDefs"
+    (sortOptionSelectedEventEmitter)="sortOptionSelected($event)"
+    (sortDirectionSelectedEventEmitter)="toggleAscDesc($event)"
+  >
+  </app-listing-filter>
+  <app-listing-search (searchFilterEventEmitted)="searchNotifications($event)"></app-listing-search>
 </div>
 <table class="notification-table">
   <thead>

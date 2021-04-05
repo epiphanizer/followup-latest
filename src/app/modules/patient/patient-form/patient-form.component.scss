@@ -1073,14 +1073,14 @@ fieldset.patient-intake-questions {
   }
 }
 
-.need-to-know-list {
-  i.icon-info {
-    background-image: url("/assets/icon-info@2x.png");
-  }
-  margin-left: 2rem;
+fieldset.need-to-know {
+  padding-left: 0;
 
-  i {
-    margin-right: 12px;
+  i.icon-info {
+    width: 17px;
+    height: 22px;
+    margin-top: 4px;
+    background-image: url("/assets/icon-info@2x.png");
   }
 }
 
@@ -1115,42 +1115,30 @@ fieldset.patient-intake-questions {
   width: 100%;
   text-align: right;
 
-  ion-button {
-    border-radius: 4px;
-    background-color: transparent;
-    color: var(--ion-color-primary);
+  button {
+    float: right;
+    margin-left: 10px;
+    margin-top: 36px;
+    &.save {
+      width: 76px;
+      height: 30px;
+      background-repeat: no-repeat;
+      background-image: url("/assets/button-save@2x.png");
+      background-size: 100%;
 
-    &.cancel-button {
-      display: inline-block;
-      cursor: pointer;
-      --background: #d1d1d1;
-      --background-hover: #bebebe;
-      --background-activated: #bebebe;
-      --border-activated: 1px solid #a2a2a2;
-      color: white;
-      width: auto;
-      border-radius: 7px;
+      &:hover {
+      }
+
+      &:focus {
+      }
     }
 
-    &.save-button {
-      display: inline-block;
-      color: white;
-      --background-hover: #019ca2;
-      --background-activated: #019ca2;
-      --border-activated: 1px solid #009999;
+    &.cancel {
+      width: 71px;
+      height: 30px;
+      background-repeat: no-repeat;
+      background-image: url("/assets/button-cancel@2x.png");
+      background-size: 100%;
     }
-
-    width: auto;
-    height: 35px;
-    font-family: AvenirBold;
-    font-size: 15px;
-    font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 28px;
-    vertical-align: middle;
-    letter-spacing: 0.3px;
-    text-align: center;
-    text-transform: uppercase;
   }
 }

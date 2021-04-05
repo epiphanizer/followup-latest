@@ -24,12 +24,13 @@ export class CallQueuePatientListingComponent implements OnInit {
   todaysCallCount: number;
   @Input() operation: Operation;
   // we default to filtering by next call-date
-  filterBy: string = 'discharge-date';
+  colDefs: string[] = ['Call Date', 'Discharge Date'];
   public patients: Patient[];
   public patients$: Observable<Patient[]> | void = null;
   public patientCallStatuses: PatientCallStatus[];
   public todaysDate: Date;
   public selectedSortFlag: string = 'asc';
+  public selectedSortOption: string = this.colDefs[0];
 
   constructor(private patientService: PatientService, private patientCallStatusService: PatientCallStatusService) {}
   ngOnInit() {
@@ -43,7 +44,7 @@ export class CallQueuePatientListingComponent implements OnInit {
       map((patients: Patient[]) => {
         this.patients = patients;
         if (patients) {
-          this.sortPatientsByCallDate(this.selectedSortFlag);
+          this.runSortSwitch();
         }
         return patients;
       })
@@ -58,7 +59,7 @@ export class CallQueuePatientListingComponent implements OnInit {
           map((patients: Patient[]) => {
             this.patients = patients;
             if (patients) {
-              this.sortPatientsByCallDate(this.selectedSortFlag);
+              this.runSortSwitch();
             } else {
             }
             return patients;
@@ -76,10 +77,12 @@ export class CallQueuePatientListingComponent implements OnInit {
       return false;
     }
   }
-
-  public sortPatientsByDischargeDate = function(sortFlag: string) {
-    this.filterBy = 'discharge-date';
-    if (sortFlag == 'asc') {
+  sortOptionSelected($event: string) {
+    this.selectedSortOption = $event;
+    this.runSortSwitch();
+  }
+  public sortPatientsByDischargeDate = function() {
+    if (this.selectedSortFlag == 'asc') {
       this.patients = this.patients
         .sort((a: Patient, b: Patient) => {
           return <any>new Date(a.patientDischargeDate) - <any>new Date(b.patientDischargeDate);
@@ -93,9 +96,8 @@ export class CallQueuePatientListingComponent implements OnInit {
         .slice();
     }
   };
-  public sortPatientsByCallDate = function(sortFlag: string) {
-    this.filterBy = 'call-date';
-    if (sortFlag == 'asc') {
+  public sortPatientsByCallDate = function() {
+    if (this.selectedSortFlag == 'asc') {
       this.patients = this.patients
         .sort((a: Patient, b: Patient) => {
           return <any>new Date(a.patientNextCallScheduledTime) - <any>new Date(b.patientNextCallScheduledTime);
@@ -109,18 +111,20 @@ export class CallQueuePatientListingComponent implements OnInit {
         .slice();
     }
   };
-  public toggleAscDesc = function() {
-    if (this.selectedSortFlag != 'desc') {
-      this.selectedSortFlag = 'desc';
-    } else {
-      this.selectedSortFlag = 'asc';
-    }
-    if (this.filterBy == 'call-date') {
-      this.sortPatientsByCallDate(this.selectedSortFlag);
-    } else {
-      this.sortPatientsByDischargeDate(this.selectedSortFlag);
-    }
+  public toggleAscDesc = function($event: string) {
+    this.selectedSortFlag = $event;
+    this.runSortSwitch();
   };
+  runSortSwitch() {
+    switch (this.selectedSortOption) {
+      case 'Discharge Date':
+        this.sortPatientsByDischargeDate();
+        break;
+      case 'Call Date':
+        this.sortPatientsByCallDate();
+        break;
+    }
+  }
 
   onChangePage(pageOfItems: Array<any>) {
     // update current page of items

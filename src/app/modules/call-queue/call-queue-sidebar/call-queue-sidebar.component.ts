@@ -75,7 +75,7 @@ export class CallQueueSidebarComponent {
   operationGroups$: Observable<OperationGroup[]>;
   operations: Operation[];
   user: User;
-  todaysDateDay: number;
+  todaysDateDay: string;
   ngOnInit() {
     this.operationGroups$ = this.operationService.getOperationGroups();
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
@@ -113,7 +113,7 @@ export class CallQueueSidebarComponent {
       }
     });
 
-    this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
+    this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
   public getCurrentNewDischargeCount(patients: Patient[]) {
     let patientsWithNoCalls = [];
