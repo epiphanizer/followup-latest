@@ -109,33 +109,36 @@
     cursor: pointer;
     display: inline-block;
     &.filter-icon {
-      background: url("/assets/icon-filter@2x.png");
+      background-image: url("/assets/icon-filter@2x.png");
       background-size: cover;
+      background-repeat: no-repeat;
       width: 23px;
       height: 23px;
       display: inline-block;
     }
 
     &.desc-control {
-      background: url("/assets/icon-filter-descend@2x.png");
+      background-image: url("/assets/icon-filter-descend@2x.png");
+      background-repeat: no-repeat;
+      width: 20px;
+      height: 20px;
       &.selected {
-        background: url("/assets/icon-filter-descend-selected@2x.png");
+        background-image: url("/assets/icon-filter-descend-selected@2x.png");
       }
       background-size: 100%;
-      width: 13px;
-      height: 18px;
       display: inline-block;
-      margin-right: 6px;
+      margin-right: -4px;
     }
 
     &.asc-control {
-      background: url("/assets/icon-filter-ascend@2x.png");
+      background-image: url("/assets/icon-filter-ascend@2x.png");
+      background-repeat: no-repeat;
+      width: 20px;
+      height: 20px;
       &.selected {
-        background: url("/assets/icon-filter-ascend-selected@2x.png");
+        background-image: url("/assets/icon-filter-ascend-selected@2x.png");
       }
       background-size: 100%;
-      width: 13px;
-      height: 18px;
       display: inline-block;
     }
   }

@@ -10,8 +10,8 @@ export class ListingFilterComponent implements OnInit, OnChanges {
   @Output() sortOptionSelectedEventEmitter: EventEmitter<string> = new EventEmitter();
   @Output() sortDirectionSelectedEventEmitter: EventEmitter<string> = new EventEmitter();
   dropdownOpen: boolean = false;
-  // either 'asc' or 'desc'
-  sortDirection: string;
+  // either 'asc' or 'desc', default to 'desc'
+  sortDirection: string = 'desc';
 
   selectedOption: string;
 
