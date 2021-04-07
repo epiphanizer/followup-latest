@@ -118,6 +118,9 @@
 
     &.desc-control {
       background: url("/assets/icon-filter-descend@2x.png");
+      &.selected {
+        background: url("/assets/icon-filter-descend-selected@2x.png");
+      }
       background-size: 100%;
       width: 13px;
       height: 18px;
@@ -127,6 +130,9 @@
 
     &.asc-control {
       background: url("/assets/icon-filter-ascend@2x.png");
+      &.selected {
+        background: url("/assets/icon-filter-ascend-selected@2x.png");
+      }
       background-size: 100%;
       width: 13px;
       height: 18px;

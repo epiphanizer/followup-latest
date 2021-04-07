@@ -17,13 +17,10 @@
       color="transparent"
       *ngFor="let patient of pageOfItems"
       class="active patient-list-item"
+      [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"
+      [class.new-discharge]="patient.patientCallCount == 1"
       [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
     >
-      <div
-        class="patient-current-status"
-        [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"
-        [class.new-discharge]="patient.patientCallCount == 1"
-      ></div>
       <div class="call-queue-number">
         {{ patient.patientCallCount - 1 }}
       </div>
@@ -44,8 +41,9 @@
         </span>
         <span class="patient label-line"
           >Discharge: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}
-          &nbsp;Next Call:
-          {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }}
+          &nbsp; &nbsp;Next Call:
+          {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }} &nbsp; &nbsp;
+          {{ patient.patientGender }}
         </span>
       </div>
     </ion-item>

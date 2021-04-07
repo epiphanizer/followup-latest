@@ -127,25 +127,18 @@ h3 {
     &:active {
       background-color: #00b4b9;
     }
-    .patient-current-status {
-      opacity: 0.2;
-      display: inline-block;
-      width: 8px;
-      margin-right: 12px;
-      height: 100%;
-      &.todays-call {
-        background-color: #ffcc00;
+
+    &.todays-call {
+      background-color: #d2ecf9;
+      &:hover {
+        background-color: #c5ebfa;
       }
-      &.new-discharge {
-        background-color: #9acc38;
+    }
+    &.new-discharge {
+      background-color: #9acc38;
 
-        &:hover {
-          // background-color: #e8f4cf;
-        }
-
-        &:active {
-          // background-color: #d6eaaf;
-        }
+      &:hover {
+        background-color: #f4fde3;
       }
     }
     .call-queue-number {
@@ -163,14 +156,6 @@ h3 {
       letter-spacing: 0.96px;
       text-align: center;
       color: #222222;
-    }
-
-    &:nth-child(even) {
-      background-color: white;
-    }
-
-    &:nth-child(odd) {
-      // background-color: RGBA(200, 200, 200, 0.2);
     }
 
     &:hover {

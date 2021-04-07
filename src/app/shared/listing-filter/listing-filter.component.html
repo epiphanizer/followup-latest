@@ -16,7 +16,7 @@
     </div>
   </div>
   <div class="sort-controls">
-    <i class="desc-control" (click)="selectDescEvent()"></i>
-    <i class="asc-control" (click)="selectAscEvent()"></i>
+    <i class="desc-control" [class.selected]="sortDirection == 'desc'" (click)="selectDescEvent()"></i>
+    <i class="asc-control" [class.selected]="sortDirection == 'asc'" (click)="selectAscEvent()"></i>
   </div>
 </section>
