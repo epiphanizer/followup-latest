@@ -57,18 +57,29 @@
           <div class="patient-phone-container">
             <ion-item class="patient-country-code">
               <ion-label color="medium" position="stacked">+(1) <span style="color:red">*</span></ion-label>
-              <ion-input type="text" mask="99" formControlName="patientCountryCode" placeholder="1"></ion-input>
+              <ion-input
+                type="text"
+                mask="99"
+                maxLength="2"
+                formControlName="patientCountryCode"
+                placeholder="1"
+              ></ion-input>
             </ion-item>
             <ion-item class="patient-area-code">
               <ion-label color="medium" position="stacked">(***) <span style="color:red">*</span></ion-label>
-              <ion-input type="text" mask="000" formControlName="patientAreaCode" placeholder="000"></ion-input>
+              <ion-input
+                type="text"
+                mask="000"
+                maxLength="3"
+                formControlName="patientAreaCode"
+                placeholder="000"
+              ></ion-input>
             </ion-item>
             <ion-item class="patient-phone-number">
               <ion-label color="medium" position="stacked">Patient Phone # <span style="color:red">*</span> </ion-label>
               <ion-input
                 type="text"
                 mask="000-0000"
-                [showMaskTyped]="true"
                 formControlName="patientPhoneNumber"
                 placeholder="000-0000"
               ></ion-input>
@@ -145,11 +156,17 @@
                 <div class="phone-container">
                   <ion-item class="country-code">
                     <ion-label color="medium" position="stacked">+(1) <span style="color:red">*</span></ion-label>
-                    <ion-input type="text" formControlName="patientContactCountryCode"></ion-input>
+                    <ion-input type="text" maxLength="2" formControlName="patientContactCountryCode"></ion-input>
                   </ion-item>
                   <ion-item class="area-code">
                     <ion-label color="medium" position="stacked">(###) <span style="color:red">*</span></ion-label>
-                    <ion-input type="text" mask="000" formControlName="patientContactAreaCode" placeholder="000">
+                    <ion-input
+                      type="text"
+                      maxLength="3"
+                      mask="000"
+                      formControlName="patientContactAreaCode"
+                      placeholder="000"
+                    >
                     </ion-input>
                   </ion-item>
                   <ion-item class="phone-number">

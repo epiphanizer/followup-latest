@@ -128,7 +128,7 @@ ion-list {
   }
 
   .discharged-condition {
-    margin-top: 26px;
+    margin-top: 16px;
   }
   .discharged-condition,
   .need-to-know {
@@ -143,5 +143,9 @@ ion-list {
       text-align: left;
       color: #222222;
     }
+  }
+  .intake-questions {
+    padding-top: 0;
+    margin: 0 0 0.75rem 0;
   }
 }

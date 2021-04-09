@@ -22,11 +22,11 @@
           <ion-item class="user-phone-container">
             <ion-item class="user-phone-country-code" style="display: none;">
               <ion-label color="medium" position="stacked">+(1)</ion-label>
-              <ion-input type="text" formControlName="userPhoneCountryCode"></ion-input>
+              <ion-input type="text" maxLength="2" formControlName="userPhoneCountryCode"></ion-input>
             </ion-item>
             <ion-item class="user-phone-area-code" style="display: none;">
               <ion-label color="medium" position="stacked">(###)</ion-label>
-              <ion-input type="text" formControlName="userPhoneAreaCode"></ion-input>
+              <ion-input type="text" maxLength="3" formControlName="userPhoneAreaCode"></ion-input>
             </ion-item>
             <ion-item class="user-phone-number">
               <ion-label color="medium" position="stacked">Phone #</ion-label>

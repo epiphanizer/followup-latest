@@ -37,12 +37,26 @@
     </label>
   </ion-item>
   <ion-item> <span class="label">Primary Diagnosis: &nbsp; </span> {{ patient.patientPrimaryDiagnosis }} </ion-item>
-
-  <p></p>
   <div class="discharged-condition">
     <span class="discharge label">Discharged Condition: &nbsp; </span>
     <p>{{ patient.patientDischargedCondition }}</p>
   </div>
+  <ion-list class="intake-questions">
+    <ion-item *ngFor="let patientIntakeQuestion of patientIntakeQuestions">
+      <span class="label">{{ patientIntakeQuestion.patientIntakeQuestion }}: &nbsp;</span>
+      <ng-container *ngIf="patientIntakeQuestion.patientIntakeQuestionAnswer; else noAnswer">
+        <ng-container *ngIf="patientIntakeQuestion.patientQuestionTypeLabel == 'boolean'; else nonBoolean">
+          {{ patientIntakeQuestion.patientIntakeQuestionAnswer === '1' ? 'Yes' : 'No' }}
+        </ng-container>
+        <ng-template #nonBoolean>
+          {{ patientIntakeQuestion.patientIntakeQuestionAnswer }}
+        </ng-template>
+      </ng-container>
+      <ng-template #noAnswer>
+        N/A
+      </ng-template>
+    </ion-item>
+  </ion-list>
   <div class="need-to-know" *ngIf="patient.patientNeedToKnow">
     <span class="label"> Need To Know: &nbsp; </span>
     <p>

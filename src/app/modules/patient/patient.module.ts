@@ -17,10 +17,7 @@ import { FollowupCompleteModalComponent } from './patient-detail/followup-comple
 import { FollowupCompleteButtonComponent } from './patient-detail/followup-complete-button/followup-complete-button.component';
 import { PatientAvatarUploadComponent } from './patient-avatar-upload/patient-avatar-upload.component';
 import { SharedModule } from '@app/shared';
-import { NgxMaskIonicModule, IConfig } from 'ngx-mask-ionic';
 import { nl2brPipe } from '@app/shared/pipes/nl2br.pipe';
-
-export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   declarations: [
@@ -37,7 +34,6 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     IonicModule,
     RouterModule,
     FormsModule,
-    NgxMaskIonicModule.forRoot(),
     ReactiveFormsModule,
     PatientRoutingModule,
     PatientCallModule,
