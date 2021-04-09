@@ -27,6 +27,7 @@ export class CallQueueComponent implements OnInit {
     this.route.paramMap.subscribe((data: any) => {
       if (data.params.operationId) {
         this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
+          console.log(data[0]);
           this.selected.operation = data[0];
         });
       } else {

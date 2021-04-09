@@ -19,7 +19,7 @@ export class PatientListingComponent implements OnInit {
 
   @Input() operation: Operation;
   filterDate: Date;
-
+  mode: any = null;
   public patients: Patient[];
   public patients$: Observable<[Patient]> | void = null;
   public selected:
@@ -49,11 +49,17 @@ export class PatientListingComponent implements OnInit {
         this.selected.operation = data[0];
       });
     } else {
-      this.operationService
-        .getOperationByOperationId(parseInt(this.route.snapshot.paramMap.get('operationId')))
-        .subscribe((data: Operation) => {
-          this.selected.operation = data[0];
-        });
+      // Sort by language
+      if (this.route.snapshot.data.mode == 'spanish') {
+        this.mode.spanish = true;
+        // this.patientService.getSpanishPatients();
+      } else {
+        this.operationService
+          .getOperationByOperationId(parseInt(this.route.snapshot.paramMap.get('operationId')))
+          .subscribe((data: Operation) => {
+            this.selected.operation = data[0];
+          });
+      }
     }
   }
 

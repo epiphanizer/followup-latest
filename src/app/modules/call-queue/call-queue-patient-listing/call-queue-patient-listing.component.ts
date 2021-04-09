@@ -55,6 +55,7 @@ export class CallQueuePatientListingComponent implements OnInit {
     if (changes.operation) {
       if (!changes.operation.firstChange) {
         this.operation = changes.operation.currentValue;
+        console.log(this.operation);
         this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
           map((patients: Patient[]) => {
             this.patients = patients;

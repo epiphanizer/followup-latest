@@ -8,9 +8,7 @@
   position: absolute;
   top: 0;
   z-index: 2500;
-  #corkBoardUpload {
-    display: none;
-  }
+
   .icon {
     cursor: pointer;
     color: white;
@@ -39,6 +37,7 @@
   background-position: center center;
   background-size: 100%;
   &.open {
+    width: 260px;
     background-image: url("/assets/expanded-corkboard@2x.png");
     .corkboard-controls {
       margin-left: 190px;

@@ -7,7 +7,9 @@
     <ion-col class="patient-content-wrapper">
       <ion-grid>
         <ion-row>
-          <ion-title *ngIf="selected.operation"> Patients - {{ selected.operation.operationName }} </ion-title>
+          <ion-title *ngIf="selected.operation">
+            Patients - {{ mode.spanish ? 'Spanish' : selected.operation.operationName }}
+          </ion-title>
         </ion-row>
         <ion-row class="patient-listing-row">
           <ion-col class="patient-listing-wrapper">

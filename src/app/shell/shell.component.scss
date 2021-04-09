@@ -16,6 +16,26 @@ ion-toolbar {
   //   height: 250px;
   // }
 }
+app-user-cork-board {
+  position: relative;
+  float: left;
+  width: 28px;
+  height: 100vh;
+  background-image: url("/assets/corkboard-closed@2x.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
+  &.open {
+    width: 260px;
+    background-image: url("/assets/expanded-corkboard@2x.png");
+    .corkboard-controls {
+      margin-left: 190px;
+    }
+  }
+  &.deleting {
+    cursor: crosshair;
+  }
+}
 .content-wrapper {
   width: calc(100% - 28px);
   float: left;

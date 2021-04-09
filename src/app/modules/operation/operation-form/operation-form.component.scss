@@ -621,13 +621,14 @@ form {
     margin-left: 10px;
     margin-top: 36px;
     &.save {
-      width: 76px;
+      width: 71px;
       height: 30px;
       background-repeat: no-repeat;
       background-image: url("/assets/button-save@2x.png");
       background-size: 100%;
 
       &:hover {
+        background-image: url("/assets/button-save-hover@2x.png");
       }
 
       &:focus {
@@ -639,6 +640,9 @@ form {
       height: 30px;
       background-repeat: no-repeat;
       background-image: url("/assets/button-cancel@2x.png");
+      &:hover {
+        background-image: url("/assets/button-cancel-hover@2x.png");
+      }
       background-size: 100%;
     }
   }

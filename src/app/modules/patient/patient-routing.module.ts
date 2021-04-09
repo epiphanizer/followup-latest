@@ -26,6 +26,18 @@ const routes: Routes = [
       }
     },
     {
+      path: 'patients/spanish',
+      pathMatch: 'full',
+      component: PatientListingComponent,
+      resolve: {
+        user: UserResolver
+      },
+      data: {
+        mode: 'spanish',
+        title: extract('Patient Listing')
+      }
+    },
+    {
       path: 'call-queue/operations/:operationId/patient/:patientId',
       pathMatch: 'full',
       component: PatientDetailComponent,
