@@ -40,7 +40,7 @@
           </ion-list>
           <ion-item class="patient-dob">
             <ion-label color="medium" position="stacked">Birthday<span style="color:red">*</span></ion-label>
-            <ion-datetime type="date" [max]="2005" formControlName="patientDob" placeholder="Birthday"></ion-datetime>
+            <ion-input type="date" formControlName="patientDob" placeholder="Birthday"></ion-input>
           </ion-item>
           <ion-item class="patient-gender">
             <ion-radio-group class="patient-gender-radio" formControlName="patientGender">
@@ -57,7 +57,7 @@
           <div class="patient-phone-container">
             <ion-item class="patient-country-code">
               <ion-label color="medium" position="stacked">+(1) <span style="color:red">*</span></ion-label>
-              <ion-input type="text" formControlName="patientCountryCode" placeholder="1"></ion-input>
+              <ion-input type="text" mask="99" formControlName="patientCountryCode" placeholder="1"></ion-input>
             </ion-item>
             <ion-item class="patient-area-code">
               <ion-label color="medium" position="stacked">(***) <span style="color:red">*</span></ion-label>
@@ -65,7 +65,13 @@
             </ion-item>
             <ion-item class="patient-phone-number">
               <ion-label color="medium" position="stacked">Patient Phone # <span style="color:red">*</span> </ion-label>
-              <ion-input type="text" formControlName="patientPhoneNumber" placeholder="000-0000"></ion-input>
+              <ion-input
+                type="text"
+                mask="000-0000"
+                [showMaskTyped]="true"
+                formControlName="patientPhoneNumber"
+                placeholder="000-0000"
+              ></ion-input>
             </ion-item>
           </div>
           <ion-item class="inline-patient-responsibility-container">
@@ -148,7 +154,7 @@
                   </ion-item>
                   <ion-item class="phone-number">
                     <ion-label color="medium" position="stacked">Phone # <span style="color:red">*</span></ion-label>
-                    <ion-input type="text" formControlName="patientContactPhoneNumber"></ion-input>
+                    <ion-input type="text" mask="000-0000" formControlName="patientContactPhoneNumber"></ion-input>
                   </ion-item>
                   <ion-item class="patient-contact-order">
                     <ion-label color="medium" position="stacked">Order</ion-label>
@@ -220,19 +226,19 @@
               <div class="patient-discharge-dates-container">
                 <ion-item class="discharge-admit-date">
                   <ion-label color="medium" position="stacked">Admitted <span style="color:red">*</span></ion-label>
-                  <ion-datetime
+                  <ion-input
+                    type="date"
                     formControlName="patientAdmitDate"
-                    [max]="patientMaxAdmitDate"
                     (ionChange)="updateDischargeFields()"
-                  ></ion-datetime>
+                  ></ion-input>
                 </ion-item>
                 <ion-item class="discharge-discharge-date">
                   <ion-label color="medium" position="stacked">Discharged <span style="color:red">*</span></ion-label>
-                  <ion-datetime
+                  <ion-input
+                    type="date"
                     formControlName="patientDischargeDate"
-                    [min]="patientMinDischargeDate"
                     (ionChange)="updateDischargeFields()"
-                  ></ion-datetime>
+                  ></ion-input>
                 </ion-item>
                 <img class="equal-sign" src="/assets/icon-equal-sign@2x.png" />
                 <ion-item class="discharge-total-days">
