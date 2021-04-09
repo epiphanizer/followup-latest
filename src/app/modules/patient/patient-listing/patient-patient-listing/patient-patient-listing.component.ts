@@ -11,6 +11,7 @@ import { PatientService } from '@app/modules/patient/patient.service';
   styleUrls: ['./patient-patient-listing.component.scss']
 })
 export class PatientPatientListingComponent implements OnInit {
+  @Input() mode: any;
   @Input() operation: Operation;
   public pageOfItems: Patient[];
   public patients: Patient[];
@@ -21,19 +22,35 @@ export class PatientPatientListingComponent implements OnInit {
   public selectedSortOption: string = this.colDefs[0];
   constructor(private patientService: PatientService) {}
   ngOnInit() {
-    this.patients$ = this.patientService.getPatientsByOperationId(this.operation.operationId).pipe(
-      take(1),
-      map((patients: Patient[]) => {
-        if (patients) {
-          this.patients = patients;
-          this.patientsFiltered = patients;
-          this.sortPatientsByDischargeDate();
-        } else {
-          this.patientsFiltered = this.patients = [];
-        }
-        return patients;
-      })
-    );
+    if (this.mode.spanish) {
+      // this.patients$ = this.patientService.getSpanishPatients().pipe(
+      //   take(1),
+      //   map((patients: Patient[]) => {
+      //     if (patients) {
+      //       this.patients = patients;
+      //       this.patientsFiltered = patients;
+      //       this.runSortSwitch();
+      //     } else {
+      //       this.patientsFiltered = this.patients = [];
+      //     }
+      //     return patients;
+      //   })
+      // );
+    } else {
+      this.patients$ = this.patientService.getPatientsByOperationId(this.operation.operationId).pipe(
+        take(1),
+        map((patients: Patient[]) => {
+          if (patients) {
+            this.patients = patients;
+            this.patientsFiltered = patients;
+            this.runSortSwitch();
+          } else {
+            this.patientsFiltered = this.patients = [];
+          }
+          return patients;
+        })
+      );
+    }
   }
 
   ngOnChanges(changes: any) {
@@ -45,7 +62,7 @@ export class PatientPatientListingComponent implements OnInit {
           if (patients) {
             this.patients = patients;
             this.patientsFiltered = patients;
-            this.sortPatientsByDischargeDate();
+            this.runSortSwitch();
           } else {
             this.patientsFiltered = this.patients = [];
           }

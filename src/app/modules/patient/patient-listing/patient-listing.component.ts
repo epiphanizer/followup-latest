@@ -24,6 +24,8 @@ export class PatientListingComponent implements OnInit {
   };
   public patients: Patient[];
   public patients$: Observable<[Patient]> | void = null;
+  patientsLoaded: boolean = false;
+
   public selected:
     | {
         filterDate: string;
@@ -46,22 +48,21 @@ export class PatientListingComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     if (!this.route.snapshot.paramMap.get('operationId')) {
-      this.user.operations$.subscribe((data: Operation[]) => {
-        /** Init to the first assigned operation alphabetically */
-        this.selected.operation = data[0];
-      });
-    } else {
-      // Sort by language
       if (this.route.snapshot.data.mode == 'spanish') {
         this.mode.spanish = true;
-        // this.patientService.getSpanishPatients();
       } else {
-        this.operationService
-          .getOperationByOperationId(parseInt(this.route.snapshot.paramMap.get('operationId')))
-          .subscribe((data: Operation) => {
-            this.selected.operation = data[0];
-          });
+        this.user.operations$.subscribe((data: Operation[]) => {
+          /** Init to the first assigned operation alphabetically */
+          this.selected.operation = data[0];
+        });
       }
+    } else {
+      // Sort by language
+      this.operationService
+        .getOperationByOperationId(parseInt(this.route.snapshot.paramMap.get('operationId')))
+        .subscribe((data: Operation) => {
+          this.selected.operation = data[0];
+        });
     }
   }
 

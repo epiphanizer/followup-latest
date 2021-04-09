@@ -7,13 +7,17 @@
     <ion-col class="patient-content-wrapper">
       <ion-grid>
         <ion-row>
-          <ion-title *ngIf="selected.operation">
+          <ion-title *ngIf="selected.operation || mode.spanish">
             Patients - {{ mode.spanish ? 'Spanish' : selected.operation.operationName }}
           </ion-title>
         </ion-row>
         <ion-row class="patient-listing-row">
           <ion-col class="patient-listing-wrapper">
-            <app-patient-patient-listing *ngIf="selected.operation" [operation]="selected.operation">
+            <app-patient-patient-listing
+              *ngIf="selected.operation || mode.spanish"
+              [operation]="selected.operation"
+              [mode]="mode"
+            >
             </app-patient-patient-listing>
           </ion-col>
         </ion-row>
