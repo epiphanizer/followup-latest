@@ -19,7 +19,9 @@ export class PatientListingComponent implements OnInit {
 
   @Input() operation: Operation;
   filterDate: Date;
-  mode: any = null;
+  mode: any = {
+    spanish: false
+  };
   public patients: Patient[];
   public patients$: Observable<[Patient]> | void = null;
   public selected:
