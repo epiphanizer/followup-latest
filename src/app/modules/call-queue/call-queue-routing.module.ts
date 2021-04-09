@@ -14,7 +14,7 @@ const routes: Routes = [
       component: CallQueueComponent,
       data: {
         title: extract('Call Queue'),
-        rolls: 'all'
+        roles: 'all'
       },
       pathMatch: 'full',
       resolve: {
@@ -26,7 +26,7 @@ const routes: Routes = [
       component: CallQueueComponent,
       data: {
         title: extract('Call Queue'),
-        rolls: 'all'
+        roles: 'all'
       },
       resolve: {
         user: UserResolver
@@ -37,7 +37,8 @@ const routes: Routes = [
       component: CallQueueComponent,
       data: {
         title: extract('Call Queue'),
-        rolls: 'all'
+        roles: 'all',
+        mode: 'spanish'
       },
       resolve: {
         user: UserResolver

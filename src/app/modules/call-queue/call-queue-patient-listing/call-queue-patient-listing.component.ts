@@ -17,6 +17,7 @@ import { PatientCallService } from '@app/modules/patient/patient-detail/patient-
   styleUrls: ['./call-queue-patient-listing.component.scss']
 })
 export class CallQueuePatientListingComponent implements OnInit {
+  @Input() mode: any;
   @Input() spanishListing: boolean;
   pageOfItems: Patient[];
   currentYear: number;
@@ -39,23 +40,38 @@ export class CallQueuePatientListingComponent implements OnInit {
     this.patientCallStatusService.getPatientCallStatuses().subscribe((patientCallStatuses: PatientCallStatus[]) => {
       this.patientCallStatuses = patientCallStatuses;
     });
-    this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
-      take(1),
-      map((patients: Patient[]) => {
-        this.patients = patients;
-        if (patients) {
-          this.runSortSwitch();
-        }
-        return patients;
-      })
-    );
+    if (this.mode.spanish) {
+      this.patients$ = this.patientService.getActiveSpanishPatients().pipe(
+        take(1),
+        map((patients: Patient[]) => {
+          if (patients) {
+            this.patients = patients;
+            this.spanishPatientsCount = this.patients.length;
+            this.runSortSwitch();
+          } else {
+            this.patients = [];
+          }
+          return patients;
+        })
+      );
+    } else {
+      this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
+        take(1),
+        map((patients: Patient[]) => {
+          this.patients = patients;
+          if (patients) {
+            this.runSortSwitch();
+          }
+          return patients;
+        })
+      );
+    }
   }
 
   ngOnChanges(changes: any) {
     if (changes.operation) {
       if (!changes.operation.firstChange) {
         this.operation = changes.operation.currentValue;
-        console.log(this.operation);
         this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
           map((patients: Patient[]) => {
             this.patients = patients;

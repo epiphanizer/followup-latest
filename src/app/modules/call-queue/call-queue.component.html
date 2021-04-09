@@ -6,25 +6,30 @@
     <ion-col class="call-queue-content">
       <ion-grid>
         <ion-row>
-          <ion-title>
+          <ion-title *ngIf="!mode.spanish">
             {{ selected.operation?.operationGroupShortName }} - {{ selected.operation?.operationName }}
           </ion-title>
+          <ion-title *ngIf="mode.spanish">Spanish Speaking</ion-title>
         </ion-row>
         <ion-row class="call-queue-row">
           <ion-col class="call-queue-feed-wrapper">
-            <app-call-queue-patient-listing *ngIf="selected.operation" [operation]="selected.operation">
+            <app-call-queue-patient-listing
+              *ngIf="selected.operation || mode.spanish"
+              [operation]="selected.operation"
+              [mode]="mode"
+            >
             </app-call-queue-patient-listing>
           </ion-col>
           <ion-col class="right-col-wrapper">
             <h3>History</h3>
             <app-calendar
-              *ngIf="selected.operation"
+              *ngIf="selected.operation || mode.spanish"
               [operation]="selected.operation"
               (dateFilterChangeEvent)="handleDateFilterChangeEvent($event)"
             >
             </app-calendar>
             <app-call-queue-patient-filter
-              *ngIf="selected.operation"
+              *ngIf="selected.operation || mode.spanish"
               [filterDate]="selected.filterDate"
               [operation]="selected.operation"
             >

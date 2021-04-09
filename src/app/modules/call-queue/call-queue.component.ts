@@ -12,6 +12,9 @@ import { OperationService } from '../operation/operation.service';
 })
 export class CallQueueComponent implements OnInit {
   activeOperationId: number;
+  mode: any = {
+    spanish: false
+  };
   public selected:
     | {
         filterDate: string;
@@ -19,23 +22,25 @@ export class CallQueueComponent implements OnInit {
         operation$: Observable<Operation>;
       }
     | any = {};
-  spanishListing: Boolean;
   user: User;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   ngOnInit() {
     // we only want to default if the operation id is not passed
     this.route.paramMap.subscribe((data: any) => {
-      if (data.params.operationId) {
-        this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
-          console.log(data[0]);
-          this.selected.operation = data[0];
-        });
+      if (this.route.snapshot.data.mode == 'spanish') {
+        this.mode.spanish = true;
       } else {
-        this.user = this.route.snapshot.data.user;
-        this.user.operations$.subscribe((data: Operation[]) => {
-          /** Init to the first assigned operation alphabetically */
-          this.selected.operation = data[0];
-        });
+        if (data.params.operationId) {
+          this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
+            this.selected.operation = data[0];
+          });
+        } else {
+          this.user = this.route.snapshot.data.user;
+          this.user.operations$.subscribe((data: Operation[]) => {
+            /** Init to the first assigned operation alphabetically */
+            this.selected.operation = data[0];
+          });
+        }
       }
     });
   }

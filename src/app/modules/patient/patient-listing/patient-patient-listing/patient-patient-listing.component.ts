@@ -26,6 +26,7 @@ export class PatientPatientListingComponent implements OnInit {
       this.patients$ = this.patientService.getActiveSpanishPatients().pipe(
         take(1),
         map((patients: Patient[]) => {
+          console.log(patients);
           if (patients) {
             this.patients = patients;
             this.patientsFiltered = patients;
@@ -54,7 +55,7 @@ export class PatientPatientListingComponent implements OnInit {
   }
 
   ngOnChanges(changes: any) {
-    if (changes.operation) {
+    if (changes.operation && !this.mode.spanish) {
       this.patients = [];
       this.operation = changes.operation.currentValue;
       this.patients$ = this.patientService.getPatientsByOperationId(this.operation.operationId).pipe(

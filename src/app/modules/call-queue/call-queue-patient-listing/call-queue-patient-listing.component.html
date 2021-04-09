@@ -1,6 +1,6 @@
 <div class="queue-controls">
   <h1 class="call-queue-headline">
-    QUEUE [{{ spanishListing ? spanishPatientsCount : operation.currentAssignedPatientCount }}]
+    QUEUE [{{ mode.spanish ? spanishPatientsCount : operation.currentAssignedPatientCount }}]
   </h1>
   <!-- Filter UI -->
   <section class="call-queue table-filter">
@@ -19,7 +19,7 @@
       class="active patient-list-item"
       [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"
       [class.new-discharge]="patient.patientCallCount == 1"
-      [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patient.patientId"
+      [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
     >
       <div class="call-queue-number">
         {{ patient.patientCallCount - 1 }}
@@ -34,7 +34,7 @@
       </div>
       <div class="call-queue-patient-information">
         <span class="call-queue-patient-name">
-          <a href="'/operations/' + {{ operation.operationId }} + '/patient/' + {{ patient.patientId }}">
+          <a href="'/operations/' + {{ patient.patientOperationId }} + '/patient/' + {{ patient.patientId }}">
             {{ patient.patientFirstName }}
             {{ patient.patientLastName }}
           </a>
