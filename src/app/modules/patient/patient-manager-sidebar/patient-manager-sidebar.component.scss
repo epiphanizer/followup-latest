@@ -50,6 +50,7 @@
         background-repeat: no-repeat;
         background-size: 100%;
         background-image: url("/assets/icon-patient@2x.png");
+        vertical-align: bottom;
       }
 
       &.indicator {
@@ -63,6 +64,7 @@
   }
   .spanish-indicator {
     margin-top: 22px;
+    height: 19px;
   }
 
   .facility-dropdown-target {

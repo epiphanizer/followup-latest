@@ -88,7 +88,7 @@ ion-list {
   &.inline-discharge-section {
     margin-top: 0;
     margin-left: 10px;
-
+    margin-bottom: 0;
     ion-item:not(.discharged-date-item) {
       line-height: 18px;
       height: 32px;
@@ -146,6 +146,6 @@ ion-list {
   }
   .intake-questions {
     padding-top: 0;
-    margin: 0 0 0.75rem 0;
+    margin: 0 0 1rem 0;
   }
 }
