@@ -254,9 +254,7 @@ export class PatientFormComponent implements OnInit {
         patientPhoneNumber: this.fb.control(this.patient.patientPhoneNumber),
         patientHIPAA: this.fb.control(this.patient.patientHIPAA),
         patientIsResponsibleParty: this.fb.control(this.patient.patientIsResponsibleParty),
-        patientSpeaksEnglish: this.fb.control(
-          this.patient.patientSpeaksEnglish ? this.patient.patientSpeaksEnglish : 0
-        ),
+        patientSpeaksNoEnglish: this.fb.control(this.patient.patientSpeaksEnglish ? false : true),
         patientFluentLanguage: this.fb.control(
           this.patient.patientFluentLanguage ? this.patient.patientFluentLanguage : 'English'
         ),

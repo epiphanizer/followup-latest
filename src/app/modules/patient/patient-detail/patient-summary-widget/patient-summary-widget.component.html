@@ -2,7 +2,7 @@
   <ion-row class="patient-summary">
     <ion-col>
       <div class="avatar-container">
-        <div class="spanish-flag" *ngIf="patient.patientSpeaksSpanish">
+        <div class="spanish-flag" *ngIf="patient.patientFluentLanguage == 'Spanish'">
           <div class="hola-bg"></div>
         </div>
         <app-patient-avatar [patient]="patient" [routerLink]="'/patient/edit/' + patient.patientId">

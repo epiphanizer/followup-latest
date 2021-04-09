@@ -41,7 +41,7 @@
     border-bottom: 1px #c8c7cc solid;
     cursor: pointer;
     &:hover {
-      background-color: #c8c7cc;
+      --background: #c5ebfa;
     }
     &:active {
       background-color: --azure;

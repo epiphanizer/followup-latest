@@ -359,8 +359,7 @@ form {
     }
 
     ion-item.fluent-language {
-      display: none;
-
+      visibility: hidden;
       &.show {
         display: inline-block;
         width: 100%;
@@ -1120,13 +1119,14 @@ fieldset.need-to-know {
     margin-left: 10px;
     margin-top: 36px;
     &.save {
-      width: 76px;
+      width: 73px;
       height: 30px;
       background-repeat: no-repeat;
       background-image: url("/assets/button-save@2x.png");
       background-size: 100%;
 
       &:hover {
+        background-image: url("/assets/button-save-hover@2x.png");
       }
 
       &:focus {
@@ -1134,11 +1134,14 @@ fieldset.need-to-know {
     }
 
     &.cancel {
-      width: 71px;
+      width: 73px;
       height: 30px;
       background-repeat: no-repeat;
       background-image: url("/assets/button-cancel@2x.png");
       background-size: 100%;
+      &:hover {
+        background-image: url("/assets/button-cancel-hover@2x.png");
+      }
     }
   }
 }

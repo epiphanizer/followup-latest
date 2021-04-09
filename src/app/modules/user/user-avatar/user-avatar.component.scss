@@ -50,4 +50,7 @@ button {
   background-image: url("/assets/button-add-photo@2x.png");
   background-size: 100%;
   background-repeat: no-repeat;
+  &:hover {
+    background-image: url("/assets/button-add-photo-hover@2x.png");
+  }
 }

@@ -83,11 +83,12 @@
               <ion-checkbox formControlName="patientSpeaksNoEnglish"></ion-checkbox>
               <ion-label>Doesn't Speaks English</ion-label>
             </ion-item>
-            <ion-item class="fluent-language" [class.show]="patient.patientSpeaksEnglish == 0">
+            <ion-item class="fluent-language">
               <ion-label position="stacked">Fluent Language <span style="color:red">*</span></ion-label>
               <ion-select formControlName="patientFluentLanguage" placeholder="Fluent Language">
                 <ion-select-option selected value="English">English</ion-select-option>
                 <ion-select-option value="Spanish">Spanish</ion-select-option>
+                <ion-select-option value="Navajo">Navajo</ion-select-option>
               </ion-select>
             </ion-item>
           </div>

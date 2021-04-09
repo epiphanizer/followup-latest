@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { ToolbarLogoModule } from '@app/shell/toolbar-logo/toolbar-logo.module';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
-import { LoginForgotComponent } from './login-forgot/login-forgot.component';
 
 @NgModule({
   imports: [
@@ -19,7 +18,7 @@ import { LoginForgotComponent } from './login-forgot/login-forgot.component';
     LoginRoutingModule,
     ToolbarLogoModule
   ],
-  entryComponents: [LoginComponent, LoginForgotComponent],
-  declarations: [LoginComponent, LoginForgotComponent]
+  entryComponents: [LoginComponent],
+  declarations: [LoginComponent]
 })
 export class LoginModule {}

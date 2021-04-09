@@ -135,16 +135,17 @@ h3 {
       }
     }
     &.new-discharge {
-      background-color: #9acc38;
+      background-color: #f4fde3;
 
       &:hover {
-        background-color: #f4fde3;
+        background-color: #e9f8cc;
       }
     }
     .call-queue-number {
       display: table-cell;
       vertical-align: middle;
       width: auto;
+      margin-left: 18px;
       margin-right: 16px;
       padding-top: 5.5px;
       font-family: Avenir;
@@ -208,11 +209,10 @@ h3 {
       height: auto;
       text-transform: capitalize;
       font-family: Avenir;
-      font-size: 17px;
+      font-size: 19px;
       font-weight: bold;
       font-stretch: normal;
       font-style: normal;
-      /* line-height: 1.27; */
       letter-spacing: normal;
       text-align: left;
       color: #222222;
@@ -251,6 +251,7 @@ h3 {
       font-stretch: normal;
       font-style: normal;
       line-height: 1.46;
+      margin-top: 0.25rem;
       letter-spacing: normal;
       text-align: left;
       color: #333333;

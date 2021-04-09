@@ -11,8 +11,6 @@
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center center;
-  min-width: 75px;
-  min-height: 75px;
   height: 100%;
   width: 100%;
 }
@@ -45,12 +43,14 @@
   &.default {
     width: auto;
     margin: 0 auto;
-    &.is-circle {
-      height: 65px;
-      width: 65px;
-    }
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100%;
+    &.is-circle {
+      height: 65px;
+      width: 65px;
+      background-size: 50%;
+      background-position: 16px 9px;
+    }
   }
 }

@@ -113,9 +113,10 @@ button {
 
   width: 100px;
   height: 34px;
+  object-fit: contain;
   background-repeat: no-repeat;
   background-image: url("/assets/button-login@2x.png");
-  background-size: cover;
+  background-size: auto;
   outline: none;
   &:hover {
     background-image: url("/assets/button-login-hover@2x.png");

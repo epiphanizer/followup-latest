@@ -30,7 +30,7 @@
             <span class="notification-badge"> </span>
           </ng-container>
         </div>
-        <app-patient-avatar [patient]="patient"></app-patient-avatar>
+        <app-patient-avatar [patient]="patient" [type]="'circle'"></app-patient-avatar>
       </div>
       <div class="call-queue-patient-information">
         <span class="call-queue-patient-name">
@@ -42,8 +42,9 @@
         <span class="patient label-line"
           >Discharge: {{ patient.patientDischargeDate | date: 'MM/dd/yyyy':'UTC' }}
           &nbsp; &nbsp;Next Call:
-          {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }} &nbsp; &nbsp;
-          {{ patient.patientGender }}
+          {{ patient.patientNextCallScheduledTime | date: 'MM/dd/yyyy':'UTC' }}
+          &nbsp; &nbsp;
+          {{ patient.patientGender == 'male' ? 'Male' : 'Female' }}
         </span>
       </div>
     </ion-item>

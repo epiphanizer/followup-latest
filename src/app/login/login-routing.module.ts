@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { extract } from '@app/core';
 import { LoginComponent } from './login.component';
-import { LoginForgotComponent } from './login-forgot/login-forgot.component';
 
 const routes: Routes = [
   {
@@ -12,14 +11,6 @@ const routes: Routes = [
       title: extract('Login')
     },
     canActivate: []
-  },
-  {
-    path: 'login/forgot',
-    component: LoginForgotComponent,
-    data: {
-      title: extract('Forgot Password'),
-      canActivate: []
-    }
   }
 ];
 
