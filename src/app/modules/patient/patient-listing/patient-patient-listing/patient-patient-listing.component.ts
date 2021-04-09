@@ -23,19 +23,19 @@ export class PatientPatientListingComponent implements OnInit {
   constructor(private patientService: PatientService) {}
   ngOnInit() {
     if (this.mode.spanish) {
-      // this.patients$ = this.patientService.getSpanishPatients().pipe(
-      //   take(1),
-      //   map((patients: Patient[]) => {
-      //     if (patients) {
-      //       this.patients = patients;
-      //       this.patientsFiltered = patients;
-      //       this.runSortSwitch();
-      //     } else {
-      //       this.patientsFiltered = this.patients = [];
-      //     }
-      //     return patients;
-      //   })
-      // );
+      this.patients$ = this.patientService.getActiveSpanishPatients().pipe(
+        take(1),
+        map((patients: Patient[]) => {
+          if (patients) {
+            this.patients = patients;
+            this.patientsFiltered = patients;
+            this.runSortSwitch();
+          } else {
+            this.patientsFiltered = this.patients = [];
+          }
+          return patients;
+        })
+      );
     } else {
       this.patients$ = this.patientService.getPatientsByOperationId(this.operation.operationId).pipe(
         take(1),

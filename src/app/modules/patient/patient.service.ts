@@ -30,6 +30,12 @@ export class PatientService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
+  getActiveSpanishPatients(): Observable<[Patient]> {
+    return this.http.get<[Patient]>('patients/spanish').pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   getActivePatientListByOperationId(operationId: number): Observable<[Patient]> {
     return this.http.get<[Patient]>('operations/' + operationId + '/patients').pipe(
       retry(3), // retry a failed request up to 3 times
