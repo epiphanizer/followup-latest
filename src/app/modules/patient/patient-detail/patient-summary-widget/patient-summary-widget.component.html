@@ -27,15 +27,18 @@
             {{ patient.patientLastName }}
           </h2>
         </div>
-        <span class="patient-age">Age: {{ patient.patientAge }}&nbsp;&nbsp;&nbsp;</span>
+        <span class="patient-age"
+          >Age: {{ patient.patientAge }}&nbsp;&nbsp;&nbsp;
+          {{ patient.patientGender == 'male' ? 'Male' : 'Female' }}&nbsp;&nbsp;&nbsp;
+        </span>
         <span class="patient-contact-number">
-          {{ patient.primaryContactPhoneNumber }}
+          {{ patient.patientCountryCode }}-{{ patient.patientAreaCode }}-{{ patient.patientPhoneNumber }}
         </span>
         <div class="patient-contact-container">
           <ion-list lines="none" inset class="alternate-numbers-list">
             <div *ngFor="let patientContact of patientContacts; let idx = index">
               <!-- Skip the first contact number, which is already listed above ^ -->
-              <ion-item class="alternate-number" *ngIf="idx != 0">
+              <ion-item class="alternate-number">
                 <ng-container *ngIf="patientContact.patientContactResponsiblePartyBoolean">
                   <i class="icon-hipaa" *ngIf="patientContact.patientContactResponsiblePartyBoolean"></i>
                 </ng-container>
