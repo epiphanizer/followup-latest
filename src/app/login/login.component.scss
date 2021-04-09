@@ -108,16 +108,16 @@ ion-item {
 }
 
 button {
-  text-align: center;
+  text-align: right;
   float: right;
-
-  width: 100px;
-  height: 34px;
+  width: 80px;
+  height: 44px;
   object-fit: contain;
   background-repeat: no-repeat;
   background-image: url("/assets/button-login@2x.png");
-  background-size: auto;
+  background-size: 100%;
   outline: none;
+  margin-top: 7px;
   &:hover {
     background-image: url("/assets/button-login-hover@2x.png");
   }
