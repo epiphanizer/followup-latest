@@ -6,12 +6,12 @@
 }
 
 button {
-  width: 190px;
   background-repeat: no-repeat;
-  background-image: url("/assets/button-review-call@2x.png");
+  background-image: url("/assets/button-save@2x.png");
   background-size: 100%;
 
   &:hover {
+    background-image: url("/assets/button-save-hover@2x.png");
   }
 
   &:focus {

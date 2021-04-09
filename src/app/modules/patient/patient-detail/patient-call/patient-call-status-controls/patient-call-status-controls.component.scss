@@ -89,6 +89,8 @@ ion-list {
       letter-spacing: normal;
       text-align: left;
       color: var(--charcoal-grey);
+
+      &:hover,
       &.active {
         font-weight: bold;
       }
