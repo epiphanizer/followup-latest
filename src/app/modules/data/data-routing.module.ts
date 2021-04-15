@@ -11,8 +11,7 @@ const routes: Routes = [
       path: 'data',
       resolve: {
         data: DataResolver
-      },
-      redirectTo: '/'
+      }
     }
   ])
 ];
