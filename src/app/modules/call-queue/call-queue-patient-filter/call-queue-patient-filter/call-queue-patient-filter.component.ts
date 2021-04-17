@@ -38,8 +38,14 @@ export class CallQueuePatientFilterComponent implements OnInit {
           this.searchPatientCallHistoryBySelectedDate(this.filterDate);
         });
     } else {
-      // spanish speaking
-      this.patientCallService.getSpanishSpeakingPatientCalls().subscribe(() => {});
+      // spanish speaking won't have a specific operation tied to it
+      this.patientCallService.getSpanishSpeakingPatientCalls().subscribe((patientCalls: PatientCall[]) => {
+        if (!patientCalls) {
+          this.patientCalls = [];
+        }
+        this.patientCalls = patientCalls;
+        this.searchPatientCallHistoryBySelectedDate(this.filterDate);
+      });
     }
   }
   ngOnChanges(changes: SimpleChanges) {

@@ -206,13 +206,23 @@
                       <ion-label position="stacked" color="medium">
                         +1
                       </ion-label>
-                      <ion-input type="text" formControlName="operationContactCountryCode" placeholder="1"></ion-input>
+                      <ion-input
+                        type="text"
+                        maxlength="1"
+                        formControlName="operationContactCountryCode"
+                        placeholder="1"
+                      ></ion-input>
                     </ion-item>
                     <ion-item class="area-code">
                       <ion-label position="stacked" color="medium">
                         (###)
                       </ion-label>
-                      <ion-input type="text" formControlName="operationContactAreaCode" placeholder="(###)"></ion-input>
+                      <ion-input
+                        type="text"
+                        maxlength="3"
+                        formControlName="operationContactAreaCode"
+                        placeholder="(###)"
+                      ></ion-input>
                     </ion-item>
                     <ion-item class="phone-number">
                       <ion-label position="stacked" color="medium">
