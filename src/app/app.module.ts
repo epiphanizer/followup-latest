@@ -29,7 +29,6 @@ import { AuthGuardService } from './core/authentication/auth-guard.service';
 import { LoaderService } from './shared/loader/loader.service';
 import { LoaderInterceptor } from './shared/interceptors/loader-interceptor';
 import { ApiKeyInterceptor } from './shared/interceptors/api-key.interceptor';
-import { DataModule } from './modules/data/data.module';
 import { TeamModule } from './modules/team/team.module';
 import { nl2brPipe } from './shared/pipes/nl2br.pipe';
 
@@ -71,7 +70,6 @@ export function tokenGetter() {
     OperationModule,
     NotificationModule,
     TeamModule,
-    DataModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
