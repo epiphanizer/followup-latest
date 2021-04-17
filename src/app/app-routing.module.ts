@@ -3,7 +3,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { UserResolver } from './modules/user/user-resolver.service';
 
 const routes: Routes = [
-  { path: 'logout', redirectTo: '/login', canActivate: [] },
+  { path: 'logout', redirectTo: '/login' },
   {
     path: '',
     redirectTo: '/home',
