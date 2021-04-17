@@ -9,7 +9,7 @@
     <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
     <ng-container *ngIf="operationGroups">
       <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
-        <span class="operation-group"
+        <span class="operation-group" (click)="toggleOperationSidebarMenu(operationGroup)"
           >{{
             operationGroup.operationGroupShortName?.length
               ? operationGroup.operationGroupShortName

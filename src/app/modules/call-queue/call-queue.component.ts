@@ -49,6 +49,7 @@ export class CallQueueComponent implements OnInit {
     this.selected.filterDate = $event;
   }
   operationChangeEventHandler($event: Operation) {
+    this.mode.spanish = false;
     this.selected.operation = $event;
   }
 }

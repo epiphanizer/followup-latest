@@ -27,15 +27,20 @@ export class CallQueuePatientFilterComponent implements OnInit {
 
   constructor(private patientCallService: PatientCallService, private datePipe: DatePipe) {}
   ngOnInit() {
-    this.patientCallService
-      .getPatientCallsByOperationId(this.operation.operationId)
-      .subscribe((patientCalls: PatientCall[]) => {
-        if (!patientCalls) {
-          this.patientCalls = [];
-        }
-        this.patientCalls = patientCalls;
-        this.searchPatientCallHistoryBySelectedDate(this.filterDate);
-      });
+    if (this.operation) {
+      this.patientCallService
+        .getPatientCallsByOperationId(this.operation.operationId)
+        .subscribe((patientCalls: PatientCall[]) => {
+          if (!patientCalls) {
+            this.patientCalls = [];
+          }
+          this.patientCalls = patientCalls;
+          this.searchPatientCallHistoryBySelectedDate(this.filterDate);
+        });
+    } else {
+      // spanish speaking
+      this.patientCallService.getSpanishSpeakingPatientCalls().subscribe(() => {});
+    }
   }
   ngOnChanges(changes: SimpleChanges) {
     if (this.patientCalls) {

@@ -82,6 +82,11 @@ export class PatientCallService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
+  getSpanishSpeakingPatientCalls = function() {
+    return this.http.get('/spanish/calls').pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  };
 
   // Updates the status to 'ended'
   public endPatientCall(patientCallId: number) {
