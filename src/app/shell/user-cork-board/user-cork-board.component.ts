@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 @Component({
   providers: [NgxImageCompressService, ToastrService],
   selector: 'app-user-cork-board',
@@ -33,13 +34,13 @@ import { ToastrService } from 'ngx-toastr';
   ]
 })
 export class UserCorkBoardComponent implements OnInit {
-  @Output() corkBoardExpandedEmitter = new EventEmitter<boolean>();
   isOpen = false;
   deleteMode = false;
   user: User;
   userCorkBoardObjects: UserCorkBoardObject[];
   imgResultBeforeCompress: string;
   imgResultAfterCompress: string;
+  corkBoardSubscription: Subscription;
 
   constructor(
     private imageCompress: NgxImageCompressService,
@@ -57,21 +58,10 @@ export class UserCorkBoardComponent implements OnInit {
           this.userCorkBoardObjects = data;
         }
       });
+    this.corkBoardSubscription = this.userCorkBoardService.menuStateBSubject.subscribe(() => {
+      this.isOpen = this.userCorkBoardService.isOpen;
+    });
   }
-
-  // dataURItoBlob(dataURI: string) {
-  //   // convert base64 to raw binary data held in a string
-  //   const byteString = window.atob(dataURI);
-  //   const arrayBuffer = new ArrayBuffer(byteString.length);
-  //   const int8Array = new Uint8Array(arrayBuffer);
-  //   for (let i = 0; i < byteString.length; i++) {
-  //     int8Array[i] = byteString.charCodeAt(i);
-  //   }
-  //   const blob = new Blob([int8Array], {
-  //     type: 'image/jpeg'
-  //   });
-  //   return blob;
-  // }
 
   toggleCorkBoardDeleteFunction = function() {
     if (!this.isOpen) {
@@ -81,6 +71,9 @@ export class UserCorkBoardComponent implements OnInit {
   };
 
   public toggleCorkboardState = function() {
-    this.corkBoardExpandedEmitter.emit(this.isOpen);
+    this.userCorkBoardService.toggleCorkboardState();
   };
+  ngOnDestroy() {
+    this.corkBoardSubscription.unsubscribe();
+  }
 }

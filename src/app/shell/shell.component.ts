@@ -9,6 +9,7 @@ import { User } from '@app/modules/user/user';
 import { of, Subscription } from 'rxjs';
 import { environment } from '@env/environment';
 import { ToastrService } from 'ngx-toastr';
+import { UserCorkBoardService } from './user-cork-board/user-cork-board.service';
 
 @Component({
   selector: 'app-shell',
@@ -17,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ShellComponent {
   corkboardExpanded: boolean = false;
+  corkBoardSubscription: Subscription;
   user: User;
   patient: Patient;
   navLinks?: {
@@ -26,6 +28,7 @@ export class ShellComponent {
   routeSubscription: Subscription;
   timeSinceLastAction: number;
   userActionSinceLastUpdate: boolean = false;
+  userCorkBoardExpanded: boolean = false;
   version: string = environment.version;
 
   constructor(
@@ -34,7 +37,8 @@ export class ShellComponent {
     private platform: Platform,
     private authenticationService: AuthenticationService,
     public modalController: ModalController,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private userCorkBoardService: UserCorkBoardService
   ) {}
   ngOnInit() {
     this.user = this.authenticationService.currentUserSubject.getValue();
@@ -51,6 +55,10 @@ export class ShellComponent {
       }
     });
     this.setIdleLogoutTimer();
+    this.corkBoardSubscription = this.userCorkBoardService.menuStateBSubject.subscribe(() => {
+      console.log('cork board sub fired');
+      this.userCorkBoardExpanded = this.userCorkBoardService.isOpen;
+    });
   }
 
   @HostListener('document:mousemove', ['$event'])
@@ -105,5 +113,6 @@ export class ShellComponent {
   }
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
+    this.corkBoardSubscription.unsubscribe();
   }
 }

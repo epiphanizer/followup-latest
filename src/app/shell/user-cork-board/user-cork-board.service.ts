@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
 import { catchError, retry, delay } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { throwError, Observable, BehaviorSubject } from 'rxjs';
+import { throwError, Observable, BehaviorSubject, Subject } from 'rxjs';
 
 export interface UserCorkBoardObject {
   userCorkBoardObjectId?: number;
@@ -18,7 +18,8 @@ export interface UserCorkBoardObject {
  */
 export class UserCorkBoardService {
   public isOpen: boolean;
-  public menuStateBSubject: BehaviorSubject<boolean>;
+  public menuStateBSubject = new BehaviorSubject<boolean>(false);
+  public status$: Observable<boolean> = new Observable<boolean>();
 
   constructor(private http: HttpService) {}
 
@@ -29,6 +30,21 @@ export class UserCorkBoardService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
+
+  dataURItoBlob(dataURI: string) {
+    // convert base64 to raw binary data held in a string
+    const byteString = window.atob(dataURI);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], {
+      type: 'image/jpeg'
+    });
+    return blob;
+  }
+
   deleteUserCorkBoardObjectByUserCorkBoardObjectId(userCorkBoardObjectId: number) {
     return this.http.delete('users/corkBoardObjects/' + userCorkBoardObjectId).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
@@ -48,8 +64,9 @@ export class UserCorkBoardService {
   }
 
   public toggleCorkboardState = function() {
+    console.log('toggling corkboard state');
     this.isOpen = !this.isOpen;
-    this.menuStateBSubject.next();
+    this.menuStateBSubject.next(this.isOpen);
   };
 
   private handleAsyncError(error: HttpErrorResponse) {

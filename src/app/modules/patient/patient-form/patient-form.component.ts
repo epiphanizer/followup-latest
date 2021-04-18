@@ -229,7 +229,6 @@ export class PatientFormComponent implements OnInit {
   }
 
   private createForm() {
-    console.log(this.patient);
     this.patientForm = this.fb.group({
       patient: this.fb.group({
         operation: this.fb.control(this.patient.patientOperationId, [Validators.required]),
@@ -297,7 +296,6 @@ export class PatientFormComponent implements OnInit {
         patientActive: this.fb.control(this.patient.patientActive)
       })
     });
-    console.log(this.patientForm);
   }
 
   addAdditionalPatientContact() {
@@ -340,7 +338,9 @@ export class PatientFormComponent implements OnInit {
       this.patientContacts[idx].patientContactOrder = (idx + 1).toString();
     });
   }
-
+  selectPatientContactRelationship(relationship: string, patientContact: PatientContact) {
+    patientContact.patientContactRelationship = relationship;
+  }
   updateDischargeFields() {
     let startDate = this.patientForm.get('patient.dischargeInfo.patientAdmitDate').value;
     let endDate = this.patientForm.get('patient.dischargeInfo.patientDischargeDate').value;

@@ -177,13 +177,6 @@
       margin-left: -14px;
 
       span {
-        // this belongs on the HIPAA icon actually
-        // &:not(.first) {
-        //   margin-left: 22px;
-        // }
-      }
-
-      span {
         font-family: AvenirDemi;
         line-height: 100%;
         vertical-align: middle;
@@ -197,7 +190,7 @@
   i.icon-hipaa {
     display: inline-block;
     margin-right: 5px;
-    margin-top: -12px;
+    margin-top: -15px;
     vertical-align: middle;
     width: 16px;
     height: 16px;

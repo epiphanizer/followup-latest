@@ -92,33 +92,35 @@ export class PatientManagerSidebarComponent implements OnInit {
         this.operationGroups = operationGroups;
       }
     });
-
-    this.user.operations$.subscribe((data: Operation[]) => {
-      /** Init to the first assigned operation alphabetically */
-      this.operations = data;
-      this.route.paramMap.subscribe((data: any) => {
-        if (data.params.operationId) {
-          this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
-            this.selected.operation = data[0];
-            this.patientService
-              .getActivePatientListByOperationId(this.selected.operation.operationId)
-              .subscribe((patients: Patient[]) => {
-                if (patients !== null) {
-                  this.getCurrentNewDischargeCount(patients);
-                }
-              });
-          });
-        } else {
-          /** Init to the first user operation (alphabetically,) */
-          this.selected.operation = this.operations[0];
-        }
+    if (this.user.operations$) {
+      this.user.operations$.subscribe((data: Operation[]) => {
+        /** Init to the first assigned operation alphabetically */
+        this.operations = data;
+        this.route.paramMap.subscribe((data: any) => {
+          if (data.params.operationId) {
+            this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
+              this.selected.operation = data[0];
+              this.patientService
+                .getActivePatientListByOperationId(this.selected.operation.operationId)
+                .subscribe((patients: Patient[]) => {
+                  if (patients !== null) {
+                    this.getCurrentNewDischargeCount(patients);
+                  }
+                });
+            });
+          } else {
+            /** Init to the first user operation (alphabetically,) */
+            this.selected.operation = this.operations[0];
+          }
+        });
       });
+    } else {
       this.route.paramMap.subscribe(params => {
         if (params.get('operationId')) {
           this.activeOperationId = parseInt(params.get('operationId'));
         }
       });
-    });
+    }
   }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;

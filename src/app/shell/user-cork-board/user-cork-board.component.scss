@@ -32,15 +32,13 @@
   float: left;
   width: 40px;
   height: 100vh;
-  background-image: url("/assets/corkboard-closed@2x.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100%;
   &.open {
     width: 260px;
-    background-image: url("/assets/expanded-corkboard@2x.png");
     .corkboard-controls {
-      margin-left: 190px;
+      margin-left: 228px;
     }
   }
 

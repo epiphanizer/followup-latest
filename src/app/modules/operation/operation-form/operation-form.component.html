@@ -112,7 +112,12 @@
               </ion-item>
               <ion-item class="area-code">
                 <ion-label color="medium" position="stacked">(###)</ion-label>
-                <ion-input type="text" formControlName="operationAreaCode" placeholder="(###)"></ion-input>
+                <ion-input
+                  type="text"
+                  maxlength="3"
+                  formControlName="operationAreaCode"
+                  placeholder="(###)"
+                ></ion-input>
               </ion-item>
               <ion-item class="phone-number">
                 <ion-label color="medium" position="stacked">Phone #</ion-label>

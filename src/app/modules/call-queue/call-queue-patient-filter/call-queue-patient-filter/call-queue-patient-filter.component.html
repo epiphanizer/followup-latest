@@ -18,7 +18,9 @@
       <ion-item class="patient-call-filter-listing" *ngFor="let patientCall of patientCallsFiltered">
         <a
           class="patient-link"
-          [routerLink]="'/call-queue/operations/' + operation.operationId + '/patient/' + patientCall.patientId"
+          [routerLink]="
+            '/call-queue/operations/' + patientCall.patientOperationId + '/patient/' + patientCall.patientId
+          "
         >
           <span class="patient-filter-patient-name">
             {{ patientCall.patientFirstName }} {{ patientCall.patientLastName }}:&nbsp;

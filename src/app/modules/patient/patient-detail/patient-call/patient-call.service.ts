@@ -83,7 +83,7 @@ export class PatientCallService {
     );
   };
   getSpanishSpeakingPatientCalls = function() {
-    return this.http.get('/spanish/calls').pipe(
+    return this.http.get('spanish/calls').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
@@ -130,7 +130,7 @@ export class PatientCallService {
     // return an observable with a user-facing error message
     return throwError(
       '<div class="alert alert-danger" role="alert"> \
-        <strong>Error</strong>: We had trouble adding patient call!\
+        <strong>Error</strong>: We had trouble within the patient call service!\
       </div>'
     );
   }
