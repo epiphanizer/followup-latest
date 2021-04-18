@@ -67,6 +67,10 @@
   }
 
   .user-dropdown {
+    display: none;
+    &.show {
+      display: block;
+    }
     cursor: pointer;
     width: 195px;
     height: auto;

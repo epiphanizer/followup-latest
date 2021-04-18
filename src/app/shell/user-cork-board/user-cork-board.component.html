@@ -9,9 +9,9 @@
   </ul>
   <ng-container *ngIf="isOpen && userCorkBoardObjects">
     <div class="corkboard-objects">
-      <div *ngFor="let userCorkBoardObject of userCorkBoardObjects">
+      <div *ngFor="let userCorkBoardObject of userCorkBoardObjects; let idx = index">
         <app-user-cork-board-object
-          *ngIf="userCorkBoardObject"
+          *ngIf="userCorkBoardObject && idx <= 2"
           [deleteMode]="deleteMode"
           [userCorkBoardObject]="userCorkBoardObject"
         ></app-user-cork-board-object>

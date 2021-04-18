@@ -149,10 +149,12 @@
                   <ion-label color="medium" position="stacked">Last Name</ion-label>
                   <ion-input type="text" formControlName="patientContactLastName"> </ion-input>
                 </ion-item>
-                <ion-item class="relationship" (click)="openRelationshipDropdown()">
+                <ion-item class="relationship">
                   <ion-label color="medium" position="stacked">Relationship <span style="color:red">*</span></ion-label>
                   <ion-input type="text" formControlName="patientContactRelationship"> </ion-input>
-                  <div class="relationship-dropdown">
+                  <!--
+                  <ion-item class="relationship" (click)="openRelationshipDropdown()"> 
+                    <div class="relationship-dropdown">
                     <ul>
                       <li
                         *ngFor="relationship; in: patientContactRelationships"
@@ -161,7 +163,7 @@
                         {{ relationship }}
                       </li>
                     </ul>
-                  </div>
+                  </div> -->
                 </ion-item>
 
                 <div class="phone-container">

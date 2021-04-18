@@ -18,12 +18,24 @@
     margin-top: -1rem;
   }
 }
+.corkboard-object-frame {
+  margin-left: 32px;
+  margin-top: 20px;
+  width: 190px;
+  height: 230px;
+  background-image: url("/assets/photo-frame-cork-board@2x.png");
+  background-size: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
 .corkboard-object-image {
   display: block;
-  height: 250px;
-  max-width: 80%;
+  margin-top: 10px;
+  height: 210px;
+  width: 170px;
   margin: 0 auto;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-position: 0 10px;
 }

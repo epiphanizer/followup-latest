@@ -3,7 +3,8 @@ import { HttpService } from '@app/core';
 import { catchError, retry, delay } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError, Observable, BehaviorSubject, Subject } from 'rxjs';
-
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { User } from '@app/modules/user/user';
 export interface UserCorkBoardObject {
   userCorkBoardObjectId?: number;
   userCorkBoardFile: File;
@@ -18,10 +19,13 @@ export interface UserCorkBoardObject {
  */
 export class UserCorkBoardService {
   public isOpen: boolean;
+  public refresh: boolean;
   public menuStateBSubject = new BehaviorSubject<boolean>(false);
-  public status$: Observable<boolean> = new Observable<boolean>();
+  public refreshUserCorkBoardBSubject = new BehaviorSubject<boolean>(false);
+  imgResultBeforeCompress: string;
+  imgResultAfterCompress: string;
 
-  constructor(private http: HttpService) {}
+  constructor(private http: HttpService, private imageCompress: NgxImageCompressService) {}
 
   addNewUserCorkBoardObjectByUserId(userId: number, file: File) {
     let formData = new FormData();
@@ -44,7 +48,29 @@ export class UserCorkBoardService {
     });
     return blob;
   }
-
+  doUpload(user: User) {
+    return this.imageCompress.uploadFile().then((imageObj: any) => {
+      this.imgResultBeforeCompress = imageObj.image;
+      this.imageCompress.compressFile(imageObj.image, imageObj.orientation, 50, 50).then((result: any) => {
+        this.imgResultAfterCompress = result;
+        const imageBlob = this.dataURItoBlob(this.imgResultAfterCompress.split(',')[1]);
+        let fileName =
+          user.userId +
+          '-corkboard-object-' +
+          Math.random()
+            .toString()
+            .slice(2, 11);
+        const imageFile = new File([imageBlob], fileName, {
+          type: 'image/jpeg'
+        });
+        this.addNewUserCorkBoardObjectByUserId(user.userId, imageFile).toPromise();
+      });
+    });
+  }
+  userCorkBoardUpdated() {
+    this.refresh = true;
+    this.refreshUserCorkBoardBSubject.next(true);
+  }
   deleteUserCorkBoardObjectByUserCorkBoardObjectId(userCorkBoardObjectId: number) {
     return this.http.delete('users/corkBoardObjects/' + userCorkBoardObjectId).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
@@ -57,14 +83,15 @@ export class UserCorkBoardService {
   }
   getUserCorkBoardObjectsByUserCorkBoardObjectId(userCorkBoardObjectId: number) {
     return this.http
-      .get<Blob>('users/corkBoardObjects/' + userCorkBoardObjectId, { responseType: 'blob' as 'json' })
+      .get<Blob>('users/corkBoardObjects/' + userCorkBoardObjectId, {
+        responseType: 'blob' as 'json'
+      })
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
 
   public toggleCorkboardState = function() {
-    console.log('toggling corkboard state');
     this.isOpen = !this.isOpen;
     this.menuStateBSubject.next(this.isOpen);
   };

@@ -4,11 +4,10 @@ import { UserCorkBoardService, UserCorkBoardObject } from './user-cork-board.ser
 import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
 
-import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 @Component({
-  providers: [NgxImageCompressService, ToastrService],
+  providers: [ToastrService],
   selector: 'app-user-cork-board',
   templateUrl: './user-cork-board.component.html',
   styleUrls: ['./user-cork-board.component.scss'],
@@ -38,12 +37,10 @@ export class UserCorkBoardComponent implements OnInit {
   deleteMode = false;
   user: User;
   userCorkBoardObjects: UserCorkBoardObject[];
-  imgResultBeforeCompress: string;
-  imgResultAfterCompress: string;
-  corkBoardSubscription: Subscription;
+  corkBoardToggleSubscription: Subscription;
+  refreshUserCorkBoardSubscription: Subscription;
 
   constructor(
-    private imageCompress: NgxImageCompressService,
     private userCorkBoardService: UserCorkBoardService,
     private route: ActivatedRoute,
     private toastrService: ToastrService
@@ -58,8 +55,16 @@ export class UserCorkBoardComponent implements OnInit {
           this.userCorkBoardObjects = data;
         }
       });
-    this.corkBoardSubscription = this.userCorkBoardService.menuStateBSubject.subscribe(() => {
+    this.corkBoardToggleSubscription = this.userCorkBoardService.menuStateBSubject.subscribe(() => {
       this.isOpen = this.userCorkBoardService.isOpen;
+    });
+    this.refreshUserCorkBoardSubscription = this.userCorkBoardService.refreshUserCorkBoardBSubject.subscribe(() => {
+      console.log('got into refresh subscription');
+      if (this.userCorkBoardService.refresh) {
+        this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe(() => {
+          console.log('successfully refreshed');
+        });
+      }
     });
   }
 
@@ -74,6 +79,7 @@ export class UserCorkBoardComponent implements OnInit {
     this.userCorkBoardService.toggleCorkboardState();
   };
   ngOnDestroy() {
-    this.corkBoardSubscription.unsubscribe();
+    this.corkBoardToggleSubscription.unsubscribe();
+    this.refreshUserCorkBoardSubscription.unsubscribe();
   }
 }
