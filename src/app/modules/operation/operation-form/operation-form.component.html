@@ -129,7 +129,7 @@
 
         <fieldset class="operation-contacts" *ngIf="operationContacts && notificationsLoaded">
           <ng-container>
-            <div *ngIf="mode.view && operationContacts.length > 1 && operationContacts[0].operationContactId != null">
+            <div *ngIf="mode.view && operationContacts[0].operationContactId != null">
               <h2 class="section-header"><i class="icon-contact"></i> Contacts</h2>
             </div>
             <div *ngIf="mode.edit || mode.add">

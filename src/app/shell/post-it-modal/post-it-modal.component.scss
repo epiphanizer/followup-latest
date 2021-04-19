@@ -107,30 +107,9 @@ h3 {
 
 .button-container {
   float: right;
-  margin: 24px 0;
+  margin: 0 1rem;
 
   button {
     margin-left: 10px;
-    &.send {
-      width: 71px;
-      height: 30px;
-      background-repeat: no-repeat;
-      background-image: url("/assets/button-send@2x.png");
-      background-size: 100%;
-
-      &:hover {
-      }
-
-      &:focus {
-      }
-    }
-
-    &.cancel {
-      width: 71px;
-      height: 30px;
-      background-repeat: no-repeat;
-      background-image: url("/assets/button-cancel@2x.png");
-      background-size: 100%;
-    }
   }
 }
