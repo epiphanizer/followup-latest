@@ -133,16 +133,18 @@
             </ion-item>
           </ion-list>
         </div>
-        <button class="save button" (click)="updateUserProfile()" type="submit">
-          <!-- Save -->
+        <button class="save primary button" (click)="updateUserProfile()" type="submit">
+          Save
         </button>
-        <button class="cancel button" (click)="cancelUpdateProfile()">
-          <!-- Cancel -->
+        <button class="cancel secondary button" (click)="cancelUpdateProfile()">
+          Cancel
         </button>
       </form>
     </ion-col>
     <ion-col class="avatar-col">
-      <app-user-avatar [user]="user"></app-user-avatar>
+      <div class="avatar-container">
+        <app-user-avatar [user]="user"></app-user-avatar>
+      </div>
     </ion-col>
   </ion-row>
 </ion-content>

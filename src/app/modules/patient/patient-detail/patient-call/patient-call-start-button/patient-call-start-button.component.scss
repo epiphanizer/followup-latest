@@ -4,13 +4,3 @@
   margin-top: 105px;
   margin-left: 25px;
 }
-button {
-  background-repeat: no-repeat;
-  background-image: url("/assets/button-start-call@2x.png");
-  background-size: 100%;
-  &:hover {
-    background-image: url("/assets/button-start-call-hover@2x.png");
-  }
-  &:focus {
-  }
-}

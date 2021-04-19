@@ -4,16 +4,3 @@
   display: block;
   margin-right: 200px;
 }
-
-button {
-  background-repeat: no-repeat;
-  background-image: url("/assets/button-save@2x.png");
-  background-size: 100%;
-
-  &:hover {
-    background-image: url("/assets/button-save-hover@2x.png");
-  }
-
-  &:focus {
-  }
-}

@@ -129,7 +129,12 @@
 
         <fieldset class="operation-contacts" *ngIf="operationContacts && notificationsLoaded">
           <ng-container>
-            <h2 class="section-header"><i class="icon-contact"></i> Contacts</h2>
+            <div *ngIf="mode.view && operationContacts.length > 1 && operationContacts[0].operationContactId != null">
+              <h2 class="section-header"><i class="icon-contact"></i> Contacts</h2>
+            </div>
+            <div *ngIf="mode.edit || mode.add">
+              <h2 class="section-header"><i class="icon-contact"></i> Contacts</h2>
+            </div>
             <ion-list lines="none" class="operation-contacts-view" *ngIf="mode.view">
               <div class="operation-contact-container" *ngFor="let operationContact of operationContacts">
                 <ion-item class="contact-name" *ngIf="operationContact.operationContactFirstName">
@@ -267,11 +272,11 @@
             </ion-list>
           </ng-container>
         </fieldset>
-        <button *ngIf="!mode.view" class="ion-float-right button save" (click)="onFormSubmit()">
-          <!-- Save -->
+        <button *ngIf="!mode.view" class="ion-float-right primary button" (click)="onFormSubmit()">
+          Save
         </button>
-        <button *ngIf="!mode.view" class="ion-float-right button cancel" (click)="onCancelSubmit()">
-          <!-- Cancel -->
+        <button *ngIf="!mode.view" class="ion-float-right secondary button" (click)="onCancelSubmit()">
+          Cancel
         </button>
       </form>
     </ion-col>

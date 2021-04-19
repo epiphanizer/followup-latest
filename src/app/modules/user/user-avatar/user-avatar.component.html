@@ -4,5 +4,8 @@
   </div>
 </div>
 <div class="form-group">
-  <button class="add-photo button" [class.hidden]="teamProfile" (click)="uploadUserAvatarPhoto()"></button>
+  <button class="secondary button" [class.hidden]="teamProfile" (click)="uploadUserAvatarPhoto()">
+    <span *ngIf="!avatarExists">Add Photo</span>
+    <span *ngIf="avatarExists">Change Photo</span>
+  </button>
 </div>

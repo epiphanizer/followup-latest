@@ -21,7 +21,7 @@ export class UserAvatarComponent implements OnInit {
   /**
    * This guy is plaintext encoded base64
    */
-  avatarExists: boolean;
+  avatarExists: boolean = false;
   teamProfile: boolean = false;
   constructor(
     private imageCompress: NgxImageCompressService,
@@ -41,13 +41,13 @@ export class UserAvatarComponent implements OnInit {
     this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((data: any) => {
       var self = this;
       if (data !== null) {
+        self.avatarExists = true;
         var reader = new FileReader();
         reader.readAsDataURL(data);
         var self = this;
         reader.onloadend = function() {
           var base64data = reader.result;
           self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
-          self.avatarExists = true;
         };
       }
     });
@@ -90,6 +90,7 @@ export class UserAvatarComponent implements OnInit {
                 var base64data = reader.result;
                 self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
                 self.avatarExists = true;
+                console.log('avatar exists? ' + self.avatarExists);
               };
             }
           });

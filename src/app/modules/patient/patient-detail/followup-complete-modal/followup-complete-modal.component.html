@@ -22,8 +22,8 @@
     </ion-row>
     <ion-textarea formControlName="completionNotes" placeholder="Any Notes?"> </ion-textarea>
     <div class="send-container">
-      <ion-button class="cancel-button" (click)="dismiss()">Cancel</ion-button>
-      <ion-button class="save-button" type="submit" (click)="archivePatient(patient)">Save</ion-button>
+      <button class="secondary button" (click)="dismiss()">Cancel</button>
+      <button class="primary button" type="submit" (click)="archivePatient(patient)">Save</button>
     </div>
   </ng-container>
 </form>

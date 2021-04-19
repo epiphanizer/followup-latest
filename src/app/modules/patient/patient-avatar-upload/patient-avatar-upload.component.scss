@@ -27,22 +27,9 @@ div.patient-avatar-image {
   margin-bottom: 1rem;
 }
 
-ion-button {
-  margin-left: 28px;
+button {
   clear: both;
-  --background: #d1d1d1;
-  --background-hover: #bebebe;
-  --background-activated: #bebebe;
-  --border-activated: 1px solid #a2a2a2;
-  color: white;
-  font-family: "AvenirBold";
-  font-size: 15px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.67;
-  letter-spacing: 0.3px;
-  text-align: center;
+  margin-top: 1.25rem;
 }
 
 .hidden-input {

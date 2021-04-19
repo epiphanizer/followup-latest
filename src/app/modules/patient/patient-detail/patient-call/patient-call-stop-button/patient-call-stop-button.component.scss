@@ -2,13 +2,3 @@
   display: block;
   margin-right: 110px;
 }
-button {
-  background-repeat: no-repeat;
-  background-image: url("/assets/button-stop-review@2x.png");
-  background-size: 100%;
-  &:hover {
-    background-image: url("/assets/button-stop-review-hover@2x.png");
-  }
-  &:focus {
-  }
-}

@@ -4,7 +4,7 @@
       <h3 class="headline"><i class="icon-team"></i> Team Members</h3>
     </ion-item>
     <fieldset class="operation-team-members">
-      <span class="section-label">
+      <span class="section-label" (click)="toggleOperationManagersAssignedMenu()">
         <span *ngIf="mode.edit || mode.add">Assigned </span>Managers
         <i
           *ngIf="!mode.edit || mode.add"
@@ -48,7 +48,7 @@
     </fieldset>
     <fieldset class="operation-callreps">
       <ng-container>
-        <span class="section-label">
+        <span class="section-label" (click)="toggleOperationCallRepsAssignedMenu()">
           <span *ngIf="mode.edit || mode.add">Assigned </span>Care Reps
           <i
             *ngIf="!mode.edit || mode.add"

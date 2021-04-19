@@ -46,6 +46,8 @@ form {
   margin-bottom: 5rem;
 
   .operation-controls {
+    float: right;
+    margin-top: 1.5rem;
     span {
       font-size: 14px;
       display: inline-block;
@@ -620,31 +622,6 @@ form {
     float: right;
     margin-left: 10px;
     margin-top: 36px;
-    &.save {
-      width: 71px;
-      height: 30px;
-      background-repeat: no-repeat;
-      background-image: url("/assets/button-save@2x.png");
-      background-size: 100%;
-
-      &:hover {
-        background-image: url("/assets/button-save-hover@2x.png");
-      }
-
-      &:focus {
-      }
-    }
-
-    &.cancel {
-      width: 71px;
-      height: 30px;
-      background-repeat: no-repeat;
-      background-image: url("/assets/button-cancel@2x.png");
-      &:hover {
-        background-image: url("/assets/button-cancel-hover@2x.png");
-      }
-      background-size: 100%;
-    }
   }
 }
 
@@ -664,7 +641,6 @@ button {
   margin-top: 36px;
   margin-bottom: 96px;
   float: right;
-  height: 28px;
 }
 
 .section-header {

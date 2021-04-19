@@ -42,15 +42,5 @@
 }
 
 button {
-  margin: 0 auto;
-  clear: both;
-  text-align: center;
-  height: 30px;
-  width: 170px;
-  background-image: url("/assets/button-add-photo@2x.png");
-  background-size: 100%;
-  background-repeat: no-repeat;
-  &:hover {
-    background-image: url("/assets/button-add-photo-hover@2x.png");
-  }
+  margin: 0.5rem auto;
 }

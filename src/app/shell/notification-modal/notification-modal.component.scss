@@ -203,33 +203,20 @@ ion-radio {
   margin-bottom: 2rem;
   text-align: right;
 }
-ion-button {
-  font-family: "AvenirDemi";
-}
-.cancel-button {
+
+.secondary.button {
   margin-top: 10px;
-  --background: #d1d1d1;
-  --background-hover: #bebebe;
-  --background-activated: #bebebe;
-  --border-activated: 1px solid #a2a2a2;
-  color: white;
 }
 
-.save-button {
+.primary.button {
   margin-top: 10px;
   margin-right: 62px;
-  --background: #019ca2;
-  --background-hover: #019ca2;
-  --border-activated: 1px solid #009999;
 }
 
-.edit-button {
+.secondary.button.edit {
   margin-left: 58px;
 }
 
-.send-button {
+.primary.button.send {
   margin-right: 55px;
-  --background: #019ca2;
-  --background-hover: #019ca2;
-  --border-activated: 1px solid #009999;
 }

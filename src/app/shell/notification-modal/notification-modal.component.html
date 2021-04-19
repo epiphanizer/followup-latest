@@ -27,14 +27,15 @@
     ></ion-textarea>
     <ion-row>
       <div class="send-container">
-        <ion-button class="cancel-button" type="button" (click)="dismiss()">Cancel </ion-button>
-        <ion-button
+        <button class="secondary button" type="button" (click)="dismiss()">Cancel</button>
+        <button
           [disabled]="createNotificationForm.invalid"
-          class="save-button"
+          class="primary button"
           type="button"
           (click)="saveNotification()"
-          >Save
-        </ion-button>
+        >
+          Save
+        </button>
       </div>
     </ion-row>
   </form>
@@ -92,8 +93,8 @@
   </ion-row>
   <ion-row>
     <div class="send-container">
-      <ion-button class="ion-float-left edit-button warning" (click)="editNotification()">Back</ion-button>
-      <ion-button class="ion-float-right send-button" (click)="sendTheNotification()">Send</ion-button>
+      <button class="ion-float-left secondary button edit" (click)="editNotification()">Back</button>
+      <button class="ion-float-right primary button send" (click)="sendTheNotification()">Send</button>
     </div>
   </ion-row>
 </ng-template>

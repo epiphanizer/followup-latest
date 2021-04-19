@@ -43,10 +43,10 @@ ion-input {
 }
 
 .avatar-col {
-  margin-top: 210px;
-  max-width: 272px;
-  width: 262px;
+  padding-top: 18rem;
+  max-width: 270px;
   margin-left: 81.4px;
+  text-align: center;
 
   .hidden-input {
     display: none;
@@ -54,7 +54,6 @@ ion-input {
 
   ion-button {
     clear: both;
-    margin-left: 35px;
   }
 }
 
@@ -320,30 +319,5 @@ form {
     float: right;
     margin-left: 10px;
     margin-top: 36px;
-    &.save {
-      width: 73px;
-      height: 30px;
-      background-repeat: no-repeat;
-      background-image: url("/assets/button-save@2x.png");
-      background-size: 100%;
-
-      &:hover {
-        background-image: url("/assets/button-save-hover@2x.png");
-      }
-
-      &:focus {
-      }
-    }
-
-    &.cancel {
-      width: 73px;
-      height: 30px;
-      background-repeat: no-repeat;
-      background-image: url("/assets/button-cancel@2x.png");
-      background-size: 100%;
-      &:hover {
-        background-image: url("/assets/button-cancel-hover@2x.png");
-      }
-    }
   }
 }

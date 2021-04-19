@@ -114,22 +114,15 @@ ion-textarea {
   margin-bottom: 1rem;
 }
 
-ion-button {
-  font-family: "AvenirDemi";
-}
-.save-button {
-  text-align: center;
-  width: 109px;
-  height: 30px;
+.primary.button {
   float: right;
   margin-top: 1.25rem;
   margin-right: 64px;
-  color: white;
-  background: var(--ion-color-primary);
-  font-size: 12px;
-  border-radius: 17px;
   margin-bottom: 2rem;
-  font-weight: bold;
+}
+
+.secondary.button {
+  margin-top: 1.25rem;
 }
 
 .send-container {
@@ -137,21 +130,7 @@ ion-button {
   margin-bottom: 2rem;
   text-align: right;
 }
-
-.cancel-button {
-  width: 85px;
-  height: 30px;
-  margin-top: 10px;
-  --background: #d1d1d1;
-  --background-hover: #bebebe;
-  --background-activated: #bebebe;
-  --border-activated: 1px solid #a2a2a2;
-}
-
-.save-button {
+.primary.button.save {
   margin-top: 10px;
   margin-right: 62px;
-  --background: #019ca2;
-  --background-hover: #019ca2;
-  --border-activated: 1px solid #009999;
 }

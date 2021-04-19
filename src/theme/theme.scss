@@ -220,24 +220,40 @@ ion-radio {
 // buttons
 
 button {
+  outline: none;
   text-transform: uppercase;
-  width: 170px;
   height: 30px;
+  padding: 0 14px;
   font-family: AvenirBold;
+  text-transform: uppercase;
   font-size: 15px;
   font-weight: bold;
   font-style: normal;
   font-stretch: normal;
-  line-height: 28px;
   vertical-align: middle;
   letter-spacing: 0.3px;
   text-align: center;
   text-transform: uppercase;
   border: none;
   background: transparent;
+  vertical-align: middle;
+  line-height: 34px;
+  border-radius: 5px;
+  color: white;
   &.primary {
-    color: white;
-    background: #00b4b9;
+    background-color: #08b8be;
+    &:hover {
+      background-color: #049ca2;
+    }
+    &.disabled {
+      background-color: #e0e0e0;
+    }
+  }
+  &.secondary {
+    background-color: #c6c6c6;
+    &:hover {
+      background-color: #b4b4b4;
+    }
   }
   border-style: none;
 }

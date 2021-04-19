@@ -389,14 +389,20 @@
           </ion-item>
         </ion-list>
         <div class="form-button-controls">
-          <button class="button save" (click)="onFormSubmit()"></button>
-          <button *ngIf="mode.edit" class="button cancel" (click)="window.location.reload()"></button>
+          <button class="primary button" (click)="onFormSubmit()">
+            Save
+          </button>
+          <button *ngIf="mode.edit" class="secondary button" (click)="window.location.reload()">
+            Cancel
+          </button>
         </div>
       </form>
     </ion-col>
     <ion-col class="avatar-col">
-      <app-patient-avatar-upload *ngIf="patient" [avatarExists]="avatarExists" [patient]="patient">
-      </app-patient-avatar-upload>
+      <div class="avatar-container">
+        <app-patient-avatar-upload *ngIf="patient" [avatarExists]="avatarExists" [patient]="patient">
+        </app-patient-avatar-upload>
+      </div>
     </ion-col>
   </ion-row>
 </ion-content>

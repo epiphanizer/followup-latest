@@ -10,7 +10,7 @@
     <a class="team-dropdown-target">THE TEAM<span *ngIf="teams.length > 1">s</span></a>
     <div *ngFor="let team of teams">
       <div class="team-member-container">
-        <span class="sidebar-label"
+        <span class="sidebar-label" (click)="toggleTeamManagerSidebarMenu(team)"
           >MANAGERS
           <i
             class="expand-members-trigger"
@@ -28,7 +28,7 @@
         </ul>
       </div>
       <div class="team-member-container">
-        <span class="sidebar-label"
+        <span class="sidebar-label" (click)="toggleTeamCareRepSidebarMenu(team)"
           >CARE REPS
           <i
             class="expand-members-trigger"
@@ -46,7 +46,7 @@
         </ul>
       </div>
       <div class="team-member-container">
-        <span class="sidebar-label"
+        <span class="sidebar-label" (click)="toggleTeamSpanishSidebarMenu(team)"
           >SPANISH
           <i
             class="expand-members-trigger"

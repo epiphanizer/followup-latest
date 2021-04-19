@@ -9,6 +9,7 @@
 <ng-template #defaultAvatar>
   <img class="patient-avatar-image" (click)="uploadPatientAvatarPhoto()" src="/assets/photo-mask@2x.png" />
 </ng-template>
-<ion-button (click)="uploadPatientAvatarPhoto()">
-  Change Photo
-</ion-button>
+<button class="secondary button" (click)="uploadPatientAvatarPhoto()">
+  <span *ngIf="avatarExists">Change Photo</span>
+  <span *ngIf="!avatarExists">Add Photo</span>
+</button>
