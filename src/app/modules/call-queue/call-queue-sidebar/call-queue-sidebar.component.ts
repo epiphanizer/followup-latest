@@ -76,6 +76,8 @@ export class CallQueueSidebarComponent {
   operations: Operation[];
   user: User;
   todaysDateDay: string;
+  // set a default for no new discharges re: spanish patients
+  spanishNewDischarges: boolean = false;
   ngOnInit() {
     this.operationGroups$ = this.operationService.getOperationGroups();
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {

@@ -45,7 +45,7 @@
                 <span class="current-patients">
                   {{ operation.currentAssignedPatientCount }}
                 </span>
-                <span class="spanish-indicator" *ngIf="operation.currentSpanishSpeakingPatients">
+                <span class="discharge-indicator" *ngIf="operation.currentSpanishSpeakingPatients">
                   <i class="indicator"></i>
                 </span>
               </div>
@@ -56,7 +56,8 @@
     </ng-container>
 
     <span class="spanish-indicator">
-      <a href="/call-queue/spanish">SPANISH</a> <i class="patient"></i><i class="indicator"></i
+      <a href="/call-queue/spanish">SPANISH</a> <i class="patient"></i
+      ><i *ngIf="spanishNewDischarges" class="indicator"></i
     ></span>
 
     <ng-template #noOperations>
