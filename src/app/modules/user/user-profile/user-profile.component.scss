@@ -179,8 +179,12 @@ form {
 
     &.user-spanish-speaking {
       width: 100%;
+      margin-top: 0.25rem;
       float: left;
-
+      .spanish-label {
+        z-index: 5;
+        position: absolute;
+      }
       ion-item {
         float: left;
         margin-right: 9px;
@@ -189,7 +193,7 @@ form {
       }
 
       ion-radio-group {
-        margin-top: 0.5rem;
+        margin-top: 1rem;
       }
 
       ion-radio {
@@ -211,7 +215,8 @@ form {
         background-image: url("/assets/button-yes@2x.png");
 
         &:active,
-        &.radio-checked {
+        &.radio-checked,
+        &:hover {
           background-image: url("/assets/button-yes-select@2x.png");
         }
       }
@@ -220,7 +225,8 @@ form {
         background-image: url("/assets/button-no@2x.png");
 
         &:active,
-        &.radio-checked {
+        &.radio-checked,
+        &:hover {
           background-image: url("/assets/button-no-select@2x.png");
         }
       }
