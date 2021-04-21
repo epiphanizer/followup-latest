@@ -138,7 +138,7 @@
             <ion-list lines="none" class="operation-contacts-view" *ngIf="mode.view">
               <div class="operation-contact-container" *ngFor="let operationContact of operationContacts">
                 <ion-item class="contact-name" *ngIf="operationContact.operationContactFirstName">
-                  {{ operationContact.operationContactFirstName + ' ' + operationContact.operationContactFirstName
+                  {{ operationContact.operationContactFirstName + ' ' + operationContact.operationContactLastName
                   }}<span class="contact-title" *ngIf="operationContact.operationContactTitle"
                     >, {{ operationContact.operationContactTitle }}</span
                   >
