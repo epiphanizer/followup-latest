@@ -108,8 +108,17 @@ export class ShellComponent {
   corkBoardExpandedHandler(toggleState: boolean) {
     this.corkboardExpanded = toggleState;
   }
+
+  addNewCorkBoardItem() {
+    if (!this.userCorkBoardService.isOpen) {
+      this.userCorkBoardService.toggleCorkboardState();
+    }
+    this.userCorkBoardService.doUpload(this.user).then(() => {
+      this.toastrService.success('Successfully added cork board item.');
+      this.userCorkBoardService.userCorkBoardUpdated();
+    });
+  }
   toggleDropdown($event: boolean) {
-    console.log('toggling dropdown to' + $event);
     this.dropdownActive = $event;
   }
   signOut() {

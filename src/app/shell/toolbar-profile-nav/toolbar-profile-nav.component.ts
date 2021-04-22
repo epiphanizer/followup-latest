@@ -63,16 +63,6 @@ export class ToolbarProfileNavComponent implements OnInit {
     this.authService.signOut();
   }
 
-  addNewCorkBoardItem() {
-    if (!this.userCorkBoardService.isOpen) {
-      this.userCorkBoardService.toggleCorkboardState();
-    }
-    this.userCorkBoardService.doUpload(this.user).then(() => {
-      this.toastrService.success('Successfully added cork board item.');
-      this.userCorkBoardService.userCorkBoardUpdated();
-    });
-  }
-
   editProfile() {
     this.router.navigate['/user/profile'];
   }
