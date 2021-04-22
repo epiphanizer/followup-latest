@@ -20,6 +20,9 @@ ion-title {
   margin-left: 92px;
   padding-bottom: 160px;
   margin-top: 8rem;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 33px;
+  }
 }
 
 .notification-listing-row {
