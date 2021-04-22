@@ -28,6 +28,7 @@ app-user-cork-board {
   &.open {
     width: 260px;
     background-image: url("/assets/expanded-corkboard@2x.png");
+    background-repeat: repeat-y;
     .corkboard-controls {
       margin-left: 190px;
     }
