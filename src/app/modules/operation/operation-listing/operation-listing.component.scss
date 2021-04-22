@@ -23,6 +23,9 @@ ion-title {
   margin-top: 8rem;
   max-width: 80%;
   min-width: 600px;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 33px;
+  }
 }
 .operation-patient-list {
   width: 100%;
