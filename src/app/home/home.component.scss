@@ -13,7 +13,11 @@
 
     ion-col {
       min-height: 20vh;
+
       height: auto;
+      @media screen and (min-width: 1025px) {
+        height: 40vh;
+      }
       display: block;
       float: left;
 

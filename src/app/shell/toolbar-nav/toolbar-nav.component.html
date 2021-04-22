@@ -6,10 +6,11 @@
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           {{ link.linkName }}
         </a>
-        <a *ngIf="link.dropdown.links" (click)="closeDropdowns()" (mouseover)="openDropdown(i)">
+        <a *ngIf="link.dropdown.links" (mouseover)="openDropdown(i)" (click)="toggleDropdown(i)">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
-          <a routerLink="/{{ link.linkAction }}">{{ link.linkName }} </a>
-          <i class="nav-caret" *ngIf="link.dropdown.links"></i>
+          <a *ngIf="!link.dropdown.links" routerLink="/{{ link.linkAction }}">{{ link.linkName }}</a>
+          <a *ngIf="link.dropdown.links">{{ link.linkName }}</a>
+          <i class="nav-caret" *ngIf="link.dropdown.links" (click)="toggleDropdown(i)" (touch)="openDropdown(i)"></i>
         </a>
         <a *ngIf="link.dynamic" [class.disabled]="!callQueuePage" (click)="dynamicLink(link)">
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>

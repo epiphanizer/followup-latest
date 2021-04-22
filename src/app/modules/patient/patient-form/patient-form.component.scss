@@ -66,6 +66,10 @@ ion-radio {
   height: auto;
   width: 100%;
   max-width: 720px;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 33px;
+    width: 24%;
+  }
 }
 
 .avatar-col {
@@ -74,6 +78,10 @@ ion-radio {
   max-width: 220px;
   margin-left: 38.4px;
   text-align: center;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 0;
+    margin-right: 4rem;
+  }
 }
 
 .avatar-container {
