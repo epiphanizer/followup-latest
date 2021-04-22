@@ -22,10 +22,3 @@
   </div>
   <i class="dropdown-trigger" (mouseenter)="toggleDropdown()" (click)="toggleDropdown()"></i>
 </div>
-<div class="user-dropdown" [class.show]="dropdownActive" (mouseleave)="toggleDropdown()">
-  <ul class="user-dropdown-actions">
-    <li (click)="addNewCorkBoardItem()">Add Photos</li>
-    <li routerLink="/user/profile">Edit Profile</li>
-    <li (click)="signOut()">Logout</li>
-  </ul>
-</div>

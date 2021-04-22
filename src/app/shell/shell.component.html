@@ -3,14 +3,26 @@
     *ngIf="user"
     [class.open]="userCorkBoardExpanded"
     (corkBoardExpandedEmitter)="corkBoardExpandedHandler($event)"
+    (click)="toggleDropdown(false)"
   >
   </app-user-cork-board>
   <div class="content-wrapper" [class.expanded]="userCorkBoardExpanded">
     <ion-toolbar>
-      <app-toolbar-logo> </app-toolbar-logo>
-      <app-toolbar-nav></app-toolbar-nav>
-      <app-toolbar-profile-nav *ngIf="user" [user]="user"> </app-toolbar-profile-nav>
+      <app-toolbar-logo (click)="toggleDropdown(false)"> </app-toolbar-logo>
+      <app-toolbar-nav (click)="toggleDropdown(false)"></app-toolbar-nav>
     </ion-toolbar>
-    <ion-router-outlet class="main-router-oulet" main> </ion-router-outlet>
+    <app-toolbar-profile-nav
+      *ngIf="user"
+      [user]="user"
+      (dropdownEvent)="toggleDropdown($event)"
+    ></app-toolbar-profile-nav>
+    <div class="user-dropdown" [class.show]="dropdownActive" (click)="toggleDropdown(false)">
+      <ul class="user-dropdown-actions">
+        <li (click)="addNewCorkBoardItem()">Add Photos</li>
+        <li routerLink="/user/profile">Edit Profile</li>
+        <li (click)="signOut()">Logout</li>
+      </ul>
+    </div>
+    <ion-router-outlet class="main-router-oulet" main (click)="toggleDropdown(false)"> </ion-router-outlet>
   </div>
 </ion-content>

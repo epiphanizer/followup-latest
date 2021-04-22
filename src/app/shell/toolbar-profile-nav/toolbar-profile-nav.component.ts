@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { User } from '@app/modules/user/user';
 import { AuthenticationService } from '@app/core';
 import { UserAvatarService } from '@app/modules/user/user-avatar/user-avatar.service';
@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ToolbarProfileNavComponent implements OnInit {
   @Input() user: User;
+  @Output() dropdownEvent: EventEmitter<Boolean> = new EventEmitter(false);
   avatarExists: Boolean;
   dropdownActive: Boolean = false;
 
@@ -56,6 +57,7 @@ export class ToolbarProfileNavComponent implements OnInit {
 
   toggleDropdown() {
     this.dropdownActive = !this.dropdownActive;
+    this.dropdownEvent.emit(this.dropdownActive);
   }
   signOut() {
     this.authService.signOut();

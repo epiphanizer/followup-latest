@@ -19,6 +19,7 @@ import { UserCorkBoardService } from './user-cork-board/user-cork-board.service'
 export class ShellComponent {
   corkboardExpanded: boolean = false;
   corkBoardSubscription: Subscription;
+  dropdownActive: Boolean = false;
   user: User;
   patient: Patient;
   navLinks?: {
@@ -106,6 +107,10 @@ export class ShellComponent {
   }
   corkBoardExpandedHandler(toggleState: boolean) {
     this.corkboardExpanded = toggleState;
+  }
+  toggleDropdown($event: boolean) {
+    console.log('toggling dropdown to' + $event);
+    this.dropdownActive = $event;
   }
   signOut() {
     this.authenticationService.signOut();

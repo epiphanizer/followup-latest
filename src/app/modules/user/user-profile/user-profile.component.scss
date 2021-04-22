@@ -33,6 +33,10 @@ ion-input {
 .user-profile-content {
   max-width: 565px;
   width: 565px;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 33px;
+    width: 24%;
+  }
   margin-top: 8rem;
   margin-left: 100px;
   padding-bottom: 160px;
@@ -48,6 +52,10 @@ ion-input {
   margin-left: 81.4px;
   text-align: center;
 
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-right: 1rem;
+    margin-left: 0;
+  }
   .hidden-input {
     display: none;
   }
