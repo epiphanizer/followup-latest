@@ -176,7 +176,6 @@
 
     ion-item {
       width: calc(100% + 55px);
-      max-height: 30px;
       vertical-align: top;
       margin: 0;
       margin-left: -14px;
@@ -189,6 +188,7 @@
         font-size: 15px;
         @media screen and (max-width: 1024px) {
           font-size: 13px;
+          max-width: 160px;
         }
         color: #222222;
       }
