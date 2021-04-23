@@ -129,6 +129,9 @@ form {
     letter-spacing: normal;
     float: right;
     padding-right: 100px;
+    @media screen and (orientation: portrait) and (max-width: 1024px) {
+      padding-right: 20px;
+    }
     color: #00b4b9;
   }
 }
