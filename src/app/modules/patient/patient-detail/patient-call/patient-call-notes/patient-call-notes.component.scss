@@ -6,6 +6,9 @@ form {
     float: right;
     margin-top: 10px;
     margin-right: 105px;
+    @media screen and (orientation: portrait) and (max-width: 1024px) {
+      margin-right: 20px;
+    }
     height: 35px;
     cursor: pointer;
     font-family: AvenirPro;

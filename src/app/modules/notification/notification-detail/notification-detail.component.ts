@@ -5,8 +5,9 @@ import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { Operation } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
-
+import { SharedFunctions } from '@app/shared/shared.functions';
 @Component({
+  providers: [SharedFunctions],
   selector: 'app-notification-detail',
   templateUrl: './notification-detail.component.html',
   styleUrls: ['./notification-detail.component.scss']
@@ -21,17 +22,15 @@ export class NotificationDetailComponent implements OnInit {
         operation$: Observable<Operation>;
       }
     | any = {};
-  constructor(private route: ActivatedRoute, private patientService: PatientService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private patientService: PatientService,
+    private sharedFunctions: SharedFunctions
+  ) {}
 
-  returnHTML(value: string): string {
-    return value
-      .replace(/%0A/g, '<br/>')
-      .replace(/%20/g, '&nbsp;')
-      .replace(/%22/g, '"');
-  }
   ngOnInit() {
     this.notification = this.route.snapshot.data.notification;
-    this.notification.notificationMessage = this.returnHTML(this.notification.notificationMessage);
+    this.notification.notificationMessage = this.sharedFunctions.returnHTML(this.notification.notificationMessage);
     this.patientService.getPatientByPatientId(this.notification.notificationPatientId).subscribe((patient: Patient) => {
       this.patient = patient[0];
     });

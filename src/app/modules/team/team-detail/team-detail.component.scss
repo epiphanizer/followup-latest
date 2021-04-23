@@ -9,6 +9,9 @@
   max-width: 966px;
   margin-left: 92px;
   margin-top: 8rem;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 33px;
+  }
 
   ion-title {
     font-family: AvenirPro;
@@ -27,6 +30,10 @@
     clear: both;
     width: 230px;
     height: auto;
+
+    @media screen and (orientation: portrait) and (max-width: 1024px) {
+      width: 180px;
+    }
     min-height: 302px;
     border: 10px solid white;
 

@@ -243,6 +243,9 @@ h3 {
 
     .patient.label-line {
       width: 100%;
+      @media screen and (orientation: portrait) and (max-width: 1024px) {
+        width: 65%;
+      }
       height: auto;
       display: block;
       font-family: AvenirPro;

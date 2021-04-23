@@ -9,6 +9,9 @@
   max-width: 966px;
   margin-left: 92px;
   margin-top: 8rem;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 33px;
+  }
 
   ion-title {
     font-family: AvenirPro;
@@ -31,6 +34,11 @@
     max-width: 635px;
     margin-left: 62px;
     margin-top: 32px;
+
+    @media screen and (orientation: portrait) and (max-width: 1024px) {
+      margin-left: 37px;
+      width: 65%;
+    }
   }
 
   .notification-listing-avatar {
@@ -41,6 +49,10 @@
     padding: 10px;
     width: 230px;
     height: 280px;
+    @media screen and (orientation: portrait) and (max-width: 1024px) {
+      width: 180px;
+      height: 230px;
+    }
     background-color: #f8f8f8;
   }
 

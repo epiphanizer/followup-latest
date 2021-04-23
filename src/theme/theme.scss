@@ -257,3 +257,9 @@ button {
   }
   border-style: none;
 }
+
+.ion-page {
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    padding-bottom: 200px;
+  }
+}

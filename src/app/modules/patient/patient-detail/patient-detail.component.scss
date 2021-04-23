@@ -19,10 +19,16 @@ ion-row {
   max-width: 625px;
   padding-bottom: 250px;
   margin-left: 45px;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 33px;
+  }
 }
 
 .right-hand-detail {
   margin-left: 125px;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 105px;
+  }
   width: 100%;
   max-width: 590px;
 }

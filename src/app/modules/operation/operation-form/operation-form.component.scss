@@ -18,11 +18,17 @@ ion-content {
   height: auto;
   width: 100%;
   max-width: 720px;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 33px;
+  }
 }
 
 .right-admin-col {
   margin-left: 73px;
   margin-top: 13rem;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 33px;
+  }
 }
 
 .right-admin-sidebar {

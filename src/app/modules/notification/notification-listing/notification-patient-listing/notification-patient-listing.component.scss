@@ -4,10 +4,10 @@
   height: 30px;
   margin-bottom: 1.5rem;
 }
+
 table {
   list-style-type: none;
   width: 95%;
-  min-width: 850px;
   padding-left: 0;
   margin-bottom: 0.75rem;
 
@@ -58,6 +58,7 @@ table {
         display: inline-block;
         vertical-align: bottom;
         margin-right: 8px;
+
         &.Candidate {
           background-image: url("/assets/icon-candidate-lg@2x.png");
         }
@@ -77,6 +78,7 @@ table {
         &.Feedback {
           background-image: url("/assets/icon-feedback-lg@2x.png");
         }
+
         &.Death {
           background-image: url("/assets/icon-death-lg@2x.png");
         }

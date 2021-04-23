@@ -33,6 +33,11 @@
 
   width: 230px;
   height: 280px;
+
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    width: 180px;
+    height: 230px;
+  }
   padding: 10px;
   object-fit: contain;
   box-shadow: 2px 3px 3px 0 rgba(35, 31, 32, 0.25);
@@ -182,6 +187,9 @@
         vertical-align: middle;
         margin-top: -12px;
         font-size: 15px;
+        @media screen and (max-width: 1024px) {
+          font-size: 13px;
+        }
         color: #222222;
       }
     }

@@ -9,9 +9,9 @@ import { TeamService } from '../team.service';
 import { map, take } from 'rxjs/operators';
 import { UserService } from '@app/modules/user/user.service';
 import { PostItModalComponent } from '@app/shell/post-it-modal/post-it-modal.component';
-
+import { SharedFunctions } from '@app/shared/shared.functions';
 @Component({
-  providers: [TeamService],
+  providers: [TeamService, SharedFunctions],
   selector: 'app-team-detail',
   templateUrl: './team-detail.component.html',
   styleUrls: ['./team-detail.component.scss']
@@ -41,7 +41,8 @@ export class TeamMemberDetailComponent implements OnInit {
     private modalController: ModalController,
     private route: ActivatedRoute,
     private teamService: TeamService,
-    private userService: UserService
+    private userService: UserService,
+    private sharedFunctions: SharedFunctions
   ) {}
 
   ngOnInit() {
@@ -57,12 +58,6 @@ export class TeamMemberDetailComponent implements OnInit {
     });
   }
 
-  returnHTML(value: string): string {
-    return value
-      .replace(/%0A/g, '<br/>')
-      .replace(/%20/g, '&nbsp;')
-      .replace(/%22/g, '"');
-  }
   loadTeamMember() {
     this.teamService
       .getTeamMemberByTeamIdAndTeamMemberId(this.teamId, this.teamMemberId)
@@ -77,7 +72,9 @@ export class TeamMemberDetailComponent implements OnInit {
               map((user: User) => {
                 if (user !== null) {
                   this.user = user;
-                  this.teamInfoDecoded = this.returnHTML(this.user.userAdditionalInfo);
+                  if (this.user.userAdditionalInfo) {
+                    this.teamInfoDecoded = this.sharedFunctions.returnHTML(this.user.userAdditionalInfo);
+                  }
 
                   this.user.userInterests = JSON.parse(this.user.userInterests);
                   // Write the switch

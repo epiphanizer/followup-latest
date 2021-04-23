@@ -12,6 +12,10 @@
   text-align: center;
   border: 1px solid #dedede;
   padding: 0 15px 16px 15px;
+
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    padding: 0 11px 16px 11px;
+  }
 }
 
 .calendar-date {
