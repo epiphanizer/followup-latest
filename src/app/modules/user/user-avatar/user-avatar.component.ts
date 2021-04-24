@@ -76,7 +76,8 @@ export class UserAvatarComponent implements OnInit {
     this.imageCompress.uploadFile().then(({ image, orientation }) => {
       this.imgResultBeforeCompress = image;
       let fileName = this.user.userId + '-avatar';
-      this.imageCompress.compressFile(image, orientation, 50, 50).then(result => {
+      // we set orientation to 1 to handle exif data
+      this.imageCompress.compressFile(image, 1, 50, 50).then(result => {
         this.imgResultAfterCompress = result;
         const imageBlob = this.dataURItoBlob(this.imgResultAfterCompress.split(',')[1]);
         const imageFile = new File([imageBlob], fileName, {
