@@ -108,6 +108,10 @@ $item-md-padding-end: 0;
 //   font-family: "AvenirPro";
 //   font-size: 17px;
 // }
+
+.alert-button-group.sc-ion-alert-md {
+  margin-bottom: 8px;
+}
 .sc-ion-alert-md-h {
   border-radius: 0;
   font-family: "Avenir";
@@ -163,7 +167,8 @@ ion-radio {
   font-size: 15px;
 }
 .alert-button-inner.sc-ion-alert-md {
-  height: 25px;
+  height: 30px;
+  border-radius: 5px;
 }
 .alert-radio-icon.sc-ion-alert-md {
   margin-top: 0;

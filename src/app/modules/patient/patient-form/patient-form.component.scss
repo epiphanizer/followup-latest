@@ -65,7 +65,9 @@ ion-radio {
   margin-bottom: 9rem;
   height: auto;
   width: 100%;
+  min-width: 450px;
   max-width: 720px;
+
   @media screen and (orientation: portrait) and (max-width: 1024px) {
     margin-left: 33px;
     width: 24%;
@@ -78,9 +80,10 @@ ion-radio {
   max-width: 220px;
   margin-left: 38.4px;
   text-align: center;
+
   @media screen and (orientation: portrait) and (max-width: 1024px) {
     margin-left: 0;
-    margin-right: 4rem;
+    margin-right: 2rem;
   }
 }
 
@@ -205,6 +208,10 @@ form {
 
   .inline-patient-responsibility-container {
     margin-top: 1.5rem;
+
+    @media screen and (orientation: portrait) and (max-width: 1024px) {
+      clear: both;
+    }
   }
 
   ion-item {
@@ -221,6 +228,11 @@ form {
     &.patient-medical-record-number {
       width: 180px;
       margin-left: 10px;
+
+      @media screen and (orientation: portrait) and (max-width: 1024px) {
+        margin-left: 0px;
+      }
+
       display: inline-block;
     }
 
@@ -243,6 +255,11 @@ form {
 
     &.patient-gender {
       margin-left: 158px;
+
+      @media screen and (orientation: portrait) and (max-width: 1024px) {
+        margin-left: 55px;
+        margin-bottom: -11px;
+      }
 
       ion-label {
         font-family: AvenirPro;
@@ -304,6 +321,11 @@ form {
     float: left;
     display: block;
     width: 50%;
+
+    @media screen and (orientation: portrait) and (max-width: 1024px) {
+      margin-top: 8px;
+      width: 70%;
+    }
 
     ion-item {
       margin-right: 8px;
@@ -571,6 +593,10 @@ form {
 
         &.phone-number {
           width: 120px;
+
+          @media screen and (orientation: portrait) and (max-width: 1024px) {
+            margin-right: 170px;
+          }
         }
 
         ion-item {
@@ -673,6 +699,9 @@ form {
 
       &.discharge-total-days {
         width: 100px;
+        @media screen and (orientation: portrait) and (max-width: 1024px) {
+          width: 80px;
+        }
         display: inline-block;
         margin-left: 18px;
       }
