@@ -10,8 +10,6 @@ import { Patient } from '../patient';
 })
 export class PatientAvatarComponent implements OnInit {
   avatarUrl: SafeStyle;
-  imgResultBeforeCompress: string;
-  imgResultAfterCompress: string;
   isCircle: boolean = false;
   @Input() patient: Patient;
   @Input() type: string;

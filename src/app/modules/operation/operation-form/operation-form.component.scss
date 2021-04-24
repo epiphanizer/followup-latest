@@ -18,6 +18,7 @@ ion-content {
   height: auto;
   width: 100%;
   max-width: 720px;
+  min-width: 450px;
   @media screen and (orientation: portrait) and (max-width: 1024px) {
     margin-left: 33px;
   }
@@ -54,6 +55,9 @@ form {
   .operation-controls {
     float: right;
     margin-top: 1.5rem;
+    @media screen and (orientation: portrait) and (max-width: 1024px) {
+      margin-top: 0;
+    }
     span {
       font-size: 14px;
       display: inline-block;

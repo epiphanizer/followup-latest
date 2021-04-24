@@ -62,7 +62,7 @@ export class PatientAvatarUploadComponent implements OnInit {
     this.imageCompress.uploadFile().then(({ image, orientation }) => {
       this.imgResultBeforeCompress = image;
       let fileName = this.patient.patientId + '-avatar';
-
+      console.log(orientation);
       this.imageCompress.compressFile(image, orientation, 50, 50).then(result => {
         this.imgResultAfterCompress = result;
         const imageBlob = this.dataURItoBlob(this.imgResultAfterCompress.split(',')[1]);

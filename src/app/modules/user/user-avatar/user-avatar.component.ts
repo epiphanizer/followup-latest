@@ -46,6 +46,11 @@ export class UserAvatarComponent implements OnInit {
         reader.readAsDataURL(data);
         var self = this;
         reader.onloadend = function() {
+          var view = new DataView(data);
+          console.log(view);
+          if (view.getUint16(0, false) !== 0xffd8) {
+            return; // Not a JPEG
+          }
           var base64data = reader.result;
           self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
         };
@@ -90,7 +95,6 @@ export class UserAvatarComponent implements OnInit {
                 var base64data = reader.result;
                 self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
                 self.avatarExists = true;
-                console.log('avatar exists? ' + self.avatarExists);
               };
             }
           });

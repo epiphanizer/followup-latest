@@ -24,7 +24,7 @@
           <ion-item class="sidebar-listing" id="operation-manager-{{ idx }}">
             <ion-label color="medium" position="stacked">Assign Manager</ion-label>
             <ion-select
-              *ngIf="(mode.edit || mode.add) && availableUsers.length; else managerSpan"
+              *ngIf="(mode.edit || mode.add) && availableUsers?.length; else managerSpan"
               (ionChange)="managerOnSelect($event, idx)"
               class="operation-assigned-manager"
               placeholder="Assign Manager"
