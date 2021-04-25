@@ -87,7 +87,12 @@
             </ion-item>
             <ion-item class="operation-name">
               <ion-label color="medium" position="stacked">Facility <span style="color:red">*</span></ion-label>
-              <ion-input type="text" formControlName="operationName" placeholder="Facility"></ion-input>
+              <ion-input
+                type="text"
+                formControlName="operationName"
+                placeholder="Facility"
+                inputCapitalizeFirst
+              ></ion-input>
             </ion-item>
             <ion-item class="address">
               <ion-label color="medium" position="stacked">Address</ion-label>
@@ -95,7 +100,12 @@
             </ion-item>
             <ion-item class="city">
               <ion-label color="medium" position="stacked">City</ion-label>
-              <ion-input type="text" formControlName="operationCity" placeholder="City"></ion-input>
+              <ion-input
+                type="text"
+                formControlName="operationCity"
+                placeholder="City"
+                inputCapitalizeFirst
+              ></ion-input>
             </ion-item>
             <ion-item class="state">
               <ion-label color="medium" position="stacked">State</ion-label>
@@ -189,6 +199,7 @@
                       type="text"
                       formControlName="operationContactFirstName"
                       placeholder="First Name"
+                      inputCapitalizeFirst
                       required
                     ></ion-input>
                   </ion-item>
@@ -196,7 +207,13 @@
                     <ion-label position="stacked" color="medium">
                       Last Name <span style="color:red">*</span>
                     </ion-label>
-                    <ion-input type="text" formControlName="operationContactLastName" placeholder="Last Name" required>
+                    <ion-input
+                      type="text"
+                      formControlName="operationContactLastName"
+                      placeholder="Last Name"
+                      inputCapitalizeFirst
+                      required
+                    >
                     </ion-input>
                   </ion-item>
                   <ion-item class="contact-email">

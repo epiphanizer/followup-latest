@@ -13,11 +13,11 @@
         <ion-list lines="none" inset>
           <ion-item class="first-name">
             <ion-label color="medium" position="stacked">First Name <span style="color:red">*</span></ion-label>
-            <ion-input type="text" formControlName="userFirstName" required></ion-input>
+            <ion-input type="text" formControlName="userFirstName" inputCapitalizeFirst required></ion-input>
           </ion-item>
           <ion-item class="last-name">
             <ion-label color="medium" position="stacked">Last Name <span style="color:red">*</span></ion-label>
-            <ion-input type="text" formControlName="userLastName" required></ion-input>
+            <ion-input type="text" formControlName="userLastName" inputCapitalizeFirst required></ion-input>
           </ion-item>
           <ion-item class="user-phone-container">
             <ion-item class="user-phone-country-code" style="display: none;">
@@ -30,7 +30,7 @@
             </ion-item>
             <ion-item class="user-phone-number">
               <ion-label color="medium" position="stacked">Phone #</ion-label>
-              <ion-input type="text" formControlName="userPhoneNumber" mask="0-000-000-0000"></ion-input>
+              <ion-input type="text" formControlName="userPhoneNumber"></ion-input>
             </ion-item>
           </ion-item>
           <ion-item class="user-spanish-speaking">
