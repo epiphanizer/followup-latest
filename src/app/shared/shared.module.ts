@@ -9,6 +9,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { nl2brPipe } from './pipes/nl2br.pipe';
 import { ListingFilterComponent } from './listing-filter/listing-filter.component';
 import { ListingSearchComponent } from './listing-search/listing-search.component';
+import { CapitalizeFirstDirective } from './directives/capitalize-first.directive';
 
 @NgModule({
   imports: [CommonModule, IonicModule, FormsModule],
@@ -19,7 +20,8 @@ import { ListingSearchComponent } from './listing-search/listing-search.componen
     CalendarComponent,
     nl2brPipe,
     ListingFilterComponent,
-    ListingSearchComponent
+    ListingSearchComponent,
+    CapitalizeFirstDirective
   ],
   exports: [
     LoaderComponent,
@@ -27,7 +29,8 @@ import { ListingSearchComponent } from './listing-search/listing-search.componen
     CalendarComponent,
     nl2brPipe,
     ListingFilterComponent,
-    ListingSearchComponent
+    ListingSearchComponent,
+    CapitalizeFirstDirective
   ]
 })
 export class SharedModule {}

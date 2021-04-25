@@ -51,7 +51,9 @@ export class UserCorkBoardService {
   doUpload(user: User) {
     return this.imageCompress.uploadFile().then((imageObj: any) => {
       this.imgResultBeforeCompress = imageObj.image;
-      this.imageCompress.compressFile(imageObj.image, imageObj.orientation, 50, 50).then((result: any) => {
+      // We set the second param (orientation) to 1 to
+      // make sure it's always properly oriented even if on an ios device, etc.
+      this.imageCompress.compressFile(imageObj.image, 1, 50, 50).then((result: any) => {
         this.imgResultAfterCompress = result;
         const imageBlob = this.dataURItoBlob(this.imgResultAfterCompress.split(',')[1]);
         let fileName =

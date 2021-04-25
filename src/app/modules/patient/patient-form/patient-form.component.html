@@ -31,7 +31,12 @@
           <ion-list lines="none" inset formGroupName="patientName">
             <ion-item class="patient-first-name">
               <ion-label color="medium" position="stacked">First Name <span style="color:red">*</span></ion-label>
-              <ion-input type="text" formControlName="patientFirstName" placeholder="First Name"></ion-input>
+              <ion-input
+                type="text"
+                formControlName="patientFirstName"
+                placeholder="First Name"
+                inputCapitalizeFirst
+              ></ion-input>
             </ion-item>
             <ion-item class="patient-last-name">
               <ion-label color="medium" position="stacked">Last Name <span style="color:red">*</span></ion-label>
