@@ -346,13 +346,15 @@ export class OperationFormComponent implements OnInit {
       var payload = {
         operationName: formSubmission.operation.operationName,
         operationGroupId: parseInt(formSubmission.operation.operationGroupId),
-        operationAddress: formSubmission.operation.operationAddress,
-        operationCity: formSubmission.operation.operationCity,
-        operationState: formSubmission.operation.operationState,
-        operationZip: formSubmission.operation.operationZip,
-        operationCountryCode: operationCountryCode,
-        operationAreaCode: operationAreaCode,
-        operationPhoneNumber: formSubmission.operation.operationPhoneNumber,
+        operationAddress: formSubmission.operation.operationAddress ? formSubmission.operation.operationAddress : '',
+        operationCity: formSubmission.operation.operationCity ? formSubmission.operation.operationCity : '',
+        operationState: formSubmission.operation.operationState ? formSubmission.operation.operationState : '',
+        operationZip: formSubmission.operation.operationZip ? formSubmission.operation.operationZip : '',
+        operationCountryCode: operationCountryCode ? operationCountryCode : '',
+        operationAreaCode: operationAreaCode ? operationAreaCode : '',
+        operationPhoneNumber: formSubmission.operation.operationPhoneNumber
+          ? formSubmission.operation.operationPhoneNumber
+          : '',
         operationActive: formSubmission.operation.operationActive ? 1 : 0
       };
       return <OperationPutBody>payload;
