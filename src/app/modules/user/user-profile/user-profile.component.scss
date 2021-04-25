@@ -272,6 +272,8 @@ form {
   }
 
   ion-list.checkbox-list-container {
+    visibility: visible;
+    margin-top: 1rem;
     ion-item {
       margin-left: 0;
     }
