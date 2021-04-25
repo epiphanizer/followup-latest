@@ -24,6 +24,9 @@
     &.expand {
       margin-top: 36px;
       background-image: url("/assets/icon-expand@2x.png");
+      @media screen and (orientation: portrait) and (max-width: 1024px) {
+        display: none;
+      }
     }
   }
 }
