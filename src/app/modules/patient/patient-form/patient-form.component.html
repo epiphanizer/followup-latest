@@ -107,10 +107,13 @@
           </ion-item>
           <div class="language-container">
             <ion-item class="speaks-english">
-              <ion-checkbox formControlName="patientSpeaksNoEnglish"></ion-checkbox>
+              <ion-checkbox formControlName="patientSpeaksEnglish"></ion-checkbox>
               <ion-label>Doesn't Speaks English</ion-label>
             </ion-item>
-            <ion-item class="fluent-language">
+            <ion-item
+              class="fluent-language"
+              [class.show]="patientForm.get('patient.patientSpeaksEnglish').value !== false"
+            >
               <ion-label position="stacked">Fluent Language <span style="color:red">*</span></ion-label>
               <ion-select formControlName="patientFluentLanguage" placeholder="Fluent Language">
                 <ion-select-option selected value="English">English</ion-select-option>
@@ -178,16 +181,16 @@
 
                 <div class="phone-container">
                   <ion-item class="country-code">
-                    <ion-label color="medium" position="stacked">+(1) <span style="color:red">*</span></ion-label>
+                    <ion-label color="medium" position="stacked">+(1)</ion-label>
                     <ion-input type="text" maxLength="2" formControlName="patientContactCountryCode"></ion-input>
                   </ion-item>
                   <ion-item class="area-code">
-                    <ion-label color="medium" position="stacked">(###) <span style="color:red">*</span></ion-label>
+                    <ion-label color="medium" position="stacked">(###)</ion-label>
                     <ion-input type="text" maxLength="3" formControlName="patientContactAreaCode" placeholder="000">
                     </ion-input>
                   </ion-item>
                   <ion-item class="phone-number">
-                    <ion-label color="medium" position="stacked">Phone # <span style="color:red">*</span></ion-label>
+                    <ion-label color="medium" position="stacked">Phone #</ion-label>
                     <ion-input type="text" mask="000-0000" formControlName="patientContactPhoneNumber"></ion-input>
                   </ion-item>
                   <ion-item class="patient-contact-order">
@@ -329,9 +332,7 @@
                 <ion-textarea [autoGrow]="true" formControlName="patientPrimaryDiagnosis"></ion-textarea>
               </ion-item>
               <ion-item class="textarea-item" *ngIf="patient">
-                <ion-label color="medium" position="stacked"
-                  >Discharged Condition <span style="color:red">*</span>
-                </ion-label>
+                <ion-label color="medium" position="stacked">Discharged Condition </ion-label>
                 <ion-textarea [autoGrow]="true" formControlName="patientDischargedCondition"></ion-textarea>
               </ion-item>
             </ion-list>

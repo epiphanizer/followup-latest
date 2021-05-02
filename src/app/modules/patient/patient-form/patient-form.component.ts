@@ -229,6 +229,7 @@ export class PatientFormComponent implements OnInit {
   }
 
   private createForm() {
+    console.log(this.patient.patientSpeaksEnglish);
     this.patientForm = this.fb.group({
       patient: this.fb.group({
         operation: this.fb.control(this.patient.patientOperationId, [Validators.required]),
@@ -253,7 +254,11 @@ export class PatientFormComponent implements OnInit {
         patientPhoneNumber: this.fb.control(this.patient.patientPhoneNumber),
         patientHIPAA: this.fb.control(this.patient.patientHIPAA),
         patientIsResponsibleParty: this.fb.control(this.patient.patientIsResponsibleParty),
-        patientSpeaksNoEnglish: this.fb.control(this.patient.patientSpeaksEnglish ? false : true),
+        patientSpeaksEnglish: this.fb.control(
+          typeof this.patient.patientSpeaksEnglish == 'undefined' || this.patient.patientSpeaksEnglish == true
+            ? false
+            : true
+        ),
         patientFluentLanguage: this.fb.control(
           this.patient.patientFluentLanguage ? this.patient.patientFluentLanguage : 'English'
         ),
@@ -288,7 +293,6 @@ export class PatientFormComponent implements OnInit {
           Validators.pattern(this.stringMinimumOneWordRegEx)
         ]),
         patientDischargedCondition: this.fb.control(this.patient.patientDischargedCondition, [
-          Validators.required,
           Validators.pattern(this.stringMinimumOneWordRegEx)
         ]),
         patientIntakeQuestionAnswers: this.fb.array([]),

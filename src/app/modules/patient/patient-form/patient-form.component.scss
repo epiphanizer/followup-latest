@@ -367,6 +367,7 @@ form {
     }
 
     ion-item.fluent-language {
+      display: none;
       &.show {
         display: inline-block;
         width: 100%;
