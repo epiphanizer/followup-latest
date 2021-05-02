@@ -5,7 +5,7 @@
     min-height: 275px;
   }
 
-  margin-bottom: 3.33rem;
+  margin-bottom: 1rem;
 }
 
 .avatar-container {
@@ -113,6 +113,9 @@
 
   .patient-name {
     margin-top: 32px;
+    @media screen and (max-width: 1024px) and (orientation: portrait) {
+      margin-top: 14px;
+    }
     text-transform: capitalize;
     font-family: AvenirPro;
     font-weight: bold;

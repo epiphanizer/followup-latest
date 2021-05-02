@@ -51,7 +51,7 @@
                 >{{ user.userFavoriteDessert ? user.userFavoriteDessert : 'Not Provided' }}
               </span>
               <div class="user-information">
-                <h3 class="about-me">ABOUT ME</h3>
+                <h3 class="about-me" *ngIf="additionalInfoDecoded">ABOUT ME</h3>
                 <p class="additional-info" [innerHTML]="additionalInfoDecoded"></p>
                 <ul class="user-interests" *ngIf="user">
                   <li *ngFor="let interest of user.userInterests | keyvalue">

@@ -75,6 +75,9 @@
     float: left;
     max-width: 662px;
     margin-left: 62px;
+    @media screen and (max-width: 1024px) and (orientation: portrait) {
+      margin-left: 31px;
+    }
     margin-top: 10px;
     width: calc(100% - 320px);
   }

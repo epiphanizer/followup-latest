@@ -28,6 +28,10 @@
   background-image: url("/assets/photo-frame@2x.png");
   width: 262px;
   height: 312px;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    width: 162px;
+    height: 193px;
+  }
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -37,6 +41,10 @@
   cursor: pointer;
   background-image: url("/assets/photo-mask@2x.png");
   background-size: 230px 280px;
+  @media screen and (max-width: 1024px) and (orientation: portrait) {
+    height: 192px;
+    background-size: 136px 165px;
+  }
   background-repeat: no-repeat;
   background-position: center center;
 }

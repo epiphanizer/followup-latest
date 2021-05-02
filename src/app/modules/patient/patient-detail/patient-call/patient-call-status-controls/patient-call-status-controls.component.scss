@@ -39,6 +39,8 @@ ion-list {
     margin-right: -5px;
     &.patient-status-control {
       height: 34px;
+      --padding-start: 8px;
+      margin-top: -10px;
     }
     width: auto;
     &.active {

@@ -62,13 +62,11 @@ ion-item {
 
   ion-textarea {
     padding-top: 0;
-    padding-right: 10px;
-    padding: 6px 3px;
+    --padding-top: 0;
     line-height: 27px;
     font-family: AvenirPro;
-    font-size: 14px;
     padding-left: 8px;
-    font-size: 16px;
+    font-size: 15px;
     padding-top: 8px;
     display: block;
     width: 445px;

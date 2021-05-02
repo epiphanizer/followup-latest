@@ -31,7 +31,10 @@
           >Age: {{ patient.patientAge }}&nbsp;&nbsp;&nbsp;
           {{ patient.patientGender == 'male' ? 'Male' : 'Female' }}&nbsp;&nbsp;&nbsp;
         </span>
-        <span class="patient-contact-number">
+        <span
+          class="patient-contact-number"
+          *ngIf="patient.patientCountryCode && patient.patientAreaCode && patient.patientPhoneNumber"
+        >
           {{ patient.patientCountryCode }}-{{ patient.patientAreaCode }}-{{ patient.patientPhoneNumber }}
         </span>
         <div class="patient-contact-container">
@@ -43,10 +46,15 @@
                   <i class="icon-hipaa" *ngIf="patientContact.patientContactResponsiblePartyBoolean"></i>
                 </ng-container>
                 <span class="alternate-contact" [class.first]="patientContact.patientContactResponsiblePartyBoolean">
-                  {{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }},
-                  {{ patientContact.patientContactRelationship }}: {{ patientContact.patientContactAreaCode }}-{{
-                    patientContact.patientContactPhoneNumber
-                  }}
+                  <span *ngIf="patientContact.patientContactFirstName"
+                    >{{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }}</span
+                  >
+                  <span *ngIf="patientContact.patientContactRelationship">{{
+                    patientContact.patientContactRelationship
+                  }}</span>
+                  <span *ngIf="patientContact.patientContactAreaCode && patientContact.patientContactPhoneNumber"
+                    >: {{ patientContact.patientContactAreaCode }}-{{ patientContact.patientContactPhoneNumber }}
+                  </span>
                 </span>
               </ion-item>
             </div>
