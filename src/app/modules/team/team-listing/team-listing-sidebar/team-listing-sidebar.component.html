@@ -12,12 +12,7 @@
       <div class="team-member-container">
         <span class="sidebar-label" (click)="toggleTeamManagerSidebarMenu(team)"
           >MANAGERS
-          <i
-            class="expand-members-trigger"
-            (click)="toggleTeamManagerSidebarMenu(team)"
-            [@turnArrow]="team.teamManagerSidebarDropdownOpen ? 'open' : 'closed'"
-          >
-          </i>
+          <i class="expand-members-trigger" [@turnArrow]="team.teamManagerSidebarDropdownOpen ? 'open' : 'closed'"> </i>
         </span>
         <ul class="team-members-list" *ngIf="team.teamManagerSidebarDropdownOpen">
           <li *ngFor="let teamMember of team.teamManagers">
@@ -30,12 +25,7 @@
       <div class="team-member-container">
         <span class="sidebar-label" (click)="toggleTeamCareRepSidebarMenu(team)"
           >CARE REPS
-          <i
-            class="expand-members-trigger"
-            (click)="toggleTeamCareRepSidebarMenu(team)"
-            [@turnArrow]="team.teamCareRepSidebarDropdownOpen ? 'open' : 'closed'"
-          >
-          </i>
+          <i class="expand-members-trigger" [@turnArrow]="team.teamCareRepSidebarDropdownOpen ? 'open' : 'closed'"> </i>
         </span>
         <ul class="team-members-list" *ngIf="team.teamCareRepSidebarDropdownOpen">
           <li *ngFor="let teamMember of team.teamCareReps">
@@ -48,12 +38,7 @@
       <div class="team-member-container">
         <span class="sidebar-label" (click)="toggleTeamSpanishSidebarMenu(team)"
           >SPANISH
-          <i
-            class="expand-members-trigger"
-            (click)="toggleTeamSpanishSidebarMenu(team)"
-            [@turnArrow]="team.teamSpanishSidebarDropdownOpen ? 'open' : 'closed'"
-          >
-          </i>
+          <i class="expand-members-trigger" [@turnArrow]="team.teamSpanishSidebarDropdownOpen ? 'open' : 'closed'"> </i>
         </span>
         <ul class="team-members-list" *ngIf="team.teamSpanishSidebarDropdownOpen">
           <li *ngFor="let teamMember of team.teamSpanishSpeaking">
