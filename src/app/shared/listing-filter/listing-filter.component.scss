@@ -115,6 +115,9 @@
       width: 23px;
       height: 23px;
       display: inline-block;
+      @media screen and (max-width: 1024px) and (orientation: portrait) {
+        display: none;
+      }
     }
 
     &.desc-control {
