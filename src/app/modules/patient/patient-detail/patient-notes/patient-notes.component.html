@@ -26,7 +26,7 @@
 <i class="icon-medical"></i>
 <ion-list class="more-info-section" inset lines="none">
   <ion-item>
-    <span class="medical-condition-label label">
+    <span class="medical-condition-label label" *ngIf="patientMedicalConditions">
       Medical Conditions: &nbsp;
     </span>
     <label
