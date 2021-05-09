@@ -58,6 +58,7 @@ import { Observable } from 'rxjs';
   ]
 })
 export class CallQueueSidebarComponent {
+  currentAssignedSpanishDischargeCount: number;
   currentNewDischargeCount: number;
   @Output() operationChangeEvent = new EventEmitter<number>();
   selected: {

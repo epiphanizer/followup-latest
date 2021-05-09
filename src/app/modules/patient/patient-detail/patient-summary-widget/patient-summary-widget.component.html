@@ -1,15 +1,12 @@
 <ng-container class-="patient-summary-widget">
   <ion-row class="patient-summary">
-    <ion-col>
-      <div class="avatar-container">
-        <div class="spanish-flag" *ngIf="patient.patientFluentLanguage == 'Spanish'">
-          <div class="hola-bg"></div>
-        </div>
-        <app-patient-avatar [patient]="patient" [routerLink]="'/patient/edit/' + patient.patientId">
-        </app-patient-avatar>
+    <div class="avatar-container">
+      <div class="spanish-flag" *ngIf="patient.patientFluentLanguage == 'Spanish'">
+        <div class="hola-bg"></div>
       </div>
-    </ion-col>
-    <ion-col class="patient-summary-container">
+      <app-patient-avatar [patient]="patient" [routerLink]="'/patient/edit/' + patient.patientId"> </app-patient-avatar>
+    </div>
+    <div class="patient-summary-container">
       <div class="patient-info">
         <div class="patient-meta-info">
           <span class="patient-medical-record-number"> #{{ patient.patientMedicalRecordNumber }} </span>
@@ -61,6 +58,6 @@
           </ion-list>
         </div>
       </div>
-    </ion-col>
+    </div>
   </ion-row>
 </ng-container>
