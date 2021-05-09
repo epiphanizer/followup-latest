@@ -11,6 +11,9 @@
     max-height: 39vh;
     margin-bottom: 20px;
 
+    @media screen and (max-width: 1024px) {
+      max-height: unset;
+    }
     ion-col {
       min-height: 20vh;
 
