@@ -117,10 +117,14 @@
           font-family: AvenirProMediumItalic;
           font-size: 15px;
           text-align: left;
+          @media screen and (max-width: 1024px) {
+            height: 20vh;
+            overflow: scroll;
+          }
         }
 
         .user-message-body {
-          padding: 48px 30px;
+          padding: 1rem 2rem;
         }
       }
     }
