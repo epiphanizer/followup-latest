@@ -202,6 +202,9 @@ h3 {
       padding-left: 11px;
       display: table-cell;
       color: black;
+      @media screen and (max-width: 1024px) {
+        width: 242px;
+      }
     }
 
     .call-queue-patient-name {

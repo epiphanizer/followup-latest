@@ -172,6 +172,7 @@ ion-radio {
     font-family: AvenirPro;
     font-size: 15px;
     font-weight: normal;
+    text-transform: capitalize;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.2;
@@ -188,6 +189,7 @@ ion-radio {
 .custom-question-container {
   ion-label {
     font-family: Avenir;
+    text-transform: capitalize;
     font-size: 14px;
     font-weight: bold;
     width: 100%;

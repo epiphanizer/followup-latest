@@ -17,6 +17,7 @@ import { DatePipe } from '@angular/common';
 })
 export class CallQueuePatientFilterComponent implements OnInit {
   @Input() operation: Operation;
+  @Input() mode: any;
   @Input() filterDate: string;
   @Input() patientCalls: PatientCall[];
   patientCallsFiltered: PatientCall[] = [];
@@ -27,18 +28,7 @@ export class CallQueuePatientFilterComponent implements OnInit {
 
   constructor(private patientCallService: PatientCallService, private datePipe: DatePipe) {}
   ngOnInit() {
-    if (this.operation) {
-      this.patientCallService
-        .getPatientCallsByOperationId(this.operation.operationId)
-        .subscribe((patientCalls: PatientCall[]) => {
-          if (!patientCalls) {
-            this.patientCalls = [];
-          }
-          this.patientCalls = patientCalls;
-          this.searchPatientCallHistoryBySelectedDate(this.filterDate);
-        });
-    } else {
-      // spanish speaking won't have a specific operation tied to it
+    if (this.mode.spanish) {
       this.patientCallService.getSpanishSpeakingPatientCalls().subscribe((patientCalls: PatientCall[]) => {
         if (!patientCalls) {
           this.patientCalls = [];
@@ -46,6 +36,27 @@ export class CallQueuePatientFilterComponent implements OnInit {
         this.patientCalls = patientCalls;
         this.searchPatientCallHistoryBySelectedDate(this.filterDate);
       });
+    } else {
+      if (this.operation) {
+        this.patientCallService
+          .getPatientCallsByOperationId(this.operation.operationId)
+          .subscribe((patientCalls: PatientCall[]) => {
+            if (!patientCalls) {
+              this.patientCalls = [];
+            }
+            this.patientCalls = patientCalls;
+            this.searchPatientCallHistoryBySelectedDate(this.filterDate);
+          });
+      } else {
+        // spanish speaking won't have a specific operation tied to it
+        this.patientCallService.getSpanishSpeakingPatientCalls().subscribe((patientCalls: PatientCall[]) => {
+          if (!patientCalls) {
+            this.patientCalls = [];
+          }
+          this.patientCalls = patientCalls;
+          this.searchPatientCallHistoryBySelectedDate(this.filterDate);
+        });
+      }
     }
   }
   ngOnChanges(changes: SimpleChanges) {
