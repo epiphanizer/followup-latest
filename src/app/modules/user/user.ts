@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 export interface User {
   userId: number;
   userLevel: number;
+  userRoleType?: string;
   username: string;
   userEmail: string;
   avatarData?: Blob;

@@ -64,7 +64,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   @Input() operation: Operation;
 
   activeOperationId: number;
-  availableUsers: User[];
+  availableUsers: User[] = [];
   fb: FormBuilder;
   callRepsForm: FormArray;
   managersForm: FormArray;
@@ -77,6 +77,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   operationAssignedUsersOriginal: number[];
   operationAssignedUsersToRemove: number[] = [];
   operationManager: OperationManager;
+  operationManagerOriginal: OperationManager;
   constructor(
     private route: ActivatedRoute,
     private logService: LogService,
@@ -109,6 +110,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     if (this.route.snapshot.paramMap.get('operationId')) {
       this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
       this.updateAssignedUsers();
+      this.updateAssignedManager();
     }
     this.route.paramMap.subscribe(params => {
       if (params.get('operationId')) {
@@ -143,9 +145,14 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         take(1),
         map((users: User[]) => {
           if (users) {
-            this.operationAssignedUsers = users;
+            this.operationAssignedUsers = users.filter(user => {
+              return user.userRoleType != 'Manager';
+            });
             this.operationAssignedUsers.forEach((operationCallRep: OperationCallRep) => {
-              this.operationAssignedUsersOriginal.push(operationCallRep.userId);
+              if (operationCallRep.userRoleLabel != 'Manager') {
+                this.operationAssignedUsersOriginal.push(operationCallRep.userId);
+                console.log(this.operationAssignedUsers);
+              }
             });
           } else {
             if (!this.mode.edit) {
@@ -161,17 +168,19 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       .subscribe();
   }
   updateAssignedManager() {
-    this.operationManager = {
-      operationId: null,
-      userId: null
-    };
     this.operationService
       .getOperationManagersByOperationId(this.activeOperationId)
       .pipe(
         take(1),
         map((managers: OperationManager[]) => {
-          if (managers) {
+          if (managers[0]) {
             this.operationManager = managers[0];
+            this.operationManagerOriginal = managers[0];
+          } else {
+            this.operationManager = this.operationManagerOriginal = {
+              userId: null,
+              operationId: null
+            };
           }
         })
       )
@@ -244,18 +253,30 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     if (managerUserId == 0) {
       return;
     }
-    this.operationService
-      .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, managerUserId)
-      .subscribe(() => {
-        this.operationService
-          .assignManagerToOperationByOperationIdAndUserId(
-            this.operationManager.operationId,
-            this.operationManager.userId
-          )
-          .subscribe(() => {
-            this.toastr.success('Manager successfully Added');
-          });
-      });
+    console.log(this.operationManager);
+    console.log(this.operationManagerOriginal);
+    if (this.operationManagerOriginal.userId) {
+      this.operationService
+        .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, this.operationManagerOriginal.userId)
+        .subscribe(() => {
+          this.operationService
+            .assignManagerToOperationByOperationIdAndUserId(
+              this.operationManager.operationId,
+              this.operationManager.userId
+            )
+            .subscribe(() => {
+              this.operationManagerOriginal = this.operationManager;
+              this.toastr.success('Manager successfully Added');
+            });
+        });
+    } else {
+      this.operationService
+        .assignManagerToOperationByOperationIdAndUserId(this.operationManager.operationId, this.operationManager.userId)
+        .subscribe(() => {
+          this.operationManagerOriginal = this.operationManager;
+          this.toastr.success('Manager successfully Added');
+        });
+    }
   }
   public toggleOperationManagersAssignedMenu = function() {
     this.managerSidebarDropdownOpen = !this.managerSidebarDropdownOpen;

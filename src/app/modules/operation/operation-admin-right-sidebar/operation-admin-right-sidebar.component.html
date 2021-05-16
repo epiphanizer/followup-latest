@@ -5,7 +5,7 @@
     </ion-item>
     <fieldset class="operation-team-members">
       <span class="section-label" (click)="toggleOperationManagersAssignedMenu()">
-        <span *ngIf="mode.edit || mode.add">Assigned </span>Managers
+        <span *ngIf="mode.edit || mode.add">Assigned </span>Manager
         <i
           *ngIf="!mode.edit || mode.add"
           class="icon-dropdown"
@@ -24,7 +24,7 @@
           <ion-item class="sidebar-listing" id="operation-manager">
             <ion-label color="medium" position="stacked">Assign Manager</ion-label>
             <ion-select
-              *ngIf="(mode.edit || mode.add) && availableUsers?.length; else managerSpan"
+              *ngIf="(mode.edit || mode.add) && operationManager && availableUsers; else managerSpan"
               (ionChange)="managerOnSelect($event, idx)"
               class="operation-assigned-manager"
               placeholder="Assign Manager"
@@ -32,14 +32,14 @@
               <ion-select-option
                 *ngFor="let user of availableUsers"
                 [value]="user.userId"
-                [selected]="user.userId == operationManager.userId"
+                [selected]="user.userId == operationManager?.userId"
               >
                 {{ user.userLastName }}, {{ user.userFirstName }}
               </ion-select-option>
             </ion-select>
             <ng-template #managerSpan>
               <span class="operation-manager">
-                {{ operationManager.userFirstName }} {{ operationManager.userLastName }}
+                {{ operationManager?.userFirstName }} {{ operationManager?.userLastName }}
               </span>
             </ng-template>
           </ion-item>

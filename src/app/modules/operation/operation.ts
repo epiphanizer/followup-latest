@@ -73,6 +73,7 @@ export interface OperationManager {
  */
 export interface OperationCallRep {
   userId: number;
+  userRoleLabel?: string;
   operationId: number;
   operationCallRepId?: number;
   operationCallRepName?: string;
