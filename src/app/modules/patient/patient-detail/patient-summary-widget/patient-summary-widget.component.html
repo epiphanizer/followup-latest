@@ -45,10 +45,9 @@
                 <span class="alternate-contact" [class.first]="patientContact.patientContactResponsiblePartyBoolean">
                   <span *ngIf="patientContact.patientContactFirstName"
                     >{{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }}</span
+                  ><span *ngIf="patientContact.patientContactRelationship"
+                    >, {{ patientContact.patientContactRelationship }}</span
                   >
-                  <span *ngIf="patientContact.patientContactRelationship">{{
-                    patientContact.patientContactRelationship
-                  }}</span>
                   <span *ngIf="patientContact.patientContactAreaCode && patientContact.patientContactPhoneNumber"
                     >: {{ patientContact.patientContactAreaCode }}-{{ patientContact.patientContactPhoneNumber }}
                   </span>
