@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from '@app/core';
 import { OperationService } from '@app/modules/operation/operation.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   providers: [ToastrService, UserService, UserAvatarService],
@@ -80,9 +81,9 @@ export class UserProfileComponent implements OnInit {
       userPhoneCountryCode: [this.user.userCountryCode, [Validators.pattern(this.numericRegEx)]],
       userPhoneAreaCode: [this.user.userAreaCode, [Validators.pattern(this.numericRegEx)]],
       userPhoneNumber: [this.user.userPhoneNumber, [Validators.pattern(this.phoneRegEx)]],
-      userDob: [this.user.userDob, [Validators.required]],
-      userFavoriteDessert: [this.user.userFavoriteDessert],
-      userSpeaksSpanish: this.user.userSpeaksSpanish,
+      userDob: this.fb.control(formatDate(this.user.userDob, 'yyyy-MM-dd', 'en'), [Validators.required]),
+      userFavoriteDessert: this.fb.control(this.user.userFavoriteDessert),
+      userSpeaksSpanish: this.fb.control(this.user.userSpeaksSpanish == true ? '1' : '0'),
       userInterests: this.fb.group({
         celebrity: this.fb.control(this.user.userInterests.celebrity),
         helicopter: this.fb.control(this.user.userInterests.helicopter),
@@ -99,6 +100,7 @@ export class UserProfileComponent implements OnInit {
       }),
       userAdditionalInfo: this.fb.control(this.user.userAdditionalInfo)
     });
+    this.userProfileForm.updateValueAndValidity();
   }
   cancelUpdateProfile() {
     window.location.reload();
