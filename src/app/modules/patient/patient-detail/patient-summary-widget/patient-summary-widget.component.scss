@@ -17,9 +17,9 @@
     z-index: 1;
     height: 22px;
     width: 66px;
-    right: 289px;
-    @media screen and (min-width: 1025px) {
-      right: 388px;
+    left: 170px;
+    @media screen and (max-width: 1024px) {
+      left: 120px;
     }
     top: 6px;
     text-align: center;
