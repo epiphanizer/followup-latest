@@ -4,11 +4,9 @@ import { Observable } from 'rxjs';
 import { Patient, PatientDischargeLabel } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
-import { SuperForm } from 'angular-super-validator';
 import { PatientPutBody } from './patient-form';
-import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
 import { PatientContact, PatientContactPostBody, PatientContactPutBody } from '../patient-contact/patient-contact';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientContactService } from '../patient-contact/patient-contact.service';
@@ -18,11 +16,12 @@ import {
   PatientIntakeQuestionAnswer
 } from '../patient-intake-question/patient-intake-question.component';
 import { PatientIntakeQuestionService } from '../patient-intake-question/patient-intake-question.service';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { SafeStyle } from '@angular/platform-browser';
 import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { formatDate } from '@angular/common';
 
 @Component({
   providers: [NgxImageCompressService, PatientService, PatientIntakeQuestionService],
@@ -247,7 +246,7 @@ export class PatientFormComponent implements OnInit {
             Validators.pattern(this.stringMinimumOneWordRegEx)
           ])
         }),
-        patientDob: this.fb.control(this.patient.patientDob, [Validators.required]),
+        patientDob: this.fb.control(formatDate(this.patient.patientDob, 'yyyy-MM-dd', 'en'), [Validators.required]),
         patientGender: this.fb.control(this.patient.patientGender),
         patientCountryCode: this.fb.control(this.patient.patientCountryCode ? this.patient.patientCountryCode : '1'),
         patientAreaCode: this.fb.control(this.patient.patientAreaCode),
@@ -271,8 +270,12 @@ export class PatientFormComponent implements OnInit {
           primaryInsurance: this.fb.control(this.patient.patientPrimaryInsurance)
         }),
         dischargeInfo: this.fb.group({
-          patientAdmitDate: this.fb.control(this.patient.patientAdmitDate, [Validators.required]),
-          patientDischargeDate: this.fb.control(this.patient.patientDischargeDate, [Validators.required]),
+          patientAdmitDate: this.fb.control(formatDate(this.patient.patientAdmitDate, 'yyyy-MM-dd', 'en'), [
+            Validators.required
+          ]),
+          patientDischargeDate: this.fb.control(formatDate(this.patient.patientDischargeDate, 'yyyy-MM-dd', 'en'), [
+            Validators.required
+          ]),
           patientTotalDays: this.fb.control({
             disabled: true,
             value: this.patient.patientTotalDays
@@ -376,6 +379,9 @@ export class PatientFormComponent implements OnInit {
         window.location.href = '/operations/' + this.patient.patientOperationId + '/patients';
       });
     }
+  }
+  cancel(): void {
+    window.location.reload();
   }
   onFormSubmit(): void {
     if (!this.validateControls()) {

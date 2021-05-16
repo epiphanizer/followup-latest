@@ -131,10 +131,6 @@ h3 {
   }
 }
 
-.notification-review-item-message {
-  max-width: 380px;
-}
-
 .left-col {
   max-width: 170px;
   float: left;
@@ -155,13 +151,13 @@ h3 {
   margin-left: 5px;
 
   .review-textarea {
-    max-width: 300px;
+    // max-width: 300px;
     max-height: 150px;
   }
 
   ion-item.notification-review-item-message {
     --inner-padding-start: 0;
-    width: 350px;
+    width: 475px;
     --inner-padding-end: 0;
     --padding-start: 0;
     --padding-end: 0;
@@ -171,7 +167,7 @@ h3 {
   ion-textarea {
     padding-left: 12px;
     height: 115px;
-    width: 300px;
+    width: 475px;
     margin: 0 auto;
     font-size: 13px;
     font-family: Avenir;
@@ -214,9 +210,10 @@ ion-radio {
 }
 
 .secondary.button.edit {
+  margin-top: 10px;
   margin-left: 58px;
 }
 
 .primary.button.send {
-  margin-right: 55px;
+  margin-right: 62px;
 }
