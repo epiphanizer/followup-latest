@@ -54,6 +54,10 @@ export class OperationFormComponent implements OnInit {
   notificationTypes: NotificationType[];
   operationForm!: FormGroup;
   operation$: Observable<Operation>;
+  operationManagers: OperationManager[] = [];
+  operationManagersOriginal: number[] = [];
+  operationManagersToAdd: OperationManager[] = [];
+  operationManagersToRemove: number[] = [];
   operationCallReps: OperationCallRep[] = [];
   operationCallRepsOriginal: number[] = [];
   operationCallRepsToAdd: OperationCallRep[] = [];

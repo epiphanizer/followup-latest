@@ -13,7 +13,7 @@
           [@turnArrow]="managerSidebarDropdownOpen ? 'open' : 'closed'"
         ></i
       ></span>
-      <div class="manager-container" *ngFor="let operationManager of operationAssignedManagers; let idx = index">
+      <div class="manager-container">
         <ion-list
           class="assigned-manager-list"
           [class.edit]="mode.edit || mode.add"
@@ -21,7 +21,7 @@
           lines="none"
           [class.show]="managerSidebarDropdownOpen"
         >
-          <ion-item class="sidebar-listing" id="operation-manager-{{ idx }}">
+          <ion-item class="sidebar-listing" id="operation-manager">
             <ion-label color="medium" position="stacked">Assign Manager</ion-label>
             <ion-select
               *ngIf="(mode.edit || mode.add) && availableUsers?.length; else managerSpan"
