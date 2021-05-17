@@ -148,12 +148,10 @@ export class OperationAdminRightSidebarComponent implements OnInit {
             this.operationAssignedUsers = users.filter(user => {
               return user.userRoleType != 'Manager';
             });
-            this.operationAssignedUsers.forEach((operationCallRep: OperationCallRep) => {
-              if (operationCallRep.userRoleLabel != 'Manager') {
-                this.operationAssignedUsersOriginal.push(operationCallRep.userId);
-                console.log(this.operationAssignedUsers);
-              }
+            this.operationAssignedUsers = this.operationAssignedUsers.filter((operationCallRep: OperationCallRep) => {
+              return operationCallRep.userRoleLabel != 'Manager';
             });
+            this.operationAssignedUsersOriginal = this.operationAssignedUsers;
           } else {
             if (!this.mode.edit) {
               this.callRepSidebarDropdownOpen = false;
@@ -204,6 +202,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     this.operationAssignedUsers[index] = operationCallRepObject;
 
     // Passes E2E
+    console.log(this.operationAssignedUsersToRemove);
     this.operationAssignedUsersToRemove.forEach((callRepUserId: number, index: number) => {
       if (callRepUserId == 0) {
         return;
