@@ -246,7 +246,10 @@ export class PatientFormComponent implements OnInit {
             Validators.pattern(this.stringMinimumOneWordRegEx)
           ])
         }),
-        patientDob: this.fb.control(formatDate(this.patient.patientDob, 'yyyy-MM-dd', 'en'), [Validators.required]),
+        patientDob: this.fb.control(
+          this.patient.patientDob ? formatDate(this.patient.patientDob, 'yyyy-MM-dd', 'en') : '',
+          [Validators.required]
+        ),
         patientGender: this.fb.control(this.patient.patientGender),
         patientCountryCode: this.fb.control(this.patient.patientCountryCode ? this.patient.patientCountryCode : '1'),
         patientAreaCode: this.fb.control(this.patient.patientAreaCode),
@@ -270,12 +273,16 @@ export class PatientFormComponent implements OnInit {
           primaryInsurance: this.fb.control(this.patient.patientPrimaryInsurance)
         }),
         dischargeInfo: this.fb.group({
-          patientAdmitDate: this.fb.control(formatDate(this.patient.patientAdmitDate, 'yyyy-MM-dd', 'en'), [
-            Validators.required
-          ]),
-          patientDischargeDate: this.fb.control(formatDate(this.patient.patientDischargeDate, 'yyyy-MM-dd', 'en'), [
-            Validators.required
-          ]),
+          patientAdmitDate: this.fb.control(
+            this.patient.patientAdmitDate ? formatDate(this.patient.patientAdmitDate, 'yyyy-MM-dd', 'en') : '',
+            [Validators.required]
+          ),
+          patientDischargeDate: this.fb.control(
+            this.patient.patientDischargeDate
+              ? formatDate(this.patient.patientDischargeDate, 'yyyy-MM-dd', 'en')
+              : null,
+            [Validators.required]
+          ),
           patientTotalDays: this.fb.control({
             disabled: true,
             value: this.patient.patientTotalDays

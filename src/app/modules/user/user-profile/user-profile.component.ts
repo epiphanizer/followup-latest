@@ -81,7 +81,9 @@ export class UserProfileComponent implements OnInit {
       userPhoneCountryCode: [this.user.userCountryCode, [Validators.pattern(this.numericRegEx)]],
       userPhoneAreaCode: [this.user.userAreaCode, [Validators.pattern(this.numericRegEx)]],
       userPhoneNumber: [this.user.userPhoneNumber, [Validators.pattern(this.phoneRegEx)]],
-      userDob: this.fb.control(formatDate(this.user.userDob, 'yyyy-MM-dd', 'en'), [Validators.required]),
+      userDob: this.fb.control(this.user.userDob ? formatDate(this.user.userDob, 'yyyy-MM-dd', 'en') : '', [
+        Validators.required
+      ]),
       userFavoriteDessert: this.fb.control(this.user.userFavoriteDessert),
       userSpeaksSpanish: this.fb.control(this.user.userSpeaksSpanish == true ? '1' : '0'),
       userInterests: this.fb.group({
