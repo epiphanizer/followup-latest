@@ -135,11 +135,15 @@ export class PatientManagerSidebarComponent implements OnInit {
     } else {
       this.route.paramMap.subscribe(params => {
         if (params.get('operationId')) {
-          console.log('this far');
           this.activeOperationId = parseInt(params.get('operationId'));
-          this.operationGroups.forEach(operationGroup => {
-            if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
-              operationGroup.sidebarDropdownOpen = false;
+          this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
+            this.selected.operation = operation[0];
+            if (this.operationGroups) {
+              this.operationGroups.forEach(operationGroup => {
+                if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
+                  operationGroup.sidebarDropdownOpen = false;
+                }
+              });
             }
           });
         }

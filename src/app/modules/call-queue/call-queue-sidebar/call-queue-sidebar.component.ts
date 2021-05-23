@@ -95,6 +95,7 @@ export class CallQueueSidebarComponent {
       if (data.params.operationId) {
         this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
           this.selected.operation = data[0];
+          this.activeOperationId = this.selected.operation.operationId;
           this.patientService
             .getActivePatientListByOperationId(this.selected.operation.operationId)
             .subscribe((patients: Patient[]) => {

@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { Observable } from 'rxjs';
 import { Operation, OperationGroup } from '../operation';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-operation-admin-sidebar',
@@ -72,12 +73,41 @@ export class OperationAdminSidebarComponent implements OnInit {
   todaysDateDay: string;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      if (params.get('operationId')) {
+        this.activeOperationId = parseInt(params.get('operationId'));
+        this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
+          this.selected.operation = operation[0];
+          if (this.operationGroups) {
+            this.operationGroups.forEach(operationGroup => {
+              if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
+                operationGroup.sidebarDropdownOpen = false;
+              }
+            });
+          }
+        });
+      }
+    });
     this.operationGroups$ = this.operationService.getOperationGroups();
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
       if (operationGroups) {
-        operationGroups.forEach((operationGroup: OperationGroup) => {
-          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
-          operationGroup.sidebarDropdownOpen = false;
+        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup).pipe(
+            map((operations: Operation[]) => {
+              if (operations) {
+                if (idx == 0 && !this.selected.operation) {
+                  this.selected.operation = operations[0];
+                  this.activeOperationId = this.selected.operation.operationId;
+                }
+                return operations;
+              }
+            })
+          );
+          if (idx == 0) {
+            operationGroup.sidebarDropdownOpen = true;
+          } else {
+            operationGroup.sidebarDropdownOpen = false;
+          }
         });
         this.operationGroups = operationGroups;
       }

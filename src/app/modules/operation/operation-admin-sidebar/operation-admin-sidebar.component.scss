@@ -135,6 +135,10 @@
       text-decoration: none;
       text-transform: capitalize;
       color: #343638;
+      &.active {
+        font-family: "AvenirBold";
+        color: #000;
+      }
     }
 
     span.current-patients {
