@@ -83,9 +83,13 @@ export class CallQueueSidebarComponent {
     this.operationGroups$ = this.operationService.getOperationGroups();
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
       if (operationGroups) {
-        operationGroups.forEach((operationGroup: OperationGroup) => {
+        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
           operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
-          operationGroup.sidebarDropdownOpen = false;
+          if (idx == 0 && !this.activeOperationId) {
+            operationGroup.sidebarDropdownOpen = true;
+          } else {
+            operationGroup.sidebarDropdownOpen = false;
+          }
         });
         this.operationGroups = operationGroups;
       }
@@ -100,7 +104,7 @@ export class CallQueueSidebarComponent {
             .getActivePatientListByOperationId(this.selected.operation.operationId)
             .subscribe((patients: Patient[]) => {
               if (patients !== null) {
-                // this.getCurrentNewDischargeCount(patients);
+                this.getCurrentNewDischargeCount(patients);
               }
             });
         });
