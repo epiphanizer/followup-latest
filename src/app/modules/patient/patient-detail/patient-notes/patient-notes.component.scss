@@ -106,22 +106,25 @@ ion-list {
 
     .medical-condition-item {
       text-transform: capitalize;
-      text-decoration: underline;
       font-weight: bold;
       color: #ef4627;
-      &.other {
-        color: #000;
-      }
+
       font-size: 15px;
       font-family: AvenirBold;
 
       span {
+        text-decoration: underline;
         &.first {
           &:before {
             content: "";
           }
         }
-
+        &.other {
+          color: #000;
+          text-decoration: none;
+          font-family: "Avenir";
+          font-weight: normal;
+        }
         &:before {
           content: ", ";
           text-decoration: none;

@@ -28,7 +28,7 @@
             <ion-item class="operation-name-header">
               {{ operation.operationName }}
             </ion-item>
-            <ion-item class="operation-address">
+            <ion-item class="operation-address" *ngIf="operationAddress">
               {{ operation.operationAddress }}, {{ operation.operationState }}, {{ operation.operationZip }}
             </ion-item>
             <ion-item class="operation-phone" *ngIf="operation.operationPhoneNumber">

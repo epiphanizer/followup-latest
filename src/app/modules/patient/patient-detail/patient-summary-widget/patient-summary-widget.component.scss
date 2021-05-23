@@ -116,6 +116,7 @@
     letter-spacing: normal;
     text-align: left;
     color: #222222;
+    text-transform: capitalize;
   }
 
   .patient-name {
@@ -189,7 +190,9 @@
       vertical-align: top;
       margin: 0;
       margin-left: -14px;
-
+      @media screen and (min-width: 1024px) {
+        max-height: 33px;
+      }
       span {
         font-family: AvenirDemi;
         line-height: 100%;
@@ -207,13 +210,17 @@
 
   i.icon-hipaa {
     display: inline-block;
-    margin-right: 5px;
-    margin-top: -15px;
+    margin-right: 9px;
+    margin-top: -18px;
     vertical-align: middle;
     width: 16px;
     height: 16px;
     background-image: url("/assets/icon-hippa@2x.png");
     background-repeat: no-repeat;
     background-size: 100%;
+    &.patient {
+      margin-left: 12px;
+      margin-top: -3px;
+    }
   }
 }

@@ -251,7 +251,9 @@ export class PatientFormComponent implements OnInit {
           [Validators.required]
         ),
         patientGender: this.fb.control(this.patient.patientGender),
-        patientCountryCode: this.fb.control(this.patient.patientCountryCode ? this.patient.patientCountryCode : '1'),
+        patientCountryCode: this.fb.control(
+          this.patient.patientCountryCode ? this.patient.patientCountryCode.toString() : '1'
+        ),
         patientAreaCode: this.fb.control(this.patient.patientAreaCode),
         patientPhoneNumber: this.fb.control(this.patient.patientPhoneNumber),
         patientHIPAA: this.fb.control(this.patient.patientHIPAA),
@@ -572,8 +574,8 @@ export class PatientFormComponent implements OnInit {
       patientMedicalRecordNumber: formSubmission.patient.patientMedicalRecordNumber,
       patientFirstName: formSubmission.patient.patientName.patientFirstName,
       patientLastName: formSubmission.patient.patientName.patientLastName,
-      patientCountryCode: parseInt(formSubmission.patient.patientCountryCode),
-      patientAreaCode: formSubmission.patient.patientAreaCode,
+      patientCountryCode: formSubmission.patient.patientCountryCode || '',
+      patientAreaCode: formSubmission.patient.patientAreaCode || '',
       patientPhoneNumber: formSubmission.patient.patientPhoneNumber || '',
       patientGender: formSubmission.patient.patientGender,
       patientHIPAA: formSubmission.patient.patientHIPAA == true ? 1 : 0,

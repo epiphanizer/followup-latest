@@ -91,7 +91,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   ngOnInit() {
     this.userService.getAllUsers().subscribe((users: User[]) => {
       try {
-        console.log(users);
         if (users) {
           this.availableUsers = users;
         } else {
@@ -202,7 +201,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     this.operationAssignedUsers[index] = operationCallRepObject;
 
     // Passes E2E
-    console.log(this.operationAssignedUsersToRemove);
     this.operationAssignedUsersToRemove.forEach((callRepUserId: number, index: number) => {
       if (callRepUserId == 0) {
         return;
@@ -252,8 +250,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     if (managerUserId == 0) {
       return;
     }
-    console.log(this.operationManager);
-    console.log(this.operationManagerOriginal);
     if (this.operationManagerOriginal.userId) {
       this.operationService
         .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, this.operationManagerOriginal.userId)

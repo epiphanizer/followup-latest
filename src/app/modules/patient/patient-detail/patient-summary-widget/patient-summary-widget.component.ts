@@ -17,10 +17,21 @@ export class PatientSummaryWidgetComponent implements OnInit {
   constructor(private patientContactService: PatientContactService) {}
 
   ngOnInit() {
+    function addStr(str: string, index: number, stringToAdd: string) {
+      return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
+    }
+
+    if (this.patient.patientPhoneNumber.indexOf('-') == -1) {
+      this.patient.patientPhoneNumber = addStr(this.patient.patientPhoneNumber, 3, '-'); //outPut : "This is a modified string"
+    }
     this.patientContactService
       .getPatientContactsByPatientId(this.patient.patientId)
       .subscribe((patientContacts: PatientContact[]) => {
         this.patientContacts = patientContacts;
+        this.patientContacts.forEach(patientContact => {
+          if (patientContact.patientContactPhoneNumber.indexOf('-') == -1)
+            patientContact.patientContactPhoneNumber = addStr(patientContact.patientContactPhoneNumber, 3, '-');
+        });
       });
   }
 

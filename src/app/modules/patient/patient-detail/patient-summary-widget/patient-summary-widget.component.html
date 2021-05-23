@@ -34,6 +34,10 @@
         >
           {{ patient.patientCountryCode }}-{{ patient.patientAreaCode }}-{{ patient.patientPhoneNumber }}
         </span>
+
+        <ng-container *ngIf="patient.patientHIPAA">
+          <i class="icon-hipaa patient"></i>
+        </ng-container>
         <div class="patient-contact-container">
           <ion-list lines="none" inset class="alternate-numbers-list">
             <div *ngFor="let patientContact of patientContacts; let idx = index">
@@ -44,10 +48,10 @@
                 </ng-container>
                 <span class="alternate-contact" [class.first]="patientContact.patientContactResponsiblePartyBoolean">
                   <span *ngIf="patientContact.patientContactFirstName"
-                    >{{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }}</span
-                  ><span *ngIf="patientContact.patientContactRelationship"
-                    >, {{ patientContact.patientContactRelationship }}</span
-                  >
+                    >{{ patientContact.patientContactFirstName }} {{ patientContact.patientContactLastName }} , </span
+                  ><span *ngIf="patientContact.patientContactRelationship">{{
+                    patientContact.patientContactRelationship
+                  }}</span>
                   <span *ngIf="patientContact.patientContactAreaCode && patientContact.patientContactPhoneNumber"
                     >: {{ patientContact.patientContactAreaCode }}-{{ patientContact.patientContactPhoneNumber }}
                   </span>
