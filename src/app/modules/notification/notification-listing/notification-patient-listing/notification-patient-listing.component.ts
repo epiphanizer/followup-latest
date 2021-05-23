@@ -66,6 +66,9 @@ export class NotificationPatientListingComponent implements OnInit {
     this.runSortSwitch();
   }
   public runSortSwitch() {
+    if (!this.notifications) {
+      return false;
+    }
     switch (this.selectedSortOption) {
       case 'Date':
         this.sortNotificationsByNotificationDate();

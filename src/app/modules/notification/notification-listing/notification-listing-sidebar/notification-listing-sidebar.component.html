@@ -17,13 +17,21 @@
           }}
           <i
             class="expand-facilities-trigger"
-            [@turnArrow]="operationGroup.sidebarDropdownOpen ? 'open' : 'closed'"
+            [@turnArrow]="
+              operationGroup.sidebarDropdownOpen ||
+              operationGroup.operationGroupId == selected.operation?.operationGroupId
+                ? 'open'
+                : 'closed'
+            "
             class="expand-facilities-trigger active"
           >
           </i>
           <ul
             class="group-operations"
-            [class.show]="operationGroup.sidebarDropdownOpen"
+            [class.show]="
+              operationGroup.sidebarDropdownOpen ||
+              operationGroup.operationGroupId == selected.operation?.operationGroupId
+            "
             *ngIf="operationGroup.operations$"
           >
             <li

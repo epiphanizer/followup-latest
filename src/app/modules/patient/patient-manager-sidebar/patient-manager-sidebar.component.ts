@@ -16,6 +16,7 @@ import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientService } from '../patient.service';
 import { Patient } from '../patient';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   providers: [OperationService],
@@ -82,12 +83,28 @@ export class PatientManagerSidebarComponent implements OnInit {
   ngOnInit() {
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
     this.user = this.route.snapshot.data.user;
+    this.route.paramMap.subscribe(params => {
+      if (params.get('operationId')) {
+        this.activeOperationId = parseInt(params.get('operationId'));
+      }
+    });
     this.operationGroups$ = this.operationService.getOperationGroups();
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
       if (operationGroups) {
-        operationGroups.forEach((operationGroup: OperationGroup) => {
-          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
-          operationGroup.sidebarDropdownOpen = false;
+        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup).pipe(
+            map((operations: any) => {
+              if (idx == 0) {
+                this.activeOperationId = operations[0].operationId;
+              }
+              return operations;
+            })
+          );
+          if (idx == 0 && !this.selected.operation) {
+            operationGroup.sidebarDropdownOpen = true;
+          } else {
+            operationGroup.sidebarDropdownOpen = false;
+          }
         });
         this.operationGroups = operationGroups;
       }
@@ -100,6 +117,7 @@ export class PatientManagerSidebarComponent implements OnInit {
           if (data.params.operationId) {
             this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
               this.selected.operation = data[0];
+              this.activeOperationId = this.selected.operation.operationId;
               this.patientService
                 .getActivePatientListByOperationId(this.selected.operation.operationId)
                 .subscribe((patients: Patient[]) => {
@@ -117,7 +135,13 @@ export class PatientManagerSidebarComponent implements OnInit {
     } else {
       this.route.paramMap.subscribe(params => {
         if (params.get('operationId')) {
+          console.log('this far');
           this.activeOperationId = parseInt(params.get('operationId'));
+          this.operationGroups.forEach(operationGroup => {
+            if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
+              operationGroup.sidebarDropdownOpen = false;
+            }
+          });
         }
       });
     }

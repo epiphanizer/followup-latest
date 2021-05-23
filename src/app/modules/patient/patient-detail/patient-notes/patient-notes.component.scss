@@ -109,6 +109,9 @@ ion-list {
       text-decoration: underline;
       font-weight: bold;
       color: #ef4627;
+      &.other {
+        color: #000;
+      }
       font-size: 15px;
       font-family: AvenirBold;
 

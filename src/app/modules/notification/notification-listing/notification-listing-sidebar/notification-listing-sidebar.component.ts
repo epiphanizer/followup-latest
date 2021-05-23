@@ -14,6 +14,7 @@ import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { OperationService } from '@app/modules/operation/operation.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   providers: [OperationService],
@@ -57,6 +58,7 @@ import { OperationService } from '@app/modules/operation/operation.service';
 })
 export class NotificationListingSidebarComponent implements OnInit {
   @Output() operationChangeEvent = new EventEmitter<number>();
+  activeOperationId: number;
   selected: {
     operation: Operation | null;
   } = {
@@ -70,12 +72,41 @@ export class NotificationListingSidebarComponent implements OnInit {
   user: User;
   todaysDateDay: string;
   ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      if (params.get('operationId')) {
+        this.activeOperationId = parseInt(params.get('operationId'));
+        this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
+          this.selected.operation = operation[0];
+          if (this.operationGroups) {
+            this.operationGroups.forEach(operationGroup => {
+              if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
+                operationGroup.sidebarDropdownOpen = false;
+              }
+            });
+          }
+        });
+      }
+    });
     this.operationGroups$ = this.operationService.getOperationGroups();
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
       if (operationGroups) {
-        operationGroups.forEach((operationGroup: OperationGroup) => {
-          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
-          operationGroup.sidebarDropdownOpen = false;
+        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup).pipe(
+            map((operations: any) => {
+              if (idx == 0) {
+                if (!this.activeOperationId) {
+                  this.selected.operation = operations[0];
+                  this.activeOperationId = operations[0].operationId;
+                }
+              }
+              return operations;
+            })
+          );
+          if (idx == 0 && !this.selected.operation) {
+            operationGroup.sidebarDropdownOpen = true;
+          } else {
+            operationGroup.sidebarDropdownOpen = false;
+          }
         });
         this.operationGroups = operationGroups;
       }
@@ -96,7 +127,16 @@ export class NotificationListingSidebarComponent implements OnInit {
   }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
+
+    this.activeOperationId = this.selected.operation.operationId;
     this.operationChangeEvent.emit(operation);
+    if (this.operationGroups) {
+      this.operationGroups.forEach((operationGroup: OperationGroup) => {
+        if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
+          operationGroup.sidebarDropdownOpen = false;
+        }
+      });
+    }
   };
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
     operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
