@@ -68,7 +68,10 @@ export class PatientHistoryListingComponent implements OnInit {
      */
     if (this.patientCalls) {
       this.patientCalls.forEach(patientCall => {
-        patientCall.patientCallNotes = this.sharedFunctions.returnHTML(patientCall.patientCallNotes);
+        // we safety check here just in case patientCallNotes slipped past as null (shouldn't happen but it has)
+        if (patientCall.patientCallNotes != null) {
+          patientCall.patientCallNotes = this.sharedFunctions.returnHTML(patientCall.patientCallNotes);
+        }
         this.patientActivity.push(patientCall);
       });
     }

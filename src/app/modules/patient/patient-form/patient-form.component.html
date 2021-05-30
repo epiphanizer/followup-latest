@@ -274,7 +274,7 @@
                 <img class="equal-sign" src="/assets/icon-equal-sign@2x.png" />
                 <ion-item class="discharge-total-days">
                   <ion-label color="medium" position="stacked">Total Days</ion-label>
-                  <ion-input formControlName="patientTotalDays" readonly></ion-input>
+                  <ion-input formControlName="patientTotalDays" [readonly]="true"></ion-input>
                 </ion-item>
               </div>
               <ion-item class="discharge-to-location" *ngIf="dischargeLabels">

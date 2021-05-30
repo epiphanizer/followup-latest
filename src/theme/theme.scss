@@ -50,7 +50,9 @@ ion-item.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-in
   border-bottom-color: #dadada;
   box-shadow: none;
 }
-
+.native-input[disabled].sc-ion-input-md {
+  opacity: 0.9;
+}
 ion-item {
   --background-focused: transparent !important;
 }

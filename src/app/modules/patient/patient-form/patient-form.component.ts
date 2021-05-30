@@ -304,9 +304,7 @@ export class PatientFormComponent implements OnInit {
           Validators.required,
           Validators.pattern(this.stringMinimumOneWordRegEx)
         ]),
-        patientDischargedCondition: this.fb.control(this.patient.patientDischargedCondition, [
-          Validators.pattern(this.stringMinimumOneWordRegEx)
-        ]),
+        patientDischargedCondition: this.fb.control(this.patient.patientDischargedCondition),
         patientIntakeQuestionAnswers: this.fb.array([]),
         patientNeedToKnow: this.fb.control(this.patient.patientNeedToKnow),
         patientActive: this.fb.control(this.patient.patientActive)

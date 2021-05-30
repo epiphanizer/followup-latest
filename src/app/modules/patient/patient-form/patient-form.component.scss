@@ -705,6 +705,12 @@ form {
         }
         display: inline-block;
         margin-left: 18px;
+        ion-label {
+          opacity: 1;
+        }
+        ion-input {
+          opacity: 1;
+        }
       }
     }
 
@@ -718,6 +724,9 @@ form {
 
     .patient-discharge-dates-container {
       margin-bottom: 3rem;
+      .native-input:disabled {
+        opacity: 1 !important;
+      }
     }
 
     .discharged-ama {
