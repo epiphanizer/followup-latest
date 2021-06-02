@@ -52,7 +52,8 @@
                   ><span *ngIf="patientContact.patientContactRelationship">{{
                     patientContact.patientContactRelationship
                   }}</span>
-                  <span *ngIf="patientContact.patientContactAreaCode && patientContact.patientContactPhoneNumber"
+                  <span
+                    *ngIf="patientContact.patientContactAreaCode && patientContact.patientContactPhoneNumber.length > 7"
                     >: {{ patientContact.patientContactAreaCode }}-{{ patientContact.patientContactPhoneNumber }}
                   </span>
                 </span>
