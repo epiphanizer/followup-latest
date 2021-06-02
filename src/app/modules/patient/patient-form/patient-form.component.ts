@@ -587,7 +587,9 @@ export class PatientFormComponent implements OnInit {
       patientDischargeDate: patientDischargeDate,
       patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma == true ? 1 : 0,
       patientDischargeLabelId: parseInt(formSubmission.patient.dischargeInfo.patientDischargedTo),
-      patientDischargedCondition: formSubmission.patient.patientDischargedCondition,
+      patientDischargedCondition: formSubmission.patient.patientDischargedCondition
+        ? formSubmission.patient.patientDischargedCondition
+        : '',
       patientPrimaryDiagnosis: formSubmission.patient.patientPrimaryDiagnosis,
       patientMedicalConditions: patientMedicalConditions,
       patientNeedToKnow: formSubmission.patient.patientNeedToKnow || '',
