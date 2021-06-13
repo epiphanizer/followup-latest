@@ -1,10 +1,10 @@
-<div (click)="uploadUserAvatarPhoto()">
+<div (click)="!teamProfile && uploadUserAvatarPhoto()">
   <div class="photo-frame">
-    <div class="user-avatar-image" [style.background-image]="avatarUrl"></div>
+    <div class="user-avatar-image" [class.is-circle]="isCircle" [style.background-image]="avatarUrl"></div>
   </div>
 </div>
 <div class="form-group">
-  <button class="secondary button" [class.hidden]="teamProfile" (click)="uploadUserAvatarPhoto()">
+  <button class="secondary button add-photo" [class.hidden]="teamProfile" (click)="uploadUserAvatarPhoto()">
     <span *ngIf="!avatarExists">Add Photo</span>
     <span *ngIf="avatarExists">Change Photo</span>
   </button>

@@ -7,7 +7,7 @@
       <span class="section-label" (click)="toggleOperationManagersAssignedMenu()">
         <span *ngIf="mode.edit || mode.add">Assigned </span>Manager
         <i
-          *ngIf="!mode.edit || mode.add"
+          *ngIf="mode.view"
           class="icon-dropdown"
           (click)="toggleOperationManagersAssignedMenu()"
           [@turnArrow]="managerSidebarDropdownOpen ? 'open' : 'closed'"
@@ -51,7 +51,7 @@
         <span class="section-label" (click)="toggleOperationCallRepsAssignedMenu()">
           <span *ngIf="mode.edit || mode.add">Assigned </span>Care Reps
           <i
-            *ngIf="!mode.edit || mode.add"
+            *ngIf="mode.view"
             class="icon-dropdown"
             (click)="toggleOperationCallRepsAssignedMenu()"
             [@turnArrow]="callRepSidebarDropdownOpen ? 'open' : 'closed'"

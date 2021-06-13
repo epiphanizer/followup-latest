@@ -13,7 +13,7 @@
         </div>
         <ion-list class="patient-primary-info-list" lines="none" inset formGroupName="patient">
           <ion-item class="patient-facility">
-            <ion-label color="medium" position="stacked">Facility<span style="color:red">*</span></ion-label>
+            <ion-label color="medium" position="stacked">Facility<span style="color:#f1624a">*</span></ion-label>
             <ion-select *ngIf="operations" placeholder="Facility" class="select-facility" formControlName="operation">
               <ion-select-option
                 *ngFor="let operation of operations"
@@ -25,12 +25,12 @@
             </ion-select>
           </ion-item>
           <ion-item class="patient-medical-record-number">
-            <ion-label color="medium" position="stacked">Patient # <span style="color:red">*</span></ion-label>
+            <ion-label color="medium" position="stacked">Patient # <span style="color:#f1624a">*</span></ion-label>
             <ion-input type="text" formControlName="patientMedicalRecordNumber" placeholder="Patient #"></ion-input>
           </ion-item>
           <ion-list lines="none" inset formGroupName="patientName">
             <ion-item class="patient-first-name">
-              <ion-label color="medium" position="stacked">First Name <span style="color:red">*</span></ion-label>
+              <ion-label color="medium" position="stacked">First Name <span style="color:#f1624a">*</span></ion-label>
               <ion-input
                 type="text"
                 formControlName="patientFirstName"
@@ -39,7 +39,7 @@
               ></ion-input>
             </ion-item>
             <ion-item class="patient-last-name">
-              <ion-label color="medium" position="stacked">Last Name <span style="color:red">*</span></ion-label>
+              <ion-label color="medium" position="stacked">Last Name <span style="color:#f1624a">*</span></ion-label>
               <ion-input
                 type="text"
                 formControlName="patientLastName"
@@ -49,7 +49,7 @@
             </ion-item>
           </ion-list>
           <ion-item class="patient-dob">
-            <ion-label color="medium" position="stacked">Birthday<span style="color:red">*</span></ion-label>
+            <ion-label color="medium" position="stacked">Birthday<span style="color:#f1624a">*</span></ion-label>
             <ion-input type="date" formControlName="patientDob" placeholder="Birthday"></ion-input>
           </ion-item>
           <ion-item class="patient-gender">
@@ -86,6 +86,7 @@
                 mask="000-0000"
                 formControlName="patientPhoneNumber"
                 placeholder="000-0000"
+                maxLength="10"
               ></ion-input>
             </ion-item>
           </div>
@@ -108,7 +109,7 @@
               class="fluent-language"
               [class.show]="patientForm.get('patient.patientSpeaksEnglish').value !== false"
             >
-              <ion-label position="stacked">Fluent Language <span style="color:red">*</span></ion-label>
+              <ion-label position="stacked">Fluent Language <span style="color:#f1624a">*</span></ion-label>
               <ion-select formControlName="patientFluentLanguage" placeholder="Fluent Language">
                 <ion-select-option selected value="English">English</ion-select-option>
                 <ion-select-option value="Spanish">Spanish</ion-select-option>
@@ -149,7 +150,9 @@
                   </ion-item>
                 </div>
                 <ion-item class="first-name">
-                  <ion-label color="medium" position="stacked">First Name <span style="color:red">*</span></ion-label>
+                  <ion-label color="medium" position="stacked"
+                    >First Name <span style="color:#f1624a">*</span></ion-label
+                  >
                   <ion-input type="text" formControlName="patientContactFirstName" inputCapitalizeFirst> </ion-input>
                 </ion-item>
                 <ion-item class="last-name">
@@ -157,20 +160,10 @@
                   <ion-input type="text" formControlName="patientContactLastName" inputCapitalizeFirst> </ion-input>
                 </ion-item>
                 <ion-item class="relationship">
-                  <ion-label color="medium" position="stacked">Relationship <span style="color:red">*</span></ion-label>
+                  <ion-label color="medium" position="stacked"
+                    >Relationship <span style="color:#f1624a">*</span></ion-label
+                  >
                   <ion-input type="text" formControlName="patientContactRelationship" inputCapitalizeFirst> </ion-input>
-                  <!--
-                  <ion-item class="relationship" (click)="openRelationshipDropdown()"> 
-                    <div class="relationship-dropdown">
-                    <ul>
-                      <li
-                        *ngFor="relationship; in: patientContactRelationships"
-                        (click)="selectPatientContactRelationship(relationship, patientContact)"
-                      >
-                        {{ relationship }}
-                      </li>
-                    </ul>
-                  </div> -->
                 </ion-item>
 
                 <div class="phone-container">
@@ -241,7 +234,7 @@
           </div>
           <fieldset class="patient-discharge" formGroupName="dischargeInfo">
             <ion-label class="discharged-label" color="medium" position="stacked">
-              Discharged Against Medical Advice? <span style="color:red">*</span>
+              Discharged Against Medical Advice? <span style="color:#f1624a">*</span>
             </ion-label>
             <ion-item class="discharged-ama">
               <ion-radio-group formControlName="patientDischargedAma">
@@ -256,7 +249,7 @@
             <ion-list class="discharge-dates" inset lines="none">
               <div class="patient-discharge-dates-container">
                 <ion-item class="discharge-admit-date">
-                  <ion-label color="medium" position="stacked">Admitted <span style="color:red">*</span></ion-label>
+                  <ion-label color="medium" position="stacked">Admitted <span style="color:#f1624a">*</span></ion-label>
                   <ion-input
                     type="date"
                     formControlName="patientAdmitDate"
@@ -264,7 +257,9 @@
                   ></ion-input>
                 </ion-item>
                 <ion-item class="discharge-discharge-date">
-                  <ion-label color="medium" position="stacked">Discharged <span style="color:red">*</span></ion-label>
+                  <ion-label color="medium" position="stacked"
+                    >Discharged <span style="color:#f1624a">*</span></ion-label
+                  >
                   <ion-input
                     type="date"
                     formControlName="patientDischargeDate"
@@ -278,7 +273,9 @@
                 </ion-item>
               </div>
               <ion-item class="discharge-to-location" *ngIf="dischargeLabels">
-                <ion-label color="medium" position="stacked">Discharged To: <span style="color:red">*</span></ion-label>
+                <ion-label color="medium" position="stacked"
+                  >Discharged To: <span style="color:#f1624a">*</span></ion-label
+                >
                 <ion-radio-group formControlName="patientDischargedTo">
                   <ion-list inset lines="none">
                     <ion-item class="discharge-location" *ngFor="let dischargeLabel of dischargeLabels">
@@ -321,7 +318,7 @@
               </ion-item>
               <ion-item class="textarea-item">
                 <ion-label color="medium" position="stacked"
-                  >Primary Diagnosis <span style="color:red">*</span>
+                  >Primary Diagnosis <span style="color:#f1624a">*</span>
                 </ion-label>
                 <ion-textarea [autoGrow]="true" formControlName="patientPrimaryDiagnosis"></ion-textarea>
               </ion-item>

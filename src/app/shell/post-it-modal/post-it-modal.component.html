@@ -23,6 +23,7 @@
       formControlName="messageBody"
       placeholder="Leave Your Message Here"
     ></ion-textarea>
+    <span class="max-characters" *ngIf="messageType == 'user'">{{ characters }} of {{ maxCharacters }}</span>
     <div class="button-container">
       <button class="secondary button" type="button" (click)="dismiss()">Cancel</button>
       <button

@@ -32,7 +32,7 @@
       <td>
         {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
       </td>
-      <td [routerLink]="'/notifications/' + notification.notificationId">
+      <td class="has-link" [routerLink]="'/notifications/' + notification.notificationId">
         {{ notification.notificationPatientFirstName }}, {{ notification.notificationPatientLastName }}
       </td>
       <td>

@@ -96,7 +96,6 @@ table.team-member-table {
     td {
       height: 50px;
       padding: 0 15px;
-      cursor: pointer;
       width: auto;
       border-left: solid 1px rgb(187, 187, 187);
       border-right: solid 1px rgb(187, 187, 187);
@@ -105,6 +104,13 @@ table.team-member-table {
       background-color: #ffffff;
       display: table-cell;
       font-family: "Avenir";
+      div {
+        height: 100%;
+        span {
+          line-height: 50px;
+          vertical-align: middle;
+        }
+      }
     }
 
     tr {
@@ -113,7 +119,12 @@ table.team-member-table {
 
       &:hover {
         td {
-          background-color: rgba(19, 175, 233, 0.15);
+          &.has-link {
+            color: #00b4b9;
+            img.post-it-note {
+              filter: brightness(0.9);
+            }
+          }
         }
       }
 
@@ -131,6 +142,7 @@ table.team-member-table {
   }
 
   img.post-it-note {
+    margin-top: 16px;
     max-width: 30px;
     margin: 0 auto;
     text-align: center;

@@ -16,6 +16,7 @@ export class UserAvatarComponent implements OnInit {
   avatarUrl: SafeStyle;
   imgResultBeforeCompress: string;
   imgResultAfterCompress: string;
+  isCircle: boolean = false;
   @Input() user: User;
   @Output() userAvatarEventEmitter = new EventEmitter<boolean>();
   /**

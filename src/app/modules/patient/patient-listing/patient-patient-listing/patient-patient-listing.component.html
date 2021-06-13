@@ -9,22 +9,22 @@
 <table>
   <thead>
     <tr>
-      <th>
+      <th class="centered">
         Discharge
       </th>
       <th>
         Patient
       </th>
-      <th>
+      <th class="centered">
         Sex
       </th>
-      <th>
+      <th class="centered">
         Patient #
       </th>
       <th>
         Status
       </th>
-      <th>
+      <th class="centered">
         Completed
       </th>
     </tr>
@@ -36,7 +36,7 @@
       class="active"
       [class.archived]="!patient.patientActive"
     >
-      <td class="listing-body-cell">
+      <td class="centered listing-body-cell">
         {{ patient.patientDischargeDate | date: 'MM/dd/YY' }}
       </td>
       <td class="listing-body-cell">
@@ -48,16 +48,16 @@
         <app-patient-avatar [type]="'circle'" [patient]="patient"></app-patient-avatar>
         <div class="patient-name">{{ patient.patientFirstName }} {{ patient.patientLastName }}</div>
       </td>
-      <td class="listing-body-cell">
+      <td class="centered listing-body-cell">
         {{ patient.patientGender == 'male' ? 'M' : 'F' }}
       </td>
-      <td class="listing-body-cell">
+      <td class="centered listing-body-cell">
         {{ patient.patientMedicalRecordNumber }}
       </td>
       <td class="listing-body-cell">
         {{ patient.patientStatusLabel }}
       </td>
-      <td class="listing-body-cell">
+      <td class="centered listing-body-cell">
         {{ patient.patientGraduated ? 'Yes' : 'No' }}
       </td>
     </tr>

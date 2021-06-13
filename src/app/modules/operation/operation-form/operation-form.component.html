@@ -68,7 +68,7 @@
               </div>
             </div>
             <ion-item class="operation-group">
-              <ion-label color="medium" position="stacked">Ownership <span style="color:red">*</span></ion-label>
+              <ion-label color="medium" position="stacked">Ownership <span style="color:#f1624a">*</span></ion-label>
               <ion-select
                 *ngIf="(operationGroups && mode.add) || operation.operationGroupShortName"
                 formControlName="operationGroupId"
@@ -86,7 +86,7 @@
               </ion-select>
             </ion-item>
             <ion-item class="operation-name">
-              <ion-label color="medium" position="stacked">Facility <span style="color:red">*</span></ion-label>
+              <ion-label color="medium" position="stacked">Facility <span style="color:#f1624a">*</span></ion-label>
               <ion-input
                 type="text"
                 formControlName="operationName"
@@ -193,7 +193,7 @@
                 <ion-list formGroupName="{{ idx }}" class="operation-contact-entry" lines="none" inset>
                   <ion-item class="first-name">
                     <ion-label position="stacked" color="medium">
-                      First Name <span style="color:red">*</span>
+                      First Name <span style="color:#f1624a">*</span>
                     </ion-label>
                     <ion-input
                       type="text"
@@ -205,7 +205,7 @@
                   </ion-item>
                   <ion-item class="last-name">
                     <ion-label position="stacked" color="medium">
-                      Last Name <span style="color:red">*</span>
+                      Last Name <span style="color:#f1624a">*</span>
                     </ion-label>
                     <ion-input
                       type="text"
@@ -217,7 +217,9 @@
                     </ion-input>
                   </ion-item>
                   <ion-item class="contact-email">
-                    <ion-label position="stacked" color="medium"> Email <span style="color:red">*</span> </ion-label>
+                    <ion-label position="stacked" color="medium">
+                      Email <span style="color:#f1624a">*</span>
+                    </ion-label>
                     <ion-input type="text" formControlName="operationContactEmail" placeholder="Email"></ion-input>
                   </ion-item>
 

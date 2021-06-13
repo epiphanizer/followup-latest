@@ -18,13 +18,16 @@ table {
       padding-left: 15px;
       font-family: "AvenirBold";
       font-size: 15px;
-
       @media screen and (orientation: portrait) and (max-width: 1024px) {
         font-size: 14px;
       }
       text-transform: uppercase;
       letter-spacing: 0.3px;
       line-height: 12.9px;
+      &.centered {
+        padding-left: 0;
+        text-align: center;
+      }
     }
 
     ::after {
@@ -49,6 +52,9 @@ table {
       background-color: #ffffff;
       display: table-cell;
       font-family: "Avenir";
+      &.centered {
+        text-align: center;
+      }
     }
 
     tr {

@@ -44,7 +44,6 @@ table {
       border-left: 1px solid rgba(217, 217, 217, 0.8);
       border-right: 1px solid rgba(217, 217, 217, 0.8);
       border-bottom: 1px solid rgba(217, 217, 217, 0.8);
-      cursor: pointer;
       width: auto;
 
       background-color: #ffffff;
@@ -93,7 +92,10 @@ table {
 
       &:hover {
         td {
-          background-color: rgba(19, 175, 233, 0.15);
+          &.has-link {
+            cursor: pointer;
+            color: #00b4b9;
+          }
         }
       }
 
@@ -112,7 +114,7 @@ table {
 }
 
 jw-pagination {
-  width: 100%;
+  width: 95.5%;
   display: block;
   text-align: right;
 }

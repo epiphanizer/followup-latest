@@ -69,10 +69,12 @@ ion-item {
   }
 
   ion-input {
+    --padding-bottom: 7px;
     --padding-start: 8px;
     font-family: Avenir;
     font-size: 14px;
     height: 34px;
+    line-height: 34px;
 
     &.username {
       width: 305px;

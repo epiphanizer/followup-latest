@@ -220,7 +220,7 @@ form {
 
       .select-facility {
         width: 350px;
-        height: 39px;
+        height: 43px;
         padding-left: 11px;
       }
     }
@@ -255,7 +255,7 @@ form {
 
     &.patient-gender {
       margin-left: 158px;
-
+      height: 47px;
       @media screen and (orientation: portrait) and (max-width: 1024px) {
         margin-left: 55px;
         margin-bottom: -11px;
@@ -350,7 +350,10 @@ form {
     ion-item.speaks-english {
       display: block;
       clear: both;
-
+      ion-checkbox {
+        height: 14px;
+        width: 14px;
+      }
       ion-label {
         font-family: AvenirPro;
         font-size: 15px;

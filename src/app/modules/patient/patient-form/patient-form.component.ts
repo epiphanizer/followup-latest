@@ -507,6 +507,7 @@ export class PatientFormComponent implements OnInit {
 
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       this.toastrService.success('Successfully edited patient!');
+      debugger;
       window.location.href = '/operations/' + this.patientForm.get('patient.operation').value + '/patients';
       if (!this.mode.edit) {
         this.patientForm.reset();
