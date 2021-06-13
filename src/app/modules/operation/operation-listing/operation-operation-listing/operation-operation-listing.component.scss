@@ -28,6 +28,9 @@ table {
       text-transform: uppercase;
       letter-spacing: 0.3px;
       line-height: 12.9px;
+      &.centered {
+        padding-left: 0;
+      }
     }
 
     ::after {
@@ -46,6 +49,9 @@ table {
   td,
   th {
     text-align: left;
+    &.centered {
+      text-align: center;
+    }
   }
 
   td {
@@ -66,7 +72,7 @@ table {
       img {
         width: 24px;
         height: 24px;
-        margin: 0 auto;
+        margin: 6px auto 0;
       }
     }
   }
@@ -76,7 +82,9 @@ table {
 
     &:hover {
       td {
-        background-color: rgba(19, 175, 233, 0.15);
+        &.has-link {
+          color: rgba(19, 175, 233, 0.15);
+        }
       }
     }
 

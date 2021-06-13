@@ -16,19 +16,19 @@
       <th>
         Ownership
       </th>
-      <th>
+      <th class="centered">
         Queue
       </th>
-      <th>
+      <th class="centered">
         Notifs
       </th>
-      <th>
+      <th class="centered">
         Grads
       </th>
       <th>
         Status
       </th>
-      <th>
+      <th class="centered">
         Date
       </th>
       <th style="text-align: center; padding-left: 0;">
@@ -38,7 +38,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let operation of operationsFiltered" class="active" [class.archived]="!operation.operationActive">
-      <td class="listing-body-cell" [routerLink]="'/operation/' + operation.operationId">
+      <td class="has-link listing-body-cell" [routerLink]="'/operation/' + operation.operationId">
         <div class="operation-information">
           <span class="operation-name">
             {{ operation.operationName }}
@@ -52,21 +52,21 @@
           </span>
         </div>
       </td>
-      <td class="listing-body-cell">
+      <td class="centered listing-body-cell">
         <div class="operation-group-information">
           <span class="operation-group-name">
             {{ operation.currentAssignedPatientCount }}
           </span>
         </div>
       </td>
-      <td class="listing-body-cell">
+      <td class="centered listing-body-cell">
         <div class="operation-group-information">
           <span class="operation-notifications">
             {{ operation.totalNotifications }}
           </span>
         </div>
       </td>
-      <td class="listing-body-cell">
+      <td class="centered listing-body-cell">
         <div class="operation-group-information">
           <span class="operation-graduates">
             {{ operation.totalGraduates }}
@@ -80,7 +80,7 @@
           </span>
         </div>
       </td>
-      <td class="listing-body-cell">
+      <td class="centered listing-body-cell">
         <div class="operation-group-information">
           <span class="operation-start-date">
             {{ operation.operationStartDate | date: 'MM/dd/YY' }}

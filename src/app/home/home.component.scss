@@ -121,13 +121,11 @@
         text-align: center;
 
         .user-message-note {
-          overflow-y: scroll;
           height: 100%;
           width: 100%;
-          min-height: 20vh;
           display: block;
           background-repeat: no-repeat;
-          background-size: 100%;
+          background-size: 90% 100%;
           background-image: url("/assets/sticky-note@2x.png");
           font-family: AvenirProMediumItalic;
           font-size: 15px;
@@ -141,6 +139,9 @@
 
         .user-message-body {
           padding: 2rem 2rem;
+          max-height: 100%;
+          overflow: hidden;
+          max-width: 85%;
         }
       }
     }
