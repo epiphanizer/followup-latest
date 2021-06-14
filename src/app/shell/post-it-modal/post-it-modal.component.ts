@@ -15,6 +15,8 @@ import { TeamMessageService } from '@app/modules/team/team-messages.service';
 })
 export class PostItModalComponent {
   createUserMessageForm: FormGroup;
+  characters: number = 0;
+  maxCharacters: number = 250;
   messageType: string;
   userMessage: UserMessage;
   todaysDate: string;
@@ -41,6 +43,16 @@ export class PostItModalComponent {
       messageType: this.fb.control('', [Validators.required]),
       messageBody: this.fb.control('', [Validators.required])
     });
+  }
+  ngOnChanges(changes: any) {
+    console.log(changes);
+  }
+  selectMessageType(event: any) {
+    this.messageType = event.detail.value;
+  }
+  onTextAreaChange($event: any) {
+    let formData = this.createUserMessageForm.getRawValue();
+    this.characters = formData.messageBody.length;
   }
   sendTheMessage() {
     let formData = this.createUserMessageForm.getRawValue();

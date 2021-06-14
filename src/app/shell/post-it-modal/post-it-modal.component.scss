@@ -3,6 +3,7 @@
     height: 380px;
   }
 }
+
 form {
   padding: 0 45px 45px 45px;
 }
@@ -36,6 +37,7 @@ ion-title {
   color: #343638;
   margin-bottom: 15px;
 }
+
 ion-radio-group {
   ion-item {
     max-height: 32px;
@@ -43,6 +45,7 @@ ion-radio-group {
     margin-left: 16px;
     margin-bottom: 8px;
   }
+
   ion-radio {
     --color-checked: transparent;
     display: inline-block;
@@ -50,15 +53,18 @@ ion-radio-group {
     width: 15px !important;
     margin-top: 4px;
   }
+
   .radio-button-notify {
     background-size: cover;
     background-image: url("/assets/button-radio@2x.png");
+
     &:active,
     &.radio-checked {
       background-image: url("/assets/button-radio-checked-red@2x.png");
     }
   }
 }
+
 span {
   display: block;
   width: 100%;
@@ -72,10 +78,12 @@ span {
   text-align: left;
   color: #222222;
 }
+
 .message-label {
   margin-left: 18px;
   margin-top: 24px;
 }
+
 ion-textarea {
   --padding-start: 12px;
   height: 160px;
@@ -88,6 +96,14 @@ ion-textarea {
   --inner-padding-end: 0;
   padding-top: 0;
   margin-top: 0.25rem;
+}
+
+.max-characters {
+  float: left;
+  width: auto;
+  margin-top: 8px;
+  margin-left: 16px;
+  font-size: 14px;
 }
 
 h3 {
@@ -111,5 +127,11 @@ h3 {
 
   button {
     margin-left: 10px;
+  }
+  .send-button {
+    &:disabled {
+      cursor: not-allowed;
+      background: lightgray;
+    }
   }
 }

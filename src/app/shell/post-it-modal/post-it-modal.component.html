@@ -4,7 +4,7 @@
       <ion-title>Post A Note</ion-title>
       <img class="post-it-icon-image" src="/assets/icon-postit-lg@2x.png" alt="" />
     </ion-row>
-    <ion-radio-group value="user" formControlName="messageType">
+    <ion-radio-group value="user" formControlName="messageType" (ionChange)="selectMessageType($event)">
       <ion-item lines="none">
         <ion-radio class="radio-button-notify" mode="ios" value="user"> </ion-radio>
         <span class="message-to-label"
@@ -18,17 +18,18 @@
     </ion-radio-group>
     <span class="message-label"><strong>Message:</strong></span>
     <ion-textarea
+      (ionChange)="onTextAreaChange($event)"
       [autoGrow]="true"
       class="user-message-textarea"
       formControlName="messageBody"
       placeholder="Leave Your Message Here"
     ></ion-textarea>
-    <span class="max-characters" *ngIf="messageType == 'user'">{{ characters }} of {{ maxCharacters }}</span>
+    <span class="max-characters" *ngIf="messageType == 'user'">{{ characters }} of {{ maxCharacters }} characters</span>
     <div class="button-container">
       <button class="secondary button" type="button" (click)="dismiss()">Cancel</button>
       <button
-        [disabled]="createUserMessageForm.invalid"
-        class="primary button"
+        [disabled]="createUserMessageForm.invalid || (messageType == 'user' && characters > maxCharacters)"
+        class="primary button send-button"
         type="button"
         (click)="sendTheMessage()"
       >
