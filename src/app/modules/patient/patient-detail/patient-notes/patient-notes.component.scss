@@ -8,7 +8,14 @@ i {
   height: 22px;
   vertical-align: top;
 }
-
+.left-column,
+.right-column {
+  width: 42.5%;
+  display: inline-block;
+  margin: 0;
+  height: 75px;
+  vertical-align: top;
+}
 .icon-discharge {
   margin-top: 19px;
   background-image: url("/assets/icon-discharge@2x.png");
@@ -63,7 +70,7 @@ ion-list {
           width: 172px;
           height: 4px;
           position: absolute;
-          bottom: 10px;
+          bottom: -1px;
           background-color: #ffcc00;
         }
       }
@@ -80,7 +87,7 @@ ion-list {
       width: 172px;
       height: 4px;
       position: absolute;
-      bottom: 10px;
+      bottom: -1px;
       background-color: #ffcc00;
     }
   }
@@ -88,10 +95,10 @@ ion-list {
   &.inline-discharge-section {
     margin-top: 0;
     margin-left: 10px;
-    margin-bottom: 0;
-    ion-item:not(.discharged-date-item) {
+    margin-bottom: 1rem;
+    ion-item {
       line-height: 18px;
-      height: 32px;
+      height: 34px;
       padding: 0;
     }
   }

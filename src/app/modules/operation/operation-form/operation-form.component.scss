@@ -353,9 +353,9 @@ form {
   }
   ion-select {
     padding-right: 12px;
-    .select-icon {
-      margin-top: 5px;
-    }
+    // .select-icon {
+    //   margin-top: 5px;
+    // }
   }
   ion-select,
   ion-select-option,
@@ -605,7 +605,7 @@ form {
   ion-select {
     padding-left: 12px;
     padding-right: 10px;
-    margin-top: 5px;
+    margin-top: 2px;
 
     :host {
       max-width: unset;

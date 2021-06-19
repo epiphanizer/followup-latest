@@ -1,5 +1,5 @@
 <i class="icon-discharge"></i>
-<ion-list class="inline-discharge-section" inset lines="none">
+<ion-list class="inline-discharge-section left-column" inset lines="none">
   <ion-item class="discharged-date-item">
     <span class="label">
       Discharged: &nbsp;
@@ -12,6 +12,9 @@
     <span class="label">Admitted: &nbsp; </span>
     {{ patient.patientAdmitDate | date: 'MM/dd/yyyy':'UTC' }}
   </ion-item>
+</ion-list>
+
+<ion-list class="inline-discharge-section right-column" inset lines="none">
   <ion-item>
     <span class="label">Length of Stay: &nbsp; </span>
     {{ patient.patientTotalDays }} Days

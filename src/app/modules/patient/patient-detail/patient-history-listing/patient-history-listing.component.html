@@ -32,22 +32,16 @@
           <div id="{{ 'call-' + activity.patientCallCount }}" class="activity-headline-container">
             <img
               class="graduated-banner"
-              *ngIf="patient.patientStatus == 'Graduate' && i == 0"
+              *ngIf="patient.patientStatus != 'In Progress'"
               src="/assets/patient-graduated-banner@2x.png"
             />
             <i
-              *ngIf="!(i == 0 && patient.patientStatus == 'Graduate')"
+              *ngIf="!(i == 0 && patient.patientStatus == 'In Progress')"
               class="icon-phone-icon"
               style="background-image: url('{{ activity.patientCallStatusIconImage }}')"
             ></i>
             <span class="activity-headline">
-              <span class="activity-bold">
-                <span
-                  class="activity-bold"
-                  *ngIf="patient.patientStatus != 'In Progress' && patient.patientStatus != 'Graduated'"
-                  >COMPLETE: </span
-                >Call {{ activity.patientCallCount }}</span
-              >
+              <span class="activity-bold">Call {{ activity.patientCallCount }}</span>
               &mdash;
               <span class="activity-label">
                 {{ activity.patientCallStatusLabel }}
