@@ -41,7 +41,14 @@
               style="background-image: url('{{ activity.patientCallStatusIconImage }}')"
             ></i>
             <span class="activity-headline">
-              <span class="activity-bold">Call {{ activity.patientCallCount }}</span> &mdash;
+              <span class="activity-bold">
+                <span
+                  class="activity-bold"
+                  *ngIf="patient.patientStatus != 'In Progress' && patient.patientStatus != 'Graduated'"
+                  >COMPLETE: </span
+                >Call {{ activity.patientCallCount }}</span
+              >
+              &mdash;
               <span class="activity-label">
                 {{ activity.patientCallStatusLabel }}
               </span>

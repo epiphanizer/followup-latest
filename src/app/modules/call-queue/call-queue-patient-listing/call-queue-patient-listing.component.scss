@@ -125,20 +125,20 @@ h3 {
     display: table;
 
     &:active {
-      background-color: #00b4b9;
+      background-color: #00b4b966;
     }
 
     &.todays-call {
-      background-color: #d2ecf9;
+      background-color: #d2ecf966;
       &:hover {
-        background-color: #c5ebfa;
+        background-color: #c5ebfa66;
       }
     }
     &.new-discharge {
-      background-color: #f4fde3;
+      background-color: #f4fde366;
 
       &:hover {
-        background-color: #e9f8cc;
+        background-color: #d2ecf966;
       }
     }
     .call-queue-number {

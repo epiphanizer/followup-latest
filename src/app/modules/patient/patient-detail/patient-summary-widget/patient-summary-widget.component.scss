@@ -136,7 +136,11 @@
     text-align: left;
     color: #222222;
   }
-
+  .patient-age {
+    @media screen and (max-width: 1024px) and (orientation: portrait) {
+      max-width: 68px;
+    }
+  }
   .patient-age,
   .patient-contact-number {
     &:first-child {
@@ -173,6 +177,7 @@
       display: block;
       width: 100%;
       font-weight: 900;
+      text-decoration: capitalize;
     }
   }
 

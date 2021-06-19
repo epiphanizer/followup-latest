@@ -146,8 +146,11 @@ form {
 
   ion-select {
     margin-top: 0.8rem;
+    padding-right: 12px;
   }
-
+  ion-select::part(icon) {
+    color: #ffa612 !important;
+  }
   ion-select,
   ion-select-option {
     background-color: #f5f5f5;
@@ -256,9 +259,11 @@ form {
     &.patient-gender {
       margin-left: 158px;
       height: 47px;
+
       @media screen and (orientation: portrait) and (max-width: 1024px) {
         margin-left: 55px;
         margin-bottom: -11px;
+        margin-top: 2rem;
       }
 
       ion-label {
@@ -341,7 +346,7 @@ form {
       }
 
       &.patient-phone-number {
-        width: 170px;
+        width: 120px;
       }
     }
   }
@@ -350,10 +355,12 @@ form {
     ion-item.speaks-english {
       display: block;
       clear: both;
+
       ion-checkbox {
         height: 14px;
         width: 14px;
       }
+
       ion-label {
         font-family: AvenirPro;
         font-size: 15px;
@@ -371,6 +378,7 @@ form {
 
     ion-item.fluent-language {
       display: none;
+
       &.show {
         display: inline-block;
         width: 100%;
@@ -703,14 +711,18 @@ form {
 
       &.discharge-total-days {
         width: 100px;
+
         @media screen and (orientation: portrait) and (max-width: 1024px) {
           width: 80px;
         }
+
         display: inline-block;
         margin-left: 18px;
+
         ion-label {
           opacity: 1;
         }
+
         ion-input {
           opacity: 1;
         }
@@ -727,6 +739,7 @@ form {
 
     .patient-discharge-dates-container {
       margin-bottom: 3rem;
+
       .native-input:disabled {
         opacity: 1 !important;
       }
