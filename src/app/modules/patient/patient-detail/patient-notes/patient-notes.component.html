@@ -46,6 +46,12 @@
     <span class="discharge label">Discharged Condition: &nbsp; </span>
     <p>{{ patient.patientDischargedCondition }}</p>
   </div>
+  <div class="need-to-know" *ngIf="patient.patientNeedToKnow">
+    <span class="label"> Need To Know: &nbsp; </span>
+    <p>
+      {{ patient.patientNeedToKnow }}
+    </p>
+  </div>
   <ion-list class="intake-questions">
     <ion-item *ngFor="let patientIntakeQuestion of patientIntakeQuestions">
       <span class="label">{{ patientIntakeQuestion.patientIntakeQuestion }}: &nbsp;</span>
@@ -62,10 +68,4 @@
       </ng-template>
     </ion-item>
   </ion-list>
-  <div class="need-to-know" *ngIf="patient.patientNeedToKnow">
-    <span class="label"> Need To Know: &nbsp; </span>
-    <p>
-      {{ patient.patientNeedToKnow }}
-    </p>
-  </div>
 </ion-list>
