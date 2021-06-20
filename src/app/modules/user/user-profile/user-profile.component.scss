@@ -217,7 +217,7 @@ form {
 
     &.user-spanish-speaking {
       width: 100%;
-      margin-top: 0.25rem;
+      margin-top: 0.1725rem;
       float: left;
       .spanish-label {
         z-index: 5;
@@ -295,13 +295,15 @@ form {
 
   ion-list.checkbox-list-container {
     visibility: visible;
-    margin-top: 1rem;
+    margin-top: 1.125rem;
     clear: both;
     ion-item {
       margin-left: 0;
     }
   }
-
+  ion-label {
+    margin-top: 1rem;
+  }
   ion-list.checkboxes {
     margin-left: 0;
     margin-top: 8px;
