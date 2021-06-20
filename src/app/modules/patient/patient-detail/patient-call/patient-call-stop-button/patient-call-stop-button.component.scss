@@ -4,4 +4,7 @@
   @media screen and (orientation: portrait) and (max-width: 1024px) {
     margin-right: 36px;
   }
+  button {
+    clear: both;
+  }
 }

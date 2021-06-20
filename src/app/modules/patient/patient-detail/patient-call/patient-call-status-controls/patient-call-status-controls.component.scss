@@ -48,7 +48,7 @@ ion-list {
       --padding-start: 8px;
 
       @media screen and (orientation: portrait) and (max-width: 1024px) {
-        --padding-start: 2px;
+        --padding-start: 0;
       }
 
       margin-top: -10px;
