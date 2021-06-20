@@ -291,14 +291,16 @@ form {
     }
 
     &.patient-gender {
-      margin-left: 158px;
+      margin-left: 55px;
       height: 47px;
+      margin-top: 1.75rem;
+      margin-right: 0;
+      float: none;
 
       @media screen and (orientation: portrait) and (max-width: 1024px) {
         margin-left: 55px;
         margin-bottom: -11px;
         float: right;
-        margin-top: 1.75rem;
       }
 
       ion-label {

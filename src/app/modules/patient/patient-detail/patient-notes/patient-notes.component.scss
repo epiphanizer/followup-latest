@@ -10,7 +10,7 @@ i {
 }
 .left-column,
 .right-column {
-  width: 42.5%;
+  width: calc(45.5% - 10px);
   display: inline-block;
   margin: 0;
   height: 75px;

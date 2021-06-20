@@ -17,6 +17,8 @@ ion-row {
 .left-hand-detail {
   width: 100%;
   max-width: 625px;
+  // This doens't really help us but prevents rapid degradation responsively
+  min-width: 550px;
   padding-bottom: 250px;
   margin-left: 45px;
   @media screen and (orientation: portrait) and (max-width: 1024px) {
@@ -25,8 +27,8 @@ ion-row {
 }
 
 .right-hand-detail {
-  margin-left: 125px;
-  max-width: 590px;
+  margin-left: 2%;
+  max-width: 475px;
   width: 100%;
   @media screen and (orientation: portrait) and (max-width: 1024px) {
     margin-left: 12px;
