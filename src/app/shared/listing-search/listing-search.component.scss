@@ -1,15 +1,17 @@
 :host {
   float: right;
-  width: calc(100% - 346px);
-  margin-right: 2.5%;
+  margin-right: 8.5%;
 }
 .listing-search {
   max-width: 332px;
+  ion-col {
+    padding: 0;
+  }
   ion-input {
     width: 360px;
-    height: 33px;
+    height: 30px;
     font-family: Avenir;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
