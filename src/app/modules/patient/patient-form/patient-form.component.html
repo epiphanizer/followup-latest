@@ -14,7 +14,7 @@
         <ion-list class="patient-primary-info-list" lines="none" inset formGroupName="patient">
           <ion-item class="patient-facility">
             <ion-label color="medium" position="stacked">Facility<span style="color:#f1624a">*</span></ion-label>
-            <ion-select *ngIf="operations" placeholder="Facility" class="select-facility" formControlName="operation">
+            <ion-select placeholder="Facility" class="select-facility" formControlName="operation">
               <ion-select-option
                 *ngFor="let operation of operations"
                 [selected]="operation.operationId == patient.patientOperationId"
