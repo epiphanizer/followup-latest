@@ -609,7 +609,10 @@ form {
         width: 60px;
         display: none !important;
       }
-
+      ion-checkbox {
+        height: 14px;
+        width: 14px;
+      }
       &.patient-contact-hipaa {
         margin-left: 8px;
 

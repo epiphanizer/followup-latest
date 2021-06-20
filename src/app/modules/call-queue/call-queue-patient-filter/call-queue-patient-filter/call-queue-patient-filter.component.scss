@@ -1,8 +1,11 @@
+ion-col {
+  padding: 0;
+}
 .patient-filter {
   margin-top: 15px;
-  max-width: 332px;
+  max-width: 355px;
   ion-input {
-    width: 360px;
+    width: 355px;
     @media screen and (orientation: portrait) and (max-width: 1024px) {
       width: 305px;
     }
