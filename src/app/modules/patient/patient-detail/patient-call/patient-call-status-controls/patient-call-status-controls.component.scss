@@ -3,20 +3,25 @@ ion-list {
     opacity: 0.2;
   }
 }
+
 .patient-call-status-legend {
   list-style-type: none;
   padding-top: 0;
   padding-left: 0;
   margin-bottom: 0;
+  text-align: right;
+
   .current-call-status {
     font-family: AvenirBold;
     font-weight: 11px;
     font-style: italic;
   }
+
   ion-radio,
   ion-label {
     display: inline-block;
   }
+
   h3 {
     font-family: Avenir;
     font-size: 17px;
@@ -37,12 +42,20 @@ ion-list {
     cursor: pointer;
     display: inline-block;
     margin-right: -5px;
+
     &.patient-status-control {
       height: 34px;
       --padding-start: 8px;
+
+      @media screen and (orientation: portrait) and (max-width: 1024px) {
+        --padding-start: 2px;
+      }
+
       margin-top: -10px;
     }
+
     width: auto;
+
     &.active {
       border-bottom: 1px solid lightblue;
     }
@@ -57,31 +70,40 @@ ion-list {
       background-size: 100%;
       background-repeat: no-repeat;
       background-position: center center;
+
       &.icon-contacted {
         background-image: url("/assets/icon-contacted@2x.png");
+
         &.active {
           background-image: url("/assets/icon-contacted-active@2x.png");
         }
       }
+
       &.icon-left {
         background-image: url("/assets/icon-left-message@2x.png");
+
         &.active {
           background-image: url("/assets/icon-left-message-active@2x.png");
         }
       }
+
       &.icon-no {
         background-image: url("/assets/icon-no-answer@2x.png");
+
         &.active {
           background-image: url("/assets/icon-no-answer-active@2x.png");
         }
       }
+
       &.icon-final {
         background-image: url("/assets/icon-final@2x.png");
+
         &.active {
           background-image: url("/assets/icon-final@2x.png");
         }
       }
     }
+
     span {
       font-family: Avenir;
       font-size: 13.5px;

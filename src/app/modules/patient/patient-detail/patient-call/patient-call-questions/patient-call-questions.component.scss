@@ -4,8 +4,8 @@ form {
 }
 .patient-call-question-list {
   width: 100%;
+  padding-left: 2px;
   list-style-type: none;
-  padding-left: 0;
 }
 
 .ion-scroll-questions {
@@ -29,7 +29,6 @@ i.icon-question-mark {
 }
 
 ion-item.call-question {
-  --padding-start: 0;
   margin-bottom: 0.5rem;
   height: 30px;
   ion-label {
@@ -202,12 +201,13 @@ ion-radio {
     font-size: 14px;
     font-weight: bold;
     width: 100%;
+    margin-left: 15px;
   }
   ion-textarea {
     font-size: 13px;
     padding-top: 4px;
   }
   .call-question {
-    width: 475px;
+    width: calc(100% + 16px);
   }
 }

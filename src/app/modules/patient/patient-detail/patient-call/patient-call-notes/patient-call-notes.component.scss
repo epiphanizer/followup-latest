@@ -1,14 +1,13 @@
 .call-notes-list {
   margin-top: 0;
   margin-left: 0;
+  width: 100%;
+  padding-left: 18px;
 }
 form {
   .patient-call-note-highlight-controls {
     float: right;
     margin-top: -5px;
-    @media screen and (orientation: portrait) and (max-width: 1024px) {
-      margin-right: 20px;
-    }
     height: 35px;
     cursor: pointer;
     font-family: AvenirPro;
@@ -39,7 +38,7 @@ form {
 }
 
 ion-item {
-  --padding-start: 0;
+  // --padding-start: 0;
   --padding-end: 0;
   --inner-padding-start: 0;
   --inner-padding-end: 0;

@@ -18,7 +18,7 @@ ion-row {
   width: 100%;
   max-width: 625px;
   // This doens't really help us but prevents rapid degradation responsively
-  min-width: 550px;
+  min-width: 485px;
   padding-bottom: 250px;
   margin-left: 45px;
   @media screen and (orientation: portrait) and (max-width: 1024px) {
@@ -32,6 +32,7 @@ ion-row {
   width: 100%;
   @media screen and (orientation: portrait) and (max-width: 1024px) {
     margin-left: 12px;
-    width: 48%;
+    width: 46%;
+    padding-right: 2rem;
   }
 }
