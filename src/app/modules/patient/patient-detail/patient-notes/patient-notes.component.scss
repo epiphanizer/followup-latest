@@ -100,13 +100,16 @@ ion-list {
       line-height: 18px;
       height: 34px;
       padding: 0;
+      &.discharged-to {
+        height: 60px;
+      }
     }
   }
 
   &.more-info-section {
     margin-top: 0;
     margin-left: 10px;
-    margin-bottom: 0;
+    margin-bottom: 8px;
 
     ion-item {
       height: 32px;

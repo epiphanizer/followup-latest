@@ -67,6 +67,9 @@ ion-list {
       vertical-align: middle;
       margin-top: -4px;
       margin-right: 4px;
+      @media screen and (orientation: portrait) and (max-width: 1024px) {
+        margin-right: 2px;
+      }
       background-size: 100%;
       background-repeat: no-repeat;
       background-position: center center;

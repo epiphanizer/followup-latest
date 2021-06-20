@@ -3,7 +3,7 @@
   overflow: hidden;
   display: block;
   height: 30px;
-  width: auto;
+  width: 300px;
 }
 .table-filter {
   display: block;
@@ -14,6 +14,9 @@
     vertical-align: bottom;
     cursor: pointer;
     margin-left: 12px;
+    @media screen and (max-width: 1024px) and (orientation: portrait) {
+      margin-left: 0;
+    }
     width: 170px;
     height: 30px;
     overflow: hidden;
