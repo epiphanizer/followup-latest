@@ -297,6 +297,10 @@ form {
       margin-right: 0;
       float: none;
 
+      @media screen and (orientation: landscape) {
+        margin-right: 70px !important;
+        float: right;
+      }
       @media screen and (orientation: portrait) and (max-width: 1024px) {
         margin-left: 55px;
         margin-bottom: -11px;
