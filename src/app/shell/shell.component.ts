@@ -114,7 +114,6 @@ export class ShellComponent {
     }
     this.userCorkBoardService.doUpload(this.user).then(() => {
       this.toastrService.success('Successfully added cork board item.');
-      debugger;
       this.userCorkBoardService.userCorkBoardUpdated();
     });
   }

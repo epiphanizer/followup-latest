@@ -59,6 +59,10 @@ export class ToolbarProfileNavComponent implements OnInit {
     this.dropdownActive = !this.dropdownActive;
     this.dropdownEvent.emit(this.dropdownActive);
   }
+  closeDropdown() {
+    this.dropdownActive = false;
+    this.dropdownEvent.emit(this.dropdownActive);
+  }
   signOut() {
     this.authService.signOut();
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd, ActivationEnd, ActivatedRouteSnapshot } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
@@ -29,6 +29,8 @@ export class ToolbarNavComponent implements OnInit {
   navLinks: MenuLink[];
   patient: Patient;
   user: User;
+
+  @Output() dropdownEvent: EventEmitter<Boolean> = new EventEmitter(false);
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
@@ -143,7 +145,6 @@ export class ToolbarNavComponent implements OnInit {
         this.createNotification();
       }
     }
-    console.log(link);
     if (link.linkAction == 'getExcelReport') {
       this.dataService.getData().subscribe((data: Blob) => {
         var blob = new Blob([data], { type: data.type });
@@ -168,6 +169,9 @@ export class ToolbarNavComponent implements OnInit {
     this.dropdowns.forEach((dropdown, index) => {
       dropdown.activated = false;
     });
+    // emit false to close the profile dropdown if we open a nav dropdown
+    // (we have to do this due to layout constraints)
+    this.dropdownEvent.emit(false);
     /**
      * Check for any existing dropdowns;
      */
@@ -175,6 +179,9 @@ export class ToolbarNavComponent implements OnInit {
     this.dropdowns[i].activated = true;
   }
   toggleDropdown(i: number, $event: any) {
+    // emit false to close the profile dropdown if we open a nav dropdown
+    // (we have to do this due to layout constraints)
+    this.dropdownEvent.emit(false);
     this.dropdowns[i].activated = !this.dropdowns[i].activated;
     /**
      * We do a quick check here for our mouseout event...

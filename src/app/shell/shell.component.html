@@ -9,7 +9,7 @@
   <div class="content-wrapper" [class.expanded]="userCorkBoardExpanded">
     <ion-toolbar>
       <app-toolbar-logo (click)="toggleDropdown(false)"> </app-toolbar-logo>
-      <app-toolbar-nav></app-toolbar-nav>
+      <app-toolbar-nav (dropdownEvent)="toggleDropdown($event)"> </app-toolbar-nav>
     </ion-toolbar>
     <app-toolbar-profile-nav
       *ngIf="user"
