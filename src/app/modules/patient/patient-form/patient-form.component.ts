@@ -228,7 +228,6 @@ export class PatientFormComponent implements OnInit {
   }
 
   private createForm() {
-    console.log(this.patient.patientSpeaksEnglish);
     this.patientForm = this.fb.group({
       patient: this.fb.group({
         operation: this.fb.control(this.patient.patientOperationId, [Validators.required]),

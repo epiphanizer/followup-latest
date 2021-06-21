@@ -4,20 +4,7 @@
   display: block;
   text-align: center;
 }
-.corkBoardObject {
-  &::before {
-    background-image: url("/assets/pin-blue@2x.png");
-    background-size: 75%;
-    position: absolute;
-    content: "";
-    height: 37px;
-    background-repeat: no-repeat;
-    width: 27px;
-    display: block;
-    margin-left: 45%;
-    margin-top: -1rem;
-  }
-}
+
 .corkboard-object-frame {
   margin-left: 32px;
   margin-top: 20px;
@@ -29,6 +16,19 @@
   background-repeat: no-repeat;
   background-position: center center;
 }
+
+.corkboard-delete {
+  position: absolute;
+  height: 9px;
+  width: 9px;
+  right: 15px;
+  margin-top: 18px;
+  background-image: url("/assets/icon-delete-x@2x.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
 .corkboard-object-image {
   display: block;
   margin-top: 10px;

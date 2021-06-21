@@ -1,9 +1,6 @@
-<div
-  class="corkBoardObject"
-  id="userCorkBoardObject-{{ userCorkBoardObject.userCorkBoardObjectId }}"
-  (click)="removeCorkBoardObject(userCorkBoardObject.userCorkBoardObjectId)"
->
+<div class="corkBoardObject" id="userCorkBoardObject-{{ userCorkBoardObject.userCorkBoardObjectId }}">
   <div class="corkboard-object-frame">
+    <div class="corkboard-delete" (click)="removeCorkBoardObject(userCorkBoardObject.userCorkBoardObjectId)"></div>
     <div class="corkboard-object-image" [style.background-image]="corkboardObjectUrl"></div>
   </div>
 </div>

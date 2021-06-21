@@ -42,7 +42,6 @@ export class TeamListingComponent implements OnInit {
     this.teams = [];
     this.teams$ = this.teamService.getTeamMembersByTeamId(this.selected.team.teamId).pipe(
       map((teams: [Team]) => {
-        console.log(teams);
         this.teams = teams;
         return teams;
       })

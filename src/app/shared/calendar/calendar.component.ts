@@ -142,7 +142,6 @@ export class CalendarComponent implements OnInit {
     this.offsetNumber = this.getFirstDayOffset(firstDayOfMonthIndex);
 
     var priorMonthLastDays = this.daysInMonth(parseInt(this.lastMonthString), this.lastMonthYear);
-    console.log('prior months days' + priorMonthLastDays);
     /**
      * A fun, and confusing (unless you wrote it)
      * equation to get back the last (offset_days) of
@@ -194,16 +193,13 @@ export class CalendarComponent implements OnInit {
   }
   calendarPrevMonth() {
     if (parseInt(this.selectedMonth.number) - 2 !== 0) {
-      console.log('selected number ' + this.selectedMonth.number);
       this.lastMonthYear = this.selectedYear.year;
       this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
-      console.log(this.selectedMonth);
       this.lastMonthString = this.months[parseInt(this.selectedMonth.number) - 3].number;
     } else {
       this.lastMonthYear = this.selectedYear.year - 1;
       this.lastMonthString = '12';
     }
-    console.log('last month string ' + this.lastMonthString);
     this.selectedMonth.number = (parseInt(this.selectedMonth.number) - 1).toString();
 
     if (this.selectedMonth.number !== '0') {
@@ -221,7 +217,6 @@ export class CalendarComponent implements OnInit {
         this.selectedYear.year
       );
     }
-    console.log('create days array prev');
     this.createDaysArray();
   }
   calendarNextMonth() {
@@ -233,7 +228,6 @@ export class CalendarComponent implements OnInit {
       this.lastMonthYear = this.selectedYear.year - 1;
       this.lastMonthString = '12';
     }
-    console.log('last month string' + this.lastMonthString);
     this.selectedMonth.number = (parseInt(this.selectedMonth.number) + 1).toString();
     this.currentCalendarMonth = this.months[parseInt(this.selectedMonth.number) - 1];
     if (this.selectedMonth.number !== '13') {
@@ -248,7 +242,6 @@ export class CalendarComponent implements OnInit {
         this.selectedYear.year
       );
     }
-    console.log('create days array next');
     this.createDaysArray();
   }
   selectDateEventHandler(day: number, currentCalendarMonth: number, todaysYear: number) {

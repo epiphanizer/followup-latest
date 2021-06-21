@@ -38,7 +38,6 @@ export class OperationListingComponent implements OnInit {
         this.operationService
           .getOperationGroupByOperationGroupId(operationGroupId)
           .subscribe((operationGroup: OperationGroup) => {
-            console.log(operationGroup);
             this.selected.operationGroup = operationGroup[0];
           });
         this.operationGroups$ = this.operationService.getOperationGroups();

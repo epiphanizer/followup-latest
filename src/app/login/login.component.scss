@@ -61,13 +61,15 @@ ion-item {
     display: block;
     height: 44px;
     width: 183px;
-    margin: 0px 20px;
+    margin: 0px 0px;
     background-image: url("/assets/logo-white@2x.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
   }
-
+  .login-inputs {
+    margin-top: 0;
+  }
   ion-input {
     --padding-bottom: 7px;
     --padding-start: 8px;

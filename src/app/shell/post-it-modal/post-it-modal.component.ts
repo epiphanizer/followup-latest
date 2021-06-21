@@ -32,7 +32,6 @@ export class PostItModalComponent {
   ) {}
 
   ngOnInit() {
-    console.log(this.userMessage);
     this.createForm();
     this.todaysDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.todaysDateDay = parseInt(formatDate(new Date(), 'dd', 'en'));
@@ -44,9 +43,7 @@ export class PostItModalComponent {
       messageBody: this.fb.control('', [Validators.required])
     });
   }
-  ngOnChanges(changes: any) {
-    console.log(changes);
-  }
+  ngOnChanges(changes: any) {}
   selectMessageType(event: any) {
     this.messageType = event.detail.value;
   }

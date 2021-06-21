@@ -91,7 +91,6 @@ export class TeamMembersListingComponent implements OnInit {
   }
 
   runSortSwitch() {
-    console.log('in sort switch, sorting by ' + this.selectedSortFlag);
     switch (this.selectedSortOption) {
       case 'Hired':
         this.sortTeamByTeamMemberHiredDate();

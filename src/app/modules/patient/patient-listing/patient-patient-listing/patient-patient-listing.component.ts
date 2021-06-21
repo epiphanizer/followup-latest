@@ -26,7 +26,6 @@ export class PatientPatientListingComponent implements OnInit {
       this.patients$ = this.patientService.getActiveSpanishPatients().pipe(
         take(1),
         map((patients: Patient[]) => {
-          console.log(patients);
           if (patients) {
             this.patients = patients;
             this.patientsFiltered = patients;
