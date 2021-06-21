@@ -56,7 +56,7 @@
         background: white;
         padding-left: 3%;
         margin-right: -3%;
-        max-width: 433px;
+        max-width: 403px;
       }
 
       &.right-col {
@@ -319,11 +319,12 @@
   ion-col.red-data-box {
     max-width: 327px;
     width: 28%;
-    background-size: 100%;
+    background-size: contain;
     background-image: url("/assets/red-data-box@2x.png");
     background-repeat: no-repeat;
     background-position: top;
     @media screen and (max-width: 1125px) {
+      background-size: 100%;
       width: 26%;
     }
     margin-right: 2%;
@@ -332,11 +333,12 @@
   ion-col.blue-data-box {
     max-width: 327px;
     width: 28%;
-    background-size: 100%;
+    background-size: contain;
     background-image: url("/assets/blue-data-box@2x.png");
     background-repeat: no-repeat;
     background-position: top;
     @media screen and (max-width: 1125px) {
+      background-size: 100%;
       width: 26%;
     }
     margin-right: 0;
