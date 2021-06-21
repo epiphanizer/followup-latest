@@ -212,15 +212,15 @@ export class PatientDetailComponent implements OnInit {
       .subscribe(() => {});
 
     if (!this.patientCallQuestionAnswers) {
-      alert('Please select an answer to at least one question.');
-      let element = document.querySelector('#patientCallNotesForm');
+      // alert('Please select an answer to at least one question.');
+      // let element = document.querySelector('#patientCallNotesForm');
       // if (element) {
       //   element.scrollIntoView({
       //     behavior: 'auto',
       //     block: 'start'
       //   });
       // }
-      return;
+      // return;
     }
 
     if (!this.patientNextCall.date && !this.patientCall.finalCall) {
