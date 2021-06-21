@@ -2,6 +2,7 @@
   width: calc(100% - 110px);
   margin: 50px auto 0 110px;
   height: 100%;
+  overflow: auto;
 
   ion-row {
     width: 100%;
@@ -11,16 +12,25 @@
     margin-bottom: 20px;
 
     @media screen and (max-width: 1024px) {
-      max-height: unset;
+      &.top-row {
+        margin-bottom: 5vh;
+        max-height: 235px;
+      }
     }
 
     ion-col {
-      min-height: 20vh;
-
       height: auto;
 
       @media screen and (min-width: 1025px) {
-        height: 40vh;
+        height: 37vh;
+      }
+      @media screen and (max-width: 1024px) {
+        &.left-box,
+        &.post-it-box,
+        &.right-col {
+          max-height: 235px;
+          margin-bottom: 1rem;
+        }
       }
 
       display: block;
@@ -31,7 +41,9 @@
         margin-right: -2%;
         padding-right: 2%;
         overflow-y: auto;
-
+        @media screen and (max-width: 1024px) {
+          width: calc(40% + 15px);
+        }
         .message-container {
           max-width: 525px;
         }
@@ -52,6 +64,7 @@
         width: 28%;
         padding-left: 2rem;
         max-width: 387px;
+
         .confetti-box {
           max-height: calc(100% - 24px);
           max-width: 329px;
@@ -111,7 +124,8 @@
 
     .posted-notes {
       height: 100%;
-      max-height: calc(100% - 24px);
+      max-height: 32vh;
+
       .user-messages {
         width: 100%;
         height: 100%;
@@ -133,8 +147,8 @@
           text-align: left;
 
           @media screen and (max-width: 1024px) {
-            height: 20vh;
-            overflow: scroll;
+            height: 94%;
+            min-height: 30vh;
           }
         }
 
@@ -158,20 +172,17 @@
     display: block;
     height: 40vh;
 
-    @media screen and (max-width: 1024px) and (orientation: portrait) {
-      height: 28vh;
-    }
-
     min-height: 250px;
     margin-right: 30px;
   }
 
   ion-col.patient-pipeline-col {
     width: 34%;
-    margin-right: 2%;
+    margin-right: 1%;
+    min-width: 300px;
 
-    @media screen and (max-width: 1335px) {
-      width: 95%;
+    @media screen and (max-width: 1024px) {
+      width: 42%;
     }
 
     margin-bottom: 2rem;
@@ -180,7 +191,6 @@
   .patient-pipeline {
     background-color: #f5f5f5;
     max-width: 525px;
-
     @media screen and (max-width: 1335px) {
       width: 95%;
       max-width: unset;
@@ -189,7 +199,6 @@
     width: 100%;
     padding: 28.2px 37.5px 32px 28.2px;
     border-radius: 13.7px;
-    overflow-y: auto;
 
     .pipeline-title {
       display: block;
@@ -314,6 +323,10 @@
     background-image: url("/assets/red-data-box@2x.png");
     background-repeat: no-repeat;
     background-position: top;
+    @media screen and (max-width: 1024px) {
+      width: 26%;
+    }
+    margin-right: 2%;
   }
 
   ion-col.blue-data-box {
@@ -323,6 +336,10 @@
     background-image: url("/assets/blue-data-box@2x.png");
     background-repeat: no-repeat;
     background-position: top;
+    @media screen and (max-width: 1024px) {
+      width: 26%;
+    }
+    margin-right: 0;
   }
 
   .everybody-is-callout {
