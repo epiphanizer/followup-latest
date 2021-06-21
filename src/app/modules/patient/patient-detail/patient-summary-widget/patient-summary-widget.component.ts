@@ -20,9 +20,10 @@ export class PatientSummaryWidgetComponent implements OnInit {
     function addStr(str: string, index: number, stringToAdd: string) {
       return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
     }
-
-    if (this.patient.patientPhoneNumber.indexOf('-') == -1) {
-      this.patient.patientPhoneNumber = addStr(this.patient.patientPhoneNumber, 3, '-'); //outPut : "This is a modified string"
+    if (this.patient.patientPhoneNumber) {
+      if (this.patient.patientPhoneNumber.indexOf('-') == -1) {
+        this.patient.patientPhoneNumber = addStr(this.patient.patientPhoneNumber, 3, '-'); //outPut : "This is a modified string"
+      }
     }
     this.patientContactService
       .getPatientContactsByPatientId(this.patient.patientId)
