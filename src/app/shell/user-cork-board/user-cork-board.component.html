@@ -12,7 +12,6 @@
       <div *ngFor="let userCorkBoardObject of userCorkBoardObjects; let idx = index">
         <app-user-cork-board-object
           *ngIf="userCorkBoardObject && idx <= 2"
-          [deleteMode]="deleteMode"
           [userCorkBoardObject]="userCorkBoardObject"
         ></app-user-cork-board-object>
       </div>

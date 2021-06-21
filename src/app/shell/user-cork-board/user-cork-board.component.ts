@@ -59,11 +59,19 @@ export class UserCorkBoardComponent implements OnInit {
       this.isOpen = this.userCorkBoardService.isOpen;
     });
     this.refreshUserCorkBoardSubscription = this.userCorkBoardService.refreshUserCorkBoardBSubject.subscribe(() => {
-      console.log('got into refresh subscription');
+      console.log(this.userCorkBoardService.refresh);
       if (this.userCorkBoardService.refresh) {
-        this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe(() => {
-          console.log('successfully refreshed');
-        });
+        setTimeout(
+          function() {
+            this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe(data => {
+              if (data) {
+                this.userCorkBoardObjects = data;
+                console.log(this.userCorkBoardObjects);
+              }
+            });
+          }.bind(this),
+          1000
+        );
       }
     });
   }

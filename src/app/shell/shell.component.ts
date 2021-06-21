@@ -57,7 +57,6 @@ export class ShellComponent {
     });
     this.setIdleLogoutTimer();
     this.corkBoardSubscription = this.userCorkBoardService.menuStateBSubject.subscribe(() => {
-      console.log('cork board sub fired');
       this.userCorkBoardExpanded = this.userCorkBoardService.isOpen;
     });
   }
@@ -115,6 +114,7 @@ export class ShellComponent {
     }
     this.userCorkBoardService.doUpload(this.user).then(() => {
       this.toastrService.success('Successfully added cork board item.');
+      debugger;
       this.userCorkBoardService.userCorkBoardUpdated();
     });
   }
