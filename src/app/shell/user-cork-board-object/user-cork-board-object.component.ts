@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
 import { UserCorkBoardObject, UserCorkBoardService } from '../user-cork-board/user-cork-board.service';
 
 @Component({

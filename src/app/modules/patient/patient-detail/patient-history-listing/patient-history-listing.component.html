@@ -32,11 +32,11 @@
           <div id="{{ 'call-' + activity.patientCallCount }}" class="activity-headline-container">
             <img
               class="graduated-banner"
-              *ngIf="patient.patientStatus != 'In Progress' && i == 0"
+              *ngIf="patient.patientStatus != 'In Progress' && patientFirstCallIndexCallId == activity.patientCallId"
               src="/assets/patient-graduated-banner@2x.png"
             />
             <i
-              *ngIf="!(i == 0 && patient.patientStatus != 'In Progress')"
+              *ngIf="!(patientFirstCallIndexCallId == activity.patientCallId && patient.patientStatus != 'In Progress')"
               class="icon-phone-icon"
               style="background-image: url('{{ activity.patientCallStatusIconImage }}')"
             ></i>

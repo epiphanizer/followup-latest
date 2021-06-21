@@ -1,11 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { UserCorkBoardService, UserCorkBoardObject } from './user-cork-board.service';
 import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
-
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+
 @Component({
   providers: [ToastrService],
   selector: 'app-user-cork-board',
@@ -40,11 +40,7 @@ export class UserCorkBoardComponent implements OnInit {
   corkBoardToggleSubscription: Subscription;
   refreshUserCorkBoardSubscription: Subscription;
 
-  constructor(
-    private userCorkBoardService: UserCorkBoardService,
-    private route: ActivatedRoute,
-    private toastrService: ToastrService
-  ) {}
+  constructor(private userCorkBoardService: UserCorkBoardService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
@@ -59,16 +55,16 @@ export class UserCorkBoardComponent implements OnInit {
       this.isOpen = this.userCorkBoardService.isOpen;
     });
     this.refreshUserCorkBoardSubscription = this.userCorkBoardService.refreshUserCorkBoardBSubject.subscribe(() => {
-      console.log(this.userCorkBoardService.refresh);
       if (this.userCorkBoardService.refresh) {
         setTimeout(
           function() {
-            this.userCorkBoardService.getUserCorkBoardObjectsByUserId(this.user.userId).subscribe(data => {
-              if (data) {
-                this.userCorkBoardObjects = data;
-                console.log(this.userCorkBoardObjects);
-              }
-            });
+            this.userCorkBoardService
+              .getUserCorkBoardObjectsByUserId(this.user.userId)
+              .subscribe((data: UserCorkBoardObject[]) => {
+                if (data) {
+                  this.userCorkBoardObjects = data;
+                }
+              });
           }.bind(this),
           1000
         );

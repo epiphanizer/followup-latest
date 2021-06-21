@@ -23,6 +23,7 @@ export class PatientHistoryListingComponent implements OnInit {
   @Input() patientCalls: PatientCall[];
   @Input() patientNotifications: Notification[];
   patientActivity: [Notification[] | PatientCall[]] | any;
+  patientFirstCallIndexCallId: number;
   patientHistory: PatientCall[];
   patientCallQuestions: PatientCallQuestion[] = [];
 
@@ -67,7 +68,10 @@ export class PatientHistoryListingComponent implements OnInit {
      * Combine the patientCalls and patientNotifications and sort them by the date that they occurred.
      */
     if (this.patientCalls) {
-      this.patientCalls.forEach(patientCall => {
+      this.patientCalls.forEach((patientCall, index) => {
+        if (index == 0) {
+          this.patientFirstCallIndexCallId = patientCall.patientCallId;
+        }
         // we safety check here just in case patientCallNotes slipped past as null (shouldn't happen but it has)
         if (patientCall.patientCallNotes != null) {
           patientCall.patientCallNotes = this.sharedFunctions.returnHTML(patientCall.patientCallNotes);
