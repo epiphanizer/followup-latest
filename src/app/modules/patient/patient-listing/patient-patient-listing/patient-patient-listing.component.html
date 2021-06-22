@@ -31,7 +31,7 @@
   </thead>
   <tbody *ngIf="patients$ | async">
     <tr
-      *ngFor="let patient of patientsFiltered"
+      *ngFor="let patient of pageOfItems"
       [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
       class="active"
       [class.archived]="!patient.patientActive"
@@ -63,7 +63,8 @@
     </tr>
   </tbody>
 </table>
-<jw-pagination *ngIf="patientsFiltered" [items]="patientsFiltered" (changePage)="onChangePage($event)"> </jw-pagination>
+<jw-pagination *ngIf="patientsFiltered" [pageSize]="20" [items]="patientsFiltered" (changePage)="onChangePage($event)">
+</jw-pagination>
 
 <ng-template #noPatients>
   Sorry! No patients exist for this operation!
