@@ -45,7 +45,7 @@
                   (click)="setActiveOperation(operation)"
                   [class.active]="activeOperationId == operation.operationId"
                 >
-                  {{ operation.operationName | slice: 0:13
+                  {{ operation.operationName | slice: 0:15
                   }}<span *ngIf="operation.operationName.length > 16">...</span>
                 </a>
 

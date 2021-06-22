@@ -61,8 +61,10 @@ export class HomeComponent implements OnInit {
         this.notificationsSent.totalNotifications = data[0].totalNotifications;
 
         this.userService.getUserMessages(this.user).subscribe((userMessages: UserMessage[]) => {
-          this.userMessage = userMessages[0];
-          this.userMessage.messageBody = this.sharedFunctions.returnHTML(this.userMessage.messageBody);
+          if (userMessages) {
+            this.userMessage = userMessages[0];
+            this.userMessage.messageBody = this.sharedFunctions.returnHTML(this.userMessage.messageBody);
+          }
 
           /**
            * Data dashboard calls
