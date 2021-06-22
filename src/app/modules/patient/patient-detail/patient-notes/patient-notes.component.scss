@@ -113,6 +113,9 @@ ion-list {
 
     ion-item {
       height: 32px;
+      &.primary-diagnosis {
+        height: auto;
+      }
     }
 
     .medical-condition-item {

@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.teamService.getTeamMessagesByTeamId(1).subscribe((teamMessages: TeamMessage[]) => {
-      if (teamMessages[0]) {
+      if (teamMessages) {
         this.teamMessage = teamMessages[0];
         // Decode our message to preserve line breaks, other symbols.
         this.teamMessage.messageBody = this.sharedFunctions.returnHTML(this.teamMessage.messageBody);
