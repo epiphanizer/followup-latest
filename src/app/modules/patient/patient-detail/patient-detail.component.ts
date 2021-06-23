@@ -237,15 +237,20 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
       // Update the call status
       // Talk to our service to answer the existing call questions
-      this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
-        let patientCallQuestionId = parseInt(Object.keys(patientCallQuestionAnswer).toString());
-        let patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
-        if (patientCallQuestionAnswerText !== undefined) {
-          this.patientCallQuestionsService
-            .addPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestionId, patientCallQuestionAnswerText)
-            .subscribe();
-        }
-      });
+      if (this.patientCallQuestionAnswers) {
+        this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
+          let patientCallQuestionId = parseInt(Object.keys(patientCallQuestionAnswer).toString());
+          let patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
+          if (patientCallQuestionAnswerText !== undefined) {
+            this.patientCallQuestionsService
+              .addPatientCallQuestionAnswersByPatientCallQuestionId(
+                patientCallQuestionId,
+                patientCallQuestionAnswerText
+              )
+              .subscribe();
+          }
+        });
+      }
 
       let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
 
