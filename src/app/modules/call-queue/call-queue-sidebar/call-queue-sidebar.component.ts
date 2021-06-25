@@ -80,20 +80,25 @@ export class CallQueueSidebarComponent {
   // set a default for no new discharges re: spanish patients
   spanishNewDischarges: boolean = false;
   ngOnInit() {
-    this.operationGroups$ = this.operationService.getOperationGroups();
-    this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-      if (operationGroups) {
-        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
-          if (idx == 0 && !this.activeOperationId) {
-            operationGroup.sidebarDropdownOpen = true;
-          } else {
-            operationGroup.sidebarDropdownOpen = false;
-          }
-        });
-        this.operationGroups = operationGroups;
-      }
-    });
+    if (!sessionStorage.getItem('operationGroups')) {
+      this.operationGroups$ = this.operationService.getOperationGroups();
+      this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
+        if (operationGroups) {
+          sessionStorage.setItem('operationGroups', JSON.stringify(operationGroups));
+          operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+            operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+            if (idx == 0 && !this.activeOperationId) {
+              operationGroup.sidebarDropdownOpen = true;
+            } else {
+              operationGroup.sidebarDropdownOpen = false;
+            }
+          });
+          this.operationGroups = operationGroups;
+        }
+      });
+    } else {
+      this.operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
+    }
 
     this.route.paramMap.subscribe((data: any) => {
       if (data.params.operationId) {

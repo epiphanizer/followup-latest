@@ -88,30 +88,34 @@ export class OperationAdminSidebarComponent implements OnInit {
         });
       }
     });
-    this.operationGroups$ = this.operationService.getOperationGroups();
-    this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-      if (operationGroups) {
-        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup).pipe(
-            map((operations: Operation[]) => {
-              if (operations) {
-                if (idx == 0 && !this.selected.operation) {
-                  this.selected.operation = operations[0];
-                  this.activeOperationId = this.selected.operation.operationId;
+    if (!sessionStorage.getItem('operationGroups')) {
+      this.operationGroups$ = this.operationService.getOperationGroups();
+      this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
+        if (operationGroups) {
+          operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+            operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup).pipe(
+              map((operations: Operation[]) => {
+                if (operations) {
+                  if (idx == 0 && !this.selected.operation) {
+                    this.selected.operation = operations[0];
+                    this.activeOperationId = this.selected.operation.operationId;
+                  }
+                  return operations;
                 }
-                return operations;
-              }
-            })
-          );
-          if (idx == 0) {
-            operationGroup.sidebarDropdownOpen = true;
-          } else {
-            operationGroup.sidebarDropdownOpen = false;
-          }
-        });
-        this.operationGroups = operationGroups;
-      }
-    });
+              })
+            );
+            if (idx == 0) {
+              operationGroup.sidebarDropdownOpen = true;
+            } else {
+              operationGroup.sidebarDropdownOpen = false;
+            }
+          });
+          this.operationGroups = operationGroups;
+        }
+      });
+    } else {
+      this.operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
+    }
     this.user = this.route.snapshot.data.user;
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }

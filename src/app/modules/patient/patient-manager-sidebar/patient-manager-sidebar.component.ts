@@ -88,27 +88,31 @@ export class PatientManagerSidebarComponent implements OnInit {
         this.activeOperationId = parseInt(params.get('operationId'));
       }
     });
-    this.operationGroups$ = this.operationService.getOperationGroups();
-    this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-      if (operationGroups) {
-        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup).pipe(
-            map((operations: any) => {
-              if (idx == 0) {
-                this.activeOperationId = operations[0].operationId;
-              }
-              return operations;
-            })
-          );
-          if (idx == 0 && !this.selected.operation) {
-            operationGroup.sidebarDropdownOpen = true;
-          } else {
-            operationGroup.sidebarDropdownOpen = false;
-          }
-        });
-        this.operationGroups = operationGroups;
-      }
-    });
+    if (!sessionStorage.getItem('operationGroups')) {
+      this.operationGroups$ = this.operationService.getOperationGroups();
+      this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
+        if (operationGroups) {
+          operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+            operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup).pipe(
+              map((operations: any) => {
+                if (idx == 0) {
+                  this.activeOperationId = operations[0].operationId;
+                }
+                return operations;
+              })
+            );
+            if (idx == 0 && !this.selected.operation) {
+              operationGroup.sidebarDropdownOpen = true;
+            } else {
+              operationGroup.sidebarDropdownOpen = false;
+            }
+          });
+          this.operationGroups = operationGroups;
+        }
+      });
+    } else {
+      this.operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
+    }
     if (this.user.operations$) {
       this.user.operations$.subscribe((data: Operation[]) => {
         /** Init to the first assigned operation alphabetically */
