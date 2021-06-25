@@ -111,7 +111,16 @@ export class PatientManagerSidebarComponent implements OnInit {
         }
       });
     } else {
-      this.operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
+      var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
+      operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+        operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+        if (idx == 0 && !this.activeOperationId) {
+          operationGroup.sidebarDropdownOpen = true;
+        } else {
+          operationGroup.sidebarDropdownOpen = false;
+        }
+      });
+      this.operationGroups = operationGroups;
     }
     if (this.user.operations$) {
       this.user.operations$.subscribe((data: Operation[]) => {
