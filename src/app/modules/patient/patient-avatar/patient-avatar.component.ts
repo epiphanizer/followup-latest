@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { PatientAvatarService } from './patient-avatar.service';
 import { Patient } from '../patient';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-patient-avatar',
@@ -24,38 +25,32 @@ export class PatientAvatarComponent implements OnInit {
     if (this.type == 'circle') {
       this.isCircle = true;
     }
-    var store: any = {
-      patients: {}
-    };
-    if (sessionStorage.getItem('patientAvatarStore')) {
-      // check if we already have the data stored
-      let store = sessionStorage.getItem('patientAvatarStore');
-      var storeDeserialized = JSON.parse(store);
-      if (storeDeserialized.patients[this.patient.patientId]) {
-        if (storeDeserialized.patients[this.patient.patientId].avatar.length) {
-          self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(
-            `url(${storeDeserialized.patients[this.patient.patientId].avatar})`
-          );
-          self.avatarExists = true;
-        }
+    var store: any = '';
+    console.log(self.patient.patientId);
+    if (sessionStorage.getItem(self.patient.patientId.toString())) {
+      var storeDeserialized = sessionStorage.getItem(self.patient.patientId.toString());
+      if (storeDeserialized.length) {
+        self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${storeDeserialized})`);
+        self.avatarExists = true;
       }
     } else {
       this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
-        store.patients[this.patient.patientId] = {
-          avatar: ''
-        };
-
-        if (data !== null) {
+        console.log(data);
+        if (data !== null && !data.errno) {
+          console.log(data);
           var reader = new FileReader();
           reader.readAsDataURL(data);
           reader.onloadend = function() {
             var base64data = reader.result;
-            store.patients[self.patient.patientId].avatar = base64data;
-            sessionStorage.setItem('patientAvatarStore', JSON.stringify(store));
-
+            store = base64data;
+            sessionStorage.setItem(self.patient.patientId.toString(), store);
             self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
             self.avatarExists = true;
           };
+        } else {
+          console.log('bad data?');
+          console.log(self.patient.patientId.toString());
+          sessionStorage.setItem(self.patient.patientId.toString(), '');
         }
       });
     }
