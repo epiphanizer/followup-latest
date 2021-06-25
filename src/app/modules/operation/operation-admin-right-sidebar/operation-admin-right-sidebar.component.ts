@@ -199,36 +199,40 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       userId: callRepUserId
     };
     this.operationAssignedUsers[index] = operationCallRepObject;
-
     // Passes E2E
-    this.operationAssignedUsersToRemove.forEach((callRepUserId: number, index: number) => {
-      if (callRepUserId == 0) {
-        return;
+    if (this.operationAssignedUsersToRemove.length) {
+      this.operationAssignedUsersToRemove.forEach((callRepUserId: number, index: number) => {
+        if (callRepUserId == 0) {
+          return;
+        }
+        this.operationCallRepsService
+          .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
+          .subscribe(() => {});
+      });
+    }
+
+    /**
+     * Make sure we only add uniques
+     */
+    this.operationAssignedUsersToAdd = this.operationAssignedUsers.filter(
+      (operationCallRep: OperationCallRep, index: number) => {
+        return operationCallRep.userId !== this.operationAssignedUsersOriginal[index] && operationCallRep.userId !== 0;
       }
+    );
+    let count = 0;
+    this.operationAssignedUsersToAdd = Array.from(new Set(this.operationAssignedUsersToAdd));
+    this.operationAssignedUsersToAdd.forEach((operationCallRep: OperationCallRep) => {
       this.operationCallRepsService
-        .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
+        .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
         .subscribe(() => {
-          this.operationAssignedUsersToAdd = this.operationAssignedUsers.filter(
-            (operationCallRep: OperationCallRep, index: number) => {
-              return (
-                operationCallRep.userId !== this.operationAssignedUsersOriginal[index] && operationCallRep.userId !== 0
-              );
-            }
-          );
-          /**
-           * Make sure we only add uniques
-           */
-          this.operationAssignedUsersToAdd = Array.from(new Set(this.operationAssignedUsersToAdd));
-          this.operationAssignedUsersToAdd.forEach((operationCallRep: OperationCallRep) => {
-            this.operationCallRepsService
-              .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
-              .subscribe(() => {
-                this.toastr.success('Care Rep successfully Added');
-              });
-          });
+          count++;
+          if (count == this.operationAssignedUsers.length) {
+            this.toastr.success('Care Reps successfully saved');
+          }
         });
     });
   }
+
   addAdditionalOperationCallRep() {
     let newCallRep = {
       userId: 0,
