@@ -24,16 +24,40 @@ export class PatientAvatarComponent implements OnInit {
     if (this.type == 'circle') {
       this.isCircle = true;
     }
-    this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
-      if (data !== null) {
-        var reader = new FileReader();
-        reader.readAsDataURL(data);
-        reader.onloadend = function() {
-          var base64data = reader.result;
-          self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
+    var store: any = {
+      patients: {}
+    };
+    if (sessionStorage.getItem('patientAvatarStore')) {
+      // check if we already have the data stored
+      let store = sessionStorage.getItem('patientAvatarStore');
+      var storeDeserialized = JSON.parse(store);
+      if (storeDeserialized.patients[this.patient.patientId]) {
+        if (storeDeserialized.patients[this.patient.patientId].avatar.length) {
+          self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(
+            `url(${storeDeserialized.patients[this.patient.patientId].avatar})`
+          );
           self.avatarExists = true;
-        };
+        }
       }
-    });
+    } else {
+      this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
+        store.patients[this.patient.patientId] = {
+          avatar: ''
+        };
+
+        if (data !== null) {
+          var reader = new FileReader();
+          reader.readAsDataURL(data);
+          reader.onloadend = function() {
+            var base64data = reader.result;
+            store.patients[self.patient.patientId].avatar = base64data;
+            sessionStorage.setItem('patientAvatarStore', JSON.stringify(store));
+
+            self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
+            self.avatarExists = true;
+          };
+        }
+      });
+    }
   }
 }
