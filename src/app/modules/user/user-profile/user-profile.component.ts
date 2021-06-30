@@ -177,10 +177,11 @@ export class UserProfileComponent implements OnInit {
     const firstError = <HTMLElement>document.getElementsByClassName('ng-invalid')[0];
 
     function scroll(el: HTMLElement) {
+      // window.scrollTo(0, 0);
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     if (firstError) {
-      scroll(firstError);
+      // scroll(firstError);
       return false;
     } else {
       return true;

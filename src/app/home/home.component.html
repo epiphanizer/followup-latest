@@ -4,7 +4,6 @@
       <ion-col class="left-box">
         <div class="message-container">
           <h1>Hello {{ user.userFirstName }}</h1>
-
           <div class="team-messages">
             <div class="team-message" *ngIf="teamMessage" [innerHTML]="teamMessage.messageBody"></div>
           </div>

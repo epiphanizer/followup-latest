@@ -57,9 +57,10 @@ export class HomeComponent implements OnInit {
       }
 
       this.teamService.getTeamTotals().subscribe((data: any) => {
-        this.callsMade.totalCalls = data[0].totalCalls;
-        this.notificationsSent.totalNotifications = data[0].totalNotifications;
-
+        if (data.length) {
+          this.callsMade.totalCalls = data[0].totalCalls;
+          this.notificationsSent.totalNotifications = data[0].totalNotifications;
+        }
         this.userService.getUserMessages(this.user).subscribe((userMessages: UserMessage[]) => {
           if (userMessages) {
             this.userMessage = userMessages[0];
@@ -70,13 +71,17 @@ export class HomeComponent implements OnInit {
            * Data dashboard calls
            */
           this.userService.getUserCallCount(this.user).subscribe((data: any) => {
-            this.todaysCalls.completed = data[0].todaysCompletedCalls;
-            this.todaysCalls.scheduled = data[0].todaysScheduledCalls;
-            this.weeklyCalls.completed = data[0].weeklyCompletedCalls;
-            this.weeklyCalls.scheduled = data[0].weeklyScheduledCalls;
-            this.callsMade.callsMade = data[0].totalCalls;
+            if (data.length) {
+              this.todaysCalls.completed = data[0].todaysCompletedCalls;
+              this.todaysCalls.scheduled = data[0].todaysScheduledCalls;
+              this.weeklyCalls.completed = data[0].weeklyCompletedCalls;
+              this.weeklyCalls.scheduled = data[0].weeklyScheduledCalls;
+              this.callsMade.callsMade = data[0].totalCalls;
+            }
             this.userService.getUserNotifications(this.user).subscribe((data: any) => {
-              this.notificationsSent.notifications = data[0].notifications;
+              if (data.length) {
+                this.notificationsSent.notifications = data[0].notifications;
+              }
 
               this.todaysCallsProgress =
                 (parseInt(this.todaysCalls.completed) / parseInt(this.todaysCalls.scheduled)) * 100;
