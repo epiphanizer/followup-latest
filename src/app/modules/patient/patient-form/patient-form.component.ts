@@ -171,7 +171,7 @@ export class PatientFormComponent implements OnInit {
                       Validators.pattern(/^[0-9]\d*$/)
                     ]),
                     patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber, [
-                      Validators.pattern(/^[0-9]{7,}\d*$/)
+                      Validators.pattern(/^[0-9-]{7,}\d*$/)
                     ]),
                     patientContactOrder: this.fb.control(patientContact.patientContactOrder, [
                       Validators.pattern(/^[0-9]\d*$/)

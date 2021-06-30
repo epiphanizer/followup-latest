@@ -329,7 +329,9 @@ export class OperationFormComponent implements OnInit {
         operationZip: this.fb.control(this.operation.operationZip),
         operationCountryCode: this.fb.control(this.operation.operationCountryCode),
         operationAreaCode: this.fb.control(this.operation.operationAreaCode),
-        operationPhoneNumber: this.fb.control(this.operation.operationPhoneNumber)
+        operationPhoneNumber: this.fb.control(this.operation.operationPhoneNumber, [
+          Validators.pattern(/^[0-9-]{7,}\d*$/)
+        ])
       }),
       operationContacts: this.fb.array([]),
       operationManagers: this.fb.array([]),
