@@ -644,7 +644,8 @@ export class OperationFormComponent implements OnInit {
       });
     }
     if (firstError) {
-      scroll(firstError);
+      // scroll(firstError);
+      alert('Validation error. Please check submitted fields');
       return false;
     } else {
       return true;

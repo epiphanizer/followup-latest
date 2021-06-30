@@ -83,9 +83,8 @@
               <ion-label color="medium" position="stacked">Phone #</ion-label>
               <ion-input
                 type="text"
-                mask="000-0000"
                 formControlName="patientPhoneNumber"
-                maxLength="10"
+                maxLength="11"
                 inputAddPhoneDashes
               ></ion-input>
             </ion-item>
@@ -178,7 +177,12 @@
                   </ion-item>
                   <ion-item class="phone-number">
                     <ion-label color="medium" position="stacked">Phone #</ion-label>
-                    <ion-input type="text" mask="000-0000" formControlName="patientContactPhoneNumber"></ion-input>
+                    <ion-input
+                      type="text"
+                      inputAddPhoneDashes
+                      maxLength="11"
+                      formControlName="patientContactPhoneNumber"
+                    ></ion-input>
                   </ion-item>
                   <ion-item class="patient-contact-order">
                     <ion-label color="medium" position="stacked">Order</ion-label>
