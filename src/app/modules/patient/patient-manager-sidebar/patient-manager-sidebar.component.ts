@@ -92,11 +92,9 @@ export class PatientManagerSidebarComponent implements OnInit {
       this.operationGroups$ = this.operationService.getOperationGroups();
       this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
         if (operationGroups) {
-          console.log(operationGroups);
           operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
             operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup).pipe(
               map((operations: any) => {
-                console.log(operations);
                 if (idx == 0) {
                   this.activeOperationId = operations[0].operationId;
                 }
@@ -144,7 +142,6 @@ export class PatientManagerSidebarComponent implements OnInit {
             });
           } else {
             /** Init to the first user operation (alphabetically,) */
-            console.log(this.operations);
             this.selected.operation = this.operations[0];
           }
         });

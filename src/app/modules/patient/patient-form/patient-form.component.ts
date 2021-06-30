@@ -170,7 +170,9 @@ export class PatientFormComponent implements OnInit {
                     patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode, [
                       Validators.pattern(/^[0-9]\d*$/)
                     ]),
-                    patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber),
+                    patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber, [
+                      Validators.pattern(/^[0-9]{7,}\d*$/)
+                    ]),
                     patientContactOrder: this.fb.control(patientContact.patientContactOrder, [
                       Validators.pattern(/^[0-9]\d*$/)
                     ]),
@@ -254,7 +256,7 @@ export class PatientFormComponent implements OnInit {
           this.patient.patientCountryCode ? this.patient.patientCountryCode.toString() : '1'
         ),
         patientAreaCode: this.fb.control(this.patient.patientAreaCode),
-        patientPhoneNumber: this.fb.control(this.patient.patientPhoneNumber),
+        patientPhoneNumber: this.fb.control(this.patient.patientPhoneNumber, [Validators.pattern(/^[-0-9]{8,}\d*$/)]),
         patientHIPAA: this.fb.control(this.patient.patientHIPAA),
         patientIsResponsibleParty: this.fb.control(this.patient.patientIsResponsibleParty),
         patientSpeaksEnglish: this.fb.control(
@@ -613,7 +615,8 @@ export class PatientFormComponent implements OnInit {
       });
     }
     if (firstError) {
-      scroll(firstError);
+      // scroll(firstError);
+      alert('Failed validation, please check fields');
       return false;
     } else {
       return true;

@@ -10,6 +10,7 @@ import { nl2brPipe } from './pipes/nl2br.pipe';
 import { ListingFilterComponent } from './listing-filter/listing-filter.component';
 import { ListingSearchComponent } from './listing-search/listing-search.component';
 import { CapitalizeFirstDirective } from './directives/capitalize-first.directive';
+import { AddPhoneDashesDirective } from './directives/add-phone-dashes.directive';
 
 @NgModule({
   imports: [CommonModule, IonicModule, FormsModule],
@@ -21,7 +22,8 @@ import { CapitalizeFirstDirective } from './directives/capitalize-first.directiv
     nl2brPipe,
     ListingFilterComponent,
     ListingSearchComponent,
-    CapitalizeFirstDirective
+    CapitalizeFirstDirective,
+    AddPhoneDashesDirective
   ],
   exports: [
     LoaderComponent,
@@ -30,7 +32,8 @@ import { CapitalizeFirstDirective } from './directives/capitalize-first.directiv
     nl2brPipe,
     ListingFilterComponent,
     ListingSearchComponent,
-    CapitalizeFirstDirective
+    CapitalizeFirstDirective,
+    AddPhoneDashesDirective
   ]
 })
 export class SharedModule {}

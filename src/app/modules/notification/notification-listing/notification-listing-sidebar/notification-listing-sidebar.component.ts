@@ -113,16 +113,17 @@ export class NotificationListingSidebarComponent implements OnInit {
     });
 
     this.user = this.route.snapshot.data.user;
-    this.user.operations$.subscribe((data: Operation[]) => {
-      /** Init to the first assigned operation alphabetically */
-      this.selected.operation = data[0];
-      this.operations = data;
-      if (this.route.snapshot.data.operation) {
-        this.selected.operation = this.route.snapshot.data.operation;
-        this.setActiveOperation(this.selected.operation);
-      }
-    });
-
+    if (this.user.operations$) {
+      this.user.operations$.subscribe((data: Operation[]) => {
+        /** Init to the first assigned operation alphabetically */
+        this.selected.operation = data[0];
+        this.operations = data;
+        if (this.route.snapshot.data.operation) {
+          this.selected.operation = this.route.snapshot.data.operation;
+          this.setActiveOperation(this.selected.operation);
+        }
+      });
+    }
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
   setActiveOperation = function(operation: Operation) {

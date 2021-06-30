@@ -41,7 +41,6 @@ export class HomeComponent implements OnInit {
   public menu: {}[] = [{}];
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private sharedFunctions: SharedFunctions,
     private teamService: TeamService,
     private userService: UserService

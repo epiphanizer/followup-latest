@@ -20,10 +20,8 @@
     {{ patient.patientTotalDays }} Days
   </ion-item>
   <ion-item class="discharged-to">
-    <span class="label">Discharged To: &nbsp;</span> {{ patient.patientDischargeLabel }}
-    <span class="label ama" *ngIf="patient.patientDischargedAma">
-      &nbsp;(AMA)
-    </span>
+    <span class="label">Discharged To: &nbsp;</span
+    ><span class="label ama" *ngIf="patient.patientDischargedAma">(AMA)&nbsp;</span>{{ patient.patientDischargeLabel }}
   </ion-item>
 </ion-list>
 <i class="icon-medical"></i>

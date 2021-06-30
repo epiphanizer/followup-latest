@@ -36,7 +36,8 @@ ion-content {
   max-width: 200px;
 }
 
-ion-title {
+ion-title,
+h1 {
   font-family: AvenirPro;
   font-size: 45px;
   font-style: normal;
@@ -46,6 +47,9 @@ ion-title {
   color: #3f3638;
   padding-left: 0;
   text-transform: capitalize;
+  text-overflow: ellipsis;
+  white-space: unset;
+  max-height: 24px;
 }
 
 form {
@@ -54,7 +58,7 @@ form {
 
   .operation-controls {
     float: right;
-    margin-top: 0.55rem;
+    margin-top: 1.55rem;
     @media screen and (orientation: portrait) and (max-width: 1024px) {
       margin-top: 20px;
     }

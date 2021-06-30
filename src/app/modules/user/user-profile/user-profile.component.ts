@@ -182,6 +182,7 @@ export class UserProfileComponent implements OnInit {
     }
     if (firstError) {
       // scroll(firstError);
+      alert('Please fill all required fields');
       return false;
     } else {
       return true;
