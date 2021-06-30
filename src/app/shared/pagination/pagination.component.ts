@@ -21,7 +21,6 @@ export class JwPaginationComponent implements OnInit, OnChanges {
 
   paginate(totalItems: number, currentPage: number, pageSize: number, maxPages: number) {
     this.totalItems = totalItems;
-    console.log(totalItems);
     /**
      * If no objects exist, override and set the "start length" to 0.
      */

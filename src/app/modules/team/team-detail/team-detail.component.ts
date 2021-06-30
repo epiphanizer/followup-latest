@@ -64,6 +64,7 @@ export class TeamMemberDetailComponent implements OnInit {
       .pipe(
         take(1),
         map((teamMember: TeamMember) => {
+          console.log(teamMember);
           this.teamMember = teamMember[0];
           this.userService
             .getUserByUserId(this.teamMember.userId)
