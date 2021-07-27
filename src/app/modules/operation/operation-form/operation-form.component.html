@@ -32,11 +32,11 @@
             <ion-item class="operation-phone" *ngIf="operation.operationPhoneNumber">
               <a
                 href="tel:{{ operation.operationCountryCode }}-{{ operation.operationAreaCode }}-{{
-                  operation.operationPhoneNumber.substring(0, 3) + '-' + operation.operationPhoneNumber.substring(3, 7)
+                  operation.operationPhoneNumber
                 }}"
               >
                 +{{ operation.operationCountryCode }}-{{ operation.operationAreaCode }}-{{
-                  operation.operationPhoneNumber.substring(0, 3) + '-' + operation.operationPhoneNumber.substring(3, 7)
+                  operation.operationPhoneNumber
                 }}
               </a>
             </ion-item>

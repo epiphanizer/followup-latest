@@ -319,7 +319,7 @@ export class OperationFormComponent implements OnInit {
   private createForm() {
     this.operationForm = this.fb.group({
       operation: this.fb.group({
-        operationActive: this.fb.control(this.operation.operationActive, [Validators.required]),
+        operationActive: this.fb.control(1, [Validators.required]),
         operationId: this.fb.control(this.operation.operationId, [Validators.required]),
         operationGroupId: this.fb.control(this.operation.operationGroupId, [Validators.required]),
         operationName: this.fb.control(this.operation.operationName, [Validators.required]),

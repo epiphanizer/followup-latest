@@ -26,9 +26,9 @@
         </div>
         <span class="patient-age"
           >Age: {{ patient.patientAge }}&nbsp;&nbsp;&nbsp;
-          <ng-template *ngIf="patient.patientGender == 'male' || patient.patientGender == 'female'"
-            >{{ patient.patientGender == 'male' ? 'Male' : 'Female' }}&nbsp;&nbsp;&nbsp;</ng-template
-          >
+          <span *ngIf="patient.patientGender == 'male' || patient.patientGender == 'female'"
+            >{{ patient.patientGender == 'male' ? 'Male' : 'Female' }}&nbsp;&nbsp;&nbsp;
+          </span>
         </span>
         <span
           class="patient-contact-number"

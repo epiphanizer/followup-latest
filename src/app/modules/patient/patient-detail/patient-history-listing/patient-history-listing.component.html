@@ -43,8 +43,19 @@
             <span class="activity-headline">
               <span class="activity-bold">Call {{ activity.patientCallCount }}</span>
               &mdash;
-              <span class="activity-label">
+              <span
+                class="activity-label"
+                *ngIf="
+                  !(patientFirstCallIndexCallId == activity.patientCallId && patient.patientStatus != 'In Progress')
+                "
+              >
                 {{ activity.patientCallStatusLabel }}
+              </span>
+              <span
+                class="activity-label"
+                *ngIf="patient.patientStatus != 'In Progress' && patientFirstCallIndexCallId == activity.patientCallId"
+              >
+                {{ patient.patientStatus }}
               </span>
             </span>
             <div class="activity-detail-container">
