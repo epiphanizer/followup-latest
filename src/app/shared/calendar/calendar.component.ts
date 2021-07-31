@@ -140,7 +140,7 @@ export class CalendarComponent implements OnInit {
 
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
     this.offsetNumber = this.getFirstDayOffset(firstDayOfMonthIndex);
-
+    console.log(this.offsetNumber);
     var priorMonthLastDays = this.daysInMonth(parseInt(this.lastMonthString), this.lastMonthYear);
     /**
      * A fun, and confusing (unless you wrote it)
@@ -155,13 +155,15 @@ export class CalendarComponent implements OnInit {
      * reverse the array for proper ordering for unshift
      */
     lastMonthDaysArray = lastMonthDaysArray.reverse();
+
     /**
      * Translate our negative offset number into the days from the prior month
      */
-
-    lastMonthDaysArray.forEach(j => {
-      this.selectedMonth.daysArray.unshift(j);
-    });
+    if (this.offsetNumber != 0) {
+      lastMonthDaysArray.forEach(j => {
+        this.selectedMonth.daysArray.unshift(j);
+      });
+    }
   }
   /**
    * A function to get which day Sun = 0 -> Sat = 6
