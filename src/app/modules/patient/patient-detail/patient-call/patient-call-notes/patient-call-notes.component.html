@@ -17,6 +17,7 @@
         <ion-textarea
           *ngIf="patientCallNotesForm.get('patientCallNotes')"
           [class.is-highlighted]="highlighterActive"
+          [autoGrow]="true"
           formControlName="patientCallNotes"
         ></ion-textarea>
       </ion-item>
