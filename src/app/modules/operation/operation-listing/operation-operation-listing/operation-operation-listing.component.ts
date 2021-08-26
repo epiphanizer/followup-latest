@@ -39,7 +39,7 @@ export class OperationOperationListingComponent implements OnInit {
         this.operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(this.operationGroup);
         this.operationGroup.operations$.subscribe((operations: Operation[]) => {
           if (operations[0]) {
-            this.operations = operations;
+            this.operationsFiltered = this.operations = operations;
           }
         });
       }

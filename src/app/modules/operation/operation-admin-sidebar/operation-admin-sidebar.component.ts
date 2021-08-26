@@ -109,7 +109,6 @@ export class OperationAdminSidebarComponent implements OnInit {
         }
       });
       this.operationGroups = operationGroups;
-      console.log(this.operationGroups);
     }
     this.route.paramMap.subscribe(params => {
       if (params.get('operationGroupId')) {
@@ -123,11 +122,9 @@ export class OperationAdminSidebarComponent implements OnInit {
             });
           });
         } else {
-          console.log('here');
           this.operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
             operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
             if (parseInt(params.get('operationGroupId')) == operationGroup.operationGroupId) {
-              console.log('here for' + params.get('operationGroupId'));
               operationGroup.sidebarDropdownOpen = true;
               this.setActiveOperationGroup(operationGroup);
             } else {
