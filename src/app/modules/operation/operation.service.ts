@@ -1,5 +1,5 @@
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../user/user';
 import { Operation, OperationPutBody, OperationManager, OperationGroup } from './operation';
@@ -23,6 +23,12 @@ export class OperationService {
 
   public getOperationGroups(): Observable<OperationGroup[]> {
     return this.http.get<OperationGroup[]>('operations/groups').pipe(
+      map((operationGroups: OperationGroup[]) => {
+        if (!sessionStorage.getItem('operationGroups')) {
+          sessionStorage.setItem('operationGroups', JSON.stringify(operationGroups));
+        }
+        return operationGroups;
+      }),
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

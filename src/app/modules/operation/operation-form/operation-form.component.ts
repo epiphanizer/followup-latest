@@ -319,7 +319,7 @@ export class OperationFormComponent implements OnInit {
   private createForm() {
     this.operationForm = this.fb.group({
       operation: this.fb.group({
-        operationActive: this.fb.control(1, [Validators.required]),
+        operationActive: this.fb.control('1', [Validators.required]),
         operationId: this.fb.control(this.operation.operationId, [Validators.required]),
         operationGroupId: this.fb.control(this.operation.operationGroupId, [Validators.required]),
         operationName: this.fb.control(this.operation.operationName, [Validators.required]),
@@ -503,7 +503,8 @@ export class OperationFormComponent implements OnInit {
                         .editOperationByOperationId(this.operation.operationId, operationPut)
                         .subscribe(() => {
                           this.toastr.success('Operation successfully edited');
-                          window.location.href = '/operations';
+                          this.toastr.success('Successfully saved operation');
+                          window.location.href = '/operations/group/' + this.operation.operationGroupId;
                         });
                     }
                   });
@@ -562,7 +563,8 @@ export class OperationFormComponent implements OnInit {
                     this.operationService
                       .editOperationByOperationId(this.operation.operationId, operationPut)
                       .subscribe(() => {
-                        window.location.href = '/operations';
+                        this.toastr.success('Successfully saved operation');
+                        window.location.href = '/operations/group/' + this.operation.operationGroupId;
                       });
                   }
                 });
@@ -600,7 +602,8 @@ export class OperationFormComponent implements OnInit {
                   this.operationService
                     .editOperationByOperationId(this.operation.operationId, operationPut)
                     .subscribe(() => {
-                      window.location.href = '/operations';
+                      this.toastr.success('Successfully saved operation');
+                      window.location.href = '/operations/group/' + this.operation.operationGroupId;
                     });
                 }
               });
@@ -608,7 +611,8 @@ export class OperationFormComponent implements OnInit {
         });
       } else {
         this.operationService.editOperationByOperationId(this.operation.operationId, operationPut).subscribe(() => {
-          window.location.href = '/operations';
+          this.toastr.success('Successfully saved operation');
+          window.location.href = '/operations/group/' + this.operation.operationGroupId;
         });
       }
     }
@@ -639,12 +643,6 @@ export class OperationFormComponent implements OnInit {
     // Double check this
     const firstError = <HTMLElement>document.getElementsByClassName('ng-invalid')[0];
 
-    function scroll(el: HTMLElement) {
-      el.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
     if (firstError) {
       // scroll(firstError);
       alert('Validation error. Please check submitted fields');
