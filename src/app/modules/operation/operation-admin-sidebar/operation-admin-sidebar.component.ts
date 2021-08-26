@@ -102,24 +102,39 @@ export class OperationAdminSidebarComponent implements OnInit {
       var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
       operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
         operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
-        // if (idx == 0 && !this.activeOperationId) {
-        //   operationGroup.sidebarDropdownOpen = true;
-        // } else {
-        //   operationGroup.sidebarDropdownOpen = false;
-        // }
+        if (this.route.snapshot.params.operationGroupId) {
+          if (this.route.snapshot.params.operationGroupId == operationGroup.operationGroupId) {
+            this.setActiveOperationGroup(operationGroup);
+          }
+        }
       });
       this.operationGroups = operationGroups;
       console.log(this.operationGroups);
     }
     this.route.paramMap.subscribe(params => {
-      console.log(params);
       if (params.get('operationGroupId')) {
         if (!this.operationGroups.length) {
-          /**
-           * Make sure we have set ops groups
-           */
+          this.operationService.getOperationGroups().subscribe(operationGroups => {
+            operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+              operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+              if (parseInt(params.get('operationGroupId')) == operationGroup.operationGroupId) {
+                this.setActiveOperationGroup(operationGroup);
+              }
+            });
+          });
+        } else {
+          console.log('here');
+          this.operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+            operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+            if (parseInt(params.get('operationGroupId')) == operationGroup.operationGroupId) {
+              console.log('here for' + params.get('operationGroupId'));
+              operationGroup.sidebarDropdownOpen = true;
+              this.setActiveOperationGroup(operationGroup);
+            } else {
+              operationGroup.sidebarDropdownOpen = false;
+            }
+          });
         }
-        this.setActiveOperationGroup(this.operationGroups[params.get('operationGroupId')]);
       }
       if (params.get('operationId')) {
         this.activeOperationId = parseInt(params.get('operationId'));
@@ -129,6 +144,8 @@ export class OperationAdminSidebarComponent implements OnInit {
             this.operationGroups.forEach(operationGroup => {
               if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
                 operationGroup.sidebarDropdownOpen = false;
+              } else {
+                operationGroup.sidebarDropdownOpen = true;
               }
             });
           }
@@ -145,6 +162,10 @@ export class OperationAdminSidebarComponent implements OnInit {
     this.operationChangeEvent.emit(this.activeOperationId);
   };
   setActiveOperationGroup = function(operationGroup: OperationGroup) {
+    operationGroup.sidebarDropdownOpen = true;
+    /**
+     * Reassign selected group
+     */
     this.selected.operationGroup = operationGroup;
     this.activeOperationGroupId = operationGroup.operationGroupId;
     this.operationGroupChangeEvent.emit(this.activeOperationGroupId);

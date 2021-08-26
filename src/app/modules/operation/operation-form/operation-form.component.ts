@@ -502,7 +502,6 @@ export class OperationFormComponent implements OnInit {
                       this.operationService
                         .editOperationByOperationId(this.operation.operationId, operationPut)
                         .subscribe(() => {
-                          this.toastr.success('Operation successfully edited');
                           this.toastr.success('Successfully saved operation');
                           window.location.href = '/operations/group/' + this.operation.operationGroupId;
                         });
@@ -535,7 +534,7 @@ export class OperationFormComponent implements OnInit {
             operationContactPut
           )
           .subscribe(() => {
-            this.toastr.success('Operation contact successfully edited');
+            this.toastr.success('Successfully saved operation contact');
             var operationContactId = operationContact.operationContactId;
             var notificationsToAdd = new Array();
             formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {

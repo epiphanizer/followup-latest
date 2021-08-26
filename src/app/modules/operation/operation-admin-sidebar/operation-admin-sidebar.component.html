@@ -9,7 +9,7 @@
     <a class="facility-dropdown-target">FACILITIES</a>
     <ng-container *ngIf="operationGroups">
       <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
-        <span class="operation-group" (click)="toggleOperationSidebarMenu(operationGroup)"
+        <span class="operation-group"
           ><a
             class="operation-group-link"
             (click)="setActiveOperationGroup(operationGroup)"
@@ -29,6 +29,7 @@
                 : 'closed'
             "
             class="expand-facilities-trigger"
+            (click)="toggleOperationSidebarMenu(operationGroup)"
           >
           </i>
           <ul
