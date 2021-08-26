@@ -403,7 +403,7 @@ export class OperationFormComponent implements OnInit {
         operationContactLastName: formContact.operationContactLastName,
         operationContactTitle: formContact.operationContactTitle || '',
         operationContactCountryCode: operationCountryCode,
-        operationContactAreaCode: operationAreaCode,
+        operationContactAreaCode: operationAreaCode || '',
         operationContactPhoneNumber: formContact.operationContactPhoneNumber || '',
         operationContactEmail: formContact.operationContactEmail,
         operationContactActive: 1
