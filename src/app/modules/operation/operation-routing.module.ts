@@ -19,6 +19,9 @@ const routes: Routes = [
       data: {
         roles: [UserRoles.admin],
         title: extract('Operations')
+      },
+      resolve: {
+        user: UserResolver
       }
     },
     {
@@ -29,6 +32,9 @@ const routes: Routes = [
         operationGroupId: ':operationGroupId',
         roles: [UserRoles.admin],
         title: extract('Operations')
+      },
+      resolve: {
+        user: UserResolver
       }
     },
     {
