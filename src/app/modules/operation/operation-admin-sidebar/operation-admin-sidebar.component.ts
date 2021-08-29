@@ -76,7 +76,7 @@ export class OperationAdminSidebarComponent implements OnInit {
     if (!sessionStorage.getItem('operationGroups')) {
       this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup).pipe(
+          operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup).pipe(
             map((operations: Operation[]) => {
               if (operations) {
                 if (idx == 0 && !this.selected.operation) {
@@ -101,7 +101,7 @@ export class OperationAdminSidebarComponent implements OnInit {
     } else {
       var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
       operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-        operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup);
         if (this.route.snapshot.params.operationGroupId) {
           if (this.route.snapshot.params.operationGroupId == operationGroup.operationGroupId) {
             this.setActiveOperationGroup(operationGroup);
@@ -115,7 +115,7 @@ export class OperationAdminSidebarComponent implements OnInit {
         if (!this.operationGroups.length) {
           this.operationService.getOperationGroups().subscribe(operationGroups => {
             operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-              operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+              operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup);
               if (parseInt(params.get('operationGroupId')) == operationGroup.operationGroupId) {
                 this.setActiveOperationGroup(operationGroup);
               }
@@ -123,7 +123,7 @@ export class OperationAdminSidebarComponent implements OnInit {
           });
         } else {
           this.operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-            operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+            operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup);
             if (parseInt(params.get('operationGroupId')) == operationGroup.operationGroupId) {
               operationGroup.sidebarDropdownOpen = true;
               this.setActiveOperationGroup(operationGroup);

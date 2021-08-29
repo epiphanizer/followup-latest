@@ -86,7 +86,7 @@ export class CallQueueSidebarComponent {
         if (operationGroups) {
           sessionStorage.setItem('operationGroups', JSON.stringify(operationGroups));
           operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-            operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+            operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup);
             if (idx == 0 && !this.activeOperationId) {
               operationGroup.sidebarDropdownOpen = true;
             } else {
@@ -99,7 +99,7 @@ export class CallQueueSidebarComponent {
     } else {
       var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
       operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-        operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup);
         if (idx == 0 && !this.activeOperationId) {
           operationGroup.sidebarDropdownOpen = true;
         } else {

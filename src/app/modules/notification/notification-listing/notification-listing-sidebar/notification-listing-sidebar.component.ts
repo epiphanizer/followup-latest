@@ -91,7 +91,7 @@ export class NotificationListingSidebarComponent implements OnInit {
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
       if (operationGroups) {
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-          operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup).pipe(
+          operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup).pipe(
             map((operations: any) => {
               if (idx == 0) {
                 if (!this.activeOperationId) {

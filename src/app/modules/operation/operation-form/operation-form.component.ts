@@ -361,7 +361,9 @@ export class OperationFormComponent implements OnInit {
         operationPhoneNumber: formSubmission.operation.operationPhoneNumber
           ? formSubmission.operation.operationPhoneNumber
           : '',
-        operationActive: formSubmission.operation.operationActive ? 1 : 0
+        operationActive: formSubmission.operation.operationActive
+          ? parseInt(formSubmission.operation.operationActive)
+          : 1
       };
       return <OperationPutBody>payload;
     } catch {
@@ -446,6 +448,8 @@ export class OperationFormComponent implements OnInit {
     // Passing E2E
 
     let formSubmission = this.operationForm.getRawValue();
+    // console.log(formSubmission);
+    // debugger;
     /**
      * In order to see which contacts to add, we
      * filter this.operationContactsOriginal's values

@@ -93,14 +93,16 @@ export class PatientManagerSidebarComponent implements OnInit {
       this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
         if (operationGroups) {
           operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-            operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup).pipe(
-              map((operations: any) => {
-                if (idx == 0) {
-                  this.activeOperationId = operations[0].operationId;
-                }
-                return operations;
-              })
-            );
+            operationGroup.operations$ = this.operationService
+              .getActiveOperationsByOperationGroupId(operationGroup)
+              .pipe(
+                map((operations: any) => {
+                  if (idx == 0) {
+                    this.activeOperationId = operations[0].operationId;
+                  }
+                  return operations;
+                })
+              );
             if (idx == 0 && !this.selected.operation) {
               operationGroup.sidebarDropdownOpen = true;
             } else {
@@ -114,7 +116,7 @@ export class PatientManagerSidebarComponent implements OnInit {
     } else {
       var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
       operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-        operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(operationGroup);
+        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup);
         if (idx == 0 && !this.activeOperationId) {
           operationGroup.sidebarDropdownOpen = true;
         } else {
