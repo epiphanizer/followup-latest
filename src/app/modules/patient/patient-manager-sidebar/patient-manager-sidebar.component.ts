@@ -94,7 +94,7 @@ export class PatientManagerSidebarComponent implements OnInit {
         if (operationGroups) {
           operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
             operationGroup.operations$ = this.operationService
-              .getActiveOperationsByOperationGroupId(operationGroup)
+              .getActiveOperationsByOperationGroupId(operationGroup, this.user)
               .pipe(
                 map((operations: any) => {
                   if (idx == 0) {
@@ -116,7 +116,10 @@ export class PatientManagerSidebarComponent implements OnInit {
     } else {
       var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
       operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup);
+        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
+          operationGroup,
+          this.user
+        );
         if (idx == 0 && !this.activeOperationId) {
           operationGroup.sidebarDropdownOpen = true;
         } else {

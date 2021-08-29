@@ -91,17 +91,19 @@ export class NotificationListingSidebarComponent implements OnInit {
     this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
       if (operationGroups) {
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-          operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup).pipe(
-            map((operations: any) => {
-              if (idx == 0) {
-                if (!this.activeOperationId) {
-                  this.selected.operation = operations[0];
-                  this.activeOperationId = operations[0].operationId;
+          operationGroup.operations$ = this.operationService
+            .getActiveOperationsByOperationGroupId(operationGroup, this.user)
+            .pipe(
+              map((operations: any) => {
+                if (idx == 0) {
+                  if (!this.activeOperationId) {
+                    this.selected.operation = operations[0];
+                    this.activeOperationId = operations[0].operationId;
+                  }
                 }
-              }
-              return operations;
-            })
-          );
+                return operations;
+              })
+            );
           if (idx == 0 && !this.selected.operation) {
             operationGroup.sidebarDropdownOpen = true;
           } else {
