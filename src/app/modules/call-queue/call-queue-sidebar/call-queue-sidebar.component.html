@@ -5,6 +5,15 @@
       {{ todaysDateDay }}
     </div>
   </div>
+  <!-- <ng-template #errorFallback>
+    <span class="error">
+      It looks like you haven't been
+      assigned any facilites yet. 
+      <br />
+      <br />
+      Check back again once you have been assigned!
+  </span>
+  </ng-template> -->
   <div class="facility-dropdown-container">
     <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
     <ng-container *ngIf="operationGroups">

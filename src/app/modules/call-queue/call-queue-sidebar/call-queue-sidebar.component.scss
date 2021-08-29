@@ -109,7 +109,13 @@
   background-size: 100%;
   background-repeat: no-repeat;
 }
-
+.error {
+  display: block;
+  font-family: "Avenir";
+  font-size: 13px;
+  padding-left: 20px;
+  font-style: normal;
+}
 .operation-group-container {
   margin-bottom: 22px;
 }

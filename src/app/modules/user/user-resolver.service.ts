@@ -39,8 +39,6 @@ export class UserResolver implements Resolve<User> {
     function getUserOperations() {
       var userOperations$: Observable<Operation[]>;
       /** Fetch all operations if user is admin, otherwise, get user ops. */
-      console.log(self.user.userLevel);
-      debugger;
       if (self.user.userLevel != 1) {
         userOperations$ = self.operationService.getOperationsByUserId(self.user.userId);
       } else {

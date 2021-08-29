@@ -27,6 +27,13 @@
     }
   }
 
+  .error {
+    display: block;
+    font-family: "Avenir";
+    font-size: 13px;
+    padding-left: 20px;
+    font-style: normal;
+  }
   .spanish-indicator,
   .operation-group {
     cursor: pointer;

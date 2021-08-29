@@ -73,20 +73,23 @@ export class OperationAdminSidebarComponent implements OnInit {
   todaysDateDay: string;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   ngOnInit() {
+    this.user = this.route.snapshot.data.user;
     if (!sessionStorage.getItem('operationGroups')) {
       this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-          operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup).pipe(
-            map((operations: Operation[]) => {
-              if (operations) {
-                if (idx == 0 && !this.selected.operation) {
-                  this.selected.operation = operations[0];
-                  this.activeOperationId = this.selected.operation.operationId;
+          operationGroup.operations$ = this.operationService
+            .getActiveOperationsByOperationGroupId(operationGroup, this.user)
+            .pipe(
+              map((operations: Operation[]) => {
+                if (operations) {
+                  if (idx == 0 && !this.selected.operation) {
+                    this.selected.operation = operations[0];
+                    this.activeOperationId = this.selected.operation.operationId;
+                  }
+                  return operations;
                 }
-                return operations;
-              }
-            })
-          );
+              })
+            );
           /**
            * Busted logic
            */
@@ -101,7 +104,10 @@ export class OperationAdminSidebarComponent implements OnInit {
     } else {
       var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
       operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup);
+        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
+          operationGroup,
+          this.user
+        );
         if (this.route.snapshot.params.operationGroupId) {
           if (this.route.snapshot.params.operationGroupId == operationGroup.operationGroupId) {
             this.setActiveOperationGroup(operationGroup);
@@ -115,7 +121,10 @@ export class OperationAdminSidebarComponent implements OnInit {
         if (!this.operationGroups.length) {
           this.operationService.getOperationGroups().subscribe(operationGroups => {
             operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-              operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup);
+              operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
+                operationGroup,
+                this.user
+              );
               if (parseInt(params.get('operationGroupId')) == operationGroup.operationGroupId) {
                 this.setActiveOperationGroup(operationGroup);
               }
@@ -123,7 +132,10 @@ export class OperationAdminSidebarComponent implements OnInit {
           });
         } else {
           this.operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-            operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(operationGroup);
+            operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
+              operationGroup,
+              this.user
+            );
             if (parseInt(params.get('operationGroupId')) == operationGroup.operationGroupId) {
               operationGroup.sidebarDropdownOpen = true;
               this.setActiveOperationGroup(operationGroup);
@@ -150,7 +162,6 @@ export class OperationAdminSidebarComponent implements OnInit {
       }
     });
 
-    this.user = this.route.snapshot.data.user;
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
   setActiveOperation = function(operation: Operation) {

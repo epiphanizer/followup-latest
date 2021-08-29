@@ -61,6 +61,7 @@ import { map } from 'rxjs/operators';
 export class PatientManagerSidebarComponent implements OnInit {
   @Output() operationChangeEvent = new EventEmitter<number>();
   activeOperationId: number;
+  errorFallback: boolean = false;
   selected: {
     operation: Operation | null;
   } = {
@@ -147,6 +148,10 @@ export class PatientManagerSidebarComponent implements OnInit {
             });
           } else {
             /** Init to the first user operation (alphabetically,) */
+            if (!this.operations[0]) {
+              this.errorFallback = true;
+              return;
+            }
             this.selected.operation = this.operations[0];
           }
         });

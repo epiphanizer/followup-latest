@@ -61,6 +61,7 @@ export class CallQueueSidebarComponent {
   currentAssignedSpanishDischargeCount: number;
   currentNewDischargeCount: number;
   @Output() operationChangeEvent = new EventEmitter<number>();
+  errorFallback: boolean = false;
   selected: {
     operation: Operation | null;
   } = {
@@ -80,6 +81,8 @@ export class CallQueueSidebarComponent {
   // set a default for no new discharges re: spanish patients
   spanishNewDischarges: boolean = false;
   ngOnInit() {
+    /** Init to the first user operation (alphabetically,) */
+    this.user = this.route.snapshot.data.user;
     if (!sessionStorage.getItem('operationGroups')) {
       this.operationGroups$ = this.operationService.getOperationGroups();
       this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
@@ -129,12 +132,15 @@ export class CallQueueSidebarComponent {
             });
         });
       } else {
-        /** Init to the first user operation (alphabetically,) */
-        this.user = this.route.snapshot.data.user;
         // this.operations = this.user.operations;
         this.user.operations$.subscribe((data: Operation[]) => {
           /** Init to the first assigned operation alphabetically */
           this.operations = data;
+          if (!this.operations[0]) {
+            this.errorFallback = true;
+          } else {
+            this.errorFallback = false;
+          }
           this.selected.operation = this.operations[0];
           this.activeOperationId = this.selected.operation.operationId;
         });
