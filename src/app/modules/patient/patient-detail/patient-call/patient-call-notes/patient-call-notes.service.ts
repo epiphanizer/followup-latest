@@ -15,7 +15,7 @@ export interface PatientCallNotes {
 export class PatientCallNotesService {
   constructor(private http: HttpService) {}
   addPatientCallNotesByPatientCallId = function(
-    patientCallId: number,
+    patientCallId: string,
     patientCallNotes: string,
     patientCallNotesHighlighted: number
   ) {
@@ -29,7 +29,7 @@ export class PatientCallNotesService {
       );
   };
 
-  getPatientCallNotesByPatientCallId = function(patientCallId: number) {
+  getPatientCallNotesByPatientCallId = function(patientCallId: string) {
     return this.http.post('patients/calls/' + patientCallId + '/notes').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error

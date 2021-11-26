@@ -4,8 +4,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 export interface PatientStatus {
-  patientStatusId: number;
-  patientStatusLabelId: number;
+  patientStatusId: string;
+  patientStatusLabelId: string;
   patientStatusLabel?: string;
   patientStatusNotes?: string;
 }
@@ -15,8 +15,8 @@ export class PatientStatusService {
   constructor(private http: HttpClient) {}
 
   addPatientStatusByPatientId(
-    patientId: number,
-    patientStatusLabelId: number,
+    patientId: string,
+    patientStatusLabelId: string,
     patientStatusNotes: string
   ): Observable<PatientStatus> {
     return this.http
@@ -29,8 +29,8 @@ export class PatientStatusService {
       );
   }
   editPatientStatusByPatientStatusId(
-    patientStatusId: number,
-    patientStatusLabelId: number,
+    patientStatusId: string,
+    patientStatusLabelId: string,
     patientStatusNotes: string
   ): Observable<PatientStatus> {
     return this.http
@@ -54,14 +54,14 @@ export class PatientStatusService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getPatientStatusByPatientId(patientId: number): Observable<PatientStatus> {
+  getPatientStatusByPatientId(patientId: string): Observable<PatientStatus> {
     return this.http.get<PatientStatus>('patients/' + patientId + '/status').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
 
-  getPatientStatusesByPatientId(patientId: number): Observable<PatientStatus[]> {
+  getPatientStatusesByPatientId(patientId: string): Observable<PatientStatus[]> {
     return this.http.get<PatientStatus[]>('patients/' + patientId + '/statuses').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error

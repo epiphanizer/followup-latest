@@ -60,7 +60,7 @@ import { map } from 'rxjs/operators';
 })
 export class PatientManagerSidebarComponent implements OnInit {
   @Output() operationChangeEvent = new EventEmitter<number>();
-  activeOperationId: number;
+  activeOperationId: string;
   errorFallback: boolean = false;
   selected: {
     operation: Operation | null;
@@ -86,7 +86,7 @@ export class PatientManagerSidebarComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.route.paramMap.subscribe(params => {
       if (params.get('operationId')) {
-        this.activeOperationId = parseInt(params.get('operationId'));
+        this.activeOperationId = params.get('operationId');
       }
     });
     if (!sessionStorage.getItem('operationGroups')) {
@@ -159,7 +159,7 @@ export class PatientManagerSidebarComponent implements OnInit {
     } else {
       this.route.paramMap.subscribe(params => {
         if (params.get('operationId')) {
-          this.activeOperationId = parseInt(params.get('operationId'));
+          this.activeOperationId = params.get('operationId');
           this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
             this.selected.operation = operation[0];
             if (this.operationGroups) {

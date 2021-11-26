@@ -9,7 +9,7 @@ export interface PatientCallQuestion {
   // We don't necessarily have the
   // patientCallQuestionId?
   // when we create them for the new call
-  patientCallQuestionId?: number;
+  patientCallQuestionId?: string;
   patientCallQuestion: string;
   patientCallQuestionType: string;
   patientCallQuestionOrder: number;
@@ -29,7 +29,7 @@ export class PatientCallQuestionsService {
    * to be able to have our call change the type of question, but it's not in the design
    * so for now we will just assume it's a textarea type question.
    */
-  addPatientCallQuestionByPatientCallId = function(patientCallId: number, patientCallQuestion: PatientCallQuestion) {
+  addPatientCallQuestionByPatientCallId = function(patientCallId: string, patientCallQuestion: PatientCallQuestion) {
     return this.http
       .post('patients/calls/' + patientCallId + '/questions', {
         patientCallQuestion: patientCallQuestion.patientCallQuestion,
@@ -43,20 +43,20 @@ export class PatientCallQuestionsService {
       );
   };
 
-  getPatientCallQuestionsByPatientCallId = function(patientCallId: number) {
+  getPatientCallQuestionsByPatientCallId = function(patientCallId: string) {
     return this.http.get('patients/calls/' + patientCallId + '/questions').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
-  getPatientCallQuestionAnswersByPatientCallQuestionId = function(patientCallQuestionId: number) {
+  getPatientCallQuestionAnswersByPatientCallQuestionId = function(patientCallQuestionId: string) {
     return this.http.get('patients/calls/questions/' + patientCallQuestionId + '/answers').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
   addPatientCallQuestionAnswersByPatientCallQuestionId = function(
-    patientCallQuestionId: number,
+    patientCallQuestionId: string,
     patientCallQuestionAnswer: string
   ) {
     return this.http

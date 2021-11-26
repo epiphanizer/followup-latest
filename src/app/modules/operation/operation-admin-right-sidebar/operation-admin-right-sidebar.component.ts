@@ -63,7 +63,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   @Input() mode: any;
   @Input() operation: Operation;
 
-  activeOperationId: number;
+  activeOperationId: string;
   availableUsers: User[] = [];
   fb: FormBuilder;
   callRepsForm: FormArray;
@@ -74,8 +74,8 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   isOpen: boolean = true;
   operationAssignedUsers: any[];
   operationAssignedUsersToAdd: OperationCallRep[];
-  operationAssignedUsersOriginal: number[];
-  operationAssignedUsersToRemove: number[] = [];
+  operationAssignedUsersOriginal: string[];
+  operationAssignedUsersToRemove: string[] = [];
   operationManager: OperationManager;
   operationManagerOriginal: OperationManager;
   constructor(
@@ -107,28 +107,28 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     });
 
     if (this.route.snapshot.paramMap.get('operationId')) {
-      this.activeOperationId = parseInt(this.route.snapshot.paramMap.get('operationId'));
+      this.activeOperationId = this.route.snapshot.paramMap.get('operationId');
       this.updateAssignedUsers();
       this.updateAssignedManager();
     }
     this.route.paramMap.subscribe(params => {
       if (params.get('operationId')) {
         this.operationAssignedUsers = [];
-        this.activeOperationId = parseInt(params.get('operationId'));
+        this.activeOperationId = params.get('operationId');
         this.updateAssignedUsers();
         this.updateAssignedManager();
       }
     });
     if (this.mode.add) {
       this.operationManager = {
-        userId: 0,
+        userId: null,
         operationId: this.operation.operationId,
         operationManagerName: ''
       };
       // Arm an initial call rep
       this.operationAssignedUsers = [
         {
-          userId: 0,
+          userId: null,
           operationId: this.operation.operationId,
           operationCallRepName: ''
         }
@@ -201,8 +201,8 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     this.operationAssignedUsers[index] = operationCallRepObject;
     // Passes E2E
     if (this.operationAssignedUsersToRemove.length) {
-      this.operationAssignedUsersToRemove.forEach((callRepUserId: number, index: number) => {
-        if (callRepUserId == 0) {
+      this.operationAssignedUsersToRemove.forEach((callRepUserId: string, index: number) => {
+        if (callRepUserId == null) {
           return;
         }
         this.operationCallRepsService
@@ -216,7 +216,9 @@ export class OperationAdminRightSidebarComponent implements OnInit {
      */
     this.operationAssignedUsersToAdd = this.operationAssignedUsers.filter(
       (operationCallRep: OperationCallRep, index: number) => {
-        return operationCallRep.userId !== this.operationAssignedUsersOriginal[index] && operationCallRep.userId !== 0;
+        return (
+          operationCallRep.userId !== this.operationAssignedUsersOriginal[index] && operationCallRep.userId !== null
+        );
       }
     );
     let count = 0;

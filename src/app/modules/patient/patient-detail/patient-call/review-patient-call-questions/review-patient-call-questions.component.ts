@@ -1,6 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { Component, OnInit, Input } from '@angular/core';
 import { PatientCallQuestion } from '../patient-call-questions/patient-call-questions.service';
 
 @Component({
@@ -11,9 +9,7 @@ import { PatientCallQuestion } from '../patient-call-questions/patient-call-ques
 export class ReviewPatientNextCallQuestionsComponent implements OnInit {
   @Input() patientCallQuestions: PatientCallQuestion[];
 
-  constructor(private fb: FormBuilder) {}
+  constructor() {}
 
-  ngOnInit() {
-    console.log(this.patientCallQuestions);
-  }
+  ngOnInit() {}
 }

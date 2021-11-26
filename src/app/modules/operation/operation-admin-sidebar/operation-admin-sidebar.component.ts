@@ -56,10 +56,10 @@ import { map } from 'rxjs/operators';
 })
 export class OperationAdminSidebarComponent implements OnInit {
   availableOperations$: Observable<Operation[]>;
-  activeOperationId: number;
+  activeOperationId: string;
   editMode: boolean;
-  @Output() operationChangeEvent = new EventEmitter<number>();
-  @Output() operationGroupChangeEvent = new EventEmitter<number>();
+  @Output() operationChangeEvent = new EventEmitter<string>();
+  @Output() operationGroupChangeEvent = new EventEmitter<string>();
   selected: {
     operation?: Operation | null;
   } = {
@@ -125,7 +125,7 @@ export class OperationAdminSidebarComponent implements OnInit {
                 operationGroup,
                 this.user
               );
-              if (parseInt(params.get('operationGroupId')) == operationGroup.operationGroupId) {
+              if (params.get('operationGroupId') == operationGroup.operationGroupId) {
                 this.setActiveOperationGroup(operationGroup);
               }
             });
@@ -136,7 +136,7 @@ export class OperationAdminSidebarComponent implements OnInit {
               operationGroup,
               this.user
             );
-            if (parseInt(params.get('operationGroupId')) == operationGroup.operationGroupId) {
+            if (params.get('operationGroupId') == operationGroup.operationGroupId) {
               operationGroup.sidebarDropdownOpen = true;
               this.setActiveOperationGroup(operationGroup);
             } else {
@@ -146,7 +146,7 @@ export class OperationAdminSidebarComponent implements OnInit {
         }
       }
       if (params.get('operationId')) {
-        this.activeOperationId = parseInt(params.get('operationId'));
+        this.activeOperationId = params.get('operationId');
         this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
           this.selected.operation = operation[0];
           if (this.operationGroups) {

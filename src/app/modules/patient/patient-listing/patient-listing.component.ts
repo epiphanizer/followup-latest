@@ -59,7 +59,7 @@ export class PatientListingComponent implements OnInit {
     } else {
       // Sort by language
       this.operationService
-        .getOperationByOperationId(parseInt(this.route.snapshot.paramMap.get('operationId')))
+        .getOperationByOperationId(this.route.snapshot.paramMap.get('operationId'))
         .subscribe((data: Operation) => {
           this.selected.operation = data[0];
         });

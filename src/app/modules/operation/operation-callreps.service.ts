@@ -10,19 +10,19 @@ import { OperationCallRep } from './operation';
 })
 export class OperationCallRepsService {
   constructor(private http: HttpService) {}
-  getOperationCallRepsByOperationId(operationId: number) {
+  getOperationCallRepsByOperationId(operationId: string) {
     return this.http.get<OperationCallRep[]>('operations/' + operationId + '/callreps', {}).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  addOperationCallRepByOperationIdAndUserId(operationId: number, userId: number) {
+  addOperationCallRepByOperationIdAndUserId(operationId: string, userId: string) {
     return this.http.post<OperationCallRep>('operations/' + operationId + '/callreps/' + userId, {}).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  deleteOperationCallRepByOperationCallRepId(operationId: number, operationCallRepId: number) {
+  deleteOperationCallRepByOperationCallRepId(operationId: string, operationCallRepId: string) {
     return this.http.delete<OperationCallRep>('operations/' + operationId + '/callreps/' + operationCallRepId, {}).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error

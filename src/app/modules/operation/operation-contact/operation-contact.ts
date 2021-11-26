@@ -3,7 +3,7 @@ import { FormArray } from '@angular/forms';
 
 export interface OperationContact {
   operationContactOrder: number;
-  operationContactId?: number;
+  operationContactId?: string;
   operationContactFirstName?: string;
   operationContactMiddleName?: string;
   operationContactLastName?: string;

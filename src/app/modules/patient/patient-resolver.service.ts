@@ -19,7 +19,7 @@ export class PatientResolver implements Resolve<Patient> {
   ) {}
   resolve(route: ActivatedRouteSnapshot): Observable<Patient> {
     const patientId = route.paramMap.get('patientId');
-    this.patient$ = this.patientService.getPatientByPatientId(+patientId).pipe(
+    this.patient$ = this.patientService.getPatientByPatientId(patientId).pipe(
       take(1),
       map((patient: Patient) => {
         patient = patient[0];

@@ -1,5 +1,5 @@
 export interface PatientContact {
-  patientContactId?: number;
+  patientContactId?: string;
   patientContactFirstName: string;
   patientContactLastName: string;
   patientContactRelationship: string;
@@ -11,7 +11,7 @@ export interface PatientContact {
   patientContactResponsiblePartyBoolean: boolean;
 }
 export interface PatientContactPutBody {
-  patientContactId: number;
+  patientContactId: string;
   patientContactFirstName: string;
   patientContactLastName: string;
   patientContactRelationship: string;
@@ -23,7 +23,7 @@ export interface PatientContactPutBody {
   patientContactResponsiblePartyBoolean: number;
 }
 export interface PatientContactPostBody {
-  patientId: number;
+  patientId: string;
   patientContactFirstName: string;
   patientContactLastName: string;
   patientContactRelationship: string;

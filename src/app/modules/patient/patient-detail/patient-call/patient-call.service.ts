@@ -6,15 +6,15 @@ import { throwError, Observable } from 'rxjs';
 import { PatientCallQuestion } from './patient-call-questions/patient-call-questions.service';
 
 export interface PatientCall {
-  patientCallId: number;
-  patientId: number;
-  patientCalledByUserId?: number;
-  patientContactNumberId?: number;
+  patientCallId: string;
+  patientId: string;
+  patientCalledByUserId?: string;
+  patientContactNumberId?: string;
   patientCallCreatedTime: Date;
   patientCallScheduledTime?: Date;
   patientCallStartTime?: Date;
   patientCallEndTime?: Date;
-  patientCallStatusLabelId: number;
+  patientCallStatusLabelId: string;
   patientCallStatusLabel?: string;
   patientCallNumber?: number;
   patientCallCount?: number;
@@ -29,11 +29,11 @@ export interface PatientCall {
 }
 
 export interface PatientCallQuestionAnswer {
-  patientCallQuestionId: number;
+  patientCallQuestionId: string;
   patientCallQuestionAnswer: string;
 }
 export interface PatientCallStatusLabel {
-  patientCallStatusLabelId: number;
+  patientCallStatusLabelId: string;
   patientCallStatusLabel?: string;
 }
 
@@ -49,7 +49,7 @@ export class PatientCallService {
     status: number | string;
   };
   constructor(private http: HttpService) {}
-  startPatientCallByUserIdAndPatientCallId = function(userId: number, patientCallId: number) {
+  startPatientCallByUserIdAndPatientCallId = function(userId: string, patientCallId: string) {
     return this.http
       .post('patients/calls/' + patientCallId + '/start', {
         userId: userId
@@ -59,25 +59,25 @@ export class PatientCallService {
       );
   };
 
-  getCallRepCallsByUserIdAndOperationId = function(userId: number, operationId: number) {
+  getCallRepCallsByUserIdAndOperationId = function(userId: string, operationId: string) {
     return this.http.get('users/' + userId + '/calls/operation/' + operationId).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
-  getPatientCallByPatientCallId = function(patientId: number, patientCallId: number) {
+  getPatientCallByPatientCallId = function(patientId: string, patientCallId: string) {
     return this.http.get('patients/' + patientId + '/calls/' + patientCallId).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
-  getPatientCallsByPatientId = function(patientId: number) {
+  getPatientCallsByPatientId = function(patientId: string) {
     return this.http.get('patients/' + patientId + '/calls').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
-  getPatientCallsByOperationId = function(operationId: number) {
+  getPatientCallsByOperationId = function(operationId: string) {
     return this.http.get('operations/' + operationId + '/calls').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -89,7 +89,7 @@ export class PatientCallService {
   };
 
   // Updates the status to 'ended'
-  public endPatientCall(patientCallId: number) {
+  public endPatientCall(patientCallId: string) {
     return this.http.post('patients/calls/' + patientCallId + '/end', {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -104,7 +104,7 @@ export class PatientCallService {
   }
 
   // Needs accompanying swagger
-  public addNewPatientCallByPatientId(patientId: number, patientCallScheduledTime: string) {
+  public addNewPatientCallByPatientId(patientId: string, patientCallScheduledTime: string) {
     return this.http
       .post('patients/' + patientId + '/calls', {
         patientCallScheduledTime: patientCallScheduledTime

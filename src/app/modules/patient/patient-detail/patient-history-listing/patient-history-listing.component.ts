@@ -23,7 +23,7 @@ export class PatientHistoryListingComponent implements OnInit {
   @Input() patientCalls: PatientCall[];
   @Input() patientNotifications: Notification[];
   patientActivity: [Notification[] | PatientCall[]] | any;
-  patientFirstCallIndexCallId: number;
+  patientFirstCallIndexCallId: string;
   patientHistory: PatientCall[];
   patientCallQuestions: PatientCallQuestion[] = [];
 

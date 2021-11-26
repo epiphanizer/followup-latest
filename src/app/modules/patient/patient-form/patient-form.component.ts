@@ -45,14 +45,14 @@ export class PatientFormComponent implements OnInit {
   patientContactsOriginal: PatientContact[] = [];
   patientContactsToAdd: PatientContact[] = [];
   patientContactsToEdit: PatientContact[] = [];
-  patientContactsToRemove: number[] = [];
+  patientContactsToRemove: string[] = [];
   patientContacts$: Observable<PatientContact[]>;
   patientContactRelationships = ['Spouse', 'Child', 'Parent', 'Relative', 'Friend', 'Sig. Other', 'Other'];
   patientIntakeQuestions: PatientIntakeQuestion[] = [];
   patientIntakeQuestions$: Observable<PatientIntakeQuestion[]>;
   patientIntakeQuestionAnswersOriginal: {
-    patientIntakeQuestionId: number;
-    patientIntakeQuestionAnswer: number;
+    patientIntakeQuestionId: string;
+    patientIntakeQuestionAnswer: string;
   }[] = [];
   patientIntakeQuestionAnswers: PatientIntakeQuestionAnswer[] = [];
   patientIntakeQuestionAnswersToAdd: PatientIntakeQuestionAnswer[] = [];
@@ -104,7 +104,7 @@ export class PatientFormComponent implements OnInit {
           // Set some defaults
           this.patient = {
             patientId: patientId,
-            patientDischargeLabelId: 1
+            patientDischargeLabelId: null
           };
         }
         this.patient.patientMedicalConditions = {
@@ -420,7 +420,7 @@ export class PatientFormComponent implements OnInit {
     }
 
     this.patientIntakeQuestionAnswersToAdd.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
-      var patientIntakeQuestionId = parseInt(Object.keys(patientIntakeQuestionAnswer).toString());
+      var patientIntakeQuestionId = Object.keys(patientIntakeQuestionAnswer).toString();
       var patientQuestionAnswer = patientIntakeQuestionAnswer[patientIntakeQuestionId];
       this.patientIntakeQuestionService
         .addPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
@@ -430,7 +430,7 @@ export class PatientFormComponent implements OnInit {
      * Edit questions if we already had them
      */
     intakeAnswersArray.forEach((patientIntakeQuestionAnswer: any) => {
-      var patientIntakeQuestionId = parseInt(Object.keys(patientIntakeQuestionAnswer).toString());
+      var patientIntakeQuestionId = Object.keys(patientIntakeQuestionAnswer).toString();
       var patientQuestionAnswer = patientIntakeQuestionAnswer[patientIntakeQuestionId];
       this.patientIntakeQuestionService
         .editPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
@@ -438,7 +438,7 @@ export class PatientFormComponent implements OnInit {
     });
 
     // Passing E2E
-    this.patientContactsToRemove.forEach((patientContactId: number, index: number) => {
+    this.patientContactsToRemove.forEach((patientContactId: string, index: number) => {
       this.patientContactService.removePatientContactByPatientContactId(patientContactId).subscribe(() => {
         this.toastrService.success('Successfully removed patient contact');
       });

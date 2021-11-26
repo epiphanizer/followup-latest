@@ -44,7 +44,7 @@ export class PatientDetailComponent implements OnInit {
 
   patientNextCall: {
     date: string;
-    patientCallStatusLabelId: number;
+    patientCallStatusLabelId: string;
   };
   patientNextCallQuestions: PatientCallQuestion[];
 
@@ -80,7 +80,7 @@ export class PatientDetailComponent implements OnInit {
 
     this.patientNextCall = {
       date: '',
-      patientCallStatusLabelId: 1
+      patientCallStatusLabelId: null
     };
     this.patientNextCallQuestions = [];
 
@@ -102,11 +102,11 @@ export class PatientDetailComponent implements OnInit {
     });
   }
 
-  patientCallStartEventHandler(userId: number) {
+  patientCallStartEventHandler(userId: string) {
     this.patientCallService
       .startPatientCallByUserIdAndPatientCallId(userId, this.patientCall.patientCallId)
       .subscribe((data: any) => {
-        this.patientCall.patientCallStatusLabelId = 3;
+        this.patientCall.patientCallStatusLabelId = '3';
         this.patientCall.patientCallStatusLabel = 'Started';
       });
   }
@@ -139,7 +139,7 @@ export class PatientDetailComponent implements OnInit {
     // }
   }
 
-  patientCallStatusLabelChangeHandler($event: number) {
+  patientCallStatusLabelChangeHandler($event: string) {
     if (
       this.patientCall.patientCallStatusLabel == 'New Discharge' ||
       this.patientCall.patientCallStatusLabel == 'Scheduled'
@@ -239,7 +239,7 @@ export class PatientDetailComponent implements OnInit {
       // Talk to our service to answer the existing call questions
       if (this.patientCallQuestionAnswers) {
         this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
-          let patientCallQuestionId = parseInt(Object.keys(patientCallQuestionAnswer).toString());
+          let patientCallQuestionId = Object.keys(patientCallQuestionAnswer).toString();
           let patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
           if (patientCallQuestionAnswerText !== undefined) {
             this.patientCallQuestionsService
