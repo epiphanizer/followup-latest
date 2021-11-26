@@ -24,9 +24,7 @@ export class ToolbarProfileNavComponent implements OnInit {
     private router: Router,
     private authService: AuthenticationService,
     private userAvatarService: UserAvatarService,
-    private userCorkBoardService: UserCorkBoardService,
-    private sanitizer: DomSanitizer,
-    private toastrService: ToastrService
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {

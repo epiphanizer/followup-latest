@@ -17,8 +17,8 @@ import { SharedFunctions } from '@app/shared/shared.functions';
   styleUrls: ['./team-detail.component.scss']
 })
 export class TeamMemberDetailComponent implements OnInit {
-  teamId: number;
-  teamMemberId: number;
+  teamId: string;
+  teamMemberId: string;
   teamMember: TeamMember;
   team: Team;
 
@@ -52,8 +52,8 @@ export class TeamMemberDetailComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.teamMember = null;
       this.user = null;
-      this.teamId = parseInt(params.get('teamId'));
-      this.teamMemberId = parseInt(params.get('teamMemberId'));
+      this.teamId = params.get('teamId');
+      this.teamMemberId = params.get('teamMemberId');
       this.loadTeamMember();
     });
   }

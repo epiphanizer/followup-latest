@@ -11,12 +11,14 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class UserAvatarService {
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
-  getUserAvatarByUserId(userId: number): Observable<any> {
-    return this.http.get<any>('users/' + userId + '/avatar', { responseType: 'blob' as 'json' }).pipe(
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
+  getUserAvatarByUserId(userId: string): Observable<any> {
+    return this.http
+      .get<any>('users/' + userId + '/avatar', { responseType: 'blob' as 'json' })
+      .pipe(
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   }
-  uploadUserAvatarByUserId(userId: number, file: File) {
+  uploadUserAvatarByUserId(userId: string, file: File) {
     let formData = new FormData();
     formData.append('avatarBlob', file, file.name);
     return this.http.post('users/' + userId + '/avatar', formData).pipe(

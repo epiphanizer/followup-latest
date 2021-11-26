@@ -7,7 +7,7 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { User } from '@app/modules/user/user';
 
 export interface UserCorkBoardObject {
-  userCorkBoardObjectId?: number;
+  userCorkBoardObjectId?: string;
   userCorkBoardFile: File;
   userCorkBoardBlob?: Blob;
 }

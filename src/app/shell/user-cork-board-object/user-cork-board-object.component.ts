@@ -31,7 +31,7 @@ export class UserCorkBoardObjectComponent implements OnInit {
       });
   }
 
-  removeCorkBoardObject(userCorkBoardObjectId: number) {
+  removeCorkBoardObject(userCorkBoardObjectId: string) {
     this.userCorkBoardService.deleteUserCorkBoardObjectByUserCorkBoardObjectId(userCorkBoardObjectId).subscribe(() => {
       let element: HTMLElement = document.querySelector('#userCorkBoardObject-' + userCorkBoardObjectId) as HTMLElement;
       element.remove();
