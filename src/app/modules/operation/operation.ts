@@ -1,11 +1,10 @@
 import { OperationContact } from './operation-contact/operation-contact';
 import { Observable } from 'rxjs';
 import { PatientCall } from '../patient/patient-detail/patient-call/patient-call.service';
-import { User, UserLanguage } from '../user/user';
 
 export interface Operation {
-  operationId: number;
-  operationGroupId: number;
+  operationId: string;
+  operationGroupId: string;
   operationGroupName?: string;
   operationName?: string;
   operationAddress?: string;
@@ -40,7 +39,7 @@ export interface Operation {
 
 export interface OperationPutBody {
   operationName: string;
-  operationGroupId: number;
+  operationGroupId: string;
   operationAddress: string;
   operationCity: string;
   operationState: string;
@@ -51,7 +50,7 @@ export interface OperationPutBody {
   operationActive: number;
 }
 export interface OperationGroup {
-  operationGroupId?: number;
+  operationGroupId?: string;
   operationGroupName: string;
   operationGroupShortName?: string;
   operations?: Operation[];
@@ -61,10 +60,10 @@ export interface OperationGroup {
 }
 
 export interface OperationManager {
-  operationManagerId?: number;
+  operationManagerId?: string;
   operationManagerName?: string;
-  operationId: number;
-  userId: number;
+  operationId: string;
+  userId: string;
 }
 
 /**
@@ -72,18 +71,18 @@ export interface OperationManager {
  * give them a call rep id (future proofing)
  */
 export interface OperationCallRep {
-  userId: number;
+  userId: string;
   userRoleLabel?: string;
-  operationId: number;
-  operationCallRepId?: number;
+  operationId: string;
+  operationCallRepId?: string;
   operationCallRepName?: string;
 }
 export interface OperationManagerPostBody {
-  operationId: number;
-  userId: number;
+  operationId: string;
+  userId: string;
 }
 
 export interface OperationCallRepPostBody {
-  operationId: number;
-  userId: number;
+  operationId: string;
+  userId: string;
 }

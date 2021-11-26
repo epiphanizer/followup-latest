@@ -17,8 +17,8 @@ import { UserLanguage } from '../user/user';
  * all other parameters have the (?) optional operator attached.
  */
 export interface Patient {
-  patientId: number;
-  patientOperationId?: number;
+  patientId: string;
+  patientOperationId?: string;
   patientOperationGroup?: string;
   patientOperationName?: string;
   operation?: Operation;
@@ -60,7 +60,7 @@ export interface Patient {
   patientCallCount?: number;
   patientLastCallDate?: Date;
   patientNextCallScheduledTime?: Date;
-  patientCurrentStatusLabel?: number;
+  patientCurrentStatusLabel?: string;
   patientStatusLabel?: string;
   patientGraduated?: boolean;
   patientDischargeNotes?: string;
@@ -72,7 +72,7 @@ export interface Patient {
         cardiacBoolean: boolean;
         pulmonaryBoolean: boolean;
       };
-  patientDischargeLabelId?: number;
+  patientDischargeLabelId?: string;
   patientDischargeLabel?: string;
   patientDischargedCondition?: string;
   patientPrimaryDiagnosis?: string;
@@ -82,12 +82,12 @@ export interface Patient {
   patientIntakeQuestionAnswers$?: Observable<PatientIntakeQuestionAnswer[]>;
   patientUrgencyScale?: number;
   patientNeedToKnow?: string;
-  nextPatientCallId?: number;
+  nextPatientCallId?: string;
   patientActive?: number;
 }
 
 export interface PatientDischargeLabel {
-  patientDischargeLabelId: number;
+  patientDischargeLabelId: string;
   patientDischargeLabel: string;
 }
 

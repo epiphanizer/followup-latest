@@ -1,6 +1,6 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { User } from '@app/modules/user/user';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Operation } from '../operation/operation';
 import { OperationService } from '../operation/operation.service';

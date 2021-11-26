@@ -11,7 +11,7 @@ import { TeamMessage } from '../team/team';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  deactivateUserByUserId(userId: number) {
+  deactivateUserByUserId(userId: string) {
     return this.http.delete('users/' + userId).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -34,7 +34,7 @@ export class UserService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getUserByUserId(userId: number) {
+  getUserByUserId(userId: string) {
     return this.http.get<User>('users/' + userId).pipe(
       retry(3),
       catchError(e => this.handleAsyncError(e)) // then handle the error
@@ -82,12 +82,12 @@ export class UserService {
       catchError(error => this.handleAsyncError(error))
     );
   }
-  getUserLanguagesByUserId(userId: number) {
+  getUserLanguagesByUserId(userId: string) {
     return this.http.get<UserLanguage[]>('users/' + userId + '/languages').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  updateUserByUserId(userId: number, userPutObject: UserPutObject) {
+  updateUserByUserId(userId: string, userPutObject: UserPutObject) {
     return this.http.put<UserPutObject>('users/' + userId, userPutObject).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

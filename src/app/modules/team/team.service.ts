@@ -17,19 +17,19 @@ export class TeamService {
   };
   constructor(private http: HttpService) {}
 
-  getTeamMemberByTeamIdAndTeamMemberId = function(teamId: number, teamMemberId: number) {
+  getTeamMemberByTeamIdAndTeamMemberId = function(teamId: string, teamMemberId: string) {
     return this.http.get('teams/' + teamId + '/members/' + teamMemberId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
-  getTeamMembersByTeamId = function(teamId: number) {
+  getTeamMembersByTeamId = function(teamId: string) {
     return this.http.get('teams/' + teamId + '/members/').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
-  getTeamMessagesByTeamId = function(teamId: number) {
+  getTeamMessagesByTeamId = function(teamId: string) {
     return this.http.get('teams/' + teamId + '/messages/').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error

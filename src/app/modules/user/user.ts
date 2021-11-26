@@ -3,7 +3,8 @@ import { PatientCall } from '../patient/patient-detail/patient-call/patient-call
 import { Observable } from 'rxjs';
 
 export interface User {
-  userId: number;
+  userId: string;
+  teamId?: string;
   userLevel: number;
   userRoleType?: string;
   username: string;

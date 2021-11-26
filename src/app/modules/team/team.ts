@@ -1,15 +1,15 @@
 export interface TeamMessage {
-  teamId: number;
-  teamMessageId: number;
-  teamMessageFromId: number;
+  teamId: string;
+  teamMessageId: string;
+  teamMessageFromId: string;
   teamMessageFromUserFirstName?: string;
   teamMessageFromUserLastName?: string;
-  teamMessageRecipientId: number;
+  teamMessageRecipientId: string;
   teamMessageSubject?: string;
   messageBody: string;
 }
 export interface Team {
-  teamId: number;
+  teamId: string;
   teamName: string;
   teamManagerSidebarDropdownOpen?: boolean;
   teamCareRepSidebarDropdownOpen?: boolean;
@@ -21,10 +21,10 @@ export interface Team {
 }
 
 export interface TeamMember {
-  userTeamId: number;
-  userId?: number;
-  teamId?: number;
-  teamMemberId: number;
+  userTeamId: string;
+  userId?: string;
+  teamId?: string;
+  teamMemberId: string;
   teamMemberHired: string;
   teamMemberFirstName: string;
   teamMemberLastName: string;
