@@ -1,18 +1,17 @@
-import { Operation } from '@app/modules/operation/operation';
+import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { PatientCall } from '../patient/patient-detail/patient-call/patient-call.service';
 import { Observable } from 'rxjs';
 
 export interface User {
   userId: string;
   teamId?: string;
-  userLevel: number;
   userRoleType?: string;
   username: string;
   userEmail: string;
   avatarData?: Blob;
   avatar?: boolean;
-  operations: Array<Operation>;
-  operations$: Observable<Array<Operation>>;
+  operations: any | Array<Operation>;
+  operationGroups: any | Array<OperationGroup>;
   patientCalls: Array<PatientCall>;
   patientCalls$: Observable<PatientCall[]>;
   userFirstName: string;
@@ -44,7 +43,6 @@ export interface User {
   userLastAccess?: Date;
   userLoginExpires: number;
   userMessages: UserMessage[];
-  userLanguages$?: Observable<UserLanguage[]>;
   userLanguages: UserLanguage[];
 }
 

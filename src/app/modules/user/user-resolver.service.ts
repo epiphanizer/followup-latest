@@ -2,24 +2,16 @@ import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 
 import { AuthenticationService, HttpService } from '@app/core';
-import { OperationService } from '../operation/operation.service';
 import { share, catchError } from 'rxjs/operators';
-import { User, UserLanguage } from '@app/modules/user/user';
+import { User } from '@app/modules/user/user';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Operation } from '../operation/operation';
-import { UserService } from './user.service';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {
   user: User;
   user$: Observable<User>;
-  constructor(
-    private authService: AuthenticationService,
-    private http: HttpService,
-    private operationService: OperationService,
-    private userService: UserService
-  ) {}
+  constructor(private authService: AuthenticationService, private http: HttpService) {}
   resolve(): Observable<User> {
     if (!this.authService.currentUserValue) {
       window.location.href = '/login';
@@ -29,24 +21,8 @@ export class UserResolver implements Resolve<User> {
      */
     this.user$ = of(this.authService.currentUserValue);
     this.user = this.authService.currentUserSubject.getValue();
-
-    var self = this;
-    function getUserLanguages() {
-      var userLanguages$: Observable<UserLanguage[]>;
-      userLanguages$ = self.userService.getUserLanguagesByUserId(self.user.userId);
-      return userLanguages$;
-    }
-    function getUserOperations() {
-      var userOperations$: Observable<Operation[]>;
-      /** Fetch all operations if user is admin, otherwise, get user ops. */
-      if (self.user.userLevel != 1) {
-        userOperations$ = self.operationService.getOperationsByUserId(self.user.userId);
-      } else {
-        userOperations$ = self.operationService.getAllOperations();
-      }
-      return userOperations$;
-    }
-
+    this.user.operationGroups = JSON.parse(this.user.operationGroups);
+    this.user.operations = JSON.parse(this.user.operations);
     var date = new Date();
     var currentTime = date.getTime();
     if (currentTime > this.user.userLoginExpires) {
@@ -60,14 +36,8 @@ export class UserResolver implements Resolve<User> {
     if (this.user.userLoginExpires - currentTime < 900000) {
       this.user.userLoginExpires = currentTime + 900000;
       this.authService.currentUserSubject.next(this.user);
-      this.user.operations$ = null;
-      this.user.userLanguages$ = null;
-      this.user.operations = null;
-      this.user.userLanguages = null;
       localStorage.removeItem('followup-user');
       localStorage.setItem('followup-user', JSON.stringify(this.user));
-      this.user.operations$ = getUserOperations();
-      this.user.userLanguages$ = getUserLanguages();
     }
 
     return this.user$;

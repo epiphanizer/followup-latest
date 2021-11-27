@@ -82,8 +82,6 @@ export class ShellComponent {
     this.user = this.authenticationService.currentUserSubject.getValue();
     this.user.userLoginExpires = date.getTime() + 900000;
     this.authenticationService.currentUserSubject.next(this.user);
-    this.user.operations$ = null;
-    this.user.userLanguages$ = null;
     localStorage.removeItem('followup-user');
     localStorage.setItem('followup-user', JSON.stringify(this.user));
     this.userActionSinceLastUpdate = false;

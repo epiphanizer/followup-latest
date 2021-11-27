@@ -83,40 +83,19 @@ export class CallQueueSidebarComponent {
   ngOnInit() {
     /** Init to the first user operation (alphabetically,) */
     this.user = this.route.snapshot.data.user;
-    if (!sessionStorage.getItem('operationGroups')) {
-      this.operationGroups$ = this.operationService.getOperationGroups();
-      this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-        if (operationGroups) {
-          sessionStorage.setItem('operationGroups', JSON.stringify(operationGroups));
-          operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-            operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-              operationGroup,
-              this.user
-            );
-            if (idx == 0 && !this.activeOperationId) {
-              operationGroup.sidebarDropdownOpen = true;
-            } else {
-              operationGroup.sidebarDropdownOpen = false;
-            }
-          });
-          this.operationGroups = operationGroups;
-        }
-      });
-    } else {
-      var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
-      operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-          operationGroup,
-          this.user
-        );
-        if (idx == 0 && !this.activeOperationId) {
-          operationGroup.sidebarDropdownOpen = true;
-        } else {
-          operationGroup.sidebarDropdownOpen = false;
-        }
-      });
-      this.operationGroups = operationGroups;
-    }
+
+    this.user.operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+      operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
+        operationGroup,
+        this.user
+      );
+      if (idx == 0 && !this.activeOperationId) {
+        operationGroup.sidebarDropdownOpen = true;
+      } else {
+        operationGroup.sidebarDropdownOpen = false;
+      }
+    });
+    this.operationGroups = this.user.operationGroups;
 
     this.route.paramMap.subscribe((data: any) => {
       if (data.params.operationId) {
@@ -132,18 +111,9 @@ export class CallQueueSidebarComponent {
             });
         });
       } else {
-        // this.operations = this.user.operations;
-        this.user.operations$.subscribe((data: Operation[]) => {
-          /** Init to the first assigned operation alphabetically */
-          this.operations = data;
-          if (!this.operations[0]) {
-            this.errorFallback = true;
-          } else {
-            this.errorFallback = false;
-          }
-          this.selected.operation = this.operations[0];
-          this.activeOperationId = this.selected.operation.operationId;
-        });
+        this.operations = this.user.operations;
+        this.selected.operation = this.operations[0];
+        this.activeOperationId = this.selected.operation.operationId;
       }
     });
 

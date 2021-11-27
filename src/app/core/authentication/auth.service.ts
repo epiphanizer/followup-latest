@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, retry } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
@@ -44,6 +44,7 @@ export class AuthenticationService {
         password: password
       })
       .pipe(
+        retry(0),
         map((jwt: any) => {
           if (jwt.token) {
             var token = this.jwtHelper.decodeToken(jwt.token);
