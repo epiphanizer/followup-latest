@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, NavigationEnd, ActivationEnd, ActivatedRouteSna
 import { ModalController } from '@ionic/angular';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 import { Patient } from '@app/modules/patient/patient';
-import { User } from '@app/modules/user/user';
+import { User, UserRoles, UserRolesMap } from '@app/modules/user/user';
 import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
 import { map, filter } from 'rxjs/operators';
 import { DataService } from '@app/modules/data/data.service';
@@ -22,12 +22,14 @@ export class ToolbarNavComponent implements OnInit {
     private router: Router,
     private dataService: DataService
   ) {}
-  // Are we on call-queue page?
+
   callQueuePage: boolean = false;
   dropdowns: any[] = [];
   dropdownActivated: boolean = false;
   navLinks: MenuLink[];
   patient: Patient;
+  userRoles = UserRoles;
+  userRolesMap = UserRolesMap;
   user: User;
 
   @Output() dropdownEvent: EventEmitter<Boolean> = new EventEmitter(false);
