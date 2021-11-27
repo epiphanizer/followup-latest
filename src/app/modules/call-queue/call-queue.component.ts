@@ -36,10 +36,7 @@ export class CallQueueComponent implements OnInit {
           });
         } else {
           this.user = this.route.snapshot.data.user;
-          this.user.operations$.subscribe((data: Operation[]) => {
-            /** Init to the first assigned operation alphabetically */
-            this.selected.operation = data[0];
-          });
+          this.selected.operation = this.user.operations[0];
         }
       }
     });

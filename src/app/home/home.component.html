@@ -85,8 +85,8 @@
           </ul>
         </div>
       </ion-col>
-      <ion-col class="red-data-box" *ngIf="user.userLevel == 1"></ion-col>
-      <ion-col class="blue-data-box" *ngIf="user.userLevel == 1"></ion-col>
+      <ion-col class="red-data-box" *ngIf="user.userLevel == userLevels.admin"></ion-col>
+      <ion-col class="blue-data-box" *ngIf="user.userLevel == userLevels.admin"></ion-col>
     </ion-row>
   </ion-grid>
   <div class="everybody-is-callout">

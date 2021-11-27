@@ -30,25 +30,12 @@ export class NotificationListingComponent implements OnInit {
     | any = {};
   selectedSortFlag: string = 'asc';
   user: User;
-  constructor(
-    private operationService: OperationService,
-    private notificationService: NotificationService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private notificationService: NotificationService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     if (!this.route.snapshot.data.operation) {
       this.user = this.route.snapshot.data.user;
-
-      if (this.user.userLevel != 1) {
-        this.user.operations$ = this.operationService.getOperationsByUserId(this.user.userId);
-      } else {
-        this.user.operations$ = this.operationService.getAllOperations();
-      }
-      this.user.operations$.subscribe((operations: Operation[]) => {
-        /** Init to the first assigned operation alphabetically */
-        this.selected.operation = operations[0];
-      });
+      this.selected.operation = this.user.operations[0];
     } else {
       this.selected.operation = this.route.snapshot.data.operation;
     }

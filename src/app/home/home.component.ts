@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User, UserMessage } from '@app/modules/user/user';
+import { User, UserMessage, UserRoles } from '@app/modules/user/user';
 import { TeamMessage } from '@app/modules/team/team';
 import { UserService } from '@app/modules/user/user.service';
 import { TeamService } from '@app/modules/team/team.service';
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
     notifications: 0,
     totalNotifications: 0
   };
-
+  public userLevels: typeof UserRoles = UserRoles;
   public teamMessage: TeamMessage;
   public userMessage: UserMessage;
   public user: User;

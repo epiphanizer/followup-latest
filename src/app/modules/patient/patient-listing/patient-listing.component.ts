@@ -51,10 +51,7 @@ export class PatientListingComponent implements OnInit {
       if (this.route.snapshot.data.mode == 'spanish') {
         this.mode.spanish = true;
       } else {
-        this.user.operations$.subscribe((data: Operation[]) => {
-          /** Init to the first assigned operation alphabetically */
-          this.selected.operation = data[0];
-        });
+        this.selected.operation = this.user.operations[0];
       }
     } else {
       // Sort by language

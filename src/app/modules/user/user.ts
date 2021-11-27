@@ -1,10 +1,12 @@
 import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { PatientCall } from '../patient/patient-detail/patient-call/patient-call.service';
 import { Observable } from 'rxjs';
+import { Team } from '../team/team';
 
 export interface User {
   userId: string;
   teamId?: string;
+  userLevel: string;
   userRoleType?: string;
   username: string;
   userEmail: string;
@@ -42,8 +44,9 @@ export interface User {
   userAdditionalInfo: string;
   userLastAccess?: Date;
   userLoginExpires: number;
-  userMessages: UserMessage[];
-  userLanguages: UserLanguage[];
+  messages: UserMessage[];
+  languages: any | UserLanguage[];
+  teams: any | Team[];
 }
 
 export interface UserPutObject {
@@ -80,7 +83,7 @@ export interface UserLanguage {
 }
 
 export enum UserRoles {
-  admin = 1,
-  manager = 2,
-  user = 3
+  admin = 'abc',
+  manager = 'def',
+  user = 'ghi'
 }
