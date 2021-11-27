@@ -59,7 +59,6 @@ export class PatientManagerSidebarComponent implements OnInit {
     operation: null
   };
   operationGroups: OperationGroup[] = null;
-  operationGroups$: Observable<OperationGroup[]>;
 
   operations: Operation[];
   user: User;

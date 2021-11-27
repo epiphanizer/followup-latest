@@ -74,7 +74,7 @@ export class CallQueueSidebarComponent {
     private patientService: PatientService
   ) {}
   operationGroups: OperationGroup[] = null;
-  operationGroups$: Observable<OperationGroup[]>;
+
   operations: Operation[];
   user: User;
   todaysDateDay: string;
@@ -85,10 +85,6 @@ export class CallQueueSidebarComponent {
     this.user = this.route.snapshot.data.user;
 
     this.user.operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-      operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-        operationGroup,
-        this.user
-      );
       if (idx == 0 && !this.activeOperationId) {
         operationGroup.sidebarDropdownOpen = true;
       } else {

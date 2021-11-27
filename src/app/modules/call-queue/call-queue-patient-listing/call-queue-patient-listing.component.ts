@@ -36,7 +36,6 @@ export class CallQueuePatientListingComponent implements OnInit {
 
   constructor(private patientService: PatientService, private patientCallStatusService: PatientCallStatusService) {}
   ngOnInit() {
-    console.log(Object.values(UserRoles));
     this.todaysDate = new Date();
     this.currentYear = new Date().getFullYear();
     this.patientCallStatusService.getPatientCallStatuses().subscribe((patientCallStatuses: PatientCallStatus[]) => {
