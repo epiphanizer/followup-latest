@@ -25,7 +25,7 @@
           (mouseenter)="openDropdown(i)"
           (mouseleave)="closeDropdown(i)"
         >
-          <ul *ngIf="link.minRole >= userRoles[user.userLevel]">
+          <ul *ngIf="link.minRole >= userRolesMap[user.userLevel]">
             <li *ngFor="let link of link.dropdown.links">
               <a *ngIf="!link.dynamic" (click)="closeDropdowns()" routerLink="/{{ link.linkAction }}">
                 {{ link.linkName }}</a
