@@ -21,12 +21,7 @@ export class UserResolver implements Resolve<User> {
      */
     this.user$ = of(this.authService.currentUserValue);
     this.user = this.authService.currentUserSubject.getValue();
-    if (typeof this.user.operationGroups == 'string') {
-      this.user.operationGroups = JSON.parse(this.user.operationGroups);
-      this.user.operations = JSON.parse(this.user.operations);
-      this.user.languages = JSON.parse(this.user.languages);
-      this.user.teams = JSON.parse(this.user.teams);
-    }
+
     var date = new Date();
     var currentTime = date.getTime();
     if (currentTime > this.user.userLoginExpires) {
@@ -41,7 +36,9 @@ export class UserResolver implements Resolve<User> {
       this.user.userLoginExpires = currentTime + 900000;
       this.authService.currentUserSubject.next(this.user);
       localStorage.removeItem('followup-user');
-      localStorage.setItem('followup-user', JSON.stringify(this.user));
+      if (typeof this.user.operationGroups == 'object') {
+        localStorage.setItem('followup-user', JSON.stringify(this.user));
+      }
     }
 
     return this.user$;

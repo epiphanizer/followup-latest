@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
-import { User } from '@app/modules/user/user';
+import { User, UserRoles, UserRolesArray, UserRolesMap } from '@app/modules/user/user';
 import { AuthenticationService } from './auth.service';
 import { Location } from '@angular/common';
 

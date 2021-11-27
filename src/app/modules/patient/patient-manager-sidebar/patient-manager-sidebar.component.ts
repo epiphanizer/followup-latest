@@ -1,14 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { formatDate } from '@angular/common';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-  // ...
-} from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';

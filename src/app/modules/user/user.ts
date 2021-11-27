@@ -92,3 +92,8 @@ export enum UserRolesMap {
   'def' = 2,
   'ghi' = 3
 }
+export enum UserRolesArray {
+  '2PEXyKgz' = 'admin',
+  'def' = 'manager',
+  'ghi' = 'user'
+}

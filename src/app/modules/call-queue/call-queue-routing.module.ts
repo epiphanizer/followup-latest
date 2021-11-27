@@ -5,6 +5,7 @@ import { extract } from '@app/core';
 import { CallQueueComponent } from './call-queue.component';
 import { Shell } from '@app/shell/shell.service';
 import { UserResolver } from '../user/user-resolver.service';
+import { UserRoles } from '../user/user';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -13,8 +14,7 @@ const routes: Routes = [
       path: 'call-queue',
       component: CallQueueComponent,
       data: {
-        title: extract('Call Queue'),
-        roles: 'all'
+        title: extract('Call Queue')
       },
       pathMatch: 'full',
       resolve: {
@@ -25,8 +25,7 @@ const routes: Routes = [
       path: 'call-queue/operations/:operationId',
       component: CallQueueComponent,
       data: {
-        title: extract('Call Queue'),
-        roles: 'all'
+        title: extract('Call Queue')
       },
       resolve: {
         user: UserResolver
@@ -37,7 +36,6 @@ const routes: Routes = [
       component: CallQueueComponent,
       data: {
         title: extract('Call Queue'),
-        roles: 'all',
         mode: 'spanish'
       },
       resolve: {

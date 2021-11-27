@@ -140,7 +140,6 @@ export class CalendarComponent implements OnInit {
 
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
     this.offsetNumber = this.getFirstDayOffset(firstDayOfMonthIndex);
-    console.log(this.offsetNumber);
     var priorMonthLastDays = this.daysInMonth(parseInt(this.lastMonthString), this.lastMonthYear);
     /**
      * A fun, and confusing (unless you wrote it)

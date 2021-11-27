@@ -9,6 +9,7 @@ import {
   PatientCallStatusService
 } from '@app/modules/patient/patient-detail/patient-call/patient-call-status.service';
 import { PatientCallService } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
+import { UserRoles } from '@app/modules/user/user';
 
 @Component({
   providers: [PatientService, PatientCallService],
@@ -35,6 +36,7 @@ export class CallQueuePatientListingComponent implements OnInit {
 
   constructor(private patientService: PatientService, private patientCallStatusService: PatientCallStatusService) {}
   ngOnInit() {
+    console.log(Object.values(UserRoles));
     this.todaysDate = new Date();
     this.currentYear = new Date().getFullYear();
     this.patientCallStatusService.getPatientCallStatuses().subscribe((patientCallStatuses: PatientCallStatus[]) => {
