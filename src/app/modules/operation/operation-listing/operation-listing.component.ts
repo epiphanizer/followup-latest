@@ -29,6 +29,7 @@ export class OperationListingComponent implements OnInit {
   constructor(private operationService: OperationService, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.user = this.route.snapshot.data.user;
     this.route.paramMap.subscribe((data: any) => {
       if (data.params.operationGroupId) {
         var operationGroupId = data.params.operationGroupId;
@@ -45,11 +46,8 @@ export class OperationListingComponent implements OnInit {
           this.operationGroups = operationGroups;
         });
       } else {
-        this.operationGroups$ = this.operationService.getOperationGroups();
-        this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-          this.operationGroups = operationGroups;
-          this.selected.operationGroup = operationGroups[0];
-        });
+        this.operationGroups = this.user.operationGroups;
+        this.selected.operationGroup = this.user.operationGroups[0];
       }
     });
   }

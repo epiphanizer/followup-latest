@@ -24,7 +24,10 @@
         </app-patient-call-status-controls>
         <!-- this will be hidden if we have advanced past ID 3, which is the "started" state, but hide if it is the final call -->
         <app-patient-call-start-button
-          *ngIf="patientCall.patientCallStatusLabelId < 3 && patientCall.patientCallStatusLabel != 'Final Call'"
+          *ngIf="
+            patientCallStatuses[patientCall.patientCallStatusLabelId] < 3 &&
+            patientCall.patientCallStatusLabel != 'Final Call'
+          "
           [user]="user"
           [patientCall]="patientCall"
           (patientCallStartEventEmitter)="patientCallStartEventHandler($event)"

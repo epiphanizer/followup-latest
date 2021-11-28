@@ -8,6 +8,15 @@ export interface PatientCallStatus {
   patientCallStatusLabelId: number;
   patientCallStatusLabel: string;
 }
+export enum PatientCallStatuses {
+  '2PEXyKgz' = 1,
+  'xmKxrNOy' = 2,
+  'XAE2oKVR' = 3,
+  '0oKZpNZw' = 4,
+  '1WjBGN7G' = 5,
+  'GPNVnNA3' = 6,
+  'meEvwKLW' = 7
+}
 
 @Injectable({
   providedIn: 'root'

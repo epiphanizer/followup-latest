@@ -84,16 +84,16 @@ export interface UserLanguage {
 
 export enum UserRoles {
   admin = '2PEXyKgz',
-  manager = 'def',
-  user = 'ghi'
+  manager = 'xmKxrNOy',
+  user = 'XAE2oKVR'
 }
 export enum UserRolesMap {
   '2PEXyKgz' = 1,
-  'def' = 2,
-  'ghi' = 3
+  'xmKxrNOy' = 2,
+  'XAE2oKVR' = 3
 }
 export enum UserRolesArray {
   '2PEXyKgz' = 'admin',
-  'def' = 'manager',
-  'ghi' = 'user'
+  'xmKxrNOy' = 'manager',
+  'XAE2oKVR' = 'user'
 }

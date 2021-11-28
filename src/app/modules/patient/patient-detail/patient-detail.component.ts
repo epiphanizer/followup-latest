@@ -16,7 +16,7 @@ import {
   PatientCallQuestionsService,
   PatientCallQuestion
 } from './patient-call/patient-call-questions/patient-call-questions.service';
-import { PatientCallStatus } from './patient-call/patient-call-status.service';
+import { PatientCallStatus, PatientCallStatuses } from './patient-call/patient-call-status.service';
 import { formatDate } from '@angular/common';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -40,7 +40,7 @@ export class PatientDetailComponent implements OnInit {
   patientCallNotesHighlighted: number = 0;
   patientCallQuestions: PatientCallQuestion[];
   patientCallQuestionAnswers: PatientCallQuestionAnswer[];
-  patientCallStatuses: PatientCallStatus[];
+  patientCallStatuses: any | typeof PatientCallStatuses = PatientCallStatuses;
 
   patientNextCall: {
     date: string;
@@ -60,11 +60,14 @@ export class PatientDetailComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
+    console.log(this.patient);
     this.patientCall$ = this.patientCallService
       .getPatientCallByPatientCallId(this.patient.patientId, this.patient.nextPatientCallId)
       .pipe(
         take(1),
         map((patientCall: PatientCall) => {
+          console.log(patientCall);
+          console.log('this far');
           this.patientCall = patientCall[0];
           return this.patientCall;
         })
