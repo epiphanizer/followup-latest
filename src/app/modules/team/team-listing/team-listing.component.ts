@@ -30,6 +30,7 @@ export class TeamListingComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.teams = this.user.teams;
+    this.selected.team = this.teams[0];
   }
 
   teamChangeEventHandler($event: Team) {

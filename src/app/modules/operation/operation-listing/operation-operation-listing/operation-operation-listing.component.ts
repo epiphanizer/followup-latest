@@ -12,7 +12,6 @@ import { OperationService } from '@app/modules/operation/operation.service';
 export class OperationOperationListingComponent implements OnInit {
   @Input() operationGroup: OperationGroup;
   public operations: Operation[];
-  public operations$: Observable<Operation[]>;
   public operationsFiltered: Operation[];
   public pageOfItems: Operation[];
   public selectedSortFlag: string = 'desc';
@@ -21,27 +20,18 @@ export class OperationOperationListingComponent implements OnInit {
   // Default to facility descending
   public selectedSortCol: string = this.colDefs[0];
 
-  constructor(private operationService: OperationService) {}
+  constructor() {}
   ngOnInit() {
-    this.operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(this.operationGroup);
-    this.operationGroup.operations$.subscribe((operations: Operation[]) => {
-      if (operations[0]) {
-        this.operationsFiltered = this.operations = operations;
-        this.runSortSwitch();
-      }
-    });
+    this.operationsFiltered = this.operations = this.operationGroup.operations;
+    console.log(this.operationsFiltered);
+    this.runSortSwitch();
   }
 
   ngOnChanges(changes: any) {
     if (changes.operationGroup) {
       if (!changes.operationGroup.firstChange) {
         this.operationGroup = changes.operationGroup.currentValue;
-        this.operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(this.operationGroup);
-        this.operationGroup.operations$.subscribe((operations: Operation[]) => {
-          if (operations[0]) {
-            this.operationsFiltered = this.operations = operations;
-          }
-        });
+        this.operationsFiltered = this.operations = this.operationGroup.operations;
       }
     }
   }
