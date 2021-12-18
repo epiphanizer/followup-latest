@@ -6,12 +6,17 @@ import { share, catchError } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { OperationService } from '../operation/operation.service';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {
   user: User;
   user$: Observable<User>;
-  constructor(private authService: AuthenticationService, private http: HttpService) {}
+  constructor(
+    private authService: AuthenticationService,
+    private http: HttpService,
+    private operationService: OperationService
+  ) {}
   resolve(): Observable<User> {
     if (!this.authService.currentUserValue) {
       window.location.href = '/login';
@@ -38,6 +43,13 @@ export class UserResolver implements Resolve<User> {
       localStorage.removeItem('followup-user');
       if (typeof this.user.operationGroups == 'object') {
         localStorage.setItem('followup-user', JSON.stringify(this.user));
+      } else {
+        this.operationService.getOperationsByUserId(this.user.userId).subscribe(res => {
+          if (res) {
+            this.user.operationGroups = res;
+            localStorage.setItem('followup-user', JSON.stringify(this.user));
+          }
+        });
       }
     }
 
