@@ -107,6 +107,15 @@ export class PatientManagerSidebarComponent implements OnInit {
     this.activeOperationId = this.selected.operation.operationId;
     this.operationChangeEvent.emit(operation);
   };
+  setActiveOperationGroup = function(operationGroup: OperationGroup) {
+    operationGroup.sidebarDropdownOpen = true;
+    /**
+     * Reassign selected group
+     */
+    this.selected.operationGroup = operationGroup;
+    this.activeOperationGroupId = operationGroup.operationGroupId;
+    this.operationGroupChangeEvent.emit(this.activeOperationGroupId);
+  };
 
   public getCurrentNewDischargeCount(patients: Patient[]) {
     let patientsWithNoCalls = [];

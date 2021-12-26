@@ -164,6 +164,7 @@ export class OperationAdminSidebarComponent implements OnInit {
 
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
+
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
     this.activeOperationId = operation.operationId;

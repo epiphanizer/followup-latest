@@ -60,14 +60,11 @@ export class PatientDetailComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
-    console.log(this.patient);
     this.patientCall$ = this.patientCallService
       .getPatientCallByPatientCallId(this.patient.patientId, this.patient.nextPatientCallId)
       .pipe(
         take(1),
         map((patientCall: PatientCall) => {
-          console.log(patientCall);
-          console.log('this far');
           this.patientCall = patientCall[0];
           return this.patientCall;
         })

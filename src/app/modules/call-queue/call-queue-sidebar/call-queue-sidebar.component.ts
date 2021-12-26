@@ -16,6 +16,7 @@ import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { Patient } from '@app/modules/patient/patient';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   providers: [OperationService],
@@ -83,15 +84,57 @@ export class CallQueueSidebarComponent {
   ngOnInit() {
     /** Init to the first user operation (alphabetically,) */
     this.user = this.route.snapshot.data.user;
+    if (!sessionStorage.getItem('operationGroups')) {
+      this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
+        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+          operationGroup.operations$ = this.operationService
+            .getActiveOperationsByOperationGroupId(operationGroup, this.user)
+            .pipe(
+              map((operations: Operation[]) => {
+                if (operations) {
+                  if (idx == 0 && !this.selected.operation) {
+                    this.selected.operation = operations[0];
+                    this.activeOperationId = this.selected.operation.operationId;
+                  }
+                  return operations;
+                }
+              })
+            );
+          /**
+           * Busted logic
+           */
+          if (idx == 0) {
+            operationGroup.sidebarDropdownOpen = true;
+          } else {
+            operationGroup.sidebarDropdownOpen = false;
+          }
+        });
+        this.operationGroups = operationGroups;
+      });
+    } else {
+      var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
+      operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
+          operationGroup,
+          this.user
+        );
+        if (this.route.snapshot.params.operationGroupId) {
+          if (this.route.snapshot.params.operationGroupId == operationGroup.operationGroupId) {
+            // this.setActiveOperationGroup(operationGroup);
+          }
+        }
+      });
+      this.operationGroups = operationGroups;
+    }
 
-    this.user.operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-      if (idx == 0 && !this.activeOperationId) {
-        operationGroup.sidebarDropdownOpen = true;
-      } else {
-        operationGroup.sidebarDropdownOpen = false;
-      }
-    });
-    this.operationGroups = this.user.operationGroups;
+    // this.user.operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+    //   if (idx == 0 && !this.activeOperationId) {
+    //     operationGroup.sidebarDropdownOpen = true;
+    //   } else {
+    //     operationGroup.sidebarDropdownOpen = false;
+    //   }
+    // });
+    // this.operationGroups = this.user.operationGroups;
 
     this.route.paramMap.subscribe((data: any) => {
       if (data.params.operationId) {
@@ -107,7 +150,7 @@ export class CallQueueSidebarComponent {
             });
         });
       } else {
-        this.operations = this.user.operations;
+        this.operations = this.user.operationGroups[0].operations;
         this.selected.operation = this.operations[0];
         this.activeOperationId = this.selected.operation.operationId;
       }
@@ -124,7 +167,17 @@ export class CallQueueSidebarComponent {
   }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
-    this.operationChangeEvent.emit(operation);
+    this.activeOperationId = operation.operationId;
+    this.operationChangeEvent.emit(this.activeOperationId);
+  };
+  setActiveOperationGroup = function(operationGroup: OperationGroup) {
+    operationGroup.sidebarDropdownOpen = true;
+    /**
+     * Reassign selected group
+     */
+    this.selected.operationGroup = operationGroup;
+    this.activeOperationGroupId = operationGroup.operationGroupId;
+    this.operationGroupChangeEvent.emit(this.activeOperationGroupId);
   };
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
     operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;

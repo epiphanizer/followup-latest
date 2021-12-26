@@ -111,7 +111,7 @@ export class NotificationListingSidebarComponent implements OnInit {
       }
     });
     this.operationGroups = this.user.operationGroups;
-    this.selected.operation = this.user.operations[0];
+    this.selected.operation = this.user.operationGroups[0].operations[0];
     this.operations = this.user.operations;
     if (this.route.snapshot.data.operation) {
       this.selected.operation = this.route.snapshot.data.operation;

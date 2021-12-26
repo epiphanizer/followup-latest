@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { formatDate } from '@angular/common';
 import {
   trigger,
   state,
@@ -76,8 +75,10 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   operationAssignedUsersToAdd: OperationCallRep[];
   operationAssignedUsersOriginal: string[];
   operationAssignedUsersToRemove: string[] = [];
-  operationManager: OperationManager;
-  operationManagerOriginal: OperationManager;
+
+  operationManagers: OperationManager[];
+  operationManagersOriginal: OperationManager[];
+
   constructor(
     private route: ActivatedRoute,
     private logService: LogService,
@@ -109,22 +110,24 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     if (this.route.snapshot.paramMap.get('operationId')) {
       this.activeOperationId = this.route.snapshot.paramMap.get('operationId');
       this.updateAssignedUsers();
-      this.updateAssignedManager();
+      this.getAssignedManagers();
     }
     this.route.paramMap.subscribe(params => {
       if (params.get('operationId')) {
         this.operationAssignedUsers = [];
         this.activeOperationId = params.get('operationId');
         this.updateAssignedUsers();
-        this.updateAssignedManager();
+        this.getAssignedManagers();
       }
     });
     if (this.mode.add) {
-      this.operationManager = {
-        userId: null,
-        operationId: this.operation.operationId,
-        operationManagerName: ''
-      };
+      this.operationManagers = [
+        {
+          userId: null,
+          operationId: this.operation.operationId,
+          operationManagerName: ''
+        }
+      ];
       // Arm an initial call rep
       this.operationAssignedUsers = [
         {
@@ -164,20 +167,22 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       )
       .subscribe();
   }
-  updateAssignedManager() {
+  getAssignedManagers() {
     this.operationService
       .getOperationManagersByOperationId(this.activeOperationId)
       .pipe(
         take(1),
         map((managers: OperationManager[]) => {
-          if (managers[0]) {
-            this.operationManager = managers[0];
-            this.operationManagerOriginal = managers[0];
+          if (managers) {
+            this.operationManagers = managers;
+            this.operationManagersOriginal = managers;
           } else {
-            this.operationManager = this.operationManagerOriginal = {
-              userId: null,
-              operationId: null
-            };
+            this.operationManagers = this.operationManagersOriginal = [
+              {
+                userId: null,
+                operationId: null
+              }
+            ];
           }
         })
       )
@@ -250,34 +255,34 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       operationId: this.operation.operationId,
       userId: managerUserId
     };
-    this.operationManager = operationManagerObject;
+    // this.operationManagers = operationManagerObject;
 
-    // Don't process default manager entry
-    if (managerUserId == 0) {
-      return;
-    }
-    if (this.operationManagerOriginal.userId) {
-      this.operationService
-        .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, this.operationManagerOriginal.userId)
-        .subscribe(() => {
-          this.operationService
-            .assignManagerToOperationByOperationIdAndUserId(
-              this.operationManager.operationId,
-              this.operationManager.userId
-            )
-            .subscribe(() => {
-              this.operationManagerOriginal = this.operationManager;
-              this.toastr.success('Manager successfully Added');
-            });
-        });
-    } else {
-      this.operationService
-        .assignManagerToOperationByOperationIdAndUserId(this.operationManager.operationId, this.operationManager.userId)
-        .subscribe(() => {
-          this.operationManagerOriginal = this.operationManager;
-          this.toastr.success('Manager successfully Added');
-        });
-    }
+    // // Don't process default manager entry
+    // if (managerUserId == 0) {
+    //   return;
+    // }
+    // if (this.operationManagerOriginal.userId) {
+    //   this.operationService
+    //     .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, this.operationManagerOriginal.userId)
+    //     .subscribe(() => {
+    //       this.operationService
+    //         .assignManagerToOperationByOperationIdAndUserId(
+    //           this.operationManager.operationId,
+    //           this.operationManager.userId
+    //         )
+    //         .subscribe(() => {
+    //           this.operationManagerOriginal = this.operationManager;
+    //           this.toastr.success('Manager successfully Added');
+    //         });
+    //     });
+    // } else {
+    //   this.operationService
+    //     .assignManagerToOperationByOperationIdAndUserId(this.operationManager.operationId, this.operationManager.userId)
+    //     .subscribe(() => {
+    //       this.operationManagersOriginal = this.operationManagers;
+    //       this.toastr.success('Manager successfully Added');
+    //     });
+    // }
   }
   public toggleOperationManagersAssignedMenu = function() {
     this.managerSidebarDropdownOpen = !this.managerSidebarDropdownOpen;
