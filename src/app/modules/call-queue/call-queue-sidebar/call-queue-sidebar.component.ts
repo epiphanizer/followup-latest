@@ -120,21 +120,12 @@ export class CallQueueSidebarComponent {
         );
         if (this.route.snapshot.params.operationGroupId) {
           if (this.route.snapshot.params.operationGroupId == operationGroup.operationGroupId) {
-            // this.setActiveOperationGroup(operationGroup);
+            this.setActiveOperationGroup(operationGroup);
           }
         }
       });
       this.operationGroups = operationGroups;
     }
-
-    // this.user.operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-    //   if (idx == 0 && !this.activeOperationId) {
-    //     operationGroup.sidebarDropdownOpen = true;
-    //   } else {
-    //     operationGroup.sidebarDropdownOpen = false;
-    //   }
-    // });
-    // this.operationGroups = this.user.operationGroups;
 
     this.route.paramMap.subscribe((data: any) => {
       if (data.params.operationId) {

@@ -32,10 +32,9 @@
               operationGroup.sidebarDropdownOpen ||
               operationGroup.operationGroupId == selected.operation?.operationGroupId
             "
-            *ngIf="operationGroup.operations"
           >
             <li
-              *ngFor="let operation of operationGroup.operations"
+              *ngFor="let operation of operationGroup.operations$ | async"
               [class.spanish]="operation.operationSpanishSpeaking"
             >
               <div class="operation-link-container" *ngIf="operation.operationActive">
