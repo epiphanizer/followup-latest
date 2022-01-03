@@ -140,7 +140,6 @@ export class CalendarComponent implements OnInit {
 
     this.selectedMonth.daysArray = Array.from(Array(this.selectedMonth.numberOfDays).keys()).map(x => ++x);
     this.offsetNumber = this.getFirstDayOffset(firstDayOfMonthIndex);
-    console.log(this.offsetNumber);
     var priorMonthLastDays = this.daysInMonth(parseInt(this.lastMonthString), this.lastMonthYear);
     /**
      * A fun, and confusing (unless you wrote it)
@@ -194,7 +193,7 @@ export class CalendarComponent implements OnInit {
     return new Date(year, month, 0).getDate();
   }
   calendarPrevMonth() {
-    if (parseInt(this.selectedMonth.number) - 2 !== 0) {
+    if (parseInt(this.selectedMonth.number) - 2 > 0) {
       this.lastMonthYear = this.selectedYear.year;
       this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
       this.lastMonthString = this.months[parseInt(this.selectedMonth.number) - 3].number;
