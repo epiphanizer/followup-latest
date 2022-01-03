@@ -41,7 +41,25 @@ export class LoginComponent implements OnInit, OnDestroy {
   async signIn() {
     this.isLoading = true;
     let username = this.loginForm.controls.username.value;
+    if (!username.trim().length) {
+      // Check if it was an autofill thing
+      if ((document.getElementById('username') as HTMLIonInputElement).value.length) {
+        username = (document.getElementById('username') as HTMLIonInputElement).value;
+      } else {
+        this.toastrService.error('Enter username!');
+        return false;
+      }
+    }
     let password = this.loginForm.controls.password.value;
+    if (!password.trim().length) {
+      // Check if it was an autofill thing
+      if ((document.getElementById('password') as HTMLIonInputElement).value.length) {
+        password = (document.getElementById('password') as HTMLIonInputElement).value;
+      } else {
+        this.toastrService.error('Enter password!');
+        return false;
+      }
+    }
     if (!password.trim().length) {
       this.toastrService.error('Enter password!');
       return false;
