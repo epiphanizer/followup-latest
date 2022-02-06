@@ -27,14 +27,12 @@ export class PatientContactService {
 
   addNewPatientContactByPatientId(patientId: number, patientContactPost: PatientContactPostBody) {
     return this.http.post('patients/' + patientId + '/contacts', patientContactPost).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
 
   editPatientContactByPatientId(patientContactId: number, patientContactPut: PatientContactPutBody) {
     return this.http.put('patients/contacts/' + patientContactId, patientContactPut).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
