@@ -29,14 +29,18 @@ export class ToolbarNavComponent implements OnInit {
   navLinks: MenuLink[];
   patient: Patient;
   userRoles = UserRoles;
-  userRolesMap = UserRolesMap;
   user: User;
-
+  userRolesMap: any[] = [];
+  userRolesArray: any[] = [];
   @Output() dropdownEvent: EventEmitter<Boolean> = new EventEmitter(false);
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-
+    this.userRolesMap = Object.entries(UserRolesMap);
+    this.userRolesArray = [];
+    this.userRolesMap.forEach(userRole => {
+      this.userRolesArray[userRole[0]] = userRole[1];
+    });
     this.router.events
       .pipe(
         filter(e => e instanceof ActivationEnd),

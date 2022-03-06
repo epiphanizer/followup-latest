@@ -50,7 +50,7 @@ import { Observable } from 'rxjs';
   ]
 })
 export class PatientManagerSidebarComponent implements OnInit {
-  @Output() operationChangeEvent = new EventEmitter<number>();
+  @Output() operationChangeEvent = new EventEmitter<string>();
   activeOperationId: string;
   errorFallback: boolean = false;
   selected: {

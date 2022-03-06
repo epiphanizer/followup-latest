@@ -193,7 +193,7 @@ export class CalendarComponent implements OnInit {
     return new Date(year, month, 0).getDate();
   }
   calendarPrevMonth() {
-    if (parseInt(this.selectedMonth.number) - 2 !== 0) {
+    if (parseInt(this.selectedMonth.number) - 2 > 0) {
       this.lastMonthYear = this.selectedYear.year;
       this.selectedMonth.numberOfDays = this.daysInMonth(parseInt(this.currentCalendarMonth.number), this.todaysYear);
       this.lastMonthString = this.months[parseInt(this.selectedMonth.number) - 3].number;

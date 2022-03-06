@@ -92,8 +92,3 @@ export enum UserRolesMap {
   'xmKxrNOy' = 2,
   'XAE2oKVR' = 3
 }
-export enum UserRolesArray {
-  '2PEXyKgz' = 'admin',
-  'xmKxrNOy' = 'manager',
-  'XAE2oKVR' = 'user'
-}

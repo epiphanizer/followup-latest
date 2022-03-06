@@ -123,7 +123,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     if (this.mode.add) {
       this.operationManagers = [
         {
-          userId: null,
+          userId: '',
           operationId: this.operation.operationId,
           operationManagerName: ''
         }
@@ -207,7 +207,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     // Passes E2E
     if (this.operationAssignedUsersToRemove.length) {
       this.operationAssignedUsersToRemove.forEach((callRepUserId: string, index: number) => {
-        if (callRepUserId == null) {
+        if (callRepUserId == '') {
           return;
         }
         this.operationCallRepsService
@@ -222,7 +222,8 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     this.operationAssignedUsersToAdd = this.operationAssignedUsers.filter(
       (operationCallRep: OperationCallRep, index: number) => {
         return (
-          operationCallRep.userId !== this.operationAssignedUsersOriginal[index] && operationCallRep.userId !== null
+          !this.operationAssignedUsersOriginal[index].includes(operationCallRep.userId) &&
+          operationCallRep.userId !== ''
         );
       }
     );

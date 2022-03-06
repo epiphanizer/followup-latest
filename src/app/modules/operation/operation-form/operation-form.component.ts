@@ -459,7 +459,7 @@ export class OperationFormComponent implements OnInit {
     if (this.operationContacts.length) {
       this.operationContactsToAdd = this.operationContacts.filter(
         (operationContact: OperationContact, index: number) => {
-          return this.operationContactsOriginal.indexOf(operationContact.operationContactId) == -1;
+          return !this.operationContactsOriginal.includes(operationContact.operationContactId);
         }
       );
 
