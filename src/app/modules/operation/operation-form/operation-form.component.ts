@@ -55,19 +55,19 @@ export class OperationFormComponent implements OnInit {
   operationForm!: FormGroup;
   operation$: Observable<Operation>;
   operationManagers: OperationManager[] = [];
-  operationManagersOriginal: number[] = [];
+  operationManagersOriginal: string[] = [];
   operationManagersToAdd: OperationManager[] = [];
-  operationManagersToRemove: number[] = [];
+  operationManagersToRemove: string[] = [];
   operationCallReps: OperationCallRep[] = [];
-  operationCallRepsOriginal: number[] = [];
+  operationCallRepsOriginal: string[] = [];
   operationCallRepsToAdd: OperationCallRep[] = [];
-  operationCallRepsToRemove: number[] = [];
+  operationCallRepsToRemove: string[] = [];
   operationContacts$: Observable<OperationContact[]>;
-  operationContactsOriginal: number[] = [];
+  operationContactsOriginal: string[] = [];
   operationContacts: OperationContact[] = [];
   operationContactsToAdd: OperationContact[] = [];
   operationContactsToEdit: OperationContact[] = [];
-  operationContactsToRemove: number[] = [];
+  operationContactsToRemove: string[] = [];
   operationGroups: OperationGroup[] = [];
   user: User;
 
@@ -126,7 +126,7 @@ export class OperationFormComponent implements OnInit {
      * we will listen for the change.
      */
     if (this.route.snapshot.data.operation) {
-      let operationId = parseInt(this.route.snapshot.data.operation.operationId);
+      let operationId = this.route.snapshot.data.operation.operationId;
       this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
         this.cleanData();
         this.updateOperation(operation);
@@ -351,7 +351,7 @@ export class OperationFormComponent implements OnInit {
       }
       var payload = {
         operationName: formSubmission.operation.operationName,
-        operationGroupId: parseInt(formSubmission.operation.operationGroupId),
+        operationGroupId: formSubmission.operation.operationGroupId,
         operationAddress: formSubmission.operation.operationAddress ? formSubmission.operation.operationAddress : '',
         operationCity: formSubmission.operation.operationCity ? formSubmission.operation.operationCity : '',
         operationState: formSubmission.operation.operationState ? formSubmission.operation.operationState : '',
@@ -459,7 +459,7 @@ export class OperationFormComponent implements OnInit {
     if (this.operationContacts.length) {
       this.operationContactsToAdd = this.operationContacts.filter(
         (operationContact: OperationContact, index: number) => {
-          return this.operationContactsOriginal.indexOf(operationContact.operationContactId) == -1;
+          return !this.operationContactsOriginal.includes(operationContact.operationContactId);
         }
       );
 
@@ -579,7 +579,7 @@ export class OperationFormComponent implements OnInit {
        */
 
       if (this.operationContactsToRemove) {
-        this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
+        this.operationContactsToRemove.forEach((operationContactId: string, index: number) => {
           if (operationContactId != null) {
             this.operationContactsService
               .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)
@@ -594,7 +594,7 @@ export class OperationFormComponent implements OnInit {
       if (this.operationContactsToRemove) {
         var count = 0;
         var finalCount = this.operationContactsToRemove.length;
-        this.operationContactsToRemove.forEach((operationContactId: number, index: number) => {
+        this.operationContactsToRemove.forEach((operationContactId: string, index: number) => {
           if (operationContactId != null) {
             this.operationContactsService
               .deactivateOperationContactByOperationContactId(this.operation.operationId, operationContactId)

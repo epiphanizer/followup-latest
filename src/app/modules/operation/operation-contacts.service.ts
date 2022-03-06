@@ -31,7 +31,7 @@ export class OperationContactsService {
   constructor(private http: HttpClient) {}
 
   public addOperationContactByOperationId(
-    operationId: number,
+    operationId: string,
     payload: OperationContactPostBody
   ): Observable<OperationContact> {
     return this.http.post<OperationContact>('operations/' + operationId + '/contacts', payload).pipe(
@@ -40,8 +40,8 @@ export class OperationContactsService {
     );
   }
   public editOperationContactByOperationContactId(
-    operationId: number,
-    operationContactId: number,
+    operationId: string,
+    operationContactId: string,
     payload: OperationContactPutBody
   ): Observable<OperationContact> {
     return this.http
@@ -53,15 +53,15 @@ export class OperationContactsService {
   }
 
   public deactivateOperationContactByOperationContactId(
-    operationId: number,
-    operationContactId: number
+    operationId: string,
+    operationContactId: string
   ): Observable<any> {
     return this.http.delete('operations/' + operationId + '/contacts/' + operationContactId).pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
     );
   }
-  public getOperationContactsByOperationId(operationId: number) {
+  public getOperationContactsByOperationId(operationId: string) {
     return this.http.get<OperationContact[]>('operations/' + operationId + '/contacts').pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))

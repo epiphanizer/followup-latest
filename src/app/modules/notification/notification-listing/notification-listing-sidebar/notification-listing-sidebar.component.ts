@@ -58,7 +58,7 @@ import { map } from 'rxjs/operators';
 })
 export class NotificationListingSidebarComponent implements OnInit {
   @Output() operationChangeEvent = new EventEmitter<number>();
-  activeOperationId: number;
+  activeOperationId: string;
   selected: {
     operation: Operation | null;
   } = {
@@ -74,7 +74,7 @@ export class NotificationListingSidebarComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       if (params.get('operationId')) {
-        this.activeOperationId = parseInt(params.get('operationId'));
+        this.activeOperationId = params.get('operationId');
         this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
           this.selected.operation = operation[0];
           if (this.operationGroups) {

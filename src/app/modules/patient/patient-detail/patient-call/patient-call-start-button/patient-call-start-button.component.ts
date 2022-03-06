@@ -12,7 +12,7 @@ import { User } from '@app/modules/user/user';
 export class PatientCallStartButtonComponent implements OnInit {
   @Input() user: User;
   @Input() patientCall: PatientCall;
-  @Output() patientCallStartEventEmitter = new EventEmitter<number>();
+  @Output() patientCallStartEventEmitter = new EventEmitter<string>();
   constructor() {}
 
   ngOnInit() {}

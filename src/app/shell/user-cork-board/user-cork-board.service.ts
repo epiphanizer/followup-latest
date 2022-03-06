@@ -28,7 +28,7 @@ export class UserCorkBoardService {
 
   constructor(private http: HttpService, private imageCompress: NgxImageCompressService) {}
 
-  addNewUserCorkBoardObjectByUserId(userId: number, file: File) {
+  addNewUserCorkBoardObjectByUserId(userId: string, file: File) {
     let formData = new FormData();
     formData.append('userCorkBoardBlob', file, file.name);
     return this.http.post('users/' + userId + '/corkBoardObjects', formData).pipe(
@@ -74,17 +74,17 @@ export class UserCorkBoardService {
     this.refresh = true;
     this.refreshUserCorkBoardBSubject.next(true);
   }
-  deleteUserCorkBoardObjectByUserCorkBoardObjectId(userCorkBoardObjectId: number) {
+  deleteUserCorkBoardObjectByUserCorkBoardObjectId(userCorkBoardObjectId: string) {
     return this.http.delete('users/corkBoardObjects/' + userCorkBoardObjectId).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getUserCorkBoardObjectsByUserId(userId: number) {
+  getUserCorkBoardObjectsByUserId(userId: string) {
     return this.http.get<UserCorkBoardObject[]>('users/' + userId + '/corkBoardObjects').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getUserCorkBoardObjectsByUserCorkBoardObjectId(userCorkBoardObjectId: number) {
+  getUserCorkBoardObjectsByUserCorkBoardObjectId(userCorkBoardObjectId: string) {
     return this.http
       .get<Blob>('users/corkBoardObjects/' + userCorkBoardObjectId, {
         responseType: 'blob' as 'json'

@@ -13,7 +13,7 @@ export class OperationResolver implements Resolve<Operation> {
   constructor(private operationService: OperationService) {}
   resolve(route: ActivatedRouteSnapshot): Observable<Operation> {
     const operationId = route.paramMap.get('operationId');
-    this.operation$ = this.operationService.getOperationByOperationId(+operationId).pipe(
+    this.operation$ = this.operationService.getOperationByOperationId(operationId).pipe(
       map((operation: Operation) => {
         operation = operation[0];
         this.operation = operation;

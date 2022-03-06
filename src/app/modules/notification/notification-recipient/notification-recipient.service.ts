@@ -20,7 +20,7 @@ export class NotificationRecipientService {
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
-  getNotificationRecipientByOperationContactId(notificationOperationContactId: number) {
+  getNotificationRecipientByOperationContactId(notificationOperationContactId: string) {
     return this.http.get<NotificationType[]>('notifications/contacts/' + notificationOperationContactId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error

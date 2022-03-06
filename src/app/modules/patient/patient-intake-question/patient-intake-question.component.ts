@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface PatientIntakeQuestion {
-  patientIntakeQuestionId: number;
+  patientIntakeQuestionId: string;
   patientIntakeQuestion: string;
   patientQuestionType: string;
   patientIntakeQuestionOrder: number;
@@ -10,7 +10,7 @@ export interface PatientIntakeQuestion {
 }
 
 export interface PatientIntakeQuestionAnswer {
-  patientIntakeQuestionAnswerId: number;
+  patientIntakeQuestionAnswerId: string;
   patientIntakeQuestionAnswer: string;
 }
 

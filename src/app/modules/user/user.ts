@@ -3,7 +3,7 @@ import { PatientCall } from '../patient/patient-detail/patient-call/patient-call
 import { Observable } from 'rxjs';
 
 export interface User {
-  userId: number;
+  userId: string;
   userLevel: number;
   userRoleType?: string;
   username: string;
@@ -81,7 +81,13 @@ export interface UserLanguage {
 }
 
 export enum UserRoles {
-  admin = 1,
-  manager = 2,
-  user = 3
+  admin = '2PEXyKgz',
+  manager = 'xmKxrNOy',
+  user = 'XAE2oKVR'
+}
+
+export enum UserRolesMap {
+  '2PEXyKgz' = 1,
+  'xmKxrNOy' = 2,
+  'XAE2oKVR' = 3
 }

@@ -18,26 +18,26 @@ export class PatientContactService {
   };
   constructor(private http: HttpService) {}
 
-  getPatientContactsByPatientId = function(patientId: number) {
+  getPatientContactsByPatientId = function(patientId: string) {
     return this.http.get('patients/' + patientId + '/contacts/').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
-  addNewPatientContactByPatientId(patientId: number, patientContactPost: PatientContactPostBody) {
+  addNewPatientContactByPatientId(patientId: string, patientContactPost: PatientContactPostBody) {
     return this.http.post('patients/' + patientId + '/contacts', patientContactPost).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
 
-  editPatientContactByPatientId(patientContactId: number, patientContactPut: PatientContactPutBody) {
+  editPatientContactByPatientId(patientContactId: string, patientContactPut: PatientContactPutBody) {
     return this.http.put('patients/contacts/' + patientContactId, patientContactPut).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
 
-  removePatientContactByPatientContactId(patientContactId: number) {
+  removePatientContactByPatientContactId(patientContactId: string) {
     return this.http.delete('patients/contacts/' + patientContactId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error

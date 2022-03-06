@@ -15,8 +15,8 @@ export class PatientStatusService {
   constructor(private http: HttpClient) {}
 
   addPatientStatusByPatientId(
-    patientId: number,
-    patientStatusLabelId: number,
+    patientId: string,
+    patientStatusLabelId: string,
     patientStatusNotes: string
   ): Observable<PatientStatus> {
     return this.http
@@ -29,8 +29,8 @@ export class PatientStatusService {
       );
   }
   editPatientStatusByPatientStatusId(
-    patientStatusId: number,
-    patientStatusLabelId: number,
+    patientStatusId: string,
+    patientStatusLabelId: string,
     patientStatusNotes: string
   ): Observable<PatientStatus> {
     return this.http

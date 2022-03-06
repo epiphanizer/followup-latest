@@ -1,11 +1,11 @@
 export interface Notification {
-  notificationTypeId: number;
+  notificationTypeId: string;
   notificationMessage: string;
-  notificationId?: number;
+  notificationId?: string;
   notificationTypeLabel?: string;
-  notificationOperationId: number;
+  notificationOperationId: string;
   notificationOperationName?: string;
-  notificationPatientId: number;
+  notificationPatientId: string;
   notificationPatientFirstName?: string;
   notificationPatientLastName?: string;
   notificationPatientMedicalRecordNumber?: number;
@@ -13,27 +13,27 @@ export interface Notification {
   notificationLabelId?: string;
   notificationRecipients?: string[];
   notificationIconImage?: string;
-  notificationCreatedByUserId: number;
+  notificationCreatedByUserId: string;
   notificationCreatedDate?: Date;
   notificationUserFirstName?: string;
   notificationUserLastName?: string;
   notificationCreatedTime?: Date;
 }
 export interface NotificationType {
-  notificationTypeId: number;
+  notificationTypeId: string;
   notificationTypeLabel: string;
   notificationIconImage?: string;
 }
 export interface NotificationRecipient {
-  notificationRecipientId: number;
+  notificationRecipientId: string;
   notificationRecipientContactFirstName: string;
   notificationRecipientContactLastName: string;
   notificationRecipientOperationId: string;
 }
 export interface NotificationPostBody {
-  notificationCreatedByUserId: number;
-  notificationTypeId: number;
+  notificationCreatedByUserId: string;
+  notificationTypeId: string;
   notificationMessage: string;
-  notificationOperationId: number;
-  notificationPatientId: number;
+  notificationOperationId: string;
+  notificationPatientId: string;
 }

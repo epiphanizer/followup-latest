@@ -17,8 +17,8 @@ import { UserLanguage } from '../user/user';
  * all other parameters have the (?) optional operator attached.
  */
 export interface Patient {
-  patientId: number;
-  patientOperationId?: number;
+  patientId: string;
+  patientOperationId?: string;
   patientOperationGroup?: string;
   patientOperationName?: string;
   operation?: Operation;
@@ -82,7 +82,7 @@ export interface Patient {
   patientIntakeQuestionAnswers$?: Observable<PatientIntakeQuestionAnswer[]>;
   patientUrgencyScale?: number;
   patientNeedToKnow?: string;
-  nextPatientCallId?: number;
+  nextPatientCallId?: string;
   patientActive?: number;
 }
 

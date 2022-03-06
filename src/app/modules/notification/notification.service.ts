@@ -21,25 +21,25 @@ export class NotificationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getNotificationByNotificationId(notificationId: number): Observable<Notification> {
+  getNotificationByNotificationId(notificationId: string): Observable<Notification> {
     return this.http.get<Notification>('notification/' + notificationId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getNotificationsByOperationId(operationId: number): Observable<Notification[]> {
+  getNotificationsByOperationId(operationId: string): Observable<Notification[]> {
     return this.http.get<Notification[]>('notifications/operations/' + operationId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getNotificationsByPatientId(patientId: number): Observable<Notification[]> {
+  getNotificationsByPatientId(patientId: string): Observable<Notification[]> {
     return this.http.get<Notification[]>('notifications/patient/' + patientId).pipe(
       retry(3),
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getNotificationRecipientsByOperationIdAndNotificationTypeId(operationId: number, notificationTypeId: number) {
+  getNotificationRecipientsByOperationIdAndNotificationTypeId(operationId: string, notificationTypeId: string) {
     return this.http
       .get<NotificationRecipient[]>(
         'operations/' + operationId + '/notifications/' + notificationTypeId + '/recipients'
@@ -55,12 +55,12 @@ export class NotificationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  saveNotificationByPatientId(patientId: number): Observable<any> {
+  saveNotificationByPatientId(patientId: string): Observable<any> {
     return this.http.post<Notification>('notifications/operations/' + patientId, {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  sendNotificationByNotificationId(notificationId: number): Observable<any> {
+  sendNotificationByNotificationId(notificationId: string): Observable<any> {
     return this.http
       .post<Notification>('notifications/send', {
         notificationId: notificationId

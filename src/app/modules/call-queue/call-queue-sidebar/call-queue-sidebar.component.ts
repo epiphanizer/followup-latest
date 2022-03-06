@@ -67,7 +67,7 @@ export class CallQueueSidebarComponent {
   } = {
     operation: null
   };
-  activeOperationId: number;
+  activeOperationId: string;
   constructor(
     private route: ActivatedRoute,
     private operationService: OperationService,

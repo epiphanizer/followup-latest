@@ -11,7 +11,7 @@ export class PatientIntakeQuestionService {
   constructor(private http: HttpService) {}
 
   addPatientIntakeQuestionAnswerByPatientIntakeQuestionId = function(
-    patientIntakeQuestionId: number,
+    patientIntakeQuestionId: string,
     patientIntakeQuestionAnswer: string
   ) {
     return this.http
@@ -25,7 +25,7 @@ export class PatientIntakeQuestionService {
   };
 
   editPatientIntakeQuestionAnswerByPatientIntakeQuestionId = function(
-    patientIntakeQuestionId: number,
+    patientIntakeQuestionId: string,
     patientIntakeQuestionAnswer: string
   ) {
     return this.http
@@ -37,14 +37,14 @@ export class PatientIntakeQuestionService {
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   };
-  getPatientIntakeQuestionsByPatientId = function(patientId: number) {
+  getPatientIntakeQuestionsByPatientId = function(patientId: string) {
     return this.http.get('patients/' + patientId + '/questions').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
-  getPatientIntakeQuestionAnswersByPatientIntakeQuestionId = function(patientIntakeQuestionId: number) {
+  getPatientIntakeQuestionAnswersByPatientIntakeQuestionId = function(patientIntakeQuestionId: string) {
     return this.http.get('patients/questions/' + patientIntakeQuestionId + '/answers').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error

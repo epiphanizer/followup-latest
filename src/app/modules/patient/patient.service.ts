@@ -15,17 +15,17 @@ export class PatientService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  deactivatePatientByPatientId(patientId: number): Observable<Patient> {
+  deactivatePatientByPatientId(patientId: string): Observable<Patient> {
     return this.http.post<Patient>('patients/' + patientId + '/deactivate', {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  deletePatientByPatientId(patientId: number): Observable<Patient> {
+  deletePatientByPatientId(patientId: string): Observable<Patient> {
     return this.http.delete<Patient>('patients/' + patientId).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  editPatientByPatientId(patientId: number, patientPutBody: PatientPutBody): Observable<Patient> {
+  editPatientByPatientId(patientId: string, patientPutBody: PatientPutBody): Observable<Patient> {
     return this.http.put<Patient>('patients/' + patientId, patientPutBody).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -36,19 +36,19 @@ export class PatientService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getActivePatientListByOperationId(operationId: number): Observable<[Patient]> {
+  getActivePatientListByOperationId(operationId: string): Observable<[Patient]> {
     return this.http.get<[Patient]>('operations/' + operationId + '/patients').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getPatientLanguagesByPatientId(patientId: number): Observable<[UserLanguage]> {
+  getPatientLanguagesByPatientId(patientId: string): Observable<[UserLanguage]> {
     return this.http.get<[UserLanguage]>('patients/' + patientId + '/languages').pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getPatientsByOperationId(operationId: number): Observable<[Patient]> {
+  getPatientsByOperationId(operationId: string): Observable<[Patient]> {
     return this.http.get<[Patient]>('operations/' + operationId + '/patients/all').pipe(
       take(1),
       retry(3), // retry a failed request up to 3 times
@@ -61,7 +61,7 @@ export class PatientService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getPatientByPatientId(patientId: number): Observable<Patient> {
+  getPatientByPatientId(patientId: string): Observable<Patient> {
     return this.http.get<Patient>('patients/' + patientId).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error

@@ -15,7 +15,7 @@ export class OperationService {
     );
   }
 
-  public assignManagerToOperationByOperationIdAndUserId(operationId: number, userId: number) {
+  public assignManagerToOperationByOperationIdAndUserId(operationId: string, userId: string) {
     return this.http.post('operations/' + operationId + '/managers/' + userId, {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -32,7 +32,7 @@ export class OperationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  public getOperationGroupByOperationGroupId(operationGroupId: number): Observable<OperationGroup> {
+  public getOperationGroupByOperationGroupId(operationGroupId: string): Observable<OperationGroup> {
     return this.http.get<OperationGroup>('groups/' + operationGroupId).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -49,17 +49,17 @@ export class OperationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  public removeOperationManagerByOperationIdAndUserId(operationId: number, userId: number) {
+  public removeOperationManagerByOperationIdAndUserId(operationId: string, userId: string) {
     return this.http.delete('operations/' + operationId + '/managers/' + userId, {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  public getOperationManagersByOperationId(operationId: number): Observable<OperationManager[]> {
+  public getOperationManagersByOperationId(operationId: string): Observable<OperationManager[]> {
     return this.http.get<OperationManager[]>('operations/' + operationId + '/managers').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  public editOperationByOperationId(operationId: number, operationPutBody: OperationPutBody): Observable<Operation> {
+  public editOperationByOperationId(operationId: string, operationPutBody: OperationPutBody): Observable<Operation> {
     return this.http.put<Operation>('operations/' + operationId, operationPutBody).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -74,21 +74,21 @@ export class OperationService {
     );
   }
 
-  public getOperationByOperationId(operationId: number): Observable<Operation> {
+  public getOperationByOperationId(operationId: string): Observable<Operation> {
     return this.http.get<Operation>('operations/' + operationId).pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
     );
   }
 
-  public getOperationsByUserId(userId: number): Observable<Array<Operation>> {
+  public getOperationsByUserId(userId: string): Observable<Array<Operation>> {
     return this.http.get<Array<Operation>>('users/' + userId + '/operations').pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
     );
   }
 
-  public getUsersAssignedByOperationId(operationId: number): Observable<User[]> {
+  public getUsersAssignedByOperationId(operationId: string): Observable<User[]> {
     return this.http.get<Array<User>>('operations/' + operationId + '/users').pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
