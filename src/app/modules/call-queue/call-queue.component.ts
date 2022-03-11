@@ -25,6 +25,7 @@ export class CallQueueComponent implements OnInit {
   user: User;
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   ngOnInit() {
+    console.log(this.user);
     // we only want to default if the operation id is not passed
     this.route.paramMap.subscribe((data: any) => {
       if (this.route.snapshot.data.mode == 'spanish') {
@@ -36,7 +37,8 @@ export class CallQueueComponent implements OnInit {
           });
         } else {
           this.user = this.route.snapshot.data.user;
-          this.selected.operation = this.user.operationGroups[0].operations[0];
+          console.log(this.user);
+          this.selected.operation = this.user.operations[0];
           this.selected.operation.operationGroupShortName = this.user.operationGroups[0].operationGroupShortName;
         }
       }

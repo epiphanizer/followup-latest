@@ -61,15 +61,14 @@ export class PatientManagerSidebarComponent implements OnInit {
   operationGroups: OperationGroup[] = null;
 
   operations: Operation[];
-  user: User;
+  @Input() user: User;
   todaysDateDay: string;
 
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
 
   ngOnInit() {
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
-    this.user = this.route.snapshot.data.user;
-
+    console.log(this.user);
     var operationGroups = this.user.operationGroups;
     operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
       operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
@@ -88,7 +87,7 @@ export class PatientManagerSidebarComponent implements OnInit {
       if (params.get('operationId')) {
         this.activeOperationId = params.get('operationId');
       } else {
-        this.activeOperationId = this.user.operations[0].operationId;
+        this.activeOperationId = this.user.operationGroups[0].operations[0].operationId;
       }
       this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
         this.selected.operation = operation[0];

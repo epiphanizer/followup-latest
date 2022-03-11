@@ -5,6 +5,7 @@ import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { OperationService } from '@app/modules/operation/operation.service';
 
 export interface AuthenticationBodyPost {
   username: string;
@@ -22,7 +23,11 @@ export class AuthenticationService {
   public currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(private http: HttpService, private jwtHelper: JwtHelperService) {
+  constructor(
+    private http: HttpService,
+    private jwtHelper: JwtHelperService,
+    private _operationService: OperationService
+  ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('followup-user')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -51,8 +56,14 @@ export class AuthenticationService {
             if (token.user.userId && token.user.userLevel) {
               // store user details and jwt token in local storage to keep user logged in between page refreshes
               localStorage.setItem('followup-token', JSON.stringify({ expires: token.expires }));
-              localStorage.setItem('followup-user', JSON.stringify(token.user));
-              this.currentUserSubject.next(token.user);
+              var user = token.user;
+              this._operationService.getOperationsByUserId(user.userId).subscribe(res => {
+                if (res) {
+                  user.operations = res;
+                }
+                localStorage.setItem('followup-user', JSON.stringify(user));
+              });
+              this.currentUserSubject.next(user);
               return token;
             }
           }

@@ -40,17 +40,19 @@ export class UserResolver implements Resolve<User> {
     if (this.user.userLoginExpires - currentTime < 900000) {
       this.user.userLoginExpires = currentTime + 900000;
       this.authService.currentUserSubject.next(this.user);
-      localStorage.removeItem('followup-user');
-      if (typeof this.user.operationGroups == 'object') {
-        localStorage.setItem('followup-user', JSON.stringify(this.user));
-      } else {
-        this.operationService.getOperationsByUserId(this.user.userId).subscribe(res => {
-          if (res) {
-            this.user.operationGroups = res;
-            localStorage.setItem('followup-user', JSON.stringify(this.user));
-          }
-        });
-      }
+      localStorage.setItem('followup-user', JSON.stringify(this.user));
+      // if (typeof this.user.operationGroups == 'object') {
+      //   this.user.operationGroups = JSON.parse(this.user.operationGroups);
+      //   localStorage.setItem('followup-user', JSON.stringify(this.user));
+      // } else {
+      //   this.operationService.getOperationsByUserId(this.user.userId).subscribe(res => {
+      //     if (res) {
+      //       this.user.operations = res;
+      //       console.log('got op groups by user id');
+      //       localStorage.setItem('followup-user', JSON.stringify(this.user));
+      //     }
+      //   });
+      // }
     }
 
     return this.user$;
