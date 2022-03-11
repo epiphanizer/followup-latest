@@ -36,8 +36,8 @@ export class CallQueueComponent implements OnInit {
           });
         } else {
           this.user = this.route.snapshot.data.user;
-          console.log(this.user);
           this.selected.operation = this.user.operationGroups[0].operations[0];
+          this.selected.operation.operationGroupShortName = this.user.operationGroups[0].operationGroupShortName;
         }
       }
     });
