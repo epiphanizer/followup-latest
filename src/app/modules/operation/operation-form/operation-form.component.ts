@@ -27,6 +27,7 @@ import { OperationContact } from '../operation-contact/operation-contact';
 import { NotificationRecipientService } from '@app/modules/notification/notification-recipient/notification-recipient.service';
 import { NotificationType } from '@app/modules/notification/notification';
 import { ToastrService } from 'ngx-toastr';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   providers: [
@@ -42,6 +43,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 @Injectable()
 export class OperationFormComponent implements OnInit {
+  addOperationGroupModal: ModalController;
+  addOperationGroupModalOn: boolean = false;
   availableUsers: User[];
   availableManagers: User[];
   operation: Operation;
@@ -87,9 +90,6 @@ export class OperationFormComponent implements OnInit {
     this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
       this.operationGroups = operationGroups;
     });
-    this.notificationService.getNotificationTypes().subscribe((notificationTypes: NotificationType[]) => {
-      this.notificationTypes = notificationTypes;
-    });
 
     if (this.route.snapshot.data.mode == 'add') {
       this.mode.add = true;
@@ -98,7 +98,11 @@ export class OperationFormComponent implements OnInit {
     } else if (this.route.snapshot.data.mode == 'view') {
       this.mode.view = true;
     }
-
+    if (!this.mode.view) {
+      this.notificationService.getNotificationTypes().subscribe((notificationTypes: NotificationType[]) => {
+        this.notificationTypes = notificationTypes;
+      });
+    }
     if (this.mode.edit || this.mode.view) {
       this.operation = this.route.snapshot.data.operation;
       console.log(this.operation);
@@ -130,6 +134,7 @@ export class OperationFormComponent implements OnInit {
       let operationId = this.route.snapshot.data.operation.operationId;
       this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
         this.cleanData();
+        console.log(operation);
         this.updateOperation(operation);
         this.updateOperationContacts();
       });
@@ -159,88 +164,93 @@ export class OperationFormComponent implements OnInit {
         take(1),
         map((operationContacts: OperationContact[]) => {
           if (operationContacts !== null) {
-            this.operationContacts = [];
-            operationContacts.forEach((operationContact: OperationContact, idx: number) => {
-              operationContact.operationContactOrder = idx + 1;
-              let contactFormGroup = this.fb.group({});
-              contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
-              contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
-              contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
-              contactFormGroup.addControl('operationContactCountryCode', this.fb.control('1'));
-              contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
-              contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
-              contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
-              contactFormGroup.addControl(
-                'operationContactOrder',
-                this.fb.control({
-                  value: idx + 1,
-                  disabled: true
-                })
-              );
-              formArray.push(contactFormGroup);
-              this.operationContacts.push(operationContact);
-
-              var notificationTypesArray = new Array();
-              this.notificationRecipientService
-                .getNotificationRecipientByOperationContactId(operationContact.operationContactId)
-                .pipe(
-                  take(1),
-                  map((notificationTypes: NotificationType[]) => {
-                    let notificationsFormControlArray = this.fb.array([]);
-                    if (notificationTypes !== null) {
-                      // Get the notification types assigned to ops. contact
-                      notificationTypes.forEach((notificationType: NotificationType) => {
-                        notificationTypesArray.push(notificationType.notificationTypeId);
-                      });
-                      for (let i = 0; i < this.notificationTypes.length; i++) {
-                        let newFormGroup = this.fb.group({});
-                        let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
-                        if (notificationTypesArray.indexOf(this.notificationTypes[i].notificationTypeId) != -1) {
-                          var newControl = new FormControl(true);
-                        } else {
-                          var newControl = new FormControl(false);
-                        }
-                        newFormGroup.addControl(notificationTypeId, newControl);
-                        notificationsFormControlArray.push(newFormGroup);
-                      }
-                    } else {
-                      for (let i = 0; i < this.notificationTypes.length; i++) {
-                        let newFormGroup = this.fb.group({});
-                        let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
-                        var newControl = new FormControl(true);
-                        newFormGroup.addControl(notificationTypeId, newControl);
-                        notificationsFormControlArray.push(newFormGroup);
-                      }
-                    }
-                    contactFormGroup.addControl('operationContactNotifications', notificationsFormControlArray);
-
-                    var formGroup = formArray.controls[idx] as FormGroup;
-                    formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
-                      formGroup.controls.operationContactLastName.setValue(operationContact.operationContactLastName),
-                      formGroup.controls.operationContactTitle.setValue(operationContact.operationContactTitle),
-                      formGroup.controls.operationContactEmail.setValue(operationContact.operationContactEmail),
-                      formGroup.controls.operationContactCountryCode.setValue(
-                        operationContact.operationContactCountryCode
-                      ),
-                      formGroup.controls.operationContactAreaCode.setValue(operationContact.operationContactAreaCode),
-                      formGroup.controls.operationContactPhoneNumber.setValue(
-                        operationContact.operationContactPhoneNumber
-                      );
-                    formGroup.controls.operationContactOrder.setValue(operationContact.operationContactOrder);
+            if (this.mode.view) {
+              this.operationContacts = operationContacts;
+              this.notificationsLoaded = true;
+            } else {
+              this.operationContacts = [];
+              operationContacts.forEach((operationContact: OperationContact, idx: number) => {
+                operationContact.operationContactOrder = idx + 1;
+                let contactFormGroup = this.fb.group({});
+                contactFormGroup.addControl('operationContactFirstName', this.fb.control(''));
+                contactFormGroup.addControl('operationContactLastName', this.fb.control(''));
+                contactFormGroup.addControl('operationContactTitle', this.fb.control(''));
+                contactFormGroup.addControl('operationContactCountryCode', this.fb.control('1'));
+                contactFormGroup.addControl('operationContactPhoneNumber', this.fb.control(''));
+                contactFormGroup.addControl('operationContactAreaCode', this.fb.control(''));
+                contactFormGroup.addControl('operationContactEmail', this.fb.control(''));
+                contactFormGroup.addControl(
+                  'operationContactOrder',
+                  this.fb.control({
+                    value: idx + 1,
+                    disabled: true
                   })
-                )
-                .subscribe(() => {
-                  this.operationContactsOriginal.push(operationContact.operationContactId);
-                  /**
-                   * Since subscriptions finish in reverse order
-                   * we count down the index to zero and then
-                   * set our flag
-                   */
-                  if (this.operationContactsOriginal.length == formArray.controls.length) {
-                    this.notificationsLoaded = true;
-                  }
-                });
-            });
+                );
+                formArray.push(contactFormGroup);
+                this.operationContacts.push(operationContact);
+
+                var notificationTypesArray = new Array();
+                this.notificationRecipientService
+                  .getNotificationRecipientByOperationContactId(operationContact.operationContactId)
+                  .pipe(
+                    take(1),
+                    map((notificationTypes: NotificationType[]) => {
+                      let notificationsFormControlArray = this.fb.array([]);
+                      if (notificationTypes !== null) {
+                        // Get the notification types assigned to ops. contact
+                        notificationTypes.forEach((notificationType: NotificationType) => {
+                          notificationTypesArray.push(notificationType.notificationTypeId);
+                        });
+                        for (let i = 0; i < this.notificationTypes.length; i++) {
+                          let newFormGroup = this.fb.group({});
+                          let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
+                          if (notificationTypesArray.indexOf(this.notificationTypes[i].notificationTypeId) != -1) {
+                            var newControl = new FormControl(true);
+                          } else {
+                            var newControl = new FormControl(false);
+                          }
+                          newFormGroup.addControl(notificationTypeId, newControl);
+                          notificationsFormControlArray.push(newFormGroup);
+                        }
+                      } else {
+                        for (let i = 0; i < this.notificationTypes.length; i++) {
+                          let newFormGroup = this.fb.group({});
+                          let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
+                          var newControl = new FormControl(true);
+                          newFormGroup.addControl(notificationTypeId, newControl);
+                          notificationsFormControlArray.push(newFormGroup);
+                        }
+                      }
+                      contactFormGroup.addControl('operationContactNotifications', notificationsFormControlArray);
+
+                      var formGroup = formArray.controls[idx] as FormGroup;
+                      formGroup.controls.operationContactFirstName.setValue(operationContact.operationContactFirstName),
+                        formGroup.controls.operationContactLastName.setValue(operationContact.operationContactLastName),
+                        formGroup.controls.operationContactTitle.setValue(operationContact.operationContactTitle),
+                        formGroup.controls.operationContactEmail.setValue(operationContact.operationContactEmail),
+                        formGroup.controls.operationContactCountryCode.setValue(
+                          operationContact.operationContactCountryCode
+                        ),
+                        formGroup.controls.operationContactAreaCode.setValue(operationContact.operationContactAreaCode),
+                        formGroup.controls.operationContactPhoneNumber.setValue(
+                          operationContact.operationContactPhoneNumber
+                        );
+                      formGroup.controls.operationContactOrder.setValue(operationContact.operationContactOrder);
+                    })
+                  )
+                  .subscribe(() => {
+                    this.operationContactsOriginal.push(operationContact.operationContactId);
+                    /**
+                     * Since subscriptions finish in reverse order
+                     * we count down the index to zero and then
+                     * set our flag
+                     */
+                    if (this.operationContactsOriginal.length == formArray.controls.length) {
+                      this.notificationsLoaded = true;
+                    }
+                  });
+              });
+            }
             return operationContacts;
           } else {
             this.addAdditionalOperationContact();
@@ -260,7 +270,6 @@ export class OperationFormComponent implements OnInit {
     });
   }
   updateOperation(operation: Operation) {
-    console.log(operation);
     this.operation = operation[0];
     var operationFormControls = this.operationForm.get('operation') as FormGroup;
     operationFormControls.controls.operationId.setValue(this.operation.operationId);
@@ -655,6 +664,10 @@ export class OperationFormComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  addOperationGroup() {
+    this.addOperationGroupModalOn = true;
   }
   ngOnDestroy() {
     this.operationContacts = null;

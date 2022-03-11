@@ -272,6 +272,7 @@ form {
     &.operation-name,
     &.address,
     &.city {
+      clear: both;
       margin-left: 25px;
     }
   }
