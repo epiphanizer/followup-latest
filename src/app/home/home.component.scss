@@ -323,6 +323,7 @@
     background-size: contain;
     background-color: #ef4627;
     padding: 0.5rem 2rem;
+    border-radius: 16px;
     h1,
     h2 {
       color: white;
@@ -359,6 +360,7 @@
   }
 
   ion-col.blue-data-box {
+    border-radius: 16px;
     max-width: 327px;
     width: 28%;
     background-size: contain;
