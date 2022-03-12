@@ -16,7 +16,12 @@ export class HomeComponent implements OnInit {
   todaysCallsProgress: number;
   weeklyCallsProgress: number;
   callsMadeProgress: number;
+  countReady: boolean = false;
   notificationsProgress: number;
+  weeklyCallsToNotificationsPercentage: number = null;
+  totalCallsToNotificationsPercentage: number = null;
+  weeklyNotifications: any[];
+
   todaysCalls: any = {
     completed: 0,
     scheduled: 0
@@ -32,6 +37,7 @@ export class HomeComponent implements OnInit {
   };
   notificationsSent: any = {
     notifications: 0,
+    weeklyNotifications: 0,
     totalNotifications: 0
   };
   public userLevels: typeof UserRoles = UserRoles;
@@ -78,8 +84,15 @@ export class HomeComponent implements OnInit {
               this.callsMade.callsMade = data[0].totalCalls;
             }
             this.userService.getUserNotifications(this.user).subscribe((data: any) => {
-              if (data.length) {
+              if (data) {
                 this.notificationsSent.notifications = data[0].notifications;
+                var today = new Date();
+                var lastweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+                this.notificationsSent.notifications.forEach((notification: any) => {
+                  if (notification.notificationCreatedTime > lastweek) {
+                    this.notificationsSent.weekly.push(notification);
+                  }
+                });
               }
 
               this.todaysCallsProgress =
@@ -90,6 +103,15 @@ export class HomeComponent implements OnInit {
               this.notificationsProgress =
                 (parseInt(this.notificationsSent.notifications) / parseInt(this.notificationsSent.totalNotifications)) *
                 100;
+              this.weeklyCallsToNotificationsPercentage = Math.round(
+                (parseInt(this.weeklyCalls.completed) / this.notificationsSent.weekly
+                  ? parseInt(this.notificationsSent.weekly.length)
+                  : 0) * 100
+              );
+              this.totalCallsToNotificationsPercentage = Math.round(
+                (this.notificationsSent.totalNotifications / this.callsMade.totalCalls) * 100
+              );
+              this.countReady = true;
             });
           });
         });
