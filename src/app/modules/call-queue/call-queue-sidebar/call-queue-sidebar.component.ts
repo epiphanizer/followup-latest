@@ -112,49 +112,36 @@ export class CallQueueSidebarComponent {
         this.operationGroups = operationGroups;
       });
     } else {
-      var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
-      operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-          operationGroup,
-          this.user
-        );
-        if (this.route.snapshot.params.operationGroupId) {
-          if (this.route.snapshot.params.operationGroupId == operationGroup.operationGroupId) {
-            this.setActiveOperationGroup(operationGroup);
-          }
-        }
-      });
-      this.operationGroups = operationGroups;
+      // var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
+      // operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+      //   operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
+      //     operationGroup,
+      //     this.user
+      //   );
+      //   if (this.route.snapshot.params.operationGroupId) {
+      //     if (this.route.snapshot.params.operationGroupId == operationGroup.operationGroupId) {
+      //       this.setActiveOperationGroup(operationGroup);
+      //     }
+      //   }
+      // });
+      this.operationGroups = this.user.operationGroups;
     }
 
     this.route.paramMap.subscribe((data: any) => {
+      var operationId;
       if (data.params.operationId) {
-        this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
-          this.selected.operation = data[0];
-          this.activeOperationId = this.selected.operation.operationId;
-          this.patientService
-            .getActivePatientListByOperationId(this.selected.operation.operationId)
-            .subscribe((patients: Patient[]) => {
-              if (patients !== null) {
-                this.getCurrentNewDischargeCount(patients);
-              }
-            });
-        });
+        operationId = data.params.operationId;
       } else {
+        operationId = this.user.operations[0].operationId;
         this.operations = this.user.operationGroups[0].operations;
-        this.selected.operation = this.operations[0];
-        this.activeOperationId = this.selected.operation.operationId;
       }
+      this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation) => {
+        this.selected.operation = data[0];
+        this.activeOperationId = this.selected.operation.operationId;
+      });
     });
 
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
-  }
-  public getCurrentNewDischargeCount(patients: Patient[]) {
-    let patientsWithNoCalls = [];
-    patientsWithNoCalls = patients.filter(function(patient: Patient) {
-      return patient.patientCallCount - 1 == 0;
-    });
-    return patientsWithNoCalls.length;
   }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;

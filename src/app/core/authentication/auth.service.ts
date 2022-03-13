@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { OperationService } from '@app/modules/operation/operation.service';
+import { Operation, OperationGroup } from '@app/modules/operation/operation';
 
 export interface AuthenticationBodyPost {
   username: string;
@@ -61,6 +62,16 @@ export class AuthenticationService {
                 if (res) {
                   user.operations = res;
                 }
+                this._operationService.getOperationGroups().subscribe(res => {
+                  if (res) {
+                    user.operationGroups = res;
+                  }
+                  user.operationGroups.forEach((operationGroup: OperationGroup) => {
+                    operationGroup.operations = user.operations.filter((operation: Operation) => {
+                      return operationGroup.operationGroupId == operation.operationGroupId;
+                    });
+                  });
+                });
                 localStorage.setItem('followup-user', JSON.stringify(user));
               });
               this.currentUserSubject.next(user);

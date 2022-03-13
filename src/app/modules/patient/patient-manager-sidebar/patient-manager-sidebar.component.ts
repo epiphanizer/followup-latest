@@ -87,7 +87,7 @@ export class PatientManagerSidebarComponent implements OnInit {
       if (params.get('operationId')) {
         this.activeOperationId = params.get('operationId');
       } else {
-        this.activeOperationId = this.user.operationGroups[0].operations[0].operationId;
+        this.activeOperationId = this.user.operations[0].operationId;
       }
       this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
         this.selected.operation = operation[0];
