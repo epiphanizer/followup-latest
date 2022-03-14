@@ -112,18 +112,6 @@ export class CallQueueSidebarComponent {
         this.operationGroups = operationGroups;
       });
     } else {
-      // var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
-      // operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-      //   operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-      //     operationGroup,
-      //     this.user
-      //   );
-      //   if (this.route.snapshot.params.operationGroupId) {
-      //     if (this.route.snapshot.params.operationGroupId == operationGroup.operationGroupId) {
-      //       this.setActiveOperationGroup(operationGroup);
-      //     }
-      //   }
-      // });
       this.operationGroups = this.user.operationGroups;
     }
 

@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { Patient } from '../patient';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   providers: [OperationService],
@@ -68,36 +69,49 @@ export class PatientManagerSidebarComponent implements OnInit {
 
   ngOnInit() {
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
-    console.log(this.user);
-    var operationGroups = this.user.operationGroups;
-    operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-      operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-        operationGroup,
-        this.user
-      );
-      if (idx == 0 && !this.activeOperationId) {
-        operationGroup.sidebarDropdownOpen = true;
+    this.user = this.route.snapshot.data.user;
+    if (!sessionStorage.getItem('operationGroups')) {
+      this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
+        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+          operationGroup.operations$ = this.operationService
+            .getActiveOperationsByOperationGroupId(operationGroup, this.user)
+            .pipe(
+              map((operations: Operation[]) => {
+                if (operations) {
+                  this.operations = operations;
+                  if (idx == 0 && !this.selected.operation) {
+                    this.selected.operation = operations[0];
+                    this.activeOperationId = this.selected.operation.operationId;
+                  }
+                  return operations;
+                }
+              })
+            );
+          /**
+           * Busted logic
+           */
+          if (idx == 0) {
+            operationGroup.sidebarDropdownOpen = true;
+          } else {
+            operationGroup.sidebarDropdownOpen = false;
+          }
+        });
+        this.operationGroups = operationGroups;
+      });
+    } else {
+      this.operationGroups = this.user.operationGroups;
+    }
+    this.route.paramMap.subscribe((data: any) => {
+      var operationId;
+      if (data.params.operationId) {
+        operationId = data.params.operationId;
       } else {
-        operationGroup.sidebarDropdownOpen = false;
+        operationId = this.user.operations[0].operationId;
+        this.operations = this.user.operationGroups[0].operations;
       }
-    });
-    this.operationGroups = operationGroups;
-
-    this.route.paramMap.subscribe(params => {
-      if (params.get('operationId')) {
-        this.activeOperationId = params.get('operationId');
-      } else {
-        this.activeOperationId = this.user.operations[0].operationId;
-      }
-      this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
-        this.selected.operation = operation[0];
-        if (this.operationGroups) {
-          this.operationGroups.forEach(operationGroup => {
-            if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
-              operationGroup.sidebarDropdownOpen = false;
-            }
-          });
-        }
+      this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation) => {
+        this.selected.operation = data[0];
+        this.activeOperationId = this.selected.operation.operationId;
       });
     });
   }
