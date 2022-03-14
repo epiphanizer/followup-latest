@@ -74,6 +74,7 @@ export class OperationAdminSidebarComponent implements OnInit {
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
+    console.log(this.user);
     if (!sessionStorage.getItem('operationGroups')) {
       this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
@@ -102,65 +103,8 @@ export class OperationAdminSidebarComponent implements OnInit {
         this.operationGroups = operationGroups;
       });
     } else {
-      var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
-      operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-          operationGroup,
-          this.user
-        );
-        if (this.route.snapshot.params.operationGroupId) {
-          if (this.route.snapshot.params.operationGroupId == operationGroup.operationGroupId) {
-            this.setActiveOperationGroup(operationGroup);
-          }
-        }
-      });
-      this.operationGroups = operationGroups;
+      this.operationGroups = this.user.operationGroups;
     }
-    this.route.paramMap.subscribe(params => {
-      if (params.get('operationGroupId')) {
-        if (!this.operationGroups.length) {
-          this.operationService.getOperationGroups().subscribe(operationGroups => {
-            operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-              operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-                operationGroup,
-                this.user
-              );
-              if (params.get('operationGroupId') == operationGroup.operationGroupId) {
-                this.setActiveOperationGroup(operationGroup);
-              }
-            });
-          });
-        } else {
-          this.operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-            operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-              operationGroup,
-              this.user
-            );
-            if (params.get('operationGroupId') == operationGroup.operationGroupId) {
-              operationGroup.sidebarDropdownOpen = true;
-              this.setActiveOperationGroup(operationGroup);
-            } else {
-              operationGroup.sidebarDropdownOpen = false;
-            }
-          });
-        }
-      }
-      if (params.get('operationId')) {
-        this.activeOperationId = params.get('operationId');
-        this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
-          this.selected.operation = operation[0];
-          if (this.operationGroups) {
-            this.operationGroups.forEach(operationGroup => {
-              if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
-                operationGroup.sidebarDropdownOpen = false;
-              } else {
-                operationGroup.sidebarDropdownOpen = true;
-              }
-            });
-          }
-        });
-      }
-    });
 
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
