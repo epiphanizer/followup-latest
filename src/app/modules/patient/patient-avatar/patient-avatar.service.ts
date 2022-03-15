@@ -21,7 +21,6 @@ export class PatientAvatarService {
     let formData = new FormData();
     formData.append('avatarBlob', file, file.name);
     return this.http.post('patients/' + patientId + '/avatar', formData).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

@@ -198,7 +198,7 @@ export class OperationFormComponent implements OnInit {
                         });
                         for (let i = 0; i < this.notificationTypes.length; i++) {
                           let newFormGroup = this.fb.group({});
-                          let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
+                          let notificationTypeId = this.notificationTypes[i].notificationTypeId;
                           if (notificationTypesArray.indexOf(this.notificationTypes[i].notificationTypeId) != -1) {
                             var newControl = new FormControl(true);
                           } else {
@@ -210,7 +210,7 @@ export class OperationFormComponent implements OnInit {
                       } else {
                         for (let i = 0; i < this.notificationTypes.length; i++) {
                           let newFormGroup = this.fb.group({});
-                          let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
+                          let notificationTypeId = this.notificationTypes[i].notificationTypeId;
                           var newControl = new FormControl(true);
                           newFormGroup.addControl(notificationTypeId, newControl);
                           notificationsFormControlArray.push(newFormGroup);
@@ -305,7 +305,7 @@ export class OperationFormComponent implements OnInit {
     let i;
     for (i = 0; i < this.notificationTypes.length; i++) {
       let newFormGroup = this.fb.group({});
-      let notificationTypeId = this.notificationTypes[i].notificationTypeId.toString();
+      let notificationTypeId = this.notificationTypes[i].notificationTypeId;
       var newControl = new FormControl(true);
       newFormGroup.addControl(notificationTypeId, newControl);
       notificationsFormControlArray.push(newFormGroup);
@@ -495,7 +495,7 @@ export class OperationFormComponent implements OnInit {
               });
               var count = 0;
               var finalCount = notificationsToAdd.length;
-              notificationsToAdd.forEach((notificationTypeId: number) => {
+              notificationsToAdd.forEach((notificationTypeId: string) => {
                 var notificationReceipientPostBody = {
                   notificationOperationContactId: operationContactId,
                   notificationOperationId: this.operation.operationId,
@@ -537,7 +537,10 @@ export class OperationFormComponent implements OnInit {
       );
 
       // Passing E2E
+
+      var lastCount = 0;
       this.operationContactsToEdit.forEach((operationContact: OperationContact, idx: number) => {
+        lastCount++;
         let formContact = formSubmission.operationContacts[idx];
         let operationContactPut = this.operationContactPutFactory(formContact);
         this.operationContactsService
@@ -553,12 +556,12 @@ export class OperationFormComponent implements OnInit {
             formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {
               // Add to our notification add array if the value of the notificationTypeId (key) is true
               if (notificationType[Object.keys(notificationType)[0]] == true) {
-                notificationsToAdd.push(parseInt(Object.keys(notificationType)[0]));
+                notificationsToAdd.push(Object.keys(notificationType)[0]);
               }
             });
             var count = 0;
             var finalCount = notificationsToAdd.length;
-            notificationsToAdd.forEach((notificationTypeId: number) => {
+            notificationsToAdd.forEach((notificationTypeId: string) => {
               var notificationReceipientPostBody = {
                 notificationOperationContactId: operationContactId,
                 notificationOperationId: this.operation.operationId,
@@ -571,7 +574,9 @@ export class OperationFormComponent implements OnInit {
                 .subscribe(() => {
                   count++;
                   let operationPut = this.operationPutFactory(formSubmission);
-                  if (count == finalCount) {
+                  console.log(count);
+                  console.log(lastCount);
+                  if (count == finalCount && lastCount == this.operationContactsToEdit.length + 1) {
                     this.operationService
                       .editOperationByOperationId(this.operation.operationId, operationPut)
                       .subscribe(() => {
