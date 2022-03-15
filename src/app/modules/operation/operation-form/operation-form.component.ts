@@ -538,9 +538,7 @@ export class OperationFormComponent implements OnInit {
 
       // Passing E2E
 
-      var lastCount = 0;
       this.operationContactsToEdit.forEach((operationContact: OperationContact, idx: number) => {
-        lastCount++;
         let formContact = formSubmission.operationContacts[idx];
         let operationContactPut = this.operationContactPutFactory(formContact);
         this.operationContactsService
@@ -574,14 +572,13 @@ export class OperationFormComponent implements OnInit {
                 .subscribe(() => {
                   count++;
                   let operationPut = this.operationPutFactory(formSubmission);
-                  console.log(count);
-                  console.log(lastCount);
-                  if (count == finalCount && lastCount == this.operationContactsToEdit.length + 1) {
+                  if (count == finalCount) {
                     this.operationService
                       .editOperationByOperationId(this.operation.operationId, operationPut)
                       .subscribe(() => {
-                        this.toastr.success('Successfully saved operation');
+                        // this.toastr.success('Successfully saved operation');
                         this.userService.updateOperations(this.user);
+                        // callbackMet = true;
                         setTimeout(() => {
                           window.location.href = '/operations/group/' + this.operation.operationGroupId;
                         }, 750);
