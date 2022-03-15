@@ -87,9 +87,7 @@ export class OperationFormComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
-      this.operationGroups = operationGroups;
-    });
+    this.operationGroups = this.user.operationGroups;
 
     if (this.route.snapshot.data.mode == 'add') {
       this.mode.add = true;

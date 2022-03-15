@@ -81,9 +81,7 @@ export class PatientFormComponent implements OnInit {
   ngOnInit() {
     this.currentYear = new Date().getFullYear();
     this.user = this.route.snapshot.data.user;
-    this.operationService.getAllOperations().subscribe((operations: Operation[]) => {
-      this.operations = operations;
-    });
+    this.operations = this.user.operations;
     this.patientService.getPatientDischargeLabels().subscribe((data: any) => {
       this.dischargeLabels = data;
     });
@@ -138,6 +136,7 @@ export class PatientFormComponent implements OnInit {
         .getPatientByPatientId(this.patient.patientId)
         .pipe(take(1))
         .subscribe((data: Patient) => {
+          console.log(data);
           this.patient = data[0];
           let medicalConditions = JSON.parse(this.patient.patientMedicalConditions);
           // Once we've got our data set from JSON, let's re-set the individual properties.
