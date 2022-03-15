@@ -22,6 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { formatDate } from '@angular/common';
+import { UserService } from '@app/modules/user/user.service';
 
 @Component({
   providers: [NgxImageCompressService, PatientService, PatientIntakeQuestionService],
@@ -73,7 +74,8 @@ export class PatientFormComponent implements OnInit {
     private patientService: PatientService,
     private patientContactService: PatientContactService,
     private patientIntakeQuestionService: PatientIntakeQuestionService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -384,7 +386,10 @@ export class PatientFormComponent implements OnInit {
     Are you sure you want to do this?')) {
       this.patientService.deletePatientByPatientId(this.patient.patientId).subscribe(() => {
         this.toastrService.success('Patient Successfully Deleted');
-        window.location.href = '/operations/' + this.patient.patientOperationId + '/patients';
+        this.userService.updateOperations(this.user);
+        setTimeout(() => {
+          window.location.href = '/operations/' + this.patient.patientOperationId + '/patients';
+        }, 750);
       });
     }
   }
@@ -508,11 +513,13 @@ export class PatientFormComponent implements OnInit {
 
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       this.toastrService.success('Successfully edited patient!');
-      debugger;
-      window.location.href = '/operations/' + this.patientForm.get('patient.operation').value + '/patients';
-      if (!this.mode.edit) {
-        this.patientForm.reset();
-      }
+      this.userService.updateOperations(this.user);
+      setTimeout(() => {
+        window.location.href = '/operations/' + this.patientForm.get('patient.operation').value + '/patients';
+        if (!this.mode.edit) {
+          this.patientForm.reset();
+        }
+      }, 750);
     });
   }
   patientContactPutFactory(patientContact: PatientContact): PatientContactPutBody {

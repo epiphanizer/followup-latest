@@ -515,7 +515,10 @@ export class OperationFormComponent implements OnInit {
                         .editOperationByOperationId(this.operation.operationId, operationPut)
                         .subscribe(() => {
                           this.toastr.success('Successfully saved operation');
-                          window.location.href = '/operations/group/' + this.operation.operationGroupId;
+                          this.userService.updateOperations(this.user);
+                          setTimeout(() => {
+                            window.location.href = '/operations/group/' + this.operation.operationGroupId;
+                          }, 750);
                         });
                     }
                   });
@@ -575,7 +578,10 @@ export class OperationFormComponent implements OnInit {
                       .editOperationByOperationId(this.operation.operationId, operationPut)
                       .subscribe(() => {
                         this.toastr.success('Successfully saved operation');
-                        window.location.href = '/operations/group/' + this.operation.operationGroupId;
+                        this.userService.updateOperations(this.user);
+                        setTimeout(() => {
+                          window.location.href = '/operations/group/' + this.operation.operationGroupId;
+                        }, 750);
                       });
                   }
                 });
@@ -614,7 +620,10 @@ export class OperationFormComponent implements OnInit {
                     .editOperationByOperationId(this.operation.operationId, operationPut)
                     .subscribe(() => {
                       this.toastr.success('Successfully saved operation');
-                      window.location.href = '/operations/group/' + this.operation.operationGroupId;
+                      this.userService.updateOperations(this.user);
+                      setTimeout(() => {
+                        window.location.href = '/operations/group/' + this.operation.operationGroupId;
+                      }, 750);
                     });
                 }
               });
@@ -623,7 +632,10 @@ export class OperationFormComponent implements OnInit {
       } else {
         this.operationService.editOperationByOperationId(this.operation.operationId, operationPut).subscribe(() => {
           this.toastr.success('Successfully saved operation');
-          window.location.href = '/operations/group/' + this.operation.operationGroupId;
+          this.userService.updateOperations(this.user);
+          setTimeout(() => {
+            window.location.href = '/operations/group/' + this.operation.operationGroupId;
+          }, 750);
         });
       }
     }
