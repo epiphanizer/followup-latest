@@ -36,14 +36,13 @@ export class OperationOperationListingComponent implements OnInit {
   }
 
   ngOnChanges(changes: any) {
+    console.log(changes);
     if (changes.operationGroup) {
       console.log(changes.operationGroup);
-      if (!changes.operationGroup.firstChange) {
+      if (!changes.operationGroup.currentValue.firstChange) {
         this.operationGroup = changes.operationGroup.currentValue;
-        this.operationsFiltered = this.operations = this.user.operations.filter((operation: Operation) => {
-          return operation.operationGroupId == changes.operationGroup.operationGroupId;
-        });
-        console.log(this.operationsFiltered);
+        this.operationsFiltered = this.operations = this.operationGroup.operations;
+        this.runSortSwitch();
       }
     }
   }
