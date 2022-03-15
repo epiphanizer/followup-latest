@@ -4,12 +4,14 @@ import { catchError, retry, share } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UserPutObject, User, UserLanguage, UserMessage } from './user';
 import { TeamMessage } from '../team/team';
+import { OperationService } from '../operation/operation.service';
+import { Operation, OperationGroup } from '../operation/operation';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private operationService: OperationService) {}
 
   deactivateUserByUserId(userId: string) {
     return this.http.delete('users/' + userId).pipe(
@@ -91,6 +93,25 @@ export class UserService {
     return this.http.put<UserPutObject>('users/' + userId, userPutObject).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
+  }
+
+  updateOperations(user: User) {
+    this.operationService.getOperationsByUserId(user.userId).subscribe(res => {
+      if (res) {
+        user.operations = res;
+      }
+      this.operationService.getOperationGroups().subscribe(res => {
+        if (res) {
+          user.operationGroups = res;
+        }
+        user.operationGroups.forEach((operationGroup: OperationGroup) => {
+          operationGroup.operations = user.operations.filter((operation: Operation) => {
+            return operationGroup.operationGroupId == operation.operationGroupId;
+          });
+        });
+      });
+      localStorage.setItem('followup-user', JSON.stringify(user));
+    });
   }
 
   private handleAsyncError(error: HttpErrorResponse) {

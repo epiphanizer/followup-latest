@@ -23,6 +23,7 @@ import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { Notification } from '@app/modules/notification/notification';
+import { UserService } from '@app/modules/user/user.service';
 
 @Component({
   providers: [PatientCallService, PatientCallNotesService, PatientCallQuestionsService],
@@ -49,6 +50,7 @@ export class PatientDetailComponent implements OnInit {
   patientNextCallQuestions: PatientCallQuestion[];
 
   constructor(
+    private userService: UserService,
     private patientCallService: PatientCallService,
     private notificationService: NotificationService,
     private patientCallNotesService: PatientCallNotesService,
@@ -251,7 +253,7 @@ export class PatientDetailComponent implements OnInit {
           }
         });
       }
-
+      this.userService.updateOperations(this.user);
       let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
 
       if (this.patientCall.finalCall) {

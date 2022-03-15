@@ -105,8 +105,6 @@ export class OperationFormComponent implements OnInit {
     }
     if (this.mode.edit || this.mode.view) {
       this.operation = this.route.snapshot.data.operation;
-      console.log(this.operation);
-      this.operation$ = this.operationService.getOperationByOperationId(this.operation.operationId);
       this.createForm();
       this.armForm();
     } else if (this.mode.add) {
@@ -140,8 +138,7 @@ export class OperationFormComponent implements OnInit {
       });
     }
   }
-  operationChangeEventHandler(operation: Operation) {
-    let operationId = operation.operationId;
+  operationChangeEventHandler(operationId: string) {
     this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
       this.cleanData();
       this.updateOperation(operation);
