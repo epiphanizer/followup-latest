@@ -117,14 +117,6 @@ export class PatientDetailComponent implements OnInit {
     this.patientCall = $event;
 
     if (this.patientCall.patientCallStatusLabel == 'Started') {
-      alert('Please select a call status.');
-      // let element = document.querySelector('#patientCallStatusControls');
-      // if (element) {
-      //   element.scrollIntoView({
-      //     behavior: 'auto',
-      //     block: 'start'
-      //   });
-      // }
       return;
     }
     this.patientCallService.endPatientCall(this.patientCall.patientCallId);
@@ -132,13 +124,6 @@ export class PatientDetailComponent implements OnInit {
      * Change the label, but not the ID.
      */
     this.patientCall.patientCallStatusLabel = 'In Review';
-    // let element = document.querySelector('#patientCallNotesForm');
-    // if (element) {
-    //   element.scrollIntoView({
-    //     behavior: 'auto',
-    //     block: 'start'
-    //   });
-    // }
   }
 
   patientCallStatusLabelChangeHandler($event: string) {
@@ -188,13 +173,6 @@ export class PatientDetailComponent implements OnInit {
     this.patientCall = $event;
     if (!this.patientCallNotes) {
       alert('Please add patient call notes');
-      // let element = document.querySelector('#patientCallNotesForm');
-      // if (element) {
-      //   element.scrollIntoView({
-      //     behavior: 'auto',
-      //     block: 'start'
-      //   });
-      // }
       return;
     }
 
@@ -212,18 +190,6 @@ export class PatientDetailComponent implements OnInit {
         this.patientCallNotesHighlighted
       )
       .subscribe(() => {});
-
-    if (!this.patientCallQuestionAnswers) {
-      // alert('Please select an answer to at least one question.');
-      // let element = document.querySelector('#patientCallNotesForm');
-      // if (element) {
-      //   element.scrollIntoView({
-      //     behavior: 'auto',
-      //     block: 'start'
-      //   });
-      // }
-      // return;
-    }
 
     if (!this.patientNextCall.date && !this.patientCall.finalCall) {
       alert('Please schedule a call date.');
@@ -253,12 +219,14 @@ export class PatientDetailComponent implements OnInit {
           }
         });
       }
-      this.userService.updateOperations(this.user);
       let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
 
       if (this.patientCall.finalCall) {
         this.toastrService.success('Successfully Saved');
-        window.location.href = navigateToUrl;
+        this.userService.updateOperations(this.user);
+        setTimeout(() => {
+          window.location.href = navigateToUrl;
+        }, 750);
       } else {
         /**
          * Doing it this way stops some cross-browser parsing things
@@ -283,7 +251,11 @@ export class PatientDetailComponent implements OnInit {
                     .subscribe((data: any) => {
                       itemsProcessed++;
                       if (itemsProcessed === this.patientNextCallQuestions.length) {
-                        window.location.href = navigateToUrl;
+                        this.toastrService.success('Successfully Saved');
+                        this.userService.updateOperations(this.user);
+                        setTimeout(() => {
+                          window.location.href = navigateToUrl;
+                        }, 750);
                       }
                     });
                 } else {
@@ -292,7 +264,10 @@ export class PatientDetailComponent implements OnInit {
               });
             } else {
               this.toastrService.success('Successfully Saved');
-              window.location.href = navigateToUrl;
+              this.userService.updateOperations(this.user);
+              setTimeout(() => {
+                window.location.href = navigateToUrl;
+              }, 750);
             }
           });
       }

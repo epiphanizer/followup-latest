@@ -96,6 +96,8 @@ export class UserService {
   }
 
   updateOperations(user: User) {
+    console.log('updating user ops');
+    console.log(user);
     this.operationService.getOperationsByUserId(user.userId).subscribe(res => {
       if (res) {
         user.operations = res;
@@ -110,8 +112,10 @@ export class UserService {
           });
         });
       });
+      console.log('setting new user item');
       localStorage.setItem('followup-user', JSON.stringify(user));
     });
+    console.log(localStorage.getItem('followup-user'));
   }
 
   private handleAsyncError(error: HttpErrorResponse) {
