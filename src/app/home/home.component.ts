@@ -85,7 +85,9 @@ export class HomeComponent implements OnInit {
             }
             this.userService.getUserNotifications(this.user).subscribe((data: any) => {
               if (data) {
-                this.notificationsSent.notifications = data[0].notifications;
+                console.log(data);
+                this.notificationsSent.notifications = data;
+                this.notificationsSent.user = data.length;
                 var today = new Date();
                 var lastweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
                 this.notificationsSent.notifications.forEach((notification: any) => {
