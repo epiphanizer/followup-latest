@@ -1,6 +1,9 @@
 ion-content {
   padding-bottom: 132px;
 }
+body.backdrop {
+  background: rgba(0, 0, 0, 0.1);
+}
 
 .operation-sidebar {
   max-width: 172px;
@@ -281,6 +284,9 @@ form {
     clear: both;
   }
 
+  span.add-group-label {
+    cursor: pointer;
+  }
   ion-input {
     font-family: Avenir;
     font-size: 14px;
@@ -715,4 +721,18 @@ button {
   ion-label {
     font-size: 11px;
   }
+}
+.modal {
+  position: absolute;
+  z-index: 20001;
+  display: block;
+  background: white;
+  text-align: center;
+  padding: 2rem;
+  width: 300px;
+  height: 300px;
+  margin-left: 33%;
+  margin-top: 4rem;
+  border: navy;
+  border-radius: 1px;
 }

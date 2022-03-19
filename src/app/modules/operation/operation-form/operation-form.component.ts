@@ -83,7 +83,8 @@ export class OperationFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
-    private userService: UserService
+    private userService: UserService,
+    private modalService: ModalController
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
@@ -675,8 +676,14 @@ export class OperationFormComponent implements OnInit {
     }
   }
 
-  addOperationGroup() {
+  addOperationGroupForm() {
     this.addOperationGroupModalOn = true;
+  }
+  closeOperationGroupForm() {
+    this.addOperationGroupModalOn = false;
+  }
+  addOperationGroup() {
+    alert('adding ops group');
   }
   ngOnDestroy() {
     this.operationContacts = null;

@@ -83,17 +83,23 @@
                 </ion-select-option>
               </ion-select>
             </ion-item>
-            <!-- <span class="ion-float-right add-contact-label" (click)="addOperationGroup()">Add Group</span> -->
-            <ion-modal *ngIf="addOperationGroupModalOn" [isOpen]="addOperationGroupModalOn">
-              <input type="text" placeholder="Operation Group Name" />
-
-              <button *ngIf="!mode.view" class="ion-float-right secondary button" (click)="cancelModal()">
-                Close
-              </button>
-              <button *ngIf="!mode.view" class="ion-float-right primary button" (click)="onFormSubmit()">
-                Add
-              </button>
-            </ion-modal>
+            <span class="ion-float-right add-contact-label add-group-label" (click)="addOperationGroupForm()"
+              >Add Group</span
+            >
+            <div class="modal" *ngIf="addOperationGroupModalOn">
+              <ion-label color="medium" position="stacked"
+                >Operation Group Name <span style="color:#f1624a">*</span></ion-label
+              >
+              <ion-input type="text" placeholder="Operation Group Name" inputCapitalizeFirst></ion-input>
+              <ion-buttons>
+                <button *ngIf="!mode.view" class="ion-float-right secondary button" (click)="closeOperationGroupForm()">
+                  Cancel
+                </button>
+                <button *ngIf="!mode.view" class="ion-float-right primary button" (click)="addOperationGroup()">
+                  Save
+                </button>
+              </ion-buttons>
+            </div>
             <ion-item class="operation-name">
               <ion-label color="medium" position="stacked">Facility <span style="color:#f1624a">*</span></ion-label>
               <ion-input type="text" formControlName="operationName" placeholder="Facility" inputCapitalizeFirst>
