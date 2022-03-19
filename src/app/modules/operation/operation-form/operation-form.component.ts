@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit, Injectable, ChangeDetectorRef } from '@angular/core';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -85,7 +85,7 @@ export class OperationFormComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private userService: UserService,
-    private modalService: ModalController
+    private cdr: ChangeDetectorRef
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
@@ -132,7 +132,6 @@ export class OperationFormComponent implements OnInit {
       let operationId = this.route.snapshot.data.operation.operationId;
       this.operationService.getOperationByOperationId(operationId).subscribe((operation: Operation) => {
         this.cleanData();
-        console.log(operation);
         this.updateOperation(operation);
         this.updateOperationContacts();
       });
@@ -691,14 +690,19 @@ export class OperationFormComponent implements OnInit {
     let formSubmission = this.addOperationGroupFormControl.getRawValue();
     var operationGroupName = formSubmission.operationGroupName;
     var operationGroupShortName = formSubmission.operationGroupShortName;
-    console.log(formSubmission);
     this.operationService
       .addNewOperationGroup(operationGroupName, operationGroupShortName)
       .subscribe((operationGroup: any) => {
-        console.log(operationGroup);
-        this.toastr.success('Successfully added operation group');
-        this.operationGroups.push(operationGroup);
-        this.addOperationGroupModalOn = false;
+        if (operationGroup) {
+          this.toastr.success('Successfully added operation group');
+          this.operationGroups.push(operationGroup[0]);
+          this.user.operationGroups = this.operationGroups;
+          this.addOperationGroupModalOn = false;
+          this.cdr.detectChanges();
+        } else {
+          alert('Oops! Something went wrong, please contact your tech support');
+          this.addOperationGroupModalOn = false;
+        }
       });
   }
   ngOnDestroy() {
