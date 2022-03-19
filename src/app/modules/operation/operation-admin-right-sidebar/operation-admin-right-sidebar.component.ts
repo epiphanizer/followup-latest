@@ -71,6 +71,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   callRepSidebarDropdownOpen: boolean = true;
 
   isOpen: boolean = true;
+
   operationAssignedUsers: any[];
   operationAssignedUsersToAdd: OperationCallRep[];
   operationAssignedUsersOriginal: string[];
@@ -78,7 +79,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
 
   operationManagers: any[];
   operationManagersToAdd: OperationManager[];
-  operationManagersOriginal: OperationManager[];
+  operationManagersOriginal: string[];
   operationManagersToRemove: string[] = [];
 
   constructor(
@@ -152,7 +153,10 @@ export class OperationAdminRightSidebarComponent implements OnInit {
             this.operationAssignedUsers = users.filter(user => {
               return user.userRoleLabel != 'Manager' && user.userRoleLabel != 'Admin';
             });
-            this.operationAssignedUsersOriginal = this.operationAssignedUsers;
+            this.operationAssignedUsersOriginal = this.operationAssignedUsers.map(function(user) {
+              return user.userId;
+            });
+            console.log(this.operationAssignedUsersOriginal);
           } else {
             if (!this.mode.edit) {
               this.callRepSidebarDropdownOpen = false;
@@ -167,6 +171,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       .subscribe();
   }
   getAssignedManagers() {
+    this.operationManagers = [];
     this.operationService
       .getOperationManagersByOperationId(this.activeOperationId)
       .pipe(
@@ -174,14 +179,20 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         map((managers: OperationManager[]) => {
           if (managers) {
             this.operationManagers = managers;
-            this.operationManagersOriginal = this.operationManagers;
+            this.operationManagersOriginal = this.operationManagers.map(function(manager) {
+              return manager.userId;
+            });
           } else {
-            this.operationManagers = this.operationManagersOriginal = [
-              {
-                userId: null,
-                operationId: null
+            if (!this.mode.edit) {
+              this.managerSidebarDropdownOpen = false;
+            } else {
+              for (var i = 0; i < 1; i++) {
+                this.operationManagers.push({
+                  userId: null,
+                  operationId: null
+                });
               }
-            ];
+            }
           }
         })
       )
@@ -279,14 +290,22 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     /**
      * Make sure we only add uniques
      */
-    this.operationManagersToAdd = this.operationManagers.filter((operationManager: OperationManager, index: number) => {
-      return (
-        !this.operationAssignedUsersOriginal[index].includes(operationManager.userId) && operationManager.userId !== ''
+    if (this.operationManagersOriginal.length) {
+      console.log(this.operationManagersOriginal);
+      this.operationManagersToAdd = this.operationManagers.filter(
+        (operationManager: OperationManager, index: number) => {
+          return (
+            !this.operationManagersOriginal[index].includes(operationManager.userId) && operationManager.userId !== ''
+          );
+        }
       );
-    });
+    }
+    if (!this.operationManagersToAdd.length) {
+      return;
+    }
     let count = 0;
     this.operationManagersToAdd = Array.from(new Set(this.operationManagersToAdd));
-    this.operationAssignedUsersToAdd.forEach((manager: OperationManager) => {
+    this.operationManagersToAdd.forEach((manager: OperationManager) => {
       this.operationService
         .assignManagerToOperationByOperationIdAndUserId(this.operation.operationId, manager.userId)
         .subscribe(() => {
