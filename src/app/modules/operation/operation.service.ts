@@ -15,6 +15,17 @@ export class OperationService {
     );
   }
 
+  addNewOperationGroup(operationGroupName: string, operationGroupShortName: string): Observable<OperationGroup> {
+    return this.http
+      .post<OperationGroup>('operations/groups', {
+        operationGroupName: operationGroupName,
+        operationGroupShortName: operationGroupShortName
+      })
+      .pipe(
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
+  }
+
   public assignManagerToOperationByOperationIdAndUserId(operationId: string, userId: string) {
     return this.http.post('operations/' + operationId + '/managers/' + userId, {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error

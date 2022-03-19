@@ -45,6 +45,7 @@ import { ModalController } from '@ionic/angular';
 export class OperationFormComponent implements OnInit {
   addOperationGroupModal: ModalController;
   addOperationGroupModalOn: boolean = false;
+  addOperationGroupFormControl: FormGroup;
   availableUsers: User[];
   availableManagers: User[];
   operation: Operation;
@@ -678,12 +679,27 @@ export class OperationFormComponent implements OnInit {
 
   addOperationGroupForm() {
     this.addOperationGroupModalOn = true;
+    this.addOperationGroupFormControl = this.fb.group({
+      operationGroupName: this.fb.control(''),
+      operationGroupShortName: this.fb.control('')
+    });
   }
   closeOperationGroupForm() {
     this.addOperationGroupModalOn = false;
   }
   addOperationGroup() {
-    alert('adding ops group');
+    let formSubmission = this.addOperationGroupFormControl.getRawValue();
+    var operationGroupName = formSubmission.operationGroupName;
+    var operationGroupShortName = formSubmission.operationGroupShortName;
+    console.log(formSubmission);
+    this.operationService
+      .addNewOperationGroup(operationGroupName, operationGroupShortName)
+      .subscribe((operationGroup: any) => {
+        console.log(operationGroup);
+        this.toastr.success('Successfully added operation group');
+        this.operationGroups.push(operationGroup);
+        this.addOperationGroupModalOn = false;
+      });
   }
   ngOnDestroy() {
     this.operationContacts = null;
