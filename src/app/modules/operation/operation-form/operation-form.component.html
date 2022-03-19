@@ -86,20 +86,20 @@
             <span class="ion-float-right add-contact-label add-group-label" (click)="addOperationGroupForm()"
               >Add Group</span
             >
-            <div class="modal" *ngIf="addOperationGroupModalOn">
+            <ion-modal class="modal" *ngIf="addOperationGroupModalOn">
               <ion-label color="medium" position="stacked"
                 >Operation Group Name <span style="color:#f1624a">*</span></ion-label
               >
               <ion-input type="text" placeholder="Operation Group Name" inputCapitalizeFirst></ion-input>
               <ion-buttons>
-                <button *ngIf="!mode.view" class="ion-float-right secondary button" (click)="closeOperationGroupForm()">
-                  Cancel
-                </button>
                 <button *ngIf="!mode.view" class="ion-float-right primary button" (click)="addOperationGroup()">
                   Save
                 </button>
+                <button *ngIf="!mode.view" class="ion-float-right secondary button" (click)="closeOperationGroupForm()">
+                  Cancel
+                </button>
               </ion-buttons>
-            </div>
+            </ion-modal>
             <ion-item class="operation-name">
               <ion-label color="medium" position="stacked">Facility <span style="color:#f1624a">*</span></ion-label>
               <ion-input type="text" formControlName="operationName" placeholder="Facility" inputCapitalizeFirst>

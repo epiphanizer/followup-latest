@@ -728,11 +728,35 @@ button {
   display: block;
   background: white;
   text-align: center;
-  padding: 2rem;
+  padding: 1rem 2rem;
   width: 300px;
-  height: 300px;
   margin-left: 33%;
-  margin-top: 4rem;
-  border: navy;
-  border-radius: 1px;
+  margin-top: 2rem;
+  height: 160px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  ::ng-deep ion-backdrop {
+    display: none !important;
+  }
+  ion-buttons {
+    display: block;
+  }
+  ion-label {
+    font-family: AvenirPro;
+    font-size: 18px;
+    float: left;
+    margin-bottom: 1rem;
+    padding-left: 0;
+    font-weight: 800;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: 0.3px;
+    text-align: left;
+    color: #222222;
+  }
+  ion-input {
+    text-align: left;
+    margin-top: 0.5rem;
+    margin-bottom: -1rem;
+  }
 }
