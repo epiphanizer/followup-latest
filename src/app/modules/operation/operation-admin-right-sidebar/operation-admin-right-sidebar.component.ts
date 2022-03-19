@@ -158,7 +158,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
             this.operationAssignedUsersOriginal = this.operationAssignedUsers.map(function(user) {
               return user.userId;
             });
-            console.log(this.operationAssignedUsersOriginal);
           } else {
             if (!this.mode.edit) {
               this.callRepSidebarDropdownOpen = false;
@@ -247,7 +246,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
         .subscribe(() => {
           count++;
-          if (count == this.operationAssignedUsers.length) {
+          if (count == this.operationAssignedUsersToAdd.length) {
             this.toastr.success('Care Reps successfully saved');
           }
         });
@@ -294,7 +293,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
      * Make sure we only add uniques
      */
     if (this.operationManagersOriginal.length) {
-      console.log(this.operationManagersOriginal);
       this.operationManagersToAdd = this.operationManagers.filter(
         (operationManager: OperationManager, index: number) => {
           if (this.operationManagersOriginal[index]) {
@@ -307,7 +305,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         }
       );
     }
-    console.log(this.operationManagersToAdd);
     if (!this.operationManagersToAdd.length) {
       return;
     }
