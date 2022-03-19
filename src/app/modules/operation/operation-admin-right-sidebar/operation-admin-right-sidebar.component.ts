@@ -76,8 +76,10 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   operationAssignedUsersOriginal: string[];
   operationAssignedUsersToRemove: string[] = [];
 
-  operationManagers: OperationManager[];
+  operationManagers: any[];
+  operationManagersToAdd: OperationManager[];
   operationManagersOriginal: OperationManager[];
+  operationManagersToRemove: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -148,10 +150,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         map((users: User[]) => {
           if (users) {
             this.operationAssignedUsers = users.filter(user => {
-              return user.userRoleType != 'Manager';
-            });
-            this.operationAssignedUsers = this.operationAssignedUsers.filter((operationCallRep: OperationCallRep) => {
-              return operationCallRep.userRoleLabel != 'Manager';
+              return user.userRoleLabel != 'Manager' && user.userRoleLabel != 'Admin';
             });
             this.operationAssignedUsersOriginal = this.operationAssignedUsers;
           } else {
@@ -175,7 +174,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         map((managers: OperationManager[]) => {
           if (managers) {
             this.operationManagers = managers;
-            this.operationManagersOriginal = managers;
+            this.operationManagersOriginal = this.operationManagers;
           } else {
             this.operationManagers = this.operationManagersOriginal = [
               {
@@ -256,6 +255,30 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       operationId: this.operation.operationId,
       userId: managerUserId
     };
+    console.log(operationManagerObject);
+    this.operationManagers[index] = operationManagerObject;
+    // Passes E2E
+    if (this.operationAssignedUsersToRemove.length) {
+      this.operationAssignedUsersToRemove.forEach((callRepUserId: string, index: number) => {
+        if (callRepUserId == '') {
+          return;
+        }
+        this.operationCallRepsService
+          .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
+          .subscribe(() => {});
+      });
+    }
+
+    /**
+     * Make sure we only add uniques
+     */
+    this.operationManagersToAdd = this.operationManagers.filter((operationManager: OperationManager, index: number) => {
+      return (
+        !this.operationAssignedUsersOriginal[index].includes(operationManager.userId) && operationManager.userId !== ''
+      );
+    });
+    let count = 0;
+
     // this.operationManagers = operationManagerObject;
 
     // // Don't process default manager entry

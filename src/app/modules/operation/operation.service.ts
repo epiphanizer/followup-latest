@@ -2,7 +2,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../user/user';
-import { Operation, OperationPutBody, OperationManager, OperationGroup } from './operation';
+import { Operation, OperationPutBody, OperationManager, OperationGroup, OperationCallRep } from './operation';
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -88,7 +88,7 @@ export class OperationService {
     );
   }
 
-  public getUsersAssignedByOperationId(operationId: string): Observable<User[]> {
+  public getUsersAssignedByOperationId(operationId: string): Observable<User[] | OperationCallRep[]> {
     return this.http.get<Array<User>>('operations/' + operationId + '/users').pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))

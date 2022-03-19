@@ -7,7 +7,7 @@ export interface User {
   userId: string;
   teamId?: string;
   userLevel: string;
-  userRoleType?: string;
+  userRoleLabel?: string;
   username: string;
   userEmail: string;
   avatarData?: Blob;
