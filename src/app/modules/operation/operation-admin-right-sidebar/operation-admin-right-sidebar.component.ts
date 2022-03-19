@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import {
   trigger,
   state,
@@ -83,6 +83,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   operationManagersToRemove: string[] = [];
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private logService: LogService,
     private operationService: OperationService,
@@ -153,6 +154,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
             this.operationAssignedUsers = users.filter(user => {
               return user.userRoleLabel != 'Manager' && user.userRoleLabel != 'Admin';
             });
+            this.cdr.detectChanges();
             this.operationAssignedUsersOriginal = this.operationAssignedUsers.map(function(user) {
               return user.userId;
             });
@@ -182,6 +184,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
             this.operationManagersOriginal = this.operationManagers.map(function(manager) {
               return manager.userId;
             });
+            this.cdr.detectChanges();
           } else {
             if (!this.mode.edit) {
               this.managerSidebarDropdownOpen = false;
@@ -294,12 +297,17 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       console.log(this.operationManagersOriginal);
       this.operationManagersToAdd = this.operationManagers.filter(
         (operationManager: OperationManager, index: number) => {
-          return (
-            !this.operationManagersOriginal[index].includes(operationManager.userId) && operationManager.userId !== ''
-          );
+          if (this.operationManagersOriginal[index]) {
+            return (
+              !this.operationManagersOriginal[index].includes(operationManager.userId) && operationManager.userId !== ''
+            );
+          } else {
+            return operationManager;
+          }
         }
       );
     }
+    console.log(this.operationManagersToAdd);
     if (!this.operationManagersToAdd.length) {
       return;
     }
@@ -310,7 +318,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         .assignManagerToOperationByOperationIdAndUserId(this.operation.operationId, manager.userId)
         .subscribe(() => {
           count++;
-          if (count == this.operationManagers.length) {
+          if (count == this.operationManagersToAdd.length) {
             this.toastr.success('Manager successfully saved');
           }
         });

@@ -32,7 +32,7 @@
               <ion-select-option
                 *ngFor="let user of availableUsers"
                 [value]="user.userId"
-                [selected]="user.userId == operationManager?.userId"
+                [selected]="user.userId == manager?.userId"
               >
                 {{ user.userLastName }}, {{ user.userFirstName }}
               </ion-select-option>
