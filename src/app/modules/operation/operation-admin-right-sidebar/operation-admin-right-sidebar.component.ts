@@ -248,6 +248,14 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     };
     this.operationAssignedUsers.push(newCallRep);
   }
+  addAdditionalOperationManager() {
+    let newManager = {
+      userId: 0,
+      operationId: this.operation.operationId,
+      operationManagerName: ''
+    };
+    this.operationManagers.push(newManager);
+  }
   managerOnSelect(event: any, index: number) {
     let managerUserId = event.target.value;
 
@@ -255,16 +263,15 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       operationId: this.operation.operationId,
       userId: managerUserId
     };
-    console.log(operationManagerObject);
     this.operationManagers[index] = operationManagerObject;
     // Passes E2E
-    if (this.operationAssignedUsersToRemove.length) {
-      this.operationAssignedUsersToRemove.forEach((callRepUserId: string, index: number) => {
-        if (callRepUserId == '') {
+    if (this.operationManagersToRemove.length) {
+      this.operationManagersToRemove.forEach((manager: string, index: number) => {
+        if (manager == '') {
           return;
         }
-        this.operationCallRepsService
-          .deleteOperationCallRepByOperationCallRepId(this.operation.operationId, callRepUserId)
+        this.operationService
+          .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, manager)
           .subscribe(() => {});
       });
     }
@@ -278,35 +285,17 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       );
     });
     let count = 0;
-
-    // this.operationManagers = operationManagerObject;
-
-    // // Don't process default manager entry
-    // if (managerUserId == 0) {
-    //   return;
-    // }
-    // if (this.operationManagerOriginal.userId) {
-    //   this.operationService
-    //     .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, this.operationManagerOriginal.userId)
-    //     .subscribe(() => {
-    //       this.operationService
-    //         .assignManagerToOperationByOperationIdAndUserId(
-    //           this.operationManager.operationId,
-    //           this.operationManager.userId
-    //         )
-    //         .subscribe(() => {
-    //           this.operationManagerOriginal = this.operationManager;
-    //           this.toastr.success('Manager successfully Added');
-    //         });
-    //     });
-    // } else {
-    //   this.operationService
-    //     .assignManagerToOperationByOperationIdAndUserId(this.operationManager.operationId, this.operationManager.userId)
-    //     .subscribe(() => {
-    //       this.operationManagersOriginal = this.operationManagers;
-    //       this.toastr.success('Manager successfully Added');
-    //     });
-    // }
+    this.operationManagersToAdd = Array.from(new Set(this.operationManagersToAdd));
+    this.operationAssignedUsersToAdd.forEach((manager: OperationManager) => {
+      this.operationService
+        .assignManagerToOperationByOperationIdAndUserId(this.operation.operationId, manager.userId)
+        .subscribe(() => {
+          count++;
+          if (count == this.operationManagers.length) {
+            this.toastr.success('Manager successfully saved');
+          }
+        });
+    });
   }
   public toggleOperationManagersAssignedMenu = function() {
     this.managerSidebarDropdownOpen = !this.managerSidebarDropdownOpen;

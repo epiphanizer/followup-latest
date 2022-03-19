@@ -43,6 +43,9 @@
               </span>
             </ng-template>
           </ion-item>
+          <div class="controls">
+            <a *ngIf="mode.add || mode.edit" class="add-members" (click)="addAdditionalOperationManager()">+ Manager</a>
+          </div>
         </ion-list>
       </div>
     </fieldset>
