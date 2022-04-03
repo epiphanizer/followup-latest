@@ -32,12 +32,11 @@ export class OperationListingComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.operationGroups = this.user.operationGroups;
     this.route.paramMap.subscribe((data: any) => {
-      console.log('param map stuff');
       if (data.params.operationGroupId) {
         this.selected.operationGroup = this.operationGroups.filter(operationGroup => {
           return data.params.operationGroupId == operationGroup.operationGroupId;
         })[0];
-        console.log(this.selected.operationGroup);
+
         this._cdr.detectChanges();
       } else {
         this.selected.operationGroup = this.user.operationGroups[0];

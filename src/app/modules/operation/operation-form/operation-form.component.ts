@@ -455,8 +455,6 @@ export class OperationFormComponent implements OnInit {
     // Passing E2E
 
     let formSubmission = this.operationForm.getRawValue();
-    // console.log(formSubmission);
-    // debugger;
     /**
      * In order to see which contacts to add, we
      * filter this.operationContactsOriginal's values
@@ -491,7 +489,7 @@ export class OperationFormComponent implements OnInit {
               var notificationsToAdd = new Array();
               formContact.operationContactNotifications.forEach((notificationType: any | boolean) => {
                 if (notificationType[Object.keys(notificationType)[0]] == true) {
-                  notificationsToAdd.push(parseInt(Object.keys(notificationType)[0]));
+                  notificationsToAdd.push(Object.keys(notificationType)[0]);
                 }
               });
               var count = 0;
@@ -514,10 +512,12 @@ export class OperationFormComponent implements OnInit {
                         .editOperationByOperationId(this.operation.operationId, operationPut)
                         .subscribe(() => {
                           this.toastr.success('Successfully saved operation');
-                          this.userService.updateOperations(this.user);
-                          setTimeout(() => {
-                            window.location.href = '/operations/group/' + this.operation.operationGroupId;
-                          }, 750);
+                          var _this = this;
+                          this.userService.updateOperations(this.user).then(function() {
+                            setTimeout(() => {
+                              window.location.href = '/operations/group/' + _this.operation.operationGroupId;
+                            }, 750);
+                          });
                         });
                     }
                   });
@@ -549,7 +549,6 @@ export class OperationFormComponent implements OnInit {
             operationContactPut
           )
           .subscribe(() => {
-            this.toastr.success('Successfully saved operation contact');
             var operationContactId = operationContact.operationContactId;
             var notificationsToAdd = new Array();
             formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {
@@ -577,12 +576,11 @@ export class OperationFormComponent implements OnInit {
                     this.operationService
                       .editOperationByOperationId(this.operation.operationId, operationPut)
                       .subscribe(() => {
-                        // this.toastr.success('Successfully saved operation');
-                        this.userService.updateOperations(this.user);
-                        // callbackMet = true;
-                        setTimeout(() => {
-                          window.location.href = '/operations/group/' + this.operation.operationGroupId;
-                        }, 750);
+                        var _this = this;
+                        this.toastr.success('Successfully saved operation');
+                        this.userService.updateOperations(this.user).then(function() {
+                          window.location.href = '/operations/group/' + _this.operation.operationGroupId;
+                        });
                       });
                   }
                 });
@@ -621,10 +619,9 @@ export class OperationFormComponent implements OnInit {
                     .editOperationByOperationId(this.operation.operationId, operationPut)
                     .subscribe(() => {
                       this.toastr.success('Successfully saved operation');
-                      this.userService.updateOperations(this.user);
-                      setTimeout(() => {
+                      this.userService.updateOperations(this.user).then(function() {
                         window.location.href = '/operations/group/' + this.operation.operationGroupId;
-                      }, 750);
+                      });
                     });
                 }
               });
@@ -633,10 +630,10 @@ export class OperationFormComponent implements OnInit {
       } else {
         this.operationService.editOperationByOperationId(this.operation.operationId, operationPut).subscribe(() => {
           this.toastr.success('Successfully saved operation');
-          this.userService.updateOperations(this.user);
-          setTimeout(() => {
-            window.location.href = '/operations/group/' + this.operation.operationGroupId;
-          }, 750);
+          var _this = this;
+          this.userService.updateOperations(this.user).then(function() {
+            window.location.href = '/operations/group/' + _this.operation.operationGroupId;
+          });
         });
       }
     }

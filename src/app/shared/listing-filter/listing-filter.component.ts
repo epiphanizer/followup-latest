@@ -35,6 +35,5 @@ export class ListingFilterComponent implements OnInit, OnChanges {
   }
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
-    console.log('dropdown now :' + this.dropdownOpen);
   }
 }

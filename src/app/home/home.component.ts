@@ -85,7 +85,6 @@ export class HomeComponent implements OnInit {
             }
             this.userService.getUserNotifications(this.user).subscribe((data: any) => {
               if (data) {
-                console.log(data);
                 this.notificationsSent.notifications = data;
                 this.notificationsSent.user = data.length;
                 var today = new Date();

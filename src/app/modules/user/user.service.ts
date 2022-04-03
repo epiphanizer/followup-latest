@@ -96,26 +96,26 @@ export class UserService {
   }
 
   updateOperations(user: User) {
-    console.log('updating user ops');
-    console.log(user);
-    this.operationService.getOperationsByUserId(user.userId).subscribe(res => {
-      if (res) {
-        user.operations = res;
-      }
-      this.operationService.getOperationGroups().subscribe(res => {
+    var _this = this;
+    return new Promise(function(resolve, reject) {
+      _this.operationService.getOperationsByUserId(user.userId).subscribe((res: any) => {
         if (res) {
-          user.operationGroups = res;
+          user.operations = res;
         }
-        user.operationGroups.forEach((operationGroup: OperationGroup) => {
-          operationGroup.operations = user.operations.filter((operation: Operation) => {
-            return operationGroup.operationGroupId == operation.operationGroupId;
+        _this.operationService.getOperationGroups().subscribe((res: any) => {
+          if (res) {
+            user.operationGroups = res;
+          }
+          user.operationGroups.forEach((operationGroup: OperationGroup) => {
+            operationGroup.operations = user.operations.filter((operation: Operation) => {
+              return operationGroup.operationGroupId == operation.operationGroupId;
+            });
           });
+          localStorage.setItem('followup-user', JSON.stringify(user));
+          resolve(true);
         });
       });
-      console.log('setting new user item');
-      localStorage.setItem('followup-user', JSON.stringify(user));
     });
-    console.log(localStorage.getItem('followup-user'));
   }
 
   private handleAsyncError(error: HttpErrorResponse) {
