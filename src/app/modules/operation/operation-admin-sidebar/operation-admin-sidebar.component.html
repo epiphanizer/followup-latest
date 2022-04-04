@@ -24,7 +24,7 @@
             class="expand-facilities-trigger"
             [@turnArrow]="
               operationGroup.sidebarDropdownOpen ||
-              operationGroup.operationGroupId == selected.operation?.operationGroupId
+              (operationGroup.operationGroupId == selected.operation?.operationGroupId && !isTouched)
                 ? 'open'
                 : 'closed'
             "
@@ -36,7 +36,7 @@
             class="group-operations"
             [class.show]="
               operationGroup.sidebarDropdownOpen ||
-              operationGroup.operationGroupId == selected.operation?.operationGroupId
+              (operationGroup.operationGroupId == selected.operation?.operationGroupId && !isTouched)
             "
             *ngIf="operationGroup.operations"
           >

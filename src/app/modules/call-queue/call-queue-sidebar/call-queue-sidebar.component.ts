@@ -14,8 +14,7 @@ import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientService } from '@app/modules/patient/patient.service';
-import { Patient } from '@app/modules/patient/patient';
-import { Observable } from 'rxjs';
+
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -63,6 +62,7 @@ export class CallQueueSidebarComponent {
   currentNewDischargeCount: number;
   @Output() operationChangeEvent = new EventEmitter<number>();
   errorFallback: boolean = false;
+  isTouched: boolean = false;
   selected: {
     operation: Operation | null;
   } = {
@@ -146,6 +146,7 @@ export class CallQueueSidebarComponent {
     this.operationGroupChangeEvent.emit(this.activeOperationGroupId);
   };
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
+    if (!this.isTouched) this.isTouched = true;
     operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
   }
 }

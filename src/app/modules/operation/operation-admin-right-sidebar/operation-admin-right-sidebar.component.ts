@@ -227,18 +227,24 @@ export class OperationAdminRightSidebarComponent implements OnInit {
           .subscribe(() => {});
       });
     }
-
-    /**
-     * Make sure we only add uniques
-     */
-    this.operationAssignedUsersToAdd = this.operationAssignedUsers.filter(
-      (operationCallRep: OperationCallRep, index: number) => {
-        return (
-          !this.operationAssignedUsersOriginal[index].includes(operationCallRep.userId) &&
-          operationCallRep.userId !== ''
-        );
-      }
-    );
+    if (this.operationAssignedUsersOriginal?.length) {
+      /**
+       * Make sure we only add uniques
+       */
+      this.operationAssignedUsersToAdd = this.operationAssignedUsers.filter(
+        (operationCallRep: OperationCallRep, index: number) => {
+          return (
+            !this.operationAssignedUsersOriginal[index].includes(operationCallRep.userId) &&
+            operationCallRep.userId !== ''
+          );
+        }
+      );
+    } else {
+      this.operationAssignedUsersToAdd = this.operationAssignedUsers;
+    }
+    if (!this.operationAssignedUsersToAdd) {
+      return;
+    }
     let count = 0;
     this.operationAssignedUsersToAdd = Array.from(new Set(this.operationAssignedUsersToAdd));
     this.operationAssignedUsersToAdd.forEach((operationCallRep: OperationCallRep) => {
@@ -304,8 +310,10 @@ export class OperationAdminRightSidebarComponent implements OnInit {
           }
         }
       );
+    } else {
+      this.operationManagersToAdd = this.operationManagers;
     }
-    if (!this.operationManagersToAdd.length) {
+    if (!this.operationManagersToAdd?.length) {
       return;
     }
     let count = 0;

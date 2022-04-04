@@ -65,7 +65,7 @@ export class OperationAdminSidebarComponent implements OnInit {
   } = {
     operation: null
   };
-
+  isTouched: boolean = false;
   operationGroups: OperationGroup[] = [];
   operationGroups$: Observable<OperationGroup[]>;
   operations: Operation[] = [];
@@ -74,7 +74,6 @@ export class OperationAdminSidebarComponent implements OnInit {
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    console.log(this.user);
     if (!sessionStorage.getItem('operationGroups')) {
       this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
@@ -124,6 +123,7 @@ export class OperationAdminSidebarComponent implements OnInit {
     this.operationGroupChangeEvent.emit(this.activeOperationGroupId);
   };
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
+    if (!this.isTouched) this.isTouched = true;
     operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
   }
 }
