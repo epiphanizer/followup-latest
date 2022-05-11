@@ -67,9 +67,19 @@ export class AuthenticationService {
                     user.operationGroups = res;
                   }
                   user.operationGroups.forEach((operationGroup: OperationGroup) => {
-                    operationGroup.operations = user.operations.filter((operation: Operation) => {
-                      return operationGroup.operationGroupId == operation.operationGroupId;
-                    });
+                    operationGroup.operations = user.operations
+                      .filter((operation: Operation) => {
+                        return operationGroup.operationGroupId == operation.operationGroupId;
+                      })
+                      .sort(function(a: Operation, b: Operation) {
+                        if (a.operationName < b.operationName) {
+                          return -1;
+                        }
+                        if (a.operationName > b.operationName) {
+                          return 1;
+                        }
+                        return 0;
+                      });
                   });
                 });
                 localStorage.setItem('followup-user', JSON.stringify(user));

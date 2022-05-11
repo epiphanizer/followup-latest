@@ -7,6 +7,7 @@ import { User } from '@app/modules/user/user';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { OperationService } from '../operation/operation.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {
@@ -15,7 +16,7 @@ export class UserResolver implements Resolve<User> {
   constructor(
     private authService: AuthenticationService,
     private http: HttpService,
-    private operationService: OperationService
+    private toastrService: ToastrService
   ) {}
   resolve(): Observable<User> {
     if (!this.authService.currentUserValue) {
@@ -30,7 +31,7 @@ export class UserResolver implements Resolve<User> {
     var date = new Date();
     var currentTime = date.getTime();
     if (currentTime > this.user.userLoginExpires) {
-      alert('You have been timed out due to inactivity');
+      this.toastrService.error('You have been timed out due to inactivity');
       this.authService.signOut();
       return;
     }
