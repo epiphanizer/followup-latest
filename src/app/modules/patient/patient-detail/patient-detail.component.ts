@@ -201,8 +201,6 @@ export class PatientDetailComponent implements OnInit {
         this.patientCallNotesHighlighted
       )
       .subscribe((res: any) => {
-        console.log(res);
-        console.log('saved call notes');
         this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
           // Update the call status
           // Talk to our service to answer the existing call questions
@@ -237,7 +235,7 @@ export class PatientDetailComponent implements OnInit {
             var dateArray = this.patientNextCall.date.split('-');
             var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T12:00:00.000Z';
             /**
-             * Passing E2E as of now
+             * Passing E2E
              */
             this.patientCallService
               .addNewPatientCallByPatientId(this.patient.patientId, isoString)
@@ -253,10 +251,9 @@ export class PatientDetailComponent implements OnInit {
                           itemsProcessed++;
                           if (itemsProcessed === this.patientNextCallQuestions.length) {
                             this.toastrService.success('Successfully Saved');
-                            this.userService.updateOperations(this.user);
-                            setTimeout(() => {
+                            this.userService.updateOperations(this.user).then(res => {
                               window.location.href = navigateToUrl;
-                            }, 750);
+                            });
                           }
                         });
                     } else {
@@ -265,10 +262,9 @@ export class PatientDetailComponent implements OnInit {
                   });
                 } else {
                   this.toastrService.success('Successfully Saved');
-                  this.userService.updateOperations(this.user);
-                  setTimeout(() => {
+                  this.userService.updateOperations(this.user).then(res => {
                     window.location.href = navigateToUrl;
-                  }, 750);
+                  });
                 }
               });
           }

@@ -514,9 +514,7 @@ export class OperationFormComponent implements OnInit {
                           this.toastr.success('Successfully saved operation');
                           var _this = this;
                           this.userService.updateOperations(this.user).then(function() {
-                            setTimeout(() => {
-                              window.location.href = '/operations/group/' + _this.operation.operationGroupId;
-                            }, 750);
+                            window.location.href = '/operations/group/' + _this.operation.operationGroupId;
                           });
                         });
                     }

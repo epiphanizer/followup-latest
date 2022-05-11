@@ -384,10 +384,9 @@ export class PatientFormComponent implements OnInit {
     Are you sure you want to do this?')) {
       this.patientService.deletePatientByPatientId(this.patient.patientId).subscribe(() => {
         this.toastrService.success('Patient Successfully Deleted');
-        this.userService.updateOperations(this.user);
-        setTimeout(() => {
+        this.userService.updateOperations(this.user).then(res => {
           window.location.href = '/operations/' + this.patient.patientOperationId + '/patients';
-        }, 750);
+        });
       });
     }
   }
@@ -511,13 +510,13 @@ export class PatientFormComponent implements OnInit {
 
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       this.toastrService.success('Successfully edited patient!');
-      this.userService.updateOperations(this.user);
-      setTimeout(() => {
-        window.location.href = '/operations/' + this.patientForm.get('patient.operation').value + '/patients';
+
+      this.userService.updateOperations(this.user).then(res => {
         if (!this.mode.edit) {
           this.patientForm.reset();
         }
-      }, 750);
+        window.location.href = '/operations/' + this.patientForm.get('patient.operation').value + '/patients';
+      });
     });
   }
   patientContactPutFactory(patientContact: PatientContact): PatientContactPutBody {

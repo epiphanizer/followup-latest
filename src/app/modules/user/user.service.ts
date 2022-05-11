@@ -96,6 +96,7 @@ export class UserService {
   }
 
   updateOperations(user: User) {
+    console.log('hitting update ops');
     var _this = this;
     return new Promise(function(resolve, reject) {
       _this.operationService.getOperationsByUserId(user.userId).subscribe((res: any) => {
@@ -111,6 +112,8 @@ export class UserService {
               return operationGroup.operationGroupId == operation.operationGroupId;
             });
           });
+          console.log('updated user as');
+          console.log(user);
           localStorage.setItem('followup-user', JSON.stringify(user));
           resolve(true);
         });
