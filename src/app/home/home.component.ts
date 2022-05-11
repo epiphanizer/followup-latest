@@ -100,18 +100,33 @@ export class HomeComponent implements OnInit {
                 (parseInt(this.todaysCalls.completed) / parseInt(this.todaysCalls.scheduled)) * 100;
               this.weeklyCallsProgress =
                 (parseInt(this.weeklyCalls.completed) / parseInt(this.weeklyCalls.scheduled)) * 100;
+              if (this.todaysCallsProgress > 100) {
+                this.todaysCallsProgress = 100;
+              }
               this.callsMadeProgress = (parseInt(this.callsMade.callsMade) / parseInt(this.callsMade.totalCalls)) * 100;
+              if (this.callsMadeProgress > 100) {
+                this.callsMadeProgress = 100;
+              }
               this.notificationsProgress =
                 (parseInt(this.notificationsSent.notifications) / parseInt(this.notificationsSent.totalNotifications)) *
                 100;
+              if (this.notificationsProgress > 100) {
+                this.notificationsProgress = 100;
+              }
               this.weeklyCallsToNotificationsPercentage = Math.round(
                 (parseInt(this.weeklyCalls.completed) / this.notificationsSent.weekly
                   ? parseInt(this.notificationsSent.weekly.length)
                   : 0) * 100
               );
+              if (this.weeklyCallsToNotificationsPercentage > 100) {
+                this.weeklyCallsToNotificationsPercentage = 100;
+              }
               this.totalCallsToNotificationsPercentage = Math.round(
                 (this.notificationsSent.totalNotifications / this.callsMade.totalCalls) * 100
               );
+              if (this.totalCallsToNotificationsPercentage > 100) {
+                this.totalCallsToNotificationsPercentage = 100;
+              }
               this.countReady = true;
             });
           });

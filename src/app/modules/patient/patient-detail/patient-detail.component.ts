@@ -222,10 +222,9 @@ export class PatientDetailComponent implements OnInit {
 
           if (this.patientCall.finalCall) {
             this.toastrService.success('Successfully Saved');
-            this.userService.updateOperations(this.user);
-            setTimeout(() => {
+            this.userService.updateOperations(this.user).then(res => {
               window.location.href = navigateToUrl;
-            }, 750);
+            });
           } else {
             /**
              * Doing it this way stops some cross-browser parsing things
