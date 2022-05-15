@@ -67,6 +67,8 @@ export class AuthenticationService {
                     user.operationGroups = res;
                   }
                   user.operationGroups.forEach((operationGroup: OperationGroup) => {
+                    // Could use a stronger approach but this does the trick
+
                     operationGroup.operations = user.operations
                       .filter((operation: Operation) => {
                         return operationGroup.operationGroupId == operation.operationGroupId;
@@ -80,6 +82,10 @@ export class AuthenticationService {
                         }
                         return 0;
                       });
+                  });
+
+                  user.operationGroups = user.operationGroups.filter((operationGroup: OperationGroup) => {
+                    return operationGroup.operations?.length > 0;
                   });
                 });
                 localStorage.setItem('followup-user', JSON.stringify(user));

@@ -110,6 +110,7 @@ export class CallQueueSidebarComponent {
       });
     } else {
       this.operationGroups = this.user.operationGroups;
+      console.log(this.operationGroups);
     }
 
     this.route.paramMap.subscribe((data: any) => {
