@@ -91,7 +91,7 @@ export class ToolbarNavComponent implements OnInit {
             }
           ]
         },
-        minRole: 1
+        minRole: 2
       },
       {
         linkAction: '/patients',

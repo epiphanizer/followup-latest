@@ -96,7 +96,6 @@ export class UserService {
   }
 
   updateOperations(user: User) {
-    console.log('hitting update ops');
     var _this = this;
     return new Promise(function(resolve, reject) {
       _this.operationService.getOperationsByUserId(user.userId).subscribe((res: any) => {
@@ -108,12 +107,26 @@ export class UserService {
             user.operationGroups = res;
           }
           user.operationGroups.forEach((operationGroup: OperationGroup) => {
-            operationGroup.operations = user.operations.filter((operation: Operation) => {
-              return operationGroup.operationGroupId == operation.operationGroupId;
-            });
+            // Could use a stronger approach but this does the trick
+
+            operationGroup.operations = user.operations
+              .filter((operation: Operation) => {
+                return operationGroup.operationGroupId == operation.operationGroupId;
+              })
+              .sort(function(a: Operation, b: Operation) {
+                if (a.operationName < b.operationName) {
+                  return -1;
+                }
+                if (a.operationName > b.operationName) {
+                  return 1;
+                }
+                return 0;
+              });
           });
-          console.log('updated user as');
-          console.log(user);
+
+          user.operationGroups = user.operationGroups.filter((operationGroup: OperationGroup) => {
+            return operationGroup.operations?.length > 0;
+          });
           localStorage.setItem('followup-user', JSON.stringify(user));
           resolve(true);
         });

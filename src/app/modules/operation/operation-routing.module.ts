@@ -17,7 +17,7 @@ const routes: Routes = [
       component: OperationListingComponent,
       canActivate: [AuthGuardService],
       data: {
-        roles: [UserRoles.admin],
+        roles: [UserRoles.admin, UserRoles.manager],
         title: extract('Operations')
       },
       resolve: {
@@ -30,7 +30,7 @@ const routes: Routes = [
       canActivate: [AuthGuardService],
       data: {
         operationGroupId: ':operationGroupId',
-        roles: [UserRoles.admin],
+        roles: [UserRoles.admin, UserRoles.manager],
         title: extract('Operations')
       },
       resolve: {
