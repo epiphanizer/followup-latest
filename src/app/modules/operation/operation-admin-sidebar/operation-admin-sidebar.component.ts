@@ -106,6 +106,19 @@ export class OperationAdminSidebarComponent implements OnInit {
     }
 
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
+    this.route.paramMap.subscribe((data: any) => {
+      var operationId;
+      if (data.params.operationId) {
+        operationId = data.params.operationId;
+      } else {
+        operationId = this.user.operations[0].operationId;
+        this.operations = this.user.operationGroups[0].operations;
+      }
+      this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation) => {
+        this.selected.operation = data[0];
+        this.activeOperationId = this.selected.operation.operationId;
+      });
+    });
   }
 
   setActiveOperation = function(operation: Operation) {

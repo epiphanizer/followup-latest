@@ -87,9 +87,6 @@ export class PatientManagerSidebarComponent implements OnInit {
                 }
               })
             );
-          /**
-           * Busted logic
-           */
           if (idx == 0) {
             operationGroup.sidebarDropdownOpen = true;
           } else {
