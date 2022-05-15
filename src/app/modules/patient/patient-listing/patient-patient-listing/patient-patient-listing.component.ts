@@ -226,6 +226,7 @@ export class PatientPatientListingComponent implements OnInit {
         return patientFullName.toLowerCase().includes(searchText);
       })
       .slice();
+    this.pageOfItems = this.patientsFiltered;
     return this.patientsFiltered;
   }
   onChangePage(pageOfItems: Array<any>) {

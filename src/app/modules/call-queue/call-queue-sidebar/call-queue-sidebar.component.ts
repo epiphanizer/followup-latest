@@ -100,14 +100,11 @@ export class CallQueueSidebarComponent {
                 }
               })
             );
-          /**
-           * Busted logic
-           */
-          if (idx == 0) {
-            operationGroup.sidebarDropdownOpen = true;
-          } else {
-            operationGroup.sidebarDropdownOpen = false;
-          }
+          // if (idx == 0) {
+          //   operationGroup.sidebarDropdownOpen = true;
+          // } else {
+          //   operationGroup.sidebarDropdownOpen = false;
+          // }
         });
         this.operationGroups = operationGroups;
       });
