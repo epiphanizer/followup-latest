@@ -7,7 +7,13 @@
       <ion-grid>
         <ion-row>
           <ion-title *ngIf="!mode.spanish">
-            {{ selected.operation?.operationGroupShortName }} - {{ selected.operation?.operationName }}
+            <!-- {{ selected.operation | json}} -->
+            {{
+              selected.operation?.operationGroupShortName
+                ? selected.operation?.operationGroupShortName
+                : selected.operation?.operationGroupName
+            }}
+            - {{ selected.operation?.operationName }}
           </ion-title>
           <ion-title *ngIf="mode.spanish">Spanish Speaking</ion-title>
         </ion-row>

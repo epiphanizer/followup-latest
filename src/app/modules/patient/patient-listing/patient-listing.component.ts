@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
 import { Patient } from '@app/modules/patient/patient';
 import { Observable } from 'rxjs';
@@ -35,6 +35,7 @@ export class PatientListingComponent implements OnInit {
     | any = {};
   user: User;
   constructor(
+    private _cdr: ChangeDetectorRef,
     private patientService: PatientService,
     private operationService: OperationService,
     private route: ActivatedRoute,
@@ -71,6 +72,7 @@ export class PatientListingComponent implements OnInit {
     this.patients$ = this.patientService.getPatientsByOperationId(this.selected.operation.operationId).pipe(
       map((patients: [Patient]) => {
         this.patients = patients;
+        this._cdr.detectChanges();
         return patients;
       })
     );

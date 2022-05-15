@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -15,15 +15,15 @@ export class PatientPatientListingComponent implements OnInit {
   @Input() operation: Operation;
   public pageOfItems: Patient[];
   public patients: Patient[];
-  public patients$: Observable<Patient[]>;
+  // public patients$: Observable<Patient[]>;
   public patientsFiltered: Patient[];
   public selectedSortFlag: string = 'desc';
   public colDefs = ['Date', 'Patient', 'Sex', 'Patient #', 'Status', 'Completed'];
   public selectedSortOption: string = this.colDefs[0];
-  constructor(private patientService: PatientService) {}
+  constructor(private _cdr: ChangeDetectorRef, private patientService: PatientService) {}
   ngOnInit() {
     if (this.mode.spanish) {
-      this.patients$ = this.patientService.getActiveSpanishPatients().pipe(
+      this.patientService.getActiveSpanishPatients().pipe(
         take(1),
         map((patients: Patient[]) => {
           if (patients) {
@@ -37,38 +37,50 @@ export class PatientPatientListingComponent implements OnInit {
         })
       );
     } else {
-      this.patients$ = this.patientService.getPatientsByOperationId(this.operation.operationId).pipe(
-        take(1),
-        map((patients: Patient[]) => {
-          if (patients) {
-            this.patients = patients;
-            this.patientsFiltered = patients;
-            this.runSortSwitch();
-          } else {
-            this.patientsFiltered = this.patients = [];
-          }
-          return patients;
-        })
-      );
+      this.patientService
+        .getPatientsByOperationId(this.operation.operationId)
+        .pipe(
+          take(1),
+          map((patients: Patient[]) => {
+            if (patients) {
+              this.patients = patients;
+              this.patientsFiltered = patients;
+              this.runSortSwitch();
+            } else {
+              this.patientsFiltered = this.patients = [];
+            }
+            return patients;
+          })
+        )
+        .subscribe();
     }
   }
 
   ngOnChanges(changes: any) {
+    console.log('here');
+    console.log(changes);
     if (changes.operation && !this.mode.spanish) {
       this.patients = [];
       this.operation = changes.operation.currentValue;
-      this.patients$ = this.patientService.getPatientsByOperationId(this.operation.operationId).pipe(
-        map((patients: Patient[]) => {
-          if (patients) {
-            this.patients = patients;
-            this.patientsFiltered = patients;
-            this.runSortSwitch();
-          } else {
-            this.patientsFiltered = this.patients = [];
-          }
-          return this.patients;
-        })
-      );
+      this.patientService
+        .getPatientsByOperationId(this.operation.operationId)
+        .pipe(
+          map((patients: Patient[]) => {
+            console.log(patients);
+            if (patients) {
+              this.patients = patients;
+              this.patientsFiltered = patients;
+              this.runSortSwitch();
+              this.onChangePage(patients);
+            } else {
+              this.patientsFiltered = this.patients = [];
+              this.runSortSwitch();
+              this.onChangePage(this.patients);
+            }
+            return this.patients;
+          })
+        )
+        .subscribe();
     }
   }
   getPatientLink(patient: Patient) {

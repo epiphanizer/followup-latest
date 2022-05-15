@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Output } from '@angular/core';
 import { User } from '@app/modules/user/user';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -23,7 +23,11 @@ export class CallQueueComponent implements OnInit {
       }
     | any = {};
   user: User;
-  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private _cdr: ChangeDetectorRef,
+    private operationService: OperationService
+  ) {}
   ngOnInit() {
     // we only want to default if the operation id is not passed
     this.route.paramMap.subscribe((data: any) => {
@@ -53,5 +57,6 @@ export class CallQueueComponent implements OnInit {
   operationChangeEventHandler($event: Operation) {
     this.mode.spanish = false;
     this.selected.operation = $event;
+    this._cdr.detectChanges();
   }
 }
