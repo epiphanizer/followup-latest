@@ -100,17 +100,11 @@ export class CallQueueSidebarComponent {
                 }
               })
             );
-          // if (idx == 0) {
-          //   operationGroup.sidebarDropdownOpen = true;
-          // } else {
-          //   operationGroup.sidebarDropdownOpen = false;
-          // }
         });
         this.operationGroups = operationGroups;
       });
     } else {
       this.operationGroups = this.user.operationGroups;
-      console.log(this.operationGroups);
     }
 
     this.route.paramMap.subscribe((data: any) => {

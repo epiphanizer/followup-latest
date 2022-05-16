@@ -98,6 +98,5 @@ export class PatientHistoryListingComponent implements OnInit {
       }
       return new Date(createdCompareDate).getTime() - new Date(createdDate).getTime();
     });
-    console.log(this.patientActivity);
   }
 }

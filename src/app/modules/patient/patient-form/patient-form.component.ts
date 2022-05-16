@@ -512,10 +512,11 @@ export class PatientFormComponent implements OnInit {
       this.toastrService.success('Successfully edited patient!');
 
       this.userService.updateOperations(this.user).then(res => {
+        window.location.href = '/operations/' + this.patientForm.get('patient.operation').value + '/patients';
+
         if (!this.mode.edit) {
           this.patientForm.reset();
         }
-        window.location.href = '/operations/' + this.patientForm.get('patient.operation').value + '/patients';
       });
     });
   }
