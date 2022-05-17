@@ -89,9 +89,6 @@ export class NotificationListingSidebarComponent implements OnInit {
                 }
               })
             );
-          /**
-           * Busted logic
-           */
           if (idx == 0) {
             operationGroup.sidebarDropdownOpen = true;
           } else {
@@ -106,16 +103,20 @@ export class NotificationListingSidebarComponent implements OnInit {
 
     this.route.paramMap.subscribe((data: any) => {
       var operationId;
-      if (data.params.operationId) {
-        operationId = data.params.operationId;
+      if (data.params.operation) {
+        operationId = data.params.operation.operationId;
       } else {
         operationId = this.user.operations[0].operationId;
         this.operations = this.user.operationGroups[0].operations;
       }
-      this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation) => {
-        this.selected.operation = data[0];
-        this.activeOperationId = this.selected.operation.operationId;
-      });
+      if (data.params.operation) {
+        this.operationService
+          .getOperationByOperationId(data.params.operation.operationId)
+          .subscribe((data: Operation) => {
+            this.selected.operation = data[0];
+            this.activeOperationId = this.selected.operation.operationId;
+          });
+      }
     });
 
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
