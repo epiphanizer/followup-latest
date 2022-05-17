@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { formatDate } from '@angular/common';
 import {
   trigger,
@@ -71,7 +71,11 @@ export class OperationAdminSidebarComponent implements OnInit {
   operations: Operation[] = [];
   user: User;
   todaysDateDay: string;
-  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private operationService: OperationService,
+    private _cdr: ChangeDetectorRef
+  ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     if (!sessionStorage.getItem('operationGroups')) {
@@ -103,21 +107,37 @@ export class OperationAdminSidebarComponent implements OnInit {
       });
     } else {
       this.operationGroups = this.user.operationGroups;
+      if (!this.route.snapshot.data.operation) {
+        this.operationGroups[0].sidebarDropdownOpen = true;
+      } else {
+        this.operationService
+          .getOperationByOperationId(this.route.snapshot.data.operation.operationId)
+          .subscribe((data: Operation) => {
+            this.selected.operation = data[0];
+            this.activeOperationId = this.selected.operation.operationId;
+          });
+        // do nothing
+      }
+      // this._cdr.detectChanges();
     }
 
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
     this.route.paramMap.subscribe((data: any) => {
       var operationId;
-      if (data.params.operationId) {
-        operationId = data.params.operationId;
+      if (data.params.operation) {
+        operationId = data.params.operation.operationId;
       } else {
         operationId = this.user.operations[0].operationId;
         this.operations = this.user.operationGroups[0].operations;
       }
-      this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation) => {
-        this.selected.operation = data[0];
-        this.activeOperationId = this.selected.operation.operationId;
-      });
+      if (data.params.operation) {
+        this.operationService
+          .getOperationByOperationId(data.params.operation.operationId)
+          .subscribe((data: Operation) => {
+            this.selected.operation = data[0];
+            this.activeOperationId = this.selected.operation.operationId;
+          });
+      }
     });
   }
 

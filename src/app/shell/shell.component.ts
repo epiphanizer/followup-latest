@@ -35,7 +35,6 @@ export class ShellComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private platform: Platform,
     private authenticationService: AuthenticationService,
     public modalController: ModalController,
     private toastrService: ToastrService,
@@ -43,6 +42,8 @@ export class ShellComponent {
   ) {}
   ngOnInit() {
     this.user = this.authenticationService.currentUserSubject.getValue();
+
+    this.updateUserExpiry();
     /**
      * Slated for deprecation
      */
@@ -97,7 +98,6 @@ export class ShellComponent {
         self.toastrService.success('Your session will log out in ' + timeRemaining + ' seconds due to inactivity!');
       }
       if (currentTime > self.user.userLoginExpires) {
-        alert('You have been timed out due to inactivity');
         self.authenticationService.signOut();
       }
     }, 5000);
