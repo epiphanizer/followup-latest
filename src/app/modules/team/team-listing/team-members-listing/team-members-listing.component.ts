@@ -197,6 +197,7 @@ export class TeamMembersListingComponent implements OnInit {
       componentProps: {
         modalType: 'Post A Note',
         teamMember: teamMember,
+        teamId: this.team.teamId,
         userMessage: {
           messageId: 0,
           messageBody: '',

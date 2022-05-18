@@ -23,9 +23,9 @@ export class TeamMessageService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
-  sendTeamMessage = function(userMessage: UserMessage) {
+  sendTeamMessage = function(teamId: string, userMessage: UserMessage) {
     return this.http
-      .post('teams/1/messages/', {
+      .post('teams/' + teamId + '/messages/', {
         teamMessageFromId: userMessage.messageSenderUserId,
         teamMessageRecipientId: userMessage.messageRecipientUserId,
         teamMessageContent: userMessage.messageBody
