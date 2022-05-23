@@ -70,7 +70,6 @@ export class PatientFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private operationService: OperationService,
     private patientService: PatientService,
     private patientContactService: PatientContactService,
     private patientIntakeQuestionService: PatientIntakeQuestionService,

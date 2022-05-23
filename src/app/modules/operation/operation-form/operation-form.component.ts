@@ -469,31 +469,105 @@ export class OperationFormComponent implements OnInit {
       );
 
       /**
+       * We simply filter out those that aren't to be added
+       * by comparing the operationContactId vs. the original array,
+       * and edit the rest.
+       */
+      this.operationContactsToEdit = this.operationContacts.filter(
+        (operationContact: OperationContact, index: number) => {
+          return this.operationContactsToAdd.indexOf(operationContact) == -1;
+        }
+      );
+
+      var count = 0;
+      var finalCount = this.operationContactsToAdd.length;
+      /**
        * We should have a test here
        */
       // Passing E2E
-      this.operationContactsToAdd.forEach((operationContact: OperationContact, idx: number) => {
-        let addOffset = formSubmission.operationContacts.length - 1 - idx;
-        let formContact = formSubmission.operationContacts[addOffset];
+      if (finalCount) {
+        this.operationContactsToAdd.forEach((operationContact: OperationContact, idx: number) => {
+          let addOffset = formSubmission.operationContacts.length - 1 - idx;
+          let formContact = formSubmission.operationContacts[addOffset];
 
-        /**
-         * We get the formContact object from the formSubmission
-         */
-        let operationContactPost = this.operationContactPostFactory(formContact);
-        this.operationContactsService
-          .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
-          .subscribe((data: any) => {
-            if (data !== null) {
-              this.toastr.success('Operation contact successfully added');
-              var operationContactId = data.operationContactId;
+          /**
+           * We get the formContact object from the formSubmission
+           */
+          let operationContactPost = this.operationContactPostFactory(formContact);
+          this.operationContactsService
+            .addOperationContactByOperationId(this.operation.operationId, operationContactPost)
+            .subscribe((data: any) => {
+              if (data !== null) {
+                this.toastr.success('Operation contact successfully added');
+                var operationContactId = data.operationContactId;
+                var notificationsToAdd = new Array();
+                formContact.operationContactNotifications.forEach((notificationType: any | boolean) => {
+                  if (notificationType[Object.keys(notificationType)[0]] == true) {
+                    notificationsToAdd.push(Object.keys(notificationType)[0]);
+                  }
+                });
+                var countLast = 0;
+                var finalCountLast = notificationsToAdd.length;
+                notificationsToAdd.forEach((notificationTypeId: string) => {
+                  var notificationReceipientPostBody = {
+                    notificationOperationContactId: operationContactId,
+                    notificationOperationId: this.operation.operationId,
+                    notificationTypeId: notificationTypeId,
+                    notificationRecipientEmail: formContact.operationContactEmail
+                  };
+                  // Now that we have the contact, we add them to the notification recipients table
+                  this.notificationRecipientService
+                    .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
+                    .subscribe(() => {
+                      countLast++;
+                      let operationPut = this.operationPutFactory(formSubmission);
+                      if (countLast == finalCountLast) {
+                        count++;
+                        if (count == finalCount && !this.operationContactsToEdit.length) {
+                          this.operationService
+                            .editOperationByOperationId(this.operation.operationId, operationPut)
+                            .subscribe(() => {
+                              this.toastr.success('Successfully saved operation');
+                              var _this = this;
+                              this.userService.updateOperations(this.user).then(function() {
+                                window.location.href = '/operations/group/' + _this.operation.operationGroupId;
+                              });
+                            });
+                        }
+                      }
+                    });
+                });
+              }
+            });
+        });
+      }
+
+      // Passing E2E
+
+      var count = 0;
+      var finalCount = this.operationContactsToEdit.length;
+      if (this.operationContactsToEdit.length) {
+        this.operationContactsToEdit.forEach((operationContact: OperationContact, idx: number) => {
+          let formContact = formSubmission.operationContacts[idx];
+          let operationContactPut = this.operationContactPutFactory(formContact);
+          this.operationContactsService
+            .editOperationContactByOperationContactId(
+              this.operation.operationId,
+              operationContact.operationContactId,
+              operationContactPut
+            )
+            .subscribe(() => {
+              var operationContactId = operationContact.operationContactId;
               var notificationsToAdd = new Array();
-              formContact.operationContactNotifications.forEach((notificationType: any | boolean) => {
+              formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {
+                // Add to our notification add array if the value of the notificationTypeId (key) is true
                 if (notificationType[Object.keys(notificationType)[0]] == true) {
                   notificationsToAdd.push(Object.keys(notificationType)[0]);
                 }
               });
-              var count = 0;
-              var finalCount = notificationsToAdd.length;
+              var countLast = 0;
+              var finalCountLast = notificationsToAdd.length;
+              console.log('final count last: ' + finalCountLast);
               notificationsToAdd.forEach((notificationTypeId: string) => {
                 var notificationReceipientPostBody = {
                   notificationOperationContactId: operationContactId,
@@ -505,86 +579,27 @@ export class OperationFormComponent implements OnInit {
                 this.notificationRecipientService
                   .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
                   .subscribe(() => {
-                    count++;
+                    countLast++;
                     let operationPut = this.operationPutFactory(formSubmission);
-                    if (count == finalCount) {
-                      this.operationService
-                        .editOperationByOperationId(this.operation.operationId, operationPut)
-                        .subscribe(() => {
-                          this.toastr.success('Successfully saved operation');
-                          var _this = this;
-                          this.userService.updateOperations(this.user).then(function() {
-                            window.location.href = '/operations/group/' + _this.operation.operationGroupId;
+                    if (countLast == finalCountLast) {
+                      count++;
+                      if (count == finalCount) {
+                        this.operationService
+                          .editOperationByOperationId(this.operation.operationId, operationPut)
+                          .subscribe(() => {
+                            var _this = this;
+                            this.toastr.success('Successfully saved operation');
+                            this.userService.updateOperations(this.user).then(function() {
+                              window.location.href = '/operations/group/' + _this.operation.operationGroupId;
+                            });
                           });
-                        });
+                      }
                     }
                   });
               });
-            }
-          });
-      });
-
-      /**
-       * We simply filter out those that aren't to be added
-       * by comparing the operationContactId vs. the original array,
-       * and edit the rest.
-       */
-      this.operationContactsToEdit = this.operationContacts.filter(
-        (operationContact: OperationContact, index: number) => {
-          return this.operationContactsToAdd.indexOf(operationContact) == -1;
-        }
-      );
-
-      // Passing E2E
-
-      this.operationContactsToEdit.forEach((operationContact: OperationContact, idx: number) => {
-        let formContact = formSubmission.operationContacts[idx];
-        let operationContactPut = this.operationContactPutFactory(formContact);
-        this.operationContactsService
-          .editOperationContactByOperationContactId(
-            this.operation.operationId,
-            operationContact.operationContactId,
-            operationContactPut
-          )
-          .subscribe(() => {
-            var operationContactId = operationContact.operationContactId;
-            var notificationsToAdd = new Array();
-            formContact.operationContactNotifications.forEach((notificationType: any | boolean, index: number) => {
-              // Add to our notification add array if the value of the notificationTypeId (key) is true
-              if (notificationType[Object.keys(notificationType)[0]] == true) {
-                notificationsToAdd.push(Object.keys(notificationType)[0]);
-              }
             });
-            var count = 0;
-            var finalCount = notificationsToAdd.length;
-            notificationsToAdd.forEach((notificationTypeId: string) => {
-              var notificationReceipientPostBody = {
-                notificationOperationContactId: operationContactId,
-                notificationOperationId: this.operation.operationId,
-                notificationTypeId: notificationTypeId,
-                notificationRecipientEmail: formContact.operationContactEmail
-              };
-              // Now that we have the contact, we add them to the notification recipients table
-              this.notificationRecipientService
-                .addNotificationRecipientByOperationContactId(notificationReceipientPostBody)
-                .subscribe(() => {
-                  count++;
-                  let operationPut = this.operationPutFactory(formSubmission);
-                  if (count == finalCount) {
-                    this.operationService
-                      .editOperationByOperationId(this.operation.operationId, operationPut)
-                      .subscribe(() => {
-                        var _this = this;
-                        this.toastr.success('Successfully saved operation');
-                        this.userService.updateOperations(this.user).then(function() {
-                          window.location.href = '/operations/group/' + _this.operation.operationGroupId;
-                        });
-                      });
-                  }
-                });
-            });
-          });
-      });
+        });
+      }
       /**
        * Test
        */
