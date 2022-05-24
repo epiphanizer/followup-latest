@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { HostListener } from '@angular/core';
@@ -38,7 +38,8 @@ export class ShellComponent {
     private authenticationService: AuthenticationService,
     public modalController: ModalController,
     private toastrService: ToastrService,
-    private userCorkBoardService: UserCorkBoardService
+    private userCorkBoardService: UserCorkBoardService,
+    private _cdr: ChangeDetectorRef
   ) {}
   ngOnInit() {
     this.user = this.authenticationService.currentUserSubject.getValue();
@@ -62,6 +63,14 @@ export class ShellComponent {
     });
   }
 
+  @HostListener('window:orientationchange', ['$event'])
+  onOrientationChange(e: any) {
+    if (this.userCorkBoardExpanded) {
+      this.userCorkBoardExpanded = false;
+      this.userCorkBoardService.isOpen = false;
+      this.userCorkBoardService.menuStateBSubject.next(false);
+    }
+  }
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: any) {
     this.updateUserExpiry();

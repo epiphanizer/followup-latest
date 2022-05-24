@@ -1,5 +1,5 @@
 ion-title {
-  font-family: Avenir;
+  font-family: AvenirPro;
   font-size: 45px;
   font-style: normal;
   line-height: 1.11;
@@ -7,6 +7,9 @@ ion-title {
   text-align: left;
   color: #3f3638;
   padding-left: 0;
+  max-width: 780px;
+  overflow: auto;
+  text-transform: capitalize;
   margin-bottom: 2.25rem;
 }
 

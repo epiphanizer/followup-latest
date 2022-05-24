@@ -7,7 +7,7 @@
   </div>
 
   <div class="team-dropdown-container" *ngIf="teams">
-    <a class="team-dropdown-target">THE TEAM<span *ngIf="teams.length > 1">s</span></a>
+    <a class="team-dropdown-target" [routerLink]="'/teams'">THE TEAM<span *ngIf="teams.length > 1">s</span></a>
     <div *ngFor="let team of teams">
       <div class="team-member-container">
         <span class="sidebar-label" (click)="toggleTeamManagerSidebarMenu(team)"
