@@ -85,13 +85,14 @@ export class HomeComponent implements OnInit {
             }
             this.userService.getUserNotifications(this.user).subscribe((data: any) => {
               if (data) {
+                this.notificationsSent.weeklyNotifications = [];
                 this.notificationsSent.notifications = data;
                 this.notificationsSent.user = data.length;
                 var today = new Date();
-                var lastweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+                var lastweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
                 this.notificationsSent.notifications.forEach((notification: any) => {
-                  if (notification.notificationCreatedTime > lastweek) {
-                    this.notificationsSent.weekly.push(notification);
+                  if (Date.parse(notification.notificationCreatedTime) > Date.parse(lastweek.toString())) {
+                    this.notificationsSent.weeklyNotifications.push(notification);
                   }
                 });
               }
@@ -113,9 +114,10 @@ export class HomeComponent implements OnInit {
               if (this.notificationsProgress > 100) {
                 this.notificationsProgress = 100;
               }
+              console.log(this.notificationsSent);
               this.weeklyCallsToNotificationsPercentage = Math.round(
-                (parseInt(this.weeklyCalls.completed) / this.notificationsSent.weekly
-                  ? parseInt(this.notificationsSent.weekly.length)
+                (parseInt(this.weeklyCalls.completed) / this.notificationsSent.weeklyNotifications.length
+                  ? parseInt(this.notificationsSent.weeklyNotifications.length)
                   : 0) * 100
               );
               if (this.weeklyCallsToNotificationsPercentage > 100) {
