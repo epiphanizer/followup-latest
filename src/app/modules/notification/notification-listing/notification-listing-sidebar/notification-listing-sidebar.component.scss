@@ -68,13 +68,18 @@
   .facility-dropdown-target {
     display: block;
     font-family: AvenirBold;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
     margin: 0 0 15px 0px;
     font-size: 20px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.4;
-    letter-spacing: 0px;
+    letter-spacing: -1px;
     text-align: right;
     color: #00b4b9;
   }
