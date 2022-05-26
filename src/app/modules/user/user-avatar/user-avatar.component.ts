@@ -70,6 +70,8 @@ export class UserAvatarComponent implements OnInit {
 
   uploadUserAvatarPhoto() {
     this.imageCompress.uploadFile().then(({ image, orientation }) => {
+      console.log('uploading avatar photo');
+      console.log(image);
       this.imgResultBeforeCompress = image;
       let fileName = this.user.userId + '-avatar';
       // we set orientation to 1 to handle exif data
