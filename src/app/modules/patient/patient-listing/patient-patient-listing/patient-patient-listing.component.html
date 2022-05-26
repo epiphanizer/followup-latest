@@ -29,7 +29,7 @@
       </th>
     </tr>
   </thead>
-  <tbody *ngIf="patients">
+  <tbody *ngIf="patients && pageOfItems.length; else noPatients">
     <tr
       *ngFor="let patient of pageOfItems"
       [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
@@ -67,5 +67,9 @@
 </jw-pagination>
 
 <ng-template #noPatients>
-  Sorry! No patients exist for this operation!
+  <tbody>
+    <p style="font-family: Avenir">
+      Sorry! No patients exist for this operation, or your search is too narrow!
+    </p>
+  </tbody>
 </ng-template>
