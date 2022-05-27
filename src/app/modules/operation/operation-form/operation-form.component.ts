@@ -280,7 +280,6 @@ export class OperationFormComponent implements OnInit {
     operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
     operationFormControls.controls.operationActive.setValue(this.operation.operationActive ? '1' : '0');
   }
-
   addAdditionalOperationContact() {
     let formArray = this.operationForm.controls.operationContacts as FormArray;
     var count = formArray.length;
@@ -379,7 +378,7 @@ export class OperationFormComponent implements OnInit {
   }
 
   operationGroupOnSelect(event: any, index: number) {
-    let operationGroupId = event.target.value;
+    let operationGroupId = event.detail.value;
     this.operation.operationGroupId = operationGroupId;
   }
   operationCallRepPostFactory(formSubmission: any): OperationCallRepPostBody {
@@ -487,6 +486,7 @@ export class OperationFormComponent implements OnInit {
       // Passing E2E
       if (finalCount) {
         this.operationContactsToAdd.forEach((operationContact: OperationContact, idx: number) => {
+          count++;
           let addOffset = formSubmission.operationContacts.length - 1 - idx;
           let formContact = formSubmission.operationContacts[addOffset];
 
@@ -522,7 +522,6 @@ export class OperationFormComponent implements OnInit {
                       countLast++;
                       let operationPut = this.operationPutFactory(formSubmission);
                       if (countLast == finalCountLast) {
-                        count++;
                         if (count == finalCount && !this.operationContactsToEdit.length) {
                           this.operationService
                             .editOperationByOperationId(this.operation.operationId, operationPut)
@@ -567,7 +566,6 @@ export class OperationFormComponent implements OnInit {
               });
               var countLast = 0;
               var finalCountLast = notificationsToAdd.length;
-              console.log('final count last: ' + finalCountLast);
               notificationsToAdd.forEach((notificationTypeId: string) => {
                 var notificationReceipientPostBody = {
                   notificationOperationContactId: operationContactId,

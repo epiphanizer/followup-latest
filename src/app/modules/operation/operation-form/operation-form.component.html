@@ -78,6 +78,7 @@
                   *ngFor="let operationGroup of operationGroups"
                   [selected]="operationGroup.operationGroupId == operation.operationGroupId"
                   [value]="operationGroup.operationGroupId"
+                  (change)="onOperationGroupChange($event)"
                 >
                   {{ operationGroup.operationGroupName }}
                 </ion-select-option>
