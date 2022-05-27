@@ -29,7 +29,7 @@
       </th>
     </tr>
   </thead>
-  <tbody *ngIf="patients && pageOfItems.length; else noPatients">
+  <tbody *ngIf="patients && pageOfItems?.length; else noPatients">
     <tr
       *ngFor="let patient of pageOfItems"
       [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"

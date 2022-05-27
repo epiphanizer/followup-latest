@@ -217,7 +217,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     };
     this.operationAssignedUsers[index] = operationCallRepObject;
     // Passes E2E
-    if (this.operationAssignedUsersToRemove.length) {
+    if (this.operationAssignedUsersToRemove?.length) {
       this.operationAssignedUsersToRemove.forEach((callRepUserId: string, index: number) => {
         if (callRepUserId == '') {
           return;
@@ -252,7 +252,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
         .subscribe(() => {
           count++;
-          if (count == this.operationAssignedUsersToAdd.length) {
+          if (count == this.operationAssignedUsersToAdd?.length) {
             this.toastr.success('Care Reps successfully saved');
           }
         });
@@ -284,7 +284,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     };
     this.operationManagers[index] = operationManagerObject;
     // Passes E2E
-    if (this.operationManagersToRemove.length) {
+    if (this.operationManagersToRemove?.length) {
       this.operationManagersToRemove.forEach((manager: string, index: number) => {
         if (manager == '') {
           return;
@@ -298,7 +298,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     /**
      * Make sure we only add uniques
      */
-    if (this.operationManagersOriginal.length) {
+    if (this.operationManagersOriginal?.length) {
       this.operationManagersToAdd = this.operationManagers.filter(
         (operationManager: OperationManager, index: number) => {
           if (this.operationManagersOriginal[index]) {
@@ -323,7 +323,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         .assignManagerToOperationByOperationIdAndUserId(this.operation.operationId, manager.userId)
         .subscribe(() => {
           count++;
-          if (count == this.operationManagersToAdd.length) {
+          if (count == this.operationManagersToAdd?.length) {
             this.toastr.success('Manager successfully saved');
           }
         });

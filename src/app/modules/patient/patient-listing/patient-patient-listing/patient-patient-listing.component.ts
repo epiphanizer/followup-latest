@@ -57,8 +57,6 @@ export class PatientPatientListingComponent implements OnInit {
   }
 
   ngOnChanges(changes: any) {
-    console.log('here');
-    console.log(changes);
     if (changes.operation && !this.mode.spanish) {
       this.patients = [];
       this.operation = changes.operation.currentValue;
