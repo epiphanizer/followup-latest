@@ -14,7 +14,7 @@ export const environment = {
   production: true,
   version: env.npm_package_version,
   // apiUrl: 'https://followupcare-api.azurewebsites.net/',
-  apiUrl: 'http://192.168.1.5:8080/',
+  apiUrl: 'http://localhost:8080/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US']
 };
