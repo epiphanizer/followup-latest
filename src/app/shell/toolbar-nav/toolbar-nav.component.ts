@@ -220,12 +220,12 @@ export class ToolbarNavComponent implements OnInit {
         notification: {
           notificationCreatedByUserId: this.user.userId,
           notificationMessage: '',
-          notificationOperationId: this.patient.patientOperationId,
-          notificationPatientFirstName: this.patient.patientFirstName,
-          notificationPatientLastName: this.patient.patientLastName,
-          notificationPatientMedicalRecordNumber: this.patient.patientMedicalRecordNumber,
-          notificationOperationName: this.patient.patientOperationName,
-          notificationPatientId: this.patient.patientId,
+          notificationOperationId: this.patient?.patientOperationId,
+          notificationPatientFirstName: this.patient?.patientFirstName,
+          notificationPatientLastName: this.patient?.patientLastName,
+          notificationPatientMedicalRecordNumber: this.patient?.patientMedicalRecordNumber,
+          notificationOperationName: this.patient?.patientOperationName,
+          notificationPatientId: this.patient?.patientId,
           notificationTypeId: 0,
           notificationTypeLabel: ''
         }
