@@ -23,7 +23,9 @@ ion-list {
     background: transparent;
     display: inline-block;
     box-shadow: none;
-
+    @media screen and (max-width: 925px) {
+      display: none;
+    }
     ion-item {
       --padding-start: 0;
       contain: none;

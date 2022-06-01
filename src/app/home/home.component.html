@@ -4,7 +4,7 @@
       <ion-col class="left-box">
         <div class="message-container">
           <h1>Hello {{ user.userFirstName }}</h1>
-          <div class="team-messages">
+          <div class="team-messages" *ngIf="teamMessage">
             <div class="team-message" *ngIf="teamMessage" [innerHTML]="teamMessage.messageBody"></div>
           </div>
         </div>
@@ -96,7 +96,7 @@
           </h3>
         </div>
       </ion-col>
-      <ion-col class="blue-data-box" *ngIf="user.userLevel == userLevels.admin">
+      <ion-col class="right-col blue-data-box" *ngIf="user.userLevel == userLevels.admin">
         <h1>All Calls</h1>
         <div *ngIf="countReady">
           <h2>{{ totalCallsToNotificationsPercentage }}%</h2>
