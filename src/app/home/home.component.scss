@@ -2,6 +2,7 @@
   width: calc(100% - 106px);
   margin: 30px auto 0 auto;
   height: 100%;
+  padding-bottom: 100px;
   overflow: auto;
   display: flex;
   align-items: self-start;
@@ -38,11 +39,14 @@
       &.red-data-box,
       &.right-col {
         margin-bottom: 1rem;
+        min-height: 33vh;
+        @media screen and (max-width: 925px) {
+          min-height: 155px;
+        }
       }
 
       &.left-box {
         min-width: 53%;
-        margin-right: -2%;
         padding-right: 2%;
         overflow-y: auto;
         @media screen and (max-width: 575px) {
@@ -50,7 +54,7 @@
           text-align: center;
         }
         .message-container {
-          max-width: 525px;
+          max-width: 582px;
           margin: 0 auto;
         }
       }
@@ -390,13 +394,13 @@
       }
     }
     h3 {
-      margin-top: -0.125rem;
+      margin-top: 0.25rem;
       font-size: 1.275rem;
       letter-spacing: 0.5px;
       font-family: "AvenirDemi";
       text-align: center;
       @media screen and (max-width: 925px) {
-        font-size: 2vw;
+        font-size: 1.025rem;
       }
     }
     color: white;
@@ -449,12 +453,12 @@
       }
     }
     h3 {
-      margin-top: -0.125rem;
+      margin-top: 0.25rem;
       font-size: 1.275rem;
       text-align: center;
       font-family: "AvenirDemi";
-      @media screen and (max-width: 975px) {
-        font-size: 2vw;
+      @media screen and (max-width: 925px) {
+        font-size: 1.025rem;
       }
     }
     color: white;
@@ -470,9 +474,11 @@
 
   .everybody-is-callout {
     position: absolute;
-    bottom: 100px;
+    bottom: 92px;
     right: 50px;
     width: 100%;
+    padding-top: 8px;
+    background: white;
     text-align: right;
 
     img {
