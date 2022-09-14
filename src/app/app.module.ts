@@ -55,7 +55,11 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:3000', 'followupcare-api.azurewebsites.net']
+        whitelistedDomains: [
+          'localhost:8080',
+          'followupcare-api.azurewebsites.net',
+          'alpha-followup-api.azurewebsites.net'
+        ]
       }
     }),
     NgxMaskModule.forRoot(),
