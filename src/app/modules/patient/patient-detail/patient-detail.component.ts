@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Patient } from '@app/modules/patient/patient';
 import {
   PatientCall,
@@ -16,9 +16,9 @@ import {
   PatientCallQuestionsService,
   PatientCallQuestion
 } from './patient-call/patient-call-questions/patient-call-questions.service';
-import { PatientCallStatus, PatientCallStatuses } from './patient-call/patient-call-status.service';
+import { PatientCallStatuses } from './patient-call/patient-call-status.service';
 import { formatDate } from '@angular/common';
-import { map, take } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '@app/modules/notification/notification.service';
@@ -107,6 +107,22 @@ export class PatientDetailComponent implements OnInit {
   patientCallStartEventHandler(userId: string) {
     this.patientCallService
       .startPatientCallByUserIdAndPatientCallId(userId, this.patientCall.patientCallId)
+      .pipe(
+        catchError((err, obs) => {
+          var unstick = confirm('Unstick patient?');
+          if (unstick) {
+            let newDate = formatDate(Date.now(), 'MM-dd-yyyy', 'en-US');
+            this.patientCallService.addNewPatientCallByPatientId(this.patientCall.patientId, newDate).subscribe(res => {
+              if (res) {
+                this.toastrService.success('Patient unstuck!');
+                window.location.reload();
+              }
+            });
+          }
+          alert(err);
+          return obs;
+        })
+      )
       .subscribe((data: any) => {
         this.patientCall.patientCallStatusLabelId = 'XAE2oKVR';
         this.patientCall.patientCallStatusLabel = 'Started';
@@ -191,9 +207,7 @@ export class PatientDetailComponent implements OnInit {
       }
       return;
     }
-    /**
-     * Passing E2E
-     */
+
     this.patientCallNotesService
       .addPatientCallNotesByPatientCallId(
         this.patientCall.patientCallId,

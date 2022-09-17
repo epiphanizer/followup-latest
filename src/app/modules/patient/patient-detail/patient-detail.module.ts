@@ -22,7 +22,6 @@ import { PatientIntakeQuestionComponent } from '../patient-intake-question/patie
 import { PatientHistoryListingComponent } from './patient-history-listing/patient-history-listing.component';
 import { SharedModule } from '@app/shared';
 import { ReviewPatientNextCallQuestionsComponent } from './patient-call/review-patient-call-questions/review-patient-call-questions.component';
-import { nl2brPipe } from '@app/shared/pipes/nl2br.pipe';
 
 @NgModule({
   declarations: [
