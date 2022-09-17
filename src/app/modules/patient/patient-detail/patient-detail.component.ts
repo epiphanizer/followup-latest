@@ -109,18 +109,27 @@ export class PatientDetailComponent implements OnInit {
       .startPatientCallByUserIdAndPatientCallId(userId, this.patientCall.patientCallId)
       .pipe(
         catchError((err, obs) => {
+          if (err.status == 400) {
+            console.log(err);
+            alert('It looks like this call has already finished!');
+          }
           var unstick = confirm('Unstick patient?');
           if (unstick) {
             let newDate = formatDate(Date.now(), 'MM-dd-yyyy', 'en-US');
-            this.patientCallService.addNewPatientCallByPatientId(this.patientCall.patientId, newDate).subscribe(res => {
-              if (res) {
-                this.toastrService.success('Patient unstuck!');
-                window.location.reload();
-              }
-            });
+
+            var dateArray = newDate.split('-');
+            var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T12:00:00.000Z';
+            console.log(isoString);
+            this.patientCallService
+              .addNewPatientCallByPatientId(this.patientCall.patientId, isoString)
+              .subscribe(res => {
+                if (res) {
+                  this.toastrService.success('Patient unstuck!');
+                  window.location.reload();
+                }
+              });
           }
-          alert(err);
-          return obs;
+          return err;
         })
       )
       .subscribe((data: any) => {

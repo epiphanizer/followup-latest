@@ -64,7 +64,6 @@ export class PatientPatientListingComponent implements OnInit {
         .getPatientsByOperationId(this.operation.operationId)
         .pipe(
           map((patients: Patient[]) => {
-            console.log(patients);
             if (patients) {
               this.patients = patients;
               this.patientsFiltered = patients;

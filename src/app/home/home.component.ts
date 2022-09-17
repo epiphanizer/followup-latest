@@ -114,7 +114,7 @@ export class HomeComponent implements OnInit {
               if (this.notificationsProgress > 100) {
                 this.notificationsProgress = 100;
               }
-              console.log(this.notificationsSent);
+
               this.weeklyCallsToNotificationsPercentage = Math.round(
                 (parseInt(this.weeklyCalls.completed) / this.notificationsSent.weeklyNotifications.length
                   ? parseInt(this.notificationsSent.weeklyNotifications.length)

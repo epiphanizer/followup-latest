@@ -50,13 +50,9 @@ export class PatientCallService {
   };
   constructor(private http: HttpService) {}
   startPatientCallByUserIdAndPatientCallId = function(userId: string, patientCallId: string) {
-    return this.http
-      .post('patients/calls/' + patientCallId + '/start', {
-        userId: userId
-      })
-      .pipe(
-        catchError(e => this.handleAsyncError(e)) // then handle the error
-      );
+    return this.http.post('patients/calls/' + patientCallId + '/start', {
+      userId: userId
+    });
   };
 
   getCallRepCallsByUserIdAndOperationId = function(userId: string, operationId: string) {
@@ -115,10 +111,6 @@ export class PatientCallService {
   }
 
   private handleAsyncError(error: HttpErrorResponse) {
-    if (error.status == 400) {
-      console.log(error);
-      alert('It looks like this call has already finished!');
-    }
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
