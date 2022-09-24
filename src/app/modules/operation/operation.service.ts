@@ -35,8 +35,8 @@ export class OperationService {
   public getOperationGroups(): Observable<OperationGroup[]> {
     return this.http.get<OperationGroup[]>('operations/groups').pipe(
       map((operationGroups: OperationGroup[]) => {
-        if (!sessionStorage.getItem('operationGroups')) {
-          sessionStorage.setItem('operationGroups', JSON.stringify(operationGroups));
+        if (!localStorage.getItem('operationGroups')) {
+          localStorage.setItem('operationGroups', JSON.stringify(operationGroups));
         }
         return operationGroups;
       }),

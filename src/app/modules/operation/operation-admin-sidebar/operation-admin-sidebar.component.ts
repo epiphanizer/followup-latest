@@ -78,7 +78,7 @@ export class OperationAdminSidebarComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    if (!sessionStorage.getItem('operationGroups')) {
+    if (!localStorage.getItem('operationGroups')) {
       this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
           operationGroup.operations$ = this.operationService
