@@ -20,21 +20,18 @@ export class PatientContactService {
 
   getPatientContactsByPatientId = function(patientId: string) {
     return this.http.get('patients/' + patientId + '/contacts/').pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
   addNewPatientContactByPatientId(patientId: string, patientContactPost: PatientContactPostBody) {
     return this.http.post('patients/' + patientId + '/contacts', patientContactPost).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
 
   editPatientContactByPatientId(patientContactId: string, patientContactPut: PatientContactPutBody) {
     return this.http.put('patients/contacts/' + patientContactId, patientContactPut).pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

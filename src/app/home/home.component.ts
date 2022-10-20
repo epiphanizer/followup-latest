@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User, UserMessage } from '@app/modules/user/user';
+import { User, UserMessage, UserRoles } from '@app/modules/user/user';
 import { TeamMessage } from '@app/modules/team/team';
 import { UserService } from '@app/modules/user/user.service';
 import { TeamService } from '@app/modules/team/team.service';
@@ -16,7 +16,12 @@ export class HomeComponent implements OnInit {
   todaysCallsProgress: number;
   weeklyCallsProgress: number;
   callsMadeProgress: number;
+  countReady: boolean = false;
   notificationsProgress: number;
+  weeklyCallsToNotificationsPercentage: number = null;
+  totalCallsToNotificationsPercentage: number = null;
+  weeklyNotifications: any[];
+
   todaysCalls: any = {
     completed: 0,
     scheduled: 0
@@ -32,9 +37,10 @@ export class HomeComponent implements OnInit {
   };
   notificationsSent: any = {
     notifications: 0,
+    weeklyNotifications: 0,
     totalNotifications: 0
   };
-
+  public userLevels: typeof UserRoles = UserRoles;
   public teamMessage: TeamMessage;
   public userMessage: UserMessage;
   public user: User;
@@ -48,7 +54,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.teamService.getTeamMessagesByTeamId(this.user.teamId).subscribe((teamMessages: TeamMessage[]) => {
+    this.teamService.getTeamMessagesByTeamId(this.user.teams[0].teamId).subscribe((teamMessages: TeamMessage[]) => {
       if (teamMessages) {
         this.teamMessage = teamMessages[0];
         // Decode our message to preserve line breaks, other symbols.
@@ -78,18 +84,52 @@ export class HomeComponent implements OnInit {
               this.callsMade.callsMade = data[0].totalCalls;
             }
             this.userService.getUserNotifications(this.user).subscribe((data: any) => {
-              if (data.length) {
-                this.notificationsSent.notifications = data[0].notifications;
+              if (data) {
+                this.notificationsSent.weeklyNotifications = [];
+                this.notificationsSent.notifications = data;
+                this.notificationsSent.user = data.length;
+                var today = new Date();
+                var lastweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+                this.notificationsSent.notifications.forEach((notification: any) => {
+                  if (Date.parse(notification.notificationCreatedTime) > Date.parse(lastweek.toString())) {
+                    this.notificationsSent.weeklyNotifications.push(notification);
+                  }
+                });
               }
 
               this.todaysCallsProgress =
                 (parseInt(this.todaysCalls.completed) / parseInt(this.todaysCalls.scheduled)) * 100;
               this.weeklyCallsProgress =
                 (parseInt(this.weeklyCalls.completed) / parseInt(this.weeklyCalls.scheduled)) * 100;
+              if (this.todaysCallsProgress > 100) {
+                this.todaysCallsProgress = 100;
+              }
               this.callsMadeProgress = (parseInt(this.callsMade.callsMade) / parseInt(this.callsMade.totalCalls)) * 100;
+              if (this.callsMadeProgress > 100) {
+                this.callsMadeProgress = 100;
+              }
               this.notificationsProgress =
                 (parseInt(this.notificationsSent.notifications) / parseInt(this.notificationsSent.totalNotifications)) *
                 100;
+              if (this.notificationsProgress > 100) {
+                this.notificationsProgress = 100;
+              }
+
+              this.weeklyCallsToNotificationsPercentage = Math.round(
+                (parseInt(this.weeklyCalls.completed) / this.notificationsSent.weeklyNotifications.length
+                  ? parseInt(this.notificationsSent.weeklyNotifications.length)
+                  : 0) * 100
+              );
+              if (this.weeklyCallsToNotificationsPercentage > 100) {
+                this.weeklyCallsToNotificationsPercentage = 100;
+              }
+              this.totalCallsToNotificationsPercentage = Math.round(
+                (this.notificationsSent.totalNotifications / this.callsMade.totalCalls) * 100
+              );
+              if (this.totalCallsToNotificationsPercentage > 100) {
+                this.totalCallsToNotificationsPercentage = 100;
+              }
+              this.countReady = true;
             });
           });
         });

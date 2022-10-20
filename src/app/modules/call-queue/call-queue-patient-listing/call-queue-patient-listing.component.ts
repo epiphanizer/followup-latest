@@ -9,6 +9,7 @@ import {
   PatientCallStatusService
 } from '@app/modules/patient/patient-detail/patient-call/patient-call-status.service';
 import { PatientCallService } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
+import { UserRoles } from '@app/modules/user/user';
 
 @Component({
   providers: [PatientService, PatientCallService],

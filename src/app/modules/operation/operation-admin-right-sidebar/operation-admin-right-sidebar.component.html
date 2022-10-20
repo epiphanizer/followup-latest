@@ -5,7 +5,7 @@
     </ion-item>
     <fieldset class="operation-team-members">
       <span class="section-label" (click)="toggleOperationManagersAssignedMenu()">
-        <span *ngIf="mode.edit || mode.add">Assigned </span>Manager
+        <span *ngIf="mode.edit || mode.add">Assigned </span>Manager(s)
         <i
           *ngIf="mode.view"
           class="icon-dropdown"
@@ -13,38 +13,39 @@
           [@turnArrow]="managerSidebarDropdownOpen ? 'open' : 'closed'"
         ></i
       ></span>
-      <div class="manager-container">
-        <ion-list
-          class="assigned-manager-list"
-          [class.edit]="mode.edit || mode.add"
-          inset
-          lines="none"
-          [class.show]="managerSidebarDropdownOpen"
-        >
+      <ion-list
+        class="assigned-manager-list"
+        [class.edit]="mode.edit || mode.add"
+        inset
+        lines="none"
+        [class.show]="managerSidebarDropdownOpen"
+      >
+        <div class="manager-container" *ngFor="let manager of operationManagers; let idx = index">
           <ion-item class="sidebar-listing" id="operation-manager">
             <ion-label color="medium" position="stacked">Assign Manager</ion-label>
             <ion-select
-              *ngIf="(mode.edit || mode.add) && operationManager && availableUsers; else managerSpan"
+              *ngIf="(mode.edit || mode.add) && operationManagers && availableUsers; else managerSpan"
               (ionChange)="managerOnSelect($event, idx)"
               class="operation-assigned-manager"
-              placeholder="Assign Manager"
+              placeholder="Assign Manager(s)"
             >
               <ion-select-option
                 *ngFor="let user of availableUsers"
                 [value]="user.userId"
-                [selected]="user.userId == operationManager?.userId"
+                [selected]="user.userId == manager?.userId"
               >
                 {{ user.userLastName }}, {{ user.userFirstName }}
               </ion-select-option>
             </ion-select>
             <ng-template #managerSpan>
-              <span class="operation-manager">
-                {{ operationManager?.userFirstName }} {{ operationManager?.userLastName }}
-              </span>
+              <span class="operation-manager"> {{ manager?.userFirstName }} {{ manager?.userLastName }} </span>
             </ng-template>
           </ion-item>
-        </ion-list>
-      </div>
+        </div>
+        <div class="controls">
+          <a *ngIf="mode.add || mode.edit" class="add-members" (click)="addAdditionalOperationManager()">+ Manager</a>
+        </div>
+      </ion-list>
     </fieldset>
     <fieldset class="operation-callreps">
       <ng-container>
@@ -89,7 +90,7 @@
           </div>
           <div class="controls">
             <a *ngIf="mode.add || mode.edit" class="add-members" (click)="addAdditionalOperationCallRep()"
-              >+ Team Members</a
+              >+ Care Rep</a
             >
           </div>
         </ion-list>

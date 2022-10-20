@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
 import { Patient } from '@app/modules/patient/patient';
 import { Observable } from 'rxjs';
@@ -35,6 +35,7 @@ export class PatientListingComponent implements OnInit {
     | any = {};
   user: User;
   constructor(
+    private _cdr: ChangeDetectorRef,
     private patientService: PatientService,
     private operationService: OperationService,
     private route: ActivatedRoute,
@@ -51,10 +52,8 @@ export class PatientListingComponent implements OnInit {
       if (this.route.snapshot.data.mode == 'spanish') {
         this.mode.spanish = true;
       } else {
-        this.user.operations$.subscribe((data: Operation[]) => {
-          /** Init to the first assigned operation alphabetically */
-          this.selected.operation = data[0];
-        });
+        console.log(this.user);
+        this.selected.operation = this.user.operationGroups[0].operations[0];
       }
     } else {
       // Sort by language
@@ -74,6 +73,7 @@ export class PatientListingComponent implements OnInit {
     this.patients$ = this.patientService.getPatientsByOperationId(this.selected.operation.operationId).pipe(
       map((patients: [Patient]) => {
         this.patients = patients;
+        this._cdr.detectChanges();
         return patients;
       })
     );

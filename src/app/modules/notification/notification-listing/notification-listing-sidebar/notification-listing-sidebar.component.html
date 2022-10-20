@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="facility-dropdown-container">
-    <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">NOTIFICATIONS</a>
+    <a class="facility-dropdown-target" [routerLink]="'/notifications'">NOTIFICATIONS</a>
     <ng-container *ngIf="operationGroups">
       <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
         <span class="operation-group" (click)="toggleOperationSidebarMenu(operationGroup)"
@@ -32,12 +32,9 @@
               operationGroup.sidebarDropdownOpen ||
               operationGroup.operationGroupId == selected.operation?.operationGroupId
             "
-            *ngIf="operationGroup.operations$"
+            *ngIf="operationGroup.operations"
           >
-            <li
-              *ngFor="let operation of operationGroup.operations$ | async"
-              [class.spanish]="operation.spanishSpeaking"
-            >
+            <li *ngFor="let operation of operationGroup.operations" [class.spanish]="operation.spanishSpeaking">
               <div class="operation-link-container" *ngIf="operation.operationActive">
                 <a
                   class="operation-link"
@@ -45,8 +42,10 @@
                   (click)="setActiveOperation(operation)"
                   [class.active]="activeOperationId == operation.operationId"
                 >
-                  {{ operation.operationName | slice: 0:14
-                  }}<span *ngIf="operation.operationName.length > 16">...</span>
+                  {{ operation.operationName | slice: 0:15
+                  }}<span *ngIf="operation.operationName.length > 16">
+                    <!-- ... -->
+                  </span>
                 </a>
 
                 <span class="current-patients">

@@ -18,6 +18,7 @@ export class PostItModalComponent {
   characters: number = 0;
   maxCharacters: number = 250;
   messageType: string;
+  teamId: string;
   userMessage: UserMessage;
   todaysDate: string;
   todaysDateDay: number;
@@ -65,7 +66,7 @@ export class PostItModalComponent {
         this.dismiss();
       });
     } else if (this.messageType == 'team') {
-      this.teamMessageService.sendTeamMessage(this.userMessage).subscribe((data: any) => {
+      this.teamMessageService.sendTeamMessage(this.teamId, this.userMessage).subscribe((data: any) => {
         if (data) {
           this.toastr.success('Successfully sent team message');
         } else {

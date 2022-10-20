@@ -134,11 +134,9 @@ export class UserProfileComponent implements OnInit {
           this.user.userAdditionalInfo = formSubmission.userAdditionalInfo;
           this.authenticationService.currentUserSubject.next(this.user);
           this.authenticationService.currentUserSubject.complete();
-          this.user.operations$ = null;
           var userToSet = JSON.stringify(this.user);
           localStorage.removeItem('followup-user');
           localStorage.setItem('followup-user', userToSet);
-          this.user.operations$ = this.operationService.getOperationsByUserId(this.user.userId);
           window.location.href = '/user/profile';
         });
     });

@@ -4,8 +4,6 @@ import { AuthenticationService } from '@app/core';
 import { UserAvatarService } from '@app/modules/user/user-avatar/user-avatar.service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { UserCorkBoardService } from '../user-cork-board/user-cork-board.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   providers: [AuthenticationService, UserAvatarService],

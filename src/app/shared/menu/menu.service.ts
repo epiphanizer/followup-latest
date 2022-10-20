@@ -16,7 +16,7 @@ export interface MenuLink {
 export class MenuService {
   activeComponent: string;
   navLinks: MenuLink[];
-  public patientId: number | string;
-  public operationId: number;
+  public patientId: string;
+  public operationId: string;
   constructor(private route: ActivatedRoute, private router: Router) {}
 }

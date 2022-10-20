@@ -1,18 +1,19 @@
-import { Operation } from '@app/modules/operation/operation';
+import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { PatientCall } from '../patient/patient-detail/patient-call/patient-call.service';
 import { Observable } from 'rxjs';
+import { Team } from '../team/team';
 
 export interface User {
   userId: string;
   teamId?: string;
-  userLevel: number;
-  userRoleType?: string;
+  userLevel: string;
+  userRoleLabel?: string;
   username: string;
   userEmail: string;
   avatarData?: Blob;
   avatar?: boolean;
-  operations: Array<Operation>;
-  operations$: Observable<Array<Operation>>;
+  operations: any | Array<Operation>;
+  operationGroups: any | Array<OperationGroup>;
   patientCalls: Array<PatientCall>;
   patientCalls$: Observable<PatientCall[]>;
   userFirstName: string;
@@ -43,9 +44,9 @@ export interface User {
   userAdditionalInfo: string;
   userLastAccess?: Date;
   userLoginExpires: number;
-  userMessages: UserMessage[];
-  userLanguages$?: Observable<UserLanguage[]>;
-  userLanguages: UserLanguage[];
+  messages: UserMessage[];
+  languages: any | UserLanguage[];
+  teams: any | Team[];
 }
 
 export interface UserPutObject {
@@ -82,7 +83,12 @@ export interface UserLanguage {
 }
 
 export enum UserRoles {
-  admin = 1,
-  manager = 2,
-  user = 3
+  admin = '2PEXyKgz',
+  manager = 'xmKxrNOy',
+  user = 'XAE2oKVR'
+}
+export enum UserRolesMap {
+  '2PEXyKgz' = 1,
+  'xmKxrNOy' = 2,
+  'XAE2oKVR' = 3
 }

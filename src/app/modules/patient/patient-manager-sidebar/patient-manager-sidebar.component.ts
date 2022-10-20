@@ -1,19 +1,11 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { formatDate } from '@angular/common';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-  // ...
-} from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { User } from '@app/modules/user/user';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { OperationService } from '@app/modules/operation/operation.service';
-import { PatientService } from '../patient.service';
 import { Patient } from '../patient';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -59,7 +51,7 @@ import { map } from 'rxjs/operators';
   ]
 })
 export class PatientManagerSidebarComponent implements OnInit {
-  @Output() operationChangeEvent = new EventEmitter<number>();
+  @Output() operationChangeEvent = new EventEmitter<string>();
   activeOperationId: string;
   errorFallback: boolean = false;
   selected: {
@@ -68,116 +60,71 @@ export class PatientManagerSidebarComponent implements OnInit {
     operation: null
   };
   operationGroups: OperationGroup[] = null;
-  operationGroups$: Observable<OperationGroup[]>;
 
   operations: Operation[];
-  user: User;
+  @Input() user: User;
   todaysDateDay: string;
 
-  constructor(
-    private route: ActivatedRoute,
-    private patientService: PatientService,
-    private router: Router,
-    private operationService: OperationService
-  ) {}
+  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
 
   ngOnInit() {
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
     this.user = this.route.snapshot.data.user;
-    this.route.paramMap.subscribe(params => {
-      if (params.get('operationId')) {
-        this.activeOperationId = params.get('operationId');
-      }
-    });
-    if (!sessionStorage.getItem('operationGroups')) {
-      this.operationGroups$ = this.operationService.getOperationGroups();
-      this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-        if (operationGroups) {
-          operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-            operationGroup.operations$ = this.operationService
-              .getActiveOperationsByOperationGroupId(operationGroup, this.user)
-              .pipe(
-                map((operations: any) => {
-                  if (idx == 0) {
-                    this.activeOperationId = operations[0].operationId;
+    if (!localStorage.getItem('operationGroups')) {
+      this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
+        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+          operationGroup.operations$ = this.operationService
+            .getActiveOperationsByOperationGroupId(operationGroup, this.user)
+            .pipe(
+              map((operations: Operation[]) => {
+                if (operations) {
+                  this.operations = operations;
+                  if (idx == 0 && !this.selected.operation) {
+                    this.selected.operation = operations[0];
+                    this.activeOperationId = this.selected.operation.operationId;
                   }
                   return operations;
-                })
-              );
-            if (idx == 0 && !this.selected.operation) {
-              operationGroup.sidebarDropdownOpen = true;
-            } else {
-              operationGroup.sidebarDropdownOpen = false;
-            }
-          });
-          this.operationGroups = operationGroups;
-          // sessionStorage.setItem('operationGroups', JSON.stringify(operationGroups));
-        }
-      });
-    } else {
-      var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
-      operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-          operationGroup,
-          this.user
-        );
-        if (idx == 0 && !this.activeOperationId) {
-          operationGroup.sidebarDropdownOpen = true;
-        } else {
-          operationGroup.sidebarDropdownOpen = false;
-        }
-      });
-      this.operationGroups = operationGroups;
-    }
-    if (this.user.operations$) {
-      this.user.operations$.subscribe((data: Operation[]) => {
-        /** Init to the first assigned operation alphabetically */
-        this.operations = data;
-        this.route.paramMap.subscribe((data: any) => {
-          if (data.params.operationId) {
-            this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
-              this.selected.operation = data[0];
-              this.activeOperationId = this.selected.operation.operationId;
-              this.patientService
-                .getActivePatientListByOperationId(this.selected.operation.operationId)
-                .subscribe((patients: Patient[]) => {
-                  if (patients !== null) {
-                    this.getCurrentNewDischargeCount(patients);
-                  }
-                });
-            });
+                }
+              })
+            );
+          if (idx == 0) {
+            operationGroup.sidebarDropdownOpen = true;
           } else {
-            /** Init to the first user operation (alphabetically,) */
-            if (!this.operations[0]) {
-              this.errorFallback = true;
-              return;
-            }
-            this.selected.operation = this.operations[0];
+            operationGroup.sidebarDropdownOpen = false;
           }
         });
+        this.operationGroups = operationGroups;
       });
     } else {
-      this.route.paramMap.subscribe(params => {
-        if (params.get('operationId')) {
-          this.activeOperationId = params.get('operationId');
-          this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
-            this.selected.operation = operation[0];
-            if (this.operationGroups) {
-              this.operationGroups.forEach(operationGroup => {
-                if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
-                  operationGroup.sidebarDropdownOpen = false;
-                }
-              });
-            }
-          });
-        }
-      });
+      this.operationGroups = this.user.operationGroups;
     }
+    this.route.paramMap.subscribe((data: any) => {
+      var operationId;
+      if (data.params.operationId) {
+        operationId = data.params.operationId;
+      } else {
+        operationId = this.user.operations[0].operationId;
+        this.operations = this.user.operationGroups[0].operations;
+      }
+      this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation) => {
+        this.selected.operation = data[0];
+        this.activeOperationId = this.selected.operation.operationId;
+      });
+    });
   }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
     this.activeOperationId = this.selected.operation.operationId;
     this.operationChangeEvent.emit(operation);
+  };
+  setActiveOperationGroup = function(operationGroup: OperationGroup) {
+    operationGroup.sidebarDropdownOpen = true;
+    /**
+     * Reassign selected group
+     */
+    this.selected.operationGroup = operationGroup;
+    this.activeOperationGroupId = operationGroup.operationGroupId;
+    this.operationGroupChangeEvent.emit(this.activeOperationGroupId);
   };
 
   public getCurrentNewDischargeCount(patients: Patient[]) {

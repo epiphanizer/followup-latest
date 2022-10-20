@@ -25,26 +25,15 @@ export class TeamListingComponent implements OnInit {
     | any = {};
 
   user: User;
-  constructor(private teamService: TeamService, private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.teams$ = this.teamService.getTeams().pipe(
-      map((teams: [Team]) => {
-        this.teams = teams;
-        this.selected.team = teams[0];
-        return teams;
-      })
-    );
+    this.user = this.route.snapshot.data.user;
+    this.teams = this.user.teams;
+    this.selected.team = this.teams[0];
   }
 
   teamChangeEventHandler($event: Team) {
     this.selected.team = $event;
-    this.teams = [];
-    this.teams$ = this.teamService.getTeamMembersByTeamId(this.selected.team.teamId).pipe(
-      map((teams: [Team]) => {
-        this.teams = teams;
-        return teams;
-      })
-    );
   }
 }

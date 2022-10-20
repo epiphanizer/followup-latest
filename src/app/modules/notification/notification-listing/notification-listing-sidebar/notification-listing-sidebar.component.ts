@@ -72,60 +72,53 @@ export class NotificationListingSidebarComponent implements OnInit {
   user: User;
   todaysDateDay: string;
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      if (params.get('operationId')) {
-        this.activeOperationId = params.get('operationId');
-        this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
-          this.selected.operation = operation[0];
-          if (this.operationGroups) {
-            this.operationGroups.forEach(operationGroup => {
-              if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
-                operationGroup.sidebarDropdownOpen = false;
-              }
-            });
-          }
-        });
-      }
-    });
-    this.operationGroups$ = this.operationService.getOperationGroups();
-    this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-      if (operationGroups) {
+    this.user = this.route.snapshot.data.user;
+    if (!localStorage.getItem('operationGroups')) {
+      this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
           operationGroup.operations$ = this.operationService
             .getActiveOperationsByOperationGroupId(operationGroup, this.user)
             .pipe(
-              map((operations: any) => {
-                if (idx == 0) {
-                  if (!this.activeOperationId) {
+              map((operations: Operation[]) => {
+                if (operations) {
+                  if (idx == 0 && !this.selected.operation) {
                     this.selected.operation = operations[0];
-                    this.activeOperationId = operations[0].operationId;
+                    this.activeOperationId = this.selected.operation.operationId;
                   }
+                  return operations;
                 }
-                return operations;
               })
             );
-          if (idx == 0 && !this.selected.operation) {
+          if (idx == 0) {
             operationGroup.sidebarDropdownOpen = true;
           } else {
             operationGroup.sidebarDropdownOpen = false;
           }
         });
         this.operationGroups = operationGroups;
+      });
+    } else {
+      this.operationGroups = this.user.operationGroups;
+    }
+
+    this.route.paramMap.subscribe((data: any) => {
+      var operationId;
+      if (data.params.operation) {
+        operationId = data.params.operation.operationId;
+      } else {
+        operationId = this.user.operations[0].operationId;
+        this.operations = this.user.operationGroups[0].operations;
+      }
+      if (data.params.operation) {
+        this.operationService
+          .getOperationByOperationId(data.params.operation.operationId)
+          .subscribe((data: Operation) => {
+            this.selected.operation = data[0];
+            this.activeOperationId = this.selected.operation.operationId;
+          });
       }
     });
 
-    this.user = this.route.snapshot.data.user;
-    if (this.user.operations$) {
-      this.user.operations$.subscribe((data: Operation[]) => {
-        /** Init to the first assigned operation alphabetically */
-        this.selected.operation = data[0];
-        this.operations = data;
-        if (this.route.snapshot.data.operation) {
-          this.selected.operation = this.route.snapshot.data.operation;
-          this.setActiveOperation(this.selected.operation);
-        }
-      });
-    }
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
   setActiveOperation = function(operation: Operation) {

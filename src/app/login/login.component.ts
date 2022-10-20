@@ -60,10 +60,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         return false;
       }
     }
-    if (!password.trim().length) {
-      this.toastrService.error('Enter password!');
-      return false;
-    }
     let result = await this.authenticationService.signIn(username, password);
     if (!result) {
       this.toastrService.error('Incorrect username or password!');

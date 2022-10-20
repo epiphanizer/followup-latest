@@ -12,7 +12,7 @@ ion-list {
   text-align: right;
 
   .current-call-status {
-    font-family: AvenirBold;
+    font-family: AvenirDemi;
     font-weight: 11px;
     font-style: italic;
   }
@@ -62,7 +62,7 @@ ion-list {
 
     i {
       width: 17px;
-      height: 17px;
+      height: 20px;
       display: inline-block;
       vertical-align: middle;
       margin-top: -4px;
@@ -122,7 +122,7 @@ ion-list {
 
       &:hover,
       &.active {
-        font-weight: bold;
+        font-family: AvenirDemi;
       }
     }
   }

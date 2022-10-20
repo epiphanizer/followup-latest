@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, retry } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { OperationService } from '@app/modules/operation/operation.service';
+import { Operation, OperationGroup } from '@app/modules/operation/operation';
 
 export interface AuthenticationBodyPost {
   username: string;
@@ -22,7 +24,11 @@ export class AuthenticationService {
   public currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(private http: HttpService, private jwtHelper: JwtHelperService) {
+  constructor(
+    private http: HttpService,
+    private jwtHelper: JwtHelperService,
+    private _operationService: OperationService
+  ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('followup-user')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -44,14 +50,47 @@ export class AuthenticationService {
         password: password
       })
       .pipe(
+        retry(0),
         map((jwt: any) => {
           if (jwt.token) {
             var token = this.jwtHelper.decodeToken(jwt.token);
             if (token.user.userId && token.user.userLevel) {
               // store user details and jwt token in local storage to keep user logged in between page refreshes
               localStorage.setItem('followup-token', JSON.stringify({ expires: token.expires }));
-              localStorage.setItem('followup-user', JSON.stringify(token.user));
-              this.currentUserSubject.next(token.user);
+              var user = token.user;
+              this._operationService.getOperationsByUserId(user.userId).subscribe(res => {
+                if (res) {
+                  user.operations = res;
+                }
+                this._operationService.getOperationGroups().subscribe(res => {
+                  if (res) {
+                    user.operationGroups = res;
+                  }
+                  user.operationGroups.forEach((operationGroup: OperationGroup) => {
+                    // Could use a stronger approach but this does the trick
+
+                    operationGroup.operations = user.operations
+                      .filter((operation: Operation) => {
+                        return operationGroup.operationGroupId == operation.operationGroupId;
+                      })
+                      .sort(function(a: Operation, b: Operation) {
+                        if (a.operationName < b.operationName) {
+                          return -1;
+                        }
+                        if (a.operationName > b.operationName) {
+                          return 1;
+                        }
+                        return 0;
+                      });
+                  });
+
+                  user.operationGroups = user.operationGroups.filter((operationGroup: OperationGroup) => {
+                    return operationGroup.operations?.length > 0;
+                  });
+                });
+                localStorage.setItem('followup-user', JSON.stringify(user));
+              });
+              this.currentUserSubject.next(user);
               return token;
             }
           }

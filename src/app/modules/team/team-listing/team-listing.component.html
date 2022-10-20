@@ -3,7 +3,7 @@
     <ion-col class="team-sidebar">
       <app-team-listing-sidebar (teamChangeEvent)="teamChangeEventHandler($event)"> </app-team-listing-sidebar>
     </ion-col>
-    <ion-col class="team-content-wrapper" *ngIf="teams$ | async">
+    <ion-col class="team-content-wrapper" *ngIf="teams">
       <ion-grid>
         <ion-row>
           <ion-title *ngIf="selected.team">Team Members</ion-title>

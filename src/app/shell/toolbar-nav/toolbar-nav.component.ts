@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, NavigationEnd, ActivationEnd, ActivatedRouteSna
 import { ModalController } from '@ionic/angular';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 import { Patient } from '@app/modules/patient/patient';
-import { User } from '@app/modules/user/user';
+import { User, UserRoles, UserRolesMap } from '@app/modules/user/user';
 import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
 import { map, filter } from 'rxjs/operators';
 import { DataService } from '@app/modules/data/data.service';
@@ -22,19 +22,25 @@ export class ToolbarNavComponent implements OnInit {
     private router: Router,
     private dataService: DataService
   ) {}
-  // Are we on call-queue page?
+
   callQueuePage: boolean = false;
   dropdowns: any[] = [];
   dropdownActivated: boolean = false;
   navLinks: MenuLink[];
   patient: Patient;
+  userRoles = UserRoles;
   user: User;
-
+  userRolesMap: any[] = [];
+  userRolesArray: any[] = [];
   @Output() dropdownEvent: EventEmitter<Boolean> = new EventEmitter(false);
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-
+    this.userRolesMap = Object.entries(UserRolesMap);
+    this.userRolesArray = [];
+    this.userRolesMap.forEach(userRole => {
+      this.userRolesArray[userRole[0]] = userRole[1];
+    });
     this.router.events
       .pipe(
         filter(e => e instanceof ActivationEnd),
@@ -85,7 +91,7 @@ export class ToolbarNavComponent implements OnInit {
             }
           ]
         },
-        minRole: 1
+        minRole: 2
       },
       {
         linkAction: '/patients',
@@ -214,12 +220,12 @@ export class ToolbarNavComponent implements OnInit {
         notification: {
           notificationCreatedByUserId: this.user.userId,
           notificationMessage: '',
-          notificationOperationId: this.patient.patientOperationId,
-          notificationPatientFirstName: this.patient.patientFirstName,
-          notificationPatientLastName: this.patient.patientLastName,
-          notificationPatientMedicalRecordNumber: this.patient.patientMedicalRecordNumber,
-          notificationOperationName: this.patient.patientOperationName,
-          notificationPatientId: this.patient.patientId,
+          notificationOperationId: this.patient?.patientOperationId,
+          notificationPatientFirstName: this.patient?.patientFirstName,
+          notificationPatientLastName: this.patient?.patientLastName,
+          notificationPatientMedicalRecordNumber: this.patient?.patientMedicalRecordNumber,
+          notificationOperationName: this.patient?.patientOperationName,
+          notificationPatientId: this.patient?.patientId,
           notificationTypeId: 0,
           notificationTypeLabel: ''
         }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
 import { User } from '@app/modules/user/user';
@@ -26,43 +26,25 @@ export class OperationListingComponent implements OnInit {
       }
     | any = {};
   user: User;
-  constructor(private operationService: OperationService, private route: ActivatedRoute) {}
+  constructor(private _cdr: ChangeDetectorRef, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.user = this.route.snapshot.data.user;
+    this.operationGroups = this.user.operationGroups;
     this.route.paramMap.subscribe((data: any) => {
       if (data.params.operationGroupId) {
-        var operationGroupId = data.params.operationGroupId;
-        /**
-         * Assign this operation group if passed thru router
-         */
-        this.operationService
-          .getOperationGroupByOperationGroupId(operationGroupId)
-          .subscribe((operationGroup: OperationGroup) => {
-            this.selected.operationGroup = operationGroup[0];
-          });
-        this.operationGroups$ = this.operationService.getOperationGroups();
-        this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-          this.operationGroups = operationGroups;
-        });
+        this.selected.operationGroup = this.operationGroups.filter(operationGroup => {
+          return data.params.operationGroupId == operationGroup.operationGroupId;
+        })[0];
+
+        this._cdr.detectChanges();
       } else {
-        this.operationGroups$ = this.operationService.getOperationGroups();
-        this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-          this.operationGroups = operationGroups;
-          this.selected.operationGroup = operationGroups[0];
-        });
+        this.selected.operationGroup = this.user.operationGroups[0];
       }
     });
   }
 
   operationGroupChangeEventHandler($event: Operation) {
     this.selected.operationGroup = $event;
-    this.operations$ = this.operationService
-      .getOperationsByOperationGroupId(this.selected.operationGroup.operationGroupId)
-      .pipe(
-        map((operations: [Operation]) => {
-          this.operations = operations;
-          return operations;
-        })
-      );
   }
 }

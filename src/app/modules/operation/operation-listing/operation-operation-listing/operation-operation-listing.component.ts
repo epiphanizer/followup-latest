@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { OperationService } from '@app/modules/operation/operation.service';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { User } from '@app/modules/user/user';
 
 @Component({
   selector: 'app-operation-operation-listing',
@@ -12,36 +14,30 @@ import { OperationService } from '@app/modules/operation/operation.service';
 export class OperationOperationListingComponent implements OnInit {
   @Input() operationGroup: OperationGroup;
   public operations: Operation[];
-  public operations$: Observable<Operation[]>;
   public operationsFiltered: Operation[];
   public pageOfItems: Operation[];
   public selectedSortFlag: string = 'desc';
+  private user: User;
   // col definitions
   public colDefs = ['Facility', 'Ownership', 'Queue', 'Notifs', 'Grads', 'Status', 'Date'];
   // Default to facility descending
   public selectedSortCol: string = this.colDefs[0];
 
-  constructor(private operationService: OperationService) {}
+  constructor(public route: ActivatedRoute) {}
   ngOnInit() {
-    this.operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(this.operationGroup);
-    this.operationGroup.operations$.subscribe((operations: Operation[]) => {
-      if (operations[0]) {
-        this.operationsFiltered = this.operations = operations;
-        this.runSortSwitch();
-      }
+    this.user = this.route.snapshot.data.user;
+    this.operationsFiltered = this.operations = this.user.operations.filter((operation: Operation) => {
+      return operation.operationGroupId == this.operationGroup.operationGroupId;
     });
+    this.runSortSwitch();
   }
 
   ngOnChanges(changes: any) {
     if (changes.operationGroup) {
-      if (!changes.operationGroup.firstChange) {
+      if (!changes.operationGroup.currentValue.firstChange) {
         this.operationGroup = changes.operationGroup.currentValue;
-        this.operationGroup.operations$ = this.operationService.getOperationsByOperationGroupId(this.operationGroup);
-        this.operationGroup.operations$.subscribe((operations: Operation[]) => {
-          if (operations[0]) {
-            this.operationsFiltered = this.operations = operations;
-          }
-        });
+        this.operationsFiltered = this.operations = this.operationGroup.operations;
+        this.runSortSwitch();
       }
     }
   }

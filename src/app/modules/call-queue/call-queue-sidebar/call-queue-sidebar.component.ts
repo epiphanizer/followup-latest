@@ -14,8 +14,8 @@ import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientService } from '@app/modules/patient/patient.service';
-import { Patient } from '@app/modules/patient/patient';
-import { Observable } from 'rxjs';
+
+import { map } from 'rxjs/operators';
 
 @Component({
   providers: [OperationService],
@@ -62,6 +62,7 @@ export class CallQueueSidebarComponent {
   currentNewDischargeCount: number;
   @Output() operationChangeEvent = new EventEmitter<number>();
   errorFallback: boolean = false;
+  isTouched: boolean = false;
   selected: {
     operation: Operation | null;
   } = {
@@ -74,7 +75,7 @@ export class CallQueueSidebarComponent {
     private patientService: PatientService
   ) {}
   operationGroups: OperationGroup[] = null;
-  operationGroups$: Observable<OperationGroup[]>;
+
   operations: Operation[];
   user: User;
   todaysDateDay: string;
@@ -83,84 +84,61 @@ export class CallQueueSidebarComponent {
   ngOnInit() {
     /** Init to the first user operation (alphabetically,) */
     this.user = this.route.snapshot.data.user;
-    if (!sessionStorage.getItem('operationGroups')) {
-      this.operationGroups$ = this.operationService.getOperationGroups();
-      this.operationGroups$.subscribe((operationGroups: OperationGroup[]) => {
-        if (operationGroups) {
-          sessionStorage.setItem('operationGroups', JSON.stringify(operationGroups));
-          operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-            operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-              operationGroup,
-              this.user
+    if (!localStorage.getItem('operationGroups')) {
+      this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
+        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+          operationGroup.operations$ = this.operationService
+            .getActiveOperationsByOperationGroupId(operationGroup, this.user)
+            .pipe(
+              map((operations: Operation[]) => {
+                if (operations) {
+                  if (idx == 0 && !this.selected.operation) {
+                    this.selected.operation = operations[0];
+                    this.activeOperationId = this.selected.operation.operationId;
+                  }
+                  return operations;
+                }
+              })
             );
-            if (idx == 0 && !this.activeOperationId) {
-              operationGroup.sidebarDropdownOpen = true;
-            } else {
-              operationGroup.sidebarDropdownOpen = false;
-            }
-          });
-          this.operationGroups = operationGroups;
-        }
+        });
+        this.operationGroups = operationGroups;
       });
     } else {
-      var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
-      operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-          operationGroup,
-          this.user
-        );
-        if (idx == 0 && !this.activeOperationId) {
-          operationGroup.sidebarDropdownOpen = true;
-        } else {
-          operationGroup.sidebarDropdownOpen = false;
-        }
-      });
-      this.operationGroups = operationGroups;
+      this.operationGroups = this.user.operationGroups;
     }
 
     this.route.paramMap.subscribe((data: any) => {
+      var operationId;
       if (data.params.operationId) {
-        this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
-          this.selected.operation = data[0];
-          this.activeOperationId = this.selected.operation.operationId;
-          this.patientService
-            .getActivePatientListByOperationId(this.selected.operation.operationId)
-            .subscribe((patients: Patient[]) => {
-              if (patients !== null) {
-                this.getCurrentNewDischargeCount(patients);
-              }
-            });
-        });
+        operationId = data.params.operationId;
       } else {
-        // this.operations = this.user.operations;
-        this.user.operations$.subscribe((data: Operation[]) => {
-          /** Init to the first assigned operation alphabetically */
-          this.operations = data;
-          if (!this.operations[0]) {
-            this.errorFallback = true;
-          } else {
-            this.errorFallback = false;
-          }
-          this.selected.operation = this.operations[0];
-          this.activeOperationId = this.selected.operation.operationId;
-        });
+        operationId = this.user.operations[0].operationId;
+        this.operations = this.user.operationGroups[0].operations;
       }
+      this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation) => {
+        this.selected.operation = data[0];
+        this.activeOperationId = this.selected.operation.operationId;
+      });
     });
 
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
-  public getCurrentNewDischargeCount(patients: Patient[]) {
-    let patientsWithNoCalls = [];
-    patientsWithNoCalls = patients.filter(function(patient: Patient) {
-      return patient.patientCallCount - 1 == 0;
-    });
-    return patientsWithNoCalls.length;
-  }
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
-    this.operationChangeEvent.emit(operation);
+    this.activeOperationId = operation.operationId;
+    this.operationChangeEvent.emit(this.activeOperationId);
+  };
+  setActiveOperationGroup = function(operationGroup: OperationGroup) {
+    operationGroup.sidebarDropdownOpen = true;
+    /**
+     * Reassign selected group
+     */
+    this.selected.operationGroup = operationGroup;
+    this.activeOperationGroupId = operationGroup.operationGroupId;
+    this.operationGroupChangeEvent.emit(this.activeOperationGroupId);
   };
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
+    if (!this.isTouched) this.isTouched = true;
     operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
   }
 }

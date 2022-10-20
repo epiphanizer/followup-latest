@@ -6,6 +6,7 @@
       <ion-list class="login-inputs" lines="none" inset>
         <ion-item class="username">
           <ion-input
+            id="username"
             type="text"
             id="username"
             class="username"
@@ -18,14 +19,14 @@
           <ion-input
             id="password"
             class="password"
+            id="password"
             placeholder="Password"
-            (keydown.enter)="signIn()"
             type="password"
             formControlName="password"
             autocomplete="current-password"
           ></ion-input>
         </ion-item>
-        <button class="primary button" type="submit" (submit)="signIn()">
+        <button class="primary button" type="submit">
           Login
         </button>
       </ion-list>

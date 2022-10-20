@@ -24,10 +24,11 @@
     ><span class="label ama" *ngIf="patient.patientDischargedAma">(AMA)&nbsp;</span>{{ patient.patientDischargeLabel }}
   </ion-item>
 </ion-list>
+<br />
 <i class="icon-medical"></i>
 <ion-list class="more-info-section" inset lines="none">
   <ion-item>
-    <span class="medical-condition-label label" *ngIf="patientMedicalConditions">
+    <span class="medical-condition-label label">
       Medical Conditions: &nbsp;
     </span>
     <label
@@ -38,18 +39,19 @@
         {{ patientMedicalCondition.replace('Boolean', '') }}</span
       >
     </label>
+    <span *ngIf="patientMedicalConditions.length == 0">(none provided)</span>
   </ion-item>
   <ion-item class="primary-diagnosis">
     <span class="label">Primary Diagnosis: &nbsp; </span> {{ patient.patientPrimaryDiagnosis }}
   </ion-item>
   <div class="discharged-condition">
     <span class="discharge label">Discharged Condition: &nbsp; </span>
-    <p>{{ patient.patientDischargedCondition }}</p>
+    <p>{{ patient.patientDischargedCondition.length ? patient.patientDischargedCondition : '(none provided)' }}</p>
   </div>
   <div class="need-to-know" *ngIf="patient.patientNeedToKnow">
     <span class="label"> Need To Know: &nbsp; </span>
     <p>
-      {{ patient.patientNeedToKnow }}
+      {{ patient.patientNeedToKnow.length ? patient.patientNeedToKnow : '(no additional information given)' }}
     </p>
   </div>
   <ion-list class="intake-questions">

@@ -31,7 +31,6 @@ export class TeamService {
   };
   getTeamMessagesByTeamId = function(teamId: string) {
     return this.http.get('teams/' + teamId + '/messages/').pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };

@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { formatDate } from '@angular/common';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import {
   trigger,
   state,
@@ -72,13 +71,19 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   callRepSidebarDropdownOpen: boolean = true;
 
   isOpen: boolean = true;
+
   operationAssignedUsers: any[];
   operationAssignedUsersToAdd: OperationCallRep[];
   operationAssignedUsersOriginal: string[];
   operationAssignedUsersToRemove: string[] = [];
-  operationManager: OperationManager;
-  operationManagerOriginal: OperationManager;
+
+  operationManagers: any[];
+  operationManagersToAdd: OperationManager[];
+  operationManagersOriginal: string[];
+  operationManagersToRemove: string[] = [];
+
   constructor(
+    private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private logService: LogService,
     private operationService: OperationService,
@@ -109,22 +114,24 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     if (this.route.snapshot.paramMap.get('operationId')) {
       this.activeOperationId = this.route.snapshot.paramMap.get('operationId');
       this.updateAssignedUsers();
-      this.updateAssignedManager();
+      this.getAssignedManagers();
     }
     this.route.paramMap.subscribe(params => {
       if (params.get('operationId')) {
         this.operationAssignedUsers = [];
         this.activeOperationId = params.get('operationId');
         this.updateAssignedUsers();
-        this.updateAssignedManager();
+        this.getAssignedManagers();
       }
     });
     if (this.mode.add) {
-      this.operationManager = {
-        userId: null,
-        operationId: this.operation.operationId,
-        operationManagerName: ''
-      };
+      this.operationManagers = [
+        {
+          userId: '',
+          operationId: this.operation.operationId,
+          operationManagerName: ''
+        }
+      ];
       // Arm an initial call rep
       this.operationAssignedUsers = [
         {
@@ -145,12 +152,12 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         map((users: User[]) => {
           if (users) {
             this.operationAssignedUsers = users.filter(user => {
-              return user.userRoleType != 'Manager';
+              return user.userRoleLabel != 'Manager' && user.userRoleLabel != 'Admin';
             });
-            this.operationAssignedUsers = this.operationAssignedUsers.filter((operationCallRep: OperationCallRep) => {
-              return operationCallRep.userRoleLabel != 'Manager';
+            this.cdr.detectChanges();
+            this.operationAssignedUsersOriginal = this.operationAssignedUsers.map(function(user) {
+              return user.userId;
             });
-            this.operationAssignedUsersOriginal = this.operationAssignedUsers;
           } else {
             if (!this.mode.edit) {
               this.callRepSidebarDropdownOpen = false;
@@ -164,20 +171,30 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       )
       .subscribe();
   }
-  updateAssignedManager() {
+  getAssignedManagers() {
+    this.operationManagers = [];
     this.operationService
       .getOperationManagersByOperationId(this.activeOperationId)
       .pipe(
         take(1),
         map((managers: OperationManager[]) => {
-          if (managers[0]) {
-            this.operationManager = managers[0];
-            this.operationManagerOriginal = managers[0];
+          if (managers) {
+            this.operationManagers = managers;
+            this.operationManagersOriginal = this.operationManagers.map(function(manager) {
+              return manager.userId;
+            });
+            this.cdr.detectChanges();
           } else {
-            this.operationManager = this.operationManagerOriginal = {
-              userId: null,
-              operationId: null
-            };
+            if (!this.mode.edit) {
+              this.managerSidebarDropdownOpen = false;
+            } else {
+              for (var i = 0; i < 1; i++) {
+                this.operationManagers.push({
+                  userId: null,
+                  operationId: null
+                });
+              }
+            }
           }
         })
       )
@@ -200,9 +217,9 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     };
     this.operationAssignedUsers[index] = operationCallRepObject;
     // Passes E2E
-    if (this.operationAssignedUsersToRemove.length) {
+    if (this.operationAssignedUsersToRemove?.length) {
       this.operationAssignedUsersToRemove.forEach((callRepUserId: string, index: number) => {
-        if (callRepUserId == null) {
+        if (callRepUserId == '') {
           return;
         }
         this.operationCallRepsService
@@ -210,17 +227,24 @@ export class OperationAdminRightSidebarComponent implements OnInit {
           .subscribe(() => {});
       });
     }
-
-    /**
-     * Make sure we only add uniques
-     */
-    this.operationAssignedUsersToAdd = this.operationAssignedUsers.filter(
-      (operationCallRep: OperationCallRep, index: number) => {
-        return (
-          operationCallRep.userId !== this.operationAssignedUsersOriginal[index] && operationCallRep.userId !== null
-        );
-      }
-    );
+    if (this.operationAssignedUsersOriginal?.length) {
+      /**
+       * Make sure we only add uniques
+       */
+      this.operationAssignedUsersToAdd = this.operationAssignedUsers.filter(
+        (operationCallRep: OperationCallRep, index: number) => {
+          return (
+            !this.operationAssignedUsersOriginal[index].includes(operationCallRep.userId) &&
+            operationCallRep.userId !== ''
+          );
+        }
+      );
+    } else {
+      this.operationAssignedUsersToAdd = this.operationAssignedUsers;
+    }
+    if (!this.operationAssignedUsersToAdd) {
+      return;
+    }
     let count = 0;
     this.operationAssignedUsersToAdd = Array.from(new Set(this.operationAssignedUsersToAdd));
     this.operationAssignedUsersToAdd.forEach((operationCallRep: OperationCallRep) => {
@@ -228,7 +252,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         .addOperationCallRepByOperationIdAndUserId(this.operation.operationId, operationCallRep.userId)
         .subscribe(() => {
           count++;
-          if (count == this.operationAssignedUsers.length) {
+          if (count == this.operationAssignedUsersToAdd?.length) {
             this.toastr.success('Care Reps successfully saved');
           }
         });
@@ -243,6 +267,14 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     };
     this.operationAssignedUsers.push(newCallRep);
   }
+  addAdditionalOperationManager() {
+    let newManager = {
+      userId: 0,
+      operationId: this.operation.operationId,
+      operationManagerName: ''
+    };
+    this.operationManagers.push(newManager);
+  }
   managerOnSelect(event: any, index: number) {
     let managerUserId = event.target.value;
 
@@ -250,34 +282,52 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       operationId: this.operation.operationId,
       userId: managerUserId
     };
-    this.operationManager = operationManagerObject;
+    this.operationManagers[index] = operationManagerObject;
+    // Passes E2E
+    if (this.operationManagersToRemove?.length) {
+      this.operationManagersToRemove.forEach((manager: string, index: number) => {
+        if (manager == '') {
+          return;
+        }
+        this.operationService
+          .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, manager)
+          .subscribe(() => {});
+      });
+    }
 
-    // Don't process default manager entry
-    if (managerUserId == 0) {
+    /**
+     * Make sure we only add uniques
+     */
+    if (this.operationManagersOriginal?.length) {
+      this.operationManagersToAdd = this.operationManagers.filter(
+        (operationManager: OperationManager, index: number) => {
+          if (this.operationManagersOriginal[index]) {
+            return (
+              !this.operationManagersOriginal[index].includes(operationManager.userId) && operationManager.userId !== ''
+            );
+          } else {
+            return operationManager;
+          }
+        }
+      );
+    } else {
+      this.operationManagersToAdd = this.operationManagers;
+    }
+    if (!this.operationManagersToAdd?.length) {
       return;
     }
-    if (this.operationManagerOriginal.userId) {
+    let count = 0;
+    this.operationManagersToAdd = Array.from(new Set(this.operationManagersToAdd));
+    this.operationManagersToAdd.forEach((manager: OperationManager) => {
       this.operationService
-        .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, this.operationManagerOriginal.userId)
+        .assignManagerToOperationByOperationIdAndUserId(this.operation.operationId, manager.userId)
         .subscribe(() => {
-          this.operationService
-            .assignManagerToOperationByOperationIdAndUserId(
-              this.operationManager.operationId,
-              this.operationManager.userId
-            )
-            .subscribe(() => {
-              this.operationManagerOriginal = this.operationManager;
-              this.toastr.success('Manager successfully Added');
-            });
+          count++;
+          if (count == this.operationManagersToAdd?.length) {
+            this.toastr.success('Manager successfully saved');
+          }
         });
-    } else {
-      this.operationService
-        .assignManagerToOperationByOperationIdAndUserId(this.operationManager.operationId, this.operationManager.userId)
-        .subscribe(() => {
-          this.operationManagerOriginal = this.operationManager;
-          this.toastr.success('Manager successfully Added');
-        });
-    }
+    });
   }
   public toggleOperationManagersAssignedMenu = function() {
     this.managerSidebarDropdownOpen = !this.managerSidebarDropdownOpen;

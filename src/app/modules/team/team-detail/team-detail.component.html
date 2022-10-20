@@ -44,10 +44,11 @@
             </h2>
             <div class="additional-details" *ngIf="user">
               <span class="team-member-birthday">
-                <strong>Birthday: </strong>{{ user.userDob ? (user.userDob | date: 'mm/dd/yy') : 'Not Provided' }}
+                <span class="leader">Birthday: </span
+                >{{ user.userDob ? (user.userDob | date: 'mm/dd/yy') : 'Not Provided' }}
               </span>
               <span class="team-member-dessert">
-                <strong>Favorite Dessert: </strong
+                <span class="leader">Favorite Dessert: </span
                 >{{ user.userFavoriteDessert ? user.userFavoriteDessert : 'Not Provided' }}
               </span>
               <div class="user-information">

@@ -24,7 +24,7 @@
             class="expand-facilities-trigger"
             [@turnArrow]="
               operationGroup.sidebarDropdownOpen ||
-              operationGroup.operationGroupId == selected.operation?.operationGroupId
+              (operationGroup.operationGroupId == selected.operation?.operationGroupId && !isTouched)
                 ? 'open'
                 : 'closed'
             "
@@ -36,14 +36,11 @@
             class="group-operations"
             [class.show]="
               operationGroup.sidebarDropdownOpen ||
-              operationGroup.operationGroupId == selected.operation?.operationGroupId
+              (operationGroup.operationGroupId == selected.operation?.operationGroupId && !isTouched)
             "
-            *ngIf="operationGroup.operations$"
+            *ngIf="operationGroup.operations"
           >
-            <li
-              *ngFor="let operation of operationGroup.operations$ | async"
-              [class.spanish]="operation.spanishSpeaking"
-            >
+            <li *ngFor="let operation of operationGroup.operations" [class.spanish]="operation.spanishSpeaking">
               <div class="operation-link-container" *ngIf="operation.operationActive">
                 <a
                   class="operation-link"
@@ -52,7 +49,9 @@
                   [class.active]="activeOperationId == operation.operationId"
                 >
                   {{ operation.operationName | slice: 0:15
-                  }}<span *ngIf="operation.operationName.length > 16">...</span>
+                  }}<span *ngIf="operation.operationName.length > 16">
+                    <!-- ... -->
+                  </span>
                 </a>
 
                 <span class="current-patients">

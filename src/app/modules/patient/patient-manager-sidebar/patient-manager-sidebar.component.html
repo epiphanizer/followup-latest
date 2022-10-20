@@ -5,66 +5,57 @@
       {{ todaysDateDay }}
     </div>
   </div>
-  <!-- <ng-template #errorFallback>
-    <span class="error">
-      It looks like you haven't been
-      assigned any facilites yet. 
-      <br />
-      <br />
-      Check back again once you have been assigned!
-  </span>
-  </ng-template> -->
   <div class="facility-dropdown-container">
     <a class="facility-dropdown-target">PATIENTS</a>
     <ng-container *ngIf="operationGroups">
       <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
-        <span class="operation-group" (click)="toggleOperationSidebarMenu(operationGroup)"
-          >{{
-            operationGroup.operationGroupShortName?.length
-              ? operationGroup.operationGroupShortName
-              : operationGroup.operationGroupName
-          }}
-          <i
-            class="expand-facilities-trigger"
-            [@turnArrow]="
-              operationGroup.sidebarDropdownOpen ||
-              operationGroup.operationGroupId == selected.operation?.operationGroupId
-                ? 'open'
-                : 'closed'
-            "
-            class="expand-facilities-trigger active"
-          >
-          </i>
-          <ul
-            class="group-operations"
-            [class.show]="
-              operationGroup.sidebarDropdownOpen ||
-              operationGroup.operationGroupId == selected.operation?.operationGroupId
-            "
-            *ngIf="operationGroup.operations$"
-          >
-            <li
-              *ngFor="let operation of operationGroup.operations$ | async"
-              [class.spanish]="operation.spanishSpeaking"
+        <div *ngIf="operationGroup.operations?.length">
+          <span class="operation-group" (click)="toggleOperationSidebarMenu(operationGroup)"
+            >{{
+              operationGroup.operationGroupShortName?.length
+                ? operationGroup.operationGroupShortName
+                : operationGroup.operationGroupName
+            }}
+            <i
+              class="expand-facilities-trigger"
+              [@turnArrow]="
+                operationGroup.sidebarDropdownOpen ||
+                operationGroup.operationGroupId == selected.operation?.operationGroupId
+                  ? 'open'
+                  : 'closed'
+              "
             >
-              <div class="operation-link-container" *ngIf="operation.operationActive">
-                <a
-                  class="operation-link"
-                  [routerLink]="'/operations/' + operation.operationId + '/patients'"
-                  (click)="setActiveOperation(operation)"
-                  [class.active]="activeOperationId == operation.operationId"
-                >
-                  {{ operation.operationName | slice: 0:15
-                  }}<span *ngIf="operation.operationName.length > 16">...</span>
-                </a>
+            </i>
+            <ul
+              class="group-operations"
+              [class.show]="
+                operationGroup.sidebarDropdownOpen ||
+                operationGroup.operationGroupId == selected.operation?.operationGroupId
+              "
+              *ngIf="operationGroup.operations"
+            >
+              <li *ngFor="let operation of operationGroup.operations" [class.spanish]="operation.spanishSpeaking">
+                <div class="operation-link-container" *ngIf="operation.operationActive">
+                  <a
+                    class="operation-link"
+                    [routerLink]="'/operations/' + operation.operationId + '/patients'"
+                    (click)="setActiveOperation(operation)"
+                    [class.active]="activeOperationId == operation.operationId"
+                  >
+                    {{ operation.operationName | slice: 0:15
+                    }}<span *ngIf="operation.operationName?.length > 16">
+                      <!-- ... -->
+                    </span>
+                  </a>
 
-                <span class="current-patients">
-                  {{ operation.currentAssignedPatientCount }}
-                </span>
-              </div>
-            </li>
-          </ul>
-        </span>
+                  <span class="current-patients">
+                    {{ operation.currentAssignedPatientCount }}
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </div>
       </div>
     </ng-container>
 

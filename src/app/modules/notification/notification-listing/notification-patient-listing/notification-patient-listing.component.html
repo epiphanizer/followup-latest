@@ -27,7 +27,7 @@
       </th>
     </tr>
   </thead>
-  <tbody>
+  <tbody *ngIf="notificationsFiltered; else noNotifications">
     <tr *ngFor="let notification of notificationsFiltered" class="active">
       <td>
         {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
@@ -52,11 +52,10 @@
 <jw-pagination *ngIf="notificationsFiltered" [items]="notificationsFiltered" (changePage)="onChangePage($event)">
 </jw-pagination>
 
-<ng-template #noPatientNotifications>
-  <span class="no-calls">
-    No notifications found for selected date.
-  </span>
-</ng-template>
 <ng-template #noNotifications>
-  <span class="no-calls"> No results for search. </span>
+  <tbody>
+    <p style="font-family: Avenir">
+      Sorry! No notifications exist for this operation, or your search is too narrow!
+    </p>
+  </tbody>
 </ng-template>

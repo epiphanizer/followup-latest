@@ -14,12 +14,19 @@ i {
   margin: 0;
   height: 75px;
   vertical-align: top;
+
+  @media screen and (max-width: 1200px) {
+    height: 83px;
+  }
 }
 .left-column {
   width: 210px;
 }
 .right-column {
-  width: 350px;
+  width: 300px;
+  @media screen and (max-width: 1200px) {
+    width: 210px;
+  }
 }
 .icon-discharge {
   margin-top: 19px;
@@ -31,7 +38,7 @@ i {
 }
 
 .icon-medical {
-  margin-top: 19px;
+  margin-top: 21px;
   background-image: url("/assets/icon-medical@2x.png");
   background-repeat: no-repeat;
   background-size: 100%;
@@ -176,7 +183,7 @@ ion-list {
     padding-top: 0;
     margin: 0 0 0 0;
     ion-item {
-      height: 30px;
+      height: 32px;
     }
   }
 }

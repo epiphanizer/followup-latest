@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { formatDate } from '@angular/common';
 import {
   trigger,
@@ -65,16 +65,20 @@ export class OperationAdminSidebarComponent implements OnInit {
   } = {
     operation: null
   };
-
+  isTouched: boolean = false;
   operationGroups: OperationGroup[] = [];
   operationGroups$: Observable<OperationGroup[]>;
   operations: Operation[] = [];
   user: User;
   todaysDateDay: string;
-  constructor(private route: ActivatedRoute, private operationService: OperationService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private operationService: OperationService,
+    private _cdr: ChangeDetectorRef
+  ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    if (!sessionStorage.getItem('operationGroups')) {
+    if (!localStorage.getItem('operationGroups')) {
       this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
           operationGroup.operations$ = this.operationService
@@ -102,68 +106,41 @@ export class OperationAdminSidebarComponent implements OnInit {
         this.operationGroups = operationGroups;
       });
     } else {
-      var operationGroups = JSON.parse(sessionStorage.getItem('operationGroups'));
-      operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-        operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-          operationGroup,
-          this.user
-        );
-        if (this.route.snapshot.params.operationGroupId) {
-          if (this.route.snapshot.params.operationGroupId == operationGroup.operationGroupId) {
-            this.setActiveOperationGroup(operationGroup);
-          }
-        }
-      });
-      this.operationGroups = operationGroups;
+      this.operationGroups = this.user.operationGroups;
+      if (!this.route.snapshot.data.operation) {
+        this.operationGroups[0].sidebarDropdownOpen = true;
+      } else {
+        this.operationService
+          .getOperationByOperationId(this.route.snapshot.data.operation.operationId)
+          .subscribe((data: Operation) => {
+            this.selected.operation = data[0];
+            this.activeOperationId = this.selected.operation.operationId;
+          });
+        // do nothing
+      }
+      // this._cdr.detectChanges();
     }
-    this.route.paramMap.subscribe(params => {
-      if (params.get('operationGroupId')) {
-        if (!this.operationGroups.length) {
-          this.operationService.getOperationGroups().subscribe(operationGroups => {
-            operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-              operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-                operationGroup,
-                this.user
-              );
-              if (params.get('operationGroupId') == operationGroup.operationGroupId) {
-                this.setActiveOperationGroup(operationGroup);
-              }
-            });
-          });
-        } else {
-          this.operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-            operationGroup.operations$ = this.operationService.getActiveOperationsByOperationGroupId(
-              operationGroup,
-              this.user
-            );
-            if (params.get('operationGroupId') == operationGroup.operationGroupId) {
-              operationGroup.sidebarDropdownOpen = true;
-              this.setActiveOperationGroup(operationGroup);
-            } else {
-              operationGroup.sidebarDropdownOpen = false;
-            }
-          });
-        }
-      }
-      if (params.get('operationId')) {
-        this.activeOperationId = params.get('operationId');
-        this.operationService.getOperationByOperationId(this.activeOperationId).subscribe((operation: Operation) => {
-          this.selected.operation = operation[0];
-          if (this.operationGroups) {
-            this.operationGroups.forEach(operationGroup => {
-              if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
-                operationGroup.sidebarDropdownOpen = false;
-              } else {
-                operationGroup.sidebarDropdownOpen = true;
-              }
-            });
-          }
-        });
-      }
-    });
 
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
+    this.route.paramMap.subscribe((data: any) => {
+      var operationId;
+      if (data.params.operation) {
+        operationId = data.params.operation.operationId;
+      } else {
+        operationId = this.user.operations[0].operationId;
+        this.operations = this.user.operationGroups[0].operations;
+      }
+      if (data.params.operation) {
+        this.operationService
+          .getOperationByOperationId(data.params.operation.operationId)
+          .subscribe((data: Operation) => {
+            this.selected.operation = data[0];
+            this.activeOperationId = this.selected.operation.operationId;
+          });
+      }
+    });
   }
+
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
     this.activeOperationId = operation.operationId;
@@ -179,6 +156,7 @@ export class OperationAdminSidebarComponent implements OnInit {
     this.operationGroupChangeEvent.emit(this.activeOperationGroupId);
   };
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
+    if (!this.isTouched) this.isTouched = true;
     operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
   }
 }

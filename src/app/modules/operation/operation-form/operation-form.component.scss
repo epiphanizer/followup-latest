@@ -1,6 +1,9 @@
 ion-content {
   padding-bottom: 132px;
 }
+body.backdrop {
+  background: rgba(0, 0, 0, 0.1);
+}
 
 .operation-sidebar {
   max-width: 172px;
@@ -272,6 +275,7 @@ form {
     &.operation-name,
     &.address,
     &.city {
+      clear: both;
       margin-left: 25px;
     }
   }
@@ -280,6 +284,9 @@ form {
     clear: both;
   }
 
+  span.add-group-label {
+    cursor: pointer;
+  }
   ion-input {
     font-family: Avenir;
     font-size: 14px;
@@ -713,5 +720,47 @@ button {
 
   ion-label {
     font-size: 11px;
+  }
+}
+.modal {
+  position: absolute;
+  z-index: 20001;
+  display: block;
+  background: white;
+  text-align: center;
+  padding: 1rem 2rem;
+  width: 300px;
+  margin-left: 40%;
+  margin-top: 2rem;
+  height: 250px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  form {
+    padding-top: 0;
+    margin-top: 0;
+  }
+  ::ng-deep ion-backdrop {
+    display: none !important;
+  }
+  ion-buttons {
+    display: block;
+    margin-top: -0.5rem;
+  }
+  ion-label {
+    font-family: AvenirPro;
+    font-size: 18px;
+    float: left;
+    margin-bottom: 1rem;
+    padding-left: 0;
+    font-weight: 800;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: 0.3px;
+    text-align: left;
+    color: #222222;
+  }
+  ion-input {
+    text-align: left;
+    margin-top: 0.5rem;
   }
 }

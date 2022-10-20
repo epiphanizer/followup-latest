@@ -22,6 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { formatDate } from '@angular/common';
+import { UserService } from '@app/modules/user/user.service';
 
 @Component({
   providers: [NgxImageCompressService, PatientService, PatientIntakeQuestionService],
@@ -69,19 +70,17 @@ export class PatientFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private operationService: OperationService,
     private patientService: PatientService,
     private patientContactService: PatientContactService,
     private patientIntakeQuestionService: PatientIntakeQuestionService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
     this.currentYear = new Date().getFullYear();
     this.user = this.route.snapshot.data.user;
-    this.operationService.getAllOperations().subscribe((operations: Operation[]) => {
-      this.operations = operations;
-    });
+    this.operations = this.user.operations;
     this.patientService.getPatientDischargeLabels().subscribe((data: any) => {
       this.dischargeLabels = data;
     });
@@ -151,7 +150,7 @@ export class PatientFormComponent implements OnInit {
           // We need to explicitly set this value we learned from testing.
           this.patientForm
             .get('patient.dischargeInfo.patientDischargedTo')
-            .setValue(this.patient.patientDischargeLabelId.toString());
+            .setValue(this.patient.patientDischargeLabelId);
           this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
           this.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
             let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
@@ -290,7 +289,7 @@ export class PatientFormComponent implements OnInit {
             disabled: true,
             value: this.patient.patientTotalDays
           }),
-          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId.toString(), [Validators.required]),
+          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId, [Validators.required]),
           patientDischargedAma: this.fb.control((this.patient.patientDischargedAma == true ? '1' : '0') || '0', [
             Validators.required
           ])
@@ -384,7 +383,9 @@ export class PatientFormComponent implements OnInit {
     Are you sure you want to do this?')) {
       this.patientService.deletePatientByPatientId(this.patient.patientId).subscribe(() => {
         this.toastrService.success('Patient Successfully Deleted');
-        window.location.href = '/operations/' + this.patient.patientOperationId + '/patients';
+        this.userService.updateOperations(this.user).then(res => {
+          window.location.href = '/operations/' + this.patient.patientOperationId + '/patients';
+        });
       });
     }
   }
@@ -508,11 +509,14 @@ export class PatientFormComponent implements OnInit {
 
     this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
       this.toastrService.success('Successfully edited patient!');
-      debugger;
-      window.location.href = '/operations/' + this.patientForm.get('patient.operation').value + '/patients';
-      if (!this.mode.edit) {
-        this.patientForm.reset();
-      }
+
+      this.userService.updateOperations(this.user).then(res => {
+        window.location.href = '/operations/' + this.patientForm.get('patient.operation').value + '/patients';
+
+        if (!this.mode.edit) {
+          this.patientForm.reset();
+        }
+      });
     });
   }
   patientContactPutFactory(patientContact: PatientContact): PatientContactPutBody {
@@ -588,7 +592,7 @@ export class PatientFormComponent implements OnInit {
       patientAdmitDate: patientAdmitDate,
       patientDischargeDate: patientDischargeDate,
       patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma == true ? 1 : 0,
-      patientDischargeLabelId: parseInt(formSubmission.patient.dischargeInfo.patientDischargedTo),
+      patientDischargeLabelId: formSubmission.patient.dischargeInfo.patientDischargedTo,
       patientDischargedCondition: formSubmission.patient.patientDischargedCondition
         ? formSubmission.patient.patientDischargedCondition
         : '',
@@ -615,6 +619,7 @@ export class PatientFormComponent implements OnInit {
       });
     }
     if (firstError) {
+      console.log(firstError);
       // scroll(firstError);
       alert('Failed validation, please check fields');
       return false;

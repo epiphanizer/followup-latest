@@ -1,73 +1,86 @@
 .user-dashboard {
-  width: calc(100% - 110px);
-  margin: 50px auto 0 110px;
+  width: calc(100% - 106px);
+  margin: 30px auto 0 auto;
   height: 100%;
+  padding-bottom: 100px;
   overflow: auto;
-
+  display: flex;
+  align-items: self-start;
+  max-width: 1280px;
   ion-row {
     width: 100%;
-    display: block;
+    display: inline-flex;
     height: 100%;
-    overflow: hidden;
     margin-bottom: 20px;
-
-    @media screen and (max-width: 1024px) {
+    align-items: top;
+    &.top-row {
+      margin-top: 3vh;
+      margin-bottom: 2vh;
+    }
+    &:not(.top-row) {
+      justify-content: space-evenly;
+      align-items: center;
+    }
+    @media screen and (max-width: 925px) {
+      margin-top: 0;
       &.top-row {
-        margin-bottom: 5vh;
-        max-height: 235px;
+        display: block;
+        margin-top: 0vh;
+        margin-bottom: 0vh;
+      }
+      &:not(.top-row) {
+        align-items: self-start;
       }
     }
 
     ion-col {
-      height: auto;
-
-      @media screen and (min-width: 1025px) {
-        height: 37vh;
-      }
-      @media screen and (max-width: 1024px) {
-        &.left-box,
-        &.post-it-box,
-        &.right-col {
-          max-height: 235px;
-          margin-bottom: 1rem;
+      &.left-box,
+      &.post-it-box,
+      &.red-data-box,
+      &.right-col {
+        margin-bottom: 1rem;
+        min-height: 33vh;
+        @media screen and (max-width: 925px) {
+          min-height: 155px;
         }
       }
-
-      display: block;
-      float: left;
 
       &.left-box {
-        width: calc(34% + 15px);
-        margin-right: -2%;
+        min-width: 53%;
         padding-right: 2%;
         overflow-y: auto;
-        @media screen and (max-width: 1024px) {
-          width: calc(40% + 15px);
+        @media screen and (max-width: 575px) {
+          width: 100%;
+          text-align: center;
         }
         .message-container {
-          max-width: 525px;
+          max-width: 582px;
+          margin: 0 auto;
         }
       }
 
       &.post-it-box {
-        text-align: center;
-        width: calc(30% + 15px);
-        margin-right: 34px;
-        background: white;
-        padding-left: 3%;
-        margin-right: -3%;
-        max-width: 403px;
+        @media screen and (max-width: 925px) {
+          display: none;
+        }
+        // flex-grow: 0;
+        // align-items: center;
+        // // margin-right: 34px;
+        // background: white;
+        // min-width: 354px;
+        // max-width: 403px;
+        // justify-content: flex-end;
       }
 
       &.right-col {
-        background: white;
         width: 28%;
-        padding-left: 2rem;
-        max-width: 387px;
 
         .confetti-box {
+          @media screen and (max-width: 925px) {
+            display: none;
+          }
+          max-width: 387px;
           max-height: calc(100% - 24px);
-          max-width: 329px;
           display: block;
           min-height: 272px;
           width: 100%;
@@ -75,7 +88,7 @@
           background-image: url("/assets/confetti@2x.png");
           background-size: contain;
           background-repeat: no-repeat;
-          background-position: top;
+          background-position: right;
         }
       }
     }
@@ -105,10 +118,27 @@
       text-align: left;
       color: #00b4b9;
     }
-
+    .message-container {
+      h1 {
+        padding-left: 22px;
+        @media screen and (max-width: 925px) {
+          padding-left: 0;
+          text-align: center;
+        }
+        @media screen and (max-width: 575px) {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
     .team-messages {
       margin-bottom: 72px;
-
+      h1 {
+        padding-left: 22px;
+        @media screen and (max-width: 925px) {
+          padding-left: 0;
+        }
+      }
       .team-message {
         font-family: AvenirPro;
         font-size: 15px;
@@ -124,7 +154,6 @@
 
     .posted-notes {
       height: 100%;
-      max-height: 34vh;
 
       .user-messages {
         width: 100%;
@@ -170,31 +199,37 @@
   .red-data-box,
   .blue-data-box {
     display: block;
-    height: 40vh;
+    // height: 40vh;
 
-    min-height: 250px;
+    min-height: 211px;
     margin-right: 30px;
+    @media screen and (max-width: 925px) {
+      min-height: 155px;
+    }
   }
 
   ion-col.patient-pipeline-col {
     width: 34%;
     margin-right: 1%;
-    min-width: 300px;
+    flex-grow: 3;
+    min-width: 355px;
 
-    @media screen and (max-width: 1125px) {
-      width: 42%;
+    @media screen and (max-width: 925px) {
+      margin: 0 auto 6vh auto;
+      min-width: 80%;
     }
 
-    margin-bottom: 2rem;
+    // margin-bottom: 2rem;
   }
 
   .patient-pipeline {
     background-color: #f5f5f5;
-    max-width: 525px;
+    max-width: 575px;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+    overflow: auto;
     @media screen and (max-width: 1335px) {
       width: 95%;
-      max-height: 355px;
-      max-width: unset;
     }
 
     width: 100%;
@@ -220,7 +255,7 @@
 
       .metric {
         width: 100%;
-        margin-top: 21px;
+        margin-top: 8px;
 
         .label-container {
           width: 100%;
@@ -321,40 +356,138 @@
     max-width: 327px;
     width: 28%;
     background-size: contain;
-    background-image: url("/assets/red-data-box@2x.png");
+    background-color: #ef4627;
+    padding: 0.5rem 2rem;
+    border-radius: 16px;
+    display: flex;
+    background-repeat: no-repeat;
+    background-position: top;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    h1,
+    h2 {
+      color: white;
+      font-family: "AvenirBold";
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: 22px;
+      opacity: 0.5;
+      margin-bottom: 0;
+      text-align: center;
+    }
+    h2 {
+      font-size: 5vw;
+      margin-bottom: 0;
+      margin-top: 7px;
+      white-space: nowrap;
+      text-align: center;
+      @media screen and (min-width: 1126px) {
+        text-align: center;
+        font-size: 87px;
+        letter-spacing: -4.8px;
+        margin-left: -0.5rem;
+        &::first-letter {
+          letter-spacing: -12.25px;
+        }
+      }
+    }
+    h3 {
+      margin-top: 0.25rem;
+      font-size: 1.275rem;
+      letter-spacing: 0.5px;
+      font-family: "AvenirDemi";
+      text-align: center;
+      @media screen and (max-width: 925px) {
+        font-size: 1.025rem;
+      }
+    }
+    color: white;
+    font-family: "AvenirBold";
+    // background-image: url("/assets/red-data-box@2x.png");
     background-repeat: no-repeat;
     background-position: top;
     @media screen and (max-width: 1125px) {
       background-size: 100%;
-      width: 26%;
+      width: 23%;
     }
-    margin-right: 2%;
+    // margin-right: 2%;
   }
 
   ion-col.blue-data-box {
+    border-radius: 16px;
     max-width: 327px;
     width: 28%;
     background-size: contain;
-    background-image: url("/assets/blue-data-box@2x.png");
+    background-color: #1bb4b8;
+    padding: 0.5rem 2rem;
+    display: flex;
+    background-repeat: no-repeat;
+    background-position: top;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    h1,
+    h2 {
+      color: white;
+      font-family: "AvenirBold";
+      text-align: center;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: 22px;
+      opacity: 0.5;
+      margin-bottom: 0;
+    }
+    h2 {
+      font-size: 5vw;
+      margin-bottom: 0;
+      margin-top: 7px;
+      letter-spacing: -4.8px;
+      margin-left: -0.5rem;
+      white-space: nowrap;
+      @media screen and (min-width: 1126px) {
+        font-size: 87px;
+        text-align: center;
+      }
+    }
+    h3 {
+      margin-top: 0.25rem;
+      font-size: 1.275rem;
+      text-align: center;
+      font-family: "AvenirDemi";
+      @media screen and (max-width: 925px) {
+        font-size: 1.025rem;
+      }
+    }
+    color: white;
+    font-family: "AvenirBold";
     background-repeat: no-repeat;
     background-position: top;
     @media screen and (max-width: 1125px) {
       background-size: 100%;
-      width: 26%;
+      width: 23%;
     }
     margin-right: 0;
   }
 
   .everybody-is-callout {
     position: absolute;
-    bottom: 100px;
+    bottom: 92px;
     right: 50px;
     width: 100%;
+    padding-top: 8px;
+    background: white;
     text-align: right;
 
     img {
       max-width: 215px;
       height: 29px;
+    }
+
+    @media screen and (max-width: 675px) {
+      display: none;
     }
   }
 }

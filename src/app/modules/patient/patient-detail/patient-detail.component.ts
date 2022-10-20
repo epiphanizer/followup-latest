@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Patient } from '@app/modules/patient/patient';
 import {
   PatientCall,
@@ -16,13 +16,14 @@ import {
   PatientCallQuestionsService,
   PatientCallQuestion
 } from './patient-call/patient-call-questions/patient-call-questions.service';
-import { PatientCallStatus } from './patient-call/patient-call-status.service';
+import { PatientCallStatuses } from './patient-call/patient-call-status.service';
 import { formatDate } from '@angular/common';
-import { map, take } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { Notification } from '@app/modules/notification/notification';
+import { UserService } from '@app/modules/user/user.service';
 
 @Component({
   providers: [PatientCallService, PatientCallNotesService, PatientCallQuestionsService],
@@ -40,7 +41,7 @@ export class PatientDetailComponent implements OnInit {
   patientCallNotesHighlighted: number = 0;
   patientCallQuestions: PatientCallQuestion[];
   patientCallQuestionAnswers: PatientCallQuestionAnswer[];
-  patientCallStatuses: PatientCallStatus[];
+  patientCallStatuses: any | typeof PatientCallStatuses = PatientCallStatuses;
 
   patientNextCall: {
     date: string;
@@ -49,6 +50,7 @@ export class PatientDetailComponent implements OnInit {
   patientNextCallQuestions: PatientCallQuestion[];
 
   constructor(
+    private userService: UserService,
     private patientCallService: PatientCallService,
     private notificationService: NotificationService,
     private patientCallNotesService: PatientCallNotesService,
@@ -105,8 +107,33 @@ export class PatientDetailComponent implements OnInit {
   patientCallStartEventHandler(userId: string) {
     this.patientCallService
       .startPatientCallByUserIdAndPatientCallId(userId, this.patientCall.patientCallId)
+      .pipe(
+        catchError((err, obs) => {
+          if (err.status == 400) {
+            console.log(err);
+            alert('It looks like this call has already finished!');
+          }
+          var unstick = confirm('Unstick patient?');
+          if (unstick) {
+            let newDate = formatDate(Date.now(), 'MM-dd-yyyy', 'en-US');
+
+            var dateArray = newDate.split('-');
+            var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T12:00:00.000Z';
+            console.log(isoString);
+            this.patientCallService
+              .addNewPatientCallByPatientId(this.patientCall.patientId, isoString)
+              .subscribe(res => {
+                if (res) {
+                  this.toastrService.success('Patient unstuck!');
+                  window.location.reload();
+                }
+              });
+          }
+          return err;
+        })
+      )
       .subscribe((data: any) => {
-        this.patientCall.patientCallStatusLabelId = '3';
+        this.patientCall.patientCallStatusLabelId = 'XAE2oKVR';
         this.patientCall.patientCallStatusLabel = 'Started';
       });
   }
@@ -115,14 +142,6 @@ export class PatientDetailComponent implements OnInit {
     this.patientCall = $event;
 
     if (this.patientCall.patientCallStatusLabel == 'Started') {
-      alert('Please select a call status.');
-      // let element = document.querySelector('#patientCallStatusControls');
-      // if (element) {
-      //   element.scrollIntoView({
-      //     behavior: 'auto',
-      //     block: 'start'
-      //   });
-      // }
       return;
     }
     this.patientCallService.endPatientCall(this.patientCall.patientCallId);
@@ -130,13 +149,6 @@ export class PatientDetailComponent implements OnInit {
      * Change the label, but not the ID.
      */
     this.patientCall.patientCallStatusLabel = 'In Review';
-    // let element = document.querySelector('#patientCallNotesForm');
-    // if (element) {
-    //   element.scrollIntoView({
-    //     behavior: 'auto',
-    //     block: 'start'
-    //   });
-    // }
   }
 
   patientCallStatusLabelChangeHandler($event: string) {
@@ -186,43 +198,13 @@ export class PatientDetailComponent implements OnInit {
     this.patientCall = $event;
     if (!this.patientCallNotes) {
       alert('Please add patient call notes');
-      // let element = document.querySelector('#patientCallNotesForm');
-      // if (element) {
-      //   element.scrollIntoView({
-      //     behavior: 'auto',
-      //     block: 'start'
-      //   });
-      // }
       return;
     }
 
     if (!this.patientNextCall.date && !this.patientCall.finalCall) {
-      alert('Please add patient next call date');
+      alert('Please select a valid next patient call date');
       return;
     }
-    /**
-     * Passing E2E
-     */
-    this.patientCallNotesService
-      .addPatientCallNotesByPatientCallId(
-        this.patientCall.patientCallId,
-        this.patientCallNotes.patientCallNotes,
-        this.patientCallNotesHighlighted
-      )
-      .subscribe(() => {});
-
-    if (!this.patientCallQuestionAnswers) {
-      // alert('Please select an answer to at least one question.');
-      // let element = document.querySelector('#patientCallNotesForm');
-      // if (element) {
-      //   element.scrollIntoView({
-      //     behavior: 'auto',
-      //     block: 'start'
-      //   });
-      // }
-      // return;
-    }
-
     if (!this.patientNextCall.date && !this.patientCall.finalCall) {
       alert('Please schedule a call date.');
       let element = document.querySelector('#next-call-calendar');
@@ -234,67 +216,82 @@ export class PatientDetailComponent implements OnInit {
       }
       return;
     }
-    this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
-      // Update the call status
-      // Talk to our service to answer the existing call questions
-      if (this.patientCallQuestionAnswers) {
-        this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
-          let patientCallQuestionId = Object.keys(patientCallQuestionAnswer).toString();
-          let patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
-          if (patientCallQuestionAnswerText !== undefined) {
-            this.patientCallQuestionsService
-              .addPatientCallQuestionAnswersByPatientCallQuestionId(
-                patientCallQuestionId,
-                patientCallQuestionAnswerText
-              )
-              .subscribe();
+
+    this.patientCallNotesService
+      .addPatientCallNotesByPatientCallId(
+        this.patientCall.patientCallId,
+        this.patientCallNotes.patientCallNotes,
+        this.patientCallNotesHighlighted
+      )
+      .subscribe((res: any) => {
+        this.patientCallService.finalizePatientCall(this.patientCall).subscribe((data: any) => {
+          // Update the call status
+          // Talk to our service to answer the existing call questions
+          if (this.patientCallQuestionAnswers) {
+            this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
+              let patientCallQuestionId = Object.keys(patientCallQuestionAnswer).toString();
+              let patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
+              if (patientCallQuestionAnswerText !== undefined) {
+                this.patientCallQuestionsService
+                  .addPatientCallQuestionAnswersByPatientCallQuestionId(
+                    patientCallQuestionId,
+                    patientCallQuestionAnswerText
+                  )
+                  .subscribe();
+              }
+            });
           }
-        });
-      }
+          let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
 
-      let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
+          if (this.patientCall.finalCall) {
+            this.toastrService.success('Successfully Saved');
+            this.userService.updateOperations(this.user).then(res => {
+              window.location.href = navigateToUrl;
+            });
+          } else {
+            /**
+             * Doing it this way stops some cross-browser parsing things
+             * that happen when we convert it to a new Date() first.
+             */
 
-      if (this.patientCall.finalCall) {
-        this.toastrService.success('Successfully Saved');
-        window.location.href = navigateToUrl;
-      } else {
-        /**
-         * Doing it this way stops some cross-browser parsing things
-         * that happen when we convert it to a new Date() first.
-         */
-
-        var dateArray = this.patientNextCall.date.split('-');
-        var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T12:00:00.000Z';
-        /**
-         * Passing E2E as of now
-         */
-        this.patientCallService
-          .addNewPatientCallByPatientId(this.patient.patientId, isoString)
-          .subscribe((data: any) => {
-            let patientCallId = data.patientCallId;
-            let itemsProcessed = 0;
-            if (this.patientNextCallQuestions.length) {
-              this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
-                if (patientCallQuestion.patientCallQuestion != '') {
-                  this.patientCallQuestionsService
-                    .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
-                    .subscribe((data: any) => {
-                      itemsProcessed++;
-                      if (itemsProcessed === this.patientNextCallQuestions.length) {
-                        window.location.href = navigateToUrl;
-                      }
-                    });
+            var dateArray = this.patientNextCall.date.split('-');
+            var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T12:00:00.000Z';
+            /**
+             * Passing E2E
+             */
+            this.patientCallService
+              .addNewPatientCallByPatientId(this.patient.patientId, isoString)
+              .subscribe((data: any) => {
+                let patientCallId = data.patientCallId;
+                let itemsProcessed = 0;
+                if (this.patientNextCallQuestions.length) {
+                  this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
+                    if (patientCallQuestion.patientCallQuestion != '') {
+                      this.patientCallQuestionsService
+                        .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
+                        .subscribe((data: any) => {
+                          itemsProcessed++;
+                          if (itemsProcessed === this.patientNextCallQuestions.length) {
+                            this.toastrService.success('Successfully Saved');
+                            this.userService.updateOperations(this.user).then(res => {
+                              window.location.href = navigateToUrl;
+                            });
+                          }
+                        });
+                    } else {
+                      this.patientNextCallQuestions.splice(index, 1);
+                    }
+                  });
                 } else {
-                  this.patientNextCallQuestions.splice(index, 1);
+                  this.toastrService.success('Successfully Saved');
+                  this.userService.updateOperations(this.user).then(res => {
+                    window.location.href = navigateToUrl;
+                  });
                 }
               });
-            } else {
-              this.toastrService.success('Successfully Saved');
-              window.location.href = navigateToUrl;
-            }
-          });
-      }
-    });
+          }
+        });
+      });
   }
   ngOnDestroy() {}
 }

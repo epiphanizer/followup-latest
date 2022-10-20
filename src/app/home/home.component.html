@@ -4,7 +4,7 @@
       <ion-col class="left-box">
         <div class="message-container">
           <h1>Hello {{ user.userFirstName }}</h1>
-          <div class="team-messages">
+          <div class="team-messages" *ngIf="teamMessage">
             <div class="team-message" *ngIf="teamMessage" [innerHTML]="teamMessage.messageBody"></div>
           </div>
         </div>
@@ -78,15 +78,33 @@
               </span>
               <div class="progress-bar-container">
                 <div class="yellow progress-bar" [style.width.%]="notificationsProgress"></div>
-                <span class="start-metric">{{ notificationsSent.notifications }}</span>
+                <span class="start-metric">{{ notificationsSent.user }}</span>
                 <span class="finish-metric">{{ notificationsSent.totalNotifications }}</span>
               </div>
             </li>
           </ul>
         </div>
       </ion-col>
-      <ion-col class="red-data-box" *ngIf="user.userLevel == 1"></ion-col>
-      <ion-col class="blue-data-box" *ngIf="user.userLevel == 1"></ion-col>
+      <ion-col class="red-data-box" *ngIf="user.userLevel == userLevels.admin">
+        <h1>Weekly Metrics</h1>
+        <div *ngIf="countReady">
+          <div class="percentage-number">
+            <h2>{{ weeklyCallsToNotificationsPercentage }}%</h2>
+          </div>
+          <h3 class="notifications-count-result">
+            Resulted in Notifications
+          </h3>
+        </div>
+      </ion-col>
+      <ion-col class="right-col blue-data-box" *ngIf="user.userLevel == userLevels.admin">
+        <h1>All Calls</h1>
+        <div *ngIf="countReady">
+          <h2>{{ totalCallsToNotificationsPercentage }}%</h2>
+          <h3 class="notifications-count-result">
+            Resulted in Notifications
+          </h3>
+        </div>
+      </ion-col>
     </ion-row>
   </ion-grid>
   <div class="everybody-is-callout">

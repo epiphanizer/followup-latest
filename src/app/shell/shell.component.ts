@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { HostListener } from '@angular/core';
@@ -35,14 +35,16 @@ export class ShellComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private platform: Platform,
     private authenticationService: AuthenticationService,
     public modalController: ModalController,
     private toastrService: ToastrService,
-    private userCorkBoardService: UserCorkBoardService
+    private userCorkBoardService: UserCorkBoardService,
+    private _cdr: ChangeDetectorRef
   ) {}
   ngOnInit() {
     this.user = this.authenticationService.currentUserSubject.getValue();
+
+    this.updateUserExpiry();
     /**
      * Slated for deprecation
      */
@@ -61,6 +63,14 @@ export class ShellComponent {
     });
   }
 
+  @HostListener('window:orientationchange', ['$event'])
+  onOrientationChange(e: any) {
+    if (this.userCorkBoardExpanded) {
+      this.userCorkBoardExpanded = false;
+      this.userCorkBoardService.isOpen = false;
+      this.userCorkBoardService.menuStateBSubject.next(false);
+    }
+  }
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: any) {
     this.updateUserExpiry();
@@ -82,8 +92,6 @@ export class ShellComponent {
     this.user = this.authenticationService.currentUserSubject.getValue();
     this.user.userLoginExpires = date.getTime() + 900000;
     this.authenticationService.currentUserSubject.next(this.user);
-    this.user.operations$ = null;
-    this.user.userLanguages$ = null;
     localStorage.removeItem('followup-user');
     localStorage.setItem('followup-user', JSON.stringify(this.user));
     this.userActionSinceLastUpdate = false;
@@ -99,7 +107,6 @@ export class ShellComponent {
         self.toastrService.success('Your session will log out in ' + timeRemaining + ' seconds due to inactivity!');
       }
       if (currentTime > self.user.userLoginExpires) {
-        alert('You have been timed out due to inactivity');
         self.authenticationService.signOut();
       }
     }, 5000);

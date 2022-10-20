@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Observable } from 'rxjs';
 import { PatientCall, PatientCallService } from '../patient-call.service';
 import { User } from '@app/modules/user/user';
 

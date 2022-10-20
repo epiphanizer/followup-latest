@@ -35,8 +35,8 @@ export class PatientCallQuestionsService {
         patientCallQuestion: patientCallQuestion.patientCallQuestion,
         patientCallQuestionIsHighlighted: patientCallQuestion.patientCallQuestionIsHighlighted,
         patientCallQuestionOrder: patientCallQuestion.patientCallQuestionOrder,
-        // textarea = 3
-        patientCallQuestionTypeId: 3
+        // textarea = 'xmKxrNOy'
+        patientCallQuestionTypeId: 'xmKxrNOy'
       })
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error

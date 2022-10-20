@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PatientCallService, PatientCall } from '../patient-call.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-patient-call-stop-button',

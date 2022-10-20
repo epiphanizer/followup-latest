@@ -4,6 +4,8 @@ ion-title {
   font-style: normal;
   line-height: 1.11;
   letter-spacing: 0.45px;
+  max-width: 780px;
+  overflow: auto;
   text-align: left;
   color: #3f3638;
   padding-left: 0;
@@ -23,9 +25,7 @@ ion-title {
   margin-top: 8rem;
   @media screen and (orientation: portrait) and (max-width: 1024px) {
     margin-left: 33px;
-  }
-  @media screen and (orientation: portrait) and (max-width: 1024px) {
-    margin-left: 33px;
+    max-width: 750px;
   }
 }
 

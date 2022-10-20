@@ -4,12 +4,14 @@ import { catchError, retry, share } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UserPutObject, User, UserLanguage, UserMessage } from './user';
 import { TeamMessage } from '../team/team';
+import { OperationService } from '../operation/operation.service';
+import { Operation, OperationGroup } from '../operation/operation';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private operationService: OperationService) {}
 
   deactivateUserByUserId(userId: string) {
     return this.http.delete('users/' + userId).pipe(
@@ -91,6 +93,45 @@ export class UserService {
     return this.http.put<UserPutObject>('users/' + userId, userPutObject).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
+  }
+
+  updateOperations(user: User) {
+    var _this = this;
+    return new Promise(function(resolve, reject) {
+      _this.operationService.getOperationsByUserId(user.userId).subscribe((res: any) => {
+        if (res) {
+          user.operations = res;
+        }
+        _this.operationService.getOperationGroups().subscribe((res: any) => {
+          if (res) {
+            user.operationGroups = res;
+          }
+          user.operationGroups.forEach((operationGroup: OperationGroup) => {
+            // Could use a stronger approach but this does the trick
+
+            operationGroup.operations = user.operations
+              .filter((operation: Operation) => {
+                return operationGroup.operationGroupId == operation.operationGroupId;
+              })
+              .sort(function(a: Operation, b: Operation) {
+                if (a.operationName < b.operationName) {
+                  return -1;
+                }
+                if (a.operationName > b.operationName) {
+                  return 1;
+                }
+                return 0;
+              });
+          });
+
+          user.operationGroups = user.operationGroups.filter((operationGroup: OperationGroup) => {
+            return operationGroup.operations?.length > 0;
+          });
+          localStorage.setItem('followup-user', JSON.stringify(user));
+          resolve(true);
+        });
+      });
+    });
   }
 
   private handleAsyncError(error: HttpErrorResponse) {

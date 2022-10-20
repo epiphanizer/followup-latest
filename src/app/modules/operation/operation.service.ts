@@ -2,7 +2,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../user/user';
-import { Operation, OperationPutBody, OperationManager, OperationGroup } from './operation';
+import { Operation, OperationPutBody, OperationManager, OperationGroup, OperationCallRep } from './operation';
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -15,6 +15,17 @@ export class OperationService {
     );
   }
 
+  addNewOperationGroup(operationGroupName: string, operationGroupShortName: string): Observable<OperationGroup> {
+    return this.http
+      .post<OperationGroup>('operations/groups', {
+        operationGroupName: operationGroupName,
+        operationGroupShortName: operationGroupShortName
+      })
+      .pipe(
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
+  }
+
   public assignManagerToOperationByOperationIdAndUserId(operationId: string, userId: string) {
     return this.http.post('operations/' + operationId + '/managers/' + userId, {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
@@ -24,8 +35,8 @@ export class OperationService {
   public getOperationGroups(): Observable<OperationGroup[]> {
     return this.http.get<OperationGroup[]>('operations/groups').pipe(
       map((operationGroups: OperationGroup[]) => {
-        if (!sessionStorage.getItem('operationGroups')) {
-          sessionStorage.setItem('operationGroups', JSON.stringify(operationGroups));
+        if (!localStorage.getItem('operationGroups')) {
+          localStorage.setItem('operationGroups', JSON.stringify(operationGroups));
         }
         return operationGroups;
       }),
@@ -88,7 +99,7 @@ export class OperationService {
     );
   }
 
-  public getUsersAssignedByOperationId(operationId: string): Observable<User[]> {
+  public getUsersAssignedByOperationId(operationId: string): Observable<User[] | OperationCallRep[]> {
     return this.http.get<Array<User>>('operations/' + operationId + '/users').pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
