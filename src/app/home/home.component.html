@@ -3,7 +3,7 @@
     <ion-row class="top-row">
       <ion-col class="left-box">
         <div class="message-container">
-          <h1>Hello {{ user.userFirstName }}</h1>
+          <h1>Hello {{ user.userFirstName ? user.userFirstName : 'Friend' }}!</h1>
           <div class="team-messages" *ngIf="teamMessage">
             <div class="team-message" *ngIf="teamMessage" [innerHTML]="teamMessage.messageBody"></div>
           </div>
@@ -78,7 +78,7 @@
               </span>
               <div class="progress-bar-container">
                 <div class="yellow progress-bar" [style.width.%]="notificationsProgress"></div>
-                <span class="start-metric">{{ notificationsSent.user }}</span>
+                <span class="start-metric">{{ notificationsSent.user ? notificationsSent.user : 0 }}</span>
                 <span class="finish-metric">{{ notificationsSent.totalNotifications }}</span>
               </div>
             </li>
