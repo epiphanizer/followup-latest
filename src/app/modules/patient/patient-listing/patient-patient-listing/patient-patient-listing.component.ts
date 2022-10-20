@@ -13,7 +13,7 @@ import { PatientService } from '@app/modules/patient/patient.service';
 export class PatientPatientListingComponent implements OnInit {
   @Input() mode: any;
   @Input() operation: Operation;
-  public pageSelected: number = 1;
+  public pageSelected: number = 0;
   public pageLength: number = 20;
   public pageOfItems: Patient[];
   public patients: Patient[];
@@ -69,12 +69,14 @@ export class PatientPatientListingComponent implements OnInit {
         .pipe(
           map((patients: Patient[]) => {
             if (patients) {
+              this.pageSelected = 0;
               this.sorted = false;
               this.patients = patients;
               this.patientsFiltered = patients;
               this.runSortSwitch();
               // this.onChangePage(patients);
             } else {
+              this.pageSelected = 0;
               this.sorted = false;
               this.patientsFiltered = this.patients = [];
               this.runSortSwitch();
