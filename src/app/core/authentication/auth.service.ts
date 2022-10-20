@@ -52,8 +52,6 @@ export class AuthenticationService {
       .pipe(
         retry(0),
         map((jwt: any) => {
-          console.log(jwt);
-          debugger;
           if (jwt.token) {
             var token = this.jwtHelper.decodeToken(jwt.token);
             if (token.user.userId && token.user.userLevel) {

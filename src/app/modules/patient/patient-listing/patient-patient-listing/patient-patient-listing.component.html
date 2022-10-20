@@ -31,7 +31,7 @@
   </thead>
   <tbody *ngIf="patients && pageOfItems?.length; else noPatients">
     <tr
-      *ngFor="let patient of pageOfItems"
+      *ngFor="let patient of pageOfItems; let idx = index"
       [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
       class="active"
       [class.archived]="!patient.patientActive"
@@ -45,7 +45,11 @@
             <span class="notification-badge"> </span>
           </ng-container>
         </div>
-        <app-patient-avatar [type]="'circle'" [patient]="patient"></app-patient-avatar>
+        <app-patient-avatar
+          [type]="'circle'"
+          [patient]="patient"
+          *ngIf="idx < pageLength * pageSelected"
+        ></app-patient-avatar>
         <div class="patient-name">{{ patient.patientFirstName }} {{ patient.patientLastName }}</div>
       </td>
       <td class="centered listing-body-cell">
@@ -63,7 +67,12 @@
     </tr>
   </tbody>
 </table>
-<jw-pagination *ngIf="patientsFiltered" [pageSize]="20" [items]="patientsFiltered" (changePage)="onChangePage($event)">
+<jw-pagination
+  *ngIf="patientsFiltered && sorted"
+  [pageSize]="pageLength"
+  [items]="patientsFiltered"
+  (changePage)="onChangePage($event)"
+>
 </jw-pagination>
 
 <ng-template #noPatients>

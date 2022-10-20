@@ -13,14 +13,17 @@ import { PatientService } from '@app/modules/patient/patient.service';
 export class PatientPatientListingComponent implements OnInit {
   @Input() mode: any;
   @Input() operation: Operation;
+  public pageSelected: number = 1;
+  public pageLength: number = 20;
   public pageOfItems: Patient[];
   public patients: Patient[];
+  public sorted: boolean = false;
   // public patients$: Observable<Patient[]>;
   public patientsFiltered: Patient[];
   public selectedSortFlag: string = 'desc';
   public colDefs = ['Date', 'Patient', 'Sex', 'Patient #', 'Status', 'Completed'];
   public selectedSortOption: string = this.colDefs[0];
-  constructor(private _cdr: ChangeDetectorRef, private patientService: PatientService) {}
+  constructor(private patientService: PatientService) {}
   ngOnInit() {
     if (this.mode.spanish) {
       this.patientService.getActiveSpanishPatients().pipe(
@@ -57,6 +60,7 @@ export class PatientPatientListingComponent implements OnInit {
   }
 
   ngOnChanges(changes: any) {
+    console.log(changes);
     if (changes.operation && !this.mode.spanish) {
       this.patients = [];
       this.operation = changes.operation.currentValue;
@@ -65,14 +69,16 @@ export class PatientPatientListingComponent implements OnInit {
         .pipe(
           map((patients: Patient[]) => {
             if (patients) {
+              this.sorted = false;
               this.patients = patients;
               this.patientsFiltered = patients;
               this.runSortSwitch();
-              this.onChangePage(patients);
+              // this.onChangePage(patients);
             } else {
+              this.sorted = false;
               this.patientsFiltered = this.patients = [];
               this.runSortSwitch();
-              this.onChangePage(this.patients);
+              // this.onChangePage(this.patients);
             }
             return this.patients;
           })
@@ -118,6 +124,7 @@ export class PatientPatientListingComponent implements OnInit {
         this.sortPatientsByCompletedStatus();
         break;
     }
+    this.sorted = true;
   }
   sortPatientsByPatientName = function() {
     if (this.selectedSortFlag == 'desc') {
@@ -228,6 +235,8 @@ export class PatientPatientListingComponent implements OnInit {
   }
   onChangePage(pageOfItems: Array<any>) {
     // update current page of items
+    this.pageSelected++;
+    console.log('page selected?', this.pageSelected);
     this.pageOfItems = pageOfItems;
   }
 }
