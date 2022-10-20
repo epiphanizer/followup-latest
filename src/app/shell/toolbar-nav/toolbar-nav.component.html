@@ -1,4 +1,4 @@
-<nav [class.dropdown-active]="dropdownActivated" *ngIf="navLinks" (mouseleave)="closeDropdowns()">
+<nav [class.dropdown-active]="dropdownActivated" *ngIf="user && navLinks" (mouseleave)="closeDropdowns()">
   <ion-list lines="none">
     <div class="nav-link-container" *ngFor="let link of navLinks; let i = index">
       <ion-item *ngIf="link.minRole >= userRolesArray[user.userLevel]">

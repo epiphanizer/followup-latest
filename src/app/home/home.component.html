@@ -89,7 +89,7 @@
         <h1>Weekly Metrics</h1>
         <div *ngIf="countReady">
           <div class="percentage-number">
-            <h2>{{ weeklyCallsToNotificationsPercentage }}%</h2>
+            <h2>{{ weeklyCallsToNotificationsPercentage ? weeklyCallsToNotificationsPercentage : '0' }}%</h2>
           </div>
           <h3 class="notifications-count-result">
             Resulted in Notifications
@@ -99,7 +99,7 @@
       <ion-col class="right-col blue-data-box" *ngIf="user.userLevel == userLevels.admin">
         <h1>All Calls</h1>
         <div *ngIf="countReady">
-          <h2>{{ totalCallsToNotificationsPercentage }}%</h2>
+          <h2>{{ totalCallsToNotificationsPercentage ? totalCallsToNotificationsPercentage : '0' }}%</h2>
           <h3 class="notifications-count-result">
             Resulted in Notifications
           </h3>
