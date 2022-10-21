@@ -43,7 +43,9 @@ export class ShellComponent {
   ) {}
   ngOnInit() {
     this.user = this.authenticationService.currentUserSubject.getValue();
-
+    if (window.location.pathname == '/') {
+      this.router.navigate(['/home']);
+    }
     this.updateUserExpiry();
     /**
      * Slated for deprecation

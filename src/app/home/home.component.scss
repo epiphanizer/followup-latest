@@ -3,6 +3,11 @@
   margin: 30px auto 0 auto;
   height: 100%;
   padding-bottom: 100px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   overflow: auto;
   display: flex;
   align-items: self-start;
@@ -120,7 +125,7 @@
     }
     .message-container {
       h1 {
-        // padding-left: 22px;
+        padding-left: 22px;
         @media screen and (max-width: 925px) {
           padding-left: 0;
           text-align: center;
@@ -133,8 +138,9 @@
     }
     .team-messages {
       margin-bottom: 72px;
+      padding-left: 22px;
       h1 {
-        // padding-left: 22px;
+        padding-left: 22px;
         @media screen and (max-width: 925px) {
           padding-left: 0;
         }

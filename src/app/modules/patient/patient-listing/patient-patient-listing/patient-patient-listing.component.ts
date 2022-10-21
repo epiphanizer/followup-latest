@@ -238,7 +238,6 @@ export class PatientPatientListingComponent implements OnInit {
   onChangePage(pageOfItems: Array<any>) {
     // update current page of items
     this.pageSelected++;
-    console.log('page selected?', this.pageSelected);
     this.pageOfItems = pageOfItems;
   }
 }
