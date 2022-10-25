@@ -26,8 +26,8 @@ export class PatientAvatarComponent implements OnInit {
       this.isCircle = true;
     }
     var store: any = '';
-    if (localStorage.getItem(self.patient.patientId.toString())) {
-      var storeDeserialized = localStorage.getItem(self.patient.patientId.toString());
+    if (sessionStorage.getItem(self.patient.patientId.toString())) {
+      var storeDeserialized = sessionStorage.getItem(self.patient.patientId.toString());
       if (storeDeserialized.length) {
         self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${storeDeserialized})`);
         self.avatarExists = true;
@@ -41,17 +41,16 @@ export class PatientAvatarComponent implements OnInit {
             var base64data = reader.result;
             store = base64data;
             try {
-              localStorage.setItem(self.patient.patientId.toString(), store);
+              sessionStorage.setItem(self.patient.patientId.toString(), store);
             } catch (error) {
-              console.log('hit an error in session storage (memory), clear and restart the process');
-              localStorage.clear();
-              localStorage.setItem(self.patient.patientId.toString(), store);
+              sessionStorage.clear();
+              sessionStorage.setItem(self.patient.patientId.toString(), store);
             }
             self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
             self.avatarExists = true;
           };
         } else {
-          localStorage.setItem(self.patient.patientId.toString(), '');
+          sessionStorage.setItem(self.patient.patientId.toString(), '');
         }
       });
     }

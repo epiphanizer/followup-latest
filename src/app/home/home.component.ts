@@ -95,6 +95,28 @@ export class HomeComponent implements OnInit {
                     this.notificationsSent.weeklyNotifications.push(notification);
                   }
                 });
+                this.notificationsProgress =
+                  (parseInt(this.notificationsSent.notifications) /
+                    parseInt(this.notificationsSent.totalNotifications)) *
+                  100;
+                if (this.notificationsProgress > 100) {
+                  this.notificationsProgress = 100;
+                }
+
+                this.weeklyCallsToNotificationsPercentage = Math.round(
+                  (parseInt(this.weeklyCalls.completed) / this.notificationsSent.weeklyNotifications.length
+                    ? parseInt(this.notificationsSent.weeklyNotifications.length)
+                    : 0) * 100
+                );
+                if (this.weeklyCallsToNotificationsPercentage > 100) {
+                  this.weeklyCallsToNotificationsPercentage = 100;
+                }
+                this.totalCallsToNotificationsPercentage = Math.round(
+                  (this.notificationsSent.totalNotifications / this.callsMade.totalCalls) * 100
+                );
+                if (this.totalCallsToNotificationsPercentage > 100) {
+                  this.totalCallsToNotificationsPercentage = 100;
+                }
               }
 
               this.todaysCallsProgress =
@@ -108,27 +130,7 @@ export class HomeComponent implements OnInit {
               if (this.callsMadeProgress > 100) {
                 this.callsMadeProgress = 100;
               }
-              this.notificationsProgress =
-                (parseInt(this.notificationsSent.notifications) / parseInt(this.notificationsSent.totalNotifications)) *
-                100;
-              if (this.notificationsProgress > 100) {
-                this.notificationsProgress = 100;
-              }
 
-              this.weeklyCallsToNotificationsPercentage = Math.round(
-                (parseInt(this.weeklyCalls.completed) / this.notificationsSent.weeklyNotifications.length
-                  ? parseInt(this.notificationsSent.weeklyNotifications.length)
-                  : 0) * 100
-              );
-              if (this.weeklyCallsToNotificationsPercentage > 100) {
-                this.weeklyCallsToNotificationsPercentage = 100;
-              }
-              this.totalCallsToNotificationsPercentage = Math.round(
-                (this.notificationsSent.totalNotifications / this.callsMade.totalCalls) * 100
-              );
-              if (this.totalCallsToNotificationsPercentage > 100) {
-                this.totalCallsToNotificationsPercentage = 100;
-              }
               this.countReady = true;
             });
           });

@@ -9,6 +9,8 @@ export class AppComponent implements OnInit, OnDestroy {
   authenticated: boolean;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // window.location.href = '/home';
+  }
   ngOnDestroy() {}
 }

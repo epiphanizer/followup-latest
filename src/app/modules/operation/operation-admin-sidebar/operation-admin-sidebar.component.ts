@@ -80,6 +80,7 @@ export class OperationAdminSidebarComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     if (!localStorage.getItem('operationGroups')) {
       this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
+        console.log(operationGroups);
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
           operationGroup.operations$ = this.operationService
             .getActiveOperationsByOperationGroupId(operationGroup, this.user)
