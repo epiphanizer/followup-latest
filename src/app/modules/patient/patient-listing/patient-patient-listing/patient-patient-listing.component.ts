@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
-import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
@@ -220,7 +219,6 @@ export class PatientPatientListingComponent implements OnInit {
         .slice();
     }
   };
-  @debounce(50)
   searchFilterEventEmitted($event: KeyboardEvent) {
     this.searchPatients($event);
   }

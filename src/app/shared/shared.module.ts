@@ -11,6 +11,7 @@ import { ListingFilterComponent } from './listing-filter/listing-filter.componen
 import { ListingSearchComponent } from './listing-search/listing-search.component';
 import { CapitalizeFirstDirective } from './directives/capitalize-first.directive';
 import { AddPhoneDashesDirective } from './directives/add-phone-dashes.directive';
+import { DebouncedInputDirective } from './directives/ion-input-debounce.directive';
 
 @NgModule({
   imports: [CommonModule, IonicModule, FormsModule],
@@ -23,7 +24,8 @@ import { AddPhoneDashesDirective } from './directives/add-phone-dashes.directive
     ListingFilterComponent,
     ListingSearchComponent,
     CapitalizeFirstDirective,
-    AddPhoneDashesDirective
+    AddPhoneDashesDirective,
+    DebouncedInputDirective
   ],
   exports: [
     LoaderComponent,
@@ -33,7 +35,8 @@ import { AddPhoneDashesDirective } from './directives/add-phone-dashes.directive
     ListingFilterComponent,
     ListingSearchComponent,
     CapitalizeFirstDirective,
-    AddPhoneDashesDirective
+    AddPhoneDashesDirective,
+    DebouncedInputDirective
   ]
 })
 export class SharedModule {}
