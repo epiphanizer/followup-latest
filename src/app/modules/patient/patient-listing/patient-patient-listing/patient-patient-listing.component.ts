@@ -220,6 +220,7 @@ export class PatientPatientListingComponent implements OnInit {
         .slice();
     }
   };
+  @debounce(50)
   searchFilterEventEmitted($event: KeyboardEvent) {
     this.searchPatients($event);
   }
