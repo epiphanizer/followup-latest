@@ -71,7 +71,7 @@ export class TeamMembersListingComponent implements OnInit {
     }
   }
 
-  handleSearchFilterEvent($event: KeyboardEvent) {
+  handleSearchFilterEvent($event: string) {
     this.searchTeamMembers($event);
   }
 
@@ -245,8 +245,8 @@ export class TeamMembersListingComponent implements OnInit {
     }
   };
 
-  searchTeamMembers($event: KeyboardEvent): TeamMember[] {
-    let searchText = $event.currentTarget['value'];
+  searchTeamMembers($event: string): TeamMember[] {
+    let searchText = $event;
     searchText = searchText.toLowerCase();
     this.teamMembersFiltered = this.teamMembers.filter((team: TeamMember) => {
       let teamMemberFullName = team.teamMemberFirstName + ' ' + team.teamMemberLastName;
