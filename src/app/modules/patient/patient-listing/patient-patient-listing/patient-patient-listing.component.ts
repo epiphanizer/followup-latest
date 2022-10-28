@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
-import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
@@ -60,7 +59,6 @@ export class PatientPatientListingComponent implements OnInit {
   }
 
   ngOnChanges(changes: any) {
-    console.log(changes);
     if (changes.operation && !this.mode.spanish) {
       this.patients = [];
       this.operation = changes.operation.currentValue;
@@ -220,11 +218,11 @@ export class PatientPatientListingComponent implements OnInit {
         .slice();
     }
   };
-  searchFilterEventEmitted($event: KeyboardEvent) {
+  searchFilterEventEmitted($event: string) {
     this.searchPatients($event);
   }
-  searchPatients($event: KeyboardEvent): Patient[] {
-    let searchText = $event.currentTarget['value'];
+  searchPatients($event: string): Patient[] {
+    let searchText = $event;
     searchText = searchText.toLowerCase();
     this.patientsFiltered = this.patients
       .filter((patient: Patient) => {

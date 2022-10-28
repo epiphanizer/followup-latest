@@ -164,8 +164,8 @@ export class NotificationPatientListingComponent implements OnInit {
     }
   };
 
-  searchNotifications($event: KeyboardEvent): Notification[] {
-    let searchText = $event.currentTarget['value'];
+  searchNotifications($event: string): Notification[] {
+    let searchText = $event;
     searchText = searchText.toLowerCase();
     this.notificationsFiltered = this.notifications.filter((notification: Notification) => {
       let patientFullName = notification.notificationPatientFirstName + ' ' + notification.notificationPatientLastName;

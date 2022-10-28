@@ -41,7 +41,7 @@ export class OperationOperationListingComponent implements OnInit {
       }
     }
   }
-  handleSearchFilterEvent($event: KeyboardEvent) {
+  handleSearchFilterEvent($event: string) {
     this.searchOperations($event);
   }
 
@@ -189,8 +189,8 @@ export class OperationOperationListingComponent implements OnInit {
         .slice();
     }
   };
-  searchOperations($event: KeyboardEvent): Operation[] {
-    let searchText = $event.currentTarget['value'];
+  searchOperations($event: string): Operation[] {
+    let searchText = $event;
     searchText = searchText.toLowerCase();
     this.operationsFiltered = this.operations.filter((operation: Operation) => {
       let operationName = operation.operationName;
