@@ -196,10 +196,14 @@ export class PatientDetailComponent implements OnInit {
 
   patientCallFinishEventHandler($event: PatientCall) {
     this.patientCall = $event;
-    if (!this.patientCallNotes) {
-      alert('Please add patient call notes');
-      return;
-    }
+    /**
+     * V 3.1: Allow to not have patient call notes if we are just leaving a message,
+     * per request.
+     */
+    // if (!this.patientCallNotes) {
+    //   alert('Please add patient call notes');
+    //   return;
+    // }
 
     if (!this.patientNextCall.date && !this.patientCall.finalCall) {
       alert('Please select a valid next patient call date');

@@ -8,7 +8,6 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { PatientPutBody } from './patient-form';
 import { PatientContact, PatientContactPostBody, PatientContactPutBody } from '../patient-contact/patient-contact';
-import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientContactService } from '../patient-contact/patient-contact.service';
 import { Operation } from '@app/modules/operation/operation';
 import {
@@ -34,6 +33,7 @@ export class PatientFormComponent implements OnInit {
   avatarExists: Boolean;
   public avatarUrl: SafeStyle;
   dischargeLabels: PatientDischargeLabel[];
+  dischargedTo: string = 'Home';
   patientForm: FormGroup;
   currentYear: number;
   mode: any = {
@@ -83,6 +83,9 @@ export class PatientFormComponent implements OnInit {
     this.operations = this.user.operations;
     this.patientService.getPatientDischargeLabels().subscribe((data: any) => {
       this.dischargeLabels = data;
+      console.log(data);
+      debugger;
+      this.dischargedTo = data;
     });
 
     if (this.route.snapshot.data.mode == 'edit') {
@@ -130,6 +133,8 @@ export class PatientFormComponent implements OnInit {
             });
           });
       });
+
+      this.patientForm.get('patient.dischargeInfo.patientDischargedTo').setValue('2PEXyKgz');
     } else {
       this.patientService
         .getPatientByPatientId(this.patient.patientId)
@@ -150,7 +155,7 @@ export class PatientFormComponent implements OnInit {
           // We need to explicitly set this value we learned from testing.
           this.patientForm
             .get('patient.dischargeInfo.patientDischargedTo')
-            .setValue(this.patient.patientDischargeLabelId);
+            .setValue(this.patient.patientDischargeLabelId ? this.patient.patientDischargeLabelId : '2PEXyKgz');
           this.patientContacts$ = this.patientContactService.getPatientContactsByPatientId(this.patient.patientId);
           this.patientContacts$.subscribe((patientContacts: PatientContact[]) => {
             let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
@@ -289,7 +294,10 @@ export class PatientFormComponent implements OnInit {
             disabled: true,
             value: this.patient.patientTotalDays
           }),
-          patientDischargedTo: this.fb.control(this.patient.patientDischargeLabelId, [Validators.required]),
+          patientDischargedTo: this.fb.control(
+            this.patient.patientDischargeLabelId ? this.patient.patientDischargeLabelId : '2PEXyKgz',
+            [Validators.required]
+          ),
           patientDischargedAma: this.fb.control((this.patient.patientDischargedAma == true ? '1' : '0') || '0', [
             Validators.required
           ])

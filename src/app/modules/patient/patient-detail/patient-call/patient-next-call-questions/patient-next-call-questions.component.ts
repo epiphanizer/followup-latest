@@ -36,7 +36,7 @@ export class PatientNextCallQuestionsComponent implements OnInit {
       }
     }
     if (!questionContent) {
-      alert('Please make sure all prior questions have content before proceeding!');
+      alert('Please make sure all new questions have content before proceeding!');
       return;
     }
     nextCallQuestions.push(this.fb.control(''));
