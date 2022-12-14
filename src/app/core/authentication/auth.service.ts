@@ -109,14 +109,23 @@ export class AuthenticationService {
     return result;
   }
   // Sign out
-  signOut(): void {
-    this.user$ = null;
-    this.authenticated = false;
-    localStorage.removeItem('followup-user');
-    localStorage.removeItem('followup-token');
-    localStorage.clear();
-    this.currentUserSubject.next(null);
-    window.location.href = '/login';
+  async signOut(userId: string): Promise<any> {
+    return this.http
+      .post('users/logout', {
+        userId: userId
+      })
+      .pipe(
+        retry(0),
+        map(() => {
+          this.user$ = null;
+          this.authenticated = false;
+          localStorage.removeItem('followup-user');
+          localStorage.removeItem('followup-token');
+          localStorage.clear();
+          this.currentUserSubject.next(null);
+          window.location.href = '/login';
+        })
+      );
   }
 
   ngOnDestroy() {}

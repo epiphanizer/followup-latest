@@ -26,7 +26,7 @@ export class UserResolver implements Resolve<User> {
     var date = new Date();
     var currentTime = date.getTime();
     if (currentTime > this.user.userLoginExpires) {
-      this.authService.signOut();
+      this.authService.signOut(this.user.userId);
       return;
     }
     /**

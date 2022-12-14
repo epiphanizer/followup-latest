@@ -1,0 +1,40 @@
+<div class="user-sidebar">
+  <div class="user-sidebar-calendar">
+    <h4 class="todays-date">TODAY'S DATE</h4>
+    <div class="caption">
+      {{ todaysDateDay }}
+    </div>
+  </div>
+
+  <div class="user-dropdown-container" *ngIf="users">
+    <a class="user-dropdown-target" [routerLink]="'/users'">ROSTER</a>
+    <div *ngFor="let group of users">
+      <div class="user-member-container">
+        <span class="sidebar-label" (click)="toggleActiveSidebarMenu()"
+          >ACTIVE
+          <i class="expand-users-trigger" [@turnArrow]="activeSidebarOpen ? 'open' : 'closed'"> </i>
+        </span>
+        <ul class="user-list" *ngIf="activeSidebarOpen">
+          <li *ngFor="let user of users.active">
+            <a [routerLink]="'/users/' + user.userId" class="user-member-link">
+              {{ user.userFirstName }} {{ user.userLastName }}
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="user-member-container">
+        <span class="sidebar-label" (click)="toggleInactiveSidebarMenu()"
+          >INACTIVE
+          <i class="expand-members-trigger" [@turnArrow]="inactiveSidebarOpen ? 'open' : 'closed'"> </i>
+        </span>
+        <ul class="user-list" *ngIf="inactiveSidebarOpen">
+          <li *ngFor="let user of users.inactive">
+            <a [routerLink]="'/users/' + user.userId" class="user-member-link">
+              {{ user.userFirstName }} {{ user.userLastName }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

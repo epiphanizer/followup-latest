@@ -1,0 +1,19 @@
+<ion-content>
+  <ion-row>
+    <ion-col class="user-sidebar">
+      <app-user-listing-sidebar (userChangeEvent)="userChangeEventHandler($event)"> </app-user-listing-sidebar>
+    </ion-col>
+    <ion-col class="user-content-wrapper" *ngIf="users">
+      <ion-grid>
+        <ion-row>
+          <ion-title *ngIf="selected.team">System Users</ion-title>
+        </ion-row>
+        <ion-row class="user-listing-row">
+          <ion-col class="user-listing-wrapper">
+            <app-user-listing></app-user-listing>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-col>
+  </ion-row>
+</ion-content>

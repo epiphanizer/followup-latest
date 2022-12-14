@@ -1,0 +1,40 @@
+ion-title {
+  font-family: AvenirPro;
+  font-size: 45px;
+  font-style: normal;
+  line-height: 1.11;
+  letter-spacing: 0.45px;
+  text-align: left;
+  color: #3f3638;
+  padding-left: 0;
+}
+
+.user-sidebar {
+  max-width: 172px;
+  padding-bottom: 160px;
+  margin-left: 26px;
+  padding-top: 58px;
+}
+
+.user-content-wrapper {
+  margin-left: 92px;
+  padding-bottom: 160px;
+  margin-top: 8rem;
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 33px;
+  }
+}
+
+.user-listing-row {
+  margin-top: 1rem;
+}
+
+.calendar-wrapper {
+  margin-left: 73px;
+}
+
+.user-patient-list {
+  width: 100%;
+  height: auto;
+  display: block;
+}

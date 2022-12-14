@@ -83,9 +83,11 @@
               </ion-select>
               <ng-template #memberSpan>
                 <span class="operation-callrep">
-                  {{ operationCallRep.userFirstName }} {{ operationCallRep.userLastName }}
+                  <b>{{ operationCallRep.userFirstName }} {{ operationCallRep.userLastName }}</b>
                 </span>
               </ng-template>
+
+              <span (click)="removeOperationCallRep(operationCallRep.userId)">X</span>
             </ion-item>
           </div>
           <div class="controls">

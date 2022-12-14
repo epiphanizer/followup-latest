@@ -60,7 +60,7 @@ export class ToolbarProfileNavComponent implements OnInit {
     this.dropdownEvent.emit(this.dropdownActive);
   }
   signOut() {
-    this.authService.signOut();
+    this.authService.signOut(this.user.userId);
   }
 
   editProfile() {

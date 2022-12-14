@@ -1,0 +1,129 @@
+.team-sidebar {
+  max-width: 175px;
+
+  .team-sidebar-calendar {
+    h4.todays-date {
+      text-align: right;
+      font-family: AvenirBold;
+      font-size: 20px;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 0.65;
+      letter-spacing: 0.08px;
+      color: #ef4627;
+      margin-bottom: 0;
+    }
+
+    .caption {
+      font-family: AvenirDemi;
+      font-size: 120px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      letter-spacing: -4.8px;
+      text-align: center;
+      color: #222222;
+      margin-top: -10px;
+    }
+  }
+
+  .team-dropdown-target {
+    display: block;
+    font-family: AvenirBold;
+    margin: 0 0 16px 19px;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.4;
+    letter-spacing: 1.2px;
+    text-align: right;
+    color: #00b4b9;
+    text-decoration: none;
+  }
+
+  .expand-members-trigger {
+    cursor: pointer;
+    background-image: url("/assets/icon-arrow-down@2x.png");
+    width: 100%;
+    margin-left: 19px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    vertical-align: top;
+  }
+
+  i {
+    margin-left: 12px;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+  }
+
+  .team-member-container {
+    margin-top: 0;
+    padding-left: 0;
+    text-align: right;
+
+    &.active {
+      display: block;
+    }
+
+    .team-members-list {
+      list-style-type: none;
+      margin-top: 0;
+
+      li {
+        height: 19px;
+        vertical-align: top;
+        display: inline-block;
+        width: 100%;
+        margin-top: 8px;
+
+        a {
+          display: inline-block;
+          line-height: 115%;
+          text-decoration: none;
+          vertical-align: middle;
+          cursor: pointer;
+          font-family: AvenirDemi;
+          font-size: 14px;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.86;
+          letter-spacing: 0.14px;
+          text-align: right;
+          color: #343638;
+
+          &:hover {
+            text-decoration: underline;
+          }
+
+          &.active {
+            font-family: AvenirBold;
+            color: #343638;
+          }
+        }
+      }
+    }
+  }
+
+  .sidebar-label {
+    cursor: pointer;
+    display: inline-block;
+    font-family: AvenirBold;
+    font-size: 16px;
+    font-stretch: normal;
+    font-style: normal;
+    padding: 4px 0px;
+    letter-spacing: 0.32px;
+    text-align: right;
+
+    i {
+      text-align: right;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+    }
+  }
+}

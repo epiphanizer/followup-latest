@@ -109,7 +109,7 @@ export class ShellComponent {
         self.toastrService.success('Your session will log out in ' + timeRemaining + ' seconds due to inactivity!');
       }
       if (currentTime > self.user.userLoginExpires) {
-        self.authenticationService.signOut();
+        self.authenticationService.signOut(self.user.userId);
       }
     }, 5000);
   }
@@ -130,7 +130,7 @@ export class ShellComponent {
     this.dropdownActive = $event;
   }
   signOut() {
-    this.authenticationService.signOut();
+    this.authenticationService.signOut(this.user.userId);
     this.router.navigate(['/login']);
   }
   ngOnDestroy() {
