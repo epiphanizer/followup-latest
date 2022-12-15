@@ -52,7 +52,7 @@ import { UserService } from '../../user.service';
     ])
   ]
 })
-export class UserListingSidebar implements OnInit {
+export class UserListingSidebarComponent implements OnInit {
   primaryTeam: number = 1;
   isOpen: boolean = true;
   users: {

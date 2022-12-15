@@ -20,6 +20,7 @@ export class UserListingComponent implements OnInit {
     | any = {};
 
   user: User;
+  users: User[];
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
@@ -27,4 +28,5 @@ export class UserListingComponent implements OnInit {
     // this.users = this.user.teams;
     // this.selected.team = this.teams[0];
   }
+  userChangeEventHandler($event: any) {}
 }

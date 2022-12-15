@@ -19,7 +19,7 @@ export interface AuthenticationBodyPost {
 export class AuthenticationService {
   public authenticated: boolean = false;
   protected userId: number;
-  public user$: Promise<User>;
+  public user$: Promise<User> | any;
 
   public currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
@@ -109,7 +109,7 @@ export class AuthenticationService {
     return result;
   }
   // Sign out
-  async signOut(userId: string): Promise<any> {
+  signOut(userId: string): any {
     return this.http
       .post('users/logout', {
         userId: userId
@@ -125,7 +125,8 @@ export class AuthenticationService {
           this.currentUserSubject.next(null);
           window.location.href = '/login';
         })
-      );
+      )
+      .subscribe();
   }
 
   ngOnDestroy() {}
