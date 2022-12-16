@@ -10,10 +10,11 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { NgxMaskModule } from 'ngx-mask';
 import { UserListingComponent } from './user-listing/user-listing.component';
 import { UserListingSidebarComponent } from './user-listing/user-listing-sidebar/user-listing-sidebar.component';
+import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
   declarations: [UserDetailComponent, UserAvatarComponent, UserListingComponent, UserListingSidebarComponent],
-  imports: [CommonModule, IonicModule, NgxMaskModule.forRoot(), UserProfileRoutingModule],
+  imports: [CommonModule, IonicModule, NgxMaskModule.forRoot(), UserRoutingModule, UserProfileRoutingModule],
   exports: [UserDetailComponent, UserAvatarComponent, UserListingComponent, UserListingSidebarComponent],
   providers: [UserAvatarService, NgxImageCompressService]
 })

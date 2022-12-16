@@ -66,7 +66,7 @@ export class OperationService {
     );
   }
   public removeOperationCallRepByOperationIdAndUserId(operationId: string, userId: string) {
-    return this.http.delete('operations/' + operationId + '/callreps/' + userId, {}).pipe(
+    return this.http.delete('operations/' + operationId + '/callrep/' + userId, {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

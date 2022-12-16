@@ -110,9 +110,18 @@ export class AuthenticationService {
     }
     return result;
   }
+  // Prompt the user to sign in and
+  // grant consent to the requested permission scopes
+  async signOut(userId: string): Promise<any> {
+    let result = await this.doLogout(userId).toPromise();
+    if (!(await result)) {
+      return false;
+    }
+    return result;
+  }
   // Sign out
-  signOut(userId: string): void {
-    this.http
+  doLogout(userId: string): Observable<any> {
+    return this.http
       .post('users/logout', {
         userId: userId
       })
@@ -125,11 +134,10 @@ export class AuthenticationService {
           localStorage.removeItem('followup-token');
           localStorage.clear();
           this.currentUserSubject.next(null);
-          // window.location.href = '/login';
+          window.location.href = '/login';
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
-      )
-      .subscribe();
+      );
   }
 
   ngOnDestroy() {}

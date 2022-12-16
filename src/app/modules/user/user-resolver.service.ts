@@ -14,7 +14,6 @@ export class UserResolver implements Resolve<User> {
   constructor(private authService: AuthenticationService, private http: HttpService) {}
   resolve(): Observable<User> {
     if (!this.authService.currentUserValue) {
-      debugger;
       window.location.href = '/login';
     }
     /**
@@ -26,7 +25,6 @@ export class UserResolver implements Resolve<User> {
     var date = new Date();
     var currentTime = date.getTime();
     if (currentTime > this.user.userLoginExpires) {
-      debugger;
       this.authService.signOut(this.user.userId);
       return;
     }
