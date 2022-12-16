@@ -25,6 +25,7 @@ export class AuthGuardService implements CanActivate {
       return true;
     }
     // not logged in so redirect to login page with the return url
+    debugger;
     this.location.back();
     return false;
   }

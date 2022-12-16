@@ -19,7 +19,7 @@ export interface AuthenticationBodyPost {
 export class AuthenticationService {
   public authenticated: boolean = false;
   protected userId: number;
-  public user$: Promise<User> | any;
+  public user$: Promise<User>;
 
   public currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
@@ -65,6 +65,7 @@ export class AuthenticationService {
                 this._operationService.getOperationGroups().subscribe(res => {
                   if (res) {
                     user.operationGroups = res;
+                  } else {
                   }
                   user.operationGroups.forEach((operationGroup: OperationGroup) => {
                     // Could use a stronger approach but this does the trick
@@ -91,6 +92,7 @@ export class AuthenticationService {
                 localStorage.setItem('followup-user', JSON.stringify(user));
               });
               this.currentUserSubject.next(user);
+
               return token;
             }
           }
@@ -109,8 +111,8 @@ export class AuthenticationService {
     return result;
   }
   // Sign out
-  signOut(userId: string): any {
-    return this.http
+  signOut(userId: string): void {
+    this.http
       .post('users/logout', {
         userId: userId
       })
@@ -123,8 +125,9 @@ export class AuthenticationService {
           localStorage.removeItem('followup-token');
           localStorage.clear();
           this.currentUserSubject.next(null);
-          window.location.href = '/login';
-        })
+          // window.location.href = '/login';
+        }),
+        catchError(e => this.handleAsyncError(e)) // then handle the error
       )
       .subscribe();
   }

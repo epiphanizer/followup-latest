@@ -353,6 +353,8 @@ export class OperationAdminRightSidebarComponent implements OnInit {
           });
         console.log('removing user');
         break;
+      default:
+        break;
     }
   }
 }
