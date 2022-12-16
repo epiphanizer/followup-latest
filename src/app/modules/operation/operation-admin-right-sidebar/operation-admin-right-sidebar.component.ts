@@ -335,4 +335,24 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   public toggleOperationCallRepsAssignedMenu = function() {
     this.callRepSidebarDropdownOpen = !this.callRepSidebarDropdownOpen;
   };
+  public removeUser(type: string, user: User) {
+    switch (type) {
+      case 'manager':
+        console.log('removing manager');
+        this.operationService
+          .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, user.userId)
+          .subscribe(() => {
+            console.log('remove ops manager');
+          });
+        break;
+      case 'callrep':
+        this.operationService
+          .removeOperationCallRepByOperationIdAndUserId(this.operation.operationId, user.userId)
+          .subscribe(() => {
+            console.log('remove ops callrep');
+          });
+        console.log('removing user');
+        break;
+    }
+  }
 }

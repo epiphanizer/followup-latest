@@ -676,10 +676,10 @@ export class OperationFormComponent implements OnInit {
     const firstError = <HTMLElement>document.getElementsByClassName('ng-invalid')[0];
 
     if (firstError) {
-      // scroll(firstError);
       alert('Validation error. Please check submitted fields');
       return false;
     } else {
+      console.log('all good');
       return true;
     }
   }
