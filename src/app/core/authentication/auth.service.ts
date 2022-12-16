@@ -65,8 +65,8 @@ export class AuthenticationService {
                 this._operationService.getOperationGroups().subscribe(res => {
                   if (res) {
                     user.operationGroups = res;
-                  } else {
                   }
+
                   user.operationGroups.forEach((operationGroup: OperationGroup) => {
                     // Could use a stronger approach but this does the trick
 
@@ -126,7 +126,6 @@ export class AuthenticationService {
         userId: userId
       })
       .pipe(
-        retry(0),
         map(() => {
           this.user$ = null;
           this.authenticated = false;
@@ -143,6 +142,8 @@ export class AuthenticationService {
   ngOnDestroy() {}
 
   private handleAsyncError(error: HttpErrorResponse) {
+    console.log(error);
+    debugger;
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
