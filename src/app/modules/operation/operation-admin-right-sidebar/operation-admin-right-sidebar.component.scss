@@ -151,7 +151,12 @@ ion-item {
     display: inline-block;
   }
 }
-
+.remove-icon {
+  cursor: pointer;
+  &:hover {
+    color: red;
+  }
+}
 ion-item.sidebar-listing {
   height: 28px;
   width: auto;

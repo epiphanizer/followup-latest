@@ -202,10 +202,15 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   }
 
   removeOperationCallRep(idx: number) {
+    console.log(this.operationAssignedUsers);
     this.operationAssignedUsersToRemove.push(this.operationAssignedUsers[idx].userId);
     this.operationAssignedUsers.splice(idx, 1);
   }
 
+  removeOperationManager(idx: number) {
+    this.operationManagersToRemove.push(this.operationManagers[idx].userId);
+    this.operationManagers.splice(idx, 1);
+  }
   callRepOnSelect(event: any, index: number) {
     let callRepUserId = event.target.value;
     if (this.operationAssignedUsers[index].userId !== 0) {

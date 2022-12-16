@@ -21,21 +21,21 @@ export class UserResolver implements Resolve<User> {
      */
     this.user$ = of(this.authService.currentUserValue);
     this.user = this.authService.currentUserSubject.getValue();
-    if (this.user) {
-      var date = new Date();
-      var currentTime = date.getTime();
-      if (currentTime > this.user.userLoginExpires) {
-        this.authService.signOut(this.user.userId);
-        return;
-      }
-      /**
-       * If we are under 15 mins, give the user another 15.
-       */
-      if (this.user.userLoginExpires - currentTime < 900000) {
-        this.user.userLoginExpires = currentTime + 900000;
-        this.authService.currentUserSubject.next(this.user);
-        localStorage.setItem('followup-user', JSON.stringify(this.user));
-      }
+    // if (this.user) {
+    var date = new Date();
+    var currentTime = date.getTime();
+    if (currentTime > this.user.userLoginExpires) {
+      this.authService.signOut(this.user.userId);
+      return;
+    }
+    /**
+     * If we are under 15 mins, give the user another 15.
+     */
+    if (this.user.userLoginExpires - currentTime < 900000) {
+      this.user.userLoginExpires = currentTime + 900000;
+      this.authService.currentUserSubject.next(this.user);
+      localStorage.setItem('followup-user', JSON.stringify(this.user));
+      // }
     }
     return this.user$;
   }

@@ -41,6 +41,8 @@
               <span class="operation-manager"> {{ manager?.userFirstName }} {{ manager?.userLastName }} </span>
             </ng-template>
           </ion-item>
+
+          <span class="remove-icon" (click)="removeOperationManager(idx)">X</span>
         </div>
         <div class="controls">
           <a *ngIf="mode.add || mode.edit" class="add-members" (click)="addAdditionalOperationManager()">+ Manager</a>
@@ -86,9 +88,8 @@
                   <b>{{ operationCallRep.userFirstName }} {{ operationCallRep.userLastName }}</b>
                 </span>
               </ng-template>
-
-              <span class="remove-icon" (click)="removeOperationCallRep(operationCallRep.userId)">Remove</span>
             </ion-item>
+            <span class="remove-icon" (click)="removeOperationCallRep(idx)">X</span>
           </div>
           <div class="controls">
             <a *ngIf="mode.add || mode.edit" class="add-members" (click)="addAdditionalOperationCallRep()"
