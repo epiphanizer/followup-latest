@@ -24,6 +24,7 @@
           <ion-item class="sidebar-listing" id="operation-manager">
             <ion-select
               *ngIf="(mode.edit || mode.add) && operationManagers && availableUsers; else managerSpan"
+              [class.edit]="mode.edit"
               (ionChange)="managerOnSelect($event, idx)"
               placeholder="Assign Manager"
             >
@@ -37,7 +38,7 @@
             </ion-select>
 
             <ion-note
-              *ngIf="mode.edit || mode.add"
+              *ngIf="mode.edit"
               item-end
               class="remove-icon"
               (click)="removeCallRepOrManager('manager', idx, manager.userId)"
@@ -78,6 +79,7 @@
               <ion-select
                 *ngIf="availableUsers && (mode.edit || mode.add); else memberSpan"
                 (ionChange)="callRepOnSelect($event, idx)"
+                [class.edit]="mode.edit"
                 placeholder="Select User"
               >
                 <ion-select-option
@@ -89,7 +91,7 @@
                 </ion-select-option>
               </ion-select>
               <ion-note
-                *ngIf="mode.edit || mode.add"
+                *ngIf="mode.edit"
                 item-end
                 class="remove-icon"
                 (click)="removeCallRepOrManager('callrep', idx, operationCallRep.userId)"
