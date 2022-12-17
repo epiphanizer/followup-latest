@@ -6,7 +6,6 @@ import { share, catchError } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {
@@ -22,7 +21,6 @@ export class UserResolver implements Resolve<User> {
      */
     this.user$ = of(this.authService.currentUserValue);
     this.user = this.authService.currentUserSubject.getValue();
-
     var date = new Date();
     var currentTime = date.getTime();
     if (currentTime > this.user.userLoginExpires) {
@@ -37,7 +35,6 @@ export class UserResolver implements Resolve<User> {
       this.authService.currentUserSubject.next(this.user);
       localStorage.setItem('followup-user', JSON.stringify(this.user));
     }
-
     return this.user$;
   }
 

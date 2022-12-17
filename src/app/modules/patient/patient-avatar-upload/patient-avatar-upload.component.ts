@@ -82,12 +82,8 @@ export class PatientAvatarUploadComponent implements OnInit {
                   var base64data = reader.result;
                   var store: any = '';
                   store = base64data;
-                  /**
-                   * Replace avatar in session storage, if it exists already
-                   */
-                  if (sessionStorage.getItem(self.patient.patientId.toString())) {
-                    sessionStorage.setItem(self.patient.patientId.toString(), store);
-                  }
+
+                  sessionStorage.setItem(self.patient.patientId.toString(), store);
                   self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
                   self.avatarExists = true;
                   self.changingAvatar = false;

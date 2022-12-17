@@ -60,8 +60,8 @@ export class OperationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  public removeOperationManagerByOperationIdAndUserId(operationId: string, userId: string) {
-    return this.http.delete('operations/' + operationId + '/managers/' + userId, {}).pipe(
+  public removeCallRepOrManager(operationId: string, userId: string) {
+    return this.http.delete('operations/' + operationId + '/callReps/' + userId, {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

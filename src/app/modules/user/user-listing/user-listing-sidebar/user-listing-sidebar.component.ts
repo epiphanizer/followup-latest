@@ -65,13 +65,6 @@ export class UserListingSidebarComponent implements OnInit {
   ngOnInit() {
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
-  // toggleTeamManagerSidebarMenu(team: Team) {
-  //   team.teamManagerSidebarDropdownOpen = !team.teamManagerSidebarDropdownOpen;
-  // }
-  // toggleTeamCareRepSidebarMenu(team: Team) {
-  //   team.teamCareRepSidebarDropdownOpen = !team.teamCareRepSidebarDropdownOpen;
-  // }
-  // toggleTeamSpanishSidebarMenu(team: Team) {
-  //   team.teamSpanishSidebarDropdownOpen = !team.teamSpanishSidebarDropdownOpen;
-  // }
+  toggleActiveSidebarMenu() {}
+  toggleInactiveSidebarMenu() {}
 }

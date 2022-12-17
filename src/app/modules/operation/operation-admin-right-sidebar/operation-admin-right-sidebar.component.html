@@ -22,12 +22,11 @@
       >
         <div class="manager-container" *ngFor="let manager of operationManagers; let idx = index">
           <ion-item class="sidebar-listing" id="operation-manager">
-            <ion-label color="medium" position="stacked">Assign Manager</ion-label>
             <ion-select
               *ngIf="(mode.edit || mode.add) && operationManagers && availableUsers; else managerSpan"
+              [class.edit]="mode.edit"
               (ionChange)="managerOnSelect($event, idx)"
-              class="operation-assigned-manager"
-              placeholder="Assign Manager(s)"
+              placeholder="Assign Manager"
             >
               <ion-select-option
                 *ngFor="let user of availableUsers"
@@ -37,8 +36,18 @@
                 {{ user.userLastName }}, {{ user.userFirstName }}
               </ion-select-option>
             </ion-select>
+
+            <ion-note
+              *ngIf="mode.edit"
+              item-end
+              class="remove-icon"
+              (click)="removeCallRepOrManager('manager', idx, manager.userId)"
+              >X</ion-note
+            >
             <ng-template #managerSpan>
-              <span class="operation-manager"> {{ manager?.userFirstName }} {{ manager?.userLastName }} </span>
+              <span class="operation-manager">
+                <b>{{ manager?.userFirstName }} {{ manager?.userLastName }}</b>
+              </span>
             </ng-template>
           </ion-item>
         </div>
@@ -67,10 +76,10 @@
         >
           <div class="callrep-container" *ngFor="let operationCallRep of operationAssignedUsers; let idx = index">
             <ion-item class="sidebar-listing" id="operationCallRep-{{ idx }}">
-              <ion-label color="medium" position="stacked">Assign Call Rep</ion-label>
               <ion-select
                 *ngIf="availableUsers && (mode.edit || mode.add); else memberSpan"
                 (ionChange)="callRepOnSelect($event, idx)"
+                [class.edit]="mode.edit"
                 placeholder="Select User"
               >
                 <ion-select-option
@@ -81,13 +90,18 @@
                   {{ user.userLastName }}, {{ user.userFirstName }}
                 </ion-select-option>
               </ion-select>
+              <ion-note
+                *ngIf="mode.edit"
+                item-end
+                class="remove-icon"
+                (click)="removeCallRepOrManager('callrep', idx, operationCallRep.userId)"
+                >X</ion-note
+              >
               <ng-template #memberSpan>
                 <span class="operation-callrep">
                   <b>{{ operationCallRep.userFirstName }} {{ operationCallRep.userLastName }}</b>
                 </span>
               </ng-template>
-
-              <span (click)="removeOperationCallRep(operationCallRep.userId)">X</span>
             </ion-item>
           </div>
           <div class="controls">

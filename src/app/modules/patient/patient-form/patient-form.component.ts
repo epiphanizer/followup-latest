@@ -83,8 +83,6 @@ export class PatientFormComponent implements OnInit {
     this.operations = this.user.operations;
     this.patientService.getPatientDischargeLabels().subscribe((data: any) => {
       this.dischargeLabels = data;
-      console.log(data);
-      debugger;
       this.dischargedTo = data;
     });
 

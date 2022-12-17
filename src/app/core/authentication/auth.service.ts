@@ -19,7 +19,7 @@ export interface AuthenticationBodyPost {
 export class AuthenticationService {
   public authenticated: boolean = false;
   protected userId: number;
-  public user$: Promise<User> | any;
+  public user$: Promise<User>;
 
   public currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
@@ -66,6 +66,7 @@ export class AuthenticationService {
                   if (res) {
                     user.operationGroups = res;
                   }
+
                   user.operationGroups.forEach((operationGroup: OperationGroup) => {
                     // Could use a stronger approach but this does the trick
 
@@ -91,6 +92,7 @@ export class AuthenticationService {
                 localStorage.setItem('followup-user', JSON.stringify(user));
               });
               this.currentUserSubject.next(user);
+
               return token;
             }
           }
@@ -108,14 +110,22 @@ export class AuthenticationService {
     }
     return result;
   }
+  // Prompt the user to sign in and
+  // grant consent to the requested permission scopes
+  async signOut(userId: string): Promise<any> {
+    let result = await this.doLogout(userId).toPromise();
+    if (!(await result)) {
+      return false;
+    }
+    return result;
+  }
   // Sign out
-  signOut(userId: string): any {
+  doLogout(userId: string): Observable<any> {
     return this.http
       .post('users/logout', {
         userId: userId
       })
       .pipe(
-        retry(0),
         map(() => {
           this.user$ = null;
           this.authenticated = false;
@@ -124,9 +134,9 @@ export class AuthenticationService {
           localStorage.clear();
           this.currentUserSubject.next(null);
           window.location.href = '/login';
-        })
-      )
-      .subscribe();
+        }),
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   }
 
   ngOnDestroy() {}
