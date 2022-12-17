@@ -345,7 +345,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       } else {
         this.toastr.error('Oops! Could not remove the user.');
       }
-      console.log('removed person successfully');
     });
   }
 }

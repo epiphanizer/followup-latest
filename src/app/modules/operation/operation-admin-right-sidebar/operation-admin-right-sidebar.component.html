@@ -23,7 +23,6 @@
         <div class="manager-container" *ngFor="let manager of operationManagers; let idx = index">
           <ion-item class="sidebar-listing" id="operation-manager">
             <ion-select
-              interface="popover"
               *ngIf="(mode.edit || mode.add) && operationManagers && availableUsers; else managerSpan"
               (ionChange)="managerOnSelect($event, idx)"
               placeholder="Assign Manager"

@@ -121,7 +121,6 @@ export class AuthenticationService {
   }
   // Sign out
   doLogout(userId: string): Observable<any> {
-    debugger;
     return this.http
       .post('users/logout', {
         userId: userId
