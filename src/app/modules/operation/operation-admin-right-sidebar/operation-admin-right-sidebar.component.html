@@ -23,6 +23,7 @@
         <div class="manager-container" *ngFor="let manager of operationManagers; let idx = index">
           <ion-item class="sidebar-listing" id="operation-manager">
             <ion-select
+              interface="popover"
               *ngIf="(mode.edit || mode.add) && operationManagers && availableUsers; else managerSpan"
               (ionChange)="managerOnSelect($event, idx)"
               placeholder="Assign Manager"
@@ -36,9 +37,13 @@
               </ion-select-option>
             </ion-select>
 
-            <ion-note item-end class="remove-icon" (click)="removeOperationManager(idx)">X</ion-note>
+            <ion-note *ngIf="mode.edit || mode.add" item-end class="remove-icon" (click)="removeOperationManager(idx)"
+              >X</ion-note
+            >
             <ng-template #managerSpan>
-              <span class="operation-manager"> {{ manager?.userFirstName }} {{ manager?.userLastName }} </span>
+              <span class="operation-manager">
+                <b>{{ manager?.userFirstName }} {{ manager?.userLastName }}</b>
+              </span>
             </ng-template>
           </ion-item>
         </div>
@@ -80,7 +85,9 @@
                   {{ user.userLastName }}, {{ user.userFirstName }}
                 </ion-select-option>
               </ion-select>
-              <ion-note item-end class="remove-icon" (click)="removeOperationManager(idx)">X</ion-note>
+              <ion-note *ngIf="mode.edit || mode.add" item-end class="remove-icon" (click)="removeOperationManager(idx)"
+                >X</ion-note
+              >
               <ng-template #memberSpan>
                 <span class="operation-callrep">
                   <b>{{ operationCallRep.userFirstName }} {{ operationCallRep.userLastName }}</b>

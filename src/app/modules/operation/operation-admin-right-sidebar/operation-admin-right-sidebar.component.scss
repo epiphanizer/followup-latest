@@ -64,21 +64,23 @@ ion-list {
 }
 
 .select-icon {
+  visibility: hidden !important;
+}
+ion-select::part(native) {
   display: none;
 }
-
 ion-select {
   :host {
     max-width: unset;
+    button {
+      display: none;
+    }
   }
 
-  .select-icon-inner {
-    margin-top: -2px;
-  }
   max-width: unset;
   font-family: Avenir;
   font-size: 14px;
-  width: calc(100% - 16px);
+  width: calc(90%);
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -89,8 +91,14 @@ ion-select {
   background-color: #f5f5f5;
   padding-left: 10px;
   padding-top: 6px;
-  margin-right: 5px;
-  ::part(icon) {
+  margin-right: 10px;
+  padding-bottom: 1px;
+  --padding-end: 0;
+  .select-icon-inner {
+    margin-top: -2px;
+  }
+
+  &::part(icon) {
     display: none !important;
   }
 
@@ -114,6 +122,9 @@ ion-item {
 
   ion-label {
     display: none;
+  }
+  ::part(native) {
+    width: 80%;
   }
 }
 
@@ -155,15 +166,18 @@ ion-item {
 .remove-icon {
   font-size: 16px;
   font-weight: bold;
+  display: inline-block;
   padding-top: 6px;
   cursor: pointer;
-  color: --ion-color-danger;
+  z-index: 80000;
+  position: sticky;
+  color: #343638;
   &:hover {
-    color: red;
+    color: var(--ion-color-danger);
   }
 }
 ion-item.sidebar-listing {
-  height: 28px;
+  height: 32px;
   width: auto;
   --padding-start: 0;
   --padding-end: 0;
