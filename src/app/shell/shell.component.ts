@@ -109,7 +109,7 @@ export class ShellComponent {
         self.toastrService.success('Your session will log out in ' + timeRemaining + ' seconds due to inactivity!');
       }
       if (currentTime > self.user.userLoginExpires) {
-        // self.signOut();
+        self.signOut();
       }
     }, 5000);
   }
