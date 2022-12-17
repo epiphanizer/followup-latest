@@ -329,17 +329,22 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     this.callRepSidebarDropdownOpen = !this.callRepSidebarDropdownOpen;
   };
   public removeCallRepOrManager(type: string, idx: number, userId: string) {
-    switch (type) {
-      case 'manager':
-        this.operationManagersToRemove.push(this.operationManagers[idx].userId);
-        this.operationManagers.splice(idx, 1);
-        break;
-      case 'callrep':
-        this.operationAssignedUsersToRemove.push(this.operationAssignedUsers[idx].userId);
-        this.operationAssignedUsers.splice(idx, 1);
-        break;
-    }
-    this.operationService.removeCallRepOrManager(this.operation.operationId, userId).subscribe(() => {
+    this.operationService.removeCallRepOrManager(this.operation.operationId, userId).subscribe(res => {
+      if (res) {
+        this.toastr.success('Successfully removed the user.');
+        switch (type) {
+          case 'manager':
+            this.operationManagersToRemove.push(this.operationManagers[idx].userId);
+            this.operationManagers.splice(idx, 1);
+            break;
+          case 'callrep':
+            this.operationAssignedUsersToRemove.push(this.operationAssignedUsers[idx].userId);
+            this.operationAssignedUsers.splice(idx, 1);
+            break;
+        }
+      } else {
+        this.toastr.error('Oops! Could not remove the user.');
+      }
       console.log('removed person successfully');
     });
   }

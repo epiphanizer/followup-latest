@@ -61,7 +61,7 @@ export class OperationService {
     );
   }
   public removeCallRepOrManager(operationId: string, userId: string) {
-    return this.http.delete('operations/' + operationId + '/managers/' + userId, {}).pipe(
+    return this.http.delete('operations/' + operationId + '/callReps/' + userId, {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
