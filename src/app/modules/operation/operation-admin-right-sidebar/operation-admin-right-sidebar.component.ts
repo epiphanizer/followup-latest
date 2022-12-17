@@ -348,12 +348,4 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       console.log('removed person successfully');
     });
   }
-  ngAfterViewInit() {
-    var style = document.createElement('style');
-    style.innerHTML = 'button { width: 90%; }';
-    var hosts = Array.from(document.getElementsByTagName('ion-select'));
-    hosts.forEach(host => {
-      host.shadowRoot.appendChild(style);
-    });
-  }
 }

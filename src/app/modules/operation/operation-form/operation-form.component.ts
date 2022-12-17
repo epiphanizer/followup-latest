@@ -679,7 +679,6 @@ export class OperationFormComponent implements OnInit {
       alert('Validation error. Please check submitted fields');
       return false;
     } else {
-      console.log('all good');
       return true;
     }
   }
