@@ -60,13 +60,8 @@ export class OperationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  public removeOperationManagerByOperationIdAndUserId(operationId: string, userId: string) {
+  public removeCallRepOrManager(operationId: string, userId: string) {
     return this.http.delete('operations/' + operationId + '/managers/' + userId, {}).pipe(
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
-  }
-  public removeOperationCallRepByOperationIdAndUserId(operationId: string, userId: string) {
-    return this.http.delete('operations/' + operationId + '/callrep/' + userId, {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

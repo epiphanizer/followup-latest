@@ -201,16 +201,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       .subscribe();
   }
 
-  removeOperationCallRep(idx: number) {
-    console.log(this.operationAssignedUsers);
-    this.operationAssignedUsersToRemove.push(this.operationAssignedUsers[idx].userId);
-    this.operationAssignedUsers.splice(idx, 1);
-  }
-
-  removeOperationManager(idx: number) {
-    this.operationManagersToRemove.push(this.operationManagers[idx].userId);
-    this.operationManagers.splice(idx, 1);
-  }
   callRepOnSelect(event: any, index: number) {
     let callRepUserId = event.target.value;
     if (this.operationAssignedUsers[index].userId !== 0) {
@@ -294,9 +284,7 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         if (manager == '') {
           return;
         }
-        this.operationService
-          .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, manager)
-          .subscribe(() => {});
+        this.operationService.removeCallRepOrManager(this.operation.operationId, manager).subscribe(() => {});
       });
     }
 
@@ -340,27 +328,20 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   public toggleOperationCallRepsAssignedMenu = function() {
     this.callRepSidebarDropdownOpen = !this.callRepSidebarDropdownOpen;
   };
-  public removeUser(type: string, user: User) {
-    // switch (type) {
-    //   case 'manager':
-    //     console.log('removing manager');
-    //     this.operationService
-    //       .removeOperationManagerByOperationIdAndUserId(this.operation.operationId, user.userId)
-    //       .subscribe(() => {
-    //         console.log('remove ops manager');
-    //       });
-    //     break;
-    //   case 'callrep':
-    //     this.operationService
-    //       .removeOperationCallRepByOperationIdAndUserId(this.operation.operationId, user.userId)
-    //       .subscribe(() => {
-    //         console.log('remove ops callrep');
-    //       });
-    //     console.log('removing user');
-    //     break;
-    //   default:
-    //     break;
-    // }
+  public removeCallRepOrManager(type: string, idx: number, userId: string) {
+    switch (type) {
+      case 'manager':
+        this.operationManagersToRemove.push(this.operationManagers[idx].userId);
+        this.operationManagers.splice(idx, 1);
+        break;
+      case 'callrep':
+        this.operationAssignedUsersToRemove.push(this.operationAssignedUsers[idx].userId);
+        this.operationAssignedUsers.splice(idx, 1);
+        break;
+    }
+    this.operationService.removeCallRepOrManager(this.operation.operationId, userId).subscribe(() => {
+      console.log('removed person successfully');
+    });
   }
   ngAfterViewInit() {
     var style = document.createElement('style');

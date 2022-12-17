@@ -37,7 +37,11 @@
               </ion-select-option>
             </ion-select>
 
-            <ion-note *ngIf="mode.edit || mode.add" item-end class="remove-icon" (click)="removeOperationManager(idx)"
+            <ion-note
+              *ngIf="mode.edit || mode.add"
+              item-end
+              class="remove-icon"
+              (click)="removeCallRepOrManager('manager', idx, manager.userId)"
               >X</ion-note
             >
             <ng-template #managerSpan>
@@ -85,7 +89,11 @@
                   {{ user.userLastName }}, {{ user.userFirstName }}
                 </ion-select-option>
               </ion-select>
-              <ion-note *ngIf="mode.edit || mode.add" item-end class="remove-icon" (click)="removeOperationManager(idx)"
+              <ion-note
+                *ngIf="mode.edit || mode.add"
+                item-end
+                class="remove-icon"
+                (click)="removeCallRepOrManager('callrep', idx, operationCallRep.userId)"
                 >X</ion-note
               >
               <ng-template #memberSpan>
