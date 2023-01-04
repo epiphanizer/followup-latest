@@ -100,10 +100,9 @@ export class OperationService {
   }
 
   public getUsersAssignedByOperationId(operationId: string): Observable<User[] | OperationCallRep[]> {
-    return this.http.get<Array<User>>('operations/' + operationId + '/users').pipe(
-      retry(1), // retry a failed request up to 2 total times
-      catchError(error => this.handleAsyncError(error))
-    );
+    return this.http
+      .get<Array<User>>('operations/' + operationId + '/users')
+      .pipe(catchError(error => this.handleAsyncError(error)));
   }
 
   private handleAsyncError(error: HttpErrorResponse) {

@@ -1,6 +1,7 @@
 import { OperationContact } from './operation-contact/operation-contact';
 import { Observable } from 'rxjs';
 import { PatientCall } from '../patient/patient-detail/patient-call/patient-call.service';
+import { User } from '../user/user';
 
 export interface Operation {
   operationId: string;
@@ -59,7 +60,7 @@ export interface OperationGroup {
   sidebarDropdownOpen?: Boolean;
 }
 
-export interface OperationManager {
+export interface OperationManager extends User {
   operationManagerId?: string;
   operationManagerName?: string;
   operationId: string;

@@ -91,6 +91,10 @@ export class OperationFormComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.operationGroups = this.user.operationGroups;
 
+    this.userService.getAllUsers().subscribe((users: User[]) => {
+      this.availableUsers = users;
+    });
+
     if (this.route.snapshot.data.mode == 'add') {
       this.mode.add = true;
     } else if (this.route.snapshot.data.mode == 'edit') {
@@ -106,7 +110,6 @@ export class OperationFormComponent implements OnInit {
     if (this.mode.edit || this.mode.view) {
       this.operation = this.route.snapshot.data.operation;
       this.createForm();
-      this.armForm();
     } else if (this.mode.add) {
       this.operationService.addNewOperation().subscribe((data: Operation) => {
         let operation = data;
@@ -119,7 +122,6 @@ export class OperationFormComponent implements OnInit {
         });
         this.operation = data;
         this.createForm();
-        this.armForm();
         this.updateOperationContacts();
       });
     }
@@ -257,14 +259,6 @@ export class OperationFormComponent implements OnInit {
       .subscribe(() => {});
   }
 
-  armForm() {
-    this.userService.getAllUsers().subscribe((users: User[]) => {
-      this.availableUsers = users;
-    });
-    this.userService.getAllManagerUsers().subscribe((users: User[]) => {
-      this.availableManagers = users;
-    });
-  }
   updateOperation(operation: Operation) {
     this.operation = operation[0];
     var operationFormControls = this.operationForm.get('operation') as FormGroup;

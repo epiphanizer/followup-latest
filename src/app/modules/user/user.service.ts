@@ -20,25 +20,21 @@ export class UserService {
   }
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>('users').pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  getAllManagerUsers(): Observable<User[]> {
-    return this.http.get<User[]>('users/managers').pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
-  }
+  // getAllManagerUsers(): Observable<User[]> {
+  //   return this.http.get<User[]>('users/managers').pipe(
+  //     catchError(e => this.handleAsyncError(e)) // then handle the error
+  //   );
+  // }
   getAllAdminUsers(): Observable<User[]> {
     return this.http.get<User[]>('users/admins').pipe(
-      retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
   getUserByUserId(userId: string) {
     return this.http.get<User>('users/' + userId).pipe(
-      retry(3),
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

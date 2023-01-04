@@ -17,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { UserService } from '@app/modules/user/user.service';
 import { LogService } from '@app/shared/log/log.service';
+import { Observable, Subscribable, SubscriptionLike } from 'rxjs';
 
 @Component({
   selector: 'app-operation-admin-right-sidebar',
@@ -61,6 +62,7 @@ import { LogService } from '@app/shared/log/log.service';
 export class OperationAdminRightSidebarComponent implements OnInit {
   @Input() mode: any;
   @Input() operation: Operation;
+  @Input() users: User[];
 
   activeOperationId: string;
   availableUsers: User[] = [];
@@ -81,6 +83,8 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   operationManagersToAdd: OperationManager[];
   operationManagersOriginal: string[];
   operationManagersToRemove: string[] = [];
+  ready: boolean = false;
+  routeSubscription: SubscriptionLike;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -94,34 +98,11 @@ export class OperationAdminRightSidebarComponent implements OnInit {
 
   user: User;
   ngOnInit() {
-    this.userService.getAllUsers().subscribe((users: User[]) => {
-      try {
-        if (users) {
-          this.availableUsers = users;
-        } else {
-          throw 'No users found!';
-        }
-      } catch (error) {
-        this.logService.log(error);
-      }
-      if (users) {
-        this.availableUsers = users;
-      } else {
-        throw 'No users found!';
-      }
-    });
-
-    if (this.route.snapshot.paramMap.get('operationId')) {
-      this.activeOperationId = this.route.snapshot.paramMap.get('operationId');
-      this.updateAssignedUsers();
-      this.getAssignedManagers();
-    }
-    this.route.paramMap.subscribe(params => {
-      if (params.get('operationId')) {
-        this.operationAssignedUsers = [];
+    this.routeSubscription = this.route.paramMap.subscribe(params => {
+      if (params.get('operationId').length) {
         this.activeOperationId = params.get('operationId');
-        this.updateAssignedUsers();
         this.getAssignedManagers();
+        this.updateAssignedUsers();
       }
     });
     if (this.mode.add) {
@@ -142,19 +123,19 @@ export class OperationAdminRightSidebarComponent implements OnInit {
       ];
     }
   }
-  updateAssignedUsers() {
+  updateAssignedUsers(): any {
     this.operationAssignedUsers = [];
     this.operationAssignedUsersOriginal = [];
-    this.operationService
+    return this.operationService
       .getUsersAssignedByOperationId(this.activeOperationId)
       .pipe(
-        take(1),
         map((users: User[]) => {
           if (users) {
-            this.operationAssignedUsers = users.filter(user => {
-              return user.userRoleLabel != 'Manager' && user.userRoleLabel != 'Admin';
-            });
-            this.cdr.detectChanges();
+            this.operationAssignedUsers = users
+              .filter(user => {
+                return user.userRoleLabel === 'Care Rep';
+              })
+              .sort((a: User, b: User) => a.userLastName.localeCompare(b.userLastName));
             this.operationAssignedUsersOriginal = this.operationAssignedUsers.map(function(user) {
               return user.userId;
             });
@@ -179,11 +160,13 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         take(1),
         map((managers: OperationManager[]) => {
           if (managers) {
-            this.operationManagers = managers;
+            this.operationManagers = managers.sort((a: OperationManager, b: OperationManager) =>
+              a.userLastName.localeCompare(b.userLastName)
+            );
             this.operationManagersOriginal = this.operationManagers.map(function(manager) {
               return manager.userId;
             });
-            this.cdr.detectChanges();
+            // this.cdr.detectChanges();
           } else {
             if (!this.mode.edit) {
               this.managerSidebarDropdownOpen = false;
@@ -346,5 +329,8 @@ export class OperationAdminRightSidebarComponent implements OnInit {
         this.toastr.error('Oops! Could not remove the user.');
       }
     });
+  }
+  ngOnDestroy() {
+    this.routeSubscription.unsubscribe();
   }
 }

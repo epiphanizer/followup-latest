@@ -1,4 +1,4 @@
-<div class="sidebar" lines="none" inset>
+<div class="sidebar" lines="none" inset *ngIf="activeOperationId">
   <form>
     <ion-item class="headline-item">
       <h3 class="headline"><i class="icon-team"></i> Team Members</h3>
@@ -6,12 +6,7 @@
     <fieldset class="operation-team-members">
       <span class="section-label" (click)="toggleOperationManagersAssignedMenu()">
         <span *ngIf="mode.edit || mode.add">Assigned </span>Manager(s)
-        <i
-          *ngIf="mode.view"
-          class="icon-dropdown"
-          (click)="toggleOperationManagersAssignedMenu()"
-          [@turnArrow]="managerSidebarDropdownOpen ? 'open' : 'closed'"
-        ></i
+        <i *ngIf="mode.view" class="icon-dropdown" [@turnArrow]="managerSidebarDropdownOpen ? 'open' : 'closed'"></i
       ></span>
       <ion-list
         class="assigned-manager-list"
@@ -23,13 +18,13 @@
         <div class="manager-container" *ngFor="let manager of operationManagers; let idx = index">
           <ion-item class="sidebar-listing" id="operation-manager">
             <ion-select
-              *ngIf="(mode.edit || mode.add) && operationManagers && availableUsers; else managerSpan"
+              *ngIf="(mode.edit || mode.add) && operationManagers; else managerSpan"
               [class.edit]="mode.edit"
               (ionChange)="managerOnSelect($event, idx)"
               placeholder="Assign Manager"
             >
               <ion-select-option
-                *ngFor="let user of availableUsers"
+                *ngFor="let user of users"
                 [value]="user.userId"
                 [selected]="user.userId == manager?.userId"
               >
@@ -60,12 +55,7 @@
       <ng-container>
         <span class="section-label" (click)="toggleOperationCallRepsAssignedMenu()">
           <span *ngIf="mode.edit || mode.add">Assigned </span>Care Reps
-          <i
-            *ngIf="mode.view"
-            class="icon-dropdown"
-            (click)="toggleOperationCallRepsAssignedMenu()"
-            [@turnArrow]="callRepSidebarDropdownOpen ? 'open' : 'closed'"
-          ></i
+          <i *ngIf="mode.view" class="icon-dropdown" [@turnArrow]="callRepSidebarDropdownOpen ? 'open' : 'closed'"></i
         ></span>
         <ion-list
           class="assigned-callrep-list"
@@ -77,13 +67,13 @@
           <div class="callrep-container" *ngFor="let operationCallRep of operationAssignedUsers; let idx = index">
             <ion-item class="sidebar-listing" id="operationCallRep-{{ idx }}">
               <ion-select
-                *ngIf="availableUsers && (mode.edit || mode.add); else memberSpan"
+                *ngIf="users && ((mode.edit && operationAssignedUsers.length) || mode.add); else memberSpan"
                 (ionChange)="callRepOnSelect($event, idx)"
                 [class.edit]="mode.edit"
                 placeholder="Select User"
               >
                 <ion-select-option
-                  *ngFor="let user of availableUsers"
+                  *ngFor="let user of users"
                   [value]="user.userId"
                   [selected]="user.userId == operationCallRep.userId"
                 >
