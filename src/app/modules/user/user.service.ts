@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry, share } from 'rxjs/operators';
+import { catchError, share } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UserPutObject, User, UserLanguage, UserMessage } from './user';
 import { TeamMessage } from '../team/team';

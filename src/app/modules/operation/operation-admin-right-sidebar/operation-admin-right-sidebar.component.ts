@@ -89,11 +89,9 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private logService: LogService,
     private operationService: OperationService,
     private operationCallRepsService: OperationCallRepsService,
-    private toastr: ToastrService,
-    private userService: UserService
+    private toastr: ToastrService
   ) {}
 
   user: User;

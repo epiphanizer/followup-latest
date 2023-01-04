@@ -79,24 +79,19 @@ export class OperationService {
    * We need to make sure this only gives us back the ones we need.
    */
   public getAllOperations(): Observable<Array<Operation>> {
-    return this.http.get<Array<Operation>>('operations').pipe(
-      retry(1), // retry a failed request up to 2 total times
-      catchError(error => this.handleAsyncError(error))
-    );
+    return this.http.get<Array<Operation>>('operations').pipe(catchError(error => this.handleAsyncError(error)));
   }
 
   public getOperationByOperationId(operationId: string): Observable<Operation> {
-    return this.http.get<Operation>('operations/' + operationId).pipe(
-      retry(1), // retry a failed request up to 2 total times
-      catchError(error => this.handleAsyncError(error))
-    );
+    return this.http
+      .get<Operation>('operations/' + operationId)
+      .pipe(catchError(error => this.handleAsyncError(error)));
   }
 
   public getOperationsByUserId(userId: string): Observable<Array<Operation>> {
-    return this.http.get<Array<Operation>>('users/' + userId + '/operations').pipe(
-      retry(1), // retry a failed request up to 2 total times
-      catchError(error => this.handleAsyncError(error))
-    );
+    return this.http
+      .get<Array<Operation>>('users/' + userId + '/operations')
+      .pipe(catchError(error => this.handleAsyncError(error)));
   }
 
   public getUsersAssignedByOperationId(operationId: string): Observable<User[] | OperationCallRep[]> {
