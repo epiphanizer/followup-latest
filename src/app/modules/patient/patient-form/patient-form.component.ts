@@ -446,9 +446,11 @@ export class PatientFormComponent implements OnInit {
 
     // Passing E2E
     this.patientContactsToRemove.forEach((patientContactId: string, index: number) => {
-      this.patientContactService.removePatientContactByPatientContactId(patientContactId).subscribe(() => {
-        this.toastrService.success('Successfully removed patient contact');
-      });
+      if (patientContactId) {
+        this.patientContactService.removePatientContactByPatientContactId(patientContactId).subscribe(() => {
+          this.toastrService.success('Successfully removed patient contact');
+        });
+      }
     });
 
     /**
@@ -457,6 +459,7 @@ export class PatientFormComponent implements OnInit {
     this.patientContactsToAdd = this.patientContacts.filter((patientContact: PatientContact) => {
       return this.patientContactsOriginal.indexOf(patientContact) == -1;
     });
+    debugger;
 
     // Passing E2E
     this.patientContactsToAdd.forEach((patientContact: PatientContact, index: number) => {
