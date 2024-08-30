@@ -26,6 +26,24 @@
           </div>
         </div>
       </ion-item>
+      <ng-container *ngIf="question.patientQuestionTypeLabel == 'rating'">
+        <div class="custom-question-container">
+          <ion-label class="patient-call-question-label">
+            {{ question.patientCallQuestion }}
+          </ion-label>
+          <ion-item class="patient-call-question-container call-question">
+            <div class="rating-container">
+              <ion-icon
+                name="star-outline"
+                *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                [class.filled]="question.rating >= i + 1"
+                (click)="setRating(question.patientCallQuestionId, i + 1)"
+              >
+              </ion-icon>
+            </div>
+          </ion-item>
+        </div>
+      </ng-container>
       <ng-container *ngIf="question.patientQuestionTypeLabel == 'textarea'">
         <div class="custom-question-container">
           <ion-label class="patient-call-question-label">
