@@ -190,10 +190,6 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallQuestionAnswers = $event;
   }
 
-  patientNextCallQuestionsChangeHandler($event: PatientCallQuestion[]) {
-    this.patientNextCallQuestions = $event;
-  }
-
   patientCallFinishEventHandler($event: PatientCall) {
     this.patientCall = $event;
     /**
@@ -232,6 +228,7 @@ export class PatientDetailComponent implements OnInit {
           // Update the call status
           // Talk to our service to answer the existing call questions
           if (this.patientCallQuestionAnswers) {
+            debugger;
             this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
               let patientCallQuestionId = Object.keys(patientCallQuestionAnswer).toString();
               let patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
@@ -266,32 +263,10 @@ export class PatientDetailComponent implements OnInit {
             this.patientCallService
               .addNewPatientCallByPatientId(this.patient.patientId, isoString)
               .subscribe((data: any) => {
-                let patientCallId = data.patientCallId;
-                let itemsProcessed = 0;
-                if (this.patientNextCallQuestions.length) {
-                  this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
-                    if (patientCallQuestion.patientCallQuestion != '') {
-                      this.patientCallQuestionsService
-                        .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
-                        .subscribe((data: any) => {
-                          itemsProcessed++;
-                          if (itemsProcessed === this.patientNextCallQuestions.length) {
-                            this.toastrService.success('Successfully Saved');
-                            this.userService.updateOperations(this.user).then(res => {
-                              window.location.href = navigateToUrl;
-                            });
-                          }
-                        });
-                    } else {
-                      this.patientNextCallQuestions.splice(index, 1);
-                    }
-                  });
-                } else {
-                  this.toastrService.success('Successfully Saved');
-                  this.userService.updateOperations(this.user).then(res => {
-                    window.location.href = navigateToUrl;
-                  });
-                }
+                this.toastrService.success('Successfully Saved');
+                this.userService.updateOperations(this.user).then(res => {
+                  window.location.href = navigateToUrl;
+                });
               });
           }
         });

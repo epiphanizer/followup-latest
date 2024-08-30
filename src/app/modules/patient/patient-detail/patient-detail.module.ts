@@ -12,7 +12,6 @@ import { PatientCallStatusControlsComponent } from './patient-call/patient-call-
 import { PatientCallStartButtonComponent } from './patient-call/patient-call-start-button/patient-call-start-button.component';
 import { PatientCallStopButtonComponent } from './patient-call/patient-call-stop-button/patient-call-stop-button.component';
 import { PatientNextCallSchedulerComponent } from './patient-call/patient-next-call-scheduler/patient-next-call-scheduler.component';
-import { PatientNextCallQuestionsComponent } from './patient-call/patient-next-call-questions/patient-next-call-questions.component';
 import { FollowupCompleteModalComponent } from './followup-complete-modal/followup-complete-modal.component';
 import { FollowupCompleteButtonComponent } from './followup-complete-button/followup-complete-button.component';
 import { PatientNextCallFinishButtonComponent } from './patient-call/patient-next-call-finish-button/patient-next-call-finish-button.component';
@@ -38,7 +37,6 @@ import { ReviewPatientNextCallQuestionsComponent } from './patient-call/review-p
     PatientCallStartButtonComponent,
     PatientCallStopButtonComponent,
     PatientNextCallSchedulerComponent,
-    PatientNextCallQuestionsComponent,
     ReviewPatientNextCallQuestionsComponent,
     PatientNextCallFinishButtonComponent
   ],

@@ -31,12 +31,12 @@
           <ion-label class="patient-call-question-label">
             {{ question.patientCallQuestion }}
           </ion-label>
-          <ion-item class="patient-call-question-container call-question">
+          <ion-item class="patient-call-question-container call-question rating">
             <div class="rating-container">
               <ion-icon
-                name="star-outline"
                 *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
-                [class.filled]="question.rating >= i + 1"
+                name="star"
+                [class.filled]="isStarFilled(i + 1, question.patientCallQuestionId)"
                 (click)="setRating(question.patientCallQuestionId, i + 1)"
               >
               </ion-icon>

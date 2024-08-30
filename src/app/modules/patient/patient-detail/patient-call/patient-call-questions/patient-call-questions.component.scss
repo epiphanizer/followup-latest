@@ -34,7 +34,7 @@ ion-item.call-question {
   ion-label {
     display: inline-block;
     font-family: Avenir;
-    font-size: 14px;
+    font-size: 15px;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.33;
@@ -44,7 +44,7 @@ ion-item.call-question {
 
   .patient-call-question-label {
     font-family: AvenirDemi;
-    font-size: 14px;
+    font-size: 15px;
   }
 
   ion-radio-group {
@@ -85,6 +85,15 @@ ion-item.call-question {
     width: 100%;
   }
 
+  ion-icon {
+    font-size: 24px;
+    color: var(--ion-color-medium); /* Default color for stars */
+    cursor: pointer;
+  }
+
+  ion-icon.filled {
+    color: var(--ion-color-warning); /* Yellow color for filled stars */
+  }
   ion-textarea {
     --padding-top: 0;
     line-height: 27px;
