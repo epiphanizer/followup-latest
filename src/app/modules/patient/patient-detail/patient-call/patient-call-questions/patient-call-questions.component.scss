@@ -197,9 +197,16 @@ ion-radio {
 .boolean {
   display: inline-block;
 }
+
+.rating-containers {
+  margin-bottom: 1.25rem;
+}
 // textarea custom questions
 .custom-question-container {
-  margin-top: 26px;
+  &::first-child {
+    margin-top: 26px;
+  }
+  margin-top: 0;
   ion-item {
     height: auto;
   }

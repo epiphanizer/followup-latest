@@ -57,14 +57,6 @@
         >
         </app-patient-call-notes>
 
-        <!-- <app-patient-next-call-questions
-          (patientNextCallQuestionsEmitter)="patientNextCallQuestionsChangeHandler($event)"
-          *ngIf="
-            patientCall.patientCallStatusLabel == 'Started' ||
-            patientCall.patientCallStatusLabel == 'User Selected Status'
-          "
-        >
-        </app-patient-next-call-questions> -->
         <app-patient-call-stop-button
           [patientCall]="patientCall"
           *ngIf="
@@ -79,11 +71,7 @@
             (patientNextCallDateSelectedEventEmitter)="patientNextCallDateSelectedEventHandler($event)"
           >
           </app-patient-next-call-scheduler>
-          <!-- <app-review-patient-next-call-questions
-            *ngIf="patientCall.patientCallStatusLabel == 'In Review'"
-            [patientCallQuestions]="patientNextCallQuestions"
-          >
-          </app-review-patient-next-call-questions> -->
+
           <app-patient-next-call-finish-button
             *ngIf="patientCall.patientCallStatusLabel == 'In Review'"
             [patient]="patient"

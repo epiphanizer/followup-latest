@@ -26,24 +26,26 @@
           </div>
         </div>
       </ion-item>
-      <ng-container *ngIf="question.patientQuestionTypeLabel == 'rating'">
-        <div class="custom-question-container">
-          <ion-label class="patient-call-question-label">
-            {{ question.patientCallQuestion }}
-          </ion-label>
-          <ion-item class="patient-call-question-container call-question rating">
-            <div class="rating-container">
-              <ion-icon
-                *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
-                name="star"
-                [class.filled]="isStarFilled(i + 1, question.patientCallQuestionId)"
-                (click)="setRating(question.patientCallQuestionId, i + 1)"
-              >
-              </ion-icon>
-            </div>
-          </ion-item>
-        </div>
-      </ng-container>
+      <div class="rating-containers">
+        <ng-container *ngIf="question.patientQuestionTypeLabel == 'rating'">
+          <div class="custom-question-container">
+            <ion-label class="patient-call-question-label">
+              {{ question.patientCallQuestion }}
+            </ion-label>
+            <ion-item class="patient-call-question-container call-question rating">
+              <div class="rating-container">
+                <ion-icon
+                  *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                  name="star"
+                  [class.filled]="isStarFilled(i + 1, question.patientCallQuestionId)"
+                  (click)="setRating(question.patientCallQuestionId, i + 1)"
+                >
+                </ion-icon>
+              </div>
+            </ion-item>
+          </div>
+        </ng-container>
+      </div>
       <ng-container *ngIf="question.patientQuestionTypeLabel == 'textarea'">
         <div class="custom-question-container">
           <ion-label class="patient-call-question-label">
