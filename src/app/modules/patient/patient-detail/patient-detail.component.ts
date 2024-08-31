@@ -42,6 +42,7 @@ export class PatientDetailComponent implements OnInit {
   patientCallQuestions: PatientCallQuestion[];
   patientCallQuestionAnswers: PatientCallQuestionAnswer[];
   patientCallStatuses: any | typeof PatientCallStatuses = PatientCallStatuses;
+  patientLastCallAnswers: PatientCallQuestionAnswer[];
 
   patientNextCall: {
     date: string;
