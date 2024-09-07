@@ -58,7 +58,11 @@ export class PatientCallQuestionsComponent implements OnInit {
         .getPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestion.patientCallQuestionId)
         .pipe(
           map((patientCallQuestionAnswer: PatientCallQuestionAnswer[]) => {
-            const lastAnswer = patientCallQuestionAnswer.length > 0 ? patientCallQuestionAnswer[0] : null;
+            // Check if patientCallQuestionAnswer is not null or undefined
+            const lastAnswer =
+              patientCallQuestionAnswer && patientCallQuestionAnswer.length > 0 ? patientCallQuestionAnswer[0] : null;
+
+            // Safely handle the last answer
             newFormGroup.get(questionControlId)?.setValue(lastAnswer ? lastAnswer.patientCallQuestionAnswer : '');
           })
         )
