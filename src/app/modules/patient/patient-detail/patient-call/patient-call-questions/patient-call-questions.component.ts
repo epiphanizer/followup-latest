@@ -48,12 +48,13 @@ export class PatientCallQuestionsComponent implements OnInit {
           this.addQuestionControl(patientCallQuestion);
         });
 
-        const answerObservables = lastCallQuestions.map((question: PatientCallQuestion) =>
+        // Fetch answers for lastCall questions
+        const answerObservables = lastCallQuestions.slice(3, 7).map((question: PatientCallQuestion, index: number) =>
           this.patientCallQuestionsService
             .getPatientCallQuestionAnswersByPatientCallQuestionId(question.patientCallQuestionId)
             .pipe(
               map((patientCallQuestionAnswers: PatientCallQuestionAnswer[] | null) => {
-                // Ensure patientCallQuestionAnswers is not null or undefined before accessing its length
+                // Ensure patientCallQuestionAnswers is not null or undefined before accessing length
                 if (patientCallQuestionAnswers && patientCallQuestionAnswers.length > 0) {
                   return patientCallQuestionAnswers[0].patientCallQuestionAnswer;
                 } else {
@@ -65,12 +66,34 @@ export class PatientCallQuestionsComponent implements OnInit {
 
         // Wait for all answers to be retrieved before processing
         forkJoin(answerObservables).subscribe((answersArray: any[]) => {
-          this.setAnswerForQuestions(answersArray);
+          // Map the answers to the new patient call questions (starting from index 3)
+          this.setAnswerForQuestions(answersArray, 3);
         });
       });
     }
 
     this.onChanges();
+  }
+
+  setAnswerForQuestions(answers: any[], startingIndex: number) {
+    const formArray = this.patientCallQuestionsAnswersForm.get('patientCallQuestionsAnswers') as FormArray;
+    // Loop through each question starting from the specified index
+    this.questions.forEach((question, index) => {
+      if (index >= startingIndex && question.patientQuestionTypeLabel === 'rating') {
+        let validRating = answers[index - startingIndex];
+        if (validRating !== null) {
+          validRating = parseInt(validRating, 10);
+
+          const control = formArray.at(index).get(question.patientCallQuestionId.toString());
+
+          if (control) {
+            control.setValue(validRating);
+          } else {
+            console.error(`Control not found for questionId: ${question.patientCallQuestionId}`);
+          }
+        }
+      }
+    });
   }
 
   addQuestionControl(patientCallQuestion: PatientCallQuestion) {
@@ -87,40 +110,12 @@ export class PatientCallQuestionsComponent implements OnInit {
 
     formArray.push(newFormGroup);
   }
-  setAnswerForQuestions(answers: any[]) {
-    const formArray = this.patientCallQuestionsAnswersForm.get('patientCallQuestionsAnswers') as FormArray;
-
-    // Loop through each question
-    this.questions.forEach((question, index) => {
-      // Only focus on rating questions
-      if (question.patientCallQuestionType === 'rating') {
-        let validRating = null;
-
-        // Check for valid ratings from the answer list
-        for (let i = answers.length - 1; i >= 0; i--) {
-          // If it's a number, consider it a valid rating
-          if (typeof answers[i] === 'number') {
-            validRating = answers[i];
-            break;
-          }
-        }
-
-        // If we found a valid rating, set it for the current question
-        if (validRating !== null) {
-          const control = formArray.at(index).get(question.patientCallQuestionId.toString());
-
-          if (control) {
-            control.setValue(validRating);
-          } else {
-            console.error(`Control not found for questionId: ${question.patientCallQuestionId}`);
-          }
-        }
-      }
-    });
-  }
 
   setRating(questionId: string, rating: number) {
     const formArray = this.patientCallQuestionsAnswersForm.get('patientCallQuestionsAnswers') as FormArray;
+
+    // Ensure that the rating is treated as an integer
+    const numericRating = parseInt(rating.toString(), 10);
 
     // Find the index of the question in the questions array
     const index = this.questions.findIndex(question => question.patientCallQuestionId === questionId);
@@ -129,7 +124,7 @@ export class PatientCallQuestionsComponent implements OnInit {
       const control = formArray.at(index).get(questionId);
 
       if (control) {
-        control.setValue(rating);
+        control.setValue(numericRating);
       } else {
         console.error('Control not found for questionId:', questionId);
       }

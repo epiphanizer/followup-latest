@@ -203,10 +203,10 @@ ion-radio {
 }
 // textarea custom questions
 .custom-question-container {
+  margin-top: 1.25rem;
   &::first-child {
     margin-top: 26px;
   }
-  margin-top: 0;
   ion-item {
     height: auto;
   }
