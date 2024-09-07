@@ -49,7 +49,7 @@ export class PatientCallQuestionsComponent implements OnInit {
         });
 
         // Fetch answers for lastCall questions
-        const answerObservables = lastCallQuestions.slice(3, 7).map((question: PatientCallQuestion, index: number) =>
+        const answerObservables = lastCallQuestions.slice(3, 8).map((question: PatientCallQuestion, index: number) =>
           this.patientCallQuestionsService
             .getPatientCallQuestionAnswersByPatientCallQuestionId(question.patientCallQuestionId)
             .pipe(
@@ -148,10 +148,18 @@ export class PatientCallQuestionsComponent implements OnInit {
 
   onChanges() {
     if (this.patientCallQuestionsAnswersForm) {
-      this.patientCallQuestionsAnswersForm.get('patientCallQuestionsAnswers').valueChanges.subscribe(val => {
-        this.patientCallQuestionsAnswers = val;
-        this.patientCallAnwersChangeEmitter.emit(this.patientCallQuestionsAnswers);
-      });
+      this.patientCallQuestionsAnswersForm
+        .get('patientCallQuestionsAnswers')
+        .valueChanges.pipe(
+          map((val: any[]) => {
+            // Replace any undefined values with an empty string
+            return val.map(v => (v === undefined ? '' : v));
+          })
+        )
+        .subscribe(val => {
+          this.patientCallQuestionsAnswers = val;
+          this.patientCallAnwersChangeEmitter.emit(this.patientCallQuestionsAnswers);
+        });
     }
   }
 
