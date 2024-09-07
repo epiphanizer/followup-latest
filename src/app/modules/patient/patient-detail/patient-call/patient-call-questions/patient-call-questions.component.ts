@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { PatientCallQuestionsService, PatientCallQuestion } from './patient-call-questions.service';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-patient-call-questions',
@@ -23,51 +24,99 @@ export class PatientCallQuestionsComponent implements OnInit {
   @Output() patientCallAnwersChangeEmitter = new EventEmitter<PatientCallQuestionAnswer[]>();
 
   constructor(private fb: FormBuilder, private patientCallQuestionsService: PatientCallQuestionsService) {}
-
   ngOnInit() {
     this.createForm();
-    this.patientCallQuestionsService
-      .getPatientCallQuestionsByPatientCallId(this.patientCall.patientCallId)
-      .pipe(
-        map((patientCallQuestions: PatientCallQuestion[]) => {
-          this.questions = patientCallQuestions;
-          this.questions.forEach((patientCallQuestion: PatientCallQuestion) => {
-            this.addQuestionControl(patientCallQuestion);
-          });
-        })
-      )
-      .subscribe();
+
+    // Ensure lastCall is present before trying to forkJoin
+    if (this.lastCall) {
+      // Fetch patientCallQuestions and lastCallQuestions in parallel
+      forkJoin({
+        patientCallQuestions: this.patientCallQuestionsService.getPatientCallQuestionsByPatientCallId(
+          this.patientCall.patientCallId
+        ) as Observable<PatientCallQuestion[]>,
+        lastCallQuestions: this.patientCallQuestionsService.getPatientCallQuestionsByPatientCallId(
+          this.lastCall.patientCallId
+        ) as Observable<PatientCallQuestion[]>
+      }).subscribe(({ patientCallQuestions, lastCallQuestions }) => {
+        // Now both patientCallQuestions and lastCallQuestions are available
+
+        // Assign the questions from the current call
+        this.questions = patientCallQuestions;
+
+        // Create form controls for each patient call question
+        patientCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
+          this.addQuestionControl(patientCallQuestion);
+        });
+
+        const answerObservables = lastCallQuestions.map((question: PatientCallQuestion) =>
+          this.patientCallQuestionsService
+            .getPatientCallQuestionAnswersByPatientCallQuestionId(question.patientCallQuestionId)
+            .pipe(
+              map((patientCallQuestionAnswers: PatientCallQuestionAnswer[] | null) => {
+                // Ensure patientCallQuestionAnswers is not null or undefined before accessing its length
+                if (patientCallQuestionAnswers && patientCallQuestionAnswers.length > 0) {
+                  return patientCallQuestionAnswers[0].patientCallQuestionAnswer;
+                } else {
+                  return null; // If no answers exist, return null
+                }
+              })
+            )
+        );
+
+        // Wait for all answers to be retrieved before processing
+        forkJoin(answerObservables).subscribe((answersArray: any[]) => {
+          this.setAnswerForQuestions(answersArray);
+        });
+      });
+    }
+
     this.onChanges();
   }
+
   addQuestionControl(patientCallQuestion: PatientCallQuestion) {
     const formArray = this.patientCallQuestionsAnswersForm.get('patientCallQuestionsAnswers') as FormArray;
     const questionControlId = patientCallQuestion.patientCallQuestionId.toString();
     const newFormGroup = this.fb.group({});
 
-    // Add the control first
+    // Add the control with an initial value based on the type
     if (patientCallQuestion.patientCallQuestionType === 'rating') {
-      newFormGroup.addControl(questionControlId, new FormControl(0));
+      newFormGroup.addControl(questionControlId, new FormControl(0)); // default rating value
     } else {
-      newFormGroup.addControl(questionControlId, new FormControl(''));
+      newFormGroup.addControl(questionControlId, new FormControl('')); // default empty value for other types
     }
+
     formArray.push(newFormGroup);
+  }
+  setAnswerForQuestions(answers: any[]) {
+    const formArray = this.patientCallQuestionsAnswersForm.get('patientCallQuestionsAnswers') as FormArray;
 
-    // Then, asynchronously populate the control with previous answers if available
-    if (this.lastCall) {
-      this.patientCallQuestionsService
-        .getPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestion.patientCallQuestionId)
-        .pipe(
-          map((patientCallQuestionAnswer: PatientCallQuestionAnswer[]) => {
-            // Check if patientCallQuestionAnswer is not null or undefined
-            const lastAnswer =
-              patientCallQuestionAnswer && patientCallQuestionAnswer.length > 0 ? patientCallQuestionAnswer[0] : null;
+    // Loop through each question
+    this.questions.forEach((question, index) => {
+      // Only focus on rating questions
+      if (question.patientCallQuestionType === 'rating') {
+        let validRating = null;
 
-            // Safely handle the last answer
-            newFormGroup.get(questionControlId)?.setValue(lastAnswer ? lastAnswer.patientCallQuestionAnswer : '');
-          })
-        )
-        .subscribe();
-    }
+        // Check for valid ratings from the answer list
+        for (let i = answers.length - 1; i >= 0; i--) {
+          // If it's a number, consider it a valid rating
+          if (typeof answers[i] === 'number') {
+            validRating = answers[i];
+            break;
+          }
+        }
+
+        // If we found a valid rating, set it for the current question
+        if (validRating !== null) {
+          const control = formArray.at(index).get(question.patientCallQuestionId.toString());
+
+          if (control) {
+            control.setValue(validRating);
+          } else {
+            console.error(`Control not found for questionId: ${question.patientCallQuestionId}`);
+          }
+        }
+      }
+    });
   }
 
   setRating(questionId: string, rating: number) {
@@ -88,6 +137,7 @@ export class PatientCallQuestionsComponent implements OnInit {
       console.error('Question not found for questionId:', questionId);
     }
   }
+
   isStarFilled(star: number, questionId: string): boolean {
     const formArray = this.patientCallQuestionsAnswersForm.get('patientCallQuestionsAnswers') as FormArray;
     const index = this.questions.findIndex(question => question.patientCallQuestionId === questionId);
