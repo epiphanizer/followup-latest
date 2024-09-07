@@ -41,36 +41,28 @@ export class PatientCallQuestionsComponent implements OnInit {
   }
   addQuestionControl(patientCallQuestion: PatientCallQuestion) {
     const formArray = this.patientCallQuestionsAnswersForm.get('patientCallQuestionsAnswers') as FormArray;
-
-    // Ensure the control is identified by the correct ID
     const questionControlId = patientCallQuestion.patientCallQuestionId.toString();
     const newFormGroup = this.fb.group({});
 
+    // Add the control first
+    if (patientCallQuestion.patientCallQuestionType === 'rating') {
+      newFormGroup.addControl(questionControlId, new FormControl(0));
+    } else {
+      newFormGroup.addControl(questionControlId, new FormControl(''));
+    }
+    formArray.push(newFormGroup);
+
+    // Then, asynchronously populate the control with previous answers if available
     if (this.lastCall) {
-      // Fetch the answer for this question from the last call
       this.patientCallQuestionsService
         .getPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestion.patientCallQuestionId)
         .pipe(
           map((patientCallQuestionAnswer: PatientCallQuestionAnswer[]) => {
             const lastAnswer = patientCallQuestionAnswer.length > 0 ? patientCallQuestionAnswer[0] : null;
-
-            // Create a FormControl and set its value based on the last answer, or default if no answer exists
-            newFormGroup.addControl(
-              questionControlId,
-              new FormControl(lastAnswer ? lastAnswer.patientCallQuestionAnswer : '')
-            );
-            formArray.push(newFormGroup);
+            newFormGroup.get(questionControlId)?.setValue(lastAnswer ? lastAnswer.patientCallQuestionAnswer : '');
           })
         )
         .subscribe();
-    } else {
-      // No last call, initialize with default values
-      if (patientCallQuestion.patientCallQuestionType === 'rating') {
-        newFormGroup.addControl(questionControlId, new FormControl(0));
-      } else {
-        newFormGroup.addControl(questionControlId, new FormControl(''));
-      }
-      formArray.push(newFormGroup);
     }
   }
 
