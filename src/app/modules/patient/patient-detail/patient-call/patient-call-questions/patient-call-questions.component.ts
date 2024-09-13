@@ -16,7 +16,7 @@ import { forkJoin } from 'rxjs';
 })
 export class PatientCallQuestionsComponent implements OnInit {
   @Input() patientCall: PatientCall;
-  @Input() lastCall: PatientCall;
+  @Input() lastCall?: PatientCall;
   patientCallQuestionsAnswers: PatientCallQuestionAnswer[];
   patientCallQuestionsAnswersForm: FormGroup;
   questions: PatientCallQuestion[];

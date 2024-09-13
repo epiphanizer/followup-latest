@@ -41,7 +41,7 @@
             patientCall.patientCallStatusLabel == 'User Selected Status'
           "
           [patientCall]="patientCall"
-          [lastCall]="patient.patientCalls[0]"
+          [lastCall]="patient?.patientCalls?.[0]"
           (patientCallAnwersChangeEmitter)="patientCallQuestionsChangeHandler($event)"
         >
         </app-patient-call-questions>
