@@ -24,55 +24,61 @@ export class PatientCallQuestionsComponent implements OnInit {
   @Output() patientCallAnwersChangeEmitter = new EventEmitter<PatientCallQuestionAnswer[]>();
 
   constructor(private fb: FormBuilder, private patientCallQuestionsService: PatientCallQuestionsService) {}
+
   ngOnInit() {
     this.createForm();
 
-    // Ensure lastCall is present before trying to forkJoin
-    if (this.lastCall) {
-      // Fetch patientCallQuestions and lastCallQuestions in parallel
-      forkJoin({
-        patientCallQuestions: this.patientCallQuestionsService.getPatientCallQuestionsByPatientCallId(
-          this.patientCall.patientCallId
-        ) as Observable<PatientCallQuestion[]>,
-        lastCallQuestions: this.patientCallQuestionsService.getPatientCallQuestionsByPatientCallId(
-          this.lastCall.patientCallId
-        ) as Observable<PatientCallQuestion[]>
-      }).subscribe(({ patientCallQuestions, lastCallQuestions }) => {
-        // Now both patientCallQuestions and lastCallQuestions are available
-
-        // Assign the questions from the current call
+    this.patientCallQuestionsService
+      .getPatientCallQuestionsByPatientCallId(this.patientCall.patientCallId)
+      .subscribe((patientCallQuestions: PatientCallQuestion[]) => {
         this.questions = patientCallQuestions;
-
+        debugger;
         // Create form controls for each patient call question
         patientCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
           this.addQuestionControl(patientCallQuestion);
         });
 
-        // Fetch answers for lastCall questions
-        const answerObservables = lastCallQuestions.slice(3, 8).map((question: PatientCallQuestion, index: number) =>
-          this.patientCallQuestionsService
-            .getPatientCallQuestionAnswersByPatientCallQuestionId(question.patientCallQuestionId)
-            .pipe(
-              map((patientCallQuestionAnswers: PatientCallQuestionAnswer[] | null) => {
-                // Ensure patientCallQuestionAnswers is not null or undefined before accessing length
-                if (patientCallQuestionAnswers && patientCallQuestionAnswers.length > 0) {
-                  return patientCallQuestionAnswers[0].patientCallQuestionAnswer;
-                } else {
-                  return null; // If no answers exist, return null
-                }
-              })
-            )
-        );
-
-        // Wait for all answers to be retrieved before processing
-        forkJoin(answerObservables).subscribe((answersArray: any[]) => {
-          // Map the answers to the new patient call questions (starting from index 3)
-          this.setAnswerForQuestions(answersArray, 3);
-        });
+        // Only if lastCall exists, proceed with fetching lastCall-related data
+        if (this.lastCall) {
+          this.handleLastCall();
+        }
       });
-    }
 
     this.onChanges();
+  }
+
+  handleLastCall() {
+    // Fetch questions for lastCall in parallel
+    forkJoin({
+      patientCallQuestions: this.patientCallQuestionsService.getPatientCallQuestionsByPatientCallId(
+        this.patientCall.patientCallId
+      ) as Observable<PatientCallQuestion[]>,
+      lastCallQuestions: this.patientCallQuestionsService.getPatientCallQuestionsByPatientCallId(
+        this.lastCall.patientCallId
+      ) as Observable<PatientCallQuestion[]>
+    }).subscribe(({ lastCallQuestions }) => {
+      // Fetch answers for lastCall questions
+      const answerObservables = lastCallQuestions.slice(3, 8).map((question: PatientCallQuestion, index: number) =>
+        this.patientCallQuestionsService
+          .getPatientCallQuestionAnswersByPatientCallQuestionId(question.patientCallQuestionId)
+          .pipe(
+            map((patientCallQuestionAnswers: PatientCallQuestionAnswer[] | null) => {
+              // Ensure patientCallQuestionAnswers is not null or undefined before accessing length
+              if (patientCallQuestionAnswers && patientCallQuestionAnswers.length > 0) {
+                return patientCallQuestionAnswers[0].patientCallQuestionAnswer;
+              } else {
+                return null; // If no answers exist, return null
+              }
+            })
+          )
+      );
+
+      // Wait for all answers to be retrieved before processing
+      forkJoin(answerObservables).subscribe((answersArray: any[]) => {
+        // Map the answers to the new patient call questions (starting from index 3)
+        this.setAnswerForQuestions(answersArray, 3);
+      });
+    });
   }
 
   setAnswerForQuestions(answers: any[], startingIndex: number) {

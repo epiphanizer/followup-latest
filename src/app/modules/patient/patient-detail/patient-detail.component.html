@@ -37,11 +37,11 @@
         <!-- Hide our questions once we are in call status Review or Greater -->
         <app-patient-call-questions
           *ngIf="
-            (patient.patientCalls && patient.patientCalls[0] && patientCall.patientCallStatusLabel == 'Started') ||
+            (patient.patientCalls && patientCall.patientCallStatusLabel == 'Started') ||
             patientCall.patientCallStatusLabel == 'User Selected Status'
           "
           [patientCall]="patientCall"
-          [lastCall]="patient?.patientCalls?.[0]"
+          [lastCall]="patient.patientCalls[0]"
           (patientCallAnwersChangeEmitter)="patientCallQuestionsChangeHandler($event)"
         >
         </app-patient-call-questions>
