@@ -218,7 +218,7 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallNotesService
       .addPatientCallNotesByPatientCallId(
         this.patientCall.patientCallId,
-        this.patientCallNotes.patientCallNotes,
+        this.patientCallNotes?.patientCallNotes || '',
         this.patientCallNotesHighlighted
       )
       .subscribe((res: any) => {
@@ -269,8 +269,11 @@ export class PatientDetailComponent implements OnInit {
     let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
 
     if (this.patientCall.finalCall) {
-      this.toastrService.success('Successfully Saved');
+      /**
+       * This is a slow operation query wise.
+       */
       this.userService.updateOperations(this.user).then(res => {
+        this.toastrService.success('Successfully Saved');
         window.location.href = navigateToUrl;
       });
     } else {

@@ -92,6 +92,7 @@ export class PatientCallService {
   }
 
   public finalizePatientCall(patientCall: PatientCall) {
+    debugger;
     return this.http
       .post('patients/calls/' + patientCall.patientCallId + '/finalize', {
         patientCallStatusLabelId: patientCall.patientCallStatusLabelId

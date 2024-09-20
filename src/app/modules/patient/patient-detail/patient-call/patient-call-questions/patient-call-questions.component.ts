@@ -32,7 +32,6 @@ export class PatientCallQuestionsComponent implements OnInit {
       .getPatientCallQuestionsByPatientCallId(this.patientCall.patientCallId)
       .subscribe((patientCallQuestions: PatientCallQuestion[]) => {
         this.questions = patientCallQuestions;
-        debugger;
         // Create form controls for each patient call question
         patientCallQuestions.forEach((patientCallQuestion: PatientCallQuestion) => {
           this.addQuestionControl(patientCallQuestion);
@@ -75,8 +74,10 @@ export class PatientCallQuestionsComponent implements OnInit {
 
       // Wait for all answers to be retrieved before processing
       forkJoin(answerObservables).subscribe((answersArray: any[]) => {
-        // Map the answers to the new patient call questions (starting from index 3)
-        this.setAnswerForQuestions(answersArray, 3);
+        const sanitizedAnswers = answersArray.map(answer => (answer !== null && answer !== undefined ? answer : 0));
+        debugger;
+        // Map the sanitized answers to the patient call questions (starting from index 3)
+        this.setAnswerForQuestions(sanitizedAnswers, 3);
       });
     });
   }
@@ -87,16 +88,15 @@ export class PatientCallQuestionsComponent implements OnInit {
     this.questions.forEach((question, index) => {
       if (index >= startingIndex && question.patientQuestionTypeLabel === 'rating') {
         let validRating = answers[index - startingIndex];
-        if (validRating !== null) {
-          validRating = parseInt(validRating, 10);
+        // Ensure validRating is a number, fallback to 0 if null or undefined
+        validRating = validRating !== null && validRating !== undefined ? parseInt(validRating, 10) : 0;
 
-          const control = formArray.at(index).get(question.patientCallQuestionId.toString());
+        const control = formArray.at(index).get(question.patientCallQuestionId.toString());
 
-          if (control) {
-            control.setValue(validRating);
-          } else {
-            console.error(`Control not found for questionId: ${question.patientCallQuestionId}`);
-          }
+        if (control) {
+          control.setValue(validRating);
+        } else {
+          console.error(`Control not found for questionId: ${question.patientCallQuestionId}`);
         }
       }
     });
@@ -158,8 +158,8 @@ export class PatientCallQuestionsComponent implements OnInit {
         .get('patientCallQuestionsAnswers')
         .valueChanges.pipe(
           map((val: any[]) => {
-            // Replace any undefined values with an empty string
-            return val.map(v => (v === undefined ? '' : v));
+            // Replace null or undefined values with empty string or default value
+            return val.map(v => (v === null || v === undefined ? '' : v));
           })
         )
         .subscribe(val => {
