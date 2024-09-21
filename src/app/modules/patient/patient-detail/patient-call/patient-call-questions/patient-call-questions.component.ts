@@ -75,7 +75,6 @@ export class PatientCallQuestionsComponent implements OnInit {
       // Wait for all answers to be retrieved before processing
       forkJoin(answerObservables).subscribe((answersArray: any[]) => {
         const sanitizedAnswers = answersArray.map(answer => (answer !== null && answer !== undefined ? answer : 0));
-        debugger;
         // Map the sanitized answers to the patient call questions (starting from index 3)
         this.setAnswerForQuestions(sanitizedAnswers, 3);
       });

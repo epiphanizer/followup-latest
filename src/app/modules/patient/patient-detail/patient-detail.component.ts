@@ -141,8 +141,8 @@ export class PatientDetailComponent implements OnInit {
 
   patientCallEndEventHandler($event: PatientCall) {
     this.patientCall = $event;
-
     if (this.patientCall.patientCallStatusLabel == 'Started') {
+      alert('Please select a call status');
       return;
     }
     this.patientCallService.endPatientCall(this.patientCall.patientCallId);
@@ -194,10 +194,6 @@ export class PatientDetailComponent implements OnInit {
 
   patientCallFinishEventHandler($event: PatientCall) {
     this.patientCall = $event;
-    /**
-     * V 3.1: Allow to not have patient call notes if we are just leaving a message,
-     * per request.
-     */
 
     if (!this.patientNextCall.date && !this.patientCall.finalCall) {
       alert('Please select a valid next patient call date');
@@ -287,8 +283,8 @@ export class PatientDetailComponent implements OnInit {
        * Passing E2E
        */
       this.patientCallService.addNewPatientCallByPatientId(this.patient.patientId, isoString).subscribe((data: any) => {
-        this.toastrService.success('Successfully Saved');
         this.userService.updateOperations(this.user).then(res => {
+          this.toastrService.success('Successfully Saved');
           window.location.href = navigateToUrl;
         });
       });
