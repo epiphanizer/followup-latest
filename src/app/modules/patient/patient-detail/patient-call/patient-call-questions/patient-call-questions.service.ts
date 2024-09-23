@@ -39,7 +39,7 @@ export class PatientCallQuestionsService {
   ) {
     return this.http
       .post('patients/calls/questions/' + patientCallQuestionId + '/answers', {
-        patientCallQuestionAnswer: patientCallQuestionAnswer
+        patientCallQuestionAnswer: patientCallQuestionAnswer ? patientCallQuestionAnswer : ''
       })
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error
