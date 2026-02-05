@@ -35,4 +35,25 @@ describe('NotificationListingComponent (Jest)', () => {
       done();
     });
   });
+
+  it('honors provided operation on init', () => {
+    const route = { snapshot: { data: { operation: { operationId: 'op-x' } } } } as any;
+    const notificationService = { getNotificationsByOperationId: jest.fn() } as any;
+    const comp = new NotificationListingComponent(notificationService as any, route);
+
+    comp.ngOnInit();
+
+    expect(comp.selected.operation.operationId).toBe('op-x');
+  });
+
+  it('updates filter date from child event', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const notificationService = { getNotificationsByOperationId: jest.fn() } as any;
+    const comp = new NotificationListingComponent(notificationService as any, route);
+
+    comp.ngOnInit();
+    comp.handleDateFilterChangeEvent('2020-10-10');
+
+    expect(comp.selected.filterDate).toBe('2020-10-10');
+  });
 });

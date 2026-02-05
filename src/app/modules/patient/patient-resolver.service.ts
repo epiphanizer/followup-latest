@@ -22,7 +22,6 @@ export class PatientResolver implements Resolve<Patient> {
     this.patient$ = this.patientService.getPatientByPatientId(patientId).pipe(
       take(1),
       map((patient: Patient) => {
-        patient = patient[0];
         this.patient = patient;
         this.patient.patientLanguages$ = this.patientService.getPatientLanguagesByPatientId(this.patient.patientId);
         this.patient.patientContacts$ = this.patientContactService

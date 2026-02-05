@@ -10,7 +10,7 @@ const makeRoute = (patientId: string) => ({
 describe('PatientResolver (Jest)', () => {
   it('fetches patient and wires dependent streams', async () => {
     const patientService = {
-      getPatientByPatientId: jest.fn(() => of([{ patientId: 'p-1' } as any])),
+      getPatientByPatientId: jest.fn(() => of({ patientId: 'p-1' } as any)),
       getPatientLanguagesByPatientId: jest.fn(() => of(['en']))
     } as any;
     const patientContactService = {

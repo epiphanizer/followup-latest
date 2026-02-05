@@ -1,4 +1,4 @@
-import { FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 import { PatientFormComponent } from './patient-form.component';
 
@@ -99,5 +99,105 @@ describe('PatientFormComponent (Jest)', () => {
     expect(services.patientService.getPatientByPatientId).toHaveBeenCalledWith('p-edit');
     expect(comp.patientForm).toBeTruthy();
     expect(comp.patientForm.get('patient.dischargeInfo.patientDischargedTo').value).toBe('lbl-1');
+  });
+
+  it('adds additional patient contact to form', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+    comp.addAdditionalPatientContact();
+
+    expect(comp.patientContacts.length).toBe(1);
+    expect((comp.patientForm.get('patient.patientContacts') as FormArray).length).toBe(1);
+    expect(comp.patientContacts[0].patientContactOrder).toBe('1');
+  });
+
+  it('updates discharge fields and total days', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+    comp.patientForm.get('patient.dischargeInfo.patientAdmitDate').setValue('2020-01-01');
+    comp.patientForm.get('patient.dischargeInfo.patientDischargeDate').setValue('2020-01-02');
+
+    comp.updateDischargeFields();
+
+    expect(comp.patientMaxAdmitDate).toBe('2020-01-02');
+    expect(comp.patientMinDischargeDate).toBe('2020-01-01');
+    expect(comp.patientForm.get('patient.dischargeInfo.patientTotalDays').value).toBe(1);
+  });
+
+  it('selects patient contact relationship', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    const patientContact = { patientContactRelationship: '' } as any;
+
+    comp.selectPatientContactRelationship('Friend', patientContact);
+
+    expect(patientContact.patientContactRelationship).toBe('Friend');
   });
 });

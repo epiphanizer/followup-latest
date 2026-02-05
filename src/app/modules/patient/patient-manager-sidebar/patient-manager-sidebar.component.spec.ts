@@ -24,4 +24,15 @@ describe('PatientManagerSidebarComponent (Jest)', () => {
 
     expect(comp.getCurrentNewDischargeCount(patients)).toBe(2);
   });
+
+  it('toggles sidebar menu state', () => {
+    const route = { snapshot: { data: { user: {} } }, paramMap: { subscribe: jest.fn() } } as any;
+    const operationService = {} as any;
+    const comp = new PatientManagerSidebarComponent(route, operationService);
+    const group = { sidebarDropdownOpen: false } as any;
+
+    comp.toggleOperationSidebarMenu(group);
+
+    expect(group.sidebarDropdownOpen).toBe(true);
+  });
 });

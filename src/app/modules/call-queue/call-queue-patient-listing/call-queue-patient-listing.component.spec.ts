@@ -63,4 +63,89 @@ describe('CallQueuePatientListingComponent (Jest)', () => {
     expect(comp.checkDateGreaterThanEqualToToday('2020-01-02')).toBe(true);
     expect(comp.checkDateGreaterThanEqualToToday('2020-01-03')).toBe(false);
   });
+
+  it('reloads patients when operation changes', async () => {
+    const patients = [{ patientNextCallScheduledTime: '2020-01-10' }] as any;
+    const patientService = makePatientService(patients);
+    const statusService = makeStatusService();
+    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    comp.operation = { operationId: 'old' } as any;
+    comp.runSortSwitch = jest.fn();
+
+    comp.ngOnChanges({
+      operation: {
+        currentValue: { operationId: 'new-op' },
+        previousValue: { operationId: 'old' },
+        firstChange: false,
+        isFirstChange: () => false
+      }
+    } as any);
+    const patients$ = comp.patients$ as any;
+    await new Promise(resolve => patients$.subscribe(() => resolve(null)));
+
+    expect(patientService.getActivePatientListByOperationId).toHaveBeenCalledWith('new-op');
+    expect(comp.patients).toEqual(patients);
+    expect(comp.runSortSwitch).toHaveBeenCalled();
+  });
+
+  it('toggles sort flag and reruns sorting', () => {
+    const patientService = makePatientService();
+    const statusService = makeStatusService();
+    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    comp.runSortSwitch = jest.fn();
+
+    comp.toggleAscDesc('desc');
+
+    expect(comp.selectedSortFlag).toBe('desc');
+    expect(comp.runSortSwitch).toHaveBeenCalled();
+  });
+
+  it('changes sort option and reruns sorting', () => {
+    const patientService = makePatientService();
+    const statusService = makeStatusService();
+    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    comp.runSortSwitch = jest.fn();
+
+    comp.sortOptionSelected('Discharge Date');
+
+    expect(comp.selectedSortOption).toBe('Discharge Date');
+    expect(comp.runSortSwitch).toHaveBeenCalled();
+  });
+
+  it('sorts patients by call date', () => {
+    const patientService = makePatientService();
+    const statusService = makeStatusService();
+    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    comp.patients = [
+      { patientNextCallScheduledTime: '2020-02-01' },
+      { patientNextCallScheduledTime: '2020-01-01' }
+    ] as any;
+
+    comp.selectedSortFlag = 'asc';
+    comp.sortPatientsByCallDate();
+    expect(comp.patients[0].patientNextCallScheduledTime).toBe('2020-01-01');
+
+    comp.selectedSortFlag = 'desc';
+    comp.sortPatientsByCallDate();
+    expect(comp.patients[0].patientNextCallScheduledTime).toBe('2020-02-01');
+  });
+
+  it('sorts patients by discharge date', () => {
+    const patientService = makePatientService();
+    const statusService = makeStatusService();
+    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    comp.patients = [
+      { patientDischargeDate: '2020-01-01' },
+      { patientDischargeDate: '2020-03-01' },
+      { patientDischargeDate: '2020-02-01' }
+    ] as any;
+
+    comp.selectedSortFlag = 'asc';
+    comp.sortPatientsByDischargeDate();
+    expect(comp.patients[0].patientDischargeDate).toBe('2020-01-01');
+
+    comp.selectedSortFlag = 'desc';
+    comp.sortPatientsByDischargeDate();
+    expect(comp.patients[0].patientDischargeDate).toBe('2020-03-01');
+  });
 });
