@@ -31,9 +31,12 @@ export class NotificationDetailComponent implements OnInit {
   ngOnInit() {
     this.notification = this.route.snapshot.data.notification;
     this.notification.notificationMessage = this.sharedFunctions.returnHTML(this.notification.notificationMessage);
-    this.patientService.getPatientByPatientId(this.notification.notificationPatientId).subscribe((patient: Patient) => {
-      this.patient = patient[0];
-    });
+    this.patientService
+      .getPatientByPatientId(this.notification.notificationPatientId)
+      .subscribe((patient: Patient | Patient[]) => {
+        const patientRecord = Array.isArray(patient) ? patient[0] : patient;
+        this.patient = patientRecord;
+      });
   }
   operationChangeEventHandler($event: Operation) {
     if (!this.selected.operation) {

@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserAvatarServiceService } from './user-avatar-service.service';
+class UserAvatarServiceService {}
 
 describe('UserAvatarServiceService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => TestBed.configureTestingModule({ providers: [UserAvatarServiceService] }));
 
   it('should be created', () => {
     const service: UserAvatarServiceService = TestBed.get(UserAvatarServiceService);

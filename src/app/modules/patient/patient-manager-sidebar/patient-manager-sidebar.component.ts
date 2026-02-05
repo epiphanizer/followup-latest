@@ -106,9 +106,12 @@ export class PatientManagerSidebarComponent implements OnInit {
         operationId = this.user.operations[0].operationId;
         this.operations = this.user.operationGroups[0].operations;
       }
-      this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation) => {
-        this.selected.operation = data[0];
-        this.activeOperationId = this.selected.operation.operationId;
+      this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation | Operation[]) => {
+        const operation = Array.isArray(data) ? data[0] : data;
+        if (operation) {
+          this.selected.operation = operation;
+          this.activeOperationId = this.selected.operation.operationId;
+        }
       });
     });
   }

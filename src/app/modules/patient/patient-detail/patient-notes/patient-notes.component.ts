@@ -25,17 +25,21 @@ export class PatientNotesComponent implements OnInit {
         this.patientIntakeQuestions.forEach((patientIntakeQuestions: PatientIntakeQuestion, index: number) => {
           this.patientIntakeQuestionService
             .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(patientIntakeQuestions.patientIntakeQuestionId)
-            .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
-              if (patientIntakeQuestionAnswer !== null) {
-                this.patientIntakeQuestions[index].patientIntakeQuestionAnswer =
-                  patientIntakeQuestionAnswer[0].patientIntakeQuestionAnswer;
+            .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer | PatientIntakeQuestionAnswer[]) => {
+              const answerRecord = Array.isArray(patientIntakeQuestionAnswer)
+                ? patientIntakeQuestionAnswer[0]
+                : patientIntakeQuestionAnswer;
+              if (answerRecord) {
+                this.patientIntakeQuestions[
+                  index
+                ].patientIntakeQuestionAnswer = answerRecord.patientIntakeQuestionAnswer as any;
               }
             });
         });
       });
     var self = this;
     this.patientMedicalConditions = new Array();
-    function getKeyByValue(object: {}, value: number) {
+    function getKeyByValue(object: Record<string, any>, value: number) {
       for (var prop in object) {
         if (object.hasOwnProperty(prop)) {
           if (object[prop] === value || object[prop] === true) {

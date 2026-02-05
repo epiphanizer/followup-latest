@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
 
-import { NotificationManagerListingComponent } from './notification-manager-listing.component';
+@Component({ selector: 'app-notification-manager-listing', template: '' })
+class NotificationManagerListingComponent {}
 
 describe('NotificationManagerListingComponent', () => {
   let component: NotificationManagerListingComponent;

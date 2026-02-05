@@ -3,15 +3,15 @@ import { Logger, LogLevel, LogOutput } from './logger.service';
 const logMethods = ['log', 'info', 'warn', 'error'];
 
 describe('Logger', () => {
-  let savedConsole: Function[];
+  let savedConsole: Record<string, any>;
   let savedLevel: LogLevel;
   let savedOutputs: LogOutput[];
 
   beforeAll(() => {
     savedConsole = [];
     logMethods.forEach(m => {
-      savedConsole[m] = console[m];
-      console[m] = () => {};
+      savedConsole[m] = (console as any)[m];
+      (console as any)[m] = () => {};
     });
     savedLevel = Logger.level;
     savedOutputs = Logger.outputs;
@@ -19,11 +19,12 @@ describe('Logger', () => {
 
   beforeEach(() => {
     Logger.level = LogLevel.Debug;
+    Logger.outputs = [];
   });
 
   afterAll(() => {
     logMethods.forEach(m => {
-      console[m] = savedConsole[m];
+      (console as any)[m] = savedConsole[m];
     });
     Logger.level = savedLevel;
     Logger.outputs = savedOutputs;
@@ -35,7 +36,7 @@ describe('Logger', () => {
 
   it('should add a new LogOutput and receives log entries', () => {
     // Arrange
-    const outputSpy = jasmine.createSpy('outputSpy');
+    const outputSpy = jest.fn();
     const log = new Logger('test');
 
     // Act
@@ -48,7 +49,7 @@ describe('Logger', () => {
 
     // Assert
     expect(outputSpy).toHaveBeenCalled();
-    expect(outputSpy.calls.count()).toBe(4);
+    expect(outputSpy.mock.calls.length).toBe(4);
     expect(outputSpy).toHaveBeenCalledWith('test', LogLevel.Debug, 'd');
     expect(outputSpy).toHaveBeenCalledWith('test', LogLevel.Info, 'i');
     expect(outputSpy).toHaveBeenCalledWith('test', LogLevel.Warning, 'w');
@@ -57,7 +58,7 @@ describe('Logger', () => {
 
   it('should add a new LogOutput and receives only production log entries', () => {
     // Arrange
-    const outputSpy = jasmine.createSpy('outputSpy');
+    const outputSpy = jest.fn();
     const log = new Logger('test');
 
     // Act
@@ -71,7 +72,7 @@ describe('Logger', () => {
 
     // Assert
     expect(outputSpy).toHaveBeenCalled();
-    expect(outputSpy.calls.count()).toBe(2);
+    expect(outputSpy.mock.calls.length).toBe(2);
     expect(outputSpy).toHaveBeenCalledWith('test', LogLevel.Warning, 'w');
     expect(outputSpy).toHaveBeenCalledWith('test', LogLevel.Error, 'e', { error: true });
   });

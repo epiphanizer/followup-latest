@@ -35,19 +35,29 @@ export class CallQueueComponent implements OnInit {
         this.mode.spanish = true;
       } else {
         if (data.params.operationId) {
-          this.operationService.getOperationByOperationId(data.params.operationId).subscribe((data: Operation) => {
-            this.selected.operation = data[0];
-          });
+          this.operationService
+            .getOperationByOperationId(data.params.operationId)
+            .subscribe((operationResult: Operation | Operation[]) => {
+              const operation = Array.isArray(operationResult) ? operationResult[0] : operationResult;
+              if (operation) {
+                this.selected.operation = operation;
+              }
+            });
         } else {
           this.user = this.route.snapshot.data.user;
           let firstGroup = this.user.operationGroups[0];
           let firstOperation = this.user.operations.find(
             (operation: Operation) => operation.operationGroupId == firstGroup.operationGroupId
           );
-          this.operationService.getOperationByOperationId(firstOperation.operationId).subscribe((data: Operation) => {
-            this.selected.operation = data[0];
-            this.selected.operation.operationGroupShortName = this.user.operationGroups[0].operationGroupShortName;
-          });
+          this.operationService
+            .getOperationByOperationId(firstOperation.operationId)
+            .subscribe((operationResult: Operation | Operation[]) => {
+              const operation = Array.isArray(operationResult) ? operationResult[0] : operationResult;
+              if (operation) {
+                this.selected.operation = operation;
+                this.selected.operation.operationGroupShortName = this.user.operationGroups[0].operationGroupShortName;
+              }
+            });
         }
       }
     });

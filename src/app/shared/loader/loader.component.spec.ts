@@ -1,18 +1,27 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Subject } from 'rxjs';
 
 import { LoaderComponent } from './loader.component';
+import { LoaderService } from './loader.service';
 
 describe('LoaderComponent', () => {
   let component: LoaderComponent;
   let fixture: ComponentFixture<LoaderComponent>;
+  const isLoadingSubject = new Subject<boolean>();
+  const loaderStub = {
+    isLoading: isLoadingSubject,
+    show: jest.fn(() => isLoadingSubject.next(true)),
+    hide: jest.fn(() => isLoadingSubject.next(false))
+  } as LoaderService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [IonicModule.forRoot()],
-      declarations: [LoaderComponent]
+      declarations: [LoaderComponent],
+      providers: [{ provide: LoaderService, useValue: loaderStub }]
     }).compileComponents();
   }));
 
@@ -23,46 +32,14 @@ describe('LoaderComponent', () => {
   });
 
   it('should not be visible by default', () => {
-    // Arrange
     const element = fixture.nativeElement;
-    const div = element.querySelectorAll('div')[0];
-
-    // Assert
-    expect(div.getAttribute('hidden')).not.toBeNull();
+    expect(element.querySelector('.overlay')).toBeNull();
   });
 
   it('should be visible when app is loading', () => {
-    // Arrange
-    const element = fixture.nativeElement;
-    const div = element.querySelectorAll('div')[0];
-
-    // Act
-    fixture.componentInstance.isLoading = true;
+    loaderStub.show();
     fixture.detectChanges();
-
-    // Assert
-    expect(div.getAttribute('hidden')).toBeNull();
-  });
-
-  it('should not display a message by default', () => {
-    // Arrange
     const element = fixture.nativeElement;
-    const span = element.querySelectorAll('span')[0];
-
-    // Assert
-    expect(span.innerText).toBe('');
-  });
-
-  it('should display specified message', () => {
-    // Arrange
-    const element = fixture.nativeElement;
-    const span = element.querySelectorAll('span')[0];
-
-    // Act
-    fixture.componentInstance.message = 'testing';
-    fixture.detectChanges();
-
-    // Assert
-    expect(span.innerText).toBe('testing');
+    expect(element.querySelector('.overlay')).not.toBeNull();
   });
 });

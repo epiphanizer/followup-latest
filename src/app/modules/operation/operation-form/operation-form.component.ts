@@ -259,8 +259,12 @@ export class OperationFormComponent implements OnInit {
       .subscribe(() => {});
   }
 
-  updateOperation(operation: Operation) {
-    this.operation = operation[0];
+  updateOperation(operation: Operation | Operation[]) {
+    const operationRecord = Array.isArray(operation) ? operation[0] : operation;
+    if (!operationRecord) {
+      return;
+    }
+    this.operation = operationRecord;
     var operationFormControls = this.operationForm.get('operation') as FormGroup;
     operationFormControls.controls.operationId.setValue(this.operation.operationId);
     operationFormControls.controls.operationName.setValue(this.operation.operationName);

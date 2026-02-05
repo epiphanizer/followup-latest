@@ -64,6 +64,6 @@ export class ToolbarProfileNavComponent implements OnInit {
   }
 
   editProfile() {
-    this.router.navigate['/user/profile'];
+    this.router.navigate(['/user/profile']);
   }
 }

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { OperationCallrepsService } from './operation-callreps.service';
+import { OperationCallRepsService } from './operation-callreps.service';
 
-describe('OperationCallrepsService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+describe('OperationCallRepsService', () => {
+  beforeEach(() => TestBed.configureTestingModule({ providers: [OperationCallRepsService] }));
 
   it('should be created', () => {
-    const service: OperationCallrepsService = TestBed.get(OperationCallrepsService);
+    const service: OperationCallRepsService = TestBed.get(OperationCallRepsService);
     expect(service).toBeTruthy();
   });
 });

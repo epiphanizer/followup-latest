@@ -27,7 +27,7 @@ describe('PatientAvatarService (Jest)', () => {
   });
 
   it('handles errors', done => {
-    const http = { get: jest.fn(() => throwError(() => new HttpErrorResponse({ status: 500, error: 'fail' }))) } as any;
+    const http = { get: jest.fn(() => throwError(new HttpErrorResponse({ status: 500, error: 'fail' }))) } as any;
     const svc = new PatientAvatarService(http as any, {} as any);
 
     svc.getPatientAvatarByPatientId('p3').subscribe({

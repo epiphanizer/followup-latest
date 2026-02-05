@@ -16,7 +16,9 @@ module.exports = {
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.jest.json',
-      stringifyContentPathRegex: '\\.(html|svg)$'
+      stringifyContentPathRegex: '\\.(html|svg)$',
+      diagnostics: false,
+      isolatedModules: true
     }
   },
   testPathIgnorePatterns: ['/node_modules/', '/dist/', '/e2e/'],

@@ -15,6 +15,7 @@ describe('PatientAvatarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PatientAvatarComponent);
     component = fixture.componentInstance;
+    component.patient = { patientId: 'test-id' } as any;
     fixture.detectChanges();
   });
 

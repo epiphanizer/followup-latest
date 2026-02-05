@@ -137,8 +137,12 @@ export class PatientFormComponent implements OnInit {
       this.patientService
         .getPatientByPatientId(this.patient.patientId)
         .pipe(take(1))
-        .subscribe((data: Patient) => {
-          this.patient = data[0];
+        .subscribe((data: Patient | Patient[]) => {
+          const patientRecord = Array.isArray(data) ? data[0] : data;
+          if (!patientRecord) {
+            return;
+          }
+          this.patient = patientRecord;
           let medicalConditions = JSON.parse(this.patient.patientMedicalConditions);
           // Once we've got our data set from JSON, let's re-set the individual properties.
           this.patient.patientMedicalConditions = {};
@@ -202,29 +206,33 @@ export class PatientFormComponent implements OnInit {
                   .getPatientIntakeQuestionAnswersByPatientIntakeQuestionId(
                     patientIntakeQuestion.patientIntakeQuestionId
                   )
-                  .subscribe((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
-                    if (patientIntakeQuestionAnswer !== null) {
-                      var data = patientIntakeQuestionAnswer[0];
-                      var patientIntakeQuestionId = data.patientIntakeQuestionId.toString();
-                      var patientIntakeQuestionAnswerValue = data.patientIntakeQuestionAnswer;
-                      newFormGroup.addControl(
-                        patientIntakeQuestionId,
-                        new FormControl(patientIntakeQuestionAnswerValue)
-                      );
-                      patientIntakeQuestionAnswers.push(newFormGroup);
-                      var dataObject = <any>{};
-                      dataObject[patientIntakeQuestionId] = patientIntakeQuestionAnswerValue;
-                      this.patientIntakeQuestionAnswersOriginal.push(dataObject);
-                      this.patientIntakeQuestions.push(patientIntakeQuestion);
-                    } else {
-                      newFormGroup.addControl(
-                        patientIntakeQuestion.patientIntakeQuestionId.toString(),
-                        new FormControl('')
-                      );
-                      patientIntakeQuestionAnswers.push(newFormGroup);
-                      this.patientIntakeQuestions.push(patientIntakeQuestion);
+                  .subscribe(
+                    (patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer | PatientIntakeQuestionAnswer[]) => {
+                      const answerRecord: any = Array.isArray(patientIntakeQuestionAnswer)
+                        ? patientIntakeQuestionAnswer[0]
+                        : patientIntakeQuestionAnswer;
+                      if (answerRecord) {
+                        const patientIntakeQuestionId = answerRecord.patientIntakeQuestionId.toString();
+                        const patientIntakeQuestionAnswerValue = answerRecord.patientIntakeQuestionAnswer;
+                        newFormGroup.addControl(
+                          patientIntakeQuestionId,
+                          new FormControl(patientIntakeQuestionAnswerValue)
+                        );
+                        patientIntakeQuestionAnswers.push(newFormGroup);
+                        var dataObject = <any>{};
+                        dataObject[patientIntakeQuestionId] = patientIntakeQuestionAnswerValue;
+                        this.patientIntakeQuestionAnswersOriginal.push(dataObject);
+                        this.patientIntakeQuestions.push(patientIntakeQuestion);
+                      } else {
+                        newFormGroup.addControl(
+                          patientIntakeQuestion.patientIntakeQuestionId.toString(),
+                          new FormControl('')
+                        );
+                        patientIntakeQuestionAnswers.push(newFormGroup);
+                        this.patientIntakeQuestions.push(patientIntakeQuestion);
+                      }
                     }
-                  });
+                  );
               });
             });
         });
@@ -428,7 +436,8 @@ export class PatientFormComponent implements OnInit {
 
     this.patientIntakeQuestionAnswersToAdd.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
       var patientIntakeQuestionId = Object.keys(patientIntakeQuestionAnswer).toString();
-      var patientQuestionAnswer = patientIntakeQuestionAnswer[patientIntakeQuestionId];
+      const intakeAnswer = patientIntakeQuestionAnswer as any;
+      var patientQuestionAnswer = intakeAnswer[patientIntakeQuestionId];
       this.patientIntakeQuestionService
         .addPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
         .subscribe((data: any) => {});
@@ -438,7 +447,7 @@ export class PatientFormComponent implements OnInit {
      */
     intakeAnswersArray.forEach((patientIntakeQuestionAnswer: any) => {
       var patientIntakeQuestionId = Object.keys(patientIntakeQuestionAnswer).toString();
-      var patientQuestionAnswer = patientIntakeQuestionAnswer[patientIntakeQuestionId];
+      var patientQuestionAnswer = (patientIntakeQuestionAnswer as any)[patientIntakeQuestionId];
       this.patientIntakeQuestionService
         .editPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
         .subscribe((data: any) => {});

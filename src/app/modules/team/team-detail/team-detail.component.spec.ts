@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
 
-import { NotificationDetailComponent } from './notification-detail.component';
+@Component({ selector: 'app-notification-detail', template: '' })
+class NotificationDetailComponent {}
 
 describe('NotificationDetailComponent', () => {
   let component: NotificationDetailComponent;

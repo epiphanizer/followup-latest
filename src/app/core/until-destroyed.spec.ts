@@ -5,9 +5,9 @@ import { untilDestroyed } from './until-destroyed';
 
 function createObserver() {
   return {
-    next: jasmine.createSpy(),
-    error: jasmine.createSpy(),
-    complete: jasmine.createSpy()
+    next: jest.fn(),
+    error: jest.fn(),
+    complete: jest.fn()
   };
 }
 

@@ -12,9 +12,9 @@ export class NotificationResolver implements Resolve<Notification> {
   resolve(route: ActivatedRouteSnapshot): Observable<Notification> {
     let notificationId = route.paramMap.get('notificationId');
     return this.notificationService.getNotificationByNotificationId(notificationId).pipe(
-      map((result: Notification) => {
-        let notification = result[0];
-        return notification;
+      map((result: Notification | Notification[]) => {
+        const notification = Array.isArray(result) ? result[0] : result;
+        return notification as Notification;
       })
     );
   }

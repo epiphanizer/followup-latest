@@ -1,24 +1,27 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormBuilder } from '@angular/forms';
 import { PatientCallNotesComponent } from './patient-call-notes.component';
 
-describe('PatientCallNotesComponent', () => {
-  let component: PatientCallNotesComponent;
-  let fixture: ComponentFixture<PatientCallNotesComponent>;
+describe('PatientCallNotesComponent (Jest)', () => {
+  it('creates the form and emits encoded notes changes', () => {
+    const comp = new PatientCallNotesComponent(new FormBuilder());
+    const emitSpy = jest.spyOn(comp.patientCallNotesChangeEmitter, 'emit');
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [PatientCallNotesComponent]
-    }).compileComponents();
-  }));
+    comp.ngOnInit();
+    comp.patientCallNotesForm.get('patientCallNotes')?.setValue('hello world');
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PatientCallNotesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    expect(comp.patientCallNotes.patientCallNotes).toBe(encodeURI('hello world'));
+    expect(emitSpy).toHaveBeenCalledWith({ patientCallNotes: encodeURI('hello world') });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('toggles highlighted state and emits flag', () => {
+    const comp = new PatientCallNotesComponent(new FormBuilder());
+    const emitSpy = jest.spyOn(comp.patientCallNotesHighlightedChangeEmitter, 'emit');
+
+    comp.ngOnInit();
+    comp.highlightPatientCallNotes();
+    comp.highlightPatientCallNotes();
+
+    expect(emitSpy).toHaveBeenNthCalledWith(1, 1);
+    expect(emitSpy).toHaveBeenNthCalledWith(2, 0);
   });
 });

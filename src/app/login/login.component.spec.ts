@@ -1,41 +1,33 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { IonicModule, LoadingController, Platform } from '@ionic/angular';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-import { CoreModule } from '@app/core';
+import { FormBuilder } from '@angular/forms';
 import { LoginComponent } from './login.component';
 
-describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe('LoginComponent (Jest)', () => {
+  const platform = { is: jest.fn().mockReturnValue(false) } as any;
+  const router = { navigate: jest.fn() } as any;
+  const toastrService = { error: jest.fn() } as any;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        IonicModule.forRoot(),
-        FormsModule,
-        RouterTestingModule,
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
-        CoreModule
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [Platform, LoadingController],
-      declarations: [LoginComponent]
-    }).compileComponents();
-  }));
+  it('creates form and signs in with provided credentials', async () => {
+    const authenticationService = {
+      currentUserValue: null,
+      signIn: jest.fn(async () => true)
+    } as any;
+    const comp = new LoginComponent(new FormBuilder(), platform, authenticationService, router, toastrService);
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    comp.loginForm.setValue({ username: 'user', password: 'pass' });
+    await comp.signIn();
+
+    expect(authenticationService.signIn).toHaveBeenCalledWith('user', 'pass');
+    expect(router.navigate).toHaveBeenCalledWith(['/home']);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('exposes web platform flag', () => {
+    const comp = new LoginComponent(
+      new FormBuilder(),
+      platform,
+      { currentUserValue: null } as any,
+      router,
+      toastrService
+    );
+    expect(comp.isWeb).toBe(true);
   });
 });

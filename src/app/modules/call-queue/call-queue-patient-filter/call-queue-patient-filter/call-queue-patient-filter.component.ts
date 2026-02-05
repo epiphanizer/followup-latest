@@ -96,8 +96,8 @@ export class CallQueuePatientFilterComponent implements OnInit {
     return this.patientCallsFiltered;
   }
   searchPatientCallHistoryByText($event: KeyboardEvent): PatientCall[] {
-    let searchText = $event.currentTarget['value'];
-    searchText = searchText.toLowerCase();
+    const target = $event.currentTarget as HTMLInputElement | null;
+    let searchText = (target?.value || '').toLowerCase();
     this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
       let patientFullName = patientCall.patientFirstName + ' ' + patientCall.patientLastName;
       return patientFullName.toLowerCase().includes(searchText);

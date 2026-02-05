@@ -113,9 +113,12 @@ export class OperationAdminSidebarComponent implements OnInit {
       } else {
         this.operationService
           .getOperationByOperationId(this.route.snapshot.data.operation.operationId)
-          .subscribe((data: Operation) => {
-            this.selected.operation = data[0];
-            this.activeOperationId = this.selected.operation.operationId;
+          .subscribe((data: Operation | Operation[]) => {
+            const operation = Array.isArray(data) ? data[0] : data;
+            if (operation) {
+              this.selected.operation = operation;
+              this.activeOperationId = this.selected.operation.operationId;
+            }
           });
         // do nothing
       }
@@ -134,9 +137,12 @@ export class OperationAdminSidebarComponent implements OnInit {
       if (data.params.operation) {
         this.operationService
           .getOperationByOperationId(data.params.operation.operationId)
-          .subscribe((data: Operation) => {
-            this.selected.operation = data[0];
-            this.activeOperationId = this.selected.operation.operationId;
+          .subscribe((data: Operation | Operation[]) => {
+            const operation = Array.isArray(data) ? data[0] : data;
+            if (operation) {
+              this.selected.operation = operation;
+              this.activeOperationId = this.selected.operation.operationId;
+            }
           });
       }
     });

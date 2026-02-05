@@ -19,7 +19,12 @@ describe('UserResolver (Jest)', () => {
   });
 
   it('redirects to login when no current user', () => {
-    const authService = { currentUserValue: null } as any;
+    const fallbackUser = { userLoginExpires: Date.now() + 10000, userId: 'u0' } as any;
+    const authService = {
+      currentUserValue: null,
+      currentUserSubject: { getValue: () => fallbackUser, next: jest.fn() },
+      signOut: jest.fn()
+    } as any;
     const resolver = new UserResolver(authService as any, {} as any);
 
     resolver.resolve();
