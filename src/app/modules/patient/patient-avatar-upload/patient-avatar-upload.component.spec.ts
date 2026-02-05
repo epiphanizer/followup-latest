@@ -47,4 +47,28 @@ describe('PatientAvatarUploadComponent (Jest)', () => {
     expect(component).toBeTruthy();
     expect(component.avatarExists).toBe(false);
   });
+
+  it('converts base64 to blob with expected type', () => {
+    const blob = component.dataURItoBlob('YWFh');
+
+    expect(blob instanceof Blob).toBe(true);
+    expect(blob.type).toBe('image/jpeg');
+    expect(blob.size).toBeGreaterThan(0);
+  });
+
+  it('uploads a compressed avatar and triggers service calls', async () => {
+    const uploadSpy = jest.spyOn(patientAvatarServiceStub, 'uploadPatientAvatarByPatientId');
+    const getAvatarSpy = jest.spyOn(patientAvatarServiceStub, 'getPatientAvatarByPatientId');
+    imageCompressStub.uploadFile.mockResolvedValue({ image: 'data:image/jpeg;base64,AAAA', orientation: 1 });
+    imageCompressStub.compressFile.mockResolvedValue('data:image/jpeg;base64,BBBB');
+    patientAvatarServiceStub.getPatientAvatarByPatientId.mockReturnValue(of(null));
+
+    await component.uploadPatientAvatarPhoto();
+
+    expect(imageCompressStub.uploadFile).toHaveBeenCalled();
+    expect(imageCompressStub.compressFile).toHaveBeenCalledWith('data:image/jpeg;base64,AAAA', 1, 50, 50);
+    expect(uploadSpy).toHaveBeenCalled();
+    expect(getAvatarSpy).toHaveBeenCalled();
+    expect(component.imgResultAfterCompress).toContain('BBBB');
+  });
 });

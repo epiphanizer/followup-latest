@@ -48,4 +48,24 @@ describe('NotificationListingSidebarComponent (Jest)', () => {
     }
     expect(component.operationGroups?.length).toBeGreaterThan(0);
   });
+
+  it('sets active operation and collapses other groups', () => {
+    component.operationGroups = [
+      { operationGroupId: 'og1', sidebarDropdownOpen: true } as any,
+      { operationGroupId: 'og2', sidebarDropdownOpen: true } as any
+    ];
+    const operation = { operationId: 'opX', operationGroupId: 'og1' } as any;
+
+    component.setActiveOperation(operation);
+
+    expect(component.selected.operation).toBe(operation);
+    expect(component.operationGroups[1].sidebarDropdownOpen).toBe(false);
+    expect(component.activeOperationId).toBe('opX');
+  });
+
+  it('toggles the sidebar menu state', () => {
+    const group = { sidebarDropdownOpen: false } as any;
+    component.toggleOperationSidebarMenu(group);
+    expect(group.sidebarDropdownOpen).toBe(true);
+  });
 });

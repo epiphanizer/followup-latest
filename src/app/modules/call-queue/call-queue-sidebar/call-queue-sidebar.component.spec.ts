@@ -1,6 +1,41 @@
+import { of } from 'rxjs';
+
 import { CallQueueSidebarComponent } from './call-queue-sidebar.component';
 
 describe('CallQueueSidebarComponent (Jest)', () => {
+  beforeEach(() => localStorage.removeItem('operationGroups'));
+
+  it('initializes selected operation from route/user defaults', done => {
+    const user = {
+      operationGroups: [
+        {
+          operationGroupId: 'g1',
+          operationGroupShortName: 'G1',
+          operations: [{ operationId: 'op-1', operationGroupId: 'g1' }]
+        }
+      ],
+      operations: [{ operationId: 'op-1', operationGroupId: 'g1' }]
+    } as any;
+
+    const route = { snapshot: { data: { user } }, paramMap: { subscribe: (cb: any) => cb({ params: {} }) } } as any;
+    const operationService = {
+      getOperationGroups: jest.fn(() => of(user.operationGroups)),
+      getActiveOperationsByOperationGroupId: jest.fn(() => of(user.operations)),
+      getOperationByOperationId: jest.fn(() => of([{ operationId: 'op-1', operationGroupId: 'g1' }]))
+    } as any;
+    const patientService = {} as any;
+
+    const comp = new CallQueueSidebarComponent(route, operationService, patientService);
+    comp.ngOnInit();
+
+    setTimeout(() => {
+      expect(comp.selected.operation?.operationId).toBe('op-1');
+      expect(comp.activeOperationId).toBe('op-1');
+      expect(operationService.getOperationGroups).toHaveBeenCalled();
+      done();
+    }, 0);
+  });
+
   it('emits operation change and toggles menu state', () => {
     const route = { snapshot: { data: { user: {} } }, paramMap: { subscribe: jest.fn() } } as any;
     const operationService = {} as any;

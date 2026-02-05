@@ -18,7 +18,7 @@ const userServiceStub = {
     of({
       userId: 'u1',
       userAdditionalInfo: '<p>info</p>',
-      userInterests: JSON.stringify({})
+      userInterests: JSON.stringify({ celebrity: true })
     })
   )
 };
@@ -47,5 +47,12 @@ describe('TeamMemberDetailComponent (Jest)', () => {
     component.ngOnInit();
     expect(component).toBeTruthy();
     expect(component.teamMember?.teamMemberId).toBe('m1');
+    expect(component.user?.userInterests[0].nicename).toContain('Met favorite celebrity');
+  });
+
+  it('opens post it modal via helper', async () => {
+    const component = buildComponent();
+    await component.postNote();
+    expect(modalControllerStub.create).toHaveBeenCalled();
   });
 });

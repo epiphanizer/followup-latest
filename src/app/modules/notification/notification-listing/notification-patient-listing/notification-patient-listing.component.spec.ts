@@ -60,4 +60,75 @@ describe('NotificationPatientListingComponent (Jest)', () => {
     const none = component.searchNotifications('missing');
     expect(none.length).toBe(0);
   });
+
+  it('sorts by patient name in both directions', () => {
+    component.notifications = [
+      {
+        notificationCreatedTime: '2020-02-01T00:00:00Z',
+        notificationPatientFirstName: 'Zoe',
+        notificationPatientLastName: 'Beta',
+        notificationTypeLabel: 'B',
+        notificationStatusLabel: 'New',
+        notificationCareRepName: 'Care Rep',
+        notificationId: 'n2'
+      } as any,
+      ...component.notifications
+    ];
+
+    component.selectedSortOption = 'Patient';
+    component.selectedSortFlag = 'desc';
+    component.runSortSwitch();
+    expect(component.notificationsFiltered?.[0].notificationPatientLastName).toBe('Beta');
+
+    component.selectedSortFlag = 'asc';
+    component.runSortSwitch();
+    expect(component.notificationsFiltered?.[0].notificationPatientLastName).toBe('Smith');
+  });
+
+  it('sorts by type and care rep', () => {
+    component.notifications = [
+      {
+        notificationCreatedTime: '2020-02-01T00:00:00Z',
+        notificationPatientFirstName: 'Zoe',
+        notificationPatientLastName: 'Beta',
+        notificationTypeLabel: 'Alpha',
+        notificationStatusLabel: 'New',
+        notificationCareRepName: 'B',
+        notificationId: 'n2'
+      } as any,
+      {
+        notificationCreatedTime: '2020-03-01T00:00:00Z',
+        notificationPatientFirstName: 'Zoe',
+        notificationPatientLastName: 'Beta',
+        notificationTypeLabel: 'Zulu',
+        notificationStatusLabel: 'New',
+        notificationCareRepName: 'A',
+        notificationId: 'n3'
+      } as any
+    ];
+
+    component.selectedSortOption = 'Type';
+    component.selectedSortFlag = 'desc';
+    component.runSortSwitch();
+    expect(component.notificationsFiltered?.[0].notificationTypeLabel).toBe('Alpha');
+
+    component.selectedSortOption = 'Care Rep';
+    component.selectedSortFlag = 'asc';
+    component.runSortSwitch();
+    expect(component.notificationsFiltered?.[0].notificationCareRepName).toBe('B');
+  });
+
+  it('returns false when runSortSwitch has no data and applies status sort', () => {
+    component.notifications = undefined as any;
+    expect(component.runSortSwitch()).toBe(false);
+
+    component.notifications = [
+      { notificationPatientLastName: 'Zed' } as any,
+      { notificationPatientLastName: 'Able' } as any
+    ];
+    component.selectedSortOption = 'Status';
+    component.selectedSortFlag = 'desc';
+    component.runSortSwitch();
+    expect(component.notificationsFiltered?.[0].notificationPatientLastName).toBe('Able');
+  });
 });

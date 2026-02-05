@@ -70,4 +70,31 @@ describe('OperationOperationListingComponent (Jest)', () => {
     expect(component.operationsFiltered[0].operationName).toBe('Alpha');
     expect(component.operationsFiltered[1].operationName).toBe('Beta');
   });
+
+  it('supports additional sort options and paging', () => {
+    const component = buildComponent();
+    const enriched = [
+      buildOperation({ operationName: 'Zeta', totalNotifications: 10, totalGraduates: 5, operationActive: 0 }),
+      buildOperation({ operationName: 'Eta', totalNotifications: 2, totalGraduates: 1, operationActive: 1 })
+    ];
+    component.operations = component.operationsFiltered = enriched as any;
+
+    component.handleSortOptionEvent('Ownership');
+    expect(component.operationsFiltered[0].operationGroupName).toBe('Group 1');
+
+    component.handleSortOptionEvent('Notifs');
+    expect(component.operationsFiltered[0].totalNotifications).toBe(10);
+
+    component.handleSortOptionEvent('Grads');
+    expect(component.operationsFiltered[0].totalGraduates).toBe(5);
+
+    component.handleSortOptionEvent('Status');
+    expect(component.operationsFiltered[0].operationActive).toBe(0);
+
+    component.handleSortOptionEvent('Date');
+    expect(component.operationsFiltered.length).toBe(2);
+
+    component.onChangePage([{ operationName: 'PageItem' } as any]);
+    expect(component.pageOfItems[0].operationName).toBe('PageItem');
+  });
 });

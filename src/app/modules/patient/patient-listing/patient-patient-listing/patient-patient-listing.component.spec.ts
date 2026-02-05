@@ -108,6 +108,85 @@ describe('PatientPatientListingComponent (Jest)', () => {
     expect(component.selectedSortFlag).toBe('desc');
   });
 
+  it('sorts by discharge date and toggles direction', () => {
+    component.patients = [
+      {
+        patientLastName: 'One',
+        patientDischargeDate: '2021-01-01'
+      } as any,
+      {
+        patientLastName: 'Two',
+        patientDischargeDate: '2020-01-01'
+      } as any
+    ];
+    component.selectedSortOption = 'Date';
+    component.selectedSortFlag = 'asc';
+    component.runSortSwitch();
+    expect(component.patientsFiltered[0].patientLastName).toBe('Two');
+
+    component.selectedSortFlag = 'desc';
+    component.runSortSwitch();
+    expect(component.patientsFiltered[0].patientLastName).toBe('One');
+  });
+
+  it('sorts by record, gender, status, and completed fields', () => {
+    component.patients = [
+      {
+        patientLastName: 'A',
+        patientMedicalRecordNumber: '222',
+        patientGender: 'M',
+        patientStatusLabel: 'Zed',
+        patientGraduated: 1
+      } as any,
+      {
+        patientLastName: 'B',
+        patientMedicalRecordNumber: '111',
+        patientGender: 'F',
+        patientStatusLabel: 'Able',
+        patientGraduated: 0
+      } as any
+    ];
+
+    component.selectedSortOption = 'Patient #';
+    component.selectedSortFlag = 'desc';
+    component.runSortSwitch();
+    expect(component.patientsFiltered[0].patientMedicalRecordNumber).toBe('111');
+
+    component.selectedSortOption = 'Sex';
+    component.selectedSortFlag = 'asc';
+    component.runSortSwitch();
+    expect(component.patientsFiltered[0].patientGender).toBe('F');
+
+    component.selectedSortOption = 'Status';
+    component.selectedSortFlag = 'desc';
+    component.runSortSwitch();
+    expect(component.patientsFiltered[0].patientStatusLabel).toBe('Zed');
+
+    component.selectedSortOption = 'Completed';
+    component.selectedSortFlag = 'asc';
+    component.runSortSwitch();
+    expect(component.patientsFiltered[0].patientGraduated).toBe(0);
+  });
+
+  it('handles page changes and toggle events', () => {
+    component.pageSelected = 0;
+    component.onChangePage([{ id: 1 } as any]);
+    expect(component.pageSelected).toBe(1);
+    expect(component.pageOfItems?.length).toBe(1);
+
+    const sortSpy = jest.spyOn(component, 'runSortSwitch');
+    component.sortOptionSelected('Patient');
+    component.toggleAscDesc('asc');
+    expect(sortSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('reloads patients when operation changes', () => {
+    component.mode = { spanish: false } as any;
+    component.operation = { operationId: 'initial' } as any;
+    component.ngOnChanges({ operation: { currentValue: { operationId: 'next' } } as any });
+    expect(component.patientsFiltered?.length).toBeGreaterThan(0);
+  });
+
   it('builds patient links based on status', () => {
     const patientActive = {
       patientStatusLabel: 'In Progress',
