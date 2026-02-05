@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Patient } from './patient';
 import { PatientService } from './patient.service';
 import { map, share, take } from 'rxjs/operators';

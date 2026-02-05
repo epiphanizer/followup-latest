@@ -1,24 +1,29 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { of } from 'rxjs';
 import { PatientSummaryWidgetComponent } from './patient-summary-widget.component';
 
-describe('PatientSummaryWidgetComponent', () => {
-  let component: PatientSummaryWidgetComponent;
-  let fixture: ComponentFixture<PatientSummaryWidgetComponent>;
+const makePatientContactService = (contacts: any[]) => ({
+  getPatientContactsByPatientId: jest.fn(() => of(contacts))
+});
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [PatientSummaryWidgetComponent]
-    }).compileComponents();
-  }));
+describe('PatientSummaryWidgetComponent (Jest)', () => {
+  it('formats patient and contact phone numbers', () => {
+    const svc = makePatientContactService([{ patientContactPhoneNumber: '1234567' } as any]);
+    const comp = new PatientSummaryWidgetComponent(svc as any);
+    comp.patient = { patientId: 'p1', patientPhoneNumber: '1234567' } as any;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PatientSummaryWidgetComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    comp.ngOnInit();
+
+    expect(comp.patient.patientPhoneNumber).toBe('123-4567');
+    expect(comp.patientContacts[0].patientContactPhoneNumber).toBe('123-4567');
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('toggles alternate numbers', () => {
+    const comp = new PatientSummaryWidgetComponent(makePatientContactService([]) as any);
+    comp.patient = { patientId: 'p1' } as any;
+
+    comp.toggleAlternateNumbers();
+    expect(comp.expandAlternateNumbers).toBe(true);
+    comp.toggleAlternateNumbers();
+    expect(comp.expandAlternateNumbers).toBe(false);
   });
 });

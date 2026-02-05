@@ -1,24 +1,27 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PatientManagerSidebarComponent } from './patient-manager-sidebar.component';
 
-describe('PatientManagerSidebarComponent', () => {
-  let component: PatientManagerSidebarComponent;
-  let fixture: ComponentFixture<PatientManagerSidebarComponent>;
+describe('PatientManagerSidebarComponent (Jest)', () => {
+  it('sets active operation and emits change', () => {
+    const route = { snapshot: { data: { user: {} } }, paramMap: { subscribe: jest.fn() } } as any;
+    const operationService = {} as any;
+    const comp = new PatientManagerSidebarComponent(route, operationService);
+    const op = { operationId: 'op-1' } as any;
+    const emitSpy = jest.spyOn(comp.operationChangeEvent, 'emit');
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [PatientManagerSidebarComponent]
-    }).compileComponents();
-  }));
+    comp.setActiveOperation(op);
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PatientManagerSidebarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    expect(comp.selected.operation).toBe(op);
+    expect(comp.activeOperationId).toBe('op-1');
+    expect(emitSpy).toHaveBeenCalledWith(op);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('counts patients with new discharge correctly', () => {
+    const route = { snapshot: { data: { user: {} } }, paramMap: { subscribe: jest.fn() } } as any;
+    const operationService = {} as any;
+    const comp = new PatientManagerSidebarComponent(route, operationService);
+
+    const patients = [{ patientCallCount: 1 } as any, { patientCallCount: 2 } as any, { patientCallCount: 1 } as any];
+
+    expect(comp.getCurrentNewDischargeCount(patients)).toBe(2);
   });
 });
