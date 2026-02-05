@@ -459,7 +459,6 @@ export class PatientFormComponent implements OnInit {
     this.patientContactsToAdd = this.patientContacts.filter((patientContact: PatientContact) => {
       return this.patientContactsOriginal.indexOf(patientContact) == -1;
     });
-    debugger;
 
     // Passing E2E
     this.patientContactsToAdd.forEach((patientContact: PatientContact, index: number) => {

@@ -77,16 +77,30 @@
                 <span class="call-question-answer-label">
                   <ng-container *ngIf="patientCallQuestion.patientCallQuestionAnswer; else noAnswer">
                     <ng-container *ngIf="patientCallQuestion.patientQuestionTypeLabel == 'boolean'; else nonBoolean">
-                      <span class="call-question-answer"
-                        >&nbsp;
+                      <span class="call-question-answer">
+                        &nbsp;
                         {{ patientCallQuestion.patientCallQuestionAnswer === 'true' ? 'Yes' : 'No' }}
                       </span>
                     </ng-container>
                     <ng-template #nonBoolean>
-                      <span class="call-question-answer">
-                        &nbsp;
-                        {{ patientCallQuestion.patientCallQuestionAnswer }}
-                      </span>
+                      <ng-container *ngIf="patientCallQuestion.patientQuestionTypeLabel == 'rating'; else normalAnswer">
+                        <div class="rating-display">
+                          <ion-icon
+                            *ngFor="let star of [1, 2, 3, 4, 5]"
+                            name="star"
+                            [class.filled]="star <= +patientCallQuestion.patientCallQuestionAnswer"
+                          ></ion-icon>
+                          <span class="rating-label">
+                            <!-- {{ patientCallQuestion.patientCallQuestionAnswer }} -->
+                          </span>
+                        </div>
+                      </ng-container>
+                      <ng-template #normalAnswer>
+                        <span class="call-question-answer">
+                          &nbsp;
+                          {{ patientCallQuestion.patientCallQuestionAnswer }}
+                        </span>
+                      </ng-template>
                     </ng-template>
                   </ng-container>
                   <ng-template #noAnswer>

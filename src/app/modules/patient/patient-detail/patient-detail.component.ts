@@ -19,7 +19,7 @@ import {
 import { PatientCallStatuses } from './patient-call/patient-call-status.service';
 import { formatDate } from '@angular/common';
 import { catchError, map, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { Notification } from '@app/modules/notification/notification';
@@ -42,6 +42,7 @@ export class PatientDetailComponent implements OnInit {
   patientCallQuestions: PatientCallQuestion[];
   patientCallQuestionAnswers: PatientCallQuestionAnswer[];
   patientCallStatuses: any | typeof PatientCallStatuses = PatientCallStatuses;
+  patientLastCallAnswers: PatientCallQuestionAnswer[];
 
   patientNextCall: {
     date: string;
@@ -66,7 +67,7 @@ export class PatientDetailComponent implements OnInit {
       .getPatientCallByPatientCallId(this.patient.patientId, this.patient.nextPatientCallId)
       .pipe(
         take(1),
-        map((patientCall: PatientCall) => {
+        map((patientCall: [PatientCall]) => {
           this.patientCall = patientCall[0];
           return this.patientCall;
         })
@@ -140,8 +141,8 @@ export class PatientDetailComponent implements OnInit {
 
   patientCallEndEventHandler($event: PatientCall) {
     this.patientCall = $event;
-
     if (this.patientCall.patientCallStatusLabel == 'Started') {
+      alert('Please select a call status');
       return;
     }
     this.patientCallService.endPatientCall(this.patientCall.patientCallId);
@@ -188,22 +189,11 @@ export class PatientDetailComponent implements OnInit {
 
   patientCallQuestionsChangeHandler($event: PatientCallQuestionAnswer[]) {
     this.patientCallQuestionAnswers = $event;
-  }
-
-  patientNextCallQuestionsChangeHandler($event: PatientCallQuestion[]) {
-    this.patientNextCallQuestions = $event;
+    console.log(this.patientCallQuestionAnswers);
   }
 
   patientCallFinishEventHandler($event: PatientCall) {
     this.patientCall = $event;
-    /**
-     * V 3.1: Allow to not have patient call notes if we are just leaving a message,
-     * per request.
-     */
-    // if (!this.patientCallNotes) {
-    //   alert('Please add patient call notes');
-    //   return;
-    // }
 
     if (!this.patientNextCall.date && !this.patientCall.finalCall) {
       alert('Please select a valid next patient call date');
@@ -224,7 +214,7 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallNotesService
       .addPatientCallNotesByPatientCallId(
         this.patientCall.patientCallId,
-        this.patientCallNotes.patientCallNotes,
+        this.patientCallNotes?.patientCallNotes || '',
         this.patientCallNotesHighlighted
       )
       .subscribe((res: any) => {
@@ -232,70 +222,74 @@ export class PatientDetailComponent implements OnInit {
           // Update the call status
           // Talk to our service to answer the existing call questions
           if (this.patientCallQuestionAnswers) {
-            this.patientCallQuestionAnswers.forEach((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
-              let patientCallQuestionId = Object.keys(patientCallQuestionAnswer).toString();
-              let patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
-              if (patientCallQuestionAnswerText !== undefined) {
-                this.patientCallQuestionsService
-                  .addPatientCallQuestionAnswersByPatientCallQuestionId(
+            const observables = this.patientCallQuestionAnswers
+              .map((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
+                const patientCallQuestionId = Object.keys(patientCallQuestionAnswer).toString();
+                const patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
+
+                if (patientCallQuestionAnswerText !== undefined) {
+                  return this.patientCallQuestionsService.addPatientCallQuestionAnswersByPatientCallQuestionId(
                     patientCallQuestionId,
                     patientCallQuestionAnswerText
-                  )
-                  .subscribe();
-              }
-            });
-          }
-          let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
+                  );
+                }
+                return null;
+              })
+              .filter(obs => obs !== null); // Filter out any nulls in case answer text was undefined
 
-          if (this.patientCall.finalCall) {
-            this.toastrService.success('Successfully Saved');
-            this.userService.updateOperations(this.user).then(res => {
-              window.location.href = navigateToUrl;
-            });
-          } else {
-            /**
-             * Doing it this way stops some cross-browser parsing things
-             * that happen when we convert it to a new Date() first.
-             */
-
-            var dateArray = this.patientNextCall.date.split('-');
-            var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T12:00:00.000Z';
-            /**
-             * Passing E2E
-             */
-            this.patientCallService
-              .addNewPatientCallByPatientId(this.patient.patientId, isoString)
-              .subscribe((data: any) => {
-                let patientCallId = data.patientCallId;
-                let itemsProcessed = 0;
-                if (this.patientNextCallQuestions.length) {
-                  this.patientNextCallQuestions.forEach((patientCallQuestion: PatientCallQuestion, index: number) => {
-                    if (patientCallQuestion.patientCallQuestion != '') {
-                      this.patientCallQuestionsService
-                        .addPatientCallQuestionByPatientCallId(patientCallId, patientCallQuestion)
-                        .subscribe((data: any) => {
-                          itemsProcessed++;
-                          if (itemsProcessed === this.patientNextCallQuestions.length) {
-                            this.toastrService.success('Successfully Saved');
-                            this.userService.updateOperations(this.user).then(res => {
-                              window.location.href = navigateToUrl;
-                            });
-                          }
-                        });
-                    } else {
-                      this.patientNextCallQuestions.splice(index, 1);
-                    }
-                  });
-                } else {
-                  this.toastrService.success('Successfully Saved');
-                  this.userService.updateOperations(this.user).then(res => {
-                    window.location.href = navigateToUrl;
-                  });
+            if (observables.length > 0) {
+              forkJoin(observables).subscribe({
+                next: responses => {
+                  console.log('All patient call question answers have been submitted successfully:', responses);
+                  // Continue with the rest of the flow after submitting the answers
+                  this.finalizeCallAndNavigate();
+                },
+                error: err => {
+                  console.error('An error occurred while submitting patient call question answers:', err);
+                  // Handle error appropriately here
                 }
               });
+            } else {
+              // If there are no valid observables, just finalize the call and navigate
+              this.finalizeCallAndNavigate();
+            }
+          } else {
+            // If there are no questions to answer, just finalize the call and navigate
+            this.finalizeCallAndNavigate();
           }
         });
       });
   }
+
+  private finalizeCallAndNavigate() {
+    let navigateToUrl = '/call-queue/operations/' + this.patient.patientOperationId;
+
+    if (this.patientCall.finalCall) {
+      /**
+       * This is a slow operation query wise.
+       */
+      this.userService.updateOperations(this.user).then(res => {
+        this.toastrService.success('Successfully Saved');
+        window.location.href = navigateToUrl;
+      });
+    } else {
+      /**
+       * Doing it this way stops some cross-browser parsing things
+       * that happen when we convert it to a new Date() first.
+       */
+      var dateArray = this.patientNextCall.date.split('-');
+      var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T12:00:00.000Z';
+      /**
+       * Passing E2E
+       */
+      this.patientCallService.addNewPatientCallByPatientId(this.patient.patientId, isoString).subscribe((data: any) => {
+        this.userService.updateOperations(this.user).then(res => {
+          this.toastrService.success('Successfully Saved');
+          window.location.href = navigateToUrl;
+        });
+      });
+    }
+  }
+
   ngOnDestroy() {}
 }

@@ -6,9 +6,6 @@ import { throwError, Observable } from 'rxjs';
 import { PatientCallQuestionAnswer } from '../patient-call.service';
 
 export interface PatientCallQuestion {
-  // We don't necessarily have the
-  // patientCallQuestionId?
-  // when we create them for the new call
   patientCallQuestionId?: string;
   patientCallQuestion: string;
   patientCallQuestionType: string;
@@ -23,25 +20,6 @@ export interface PatientCallQuestion {
 })
 export class PatientCallQuestionsService {
   constructor(private http: HttpService) {}
-
-  /**
-   * Adding patient call questions --- really, we should probably expand this out
-   * to be able to have our call change the type of question, but it's not in the design
-   * so for now we will just assume it's a textarea type question.
-   */
-  addPatientCallQuestionByPatientCallId = function(patientCallId: string, patientCallQuestion: PatientCallQuestion) {
-    return this.http
-      .post('patients/calls/' + patientCallId + '/questions', {
-        patientCallQuestion: patientCallQuestion.patientCallQuestion,
-        patientCallQuestionIsHighlighted: patientCallQuestion.patientCallQuestionIsHighlighted,
-        patientCallQuestionOrder: patientCallQuestion.patientCallQuestionOrder,
-        // textarea = 'xmKxrNOy'
-        patientCallQuestionTypeId: 'xmKxrNOy'
-      })
-      .pipe(
-        catchError(e => this.handleAsyncError(e)) // then handle the error
-      );
-  };
 
   getPatientCallQuestionsByPatientCallId = function(patientCallId: string) {
     return this.http.get('patients/calls/' + patientCallId + '/questions').pipe(
@@ -61,7 +39,7 @@ export class PatientCallQuestionsService {
   ) {
     return this.http
       .post('patients/calls/questions/' + patientCallQuestionId + '/answers', {
-        patientCallQuestionAnswer: patientCallQuestionAnswer
+        patientCallQuestionAnswer: patientCallQuestionAnswer ? patientCallQuestionAnswer : ''
       })
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error
