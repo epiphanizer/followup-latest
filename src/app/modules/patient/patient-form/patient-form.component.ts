@@ -304,7 +304,7 @@ export class PatientFormComponent implements OnInit {
             this.patient.patientDischargeLabelId ? this.patient.patientDischargeLabelId : '2PEXyKgz',
             [Validators.required]
           ),
-          patientDischargedAma: this.fb.control((this.patient.patientDischargedAma == true ? '1' : '0') || '0', [
+          patientDischargedAma: this.fb.control(this.patient.patientDischargedAma == true ? '1' : '0', [
             Validators.required
           ])
         }),
