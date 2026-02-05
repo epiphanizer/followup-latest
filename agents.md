@@ -9,6 +9,34 @@ Project version: 3.9.3 (package). Goal: modernize the Angular/Ionic app for Foll
 - Mixed/possibly stray dependencies (e.g., `react-scripts` in an Angular project) and outdated tooling (husky v3, prettier 1.x, protractor/karma stack).
 - Service worker enabled in production build; needs validation with current caching/content strategy.
 
+## Module map (src/app/modules)
+
+- call-queue — queue views/listing.
+- data — data utilities/helpers.
+- notification — notifications listing.
+- operation — operation domain.
+- patient — patient listing/detail flows.
+- team — team domain.
+- user — user domain/auth flows.
+
+Shared/core scaffolding
+
+- shared: calendar, dialog, directives, form, filters/search, loader/menu/pagination, pipes, upload service.
+- core: api.service, auth, http, i18n, logger, route reuse, until-destroyed helper.
+
+## Agent-friendly quickstart
+
+- Use Node 18/20; npm 9/10. Install: `npm install` (postinstall is no-op).
+- Build (requires OpenSSL legacy on Node 24, avoid): `npm run build`.
+- Serve dev: `npm run serve` (proxy 4200).
+- Tests: `npm test`; Lint: `npm run lint` (TSLint + stylelint + htmlhint).
+
+## Automation blockers to resolve
+
+- Peer warning: `@biesbjerg/ngx-translate-extract` → `@phenomnomnominal/tsquery` wants TS 3.x; upgrade or replace to drop warning.
+- Legacy lint/test stack (TSLint, Protractor, Karma) complicates CI; migrate to ESLint + Cypress/Playwright + modern Jest/Karma.
+- Many audited vulnerabilities (legacy deps); will clean during modernization.
+
 ## Plan
 
 1. Upgrade path: step through Angular 12→17 (or latest LTS) with CLI migrations; align Ionic and RxJS accordingly; move to TypeScript >=5 and zone.js updates.
