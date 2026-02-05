@@ -1,26 +1,51 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { of } from 'rxjs';
 
-@Component({ selector: 'app-notification-detail', template: '' })
-class NotificationDetailComponent {}
+import { TeamMemberDetailComponent } from './team-detail.component';
+import { TeamService } from '../team.service';
+import { UserService } from '@app/modules/user/user.service';
+import { SharedFunctions } from '@app/shared/shared.functions';
+import { ModalController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 
-describe('NotificationDetailComponent', () => {
-  let component: NotificationDetailComponent;
-  let fixture: ComponentFixture<NotificationDetailComponent>;
+const teamServiceStub = {
+  getTeamMemberByTeamIdAndTeamMemberId: jest.fn(() =>
+    of({ teamId: 't1', teamMemberId: 'm1', userId: 'u1', teamMemberRoleLabel: 'Manager' })
+  )
+};
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [NotificationDetailComponent]
-    }).compileComponents();
-  }));
+const userServiceStub = {
+  getUserByUserId: jest.fn(() =>
+    of({
+      userId: 'u1',
+      userAdditionalInfo: '<p>info</p>',
+      userInterests: JSON.stringify({})
+    })
+  )
+};
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(NotificationDetailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+const modalControllerStub = {
+  create: jest.fn(() => Promise.resolve({ present: jest.fn() }))
+};
 
-  it('should create', () => {
+const activatedRouteStub: Partial<ActivatedRoute> = {
+  snapshot: { params: { teamId: 't1', teamMemberId: 'm1' } } as any,
+  paramMap: of({ get: (key: string) => (key === 'teamId' ? 't1' : 'm1') }) as any
+};
+
+describe('TeamMemberDetailComponent (Jest)', () => {
+  const buildComponent = () =>
+    new TeamMemberDetailComponent(
+      modalControllerStub as any,
+      activatedRouteStub as ActivatedRoute,
+      (teamServiceStub as unknown) as TeamService,
+      (userServiceStub as unknown) as UserService,
+      ({ returnHTML: jest.fn((html: string) => html) } as unknown) as SharedFunctions
+    );
+
+  it('loads team member details', () => {
+    const component = buildComponent();
+    component.ngOnInit();
     expect(component).toBeTruthy();
+    expect(component.teamMember?.teamMemberId).toBe('m1');
   });
 });
