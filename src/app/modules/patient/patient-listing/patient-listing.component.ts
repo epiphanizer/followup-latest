@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, AfterViewInit, ViewChild } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
 import { Patient } from '@app/modules/patient/patient';
 import { Observable } from 'rxjs';
@@ -8,16 +8,18 @@ import { ActivatedRoute } from '@angular/router';
 import { PatientService } from '../patient.service';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { LocationStrategy } from '@angular/common';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-patient-listing',
   templateUrl: './patient-listing.component.html',
   styleUrls: ['./patient-listing.component.scss']
 })
-export class PatientListingComponent implements OnInit {
+export class PatientListingComponent implements OnInit, AfterViewInit {
   componentName: string = 'PatientListing';
 
   @Input() operation: Operation;
+  @ViewChild(IonContent) content: IonContent;
   filterDate: Date;
   mode: any = {
     spanish: false
@@ -43,6 +45,19 @@ export class PatientListingComponent implements OnInit {
   ) {
     this.location.onPopState(() => {
       window.location.reload();
+    });
+  }
+
+  ngAfterViewInit() {
+    if (!this.content) {
+      return;
+    }
+
+    // Ensure scroll works in newer Chrome by enforcing overflow on the inner element
+    this.content.getScrollElement().then((scrollEl: HTMLElement) => {
+      scrollEl.style.overflow = 'auto';
+      scrollEl.style.overflowY = 'scroll';
+      scrollEl.style.height = '100%';
     });
   }
 
