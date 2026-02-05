@@ -39,13 +39,14 @@ describe('UserCorkBoardObjectComponent (Jest)', () => {
     jest.clearAllMocks();
   });
 
+  const flushAsync = () => new Promise(resolve => setTimeout(resolve, 0));
+
   it('loads cork board object data into a safe style URL', async () => {
     const component = buildComponent();
 
     component.ngOnInit();
 
-    await Promise.resolve();
-    await Promise.resolve();
+    await flushAsync();
 
     expect(serviceStub.getUserCorkBoardObjectsByUserCorkBoardObjectId).toHaveBeenCalledWith('obj-1');
     expect(sanitizerStub.bypassSecurityTrustStyle).toHaveBeenCalledWith('url(data:url)');

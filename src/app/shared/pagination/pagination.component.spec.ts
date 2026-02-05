@@ -10,13 +10,15 @@ describe('JwPaginationComponent (Jest)', () => {
     component.changePage.subscribe(page => emitted.push(page));
   });
 
+  const flushAsync = () => new Promise(resolve => setTimeout(resolve, 0));
+
   it('emits the first page of items on init', async () => {
     component.items = Array.from({ length: 30 }, (_, i) => i);
     component.pager.pageSize = component.pageSize;
 
     component.ngOnInit();
 
-    await Promise.resolve();
+    await flushAsync();
     expect(emitted[0].length).toBe(component.pageSize);
     expect(component.pager.currentPage).toBe(1);
   });
@@ -45,7 +47,7 @@ describe('JwPaginationComponent (Jest)', () => {
 
     component.setPage(2);
 
-    await Promise.resolve();
+    await flushAsync();
     expect(emitted[0][0]).toBe(20);
     expect(emitted[0].length).toBe(5);
   });
