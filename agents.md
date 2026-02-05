@@ -1,11 +1,11 @@
 # Followup Frontend — feature/robot_work_1
 
-Project version: 3.3 (package lists 3.2.0). Goal: modernize the Angular/Ionic app for Followup v4.
+Project version: 3.9.3 (package). Goal: modernize the Angular/Ionic app for Followup v4.
 
 ## Findings
 
 - Angular 11/Ionic 4 stack with RxJS 6.x and TSLint; many deps are several majors behind (Angular CLI 11, Ionic CLI 6, TypeScript 4.0, etc.).
-- `postinstall` triggers a full production build; risky for CI and local installs.
+- `postinstall` build disabled (was running prod build) to unblock installs on modern Node; build still fails on Node 24 until toolchain is upgraded.
 - Mixed/possibly stray dependencies (e.g., `react-scripts` in an Angular project) and outdated tooling (husky v3, prettier 1.x, protractor/karma stack).
 - Service worker enabled in production build; needs validation with current caching/content strategy.
 
