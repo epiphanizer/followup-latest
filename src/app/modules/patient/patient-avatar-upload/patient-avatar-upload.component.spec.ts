@@ -21,20 +21,29 @@ const toastrStub = {
   success: jest.fn()
 };
 
+const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0));
+
 describe('PatientAvatarUploadComponent (Jest)', () => {
   let component: PatientAvatarUploadComponent;
   let fixture: ComponentFixture<PatientAvatarUploadComponent>;
 
   beforeEach(async () => {
+    jest.clearAllMocks();
+
     await TestBed.configureTestingModule({
       declarations: [PatientAvatarUploadComponent],
       providers: [
         { provide: PatientAvatarService, useValue: patientAvatarServiceStub },
-        { provide: NgxImageCompressService, useValue: imageCompressStub },
         { provide: ToastrService, useValue: toastrStub }
       ],
       schemas: [NO_ERRORS_SCHEMA]
-    }).compileComponents();
+    })
+      .overrideComponent(PatientAvatarUploadComponent, {
+        set: {
+          providers: [{ provide: NgxImageCompressService, useValue: imageCompressStub }]
+        }
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(PatientAvatarUploadComponent);
     component = fixture.componentInstance;
@@ -63,7 +72,10 @@ describe('PatientAvatarUploadComponent (Jest)', () => {
     imageCompressStub.compressFile.mockResolvedValue('data:image/jpeg;base64,BBBB');
     patientAvatarServiceStub.getPatientAvatarByPatientId.mockReturnValue(of(null));
 
-    await component.uploadPatientAvatarPhoto();
+    component.uploadPatientAvatarPhoto();
+    await fixture.whenStable();
+    await flushPromises();
+    await flushPromises();
 
     expect(imageCompressStub.uploadFile).toHaveBeenCalled();
     expect(imageCompressStub.compressFile).toHaveBeenCalledWith('data:image/jpeg;base64,AAAA', 1, 50, 50);

@@ -52,6 +52,8 @@ describe('TeamMemberDetailComponent (Jest)', () => {
 
   it('opens post it modal via helper', async () => {
     const component = buildComponent();
+    component.user = { userId: 'u1' } as any;
+    component.teamMember = { userId: 'u1', teamMemberId: 'm1' } as any;
     await component.postNote();
     expect(modalControllerStub.create).toHaveBeenCalled();
   });

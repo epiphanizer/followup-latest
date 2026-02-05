@@ -140,4 +140,23 @@ describe('OperationFormComponent logic', () => {
     component.closeOperationGroupForm();
     expect(component.addOperationGroupModalOn).toBe(false);
   });
+
+  it('adds additional operation contacts with default notifications', () => {
+    component.addAdditionalOperationContact();
+
+    expect(component.operationContacts.length).toBe(1);
+    const formArray = component.operationForm.controls.operationContacts as any;
+    expect(formArray.length).toBe(1);
+    expect(formArray.at(0).get('operationContactOrder').value).toBe(1);
+  });
+
+  it('removes an operation contact and tracks deletion', () => {
+    component.addAdditionalOperationContact();
+    component.operationContacts[0].operationContactId = 'c1';
+
+    component.removeOperationContact(0);
+
+    expect(component.operationContactsToRemove).toContain('c1');
+    expect((component.operationForm.controls.operationContacts as any).length).toBe(0);
+  });
 });
