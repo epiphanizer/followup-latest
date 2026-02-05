@@ -42,4 +42,22 @@ describe('NotificationPatientListingComponent (Jest)', () => {
     expect(component).toBeTruthy();
     expect(component.notificationsFiltered?.length).toBe(1);
   });
+
+  it('sorts notifications by date and toggles direction', () => {
+    component.selectedSortOption = 'Date';
+    component.selectedSortFlag = 'asc';
+    component.runSortSwitch();
+    expect(component.notificationsFiltered?.[0].notificationId).toBe('n1');
+
+    component.selectedSortFlag = 'desc';
+    component.runSortSwitch();
+    expect(component.notificationsFiltered?.[0].notificationId).toBe('n1');
+  });
+
+  it('filters notifications by patient name', () => {
+    const filtered = component.searchNotifications('pat');
+    expect(filtered.length).toBe(1);
+    const none = component.searchNotifications('missing');
+    expect(none.length).toBe(0);
+  });
 });

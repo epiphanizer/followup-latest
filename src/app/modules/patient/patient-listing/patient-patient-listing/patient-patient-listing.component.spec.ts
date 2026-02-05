@@ -46,4 +46,84 @@ describe('PatientPatientListingComponent (Jest)', () => {
     expect(component).toBeTruthy();
     expect(component.patientsFiltered?.length).toBe(1);
   });
+
+  it('loads spanish patients when mode.spanish is true', () => {
+    patientServiceStub.getActiveSpanishPatients.mockReturnValueOnce(
+      of([
+        {
+          patientId: 'p2',
+          patientFirstName: 'Ana',
+          patientLastName: 'Ramirez',
+          patientDischargeDate: '2020-02-01',
+          patientMedicalRecordNumber: '456',
+          patientGender: 'F',
+          patientStatusLabel: 'In Progress',
+          patientGraduated: 1,
+          patientOperationId: 'op2'
+        }
+      ])
+    );
+
+    const spanishFixture = TestBed.createComponent(PatientPatientListingComponent);
+    const spanishComponent = spanishFixture.componentInstance;
+    spanishComponent.mode = { spanish: true } as any;
+    spanishComponent.operation = { operationId: 'op2' } as any;
+    spanishFixture.detectChanges();
+
+    expect(patientServiceStub.getActiveSpanishPatients).toHaveBeenCalled();
+    expect(spanishComponent.patientsFiltered?.[0].patientFirstName).toBe('Ana');
+  });
+
+  it('searches and sorts patients', () => {
+    component.patients = [
+      {
+        patientId: 'p1',
+        patientFirstName: 'Zane',
+        patientLastName: 'Alpha',
+        patientDischargeDate: '2020-01-01',
+        patientMedicalRecordNumber: '111',
+        patientGender: 'M',
+        patientStatusLabel: 'In Progress',
+        patientGraduated: 0,
+        patientOperationId: 'op1'
+      } as any,
+      {
+        patientId: 'p2',
+        patientFirstName: 'Amy',
+        patientLastName: 'Zeus',
+        patientDischargeDate: '2021-01-01',
+        patientMedicalRecordNumber: '222',
+        patientGender: 'F',
+        patientStatusLabel: 'Active',
+        patientGraduated: 1,
+        patientOperationId: 'op1'
+      } as any
+    ];
+    component.selectedSortOption = 'Patient';
+    component.selectedSortFlag = 'asc';
+    component.runSortSwitch();
+    expect(component.patientsFiltered[0].patientLastName).toBe('Alpha');
+
+    const results = component.searchPatients('amy');
+    expect(results.length).toBe(1);
+    expect(component.selectedSortFlag).toBe('asc');
+  });
+
+  it('builds patient links based on status', () => {
+    const patientActive = {
+      patientStatusLabel: 'In Progress',
+      patientActive: true,
+      patientOperationId: 'op1',
+      patientId: 'p1'
+    } as any;
+    const patientInactive = {
+      patientStatusLabel: 'Done',
+      patientActive: false,
+      patientOperationId: 'op1',
+      patientId: 'p1'
+    } as any;
+
+    expect(component.getPatientLink(patientActive)).toContain('/call-queue/operations/op1/patient/p1');
+    expect(component.getPatientLink(patientInactive)).toContain('/history');
+  });
 });
