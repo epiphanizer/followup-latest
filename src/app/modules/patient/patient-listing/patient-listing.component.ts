@@ -25,7 +25,7 @@ export class PatientListingComponent implements OnInit, AfterViewInit {
     spanish: false
   };
   public patients: Patient[];
-  public patients$: Observable<[Patient]> | void = null;
+  public patients$: Observable<Patient[]> | null = null;
   patientsLoaded: boolean = false;
 
   public selected:
@@ -48,17 +48,16 @@ export class PatientListingComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
     if (!this.content) {
       return;
     }
 
     // Ensure scroll works in newer Chrome by enforcing overflow on the inner element
-    this.content.getScrollElement().then((scrollEl: HTMLElement) => {
-      scrollEl.style.overflow = 'auto';
-      scrollEl.style.overflowY = 'scroll';
-      scrollEl.style.height = '100%';
-    });
+    const scrollEl = await this.content.getScrollElement();
+    scrollEl.style.overflow = 'auto';
+    scrollEl.style.overflowY = 'scroll';
+    scrollEl.style.height = '100%';
   }
 
   ngOnInit() {
@@ -73,8 +72,8 @@ export class PatientListingComponent implements OnInit, AfterViewInit {
       // Sort by language
       this.operationService
         .getOperationByOperationId(this.route.snapshot.paramMap.get('operationId'))
-        .subscribe((data: Operation) => {
-          this.selected.operation = data[0];
+        .subscribe((data: Operation | Operation[]) => {
+          this.selected.operation = Array.isArray(data) ? data[0] : data;
         });
     }
   }
@@ -85,7 +84,7 @@ export class PatientListingComponent implements OnInit, AfterViewInit {
   operationChangeEventHandler($event: Operation) {
     this.selected.operation = $event;
     this.patients$ = this.patientService.getPatientsByOperationId(this.selected.operation.operationId).pipe(
-      map((patients: [Patient]) => {
+      map((patients: Patient[]) => {
         this.patients = patients;
         this._cdr.detectChanges();
         return patients;

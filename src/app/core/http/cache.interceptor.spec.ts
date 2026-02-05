@@ -1,114 +1,94 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HTTP_INTERCEPTORS, HttpClient, HttpResponse } from '@angular/common/http';
-
+import { HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
+import { of, throwError } from 'rxjs';
 import { CacheInterceptor } from './cache.interceptor';
 import { HttpCacheService } from './http-cache.service';
 
-describe('CacheInterceptor', () => {
-  let interceptorOptions: Object | null = {};
-  let httpCacheService: HttpCacheService;
-  let http: HttpClient;
-  let httpMock: HttpTestingController;
+const createHandler = (factory: () => any): HttpHandler => ({
+  handle: jest.fn(factory) as any
+});
 
-  function createInterceptor(_httpCacheService: HttpCacheService) {
-    return new CacheInterceptor(_httpCacheService).configure(interceptorOptions);
-  }
+describe('CacheInterceptor (Jest)', () => {
+  let cache: HttpCacheService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        HttpCacheService,
-        {
-          provide: HTTP_INTERCEPTORS,
-          useFactory: createInterceptor,
-          deps: [HttpCacheService],
-          multi: true
-        }
-      ]
-    });
+    cache = new HttpCacheService();
+    cache.cleanCache();
   });
 
   afterEach(() => {
-    httpCacheService.cleanCache();
-    httpMock.verify();
+    cache.cleanCache();
   });
 
-  describe('with default configuration', () => {
-    beforeEach(() => {
-      interceptorOptions = null;
-      http = TestBed.get(HttpClient);
-      httpMock = TestBed.get(HttpTestingController);
-      httpCacheService = TestBed.get(HttpCacheService);
-    });
+  it('caches GET responses and returns cached data on next call', done => {
+    const interceptor = new CacheInterceptor(cache);
+    const req = new HttpRequest('GET', '/toto');
+    const handler = createHandler(() => of(new HttpResponse({ body: 'fresh' })));
 
-    it('should cache the request', () => {
-      // Act
-      http.get('/toto').subscribe(() => {
-        // Assert
-        const cachedData = httpCacheService.getCacheData('/toto');
-        expect(cachedData).toBeDefined();
-        expect(cachedData ? cachedData.body : null).toEqual('someData');
-      });
+    interceptor.intercept(req, handler).subscribe({
+      next: res => {
+        expect(res instanceof HttpResponse).toBe(true);
+        expect((res as HttpResponse<any>).body).toBe('fresh');
+        expect(cache.getCacheData('/toto')?.body).toBe('fresh');
 
-      httpMock.expectOne({ url: '/toto' }).flush('someData');
-    });
-
-    it('should respond from the cache', () => {
-      // Arrange
-      httpCacheService.setCacheData('/toto', new HttpResponse({ body: 'cachedData' }));
-
-      // Act
-      http.get('/toto').subscribe(response => {
-        // Assert
-        expect(response).toEqual('cachedData');
-      });
-
-      httpMock.expectNone({ url: '/toto' });
-    });
-
-    it('should not cache the request in case of error', () => {
-      // Act
-      http.get('/toto').subscribe(
-        () => {},
-        () => {
-          // Assert
-          expect(httpCacheService.getCacheData('/toto')).toBeNull();
-        }
-      );
-
-      httpMock.expectOne({}).flush(null, {
-        status: 404,
-        statusText: 'error'
-      });
+        // second call should hit cache, not handler
+        const handler2 = createHandler(() => of(new HttpResponse({ body: 'should-not-run' })));
+        interceptor.intercept(req, handler2).subscribe({
+          next: res2 => {
+            expect(handler2.handle).not.toHaveBeenCalled();
+            expect((res2 as HttpResponse<any>).body).toBe('fresh');
+            done();
+          },
+          error: err => done.fail(err)
+        });
+      },
+      error: err => done.fail(err)
     });
   });
 
-  describe('with update forced configuration', () => {
-    beforeEach(() => {
-      interceptorOptions = { update: true };
-      http = TestBed.get(HttpClient);
-      httpMock = TestBed.get(HttpTestingController);
-      httpCacheService = TestBed.get(HttpCacheService);
+  it('does not cache when handler errors', done => {
+    const interceptor = new CacheInterceptor(cache);
+    const req = new HttpRequest('GET', '/fail');
+    const handler = createHandler(() => throwError(new Error('fail')));
+
+    interceptor.intercept(req, handler).subscribe({
+      next: () => done.fail('expected error'),
+      error: () => {
+        expect(cache.getCacheData('/fail')).toBeNull();
+        done();
+      }
     });
+  });
 
-    afterEach(() => {
-      httpCacheService.cleanCache();
-      httpMock.verify();
+  it('forces refresh when configured with update=true', done => {
+    const interceptor = new CacheInterceptor(cache).configure({ update: true });
+    cache.setCacheData('/toto', new HttpResponse({ body: 'old' }));
+    const req = new HttpRequest('GET', '/toto');
+    const handler = createHandler(() => of(new HttpResponse({ body: 'new' })));
+
+    interceptor.intercept(req, handler).subscribe({
+      next: res => {
+        expect((res as HttpResponse<any>).body).toBe('new');
+        expect(cache.getCacheData('/toto')?.body).toBe('new');
+        expect(handler.handle).toHaveBeenCalled();
+        done();
+      },
+      error: err => done.fail(err)
     });
+  });
 
-    it('should force cache update', () => {
-      // Arrange
-      httpCacheService.setCacheData('/toto', new HttpResponse({ body: 'oldCachedData' }));
+  it('passes through non-GET requests without caching', done => {
+    const interceptor = new CacheInterceptor(cache);
+    const req = new HttpRequest('POST' as any, '/submit');
+    const handler = createHandler(() => of(new HttpResponse({ status: 201, body: 'ok' })));
 
-      // Act
-      http.get('/toto').subscribe(response => {
-        // Assert
-        expect(response).toEqual('newData');
-      });
-
-      httpMock.expectOne({ url: '/toto' }).flush('newData');
+    interceptor.intercept(req, handler).subscribe({
+      next: res => {
+        expect(handler.handle).toHaveBeenCalledWith(req);
+        expect(cache.getCacheData('/submit')).toBeNull();
+        expect((res as HttpResponse<any>).body).toBe('ok');
+        done();
+      },
+      error: err => done.fail(err)
     });
   });
 });

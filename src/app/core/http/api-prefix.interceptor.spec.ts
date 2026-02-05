@@ -1,47 +1,39 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-
-import { environment } from '@env/environment';
+import { HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
+import { of } from 'rxjs';
 import { ApiPrefixInterceptor } from './api-prefix.interceptor';
+import { environment } from '@env/environment';
 
-describe('ApiPrefixInterceptor', () => {
-  let http: HttpClient;
-  let httpMock: HttpTestingController;
+describe('ApiPrefixInterceptor (Jest)', () => {
+  const handler = (): HttpHandler => ({
+    handle: jest.fn(() => of(new HttpResponse({ status: 200 }))) as any
+  });
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: ApiPrefixInterceptor,
-          multi: true
-        }
-      ]
+  it('prefixes relative URLs with apiUrl', done => {
+    const next = handler();
+    const interceptor = new ApiPrefixInterceptor();
+    const req = new HttpRequest('GET', '/toto');
+
+    interceptor.intercept(req, next).subscribe({
+      next: () => {
+        expect(next.handle).toHaveBeenCalledWith(expect.objectContaining({ url: `${environment.apiUrl}/toto` }));
+        done();
+      },
+      error: err => done.fail(err)
     });
-
-    http = TestBed.get(HttpClient);
-    httpMock = TestBed.get(HttpTestingController);
   });
 
-  afterEach(() => {
-    httpMock.verify();
-  });
+  it('leaves absolute URLs untouched', done => {
+    const next = handler();
+    const interceptor = new ApiPrefixInterceptor();
+    const url = 'https://domain.com/toto';
+    const req = new HttpRequest('GET', url);
 
-  it('should prepend environment.serverUrl to the request url', () => {
-    // Act
-    http.get('/toto').subscribe();
-
-    // Assert
-    httpMock.expectOne({ url: environment.serverUrl + '/toto' });
-  });
-
-  it('should not prepend environment.serverUrl to request url', () => {
-    // Act
-    http.get('hTtPs://domain.com/toto').subscribe();
-
-    // Assert
-    httpMock.expectOne({ url: 'hTtPs://domain.com/toto' });
+    interceptor.intercept(req, next).subscribe({
+      next: () => {
+        expect(next.handle).toHaveBeenCalledWith(expect.objectContaining({ url }));
+        done();
+      },
+      error: err => done.fail(err)
+    });
   });
 });

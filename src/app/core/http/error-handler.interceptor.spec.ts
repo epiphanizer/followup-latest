@@ -1,57 +1,39 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-
+import { HttpHandler, HttpRequest } from '@angular/common/http';
+import { throwError } from 'rxjs';
 import { ErrorHandlerInterceptor } from './error-handler.interceptor';
+import { Logger } from '../logger.service';
 
-describe('ErrorHandlerInterceptor', () => {
-  let errorHandlerInterceptor: ErrorHandlerInterceptor;
-  let http: HttpClient;
-  let httpMock: HttpTestingController;
-
-  function createInterceptor() {
-    errorHandlerInterceptor = new ErrorHandlerInterceptor();
-    return errorHandlerInterceptor;
+jest.mock('@env/environment', () => ({
+  environment: {
+    production: false,
+    apiUrl: 'https://api.test',
+    version: 'test',
+    defaultLanguage: 'en-US',
+    supportedLanguages: ['en-US']
   }
+}));
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        {
-          provide: HTTP_INTERCEPTORS,
-          useFactory: createInterceptor,
-          multi: true
-        }
-      ]
-    });
-
-    http = TestBed.get(HttpClient);
-    httpMock = TestBed.get(HttpTestingController);
-  });
-
+describe('ErrorHandlerInterceptor (Jest)', () => {
   afterEach(() => {
-    httpMock.verify();
+    jest.restoreAllMocks();
   });
 
-  it('should catch error and call error handler', () => {
-    // Arrange
-    // Note: here we spy on private method since target is customization here,
-    // but you should replace it by actual behavior in your app
-    spyOn(ErrorHandlerInterceptor.prototype as any, 'errorHandler').and.callThrough();
+  it('rethrows errors and logs when not in production', done => {
+    const logSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    const interceptor = new ErrorHandlerInterceptor();
+    const req = new HttpRequest('GET', '/fail');
+    const handler: HttpHandler = {
+      handle: jest.fn(() => throwError(new Error('boom'))) as any
+    };
 
-    // Act
-    http.get('/toto').subscribe(
-      () => fail('should error'),
-      () => {
-        // Assert
-        expect(ErrorHandlerInterceptor.prototype['errorHandler']).toHaveBeenCalled();
+    interceptor.intercept(req, handler).subscribe({
+      next: () => done.fail('expected error'),
+      error: err => {
+        expect(err).toBeTruthy();
+        expect(handler.handle).toHaveBeenCalledWith(req);
+        expect(logSpy).toHaveBeenCalled();
+        done();
       }
-    );
-
-    httpMock.expectOne({}).flush(null, {
-      status: 404,
-      statusText: 'error'
     });
   });
 });

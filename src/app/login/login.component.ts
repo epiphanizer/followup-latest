@@ -40,25 +40,22 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   async signIn() {
     this.isLoading = true;
-    let username = this.loginForm.controls.username.value;
-    if (!username.trim().length) {
-      // Check if it was an autofill thing
-      if ((document.getElementById('username') as HTMLIonInputElement).value.length) {
-        username = (document.getElementById('username') as HTMLIonInputElement).value;
-      } else {
-        this.toastrService.error('Enter username!');
-        return false;
-      }
+    const usernameControl = this.loginForm.controls.username.value;
+    const passwordControl = this.loginForm.controls.password.value;
+
+    const autofillUsername = String((document.getElementById('username') as HTMLInputElement)?.value ?? '').trim();
+    const autofillPassword = String((document.getElementById('password') as HTMLInputElement)?.value ?? '').trim();
+
+    const username = String(usernameControl ?? '').trim() || autofillUsername;
+    if (!username.length) {
+      this.toastrService.error('Enter username!');
+      return false;
     }
-    let password = this.loginForm.controls.password.value;
-    if (!password.trim().length) {
-      // Check if it was an autofill thing
-      if ((document.getElementById('password') as HTMLIonInputElement).value.length) {
-        password = (document.getElementById('password') as HTMLIonInputElement).value;
-      } else {
-        this.toastrService.error('Enter password!');
-        return false;
-      }
+
+    const password = String(passwordControl ?? '').trim() || autofillPassword;
+    if (!password.length) {
+      this.toastrService.error('Enter password!');
+      return false;
     }
     let result = await this.authenticationService.signIn(username, password);
     if (!result) {

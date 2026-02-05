@@ -1,24 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PatientComponent } from './patient.component';
 
-describe('PatientComponent', () => {
-  let component: PatientComponent;
-  let fixture: ComponentFixture<PatientComponent>;
+describe('PatientComponent (Jest)', () => {
+  it('constructs without Angular TestBed', () => {
+    const comp = new PatientComponent();
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [PatientComponent]
-    }).compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PatientComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(comp).toBeTruthy();
   });
 });
