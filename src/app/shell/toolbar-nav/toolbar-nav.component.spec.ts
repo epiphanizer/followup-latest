@@ -1,3 +1,5 @@
+jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
+
 import { of } from 'rxjs';
 import { ActivationEnd } from '@angular/router';
 import * as FileSaver from 'file-saver';
@@ -33,7 +35,7 @@ describe('ToolbarNavComponent logic', () => {
     component = new ToolbarNavComponent(modalCtrlMock as any, routeMock as any, routerMock as any, dataServiceMock);
     component.callQueuePage = true;
     component.createNotification = jest.fn();
-    (FileSaver as any).saveAs = jest.fn();
+    (FileSaver.saveAs as jest.Mock).mockClear();
     component.ngOnInit();
   });
 
@@ -53,15 +55,13 @@ describe('ToolbarNavComponent logic', () => {
     expect(component.dropdownActivated).toBe(false);
   });
 
-  it('invokes dynamic actions', done => {
+  it('invokes dynamic actions', () => {
+    component.callQueuePage = true;
     component.dynamicLink({ linkAction: 'createNotification' } as any);
     expect(component.createNotification).toHaveBeenCalled();
 
     component.dynamicLink({ linkAction: 'getExcelReport' } as any);
     expect(dataServiceMock.getData).toHaveBeenCalled();
-    setTimeout(() => {
-      expect((FileSaver as any).saveAs).toHaveBeenCalled();
-      done();
-    }, 0);
+    expect(FileSaver.saveAs).toHaveBeenCalled();
   });
 });

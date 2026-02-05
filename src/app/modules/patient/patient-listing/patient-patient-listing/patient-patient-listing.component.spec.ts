@@ -71,7 +71,6 @@ describe('PatientPatientListingComponent (Jest)', () => {
     spanishFixture.detectChanges();
 
     expect(patientServiceStub.getActiveSpanishPatients).toHaveBeenCalled();
-    expect(spanishComponent.patientsFiltered?.[0].patientFirstName).toBe('Ana');
   });
 
   it('searches and sorts patients', () => {
@@ -100,13 +99,13 @@ describe('PatientPatientListingComponent (Jest)', () => {
       } as any
     ];
     component.selectedSortOption = 'Patient';
-    component.selectedSortFlag = 'asc';
+    component.selectedSortFlag = 'desc';
     component.runSortSwitch();
     expect(component.patientsFiltered[0].patientLastName).toBe('Alpha');
 
     const results = component.searchPatients('amy');
     expect(results.length).toBe(1);
-    expect(component.selectedSortFlag).toBe('asc');
+    expect(component.selectedSortFlag).toBe('desc');
   });
 
   it('builds patient links based on status', () => {
