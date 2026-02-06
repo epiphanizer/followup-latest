@@ -114,6 +114,7 @@ export class PatientFormComponent implements OnInit {
           otherBoolean: false
         };
         this.createForm();
+        this.patientForm.get('patient.dischargeInfo.patientDischargedTo').setValue('2PEXyKgz');
         this.addAdditionalPatientContact();
         this.patientIntakeQuestionService
           .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
@@ -131,8 +132,6 @@ export class PatientFormComponent implements OnInit {
             });
           });
       });
-
-      this.patientForm.get('patient.dischargeInfo.patientDischargedTo').setValue('2PEXyKgz');
     } else {
       this.patientService
         .getPatientByPatientId(this.patient.patientId)
