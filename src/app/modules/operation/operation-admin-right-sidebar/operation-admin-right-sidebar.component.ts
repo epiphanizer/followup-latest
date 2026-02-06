@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import {
   trigger,
   state,
@@ -59,7 +59,7 @@ import { Observable, Subscribable, SubscriptionLike } from 'rxjs';
     ])
   ]
 })
-export class OperationAdminRightSidebarComponent implements OnInit {
+export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
   @Input() mode: any;
   @Input() operation: Operation;
   @Input() users: User[];
@@ -97,8 +97,13 @@ export class OperationAdminRightSidebarComponent implements OnInit {
   user: User;
   ngOnInit() {
     this.routeSubscription = this.route.paramMap.subscribe(params => {
-      if (params.get('operationId').length) {
-        this.activeOperationId = params.get('operationId');
+      const operationId =
+        params.get('operationId') ||
+        this.route.snapshot.queryParamMap.get('operationId') ||
+        this.operation?.operationId;
+
+      if (operationId) {
+        this.activeOperationId = operationId;
         this.getAssignedManagers();
         this.updateAssignedUsers();
       }
@@ -119,6 +124,17 @@ export class OperationAdminRightSidebarComponent implements OnInit {
           operationCallRepName: ''
         }
       ];
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.operation?.currentValue?.operationId) {
+      const operationId = changes.operation.currentValue.operationId;
+      if (operationId && operationId !== this.activeOperationId) {
+        this.activeOperationId = operationId;
+        this.getAssignedManagers();
+        this.updateAssignedUsers();
+      }
     }
   }
   updateAssignedUsers(): any {
@@ -329,6 +345,6 @@ export class OperationAdminRightSidebarComponent implements OnInit {
     });
   }
   ngOnDestroy() {
-    this.routeSubscription.unsubscribe();
+    this.routeSubscription?.unsubscribe();
   }
 }

@@ -20,6 +20,7 @@
             <ion-select
               *ngIf="(mode.edit || mode.add) && operationManagers; else managerSpan"
               [class.edit]="mode.edit"
+              [value]="manager?.userId"
               (ionChange)="managerOnSelect($event, idx)"
               placeholder="Assign Manager"
             >
@@ -70,6 +71,7 @@
                 *ngIf="users && ((mode.edit && operationAssignedUsers.length) || mode.add); else memberSpan"
                 (ionChange)="callRepOnSelect($event, idx)"
                 [class.edit]="mode.edit"
+                [value]="operationCallRep?.userId"
                 placeholder="Select User"
               >
                 <ion-select-option
