@@ -102,21 +102,21 @@ export class NotificationListingSidebarComponent implements OnInit {
     }
 
     this.route.paramMap.subscribe((data: any) => {
-      var operationId;
-      if (data.params.operation) {
-        operationId = data.params.operation.operationId;
-      } else {
-        operationId = this.user.operations[0].operationId;
-        this.operations = this.user.operationGroups[0].operations;
-      }
-      if (data.params.operation) {
-        this.operationService
-          .getOperationByOperationId(data.params.operation.operationId)
-          .subscribe((data: Operation | Operation[]) => {
-            const resolvedOperation = Array.isArray(data) ? data[0] : data;
+      const operationId = data.get ? data.get('operationId') : data.params?.operationId;
+
+      if (operationId) {
+        this.operationService.getOperationByOperationId(operationId).subscribe((result: Operation | Operation[]) => {
+          const resolvedOperation = Array.isArray(result) ? result[0] : result;
+          if (resolvedOperation) {
             this.selected.operation = resolvedOperation;
             this.activeOperationId = this.selected.operation.operationId;
-          });
+          }
+        });
+        return;
+      }
+
+      if (this.user?.operations?.length) {
+        this.operations = this.user.operationGroups?.[0]?.operations || [];
       }
     });
 

@@ -60,7 +60,7 @@ import { map } from 'rxjs/operators';
 export class CallQueueSidebarComponent {
   currentAssignedSpanishDischargeCount: number;
   currentNewDischargeCount: number;
-  @Output() operationChangeEvent = new EventEmitter<number>();
+  @Output() operationChangeEvent = new EventEmitter<Operation>();
   errorFallback: boolean = false;
   isTouched: boolean = false;
   selected: {
@@ -133,7 +133,7 @@ export class CallQueueSidebarComponent {
   setActiveOperation = function(operation: Operation) {
     this.selected.operation = operation;
     this.activeOperationId = operation.operationId;
-    this.operationChangeEvent.emit(this.activeOperationId);
+    this.operationChangeEvent.emit(operation);
   };
   setActiveOperationGroup = function(operationGroup: OperationGroup) {
     operationGroup.sidebarDropdownOpen = true;

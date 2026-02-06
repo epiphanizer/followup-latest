@@ -87,22 +87,24 @@ export class PatientDetailComponent implements OnInit {
     };
     this.patientNextCallQuestions = [];
 
-    this.patient.patientNotifications$ = this.notificationService
-      .getNotificationsByPatientId(this.patient.patientId)
-      .pipe(
-        take(1),
-        map((notifications: Notification[]) => {
-          if (notifications != null) {
-            this.patient.patientNotifications = notifications;
-          } else {
-            this.patient.patientNotifications = [];
-          }
-          return this.patient.patientNotifications;
-        })
-      );
-    this.patient.patientNotifications$.subscribe((notifications: Notification[]) => {
-      this.patient.patientNotifications = notifications;
-    });
+    if (this.patient?.patientId) {
+      this.patient.patientNotifications$ = this.notificationService
+        .getNotificationsByPatientId(this.patient.patientId)
+        .pipe(
+          take(1),
+          map((notifications: Notification[]) => {
+            if (notifications != null) {
+              this.patient.patientNotifications = notifications;
+            } else {
+              this.patient.patientNotifications = [];
+            }
+            return this.patient.patientNotifications;
+          })
+        );
+      this.patient.patientNotifications$.subscribe((notifications: Notification[]) => {
+        this.patient.patientNotifications = notifications;
+      });
+    }
   }
 
   patientCallStartEventHandler(userId: string) {

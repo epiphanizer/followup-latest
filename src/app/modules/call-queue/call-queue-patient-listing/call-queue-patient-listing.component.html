@@ -33,7 +33,7 @@
       </div>
       <div class="call-queue-patient-information">
         <span class="call-queue-patient-name">
-          <a href="'/operations/' + {{ patient.patientOperationId }} + '/patient/' + {{ patient.patientId }}">
+          <a [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId">
             {{ patient.patientFirstName }}
             {{ patient.patientLastName }}
           </a>

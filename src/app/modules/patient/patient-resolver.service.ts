@@ -21,7 +21,8 @@ export class PatientResolver implements Resolve<Patient> {
     const patientId = route.paramMap.get('patientId');
     this.patient$ = this.patientService.getPatientByPatientId(patientId).pipe(
       take(1),
-      map((patient: Patient) => {
+      map((patientResult: Patient | Patient[]) => {
+        const patient = Array.isArray(patientResult) ? patientResult[0] : patientResult;
         this.patient = patient;
         this.patient.patientLanguages$ = this.patientService.getPatientLanguagesByPatientId(this.patient.patientId);
         this.patient.patientContacts$ = this.patientContactService
