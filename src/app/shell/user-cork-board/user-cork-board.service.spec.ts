@@ -98,7 +98,7 @@ describe('UserCorkBoardService', () => {
     });
 
     (service as any).handleAsyncError(errorEvent).subscribe({
-      error: message => {
+      error: (message: string) => {
         expect(consoleSpy).toHaveBeenCalledWith('An error occurred:', 'offline');
         expect(message).toContain('user cork board service');
         consoleSpy.mockRestore();
