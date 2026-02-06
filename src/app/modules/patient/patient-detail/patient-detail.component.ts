@@ -192,6 +192,15 @@ export class PatientDetailComponent implements OnInit {
     console.log(this.patientCallQuestionAnswers);
   }
 
+  private isPatientCallQuestionAnswer(answer: unknown): answer is PatientCallQuestionAnswer {
+    return (
+      typeof answer === 'object' &&
+      answer !== null &&
+      'patientCallQuestionId' in answer &&
+      'patientCallQuestionAnswer' in answer
+    );
+  }
+
   patientCallFinishEventHandler($event: PatientCall) {
     this.patientCall = $event;
 
@@ -228,11 +237,10 @@ export class PatientDetailComponent implements OnInit {
                   return null;
                 }
 
-                const typedAnswer = answer as PatientCallQuestionAnswer;
-                if (typedAnswer.patientCallQuestionId) {
+                if (this.isPatientCallQuestionAnswer(answer)) {
                   return this.patientCallQuestionsService.addPatientCallQuestionAnswersByPatientCallQuestionId(
-                    typedAnswer.patientCallQuestionId,
-                    typedAnswer.patientCallQuestionAnswer
+                    answer.patientCallQuestionId,
+                    answer.patientCallQuestionAnswer
                   );
                 }
 

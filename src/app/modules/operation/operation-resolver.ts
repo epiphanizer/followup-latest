@@ -14,10 +14,8 @@ export class OperationResolver implements Resolve<Operation> {
   resolve(route: ActivatedRouteSnapshot): Observable<Operation> {
     const operationId = route.paramMap.get('operationId');
     this.operation$ = this.operationService.getOperationByOperationId(operationId).pipe(
-      map((operation: Operation) => {
-        const resolvedOperation = Array.isArray(operation as Operation | Operation[])
-          ? (operation as Operation[])[0]
-          : operation;
+      map((operation: Operation | Operation[]) => {
+        const resolvedOperation = Array.isArray(operation) ? operation[0] : operation;
         this.operation = resolvedOperation;
         return resolvedOperation;
       })
