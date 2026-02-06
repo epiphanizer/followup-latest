@@ -112,10 +112,13 @@ export class NotificationListingSidebarComponent implements OnInit {
       if (data.params.operation) {
         this.operationService
           .getOperationByOperationId(data.params.operation.operationId)
-          .subscribe((data: Operation) => {
-            this.selected.operation = data[0];
-            this.activeOperationId = this.selected.operation.operationId;
-          });
+            .subscribe((data: Operation) => {
+              const resolvedOperation = Array.isArray(data as Operation | Operation[])
+                ? (data as Operation[])[0]
+                : data;
+              this.selected.operation = resolvedOperation;
+              this.activeOperationId = this.selected.operation.operationId;
+            });
       }
     });
 

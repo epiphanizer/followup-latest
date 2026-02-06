@@ -40,9 +40,9 @@ export class PatientDetailComponent implements OnInit {
   patientCallNotes: PatientCallNotes;
   patientCallNotesHighlighted: number = 0;
   patientCallQuestions: PatientCallQuestion[];
-  patientCallQuestionAnswers: PatientCallQuestionAnswer[];
+  patientCallQuestionAnswers: Array<Record<string, string | number>>;
   patientCallStatuses: any | typeof PatientCallStatuses = PatientCallStatuses;
-  patientLastCallAnswers: PatientCallQuestionAnswer[];
+  patientLastCallAnswers: Array<Record<string, string | number>>;
 
   patientNextCall: {
     date: string;
@@ -187,7 +187,7 @@ export class PatientDetailComponent implements OnInit {
     this.patientCallNotesHighlighted = $event;
   }
 
-  patientCallQuestionsChangeHandler($event: PatientCallQuestionAnswer[]) {
+  patientCallQuestionsChangeHandler($event: Array<Record<string, string | number>>) {
     this.patientCallQuestionAnswers = $event;
     console.log(this.patientCallQuestionAnswers);
   }
@@ -223,14 +223,27 @@ export class PatientDetailComponent implements OnInit {
           // Talk to our service to answer the existing call questions
           if (this.patientCallQuestionAnswers) {
             const observables = this.patientCallQuestionAnswers
-              .map((patientCallQuestionAnswer: PatientCallQuestionAnswer) => {
-                const patientCallQuestionId = Object.keys(patientCallQuestionAnswer).toString();
-                const patientCallQuestionAnswerText = patientCallQuestionAnswer[patientCallQuestionId];
+              .map(answer => {
+                if (!answer) {
+                  return null;
+                }
 
-                if (patientCallQuestionAnswerText !== undefined) {
+                const typedAnswer = answer as PatientCallQuestionAnswer;
+                if (typedAnswer.patientCallQuestionId) {
+                  return this.patientCallQuestionsService.addPatientCallQuestionAnswersByPatientCallQuestionId(
+                    typedAnswer.patientCallQuestionId,
+                    typedAnswer.patientCallQuestionAnswer
+                  );
+                }
+
+                const answerRecord = answer as Record<string, string | number>;
+                const patientCallQuestionId = Object.keys(answerRecord)[0];
+                const patientCallQuestionAnswerText = answerRecord[patientCallQuestionId];
+
+                if (patientCallQuestionId && patientCallQuestionAnswerText !== undefined) {
                   return this.patientCallQuestionsService.addPatientCallQuestionAnswersByPatientCallQuestionId(
                     patientCallQuestionId,
-                    patientCallQuestionAnswerText
+                    String(patientCallQuestionAnswerText)
                   );
                 }
                 return null;

@@ -15,9 +15,11 @@ export class OperationResolver implements Resolve<Operation> {
     const operationId = route.paramMap.get('operationId');
     this.operation$ = this.operationService.getOperationByOperationId(operationId).pipe(
       map((operation: Operation) => {
-        operation = operation[0];
-        this.operation = operation;
-        return operation;
+        const resolvedOperation = Array.isArray(operation as Operation | Operation[])
+          ? (operation as Operation[])[0]
+          : operation;
+        this.operation = resolvedOperation;
+        return resolvedOperation;
       })
     );
     return this.operation$;
