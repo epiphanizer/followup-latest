@@ -43,6 +43,7 @@ describe('OperationAdminRightSidebarComponent', () => {
     component = fixture.componentInstance;
     component.mode = { add: false, edit: true } as any;
     component.operation = { operationId: 'op1' } as any;
+    (component as any).operationCallRepsService = operationCallRepsServiceMock;
     fixture.detectChanges();
   });
 
@@ -54,6 +55,7 @@ describe('OperationAdminRightSidebarComponent', () => {
   it('swaps call reps and persists add/remove', () => {
     component.operationAssignedUsers = [{ userId: 'u1', operationId: 'op1' } as any];
     component.operationAssignedUsersOriginal = ['u1'];
+    component.operationAssignedUsersToRemove = [];
 
     component.callRepOnSelect({ target: { value: 'u2' } }, 0);
 

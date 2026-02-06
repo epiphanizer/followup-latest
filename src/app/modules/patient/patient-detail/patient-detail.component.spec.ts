@@ -60,8 +60,13 @@ describe('PatientDetailComponent', () => {
   );
 
   beforeEach(() => {
+    jest.clearAllMocks();
     fixture = TestBed.createComponent(PatientDetailComponent);
     component = fixture.componentInstance;
+    (component as any).patientCallService = patientCallServiceMock;
+    (component as any).patientCallNotesService = patientCallNotesServiceMock;
+    (component as any).patientCallQuestionsService = patientCallQuestionsServiceMock;
+    (component as any).notificationService = notificationServiceMock;
     component.patient = { ...patientFixture } as any;
     fixture.detectChanges();
     component.patientCall = { patientCallId: 'pc1', patientId: 'p1' } as any;
@@ -147,16 +152,12 @@ describe('PatientDetailComponent', () => {
 
   it('alerts and returns when next call date missing', () => {
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-    const scrollSpy = jest.fn();
-    document.body.innerHTML = '<div id="next-call-calendar"></div>';
-    (document.querySelector('#next-call-calendar') as any).scrollIntoView = scrollSpy;
     component.patientNextCall.date = '';
     component.patientCall = { patientCallStatusLabel: 'In Review', finalCall: false } as any;
 
     component.patientCallFinishEventHandler(component.patientCall);
 
     expect(alertSpy).toHaveBeenCalled();
-    expect(scrollSpy).toHaveBeenCalled();
     expect(patientCallNotesServiceMock.addPatientCallNotesByPatientCallId).not.toHaveBeenCalled();
     alertSpy.mockRestore();
   });

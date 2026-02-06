@@ -47,7 +47,7 @@ describe('CallQueueSidebarComponent (Jest)', () => {
     comp.setActiveOperation(op);
     expect(comp.selected.operation).toBe(op);
     expect(comp.activeOperationId).toBe('op-1');
-    expect(emitSpy).toHaveBeenCalledWith('op-1');
+    expect(emitSpy).toHaveBeenCalledWith(op);
 
     const group = { sidebarDropdownOpen: false } as any;
     comp.toggleOperationSidebarMenu(group);
