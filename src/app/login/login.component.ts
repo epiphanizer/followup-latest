@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   error: string | undefined;
   loginForm!: FormGroup;
   isLoading = false;
+  version = environment.version;
 
   constructor(
     private formBuilder: FormBuilder,

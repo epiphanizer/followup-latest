@@ -123,3 +123,14 @@ button {
 .login-container {
   background: none;
 }
+
+.version-stamp {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  font-family: Avenir, sans-serif;
+  font-size: 10pt;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+  opacity: 0.9;
+}
