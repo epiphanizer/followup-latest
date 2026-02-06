@@ -39,6 +39,15 @@ export class UserService {
     );
   }
 
+  impersonateUser(adminUserId: string, userId: string) {
+    return this.http
+      .post<User>('users/impersonate', {
+        adminUserId: adminUserId,
+        userId: userId
+      })
+      .pipe(catchError(e => this.handleAsyncError(e)));
+  }
+
   public getUserCalls(user: User): Observable<any> {
     var userId = user.userId;
     return this.http.get<Blob>('users/' + userId + '/calls').pipe(

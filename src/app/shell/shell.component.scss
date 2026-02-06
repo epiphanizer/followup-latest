@@ -5,7 +5,8 @@
   height: 100%;
 }
 ion-router-outlet {
-  height: 100vh;
+  min-height: calc(100vh - 95px);
+  height: auto;
   margin-top: 95px;
 }
 
@@ -32,6 +33,30 @@ app-user-cork-board {
 }
 ion-toolbar {
   --background: transparent;
+}
+
+.impersonation-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  margin: 6px 16px 0;
+  border-radius: 4px;
+  background-color: #fff3d9;
+  color: #6b4f1d;
+  font-family: AvenirDemi;
+  font-size: 14px;
+
+  button {
+    border: none;
+    background-color: #ef4627;
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-family: AvenirDemi;
+    font-size: 13px;
+    cursor: pointer;
+  }
 }
 
 .user-dropdown {
@@ -97,7 +122,8 @@ ion-toolbar {
     width: calc(100% - 260px);
   }
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   overflow: hidden;
 }
 ul {

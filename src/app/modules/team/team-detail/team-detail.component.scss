@@ -156,6 +156,26 @@
         color: #00b8be;
       }
 
+      .impersonate-user {
+        cursor: pointer;
+        float: right;
+        margin-right: 18px;
+        font-family: AvenirDemi;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 0.86;
+        letter-spacing: 0.15px;
+        text-align: left;
+        color: #ef4627;
+
+        a {
+          color: #ef4627;
+          text-decoration: none;
+        }
+      }
+
       i.post-it {
         display: inline-block;
         vertical-align: bottom;

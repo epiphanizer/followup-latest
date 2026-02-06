@@ -11,6 +11,13 @@
       <app-toolbar-logo (click)="toggleDropdown(false)"> </app-toolbar-logo>
       <app-toolbar-nav (dropdownEvent)="toggleDropdown($event)"> </app-toolbar-nav>
     </ion-toolbar>
+    <div class="impersonation-banner" *ngIf="impersonator && user">
+      <span>
+        Impersonating {{ user.userFirstName }} {{ user.userLastName }} as {{ impersonator.userFirstName }}
+        {{ impersonator.userLastName }}.
+      </span>
+      <button type="button" (click)="stopImpersonation()">Return to admin</button>
+    </div>
     <app-toolbar-profile-nav
       *ngIf="user"
       [user]="user"

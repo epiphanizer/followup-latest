@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from '@app/modules/user/user';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { User, UserRoles } from '@app/modules/user/user';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Team, TeamMember } from '@app/modules/team/team';
 import { Operation } from '@app/modules/operation/operation';
@@ -10,6 +10,7 @@ import { map, take } from 'rxjs/operators';
 import { UserService } from '@app/modules/user/user.service';
 import { PostItModalComponent } from '@app/shell/post-it-modal/post-it-modal.component';
 import { SharedFunctions } from '@app/shared/shared.functions';
+import { AuthenticationService } from '@app/core';
 @Component({
   providers: [TeamService, SharedFunctions],
   selector: 'app-team-detail',
@@ -21,6 +22,9 @@ export class TeamMemberDetailComponent implements OnInit {
   teamMemberId: string;
   teamMember: TeamMember;
   team: Team;
+  currentUser: User;
+  isImpersonating: boolean = false;
+  userRoles = UserRoles;
 
   teamInfoDecoded: string;
   /**
@@ -40,12 +44,16 @@ export class TeamMemberDetailComponent implements OnInit {
   constructor(
     private modalController: ModalController,
     private route: ActivatedRoute,
+    private router: Router,
     private teamService: TeamService,
     private userService: UserService,
-    private sharedFunctions: SharedFunctions
+    private sharedFunctions: SharedFunctions,
+    private authenticationService: AuthenticationService
   ) {}
 
   ngOnInit() {
+    this.currentUser = this.authenticationService.currentUserValue;
+    this.isImpersonating = !!this.authenticationService.impersonatorValue;
     this.teamId = this.route.snapshot.params.teamId;
     this.teamMemberId = this.route.snapshot.params.teamMemberId;
 
@@ -56,6 +64,15 @@ export class TeamMemberDetailComponent implements OnInit {
       this.teamMemberId = params.get('teamMemberId');
       this.loadTeamMember();
     });
+  }
+
+  get canImpersonate(): boolean {
+    return (
+      this.currentUser &&
+      this.currentUser.userLevel === this.userRoles.admin &&
+      !this.isImpersonating &&
+      !!this.teamMember?.userId
+    );
   }
 
   loadTeamMember() {
@@ -157,5 +174,24 @@ export class TeamMemberDetailComponent implements OnInit {
 
   postNote() {
     this.postItModal();
+  }
+
+  loginAsUser() {
+    if (!this.canImpersonate) {
+      return;
+    }
+    const adminUser = this.currentUser;
+    this.userService
+      .impersonateUser(adminUser.userId, this.teamMember.userId)
+      .pipe(take(1))
+      .subscribe((user: User) => {
+        if (!user) {
+          return;
+        }
+        this.authenticationService.startImpersonation(user, adminUser);
+        this.userService.updateOperations(user).then(() => {
+          this.router.navigate(['/home']);
+        });
+      });
   }
 }

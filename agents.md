@@ -50,3 +50,8 @@ Shared/core scaffolding
 
 - Build: `npm run build`; Serve dev: `npm run serve` (proxy on 4200).
 - Working branch: feature/robot_work_1.
+- Before closing work, verify compilation/tests (or note if not run).
+
+## Running change log (frontend)
+
+- 2026-02-06: Logout now clears and redirects even when the API is down; added logout failure coverage; relaxed shell layout height to prevent banner clipping.

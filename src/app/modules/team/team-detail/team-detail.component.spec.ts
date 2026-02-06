@@ -6,6 +6,7 @@ import { UserService } from '@app/modules/user/user.service';
 import { SharedFunctions } from '@app/shared/shared.functions';
 import { ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+import { UserRoles } from '@app/modules/user/user';
 
 const teamServiceStub = {
   getTeamMemberByTeamIdAndTeamMemberId: jest.fn(() =>
@@ -32,14 +33,24 @@ const activatedRouteStub: Partial<ActivatedRoute> = {
   paramMap: of({ get: (key: string) => (key === 'teamId' ? 't1' : 'm1') }) as any
 };
 
+const authServiceStub = {
+  currentUserValue: { userId: 'admin1', userLevel: UserRoles.admin },
+  impersonatorValue: null,
+  startImpersonation: jest.fn()
+};
+
+const routerStub = { navigate: jest.fn() };
+
 describe('TeamMemberDetailComponent (Jest)', () => {
   const buildComponent = () =>
     new TeamMemberDetailComponent(
       modalControllerStub as any,
       activatedRouteStub as ActivatedRoute,
+      routerStub as any,
       (teamServiceStub as unknown) as TeamService,
       (userServiceStub as unknown) as UserService,
-      ({ returnHTML: jest.fn((html: string) => html) } as unknown) as SharedFunctions
+      ({ returnHTML: jest.fn((html: string) => html) } as unknown) as SharedFunctions,
+      authServiceStub as any
     );
 
   it('loads team member details', () => {

@@ -9,12 +9,16 @@ import { AuthenticationService, CredentialsService, CoreModule } from '@app/core
 import { UserCorkBoardService } from './user-cork-board/user-cork-board.service';
 
 const userSubject = new BehaviorSubject<any>({ userId: 'u1', userLoginExpires: Date.now() + 10000 });
+const impersonatorSubject = new BehaviorSubject<any>(null);
 class MockAuthenticationService {
   currentUserSubject = userSubject;
+  impersonator = impersonatorSubject.asObservable();
+  impersonatorValue = null;
   get currentUserValue() {
     return userSubject.getValue();
   }
   signOut = jest.fn();
+  stopImpersonation = jest.fn();
 }
 class MockCredentialsService {}
 
