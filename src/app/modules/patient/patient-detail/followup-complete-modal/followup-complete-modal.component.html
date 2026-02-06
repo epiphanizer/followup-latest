@@ -20,7 +20,7 @@
         </ion-radio-group>
       </ul>
     </ion-row>
-    <ion-textarea formControlName="completionNotes" placeholder="Any Notes?"> </ion-textarea>
+    <ion-textarea [autoGrow]="true" formControlName="completionNotes" placeholder="Any Notes?"> </ion-textarea>
     <div class="send-container">
       <button class="secondary button" (click)="dismiss()">Cancel</button>
       <button class="primary button" type="submit" (click)="archivePatient(patient)">Save</button>

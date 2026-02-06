@@ -85,7 +85,11 @@
             <span class="label">Message:&nbsp;</span>
           </ion-item>
           <ion-item class="notification-review-item-message">
-            <ion-textarea [autoGrow]="true" formControlName="notificationMessage"></ion-textarea>
+            <ion-textarea
+              [autoGrow]="true"
+              class="notification-review-textarea"
+              formControlName="notificationMessage"
+            ></ion-textarea>
           </ion-item>
         </ion-list>
       </form>
