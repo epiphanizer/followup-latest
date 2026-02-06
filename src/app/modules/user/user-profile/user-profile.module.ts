@@ -7,10 +7,19 @@ import { UserModule } from '../user.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { TeamListingSidebar } from '@app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component';
 import { TeamModule } from '@app/modules/team/team.module';
+import { SharedModule } from '@app/shared';
 
 @NgModule({
   declarations: [UserProfileComponent],
-  imports: [UserModule, IonicModule, CommonModule, NgxMaskModule.forRoot(), ReactiveFormsModule, TeamModule],
+  imports: [
+    UserModule,
+    IonicModule,
+    CommonModule,
+    NgxMaskModule.forRoot(),
+    ReactiveFormsModule,
+    TeamModule,
+    SharedModule
+  ],
   entryComponents: [TeamListingSidebar],
   exports: [UserProfileComponent]
 })
