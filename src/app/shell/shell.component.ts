@@ -21,7 +21,6 @@ export class ShellComponent {
   corkBoardSubscription: Subscription;
   dropdownActive: Boolean = false;
   user: User;
-  impersonator: User;
   patient: Patient;
   navLinks?: {
     linkName: string;
@@ -32,7 +31,6 @@ export class ShellComponent {
   userActionSinceLastUpdate: boolean = false;
   userCorkBoardExpanded: boolean = false;
   version: string = environment.version;
-  impersonatorSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,7 +43,6 @@ export class ShellComponent {
   ) {}
   ngOnInit() {
     this.user = this.authenticationService.currentUserSubject.getValue();
-    this.impersonator = this.authenticationService.impersonatorValue;
     if (window.location.pathname == '/') {
       this.router.navigate(['/home']);
     }
@@ -65,9 +62,6 @@ export class ShellComponent {
     this.setIdleLogoutTimer();
     this.corkBoardSubscription = this.userCorkBoardService.menuStateBSubject.subscribe(() => {
       this.userCorkBoardExpanded = this.userCorkBoardService.isOpen;
-    });
-    this.impersonatorSubscription = this.authenticationService.impersonator.subscribe((impersonator: User) => {
-      this.impersonator = impersonator;
     });
   }
 
@@ -139,16 +133,8 @@ export class ShellComponent {
     this.authenticationService.signOut(this.user.userId);
     this.router.navigate(['/login']);
   }
-
-  stopImpersonation() {
-    this.authenticationService.stopImpersonation();
-    this.user = this.authenticationService.currentUserSubject.getValue();
-  }
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
     this.corkBoardSubscription.unsubscribe();
-    if (this.impersonatorSubscription) {
-      this.impersonatorSubscription.unsubscribe();
-    }
   }
 }
