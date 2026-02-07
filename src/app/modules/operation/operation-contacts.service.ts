@@ -13,6 +13,8 @@ export interface OperationContactPutBody {
   operationContactPhoneNumber: string;
   operationContactEmail: string;
   operationContactTitle: string;
+  operationContactOrder: number;
+  operationContactActive: number;
 }
 export interface OperationContactPostBody {
   operationContactFirstName: string;
@@ -22,6 +24,8 @@ export interface OperationContactPostBody {
   operationContactPhoneNumber: string;
   operationContactEmail: string;
   operationContactTitle: string;
+  operationContactOrder: number;
+  operationContactActive: number;
 }
 
 @Injectable({

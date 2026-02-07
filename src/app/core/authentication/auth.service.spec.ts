@@ -4,6 +4,13 @@ import { of, throwError } from 'rxjs';
 import { AuthenticationService } from './auth.service';
 
 describe('AuthenticationService', () => {
+  const setWindowLocation = (href: string) => {
+    Object.defineProperty(window, 'location', {
+      value: { href },
+      writable: true
+    });
+  };
+
   const build = () => {
     const http = { post: jest.fn() } as any;
     const jwtHelper = { decodeToken: jest.fn() } as any;
@@ -18,6 +25,7 @@ describe('AuthenticationService', () => {
 
   beforeEach(() => {
     localStorage.clear();
+    setWindowLocation('');
   });
 
   it('logs in, decodes the token, and stores the hydrated user', async () => {
@@ -74,5 +82,20 @@ describe('AuthenticationService', () => {
     expect(localStorage.getItem('followup-user')).toBeNull();
     expect(localStorage.getItem('followup-token')).toBeNull();
     expect(service.currentUserValue).toBeNull();
+    expect(window.location.href).toBe('/login');
+  });
+
+  it('redirects and clears session data when logout fails', async () => {
+    const { service, http } = build();
+    localStorage.setItem('followup-user', JSON.stringify({ userId: 3 }));
+    localStorage.setItem('followup-token', 'token');
+    http.post.mockReturnValue(throwError(() => new HttpErrorResponse({ status: 503, error: 'down' })));
+
+    await service.doLogout('3').toPromise();
+
+    expect(localStorage.getItem('followup-user')).toBeNull();
+    expect(localStorage.getItem('followup-token')).toBeNull();
+    expect(service.currentUserValue).toBeNull();
+    expect(window.location.href).toBe('/login');
   });
 });

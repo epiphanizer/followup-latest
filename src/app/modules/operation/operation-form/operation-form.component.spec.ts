@@ -58,7 +58,7 @@ describe('OperationFormComponent logic', () => {
       operationActive: true
     } as any;
     component.notificationTypes = [{ notificationTypeId: 'n1' } as any];
-    component.createForm();
+    (component as any).createForm();
   });
 
   it('builds a sanitized operation payload', () => {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { Observable, throwError, BehaviorSubject, of } from 'rxjs';
 import { map, catchError, retry } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -23,6 +23,8 @@ export class AuthenticationService {
 
   public currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  public impersonatorSubject: BehaviorSubject<User>;
+  public impersonator: Observable<User>;
 
   constructor(
     private http: HttpService,
@@ -31,6 +33,8 @@ export class AuthenticationService {
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('followup-user')));
     this.currentUser = this.currentUserSubject.asObservable();
+    this.impersonatorSubject = new BehaviorSubject<User>(this.getStoredImpersonator());
+    this.impersonator = this.impersonatorSubject.asObservable();
   }
 
   ngOnInit() {}
@@ -41,6 +45,10 @@ export class AuthenticationService {
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
+  }
+
+  public get impersonatorValue(): User {
+    return this.impersonatorSubject.value;
   }
 
   doLogin(username: string, password: string): Observable<any> {
@@ -127,16 +135,44 @@ export class AuthenticationService {
       })
       .pipe(
         map(() => {
-          this.user$ = null;
-          this.authenticated = false;
-          localStorage.removeItem('followup-user');
-          localStorage.removeItem('followup-token');
-          localStorage.clear();
-          this.currentUserSubject.next(null);
-          window.location.href = '/login';
+          this.clearSessionAndRedirect();
         }),
-        catchError(e => this.handleAsyncError(e)) // then handle the error
+        catchError((error: HttpErrorResponse) => {
+          this.logLogoutError(error);
+          this.clearSessionAndRedirect();
+          return of(null);
+        })
       );
+  }
+
+  startImpersonation(targetUser: User, impersonator: User) {
+    if (!targetUser || !impersonator) {
+      return;
+    }
+    const now = Date.now();
+    targetUser.userLoginExpires = now + 900000;
+    localStorage.setItem('followup-impersonator', JSON.stringify(impersonator));
+    this.impersonatorSubject.next(impersonator);
+    this.currentUserSubject.next(targetUser);
+    localStorage.setItem('followup-user', JSON.stringify(targetUser));
+  }
+
+  stopImpersonation() {
+    const impersonator = this.impersonatorSubject.value || this.getStoredImpersonator();
+    if (!impersonator) {
+      return;
+    }
+    const now = Date.now();
+    impersonator.userLoginExpires = now + 900000;
+    localStorage.removeItem('followup-impersonator');
+    this.impersonatorSubject.next(null);
+    this.currentUserSubject.next(impersonator);
+    localStorage.setItem('followup-user', JSON.stringify(impersonator));
+  }
+
+  private getStoredImpersonator(): User {
+    const stored = localStorage.getItem('followup-impersonator');
+    return stored ? JSON.parse(stored) : null;
   }
 
   ngOnDestroy() {}
@@ -154,5 +190,25 @@ export class AuthenticationService {
     return throwError({
       message: 'We had trouble within the authentication service.'
     });
+  }
+
+  private clearSessionAndRedirect() {
+    this.user$ = null;
+    this.authenticated = false;
+    localStorage.removeItem('followup-user');
+    localStorage.removeItem('followup-token');
+    localStorage.removeItem('followup-impersonator');
+    localStorage.clear();
+    this.currentUserSubject.next(null);
+    this.impersonatorSubject.next(null);
+    window.location.href = '/login';
+  }
+
+  private logLogoutError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error('An error occurred:', error.error.message);
+    } else {
+      console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
+    }
   }
 }

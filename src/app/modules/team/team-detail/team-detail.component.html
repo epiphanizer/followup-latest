@@ -28,6 +28,9 @@
               {{ teamMember.teamMemberRoleLabel }}
             </span>
             <span (click)="postNote(teamMember)" class="post-it-note"><i class="post-it"></i> <a>Post a note</a></span>
+            <span *ngIf="canImpersonate" (click)="loginAsUser()" class="impersonate-user">
+              <a>Login as user</a>
+            </span>
             <div class="greeting">
               <span class="english" *ngIf="!teamMember.spanishSpeaking; else spanish">
                 Hello my name is...

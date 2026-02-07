@@ -132,7 +132,7 @@ describe('PatientDetailComponent', () => {
   });
 
   it('finishes call when next date exists and questions answered', () => {
-    const finalizeNavigateSpy = jest.spyOn<any>(component, 'finalizeCallAndNavigate').mockImplementation(() => {});
+    const finalizeNavigateSpy = jest.spyOn(component as any, 'finalizeCallAndNavigate').mockImplementation(() => {});
     component.patientNextCall.date = '01-02-2024';
     component.patientCall = { ...component.patientCall, finalCall: false } as any;
     component.patientCallNotes = { patientCallNotes: 'note' } as any;
