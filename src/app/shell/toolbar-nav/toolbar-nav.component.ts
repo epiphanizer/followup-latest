@@ -7,6 +7,7 @@ import { User, UserRoles, UserRolesMap } from '@app/modules/user/user';
 import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
 import { map, filter } from 'rxjs/operators';
 import { DataService } from '@app/modules/data/data.service';
+import { AuthenticationService } from '@app/core';
 import * as FileSaver from 'file-saver';
 
 @Component({
@@ -20,7 +21,8 @@ export class ToolbarNavComponent implements OnInit {
     public modalController: ModalController,
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private authService: AuthenticationService
   ) {}
 
   callQueuePage: boolean = false;
@@ -30,14 +32,19 @@ export class ToolbarNavComponent implements OnInit {
   patient: Patient;
   userRoles = UserRoles;
   user: User;
-  userRolesMap: any[] = [];
-  userRolesArray: any[] = [];
+  userRolesMap: Array<[string, number]> = [];
+  userRolesArray: Record<string, number> = {};
   @Output() dropdownEvent: EventEmitter<Boolean> = new EventEmitter(false);
 
   ngOnInit() {
-    this.user = this.route.snapshot.data.user;
-    this.userRolesMap = Object.entries(UserRolesMap);
-    this.userRolesArray = [];
+    this.user = this.authService.currentUserValue || this.route.snapshot.data.user;
+    this.authService.currentUser.subscribe((user: User) => {
+      if (user) {
+        this.user = user;
+      }
+    });
+    this.userRolesMap = Object.entries(UserRolesMap) as Array<[string, number]>;
+    this.userRolesArray = {};
     this.userRolesMap.forEach(userRole => {
       this.userRolesArray[userRole[0]] = userRole[1];
     });
@@ -144,6 +151,17 @@ export class ToolbarNavComponent implements OnInit {
   }
 
   ngAfterViewInit() {}
+
+  getUserRoleValue(user: User): number {
+    if (!user) {
+      return 0;
+    }
+    if (typeof user.userLevel === 'number') {
+      return user.userLevel;
+    }
+    const mappedRole = this.userRolesArray[String(user.userLevel)];
+    return mappedRole ? mappedRole : 0;
+  }
 
   createNotification() {
     this.createNotificationModal();

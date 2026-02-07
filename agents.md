@@ -54,6 +54,9 @@ Shared/core scaffolding
 
 ## Running change log (frontend)
 
+- 2026-02-06: Synced toolbar permissions to impersonated user and added return-to-admin action in the shell dropdown.
+- 2026-02-06: Guarded call queue patient fetches to avoid undefined operation IDs that can leave requests pending.
+
 - 2026-02-06: Logout now clears and redirects even when the API is down; added logout failure coverage; relaxed shell layout height to prevent banner clipping.
 - 2026-02-06: Added impersonation fallback to fetch user details when the API returns 405 for /users/impersonate.
 - 2026-02-06: Aligned notification modal sizing with followup-complete modal and enabled textarea autogrow.

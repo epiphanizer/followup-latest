@@ -20,6 +20,7 @@
       <ul class="user-dropdown-actions">
         <li (click)="addNewCorkBoardItem()">Add Photos</li>
         <li routerLink="/user/profile">Edit Profile</li>
+        <li *ngIf="impersonator" (click)="stopImpersonation()">Return to admin</li>
         <li (click)="signOut()">Logout</li>
       </ul>
     </div>

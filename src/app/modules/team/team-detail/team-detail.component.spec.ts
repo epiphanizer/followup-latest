@@ -33,9 +33,9 @@ const activatedRouteStub: Partial<ActivatedRoute> = {
   paramMap: of({ get: (key: string) => (key === 'teamId' ? 't1' : 'm1') }) as any
 };
 
-const authServiceStub = {
+const authServiceStub: { currentUserValue: any; impersonatorValue: any; startImpersonation: jest.Mock } = {
   currentUserValue: { userId: 'admin1', userLevel: UserRoles.admin },
-  impersonatorValue: null,
+  impersonatorValue: null as any,
   startImpersonation: jest.fn()
 };
 

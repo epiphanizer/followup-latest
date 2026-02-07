@@ -1,8 +1,9 @@
 jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { ActivationEnd } from '@angular/router';
 import * as FileSaver from 'file-saver';
+import { UserRoles } from '@app/modules/user/user';
 
 import { ToolbarNavComponent } from './toolbar-nav.component';
 
@@ -30,13 +31,42 @@ describe('ToolbarNavComponent logic', () => {
   };
   const routerMock: any = { events: of(new ActivationEnd({} as any, {} as any, 'root')), navigate: jest.fn() };
   const dataServiceMock: any = { getData: jest.fn(() => of(new Blob(['x'], { type: 'text/plain' }))) };
+  const authUserSubject = new BehaviorSubject<any>({ userId: 'u1', userLevel: UserRoles.admin });
+  const authServiceMock: any = {
+    currentUserSubject: authUserSubject,
+    currentUser: authUserSubject.asObservable(),
+    get currentUserValue() {
+      return authUserSubject.getValue();
+    }
+  };
 
   beforeEach(() => {
-    component = new ToolbarNavComponent(modalCtrlMock as any, routeMock as any, routerMock as any, dataServiceMock);
+    component = new ToolbarNavComponent(
+      modalCtrlMock as any,
+      routeMock as any,
+      routerMock as any,
+      dataServiceMock,
+      authServiceMock
+    );
     component.callQueuePage = true;
     component.createNotification = jest.fn();
     (FileSaver.saveAs as jest.Mock).mockClear();
     component.ngOnInit();
+  });
+
+  it('updates the user from auth service changes', () => {
+    expect(component.user.userLevel).toBe(UserRoles.admin);
+
+    authUserSubject.next({ userId: 'u2', userLevel: UserRoles.user });
+
+    expect(component.user.userId).toBe('u2');
+    expect(component.user.userLevel).toBe(UserRoles.user);
+  });
+
+  it('normalizes numeric user roles', () => {
+    authUserSubject.next({ userId: 'u3', userLevel: 2 });
+
+    expect(component.getUserRoleValue(component.user)).toBe(2);
   });
 
   it('initializes nav links and dropdowns', () => {

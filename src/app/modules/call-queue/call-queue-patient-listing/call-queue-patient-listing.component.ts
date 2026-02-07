@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import {
   PatientCallStatus,
@@ -56,6 +56,11 @@ export class CallQueuePatientListingComponent implements OnInit {
         })
       );
     } else {
+      if (!this.operation || !this.operation.operationId) {
+        this.patients = [];
+        this.patients$ = of([]);
+        return;
+      }
       this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
         take(1),
         map((patients: Patient[]) => {
@@ -73,6 +78,11 @@ export class CallQueuePatientListingComponent implements OnInit {
     if (changes.operation) {
       if (!changes.operation.firstChange) {
         this.operation = changes.operation.currentValue;
+        if (!this.operation || !this.operation.operationId) {
+          this.patients = [];
+          this.patients$ = of([]);
+          return;
+        }
         this.patients$ = this.patientService.getActivePatientListByOperationId(this.operation.operationId).pipe(
           map((patients: Patient[]) => {
             this.patients = patients;

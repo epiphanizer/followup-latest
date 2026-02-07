@@ -6,11 +6,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 import { HomeComponent } from './home.component';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { SharedFunctions } from '@app/shared/shared.functions';
 import { TeamService } from '@app/modules/team/team.service';
 import { UserService } from '@app/modules/user/user.service';
+import { AuthenticationService } from '@app/core/authentication/auth.service';
 
 class QuoteService {}
 const mockUser = {
@@ -18,6 +19,7 @@ const mockUser = {
   teams: [{ teamId: 'team1' }],
   operationGroups: []
 } as any;
+const mockUserSubject = new BehaviorSubject(mockUser);
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -55,6 +57,13 @@ describe('HomeComponent', () => {
               ] as any)
             ),
             getUserNotifications: jest.fn(() => of([]))
+          }
+        },
+        {
+          provide: AuthenticationService,
+          useValue: {
+            currentUserValue: mockUser,
+            currentUser: mockUserSubject.asObservable()
           }
         }
       ]

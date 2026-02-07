@@ -45,10 +45,18 @@ export class CallQueueComponent implements OnInit {
             });
         } else {
           this.user = this.route.snapshot.data.user;
-          let firstGroup = this.user.operationGroups[0];
-          let firstOperation = this.user.operations.find(
+          if (!this.user || !this.user.operationGroups?.length || !this.user.operations?.length) {
+            this.selected.operation = null;
+            return;
+          }
+          const firstGroup = this.user.operationGroups[0];
+          const firstOperation = this.user.operations.find(
             (operation: Operation) => operation.operationGroupId == firstGroup.operationGroupId
           );
+          if (!firstOperation) {
+            this.selected.operation = null;
+            return;
+          }
           this.operationService
             .getOperationByOperationId(firstOperation.operationId)
             .subscribe((operationResult: Operation | Operation[]) => {
