@@ -45,7 +45,14 @@ export class UserService {
         adminUserId: adminUserId,
         userId: userId
       })
-      .pipe(catchError(e => this.handleAsyncError(e)));
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 405) {
+            return this.http.get<User>('users/' + userId);
+          }
+          return this.handleAsyncError(error);
+        })
+      );
   }
 
   public getUserCalls(user: User): Observable<any> {

@@ -57,13 +57,16 @@ import { map } from 'rxjs/operators';
 export class OperationAdminSidebarComponent implements OnInit {
   availableOperations$: Observable<Operation[]>;
   activeOperationId: string;
+  activeOperationGroupId: string;
   editMode: boolean;
   @Output() operationChangeEvent = new EventEmitter<string>();
   @Output() operationGroupChangeEvent = new EventEmitter<string>();
   selected: {
     operation?: Operation | null;
+    operationGroup?: OperationGroup | null;
   } = {
-    operation: null
+    operation: null,
+    operationGroup: null
   };
   isTouched: boolean = false;
   operationGroups: OperationGroup[] = [];

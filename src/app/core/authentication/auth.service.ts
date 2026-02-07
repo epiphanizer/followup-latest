@@ -175,6 +175,23 @@ export class AuthenticationService {
     return stored ? JSON.parse(stored) : null;
   }
 
+  ngOnDestroy() {}
+
+  private handleAsyncError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
+    }
+    // return an observable with a user-facing error message
+    return throwError({
+      message: 'We had trouble within the authentication service.'
+    });
+  }
+
   private clearSessionAndRedirect() {
     this.user$ = null;
     this.authenticated = false;
@@ -193,22 +210,5 @@ export class AuthenticationService {
     } else {
       console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
     }
-  }
-
-  ngOnDestroy() {}
-
-  private handleAsyncError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
-    }
-    // return an observable with a user-facing error message
-    return throwError({
-      message: 'We had trouble within the authentication service.'
-    });
   }
 }

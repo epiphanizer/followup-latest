@@ -1,8 +1,7 @@
 :root {
-  padding-top: 55px;
-  --height: 450px !important;
+  --height: 440px !important;
+  max-height: 440px !important;
   width: 645px;
-  padding: 75px;
 }
 
 .notification-container {
@@ -61,7 +60,7 @@ ion-textarea {
   --padding-start: 12px;
   height: auto;
   min-height: 200px;
-  max-height: 200px;
+  max-height: 220px;
   width: 475px;
   margin: 0 auto;
   font-size: 13px;
@@ -72,12 +71,6 @@ ion-textarea {
   padding-top: 0;
   margin-top: 0.25rem;
   overflow: auto;
-  display: block;
-  height: 100%;
-
-  textarea {
-    height: 100%;
-  }
 }
 
 .notification-options {
@@ -178,7 +171,7 @@ h3 {
     padding-left: 12px;
     height: auto;
     min-height: 200px;
-    max-height: 200px;
+    max-height: 220px;
     width: 475px;
     margin: 0 auto;
     font-size: 13px;
@@ -186,12 +179,6 @@ h3 {
     background-color: #f5f5f5;
     margin-top: 0.75rem;
     overflow: auto;
-    display: block;
-    height: 100%;
-
-    textarea {
-      height: 100%;
-    }
   }
 }
 

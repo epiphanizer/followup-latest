@@ -5,7 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { AuthenticationService, CredentialsService, CoreModule } from '@app/core';
+import { AuthenticationService, CoreModule } from '@app/core';
 import { UserCorkBoardService } from './user-cork-board/user-cork-board.service';
 
 const userSubject = new BehaviorSubject<any>({ userId: 'u1', userLoginExpires: Date.now() + 10000 });
@@ -20,8 +20,6 @@ class MockAuthenticationService {
   signOut = jest.fn();
   stopImpersonation = jest.fn();
 }
-class MockCredentialsService {}
-
 import { ShellComponent } from './shell.component';
 
 describe('ShellComponent', () => {
@@ -33,7 +31,6 @@ describe('ShellComponent', () => {
       imports: [RouterTestingModule, TranslateModule.forRoot(), IonicModule.forRoot(), CoreModule],
       providers: [
         { provide: AuthenticationService, useClass: MockAuthenticationService },
-        { provide: CredentialsService, useClass: MockCredentialsService },
         {
           provide: UserCorkBoardService,
           useValue: {

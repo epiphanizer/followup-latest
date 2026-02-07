@@ -50,8 +50,11 @@ Shared/core scaffolding
 
 - Build: `npm run build`; Serve dev: `npm run serve` (proxy on 4200).
 - Working branch: feature/robot_work_1.
-- Before closing work, verify compilation/tests (or note if not run).
+- Before closing work, verify builds/tests or note why they were not run.
 
 ## Running change log (frontend)
 
 - 2026-02-06: Logout now clears and redirects even when the API is down; added logout failure coverage; relaxed shell layout height to prevent banner clipping.
+- 2026-02-06: Added impersonation fallback to fetch user details when the API returns 405 for /users/impersonate.
+- 2026-02-06: Aligned notification modal sizing with followup-complete modal and enabled textarea autogrow.
+- 2026-02-06: Restored login-as-user action in team detail, re-added impersonation plumbing, and fixed failing unit spec typings.
