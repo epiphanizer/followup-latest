@@ -195,7 +195,7 @@ ion-radio {
 }
 .review-container {
   margin-left: 40px;
-  max-height: 260px;
+  max-height: 240px;
   overflow-y: auto;
   padding-right: 8px;
 }
@@ -207,6 +207,11 @@ ion-radio {
   width: 100%;
   margin-bottom: 2rem;
   text-align: right;
+  position: sticky;
+  bottom: 0;
+  background: #ffffff;
+  padding-top: 8px;
+  z-index: 1;
 }
 
 .secondary.button {
