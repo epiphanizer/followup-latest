@@ -64,6 +64,34 @@
                 </ul>
               </div>
             </div>
+
+            <ion-row>
+              <div class="user-access" *ngIf="accessGroups?.length">
+                <h3 class="access-title">ACCESS</h3>
+                <div class="access-filters">
+                  <button
+                    class="access-filter"
+                    *ngFor="let role of accessFilterOptions"
+                    type="button"
+                    [class.is-active]="activeAccessFilter === role"
+                    (click)="setAccessFilter(role)"
+                  >
+                    {{ role }}
+                  </button>
+                </div>
+                <div class="access-groups" *ngIf="filteredAccessGroups?.length">
+                  <div class="access-group" *ngFor="let group of filteredAccessGroups">
+                    <div class="access-group-name">{{ group.groupName }}</div>
+                    <ul class="access-list">
+                      <li *ngFor="let access of group.entries">
+                        <span class="access-operation">{{ access.operationName }}</span>
+                        <span class="access-role">{{ access.roleLabel }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </ion-row>
           </div>
         </div>
       </div>

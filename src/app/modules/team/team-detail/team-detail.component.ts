@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { TeamService } from '../team.service';
 import { map, take } from 'rxjs/operators';
 import { UserService } from '@app/modules/user/user.service';
+import { OperationService } from '@app/modules/operation/operation.service';
 import { PostItModalComponent } from '@app/shell/post-it-modal/post-it-modal.component';
 import { SharedFunctions } from '@app/shared/shared.functions';
 import { AuthenticationService } from '@app/core';
@@ -35,6 +36,16 @@ export class TeamMemberDetailComponent implements OnInit {
    * get the user object for our user-avatar
    */
   user: User;
+  accessGroups: Array<{
+    groupName: string;
+    entries: Array<{ operationName: string; roleLabel: string }>;
+  }> = [];
+  filteredAccessGroups: Array<{
+    groupName: string;
+    entries: Array<{ operationName: string; roleLabel: string }>;
+  }> = [];
+  accessFilterOptions: string[] = ['All', 'Manager', 'Care Rep'];
+  activeAccessFilter: string = 'All';
   public selected:
     | {
         teamMember: TeamMember;
@@ -47,6 +58,7 @@ export class TeamMemberDetailComponent implements OnInit {
     private router: Router,
     private teamService: TeamService,
     private userService: UserService,
+    private operationService: OperationService,
     private sharedFunctions: SharedFunctions,
     private authenticationService: AuthenticationService
   ) {}
@@ -89,11 +101,15 @@ export class TeamMemberDetailComponent implements OnInit {
               map((user: User) => {
                 if (user !== null) {
                   this.user = user;
+                  this.accessGroups = [];
+                  this.filteredAccessGroups = [];
+                  this.activeAccessFilter = 'All';
                   if (this.user.userAdditionalInfo) {
                     this.teamInfoDecoded = this.sharedFunctions.returnHTML(this.user.userAdditionalInfo);
                   }
 
                   this.user.userInterests = JSON.parse(this.user.userInterests);
+                  this.loadAccessEntries();
                   // Write the switch
                   var val = '';
                   var i = 0;
@@ -153,6 +169,99 @@ export class TeamMemberDetailComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  private loadAccessEntries() {
+    if (!this.teamMember?.userId) {
+      return;
+    }
+    this.operationService
+      .getOperationsByUserId(this.teamMember.userId)
+      .pipe(take(1))
+      .subscribe((operations: Operation[]) => {
+        if (!operations?.length) {
+          this.accessGroups = [];
+          this.filteredAccessGroups = [];
+          this.activeAccessFilter = 'All';
+          return;
+        }
+        const grouped: Record<string, Array<{ operationName: string; roleLabel: string }>> = {};
+        operations.forEach(operation => {
+          const groupName = operation.operationGroupName || 'Other';
+          if (!grouped[groupName]) {
+            grouped[groupName] = [];
+          }
+          const roleLabel = this.resolveRoleLabel(operation);
+          if (!roleLabel) {
+            return;
+          }
+          grouped[groupName].push({
+            operationName: operation.operationName || 'Unnamed Operation',
+            roleLabel
+          });
+        });
+        this.accessGroups = Object.keys(grouped)
+          .sort((a, b) => a.localeCompare(b))
+          .map(groupName => ({
+            groupName,
+            entries: grouped[groupName].sort((a, b) => a.operationName.localeCompare(b.operationName))
+          }));
+        this.applyAccessFilters();
+      });
+  }
+
+  private resolveRoleLabel(operation: Operation | any): string | null {
+    if (operation.userRoleLabel) {
+      return this.normalizeRoleLabel(operation.userRoleLabel);
+    }
+    if (operation.operationUserRoleLabel) {
+      return this.normalizeRoleLabel(operation.operationUserRoleLabel);
+    }
+    if (operation.operationUserRoleLabelId) {
+      switch (Number(operation.operationUserRoleLabelId)) {
+        case 1:
+          return 'Admin';
+        case 2:
+          return 'Manager';
+        case 3:
+          return 'Care Rep';
+        default:
+          return null;
+      }
+    }
+    return null;
+  }
+
+  private applyAccessFilters() {
+    if (this.activeAccessFilter === 'All') {
+      this.filteredAccessGroups = this.accessGroups;
+      return;
+    }
+    this.filteredAccessGroups = this.accessGroups
+      .map(group => ({
+        groupName: group.groupName,
+        entries: group.entries.filter(entry => entry.roleLabel === this.activeAccessFilter)
+      }))
+      .filter(group => group.entries.length);
+  }
+
+  setAccessFilter(role: string) {
+    this.activeAccessFilter = role;
+    this.applyAccessFilters();
+  }
+
+  private normalizeRoleLabel(roleLabel: string): string | null {
+    const normalized = (roleLabel || '').toLowerCase();
+    if (normalized.includes('manager')) {
+      return 'Manager';
+    }
+    if (normalized.includes('care')) {
+      return 'Care Rep';
+    }
+    if (normalized.includes('admin')) {
+      return 'Admin';
+    }
+    return null;
   }
   async postItModal() {
     const modal = await this.modalController.create({
