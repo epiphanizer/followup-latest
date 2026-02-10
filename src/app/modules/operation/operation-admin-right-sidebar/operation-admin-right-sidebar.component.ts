@@ -219,37 +219,24 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
     if (!callRepUserId) {
       return;
     }
-    if (this.operationAssignedUsers[index]?.userId && this.operationAssignedUsers[index].userId !== 0) {
-      this.operationAssignedUsersToRemove.push(this.operationAssignedUsers[index].userId);
+    const previousUserId = this.operationAssignedUsers[index]?.userId;
+    if (previousUserId && previousUserId !== 0 && previousUserId !== callRepUserId) {
+      this.operationCallRepsService
+        .deleteOperationCallRepByOperationCallRepId(this.activeOperationId, previousUserId)
+        .subscribe(() => {});
     }
     var operationCallRepObject = {
       operationId: this.activeOperationId,
       userId: callRepUserId
     };
     this.operationAssignedUsers[index] = operationCallRepObject;
-    // Passes E2E
-    if (this.operationAssignedUsersToRemove?.length) {
-      this.operationAssignedUsersToRemove.forEach((callRepUserId: string, index: number) => {
-        if (callRepUserId == '') {
-          return;
-        }
-        this.operationCallRepsService
-          .deleteOperationCallRepByOperationCallRepId(this.activeOperationId, callRepUserId)
-          .subscribe(() => {});
-      });
-    }
     if (this.operationAssignedUsersOriginal?.length) {
       /**
        * Make sure we only add uniques
        */
-      this.operationAssignedUsersToAdd = this.operationAssignedUsers.filter(
-        (operationCallRep: OperationCallRep, index: number) => {
-          return (
-            !this.operationAssignedUsersOriginal[index].includes(operationCallRep.userId) &&
-            operationCallRep.userId !== ''
-          );
-        }
-      );
+      this.operationAssignedUsersToAdd = this.operationAssignedUsers.filter((operationCallRep: OperationCallRep) => {
+        return operationCallRep.userId !== '' && !this.operationAssignedUsersOriginal.includes(operationCallRep.userId);
+      });
     } else {
       this.operationAssignedUsersToAdd = this.operationAssignedUsers;
     }
@@ -265,6 +252,7 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
           count++;
           if (count == this.operationAssignedUsersToAdd?.length) {
             this.toastr.success('Care Reps successfully saved');
+            this.updateAssignedUsers();
           }
         });
     });
