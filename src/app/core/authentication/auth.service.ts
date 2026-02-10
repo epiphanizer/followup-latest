@@ -145,9 +145,9 @@ export class AuthenticationService {
       );
   }
 
-  startImpersonation(targetUser: User, impersonator: User) {
+  startImpersonation(targetUser: User, impersonator: User): Promise<User> {
     if (!targetUser || !impersonator) {
-      return;
+      return Promise.resolve(null);
     }
     const now = Date.now();
     targetUser.userLoginExpires = now + 900000;
@@ -155,12 +155,13 @@ export class AuthenticationService {
     this.impersonatorSubject.next(impersonator);
     this.currentUserSubject.next(targetUser);
     localStorage.setItem('followup-user', JSON.stringify(targetUser));
+    return this.refreshUserContext(targetUser);
   }
 
-  stopImpersonation() {
+  stopImpersonation(): Promise<User> {
     const impersonator = this.impersonatorSubject.value || this.getStoredImpersonator();
     if (!impersonator) {
-      return;
+      return Promise.resolve(null);
     }
     const now = Date.now();
     impersonator.userLoginExpires = now + 900000;
@@ -168,11 +169,69 @@ export class AuthenticationService {
     this.impersonatorSubject.next(null);
     this.currentUserSubject.next(impersonator);
     localStorage.setItem('followup-user', JSON.stringify(impersonator));
+    return this.refreshUserContext(impersonator);
   }
 
   private getStoredImpersonator(): User {
     const stored = localStorage.getItem('followup-impersonator');
     return stored ? JSON.parse(stored) : null;
+  }
+
+  private refreshUserContext(user: User): Promise<User> {
+    if (!user) {
+      return Promise.resolve(null);
+    }
+    localStorage.removeItem('operationGroups');
+    return new Promise(resolve => {
+      this._operationService.getOperationsByUserId(user.userId).subscribe({
+        next: (res: Operation[]) => {
+          if (res) {
+            user.operations = res;
+          }
+          this._operationService.getOperationGroups().subscribe({
+            next: (groups: OperationGroup[]) => {
+              if (groups) {
+                user.operationGroups = groups;
+              }
+              if (user.operationGroups?.length) {
+                user.operationGroups.forEach((operationGroup: OperationGroup) => {
+                  operationGroup.operations = (user.operations || [])
+                    .filter((operation: Operation) => {
+                      return operationGroup.operationGroupId == operation.operationGroupId;
+                    })
+                    .sort(function(a: Operation, b: Operation) {
+                      if (a.operationName < b.operationName) {
+                        return -1;
+                      }
+                      if (a.operationName > b.operationName) {
+                        return 1;
+                      }
+                      return 0;
+                    });
+                });
+
+                user.operationGroups = user.operationGroups.filter((operationGroup: OperationGroup) => {
+                  return operationGroup.operations?.length > 0;
+                });
+              }
+              localStorage.setItem('followup-user', JSON.stringify(user));
+              this.currentUserSubject.next(user);
+              resolve(user);
+            },
+            error: () => {
+              localStorage.setItem('followup-user', JSON.stringify(user));
+              this.currentUserSubject.next(user);
+              resolve(user);
+            }
+          });
+        },
+        error: () => {
+          localStorage.setItem('followup-user', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+          resolve(user);
+        }
+      });
+    });
   }
 
   ngOnDestroy() {}

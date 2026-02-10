@@ -188,8 +188,7 @@ export class TeamMemberDetailComponent implements OnInit {
         if (!user) {
           return;
         }
-        this.authenticationService.startImpersonation(user, adminUser);
-        this.userService.updateOperations(user).then(() => {
+        this.authenticationService.startImpersonation(user, adminUser).then(() => {
           this.router.navigate(['/home']);
         });
       });
