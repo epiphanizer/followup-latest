@@ -16,7 +16,8 @@ describe('OperationAdminRightSidebarComponent', () => {
     ),
     getOperationManagersByOperationId: jest.fn(() => of([{ userId: 'm1', userLastName: 'Beta' }])),
     assignManagerToOperationByOperationIdAndUserId: jest.fn(() => of({})),
-    removeCallRepOrManager: jest.fn(() => of(true))
+    removeCallRepOrManager: jest.fn(() => of(true)),
+    removeManagerByOperationIdAndUserId: jest.fn(() => of(true))
   };
   const operationCallRepsServiceMock: any = {
     deleteOperationCallRepByOperationCallRepId: jest.fn(() => of({})),
@@ -67,7 +68,7 @@ describe('OperationAdminRightSidebarComponent', () => {
     component.operationManagers = [{ userId: 'm1', operationId: 'op1' } as any];
     component.operationManagersOriginal = ['m1'];
 
-    component.managerOnSelect({ target: { value: 'm2' } }, 0);
+    component.managerOnSelect({ detail: { value: 'm2' } }, 0);
     expect(operationServiceMock.assignManagerToOperationByOperationIdAndUserId).toHaveBeenCalledWith('op1', 'm2');
 
     const initial = component.managerSidebarDropdownOpen;

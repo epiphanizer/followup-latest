@@ -65,6 +65,11 @@ export class OperationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
+  public removeManagerByOperationIdAndUserId(operationId: string, userId: string) {
+    return this.http.delete('operations/' + operationId + '/managers/' + userId, {}).pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   public getOperationManagersByOperationId(operationId: string): Observable<OperationManager[]> {
     return this.http.get<OperationManager[]>('operations/' + operationId + '/managers').pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error

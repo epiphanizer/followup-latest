@@ -199,7 +199,7 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
   }
 
   callRepOnSelect(event: any, index: number) {
-    let callRepUserId = event.target.value;
+    let callRepUserId = event?.detail?.value ?? event?.target?.value;
     if (this.operationAssignedUsers[index].userId !== 0) {
       this.operationAssignedUsersToRemove.push(this.operationAssignedUsers[index].userId);
     }
@@ -268,7 +268,10 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
     this.operationManagers.push(newManager);
   }
   managerOnSelect(event: any, index: number) {
-    let managerUserId = event.target.value;
+    let managerUserId = event?.detail?.value ?? event?.target?.value;
+    if (this.operationManagers[index]?.userId && this.operationManagers[index].userId !== 0) {
+      this.operationManagersToRemove.push(this.operationManagers[index].userId);
+    }
 
     var operationManagerObject = {
       operationId: this.operation.operationId,
@@ -277,11 +280,13 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
     this.operationManagers[index] = operationManagerObject;
     // Passes E2E
     if (this.operationManagersToRemove?.length) {
-      this.operationManagersToRemove.forEach((manager: string, index: number) => {
+      this.operationManagersToRemove.forEach((manager: string) => {
         if (manager == '') {
           return;
         }
-        this.operationService.removeCallRepOrManager(this.operation.operationId, manager).subscribe(() => {});
+        this.operationService
+          .removeManagerByOperationIdAndUserId(this.operation.operationId, manager)
+          .subscribe(() => {});
       });
     }
 
@@ -292,12 +297,9 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
       this.operationManagersToAdd = this.operationManagers.filter(
         (operationManager: OperationManager, index: number) => {
           if (this.operationManagersOriginal[index]) {
-            return (
-              !this.operationManagersOriginal[index].includes(operationManager.userId) && operationManager.userId !== ''
-            );
-          } else {
-            return operationManager;
+            return this.operationManagersOriginal[index] !== operationManager.userId && operationManager.userId !== '';
           }
+          return operationManager.userId !== '';
         }
       );
     } else {
@@ -326,7 +328,11 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
     this.callRepSidebarDropdownOpen = !this.callRepSidebarDropdownOpen;
   };
   public removeCallRepOrManager(type: string, idx: number, userId: string) {
-    this.operationService.removeCallRepOrManager(this.operation.operationId, userId).subscribe(res => {
+    const request =
+      type === 'manager'
+        ? this.operationService.removeManagerByOperationIdAndUserId(this.operation.operationId, userId)
+        : this.operationService.removeCallRepOrManager(this.operation.operationId, userId);
+    request.subscribe(res => {
       if (res) {
         this.toastr.success('Successfully removed the user.');
         switch (type) {
