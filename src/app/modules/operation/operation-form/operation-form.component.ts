@@ -91,7 +91,7 @@ export class OperationFormComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.operationGroups = this.user.operationGroups;
 
-    this.userService.getAllUsers().subscribe((users: User[]) => {
+    this.userService.getActiveUsers().subscribe((users: User[]) => {
       this.availableUsers = users;
     });
 

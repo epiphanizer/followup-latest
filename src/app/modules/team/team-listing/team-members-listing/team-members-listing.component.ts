@@ -20,10 +20,10 @@ export class TeamMembersListingComponent implements OnInit {
   public teamMembersFiltered: TeamMember[];
   public pageOfItems: Team[];
   // asc or desc
-  selectedSortFlag: string;
+  selectedSortFlag: string = 'asc';
   // column by which we will search
   cols: string[] = ['Hired', 'Name', 'Position', 'Birthday', 'Languages'];
-  selectedSortOption: string = this.cols[0];
+  selectedSortOption: string = 'Position';
 
   constructor(
     private modalController: ModalController,
@@ -145,19 +145,33 @@ export class TeamMembersListingComponent implements OnInit {
     }
   };
   sortTeamByTeamMemberPosition = function() {
-    if (this.selectedSortFlag == 'desc') {
-      this.teamMembersFiltered = this.teamMembers
-        .sort((a: TeamMember, b: TeamMember) => {
-          return <any>b.teamMemberRoleLabel.localeCompare(a.teamMemberRoleLabel);
-        })
-        .slice();
-    } else {
-      this.teamMembersFiltered = this.teamMembers
-        .sort((a: TeamMember, b: TeamMember) => {
-          return <any>a.teamMemberRoleLabel.localeCompare(b.teamMemberRoleLabel);
-        })
-        .slice();
-    }
+    const getRank = (roleLabel?: string) => {
+      const role = (roleLabel || '').toLowerCase();
+      if (role.includes('admin')) {
+        return 0;
+      }
+      if (role.includes('manager')) {
+        return 1;
+      }
+      if (role.includes('care')) {
+        return 2;
+      }
+      return 3;
+    };
+    const sortDirection = this.selectedSortFlag == 'desc' ? -1 : 1;
+    this.teamMembersFiltered = this.teamMembers
+      .sort((a: TeamMember, b: TeamMember) => {
+        const rankDiff = (getRank(a.teamMemberRoleLabel) - getRank(b.teamMemberRoleLabel)) * sortDirection;
+        if (rankDiff !== 0) {
+          return rankDiff;
+        }
+        const lastNameDiff = (a.teamMemberLastName || '').localeCompare(b.teamMemberLastName || '');
+        if (lastNameDiff !== 0) {
+          return lastNameDiff;
+        }
+        return (a.teamMemberFirstName || '').localeCompare(b.teamMemberFirstName || '');
+      })
+      .slice();
   };
   sortTeamByTeamMemberBirthday = function() {
     if (this.selectedSortFlag == 'desc') {

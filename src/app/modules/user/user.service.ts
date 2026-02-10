@@ -23,6 +23,11 @@ export class UserService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
+  getActiveUsers(): Observable<User[]> {
+    return this.http.get<User[]>('users/active').pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
   // getAllManagerUsers(): Observable<User[]> {
   //   return this.http.get<User[]>('users/managers').pipe(
   //     catchError(e => this.handleAsyncError(e)) // then handle the error

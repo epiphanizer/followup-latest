@@ -22,6 +22,17 @@ describe('UserService (Jest)', () => {
     });
   });
 
+  it('loads active users', done => {
+    const http = makeHttp();
+    const svc = new UserService(http as any, {} as any);
+
+    svc.getActiveUsers().subscribe((result: any) => {
+      expect(result).toEqual([]);
+      expect(http.get).toHaveBeenCalledWith('users/active');
+      done();
+    });
+  });
+
   it('sends user message', done => {
     const http = makeHttp();
     const svc = new UserService(http as any, {} as any);
