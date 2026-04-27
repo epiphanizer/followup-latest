@@ -89,6 +89,7 @@ export interface Patient {
 export interface PatientDischargeLabel {
   patientDischargeLabelId: string;
   patientDischargeLabel: string;
+  patientDischargeLabelActive?: number | boolean;
 }
 
 export enum PatientRelationshipTypes {

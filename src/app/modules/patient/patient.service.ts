@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry, take } from 'rxjs/operators';
+import { catchError, map, retry, take } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Patient, PatientDischargeLabel } from './patient';
 import { PatientPutBody } from './patient-form/patient-form';
@@ -57,6 +57,14 @@ export class PatientService {
   }
   getPatientDischargeLabels(): Observable<PatientDischargeLabel[]> {
     return this.http.get<PatientDischargeLabel[]>('patients/discharge/labels').pipe(
+      map((labels: PatientDischargeLabel[]) => {
+        return (labels || []).filter((label: PatientDischargeLabel) => {
+          if (typeof label.patientDischargeLabelActive === 'undefined') {
+            return true;
+          }
+          return Number(label.patientDischargeLabelActive) === 1;
+        });
+      }),
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

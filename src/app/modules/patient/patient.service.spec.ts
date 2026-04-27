@@ -121,10 +121,13 @@ describe('PatientService (Jest)', () => {
   });
 
   it('fetches discharge labels', () => {
-    const mockLabels = [{ id: 'l1' } as any];
+    const mockLabels = [
+      { patientDischargeLabelId: 'l1', patientDischargeLabel: 'Home', patientDischargeLabelActive: 1 } as any,
+      { patientDischargeLabelId: 'l2', patientDischargeLabel: 'Hospice', patientDischargeLabelActive: 0 } as any
+    ];
 
     service.getPatientDischargeLabels().subscribe(result => {
-      expect(result).toEqual(mockLabels);
+      expect(result).toEqual([mockLabels[0]] as any);
     });
 
     const req = httpMock.expectOne('patients/discharge/labels');
