@@ -101,8 +101,11 @@
           </ion-item>
           <div class="language-container">
             <ion-item class="speaks-english">
-              <ion-checkbox formControlName="patientSpeaksEnglish"></ion-checkbox>
-              <ion-label>Doesn't Speaks English</ion-label>
+              <ion-checkbox
+                formControlName="patientSpeaksEnglish"
+                (ionChange)="onPatientLanguageToggle()"
+              ></ion-checkbox>
+              <ion-label>Doesn't Speak English</ion-label>
             </ion-item>
             <ion-item
               class="fluent-language"
@@ -110,10 +113,21 @@
             >
               <ion-label position="stacked">Fluent Language <span style="color:#f1624a">*</span></ion-label>
               <ion-select formControlName="patientFluentLanguage" placeholder="Fluent Language">
-                <ion-select-option selected value="English">English</ion-select-option>
+                <ion-select-option value="English">English</ion-select-option>
                 <ion-select-option value="Spanish">Spanish</ion-select-option>
                 <ion-select-option value="Navajo">Navajo</ion-select-option>
               </ion-select>
+            </ion-item>
+            <ion-item
+              class="clear-language"
+              *ngIf="
+                patientForm.get('patient.patientSpeaksEnglish').value &&
+                patientForm.get('patient.patientFluentLanguage').value
+              "
+            >
+              <ion-button type="button" fill="clear" size="small" (click)="clearPatientFluentLanguage()"
+                >Clear Language</ion-button
+              >
             </ion-item>
           </div>
           <div class="section-header contacts">
