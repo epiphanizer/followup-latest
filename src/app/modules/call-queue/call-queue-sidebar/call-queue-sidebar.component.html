@@ -53,7 +53,7 @@
                   <span class="current-patients">
                     {{ operation.currentAssignedPatientCount }}
                   </span>
-                  <span class="discharge-indicator" *ngIf="operation.currentNewDischargeCount">
+                  <span class="discharge-indicator" *ngIf="hasNewDischarges(operation)">
                     <i class="indicator"></i>
                   </span>
                 </div>

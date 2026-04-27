@@ -82,15 +82,31 @@ export class CallQueuePatientFilterComponent implements OnInit {
   }
 
   searchPatientCallHistoryBySelectedDate(selectedDate: string): PatientCall[] {
-    let selectedDateObj = new Date(selectedDate);
-    let transformedDate = this.datePipe.transform(selectedDateObj, 'yyyy-MM-dd');
+    const selectedDateObj = selectedDate ? new Date(selectedDate) : new Date();
+    const transformedDate = this.datePipe.transform(selectedDateObj, 'yyyy-MM-dd');
     if (this.patientCalls) {
       this.patientCallsFiltered = this.patientCalls.filter((patientCall: PatientCall) => {
-        if (patientCall.patientCallEndTime) {
-          return patientCall.patientCallEndTime.toString().indexOf(transformedDate) !== -1;
-        } else {
-          return patientCall.patientCallScheduledTime.toString().indexOf(transformedDate) !== -1;
+        const endedDate = patientCall.patientCallEndTime
+          ? this.datePipe.transform(new Date(patientCall.patientCallEndTime), 'yyyy-MM-dd')
+          : null;
+        const scheduledDate = patientCall.patientCallScheduledTime
+          ? this.datePipe.transform(new Date(patientCall.patientCallScheduledTime), 'yyyy-MM-dd')
+          : null;
+
+        if (endedDate) {
+          return endedDate === transformedDate;
         }
+
+        if (!scheduledDate) {
+          return false;
+        }
+
+        if (this.mode?.spanish) {
+          // Spanish history should include upcoming scheduled calls from the selected day forward.
+          return scheduledDate >= transformedDate;
+        }
+
+        return scheduledDate === transformedDate;
       });
     }
     return this.patientCallsFiltered;

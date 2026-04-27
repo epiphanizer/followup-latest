@@ -32,6 +32,7 @@ describe('CallQueueSidebarComponent (Jest)', () => {
       expect(comp.selected.operation?.operationId).toBe('op-1');
       expect(comp.activeOperationId).toBe('op-1');
       expect(operationService.getOperationGroups).toHaveBeenCalled();
+      expect(operationService.getActiveOperationsByOperationGroupId).toHaveBeenCalled();
       done();
     }, 0);
   });
@@ -53,5 +54,17 @@ describe('CallQueueSidebarComponent (Jest)', () => {
     comp.toggleOperationSidebarMenu(group);
     expect(group.sidebarDropdownOpen).toBe(true);
     expect(comp.isTouched).toBe(true);
+  });
+
+  it('treats new discharge count as numeric', () => {
+    const route = { snapshot: { data: { user: {} } }, paramMap: { subscribe: jest.fn() } } as any;
+    const operationService = {} as any;
+    const patientService = {} as any;
+    const comp = new CallQueueSidebarComponent(route, operationService, patientService);
+
+    expect(comp.hasNewDischarges({ currentNewDischargeCount: 0 } as any)).toBe(false);
+    expect(comp.hasNewDischarges({ currentNewDischargeCount: '0' as any } as any)).toBe(false);
+    expect(comp.hasNewDischarges({ currentNewDischargeCount: 1 } as any)).toBe(true);
+    expect(comp.hasNewDischarges({ currentNewDischargeCount: '1' as any } as any)).toBe(true);
   });
 });

@@ -15,8 +15,6 @@ import { ActivatedRoute } from '@angular/router';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { PatientService } from '@app/modules/patient/patient.service';
 
-import { map } from 'rxjs/operators';
-
 @Component({
   providers: [OperationService],
   selector: 'app-call-queue-sidebar',
@@ -84,40 +82,48 @@ export class CallQueueSidebarComponent {
   ngOnInit() {
     /** Init to the first user operation (alphabetically,) */
     this.user = this.route.snapshot.data.user;
-    if (!localStorage.getItem('operationGroups')) {
-      this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
-        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-          operationGroup.operations$ = this.operationService
-            .getActiveOperationsByOperationGroupId(operationGroup, this.user)
-            .pipe(
-              map((operations: Operation[]) => {
-                if (operations) {
-                  if (idx == 0 && !this.selected.operation) {
-                    this.selected.operation = operations[0];
-                    this.activeOperationId = this.selected.operation.operationId;
-                  }
-                  return operations;
-                }
-              })
-            );
-        });
-        this.operationGroups = operationGroups;
+    this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
+      if (!operationGroups?.length) {
+        this.operationGroups = [];
+        return;
+      }
+      operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+        this.operationService
+          .getActiveOperationsByOperationGroupId(operationGroup, this.user)
+          .subscribe((operations: Operation[]) => {
+            operationGroup.operations = (operations || []).map((operation: Operation) => {
+              return {
+                ...operation,
+                // Defensive coercion: DB values can be returned as strings.
+                currentNewDischargeCount: Number(operation.currentNewDischargeCount) || 0,
+                currentAssignedPatientCount: Number(operation.currentAssignedPatientCount) || 0
+              };
+            });
+            if (idx == 0 && !this.selected.operation && operationGroup.operations.length) {
+              this.selected.operation = operationGroup.operations[0];
+              this.activeOperationId = this.selected.operation.operationId;
+            }
+          });
       });
-    } else {
-      this.operationGroups = this.user.operationGroups;
-    }
+      this.operationGroups = operationGroups;
+    });
 
     this.route.paramMap.subscribe((data: any) => {
       var operationId;
       if (data.params.operationId) {
         operationId = data.params.operationId;
       } else {
-        let firstGroup = this.user.operationGroups[0];
-        let firstOperation = this.user.operations.find(
-          (operation: Operation) => operation.operationGroupId == firstGroup.operationGroupId
-        );
+        let firstGroup = this.operationGroups?.[0] || this.user.operationGroups[0];
+        let firstOperation =
+          firstGroup?.operations?.[0] ||
+          this.user.operations.find(
+            (operation: Operation) => operation.operationGroupId == firstGroup.operationGroupId
+          );
+        if (!firstOperation) {
+          return;
+        }
         operationId = firstOperation.operationId;
-        this.operations = this.user.operationGroups[0].operations;
+        this.operations = firstGroup?.operations || [];
       }
       this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation | Operation[]) => {
         const operation = Array.isArray(data) ? data[0] : data;
@@ -146,6 +152,13 @@ export class CallQueueSidebarComponent {
   };
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
     if (!this.isTouched) this.isTouched = true;
+    if (!operationGroup) {
+      return;
+    }
     operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
+  }
+
+  hasNewDischarges(operation: Operation): boolean {
+    return Number(operation?.currentNewDischargeCount) > 0;
   }
 }
