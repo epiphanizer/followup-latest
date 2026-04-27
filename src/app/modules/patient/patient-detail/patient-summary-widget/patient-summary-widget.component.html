@@ -30,11 +30,8 @@
             >{{ patient.patientGender == 'male' ? 'Male' : 'Female' }}&nbsp;&nbsp;&nbsp;
           </span>
         </span>
-        <span
-          class="patient-contact-number"
-          *ngIf="patient.patientCountryCode && patient.patientAreaCode && patient.patientPhoneNumber"
-        >
-          {{ patient.patientCountryCode }}-{{ patient.patientAreaCode }}-{{ patient.patientPhoneNumber }}
+        <span class="patient-contact-number" *ngIf="patientDisplayPhone">
+          {{ patientDisplayPhone }}
         </span>
 
         <ng-container *ngIf="patient.patientHIPAA">
