@@ -14,7 +14,10 @@ describe('OperationFormComponent logic', () => {
     addNewOperation: jest.fn(() => of({ operationId: 'op1' })),
     editOperationByOperationId: jest.fn(() => of({})),
     getOperationByOperationId: jest.fn(() => of({ operationId: 'op1' })),
-    addNewOperationGroup: jest.fn(() => of([{ operationGroupId: 'og1', operationGroupName: 'Ops' }]))
+    addNewOperationGroup: jest.fn(() => of([{ operationGroupId: 'og1', operationGroupName: 'Ops' }])),
+    editOperationGroupByOperationGroupId: jest.fn(() =>
+      of([{ operationGroupId: 'og1', operationGroupName: 'PACS', operationGroupShortName: 'WZ PACS' }])
+    )
   };
   const operationContactsServiceMock: any = {
     getOperationContactsByOperationId: jest.fn(() => of([])),
@@ -43,7 +46,7 @@ describe('OperationFormComponent logic', () => {
       cdrMock
     );
 
-    component.user = { userId: 'u1', operationGroups: [] } as any;
+    component.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] } as any;
     component.operation = {
       operationId: 'op1',
       operationGroupId: 'og1',
@@ -139,6 +142,56 @@ describe('OperationFormComponent logic', () => {
 
     component.closeOperationGroupForm();
     expect(component.addOperationGroupModalOn).toBe(false);
+  });
+
+  it('prefills edit operation group form from selected ownership', () => {
+    component.operationGroups = [
+      {
+        operationGroupId: 'og1',
+        operationGroupName: 'Providence',
+        operationGroupShortName: 'PROV'
+      }
+    ] as any;
+    component.operationForm.get('operation.operationGroupId').setValue('og1');
+
+    component.editOperationGroupForm();
+
+    expect(component.editOperationGroupModalOn).toBe(true);
+    expect(component.selectedOperationGroupToEditId).toBe('og1');
+    expect(component.editOperationGroupFormControl.get('operationGroupName').value).toBe('Providence');
+    expect(component.editOperationGroupFormControl.get('operationGroupShortName').value).toBe('PROV');
+  });
+
+  it('renames operation group and updates local caches', () => {
+    component.operationGroups = [
+      {
+        operationGroupId: 'og1',
+        operationGroupName: 'Providence',
+        operationGroupShortName: 'PROV'
+      }
+    ] as any;
+    component.operation.operationGroupId = 'og1';
+    component.operationForm.get('operation.operationGroupId').setValue('og1');
+    localStorage.clear();
+
+    component.editOperationGroupForm();
+    component.editOperationGroupFormControl.patchValue({
+      operationGroupName: 'PACS',
+      operationGroupShortName: 'WZ PACS'
+    });
+
+    component.editOperationGroup();
+
+    expect(operationServiceMock.editOperationGroupByOperationGroupId).toHaveBeenCalledWith('og1', {
+      operationGroupName: 'PACS',
+      operationGroupShortName: 'WZ PACS'
+    });
+    expect(component.operationGroups[0].operationGroupName).toBe('PACS');
+    expect(component.operation.operationGroupName).toBe('PACS');
+    expect(component.operation.operationGroupShortName).toBe('WZ PACS');
+    expect(localStorage.getItem('operationGroups')).toContain('PACS');
+    expect(userServiceMock.updateOperations).toHaveBeenCalledWith(component.user);
+    expect(component.editOperationGroupModalOn).toBe(false);
   });
 
   it('adds additional operation contacts with default notifications', () => {

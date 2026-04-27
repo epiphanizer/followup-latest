@@ -7,6 +7,7 @@ export interface Operation {
   operationId: string;
   operationGroupId: string;
   operationGroupName?: string;
+  operationGroupShortName?: string;
   operationName?: string;
   operationAddress?: string;
   operationCity?: string;
@@ -58,6 +59,11 @@ export interface OperationGroup {
   operations$?: Observable<Operation[]>;
   // control state for the sidebar
   sidebarDropdownOpen?: Boolean;
+}
+
+export interface OperationGroupPutBody {
+  operationGroupName: string;
+  operationGroupShortName: string;
 }
 
 export interface OperationManager extends User {
