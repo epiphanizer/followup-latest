@@ -381,7 +381,7 @@ export class OperationFormComponent implements OnInit {
     }
   }
 
-  operationGroupOnSelect(event: any, index: number) {
+  operationGroupOnSelect(event: any) {
     let operationGroupId = event.detail.value;
     this.operation.operationGroupId = operationGroupId;
   }
