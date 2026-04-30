@@ -48,6 +48,24 @@ describe('OperationService (Jest)', () => {
     });
   });
 
+  it('updates operation group labels by id', done => {
+    const http = makeHttp();
+    const svc = new OperationService(http as any);
+
+    svc
+      .editOperationGroupByOperationGroupId('og-1', {
+        operationGroupName: 'PACS',
+        operationGroupShortName: 'WZ PACS'
+      } as any)
+      .subscribe(() => {
+        expect(http.put).toHaveBeenCalledWith('operations/groups/og-1', {
+          operationGroupName: 'PACS',
+          operationGroupShortName: 'WZ PACS'
+        });
+        done();
+      });
+  });
+
   it('handles async errors', done => {
     const http = { get: jest.fn(() => throwError(() => new HttpErrorResponse({ status: 500, error: 'fail' }))) } as any;
     const svc = new OperationService(http as any);

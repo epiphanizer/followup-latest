@@ -2,7 +2,14 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../user/user';
-import { Operation, OperationPutBody, OperationManager, OperationGroup, OperationCallRep } from './operation';
+import {
+  Operation,
+  OperationPutBody,
+  OperationManager,
+  OperationGroup,
+  OperationCallRep,
+  OperationGroupPutBody
+} from './operation';
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -24,6 +31,15 @@ export class OperationService {
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
+  }
+
+  editOperationGroupByOperationGroupId(
+    operationGroupId: string,
+    operationGroupPutBody: OperationGroupPutBody
+  ): Observable<OperationGroup> {
+    return this.http.put<OperationGroup>('operations/groups/' + operationGroupId, operationGroupPutBody).pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
   }
 
   public assignManagerToOperationByOperationIdAndUserId(operationId: string, userId: string) {

@@ -21,6 +21,7 @@ import {
   Operation,
   OperationManager,
   OperationGroup,
+  OperationGroupPutBody,
   OperationCallRep
 } from '../operation';
 import { OperationContact } from '../operation-contact/operation-contact';
@@ -28,6 +29,7 @@ import { NotificationRecipientService } from '@app/modules/notification/notifica
 import { NotificationType } from '@app/modules/notification/notification';
 import { ToastrService } from 'ngx-toastr';
 import { ModalController } from '@ionic/angular';
+import { UserRoles } from '@app/modules/user/user';
 
 @Component({
   providers: [
@@ -46,6 +48,10 @@ export class OperationFormComponent implements OnInit {
   addOperationGroupModal: ModalController;
   addOperationGroupModalOn: boolean = false;
   addOperationGroupFormControl: FormGroup;
+  editOperationGroupModalOn: boolean = false;
+  editOperationGroupFormControl: FormGroup;
+  selectedOperationGroupToEditId: string | null = null;
+  userRoles: typeof UserRoles = UserRoles;
   availableUsers: User[];
   availableManagers: User[];
   operation: Operation;
@@ -375,7 +381,7 @@ export class OperationFormComponent implements OnInit {
     }
   }
 
-  operationGroupOnSelect(event: any, index: number) {
+  operationGroupOnSelect(event: any) {
     let operationGroupId = event.detail.value;
     this.operation.operationGroupId = operationGroupId;
   }
@@ -688,9 +694,72 @@ export class OperationFormComponent implements OnInit {
       operationGroupShortName: this.fb.control('')
     });
   }
+
+  editOperationGroupForm() {
+    const operationGroup = this.getSelectedOperationGroup();
+    if (!operationGroup?.operationGroupId) {
+      this.toastr.error('Please select an ownership group first');
+      return;
+    }
+
+    this.selectedOperationGroupToEditId = operationGroup.operationGroupId;
+    this.editOperationGroupModalOn = true;
+    this.editOperationGroupFormControl = this.fb.group({
+      operationGroupName: this.fb.control(operationGroup.operationGroupName || '', [Validators.required]),
+      operationGroupShortName: this.fb.control(operationGroup.operationGroupShortName || '', [Validators.required])
+    });
+  }
+
   closeOperationGroupForm() {
     this.addOperationGroupModalOn = false;
   }
+
+  closeEditOperationGroupForm() {
+    this.editOperationGroupModalOn = false;
+    this.selectedOperationGroupToEditId = null;
+  }
+
+  private getSelectedOperationGroup(): OperationGroup | null {
+    const selectedOperationGroupId =
+      this.operationForm?.get('operation.operationGroupId')?.value || this.operation?.operationGroupId;
+    if (!selectedOperationGroupId) {
+      return null;
+    }
+
+    return (
+      this.operationGroups.find((operationGroup: OperationGroup) => {
+        return operationGroup.operationGroupId === selectedOperationGroupId;
+      }) || null
+    );
+  }
+
+  private applyOperationGroupRename(operationGroup: OperationGroup) {
+    if (!operationGroup?.operationGroupId) {
+      return;
+    }
+
+    this.operationGroups = this.operationGroups.map((operationGroupRecord: OperationGroup) => {
+      if (operationGroupRecord.operationGroupId === operationGroup.operationGroupId) {
+        return {
+          ...operationGroupRecord,
+          operationGroupName: operationGroup.operationGroupName,
+          operationGroupShortName: operationGroup.operationGroupShortName
+        };
+      }
+
+      return operationGroupRecord;
+    });
+
+    if (this.operation?.operationGroupId === operationGroup.operationGroupId) {
+      this.operation.operationGroupName = operationGroup.operationGroupName;
+      this.operation.operationGroupShortName = operationGroup.operationGroupShortName;
+    }
+
+    this.user.operationGroups = this.operationGroups;
+    localStorage.setItem('operationGroups', JSON.stringify(this.operationGroups));
+    localStorage.setItem('followup-user', JSON.stringify(this.user));
+  }
+
   addOperationGroup() {
     let formSubmission = this.addOperationGroupFormControl.getRawValue();
     var operationGroupName = formSubmission.operationGroupName;
@@ -702,6 +771,8 @@ export class OperationFormComponent implements OnInit {
           this.toastr.success('Successfully added operation group');
           this.operationGroups.push(operationGroup[0]);
           this.user.operationGroups = this.operationGroups;
+          localStorage.setItem('operationGroups', JSON.stringify(this.operationGroups));
+          localStorage.setItem('followup-user', JSON.stringify(this.user));
           this.addOperationGroupModalOn = false;
           this.cdr.detectChanges();
         } else {
@@ -710,6 +781,35 @@ export class OperationFormComponent implements OnInit {
         }
       });
   }
+
+  editOperationGroup() {
+    if (!this.selectedOperationGroupToEditId || !this.editOperationGroupFormControl?.valid) {
+      return;
+    }
+
+    let formSubmission = this.editOperationGroupFormControl.getRawValue();
+    const operationGroupPutBody: OperationGroupPutBody = {
+      operationGroupName: (formSubmission.operationGroupName || '').trim(),
+      operationGroupShortName: (formSubmission.operationGroupShortName || '').trim()
+    };
+
+    this.operationService
+      .editOperationGroupByOperationGroupId(this.selectedOperationGroupToEditId, operationGroupPutBody)
+      .subscribe((operationGroup: any) => {
+        const renamedOperationGroup = Array.isArray(operationGroup) ? operationGroup[0] : operationGroup;
+        if (!renamedOperationGroup) {
+          alert('Oops! Something went wrong, please contact your tech support');
+          return;
+        }
+
+        this.applyOperationGroupRename(renamedOperationGroup);
+        this.userService.updateOperations(this.user).catch(() => {});
+        this.toastr.success('Successfully updated ownership group');
+        this.closeEditOperationGroupForm();
+        this.cdr.detectChanges();
+      });
+  }
+
   ngOnDestroy() {
     this.operationContacts = null;
     this.operationContactsOriginal = null;

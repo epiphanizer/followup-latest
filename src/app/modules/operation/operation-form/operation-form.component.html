@@ -70,7 +70,7 @@
               <ion-select
                 *ngIf="(operationGroups && mode.add) || operation.operationGroupShortName"
                 formControlName="operationGroupId"
-                (ionChange)="operationGroupOnSelect($event, idx)"
+                (ionChange)="operationGroupOnSelect($event)"
                 class="operation-group-select"
                 placeholder="Ownership"
               >
@@ -78,45 +78,47 @@
                   *ngFor="let operationGroup of operationGroups"
                   [selected]="operationGroup.operationGroupId == operation.operationGroupId"
                   [value]="operationGroup.operationGroupId"
-                  (change)="onOperationGroupChange($event)"
                 >
                   {{ operationGroup.operationGroupName }}
                 </ion-select-option>
               </ion-select>
             </ion-item>
-            <span class="ion-float-right add-contact-label add-group-label" (click)="addOperationGroupForm()"
-              >Add Group</span
+            <span
+              *ngIf="user?.userLevel === userRoles.admin"
+              class="ion-float-right add-contact-label add-group-label"
+              (click)="editOperationGroupForm()"
+              >Edit Group</span
             >
-            <ion-modal class="modal" *ngIf="addOperationGroupModalOn">
-              <form [formGroup]="addOperationGroupFormControl">
-                <ion-label color="medium" position="stacked">Group Name<span style="color:#f1624a">*</span></ion-label>
-                <ion-input
-                  type="text"
-                  placeholder="(as long as you want)"
-                  inputCapitalizeFirst
-                  formControlName="operationGroupName"
-                ></ion-input>
-                <ion-label color="medium" position="stacked">Short Name<span style="color:#f1624a">*</span></ion-label>
-                <ion-input
-                  type="text"
-                  placeholder=" (max 9 characters)"
-                  inputCapitalizeFirst
-                  formControlName="operationGroupShortName"
-                ></ion-input>
+            <div class="modal" *ngIf="editOperationGroupModalOn">
+              <form [formGroup]="editOperationGroupFormControl">
+                <ion-label color="medium" position="stacked"
+                  >Ownership Name<span style="color:#f1624a">*</span></ion-label
+                >
+                <ion-input type="text" placeholder="Ownership name" formControlName="operationGroupName"></ion-input>
+                <ion-label color="medium" position="stacked"
+                  >WZ Short Name<span style="color:#f1624a">*</span></ion-label
+                >
+                <ion-input type="text" placeholder="Short name" formControlName="operationGroupShortName"></ion-input>
                 <ion-buttons>
-                  <button *ngIf="!mode.view" class="ion-float-right primary button" (click)="addOperationGroup()">
+                  <button
+                    type="button"
+                    *ngIf="!mode.view"
+                    class="ion-float-right primary button"
+                    (click)="editOperationGroup()"
+                  >
                     Save
                   </button>
                   <button
+                    type="button"
                     *ngIf="!mode.view"
                     class="ion-float-right secondary button"
-                    (click)="closeOperationGroupForm()"
+                    (click)="closeEditOperationGroupForm()"
                   >
                     Cancel
                   </button>
                 </ion-buttons>
               </form>
-            </ion-modal>
+            </div>
             <ion-item class="operation-name">
               <ion-label color="medium" position="stacked">Facility <span style="color:#f1624a">*</span></ion-label>
               <ion-input type="text" formControlName="operationName" placeholder="Facility" inputCapitalizeFirst>
