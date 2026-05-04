@@ -277,12 +277,10 @@ export class PatientFormComponent implements OnInit {
           this.patient.patientFluentLanguage ? this.patient.patientFluentLanguage : 'English'
         ),
         patientContacts: this.fb.array([]),
-        primaryCarePhysician: this.fb.group({
-          patientPhysicianName: this.fb.control(this.patient.patientPhysicianName),
-          patientPhysicianPhoneNumber: this.fb.control(this.patient.patientPhysicianPhoneNumber)
-        }),
-        insurance: this.fb.group({
-          primaryInsurance: this.fb.control(this.patient.patientPrimaryInsurance)
+        hospitalAdmitted: this.fb.group({
+          patientHospitalAdmitted: this.fb.control(
+            this.patient.patientHospitalAdmitted || this.patient.patientPrimaryInsurance || ''
+          )
         }),
         dischargeInfo: this.fb.group({
           patientAdmitDate: this.fb.control(
@@ -602,9 +600,8 @@ export class PatientFormComponent implements OnInit {
       patientIsResponsibleParty: formSubmission.patient.patientIsResponsibleParty == true ? 1 : 0,
       patientSpeaksEnglish: formSubmission.patient.patientSpeaksEnglish == true ? 1 : 0,
       patientFluentLanguage: formSubmission.patient.patientFluentLanguage,
-      patientPhysicianName: formSubmission.patient.primaryCarePhysician.patientPhysicianName || '',
-      patientPhysicianPhoneNumber: formSubmission.patient.primaryCarePhysician.patientPhysicianPhoneNumber || '',
-      patientPrimaryInsurance: formSubmission.patient.insurance.primaryInsurance || '',
+      patientHospitalAdmitted: formSubmission.patient.hospitalAdmitted.patientHospitalAdmitted || '',
+      patientPrimaryInsurance: formSubmission.patient.hospitalAdmitted.patientHospitalAdmitted || '',
       patientAdmitDate: patientAdmitDate,
       patientDischargeDate: patientDischargeDate,
       patientDischargedAma: formSubmission.patient.dischargeInfo.patientDischargedAma == true ? 1 : 0,

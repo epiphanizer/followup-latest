@@ -353,12 +353,8 @@ describe('PatientFormComponent (Jest)', () => {
         patientIsResponsibleParty: false,
         patientSpeaksEnglish: true,
         patientFluentLanguage: 'English',
-        primaryCarePhysician: {
-          patientPhysicianName: 'Dr. House',
-          patientPhysicianPhoneNumber: '111'
-        },
-        insurance: {
-          primaryInsurance: 'Aetna'
+        hospitalAdmitted: {
+          patientHospitalAdmitted: 'General Hospital'
         },
         dischargeInfo: {
           patientAdmitDate: '2021-01-02',
@@ -396,9 +392,8 @@ describe('PatientFormComponent (Jest)', () => {
       patientIsResponsibleParty: 0,
       patientSpeaksEnglish: 1,
       patientFluentLanguage: 'English',
-      patientPhysicianName: 'Dr. House',
-      patientPhysicianPhoneNumber: '111',
-      patientPrimaryInsurance: 'Aetna',
+      patientHospitalAdmitted: 'General Hospital',
+      patientPrimaryInsurance: 'General Hospital',
       patientAdmitDate: '2021-01-02T12:00:00.00Z',
       patientDischargeDate: '2021-01-03T12:00:00.00Z',
       patientDischargedAma: 1,
@@ -454,12 +449,8 @@ describe('PatientFormComponent (Jest)', () => {
         patientIsResponsibleParty: false,
         patientSpeaksEnglish: true,
         patientFluentLanguage: 'English',
-        primaryCarePhysician: {
-          patientPhysicianName: 'Dr. House',
-          patientPhysicianPhoneNumber: '111'
-        },
-        insurance: {
-          primaryInsurance: 'Aetna'
+        hospitalAdmitted: {
+          patientHospitalAdmitted: 'General Hospital'
         },
         dischargeInfo: {
           patientAdmitDate: '2021-01-02',

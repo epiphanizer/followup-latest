@@ -205,30 +205,14 @@
           </fieldset>
 
           <div class="section-header">
-            <i class="icon-physician"></i>
-            <span class="discharge-header">Primary Care Physician</span>
-          </div>
-          <fieldset class="insurance-info" formGroupName="primaryCarePhysician">
-            <ion-list class="patient-physician" lines="none" inset>
-              <ion-item class="primary-care-physician">
-                <ion-label color="medium" position="stacked">Physician</ion-label>
-                <ion-input formControlName="patientPhysicianName" inputCapitalizeFirst></ion-input>
-              </ion-item>
-              <ion-item class="primary-care-physician">
-                <ion-label color="medium" position="stacked">Phone #</ion-label>
-                <ion-input formControlName="patientPhysicianPhoneNumber"></ion-input>
-              </ion-item>
-            </ion-list>
-          </fieldset>
-          <div class="section-header">
             <i class="icon-insurance"></i>
-            <span class="discharge-header">Insurance</span>
+            <span class="discharge-header">Hospital Admitted</span>
           </div>
-          <fieldset class="insurance-info" formGroupName="insurance">
+          <fieldset class="insurance-info" formGroupName="hospitalAdmitted">
             <ion-list lines="none" inset>
               <ion-item class="primary-insurance">
-                <ion-label color="medium" position="stacked">Primary Insurance</ion-label>
-                <ion-input formControlName="primaryInsurance" inputCapitalizeFirst></ion-input>
+                <ion-label color="medium" position="stacked">Hospital Admitted</ion-label>
+                <ion-input formControlName="patientHospitalAdmitted" inputCapitalizeFirst></ion-input>
               </ion-item>
             </ion-list>
           </fieldset>

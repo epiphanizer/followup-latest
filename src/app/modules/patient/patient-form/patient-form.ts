@@ -23,9 +23,8 @@ export interface PatientPutBody {
   patientCountryCode: number;
   patientAreaCode: string;
   patientPhoneNumber: string;
+  patientHospitalAdmitted: string;
   patientPrimaryInsurance: string;
-  patientPhysicianName: string;
-  patientPhysicianPhoneNumber: string;
   patientAdmitDate: string;
   patientDischargeDate: string;
   patientDischargedAma: number | boolean;
