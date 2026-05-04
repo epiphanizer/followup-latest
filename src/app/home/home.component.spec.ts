@@ -145,4 +145,36 @@ describe('HomeComponent', () => {
     expect(component.weeklyCallsToNotificationsPercentage).toBe(0);
     expect(component.totalCallsToNotificationsPercentage).toBe(0);
   });
+
+  it('uses totals and call-count fallback when weekly completed is reported as zero', () => {
+    teamServiceMock.getTeamTotals.mockReturnValue(
+      of([
+        {
+          totalNotifications: 22750,
+          totalCalls: 268494
+        }
+      ])
+    );
+    userServiceMock.getUserCallCount.mockReturnValue(
+      of([
+        {
+          totalCalls: 33,
+          todaysCompletedCalls: 0,
+          weeklyCompletedCalls: 0,
+          todaysScheduledCalls: 1066,
+          weeklyScheduledCalls: 2288
+        }
+      ] as any)
+    );
+    userServiceMock.getUserNotifications.mockReturnValue(
+      of(new Array(50).fill({ notificationCreatedTime: new Date().toISOString() }))
+    );
+
+    createComponent();
+
+    expect(component.weeklyCalls.completed).toBe(33);
+    expect(component.weeklyCallsProgress).toBe(1);
+    expect(component.totalCallsToNotificationsPercentage).toBe(8);
+    expect(component.callsMadeProgress).toBe(0);
+  });
 });

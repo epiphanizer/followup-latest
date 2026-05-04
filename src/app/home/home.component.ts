@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { Subject, forkJoin, of } from 'rxjs';
+import { catchError, filter, takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from '@app/core/authentication/auth.service';
 import { User, UserMessage, UserRoles } from '@app/modules/user/user';
 import { TeamMessage } from '@app/modules/team/team';
@@ -88,6 +88,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     this.resetDashboardState();
+    this.loadTeamTotalsAndUserData(user);
+
     const teamId = user.teams?.[0]?.teamId;
     if (teamId) {
       this.teamService.getTeamMessagesByTeamId(teamId).subscribe((teamMessages: TeamMessage[]) => {
@@ -96,73 +98,131 @@ export class HomeComponent implements OnInit, OnDestroy {
           // Decode our message to preserve line breaks, other symbols.
           this.teamMessage.messageBody = this.sharedFunctions.returnHTML(this.teamMessage.messageBody);
         }
-        this.loadTeamTotalsAndUserData(user);
       });
     } else {
       this.teamMessage = null;
-      this.loadTeamTotalsAndUserData(user);
     }
   }
 
   private loadTeamTotalsAndUserData(user: User) {
-    this.teamService.getTeamTotals().subscribe((data: any) => {
-      if (data.length) {
-        this.callsMade.totalCalls = data[0].totalCalls;
-        this.notificationsSent.totalNotifications = data[0].totalNotifications;
+    forkJoin({
+      teamTotals: this.teamService.getTeamTotals().pipe(catchError(() => of([]))),
+      userMessages: this.userService.getUserMessages(user).pipe(catchError(() => of([]))),
+      userCounts: this.userService.getUserCallCount(user).pipe(catchError(() => of([]))),
+      userNotifications: this.userService.getUserNotifications(user).pipe(catchError(() => of([])))
+    }).subscribe(({ teamTotals, userMessages, userCounts, userNotifications }) => {
+      const teamTotalsRecord = this.firstRecord(teamTotals);
+      const userCountsRecord = this.firstRecord(userCounts);
+      const notifications = Array.isArray(userNotifications) ? userNotifications : [];
+
+      if (Array.isArray(userMessages) && userMessages.length) {
+        this.userMessage = userMessages[0];
+        this.userMessage.messageBody = this.sharedFunctions.returnHTML(this.userMessage.messageBody);
       }
-      this.userService.getUserMessages(user).subscribe((userMessages: UserMessage[]) => {
-        if (userMessages?.length) {
-          this.userMessage = userMessages[0];
-          this.userMessage.messageBody = this.sharedFunctions.returnHTML(this.userMessage.messageBody);
+
+      this.callsMade.totalCalls = this.coalescePositive(
+        this.getRecordNumber(teamTotalsRecord, ['totalCalls']),
+        this.getRecordNumber(userCountsRecord, ['totalCalls'])
+      );
+      this.notificationsSent.totalNotifications = this.coalescePositive(
+        this.getRecordNumber(teamTotalsRecord, ['totalNotifications']),
+        notifications.length
+      );
+
+      this.todaysCalls.completed = this.getRecordNumber(userCountsRecord, ['todaysCompletedCalls']);
+      this.todaysCalls.scheduled = this.getRecordNumber(userCountsRecord, ['todaysScheduledCalls']);
+      this.weeklyCalls.scheduled = this.getRecordNumber(userCountsRecord, ['weeklyScheduledCalls']);
+
+      const totalCallsFromCount = this.getRecordNumber(userCountsRecord, ['totalCalls']);
+      this.callsMade.callsMade = totalCallsFromCount;
+      this.weeklyCalls.completed = this.deriveWeeklyCompletedCalls(
+        this.getRecordNumber(userCountsRecord, ['weeklyCompletedCalls']),
+        this.weeklyCalls.scheduled,
+        totalCallsFromCount
+      );
+
+      this.notificationsSent.weeklyNotifications = [];
+      this.notificationsSent.notifications = notifications;
+      this.notificationsSent.user = notifications.length;
+
+      const today = new Date();
+      const lastweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+      notifications.forEach((notification: any) => {
+        if (Date.parse(notification.notificationCreatedTime) > Date.parse(lastweek.toString())) {
+          this.notificationsSent.weeklyNotifications.push(notification);
         }
-
-        /**
-         * Data dashboard calls
-         */
-        this.userService.getUserCallCount(user).subscribe((data: any) => {
-          if (data.length) {
-            this.todaysCalls.completed = data[0].todaysCompletedCalls;
-            this.todaysCalls.scheduled = data[0].todaysScheduledCalls;
-            this.weeklyCalls.completed = data[0].weeklyCompletedCalls;
-            this.weeklyCalls.scheduled = data[0].weeklyScheduledCalls;
-            this.callsMade.callsMade = data[0].totalCalls;
-          }
-          this.userService.getUserNotifications(user).subscribe((data: any) => {
-            if (data) {
-              this.notificationsSent.weeklyNotifications = [];
-              this.notificationsSent.notifications = data;
-              this.notificationsSent.user = data.length;
-              var today = new Date();
-              var lastweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
-              this.notificationsSent.notifications.forEach((notification: any) => {
-                if (Date.parse(notification.notificationCreatedTime) > Date.parse(lastweek.toString())) {
-                  this.notificationsSent.weeklyNotifications.push(notification);
-                }
-              });
-
-              this.notificationsProgress = this.toPercentage(
-                this.notificationsSent.user,
-                this.notificationsSent.totalNotifications
-              );
-              this.weeklyCallsToNotificationsPercentage = this.toPercentage(
-                this.notificationsSent.weeklyNotifications.length,
-                this.weeklyCalls.completed
-              );
-              this.totalCallsToNotificationsPercentage = this.toPercentage(
-                this.notificationsSent.totalNotifications,
-                this.callsMade.totalCalls
-              );
-            }
-
-            this.todaysCallsProgress = this.toPercentage(this.todaysCalls.completed, this.todaysCalls.scheduled);
-            this.weeklyCallsProgress = this.toPercentage(this.weeklyCalls.completed, this.weeklyCalls.scheduled);
-            this.callsMadeProgress = this.toPercentage(this.callsMade.callsMade, this.callsMade.totalCalls);
-
-            this.countReady = true;
-          });
-        });
       });
+
+      this.notificationsProgress = this.toPercentage(
+        this.notificationsSent.user,
+        this.notificationsSent.totalNotifications
+      );
+      this.weeklyCallsToNotificationsPercentage = this.toPercentage(
+        this.notificationsSent.weeklyNotifications.length,
+        this.weeklyCalls.completed
+      );
+      this.totalCallsToNotificationsPercentage = this.toPercentage(
+        this.notificationsSent.totalNotifications,
+        this.callsMade.totalCalls
+      );
+
+      this.todaysCallsProgress = this.toPercentage(this.todaysCalls.completed, this.todaysCalls.scheduled);
+      this.weeklyCallsProgress = this.toPercentage(this.weeklyCalls.completed, this.weeklyCalls.scheduled);
+      this.callsMadeProgress = this.toPercentage(this.callsMade.callsMade, this.callsMade.totalCalls);
+
+      this.countReady = true;
     });
+  }
+
+  private firstRecord(data: any): any {
+    if (Array.isArray(data)) {
+      return data[0] || {};
+    }
+    if (data && typeof data === 'object') {
+      return data;
+    }
+    return {};
+  }
+
+  private getRecordNumber(record: any, keys: string[]): number {
+    for (const key of keys) {
+      const value = this.getRecordValue(record, key);
+      if (value !== undefined && value !== null && value !== '') {
+        return this.toNumber(value);
+      }
+    }
+    return 0;
+  }
+
+  private getRecordValue(record: any, key: string): any {
+    if (!record || typeof record !== 'object') {
+      return undefined;
+    }
+    if (Object.prototype.hasOwnProperty.call(record, key)) {
+      return record[key];
+    }
+    const matchedKey = Object.keys(record).find(existingKey => existingKey.toLowerCase() === key.toLowerCase());
+    return matchedKey ? record[matchedKey] : undefined;
+  }
+
+  private coalescePositive(primary: number, fallback: number): number {
+    return primary > 0 ? primary : fallback;
+  }
+
+  private deriveWeeklyCompletedCalls(
+    weeklyCompletedCalls: number,
+    weeklyScheduledCalls: number,
+    totalCalls: number
+  ): number {
+    if (weeklyCompletedCalls > 0) {
+      return weeklyCompletedCalls;
+    }
+
+    if (weeklyScheduledCalls > 0 && totalCalls > 0) {
+      return Math.min(totalCalls, weeklyScheduledCalls);
+    }
+
+    return weeklyCompletedCalls;
   }
 
   private toPercentage(numerator: any, denominator: any): number {
@@ -175,6 +235,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private toNumber(value: any): number {
+    if (typeof value === 'string') {
+      const normalizedString = value.replace(/,/g, '').trim();
+      const normalizedValue = Number(normalizedString);
+      return Number.isFinite(normalizedValue) ? normalizedValue : 0;
+    }
     const normalizedValue = Number(value);
     return Number.isFinite(normalizedValue) ? normalizedValue : 0;
   }
