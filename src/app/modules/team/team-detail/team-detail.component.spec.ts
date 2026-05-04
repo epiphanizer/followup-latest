@@ -3,6 +3,7 @@ import { of } from 'rxjs';
 import { TeamMemberDetailComponent } from './team-detail.component';
 import { TeamService } from '../team.service';
 import { UserService } from '@app/modules/user/user.service';
+import { OperationService } from '@app/modules/operation/operation.service';
 import { SharedFunctions } from '@app/shared/shared.functions';
 import { ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
@@ -21,6 +22,18 @@ const userServiceStub = {
       userAdditionalInfo: '<p>info</p>',
       userInterests: JSON.stringify({ celebrity: true })
     })
+  )
+};
+
+const operationServiceStub = {
+  getOperationsByUserId: jest.fn(() =>
+    of([
+      {
+        operationGroupName: 'Group A',
+        operationName: 'Operation 1',
+        operationUserRoleLabel: 'Manager'
+      }
+    ])
   )
 };
 
@@ -49,6 +62,7 @@ describe('TeamMemberDetailComponent (Jest)', () => {
       routerStub as any,
       (teamServiceStub as unknown) as TeamService,
       (userServiceStub as unknown) as UserService,
+      (operationServiceStub as unknown) as OperationService,
       ({ returnHTML: jest.fn((html: string) => html) } as unknown) as SharedFunctions,
       authServiceStub as any
     );

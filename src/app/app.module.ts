@@ -17,6 +17,7 @@ import { LoginModule } from './login/login.module';
 import { AppComponent } from './app.component';
 import { CallQueueModule } from '@app/modules/call-queue/call-queue.module';
 import { PatientModule } from './modules/patient/patient.module';
+import { PatientDetailModule } from './modules/patient/patient-detail/patient-detail.module';
 import { OperationModule } from '@app/modules/operation/operation.module';
 import { NotificationModule } from '@app/modules/notification/notification.module';
 import { UserModule } from '@app/modules/user/user.module';
@@ -66,6 +67,7 @@ export function tokenGetter() {
     LoginModule,
     UserModule,
     PatientModule,
+    PatientDetailModule,
     CallQueueModule,
     OperationModule,
     NotificationModule,

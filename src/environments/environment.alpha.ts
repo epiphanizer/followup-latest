@@ -8,7 +8,7 @@ import { env } from './.env';
 
 export const environment = {
   production: true,
-  version: env.npm_package_version,
+  version: env.npm_package_version + '(alpha)',
   apiUrl: 'https://alpha-followup-api.azurewebsites.net/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US']
