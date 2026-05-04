@@ -139,46 +139,44 @@ export class HomeComponent implements OnInit, OnDestroy {
                   this.notificationsSent.weeklyNotifications.push(notification);
                 }
               });
-              this.notificationsProgress =
-                (parseInt(this.notificationsSent.notifications) / parseInt(this.notificationsSent.totalNotifications)) *
-                100;
-              if (this.notificationsProgress > 100) {
-                this.notificationsProgress = 100;
-              }
 
-              this.weeklyCallsToNotificationsPercentage = Math.round(
-                (parseInt(this.weeklyCalls.completed) / this.notificationsSent.weeklyNotifications.length
-                  ? parseInt(this.notificationsSent.weeklyNotifications.length)
-                  : 0) * 100
+              this.notificationsProgress = this.toPercentage(
+                this.notificationsSent.user,
+                this.notificationsSent.totalNotifications
               );
-              if (this.weeklyCallsToNotificationsPercentage > 100) {
-                this.weeklyCallsToNotificationsPercentage = 100;
-              }
-              this.totalCallsToNotificationsPercentage = Math.round(
-                (this.notificationsSent.totalNotifications / this.callsMade.totalCalls) * 100
+              this.weeklyCallsToNotificationsPercentage = this.toPercentage(
+                this.notificationsSent.weeklyNotifications.length,
+                this.weeklyCalls.completed
               );
-              if (this.totalCallsToNotificationsPercentage > 100) {
-                this.totalCallsToNotificationsPercentage = 100;
-              }
+              this.totalCallsToNotificationsPercentage = this.toPercentage(
+                this.notificationsSent.totalNotifications,
+                this.callsMade.totalCalls
+              );
             }
 
-            this.todaysCallsProgress =
-              (parseInt(this.todaysCalls.completed) / parseInt(this.todaysCalls.scheduled)) * 100;
-            this.weeklyCallsProgress =
-              (parseInt(this.weeklyCalls.completed) / parseInt(this.weeklyCalls.scheduled)) * 100;
-            if (this.todaysCallsProgress > 100) {
-              this.todaysCallsProgress = 100;
-            }
-            this.callsMadeProgress = (parseInt(this.callsMade.callsMade) / parseInt(this.callsMade.totalCalls)) * 100;
-            if (this.callsMadeProgress > 100) {
-              this.callsMadeProgress = 100;
-            }
+            this.todaysCallsProgress = this.toPercentage(this.todaysCalls.completed, this.todaysCalls.scheduled);
+            this.weeklyCallsProgress = this.toPercentage(this.weeklyCalls.completed, this.weeklyCalls.scheduled);
+            this.callsMadeProgress = this.toPercentage(this.callsMade.callsMade, this.callsMade.totalCalls);
 
             this.countReady = true;
           });
         });
       });
     });
+  }
+
+  private toPercentage(numerator: any, denominator: any): number {
+    const normalizedNumerator = this.toNumber(numerator);
+    const normalizedDenominator = this.toNumber(denominator);
+    if (normalizedNumerator <= 0 || normalizedDenominator <= 0) {
+      return 0;
+    }
+    return Math.min(Math.round((normalizedNumerator / normalizedDenominator) * 100), 100);
+  }
+
+  private toNumber(value: any): number {
+    const normalizedValue = Number(value);
+    return Number.isFinite(normalizedValue) ? normalizedValue : 0;
   }
 
   private resetDashboardState() {
