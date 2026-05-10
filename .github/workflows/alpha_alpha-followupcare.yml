@@ -76,7 +76,23 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: followup-frontend-dist
-          path: dist
+          path: .
+
+      - name: Validate deploy package layout
+        run: |
+          echo "Checking expected deploy root: ./dist"
+          ls -la
+          ls -la dist || true
+          test -f dist/web.config || (echo "Missing dist/web.config" && find . -maxdepth 4 -name web.config -print && exit 1)
+          test -f dist/index.html || (echo "Missing dist/index.html" && find . -maxdepth 4 -name index.html -print && exit 1)
+
+      - name: Build zip-deploy payload with top-level dist folder
+        run: |
+          rm -rf deploy
+          mkdir -p deploy
+          cp -R dist deploy/dist
+          test -f deploy/dist/web.config
+          test -f deploy/dist/index.html
 
       - name: Resolve deploy auth mode
         id: auth_mode
@@ -111,7 +127,7 @@ jobs:
           app-name: alpha-followupcare
           slot-name: Production
           publish-profile: ${{ env.PUBLISH_PROFILE_PRIMARY != '' && env.PUBLISH_PROFILE_PRIMARY || (env.PUBLISH_PROFILE_FALLBACK != '' && env.PUBLISH_PROFILE_FALLBACK || env.PUBLISH_PROFILE_LEGACY) }}
-          package: dist
+          package: deploy
 
       - name: Deploy to Azure Web App (OIDC)
         if: steps.auth_mode.outputs.mode == 'oidc'
@@ -120,4 +136,4 @@ jobs:
         with:
           app-name: alpha-followupcare
           slot-name: Production
-          package: dist
+          package: deploy
