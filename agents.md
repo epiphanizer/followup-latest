@@ -1,6 +1,6 @@
 # Followup Frontend — feature/robot_work_1
 
-Project version: 3.9.3 (package). Goal: modernize the Angular/Ionic app for Followup v4.
+Project version: 3.10.0 (package). Goal: modernize the Angular/Ionic app for Followup v4.
 
 ## Findings
 
@@ -53,6 +53,10 @@ Shared/core scaffolding
 - Before closing work, verify builds/tests or note why they were not run.
 
 ## Running change log (frontend)
+
+- 2026-05-10: Promoted frontend release to 3.10.0 on alpha (`package.json`, `package-lock.json`, and `src/environments/.env.ts`), validated alpha build, and pushed `v3.10.0` tag.
+- 2026-05-10: Updated alpha deployment workflow for App Service stability: - switched `actions/upload-artifact`/`actions/download-artifact` to `@v5`; - moved deploy path to publish profile (with OIDC fallback) in [v3.10.0/followup-frontend/.github/workflows/alpha_alpha-followupcare.yml](v3.10.0/followup-frontend/.github/workflows/alpha_alpha-followupcare.yml); - current blocker is credential configuration in GitHub environment `alpha` (missing publish profile and/or OIDC subject mismatch).
+- 2026-05-10: Confirmed all frontend `feature/v399-*` branches are merged into alpha.
 
 - 2026-02-06: Synced toolbar permissions to impersonated user and added return-to-admin action in the shell dropdown.
 - 2026-02-06: Guarded call queue patient fetches to avoid undefined operation IDs that can leave requests pending.
