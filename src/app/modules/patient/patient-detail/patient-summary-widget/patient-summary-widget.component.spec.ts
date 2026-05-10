@@ -6,18 +6,18 @@ const makePatientContactService = (contacts: any[]) => ({
 });
 
 describe('PatientSummaryWidgetComponent (Jest)', () => {
-  it('formats patient and contact phone numbers', () => {
+  it('formats patient display phone and contact phone numbers', () => {
     const svc = makePatientContactService([{ patientContactPhoneNumber: '1234567' } as any]);
     const comp = new PatientSummaryWidgetComponent(svc as any);
     comp.patient = { patientId: 'p1', patientPhoneNumber: '1234567' } as any;
 
     comp.ngOnInit();
 
-    expect(comp.patient.patientPhoneNumber).toBe('123-4567');
+    expect(comp.patientDisplayPhone).toBe('123-4567');
     expect(comp.patientContacts[0].patientContactPhoneNumber).toBe('123-4567');
   });
 
-  it('does not double-format already hyphenated numbers', () => {
+  it('does not double-format already hyphenated contact numbers', () => {
     const contacts = [{ patientContactPhoneNumber: '987-6543' } as any];
     const svc = makePatientContactService(contacts);
     const comp = new PatientSummaryWidgetComponent(svc as any);
@@ -26,8 +26,28 @@ describe('PatientSummaryWidgetComponent (Jest)', () => {
     comp.ngOnInit();
 
     expect(svc.getPatientContactsByPatientId).toHaveBeenCalledWith('p2');
-    expect(comp.patient.patientPhoneNumber).toBe('555-1234');
+    expect(comp.patientDisplayPhone).toBe('555-1234');
     expect(comp.patientContacts[0].patientContactPhoneNumber).toBe('987-6543');
+  });
+
+  it('builds fallback display phone when only 10-digit number is present', () => {
+    const svc = makePatientContactService([]);
+    const comp = new PatientSummaryWidgetComponent(svc as any);
+    comp.patient = { patientId: 'p3', patientPhoneNumber: '(480) 555-1212' } as any;
+
+    comp.ngOnInit();
+
+    expect(comp.patientDisplayPhone).toBe('480-555-1212');
+  });
+
+  it('builds display phone with country fallback when 11-digit number is present', () => {
+    const svc = makePatientContactService([]);
+    const comp = new PatientSummaryWidgetComponent(svc as any);
+    comp.patient = { patientId: 'p4', patientPhoneNumber: '16025551212' } as any;
+
+    comp.ngOnInit();
+
+    expect(comp.patientDisplayPhone).toBe('1-602-555-1212');
   });
 
   it('toggles alternate numbers', () => {
