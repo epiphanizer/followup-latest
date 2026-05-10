@@ -1,52 +1,75 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy ASP.Net Core app to Azure Web App - alpha-followupcare
+name: Deploy Followup Frontend (Alpha)
 
 on:
   push:
     branches:
       - alpha
+    paths:
+      - 'src/**'
+      - 'angular.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'web.config'
+      - '.github/workflows/alpha_alpha-followupcare.yml'
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '20.x'
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: alpha-followupcare
+  cancel-in-progress: true
 
 jobs:
   build:
-    runs-on: windows-latest
-    permissions:
-      contents: read #This is required for actions/checkout
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v4
+      - name: Checkout
+        uses: actions/checkout@v5
         with:
-          dotnet-version: '3.1'
+          fetch-depth: 1
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Upload artifact for deployment job
+      - name: Build alpha bundle
+        run: npm run "build alpha"
+
+      - name: Stage web.config for App Service
+        run: cp web.config dist/web.config
+
+      - name: Upload deploy artifact
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: followup-frontend-dist
+          path: dist
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
+    environment:
+      name: alpha
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
-      - name: Download artifact from build job
+      - name: Download deploy artifact
         uses: actions/download-artifact@v4
         with:
-          name: .net-app
+          name: followup-frontend-dist
+          path: dist
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -59,6 +82,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'alpha-followupcare'
-          slot-name: 'Production'
-          package: .
+          app-name: alpha-followupcare
+          slot-name: Production
+          package: dist
