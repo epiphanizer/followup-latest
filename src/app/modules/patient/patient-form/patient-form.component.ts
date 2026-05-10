@@ -274,7 +274,7 @@ export class PatientFormComponent implements OnInit {
             : true
         ),
         patientFluentLanguage: this.fb.control(
-          this.patient.patientFluentLanguage ? this.patient.patientFluentLanguage : 'English'
+          this.patient.patientFluentLanguage ? this.patient.patientFluentLanguage : ''
         ),
         patientContacts: this.fb.array([]),
         hospitalAdmitted: this.fb.group({
@@ -321,6 +321,48 @@ export class PatientFormComponent implements OnInit {
         patientActive: this.fb.control(this.patient.patientActive)
       })
     });
+
+    this.syncLanguageControls();
+  }
+
+  onPatientLanguageToggle() {
+    this.syncLanguageControls();
+  }
+
+  clearPatientFluentLanguage() {
+    const patientSpeaksEnglishControl = this.patientForm.get('patient.patientSpeaksEnglish');
+    const patientFluentLanguageControl = this.patientForm.get('patient.patientFluentLanguage');
+
+    if (!patientSpeaksEnglishControl || !patientFluentLanguageControl) {
+      return;
+    }
+
+    patientSpeaksEnglishControl.setValue(false);
+    patientFluentLanguageControl.setValue('');
+    this.syncLanguageControls();
+  }
+
+  private syncLanguageControls() {
+    const patientSpeaksEnglishControl = this.patientForm.get('patient.patientSpeaksEnglish');
+    const patientFluentLanguageControl = this.patientForm.get('patient.patientFluentLanguage');
+
+    if (!patientSpeaksEnglishControl || !patientFluentLanguageControl) {
+      return;
+    }
+
+    const doesNotSpeakEnglish = patientSpeaksEnglishControl.value === true;
+
+    if (doesNotSpeakEnglish) {
+      patientFluentLanguageControl.setValidators([
+        Validators.required,
+        Validators.pattern(this.stringMinimumOneWordRegEx)
+      ]);
+    } else {
+      patientFluentLanguageControl.clearValidators();
+      patientFluentLanguageControl.setValue('');
+    }
+
+    patientFluentLanguageControl.updateValueAndValidity({ emitEvent: false });
   }
 
   addAdditionalPatientContact() {
@@ -584,6 +626,10 @@ export class PatientFormComponent implements OnInit {
     var patientAdmitDate = formSubmission.patient.dischargeInfo.patientAdmitDate.substr(0, 10) + 'T12:00:00.00Z';
     var patientDischargeDate =
       formSubmission.patient.dischargeInfo.patientDischargeDate.substr(0, 10) + 'T12:00:00.00Z';
+    const doesNotSpeakEnglish = formSubmission.patient.patientSpeaksEnglish === true;
+    const patientFluentLanguage = doesNotSpeakEnglish
+      ? (formSubmission.patient.patientFluentLanguage || '').toString().trim()
+      : '';
 
     const patientMedicalConditions = JSON.stringify(formSubmission.patient.patientMedicalConditions);
     var payload = {
@@ -598,8 +644,8 @@ export class PatientFormComponent implements OnInit {
       patientGender: formSubmission.patient.patientGender,
       patientHIPAA: formSubmission.patient.patientHIPAA == true ? 1 : 0,
       patientIsResponsibleParty: formSubmission.patient.patientIsResponsibleParty == true ? 1 : 0,
-      patientSpeaksEnglish: formSubmission.patient.patientSpeaksEnglish == true ? 1 : 0,
-      patientFluentLanguage: formSubmission.patient.patientFluentLanguage,
+      patientSpeaksEnglish: doesNotSpeakEnglish ? 0 : 1,
+      patientFluentLanguage: patientFluentLanguage,
       patientHospitalAdmitted: formSubmission.patient.hospitalAdmitted.patientHospitalAdmitted || '',
       patientPrimaryInsurance: formSubmission.patient.hospitalAdmitted.patientHospitalAdmitted || '',
       patientAdmitDate: patientAdmitDate,

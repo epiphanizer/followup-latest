@@ -186,6 +186,49 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.patientForm.get('patient.dischargeInfo.patientTotalDays').value).toBe(1);
   });
 
+  it('explicitly clears language state from the form', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1,
+      patientSpeaksEnglish: false,
+      patientFluentLanguage: 'Spanish'
+    } as any;
+
+    (comp as any).createForm();
+    expect(comp.patientForm.get('patient.patientSpeaksEnglish').value).toBe(true);
+    expect(comp.patientForm.get('patient.patientFluentLanguage').value).toBe('Spanish');
+
+    comp.clearPatientFluentLanguage();
+
+    expect(comp.patientForm.get('patient.patientSpeaksEnglish').value).toBe(false);
+    expect(comp.patientForm.get('patient.patientFluentLanguage').value).toBe('');
+  });
+
   it('selects patient contact relationship', () => {
     const route = { snapshot: { data: { user: baseUser } } } as any;
     const services = makeServices();
@@ -326,7 +369,7 @@ describe('PatientFormComponent (Jest)', () => {
     });
   });
 
-  it('creates a form submission payload with transformed fields', () => {
+  it('creates a form submission payload with cleared language when patient speaks english', () => {
     const route = { snapshot: { data: { user: baseUser } } } as any;
     const services = makeServices();
     const comp = new PatientFormComponent(
@@ -351,8 +394,8 @@ describe('PatientFormComponent (Jest)', () => {
         patientGender: 'M',
         patientHIPAA: true,
         patientIsResponsibleParty: false,
-        patientSpeaksEnglish: true,
-        patientFluentLanguage: 'English',
+        patientSpeaksEnglish: false,
+        patientFluentLanguage: 'Spanish',
         hospitalAdmitted: {
           patientHospitalAdmitted: 'General Hospital'
         },
@@ -391,7 +434,7 @@ describe('PatientFormComponent (Jest)', () => {
       patientHIPAA: 1,
       patientIsResponsibleParty: 0,
       patientSpeaksEnglish: 1,
-      patientFluentLanguage: 'English',
+      patientFluentLanguage: '',
       patientHospitalAdmitted: 'General Hospital',
       patientPrimaryInsurance: 'General Hospital',
       patientAdmitDate: '2021-01-02T12:00:00.00Z',
@@ -411,7 +454,71 @@ describe('PatientFormComponent (Jest)', () => {
     });
   });
 
-  it('edits patient and redirects after save', async () => {
+  it('creates a form submission payload with selected language when patient does not speak english', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+
+    const formSubmission: any = {
+      patient: {
+        patientDob: '2021-01-01',
+        operation: 'op-1',
+        patientMedicalRecordNumber: 'mrn',
+        patientName: { patientFirstName: 'John', patientLastName: 'Doe' },
+        patientCountryCode: '1',
+        patientAreaCode: '212',
+        patientPhoneNumber: '5551234',
+        patientGender: 'M',
+        patientHIPAA: true,
+        patientIsResponsibleParty: false,
+        patientSpeaksEnglish: true,
+        patientFluentLanguage: 'Spanish',
+        primaryCarePhysician: {
+          patientPhysicianName: 'Dr. House',
+          patientPhysicianPhoneNumber: '111'
+        },
+        insurance: {
+          primaryInsurance: 'Aetna'
+        },
+        dischargeInfo: {
+          patientAdmitDate: '2021-01-02',
+          patientDischargeDate: '2021-01-03',
+          patientDischargedAma: true,
+          patientDischargedTo: 'lbl-1'
+        },
+        patientMedicalConditions: {
+          cardiacBoolean: 1,
+          sepsisBoolean: 0,
+          pulmonaryBoolean: 0,
+          otherBoolean: 1
+        },
+        patientDischargedCondition: 'Stable',
+        patientPrimaryDiagnosis: 'DX',
+        patientIntakeQuestionAnswers: [],
+        patientNeedToKnow: 'notes',
+        patientActive: true
+      }
+    };
+
+    const payload = (comp as any).formSubmissionFactory(formSubmission);
+
+    expect(payload).toEqual(
+      expect.objectContaining({
+        patientSpeaksEnglish: 0,
+        patientFluentLanguage: 'Spanish'
+      })
+    );
+  });
+
+  it('edits patient and forwards selected language payload to the API call', async () => {
     const route = { snapshot: { data: { user: baseUser } } } as any;
     const services = makeServices();
     const comp = new PatientFormComponent(
@@ -448,7 +555,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientHIPAA: true,
         patientIsResponsibleParty: false,
         patientSpeaksEnglish: true,
-        patientFluentLanguage: 'English',
+        patientFluentLanguage: 'Spanish',
         hospitalAdmitted: {
           patientHospitalAdmitted: 'General Hospital'
         },
@@ -477,10 +584,95 @@ describe('PatientFormComponent (Jest)', () => {
 
     expect(services.patientService.editPatientByPatientId).toHaveBeenCalledWith(
       'p-123',
-      expect.objectContaining({ patientOperationId: 'op-1' })
+      expect.objectContaining({
+        patientOperationId: 'op-1',
+        patientSpeaksEnglish: 0,
+        patientFluentLanguage: 'Spanish'
+      })
     );
     expect(services.userService.updateOperations).toHaveBeenCalledWith(comp.user);
     expect((window.location as any).href).toContain('/operations/op-1/patients');
+
+    Object.defineProperty(window, 'location', { configurable: true, value: originalLocation });
+  });
+
+  it('sends cleared language payload to the API call in create save path', async () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = { patientId: 'p-123' } as any;
+    comp.user = { id: 'u-1' } as any;
+    comp.mode.edit = false;
+    comp.patientForm = new FormBuilder().group({
+      patient: new FormBuilder().group({
+        operation: new FormBuilder().control('op-1')
+      })
+    });
+    const originalLocation = window.location;
+    const mockLocation = { ...originalLocation, href: '', reload: jest.fn() } as any;
+    Object.defineProperty(window, 'location', { configurable: true, value: mockLocation });
+
+    const formSubmission: any = {
+      patient: {
+        patientDob: '2021-01-01',
+        operation: 'op-1',
+        patientMedicalRecordNumber: 'mrn',
+        patientName: { patientFirstName: 'John', patientLastName: 'Doe' },
+        patientCountryCode: '1',
+        patientAreaCode: '212',
+        patientPhoneNumber: '5551234',
+        patientGender: 'M',
+        patientHIPAA: true,
+        patientIsResponsibleParty: false,
+        patientSpeaksEnglish: false,
+        patientFluentLanguage: 'Spanish',
+        primaryCarePhysician: {
+          patientPhysicianName: 'Dr. House',
+          patientPhysicianPhoneNumber: '111'
+        },
+        insurance: {
+          primaryInsurance: 'Aetna'
+        },
+        dischargeInfo: {
+          patientAdmitDate: '2021-01-02',
+          patientDischargeDate: '2021-01-03',
+          patientDischargedAma: true,
+          patientDischargedTo: 'lbl-1'
+        },
+        patientMedicalConditions: {
+          cardiacBoolean: 1,
+          sepsisBoolean: 0,
+          pulmonaryBoolean: 0,
+          otherBoolean: 1
+        },
+        patientDischargedCondition: 'Stable',
+        patientPrimaryDiagnosis: 'DX',
+        patientIntakeQuestionAnswers: [],
+        patientNeedToKnow: 'notes',
+        patientActive: true
+      }
+    };
+
+    comp.editPatient(formSubmission);
+    await Promise.resolve();
+
+    expect(services.patientService.editPatientByPatientId).toHaveBeenCalledWith(
+      'p-123',
+      expect.objectContaining({
+        patientOperationId: 'op-1',
+        patientSpeaksEnglish: 1,
+        patientFluentLanguage: ''
+      })
+    );
+    expect(services.userService.updateOperations).toHaveBeenCalledWith(comp.user);
 
     Object.defineProperty(window, 'location', { configurable: true, value: originalLocation });
   });
