@@ -80,17 +80,30 @@ jobs:
 
       - name: Validate deploy package layout
         run: |
-          echo "Checking expected deploy root: ./dist"
+          echo "Checking downloaded artifact layout"
           ls -la
-          ls -la dist || true
-          test -f dist/web.config || (echo "Missing dist/web.config" && find . -maxdepth 4 -name web.config -print && exit 1)
-          test -f dist/index.html || (echo "Missing dist/index.html" && find . -maxdepth 4 -name index.html -print && exit 1)
+          if [ -f dist/web.config ] && [ -f dist/index.html ]; then
+            echo "Artifact layout detected: dist folder"
+            echo "ARTIFACT_SOURCE=dist" >> "$GITHUB_ENV"
+          elif [ -f web.config ] && [ -f index.html ]; then
+            echo "Artifact layout detected: flat root"
+            echo "ARTIFACT_SOURCE=." >> "$GITHUB_ENV"
+          else
+            echo "Could not find expected web assets in dist/ or root"
+            find . -maxdepth 4 -name web.config -print
+            find . -maxdepth 4 -name index.html -print
+            exit 1
+          fi
 
       - name: Build zip-deploy payload with top-level dist folder
         run: |
           rm -rf deploy
-          mkdir -p deploy
-          cp -R dist deploy/dist
+          mkdir -p deploy/dist
+          if [ "$ARTIFACT_SOURCE" = "dist" ]; then
+            cp -R dist/. deploy/dist/
+          else
+            find . -mindepth 1 -maxdepth 1 ! -name deploy -exec cp -R {} deploy/dist/ \;
+          fi
           test -f deploy/dist/web.config
           test -f deploy/dist/index.html
 
