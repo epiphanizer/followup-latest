@@ -60,10 +60,16 @@ jobs:
     needs: build
     environment:
       name: alpha
+    permissions:
+      id-token: write
+      contents: read
     env:
       PUBLISH_PROFILE_PRIMARY: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_FRONTEND }}
       PUBLISH_PROFILE_FALLBACK: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
       PUBLISH_PROFILE_LEGACY: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_16E4C871F9C144DA9788C2DB4A7A44C2 }}
+      AZURE_CLIENT_ID: ${{ secrets.AZUREAPPSERVICE_CLIENTID_16E4C871F9C144DA9788C2DB4A7A44C2 }}
+      AZURE_TENANT_ID: ${{ secrets.AZUREAPPSERVICE_TENANTID_72C263F8B60B4EDFA4D84B534A7C76D7 }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2FB1AC18608D4EC9A035370A370AE149 }}
 
     steps:
       - name: Download deploy artifact
@@ -72,18 +78,46 @@ jobs:
           name: followup-frontend-dist
           path: dist
 
-      - name: Verify publish profile secret
+      - name: Resolve deploy auth mode
+        id: auth_mode
         run: |
-          if [ -z "$PUBLISH_PROFILE_PRIMARY" ] && [ -z "$PUBLISH_PROFILE_FALLBACK" ] && [ -z "$PUBLISH_PROFILE_LEGACY" ]; then
-            echo "Missing frontend publish profile secret. Set AZURE_WEBAPP_PUBLISH_PROFILE_FRONTEND (preferred), AZURE_WEBAPP_PUBLISH_PROFILE, or AZUREAPPSERVICE_PUBLISHPROFILE_16E4C871F9C144DA9788C2DB4A7A44C2."
+          if [ -n "$PUBLISH_PROFILE_PRIMARY" ] || [ -n "$PUBLISH_PROFILE_FALLBACK" ] || [ -n "$PUBLISH_PROFILE_LEGACY" ]; then
+            echo "mode=publish" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ -n "$AZURE_CLIENT_ID" ] && [ -n "$AZURE_TENANT_ID" ] && [ -n "$AZURE_SUBSCRIPTION_ID" ]; then
+            echo "mode=oidc" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Missing frontend deployment credentials. Configure either publish profile secrets (AZURE_WEBAPP_PUBLISH_PROFILE_FRONTEND, AZURE_WEBAPP_PUBLISH_PROFILE, or AZUREAPPSERVICE_PUBLISHPROFILE_16E4C871F9C144DA9788C2DB4A7A44C2) or OIDC secrets (AZUREAPPSERVICE_CLIENTID_16E4C871F9C144DA9788C2DB4A7A44C2, AZUREAPPSERVICE_TENANTID_72C263F8B60B4EDFA4D84B534A7C76D7, AZUREAPPSERVICE_SUBSCRIPTIONID_2FB1AC18608D4EC9A035370A370AE149)."
             exit 1
           fi
 
-      - name: Deploy to Azure Web App
+      - name: Login to Azure (OIDC)
+        if: steps.auth_mode.outputs.mode == 'oidc'
+        uses: azure/login@v2
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy to Azure Web App (Publish Profile)
+        if: steps.auth_mode.outputs.mode == 'publish'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: alpha-followupcare
           slot-name: Production
           publish-profile: ${{ env.PUBLISH_PROFILE_PRIMARY != '' && env.PUBLISH_PROFILE_PRIMARY || (env.PUBLISH_PROFILE_FALLBACK != '' && env.PUBLISH_PROFILE_FALLBACK || env.PUBLISH_PROFILE_LEGACY) }}
+          package: dist
+
+      - name: Deploy to Azure Web App (OIDC)
+        if: steps.auth_mode.outputs.mode == 'oidc'
+        id: deploy-to-webapp-oidc
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: alpha-followupcare
+          slot-name: Production
           package: dist
