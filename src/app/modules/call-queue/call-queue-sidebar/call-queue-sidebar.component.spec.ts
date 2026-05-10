@@ -54,4 +54,17 @@ describe('CallQueueSidebarComponent (Jest)', () => {
     expect(group.sidebarDropdownOpen).toBe(true);
     expect(comp.isTouched).toBe(true);
   });
+
+  it('treats discharge counters as numeric for indicator checks', () => {
+    const route = { snapshot: { data: { user: {} } }, paramMap: { subscribe: jest.fn() } } as any;
+    const operationService = {} as any;
+    const patientService = {} as any;
+    const comp = new CallQueueSidebarComponent(route, operationService, patientService);
+
+    expect(comp.hasNewDischarges({ currentNewDischargeCount: 1 } as any)).toBe(true);
+    expect(comp.hasNewDischarges({ currentNewDischargeCount: '1' } as any)).toBe(true);
+    expect(comp.hasNewDischarges({ currentNewDischargeCount: 0 } as any)).toBe(false);
+    expect(comp.hasNewDischarges({ currentNewDischargeCount: '0' } as any)).toBe(false);
+    expect(comp.hasNewDischarges({ currentNewDischargeCount: null } as any)).toBe(false);
+  });
 });

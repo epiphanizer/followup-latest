@@ -81,6 +81,21 @@ export class CallQueueSidebarComponent {
   todaysDateDay: string;
   // set a default for no new discharges re: spanish patients
   spanishNewDischarges: boolean = false;
+
+  private normalizeOperationCounters(operation: Operation) {
+    if (!operation) {
+      return;
+    }
+
+    operation.currentAssignedPatientCount = Number(operation.currentAssignedPatientCount) || 0;
+    operation.currentNewDischargeCount = Number(operation.currentNewDischargeCount) || 0;
+    operation.currentNewNotificationCount = Number(operation.currentNewNotificationCount) || 0;
+  }
+
+  hasNewDischarges(operation: Operation): boolean {
+    return Number(operation?.currentNewDischargeCount) > 0;
+  }
+
   ngOnInit() {
     /** Init to the first user operation (alphabetically,) */
     this.user = this.route.snapshot.data.user;
@@ -92,6 +107,7 @@ export class CallQueueSidebarComponent {
             .pipe(
               map((operations: Operation[]) => {
                 if (operations) {
+                  operations.forEach((operation: Operation) => this.normalizeOperationCounters(operation));
                   if (idx == 0 && !this.selected.operation) {
                     this.selected.operation = operations[0];
                     this.activeOperationId = this.selected.operation.operationId;
@@ -105,6 +121,9 @@ export class CallQueueSidebarComponent {
       });
     } else {
       this.operationGroups = this.user.operationGroups;
+      this.operationGroups?.forEach((operationGroup: OperationGroup) => {
+        operationGroup.operations?.forEach((operation: Operation) => this.normalizeOperationCounters(operation));
+      });
     }
 
     this.route.paramMap.subscribe((data: any) => {
@@ -122,6 +141,7 @@ export class CallQueueSidebarComponent {
       this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation | Operation[]) => {
         const operation = Array.isArray(data) ? data[0] : data;
         if (operation) {
+          this.normalizeOperationCounters(operation);
           this.selected.operation = operation;
           this.activeOperationId = this.selected.operation.operationId;
         }
