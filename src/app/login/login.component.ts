@@ -50,15 +50,30 @@ export class LoginComponent implements OnInit, OnDestroy {
     const username = String(usernameControl ?? '').trim() || autofillUsername;
     if (!username.length) {
       this.toastrService.error('Enter username!');
+      this.isLoading = false;
       return false;
     }
 
     const password = String(passwordControl ?? '').trim() || autofillPassword;
     if (!password.length) {
       this.toastrService.error('Enter password!');
+      this.isLoading = false;
       return false;
     }
-    let result = await this.authenticationService.signIn(username, password);
+
+    let result;
+    try {
+      result = await this.authenticationService.signIn(username, password);
+    } catch (error) {
+      if (Number(error?.status) === 401) {
+        this.toastrService.error('Incorrect username or password!');
+      } else {
+        this.toastrService.error(error?.message || 'Authentication service is unavailable. Please try again.');
+      }
+      this.isLoading = false;
+      return false;
+    }
+
     if (!result) {
       this.toastrService.error('Incorrect username or password!');
       this.isLoading = false;

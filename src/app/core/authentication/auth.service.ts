@@ -237,6 +237,8 @@ export class AuthenticationService {
   ngOnDestroy() {}
 
   private handleAsyncError(error: HttpErrorResponse) {
+    const backendMessage = typeof error.error === 'string' ? error.error : error?.error?.message;
+
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
@@ -247,7 +249,8 @@ export class AuthenticationService {
     }
     // return an observable with a user-facing error message
     return throwError({
-      message: 'We had trouble within the authentication service.'
+      status: error.status,
+      message: backendMessage || 'We had trouble within the authentication service.'
     });
   }
 
