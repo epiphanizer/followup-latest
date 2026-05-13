@@ -1,7 +1,7 @@
 <ion-content>
   <ion-row>
     <ion-col class="operation-sidebar">
-      <app-operation-admin-sidebar (operationGroupChangeEventHandler)="operationGroupChangeEventHandler($event)">
+      <app-operation-admin-sidebar (operationGroupChangeEvent)="operationGroupChangeEventHandler($event)">
       </app-operation-admin-sidebar>
     </ion-col>
     <ion-col class="operation-content-wrapper" *ngIf="selected.operationGroup">

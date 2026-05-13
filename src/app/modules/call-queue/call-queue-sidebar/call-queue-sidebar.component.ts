@@ -96,6 +96,41 @@ export class CallQueueSidebarComponent {
     return Number(operation?.currentNewDischargeCount) > 0;
   }
 
+  private isSpanishOperation(operation: Operation): boolean {
+    const spanishFlag: any =
+      (operation as any)?.operationSpanishSpeaking ?? (operation as any)?.spanishSpeaking ?? false;
+
+    if (typeof spanishFlag === 'boolean') {
+      return spanishFlag;
+    }
+
+    if (typeof spanishFlag === 'number') {
+      return spanishFlag === 1;
+    }
+
+    if (typeof spanishFlag === 'string') {
+      const normalized = spanishFlag.trim().toLowerCase();
+      return normalized === '1' || normalized === 'true' || normalized === 'yes';
+    }
+
+    return false;
+  }
+
+  private refreshSpanishNewDischarges() {
+    const operationGroups = this.operationGroups?.length ? this.operationGroups : this.user?.operationGroups || [];
+    const operations: Operation[] = operationGroups.reduce((acc: Operation[], operationGroup: OperationGroup) => {
+      if (operationGroup?.operations?.length) {
+        return acc.concat(operationGroup.operations);
+      }
+      return acc;
+    }, []);
+
+    this.spanishNewDischarges = operations.some((operation: Operation) => {
+      this.normalizeOperationCounters(operation);
+      return this.isSpanishOperation(operation) && this.hasNewDischarges(operation);
+    });
+  }
+
   ngOnInit() {
     /** Init to the first user operation (alphabetically,) */
     this.user = this.route.snapshot.data.user;
@@ -108,6 +143,8 @@ export class CallQueueSidebarComponent {
               map((operations: Operation[]) => {
                 if (operations) {
                   operations.forEach((operation: Operation) => this.normalizeOperationCounters(operation));
+                  operationGroup.operations = operations;
+                  this.refreshSpanishNewDischarges();
                   if (idx == 0 && !this.selected.operation) {
                     this.selected.operation = operations[0];
                     this.activeOperationId = this.selected.operation.operationId;
@@ -118,12 +155,14 @@ export class CallQueueSidebarComponent {
             );
         });
         this.operationGroups = operationGroups;
+        this.refreshSpanishNewDischarges();
       });
     } else {
       this.operationGroups = this.user.operationGroups;
       this.operationGroups?.forEach((operationGroup: OperationGroup) => {
         operationGroup.operations?.forEach((operation: Operation) => this.normalizeOperationCounters(operation));
       });
+      this.refreshSpanishNewDischarges();
     }
 
     this.route.paramMap.subscribe((data: any) => {

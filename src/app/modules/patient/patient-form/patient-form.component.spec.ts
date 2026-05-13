@@ -481,12 +481,8 @@ describe('PatientFormComponent (Jest)', () => {
         patientIsResponsibleParty: false,
         patientSpeaksEnglish: true,
         patientFluentLanguage: 'Spanish',
-        primaryCarePhysician: {
-          patientPhysicianName: 'Dr. House',
-          patientPhysicianPhoneNumber: '111'
-        },
-        insurance: {
-          primaryInsurance: 'Aetna'
+        hospitalAdmitted: {
+          patientHospitalAdmitted: 'General Hospital'
         },
         dischargeInfo: {
           patientAdmitDate: '2021-01-02',
@@ -513,7 +509,9 @@ describe('PatientFormComponent (Jest)', () => {
     expect(payload).toEqual(
       expect.objectContaining({
         patientSpeaksEnglish: 0,
-        patientFluentLanguage: 'Spanish'
+        patientFluentLanguage: 'Spanish',
+        patientHospitalAdmitted: 'General Hospital',
+        patientPrimaryInsurance: 'General Hospital'
       })
     );
   });
@@ -634,12 +632,8 @@ describe('PatientFormComponent (Jest)', () => {
         patientIsResponsibleParty: false,
         patientSpeaksEnglish: false,
         patientFluentLanguage: 'Spanish',
-        primaryCarePhysician: {
-          patientPhysicianName: 'Dr. House',
-          patientPhysicianPhoneNumber: '111'
-        },
-        insurance: {
-          primaryInsurance: 'Aetna'
+        hospitalAdmitted: {
+          patientHospitalAdmitted: 'General Hospital'
         },
         dischargeInfo: {
           patientAdmitDate: '2021-01-02',
@@ -669,7 +663,9 @@ describe('PatientFormComponent (Jest)', () => {
       expect.objectContaining({
         patientOperationId: 'op-1',
         patientSpeaksEnglish: 1,
-        patientFluentLanguage: ''
+        patientFluentLanguage: '',
+        patientHospitalAdmitted: 'General Hospital',
+        patientPrimaryInsurance: 'General Hospital'
       })
     );
     expect(services.userService.updateOperations).toHaveBeenCalledWith(comp.user);

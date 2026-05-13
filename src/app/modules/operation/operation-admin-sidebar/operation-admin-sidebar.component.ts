@@ -79,23 +79,56 @@ export class OperationAdminSidebarComponent implements OnInit {
     private operationService: OperationService,
     private _cdr: ChangeDetectorRef
   ) {}
+
+  private getUserOperationGroups(): OperationGroup[] {
+    const userGroups: OperationGroup[] = Array.isArray(this.user?.operationGroups) ? this.user.operationGroups : [];
+    const userOperations: Operation[] = Array.isArray(this.user?.operations) ? this.user.operations : [];
+
+    return userGroups.map((operationGroup: OperationGroup) => {
+      const operations = Array.isArray(operationGroup.operations)
+        ? operationGroup.operations
+        : userOperations.filter(
+            (operation: Operation) => operation.operationGroupId == operationGroup.operationGroupId
+          );
+
+      return {
+        ...operationGroup,
+        operations,
+        sidebarDropdownOpen: !!operationGroup.sidebarDropdownOpen
+      };
+    });
+  }
+
   ngOnInit() {
-    this.user = this.route.snapshot.data.user;
+    this.user = this.route.snapshot.data.user || ({} as User);
+    const userOperationGroups = this.getUserOperationGroups();
+
     if (!localStorage.getItem('operationGroups')) {
       this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
-        console.log(operationGroups);
+        const safeOperationGroups = Array.isArray(operationGroups) ? operationGroups : [];
+
+        if (!safeOperationGroups.length) {
+          this.operationGroups = userOperationGroups;
+          return;
+        }
+
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+          operationGroup.operations = [];
           operationGroup.operations$ = this.operationService
             .getActiveOperationsByOperationGroupId(operationGroup, this.user)
             .pipe(
               map((operations: Operation[]) => {
-                if (operations) {
+                const safeOperations = Array.isArray(operations) ? operations : [];
+                operationGroup.operations = safeOperations;
+
+                if (safeOperations.length) {
                   if (idx == 0 && !this.selected.operation) {
-                    this.selected.operation = operations[0];
+                    this.selected.operation = safeOperations[0];
                     this.activeOperationId = this.selected.operation.operationId;
                   }
-                  return operations;
                 }
+
+                return safeOperations;
               })
             );
           /**
@@ -107,12 +140,14 @@ export class OperationAdminSidebarComponent implements OnInit {
             operationGroup.sidebarDropdownOpen = false;
           }
         });
-        this.operationGroups = operationGroups;
+        this.operationGroups = safeOperationGroups;
       });
     } else {
-      this.operationGroups = this.user.operationGroups;
+      this.operationGroups = userOperationGroups;
       if (!this.route.snapshot.data.operation) {
-        this.operationGroups[0].sidebarDropdownOpen = true;
+        if (this.operationGroups.length) {
+          this.operationGroups[0].sidebarDropdownOpen = true;
+        }
       } else {
         this.operationService
           .getOperationByOperationId(this.route.snapshot.data.operation.operationId)
@@ -143,8 +178,8 @@ export class OperationAdminSidebarComponent implements OnInit {
         return;
       }
 
-      if (this.user?.operations?.length) {
-        this.operations = this.user.operationGroups?.[0]?.operations || [];
+      if (this.operationGroups.length) {
+        this.operations = this.operationGroups[0]?.operations || [];
       }
     });
   }

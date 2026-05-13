@@ -84,4 +84,25 @@ describe('OperationAdminSidebarComponent', () => {
     expect(component.isTouched).toBe(true);
     expect(group.sidebarDropdownOpen).toBe(true);
   });
+
+  it('does not crash when user has no operation groups', () => {
+    const emptyRouteMock: any = {
+      snapshot: {
+        data: {
+          user: {
+            operations: [],
+            operationGroups: []
+          },
+          operation: null
+        }
+      },
+      paramMap: { subscribe: (fn: any) => fn({ params: {} }) }
+    };
+    const localComponent = new OperationAdminSidebarComponent(emptyRouteMock, operationServiceMock, {
+      detectChanges: jest.fn()
+    } as any);
+
+    expect(() => localComponent.ngOnInit()).not.toThrow();
+    expect(Array.isArray(localComponent.operationGroups)).toBe(true);
+  });
 });

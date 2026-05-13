@@ -67,4 +67,24 @@ describe('CallQueueSidebarComponent (Jest)', () => {
     expect(comp.hasNewDischarges({ currentNewDischargeCount: '0' } as any)).toBe(false);
     expect(comp.hasNewDischarges({ currentNewDischargeCount: null } as any)).toBe(false);
   });
+
+  it('computes spanishNewDischarges from spanish operations with new discharges', () => {
+    const route = { snapshot: { data: { user: { operationGroups: [] } } }, paramMap: { subscribe: jest.fn() } } as any;
+    const operationService = {} as any;
+    const patientService = {} as any;
+    const comp = new CallQueueSidebarComponent(route, operationService, patientService);
+
+    (comp as any).operationGroups = [
+      {
+        operations: [
+          { operationSpanishSpeaking: true, currentNewDischargeCount: '1' },
+          { operationSpanishSpeaking: false, currentNewDischargeCount: '3' }
+        ]
+      }
+    ];
+
+    (comp as any).refreshSpanishNewDischarges();
+
+    expect(comp.spanishNewDischarges).toBe(true);
+  });
 });

@@ -26,17 +26,23 @@ export class OperationOperationListingComponent implements OnInit {
   constructor(public route: ActivatedRoute) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.operationsFiltered = this.operations = this.user.operations.filter((operation: Operation) => {
-      return operation.operationGroupId == this.operationGroup.operationGroupId;
-    });
+    const userOperations = Array.isArray(this.user?.operations) ? this.user.operations : [];
+    const selectedOperationGroupId = this.operationGroup?.operationGroupId;
+
+    this.operationsFiltered = this.operations = selectedOperationGroupId
+      ? userOperations.filter((operation: Operation) => operation.operationGroupId == selectedOperationGroupId)
+      : [];
+
     this.runSortSwitch();
   }
 
   ngOnChanges(changes: any) {
     if (changes.operationGroup) {
-      if (!changes.operationGroup.currentValue.firstChange) {
+      if (!changes.operationGroup.firstChange) {
         this.operationGroup = changes.operationGroup.currentValue;
-        this.operationsFiltered = this.operations = this.operationGroup.operations;
+        this.operationsFiltered = this.operations = Array.isArray(this.operationGroup?.operations)
+          ? this.operationGroup.operations
+          : [];
         this.runSortSwitch();
       }
     }
