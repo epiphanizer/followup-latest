@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { formatDate } from '@angular/common';
 import { trigger, state, style, animate, transition } from '@angular/animations';
@@ -7,8 +7,6 @@ import { User } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { Patient } from '../patient';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   providers: [OperationService],
@@ -50,8 +48,9 @@ import { map } from 'rxjs/operators';
     ])
   ]
 })
-export class PatientManagerSidebarComponent implements OnInit {
-  @Output() operationChangeEvent = new EventEmitter<string>();
+export class PatientManagerSidebarComponent implements OnInit, OnChanges {
+  @Output() operationChangeEvent = new EventEmitter<Operation>();
+  @Input() selectedOperation: Operation | null = null;
   activeOperationId: string;
   errorFallback: boolean = false;
   selected: {
@@ -61,7 +60,6 @@ export class PatientManagerSidebarComponent implements OnInit {
   };
   operationGroups: OperationGroup[] = null;
 
-  operations: Operation[];
   @Input() user: User;
   todaysDateDay: string;
 
@@ -70,55 +68,46 @@ export class PatientManagerSidebarComponent implements OnInit {
   ngOnInit() {
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
     this.user = this.route.snapshot.data.user;
-    if (!localStorage.getItem('operationGroups')) {
-      this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
-        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-          operationGroup.operations$ = this.operationService
-            .getActiveOperationsByOperationGroupId(operationGroup, this.user)
-            .pipe(
-              map((operations: Operation[]) => {
-                if (operations) {
-                  this.operations = operations;
-                  if (idx == 0 && !this.selected.operation) {
-                    this.selected.operation = operations[0];
-                    this.activeOperationId = this.selected.operation.operationId;
-                  }
-                  return operations;
-                }
-              })
-            );
-          if (idx == 0) {
-            operationGroup.sidebarDropdownOpen = true;
-          } else {
-            operationGroup.sidebarDropdownOpen = false;
-          }
-        });
-        this.operationGroups = operationGroups;
-      });
-    } else {
-      this.operationGroups = this.user.operationGroups;
-    }
-    this.route.paramMap.subscribe((data: any) => {
-      var operationId;
-      if (data.params.operationId) {
-        operationId = data.params.operationId;
-      } else {
-        operationId = this.user.operations[0].operationId;
-        this.operations = this.user.operationGroups[0].operations;
+    this.operationGroups = (this.user.operationGroups || []).map((operationGroup: OperationGroup, idx: number) => {
+      operationGroup.sidebarDropdownOpen = idx === 0;
+      return operationGroup;
+    });
+
+    this.route.paramMap.subscribe((paramMap: any) => {
+      const routeOperationId = paramMap.get('operationId');
+      const defaultOperation = this.selectedOperation || this.getDefaultOperation();
+      const operationId = routeOperationId || defaultOperation?.operationId;
+
+      if (!operationId) {
+        this.selected.operation = null;
+        this.activeOperationId = null;
+        return;
       }
+
+      const operationFromGroups = this.findOperationById(operationId);
+      if (operationFromGroups) {
+        this.setActiveOperationInternal(operationFromGroups, false);
+        return;
+      }
+
       this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation | Operation[]) => {
         const operation = Array.isArray(data) ? data[0] : data;
-        if (operation) {
-          this.selected.operation = operation;
-          this.activeOperationId = this.selected.operation.operationId;
-        }
+        this.setActiveOperationInternal(operation, false);
       });
     });
   }
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      changes.selectedOperation &&
+      changes.selectedOperation.currentValue &&
+      changes.selectedOperation.currentValue.operationId !== this.activeOperationId
+    ) {
+      this.setActiveOperationInternal(changes.selectedOperation.currentValue, false);
+    }
+  }
+
   setActiveOperation = function(operation: Operation) {
-    this.selected.operation = operation;
-    this.activeOperationId = this.selected.operation.operationId;
-    this.operationChangeEvent.emit(operation);
+    this.setActiveOperationInternal(operation, true);
   };
   setActiveOperationGroup = function(operationGroup: OperationGroup) {
     operationGroup.sidebarDropdownOpen = true;
@@ -138,6 +127,59 @@ export class PatientManagerSidebarComponent implements OnInit {
     return patientsWithNoCalls.length;
   }
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
-    operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
+    if (!this.operationGroups || !this.operationGroups.length) {
+      return;
+    }
+    this.operationGroups.forEach((group: OperationGroup) => {
+      if (group.operationGroupId === operationGroup.operationGroupId) {
+        group.sidebarDropdownOpen = !group.sidebarDropdownOpen;
+      } else {
+        group.sidebarDropdownOpen = false;
+      }
+    });
+  }
+
+  private setActiveOperationInternal(operation: Operation, emitEvent: boolean) {
+    if (!operation) {
+      return;
+    }
+    this.selected.operation = operation;
+    this.activeOperationId = operation.operationId;
+    this.openOperationGroup(operation.operationGroupId);
+    if (emitEvent) {
+      this.operationChangeEvent.emit(operation);
+    }
+  }
+
+  private getDefaultOperation(): Operation | null {
+    for (const operationGroup of this.operationGroups || []) {
+      if (!operationGroup.operations || !operationGroup.operations.length) {
+        continue;
+      }
+      const activeOperation = operationGroup.operations.find((operation: Operation) => operation.operationActive !== 0);
+      return activeOperation || operationGroup.operations[0];
+    }
+    return null;
+  }
+
+  private findOperationById(operationId: string): Operation | null {
+    for (const operationGroup of this.operationGroups || []) {
+      const operation = (operationGroup.operations || []).find((userOperation: Operation) => {
+        return userOperation.operationId === operationId;
+      });
+      if (operation) {
+        return operation;
+      }
+    }
+    return null;
+  }
+
+  private openOperationGroup(operationGroupId: string) {
+    if (!this.operationGroups || !this.operationGroups.length) {
+      return;
+    }
+    this.operationGroups.forEach((group: OperationGroup) => {
+      group.sidebarDropdownOpen = group.operationGroupId === operationGroupId;
+    });
   }
 }

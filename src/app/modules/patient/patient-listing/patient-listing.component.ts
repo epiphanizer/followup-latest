@@ -66,14 +66,15 @@ export class PatientListingComponent implements OnInit, AfterViewInit {
       if (this.route.snapshot.data.mode == 'spanish') {
         this.mode.spanish = true;
       } else {
-        this.selected.operation = this.user.operationGroups[0].operations[0];
+        this.selected.operation = this.getDefaultOperationFromUser();
       }
     } else {
       // Sort by language
       this.operationService
         .getOperationByOperationId(this.route.snapshot.paramMap.get('operationId'))
         .subscribe((data: Operation | Operation[]) => {
-          this.selected.operation = Array.isArray(data) ? data[0] : data;
+          const operation = Array.isArray(data) ? data[0] : data;
+          this.selected.operation = operation || this.getDefaultOperationFromUser();
         });
     }
   }
@@ -93,5 +94,16 @@ export class PatientListingComponent implements OnInit, AfterViewInit {
   }
   ngOnDestroy() {
     this.patients = null;
+  }
+
+  private getDefaultOperationFromUser(): Operation | null {
+    for (const operationGroup of this.user?.operationGroups || []) {
+      if (!operationGroup.operations || !operationGroup.operations.length) {
+        continue;
+      }
+      const activeOperation = operationGroup.operations.find((operation: Operation) => operation.operationActive !== 0);
+      return activeOperation || operationGroup.operations[0];
+    }
+    return null;
   }
 }

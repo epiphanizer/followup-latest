@@ -54,6 +54,21 @@ describe('PatientListingComponent (Jest)', () => {
     expect(comp.mode.spanish).toBe(false);
   });
 
+  it('falls back to first available operation when initial group has no operations', () => {
+    const route = makeRoute(undefined, undefined, {
+      operationGroups: [{ operations: [] }, { operations: [{ operationId: 'op-2', name: 'op2' }] }]
+    });
+    const { patientService, operationService } = makeServices();
+    const cdr = { detectChanges: jest.fn() } as any;
+    const comp = new PatientListingComponent(cdr, patientService, operationService, route, {
+      onPopState: jest.fn()
+    } as any);
+
+    comp.ngOnInit();
+
+    expect(comp.selected.operation.operationId).toBe('op-2');
+  });
+
   it('sets spanish mode when route mode is spanish', () => {
     const route = makeRoute('spanish');
     const { patientService, operationService } = makeServices();

@@ -1,7 +1,10 @@
 <ion-content>
   <ion-row>
     <ion-col class="patient-sidebar">
-      <app-patient-manager-sidebar (operationChangeEvent)="operationChangeEventHandler($event)">
+      <app-patient-manager-sidebar
+        [selectedOperation]="selected.operation"
+        (operationChangeEvent)="operationChangeEventHandler($event)"
+      >
       </app-patient-manager-sidebar>
     </ion-col>
     <ion-col class="patient-content-wrapper">

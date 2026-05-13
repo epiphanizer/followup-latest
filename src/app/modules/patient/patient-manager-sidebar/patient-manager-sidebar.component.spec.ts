@@ -29,10 +29,28 @@ describe('PatientManagerSidebarComponent (Jest)', () => {
     const route = { snapshot: { data: { user: {} } }, paramMap: { subscribe: jest.fn() } } as any;
     const operationService = {} as any;
     const comp = new PatientManagerSidebarComponent(route, operationService);
-    const group = { sidebarDropdownOpen: false } as any;
+    const groupA = { operationGroupId: 'og-1', sidebarDropdownOpen: false } as any;
+    const groupB = { operationGroupId: 'og-2', sidebarDropdownOpen: true } as any;
+    comp.operationGroups = [groupA, groupB];
 
-    comp.toggleOperationSidebarMenu(group);
+    comp.toggleOperationSidebarMenu(groupA);
 
-    expect(group.sidebarDropdownOpen).toBe(true);
+    expect(groupA.sidebarDropdownOpen).toBe(true);
+    expect(groupB.sidebarDropdownOpen).toBe(false);
+  });
+
+  it('opens selected operation group when setting active operation', () => {
+    const route = { snapshot: { data: { user: {} } }, paramMap: { subscribe: jest.fn() } } as any;
+    const operationService = {} as any;
+    const comp = new PatientManagerSidebarComponent(route, operationService);
+    comp.operationGroups = [
+      { operationGroupId: 'og-1', sidebarDropdownOpen: true },
+      { operationGroupId: 'og-2', sidebarDropdownOpen: false }
+    ] as any;
+
+    comp.setActiveOperation({ operationId: 'op-2', operationGroupId: 'og-2' } as any);
+
+    expect(comp.operationGroups[0].sidebarDropdownOpen).toBe(false);
+    expect(comp.operationGroups[1].sidebarDropdownOpen).toBe(true);
   });
 });

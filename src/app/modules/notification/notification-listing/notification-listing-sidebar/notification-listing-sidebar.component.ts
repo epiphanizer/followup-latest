@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { formatDate } from '@angular/common';
 import {
   trigger,
@@ -12,9 +12,7 @@ import {
 import { User } from '@app/modules/user/user';
 import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { OperationService } from '@app/modules/operation/operation.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   providers: [OperationService],
@@ -56,8 +54,9 @@ import { map } from 'rxjs/operators';
     ])
   ]
 })
-export class NotificationListingSidebarComponent implements OnInit {
-  @Output() operationChangeEvent = new EventEmitter<string>();
+export class NotificationListingSidebarComponent implements OnInit, OnChanges {
+  @Output() operationChangeEvent = new EventEmitter<Operation>();
+  @Input() selectedOperation: Operation | null = null;
   activeOperationId: string;
   selected: {
     operation: Operation | null;
@@ -65,77 +64,113 @@ export class NotificationListingSidebarComponent implements OnInit {
     operation: null
   };
   operationGroups: OperationGroup[] = null;
-  operationGroups$: Observable<OperationGroup[]>;
 
   constructor(private route: ActivatedRoute, private operationService: OperationService) {}
-  operations: Operation[];
   user: User;
   todaysDateDay: string;
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    if (!localStorage.getItem('operationGroups')) {
-      this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
-        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
-          operationGroup.operations$ = this.operationService
-            .getActiveOperationsByOperationGroupId(operationGroup, this.user)
-            .pipe(
-              map((operations: Operation[]) => {
-                if (operations) {
-                  if (idx == 0 && !this.selected.operation) {
-                    this.selected.operation = operations[0];
-                    this.activeOperationId = this.selected.operation.operationId;
-                  }
-                  return operations;
-                }
-              })
-            );
-          if (idx == 0) {
-            operationGroup.sidebarDropdownOpen = true;
-          } else {
-            operationGroup.sidebarDropdownOpen = false;
-          }
-        });
-        this.operationGroups = operationGroups;
-      });
-    } else {
-      this.operationGroups = this.user.operationGroups;
-    }
+    this.operationGroups = (this.user.operationGroups || []).map((operationGroup: OperationGroup, idx: number) => {
+      operationGroup.sidebarDropdownOpen = idx === 0;
+      return operationGroup;
+    });
 
-    this.route.paramMap.subscribe((data: any) => {
-      const operationId = data.get ? data.get('operationId') : data.params?.operationId;
+    this.route.paramMap.subscribe((paramMap: any) => {
+      const routeOperationId = paramMap.get ? paramMap.get('operationId') : paramMap.params?.operationId;
+      const defaultOperation = this.selectedOperation || this.getDefaultOperation();
+      const operationId = routeOperationId || defaultOperation?.operationId;
 
-      if (operationId) {
-        this.operationService.getOperationByOperationId(operationId).subscribe((result: Operation | Operation[]) => {
-          const resolvedOperation = Array.isArray(result) ? result[0] : result;
-          if (resolvedOperation) {
-            this.selected.operation = resolvedOperation;
-            this.activeOperationId = this.selected.operation.operationId;
-          }
-        });
+      if (!operationId) {
+        this.selected.operation = null;
+        this.activeOperationId = null;
         return;
       }
 
-      if (this.user?.operations?.length) {
-        this.operations = this.user.operationGroups?.[0]?.operations || [];
+      const operationFromGroups = this.findOperationById(operationId);
+      if (operationFromGroups) {
+        this.setActiveOperationInternal(operationFromGroups, false);
+        return;
       }
+
+      this.operationService.getOperationByOperationId(operationId).subscribe((result: Operation | Operation[]) => {
+        const resolvedOperation = Array.isArray(result) ? result[0] : result;
+        this.setActiveOperationInternal(resolvedOperation, false);
+      });
     });
 
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
-  setActiveOperation = function(operation: Operation) {
-    this.selected.operation = operation;
 
-    this.activeOperationId = this.selected.operation.operationId;
-    this.operationChangeEvent.emit(operation);
-    if (this.operationGroups) {
-      this.operationGroups.forEach((operationGroup: OperationGroup) => {
-        if (this.selected.operation.operationGroupId != operationGroup.operationGroupId) {
-          operationGroup.sidebarDropdownOpen = false;
-        }
-      });
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      changes.selectedOperation &&
+      changes.selectedOperation.currentValue &&
+      changes.selectedOperation.currentValue.operationId !== this.activeOperationId
+    ) {
+      this.setActiveOperationInternal(changes.selectedOperation.currentValue, false);
     }
+  }
+
+  setActiveOperation = function(operation: Operation) {
+    this.setActiveOperationInternal(operation, true);
   };
+
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
-    operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
+    if (!this.operationGroups || !this.operationGroups.length) {
+      return;
+    }
+    this.operationGroups.forEach((group: OperationGroup) => {
+      if (group.operationGroupId === operationGroup.operationGroupId) {
+        group.sidebarDropdownOpen = !group.sidebarDropdownOpen;
+      } else {
+        group.sidebarDropdownOpen = false;
+      }
+    });
+  }
+
+  private setActiveOperationInternal(operation: Operation, emitEvent: boolean) {
+    if (!operation) {
+      return;
+    }
+
+    this.selected.operation = operation;
+    this.activeOperationId = operation.operationId;
+    this.openOperationGroup(operation.operationGroupId);
+
+    if (emitEvent) {
+      this.operationChangeEvent.emit(operation);
+    }
+  }
+
+  private getDefaultOperation(): Operation | null {
+    for (const operationGroup of this.operationGroups || []) {
+      if (!operationGroup.operations || !operationGroup.operations.length) {
+        continue;
+      }
+      const activeOperation = operationGroup.operations.find((operation: Operation) => operation.operationActive !== 0);
+      return activeOperation || operationGroup.operations[0];
+    }
+    return null;
+  }
+
+  private findOperationById(operationId: string): Operation | null {
+    for (const operationGroup of this.operationGroups || []) {
+      const operation = (operationGroup.operations || []).find((userOperation: Operation) => {
+        return userOperation.operationId === operationId;
+      });
+      if (operation) {
+        return operation;
+      }
+    }
+    return null;
+  }
+
+  private openOperationGroup(operationGroupId: string) {
+    if (!this.operationGroups || !this.operationGroups.length) {
+      return;
+    }
+    this.operationGroups.forEach((group: OperationGroup) => {
+      group.sidebarDropdownOpen = group.operationGroupId === operationGroupId;
+    });
   }
 }

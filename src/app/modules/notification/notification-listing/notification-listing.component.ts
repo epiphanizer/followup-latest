@@ -33,11 +33,11 @@ export class NotificationListingComponent implements OnInit {
   constructor(private notificationService: NotificationService, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.user = this.route.snapshot.data.user;
     if (!this.route.snapshot.data.operation) {
-      this.user = this.route.snapshot.data.user;
-      this.selected.operation = this.user.operationGroups[0].operations[0];
+      this.selected.operation = this.getDefaultOperationFromUser();
     } else {
-      this.selected.operation = this.route.snapshot.data.operation;
+      this.selected.operation = this.route.snapshot.data.operation || this.getDefaultOperationFromUser();
     }
   }
 
@@ -55,5 +55,16 @@ export class NotificationListingComponent implements OnInit {
           return notifications;
         })
       );
+  }
+
+  private getDefaultOperationFromUser(): Operation | null {
+    for (const operationGroup of this.user?.operationGroups || []) {
+      if (!operationGroup.operations || !operationGroup.operations.length) {
+        continue;
+      }
+      const activeOperation = operationGroup.operations.find((operation: Operation) => operation.operationActive !== 0);
+      return activeOperation || operationGroup.operations[0];
+    }
+    return null;
   }
 }

@@ -9,52 +9,44 @@
     <a class="facility-dropdown-target" [routerLink]="'/notifications'">NOTIFICATIONS</a>
     <ng-container *ngIf="operationGroups">
       <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
-        <span class="operation-group" (click)="toggleOperationSidebarMenu(operationGroup)"
-          >{{
+        <div class="operation-group" (click)="toggleOperationSidebarMenu(operationGroup)">
+          {{
             operationGroup.operationGroupShortName?.length
               ? operationGroup.operationGroupShortName
               : operationGroup.operationGroupName
           }}
           <i
             class="expand-facilities-trigger"
-            [@turnArrow]="
-              operationGroup.sidebarDropdownOpen ||
-              operationGroup.operationGroupId == selected.operation?.operationGroupId
-                ? 'open'
-                : 'closed'
-            "
+            [@turnArrow]="operationGroup.sidebarDropdownOpen ? 'open' : 'closed'"
             class="expand-facilities-trigger active"
           >
           </i>
-          <ul
-            class="group-operations"
-            [class.show]="
-              operationGroup.sidebarDropdownOpen ||
-              operationGroup.operationGroupId == selected.operation?.operationGroupId
-            "
-            *ngIf="operationGroup.operations"
-          >
-            <li *ngFor="let operation of operationGroup.operations" [class.spanish]="operation.spanishSpeaking">
-              <div class="operation-link-container" *ngIf="operation.operationActive">
-                <a
-                  class="operation-link"
-                  [routerLink]="'/operations/' + operation.operationId + '/notifications'"
-                  (click)="setActiveOperation(operation)"
-                  [class.active]="activeOperationId == operation.operationId"
-                >
-                  {{ operation.operationName | slice: 0:15
-                  }}<span *ngIf="operation.operationName.length > 16">
-                    <!-- ... -->
-                  </span>
-                </a>
-
-                <span class="current-patients">
-                  {{ operation.currentAssignedPatientCount }}
+        </div>
+        <ul
+          class="group-operations"
+          [class.show]="operationGroup.sidebarDropdownOpen"
+          *ngIf="operationGroup.operations"
+        >
+          <li *ngFor="let operation of operationGroup.operations" [class.spanish]="operation.spanishSpeaking">
+            <div class="operation-link-container" *ngIf="operation.operationActive">
+              <a
+                class="operation-link"
+                [routerLink]="'/operations/' + operation.operationId + '/notifications'"
+                (click)="$event.stopPropagation(); setActiveOperation(operation)"
+                [class.active]="activeOperationId == operation.operationId"
+              >
+                {{ operation.operationName | slice: 0:15
+                }}<span *ngIf="operation.operationName.length > 16">
+                  <!-- ... -->
                 </span>
-              </div>
-            </li>
-          </ul>
-        </span>
+              </a>
+
+              <span class="current-patients">
+                {{ operation.currentAssignedPatientCount }}
+              </span>
+            </div>
+          </li>
+        </ul>
       </div>
     </ng-container>
     <ng-template #noOperations>

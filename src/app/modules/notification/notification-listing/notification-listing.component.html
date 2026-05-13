@@ -1,7 +1,10 @@
 <ion-content>
   <ion-row>
     <ion-col class="notification-sidebar">
-      <app-notification-listing-sidebar (operationChangeEvent)="operationChangeEventHandler($event)">
+      <app-notification-listing-sidebar
+        [selectedOperation]="selected.operation"
+        (operationChangeEvent)="operationChangeEventHandler($event)"
+      >
       </app-notification-listing-sidebar>
     </ion-col>
     <ion-col class="notification-content-wrapper">
