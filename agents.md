@@ -54,6 +54,11 @@ Shared/core scaffolding
 
 ## Running change log (frontend)
 
+- 2026-05-12: Fixed operations/facilities page rendering regressions by hardening operation listing/sidebar selection logic against sparse resolver payloads, correcting operation-group output binding in [src/app/modules/operation/operation-listing/operation-listing.component.html](src/app/modules/operation/operation-listing/operation-listing.component.html), and adding fallback hydration by `operationGroupId` in [src/app/modules/operation/operation-listing/operation-listing.component.ts](src/app/modules/operation/operation-listing/operation-listing.component.ts).
+- 2026-05-12: Added/updated operation regression coverage for missing group data and fallback hydration in [src/app/modules/operation/operation-listing/operation-listing.component.spec.ts](src/app/modules/operation/operation-listing/operation-listing.component.spec.ts) and [src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts](src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts).
+- 2026-05-12: Updated Hospital Admitted contract assertions in [src/app/modules/patient/patient-form/patient-form.component.spec.ts](src/app/modules/patient/patient-form/patient-form.component.spec.ts) to reflect dual payload mapping (`patientHospitalAdmitted` + `patientPrimaryInsurance`).
+- 2026-05-12: Extended call queue sidebar behavior and spec coverage for spanish-link new-discharge indicator in [src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.ts](src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.ts) and [src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.spec.ts](src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.spec.ts).
+- 2026-05-12: Focused regression suite run passed for operation modules (3 suites, 12 tests).
 - 2026-05-10: Promoted frontend release to 3.10.0 on alpha (`package.json`, `package-lock.json`, and `src/environments/.env.ts`), validated alpha build, and pushed `v3.10.0` tag.
 - 2026-05-10: Updated alpha deployment workflow for App Service stability: - switched `actions/upload-artifact`/`actions/download-artifact` to `@v5`; - moved deploy path to publish profile (with OIDC fallback) in [v3.10.0/followup-frontend/.github/workflows/alpha_alpha-followupcare.yml](v3.10.0/followup-frontend/.github/workflows/alpha_alpha-followupcare.yml); - current blocker is credential configuration in GitHub environment `alpha` (missing publish profile and/or OIDC subject mismatch).
 - 2026-05-10: Confirmed all frontend `feature/v399-*` branches are merged into alpha.
@@ -65,3 +70,14 @@ Shared/core scaffolding
 - 2026-02-06: Added impersonation fallback to fetch user details when the API returns 405 for /users/impersonate.
 - 2026-02-06: Aligned notification modal sizing with followup-complete modal and enabled textarea autogrow.
 - 2026-02-06: Restored login-as-user action in team detail, re-added impersonation plumbing, and fixed failing unit spec typings.
+
+## Current tasklist (frontend)
+
+- [x] Operations/facilities rendering hardening and focused regression coverage.
+- [x] Hospital Admitted frontend contract/spec alignment.
+- [x] Spanish queue link indicator computation and call queue sidebar coverage.
+- [ ] DOR-CQ-01 portal phone mapping on caller face sheet: complete endpoint-to-UI parity verification.
+- [ ] DOR-CQ-02 duplicate contacts flow audit: validate API result shape vs UI dedupe rendering.
+- [ ] DOR-CQ-03 and DOR-NP-03 spanish queue routing/indicator behavior: verify end-to-end in queue views.
+- [ ] DOR-NP-02 add/edit Hospital Admitted flow: complete frontend smoke validation against current API persistence.
+- [ ] DOR-OP-01 ownership/client rename propagation through operation and WZ naming views.
