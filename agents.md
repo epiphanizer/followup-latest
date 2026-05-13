@@ -54,6 +54,10 @@ Shared/core scaffolding
 
 ## Running change log (frontend)
 
+- 2026-05-12: Created branch `v3100_dependency_audit` for v3.10.0 frontend Phase 2 hardening and reran `npm audit --audit-level=high` baseline.
+- 2026-05-12: Executed `npm audit fix` (non-force) on `v3100_dependency_audit`; lockfile refreshed but no safe non-breaking framework fixes were available. Frontend remains at 198 vulnerabilities (26 low, 79 moderate, 85 high, 8 critical), with `--force` paths requiring major Angular/Ionic toolchain movement deferred to Phase 3.
+- 2026-05-12: Hardened frontend login error handling in [src/app/core/authentication/auth.service.ts](src/app/core/authentication/auth.service.ts) and [src/app/login/login.component.ts](src/app/login/login.component.ts) to preserve backend status/message context and differentiate invalid credentials (401) from service/runtime failures.
+- 2026-05-12: Stabilized patient and notification listing sidebars by separating operation-group toggle headers from operation links, removing forced-open coupling, and syncing selected operation between listing and sidebar; updates in [src/app/modules/patient](src/app/modules/patient) and [src/app/modules/notification](src/app/modules/notification) with focused Jest coverage.
 - 2026-05-12: Fixed operations/facilities page rendering regressions by hardening operation listing/sidebar selection logic against sparse resolver payloads, correcting operation-group output binding in [src/app/modules/operation/operation-listing/operation-listing.component.html](src/app/modules/operation/operation-listing/operation-listing.component.html), and adding fallback hydration by `operationGroupId` in [src/app/modules/operation/operation-listing/operation-listing.component.ts](src/app/modules/operation/operation-listing/operation-listing.component.ts).
 - 2026-05-12: Added/updated operation regression coverage for missing group data and fallback hydration in [src/app/modules/operation/operation-listing/operation-listing.component.spec.ts](src/app/modules/operation/operation-listing/operation-listing.component.spec.ts) and [src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts](src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts).
 - 2026-05-12: Updated Hospital Admitted contract assertions in [src/app/modules/patient/patient-form/patient-form.component.spec.ts](src/app/modules/patient/patient-form/patient-form.component.spec.ts) to reflect dual payload mapping (`patientHospitalAdmitted` + `patientPrimaryInsurance`).
@@ -73,9 +77,11 @@ Shared/core scaffolding
 
 ## Current tasklist (frontend)
 
+- [x] Phase 2 frontend dependency-audit branch created and non-breaking `npm audit fix` pass recorded.
 - [x] Operations/facilities rendering hardening and focused regression coverage.
 - [x] Hospital Admitted frontend contract/spec alignment.
 - [x] Spanish queue link indicator computation and call queue sidebar coverage.
+- [ ] Frontend residual vulnerability triage: schedule force-level dependency upgrades (Angular CLI/build stack, Karma/Stylelint chains) under Phase 3 modernization window.
 - [ ] DOR-CQ-01 portal phone mapping on caller face sheet: complete endpoint-to-UI parity verification.
 - [ ] DOR-CQ-02 duplicate contacts flow audit: validate API result shape vs UI dedupe rendering.
 - [ ] DOR-CQ-03 and DOR-NP-03 spanish queue routing/indicator behavior: verify end-to-end in queue views.
