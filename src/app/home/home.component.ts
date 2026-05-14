@@ -106,12 +106,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private loadTeamTotalsAndUserData(user: User) {
     forkJoin({
-      teamTotals: this.teamService.getTeamTotals().pipe(catchError(() => of([]))),
       userMessages: this.userService.getUserMessages(user).pipe(catchError(() => of([]))),
       userCounts: this.userService.getUserCallCount(user).pipe(catchError(() => of([]))),
       userNotifications: this.userService.getUserNotifications(user).pipe(catchError(() => of([])))
-    }).subscribe(({ teamTotals, userMessages, userCounts, userNotifications }) => {
-      const teamTotalsRecord = this.firstRecord(teamTotals);
+    }).subscribe(({ userMessages, userCounts, userNotifications }) => {
       const userCountsRecord = this.firstRecord(userCounts);
       const notifications = Array.isArray(userNotifications) ? userNotifications : [];
 
@@ -120,14 +118,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.userMessage.messageBody = this.sharedFunctions.returnHTML(this.userMessage.messageBody);
       }
 
-      this.callsMade.totalCalls = this.coalescePositive(
-        this.getRecordNumber(teamTotalsRecord, ['totalCalls']),
-        this.getRecordNumber(userCountsRecord, ['totalCalls'])
-      );
-      this.notificationsSent.totalNotifications = this.coalescePositive(
-        this.getRecordNumber(teamTotalsRecord, ['totalNotifications']),
-        notifications.length
-      );
+      this.callsMade.totalCalls = this.getRecordNumber(userCountsRecord, ['totalCalls']);
+      this.notificationsSent.totalNotifications = notifications.length;
 
       this.todaysCalls.completed = this.getRecordNumber(userCountsRecord, ['todaysCompletedCalls']);
       this.todaysCalls.scheduled = this.getRecordNumber(userCountsRecord, ['todaysScheduledCalls']);
@@ -145,33 +137,58 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.notificationsSent.notifications = notifications;
       this.notificationsSent.user = notifications.length;
 
-      const today = new Date();
-      const lastweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
-      notifications.forEach((notification: any) => {
-        if (Date.parse(notification.notificationCreatedTime) > Date.parse(lastweek.toString())) {
-          this.notificationsSent.weeklyNotifications.push(notification);
-        }
-      });
-
-      this.notificationsProgress = this.toPercentage(
-        this.notificationsSent.user,
-        this.notificationsSent.totalNotifications
-      );
-      this.weeklyCallsToNotificationsPercentage = this.toPercentage(
-        this.notificationsSent.weeklyNotifications.length,
-        this.weeklyCalls.completed
-      );
-      this.totalCallsToNotificationsPercentage = this.toPercentage(
-        this.notificationsSent.totalNotifications,
-        this.callsMade.totalCalls
+      const weeklyThreshold = this.getWeeklyThresholdTimestamp();
+      this.notificationsSent.weeklyNotifications = notifications.filter(
+        (notification: any) => Date.parse(notification.notificationCreatedTime) > weeklyThreshold
       );
 
-      this.todaysCallsProgress = this.toPercentage(this.todaysCalls.completed, this.todaysCalls.scheduled);
-      this.weeklyCallsProgress = this.toPercentage(this.weeklyCalls.completed, this.weeklyCalls.scheduled);
-      this.callsMadeProgress = this.toPercentage(this.callsMade.callsMade, this.callsMade.totalCalls);
+      this.updateProgressMetrics();
 
       this.countReady = true;
     });
+
+    // Team totals are used as a richer fallback for "all-calls" denominators.
+    // We request them independently so home metrics can render quickly even when this endpoint is slow.
+    this.teamService
+      .getTeamTotals()
+      .pipe(catchError(() => of([])))
+      .subscribe((teamTotals: any[]) => {
+        const teamTotalsRecord = this.firstRecord(teamTotals);
+        this.callsMade.totalCalls = this.coalescePositive(
+          this.getRecordNumber(teamTotalsRecord, ['totalCalls']),
+          this.callsMade.totalCalls
+        );
+        this.notificationsSent.totalNotifications = this.coalescePositive(
+          this.getRecordNumber(teamTotalsRecord, ['totalNotifications']),
+          this.notificationsSent.totalNotifications
+        );
+        this.updateProgressMetrics();
+      });
+  }
+
+  private updateProgressMetrics() {
+    this.notificationsProgress = this.toPercentage(
+      this.notificationsSent.user,
+      this.notificationsSent.totalNotifications
+    );
+    this.weeklyCallsToNotificationsPercentage = this.toPercentage(
+      this.notificationsSent.weeklyNotifications.length,
+      this.weeklyCalls.completed
+    );
+    this.totalCallsToNotificationsPercentage = this.toPercentage(
+      this.notificationsSent.totalNotifications,
+      this.callsMade.totalCalls
+    );
+
+    this.todaysCallsProgress = this.toPercentage(this.todaysCalls.completed, this.todaysCalls.scheduled);
+    this.weeklyCallsProgress = this.toPercentage(this.weeklyCalls.completed, this.weeklyCalls.scheduled);
+    this.callsMadeProgress = this.toPercentage(this.callsMade.callsMade, this.callsMade.totalCalls);
+  }
+
+  private getWeeklyThresholdTimestamp(): number {
+    const today = new Date();
+    const lastweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+    return lastweek.getTime();
   }
 
   private firstRecord(data: any): any {

@@ -1,20 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { HttpErrorResponse, HttpClient } from '@angular/common/http';
-import { retry, catchError } from 'rxjs/operators';
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
+import { catchError, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientAvatarService {
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
+  private avatarRequestCache = new Map<string, Observable<any>>();
+
+  constructor(private http: HttpClient) {}
   getPatientAvatarByPatientId(patientId: string): Observable<any> {
-    return this.http
+    const cacheKey = String(patientId);
+    const existingRequest = this.avatarRequestCache.get(cacheKey);
+    if (existingRequest) {
+      return existingRequest;
+    }
+
+    const request$ = this.http
       .get<any>('patients/' + patientId + '/avatar', { responseType: 'blob' as 'json' })
       .pipe(
-        catchError(e => this.handleAsyncError(e)) // then handle the error
+        shareReplay(1),
+        catchError(e => {
+          this.avatarRequestCache.delete(cacheKey);
+          return this.handleAsyncError(e);
+        })
       );
+
+    this.avatarRequestCache.set(cacheKey, request$);
+    return request$;
   }
 
   uploadPatientAvatarByPatientId(patientId: string, file: File) {

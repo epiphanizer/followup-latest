@@ -1,23 +1,18 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
 import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import {
-  PatientCallStatus,
-  PatientCallStatusService
-} from '@app/modules/patient/patient-detail/patient-call/patient-call-status.service';
-import { PatientCallService } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
-import { UserRoles } from '@app/modules/user/user';
 
 @Component({
-  providers: [PatientService, PatientCallService],
+  providers: [PatientService],
   selector: 'app-call-queue-patient-listing[operation]',
   templateUrl: './call-queue-patient-listing.component.html',
-  styleUrls: ['./call-queue-patient-listing.component.scss']
+  styleUrls: ['./call-queue-patient-listing.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CallQueuePatientListingComponent implements OnInit {
+export class CallQueuePatientListingComponent implements OnInit, OnChanges {
   @Input() mode: any;
   @Input() spanishListing: boolean;
   pageOfItems: Patient[];
@@ -29,18 +24,14 @@ export class CallQueuePatientListingComponent implements OnInit {
   colDefs: string[] = ['Call Date', 'Discharge Date'];
   public patients: Patient[];
   public patients$: Observable<Patient[]> | void = null;
-  public patientCallStatuses: PatientCallStatus[];
   public todaysDate: Date;
   public selectedSortFlag: string = 'asc';
   public selectedSortOption: string = this.colDefs[0];
 
-  constructor(private patientService: PatientService, private patientCallStatusService: PatientCallStatusService) {}
+  constructor(private patientService: PatientService) {}
   ngOnInit() {
     this.todaysDate = new Date();
     this.currentYear = new Date().getFullYear();
-    this.patientCallStatusService.getPatientCallStatuses().subscribe((patientCallStatuses: PatientCallStatus[]) => {
-      this.patientCallStatuses = patientCallStatuses;
-    });
     if (this.mode.spanish) {
       this.patients$ = this.patientService.getActiveSpanishPatients().pipe(
         take(1),
@@ -143,6 +134,11 @@ export class CallQueuePatientListingComponent implements OnInit {
     this.selectedSortFlag = $event;
     this.runSortSwitch();
   };
+
+  trackByPatientId(index: number, patient: Patient): string | number {
+    return patient?.patientId ?? index;
+  }
+
   runSortSwitch() {
     switch (this.selectedSortOption) {
       case 'Discharge Date':

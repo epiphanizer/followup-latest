@@ -14,7 +14,7 @@
   <ion-list lines="none">
     <ion-item
       color="transparent"
-      *ngFor="let patient of pageOfItems"
+      *ngFor="let patient of pageOfItems; trackBy: trackByPatientId"
       class="active patient-list-item"
       [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"
       [class.new-discharge]="patient.patientCallCount == 1"

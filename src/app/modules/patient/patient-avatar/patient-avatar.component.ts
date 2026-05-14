@@ -1,15 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { PatientAvatarService } from './patient-avatar.service';
 import { Patient } from '../patient';
-import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-patient-avatar',
   templateUrl: './patient-avatar.component.html',
   styleUrls: ['./patient-avatar.component.scss']
 })
-export class PatientAvatarComponent implements OnInit {
+export class PatientAvatarComponent implements OnInit, OnChanges {
+  private static avatarStyleCache = new Map<string, SafeStyle>();
+
   avatarUrl: SafeStyle;
   isCircle: boolean = false;
   @Input() patient: Patient;
@@ -21,38 +22,63 @@ export class PatientAvatarComponent implements OnInit {
   constructor(private patientAvatarService: PatientAvatarService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    var self = this;
-    if (this.type == 'circle') {
-      this.isCircle = true;
+    this.isCircle = this.type == 'circle';
+    this.loadAvatar();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.type) {
+      this.isCircle = this.type == 'circle';
     }
-    var store: any = '';
-    if (sessionStorage.getItem(self.patient.patientId.toString())) {
-      var storeDeserialized = sessionStorage.getItem(self.patient.patientId.toString());
-      if (storeDeserialized.length) {
-        self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${storeDeserialized})`);
-        self.avatarExists = true;
+    if (changes.patient && !changes.patient.firstChange) {
+      this.loadAvatar();
+    }
+  }
+
+  private loadAvatar() {
+    if (!this.patient?.patientId) {
+      this.avatarUrl = null;
+      this.avatarExists = false;
+      return;
+    }
+
+    const patientId = this.patient.patientId.toString();
+    const cachedStyle = PatientAvatarComponent.avatarStyleCache.get(patientId);
+    if (cachedStyle) {
+      this.avatarUrl = cachedStyle;
+      this.avatarExists = true;
+      return;
+    }
+
+    const storeDeserialized = sessionStorage.getItem(patientId);
+    if (storeDeserialized && storeDeserialized.length) {
+      const safeStyle = this.sanitizer.bypassSecurityTrustStyle(`url(${storeDeserialized})`);
+      PatientAvatarComponent.avatarStyleCache.set(patientId, safeStyle);
+      this.avatarUrl = safeStyle;
+      this.avatarExists = true;
+      return;
+    }
+
+    this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
+      if (data !== null && !data.errno) {
+        const reader = new FileReader();
+        reader.readAsDataURL(data);
+        reader.onloadend = () => {
+          const base64data = reader.result as string;
+          try {
+            sessionStorage.setItem(patientId, base64data);
+          } catch (_error) {
+            // If storage is full, skip persistent caching and keep in-memory value only.
+          }
+
+          const safeStyle = this.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
+          PatientAvatarComponent.avatarStyleCache.set(patientId, safeStyle);
+          this.avatarUrl = safeStyle;
+          this.avatarExists = true;
+        };
+      } else {
+        sessionStorage.setItem(patientId, '');
       }
-    } else {
-      this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
-        if (data !== null && !data.errno) {
-          var reader = new FileReader();
-          reader.readAsDataURL(data);
-          reader.onloadend = function() {
-            var base64data = reader.result;
-            store = base64data;
-            try {
-              sessionStorage.setItem(self.patient.patientId.toString(), store);
-            } catch (error) {
-              sessionStorage.clear();
-              sessionStorage.setItem(self.patient.patientId.toString(), store);
-            }
-            self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
-            self.avatarExists = true;
-          };
-        } else {
-          sessionStorage.setItem(self.patient.patientId.toString(), '');
-        }
-      });
-    }
+    });
   }
 }
