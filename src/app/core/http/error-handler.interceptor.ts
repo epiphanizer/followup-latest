@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
 import { Logger } from '../logger.service';
+import { TelemetryService } from '../telemetry.service';
 
 const log = new Logger('ErrorHandlerInterceptor');
 
@@ -13,12 +14,18 @@ const log = new Logger('ErrorHandlerInterceptor');
  */
 @Injectable()
 export class ErrorHandlerInterceptor implements HttpInterceptor {
+  constructor(private telemetry?: TelemetryService) {}
+
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError(error => this.errorHandler(error)));
   }
 
   // Customize the default error handler here if needed
   private errorHandler(response: HttpEvent<any>): Observable<HttpEvent<any>> {
+    this.telemetry?.trackException(response, {
+      source: 'ErrorHandlerInterceptor'
+    });
+
     if (!environment.production) {
       // Do something with the error
       log.error('Request error', response);

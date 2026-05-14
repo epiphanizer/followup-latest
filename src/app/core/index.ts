@@ -8,4 +8,5 @@ export * from './http/cache.interceptor';
 export * from './http/error-handler.interceptor';
 export * from './route-reusable-strategy';
 export * from './logger.service';
+export * from './telemetry.service';
 export * from './until-destroyed';

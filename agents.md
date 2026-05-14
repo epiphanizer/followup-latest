@@ -54,6 +54,12 @@ Shared/core scaffolding
 
 ## Running change log (frontend)
 
+- 2026-05-13: Implemented Azure Application Insights frontend telemetry baseline for SOW monitoring: added `@microsoft/applicationinsights-web`, introduced [src/app/core/telemetry.service.ts](src/app/core/telemetry.service.ts), initialized telemetry/page-view tracking in [src/app/app.component.ts](src/app/app.component.ts), and wired HTTP exception capture in [src/app/core/http/error-handler.interceptor.ts](src/app/core/http/error-handler.interceptor.ts).
+- 2026-05-13: Added build-time telemetry env support in [src/environments/environment.ts](src/environments/environment.ts), [src/environments/environment.alpha.ts](src/environments/environment.alpha.ts), [src/environments/environment.prod.ts](src/environments/environment.prod.ts), and alpha workflow env passthrough in [.github/workflows/alpha_alpha-followupcare.yml](.github/workflows/alpha_alpha-followupcare.yml) using `APP_INSIGHTS_CONNECTION_STRING` / `APPLICATIONINSIGHTS_CONNECTION_STRING`.
+- 2026-05-13: Started Phase 2 Ionic safety-step upgrade on `alpha`: bumped `@ionic/angular` from `5.8.0` to `5.9.4` in [package.json](package.json) and regenerated [package-lock.json](package-lock.json).
+- 2026-05-13: Post-upgrade sanity check passed via production build (`npm run build -s`) on current branch; no new Ionic-related compile failures observed (existing legacy warnings unchanged).
+- 2026-05-13: Post-upgrade regression run passed: `npm test -- --runInBand` completed with 110/110 test suites passing and 348/348 tests passing.
+
 - 2026-05-12: Created branch `v3100_dependency_audit` for v3.10.0 frontend Phase 2 hardening and reran `npm audit --audit-level=high` baseline.
 - 2026-05-12: Executed `npm audit fix` (non-force) on `v3100_dependency_audit`; lockfile refreshed but no safe non-breaking framework fixes were available. Frontend remains at 198 vulnerabilities (26 low, 79 moderate, 85 high, 8 critical), with `--force` paths requiring major Angular/Ionic toolchain movement deferred to Phase 3.
 - 2026-05-12: Hardened frontend login error handling in [src/app/core/authentication/auth.service.ts](src/app/core/authentication/auth.service.ts) and [src/app/login/login.component.ts](src/app/login/login.component.ts) to preserve backend status/message context and differentiate invalid credentials (401) from service/runtime failures.

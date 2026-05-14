@@ -6,10 +6,17 @@
 // bundle, and you should not use it for any sensitive information like passwords or keys.
 import { env } from './.env';
 
+const appInsightsConnectionString =
+  env['APP_INSIGHTS_CONNECTION_STRING'] || env['APPLICATIONINSIGHTS_CONNECTION_STRING'] || '';
+
 export const environment = {
   production: true,
   version: env.npm_package_version + '(alpha)',
   apiUrl: 'https://alpha-followup-api.azurewebsites.net/',
+  applicationInsights: {
+    enabled: !!appInsightsConnectionString,
+    connectionString: appInsightsConnectionString
+  },
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US']
 };
