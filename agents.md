@@ -1,6 +1,6 @@
 # Followup Frontend — feature/robot_work_1
 
-Project version: 3.10.0 (package). Goal: modernize the Angular/Ionic app for Followup v4.
+Project version: 3.10.0-rc3 (package). Goal: modernize the Angular/Ionic app for Followup v4.
 
 ## Findings
 
@@ -54,6 +54,7 @@ Shared/core scaffolding
 
 ## Running change log (frontend)
 
+- 2026-05-14: Promoted frontend release metadata to 3.10.0-rc3 on `alpha` by updating [package.json](package.json), [package-lock.json](package-lock.json), and [src/environments/.env.ts](src/environments/.env.ts) to prep coordinated rc3 alpha deployment.
 - 2026-05-13: Implemented Azure Application Insights frontend telemetry baseline for SOW monitoring: added `@microsoft/applicationinsights-web`, introduced [src/app/core/telemetry.service.ts](src/app/core/telemetry.service.ts), initialized telemetry/page-view tracking in [src/app/app.component.ts](src/app/app.component.ts), and wired HTTP exception capture in [src/app/core/http/error-handler.interceptor.ts](src/app/core/http/error-handler.interceptor.ts).
 - 2026-05-13: Added build-time telemetry env support in [src/environments/environment.ts](src/environments/environment.ts), [src/environments/environment.alpha.ts](src/environments/environment.alpha.ts), [src/environments/environment.prod.ts](src/environments/environment.prod.ts), and alpha workflow env passthrough in [.github/workflows/alpha_alpha-followupcare.yml](.github/workflows/alpha_alpha-followupcare.yml) using `APP_INSIGHTS_CONNECTION_STRING` / `APPLICATIONINSIGHTS_CONNECTION_STRING`.
 - 2026-05-13: Started Phase 2 Ionic safety-step upgrade on `alpha`: bumped `@ionic/angular` from `5.8.0` to `5.9.4` in [package.json](package.json) and regenerated [package-lock.json](package-lock.json).
