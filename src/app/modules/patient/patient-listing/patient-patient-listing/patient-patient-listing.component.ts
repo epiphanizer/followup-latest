@@ -238,4 +238,8 @@ export class PatientPatientListingComponent implements OnInit {
     this.pageSelected++;
     this.pageOfItems = pageOfItems;
   }
+
+  trackByPatientId(index: number, patient: Patient): string | number {
+    return patient?.patientId || index;
+  }
 }

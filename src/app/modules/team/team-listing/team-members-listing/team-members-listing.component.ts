@@ -272,4 +272,8 @@ export class TeamMembersListingComponent implements OnInit {
     // update current page of items
     this.pageOfItems = pageOfItems;
   }
+
+  trackByTeamMember(index: number, teamMember: TeamMember): string | number {
+    return teamMember?.teamMemberId || teamMember?.userId || index;
+  }
 }

@@ -41,7 +41,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let teamMember of teamMembersFiltered" class="active">
+    <tr *ngFor="let teamMember of teamMembersFiltered; trackBy: trackByTeamMember" class="active">
       <td class="listing-body-cell">
         <div class="team-member-information">
           <span class="team-member-hired">

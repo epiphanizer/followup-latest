@@ -28,7 +28,7 @@
     </tr>
   </thead>
   <tbody *ngIf="notificationsFiltered; else noNotifications">
-    <tr *ngFor="let notification of notificationsFiltered" class="active">
+    <tr *ngFor="let notification of notificationsFiltered; trackBy: trackByNotification" class="active">
       <td>
         {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
       </td>

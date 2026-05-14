@@ -173,4 +173,12 @@ export class NotificationListingSidebarComponent implements OnInit, OnChanges {
       group.sidebarDropdownOpen = group.operationGroupId === operationGroupId;
     });
   }
+
+  trackByOperationGroup(index: number, operationGroup: OperationGroup): string | number {
+    return operationGroup?.operationGroupId || index;
+  }
+
+  trackByOperation(index: number, operation: Operation): string | number {
+    return operation?.operationId || index;
+  }
 }

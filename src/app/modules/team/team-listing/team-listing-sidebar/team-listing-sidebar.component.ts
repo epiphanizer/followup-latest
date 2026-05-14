@@ -123,4 +123,12 @@ export class TeamListingSidebar implements OnInit {
   toggleTeamSpanishSidebarMenu(team: Team) {
     team.teamSpanishSidebarDropdownOpen = !team.teamSpanishSidebarDropdownOpen;
   }
+
+  trackByTeam(index: number, team: Team): string | number {
+    return team?.teamId || index;
+  }
+
+  trackByTeamMember(index: number, teamMember: TeamMember): string | number {
+    return teamMember?.teamMemberId || teamMember?.userId || index;
+  }
 }

@@ -8,7 +8,10 @@
   <div class="facility-dropdown-container">
     <a class="facility-dropdown-target">FACILITIES</a>
     <ng-container *ngIf="operationGroups">
-      <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
+      <div
+        class="operation-group-container"
+        *ngFor="let operationGroup of operationGroups; let i = index; trackBy: trackByOperationGroup"
+      >
         <span class="operation-group"
           ><a
             class="operation-group-link"
@@ -40,7 +43,10 @@
             "
             *ngIf="operationGroup.operations"
           >
-            <li *ngFor="let operation of operationGroup.operations" [class.spanish]="operation.spanishSpeaking">
+            <li
+              *ngFor="let operation of operationGroup.operations; trackBy: trackByOperation"
+              [class.spanish]="operation.spanishSpeaking"
+            >
               <div class="operation-link-container" *ngIf="operation.operationActive">
                 <a
                   class="operation-link"

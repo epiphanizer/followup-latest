@@ -177,4 +177,8 @@ export class NotificationPatientListingComponent implements OnInit {
     // update current page of items
     this.pageOfItems = pageOfItems;
   }
+
+  trackByNotification(index: number, notification: Notification): string | number {
+    return notification?.notificationId || index;
+  }
 }

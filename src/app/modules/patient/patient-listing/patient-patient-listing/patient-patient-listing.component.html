@@ -31,7 +31,7 @@
   </thead>
   <tbody *ngIf="patients && pageOfItems?.length; else noPatients">
     <tr
-      *ngFor="let patient of pageOfItems; let idx = index"
+      *ngFor="let patient of pageOfItems; let idx = index; trackBy: trackByPatientId"
       [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
       class="active"
       [class.archived]="!patient.patientActive"

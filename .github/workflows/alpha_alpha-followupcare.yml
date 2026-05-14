@@ -137,6 +137,8 @@ jobs:
       - name: Deploy to Azure Web App (Publish Profile)
         if: steps.auth_mode.outputs.mode == 'publish'
         id: deploy-to-webapp
+        env:
+          NODE_NO_WARNINGS: '1'
         uses: azure/webapps-deploy@v3
         with:
           app-name: alpha-followupcare
@@ -147,6 +149,8 @@ jobs:
       - name: Deploy to Azure Web App (OIDC)
         if: steps.auth_mode.outputs.mode == 'oidc'
         id: deploy-to-webapp-oidc
+        env:
+          NODE_NO_WARNINGS: '1'
         uses: azure/webapps-deploy@v3
         with:
           app-name: alpha-followupcare

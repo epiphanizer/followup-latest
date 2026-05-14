@@ -8,7 +8,10 @@
   <div class="facility-dropdown-container">
     <a class="facility-dropdown-target" (click)="toggleOperationSidebarMenu()">FACILITIES</a>
     <ng-container *ngIf="operationGroups">
-      <div class="operation-group-container" *ngFor="let operationGroup of operationGroups; let i = index">
+      <div
+        class="operation-group-container"
+        *ngFor="let operationGroup of operationGroups; let i = index; trackBy: trackByOperationGroup"
+      >
         <div *ngIf="operationGroup.operations?.length">
           <span class="operation-group" (click)="toggleOperationSidebarMenu(operationGroup)"
             >{{
@@ -34,7 +37,7 @@
               "
             >
               <li
-                *ngFor="let operation of operationGroup.operations"
+                *ngFor="let operation of operationGroup.operations; trackBy: trackByOperation"
                 [class.spanish]="operation.operationSpanishSpeaking"
               >
                 <div class="operation-link-container" *ngIf="operation.operationActive">

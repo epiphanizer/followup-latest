@@ -208,4 +208,8 @@ export class OperationOperationListingComponent implements OnInit {
     // update current page of items
     this.pageOfItems = pageOfItems;
   }
+
+  trackByOperation(index: number, operation: Operation): string | number {
+    return operation?.operationId || index;
+  }
 }

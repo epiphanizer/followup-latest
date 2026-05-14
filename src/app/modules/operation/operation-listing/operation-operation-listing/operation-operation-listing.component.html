@@ -37,7 +37,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let operation of operationsFiltered" class="active" [class.archived]="!operation.operationActive">
+    <tr
+      *ngFor="let operation of operationsFiltered; trackBy: trackByOperation"
+      class="active"
+      [class.archived]="!operation.operationActive"
+    >
       <td class="has-link listing-body-cell" [routerLink]="'/operation/' + operation.operationId">
         <div class="operation-information">
           <span class="operation-name">

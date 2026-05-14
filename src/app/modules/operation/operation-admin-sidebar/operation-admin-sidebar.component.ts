@@ -202,4 +202,12 @@ export class OperationAdminSidebarComponent implements OnInit {
     if (!this.isTouched) this.isTouched = true;
     operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
   }
+
+  trackByOperationGroup(index: number, operationGroup: OperationGroup): string | number {
+    return operationGroup?.operationGroupId || index;
+  }
+
+  trackByOperation(index: number, operation: Operation): string | number {
+    return operation?.operationId || index;
+  }
 }
