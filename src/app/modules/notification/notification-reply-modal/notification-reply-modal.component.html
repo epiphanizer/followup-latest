@@ -1,0 +1,56 @@
+<div class="notification-reply-modal-overlay" (click)="closeAndCancel()">
+  <div class="notification-reply-modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Reply to Notification</h2>
+      <button class="close-btn" (click)="closeAndCancel()" [disabled]="isSubmitting">
+        <i class="ion-close"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="notification-context">
+        <p class="patient-name">
+          <strong>Patient:</strong> {{ patient?.patientFirstName }} {{ patient?.patientLastName }}
+        </p>
+        <p class="operation-name"><strong>Operation:</strong> {{ operation?.operationGroupName }}</p>
+        <p class="notification-type"><strong>Notification Type:</strong> {{ notification?.notificationTypeLabel }}</p>
+      </div>
+
+      <div class="reply-form">
+        <label for="replyText" class="form-label">Your Reply:</label>
+        <textarea
+          id="replyText"
+          class="reply-textarea"
+          [(ngModel)]="replyText"
+          [maxlength]="maxCharacters"
+          placeholder="Enter your reply here..."
+          [disabled]="isSubmitting"
+          rows="6"
+        >
+        </textarea>
+
+        <div class="character-count">
+          <span [class.warning]="remainingCharacters < 200" [class.danger]="remainingCharacters < 50">
+            {{ characterCount }} / {{ maxCharacters }} characters
+          </span>
+          <span class="remaining" *ngIf="remainingCharacters < 200"> ({{ remainingCharacters }} remaining) </span>
+        </div>
+
+        <div class="error-message" *ngIf="submitError">
+          <i class="ion-alert-circled"></i>
+          {{ submitError }}
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeAndCancel()" [disabled]="isSubmitting">
+        Cancel
+      </button>
+      <button class="btn btn-primary" (click)="submitReply()" [disabled]="!isValid || isSubmitting">
+        <span *ngIf="!isSubmitting">Submit Reply</span>
+        <span *ngIf="isSubmitting"> <i class="ion-load-a spinning"></i> Submitting... </span>
+      </button>
+    </div>
+  </div>
+</div>
