@@ -202,6 +202,15 @@ describe('ShellComponent', () => {
     expect(component.serviceStatusPanelVisible).toBe(false);
   });
 
+  it('opens the service change log directly from the admin jump action', () => {
+    component.handleServiceHealthRequest('change-log');
+
+    expect(component.serviceStatusPanelPinned).toBe(true);
+    expect(component.serviceStatusPanelRendered).toBe(true);
+    expect(component.serviceStatusPanelVisible).toBe(true);
+    expect(component.changeLogExpanded).toBe(true);
+  });
+
   it('tears down safely before subscriptions are initialized', () => {
     expect(() => component.ngOnDestroy()).not.toThrow();
   });

@@ -1,8 +1,12 @@
 nav {
   min-width: 535px;
   display: inline-block;
+  position: relative;
+  z-index: 360;
+  overflow: visible;
   &.dropdown-active {
-    height: 200px;
+    height: auto;
+    overflow: visible;
   }
 }
 
@@ -18,11 +22,14 @@ ion-list {
   }
   contain: none;
   background: transparent;
+  overflow: visible;
 
   .nav-link-container {
     background: transparent;
     display: inline-block;
     box-shadow: none;
+    position: relative;
+    overflow: visible;
     @media screen and (max-width: 925px) {
       display: none;
     }
@@ -122,19 +129,21 @@ ion-list {
 .dropdown {
   display: none;
   position: absolute;
-  top: 70px;
+  top: calc(100% + 14px);
+  left: 0;
 
   &.active {
     display: block;
   }
 
-  z-index: 10;
-  width: 195px;
-  height: auto;
+  z-index: 380;
+  width: 220px;
+  max-height: min(70vh, 420px);
   padding: 14px 5px 10px;
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.16);
   background-color: #f5f5f5;
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.16);
+  overflow-y: auto;
 
   ul {
     list-style-type: none;
@@ -145,7 +154,7 @@ ion-list {
 
     li {
       cursor: pointer;
-      display: inline-block;
+      display: block;
       width: 100%;
       height: auto;
       text-align: left;

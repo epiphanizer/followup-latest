@@ -72,6 +72,7 @@ describe('ToolbarNavComponent logic', () => {
   it('initializes nav links and dropdowns', () => {
     expect(component.navLinks.length).toBeGreaterThan(0);
     expect(component.dropdowns.length).toBeGreaterThan(0);
+    expect(component.navLinks.some(link => link.linkName === 'Clients')).toBe(true);
   });
 
   it('opens and closes dropdowns', () => {
@@ -100,7 +101,16 @@ describe('ToolbarNavComponent logic', () => {
 
     component.dynamicLink({ linkAction: 'toggleServiceHealth' } as any);
 
-    expect(emitSpy).toHaveBeenCalled();
+    expect(emitSpy).toHaveBeenCalledWith('panel');
+    expect(component.dropdownActivated).toBe(false);
+  });
+
+  it('emits a change-log jump request from the admin menu action', () => {
+    const emitSpy = jest.spyOn(component.serviceHealthRequested, 'emit');
+
+    component.dynamicLink({ linkAction: 'openServiceChangeLog' } as any);
+
+    expect(emitSpy).toHaveBeenCalledWith('change-log');
     expect(component.dropdownActivated).toBe(false);
   });
 });

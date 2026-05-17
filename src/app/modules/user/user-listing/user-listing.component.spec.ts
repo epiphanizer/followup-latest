@@ -74,6 +74,7 @@ describe('UserListingComponent (Jest)', () => {
     expect(component.user.userId).toBe('admin-1');
     expect(component.duplicateGroups.length).toBe(1);
     expect(component.duplicateGroups[0].selectedTargetUserId).toBe('u2');
+    expect(component.duplicateGroups[0].collapsed).toBe(false);
   });
 
   it('requests a merge script for a selected source account', () => {
@@ -84,5 +85,25 @@ describe('UserListingComponent (Jest)', () => {
 
     expect(userService.generateUserMergeScript).toHaveBeenCalledWith('admin-1', 'u1', 'u2');
     expect(group.mergeScript).toBe('SELECT 1;');
+  });
+
+  it('collapses, expands, and jumps duplicate groups', () => {
+    const group = component.duplicateGroups[0];
+    const scrollSpy = jest.fn();
+    const getElementByIdSpy = jest.spyOn(document, 'getElementById').mockReturnValue({
+      scrollIntoView: scrollSpy
+    } as any);
+
+    component.collapseAllGroups();
+    expect(group.collapsed).toBe(true);
+
+    component.jumpToGroup(group as any);
+    expect(group.collapsed).toBe(false);
+    expect(scrollSpy).toHaveBeenCalled();
+
+    component.toggleGroup(group as any);
+    expect(group.collapsed).toBe(true);
+
+    getElementByIdSpy.mockRestore();
   });
 });

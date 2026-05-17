@@ -18,7 +18,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     version: '3.11.0',
     recordedAt: '2026-05-17',
     label: 'Current alpha candidate',
-    notes: 'Evidence comes from the v3.11.0 frontend and API markdown change logs.',
+    notes: 'Evidence comes from the v3.11.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
         scope: 'Frontend',
@@ -40,6 +40,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         summary: 'Notification reply support is now present on the isolated alpha database copy.',
         evidence:
           '3.11.0migration.sql was applied to followup_alpha_20260517 and verified directly with sqlcmd plus sys.objects/sys.indexes checks.',
+        source: 'v3.11.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'User Management is now a jumpable duplicate-account workbench with collapsible groups, clearer merge guidance, and direct Admin jumps into Service Health and the Version Change Log.',
+        evidence:
+          'Recorded in the frontend running change log with focused Jest on user-listing, toolbar-nav, and shell after relabeling the Operations nav to Clients and removing shell dropdown clipping.',
+        source: 'v3.11.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Duplicate-account remediation now includes account-choice login handling, admin merge-workup generation, and expanded alpha smoke coverage around /users, /users/merge-script, /operations, and default operation-contact flows.',
+        evidence:
+          'Recorded in the API running change log, with syntax validation on the touched controllers/services and source-level smoke harness updates; live alpha still needs redeploy for the operation-contact delete status fix.',
         source: 'v3.11.0/followup-api/agents.md'
       }
     ]

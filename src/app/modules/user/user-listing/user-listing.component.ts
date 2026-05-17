@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '@app/core';
 import { UserService } from '../user.service';
@@ -7,6 +8,7 @@ import { User, UserRolesMap } from '../user';
 interface DuplicateUserGroup {
   key: string;
   users: User[];
+  collapsed: boolean;
   suggestedTargetUserId: string | null;
   selectedTargetUserId: string | null;
   mergeScript: string | null;
@@ -27,6 +29,7 @@ export class UserListingComponent implements OnInit {
   loadError: string | null = null;
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private userService: UserService
@@ -50,6 +53,57 @@ export class UserListingComponent implements OnInit {
     return this.duplicateGroups.reduce((total, group) => {
       return total + group.users.length;
     }, 0);
+  }
+
+  get expandedGroupCount(): number {
+    return this.duplicateGroups.filter(group => !group.collapsed).length;
+  }
+
+  jumpTo(sectionId: string) {
+    const target = this.document.getElementById(sectionId);
+    if (!target) {
+      return;
+    }
+
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  jumpToGroup(group: DuplicateUserGroup) {
+    group.collapsed = false;
+    this.jumpTo(this.getGroupSectionId(group));
+  }
+
+  toggleGroup(group: DuplicateUserGroup) {
+    group.collapsed = !group.collapsed;
+  }
+
+  expandAllGroups() {
+    this.duplicateGroups.forEach(group => {
+      group.collapsed = false;
+    });
+  }
+
+  collapseAllGroups() {
+    this.duplicateGroups.forEach(group => {
+      group.collapsed = true;
+    });
+  }
+
+  getGroupSectionId(group: DuplicateUserGroup): string {
+    return (
+      'duplicate-group-' +
+      String(group?.key || 'unknown')
+        .replace(/[^a-z0-9]+/gi, '-')
+        .toLowerCase()
+    );
+  }
+
+  trackByGroup(index: number, group: DuplicateUserGroup): string | number {
+    return group?.key || index;
+  }
+
+  trackByUser(index: number, account: User): string | number {
+    return account?.userId || index;
   }
 
   selectTarget(group: DuplicateUserGroup, userId: string) {
@@ -123,6 +177,7 @@ export class UserListingComponent implements OnInit {
         return {
           key: key,
           users: sortedUsers,
+          collapsed: false,
           suggestedTargetUserId: suggestedTarget ? suggestedTarget.userId : null,
           selectedTargetUserId: suggestedTarget ? suggestedTarget.userId : null,
           mergeScript: null,
@@ -137,6 +192,10 @@ export class UserListingComponent implements OnInit {
         }
 
         return left.key.localeCompare(right.key);
+      })
+      .map((group, index) => {
+        group.collapsed = index > 0;
+        return group;
       });
   }
 

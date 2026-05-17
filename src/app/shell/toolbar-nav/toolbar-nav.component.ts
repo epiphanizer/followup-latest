@@ -10,6 +10,8 @@ import { DataService } from '@app/modules/data/data.service';
 import { AuthenticationService } from '@app/core';
 import * as FileSaver from 'file-saver';
 
+export type ServiceHealthRequestMode = 'panel' | 'change-log';
+
 @Component({
   providers: [DataService, MenuService],
   selector: 'app-toolbar-nav',
@@ -35,7 +37,9 @@ export class ToolbarNavComponent implements OnInit {
   userRolesMap: Array<[string, number]> = [];
   userRolesArray: Record<string, number> = {};
   @Output() dropdownEvent: EventEmitter<Boolean> = new EventEmitter(false);
-  @Output() serviceHealthRequested: EventEmitter<void> = new EventEmitter<void>();
+  @Output() serviceHealthRequested: EventEmitter<ServiceHealthRequestMode> = new EventEmitter<
+    ServiceHealthRequestMode
+  >();
 
   ngOnInit() {
     this.user = this.authService.currentUserValue || this.route.snapshot.data.user;
@@ -78,14 +82,19 @@ export class ToolbarNavComponent implements OnInit {
               linkName: 'User Management'
             },
             {
-              linkAction: 'getExcelReport',
-              dynamic: true,
-              linkName: 'Excel Report'
-            },
-            {
               linkAction: 'toggleServiceHealth',
               dynamic: true,
               linkName: 'Service Health'
+            },
+            {
+              linkAction: 'openServiceChangeLog',
+              dynamic: true,
+              linkName: 'Version Change Log'
+            },
+            {
+              linkAction: 'getExcelReport',
+              dynamic: true,
+              linkName: 'Excel Report'
             }
           ]
         },
@@ -93,14 +102,14 @@ export class ToolbarNavComponent implements OnInit {
       },
       {
         linkAction: '/operations',
-        linkName: 'Operations',
+        linkName: 'Clients',
         dynamic: false,
         dropdown: {
           activated: false,
           links: [
             {
               linkAction: '/operations',
-              linkName: 'Operations'
+              linkName: 'Client Groups'
             },
             {
               linkAction: '/operation/add',
@@ -187,7 +196,11 @@ export class ToolbarNavComponent implements OnInit {
     }
     if (link.linkAction == 'toggleServiceHealth') {
       this.closeDropdowns();
-      this.serviceHealthRequested.emit();
+      this.serviceHealthRequested.emit('panel');
+    }
+    if (link.linkAction == 'openServiceChangeLog') {
+      this.closeDropdowns();
+      this.serviceHealthRequested.emit('change-log');
     }
   }
   closeDropdowns() {

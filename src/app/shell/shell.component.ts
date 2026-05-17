@@ -254,6 +254,18 @@ export class ShellComponent {
 
     this.openServiceStatusPanel(true);
   }
+
+  handleServiceHealthRequest(mode: 'panel' | 'change-log' = 'panel') {
+    if (mode === 'change-log') {
+      this.serviceStatusPanelPinned = true;
+      this.changeLogExpanded = true;
+      this.openServiceStatusPanel(true);
+      return;
+    }
+
+    this.toggleServiceStatusPanel();
+  }
+
   closeServiceStatusPanel() {
     this.serviceStatusPanelPinned = false;
     this.changeLogExpanded = false;
