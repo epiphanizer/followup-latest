@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd, ActivationEnd, ActivatedRouteSnapshot } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
@@ -35,6 +35,7 @@ export class ToolbarNavComponent implements OnInit {
   userRolesMap: Array<[string, number]> = [];
   userRolesArray: Record<string, number> = {};
   @Output() dropdownEvent: EventEmitter<Boolean> = new EventEmitter(false);
+  @Output() serviceHealthRequested: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit() {
     this.user = this.authService.currentUserValue || this.route.snapshot.data.user;
@@ -80,6 +81,11 @@ export class ToolbarNavComponent implements OnInit {
               linkAction: 'getExcelReport',
               dynamic: true,
               linkName: 'Excel Report'
+            },
+            {
+              linkAction: 'toggleServiceHealth',
+              dynamic: true,
+              linkName: 'Service Health'
             }
           ]
         },
@@ -178,6 +184,10 @@ export class ToolbarNavComponent implements OnInit {
         var blob = new Blob([data], { type: data.type });
         FileSaver.saveAs(blob, 'data.xlsx');
       });
+    }
+    if (link.linkAction == 'toggleServiceHealth') {
+      this.closeDropdowns();
+      this.serviceHealthRequested.emit();
     }
   }
   closeDropdowns() {

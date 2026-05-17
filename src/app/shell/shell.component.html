@@ -9,7 +9,8 @@
   <div class="content-wrapper" [class.expanded]="userCorkBoardExpanded">
     <ion-toolbar>
       <app-toolbar-logo (click)="toggleDropdown(false)"> </app-toolbar-logo>
-      <app-toolbar-nav (dropdownEvent)="toggleDropdown($event)"> </app-toolbar-nav>
+      <app-toolbar-nav (dropdownEvent)="toggleDropdown($event)" (serviceHealthRequested)="toggleServiceStatusPanel()">
+      </app-toolbar-nav>
     </ion-toolbar>
     <app-toolbar-profile-nav
       *ngIf="user"
@@ -25,7 +26,15 @@
       </ul>
     </div>
     <ion-router-outlet class="main-router-oulet" main (click)="toggleDropdown(false)"> </ion-router-outlet>
-    <div class="environment-status-panel" *ngIf="serviceStatus">
+    <div
+      #serviceStatusPanel
+      class="environment-status-panel"
+      *ngIf="serviceStatus && serviceStatusPanelRendered"
+      [class.is-visible]="serviceStatusPanelVisible"
+      [class.is-floating]="serviceStatusPosition !== null"
+      [style.top.px]="serviceStatusPosition?.top"
+      [style.left.px]="serviceStatusPosition?.left"
+    >
       <img class="status-brand" src="/assets/everybody-graphic@2x.png" alt="Everybody is a Somebody" />
       <div class="status-card" [class.is-degraded]="serviceStatus.health === 'degraded'">
         <div class="status-header">
@@ -37,7 +46,18 @@
             ></span>
             <span class="status-title">Service Health</span>
           </div>
-          <span class="status-frontend-version">FE v{{ version }}</span>
+          <div class="status-header-actions">
+            <button
+              type="button"
+              class="status-drag-handle"
+              (mousedown)="startServiceStatusDrag($event)"
+              (touchstart)="startServiceStatusDrag($event)"
+            >
+              Drag
+            </button>
+            <span class="status-frontend-version">FE v{{ version }}</span>
+            <button type="button" class="status-close" (click)="closeServiceStatusPanel()">Close</button>
+          </div>
         </div>
         <div class="status-line" [title]="serviceStatus.apiHost">
           <span class="status-label">API</span>
@@ -50,6 +70,65 @@
         <div class="status-line">
           <span class="status-label">Env</span>
           <span class="status-value">{{ serviceStatus.environment }} · {{ serviceStatus.healthLabel }}</span>
+        </div>
+        <div class="status-line">
+          <span class="status-label">Timing</span>
+          <span class="status-value">{{ serviceStatus.latencySummary }}</span>
+        </div>
+        <div class="status-line">
+          <span class="status-label">Profiler</span>
+          <span class="status-value">{{ serviceStatus.profilingSummary }}</span>
+        </div>
+        <div class="status-line">
+          <span class="status-label">Checked</span>
+          <span class="status-value">{{ serviceStatus.checkedAtLabel }}</span>
+        </div>
+        <button type="button" class="status-line status-line-action" (click)="toggleChangeLog()">
+          <span class="status-label">Version Change Log</span>
+          <span class="status-value">{{ changeLogExpanded ? 'Hide' : 'Open' }} · {{ changeLogSummary }}</span>
+        </button>
+        <div class="status-change-log" *ngIf="changeLogExpanded">
+          <div class="change-log-search-row">
+            <span class="status-label">Search Version</span>
+            <input
+              type="text"
+              class="change-log-search-input"
+              [value]="changeLogVersionQuery"
+              (input)="updateChangeLogVersionQuery($event)"
+              placeholder="Filter known versions"
+            />
+          </div>
+          <div class="change-log-version-list" *ngIf="filteredChangeLogVersions.length; else noKnownVersions">
+            <button
+              type="button"
+              class="change-log-version-chip"
+              *ngFor="let release of filteredChangeLogVersions"
+              [class.is-selected]="release.version === selectedChangeLogVersion"
+              (click)="selectChangeLogVersion(release.version)"
+            >
+              {{ release.version }}
+            </button>
+          </div>
+          <ng-template #noKnownVersions>
+            <div class="change-log-empty">No markdown-backed versions match that search.</div>
+          </ng-template>
+          <div class="change-log-summary">Showing recorded changes since v{{ selectedChangeLogVersion }}.</div>
+          <div class="change-log-release" *ngFor="let release of visibleChangeLogReleases">
+            <div class="change-log-release-header">
+              <span class="change-log-release-version">v{{ release.version }}</span>
+              <span class="change-log-release-date">{{ release.recordedAt }}</span>
+            </div>
+            <div class="change-log-release-label">{{ release.label }}</div>
+            <div class="change-log-release-notes">{{ release.notes }}</div>
+            <div class="change-log-entry" *ngFor="let entry of release.entries">
+              <div class="change-log-entry-header">
+                <span class="change-log-entry-scope">{{ entry.scope }}</span>
+                <span class="change-log-entry-source">{{ entry.source }}</span>
+              </div>
+              <div class="change-log-entry-summary">{{ entry.summary }}</div>
+              <div class="change-log-entry-evidence">{{ entry.evidence }}</div>
+            </div>
+          </div>
         </div>
         <div class="status-error" *ngIf="serviceStatus.error">{{ serviceStatus.error }}</div>
       </div>

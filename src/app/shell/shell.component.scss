@@ -109,6 +109,21 @@ ion-toolbar {
   display: flex;
   align-items: flex-end;
   gap: 12px;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  &.is-floating {
+    right: auto;
+    bottom: auto;
+  }
 }
 
 .status-brand {
@@ -145,6 +160,14 @@ ion-toolbar {
   margin-bottom: 8px;
 }
 
+.status-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .status-health {
   display: flex;
   align-items: center;
@@ -177,6 +200,28 @@ ion-toolbar {
   font-family: Avenir;
 }
 
+.status-drag-handle,
+.status-close {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-family: Avenir;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  padding: 4px 10px;
+}
+
+.status-drag-handle {
+  cursor: grab;
+}
+
+.status-close {
+  cursor: pointer;
+}
+
 .status-title {
   font-size: 13px;
   font-weight: 900;
@@ -191,6 +236,157 @@ ion-toolbar {
 
 .status-line {
   margin-top: 4px;
+}
+
+.status-line-action {
+  width: 100%;
+  border: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.status-change-log {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.change-log-search-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.change-log-search-input {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.24);
+  color: #ffffff;
+  padding: 8px 10px;
+  font-family: Avenir;
+  font-size: 12px;
+}
+
+.change-log-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.change-log-version-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.change-log-version-chip {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.82);
+  padding: 5px 10px;
+  font-family: Avenir;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+
+  &.is-selected {
+    background: rgba(0, 184, 190, 0.18);
+    border-color: rgba(0, 184, 190, 0.6);
+    color: #ffffff;
+  }
+}
+
+.change-log-summary,
+.change-log-empty,
+.change-log-release-label,
+.change-log-release-notes,
+.change-log-entry-summary,
+.change-log-entry-evidence,
+.change-log-entry-source,
+.change-log-release-date,
+.change-log-release-version,
+.change-log-entry-scope {
+  font-family: Avenir;
+}
+
+.change-log-summary,
+.change-log-empty {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.change-log-release {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.change-log-release-header,
+.change-log-entry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.change-log-release-version,
+.change-log-entry-scope {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.change-log-release-date,
+.change-log-entry-source {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.58);
+  text-align: right;
+}
+
+.change-log-release-label {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.change-log-release-notes {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.change-log-entry {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.change-log-entry-summary {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #ffffff;
+}
+
+.change-log-entry-evidence {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .status-label {
@@ -222,6 +418,10 @@ ion-toolbar {
     bottom: 12px;
     left: 12px;
     gap: 10px;
+
+    &.is-floating {
+      left: auto;
+    }
   }
 
   .status-brand {
@@ -232,6 +432,31 @@ ion-toolbar {
     min-width: 0;
     max-width: none;
     width: calc(100% - 66px);
+  }
+
+  .status-header,
+  .status-line {
+    align-items: flex-start;
+  }
+
+  .status-header {
+    flex-direction: column;
+  }
+
+  .status-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .change-log-release-header,
+  .change-log-entry-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .change-log-release-date,
+  .change-log-entry-source {
+    text-align: left;
   }
 }
 

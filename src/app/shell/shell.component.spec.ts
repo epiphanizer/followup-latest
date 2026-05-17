@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick, discardPeriodicTasks } from '@angular/core/testing';
-import { HttpBackend, HttpResponse } from '@angular/common/http';
+import { HttpBackend, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { Config, IonicModule } from '@ionic/angular';
 import { BehaviorSubject, of } from 'rxjs';
 
 import { AuthenticationService, CoreModule } from '@app/core';
 import { UserCorkBoardService } from './user-cork-board/user-cork-board.service';
 
-const userSubject = new BehaviorSubject<any>({ userId: 'u1', userLoginExpires: Date.now() + 10000 });
+const userSubject = new BehaviorSubject<any>({ userId: 'u1', userLoginExpires: Date.now() + 600000 });
 const impersonatorSubject = new BehaviorSubject<any>(null);
 class MockAuthenticationService {
   currentUserSubject = userSubject;
@@ -49,6 +49,9 @@ describe('ShellComponent', () => {
               of(
                 new HttpResponse({
                   status: 200,
+                  headers: new HttpHeaders({
+                    'Server-Timing': 'app;dur=18.2'
+                  }),
                   body: {
                     status: 'ok',
                     service: {
@@ -60,6 +63,13 @@ describe('ShellComponent', () => {
                     database: {
                       name: 'followup_alpha_20260517',
                       role: 'alpha'
+                    },
+                    profiling: {
+                      requestProfilingEnabled: true,
+                      slowRequestMs: 700,
+                      dbProfilingEnabled: true,
+                      dbSlowQueryMs: 200,
+                      databasePingMs: 4.8
                     }
                   }
                 })
@@ -73,6 +83,13 @@ describe('ShellComponent', () => {
             menuStateBSubject: new BehaviorSubject(false),
             isOpen: false,
             getUserCorkBoardObjectsByUserId: jest.fn(() => of([]))
+          }
+        },
+        {
+          provide: Config,
+          useValue: {
+            getBoolean: jest.fn(() => false),
+            getNumber: jest.fn(() => 0)
           }
         }
       ],
@@ -99,7 +116,42 @@ describe('ShellComponent', () => {
     expect(component.serviceStatus.apiName).toBe('alpha-followup-api');
     expect(component.serviceStatus.databaseName).toBe('followup_alpha_20260517');
     expect(component.serviceStatus.health).toBe('ok');
+    expect(component.serviceStatus.profilingSummary).toContain('API on');
+    expect(component.serviceStatusPanelRendered).toBe(true);
     component.ngOnDestroy();
     discardPeriodicTasks();
   }));
+
+  it('auto-hides a healthy status panel after the login toast window', fakeAsync(() => {
+    const buildCheckingStatus = (component as any).buildCheckingStatus.bind(component);
+
+    (component as any).statusAutoHideMs = 1;
+    (component as any).statusFadeOutMs = 1;
+    component.serviceStatus = {
+      ...buildCheckingStatus(),
+      health: 'ok',
+      healthLabel: 'Healthy'
+    };
+
+    (component as any).syncServiceStatusVisibility('checking');
+    expect(component.serviceStatusPanelRendered).toBe(true);
+
+    tick(5);
+
+    expect(component.serviceStatusPanelRendered).toBe(false);
+  }));
+
+  it('filters and scopes the version change log to markdown-backed versions only', () => {
+    expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual([
+      '3.11.0',
+      '3.10.0-rc3',
+      '3.10.0'
+    ]);
+
+    component.changeLogVersionQuery = 'rc3';
+    expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual(['3.10.0-rc3']);
+
+    component.selectChangeLogVersion('3.10.0-rc3');
+    expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual(['3.11.0', '3.10.0-rc3']);
+  });
 });

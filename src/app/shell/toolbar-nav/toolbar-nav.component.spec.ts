@@ -94,4 +94,13 @@ describe('ToolbarNavComponent logic', () => {
     expect(dataServiceMock.getData).toHaveBeenCalled();
     expect(FileSaver.saveAs).toHaveBeenCalled();
   });
+
+  it('emits a service health request from the admin menu action', () => {
+    const emitSpy = jest.spyOn(component.serviceHealthRequested, 'emit');
+
+    component.dynamicLink({ linkAction: 'toggleServiceHealth' } as any);
+
+    expect(emitSpy).toHaveBeenCalled();
+    expect(component.dropdownActivated).toBe(false);
+  });
 });
