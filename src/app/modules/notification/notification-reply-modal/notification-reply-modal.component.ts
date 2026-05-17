@@ -1,5 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { NotificationService } from '../../notification.service';
+import { NotificationReply } from '../notification';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-notification-reply-modal',
@@ -59,7 +61,7 @@ export class NotificationReplyModalComponent implements OnInit {
         replyPayload
       )
       .subscribe(
-        response => {
+        (response: NotificationReply) => {
           this.isSubmitting = false;
           this.replySubmitted.emit({
             success: true,
@@ -68,7 +70,7 @@ export class NotificationReplyModalComponent implements OnInit {
           });
           this.resetForm();
         },
-        error => {
+        (error: HttpErrorResponse) => {
           this.isSubmitting = false;
           this.submitError = error?.error?.message || 'Failed to submit reply. Please try again.';
           console.error('Error submitting notification reply:', error);

@@ -25,5 +25,34 @@
       </ul>
     </div>
     <ion-router-outlet class="main-router-oulet" main (click)="toggleDropdown(false)"> </ion-router-outlet>
+    <div class="environment-status-panel" *ngIf="serviceStatus">
+      <img class="status-brand" src="/assets/everybody-graphic@2x.png" alt="Everybody is a Somebody" />
+      <div class="status-card" [class.is-degraded]="serviceStatus.health === 'degraded'">
+        <div class="status-header">
+          <div class="status-health">
+            <span
+              class="status-dot"
+              [class.is-ok]="serviceStatus.health === 'ok'"
+              [class.is-degraded]="serviceStatus.health === 'degraded'"
+            ></span>
+            <span class="status-title">Service Health</span>
+          </div>
+          <span class="status-frontend-version">FE v{{ version }}</span>
+        </div>
+        <div class="status-line" [title]="serviceStatus.apiHost">
+          <span class="status-label">API</span>
+          <span class="status-value">{{ serviceStatus.apiName }} · v{{ serviceStatus.apiVersion }}</span>
+        </div>
+        <div class="status-line">
+          <span class="status-label">DB</span>
+          <span class="status-value">{{ serviceStatus.databaseRole }} · {{ serviceStatus.databaseName }}</span>
+        </div>
+        <div class="status-line">
+          <span class="status-label">Env</span>
+          <span class="status-value">{{ serviceStatus.environment }} · {{ serviceStatus.healthLabel }}</span>
+        </div>
+        <div class="status-error" *ngIf="serviceStatus.error">{{ serviceStatus.error }}</div>
+      </div>
+    </div>
   </div>
 </ion-content>

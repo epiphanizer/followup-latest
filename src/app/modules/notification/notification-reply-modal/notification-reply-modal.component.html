@@ -22,7 +22,7 @@
           id="replyText"
           class="reply-textarea"
           [(ngModel)]="replyText"
-          [maxlength]="maxCharacters"
+          [attr.maxlength]="maxCharacters"
           placeholder="Enter your reply here..."
           [disabled]="isSubmitting"
           rows="6"

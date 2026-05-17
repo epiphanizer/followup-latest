@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NotificationReplyModalComponent } from './notification-reply-modal.component';
-import { NotificationService } from '../../notification.service';
+import { NotificationService } from '../notification.service';
 import { of, throwError } from 'rxjs';
 
 describe('NotificationReplyModalComponent', () => {
