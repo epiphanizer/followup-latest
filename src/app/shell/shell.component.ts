@@ -653,8 +653,12 @@ export class ShellComponent {
   }
 
   ngOnDestroy() {
-    this.routeSubscription.unsubscribe();
-    this.corkBoardSubscription.unsubscribe();
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+    if (this.corkBoardSubscription) {
+      this.corkBoardSubscription.unsubscribe();
+    }
     if (this.idleLogoutTimer) {
       clearInterval(this.idleLogoutTimer);
     }

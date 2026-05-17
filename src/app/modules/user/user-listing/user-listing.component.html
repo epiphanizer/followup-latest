@@ -1,19 +1,82 @@
 <ion-content>
-  <ion-row>
-    <ion-col class="user-sidebar">
-      <app-user-listing-sidebar (userChangeEvent)="userChangeEventHandler($event)"> </app-user-listing-sidebar>
-    </ion-col>
-    <ion-col class="user-content-wrapper" *ngIf="users">
-      <ion-grid>
-        <ion-row>
-          <ion-title *ngIf="selected.team">System Users</ion-title>
-        </ion-row>
-        <ion-row class="user-listing-row">
-          <ion-col class="user-listing-wrapper">
-            <app-user-listing></app-user-listing>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-col>
-  </ion-row>
+  <div class="user-admin-page">
+    <div class="user-admin-hero">
+      <div>
+        <div class="eyebrow">Admin Only</div>
+        <h1>User Management</h1>
+        <p>
+          Login resolution now normalizes usernames and emails to the local part before matching local users. If more
+          than one local account matches, the app asks the user to choose and suggests the most recent active account.
+        </p>
+      </div>
+      <div class="summary-grid" *ngIf="isAdmin">
+        <div class="summary-card">
+          <span class="summary-label">Users</span>
+          <span class="summary-value">{{ users.length }}</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-label">Duplicate groups</span>
+          <span class="summary-value">{{ duplicateGroups.length }}</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-label">Accounts in groups</span>
+          <span class="summary-value">{{ duplicateAccountCount }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="access-panel" *ngIf="!isAdmin">
+      Admin access is required to review duplicate login accounts and generate merge scripts.
+    </div>
+
+    <div class="status-panel" *ngIf="isAdmin && isLoading">Loading duplicate account groups...</div>
+    <div class="status-panel error" *ngIf="isAdmin && loadError">{{ loadError }}</div>
+    <div class="status-panel" *ngIf="isAdmin && !isLoading && !loadError && !duplicateGroups.length">
+      No duplicate login groups were detected from the current user roster.
+    </div>
+
+    <div class="duplicate-group" *ngFor="let group of duplicateGroups">
+      <div class="group-header">
+        <div>
+          <div class="group-key">{{ group.key }}</div>
+          <div class="group-copy">
+            Highlighted account is the suggested target to keep. Generate merge SQL for any other account into the
+            selected target after reviewing triggers and downstream ownership behavior.
+          </div>
+        </div>
+        <div class="group-count">{{ group.users.length }} accounts</div>
+      </div>
+
+      <div class="group-grid">
+        <div
+          class="user-card"
+          *ngFor="let account of group.users"
+          [class.selected-target]="group.selectedTargetUserId === account.userId"
+        >
+          <button class="target-button" type="button" (click)="selectTarget(group, account.userId)">
+            {{ group.selectedTargetUserId === account.userId ? 'Keep Target' : 'Set As Target' }}
+          </button>
+          <div class="user-name">{{ account.userFirstName || 'Unknown' }} {{ account.userLastName || 'User' }}</div>
+          <div class="user-meta">
+            {{ account.username }}<span *ngIf="account.userEmail"> · {{ account.userEmail }}</span>
+          </div>
+          <div class="user-meta">
+            {{ account.userActive ? 'Active' : 'Inactive' }}<span *ngIf="account.deleted"> · Deleted</span>
+          </div>
+          <div class="user-meta">Modified {{ account.userModified || account.userCreated || 'n/a' }}</div>
+          <button
+            class="merge-button"
+            type="button"
+            *ngIf="group.selectedTargetUserId !== account.userId"
+            (click)="generateMergeScript(group, account)"
+          >
+            {{ group.mergeLoading ? 'Generating...' : 'Generate Merge Script' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="status-panel error" *ngIf="group.mergeError">{{ group.mergeError }}</div>
+      <ion-textarea *ngIf="group.mergeScript" [value]="group.mergeScript" readonly autoGrow="true"></ion-textarea>
+    </div>
+  </div>
 </ion-content>

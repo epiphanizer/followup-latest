@@ -44,6 +44,10 @@ export interface User {
   userAdditionalInfo: string;
   userLastAccess?: Date;
   userLoginExpires: number;
+  userCreated?: Date | string;
+  userModified?: Date | string;
+  userActive?: boolean;
+  deleted?: boolean;
   messages: UserMessage[];
   languages: any | UserLanguage[];
   teams: any | Team[];

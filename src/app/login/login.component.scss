@@ -134,3 +134,67 @@ button {
   color: #ffffff;
   opacity: 0.9;
 }
+
+.account-selection {
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.account-selection-title {
+  font-family: Avenir, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.account-selection-copy {
+  margin-top: 6px;
+  font-family: Avenir, sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.account-option {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 12px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.account-option.selected {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.account-option-name,
+.account-option-meta {
+  display: block;
+}
+
+.account-option-name {
+  font-family: Avenir, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.account-option-meta {
+  margin-top: 3px;
+  font-family: Avenir, sans-serif;
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.account-selection-submit {
+  float: none;
+  width: 100%;
+  margin-top: 12px;
+}

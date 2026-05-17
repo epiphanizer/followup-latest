@@ -64,10 +64,30 @@ describe('AuthenticationService', () => {
 
   it('returns an error observable when login fails', async () => {
     const { service, http } = build();
-    http.post.mockReturnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'boom' })));
+    http.post.mockReturnValue(throwError(new HttpErrorResponse({ status: 500, error: 'boom' })));
 
-    await expect(service.doLogin('bad', 'creds').toPromise()).rejects.toEqual(
-      expect.objectContaining({ message: 'We had trouble within the authentication service.' })
+    await expect(service.doLogin('bad', 'creds').toPromise()).rejects.toMatchObject(
+      expect.objectContaining({ status: 500, message: 'boom' })
+    );
+  });
+
+  it('surfaces duplicate-account selection payloads from login', async () => {
+    const { service, http } = build();
+    http.post.mockReturnValue(
+      throwError(
+        new HttpErrorResponse({
+          status: 409,
+          error: {
+            requiresAccountSelection: true,
+            suggestedUserId: 'user-2',
+            accountChoices: [{ userId: 'user-1' }, { userId: 'user-2' }]
+          }
+        })
+      )
+    );
+
+    await expect(service.doLogin('dup', 'creds').toPromise()).rejects.toMatchObject(
+      expect.objectContaining({ status: 409, requiresAccountSelection: true, suggestedUserId: 'user-2' })
     );
   });
 
@@ -89,7 +109,7 @@ describe('AuthenticationService', () => {
     const { service, http } = build();
     localStorage.setItem('followup-user', JSON.stringify({ userId: 3 }));
     localStorage.setItem('followup-token', 'token');
-    http.post.mockReturnValue(throwError(() => new HttpErrorResponse({ status: 503, error: 'down' })));
+    http.post.mockReturnValue(throwError(new HttpErrorResponse({ status: 503, error: 'down' })));
 
     await service.doLogout('3').toPromise();
 

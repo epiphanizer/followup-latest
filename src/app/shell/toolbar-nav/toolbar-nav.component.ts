@@ -73,10 +73,10 @@ export class ToolbarNavComponent implements OnInit {
               linkAction: '/teams',
               linkName: 'Team Members'
             },
-            // {
-            //   linkAction: '/users',
-            //   linkName: 'User Management'
-            // },
+            {
+              linkAction: '/users',
+              linkName: 'User Management'
+            },
             {
               linkAction: 'getExcelReport',
               dynamic: true,

@@ -7,6 +7,12 @@ import { TeamMessage } from '../team/team';
 import { OperationService } from '../operation/operation.service';
 import { Operation, OperationGroup } from '../operation/operation';
 
+export interface UserMergeScriptResponse {
+  sourceUserId: string;
+  targetUserId: string;
+  mergeScript: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -58,6 +64,16 @@ export class UserService {
           return this.handleAsyncError(error);
         })
       );
+  }
+
+  generateUserMergeScript(adminUserId: string, sourceUserId: string, targetUserId: string) {
+    return this.http
+      .post<UserMergeScriptResponse>('users/merge-script', {
+        adminUserId: adminUserId,
+        sourceUserId: sourceUserId,
+        targetUserId: targetUserId
+      })
+      .pipe(catchError(e => this.handleAsyncError(e)));
   }
 
   public getUserCalls(user: User): Observable<any> {

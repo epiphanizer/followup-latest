@@ -1,40 +1,189 @@
-ion-title {
-  font-family: AvenirPro;
-  font-size: 45px;
-  font-style: normal;
-  line-height: 1.11;
-  letter-spacing: 0.45px;
-  text-align: left;
+.user-admin-page {
+  padding: 48px 40px 80px;
   color: #3f3638;
-  padding-left: 0;
 }
 
-.user-sidebar {
-  max-width: 172px;
-  padding-bottom: 160px;
-  margin-left: 26px;
-  padding-top: 58px;
+.user-admin-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 24px;
+  align-items: start;
 }
 
-.user-content-wrapper {
-  margin-left: 92px;
-  padding-bottom: 160px;
-  margin-top: 8rem;
-  @media screen and (orientation: portrait) and (max-width: 1024px) {
-    margin-left: 33px;
-  }
+.eyebrow {
+  font-family: Avenir, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #7c6d70;
 }
 
-.user-listing-row {
-  margin-top: 1rem;
+h1 {
+  margin: 8px 0 12px;
+  font-family: Avenir, sans-serif;
+  font-size: 34px;
+  line-height: 1.1;
 }
 
-.calendar-wrapper {
-  margin-left: 73px;
+p {
+  margin: 0;
+  max-width: 760px;
+  font-family: Avenir, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-.user-patient-list {
-  width: 100%;
-  height: auto;
+.summary-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.summary-card,
+.status-panel,
+.duplicate-group,
+.access-panel {
+  border: 1px solid rgba(63, 54, 56, 0.12);
+  background: #ffffff;
+  box-shadow: 0 14px 32px rgba(63, 54, 56, 0.08);
+}
+
+.summary-card {
+  padding: 16px 18px;
+}
+
+.summary-label,
+.group-count {
   display: block;
+  font-family: Avenir, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #7c6d70;
+}
+
+.summary-value {
+  display: block;
+  margin-top: 8px;
+  font-family: Avenir, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.access-panel,
+.status-panel {
+  margin-top: 24px;
+  padding: 16px 18px;
+  font-family: Avenir, sans-serif;
+  font-size: 14px;
+}
+
+.status-panel.error {
+  border-color: rgba(187, 57, 57, 0.25);
+  color: #8f2f2f;
+}
+
+.duplicate-group {
+  margin-top: 24px;
+  padding: 20px;
+}
+
+.group-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: start;
+}
+
+.group-key {
+  font-family: Avenir, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.group-copy {
+  margin-top: 6px;
+  max-width: 760px;
+  font-family: Avenir, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #66595c;
+}
+
+.group-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.user-card {
+  padding: 16px;
+  border: 1px solid rgba(63, 54, 56, 0.12);
+  background: #f8f6f4;
+}
+
+.user-card.selected-target {
+  border-color: #3f3638;
+  background: #fffaf2;
+}
+
+.target-button,
+.merge-button {
+  width: 100%;
+  border: 0;
+  padding: 10px 12px;
+  font-family: Avenir, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.target-button {
+  background: #3f3638;
+  color: #ffffff;
+}
+
+.merge-button {
+  margin-top: 12px;
+  background: #ffcc00;
+  color: #3f3638;
+}
+
+.user-name {
+  margin-top: 14px;
+  font-family: Avenir, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.user-meta {
+  margin-top: 6px;
+  font-family: Avenir, sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #66595c;
+}
+
+ion-textarea {
+  margin-top: 16px;
+  border: 1px solid rgba(63, 54, 56, 0.12);
+  --background: #fbfaf8;
+  font-family: Menlo, Monaco, monospace;
+  font-size: 12px;
+}
+
+@media screen and (max-width: 1024px) {
+  .user-admin-page {
+    padding: 32px 20px 60px;
+  }
+
+  .user-admin-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .group-header {
+    flex-direction: column;
+  }
 }

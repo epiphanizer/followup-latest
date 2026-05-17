@@ -30,6 +30,31 @@
           Login
         </button>
       </ion-list>
+      <div class="account-selection" *ngIf="accountSelection">
+        <div class="account-selection-title">Multiple accounts found</div>
+        <div class="account-selection-copy">
+          {{ accountSelection.selectionReason || accountSelection.message }}
+        </div>
+        <button
+          class="account-option"
+          type="button"
+          *ngFor="let account of accountSelection.accountChoices"
+          [class.selected]="selectedAccountUserId === account.userId"
+          (click)="selectAccount(account)"
+        >
+          <span class="account-option-name">
+            {{ account.userFirstName || 'Unknown' }} {{ account.userLastName || 'User' }}
+          </span>
+          <span class="account-option-meta">
+            {{ account.username }}
+            <span *ngIf="account.userEmail"> · {{ account.userEmail }}</span>
+            <span *ngIf="account.userActive === false || account.deleted"> · needs review</span>
+          </span>
+        </button>
+        <button class="primary button account-selection-submit" type="button" (click)="signInWithSelectedAccount()">
+          Continue With Selected Account
+        </button>
+      </div>
     </form>
   </div>
   <div class="version-stamp">v{{ version }}</div>

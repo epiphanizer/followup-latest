@@ -11,6 +11,29 @@ import { Operation, OperationGroup } from '@app/modules/operation/operation';
 export interface AuthenticationBodyPost {
   username: string;
   password: string;
+  selectedUserId?: string;
+}
+
+export interface LoginAccountChoice {
+  userId: string;
+  username: string;
+  userEmail?: string;
+  userFirstName?: string;
+  userLastName?: string;
+  userActive?: boolean;
+  deleted?: boolean;
+  userCreated?: string;
+  userModified?: string;
+}
+
+export interface LoginAccountSelectionResponse {
+  requiresAccountSelection: true;
+  message: string;
+  canonicalUsername: string;
+  requestedUserId?: string;
+  suggestedUserId?: string;
+  selectionReason?: string;
+  accountChoices: LoginAccountChoice[];
 }
 
 @Injectable({
@@ -51,11 +74,12 @@ export class AuthenticationService {
     return this.impersonatorSubject.value;
   }
 
-  doLogin(username: string, password: string): Observable<any> {
+  doLogin(username: string, password: string, selectedUserId?: string): Observable<any> {
     return this.http
       .post('users/login', {
         username: username,
-        password: password
+        password: password,
+        selectedUserId: selectedUserId
       })
       .pipe(
         retry(0),
@@ -111,8 +135,8 @@ export class AuthenticationService {
 
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
-  async signIn(username: string, password: string): Promise<any> {
-    let result = await this.doLogin(username, password).toPromise();
+  async signIn(username: string, password: string, selectedUserId?: string): Promise<any> {
+    let result = await this.doLogin(username, password, selectedUserId).toPromise();
     if (!(await result)) {
       return false;
     }
@@ -238,6 +262,13 @@ export class AuthenticationService {
 
   private handleAsyncError(error: HttpErrorResponse) {
     const backendMessage = typeof error.error === 'string' ? error.error : error?.error?.message;
+
+    if (error.status === 409 && error?.error?.requiresAccountSelection) {
+      return throwError({
+        status: error.status,
+        ...error.error
+      });
+    }
 
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

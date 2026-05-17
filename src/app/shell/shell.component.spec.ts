@@ -154,4 +154,55 @@ describe('ShellComponent', () => {
     component.selectChangeLogVersion('3.10.0-rc3');
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual(['3.11.0', '3.10.0-rc3']);
   });
+
+  it('keeps a degraded status panel visible instead of auto-hiding', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    (component as any).statusAutoHideMs = 1;
+    (component as any).statusFadeOutMs = 1;
+    component.serviceStatus = {
+      ...component.serviceStatus,
+      health: 'degraded',
+      healthLabel: 'Degraded',
+      error: 'Service status unavailable.'
+    };
+    component.serviceStatusPanelRendered = false;
+    component.serviceStatusPanelVisible = false;
+    component.serviceStatusPanelPinned = false;
+
+    (component as any).syncServiceStatusVisibility('ok');
+    expect(component.serviceStatusPanelRendered).toBe(true);
+    expect(component.serviceStatusPanelVisible).toBe(true);
+
+    tick(5);
+
+    expect(component.serviceStatusPanelRendered).toBe(true);
+    component.ngOnDestroy();
+    discardPeriodicTasks();
+  }));
+
+  it('toggles the pinned service status panel and change log drawer', () => {
+    component.toggleServiceStatusPanel();
+
+    expect(component.serviceStatusPanelPinned).toBe(true);
+    expect(component.serviceStatusPanelRendered).toBe(true);
+    expect(component.serviceStatusPanelVisible).toBe(true);
+
+    component.toggleChangeLog();
+
+    expect(component.changeLogExpanded).toBe(true);
+    expect(component.serviceStatusPanelPinned).toBe(true);
+
+    component.toggleServiceStatusPanel();
+
+    expect(component.serviceStatusPanelPinned).toBe(false);
+    expect(component.changeLogExpanded).toBe(false);
+    expect(component.serviceStatusPanelVisible).toBe(false);
+  });
+
+  it('tears down safely before subscriptions are initialized', () => {
+    expect(() => component.ngOnDestroy()).not.toThrow();
+  });
 });
