@@ -5,7 +5,16 @@ import { PatientStatusService } from './patient-status.service';
 describe('PatientStatusService (Jest)', () => {
   const makeHttp = () => ({
     post: jest.fn(() => of({ id: 'ps1' } as any)),
-    get: jest.fn(() => of([{ id: 'lbl1' }] as any))
+    get: jest.fn((url: string) => {
+      if (url === 'patients/discharge/labels') {
+        return of([{ id: 'discharge1' }] as any);
+      }
+
+      return of([
+        { patientStatusLabelId: 'lbl1', patientStatusLabel: 'Completed', patientStatusLabelActive: 1 },
+        { patientStatusLabelId: 'lbl2', patientStatusLabel: 'Hospice', patientStatusLabelActive: 0 }
+      ] as any);
+    })
   });
 
   it('adds patient status', done => {
@@ -41,6 +50,7 @@ describe('PatientStatusService (Jest)', () => {
 
     svc.getPatientStatusLabels().subscribe((labels: any) => {
       expect(labels.length).toBe(1);
+      expect(labels[0].patientStatusLabelId).toBe('lbl1');
     });
     svc.getPatientDischargeLabels().subscribe((labels: any) => {
       expect(labels.length).toBe(1);

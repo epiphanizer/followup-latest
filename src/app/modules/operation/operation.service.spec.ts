@@ -141,6 +141,31 @@ describe('OperationService (Jest)', () => {
     });
   });
 
+  it('deactivates operation groups by id', done => {
+    const http = makeHttp();
+    const svc = new OperationService(http as any);
+
+    svc.deactivateOperationGroupByOperationGroupId('og-1').subscribe(() => {
+      expect(http.delete).toHaveBeenCalledWith('operations/groups/og-1');
+      done();
+    });
+  });
+
+  it('handles error when deactivating operation group fails', done => {
+    const http = {
+      delete: jest.fn(() => throwError(() => new HttpErrorResponse({ status: 400, error: 'Cannot deactivate' })))
+    } as any;
+    const svc = new OperationService(http as any);
+
+    svc.deactivateOperationGroupByOperationGroupId('og-999').subscribe({
+      next: () => done.fail('expected error'),
+      error: (err: any) => {
+        expect(err.message).toContain('operation API route');
+        done();
+      }
+    });
+  });
+
   it('removes call rep or manager from operation', done => {
     const http = makeHttp();
     const svc = new OperationService(http as any);

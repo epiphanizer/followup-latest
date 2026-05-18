@@ -42,6 +42,12 @@ export class OperationService {
     );
   }
 
+  deactivateOperationGroupByOperationGroupId(operationGroupId: string): Observable<any> {
+    return this.http.delete('operations/groups/' + operationGroupId).pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+
   public assignManagerToOperationByOperationIdAndUserId(operationId: string, userId: string) {
     return this.http.post('operations/' + operationId + '/managers/' + userId, {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error

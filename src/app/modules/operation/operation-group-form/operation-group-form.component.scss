@@ -37,6 +37,12 @@ ion-title {
   padding: 24px 28px;
 }
 
+.client-lifecycle-panel {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(63, 54, 56, 0.12);
+}
+
 .eyebrow {
   font-family: Avenir, sans-serif;
   font-size: 12px;
@@ -55,6 +61,15 @@ h1 {
 }
 
 .client-form-copy {
+  margin: 12px 0 0;
+  max-width: 620px;
+  font-family: Avenir, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #66595c;
+}
+
+.client-lifecycle-copy {
   margin: 12px 0 0;
   max-width: 620px;
   font-family: Avenir, sans-serif;
@@ -110,6 +125,10 @@ ion-input {
   justify-content: flex-end;
 }
 
+.archive-button {
+  margin-top: 16px;
+}
+
 @media screen and (max-width: 767px) {
   .operation-content-wrapper {
     margin-left: 0;
@@ -124,5 +143,9 @@ ion-input {
   .client-form-actions {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .archive-button {
+    width: 100%;
   }
 }

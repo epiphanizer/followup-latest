@@ -33,7 +33,8 @@ describe('OperationGroupFormComponent (Jest)', () => {
       ),
       editOperationGroupByOperationGroupId: jest.fn(() =>
         of({ operationGroupId: 'og1', operationGroupName: 'Providence West', operationGroupShortName: 'PROVW' })
-      )
+      ),
+      deactivateOperationGroupByOperationGroupId: jest.fn(() => of({ success: 1 }))
     } as any;
     const userService = { updateOperations: jest.fn(() => Promise.resolve()) } as any;
     const toastrService = {
@@ -77,5 +78,39 @@ describe('OperationGroupFormComponent (Jest)', () => {
       operationGroupShortName: 'PROVW'
     });
     expect(router.navigate).toHaveBeenCalledWith(['/clients', 'og1']);
+  });
+
+  it('loads the client from the service when it is missing from local user state', () => {
+    const { comp, route, operationService } = makeComponent();
+    route.snapshot.data.user.operationGroups = [];
+
+    comp.ngOnInit();
+
+    expect(operationService.getOperationGroupByOperationGroupId).toHaveBeenCalledWith('og1');
+    expect(comp.operationGroup?.operationGroupName).toBe('Providence');
+  });
+
+  it('archives the client and routes back to the client roster', () => {
+    const { comp, router, operationService, userService } = makeComponent();
+    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
+
+    comp.ngOnInit();
+    comp.onArchive();
+
+    expect(operationService.deactivateOperationGroupByOperationGroupId).toHaveBeenCalledWith('og1');
+    expect(userService.updateOperations).toHaveBeenCalledWith(comp.user);
+    expect(router.navigate).toHaveBeenCalledWith(['/clients']);
+    confirmSpy.mockRestore();
+  });
+
+  it('does not archive the client when confirmation is declined', () => {
+    const { comp, operationService } = makeComponent();
+    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(false);
+
+    comp.ngOnInit();
+    comp.onArchive();
+
+    expect(operationService.deactivateOperationGroupByOperationGroupId).not.toHaveBeenCalled();
+    confirmSpy.mockRestore();
   });
 });

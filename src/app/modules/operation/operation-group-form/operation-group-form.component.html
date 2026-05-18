@@ -33,6 +33,17 @@
             <button class="secondary button" type="button" (click)="onCancel()">Cancel</button>
           </div>
         </form>
+
+        <div class="client-lifecycle-panel">
+          <div class="eyebrow">Lifecycle</div>
+          <p class="client-lifecycle-copy">
+            Archiving is a soft delete. The client record is preserved for audit history, but it will drop out of the
+            active Clients workflow.
+          </p>
+          <button class="secondary button archive-button" type="button" (click)="onArchive()">
+            {{ isArchiving ? 'Archiving...' : 'Archive Client' }}
+          </button>
+        </div>
       </div>
     </ion-col>
   </ion-row>

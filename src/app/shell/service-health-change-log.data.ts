@@ -21,6 +21,30 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v3.11.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'Release',
+        summary:
+          'Alpha frontend and API App Services are now pinned to Windows Node 20 LTS for pre-live runtime validation, replacing the older mixed alpha baseline.',
+        evidence:
+          'Recorded in the frontend and API running change logs after Azure CLI inspection showed live followupcare carrying no explicit Node pin, live followupcare-api carrying WEBSITE_NODE_DEFAULT_VERSION 12.13.0, and alpha apps carrying 12.13.0 / ~18 before the change. Both alpha apps were updated to WEBSITE_NODE_DEFAULT_VERSION ~20, then validated with HTTP 200 responses from the frontend root plus API healthz, livez, statusz, and users routes.',
+        source: 'v3.11.0/followup-frontend/agents.md + v3.11.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The dedicated client edit page now supports soft archive/delete as well as rename, so admins can retire client groups directly from /clients/:operationGroupId/edit instead of falling back to legacy operation-group workflows.',
+        evidence:
+          'Recorded in the frontend running change log with focused Jest on operation-group-form and operation.service after adding the archive action, confirmation flow, local client-cache cleanup, and client-roster redirect behavior.',
+        source: 'v3.11.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Operation-group deactivation now follows the same affected-row success contract as operation-contact deletes, and the alpha smoke harness now covers client create/detail/deactivate lifecycle checks.',
+        evidence:
+          'Recorded in the API running change log after a live alpha smoke reproduced DELETE /operations/groups/{operationGroupId} returning 400 {} pre-redeploy, followed by a source fix in deployment/service/OperationService.js and clean syntax validation on the touched file.',
+        source: 'v3.11.0/followup-api/agents.md'
+      },
+      {
         scope: 'Frontend',
         summary:
           'The home Everybody banner is back as a fixed browser-bottom frame instead of hovering above the home content.',

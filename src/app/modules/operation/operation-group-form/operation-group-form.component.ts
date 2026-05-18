@@ -19,6 +19,7 @@ export class OperationGroupFormComponent implements OnInit {
   operationGroup: OperationGroup | null = null;
   operationGroupForm: FormGroup;
   isLoading = false;
+  isArchiving = false;
   loadError: string | null = null;
 
   constructor(
@@ -130,6 +131,45 @@ export class OperationGroupFormComponent implements OnInit {
     this.router.navigate(['/clients']);
   }
 
+  onArchive() {
+    if (!this.operationGroup?.operationGroupId || this.isArchiving) {
+      return;
+    }
+
+    if (typeof window !== 'undefined' && typeof window.confirm === 'function') {
+      const confirmed = window.confirm(
+        'Archive this client? This is a soft delete that removes it from active client workflows.'
+      );
+      if (!confirmed) {
+        return;
+      }
+    }
+
+    this.isArchiving = true;
+    this.loadError = null;
+
+    this.operationService
+      .deactivateOperationGroupByOperationGroupId(this.operationGroup.operationGroupId)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.removeOperationGroupFromCaches(this.operationGroup.operationGroupId as string);
+          this.userService.updateOperations(this.user).catch(() => {});
+          this.isArchiving = false;
+          this.toastrService
+            .success('Successfully archived client')
+            .onShown.pipe(take(1))
+            .subscribe(() => {
+              this.router.navigate(['/clients']);
+            });
+        },
+        error: () => {
+          this.isArchiving = false;
+          this.loadError = 'Unable to archive this client record.';
+        }
+      });
+  }
+
   private applyOperationGroupRename(operationGroup: OperationGroup) {
     this.operationGroup = operationGroup;
 
@@ -145,6 +185,21 @@ export class OperationGroupFormComponent implements OnInit {
 
         return operationGroupRecord;
       });
+    }
+
+    localStorage.setItem('operationGroups', JSON.stringify(this.user?.operationGroups || []));
+    localStorage.setItem('followup-user', JSON.stringify(this.user));
+  }
+
+  private removeOperationGroupFromCaches(operationGroupId: string) {
+    if (Array.isArray(this.user?.operationGroups)) {
+      this.user.operationGroups = this.user.operationGroups.filter((operationGroupRecord: OperationGroup) => {
+        return operationGroupRecord.operationGroupId !== operationGroupId;
+      });
+    }
+
+    if (this.operationGroup?.operationGroupId === operationGroupId) {
+      this.operationGroup = null;
     }
 
     localStorage.setItem('operationGroups', JSON.stringify(this.user?.operationGroups || []));
