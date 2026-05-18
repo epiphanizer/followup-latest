@@ -1,42 +1,58 @@
 <nav [class.dropdown-active]="dropdownActivated" *ngIf="user && navLinks" (mouseleave)="closeDropdowns()">
-  <ion-list lines="none">
+  <div class="nav-list">
     <div class="nav-link-container" *ngFor="let link of navLinks; let i = index">
-      <ion-item *ngIf="link.minRole >= getUserRoleValue(user)">
-        <a *ngIf="!link.dropdown.links && !link.dynamic" (click)="closeDropdowns()" routerLink="/{{ link.linkAction }}">
+      <div class="nav-link-row" *ngIf="link.minRole >= getUserRoleValue(user)">
+        <a
+          *ngIf="!link.dropdown && !link.dynamic"
+          class="nav-link"
+          (click)="closeDropdowns()"
+          [routerLink]="link.linkAction"
+        >
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           {{ link.linkName }}
         </a>
-        <a *ngIf="link.dropdown.links" (mouseover)="openDropdown(i)" (click)="toggleDropdown(i)">
+        <button
+          *ngIf="link.dropdown"
+          type="button"
+          class="nav-link nav-trigger"
+          (mouseenter)="openDropdown(i)"
+          (focus)="openDropdown(i)"
+          (click)="toggleDropdown(i, $event)"
+        >
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
-          <a *ngIf="!link.dropdown.links" routerLink="/{{ link.linkAction }}">{{ link.linkName }}</a>
-          <a *ngIf="link.dropdown.links">{{ link.linkName }}</a>
-          <i class="nav-caret" *ngIf="link.dropdown.links" (click)="toggleDropdown(i)" (touch)="openDropdown(i)"></i>
-        </a>
-        <a *ngIf="link.dynamic" [class.disabled]="!callQueuePage" (click)="dynamicLink(link)">
+          <span>{{ link.linkName }}</span>
+          <i class="nav-caret"></i>
+        </button>
+        <button
+          *ngIf="!link.dropdown && link.dynamic"
+          type="button"
+          class="nav-link nav-action"
+          [class.disabled]="!callQueuePage"
+          (click)="dynamicLink(link)"
+        >
           <i *ngIf="link.linkIcon" class="{{ link.linkIcon }}"></i>
           {{ link.linkName }}
-        </a>
-      </ion-item>
-      <div *ngIf="dropdowns[i]">
+        </button>
+      </div>
+      <div *ngIf="dropdowns[i] && link.dropdown">
         <div
           [class.active]="dropdowns[i].activated"
           class="dropdown"
-          *ngIf="link.dropdown.links"
           (mouseenter)="openDropdown(i)"
           (mouseleave)="closeDropdown(i)"
         >
           <ul *ngIf="link.minRole >= getUserRoleValue(user)">
-            <li *ngFor="let link of link.dropdown.links">
-              <a *ngIf="!link.dynamic" (click)="closeDropdowns()" routerLink="/{{ link.linkAction }}">
-                {{ link.linkName }}</a
+            <li *ngFor="let childLink of link.dropdown.links">
+              <a *ngIf="!childLink.dynamic" (click)="closeDropdowns()" [routerLink]="childLink.linkAction">
+                {{ childLink.linkName }}</a
               >
-              <a *ngIf="link.dynamic" (click)="dynamicLink(link)">
-                {{ link.linkName }}
-              </a>
+              <button *ngIf="childLink.dynamic" type="button" class="dropdown-action" (click)="dynamicLink(childLink)">
+                {{ childLink.linkName }}
+              </button>
             </li>
           </ul>
         </div>
       </div>
     </div>
-  </ion-list>
+  </div>
 </nav>

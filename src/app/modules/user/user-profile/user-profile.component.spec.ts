@@ -7,6 +7,7 @@ import { UserProfileComponent } from './user-profile.component';
 describe('UserProfileComponent (Jest)', () => {
   const baseUser: any = {
     userId: 'u1',
+    userLevel: '2PEXyKgz',
     userFirstName: 'Ada',
     userLastName: 'Lovelace',
     userEmail: 'ada@example.com',
@@ -19,21 +20,33 @@ describe('UserProfileComponent (Jest)', () => {
     userInterests: {}
   };
 
-  const makeComponent = () => {
+  const makeComponent = (options?: { routeUserId?: string; loadedUser?: any }) => {
     const authenticationService = { currentUserSubject: new BehaviorSubject(baseUser) } as any;
-    const operationService = {} as any;
+    const route = {
+      snapshot: {
+        data: { user: baseUser },
+        paramMap: {
+          get: jest.fn((key: string) => (key === 'userId' ? options?.routeUserId || null : null))
+        }
+      }
+    } as any;
+    const router = { navigate: jest.fn() } as any;
     const toastrService = { success: jest.fn(() => ({ onShown: { pipe: () => ({ subscribe: jest.fn() }) } })) } as any;
-    const userService = { updateUserByUserId: jest.fn(() => of({})) } as any;
+    const userService = {
+      updateUserByUserId: jest.fn(() => of({})),
+      getUserByUserId: jest.fn(() => of(options?.loadedUser || { ...baseUser, userId: 'u2', userFirstName: 'Grace' }))
+    } as any;
 
     const comp = new UserProfileComponent(
       authenticationService,
-      operationService,
+      route,
+      router,
       new FormBuilder(),
       toastrService,
       userService
     );
 
-    return { comp, authenticationService, userService };
+    return { comp, authenticationService, route, router, userService };
   };
 
   it('builds the profile form from the current user', () => {
@@ -44,6 +57,39 @@ describe('UserProfileComponent (Jest)', () => {
     expect(comp.userProfileForm).toBeTruthy();
     expect(comp.userProfileForm.get('userFirstName')?.value).toBe('Ada');
     expect(comp.userProfileForm.get('userSpeaksSpanish')?.value).toBe('0');
+  });
+
+  it('loads the targeted user when opened from the admin user route', () => {
+    const { comp, userService } = makeComponent({
+      routeUserId: 'u2',
+      loadedUser: { ...baseUser, userId: 'u2', userFirstName: 'Grace', userLastName: 'Hopper' }
+    });
+
+    comp.ngOnInit();
+
+    expect(userService.getUserByUserId).toHaveBeenCalledWith('u2');
+    expect(comp.user.userId).toBe('u2');
+    expect(comp.pageTitle).toBe('Edit User');
+  });
+
+  it('falls back to default interests when admin edit loads malformed legacy profile data', () => {
+    const { comp } = makeComponent({
+      routeUserId: 'u2',
+      loadedUser: {
+        ...baseUser,
+        userId: 'u2',
+        userFirstName: 'Grace',
+        userInterests: '',
+        userDob: 'not-a-date'
+      }
+    });
+
+    comp.ngOnInit();
+
+    expect(comp.userProfileForm).toBeTruthy();
+    expect(comp.userProfileForm.get('userDob')?.value).toBe('');
+    expect(comp.user.userInterests.celebrity).toBe(false);
+    expect(comp.user.userInterests.DND).toBe(false);
   });
 
   it('returns payload with sensible defaults', () => {
@@ -66,6 +112,15 @@ describe('UserProfileComponent (Jest)', () => {
     comp.updateUserProfile();
 
     expect(userService.updateUserByUserId).toHaveBeenCalledWith(expect.any(String), expect.any(Object));
+  });
+
+  it('navigates back to the roster when canceling admin edit mode', () => {
+    const { comp, router } = makeComponent({ routeUserId: 'u2' });
+
+    comp.ngOnInit();
+    comp.cancelUpdateProfile();
+
+    expect(router.navigate).toHaveBeenCalledWith(['/users']);
   });
 
   it('reports validation errors when form is invalid', () => {

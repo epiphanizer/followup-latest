@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
-import { User } from '@app/modules/user/user';
+import { User, UserRolesMap } from '@app/modules/user/user';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -13,6 +13,8 @@ import { ActivatedRoute } from '@angular/router';
 export class OperationListingComponent implements OnInit {
   public operationGroups: OperationGroup[];
   public operationGroups$: Observable<OperationGroup[]>;
+  public pageTitle = 'Operations';
+  public clientMode = false;
 
   @Input() operationGroup: OperationGroup;
 
@@ -30,6 +32,34 @@ export class OperationListingComponent implements OnInit {
     private route: ActivatedRoute,
     private operationService: OperationService
   ) {}
+
+  get selectedGroupName(): string {
+    return (
+      this.selected?.operationGroup?.operationGroupName ||
+      this.selected?.operationGroup?.operationGroupShortName ||
+      'Client'
+    );
+  }
+
+  get selectedGroupShortName(): string {
+    return this.selected?.operationGroup?.operationGroupShortName || '';
+  }
+
+  get selectedGroupOperationsCount(): number {
+    return Array.isArray(this.selected?.operationGroup?.operations)
+      ? this.selected.operationGroup.operations.length
+      : 0;
+  }
+
+  get canEditClient(): boolean {
+    return (
+      this.clientMode && this.getUserRoleValue(this.user) === 1 && !!this.selected?.operationGroup?.operationGroupId
+    );
+  }
+
+  get clientEditLink(): any[] {
+    return ['/clients', this.selected?.operationGroup?.operationGroupId, 'edit'];
+  }
 
   private hydrateSelectedGroupById(operationGroupId: string) {
     if (!operationGroupId || !this.user?.userId) {
@@ -52,6 +82,8 @@ export class OperationListingComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user || ({} as User);
+    this.pageTitle = this.route.snapshot.data.title || 'Operations';
+    this.clientMode = this.route.snapshot.data.section === 'clients';
     this.operationGroups = Array.isArray(this.user?.operationGroups) ? this.user.operationGroups : [];
 
     this.route.paramMap.subscribe((data: any) => {
@@ -95,5 +127,17 @@ export class OperationListingComponent implements OnInit {
       };
       this.hydrateSelectedGroupById(operationGroupId);
     }
+  }
+
+  private getUserRoleValue(user: User): number {
+    if (!user) {
+      return 0;
+    }
+
+    if (typeof user.userLevel === 'number') {
+      return user.userLevel;
+    }
+
+    return (UserRolesMap as any)[String(user.userLevel)] || 0;
   }
 }

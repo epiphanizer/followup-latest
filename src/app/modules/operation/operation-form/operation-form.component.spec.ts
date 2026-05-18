@@ -268,50 +268,6 @@ describe('OperationFormComponent logic', () => {
       expect(component.addOperationGroupFormControl.get('operationGroupName').value).toBe('');
       expect(component.addOperationGroupFormControl.get('operationGroupShortName').value).toBe('');
     });
-
-    it('manages edit operation group modal state', () => {
-      component.operationGroups = [
-        {
-          operationGroupId: 'og1',
-          operationGroupName: 'Providence',
-          operationGroupShortName: 'PROV'
-        }
-      ] as any;
-      component.operationForm.get('operation.operationGroupId').setValue('og1');
-
-      component.editOperationGroupForm();
-
-      expect(component.editOperationGroupModalOn).toBe(true);
-      expect(component.selectedOperationGroupToEditId).toBe('og1');
-    });
-
-    it('prefills edit operation group form from selected ownership', () => {
-      component.operationGroups = [
-        {
-          operationGroupId: 'og1',
-          operationGroupName: 'Providence',
-          operationGroupShortName: 'PROV'
-        }
-      ] as any;
-      component.operationForm.get('operation.operationGroupId').setValue('og1');
-
-      component.editOperationGroupForm();
-
-      expect(component.editOperationGroupModalOn).toBe(true);
-      expect(component.selectedOperationGroupToEditId).toBe('og1');
-      expect(component.editOperationGroupFormControl.get('operationGroupName').value).toBe('Providence');
-      expect(component.editOperationGroupFormControl.get('operationGroupShortName').value).toBe('PROV');
-    });
-
-    it('shows error toast when trying to edit without selection', () => {
-      component.operationGroups = [];
-      component.operationForm.get('operation.operationGroupId').setValue('');
-
-      component.editOperationGroupForm();
-
-      expect(toastrMock.error).toHaveBeenCalledWith('Please select an ownership group first');
-      expect(component.editOperationGroupModalOn).toBe(false);
-    });
   });
 
   describe('Operation Group CRUD Operations', () => {
@@ -329,74 +285,6 @@ describe('OperationFormComponent logic', () => {
       expect(toastrMock.success).toHaveBeenCalledWith('Successfully added operation group');
       expect(component.operationGroups.length).toBe(1);
       expect(component.addOperationGroupModalOn).toBe(false);
-    });
-
-    it('renames operation group and updates all local caches', () => {
-      component.operationGroups = [
-        {
-          operationGroupId: 'og1',
-          operationGroupName: 'Providence',
-          operationGroupShortName: 'PROV'
-        }
-      ] as any;
-      component.operation.operationGroupId = 'og1';
-      component.operationForm.get('operation.operationGroupId').setValue('og1');
-      localStorage.clear();
-
-      component.editOperationGroupForm();
-      component.editOperationGroupFormControl.patchValue({
-        operationGroupName: 'PACS',
-        operationGroupShortName: 'WZ PACS'
-      });
-
-      component.editOperationGroup();
-
-      expect(operationServiceMock.editOperationGroupByOperationGroupId).toHaveBeenCalledWith('og1', {
-        operationGroupName: 'PACS',
-        operationGroupShortName: 'WZ PACS'
-      });
-      expect(component.operationGroups[0].operationGroupName).toBe('PACS');
-      expect(component.operation.operationGroupName).toBe('PACS');
-      expect(component.operation.operationGroupShortName).toBe('WZ PACS');
-      expect(localStorage.getItem('operationGroups')).toContain('PACS');
-      expect(userServiceMock.updateOperations).toHaveBeenCalledWith(component.user);
-      expect(component.editOperationGroupModalOn).toBe(false);
-    });
-
-    it('trims whitespace from group name and shortName before saving', () => {
-      component.operationGroups = [
-        {
-          operationGroupId: 'og1',
-          operationGroupName: 'Old Name',
-          operationGroupShortName: 'OLD'
-        }
-      ] as any;
-      component.operationForm.get('operation.operationGroupId').setValue('og1');
-
-      component.editOperationGroupForm();
-      component.editOperationGroupFormControl.patchValue({
-        operationGroupName: '  PACS  ',
-        operationGroupShortName: '  WZ PACS  '
-      });
-
-      component.editOperationGroup();
-
-      expect(operationServiceMock.editOperationGroupByOperationGroupId).toHaveBeenCalledWith('og1', {
-        operationGroupName: 'PACS',
-        operationGroupShortName: 'WZ PACS'
-      });
-    });
-
-    it('does not save when edit form is invalid', () => {
-      component.selectedOperationGroupToEditId = 'og1';
-      component.editOperationGroupFormControl = fb.group({
-        operationGroupName: new FormControl('', Validators.required),
-        operationGroupShortName: new FormControl('')
-      });
-
-      component.editOperationGroup();
-
-      expect(operationServiceMock.editOperationGroupByOperationGroupId).not.toHaveBeenCalled();
     });
   });
 

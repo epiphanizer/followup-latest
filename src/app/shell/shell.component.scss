@@ -5,8 +5,11 @@
   height: 100%;
 }
 ion-router-outlet {
-  height: 100vh;
-  margin-top: 95px;
+  display: block;
+  position: relative;
+  z-index: 1;
+  height: calc(100vh - 95px);
+  margin-top: 0;
 }
 
 app-user-cork-board {
@@ -30,11 +33,18 @@ app-user-cork-board {
     cursor: crosshair;
   }
 }
-ion-toolbar {
-  --background: transparent;
+.shell-toolbar {
   position: relative;
   z-index: 320;
+  min-height: 95px;
+  width: 100%;
   overflow: visible;
+
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
 }
 
 .user-dropdown {
@@ -42,17 +52,13 @@ ion-toolbar {
   position: absolute;
   z-index: 390;
   right: 30px;
-  top: -30px;
+  top: 60px;
   &.show {
     display: block;
   }
   cursor: pointer;
   width: 195px;
   height: auto;
-  position: relative;
-  float: right;
-  margin-top: -28px;
-  margin-left: 7px;
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.16);
   max-height: min(70vh, 420px);
   overflow-y: auto;

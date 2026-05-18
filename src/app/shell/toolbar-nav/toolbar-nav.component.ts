@@ -87,11 +87,6 @@ export class ToolbarNavComponent implements OnInit {
               linkName: 'Service Health'
             },
             {
-              linkAction: 'openServiceChangeLog',
-              dynamic: true,
-              linkName: 'Version Change Log'
-            },
-            {
               linkAction: 'getExcelReport',
               dynamic: true,
               linkName: 'Excel Report'
@@ -101,14 +96,14 @@ export class ToolbarNavComponent implements OnInit {
         minRole: 1
       },
       {
-        linkAction: '/operations',
+        linkAction: '/clients',
         linkName: 'Clients',
         dynamic: false,
         dropdown: {
           activated: false,
           links: [
             {
-              linkAction: '/operations',
+              linkAction: '/clients',
               linkName: 'Client Groups'
             },
             {
@@ -198,10 +193,6 @@ export class ToolbarNavComponent implements OnInit {
       this.closeDropdowns();
       this.serviceHealthRequested.emit('panel');
     }
-    if (link.linkAction == 'openServiceChangeLog') {
-      this.closeDropdowns();
-      this.serviceHealthRequested.emit('change-log');
-    }
   }
   closeDropdowns() {
     this.dropdowns.forEach(dropdown => {
@@ -211,7 +202,7 @@ export class ToolbarNavComponent implements OnInit {
   }
   closeDropdown(i: number) {
     this.dropdowns[i].activated = false;
-    this.dropdownActivated = false;
+    this.dropdownActivated = this.dropdowns.some(dropdown => dropdown.activated);
   }
   openDropdown(i: number) {
     /**
@@ -229,25 +220,19 @@ export class ToolbarNavComponent implements OnInit {
     this.dropdownActivated = true;
     this.dropdowns[i].activated = true;
   }
-  toggleDropdown(i: number, $event: any) {
+  toggleDropdown(i: number, $event?: Event) {
     // emit false to close the profile dropdown if we open a nav dropdown
     // (we have to do this due to layout constraints)
     this.dropdownEvent.emit(false);
-    this.dropdowns[i].activated = !this.dropdowns[i].activated;
-    /**
-     * We do a quick check here for our mouseout event...
-     * We only want to toggle off if we are not inside of an open dropdown.
-     */
-    var activeDropdown = document.getElementsByClassName('active dropdown');
-    if (activeDropdown[0]) {
-      var box = activeDropdown[0] as HTMLElement;
-      var boundingBox = box.getBoundingClientRect() as DOMRect;
-      if ($event) {
-        if ($event.clientX - (boundingBox.x + boundingBox.width) < 0) {
-          this.dropdowns[i].activated = !this.dropdowns[i].activated;
-        }
-      }
+    if ($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
     }
+
+    const shouldOpen = !this.dropdowns[i].activated;
+    this.closeDropdowns();
+    this.dropdownActivated = shouldOpen;
+    this.dropdowns[i].activated = shouldOpen;
   }
 
   async createNotificationModal() {

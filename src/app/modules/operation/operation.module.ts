@@ -10,6 +10,7 @@ import { OperationContactComponent } from './operation-contact/operation-contact
 import { OperationAdminRightSidebarComponent } from './operation-admin-right-sidebar/operation-admin-right-sidebar.component';
 import { OperationListingComponent } from './operation-listing/operation-listing.component';
 import { OperationOperationListingComponent } from './operation-listing/operation-operation-listing/operation-operation-listing.component';
+import { OperationGroupFormComponent } from './operation-group-form/operation-group-form.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from '@app/shared';
 import { ListingFilterComponent } from '@app/shared/listing-filter/listing-filter.component';
@@ -31,7 +32,8 @@ import { ListingSearchComponent } from '@app/shared/listing-search/listing-searc
     OperationContactComponent,
     OperationAdminRightSidebarComponent,
     OperationListingComponent,
-    OperationOperationListingComponent
+    OperationOperationListingComponent,
+    OperationGroupFormComponent
   ],
   entryComponents: [OperationOperationListingComponent, ListingFilterComponent, ListingSearchComponent]
 })

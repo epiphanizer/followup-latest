@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { extract } from '@app/core';
+import { AuthGuardService } from '@app/core/authentication/auth-guard.service';
 import { Shell } from '@app/shell/shell.service';
+import { UserRoles } from '../user/user';
 import { UserResolver } from '../user/user-resolver.service';
 import { UserListingComponent } from './user-listing/user-listing.component';
 
@@ -11,8 +13,13 @@ const routes: Routes = [
       path: 'users',
       pathMatch: 'full',
       component: UserListingComponent,
+      canActivate: [AuthGuardService],
       data: {
+        roles: [UserRoles.admin],
         title: extract('Users Listing')
+      },
+      resolve: {
+        user: UserResolver
       }
     }
   ])

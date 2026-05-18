@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="facility-dropdown-container">
-    <a class="facility-dropdown-target">FACILITIES</a>
+    <a class="facility-dropdown-target">{{ groupNavigationLabel }}</a>
     <ng-container *ngIf="operationGroups">
       <div
         class="operation-group-container"
@@ -16,7 +16,7 @@
           ><a
             class="operation-group-link"
             (click)="setActiveOperationGroup(operationGroup)"
-            [routerLink]="'/operations/group/' + operationGroup.operationGroupId"
+            [routerLink]="getOperationGroupRoute(operationGroup)"
             >{{
               operationGroup.operationGroupShortName?.length
                 ? operationGroup.operationGroupShortName

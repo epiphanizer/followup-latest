@@ -5,7 +5,22 @@
       </app-operation-admin-sidebar>
     </ion-col>
     <ion-col class="operation-content-wrapper" *ngIf="selected.operationGroup">
-      <ion-title>Operations</ion-title>
+      <ion-title>{{ pageTitle }}</ion-title>
+      <div class="selected-client-panel" *ngIf="clientMode">
+        <div>
+          <div class="eyebrow">Client Detail</div>
+          <div class="selected-client-name">{{ selectedGroupName }}</div>
+          <div class="selected-client-copy">
+            Client groups are the canonical ownership records for grouped operations. Use this view to review the
+            operations under a client and open the dedicated edit page when the group record itself needs attention.
+          </div>
+        </div>
+        <div class="selected-client-meta">
+          <span class="client-chip">{{ selectedGroupOperationsCount }} Operations</span>
+          <span class="client-chip secondary" *ngIf="selectedGroupShortName">{{ selectedGroupShortName }}</span>
+          <a class="selected-client-action" *ngIf="canEditClient" [routerLink]="clientEditLink">Edit Client</a>
+        </div>
+      </div>
       <app-operation-operation-listing [operationGroup]="selected.operationGroup"> </app-operation-operation-listing>
     </ion-col>
   </ion-row>

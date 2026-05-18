@@ -7,26 +7,26 @@
   >
   </app-user-cork-board>
   <div class="content-wrapper" [class.expanded]="userCorkBoardExpanded">
-    <ion-toolbar>
+    <div class="shell-toolbar">
       <app-toolbar-logo (click)="toggleDropdown(false)"> </app-toolbar-logo>
       <app-toolbar-nav
         (dropdownEvent)="toggleDropdown($event)"
         (serviceHealthRequested)="handleServiceHealthRequest($event)"
       >
       </app-toolbar-nav>
-    </ion-toolbar>
-    <app-toolbar-profile-nav
-      *ngIf="user"
-      [user]="user"
-      (dropdownEvent)="toggleDropdown($event)"
-    ></app-toolbar-profile-nav>
-    <div class="user-dropdown" [class.show]="dropdownActive" (click)="toggleDropdown(false)">
-      <ul class="user-dropdown-actions">
-        <li (click)="addNewCorkBoardItem()">Add Photos</li>
-        <li routerLink="/user/profile">Edit Profile</li>
-        <li *ngIf="impersonator" (click)="stopImpersonation()">Return to admin</li>
-        <li (click)="signOut()">Logout</li>
-      </ul>
+      <app-toolbar-profile-nav
+        *ngIf="user"
+        [user]="user"
+        (dropdownEvent)="toggleDropdown($event)"
+      ></app-toolbar-profile-nav>
+      <div class="user-dropdown" [class.show]="dropdownActive" (click)="toggleDropdown(false)">
+        <ul class="user-dropdown-actions">
+          <li (click)="addNewCorkBoardItem()">Add Photos</li>
+          <li routerLink="/user/profile">Edit Profile</li>
+          <li *ngIf="impersonator" (click)="stopImpersonation()">Return to admin</li>
+          <li (click)="signOut()">Logout</li>
+        </ul>
+      </div>
     </div>
     <ion-router-outlet class="main-router-oulet" main (click)="toggleDropdown(false)"> </ion-router-outlet>
     <div
@@ -88,7 +88,7 @@
         </div>
         <button type="button" class="status-line status-line-action" (click)="toggleChangeLog()">
           <span class="status-label">Version Change Log</span>
-          <span class="status-value">{{ changeLogExpanded ? 'Hide' : 'Open' }} · {{ changeLogSummary }}</span>
+          <span class="status-value">{{ changeLogExpanded ? 'Hide' : 'Open' }}</span>
         </button>
         <div class="status-change-log" *ngIf="changeLogExpanded">
           <div class="change-log-search-row">
@@ -112,10 +112,10 @@
               {{ release.version }}
             </button>
           </div>
+          <div class="change-log-summary">{{ changeLogSummary }}</div>
           <ng-template #noKnownVersions>
             <div class="change-log-empty">No markdown-backed versions match that search.</div>
           </ng-template>
-          <div class="change-log-summary">Showing recorded changes since v{{ selectedChangeLogVersion }}.</div>
           <div class="change-log-release" *ngFor="let release of visibleChangeLogReleases">
             <div class="change-log-release-header">
               <span class="change-log-release-version">v{{ release.version }}</span>

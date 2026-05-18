@@ -9,6 +9,7 @@ import { UserResolver } from '../user/user-resolver.service';
 import { OperationResolver } from './operation-resolver';
 import { OperationListingComponent } from './operation-listing/operation-listing.component';
 import { AuthGuardService } from '@app/core/authentication/auth-guard.service';
+import { OperationGroupFormComponent } from './operation-group-form/operation-group-form.component';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -19,6 +20,46 @@ const routes: Routes = [
       data: {
         roles: [UserRoles.admin, UserRoles.manager],
         title: extract('Operations')
+      },
+      resolve: {
+        user: UserResolver
+      }
+    },
+    {
+      path: 'clients',
+      component: OperationListingComponent,
+      canActivate: [AuthGuardService],
+      data: {
+        roles: [UserRoles.admin, UserRoles.manager],
+        section: 'clients',
+        title: extract('Clients')
+      },
+      resolve: {
+        user: UserResolver
+      }
+    },
+    {
+      path: 'clients/:operationGroupId/edit',
+      component: OperationGroupFormComponent,
+      canActivate: [AuthGuardService],
+      data: {
+        roles: [UserRoles.admin],
+        section: 'clients',
+        title: extract('Edit Client')
+      },
+      resolve: {
+        user: UserResolver
+      }
+    },
+    {
+      path: 'clients/:operationGroupId',
+      component: OperationListingComponent,
+      canActivate: [AuthGuardService],
+      data: {
+        operationGroupId: ':operationGroupId',
+        roles: [UserRoles.admin, UserRoles.manager],
+        section: 'clients',
+        title: extract('Clients')
       },
       resolve: {
         user: UserResolver

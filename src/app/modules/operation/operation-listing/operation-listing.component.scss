@@ -13,6 +13,81 @@ ion-title {
   margin-bottom: 2.25rem;
 }
 
+.selected-client-panel {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+  padding: 18px 22px;
+  border: 1px solid rgba(63, 54, 56, 0.12);
+  background: #ffffff;
+  box-shadow: 0 14px 32px rgba(63, 54, 56, 0.08);
+}
+
+.eyebrow {
+  font-family: Avenir, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #7c6d70;
+}
+
+.selected-client-name {
+  margin-top: 8px;
+  font-family: Avenir, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #3f3638;
+}
+
+.selected-client-copy {
+  margin-top: 8px;
+  max-width: 680px;
+  font-family: Avenir, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #66595c;
+}
+
+.selected-client-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.client-chip,
+.selected-client-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-family: Avenir, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.client-chip {
+  background: rgba(63, 54, 56, 0.08);
+  color: #3f3638;
+}
+
+.client-chip.secondary {
+  background: rgba(0, 184, 190, 0.12);
+  color: #008489;
+}
+
+.selected-client-action {
+  border: 0;
+  background: #3f3638;
+  color: #ffffff;
+  text-decoration: none;
+}
+
 .operation-sidebar {
   max-width: 172px;
   padding-bottom: 160px;
@@ -28,6 +103,16 @@ ion-title {
   min-width: 600px;
   @media screen and (orientation: portrait) and (max-width: 1024px) {
     margin-left: 33px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .selected-client-panel {
+    flex-direction: column;
+  }
+
+  .selected-client-meta {
+    justify-content: flex-start;
   }
 }
 .operation-patient-list {

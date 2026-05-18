@@ -83,42 +83,6 @@
                 </ion-select-option>
               </ion-select>
             </ion-item>
-            <span
-              *ngIf="user?.userLevel === userRoles.admin"
-              class="ion-float-right add-contact-label add-group-label"
-              (click)="editOperationGroupForm()"
-              >Edit Group</span
-            >
-            <div class="modal" *ngIf="editOperationGroupModalOn">
-              <form [formGroup]="editOperationGroupFormControl">
-                <ion-label color="medium" position="stacked"
-                  >Ownership Name<span style="color:#f1624a">*</span></ion-label
-                >
-                <ion-input type="text" placeholder="Ownership name" formControlName="operationGroupName"></ion-input>
-                <ion-label color="medium" position="stacked"
-                  >WZ Short Name<span style="color:#f1624a">*</span></ion-label
-                >
-                <ion-input type="text" placeholder="Short name" formControlName="operationGroupShortName"></ion-input>
-                <ion-buttons>
-                  <button
-                    type="button"
-                    *ngIf="!mode.view"
-                    class="ion-float-right primary button"
-                    (click)="editOperationGroup()"
-                  >
-                    Save
-                  </button>
-                  <button
-                    type="button"
-                    *ngIf="!mode.view"
-                    class="ion-float-right secondary button"
-                    (click)="closeEditOperationGroupForm()"
-                  >
-                    Cancel
-                  </button>
-                </ion-buttons>
-              </form>
-            </div>
             <ion-item class="operation-name">
               <ion-label color="medium" position="stacked">Facility <span style="color:#f1624a">*</span></ion-label>
               <ion-input type="text" formControlName="operationName" placeholder="Facility" inputCapitalizeFirst>

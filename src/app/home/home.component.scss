@@ -12,6 +12,7 @@
   display: flex;
   align-items: self-start;
   max-width: 1280px;
+
   ion-row {
     width: 100%;
     display: inline-flex;
@@ -479,13 +480,17 @@
   }
 
   .everybody-is-callout {
-    position: absolute;
-    bottom: 92px;
-    right: 50px;
-    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
     padding-top: 8px;
+    padding-right: 50px;
     background: white;
     text-align: right;
+    box-sizing: border-box;
+    z-index: 3;
 
     img {
       max-width: 215px;

@@ -100,4 +100,24 @@ describe('OperationListingComponent (Jest)', () => {
     expect(localComponent.selected.operationGroup.operationGroupId).toBe('missingGroup');
     expect(localComponent.selected.operationGroup.operations.length).toBe(1);
   });
+
+  it('switches into client mode when routed from clients', () => {
+    const operationServiceStub = {
+      getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([]))
+    };
+    const route = {
+      snapshot: { data: { user: userStub, section: 'clients', title: 'Clients' } },
+      paramMap: of({ params: {} })
+    } as any;
+    const localComponent = new OperationListingComponent(
+      { detectChanges: jest.fn() } as any,
+      route,
+      operationServiceStub as any
+    );
+
+    localComponent.ngOnInit();
+
+    expect(localComponent.clientMode).toBe(true);
+    expect(localComponent.pageTitle).toBe('Clients');
+  });
 });

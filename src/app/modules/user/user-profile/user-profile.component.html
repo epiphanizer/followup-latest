@@ -1,11 +1,21 @@
 <ion-content>
   <ion-row>
-    <ion-col class="team-sidebar">
+    <ion-col class="team-sidebar" *ngIf="!isAdminEditMode">
       <app-team-listing-sidebar> </app-team-listing-sidebar>
     </ion-col>
+    <ion-col class="team-sidebar profile-sidebar-spacer" *ngIf="isAdminEditMode"></ion-col>
     <ion-col class="user-profile-content">
-      <ion-title>User Profile</ion-title>
-      <form id="user-profile-form" [formGroup]="userProfileForm" novalidate>
+      <a class="profile-back-link" *ngIf="isAdminEditMode" [routerLink]="['/users']">Back to User Roster</a>
+      <ion-title>{{ pageTitle }}</ion-title>
+      <p class="profile-copy" *ngIf="!error">{{ pageCopy }}</p>
+      <div class="status-panel" *ngIf="isLoading">Loading user profile...</div>
+      <div class="status-panel error" *ngIf="error">{{ error }}</div>
+      <form
+        *ngIf="user && userProfileForm && !isLoading && !error"
+        id="user-profile-form"
+        [formGroup]="userProfileForm"
+        novalidate
+      >
         <h4 class="form-subheadline">
           <i class="icon-contact"></i>
           General Information
@@ -133,10 +143,10 @@
             </ion-item>
           </ion-list>
         </div>
-        <button class="save primary button" (click)="updateUserProfile()" type="submit">
+        <button class="save primary button" (click)="updateUserProfile()" type="button">
           Save
         </button>
-        <button class="cancel secondary button" (click)="cancelUpdateProfile()">
+        <button class="cancel secondary button" (click)="cancelUpdateProfile()" type="button">
           Cancel
         </button>
       </form>

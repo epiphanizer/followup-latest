@@ -21,6 +21,7 @@ import { PatientDetailModule } from './modules/patient/patient-detail/patient-de
 import { OperationModule } from '@app/modules/operation/operation.module';
 import { NotificationModule } from '@app/modules/notification/notification.module';
 import { UserModule } from '@app/modules/user/user.module';
+import { UserProfileModule } from '@app/modules/user/user-profile/user-profile.module';
 
 import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskModule } from 'ngx-mask';
@@ -66,6 +67,7 @@ export function tokenGetter() {
     HomeModule,
     LoginModule,
     UserModule,
+    UserProfileModule,
     PatientModule,
     PatientDetailModule,
     CallQueueModule,

@@ -1,183 +1,225 @@
-<ion-content>
-  <div class="user-admin-page">
-    <div class="user-admin-hero" id="user-management-overview">
-      <div>
-        <div class="eyebrow">Admin Only</div>
-        <h1>User Management</h1>
-        <p>
-          Login resolution now normalizes usernames and emails to the local part before matching local users. If more
-          than one local account matches, the app asks the user to choose and suggests the most recent active account.
-        </p>
-        <p class="hero-supporting-copy">
-          Use the jump rail to move between overview, instructions, and duplicate groups. Each group can be collapsed to
-          keep the page readable while you review merge targets.
-        </p>
-      </div>
-      <div class="summary-grid" *ngIf="isAdmin">
-        <div class="summary-card">
-          <span class="summary-label">Users</span>
-          <span class="summary-value">{{ users.length }}</span>
-        </div>
-        <div class="summary-card">
-          <span class="summary-label">Duplicate groups</span>
-          <span class="summary-value">{{ duplicateGroups.length }}</span>
-        </div>
-        <div class="summary-card">
-          <span class="summary-label">Accounts in groups</span>
-          <span class="summary-value">{{ duplicateAccountCount }}</span>
-        </div>
-        <div class="summary-card">
-          <span class="summary-label">Expanded groups</span>
-          <span class="summary-value">{{ expandedGroupCount }}</span>
-        </div>
-      </div>
-    </div>
+<ion-content class="user-admin-content">
+  <ion-grid class="user-admin-grid">
+    <ion-row class="user-admin-row">
+      <ion-col class="user-admin-content-wrapper">
+        <div class="user-admin-page">
+          <div class="eyebrow">Admin Only</div>
+          <ion-title>User Management</ion-title>
+          <p class="page-intro">
+            Use the standard roster to review, edit, and debug user accounts. Accounts that resolve to more than one
+            canonical login key are flagged in-line and can open the duplicate-account debug panel without replacing the
+            normal admin roster flow.
+          </p>
 
-    <div class="jump-rail" *ngIf="isAdmin">
-      <button type="button" class="jump-chip" (click)="jumpTo('user-management-overview')">Overview</button>
-      <button type="button" class="jump-chip" (click)="jumpTo('user-management-guide')">How It Works</button>
-      <button type="button" class="jump-chip" (click)="jumpTo('duplicate-groups')">Duplicate Groups</button>
-      <button type="button" class="jump-chip" *ngIf="duplicateGroups.length" (click)="jumpToGroup(duplicateGroups[0])">
-        Jump To Suggested Group
-      </button>
-    </div>
-
-    <section class="workflow-panel" id="user-management-guide" *ngIf="isAdmin">
-      <div class="section-header">
-        <div>
-          <div class="eyebrow">Guide</div>
-          <h2>How to work a duplicate group</h2>
-        </div>
-        <div class="section-copy">
-          These checks mirror the live login and merge-script behavior now wired through the API.
-        </div>
-      </div>
-      <div class="workflow-grid">
-        <div class="workflow-card">
-          <span class="workflow-step">1</span>
-          <div class="workflow-title">Review the suggested target</div>
-          <div class="workflow-copy">
-            The first highlighted account is the most recent active record. Keep it unless downstream ownership or audit
-            history suggests another account should remain primary.
-          </div>
-        </div>
-        <div class="workflow-card">
-          <span class="workflow-step">2</span>
-          <div class="workflow-title">Choose a source account</div>
-          <div class="workflow-copy">
-            Generate merge SQL only from a non-target account into the selected target. The API blocks identical
-            source/target pairs and returns the same validation the smoke harness now checks.
-          </div>
-        </div>
-        <div class="workflow-card">
-          <span class="workflow-step">3</span>
-          <div class="workflow-title">Review the script before running it</div>
-          <div class="workflow-copy">
-            Merge workups stay wrapped in a rollback-first transaction and call out trigger behavior. Review the counts,
-            ownership rules, and side effects before swapping rollback for commit.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="access-panel" *ngIf="!isAdmin">
-      Admin access is required to review duplicate login accounts and generate merge scripts.
-    </div>
-
-    <div class="status-panel" *ngIf="isAdmin && isLoading">Loading duplicate account groups...</div>
-    <div class="status-panel error" *ngIf="isAdmin && loadError">{{ loadError }}</div>
-    <div class="status-panel" *ngIf="isAdmin && !isLoading && !loadError && !duplicateGroups.length">
-      No duplicate login groups were detected from the current user roster.
-    </div>
-
-    <section class="duplicate-section" id="duplicate-groups" *ngIf="isAdmin && duplicateGroups.length">
-      <div class="section-header duplicate-section-header">
-        <div>
-          <div class="eyebrow">Duplicate Review</div>
-          <h2>Duplicate canonical login groups</h2>
-        </div>
-        <div class="duplicate-actions">
-          <button type="button" class="section-button" (click)="expandAllGroups()">Expand All</button>
-          <button type="button" class="section-button secondary" (click)="collapseAllGroups()">Collapse All</button>
-        </div>
-      </div>
-
-      <div class="group-jump-list">
-        <button
-          type="button"
-          class="group-jump-chip"
-          *ngFor="let group of duplicateGroups; trackBy: trackByGroup"
-          (click)="jumpToGroup(group)"
-        >
-          <span>{{ group.key }}</span>
-          <span>{{ group.users.length }}</span>
-        </button>
-      </div>
-
-      <div
-        class="duplicate-group"
-        *ngFor="let group of duplicateGroups; trackBy: trackByGroup"
-        [attr.id]="getGroupSectionId(group)"
-      >
-        <div class="group-header">
-          <div>
-            <div class="group-key">{{ group.key }}</div>
-            <div class="group-copy">
-              Suggested target stays highlighted. Collapse groups you are not actively reviewing, then jump back here
-              from the chip rail whenever you need the next account pair.
+          <div class="summary-grid" *ngIf="isAdmin">
+            <div class="summary-card">
+              <span class="summary-label">Users</span>
+              <span class="summary-value">{{ users.length }}</span>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">Issue Users</span>
+              <span class="summary-value">{{ usersWithIssuesCount }}</span>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">Duplicate Groups</span>
+              <span class="summary-value">{{ duplicateGroups.length }}</span>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">Accounts in Groups</span>
+              <span class="summary-value">{{ duplicateAccountCount }}</span>
             </div>
           </div>
-          <div class="group-header-actions">
-            <div class="group-count">{{ group.users.length }} accounts</div>
-            <button type="button" class="section-button secondary" (click)="toggleGroup(group)">
-              {{ group.collapsed ? 'Expand Group' : 'Collapse Group' }}
-            </button>
-          </div>
-        </div>
 
-        <div class="group-body" *ngIf="!group.collapsed">
-          <div class="group-grid">
-            <div
-              class="user-card"
-              *ngFor="let account of group.users; trackBy: trackByUser"
-              [class.selected-target]="group.selectedTargetUserId === account.userId"
+          <div class="access-panel" *ngIf="!isAdmin">
+            Admin access is required to review duplicate login accounts and manage user records.
+          </div>
+
+          <div class="status-panel" *ngIf="isAdmin && isLoading">Loading user roster...</div>
+          <div class="status-panel error" *ngIf="isAdmin && loadError">{{ loadError }}</div>
+
+          <div class="debug-banner" *ngIf="isAdmin && !isLoading && hasDuplicateIssues">
+            <div>
+              <div class="debug-banner-title">User issues detected</div>
+              <div class="debug-banner-copy">
+                {{ duplicateGroups.length }} duplicate login groups are currently flagged for admin review.
+              </div>
+            </div>
+            <button type="button" class="section-button" (click)="openDebugPanel()">Review All Issues</button>
+          </div>
+
+          <div class="listing-controls" *ngIf="isAdmin && !isLoading && !loadError">
+            <app-listing-filter
+              [options]="rosterColumns"
+              (sortOptionSelectedEventEmitter)="handleSortOptionEvent($event)"
+              (sortDirectionSelectedEventEmitter)="handleSortDirectionEvent($event)"
             >
-              <button class="target-button" type="button" (click)="selectTarget(group, account.userId)">
-                {{ group.selectedTargetUserId === account.userId ? 'Keep Target' : 'Set As Target' }}
-              </button>
-              <div class="user-name">{{ account.userFirstName || 'Unknown' }} {{ account.userLastName || 'User' }}</div>
-              <div class="user-meta">
-                {{ account.username }}<span *ngIf="account.userEmail"> · {{ account.userEmail }}</span>
-              </div>
-              <div class="user-flags">
-                <span class="user-flag" *ngIf="group.suggestedTargetUserId === account.userId">Suggested</span>
-                <span class="user-flag muted">{{ account.userActive ? 'Active' : 'Inactive' }}</span>
-                <span class="user-flag muted" *ngIf="account.deleted">Deleted</span>
-              </div>
-              <div class="user-meta">Modified {{ account.userModified || account.userCreated || 'n/a' }}</div>
-              <button
-                class="merge-button"
-                type="button"
-                *ngIf="group.selectedTargetUserId !== account.userId"
-                (click)="generateMergeScript(group, account)"
-              >
-                {{ group.mergeLoading ? 'Generating...' : 'Generate Merge Script' }}
-              </button>
-            </div>
+            </app-listing-filter>
+            <app-listing-search (searchFilterEventEmitted)="handleSearchFilterEvent($event)"></app-listing-search>
           </div>
 
-          <div class="status-panel error" *ngIf="group.mergeError">{{ group.mergeError }}</div>
-          <div class="merge-script-panel" *ngIf="group.mergeScript">
-            <div class="merge-script-header">
-              <div class="merge-script-title">Generated SQL workup</div>
-              <div class="merge-script-copy">
-                Rollback-first output from the admin-only `/users/merge-script` endpoint.
+          <table class="user-table" *ngIf="isAdmin && !isLoading && !loadError && usersFiltered.length">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Issue</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let account of visibleUsers; trackBy: trackByUser"
+                [class.inactive]="!account.userActive || account.deleted"
+                [class.has-issue]="hasUserDebugIssue(account)"
+              >
+                <td class="listing-body-cell has-link" [routerLink]="['/users', account.userId]">
+                  <span class="user-table-name">{{ getUserDisplayName(account) }}</span>
+                </td>
+                <td class="listing-body-cell">{{ getUserRoleLabel(account) }}</td>
+                <td class="listing-body-cell">{{ account.username || 'n/a' }}</td>
+                <td class="listing-body-cell">{{ account.userEmail || 'n/a' }}</td>
+                <td class="listing-body-cell">{{ getUserStatusLabel(account) }}</td>
+                <td class="listing-body-cell issue-cell">
+                  <span class="issue-pill" [class.clear]="!hasUserDebugIssue(account)">{{
+                    getDebugLabel(account)
+                  }}</span>
+                  <span class="issue-copy">{{ getDebugCountLabel(account) }}</span>
+                </td>
+                <td class="listing-body-cell action-cell">
+                  <a class="row-action" [routerLink]="['/users', account.userId]">Edit User</a>
+                  <button
+                    *ngIf="hasUserDebugIssue(account)"
+                    type="button"
+                    class="row-action secondary"
+                    (click)="openDebugPanel(getDuplicateGroupForUser(account.userId))"
+                  >
+                    Debug User
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <jw-pagination
+            *ngIf="isAdmin && !isLoading && !loadError && usersFiltered.length"
+            [items]="usersFiltered"
+            (changePage)="onChangePage($event)"
+          >
+          </jw-pagination>
+
+          <div class="status-panel" *ngIf="isAdmin && !isLoading && !loadError && !usersFiltered.length">
+            No users match the current roster filters.
+          </div>
+
+          <section class="debug-panel" id="user-debug-panel" *ngIf="isAdmin && debugPanelExpanded">
+            <div class="section-header debug-panel-header">
+              <div>
+                <div class="eyebrow">Debug User</div>
+                <h2>Duplicate Login Review</h2>
+              </div>
+              <div class="debug-actions">
+                <button
+                  type="button"
+                  class="section-button secondary"
+                  *ngIf="selectedDebugGroupKey"
+                  (click)="openDebugPanel()"
+                >
+                  Show All Issues
+                </button>
+                <button type="button" class="section-button secondary" (click)="closeDebugPanel()">Close Panel</button>
               </div>
             </div>
-            <ion-textarea [value]="group.mergeScript" readonly autoGrow="true"></ion-textarea>
-          </div>
+            <p class="debug-panel-copy">
+              Login resolution normalizes usernames and emails to the local part before matching local users. When more
+              than one local account matches the same canonical key, the app prompts for account choice and this panel
+              gives admins the merge-workup tools to resolve it.
+            </p>
+
+            <div class="group-jump-list" *ngIf="duplicateGroups.length > 1">
+              <button
+                type="button"
+                class="group-jump-chip"
+                *ngFor="let group of duplicateGroups; trackBy: trackByGroup"
+                (click)="openDebugPanel(group)"
+              >
+                <span>{{ group.key }}</span>
+                <span>{{ group.users.length }}</span>
+              </button>
+            </div>
+
+            <div
+              class="duplicate-group"
+              *ngFor="let group of visibleDebugGroups; trackBy: trackByGroup"
+              [attr.id]="getGroupSectionId(group)"
+            >
+              <div class="group-header">
+                <div>
+                  <div class="group-key">{{ group.key }}</div>
+                  <div class="group-copy">
+                    Suggested target stays highlighted. Generate merge SQL only from a non-target account into the
+                    selected target after confirming downstream ownership and audit history.
+                  </div>
+                </div>
+                <div class="group-header-actions">
+                  <div class="group-count">{{ group.users.length }} accounts</div>
+                  <button type="button" class="section-button secondary" (click)="toggleGroup(group)">
+                    {{ group.collapsed ? 'Expand Group' : 'Collapse Group' }}
+                  </button>
+                </div>
+              </div>
+
+              <div class="group-body" *ngIf="!group.collapsed">
+                <div class="group-grid">
+                  <div
+                    class="user-card"
+                    *ngFor="let account of group.users; trackBy: trackByUser"
+                    [class.selected-target]="group.selectedTargetUserId === account.userId"
+                  >
+                    <button class="target-button" type="button" (click)="selectTarget(group, account.userId)">
+                      {{ group.selectedTargetUserId === account.userId ? 'Keep Target' : 'Set As Target' }}
+                    </button>
+                    <div class="user-name">{{ getUserDisplayName(account) }}</div>
+                    <div class="user-meta">
+                      {{ account.username }}<span *ngIf="account.userEmail"> · {{ account.userEmail }}</span>
+                    </div>
+                    <div class="user-flags">
+                      <span class="user-flag" *ngIf="group.suggestedTargetUserId === account.userId">Suggested</span>
+                      <span class="user-flag muted">{{ getUserRoleLabel(account) }}</span>
+                      <span class="user-flag muted">{{ getUserStatusLabel(account) }}</span>
+                    </div>
+                    <div class="user-meta">Modified {{ account.userModified || account.userCreated || 'n/a' }}</div>
+                    <div class="user-card-actions">
+                      <a class="row-action" [routerLink]="['/users', account.userId]">Edit User</a>
+                      <button
+                        class="merge-button"
+                        type="button"
+                        *ngIf="group.selectedTargetUserId !== account.userId"
+                        (click)="generateMergeScript(group, account)"
+                      >
+                        {{ group.mergeLoading ? 'Generating...' : 'Generate Merge Script' }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="status-panel error" *ngIf="group.mergeError">{{ group.mergeError }}</div>
+                <div class="merge-script-panel" *ngIf="group.mergeScript">
+                  <div class="merge-script-header">
+                    <div class="merge-script-title">Generated SQL workup</div>
+                    <div class="merge-script-copy">
+                      Rollback-first output from the admin-only `/users/merge-script` endpoint.
+                    </div>
+                  </div>
+                  <ion-textarea [value]="group.mergeScript" readonly autoGrow="true"></ion-textarea>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
-      </div>
-    </section>
-  </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

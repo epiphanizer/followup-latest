@@ -105,4 +105,25 @@ describe('OperationAdminSidebarComponent', () => {
     expect(() => localComponent.ngOnInit()).not.toThrow();
     expect(Array.isArray(localComponent.operationGroups)).toBe(true);
   });
+
+  it('builds client routes when used from the clients section', () => {
+    const clientsRouteMock: any = {
+      snapshot: {
+        data: {
+          user: routeMock.snapshot.data.user,
+          operation: null,
+          section: 'clients'
+        }
+      },
+      paramMap: { subscribe: (fn: any) => fn({ params: {} }) }
+    };
+    const localComponent = new OperationAdminSidebarComponent(clientsRouteMock, operationServiceMock, {
+      detectChanges: jest.fn()
+    } as any);
+
+    localComponent.ngOnInit();
+
+    expect(localComponent.clientMode).toBe(true);
+    expect(localComponent.getOperationGroupRoute({ operationGroupId: 'g1' } as any)).toEqual(['/clients', 'g1']);
+  });
 });

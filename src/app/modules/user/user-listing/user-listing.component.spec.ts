@@ -87,10 +87,25 @@ describe('UserListingComponent (Jest)', () => {
     expect(group.mergeScript).toBe('SELECT 1;');
   });
 
+  it('derives the highest effective role from nested operation access', () => {
+    component.users = [
+      {
+        userId: 'u3',
+        userLevel: UserRoles.user,
+        username: 'mgr-user',
+        userFirstName: 'Morgan',
+        userLastName: 'Lee',
+        operations: [{ userRoleLabel: 'Manager' }]
+      }
+    ] as any;
+
+    expect(component.getUserRoleLabel(component.users[0] as any)).toBe('Manager');
+  });
+
   it('collapses, expands, and jumps duplicate groups', () => {
     const group = component.duplicateGroups[0];
     const scrollSpy = jest.fn();
-    const getElementByIdSpy = jest.spyOn(document, 'getElementById').mockReturnValue({
+    const getElementByIdSpy = jest.spyOn((component as any).document, 'getElementById').mockReturnValue({
       scrollIntoView: scrollSpy
     } as any);
 

@@ -1,17 +1,21 @@
 nav {
+  --dropdown-hover-buffer: 440px;
   min-width: 535px;
   display: inline-block;
   position: relative;
   z-index: 360;
   overflow: visible;
   &.dropdown-active {
-    height: auto;
+    padding-bottom: var(--dropdown-hover-buffer);
+    margin-bottom: calc(-1 * var(--dropdown-hover-buffer));
     overflow: visible;
   }
 }
 
-ion-list {
-  display: inline-block;
+.nav-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
   list-style-type: none;
   margin-top: 30px;
   padding-bottom: 30px;
@@ -23,113 +27,106 @@ ion-list {
   contain: none;
   background: transparent;
   overflow: visible;
+}
 
-  .nav-link-container {
-    background: transparent;
+.nav-link-container {
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: none;
+  position: relative;
+  overflow: visible;
+  @media screen and (max-width: 925px) {
+    display: none;
+  }
+}
+
+.nav-link-row {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  margin: 0;
+  padding: 0 14px 0 0;
+  font-family: AvenirDemi;
+  font-size: 18px;
+  text-decoration: none;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: right;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-transform: none;
+  color: #00b8be;
+
+  span {
+    text-transform: none;
+  }
+
+  i {
     display: inline-block;
-    box-shadow: none;
-    position: relative;
-    overflow: visible;
-    @media screen and (max-width: 925px) {
-      display: none;
+    height: 16px;
+    width: 16px;
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    &.nav-caret {
+      height: 8px;
+      width: 11px;
+      margin-left: 0px;
+      margin-top: -2px;
+      vertical-align: middle;
+      background-size: 94%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url("/assets/icon-nav-caret@2x.png");
     }
-    ion-item {
-      --padding-start: 0;
-      contain: none;
 
-      a {
-        cursor: pointer;
+    &.patient {
+      background-image: url("/assets/icon-patient-nav@2x.png");
+    }
 
-        i {
-          display: inline-block;
-          height: 16px;
-          width: 16px;
-          background-size: 100%;
-          background-position: center;
-          background-repeat: no-repeat;
+    &.notify {
+      background-image: url("/assets/icon-notification-counter@2x.png");
+    }
 
-          &.nav-caret {
-            height: 8px;
-            width: 11px;
-            margin-left: 0px;
-            margin-top: -2px;
-            vertical-align: middle;
-            background-size: 94%;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-image: url("/assets/icon-nav-caret@2x.png");
-          }
-
-          &.patient {
-            background-image: url("/assets/icon-patient-nav@2x.png");
-          }
-
-          &.notify {
-            background-image: url("/assets/icon-notification-counter@2x.png");
-          }
-
-          &.queue {
-            background-image: url("/assets/icon-queue@2x.png");
-          }
-        }
-        &.disabled {
-          color: #e1e1e1;
-          cursor: not-allowed;
-          i {
-            background-image: url("/assets/icon-notify-inactive@2x.png");
-          }
-        }
-
-        font-family: AvenirDemi;
-        font-size: 18px;
-        text-decoration: none;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
-        text-align: right;
-        color: #00b8be;
-      }
-
-      ion-button {
-        width: 90px;
-        height: 28px;
-        cursor: disabled;
-        background-color: transparent;
-        color: white;
-        font-family: AvenirBold;
-        font-size: 12px;
-        border-radius: 15%;
-        --background-activated: transparent;
-        --color-activated: white;
-        --color-focused: white;
-        --color-hover: white;
-
-        &.history {
-          --border-color: var(--ion-color-primary);
-          color: var(--ion-color-primary);
-          --color-hover: var(--ion-color-primary);
-        }
-
-        &.notes {
-          --border-color: var(--ion-color-primary);
-          color: var(--ion-color-primary);
-          --color-hover: var(--ion-color-primary);
-        }
-
-        &.report {
-          --border-color: red;
-          background-color: red;
-        }
-      }
+    &.queue {
+      background-image: url("/assets/icon-queue@2x.png");
     }
   }
+}
+
+.nav-link.disabled {
+  color: #e1e1e1;
+  cursor: not-allowed;
+
+  i {
+    background-image: url("/assets/icon-notify-inactive@2x.png");
+  }
+}
+
+.nav-trigger,
+.nav-action {
+  border-radius: 0;
 }
 
 .dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 14px);
+  top: calc(100% + 2px);
   left: 0;
 
   &.active {
@@ -154,19 +151,27 @@ ion-list {
 
     li {
       cursor: pointer;
-      display: block;
+      display: flex;
+      align-items: stretch;
       width: 100%;
       height: auto;
       text-align: left;
 
       &:active {
-        a {
+        a,
+        .dropdown-action {
           padding-left: 33px;
         }
       }
 
-      a {
-        padding-left: 25px;
+      a,
+      .dropdown-action {
+        appearance: none;
+        -webkit-appearance: none;
+        border: 0;
+        background: transparent;
+        margin: 0;
+        padding: 0 0 0 25px;
         display: block;
         width: 100%;
         font-family: Avenir;
@@ -178,12 +183,16 @@ ion-list {
         letter-spacing: 0.15px;
         color: #222222;
         text-decoration: none;
+        text-align: left;
+        text-transform: none;
+        cursor: pointer;
       }
 
       &:hover {
         background-color: #00b8be;
 
-        a {
+        a,
+        .dropdown-action {
           color: white;
         }
       }

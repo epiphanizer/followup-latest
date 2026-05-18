@@ -325,7 +325,7 @@ export class ShellComponent {
 
     const releaseCount = this.visibleChangeLogReleases.length;
     return (
-      'Since v' + this.selectedChangeLogVersion + ' · ' + releaseCount + ' release' + (releaseCount === 1 ? '' : 's')
+      releaseCount + ' recorded release' + (releaseCount === 1 ? '' : 's') + ' since v' + this.selectedChangeLogVersion
     );
   }
   signOut() {

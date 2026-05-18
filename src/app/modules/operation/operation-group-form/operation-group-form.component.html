@@ -1,0 +1,39 @@
+<ion-content>
+  <ion-row>
+    <ion-col class="operation-sidebar">
+      <app-operation-admin-sidebar></app-operation-admin-sidebar>
+    </ion-col>
+    <ion-col class="operation-content-wrapper client-form-content-wrapper">
+      <ion-title>Edit Client</ion-title>
+      <div class="status-panel" *ngIf="isLoading">Loading client record...</div>
+      <div class="status-panel error" *ngIf="loadError">{{ loadError }}</div>
+
+      <div class="client-form-panel" *ngIf="operationGroupForm && operationGroup && !isLoading && !loadError">
+        <div class="eyebrow">Client Record</div>
+        <h1>{{ operationGroup.operationGroupName }}</h1>
+        <p class="client-form-copy">
+          Client groups are the canonical operation ownership records surfaced from the Clients menu. Update the public
+          client name or short label here without dropping back into the operation form modal.
+        </p>
+
+        <form [formGroup]="operationGroupForm" novalidate>
+          <ion-list lines="none" inset>
+            <ion-item>
+              <ion-label color="medium" position="stacked">Client Name <span style="color:#f1624a">*</span></ion-label>
+              <ion-input type="text" formControlName="operationGroupName"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label color="medium" position="stacked">Short Name <span style="color:#f1624a">*</span></ion-label>
+              <ion-input type="text" formControlName="operationGroupShortName"></ion-input>
+            </ion-item>
+          </ion-list>
+
+          <div class="client-form-actions">
+            <button class="primary button" type="button" (click)="onSubmit()">Save Client</button>
+            <button class="secondary button" type="button" (click)="onCancel()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

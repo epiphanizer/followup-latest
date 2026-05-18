@@ -58,6 +58,8 @@ export class OperationAdminSidebarComponent implements OnInit {
   availableOperations$: Observable<Operation[]>;
   activeOperationId: string;
   activeOperationGroupId: string;
+  clientMode: boolean = false;
+  groupNavigationLabel: string = 'FACILITIES';
   editMode: boolean;
   @Output() operationChangeEvent = new EventEmitter<string>();
   @Output() operationGroupChangeEvent = new EventEmitter<string>();
@@ -101,6 +103,8 @@ export class OperationAdminSidebarComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user || ({} as User);
+    this.clientMode = this.route.snapshot.data.section === 'clients';
+    this.groupNavigationLabel = this.clientMode ? 'CLIENTS' : 'FACILITIES';
     const userOperationGroups = this.getUserOperationGroups();
 
     if (!localStorage.getItem('operationGroups')) {
@@ -201,6 +205,12 @@ export class OperationAdminSidebarComponent implements OnInit {
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
     if (!this.isTouched) this.isTouched = true;
     operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
+  }
+
+  getOperationGroupRoute(operationGroup: OperationGroup): any[] {
+    return this.clientMode
+      ? ['/clients', operationGroup.operationGroupId]
+      : ['/operations/group', operationGroup.operationGroupId];
   }
 
   trackByOperationGroup(index: number, operationGroup: OperationGroup): string | number {
