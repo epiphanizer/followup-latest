@@ -5,7 +5,7 @@ Project version: 3.11.0 (package). Goal: modernize the Angular/Ionic app for Fol
 ## Findings
 
 - Angular 11/Ionic 4 stack with RxJS 6.x and TSLint; many deps are several majors behind (Angular CLI 11, Ionic CLI 6, TypeScript 4.0, etc.).
-- `postinstall` build disabled (was running prod build) to unblock installs on modern Node; build still fails on Node 24 until toolchain is upgraded.
+- `postinstall` build disabled (was running prod build) to unblock installs on modern Node; Node 24 now works for local build/test flows via the websocket-driver override patch, though the Angular 11 toolchain still emits legacy warnings.
 - Mixed/possibly stray dependencies (e.g., `react-scripts` in an Angular project) and outdated tooling (husky v3, prettier 1.x, protractor/karma stack).
 - Service worker enabled in production build; needs validation with current caching/content strategy.
 
@@ -26,8 +26,8 @@ Shared/core scaffolding
 
 ## Agent-friendly quickstart
 
-- Use Node 18/20; npm 9/10. Install: `npm install` (postinstall is no-op).
-- Build (requires OpenSSL legacy on Node 24, avoid): `npm run build`.
+- Use Node 18/20/24; npm 9/10. Install: `npm install` (postinstall is no-op).
+- Build: `npm run build`.
 - Serve dev: `npm run serve` (proxy 4200).
 - Tests: `npm test`; Lint: `npm run lint` (TSLint + stylelint + htmlhint).
 
@@ -55,6 +55,7 @@ Shared/core scaffolding
 
 ## Running change log (frontend)
 
+- 2026-05-18: Updated [src/app/modules/patient/patient-status.service.ts](src/app/modules/patient/patient-status.service.ts) to filter inactive completion labels during rollout so the Completed-patient modal only renders active API rows even if a mixed payload is returned, and removed the stale Node 24 parity warning from [scripts/check-node-version.js](scripts/check-node-version.js) now that local v3.11.0 build/test flows are allowed to run on Node 24. Added focused regression coverage in [src/app/modules/patient/patient-status.service.spec.ts](src/app/modules/patient/patient-status.service.spec.ts). Validated with `npm test -- --runInBand --runTestsByPath src/app/modules/patient/patient-status.service.spec.ts` and `node ./scripts/check-node-version.js`.
 - 2026-05-18: Inspected live and alpha App Service runtime settings in Azure: live [followupcare](followupcare) is a Windows App Service with no explicit `WEBSITE_NODE_DEFAULT_VERSION`, while [alpha-followupcare](alpha-followupcare) was still pinned to `12.13.0`. Updated the alpha frontend App Service setting to `WEBSITE_NODE_DEFAULT_VERSION=~20` so alpha now runs against the supported Windows Node 20 LTS baseline used for pre-live validation. Verified the setting in Azure and confirmed `https://alpha-followupcare.azurewebsites.net/` still returned HTTP 200 after the restart.
 - 2026-05-18: Extended [src/app/modules/operation/operation-group-form/operation-group-form.component.ts](src/app/modules/operation/operation-group-form/operation-group-form.component.ts), [src/app/modules/operation/operation-group-form/operation-group-form.component.html](src/app/modules/operation/operation-group-form/operation-group-form.component.html), [src/app/modules/operation/operation-group-form/operation-group-form.component.scss](src/app/modules/operation/operation-group-form/operation-group-form.component.scss), and [src/app/modules/operation/operation.service.ts](src/app/modules/operation/operation.service.ts) so the dedicated client edit page now supports soft archive/delete behavior in addition to rename, removing archived clients from local client caches and routing admins back to the Clients roster after confirmation. Added focused regression coverage in [src/app/modules/operation/operation-group-form/operation-group-form.component.spec.ts](src/app/modules/operation/operation-group-form/operation-group-form.component.spec.ts) and [src/app/modules/operation/operation.service.spec.ts](src/app/modules/operation/operation.service.spec.ts), updated [src/app/shell/service-health-change-log.data.ts](src/app/shell/service-health-change-log.data.ts), and authored the cross-stack delivery/readiness comparison at `../followup-api/deployment/sql-analysis/20260518T000000Z/sow_delivery_comparison.md`. Validated with `npm test -- --runInBand --runTestsByPath src/app/modules/operation/operation-group-form/operation-group-form.component.spec.ts src/app/modules/operation/operation.service.spec.ts` (25/25 passing).
 - 2026-05-17: Updated [src/app/home/home.component.scss](src/app/home/home.component.scss) so the home "Everybody is a Somebody" callout is once again a fixed bar flush to the bottom of the browser instead of hovering above or reshaping the dashboard layout. Restored the original home container flow and converted the callout from the broken sticky-footer experiment into a true fixed bottom browser bar while preserving the existing graphic treatment. Synced [src/app/shell/service-health-change-log.data.ts](src/app/shell/service-health-change-log.data.ts) with the latest frontend evidence. Validated with focused Jest on [src/app/home/home.component.spec.ts](src/app/home/home.component.spec.ts) and a clean `get_errors` pass on the touched home stylesheet.

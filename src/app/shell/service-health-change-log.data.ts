@@ -16,10 +16,18 @@ export interface ServiceHealthChangeLogRelease {
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
     version: '3.11.0',
-    recordedAt: '2026-05-17',
+    recordedAt: '2026-05-18',
     label: 'Current alpha candidate',
     notes: 'Evidence comes from the v3.11.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
+      {
+        scope: 'Database',
+        summary:
+          'Completed-patient status labels now retire three legacy outcomes without losing history by using an active flag in alpha plus proc-level filtering for the selection list.',
+        evidence:
+          'Recorded in the frontend and API running change logs after applying 3.11.0migration-patient-status-labels.sql to followup_alpha_20260517, verifying with sqlcmd that Transferred to Another Facility, Hospice, and Transferred to Hospital from Facility now carry patientStatusLabelActive = 0, and confirming dbo.sp_getPatientStatusLabels returns zero deprecated rows. The frontend patient-status service also filters inactive labels as a rollout guard, backed by focused Jest coverage.',
+        source: 'v3.11.0/followup-frontend/agents.md + v3.11.0/followup-api/agents.md'
+      },
       {
         scope: 'Release',
         summary:
