@@ -7,10 +7,14 @@ import { of, throwError } from 'rxjs';
 describe('NotificationReplyModalComponent', () => {
   let component: NotificationReplyModalComponent;
   let fixture: ComponentFixture<NotificationReplyModalComponent>;
-  let notificationService: jasmine.SpyObj<NotificationService>;
+  let notificationService: {
+    addNotificationReply: jest.Mock;
+  };
 
   beforeEach(async () => {
-    const notificationServiceSpy = jasmine.createSpyObj('NotificationService', ['addNotificationReply']);
+    const notificationServiceSpy = {
+      addNotificationReply: jest.fn()
+    };
 
     await TestBed.configureTestingModule({
       declarations: [NotificationReplyModalComponent],
@@ -18,12 +22,12 @@ describe('NotificationReplyModalComponent', () => {
       providers: [{ provide: NotificationService, useValue: notificationServiceSpy }]
     }).compileComponents();
 
-    notificationService = TestBed.inject(NotificationService) as jasmine.SpyObj<NotificationService>;
+    notificationService = TestBed.inject(NotificationService) as any;
     fixture = TestBed.createComponent(NotificationReplyModalComponent);
     component = fixture.componentInstance;
-    component.notification = { notificationId: 1, notificationTypeLabel: 'Test' };
-    component.patient = { patientId: 1, patientFirstName: 'John', patientLastName: 'Doe' };
-    component.operation = { operationId: 1, operationGroupName: 'Test Operation' };
+    component.notification = { notificationId: 'n1', notificationTypeLabel: 'Test' };
+    component.patient = { patientId: 'p1', patientFirstName: 'John', patientLastName: 'Doe' };
+    component.operation = { operationId: 'op1', operationGroupName: 'Test Operation' };
     component.currentUserId = '1';
     fixture.detectChanges();
   });
@@ -53,46 +57,51 @@ describe('NotificationReplyModalComponent', () => {
     expect(component.isValid).toBeFalsy();
   });
 
-  it('should submit reply successfully', done => {
+  it('should submit reply successfully', () => {
     component.replyText = 'Test reply';
     const mockResponse = { notificationReplyId: 'abc123' };
-    notificationService.addNotificationReply.and.returnValue(of(mockResponse));
+    const replySubmittedSpy = jest.spyOn(component.replySubmitted, 'emit');
+    notificationService.addNotificationReply.mockReturnValue(of(mockResponse));
 
     component.submitReply();
 
-    setTimeout(() => {
-      expect(notificationService.addNotificationReply).toHaveBeenCalledWith(
-        component.notification.notificationId,
-        component.patient.patientId,
-        component.operation.operationId,
-        {
-          replyText: 'Test reply',
-          userId: component.currentUserId
-        }
-      );
-      expect(component.replySubmitted.emit).toHaveBeenCalled();
-      done();
-    }, 100);
+    expect(notificationService.addNotificationReply).toHaveBeenCalledWith(
+      component.notification.notificationId,
+      component.patient.patientId,
+      component.operation.operationId,
+      {
+        replyText: 'Test reply',
+        userId: component.currentUserId
+      }
+    );
+    expect(replySubmittedSpy).toHaveBeenCalledWith({
+      success: true,
+      reply: mockResponse,
+      replyText: 'Test reply'
+    });
+    expect(component.replyText).toBe('');
+    expect(component.isSubmitting).toBeFalsy();
   });
 
-  it('should handle submission errors', done => {
+  it('should handle submission errors', () => {
     component.replyText = 'Test reply';
     const mockError = { error: { message: 'Server error' } };
-    notificationService.addNotificationReply.and.returnValue(throwError(mockError));
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const replySubmittedSpy = jest.spyOn(component.replySubmitted, 'emit');
+    notificationService.addNotificationReply.mockReturnValue(throwError(mockError));
 
     component.submitReply();
 
-    setTimeout(() => {
-      expect(component.submitError).toBe('Server error');
-      expect(component.isSubmitting).toBeFalsy();
-      done();
-    }, 100);
+    expect(component.submitError).toBe('Server error');
+    expect(component.isSubmitting).toBeFalsy();
+    expect(replySubmittedSpy).not.toHaveBeenCalled();
+    consoleErrorSpy.mockRestore();
   });
 
   it('should close modal on cancel', () => {
-    spyOn(component.closeModal, 'emit');
+    const closeModalSpy = jest.spyOn(component.closeModal, 'emit');
     component.closeAndCancel();
-    expect(component.closeModal.emit).toHaveBeenCalled();
+    expect(closeModalSpy).toHaveBeenCalled();
     expect(component.replyText).toBe('');
   });
 

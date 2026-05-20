@@ -194,6 +194,22 @@ ion-list {
     overflow-wrap: break-word;
     word-wrap: break-all;
   }
+
+  .notification-detail-link {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: AvenirBold;
+    font-size: 13px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: #00b4b9;
+    text-decoration: none;
+  }
+
+  .notification-detail-link:hover {
+    color: #049ca2;
+    text-decoration: underline;
+  }
 }
 
 .icon-notication-counter {

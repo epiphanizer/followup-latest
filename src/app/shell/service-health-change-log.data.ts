@@ -16,10 +16,34 @@ export interface ServiceHealthChangeLogRelease {
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
     version: '3.11.0',
-    recordedAt: '2026-05-18',
+    recordedAt: '2026-05-20',
     label: 'Current alpha candidate',
     notes: 'Evidence comes from the v3.11.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Notification replies are now exposed from notification detail and patient history, and the reply modal/service slice has focused Jest coverage that matches the real POST contract.',
+        evidence:
+          'Recorded in the frontend running change log after wiring the reply modal into notification detail, adding the View / Reply link from patient history, rewriting the reply-modal spec to use Jest-native mocks, and adding the missing addNotificationReply HTTP contract test. Validation included focused Jest on the reply modal, notification service, notification detail, patient history listing, and login duplicate-account chooser slices.',
+        source: 'v3.11.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Notification reply endpoints are now registered in the OpenAPI router instead of existing only in controller/service source, and the alpha smoke harness can exercise the live reply write/read path directly.',
+        evidence:
+          'Recorded in the API running change log after adding the notification reply paths to deployment/api/swagger.yaml, removing the broken outer catch pattern from NotificationReplyService, extending alpha-smoke with reply runtime coverage plus cleanup, and broadening the /data workbook assertion to accept valid XLSX application/zip responses. Predeploy alpha smoke reproduced the missing-route 404, and a source-level swagger parse check confirmed the reply routes are now present in the mounted spec.',
+        source: 'v3.11.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The duplicate-account login chooser now presents as a centered overlay instead of overlapping the login form during the alpha multi-account path.',
+        evidence:
+          'Recorded in the frontend running change log and revalidated with focused Jest on the login component after the multi-account chooser layout was reworked into a dedicated overlay for duplicate-account testing on alpha.',
+        source: 'v3.11.0/followup-frontend/agents.md'
+      },
       {
         scope: 'Database',
         summary:

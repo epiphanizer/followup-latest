@@ -9,6 +9,12 @@
         {{ notification.notificationTypeLabel }}
       </ion-title>
 
+      <div class="notification-actions">
+        <button class="primary button notification-reply-button" type="button" (click)="openReplyModal()">
+          Reply to Notification
+        </button>
+      </div>
+
       <div class="notification-listing-avatar">
         <app-patient-avatar [patient]="patient"></app-patient-avatar>
       </div>
@@ -55,4 +61,15 @@
       </div>
     </ion-col>
   </ion-row>
+
+  <app-notification-reply-modal
+    *ngIf="isReplyModalOpen"
+    [notification]="notification"
+    [patient]="patient"
+    [operation]="replyOperation"
+    [currentUserId]="currentUserId"
+    (replySubmitted)="onReplySubmitted()"
+    (closeModal)="closeReplyModal()"
+  >
+  </app-notification-reply-modal>
 </ion-content>

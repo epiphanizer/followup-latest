@@ -28,6 +28,20 @@
     max-width: 35px;
   }
 
+  .notification-actions {
+    float: right;
+    margin-top: 10px;
+    margin-right: 12px;
+  }
+
+  .notification-reply-button {
+    min-width: 220px;
+    min-height: 38px;
+    padding: 0 18px;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
   .notification-info-container {
     float: left;
     width: 100%;
@@ -206,5 +220,15 @@
   .resolution-label {
     margin-top: 28px;
     color: #9acc38;
+  }
+}
+
+@media screen and (orientation: portrait) and (max-width: 1024px) {
+  .notification-content-wrapper {
+    .notification-actions {
+      float: left;
+      clear: both;
+      margin: 18px 0 0;
+    }
   }
 }

@@ -100,6 +100,22 @@ describe('NotificationService (Jest)', () => {
     req.flush({ ok: true });
   });
 
+  it('adds notification reply', () => {
+    const replyPayload = {
+      replyText: 'Thanks for the update.',
+      userId: 'u7'
+    } as any;
+
+    service.addNotificationReply('n4', 'p4', 'op4', replyPayload).subscribe(resp => {
+      expect(resp).toEqual({ notificationReplyId: 'r1' } as any);
+    });
+
+    const req = httpMock.expectOne('notification/n4/patient/p4/operation/op4/reply');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(replyPayload);
+    req.flush({ notificationReplyId: 'r1' });
+  });
+
   it('sends notification by id', () => {
     service.sendNotificationByNotificationId('n-send').subscribe(resp => {
       expect(resp).toEqual({ ok: true } as any);
