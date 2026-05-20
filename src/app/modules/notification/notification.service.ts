@@ -7,8 +7,7 @@ import {
   NotificationType,
   NotificationPostBody,
   NotificationRecipient,
-  NotificationReply,
-  NotificationReplyPostBody
+  NotificationReply
 } from './notification';
 
 @Injectable({
@@ -67,21 +66,6 @@ export class NotificationService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
-  addNotificationReply(
-    notificationId: string,
-    patientId: string,
-    operationId: string,
-    replyPayload: NotificationReplyPostBody
-  ): Observable<NotificationReply> {
-    return this.http
-      .post<NotificationReply>(
-        'notification/' + notificationId + '/patient/' + patientId + '/operation/' + operationId + '/reply',
-        replyPayload
-      )
-      .pipe(
-        catchError(e => this.handleAsyncError(e)) // then handle the error
-      );
-  }
   sendNotificationByNotificationId(notificationId: string): Observable<any> {
     return this.http
       .post<Notification>('notifications/send', {
@@ -90,6 +74,25 @@ export class NotificationService {
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
+  }
+  getNotificationRepliesByNotificationId(notificationId: string): Observable<NotificationReply[]> {
+    return this.http.get<NotificationReply[]>('notification/' + notificationId + '/replies').pipe(
+      retry(3),
+      catchError(e => this.handleAsyncError(e))
+    );
+  }
+  addNotificationReply(
+    notificationId: string,
+    patientId: string,
+    operationId: string,
+    replyBody: any
+  ): Observable<any> {
+    return this.http
+      .post<any>(
+        'notification/' + notificationId + '/patient/' + patientId + '/operation/' + operationId + '/reply',
+        replyBody
+      )
+      .pipe(catchError(e => this.handleAsyncError(e)));
   }
 
   handleAsyncError(error: HttpErrorResponse) {

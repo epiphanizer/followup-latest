@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Notification } from '../notification';
+import { Notification, NotificationReply } from '../notification';
 import { ActivatedRoute } from '@angular/router';
 import { Patient } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
+import { NotificationService } from '../notification.service';
 import { Operation } from '@app/modules/operation/operation';
 import { Observable } from 'rxjs';
 import { SharedFunctions } from '@app/shared/shared.functions';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '@app/core/services/auth/auth.service';
 @Component({
-  providers: [SharedFunctions],
+  providers: [SharedFunctions, NotificationService, ToastrService],
   selector: 'app-notification-detail',
   templateUrl: './notification-detail.component.html',
   styleUrls: ['./notification-detail.component.scss']
@@ -16,8 +20,8 @@ export class NotificationDetailComponent implements OnInit {
   notification: Notification;
   notificationDecoded: string;
   patient: Patient;
-  currentUserId: string = '';
-  isReplyModalOpen: boolean = false;
+  notificationReplies: NotificationReply[] = [];
+  replyForm: FormGroup;
   public selected:
     | {
         operation: Operation;
@@ -27,44 +31,74 @@ export class NotificationDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private patientService: PatientService,
-    private sharedFunctions: SharedFunctions
+    private notificationService: NotificationService,
+    private sharedFunctions: SharedFunctions,
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.notification = this.route.snapshot.data.notification;
-    this.currentUserId = this.route.snapshot.data.user?.userId || '';
     this.notification.notificationMessage = this.sharedFunctions.returnHTML(this.notification.notificationMessage);
+    this.createReplyForm();
     this.patientService
       .getPatientByPatientId(this.notification.notificationPatientId)
       .subscribe((patient: Patient | Patient[]) => {
         const patientRecord = Array.isArray(patient) ? patient[0] : patient;
         this.patient = patientRecord;
       });
+    // Load replies for this notification
+    this.loadNotificationReplies();
   }
 
-  get replyOperation(): { operationId: string; operationGroupName: string } {
-    return {
-      operationId: this.notification?.notificationOperationId || this.patient?.patientOperationId,
-      operationGroupName: this.patient?.patientOperationName || this.notification?.notificationOperationName
-    };
+  createReplyForm() {
+    this.replyForm = this.fb.group({
+      replyText: ['', [Validators.required, Validators.minLength(1)]]
+    });
   }
 
-  openReplyModal(): void {
-    if (!this.notification?.notificationId || !this.patient?.patientId || !this.currentUserId) {
+  loadNotificationReplies() {
+    this.notificationService.getNotificationRepliesByNotificationId(this.notification.notificationId).subscribe(
+      (replies: NotificationReply[]) => {
+        this.notificationReplies = replies;
+      },
+      error => {
+        console.error('Error loading notification replies', error);
+      }
+    );
+  }
+
+  submitReply() {
+    if (this.replyForm.invalid) {
       return;
     }
 
-    this.isReplyModalOpen = true;
-  }
+    const currentUser = this.authService.getCurrentUser();
+    const replyBody = {
+      userId: currentUser.userId,
+      replyText: this.replyForm.get('replyText').value
+    };
 
-  onReplySubmitted(): void {
-    this.isReplyModalOpen = false;
+    this.notificationService
+      .addNotificationReply(
+        this.notification.notificationId,
+        this.notification.notificationPatientId,
+        this.notification.notificationOperationId,
+        replyBody
+      )
+      .subscribe(
+        () => {
+          this.toastr.success('Reply submitted successfully');
+          this.replyForm.reset();
+          this.loadNotificationReplies();
+        },
+        error => {
+          this.toastr.error('Error submitting reply');
+          console.error('Error submitting reply', error);
+        }
+      );
   }
-
-  closeReplyModal(): void {
-    this.isReplyModalOpen = false;
-  }
-
   operationChangeEventHandler($event: Operation) {
     if (!this.selected.operation) {
       this.selected.operation = $event;
