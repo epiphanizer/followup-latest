@@ -21,6 +21,7 @@ export interface Notification {
   notificationStatusLabelId?: string;
   notificationStatusLabel?: string;
   replyCount?: number;
+  notificationReplies?: NotificationReply[];
 }
 export interface NotificationType {
   notificationTypeId: string;
