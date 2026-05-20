@@ -51,6 +51,34 @@
             <span class="notification-date"><strong>Date: test</strong>xx/xx/xx</span>
             <span class="notification-care-rep"></span>
           </div>
+
+          <div class="notification-replies-section" *ngIf="notificationReplies && notificationReplies.length > 0">
+            <span class="notification-label">Replies</span>
+            <div class="notification-reply" *ngFor="let reply of notificationReplies">
+              <div class="reply-header">
+                <span class="reply-from">
+                  {{ reply.replyCreatedByUserFirstName }} {{ reply.replyCreatedByUserLastName }}
+                </span>
+                <span class="reply-date"> - {{ reply.replyCreatedTime | date: 'MM/dd/yyyy':'UTC' }}</span>
+              </div>
+              <div class="reply-text" [innerHTML]="reply.replyText"></div>
+            </div>
+          </div>
+
+          <div class="reply-form-container">
+            <span class="notification-label">Add Reply</span>
+            <form [formGroup]="replyForm" (ngSubmit)="submitReply()">
+              <textarea
+                formControlName="replyText"
+                class="reply-textarea"
+                placeholder="Enter your reply..."
+                rows="4"
+              ></textarea>
+              <button type="submit" [disabled]="replyForm.invalid" class="reply-submit-btn">
+                Submit Reply
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </ion-col>

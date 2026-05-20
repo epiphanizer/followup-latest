@@ -37,3 +37,18 @@ export interface NotificationPostBody {
   notificationOperationId: string;
   notificationPatientId: string;
 }
+export interface NotificationReply {
+  notificationReplyId?: string;
+  notificationId: string;
+  patientId: string;
+  operationId: string;
+  replyText: string;
+  replyCreatedByUserId: string;
+  replyCreatedByUserFirstName?: string;
+  replyCreatedByUserLastName?: string;
+  replyCreatedTime?: Date;
+}
+export interface NotificationReplyPostBody {
+  userId: string;
+  replyText: string;
+}

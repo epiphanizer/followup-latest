@@ -2,7 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Notification, NotificationType, NotificationPostBody, NotificationRecipient } from './notification';
+import {
+  Notification,
+  NotificationType,
+  NotificationPostBody,
+  NotificationRecipient,
+  NotificationReply
+} from './notification';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +74,25 @@ export class NotificationService {
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
+  }
+  getNotificationRepliesByNotificationId(notificationId: string): Observable<NotificationReply[]> {
+    return this.http.get<NotificationReply[]>('notification/' + notificationId + '/replies').pipe(
+      retry(3),
+      catchError(e => this.handleAsyncError(e))
+    );
+  }
+  addNotificationReply(
+    notificationId: string,
+    patientId: string,
+    operationId: string,
+    replyBody: any
+  ): Observable<any> {
+    return this.http
+      .post<any>(
+        'notification/' + notificationId + '/patient/' + patientId + '/operation/' + operationId + '/reply',
+        replyBody
+      )
+      .pipe(catchError(e => this.handleAsyncError(e)));
   }
 
   handleAsyncError(error: HttpErrorResponse) {

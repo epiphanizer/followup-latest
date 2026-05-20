@@ -25,6 +25,22 @@
           </span>
           <div class="notification-message" [innerHTML]="activity.notificationMessage"></div>
         </div>
+
+        <div
+          class="notification-replies-container"
+          *ngIf="activity.notificationReplies && activity.notificationReplies.length > 0"
+        >
+          <span class="notification-label">Replies</span>
+          <div class="notification-reply" *ngFor="let reply of activity.notificationReplies">
+            <div class="reply-header">
+              <span class="reply-from">
+                {{ reply.replyCreatedByUserFirstName }} {{ reply.replyCreatedByUserLastName }}
+              </span>
+              <span class="reply-date"> - {{ reply.replyCreatedTime | date: 'MM/dd/yyyy':'UTC' }}</span>
+            </div>
+            <div class="reply-text" [innerHTML]="reply.replyText"></div>
+          </div>
+        </div>
       </ng-container>
       <ng-template #patientCall>
         <div class="patient-call">

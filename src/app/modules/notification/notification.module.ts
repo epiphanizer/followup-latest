@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { NotificationRoutingModule } from './notification-routing.module';
 import { NotificationDetailComponent } from './notification-detail/notification-detail.component';
@@ -16,6 +17,6 @@ import { SharedModule } from '@app/shared';
     NotificationListingSidebarComponent,
     NotificationPatientListingComponent
   ],
-  imports: [CommonModule, IonicModule, NotificationRoutingModule, PatientModule, SharedModule]
+  imports: [CommonModule, IonicModule, NotificationRoutingModule, PatientModule, SharedModule, ReactiveFormsModule]
 })
 export class NotificationModule {}

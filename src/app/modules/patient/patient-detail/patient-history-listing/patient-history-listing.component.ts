@@ -8,12 +8,13 @@ import {
   PatientCallQuestionsService
 } from '@app/modules/patient/patient-detail/patient-call/patient-call-questions/patient-call-questions.service';
 import { map } from 'rxjs/operators';
-import { Notification } from '@app/modules/notification/notification';
+import { Notification, NotificationReply } from '@app/modules/notification/notification';
+import { NotificationService } from '@app/modules/notification/notification.service';
 import { Patient } from '../../patient';
 import { SharedFunctions } from '@app/shared/shared.functions';
 
 @Component({
-  providers: [PatientCallQuestionsService, SharedFunctions],
+  providers: [PatientCallQuestionsService, SharedFunctions, NotificationService],
   selector: 'app-patient-history-listing',
   templateUrl: './patient-history-listing.component.html',
   styleUrls: ['./patient-history-listing.component.scss']
@@ -30,6 +31,7 @@ export class PatientHistoryListingComponent implements OnInit {
   constructor(
     private patientCallQuestionService: PatientCallQuestionsService,
     private patientCallQuestionAnswerService: PatientCallQuestionsService,
+    private notificationService: NotificationService,
     private sharedFunctions: SharedFunctions
   ) {}
 
@@ -84,6 +86,12 @@ export class PatientHistoryListingComponent implements OnInit {
         patientNotification.notificationMessage = this.sharedFunctions.returnHTML(
           patientNotification.notificationMessage
         );
+        // Fetch replies for this notification
+        this.notificationService
+          .getNotificationRepliesByNotificationId(patientNotification.notificationId)
+          .subscribe((replies: NotificationReply[]) => {
+            patientNotification['notificationReplies'] = replies;
+          });
         this.patientActivity.push(patientNotification);
       });
     }
