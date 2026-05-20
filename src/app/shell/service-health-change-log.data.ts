@@ -15,10 +15,10 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
-    version: '3.11.0',
+    version: '3.12.1',
     recordedAt: '2026-05-20',
     label: 'Current alpha candidate',
-    notes: 'Evidence comes from the v3.11.0 frontend and API markdown change logs and is kept in sync with them.',
+    notes: 'Evidence comes from the v3.12.1 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
         scope: 'Frontend',
