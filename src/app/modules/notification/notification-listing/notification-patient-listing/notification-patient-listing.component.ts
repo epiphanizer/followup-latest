@@ -152,17 +152,43 @@ export class NotificationPatientListingComponent implements OnInit {
     if (this.selectedSortFlag == 'desc') {
       this.notificationsFiltered = this.notifications
         .sort((a: Notification, b: Notification) => {
-          return a.notificationPatientLastName.localeCompare(b.notificationPatientLastName);
+          const statusA = this.getDisplayStatus(a);
+          const statusB = this.getDisplayStatus(b);
+          return statusA.localeCompare(statusB);
         })
         .slice();
     } else {
       this.notificationsFiltered = this.notifications
         .sort((a: Notification, b: Notification) => {
-          return b.notificationPatientLastName.localeCompare(a.notificationPatientLastName);
+          const statusA = this.getDisplayStatus(a);
+          const statusB = this.getDisplayStatus(b);
+          return statusB.localeCompare(statusA);
         })
         .slice();
     }
   };
+
+  getDisplayStatus(notification: Notification): string {
+    if (notification.replyCount && notification.replyCount > 0) {
+      return 'Replied';
+    }
+    return notification.notificationStatusLabel || 'Unresolved';
+  }
+
+  onStatusChange(notification: Notification, newStatusLabelId: string) {
+    this.notificationService.updateNotificationStatus(notification.notificationId, newStatusLabelId).subscribe(
+      (updatedNotification: Notification) => {
+        const index = this.notifications.findIndex(n => n.notificationId === notification.notificationId);
+        if (index > -1) {
+          this.notifications[index] = updatedNotification;
+          this.runSortSwitch();
+        }
+      },
+      error => {
+        console.error('Error updating notification status', error);
+      }
+    );
+  }
 
   searchNotifications($event: string): Notification[] {
     let searchText = $event;

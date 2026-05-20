@@ -7,7 +7,8 @@ import {
   NotificationType,
   NotificationPostBody,
   NotificationRecipient,
-  NotificationReply
+  NotificationReply,
+  NotificationStatusUpdateBody
 } from './notification';
 
 @Injectable({
@@ -92,6 +93,15 @@ export class NotificationService {
         'notification/' + notificationId + '/patient/' + patientId + '/operation/' + operationId + '/reply',
         replyBody
       )
+      .pipe(catchError(e => this.handleAsyncError(e)));
+  }
+
+  updateNotificationStatus(notificationId: string, statusLabelId: string): Observable<Notification> {
+    const statusUpdateBody: NotificationStatusUpdateBody = {
+      notificationStatusLabelId: statusLabelId
+    };
+    return this.http
+      .put<Notification>('notification/' + notificationId, statusUpdateBody)
       .pipe(catchError(e => this.handleAsyncError(e)));
   }
 

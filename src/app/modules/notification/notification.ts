@@ -18,6 +18,9 @@ export interface Notification {
   notificationUserFirstName?: string;
   notificationUserLastName?: string;
   notificationCreatedTime?: Date;
+  notificationStatusLabelId?: string;
+  notificationStatusLabel?: string;
+  replyCount?: number;
 }
 export interface NotificationType {
   notificationTypeId: string;
@@ -51,4 +54,8 @@ export interface NotificationReply {
 export interface NotificationReplyPostBody {
   userId: string;
   replyText: string;
+}
+
+export interface NotificationStatusUpdateBody {
+  notificationStatusLabelId: string;
 }

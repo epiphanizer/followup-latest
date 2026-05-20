@@ -44,7 +44,10 @@
         {{ notification.notificationCreatedByUserLastName }}
       </td>
       <td>
-        <span>{{ notification.notificationResolved ? 'Resolved' : 'Unresolved' }} </span>
+        <span class="status-badge" [ngClass]="'status-' + (getDisplayStatus(notification) | lowercase)">
+          {{ getDisplayStatus(notification) }}
+          <span class="reply-count" *ngIf="notification.replyCount > 0"> ({{ notification.replyCount }}) </span>
+        </span>
       </td>
     </tr>
   </tbody>
