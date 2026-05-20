@@ -1,7 +1,13 @@
 <div class="login-background"></div>
 <ion-content no-bounce>
-  <div class="login-container">
-    <form id="login-form" (ngSubmit)="signIn()" [formGroup]="loginForm" novalidate>
+  <div class="login-container" [class.account-selection-active]="accountSelection">
+    <form
+      id="login-form"
+      (ngSubmit)="signIn()"
+      [formGroup]="loginForm"
+      [attr.aria-hidden]="accountSelection ? 'true' : null"
+      novalidate
+    >
       <div class="toolbar-logo"></div>
       <ion-list class="login-inputs" lines="none" inset>
         <ion-item class="username">
@@ -26,36 +32,43 @@
             autocomplete="current-password"
           ></ion-input>
         </ion-item>
-        <button class="primary button" type="submit">
+        <button class="primary button login-submit" type="submit">
           Login
         </button>
       </ion-list>
-      <div class="account-selection" *ngIf="accountSelection">
-        <div class="account-selection-title">Multiple accounts found</div>
+    </form>
+    <div class="account-selection-overlay" *ngIf="accountSelection">
+      <div class="account-selection" role="dialog" aria-modal="true" aria-labelledby="account-selection-title">
+        <div class="account-selection-title" id="account-selection-title">Multiple accounts found</div>
         <div class="account-selection-copy">
           {{ accountSelection.selectionReason || accountSelection.message }}
         </div>
-        <button
-          class="account-option"
-          type="button"
-          *ngFor="let account of accountSelection.accountChoices"
-          [class.selected]="selectedAccountUserId === account.userId"
-          (click)="selectAccount(account)"
-        >
-          <span class="account-option-name">
-            {{ account.userFirstName || 'Unknown' }} {{ account.userLastName || 'User' }}
-          </span>
-          <span class="account-option-meta">
-            {{ account.username }}
-            <span *ngIf="account.userEmail"> · {{ account.userEmail }}</span>
-            <span *ngIf="account.userActive === false || account.deleted"> · needs review</span>
-          </span>
-        </button>
+        <div class="account-selection-options">
+          <button
+            class="account-option"
+            type="button"
+            *ngFor="let account of accountSelection.accountChoices"
+            [class.selected]="selectedAccountUserId === account.userId"
+            [class.account-option-inactive]="account.userActive === false || account.deleted"
+            (click)="selectAccount(account)"
+          >
+            <span class="account-option-name">
+              {{ account.userFirstName || 'Unknown' }} {{ account.userLastName || 'User' }}
+            </span>
+            <span class="account-option-meta">
+              {{ account.username }}
+              <span *ngIf="account.userEmail"> · {{ account.userEmail }}</span>
+            </span>
+            <span class="account-option-status" *ngIf="account.userActive === false || account.deleted">
+              Needs review
+            </span>
+          </button>
+        </div>
         <button class="primary button account-selection-submit" type="button" (click)="signInWithSelectedAccount()">
           Continue With Selected Account
         </button>
       </div>
-    </form>
+    </div>
   </div>
   <div class="version-stamp">v{{ version }}</div>
 </ion-content>

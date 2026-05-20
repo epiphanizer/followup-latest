@@ -53,9 +53,12 @@ ion-item {
   margin: 0 auto;
   margin-left: 196px;
   margin-top: 30vh;
+  position: relative;
+  z-index: 1;
   background-repeat: no-repeat;
   background-size: 100%;
   padding-top: 37px;
+  transition: opacity 0.18s ease;
 
   .toolbar-logo {
     display: block;
@@ -100,6 +103,12 @@ ion-item {
   }
 }
 
+.login-container.account-selection-active {
+  #login-form {
+    opacity: 0.25;
+  }
+}
+
 ion-item {
   &.login-button {
     display: inline-block;
@@ -111,7 +120,7 @@ ion-item {
   }
 }
 
-button {
+.login-submit {
   text-align: center;
   float: right;
   height: 34px;
@@ -122,6 +131,8 @@ button {
 
 .login-container {
   background: none;
+  position: relative;
+  min-height: 100vh;
 }
 
 .version-stamp {
@@ -135,44 +146,82 @@ button {
   opacity: 0.9;
 }
 
+.account-selection-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(4, 16, 22, 0.48);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
 .account-selection {
-  margin-top: 18px;
-  padding: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  background: rgba(0, 0, 0, 0.14);
+  width: min(440px, calc(100vw - 32px));
+  padding: 28px 24px 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(8, 24, 33, 0.96);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
 }
 
 .account-selection-title {
-  font-family: Avenir, sans-serif;
-  font-size: 12px;
+  font-family: AvenirBold, sans-serif;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.8px;
   color: #ffffff;
   text-transform: uppercase;
 }
 
 .account-selection-copy {
-  margin-top: 6px;
+  margin-top: 10px;
   font-family: Avenir, sans-serif;
-  font-size: 12px;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.92);
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.account-selection-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 18px;
 }
 
 .account-option {
+  float: none;
   display: block;
   width: 100%;
-  margin-top: 10px;
-  padding: 10px 12px;
+  min-height: 84px;
+  margin: 0;
+  padding: 16px 18px;
   text-align: left;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(20, 54, 68, 0.96);
+  border: 1px solid rgba(159, 205, 222, 0.26);
+  border-radius: 14px;
   color: #ffffff;
+  line-height: 1.35;
+  box-shadow: none;
+}
+
+.account-option:hover {
+  background: rgba(26, 63, 79, 0.98);
 }
 
 .account-option.selected {
-  border-color: #ffffff;
-  background: rgba(255, 255, 255, 0.28);
+  background: linear-gradient(135deg, rgba(8, 184, 190, 0.95), rgba(7, 143, 164, 0.98));
+  border-color: rgba(240, 255, 255, 0.92);
+  box-shadow: 0 12px 30px rgba(8, 184, 190, 0.24);
+}
+
+.account-option.account-option-inactive {
+  background: rgba(66, 78, 86, 0.96);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .account-option-name,
@@ -181,20 +230,70 @@ button {
 }
 
 .account-option-name {
-  font-family: Avenir, sans-serif;
-  font-size: 13px;
+  font-family: AvenirBold, sans-serif;
+  font-size: 16px;
   font-weight: 600;
+  letter-spacing: 0.2px;
 }
 
 .account-option-meta {
-  margin-top: 3px;
+  margin-top: 6px;
   font-family: Avenir, sans-serif;
-  font-size: 11px;
-  opacity: 0.9;
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: 0.95;
+  word-break: break-word;
+}
+
+.account-option-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  margin-top: 10px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  font-family: AvenirBold, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
 }
 
 .account-selection-submit {
   float: none;
   width: 100%;
-  margin-top: 12px;
+  min-height: 52px;
+  margin-top: 18px;
+  padding: 0 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  #login-form {
+    width: calc(100% - 32px);
+    max-width: 331px;
+    margin: 22vh auto 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .account-selection-overlay {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .account-selection {
+    margin-top: 72px;
+    padding: 24px 18px 18px;
+  }
+
+  .account-selection-submit {
+    min-height: 56px;
+    padding: 12px 18px;
+    white-space: normal;
+  }
 }
