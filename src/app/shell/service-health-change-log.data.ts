@@ -196,6 +196,31 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     ]
   },
   {
+    version: '3.12.0',
+    recordedAt: '2026-05-20',
+    label: 'Alpha release baseline before 3.12.1 closeout',
+    notes:
+      'This release captured the notification replies runtime rollout and the notification status listing improvements before the coordinated 3.12.1 package stamp.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Frontend 3.12.0 rollout shipped notification reply visibility across detail/history screens and dynamic status/reply indicators in notification listing.',
+        evidence:
+          'Frontend alpha branch received the reply-display and status-badge commits, including the in-table status workflow groundwork and service-health log synchronization for alpha verification.',
+        source: 'v3.12.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'API 3.12.0 rollout mounted notification reply routes in OpenAPI and included smoke-harness coverage for reply write/read lifecycle checks.',
+        evidence:
+          'API alpha branch carried the reply-route registration in swagger plus reply smoke coverage updates recorded in the API running change log.',
+        source: 'v3.12.0/followup-api/agents.md'
+      }
+    ]
+  },
+  {
     version: '3.10.0',
     recordedAt: '2026-05-10',
     label: 'Alpha baseline release',
