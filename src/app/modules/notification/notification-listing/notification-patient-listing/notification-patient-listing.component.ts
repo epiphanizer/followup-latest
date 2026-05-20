@@ -18,6 +18,7 @@ export class NotificationPatientListingComponent implements OnInit {
   public selectedSortFlag: string = 'desc';
   public colDefs = ['Date', 'Patient', 'Type', 'Care Rep', 'Status'];
   public selectedSortOption = this.colDefs[0];
+  public statusOptions: { id: string; label: string }[] = [];
 
   constructor(private notificationService: NotificationService) {}
   ngOnInit() {
@@ -30,6 +31,7 @@ export class NotificationPatientListingComponent implements OnInit {
         map((notifications: [Notification]) => {
           this.notifications = notifications;
           this.notificationsFiltered = notifications;
+          this.rebuildStatusOptions(this.notifications);
           this.runSortSwitch();
         })
       )
@@ -48,8 +50,10 @@ export class NotificationPatientListingComponent implements OnInit {
             if (notifications) {
               this.notifications = notifications;
               this.notificationsFiltered = notifications;
+              this.rebuildStatusOptions(this.notifications);
               this.runSortSwitch();
             } else {
+              this.statusOptions = [];
               this.notificationsFiltered = this.notifications = [];
             }
           })
@@ -175,12 +179,39 @@ export class NotificationPatientListingComponent implements OnInit {
     return notification.notificationStatusLabel || 'Unresolved';
   }
 
+  getStatusSelectValue(notification: Notification): string {
+    return notification?.notificationStatusLabelId || '';
+  }
+
+  hasEditableStatuses(): boolean {
+    return this.statusOptions.length > 0;
+  }
+
+  onStatusSelectChange(notification: Notification, newStatusLabelId: string) {
+    if (!notification || !newStatusLabelId || newStatusLabelId === notification.notificationStatusLabelId) {
+      return;
+    }
+    this.onStatusChange(notification, newStatusLabelId);
+  }
+
   onStatusChange(notification: Notification, newStatusLabelId: string) {
+    if (!newStatusLabelId) {
+      return;
+    }
+
     this.notificationService.updateNotificationStatus(notification.notificationId, newStatusLabelId).subscribe(
-      (updatedNotification: Notification) => {
+      (updatedNotification: Notification | undefined) => {
         const index = this.notifications.findIndex(n => n.notificationId === notification.notificationId);
         if (index > -1) {
-          this.notifications[index] = updatedNotification;
+          const updatedStatus = this.statusOptions.find(option => option.id === newStatusLabelId);
+          const fallbackNotification = {
+            ...notification,
+            notificationStatusLabelId: newStatusLabelId,
+            notificationStatusLabel: updatedStatus?.label || notification.notificationStatusLabel
+          } as Notification;
+
+          this.notifications[index] = updatedNotification || fallbackNotification;
+          this.rebuildStatusOptions(this.notifications);
           this.runSortSwitch();
         }
       },
@@ -206,5 +237,22 @@ export class NotificationPatientListingComponent implements OnInit {
 
   trackByNotification(index: number, notification: Notification): string | number {
     return notification?.notificationId || index;
+  }
+
+  private rebuildStatusOptions(notifications: Notification[] = []): void {
+    const labelsById: { [key: string]: string } = {};
+
+    notifications.forEach(notification => {
+      const statusId = notification?.notificationStatusLabelId;
+      const statusLabel = notification?.notificationStatusLabel;
+
+      if (statusId && statusLabel) {
+        labelsById[statusId] = statusLabel;
+      }
+    });
+
+    this.statusOptions = Object.keys(labelsById)
+      .map(id => ({ id, label: labelsById[id] }))
+      .sort((a, b) => a.label.localeCompare(b.label));
   }
 }

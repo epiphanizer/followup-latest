@@ -13,11 +13,19 @@ const notificationServiceStub = {
         notificationPatientFirstName: 'Pat',
         notificationPatientLastName: 'Smith',
         notificationTypeLabel: 'Test',
+        notificationStatusLabelId: 'status-new',
         notificationStatusLabel: 'New',
         notificationCareRepName: 'Care Rep',
         notificationId: 'n1'
       }
     ])
+  ),
+  updateNotificationStatus: jest.fn((notificationId: string, statusLabelId: string) =>
+    of({
+      notificationId,
+      notificationStatusLabelId: statusLabelId,
+      notificationStatusLabel: statusLabelId === 'status-resolved' ? 'Resolved' : 'New'
+    })
   )
 };
 
@@ -26,6 +34,9 @@ describe('NotificationPatientListingComponent (Jest)', () => {
   let fixture: ComponentFixture<NotificationPatientListingComponent>;
 
   beforeEach(async () => {
+    notificationServiceStub.getNotificationsByOperationId.mockClear();
+    notificationServiceStub.updateNotificationStatus.mockClear();
+
     await TestBed.configureTestingModule({
       declarations: [NotificationPatientListingComponent],
       providers: [{ provide: NotificationService, useValue: notificationServiceStub }],
@@ -41,6 +52,7 @@ describe('NotificationPatientListingComponent (Jest)', () => {
   it('loads notifications for an operation', () => {
     expect(component).toBeTruthy();
     expect(component.notificationsFiltered?.length).toBe(1);
+    expect(component.statusOptions).toEqual([{ id: 'status-new', label: 'New' }]);
   });
 
   it('sorts notifications by date and toggles direction', () => {
@@ -123,12 +135,43 @@ describe('NotificationPatientListingComponent (Jest)', () => {
     expect(component.runSortSwitch()).toBe(false);
 
     component.notifications = [
-      { notificationPatientLastName: 'Zed' } as any,
-      { notificationPatientLastName: 'Able' } as any
+      { notificationPatientLastName: 'Zed', notificationStatusLabel: 'Resolved' } as any,
+      { notificationPatientLastName: 'Able', notificationStatusLabel: 'New' } as any
     ];
     component.selectedSortOption = 'Status';
     component.selectedSortFlag = 'desc';
     component.runSortSwitch();
-    expect(component.notificationsFiltered?.[0].notificationPatientLastName).toBe('Able');
+    expect(component.notificationsFiltered?.[0].notificationStatusLabel).toBe('New');
+  });
+
+  it('updates notification status when a new option is selected', () => {
+    component.statusOptions = [
+      { id: 'status-new', label: 'New' },
+      { id: 'status-resolved', label: 'Resolved' }
+    ];
+
+    const notification = {
+      notificationId: 'n1',
+      notificationStatusLabelId: 'status-new',
+      notificationStatusLabel: 'New'
+    } as any;
+
+    component.notifications = [notification];
+    component.onStatusSelectChange(notification, 'status-resolved');
+
+    expect(notificationServiceStub.updateNotificationStatus).toHaveBeenCalledWith('n1', 'status-resolved');
+    expect(component.notifications[0].notificationStatusLabelId).toBe('status-resolved');
+  });
+
+  it('does not call update when status selection is unchanged', () => {
+    const notification = {
+      notificationId: 'n1',
+      notificationStatusLabelId: 'status-new',
+      notificationStatusLabel: 'New'
+    } as any;
+
+    component.onStatusSelectChange(notification, 'status-new');
+
+    expect(notificationServiceStub.updateNotificationStatus).not.toHaveBeenCalled();
   });
 });

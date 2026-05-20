@@ -48,6 +48,17 @@
           {{ getDisplayStatus(notification) }}
           <span class="reply-count" *ngIf="notification.replyCount > 0"> ({{ notification.replyCount }}) </span>
         </span>
+        <select
+          *ngIf="hasEditableStatuses()"
+          class="status-select"
+          [value]="getStatusSelectValue(notification)"
+          (change)="onStatusSelectChange(notification, $event.target.value)"
+        >
+          <option value="" disabled>Select status</option>
+          <option *ngFor="let option of statusOptions" [value]="option.id">
+            {{ option.label }}
+          </option>
+        </select>
       </td>
     </tr>
   </tbody>

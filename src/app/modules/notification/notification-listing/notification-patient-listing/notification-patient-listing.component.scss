@@ -149,6 +149,19 @@ table {
   opacity: 0.85;
 }
 
+.status-select {
+  display: block;
+  margin-top: 0.35rem;
+  min-width: 130px;
+  padding: 0.25rem 0.35rem;
+  border: 1px solid rgba(217, 217, 217, 0.9);
+  border-radius: 3px;
+  background-color: #fff;
+  font-family: "Avenir";
+  font-size: 12px;
+  color: #444;
+}
+
 jw-pagination {
   width: 95.5%;
   display: block;
