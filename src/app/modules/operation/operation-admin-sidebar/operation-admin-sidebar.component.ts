@@ -58,6 +58,8 @@ export class OperationAdminSidebarComponent implements OnInit {
   availableOperations$: Observable<Operation[]>;
   activeOperationId: string;
   activeOperationGroupId: string;
+  private currentRouteOperationId: string | null = null;
+  private currentRouteOperationGroupId: string | null = null;
   clientMode: boolean = false;
   groupNavigationLabel: string = 'FACILITIES';
   editMode: boolean;
@@ -81,6 +83,75 @@ export class OperationAdminSidebarComponent implements OnInit {
     private operationService: OperationService,
     private _cdr: ChangeDetectorRef
   ) {}
+
+  private getOperationFromResult(result: Operation | Operation[]): Operation | null {
+    if (Array.isArray(result)) {
+      return result.length ? result[0] : null;
+    }
+
+    return result || null;
+  }
+
+  private openOnlyOperationGroup(operationGroupId: string | null | undefined) {
+    this.operationGroups.forEach((operationGroup: OperationGroup) => {
+      operationGroup.sidebarDropdownOpen = !!operationGroupId && operationGroup.operationGroupId == operationGroupId;
+    });
+  }
+
+  private syncOperationGroupSelection(operationGroupId: string | null | undefined) {
+    if (!operationGroupId) {
+      this.selected.operationGroup = this.operationGroups.length ? this.operationGroups[0] : null;
+      this.activeOperationGroupId = this.selected.operationGroup?.operationGroupId || null;
+      this.openOnlyOperationGroup(this.activeOperationGroupId);
+      return;
+    }
+
+    const matchedOperationGroup =
+      this.operationGroups.find(
+        (operationGroup: OperationGroup) => operationGroup.operationGroupId == operationGroupId
+      ) || null;
+
+    this.selected.operationGroup =
+      matchedOperationGroup ||
+      ({
+        operationGroupId,
+        operationGroupName: '',
+        operationGroupShortName: '',
+        operations: []
+      } as OperationGroup);
+    this.activeOperationGroupId = operationGroupId;
+    this.openOnlyOperationGroup(operationGroupId);
+  }
+
+  private syncSelectionFromRoute() {
+    if (this.currentRouteOperationId) {
+      this.operationService
+        .getOperationByOperationId(this.currentRouteOperationId)
+        .subscribe((data: Operation | Operation[]) => {
+          const operation = this.getOperationFromResult(data);
+
+          if (!operation) {
+            return;
+          }
+
+          this.selected.operation = operation;
+          this.activeOperationId = operation.operationId;
+          this.syncOperationGroupSelection(operation.operationGroupId);
+        });
+      return;
+    }
+
+    if (this.currentRouteOperationGroupId) {
+      this.selected.operation = null;
+      this.activeOperationId = null;
+      this.syncOperationGroupSelection(this.currentRouteOperationGroupId);
+      return;
+    }
+
+    this.selected.operation = null;
+    this.activeOperationId = null;
+    this.syncOperationGroupSelection(this.operationGroups[0]?.operationGroupId || null);
+  }
 
   private getUserOperationGroups(): OperationGroup[] {
     const userGroups: OperationGroup[] = Array.isArray(this.user?.operationGroups) ? this.user.operationGroups : [];
@@ -113,6 +184,7 @@ export class OperationAdminSidebarComponent implements OnInit {
 
         if (!safeOperationGroups.length) {
           this.operationGroups = userOperationGroups;
+          this.syncSelectionFromRoute();
           return;
         }
 
@@ -125,86 +197,65 @@ export class OperationAdminSidebarComponent implements OnInit {
                 const safeOperations = Array.isArray(operations) ? operations : [];
                 operationGroup.operations = safeOperations;
 
-                if (safeOperations.length) {
-                  if (idx == 0 && !this.selected.operation) {
-                    this.selected.operation = safeOperations[0];
-                    this.activeOperationId = this.selected.operation.operationId;
-                  }
-                }
-
                 return safeOperations;
               })
             );
-          /**
-           * Busted logic
-           */
-          if (idx == 0) {
-            operationGroup.sidebarDropdownOpen = true;
-          } else {
-            operationGroup.sidebarDropdownOpen = false;
-          }
+          operationGroup.sidebarDropdownOpen = false;
         });
         this.operationGroups = safeOperationGroups;
+        this.syncSelectionFromRoute();
       });
     } else {
       this.operationGroups = userOperationGroups;
-      if (!this.route.snapshot.data.operation) {
-        if (this.operationGroups.length) {
-          this.operationGroups[0].sidebarDropdownOpen = true;
-        }
-      } else {
-        this.operationService
-          .getOperationByOperationId(this.route.snapshot.data.operation.operationId)
-          .subscribe((data: Operation | Operation[]) => {
-            const operation = Array.isArray(data) ? data[0] : data;
-            if (operation) {
-              this.selected.operation = operation;
-              this.activeOperationId = this.selected.operation.operationId;
-            }
-          });
-        // do nothing
-      }
-      // this._cdr.detectChanges();
+      this.syncSelectionFromRoute();
     }
 
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
     this.route.paramMap.subscribe((data: any) => {
-      const operationId = data.get ? data.get('operationId') : data.params?.operationId;
-
-      if (operationId) {
-        this.operationService.getOperationByOperationId(operationId).subscribe((result: Operation | Operation[]) => {
-          const operation = Array.isArray(result) ? result[0] : result;
-          if (operation) {
-            this.selected.operation = operation;
-            this.activeOperationId = this.selected.operation.operationId;
-          }
-        });
-        return;
-      }
-
-      if (this.operationGroups.length) {
-        this.operations = this.operationGroups[0]?.operations || [];
-      }
+      this.currentRouteOperationId = data.get ? data.get('operationId') : data.params?.operationId || null;
+      this.currentRouteOperationGroupId = data.get
+        ? data.get('operationGroupId')
+        : data.params?.operationGroupId || null;
+      this.syncSelectionFromRoute();
+      this.operations = this.selected.operationGroup?.operations || [];
     });
   }
 
-  setActiveOperation = function(operation: Operation) {
+  setActiveOperation(operation: Operation) {
     this.selected.operation = operation;
     this.activeOperationId = operation.operationId;
+    this.syncOperationGroupSelection(operation.operationGroupId || this.activeOperationGroupId);
     this.operationChangeEvent.emit(this.activeOperationId);
-  };
-  setActiveOperationGroup = function(operationGroup: OperationGroup) {
+  }
+
+  setActiveOperationGroup(operationGroup: OperationGroup) {
+    this.selected.operation = null;
+    this.activeOperationId = null;
     operationGroup.sidebarDropdownOpen = true;
-    /**
-     * Reassign selected group
-     */
     this.selected.operationGroup = operationGroup;
     this.activeOperationGroupId = operationGroup.operationGroupId;
+    this.openOnlyOperationGroup(this.activeOperationGroupId);
     this.operationGroupChangeEvent.emit(this.activeOperationGroupId);
-  };
+  }
+
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
     if (!this.isTouched) this.isTouched = true;
-    operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
+
+    if (operationGroup.sidebarDropdownOpen) {
+      operationGroup.sidebarDropdownOpen = false;
+      return;
+    }
+
+    operationGroup.sidebarDropdownOpen = true;
+    this.openOnlyOperationGroup(operationGroup.operationGroupId);
+  }
+
+  isOperationGroupActive(operationGroup: OperationGroup): boolean {
+    return operationGroup?.operationGroupId == this.activeOperationGroupId;
+  }
+
+  isOperationGroupExpanded(operationGroup: OperationGroup): boolean {
+    return !!operationGroup?.sidebarDropdownOpen;
   }
 
   getOperationGroupRoute(operationGroup: OperationGroup): any[] {

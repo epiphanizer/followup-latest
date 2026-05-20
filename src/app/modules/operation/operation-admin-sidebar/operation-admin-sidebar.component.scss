@@ -104,6 +104,10 @@
 .operation-group-link {
   text-decoration: none;
   color: #222222;
+
+  &.active {
+    color: #00b4b9;
+  }
 }
 
 .group-operations {

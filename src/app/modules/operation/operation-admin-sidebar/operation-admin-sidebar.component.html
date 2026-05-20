@@ -15,6 +15,7 @@
         <span class="operation-group"
           ><a
             class="operation-group-link"
+            [class.active]="isOperationGroupActive(operationGroup)"
             (click)="setActiveOperationGroup(operationGroup)"
             [routerLink]="getOperationGroupRoute(operationGroup)"
             >{{
@@ -25,22 +26,13 @@
           >
           <i
             class="expand-facilities-trigger"
-            [@turnArrow]="
-              operationGroup.sidebarDropdownOpen ||
-              (operationGroup.operationGroupId == selected.operation?.operationGroupId && !isTouched)
-                ? 'open'
-                : 'closed'
-            "
-            class="expand-facilities-trigger"
+            [@turnArrow]="isOperationGroupExpanded(operationGroup) ? 'open' : 'closed'"
             (click)="toggleOperationSidebarMenu(operationGroup)"
           >
           </i>
           <ul
             class="group-operations"
-            [class.show]="
-              operationGroup.sidebarDropdownOpen ||
-              (operationGroup.operationGroupId == selected.operation?.operationGroupId && !isTouched)
-            "
+            [class.show]="isOperationGroupExpanded(operationGroup)"
             *ngIf="operationGroup.operations"
           >
             <li

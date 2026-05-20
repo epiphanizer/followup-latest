@@ -8,29 +8,62 @@ import { OperationAdminSidebarComponent } from './operation-admin-sidebar.compon
 import { OperationService } from '../operation.service';
 import { ChangeDetectorRef } from '@angular/core';
 
+function createParamMap(params: Record<string, string> = {}) {
+  return {
+    get: (key: string) => params[key] || null,
+    params
+  };
+}
+
+function createRouteMock(dataOverrides: any = {}, params: Record<string, string> = {}) {
+  return {
+    snapshot: {
+      data: {
+        user: {
+          operations: [{ operationId: 'op1', operationGroupId: 'g1' }],
+          operationGroups: [
+            {
+              operationGroupId: 'g1',
+              operations: [{ operationId: 'op1', operationGroupId: 'g1' }],
+              sidebarDropdownOpen: false
+            },
+            {
+              operationGroupId: 'g2',
+              operations: [{ operationId: 'op2', operationGroupId: 'g2' }],
+              sidebarDropdownOpen: false
+            }
+          ]
+        },
+        operation: null,
+        ...dataOverrides
+      }
+    },
+    paramMap: { subscribe: (fn: any) => fn(createParamMap(params)) }
+  };
+}
+
 describe('OperationAdminSidebarComponent', () => {
   let component: OperationAdminSidebarComponent;
   let fixture: ComponentFixture<OperationAdminSidebarComponent>;
   let consoleLogSpy: jest.SpyInstance;
   const operationServiceMock: any = {
-    getOperationGroups: jest.fn(() => of([{ operationGroupId: 'g1', operations: [], sidebarDropdownOpen: false }])),
+    getOperationGroups: jest.fn(() =>
+      of([
+        { operationGroupId: 'g1', operations: [], sidebarDropdownOpen: false },
+        { operationGroupId: 'g2', operations: [], sidebarDropdownOpen: false }
+      ])
+    ),
     getActiveOperationsByOperationGroupId: jest.fn(() => of([{ operationId: 'op1', operationGroupId: 'g1' }] as any)),
-    getOperationByOperationId: jest.fn(() => of([{ operationId: 'op1', operationGroupId: 'g1' }] as any))
+    getOperationByOperationId: jest.fn((operationId: string) =>
+      of([
+        {
+          operationId,
+          operationGroupId: operationId === 'op2' ? 'g2' : 'g1'
+        }
+      ] as any)
+    )
   };
-  const routeMock: any = {
-    snapshot: {
-      data: {
-        user: {
-          operations: [{ operationId: 'op1' }],
-          operationGroups: [
-            { operationGroupId: 'g1', operations: [{ operationId: 'op1' }], sidebarDropdownOpen: false }
-          ]
-        },
-        operation: null
-      }
-    },
-    paramMap: { subscribe: (fn: any) => fn({ params: {} }) }
-  };
+  const routeMock: any = createRouteMock();
 
   beforeEach(
     waitForAsync(() => {
@@ -59,9 +92,10 @@ describe('OperationAdminSidebarComponent', () => {
 
   it('emits selected operation changes', () => {
     const emitSpy = jest.spyOn(component.operationChangeEvent, 'emit');
-    component.setActiveOperation({ operationId: 'op2' } as any);
+    component.setActiveOperation({ operationId: 'op2', operationGroupId: 'g2' } as any);
 
     expect(component.activeOperationId).toBe('op2');
+    expect(component.activeOperationGroupId).toBe('g2');
     expect(emitSpy).toHaveBeenCalledWith('op2');
   });
 
@@ -96,7 +130,7 @@ describe('OperationAdminSidebarComponent', () => {
           operation: null
         }
       },
-      paramMap: { subscribe: (fn: any) => fn({ params: {} }) }
+      paramMap: { subscribe: (fn: any) => fn(createParamMap()) }
     };
     const localComponent = new OperationAdminSidebarComponent(emptyRouteMock, operationServiceMock, {
       detectChanges: jest.fn()
@@ -107,16 +141,7 @@ describe('OperationAdminSidebarComponent', () => {
   });
 
   it('builds client routes when used from the clients section', () => {
-    const clientsRouteMock: any = {
-      snapshot: {
-        data: {
-          user: routeMock.snapshot.data.user,
-          operation: null,
-          section: 'clients'
-        }
-      },
-      paramMap: { subscribe: (fn: any) => fn({ params: {} }) }
-    };
+    const clientsRouteMock: any = createRouteMock({ section: 'clients' });
     const localComponent = new OperationAdminSidebarComponent(clientsRouteMock, operationServiceMock, {
       detectChanges: jest.fn()
     } as any);
@@ -125,5 +150,34 @@ describe('OperationAdminSidebarComponent', () => {
 
     expect(localComponent.clientMode).toBe(true);
     expect(localComponent.getOperationGroupRoute({ operationGroupId: 'g1' } as any)).toEqual(['/clients', 'g1']);
+  });
+
+  it('syncs active group from routed operation group ids', () => {
+    const groupedRouteMock: any = createRouteMock({}, { operationGroupId: 'g2' });
+    const localComponent = new OperationAdminSidebarComponent(groupedRouteMock, operationServiceMock, {
+      detectChanges: jest.fn()
+    } as any);
+
+    localComponent.ngOnInit();
+
+    expect(localComponent.activeOperationGroupId).toBe('g2');
+    expect(localComponent.selected.operationGroup?.operationGroupId).toBe('g2');
+    expect(localComponent.operationGroups[0].sidebarDropdownOpen).toBe(false);
+    expect(localComponent.operationGroups[1].sidebarDropdownOpen).toBe(true);
+  });
+
+  it('syncs active group from routed operations', () => {
+    const operationRouteMock: any = createRouteMock({}, { operationId: 'op2' });
+    const localComponent = new OperationAdminSidebarComponent(operationRouteMock, operationServiceMock, {
+      detectChanges: jest.fn()
+    } as any);
+
+    localComponent.ngOnInit();
+
+    expect(operationServiceMock.getOperationByOperationId).toHaveBeenCalledWith('op2');
+    expect(localComponent.activeOperationId).toBe('op2');
+    expect(localComponent.activeOperationGroupId).toBe('g2');
+    expect(localComponent.selected.operationGroup?.operationGroupId).toBe('g2');
+    expect(localComponent.operationGroups[1].sidebarDropdownOpen).toBe(true);
   });
 });

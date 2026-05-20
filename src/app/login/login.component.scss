@@ -139,6 +139,8 @@ ion-item {
   position: absolute;
   right: 18px;
   bottom: 16px;
+  z-index: 2;
+  pointer-events: none;
   font-family: Avenir, sans-serif;
   font-size: 10pt;
   letter-spacing: 0.4px;
