@@ -7,6 +7,7 @@ import { NotificationDetailComponent } from './notification-detail/notification-
 import { NotificationListingComponent } from './notification-listing/notification-listing.component';
 import { NotificationPatientListingComponent } from './notification-listing/notification-patient-listing/notification-patient-listing.component';
 import { NotificationListingSidebarComponent } from './notification-listing/notification-listing-sidebar/notification-listing-sidebar.component';
+import { NotificationReplyModalComponent } from './notification-reply-modal/notification-reply-modal.component';
 import { IonicModule } from '@ionic/angular';
 import { PatientModule } from '../patient/patient.module';
 import { SharedModule } from '@app/shared';
@@ -15,7 +16,8 @@ import { SharedModule } from '@app/shared';
     NotificationDetailComponent,
     NotificationListingComponent,
     NotificationListingSidebarComponent,
-    NotificationPatientListingComponent
+    NotificationPatientListingComponent,
+    NotificationReplyModalComponent
   ],
   imports: [
     CommonModule,

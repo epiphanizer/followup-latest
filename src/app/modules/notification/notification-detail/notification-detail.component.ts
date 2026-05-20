@@ -89,7 +89,21 @@ export class NotificationDetailComponent implements OnInit {
         replyBody
       )
       .subscribe(
-        () => {
+        (response: NotificationReply) => {
+          this.notificationReplies = [
+            ...this.notificationReplies,
+            {
+              notificationReplyId: response?.notificationReplyId,
+              notificationId: this.notification.notificationId,
+              patientId: this.notification.notificationPatientId,
+              operationId: this.notification.notificationOperationId,
+              replyText: replyBody.replyText,
+              replyCreatedByUserId: currentUser.userId,
+              replyCreatedByUserFirstName: currentUser.userFirstName,
+              replyCreatedByUserLastName: currentUser.userLastName,
+              replyCreatedTime: new Date()
+            }
+          ];
           this.toastr.success('Reply submitted successfully');
           this.replyForm.reset();
           this.loadNotificationReplies();
