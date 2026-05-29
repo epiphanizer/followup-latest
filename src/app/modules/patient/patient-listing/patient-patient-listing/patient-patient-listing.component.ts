@@ -7,7 +7,8 @@ import { PatientService } from '@app/modules/patient/patient.service';
 @Component({
   selector: 'app-patient-patient-listing',
   templateUrl: './patient-patient-listing.component.html',
-  styleUrls: ['./patient-patient-listing.component.scss']
+  styleUrls: ['./patient-patient-listing.component.scss'],
+  standalone: false
 })
 export class PatientPatientListingComponent implements OnInit {
   @Input() mode: any;

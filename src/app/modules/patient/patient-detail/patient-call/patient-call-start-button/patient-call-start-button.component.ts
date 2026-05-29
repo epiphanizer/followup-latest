@@ -6,7 +6,8 @@ import { User } from '@app/modules/user/user';
   providers: [PatientCallService],
   selector: 'app-patient-call-start-button',
   templateUrl: './patient-call-start-button.component.html',
-  styleUrls: ['./patient-call-start-button.component.scss']
+  styleUrls: ['./patient-call-start-button.component.scss'],
+  standalone: false
 })
 export class PatientCallStartButtonComponent implements OnInit {
   @Input() user: User;

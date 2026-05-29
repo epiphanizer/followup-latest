@@ -12,7 +12,8 @@ import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-patient-call-questions',
   templateUrl: './patient-call-questions.component.html',
-  styleUrls: ['./patient-call-questions.component.scss']
+  styleUrls: ['./patient-call-questions.component.scss'],
+  standalone: false
 })
 export class PatientCallQuestionsComponent implements OnInit {
   @Input() patientCall: PatientCall;

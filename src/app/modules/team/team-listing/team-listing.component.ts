@@ -10,7 +10,8 @@ import { TeamService } from '@app/modules/team/team.service';
   providers: [TeamService],
   selector: 'app-team-listing',
   templateUrl: './team-listing.component.html',
-  styleUrls: ['./team-listing.component.scss']
+  styleUrls: ['./team-listing.component.scss'],
+  standalone: false
 })
 export class TeamListingComponent implements OnInit {
   @Input() team: Team;

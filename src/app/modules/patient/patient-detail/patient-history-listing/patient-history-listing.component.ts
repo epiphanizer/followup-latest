@@ -17,7 +17,8 @@ import { SharedFunctions } from '@app/shared/shared.functions';
   providers: [PatientCallQuestionsService, SharedFunctions, NotificationService],
   selector: 'app-patient-history-listing',
   templateUrl: './patient-history-listing.component.html',
-  styleUrls: ['./patient-history-listing.component.scss']
+  styleUrls: ['./patient-history-listing.component.scss'],
+  standalone: false
 })
 export class PatientHistoryListingComponent implements OnInit {
   @Input() patient: Patient;

@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
   providers: [ToastrService, NgxImageCompressService],
   selector: 'app-user-avatar',
   templateUrl: './user-avatar.component.html',
-  styleUrls: ['./user-avatar.component.scss']
+  styleUrls: ['./user-avatar.component.scss'],
+  standalone: false
 })
 export class UserAvatarComponent implements OnInit {
   avatarUrl: SafeStyle;

@@ -10,7 +10,8 @@ import { map, take } from 'rxjs/operators';
   selector: 'app-call-queue-patient-listing[operation]',
   templateUrl: './call-queue-patient-listing.component.html',
   styleUrls: ['./call-queue-patient-listing.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class CallQueuePatientListingComponent implements OnInit, OnChanges {
   @Input() mode: any;

@@ -9,7 +9,8 @@ import { PatientCall } from '../patient-call/patient-call.service';
   providers: [PatientStatusService],
   selector: 'app-followup-complete-button',
   templateUrl: './followup-complete-button.component.html',
-  styleUrls: ['./followup-complete-button.component.scss']
+  styleUrls: ['./followup-complete-button.component.scss'],
+  standalone: false
 })
 export class FollowupCompleteButtonComponent implements OnInit {
   @Input() patient: Patient;

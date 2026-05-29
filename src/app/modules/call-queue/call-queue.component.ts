@@ -8,7 +8,8 @@ import { OperationService } from '../operation/operation.service';
 @Component({
   selector: 'app-call-queue',
   templateUrl: './call-queue.component.html',
-  styleUrls: ['./call-queue.component.scss']
+  styleUrls: ['./call-queue.component.scss'],
+  standalone: false
 })
 export class CallQueueComponent implements OnInit {
   activeOperationId: number;

@@ -7,7 +7,8 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
-  styleUrls: ['./loader.component.scss']
+  styleUrls: ['./loader.component.scss'],
+  standalone: false
 })
 export class LoaderComponent {
   public isLoading: Subject<boolean> = this.loaderService.isLoading;

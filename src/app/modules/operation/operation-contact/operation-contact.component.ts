@@ -4,7 +4,8 @@ import { OperationContact } from './operation-contact';
 @Component({
   selector: 'app-operation-contact',
   templateUrl: './operation-contact.component.html',
-  styleUrls: ['./operation-contact.component.scss']
+  styleUrls: ['./operation-contact.component.scss'],
+  standalone: false
 })
 export class OperationContactComponent implements OnInit {
   @Input() operationContact: OperationContact;

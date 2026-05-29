@@ -5,7 +5,8 @@ import { UserCorkBoardObject, UserCorkBoardService } from '../user-cork-board/us
 @Component({
   selector: 'app-user-cork-board-object',
   templateUrl: './user-cork-board-object.component.html',
-  styleUrls: ['./user-cork-board-object.component.scss']
+  styleUrls: ['./user-cork-board-object.component.scss'],
+  standalone: false
 })
 export class UserCorkBoardObjectComponent implements OnInit {
   corkboardObjectUrl: SafeUrl;

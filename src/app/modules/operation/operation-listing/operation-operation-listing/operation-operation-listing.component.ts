@@ -9,7 +9,8 @@ import { User } from '@app/modules/user/user';
 @Component({
   selector: 'app-operation-operation-listing',
   templateUrl: './operation-operation-listing.component.html',
-  styleUrls: ['./operation-operation-listing.component.scss']
+  styleUrls: ['./operation-operation-listing.component.scss'],
+  standalone: false
 })
 export class OperationOperationListingComponent implements OnInit {
   @Input() operationGroup: OperationGroup;

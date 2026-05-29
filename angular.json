@@ -35,7 +35,7 @@
             ],
             "styles": ["node_modules/ngx-toastr/toastr.css", "src/main.scss"],
             "scripts": [],
-            "aot": false,
+            "aot": true,
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -85,11 +85,11 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "followup-frontend:build"
+            "buildTarget": "followup-frontend:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "followup-frontend:build:production"
+              "buildTarget": "followup-frontend:build:production"
             },
             "ci": {
               "progress": false
@@ -99,7 +99,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "followup-frontend:build"
+            "buildTarget": "followup-frontend:build"
           }
         },
         "test": {

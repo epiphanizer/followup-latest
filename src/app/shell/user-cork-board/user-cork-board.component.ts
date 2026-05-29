@@ -30,7 +30,8 @@ import { Subscription } from 'rxjs';
       transition('open => closed', [animate('200ms ease-in')]),
       transition('closed => open', [animate('200ms ease-in')])
     ])
-  ]
+  ],
+  standalone: false
 })
 export class UserCorkBoardComponent implements OnInit {
   isOpen = false;

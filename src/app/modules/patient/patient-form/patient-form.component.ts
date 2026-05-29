@@ -27,7 +27,8 @@ import { UserService } from '@app/modules/user/user.service';
   providers: [NgxImageCompressService, PatientService, PatientIntakeQuestionService],
   selector: 'app-patient-form',
   templateUrl: './patient-form.component.html',
-  styleUrls: ['./patient-form.component.scss']
+  styleUrls: ['./patient-form.component.scss'],
+  standalone: false
 })
 export class PatientFormComponent implements OnInit {
   avatarExists: Boolean;

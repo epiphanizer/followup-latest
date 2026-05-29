@@ -16,7 +16,8 @@ export type ServiceHealthRequestMode = 'panel' | 'change-log';
   providers: [DataService, MenuService],
   selector: 'app-toolbar-nav',
   templateUrl: './toolbar-nav.component.html',
-  styleUrls: ['./toolbar-nav.component.scss']
+  styleUrls: ['./toolbar-nav.component.scss'],
+  standalone: false
 })
 export class ToolbarNavComponent implements OnInit {
   constructor(

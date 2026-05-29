@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
   providers: [AuthenticationService, UserAvatarService],
   selector: 'app-toolbar-profile-nav',
   templateUrl: './toolbar-profile-nav.component.html',
-  styleUrls: ['./toolbar-profile-nav.component.scss']
+  styleUrls: ['./toolbar-profile-nav.component.scss'],
+  standalone: false
 })
 export class ToolbarProfileNavComponent implements OnInit {
   @Input() user: User;

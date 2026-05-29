@@ -50,7 +50,8 @@ import { UserService } from '../../user.service';
       transition('open => closed', [animate('0.125s')]),
       transition('closed => open', [animate('0.125s')])
     ])
-  ]
+  ],
+  standalone: false
 })
 export class UserListingSidebarComponent implements OnInit {
   primaryTeam: number = 1;

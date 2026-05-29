@@ -57,7 +57,8 @@ import { Observable, Subscribable, SubscriptionLike } from 'rxjs';
       transition('open => closed', [animate('0.125s')]),
       transition('closed => open', [animate('0.125s')])
     ])
-  ]
+  ],
+  standalone: false
 })
 export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
   @Input() mode: any;

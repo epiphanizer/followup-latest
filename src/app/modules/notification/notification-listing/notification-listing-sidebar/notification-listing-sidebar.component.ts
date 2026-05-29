@@ -52,7 +52,8 @@ import { OperationService } from '@app/modules/operation/operation.service';
       transition('open => closed', [animate('0.125s')]),
       transition('closed => open', [animate('0.125s')])
     ])
-  ]
+  ],
+  standalone: false
 })
 export class NotificationListingSidebarComponent implements OnInit, OnChanges {
   @Output() operationChangeEvent = new EventEmitter<Operation>();

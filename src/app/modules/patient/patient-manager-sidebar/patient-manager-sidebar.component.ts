@@ -46,7 +46,8 @@ import { Patient } from '../patient';
       transition('open => closed', [animate('0.125s')]),
       transition('closed => open', [animate('0.125s')])
     ])
-  ]
+  ],
+  standalone: false
 })
 export class PatientManagerSidebarComponent implements OnInit, OnChanges {
   @Output() operationChangeEvent = new EventEmitter<Operation>();

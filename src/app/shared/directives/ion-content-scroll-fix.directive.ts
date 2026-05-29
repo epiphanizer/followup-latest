@@ -2,7 +2,10 @@ import { AfterViewInit, Directive, Optional } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 
 // Apply to every ion-content to normalize scroll behavior
-@Directive({ selector: 'ion-content' })
+@Directive({
+  selector: 'ion-content',
+  standalone: false
+})
 export class IonContentScrollFixDirective implements AfterViewInit {
   constructor(@Optional() private ionContent: IonContent) {}
 

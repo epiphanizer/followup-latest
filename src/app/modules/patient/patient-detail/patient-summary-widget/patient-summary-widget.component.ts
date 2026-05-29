@@ -8,7 +8,8 @@ import { PatientContact } from '../../patient-contact/patient-contact';
   providers: [PatientService, PatientContactService],
   selector: 'app-patient-summary-widget',
   templateUrl: './patient-summary-widget.component.html',
-  styleUrls: ['./patient-summary-widget.component.scss']
+  styleUrls: ['./patient-summary-widget.component.scss'],
+  standalone: false
 })
 export class PatientSummaryWidgetComponent implements OnInit {
   expandAlternateNumbers: boolean = false;

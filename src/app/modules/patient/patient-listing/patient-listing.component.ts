@@ -13,7 +13,8 @@ import { IonContent } from '@ionic/angular';
 @Component({
   selector: 'app-patient-listing',
   templateUrl: './patient-listing.component.html',
-  styleUrls: ['./patient-listing.component.scss']
+  styleUrls: ['./patient-listing.component.scss'],
+  standalone: false
 })
 export class PatientListingComponent implements OnInit, AfterViewInit {
   componentName: string = 'PatientListing';

@@ -8,7 +8,8 @@ import { PatientCall } from '../patient-call.service';
 @Component({
   selector: 'app-patient-call-status-controls',
   templateUrl: './patient-call-status-controls.component.html',
-  styleUrls: ['./patient-call-status-controls.component.scss']
+  styleUrls: ['./patient-call-status-controls.component.scss'],
+  standalone: false
 })
 export class PatientCallStatusControlsComponent implements OnInit {
   @Input() patientCall: PatientCall;

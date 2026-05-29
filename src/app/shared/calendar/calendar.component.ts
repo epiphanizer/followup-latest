@@ -5,7 +5,8 @@ import { Operation } from '@app/modules/operation/operation';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
+  standalone: false
 })
 export class CalendarComponent implements OnInit {
   @Input() operation: Operation;

@@ -4,7 +4,8 @@ import { formatDate } from '@angular/common';
 @Component({
   selector: 'app-patient-next-call-scheduler',
   templateUrl: './patient-next-call-scheduler.component.html',
-  styleUrls: ['./patient-next-call-scheduler.component.scss']
+  styleUrls: ['./patient-next-call-scheduler.component.scss'],
+  standalone: false
 })
 export class PatientNextCallSchedulerComponent implements OnInit {
   @Output() patientNextCallDateSelectedEventEmitter = new EventEmitter<string>();

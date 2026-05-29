@@ -4,7 +4,8 @@ import { PatientCallQuestion } from '../patient-call-questions/patient-call-ques
 @Component({
   selector: 'app-review-patient-call-questions',
   templateUrl: './review-patient-call-questions.component.html',
-  styleUrls: ['./review-patient-call-questions.component.scss']
+  styleUrls: ['./review-patient-call-questions.component.scss'],
+  standalone: false
 })
 export class ReviewPatientNextCallQuestionsComponent implements OnInit {
   @Input() patientCallQuestions: PatientCallQuestion[];

@@ -4,7 +4,8 @@ import { PatientCallService, PatientCall } from '../patient-call.service';
 @Component({
   selector: 'app-patient-call-stop-button',
   templateUrl: './patient-call-stop-button.component.html',
-  styleUrls: ['./patient-call-stop-button.component.scss']
+  styleUrls: ['./patient-call-stop-button.component.scss'],
+  standalone: false
 })
 export class PatientCallStopButtonComponent implements OnInit {
   @Input() patientCall: PatientCall;

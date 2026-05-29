@@ -29,7 +29,8 @@ import { UserService } from '@app/modules/user/user.service';
   providers: [PatientCallService, PatientCallNotesService, PatientCallQuestionsService],
   selector: 'app-patient-detail',
   templateUrl: './patient-detail.component.html',
-  styleUrls: ['./patient-detail.component.scss']
+  styleUrls: ['./patient-detail.component.scss'],
+  standalone: false
 })
 export class PatientDetailComponent implements OnInit {
   user: User;

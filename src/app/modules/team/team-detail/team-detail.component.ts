@@ -16,7 +16,8 @@ import { AuthenticationService } from '@app/core';
   providers: [TeamService, SharedFunctions],
   selector: 'app-team-detail',
   templateUrl: './team-detail.component.html',
-  styleUrls: ['./team-detail.component.scss']
+  styleUrls: ['./team-detail.component.scss'],
+  standalone: false
 })
 export class TeamMemberDetailComponent implements OnInit {
   teamId: string;

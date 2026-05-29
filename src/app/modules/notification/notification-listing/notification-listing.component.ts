@@ -12,7 +12,8 @@ import { OperationService } from '@app/modules/operation/operation.service';
 @Component({
   selector: 'app-notification-listing',
   templateUrl: './notification-listing.component.html',
-  styleUrls: ['./notification-listing.component.scss']
+  styleUrls: ['./notification-listing.component.scss'],
+  standalone: false
 })
 export class NotificationListingComponent implements OnInit {
   @Input() operation: Operation;

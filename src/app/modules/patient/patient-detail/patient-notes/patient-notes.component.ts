@@ -9,7 +9,8 @@ import {
 @Component({
   selector: 'app-patient-notes',
   templateUrl: './patient-notes.component.html',
-  styleUrls: ['./patient-notes.component.scss']
+  styleUrls: ['./patient-notes.component.scss'],
+  standalone: false
 })
 export class PatientNotesComponent implements OnInit {
   @Input() patient: Patient;

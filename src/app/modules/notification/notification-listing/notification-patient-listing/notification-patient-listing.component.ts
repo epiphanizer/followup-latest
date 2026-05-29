@@ -7,7 +7,8 @@ import { Notification } from '../../notification';
 @Component({
   selector: 'app-notification-patient-listing',
   templateUrl: './notification-patient-listing.component.html',
-  styleUrls: ['./notification-patient-listing.component.scss']
+  styleUrls: ['./notification-patient-listing.component.scss'],
+  standalone: false
 })
 export class NotificationPatientListingComponent implements OnInit {
   @Input() operation: Operation;

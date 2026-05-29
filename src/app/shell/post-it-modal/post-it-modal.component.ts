@@ -11,7 +11,8 @@ import { TeamMessageService } from '@app/modules/team/team-messages.service';
   providers: [UserService, ToastrService],
   selector: 'app-post-it-modal',
   templateUrl: './post-it-modal.component.html',
-  styleUrls: ['./post-it-modal.component.scss']
+  styleUrls: ['./post-it-modal.component.scss'],
+  standalone: false
 })
 export class PostItModalComponent {
   createUserMessageForm: FormGroup;

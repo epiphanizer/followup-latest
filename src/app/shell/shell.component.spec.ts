@@ -25,7 +25,10 @@ class MockAuthenticationService {
 
 import { ShellComponent } from './shell.component';
 
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false
+})
 class MockHomeComponent {}
 
 describe('ShellComponent', () => {

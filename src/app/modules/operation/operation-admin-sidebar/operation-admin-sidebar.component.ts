@@ -52,7 +52,8 @@ import { map } from 'rxjs/operators';
       transition('open => closed', [animate('0.125s')]),
       transition('closed => open', [animate('0.125s')])
     ])
-  ]
+  ],
+  standalone: false
 })
 export class OperationAdminSidebarComponent implements OnInit {
   availableOperations$: Observable<Operation[]>;

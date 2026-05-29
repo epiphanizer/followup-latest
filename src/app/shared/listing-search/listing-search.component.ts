@@ -4,7 +4,8 @@ import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@
   providers: [],
   selector: 'app-listing-search',
   templateUrl: './listing-search.component.html',
-  styleUrls: ['./listing-search.component.scss']
+  styleUrls: ['./listing-search.component.scss'],
+  standalone: false
 })
 export class ListingSearchComponent implements OnInit {
   searchText: string = '';

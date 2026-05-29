@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
   providers: [PatientCallNotesService],
   selector: 'app-patient-call-notes',
   templateUrl: './patient-call-notes.component.html',
-  styleUrls: ['./patient-call-notes.component.scss']
+  styleUrls: ['./patient-call-notes.component.scss'],
+  standalone: false
 })
 export class PatientCallNotesComponent implements OnInit {
   @Input() patientCall: PatientCall;

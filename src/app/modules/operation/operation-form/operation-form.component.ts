@@ -40,7 +40,8 @@ import { UserRoles } from '@app/modules/user/user';
   ],
   selector: 'app-operation-form',
   templateUrl: './operation-form.component.html',
-  styleUrls: ['./operation-form.component.scss']
+  styleUrls: ['./operation-form.component.scss'],
+  standalone: false
 })
 @Injectable()
 export class OperationFormComponent implements OnInit {

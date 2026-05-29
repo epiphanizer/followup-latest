@@ -6,7 +6,8 @@ import { Patient } from '../patient';
 @Component({
   selector: 'app-patient-avatar',
   templateUrl: './patient-avatar.component.html',
-  styleUrls: ['./patient-avatar.component.scss']
+  styleUrls: ['./patient-avatar.component.scss'],
+  standalone: false
 })
 export class PatientAvatarComponent implements OnInit, OnChanges {
   private static avatarStyleCache = new Map<string, SafeStyle>();

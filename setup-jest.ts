@@ -1,4 +1,4 @@
-import 'jest-preset-angular/setup-jest';
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 import '@testing-library/jest-dom';
 import { TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -16,6 +16,8 @@ import { OperationCallRepsService } from '@app/modules/operation/operation-callr
 import { PatientCallStatusService } from '@app/modules/patient/patient-detail/patient-call/patient-call-status.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Subject, of as rxOf } from 'rxjs';
+
+setupZoneTestEnv();
 
 // Provide minimal mocks for browser APIs used by Ionic/Angular.
 Object.defineProperty(window, 'CSS', { value: { supports: () => false, escape: (v: string) => v }, writable: true });

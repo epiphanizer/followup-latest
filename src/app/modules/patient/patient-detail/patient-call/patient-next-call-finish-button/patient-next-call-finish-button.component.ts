@@ -5,7 +5,8 @@ import { Patient } from '@app/modules/patient/patient';
 @Component({
   selector: 'app-patient-next-call-finish-button',
   templateUrl: './patient-next-call-finish-button.component.html',
-  styleUrls: ['./patient-next-call-finish-button.component.scss']
+  styleUrls: ['./patient-next-call-finish-button.component.scss'],
+  standalone: false
 })
 export class PatientNextCallFinishButtonComponent implements OnInit {
   @Input() patient: Patient;

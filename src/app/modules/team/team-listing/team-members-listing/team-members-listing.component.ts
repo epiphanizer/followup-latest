@@ -11,7 +11,8 @@ import { User } from '@app/modules/user/user';
 @Component({
   selector: 'app-team-members-listing',
   templateUrl: './team-members-listing.component.html',
-  styleUrls: ['./team-members-listing.component.scss']
+  styleUrls: ['./team-members-listing.component.scss'],
+  standalone: false
 })
 export class TeamMembersListingComponent implements OnInit {
   @Input() team: Team;

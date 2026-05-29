@@ -13,7 +13,8 @@ import { Patient } from '../patient';
   providers: [NgxImageCompressService, PatientService, PatientIntakeQuestionService],
   selector: 'app-patient-avatar-upload',
   templateUrl: './patient-avatar-upload.component.html',
-  styleUrls: ['./patient-avatar-upload.component.scss']
+  styleUrls: ['./patient-avatar-upload.component.scss'],
+  standalone: false
 })
 export class PatientAvatarUploadComponent implements OnInit {
   @Input() patient: Patient;

@@ -13,7 +13,8 @@ import { ToastrService } from 'ngx-toastr';
   providers: [NotificationService, ToastrService],
   selector: 'app-notification-modal',
   templateUrl: './notification-modal.component.html',
-  styleUrls: ['./notification-modal.component.scss']
+  styleUrls: ['./notification-modal.component.scss'],
+  standalone: false
 })
 export class NotificationModalComponent {
   createNotificationForm: FormGroup;

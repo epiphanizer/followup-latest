@@ -14,7 +14,8 @@ import { AuthenticationService } from '@app/core/authentication/auth.service';
   providers: [SharedFunctions, NotificationService, ToastrService],
   selector: 'app-notification-detail',
   templateUrl: './notification-detail.component.html',
-  styleUrls: ['./notification-detail.component.scss']
+  styleUrls: ['./notification-detail.component.scss'],
+  standalone: false
 })
 export class NotificationDetailComponent implements OnInit {
   notification: Notification;

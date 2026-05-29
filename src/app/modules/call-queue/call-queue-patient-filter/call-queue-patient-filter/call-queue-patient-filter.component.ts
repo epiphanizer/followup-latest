@@ -13,7 +13,8 @@ import { DatePipe } from '@angular/common';
   providers: [AuthenticationService, DatePipe, PatientService, UserService],
   selector: 'app-call-queue-patient-filter[operation]',
   templateUrl: './call-queue-patient-filter.component.html',
-  styleUrls: ['./call-queue-patient-filter.component.scss']
+  styleUrls: ['./call-queue-patient-filter.component.scss'],
+  standalone: false
 })
 export class CallQueuePatientFilterComponent implements OnInit {
   @Input() operation: Operation;

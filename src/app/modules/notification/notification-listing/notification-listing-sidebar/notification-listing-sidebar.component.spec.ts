@@ -30,7 +30,7 @@ describe('NotificationListingSidebarComponent (Jest)', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { data: { user: userStub } }, paramMap: of({ get: () => null }) }
+          useValue: { snapshot: { data: { user: userStub } }, paramMap: of({ get: (): null => null }) }
         },
         { provide: OperationService, useValue: operationServiceStub }
       ],

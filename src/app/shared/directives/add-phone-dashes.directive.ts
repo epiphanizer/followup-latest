@@ -1,7 +1,8 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[inputAddPhoneDashes]'
+  selector: '[inputAddPhoneDashes]',
+  standalone: false
 })
 export class AddPhoneDashesDirective {
   constructor(private ref: ElementRef) {}

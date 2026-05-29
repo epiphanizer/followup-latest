@@ -4,7 +4,8 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange
   moduleId: module.id,
   selector: 'jw-pagination',
   templateUrl: './pagination.component.html',
-  styleUrls: ['./pagination.component.scss']
+  styleUrls: ['./pagination.component.scss'],
+  standalone: false
 })
 export class JwPaginationComponent implements OnInit, OnChanges {
   @Input() items: Array<any>;

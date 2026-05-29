@@ -8,7 +8,8 @@ import { ModalController } from '@ionic/angular';
   providers: [PatientStatusService],
   selector: 'app-followup-complete-modal',
   templateUrl: './followup-complete-modal.component.html',
-  styleUrls: ['./followup-complete-modal.component.scss']
+  styleUrls: ['./followup-complete-modal.component.scss'],
+  standalone: false
 })
 export class FollowupCompleteModalComponent implements OnInit {
   constructor(

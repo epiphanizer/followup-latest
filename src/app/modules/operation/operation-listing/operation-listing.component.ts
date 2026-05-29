@@ -8,7 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-operation-listing',
   templateUrl: './operation-listing.component.html',
-  styleUrls: ['./operation-listing.component.scss']
+  styleUrls: ['./operation-listing.component.scss'],
+  standalone: false
 })
 export class OperationListingComponent implements OnInit {
   public operationGroups: OperationGroup[];

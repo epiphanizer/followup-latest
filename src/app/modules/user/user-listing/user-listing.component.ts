@@ -20,7 +20,8 @@ interface DuplicateUserGroup {
 @Component({
   selector: 'app-user-listing',
   templateUrl: './user-listing.component.html',
-  styleUrls: ['./user-listing.component.scss']
+  styleUrls: ['./user-listing.component.scss'],
+  standalone: false
 })
 export class UserListingComponent implements OnInit {
   @ViewChild(IonContent) content: IonContent;
@@ -323,7 +324,7 @@ export class UserListingComponent implements OnInit {
           mergeScript: null,
           mergeError: null,
           mergeLoading: false
-        };
+        } as DuplicateUserGroup;
       })
       .filter(group => group.users.length > 1)
       .sort((left, right) => {

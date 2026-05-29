@@ -6,7 +6,8 @@ import { NotificationService } from '../notification.service';
 @Component({
   selector: 'app-notification-reply-modal',
   templateUrl: './notification-reply-modal.component.html',
-  styleUrls: ['./notification-reply-modal.component.scss']
+  styleUrls: ['./notification-reply-modal.component.scss'],
+  standalone: false
 })
 export class NotificationReplyModalComponent implements OnInit {
   @Input() notification: any;

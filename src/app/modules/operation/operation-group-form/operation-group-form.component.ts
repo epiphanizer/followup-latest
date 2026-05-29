@@ -12,7 +12,8 @@ import { OperationService } from '../operation.service';
   selector: 'app-operation-group-form',
   templateUrl: './operation-group-form.component.html',
   styleUrls: ['./operation-group-form.component.scss'],
-  providers: [ToastrService]
+  providers: [ToastrService],
+  standalone: false
 })
 export class OperationGroupFormComponent implements OnInit {
   user: User;
