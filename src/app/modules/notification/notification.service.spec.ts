@@ -116,6 +116,26 @@ describe('NotificationService (Jest)', () => {
     req.flush({ notificationReplyId: 'r1' });
   });
 
+  it('gets notification replies by notification id', () => {
+    service.getNotificationRepliesByNotificationId('n5').subscribe(resp => {
+      expect(resp).toEqual([{ notificationReplyId: 'r2' }] as any);
+    });
+
+    const req = httpMock.expectOne('notification/n5/replies');
+    expect(req.request.method).toBe('GET');
+    req.flush([{ notificationReplyId: 'r2' }]);
+  });
+
+  it('gets notification replies by patient id', () => {
+    service.getNotificationRepliesByPatientId('p5').subscribe(resp => {
+      expect(resp).toEqual([{ notificationReplyId: 'r3' }] as any);
+    });
+
+    const req = httpMock.expectOne('patient/p5/notification-replies');
+    expect(req.request.method).toBe('GET');
+    req.flush([{ notificationReplyId: 'r3' }]);
+  });
+
   it('sends notification by id', () => {
     service.sendNotificationByNotificationId('n-send').subscribe(resp => {
       expect(resp).toEqual({ ok: true } as any);

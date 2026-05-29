@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { retry, catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   Notification,
@@ -77,11 +77,21 @@ export class NotificationService {
       );
   }
   getNotificationRepliesByNotificationId(notificationId: string): Observable<NotificationReply[]> {
-    return this.http.get<NotificationReply[]>('notification/' + notificationId + '/replies').pipe(
+    return this.http.get<any>('notification/' + notificationId + '/replies').pipe(
+      map(response => this.normalizeReplyCollection(response)),
       retry(3),
       catchError(e => this.handleAsyncError(e))
     );
   }
+
+  getNotificationRepliesByPatientId(patientId: string): Observable<NotificationReply[]> {
+    return this.http.get<any>('patient/' + patientId + '/notification-replies').pipe(
+      map(response => this.normalizeReplyCollection(response)),
+      retry(3),
+      catchError(e => this.handleAsyncError(e))
+    );
+  }
+
   addNotificationReply(
     notificationId: string,
     patientId: string,
@@ -120,5 +130,21 @@ export class NotificationService {
         <strong>Error</strong>: We had trouble connecting to the notification service\
       </div>'
     );
+  }
+
+  private normalizeReplyCollection(response: any): NotificationReply[] {
+    if (!response) {
+      return [];
+    }
+    if (Array.isArray(response)) {
+      return response;
+    }
+    if (Array.isArray(response?.replies)) {
+      return response.replies;
+    }
+    if (Array.isArray(response?.data)) {
+      return response.data;
+    }
+    return [];
   }
 }
