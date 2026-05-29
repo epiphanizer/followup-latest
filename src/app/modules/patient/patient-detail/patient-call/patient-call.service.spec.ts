@@ -32,7 +32,7 @@ describe('PatientCallService (Jest)', () => {
 
     service.getPatientCallsByPatientId('p1').subscribe({
       next: () => done.fail('expected error'),
-      error: err => {
+      error: (err: string) => {
         expect(err).toContain('patient call service');
         done();
       }
@@ -49,7 +49,7 @@ describe('PatientCallService (Jest)', () => {
     const service = new PatientCallService(http);
 
     service.getPatientCallsByOperationId('op1').subscribe({
-      error: msg => {
+      error: (msg: string) => {
         expect(consoleSpy).toHaveBeenCalled();
         expect(msg).toContain('patient call service');
         consoleSpy.mockRestore();

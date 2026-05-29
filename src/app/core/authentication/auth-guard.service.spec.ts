@@ -20,7 +20,7 @@ describe('AuthGuardService (Jest)', () => {
 
   it('allows activation for authenticated users with matching roles', () => {
     const guard = buildGuard({ userLevel: 'admin' } as any);
-    const route = { data: { roles: ['admin'] } } as ActivatedRouteSnapshot;
+    const route = ({ data: { roles: ['admin'] } } as unknown) as ActivatedRouteSnapshot;
 
     expect(guard.canActivate(route)).toBe(true);
     expect(routerStub.navigate).not.toHaveBeenCalled();
@@ -28,7 +28,7 @@ describe('AuthGuardService (Jest)', () => {
 
   it('blocks navigation and redirects when role is not permitted', () => {
     const guard = buildGuard({ userLevel: 'viewer' } as any);
-    const route = { data: { roles: ['admin'] } } as ActivatedRouteSnapshot;
+    const route = ({ data: { roles: ['admin'] } } as unknown) as ActivatedRouteSnapshot;
 
     expect(guard.canActivate(route)).toBe(false);
     expect(routerStub.navigate).toHaveBeenCalledWith(['/home']);
@@ -36,7 +36,7 @@ describe('AuthGuardService (Jest)', () => {
 
   it('navigates back when no authenticated user is present', () => {
     const guard = buildGuard(null);
-    const route = { data: {} } as ActivatedRouteSnapshot;
+    const route = ({ data: {} } as unknown) as ActivatedRouteSnapshot;
 
     expect(guard.canActivate(route)).toBe(false);
     expect(locationStub.back).toHaveBeenCalled();

@@ -5,12 +5,21 @@ import { of } from 'rxjs';
 import { PatientCallQuestionsComponent } from './patient-call-questions.component';
 import { PatientCallQuestionsService } from './patient-call-questions.service';
 
+const buildQuestion = (id: string, type: 'rating' | 'text') => ({
+  patientCallQuestionId: id,
+  patientCallQuestion: `${type} question ${id}`,
+  patientCallQuestionType: type,
+  patientCallQuestionOrder: Number(id.replace('q', '')),
+  patientCallQuestionIsHighlighted: 0,
+  patientQuestionTypeLabel: type
+});
+
 const questionsMock = [
-  { patientCallQuestionId: 'q1', patientCallQuestionType: 'rating', patientQuestionTypeLabel: 'rating' },
-  { patientCallQuestionId: 'q2', patientCallQuestionType: 'text', patientQuestionTypeLabel: 'text' },
-  { patientCallQuestionId: 'q3', patientCallQuestionType: 'rating', patientQuestionTypeLabel: 'rating' },
-  { patientCallQuestionId: 'q4', patientCallQuestionType: 'rating', patientQuestionTypeLabel: 'rating' },
-  { patientCallQuestionId: 'q5', patientCallQuestionType: 'rating', patientQuestionTypeLabel: 'rating' }
+  buildQuestion('q1', 'rating'),
+  buildQuestion('q2', 'text'),
+  buildQuestion('q3', 'rating'),
+  buildQuestion('q4', 'rating'),
+  buildQuestion('q5', 'rating')
 ];
 
 describe('PatientCallQuestionsComponent', () => {
