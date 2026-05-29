@@ -229,11 +229,11 @@ export class OperationFormComponent implements OnInit {
                         formGroup.controls.operationContactTitle.setValue(operationContact.operationContactTitle),
                         formGroup.controls.operationContactEmail.setValue(operationContact.operationContactEmail),
                         formGroup.controls.operationContactCountryCode.setValue(
-                          operationContact.operationContactCountryCode
+                          operationContact.operationContactCountryCode || '1'
                         ),
                         formGroup.controls.operationContactAreaCode.setValue(operationContact.operationContactAreaCode),
                         formGroup.controls.operationContactPhoneNumber.setValue(
-                          operationContact.operationContactPhoneNumber
+                          this.formatPhoneInputValue(operationContact.operationContactPhoneNumber)
                         );
                       formGroup.controls.operationContactOrder.setValue(operationContact.operationContactOrder);
                     })
@@ -275,9 +275,11 @@ export class OperationFormComponent implements OnInit {
     operationFormControls.controls.operationCity.setValue(this.operation.operationCity);
     operationFormControls.controls.operationState.setValue(this.operation.operationState);
     operationFormControls.controls.operationZip.setValue(this.operation.operationZip);
-    operationFormControls.controls.operationCountryCode.setValue(this.operation.operationCountryCode);
+    operationFormControls.controls.operationCountryCode.setValue(this.operation.operationCountryCode || '1');
     operationFormControls.controls.operationAreaCode.setValue(this.operation.operationAreaCode);
-    operationFormControls.controls.operationPhoneNumber.setValue(this.operation.operationPhoneNumber);
+    operationFormControls.controls.operationPhoneNumber.setValue(
+      this.formatPhoneInputValue(this.operation.operationPhoneNumber)
+    );
     operationFormControls.controls.operationActive.setValue(this.operation.operationActive ? '1' : '0');
   }
   addAdditionalOperationContact() {
@@ -333,9 +335,9 @@ export class OperationFormComponent implements OnInit {
         operationCity: this.fb.control(this.operation.operationCity),
         operationState: this.fb.control(this.operation.operationState),
         operationZip: this.fb.control(this.operation.operationZip),
-        operationCountryCode: this.fb.control(this.operation.operationCountryCode),
+        operationCountryCode: this.fb.control(this.operation.operationCountryCode || '1'),
         operationAreaCode: this.fb.control(this.operation.operationAreaCode),
-        operationPhoneNumber: this.fb.control(this.operation.operationPhoneNumber, [
+        operationPhoneNumber: this.fb.control(this.formatPhoneInputValue(this.operation.operationPhoneNumber), [
           Validators.pattern(/^[0-9-]{7,}\d*$/)
         ])
       }),
@@ -362,11 +364,9 @@ export class OperationFormComponent implements OnInit {
         operationCity: formSubmission.operation.operationCity ? formSubmission.operation.operationCity : '',
         operationState: formSubmission.operation.operationState ? formSubmission.operation.operationState : '',
         operationZip: formSubmission.operation.operationZip ? formSubmission.operation.operationZip : '',
-        operationCountryCode: operationCountryCode ? operationCountryCode : '',
+        operationCountryCode: operationCountryCode ? operationCountryCode : '1',
         operationAreaCode: operationAreaCode ? operationAreaCode : '',
-        operationPhoneNumber: formSubmission.operation.operationPhoneNumber
-          ? formSubmission.operation.operationPhoneNumber
-          : '',
+        operationPhoneNumber: this.formatPhoneInputValue(formSubmission.operation.operationPhoneNumber),
         operationActive: formSubmission.operation.operationActive
           ? parseInt(formSubmission.operation.operationActive)
           : 1
@@ -410,9 +410,9 @@ export class OperationFormComponent implements OnInit {
         operationContactFirstName: formContact.operationContactFirstName,
         operationContactLastName: formContact.operationContactLastName,
         operationContactTitle: formContact.operationContactTitle || '',
-        operationContactCountryCode: operationCountryCode,
+        operationContactCountryCode: operationCountryCode || '1',
         operationContactAreaCode: operationAreaCode || '',
-        operationContactPhoneNumber: formContact.operationContactPhoneNumber || '',
+        operationContactPhoneNumber: this.formatPhoneInputValue(formContact.operationContactPhoneNumber),
         operationContactEmail: formContact.operationContactEmail,
         operationContactActive: 1
       };
@@ -428,9 +428,9 @@ export class OperationFormComponent implements OnInit {
         operationContactFirstName: formContact.operationContactFirstName,
         operationContactLastName: formContact.operationContactLastName,
         operationContactTitle: formContact.operationContactTitle,
-        operationContactCountryCode: formContact.operationContactCountryCode.toString(),
+        operationContactCountryCode: (formContact.operationContactCountryCode || '1').toString(),
         operationContactAreaCode: formContact.operationContactAreaCode,
-        operationContactPhoneNumber: formContact.operationContactPhoneNumber,
+        operationContactPhoneNumber: this.formatPhoneInputValue(formContact.operationContactPhoneNumber),
         operationContactEmail: formContact.operationContactEmail,
         operationContactOrder: formContact.operationContactOrder,
         operationContactActive: 1
@@ -681,6 +681,24 @@ export class OperationFormComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  private formatPhoneInputValue(phoneValue: string): string {
+    if (!phoneValue) {
+      return '';
+    }
+
+    const digits = phoneValue.toString().replace(/[^0-9]/g, '');
+
+    if (digits.length === 7) {
+      return digits.substr(0, 3) + '-' + digits.substr(3);
+    }
+
+    if (digits.length === 10) {
+      return digits.substr(0, 3) + '-' + digits.substr(3, 3) + '-' + digits.substr(6);
+    }
+
+    return phoneValue.toString();
   }
 
   addOperationGroupForm() {

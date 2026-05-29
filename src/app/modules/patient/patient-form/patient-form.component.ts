@@ -64,6 +64,7 @@ export class PatientFormComponent implements OnInit {
   operations: Operation[];
   operations$: Observable<Operation[]>;
   stringMinimumOneWordRegEx = RegExp(/^(?!\s*$).+/);
+  private readonly phoneNumberRegEx = RegExp(/^[0-9-]{7,}$/);
 
   user: User;
 
@@ -181,9 +182,11 @@ export class PatientFormComponent implements OnInit {
                     patientContactOrder: this.fb.control(patientContact.patientContactOrder, [
                       Validators.pattern(/^[0-9]\d*$/)
                     ]),
-                    patientContactHIPAABoolean: this.fb.control(patientContact.patientContactHIPAABoolean),
+                    patientContactHIPAABoolean: this.fb.control(
+                      this.normalizeContactResponsiblePartyBoolean(patientContact)
+                    ),
                     patientContactResponsiblePartyBoolean: this.fb.control(
-                      patientContact.patientContactResponsiblePartyBoolean
+                      this.normalizeContactResponsiblePartyBoolean(patientContact)
                     )
                   })
                 );
@@ -265,7 +268,9 @@ export class PatientFormComponent implements OnInit {
           this.patient.patientCountryCode ? this.patient.patientCountryCode.toString() : '1'
         ),
         patientAreaCode: this.fb.control(this.patient.patientAreaCode),
-        patientPhoneNumber: this.fb.control(this.patient.patientPhoneNumber, [Validators.pattern(/^[-0-9]{8,}\d*$/)]),
+        patientPhoneNumber: this.fb.control(this.formatPhoneInputValue(this.patient.patientPhoneNumber), [
+          Validators.pattern(this.phoneNumberRegEx)
+        ]),
         patientHIPAA: this.fb.control(this.patient.patientHIPAA),
         patientIsResponsibleParty: this.fb.control(this.patient.patientIsResponsibleParty),
         patientSpeaksEnglish: this.fb.control(
@@ -353,10 +358,7 @@ export class PatientFormComponent implements OnInit {
     const doesNotSpeakEnglish = patientSpeaksEnglishControl.value === true;
 
     if (doesNotSpeakEnglish) {
-      patientFluentLanguageControl.setValidators([
-        Validators.required,
-        Validators.pattern(this.stringMinimumOneWordRegEx)
-      ]);
+      patientFluentLanguageControl.setValidators([Validators.pattern(this.stringMinimumOneWordRegEx)]);
     } else {
       patientFluentLanguageControl.clearValidators();
       patientFluentLanguageControl.setValue('');
@@ -394,6 +396,33 @@ export class PatientFormComponent implements OnInit {
     );
   }
 
+  syncContactFlags(idx: number) {
+    const patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
+    const contactGroup = patientContactArray.at(idx);
+
+    if (!contactGroup) {
+      return;
+    }
+
+    const isResponsibleParty = contactGroup.get('patientContactResponsiblePartyBoolean').value === true;
+    contactGroup.get('patientContactHIPAABoolean').setValue(isResponsibleParty);
+  }
+
+  onDischargeDateBlur(controlName: 'patientAdmitDate' | 'patientDischargeDate') {
+    const control = this.patientForm.get('patient.dischargeInfo.' + controlName);
+
+    if (!control) {
+      return;
+    }
+
+    const normalized = this.normalizeDischargeDateValue(control.value);
+    if (normalized && normalized !== control.value) {
+      control.setValue(normalized);
+    }
+
+    this.updateDischargeFields();
+  }
+
   removeAdditionalPatientContact(idx: number) {
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
     patientContactArray.at(idx).clearValidators();
@@ -409,8 +438,12 @@ export class PatientFormComponent implements OnInit {
     patientContact.patientContactRelationship = relationship;
   }
   updateDischargeFields() {
-    let startDate = this.patientForm.get('patient.dischargeInfo.patientAdmitDate').value;
-    let endDate = this.patientForm.get('patient.dischargeInfo.patientDischargeDate').value;
+    let startDate = this.normalizeDischargeDateValue(
+      this.patientForm.get('patient.dischargeInfo.patientAdmitDate').value
+    );
+    let endDate = this.normalizeDischargeDateValue(
+      this.patientForm.get('patient.dischargeInfo.patientDischargeDate').value
+    );
     if (!startDate || !endDate) {
       if (startDate) {
         this.patientMinDischargeDate = this.patientForm
@@ -576,6 +609,7 @@ export class PatientFormComponent implements OnInit {
     });
   }
   patientContactPutFactory(patientContact: PatientContact): PatientContactPutBody {
+    const isResponsibleParty = patientContact.patientContactResponsiblePartyBoolean == true;
     try {
       var payload = {
         patientContactId: patientContact.patientContactId,
@@ -586,8 +620,8 @@ export class PatientFormComponent implements OnInit {
         patientContactAreaCode: patientContact.patientContactAreaCode.toString(),
         patientContactPhoneNumber: patientContact.patientContactPhoneNumber.toString(),
         patientContactOrder: parseInt(patientContact.patientContactOrder),
-        patientContactHIPAABoolean: patientContact.patientContactHIPAABoolean == true ? 1 : 0,
-        patientContactResponsiblePartyBoolean: patientContact.patientContactResponsiblePartyBoolean == true ? 1 : 0
+        patientContactHIPAABoolean: isResponsibleParty ? 1 : 0,
+        patientContactResponsiblePartyBoolean: isResponsibleParty ? 1 : 0
       };
       return <PatientContactPutBody>payload;
     } catch {
@@ -595,6 +629,7 @@ export class PatientFormComponent implements OnInit {
     }
   }
   patientContactPostFactory(patientContact: PatientContact): PatientContactPostBody {
+    const isResponsibleParty = patientContact.patientContactResponsiblePartyBoolean == true;
     try {
       var payload = {
         patientId: this.patient.patientId,
@@ -605,8 +640,8 @@ export class PatientFormComponent implements OnInit {
         patientContactAreaCode: patientContact.patientContactAreaCode.toString(),
         patientContactPhoneNumber: patientContact.patientContactPhoneNumber.toString(),
         patientContactOrder: parseInt(patientContact.patientContactOrder),
-        patientContactHIPAABoolean: patientContact.patientContactHIPAABoolean == true ? 1 : 0,
-        patientContactResponsiblePartyBoolean: patientContact.patientContactResponsiblePartyBoolean == true ? 1 : 0
+        patientContactHIPAABoolean: isResponsibleParty ? 1 : 0,
+        patientContactResponsiblePartyBoolean: isResponsibleParty ? 1 : 0
       };
       return <PatientContactPostBody>payload;
     } catch {
@@ -623,9 +658,12 @@ export class PatientFormComponent implements OnInit {
      * Do transforms so we have proper UTC times on the dates
      */
     var patientDob = formSubmission.patient.patientDob.substr(0, 10) + 'T12:00:00.00Z';
-    var patientAdmitDate = formSubmission.patient.dischargeInfo.patientAdmitDate.substr(0, 10) + 'T12:00:00.00Z';
-    var patientDischargeDate =
-      formSubmission.patient.dischargeInfo.patientDischargeDate.substr(0, 10) + 'T12:00:00.00Z';
+    const normalizedAdmitDate = this.normalizeDischargeDateValue(formSubmission.patient.dischargeInfo.patientAdmitDate);
+    const normalizedDischargeDate = this.normalizeDischargeDateValue(
+      formSubmission.patient.dischargeInfo.patientDischargeDate
+    );
+    var patientAdmitDate = normalizedAdmitDate.substr(0, 10) + 'T12:00:00.00Z';
+    var patientDischargeDate = normalizedDischargeDate.substr(0, 10) + 'T12:00:00.00Z';
     const doesNotSpeakEnglish = formSubmission.patient.patientSpeaksEnglish === true;
     const patientFluentLanguage = doesNotSpeakEnglish
       ? (formSubmission.patient.patientFluentLanguage || '').toString().trim()
@@ -640,7 +678,7 @@ export class PatientFormComponent implements OnInit {
       patientLastName: formSubmission.patient.patientName.patientLastName,
       patientCountryCode: formSubmission.patient.patientCountryCode || '',
       patientAreaCode: formSubmission.patient.patientAreaCode || '',
-      patientPhoneNumber: formSubmission.patient.patientPhoneNumber || '',
+      patientPhoneNumber: this.formatPhoneInputValue(formSubmission.patient.patientPhoneNumber),
       patientGender: formSubmission.patient.patientGender,
       patientHIPAA: formSubmission.patient.patientHIPAA == true ? 1 : 0,
       patientIsResponsibleParty: formSubmission.patient.patientIsResponsibleParty == true ? 1 : 0,
@@ -661,6 +699,58 @@ export class PatientFormComponent implements OnInit {
       patientActive: formSubmission.patient.patientActive == true ? 1 : 0
     };
     return <PatientPutBody>payload;
+  }
+
+  private normalizeContactResponsiblePartyBoolean(patientContact: PatientContact): boolean {
+    return !!(
+      patientContact &&
+      (patientContact.patientContactResponsiblePartyBoolean == true ||
+        patientContact.patientContactHIPAABoolean == true)
+    );
+  }
+
+  private formatPhoneInputValue(phoneValue: string): string {
+    if (!phoneValue) {
+      return '';
+    }
+
+    const digits = phoneValue.toString().replace(/[^0-9]/g, '');
+
+    if (digits.length === 7) {
+      return digits.substr(0, 3) + '-' + digits.substr(3);
+    }
+
+    if (digits.length === 10) {
+      return digits.substr(0, 3) + '-' + digits.substr(3, 3) + '-' + digits.substr(6);
+    }
+
+    return phoneValue.toString();
+  }
+
+  private normalizeDischargeDateValue(dateValue: string): string {
+    if (!dateValue || typeof dateValue !== 'string') {
+      return dateValue;
+    }
+
+    const normalizedDate = dateValue.substr(0, 10);
+    const dateParts = normalizedDate.split('-');
+
+    if (dateParts.length !== 3) {
+      return normalizedDate;
+    }
+
+    const parsedYear = parseInt(dateParts[0], 10);
+
+    if (isNaN(parsedYear)) {
+      return normalizedDate;
+    }
+
+    if (parsedYear >= 1900) {
+      return normalizedDate;
+    }
+
+    const correctedYear = parsedYear >= 100 ? parsedYear : parsedYear + 2000;
+    return correctedYear.toString().padStart(4, '0') + '-' + dateParts[1] + '-' + dateParts[2];
   }
 
   /**

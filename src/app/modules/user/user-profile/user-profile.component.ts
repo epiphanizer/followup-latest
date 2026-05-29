@@ -154,9 +154,9 @@ export class UserProfileComponent implements OnInit {
           disabled: true
         }
       ],
-      userPhoneCountryCode: [this.user.userCountryCode, [Validators.pattern(this.numericRegEx)]],
-      userPhoneAreaCode: [this.user.userAreaCode, [Validators.pattern(this.numericRegEx)]],
-      userPhoneNumber: [this.user.userPhoneNumber, [Validators.pattern(this.phoneRegEx)]],
+      userPhoneCountryCode: [this.user.userCountryCode || '1', [Validators.pattern(this.numericRegEx)]],
+      userPhoneAreaCode: [this.user.userAreaCode || '', [Validators.pattern(this.numericRegEx)]],
+      userPhoneNumber: [this.formatPhoneInputValue(this.user.userPhoneNumber), [Validators.pattern(this.phoneRegEx)]],
       userDob: this.fb.control(this.normalizeUserDob(this.user.userDob), [Validators.required]),
       userFavoriteDessert: this.fb.control(this.user.userFavoriteDessert),
       userSpeaksSpanish: this.fb.control(this.user.userSpeaksSpanish == true ? '1' : '0'),
@@ -232,7 +232,7 @@ export class UserProfileComponent implements OnInit {
     this.user.userLastName = formSubmission.userLastName;
     this.user.userCountryCode = formSubmission.userPhoneCountryCode;
     this.user.userAreaCode = formSubmission.userPhoneAreaCode;
-    this.user.userPhoneNumber = formSubmission.userPhoneNumber;
+    this.user.userPhoneNumber = this.formatPhoneInputValue(formSubmission.userPhoneNumber);
     this.user.userDob = formSubmission.userDob;
     this.user.userSpeaksSpanish = formSubmission.userSpeaksSpanish;
     this.user.userFavoriteDessert = formSubmission.userFavoriteDessert;
@@ -246,9 +246,9 @@ export class UserProfileComponent implements OnInit {
     payload = {
       userFirstName: formSubmission.userFirstName,
       userLastName: formSubmission.userLastName,
-      userCountryCode: formSubmission.userPhoneCountryCode || '',
+      userCountryCode: formSubmission.userPhoneCountryCode || '1',
       userAreaCode: formSubmission.userPhoneAreaCode || '',
-      userPhoneNumber: formSubmission.userPhoneNumber || '',
+      userPhoneNumber: this.formatPhoneInputValue(formSubmission.userPhoneNumber),
       userSpeaksSpanish: parseInt(formSubmission.userSpeaksSpanish),
       userDob: formSubmission.userDob || '',
       userFavoriteDessert: formSubmission.userFavoriteDessert || '',
@@ -256,6 +256,24 @@ export class UserProfileComponent implements OnInit {
       userAdditionalInfo: formSubmission.userAdditionalInfo
     };
     return <UserPutObject>payload;
+  }
+
+  private formatPhoneInputValue(phoneValue: string): string {
+    if (!phoneValue) {
+      return '';
+    }
+
+    const digits = phoneValue.toString().replace(/[^0-9]/g, '');
+
+    if (digits.length === 7) {
+      return digits.substr(0, 3) + '-' + digits.substr(3);
+    }
+
+    if (digits.length === 10) {
+      return digits.substr(0, 3) + '-' + digits.substr(3, 3) + '-' + digits.substr(6);
+    }
+
+    return phoneValue.toString();
   }
 
   /**

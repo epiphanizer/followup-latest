@@ -66,7 +66,7 @@
           </ion-item>
           <div class="patient-phone-container">
             <ion-item class="patient-country-code">
-              <ion-label color="medium" position="stacked">+(1)</ion-label>
+              <ion-label color="medium" position="stacked">US (+1)</ion-label>
               <ion-input type="text" maxLength="2" formControlName="patientCountryCode" placeholder="1"></ion-input>
             </ion-item>
             <ion-item class="patient-area-code">
@@ -181,7 +181,7 @@
 
                 <div class="phone-container">
                   <ion-item class="country-code">
-                    <ion-label color="medium" position="stacked">+(1)</ion-label>
+                    <ion-label color="medium" position="stacked">US (+1)</ion-label>
                     <ion-input type="text" maxLength="2" formControlName="patientContactCountryCode"></ion-input>
                   </ion-item>
                   <ion-item class="area-code">
@@ -202,12 +202,11 @@
                     <ion-label color="medium" position="stacked">Order</ion-label>
                     <ion-input type="number" formControlName="patientContactOrder" [value]="idx + 1"></ion-input>
                   </ion-item>
-                  <ion-item class="patient-contact-hipaa">
-                    <ion-checkbox formControlName="patientContactHIPAABoolean"></ion-checkbox>
-                    <ion-label color="medium" type="stacked">HIPAA</ion-label>
-                  </ion-item>
                   <ion-item class="responsible-party">
-                    <ion-checkbox formControlName="patientContactResponsiblePartyBoolean"></ion-checkbox>
+                    <ion-checkbox
+                      formControlName="patientContactResponsiblePartyBoolean"
+                      (ionChange)="syncContactFlags(idx)"
+                    ></ion-checkbox>
                     <ion-label color="medium" type="stacked">Responsible Party</ion-label>
                   </ion-item>
                 </div>
@@ -256,6 +255,7 @@
                     type="date"
                     formControlName="patientAdmitDate"
                     (ionChange)="updateDischargeFields()"
+                    (ionBlur)="onDischargeDateBlur('patientAdmitDate')"
                   ></ion-input>
                 </ion-item>
                 <ion-item class="discharge-discharge-date">
@@ -266,6 +266,7 @@
                     type="date"
                     formControlName="patientDischargeDate"
                     (ionChange)="updateDischargeFields()"
+                    (ionBlur)="onDischargeDateBlur('patientDischargeDate')"
                   ></ion-input>
                 </ion-item>
                 <img class="equal-sign" src="/assets/icon-equal-sign@2x.png" />

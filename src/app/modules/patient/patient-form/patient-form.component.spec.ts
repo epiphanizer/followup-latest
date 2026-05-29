@@ -324,7 +324,7 @@ describe('PatientFormComponent (Jest)', () => {
       patientContactAreaCode: '212',
       patientContactPhoneNumber: '5551234',
       patientContactOrder: 2,
-      patientContactHIPAABoolean: 1,
+      patientContactHIPAABoolean: 0,
       patientContactResponsiblePartyBoolean: 0
     });
   });
@@ -364,9 +364,51 @@ describe('PatientFormComponent (Jest)', () => {
       patientContactAreaCode: '212',
       patientContactPhoneNumber: '5551234',
       patientContactOrder: 2,
-      patientContactHIPAABoolean: 1,
+      patientContactHIPAABoolean: 0,
       patientContactResponsiblePartyBoolean: 0
     });
+  });
+
+  it('keeps contact HIPAA flag aligned to responsible-party toggle', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+    comp.addAdditionalPatientContact();
+
+    const patientContactControl = (comp.patientForm.get('patient.patientContacts') as FormArray).at(0);
+    patientContactControl.get('patientContactResponsiblePartyBoolean').setValue(true);
+
+    comp.syncContactFlags(0);
+
+    expect(patientContactControl.get('patientContactHIPAABoolean').value).toBe(true);
   });
 
   it('creates a form submission payload with cleared language when patient speaks english', () => {
@@ -429,7 +471,7 @@ describe('PatientFormComponent (Jest)', () => {
       patientLastName: 'Doe',
       patientCountryCode: '1',
       patientAreaCode: '212',
-      patientPhoneNumber: '5551234',
+      patientPhoneNumber: '555-1234',
       patientGender: 'M',
       patientHIPAA: 1,
       patientIsResponsibleParty: 0,
@@ -475,7 +517,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientName: { patientFirstName: 'John', patientLastName: 'Doe' },
         patientCountryCode: '1',
         patientAreaCode: '212',
-        patientPhoneNumber: '5551234',
+        patientPhoneNumber: '555-1234',
         patientGender: 'M',
         patientHIPAA: true,
         patientIsResponsibleParty: false,
@@ -548,7 +590,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientName: { patientFirstName: 'John', patientLastName: 'Doe' },
         patientCountryCode: '1',
         patientAreaCode: '212',
-        patientPhoneNumber: '5551234',
+        patientPhoneNumber: '555-1234',
         patientGender: 'M',
         patientHIPAA: true,
         patientIsResponsibleParty: false,
@@ -671,6 +713,62 @@ describe('PatientFormComponent (Jest)', () => {
     expect(services.userService.updateOperations).toHaveBeenCalledWith(comp.user);
 
     Object.defineProperty(window, 'location', { configurable: true, value: originalLocation });
+  });
+
+  it('normalizes short discharge year values before building payload', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+
+    const formSubmission: any = {
+      patient: {
+        patientDob: '2021-01-01',
+        operation: 'op-1',
+        patientMedicalRecordNumber: 'mrn',
+        patientName: { patientFirstName: 'John', patientLastName: 'Doe' },
+        patientCountryCode: '1',
+        patientAreaCode: '212',
+        patientPhoneNumber: '5551234',
+        patientGender: 'M',
+        patientHIPAA: true,
+        patientIsResponsibleParty: false,
+        patientSpeaksEnglish: false,
+        patientFluentLanguage: '',
+        hospitalAdmitted: {
+          patientHospitalAdmitted: 'General Hospital'
+        },
+        dischargeInfo: {
+          patientAdmitDate: '0026-01-02',
+          patientDischargeDate: '0026-01-03',
+          patientDischargedAma: true,
+          patientDischargedTo: 'lbl-1'
+        },
+        patientMedicalConditions: {
+          cardiacBoolean: 1,
+          sepsisBoolean: 0,
+          pulmonaryBoolean: 0,
+          otherBoolean: 1
+        },
+        patientDischargedCondition: 'Stable',
+        patientPrimaryDiagnosis: 'DX',
+        patientIntakeQuestionAnswers: [],
+        patientNeedToKnow: 'notes',
+        patientActive: true
+      }
+    };
+
+    const payload = (comp as any).formSubmissionFactory(formSubmission);
+
+    expect(payload.patientAdmitDate).toBe('2026-01-02T12:00:00.00Z');
+    expect(payload.patientDischargeDate).toBe('2026-01-03T12:00:00.00Z');
   });
 
   it('validates controls and returns flags based on DOM', () => {

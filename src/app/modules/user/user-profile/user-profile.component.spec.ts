@@ -100,6 +100,7 @@ describe('UserProfileComponent (Jest)', () => {
     const payload = comp.userFormSubmissionFactory(comp.userProfileForm.getRawValue());
 
     expect(payload.userFirstName).toBe('Ada');
+    expect(payload.userPhoneNumber).toBe('555-1212');
     expect(payload.userInterests).toContain('celebrity');
   });
 

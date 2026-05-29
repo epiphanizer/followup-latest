@@ -213,7 +213,7 @@ describe('OperationFormComponent logic', () => {
         operationContactEmail: 'a@b.com'
       });
 
-      expect(putPayload.operationContactCountryCode).toBe('');
+      expect(putPayload.operationContactCountryCode).toBe('1');
       expect(putPayload.operationContactAreaCode).toBe('');
       expect(putPayload.operationContactPhoneNumber).toBe('');
     });

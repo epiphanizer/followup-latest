@@ -15,11 +15,19 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
-    version: '3.12.1',
+    version: '4.0.0',
     recordedAt: '2026-05-20',
     label: 'Current alpha candidate',
-    notes: 'Evidence comes from the v3.12.1 frontend and API markdown change logs and is kept in sync with them.',
+    notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Patient/user/operation forms now follow a consistent US country-code and phone-entry baseline, while patient add/edit keeps the RP-only emergency-contact behavior and normalizes malformed short discharge years before save.',
+        evidence:
+          'Recorded in the frontend running change log after patching patient/user-profile/operation-form logic+templates+specs so emergency-contact HIPAA mirrors Responsible Party, US country code defaults to 1 in phone forms, phone inputs normalize undashed values to dashed display/save formats, and discharge date entries with short years like 0026 are corrected to 2026 during blur/submission. Validation included focused Jest across patient-form, user-profile, and operation-form suites (48/48 passing).',
+        source: 'v3.12.0/followup-frontend/agents.md'
+      },
       {
         scope: 'Frontend',
         summary:
@@ -192,6 +200,31 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         evidence:
           'Frontend and API change logs both record request timing, DB profiling, and queue/home performance work during 2026-05-13 and 2026-05-14.',
         source: 'v3.11.0/followup-frontend/agents.md + v3.11.0/followup-api/agents.md'
+      }
+    ]
+  },
+  {
+    version: '3.12.0',
+    recordedAt: '2026-05-20',
+    label: 'Alpha release baseline before 3.12.1 closeout',
+    notes:
+      'This release captured the notification replies runtime rollout and the notification status listing improvements before the coordinated 3.12.1 package stamp.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Frontend 3.12.0 rollout shipped notification reply visibility across detail/history screens and dynamic status/reply indicators in notification listing.',
+        evidence:
+          'Frontend alpha branch received the reply-display and status-badge commits, including the in-table status workflow groundwork and service-health log synchronization for alpha verification.',
+        source: 'v3.12.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'API 3.12.0 rollout mounted notification reply routes in OpenAPI and included smoke-harness coverage for reply write/read lifecycle checks.',
+        evidence:
+          'API alpha branch carried the reply-route registration in swagger plus reply smoke coverage updates recorded in the API running change log.',
+        source: 'v3.12.0/followup-api/agents.md'
       }
     ]
   },
