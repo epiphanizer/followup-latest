@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
-  moduleId: module.id,
   selector: 'jw-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss'],

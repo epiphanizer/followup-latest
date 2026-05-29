@@ -6,7 +6,7 @@ describe('UserAvatarServiceService', () => {
   beforeEach(() => TestBed.configureTestingModule({ providers: [UserAvatarServiceService] }));
 
   it('should be created', () => {
-    const service: UserAvatarServiceService = TestBed.get(UserAvatarServiceService);
+    const service: UserAvatarServiceService = TestBed.inject(UserAvatarServiceService);
     expect(service).toBeTruthy();
   });
 });

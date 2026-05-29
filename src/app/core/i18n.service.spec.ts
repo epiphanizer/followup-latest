@@ -36,8 +36,8 @@ describe('I18nService', () => {
       providers: [I18nService, { provide: TranslateService, useClass: MockTranslateService }]
     });
 
-    i18nService = TestBed.get(I18nService);
-    translateService = TestBed.get(TranslateService);
+    i18nService = TestBed.inject(I18nService);
+    translateService = TestBed.inject(TranslateService);
 
     // Create spies
     onLangChangeSpy = jest.fn();
