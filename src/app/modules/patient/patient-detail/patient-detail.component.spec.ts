@@ -163,10 +163,7 @@ describe('PatientDetailComponent', () => {
   });
 
   it('finalizes final call and navigates', async () => {
-    Object.defineProperty(window, 'location', {
-      value: { href: '' },
-      writable: true
-    });
+    const navigateSpy = jest.spyOn<any, any>(component as any, 'navigateTo').mockImplementation(() => undefined);
     component.patient = { patientOperationId: 'op1' } as any;
     component.user = { userId: 'u1' } as any;
     component.patientCall = { patientCallId: 'pc1', finalCall: true } as any;
@@ -174,6 +171,6 @@ describe('PatientDetailComponent', () => {
     await (component as any).finalizeCallAndNavigate();
 
     expect(userServiceMock.updateOperations).toHaveBeenCalled();
-    expect(window.location.href).toContain('/call-queue/operations/op1');
+    expect(navigateSpy).toHaveBeenCalledWith('/call-queue/operations/op1');
   });
 });

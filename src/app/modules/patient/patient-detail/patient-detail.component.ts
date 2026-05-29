@@ -129,7 +129,7 @@ export class PatientDetailComponent implements OnInit {
               .subscribe(res => {
                 if (res) {
                   this.toastrService.success('Patient unstuck!');
-                  window.location.reload();
+                  this.reloadPage();
                 }
               });
           }
@@ -294,7 +294,7 @@ export class PatientDetailComponent implements OnInit {
        */
       this.userService.updateOperations(this.user).then(res => {
         this.toastrService.success('Successfully Saved');
-        window.location.href = navigateToUrl;
+        this.navigateTo(navigateToUrl);
       });
     } else {
       /**
@@ -309,10 +309,18 @@ export class PatientDetailComponent implements OnInit {
       this.patientCallService.addNewPatientCallByPatientId(this.patient.patientId, isoString).subscribe((data: any) => {
         this.userService.updateOperations(this.user).then(res => {
           this.toastrService.success('Successfully Saved');
-          window.location.href = navigateToUrl;
+          this.navigateTo(navigateToUrl);
         });
       });
     }
+  }
+
+  private navigateTo(url: string): void {
+    window.location.href = url;
+  }
+
+  private reloadPage(): void {
+    window.location.reload();
   }
 
   ngOnDestroy() {}

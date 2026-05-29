@@ -471,13 +471,13 @@ export class PatientFormComponent implements OnInit {
       this.patientService.deletePatientByPatientId(this.patient.patientId).subscribe(() => {
         this.toastrService.success('Patient Successfully Deleted');
         this.userService.updateOperations(this.user).then(res => {
-          window.location.href = '/operations/' + this.patient.patientOperationId + '/patients';
+          this.navigateTo('/operations/' + this.patient.patientOperationId + '/patients');
         });
       });
     }
   }
   cancel(): void {
-    window.location.reload();
+    this.reloadPage();
   }
   onFormSubmit(): void {
     if (!this.validateControls()) {
@@ -601,7 +601,7 @@ export class PatientFormComponent implements OnInit {
       this.toastrService.success('Successfully edited patient!');
 
       this.userService.updateOperations(this.user).then(res => {
-        window.location.href = '/operations/' + this.patientForm.get('patient.operation').value + '/patients';
+        this.navigateTo('/operations/' + this.patientForm.get('patient.operation').value + '/patients');
 
         if (!this.mode.edit) {
           this.patientForm.reset();
@@ -777,6 +777,15 @@ export class PatientFormComponent implements OnInit {
       return true;
     }
   }
+
+  private navigateTo(url: string): void {
+    window.location.href = url;
+  }
+
+  private reloadPage(): void {
+    window.location.reload();
+  }
+
   ngOnDestroy() {
     this.patient = null;
   }

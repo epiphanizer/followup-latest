@@ -30,7 +30,6 @@ export class NotificationDetailComponent implements OnInit {
         operation$: Observable<Operation>;
       }
     | any = {};
-  isReplyModalOpen = false;
   constructor(
     private route: ActivatedRoute,
     private patientService: PatientService,
