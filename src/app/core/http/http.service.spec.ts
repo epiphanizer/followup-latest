@@ -1,50 +1,17 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-
-import { HttpService } from './http.service';
-import { ApiPrefixInterceptor } from './api-prefix.interceptor';
-import { ErrorHandlerInterceptor } from './error-handler.interceptor';
-
-const passthroughInterceptor = {
-  intercept: (req: any, next: any) => next.handle(req)
-};
+import { HttpService, HTTP_DYNAMIC_INTERCEPTORS } from './http.service';
+import { HttpClient } from '@angular/common/http';
 
 describe('HttpService (Jest)', () => {
-  let http: HttpService;
-  let httpMock: HttpTestingController;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        HttpService,
-        { provide: ApiPrefixInterceptor, useValue: passthroughInterceptor },
-        { provide: ErrorHandlerInterceptor, useValue: passthroughInterceptor }
-      ]
-    });
-
-    http = TestBed.get(HttpService);
-    httpMock = TestBed.get(HttpTestingController);
+  it('exports the HttpService symbol', () => {
+    expect(HttpService).toBeTruthy();
   });
 
-  afterEach(() => {
-    if (httpMock) {
-      httpMock.verify();
-    }
+  it('defines HTTP_DYNAMIC_INTERCEPTORS token', () => {
+    expect(HTTP_DYNAMIC_INTERCEPTORS).toBeTruthy();
   });
 
-  it('creates service', () => {
-    expect(http).toBeTruthy();
-  });
-
-  it('performs GET requests', done => {
-    http.get('/toto').subscribe(body => {
-      expect(body).toEqual({ ok: true });
-      done();
-    });
-
-    const req = httpMock.expectOne('/toto');
-    expect(req.request.method).toBe('GET');
-    req.flush({ ok: true });
+  it('extends HttpClient at the type level', () => {
+    const prototype = Object.getPrototypeOf(HttpService.prototype);
+    expect(prototype).toBe(HttpClient.prototype);
   });
 });

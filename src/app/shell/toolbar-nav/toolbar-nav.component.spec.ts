@@ -1,7 +1,7 @@
 jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
 
 import { BehaviorSubject, of } from 'rxjs';
-import { ActivationEnd } from '@angular/router';
+import { NavigationEnd } from '@angular/router';
 import * as FileSaver from 'file-saver';
 import { UserRoles } from '@app/modules/user/user';
 
@@ -29,7 +29,7 @@ describe('ToolbarNavComponent logic', () => {
       ]
     }
   };
-  const routerMock: any = { events: of(new ActivationEnd({} as any, {} as any, 'root')), navigate: jest.fn() };
+  const routerMock: any = { events: of(new NavigationEnd(1, '/home', '/home')), navigate: jest.fn() };
   const dataServiceMock: any = { getData: jest.fn(() => of(new Blob(['x'], { type: 'text/plain' }))) };
   const authUserSubject = new BehaviorSubject<any>({ userId: 'u1', userLevel: UserRoles.admin });
   const authServiceMock: any = {
@@ -50,7 +50,7 @@ describe('ToolbarNavComponent logic', () => {
     );
     component.callQueuePage = true;
     component.createNotification = jest.fn();
-    (FileSaver.saveAs as jest.Mock).mockClear();
+    ((FileSaver.saveAs as unknown) as jest.Mock).mockClear();
     component.ngOnInit();
   });
 

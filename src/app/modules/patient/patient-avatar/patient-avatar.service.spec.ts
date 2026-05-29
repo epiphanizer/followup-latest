@@ -5,7 +5,7 @@ import { PatientAvatarService } from './patient-avatar.service';
 describe('PatientAvatarService (Jest)', () => {
   it('fetches patient avatar', done => {
     const http = { get: jest.fn(() => of('blob' as any)) } as any;
-    const svc = new PatientAvatarService(http as any, {} as any);
+    const svc = new PatientAvatarService(http as any);
 
     svc.getPatientAvatarByPatientId('p1').subscribe((result: any) => {
       expect(result).toBe('blob');
@@ -16,7 +16,7 @@ describe('PatientAvatarService (Jest)', () => {
 
   it('uploads patient avatar', done => {
     const http = { post: jest.fn(() => of({ uploaded: true } as any)) } as any;
-    const svc = new PatientAvatarService(http as any, {} as any);
+    const svc = new PatientAvatarService(http as any);
     const file = new File(['x'], 'avatar.png');
 
     svc.uploadPatientAvatarByPatientId('p2', file).subscribe((result: any) => {
@@ -28,7 +28,7 @@ describe('PatientAvatarService (Jest)', () => {
 
   it('handles errors', done => {
     const http = { get: jest.fn(() => throwError(new HttpErrorResponse({ status: 500, error: 'fail' }))) } as any;
-    const svc = new PatientAvatarService(http as any, {} as any);
+    const svc = new PatientAvatarService(http as any);
 
     svc.getPatientAvatarByPatientId('p3').subscribe({
       next: () => done.fail('expected error'),

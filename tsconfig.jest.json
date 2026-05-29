@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./out-tsc/jest",
     "module": "commonjs",
+    "target": "es2018",
     "types": ["jest", "node"],
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
