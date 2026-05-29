@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FollowupCompleteModalComponent } from './followup-complete-modal.component';
 
@@ -6,11 +6,13 @@ describe('FollowupCompleteModalComponent', () => {
   let component: FollowupCompleteModalComponent;
   let fixture: ComponentFixture<FollowupCompleteModalComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [FollowupCompleteModalComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [FollowupCompleteModalComponent]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FollowupCompleteModalComponent);

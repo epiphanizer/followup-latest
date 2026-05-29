@@ -21,7 +21,6 @@ import { SharedModule } from '@app/shared';
     CallQueuePatientFilterComponent,
     CallQueuePatientListingComponent
   ],
-  entryComponents: [],
   providers: []
 })
 export class CallQueueModule {}

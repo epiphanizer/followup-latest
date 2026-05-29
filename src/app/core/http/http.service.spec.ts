@@ -6,7 +6,7 @@ import { ApiPrefixInterceptor } from './api-prefix.interceptor';
 import { ErrorHandlerInterceptor } from './error-handler.interceptor';
 
 const passthroughInterceptor = {
-  intercept: (req, next) => next.handle(req)
+  intercept: (req: any, next: any) => next.handle(req)
 };
 
 describe('HttpService (Jest)', () => {

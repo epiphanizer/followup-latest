@@ -10,17 +10,17 @@ module.exports = {
     '\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/src/testing/file-mock.ts'
   },
   transform: {
-    '^.+\\.(ts|html)$': 'ts-jest'
+    '^.+\\.(ts|html)$': [
+      'ts-jest',
+      {
+        tsconfig: '<rootDir>/tsconfig.jest.json',
+        stringifyContentPathRegex: '\\.(html|svg)$',
+        diagnostics: false,
+        isolatedModules: true
+      }
+    ]
   },
   transformIgnorePatterns: ['node_modules/(?!.*)'],
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.jest.json',
-      stringifyContentPathRegex: '\\.(html|svg)$',
-      diagnostics: false,
-      isolatedModules: true
-    }
-  },
   testPathIgnorePatterns: ['/node_modules/', '/dist/', '/e2e/'],
   collectCoverageFrom: [
     'src/app/**/*.{ts,js}',

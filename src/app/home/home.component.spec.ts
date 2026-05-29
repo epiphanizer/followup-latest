@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { IonicModule } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -40,69 +40,71 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   };
 
-  beforeEach(async(() => {
-    jest.clearAllMocks();
+  beforeEach(
+    waitForAsync(() => {
+      jest.clearAllMocks();
 
-    teamServiceMock.getTeamMessagesByTeamId.mockReturnValue(of([{ messageBody: '', teamId: 'team1' }] as any));
-    teamServiceMock.getTeamTotals.mockReturnValue(of([{ totalCalls: 40, totalNotifications: 10 }]));
-    userServiceMock.getUserMessages.mockReturnValue(of([{ messageBody: '' }] as any));
-    userServiceMock.getUserCallCount.mockReturnValue(
-      of([
-        {
-          todaysCompletedCalls: 3,
-          todaysScheduledCalls: 6,
-          weeklyCompletedCalls: 8,
-          weeklyScheduledCalls: 10,
-          totalCalls: 20
-        }
-      ] as any)
-    );
-
-    const today = new Date();
-    const daysAgo = (numDays: number) => {
-      const date = new Date(today);
-      date.setDate(today.getDate() - numDays);
-      return date.toISOString();
-    };
-
-    userServiceMock.getUserNotifications.mockReturnValue(
-      of([
-        { notificationCreatedTime: daysAgo(2) },
-        { notificationCreatedTime: daysAgo(5) },
-        { notificationCreatedTime: daysAgo(8) },
-        { notificationCreatedTime: daysAgo(20) }
-      ])
-    );
-
-    TestBed.overrideComponent(HomeComponent, {
-      set: {
-        providers: [
-          { provide: UserService, useValue: userServiceMock },
-          { provide: SharedFunctions, useValue: { returnHTML: (v: any) => v } }
-        ]
-      }
-    });
-
-    TestBed.configureTestingModule({
-      imports: [IonicModule.forRoot(), CoreModule, SharedModule, HttpClientTestingModule],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [HomeComponent],
-      providers: [
-        QuoteService,
-        { provide: ActivatedRoute, useValue: { snapshot: { data: { user: mockUser } } } },
-        { provide: SharedFunctions, useValue: { returnHTML: (v: any) => v } },
-        { provide: TeamService, useValue: teamServiceMock },
-        { provide: UserService, useValue: userServiceMock },
-        {
-          provide: AuthenticationService,
-          useValue: {
-            currentUserValue: mockUser,
-            currentUser: mockUserSubject.asObservable()
+      teamServiceMock.getTeamMessagesByTeamId.mockReturnValue(of([{ messageBody: '', teamId: 'team1' }] as any));
+      teamServiceMock.getTeamTotals.mockReturnValue(of([{ totalCalls: 40, totalNotifications: 10 }]));
+      userServiceMock.getUserMessages.mockReturnValue(of([{ messageBody: '' }] as any));
+      userServiceMock.getUserCallCount.mockReturnValue(
+        of([
+          {
+            todaysCompletedCalls: 3,
+            todaysScheduledCalls: 6,
+            weeklyCompletedCalls: 8,
+            weeklyScheduledCalls: 10,
+            totalCalls: 20
           }
+        ] as any)
+      );
+
+      const today = new Date();
+      const daysAgo = (numDays: number) => {
+        const date = new Date(today);
+        date.setDate(today.getDate() - numDays);
+        return date.toISOString();
+      };
+
+      userServiceMock.getUserNotifications.mockReturnValue(
+        of([
+          { notificationCreatedTime: daysAgo(2) },
+          { notificationCreatedTime: daysAgo(5) },
+          { notificationCreatedTime: daysAgo(8) },
+          { notificationCreatedTime: daysAgo(20) }
+        ])
+      );
+
+      TestBed.overrideComponent(HomeComponent, {
+        set: {
+          providers: [
+            { provide: UserService, useValue: userServiceMock },
+            { provide: SharedFunctions, useValue: { returnHTML: (v: any) => v } }
+          ]
         }
-      ]
-    }).compileComponents();
-  }));
+      });
+
+      TestBed.configureTestingModule({
+        imports: [IonicModule.forRoot(), CoreModule, SharedModule, HttpClientTestingModule],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        declarations: [HomeComponent],
+        providers: [
+          QuoteService,
+          { provide: ActivatedRoute, useValue: { snapshot: { data: { user: mockUser } } } },
+          { provide: SharedFunctions, useValue: { returnHTML: (v: any) => v } },
+          { provide: TeamService, useValue: teamServiceMock },
+          { provide: UserService, useValue: userServiceMock },
+          {
+            provide: AuthenticationService,
+            useValue: {
+              currentUserValue: mockUser,
+              currentUser: mockUserSubject.asObservable()
+            }
+          }
+        ]
+      }).compileComponents();
+    })
+  );
 
   it('should create', () => {
     createComponent();

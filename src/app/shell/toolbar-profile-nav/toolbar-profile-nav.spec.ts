@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -10,16 +10,18 @@ describe('ToolbarLogoComponent', () => {
   let component: ToolbarProfileNavComponent;
   let fixture: ComponentFixture<ToolbarProfileNavComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [ToolbarProfileNavComponent],
-      providers: [
-        { provide: AuthenticationService, useValue: { signOut: jest.fn() } },
-        { provide: UserAvatarService, useValue: { getUserAvatarByUserId: jest.fn(() => of(null)) } }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [ToolbarProfileNavComponent],
+        providers: [
+          { provide: AuthenticationService, useValue: { signOut: jest.fn() } },
+          { provide: UserAvatarService, useValue: { getUserAvatarByUserId: jest.fn(() => of(null)) } }
+        ]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ToolbarProfileNavComponent);

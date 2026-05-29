@@ -10,7 +10,6 @@ import { HomeComponent } from './home.component';
 
 @NgModule({
   imports: [CommonModule, TranslateModule, CoreModule, SharedModule, IonicModule, HomeRoutingModule],
-  entryComponents: [HomeComponent],
   declarations: [HomeComponent],
   providers: []
 })

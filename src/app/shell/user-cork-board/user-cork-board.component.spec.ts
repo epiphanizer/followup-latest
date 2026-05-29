@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -10,25 +10,27 @@ describe('UserCorkBoardComponent', () => {
   let component: UserCorkBoardComponent;
   let fixture: ComponentFixture<UserCorkBoardComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule],
-      declarations: [UserCorkBoardComponent],
-      providers: [
-        { provide: ActivatedRoute, useValue: { snapshot: { data: { user: { userId: 'u1' } } } } },
-        {
-          provide: UserCorkBoardService,
-          useValue: {
-            menuStateBSubject: new BehaviorSubject(false),
-            refreshUserCorkBoardBSubject: new BehaviorSubject(false),
-            isOpen: false,
-            refresh: false,
-            getUserCorkBoardObjectsByUserId: jest.fn(() => of([]))
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [NoopAnimationsModule],
+        declarations: [UserCorkBoardComponent],
+        providers: [
+          { provide: ActivatedRoute, useValue: { snapshot: { data: { user: { userId: 'u1' } } } } },
+          {
+            provide: UserCorkBoardService,
+            useValue: {
+              menuStateBSubject: new BehaviorSubject(false),
+              refreshUserCorkBoardBSubject: new BehaviorSubject(false),
+              isOpen: false,
+              refresh: false,
+              getUserCorkBoardObjectsByUserId: jest.fn(() => of([]))
+            }
           }
-        }
-      ]
-    }).compileComponents();
-  }));
+        ]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserCorkBoardComponent);

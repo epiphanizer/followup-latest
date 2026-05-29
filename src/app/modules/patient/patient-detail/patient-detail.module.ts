@@ -40,12 +40,6 @@ import { ReviewPatientNextCallQuestionsComponent } from './patient-call/review-p
     ReviewPatientNextCallQuestionsComponent,
     PatientNextCallFinishButtonComponent
   ],
-  imports: [CommonModule, PatientModule, RouterModule, IonicModule, FormsModule, ReactiveFormsModule, SharedModule],
-  entryComponents: [
-    PatientAvatarComponent,
-    PatientDetailComponent,
-    FollowupCompleteModalComponent,
-    FollowupCompleteButtonComponent
-  ]
+  imports: [CommonModule, PatientModule, RouterModule, IonicModule, FormsModule, ReactiveFormsModule, SharedModule]
 })
 export class PatientDetailModule {}

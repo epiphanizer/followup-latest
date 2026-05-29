@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { PatientCallStatusControlsComponent } from './patient-call-status-controls.component';
@@ -8,19 +8,21 @@ describe('PatientCallStatusControlsComponent', () => {
   let component: PatientCallStatusControlsComponent;
   let fixture: ComponentFixture<PatientCallStatusControlsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [PatientCallStatusControlsComponent],
-      providers: [
-        {
-          provide: PatientCallStatusService,
-          useValue: {
-            getPatientCallStatuses: jest.fn(() => of([]))
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PatientCallStatusControlsComponent],
+        providers: [
+          {
+            provide: PatientCallStatusService,
+            useValue: {
+              getPatientCallStatuses: jest.fn(() => of([]))
+            }
           }
-        }
-      ]
-    }).compileComponents();
-  }));
+        ]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PatientCallStatusControlsComponent);

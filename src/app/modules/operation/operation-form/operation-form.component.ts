@@ -195,7 +195,7 @@ export class OperationFormComponent implements OnInit {
                   .pipe(
                     take(1),
                     map((notificationTypes: NotificationType[]) => {
-                      let notificationsFormControlArray = this.fb.array([]);
+                      let notificationsFormControlArray = this.fb.array<FormGroup>([]);
                       if (notificationTypes !== null) {
                         // Get the notification types assigned to ops. contact
                         notificationTypes.forEach((notificationType: NotificationType) => {
@@ -303,7 +303,7 @@ export class OperationFormComponent implements OnInit {
     );
     formArray.push(contactFormGroup);
 
-    let notificationsFormControlArray = this.fb.array([]);
+    let notificationsFormControlArray = this.fb.array<FormGroup>([]);
     let i;
     for (i = 0; i < this.notificationTypes.length; i++) {
       let newFormGroup = this.fb.group({});

@@ -104,21 +104,18 @@ describe('UserListingComponent (Jest)', () => {
 
   it('collapses, expands, and jumps duplicate groups', () => {
     const group = component.duplicateGroups[0];
-    const scrollSpy = jest.fn();
-    const getElementByIdSpy = jest.spyOn((component as any).document, 'getElementById').mockReturnValue({
-      scrollIntoView: scrollSpy
-    } as any);
+    const jumpSpy = jest.spyOn(component as any, 'jumpTo').mockResolvedValue(undefined);
 
     component.collapseAllGroups();
     expect(group.collapsed).toBe(true);
 
     component.jumpToGroup(group as any);
     expect(group.collapsed).toBe(false);
-    expect(scrollSpy).toHaveBeenCalled();
+    expect(jumpSpy).toHaveBeenCalled();
 
     component.toggleGroup(group as any);
     expect(group.collapsed).toBe(true);
 
-    getElementByIdSpy.mockRestore();
+    jumpSpy.mockRestore();
   });
 });

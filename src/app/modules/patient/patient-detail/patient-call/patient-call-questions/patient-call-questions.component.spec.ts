@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 
@@ -21,13 +21,15 @@ describe('PatientCallQuestionsComponent', () => {
     getPatientCallQuestionAnswersByPatientCallQuestionId: jest.fn(() => of([{ patientCallQuestionAnswer: '4' }]))
   } as any;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [PatientCallQuestionsComponent],
-      providers: [{ provide: PatientCallQuestionsService, useValue: serviceStub }]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule],
+        declarations: [PatientCallQuestionsComponent],
+        providers: [{ provide: PatientCallQuestionsService, useValue: serviceStub }]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PatientCallQuestionsComponent);

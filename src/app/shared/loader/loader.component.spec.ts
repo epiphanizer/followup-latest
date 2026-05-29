@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -18,14 +18,16 @@ describe('LoaderComponent', () => {
     hide: jest.fn(() => isLoadingSubject.next(false))
   } as LoaderService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [IonicModule.forRoot()],
-      declarations: [LoaderComponent],
-      providers: [{ provide: LoaderService, useValue: loaderStub }]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [IonicModule.forRoot()],
+        declarations: [LoaderComponent],
+        providers: [{ provide: LoaderService, useValue: loaderStub }]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoaderComponent);

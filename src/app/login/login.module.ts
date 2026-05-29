@@ -18,7 +18,6 @@ import { LoginComponent } from './login.component';
     LoginRoutingModule,
     ToolbarLogoModule
   ],
-  entryComponents: [LoginComponent],
   declarations: [LoginComponent]
 })
 export class LoginModule {}

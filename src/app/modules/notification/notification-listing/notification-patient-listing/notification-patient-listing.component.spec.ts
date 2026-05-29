@@ -127,7 +127,7 @@ describe('NotificationPatientListingComponent (Jest)', () => {
     component.selectedSortOption = 'Care Rep';
     component.selectedSortFlag = 'asc';
     component.runSortSwitch();
-    expect(component.notificationsFiltered?.[0].notificationCareRepName).toBe('B');
+    expect((component.notificationsFiltered?.[0] as any).notificationCareRepName).toBe('B');
   });
 
   it('returns false when runSortSwitch has no data and applies status sort', () => {

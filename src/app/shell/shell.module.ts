@@ -24,7 +24,6 @@ import { NotificationModalComponent } from './notification-modal/notification-mo
     ToolbarProfileNavModule,
     UserCorkBoardModule
   ],
-  entryComponents: [ShellComponent, NotificationModalComponent],
   declarations: [ShellComponent, ToolbarNavComponent]
 })
 export class ShellModule {}

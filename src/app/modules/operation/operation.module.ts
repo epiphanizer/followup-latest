@@ -11,17 +11,16 @@ import { OperationAdminRightSidebarComponent } from './operation-admin-right-sid
 import { OperationListingComponent } from './operation-listing/operation-listing.component';
 import { OperationOperationListingComponent } from './operation-listing/operation-operation-listing/operation-operation-listing.component';
 import { OperationGroupFormComponent } from './operation-group-form/operation-group-form.component';
-import { NgxMaskModule } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { SharedModule } from '@app/shared';
-import { ListingFilterComponent } from '@app/shared/listing-filter/listing-filter.component';
-import { ListingSearchComponent } from '@app/shared/listing-search/listing-search.component';
 
 @NgModule({
   imports: [
     CommonModule,
     IonicModule,
     FormsModule,
-    NgxMaskModule.forRoot(),
+    NgxMaskDirective,
+    NgxMaskPipe,
     OperationRoutingModule,
     ReactiveFormsModule,
     SharedModule
@@ -34,7 +33,6 @@ import { ListingSearchComponent } from '@app/shared/listing-search/listing-searc
     OperationListingComponent,
     OperationOperationListingComponent,
     OperationGroupFormComponent
-  ],
-  entryComponents: [OperationOperationListingComponent, ListingFilterComponent, ListingSearchComponent]
+  ]
 })
 export class OperationModule {}

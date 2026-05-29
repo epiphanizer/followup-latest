@@ -23,7 +23,6 @@ import { UserModule } from '../user/user.module';
     TeamRoutingModule,
     UserModule
   ],
-  entryComponents: [TeamListingSidebar],
   exports: [TeamListingComponent, TeamMembersListingComponent, TeamListingSidebar],
   providers: []
 })

@@ -40,14 +40,6 @@ import { nl2brPipe } from '@app/shared/pipes/nl2br.pipe';
     PatientNotesModule,
     SharedModule
   ],
-  entryComponents: [
-    PatientManagerSidebarComponent,
-    PatientPatientListingComponent,
-    PatientListingComponent,
-    PatientAvatarComponent,
-    FollowupCompleteModalComponent,
-    FollowupCompleteButtonComponent
-  ],
   exports: [PatientAvatarComponent],
   providers: [PatientService]
 })

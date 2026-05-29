@@ -24,7 +24,7 @@ import { UserModule } from '@app/modules/user/user.module';
 import { UserProfileModule } from '@app/modules/user/user-profile/user-profile.module';
 
 import { ToastrModule } from 'ngx-toastr';
-import { NgxMaskModule } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { AppRoutingModule } from './app-routing.module';
 import { JwtHelperService, JwtModule, JwtInterceptor } from '@auth0/angular-jwt';
 import { AuthGuardService } from './core/authentication/auth-guard.service';
@@ -60,7 +60,8 @@ export function tokenGetter() {
         allowedDomains: ['localhost:8080', 'followupcare-api.azurewebsites.net', 'alpha-followup-api.azurewebsites.net']
       }
     }),
-    NgxMaskModule.forRoot(),
+    NgxMaskDirective,
+    NgxMaskPipe,
     SharedModule,
     ShellModule,
     ReactiveFormsModule,
@@ -101,7 +102,8 @@ export function tokenGetter() {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptor,
       multi: true
-    }
+    },
+    ...provideNgxMask()
   ],
   bootstrap: [AppComponent]
 })

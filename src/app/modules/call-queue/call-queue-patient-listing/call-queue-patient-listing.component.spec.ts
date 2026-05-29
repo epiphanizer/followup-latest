@@ -8,18 +8,13 @@ const makePatientService = (
   getActivePatientListByOperationId: jest.fn(() => of(patients as any))
 });
 
-const makeStatusService = () => ({
-  getPatientCallStatuses: jest.fn(() => of([]))
-});
-
 describe('CallQueuePatientListingComponent (Jest)', () => {
   it('loads spanish patients and sorts by call date ascending', async () => {
     const patientService = makePatientService([
       { patientNextCallScheduledTime: '2020-01-03' } as any,
       { patientNextCallScheduledTime: '2020-01-01' } as any
     ]);
-    const statusService = makeStatusService();
-    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    const comp = new CallQueuePatientListingComponent(patientService as any);
     comp.mode = { spanish: true };
 
     comp.ngOnInit();
@@ -37,8 +32,7 @@ describe('CallQueuePatientListingComponent (Jest)', () => {
       { patientDischargeDate: '2020-01-01' } as any,
       { patientDischargeDate: '2020-02-01' } as any
     ]);
-    const statusService = makeStatusService();
-    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    const comp = new CallQueuePatientListingComponent(patientService as any);
     comp.mode = { spanish: false };
     comp.operation = { operationId: 'op-1' } as any;
     comp.selectedSortOption = 'Discharge Date';
@@ -56,8 +50,7 @@ describe('CallQueuePatientListingComponent (Jest)', () => {
 
   it('checks date relative to today', () => {
     const patientService = makePatientService();
-    const statusService = makeStatusService();
-    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    const comp = new CallQueuePatientListingComponent(patientService as any);
     comp.todaysDate = new Date('2020-01-02');
 
     expect(comp.checkDateGreaterThanEqualToToday('2020-01-02')).toBe(true);
@@ -67,8 +60,7 @@ describe('CallQueuePatientListingComponent (Jest)', () => {
   it('reloads patients when operation changes', async () => {
     const patients = [{ patientNextCallScheduledTime: '2020-01-10' }] as any;
     const patientService = makePatientService(patients);
-    const statusService = makeStatusService();
-    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    const comp = new CallQueuePatientListingComponent(patientService as any);
     comp.operation = { operationId: 'old' } as any;
     comp.runSortSwitch = jest.fn();
 
@@ -90,8 +82,7 @@ describe('CallQueuePatientListingComponent (Jest)', () => {
 
   it('toggles sort flag and reruns sorting', () => {
     const patientService = makePatientService();
-    const statusService = makeStatusService();
-    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    const comp = new CallQueuePatientListingComponent(patientService as any);
     comp.runSortSwitch = jest.fn();
 
     comp.toggleAscDesc('desc');
@@ -102,8 +93,7 @@ describe('CallQueuePatientListingComponent (Jest)', () => {
 
   it('changes sort option and reruns sorting', () => {
     const patientService = makePatientService();
-    const statusService = makeStatusService();
-    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    const comp = new CallQueuePatientListingComponent(patientService as any);
     comp.runSortSwitch = jest.fn();
 
     comp.sortOptionSelected('Discharge Date');
@@ -114,8 +104,7 @@ describe('CallQueuePatientListingComponent (Jest)', () => {
 
   it('sorts patients by call date', () => {
     const patientService = makePatientService();
-    const statusService = makeStatusService();
-    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    const comp = new CallQueuePatientListingComponent(patientService as any);
     comp.patients = [
       { patientNextCallScheduledTime: '2020-02-01' },
       { patientNextCallScheduledTime: '2020-01-01' }
@@ -132,8 +121,7 @@ describe('CallQueuePatientListingComponent (Jest)', () => {
 
   it('sorts patients by discharge date', () => {
     const patientService = makePatientService();
-    const statusService = makeStatusService();
-    const comp = new CallQueuePatientListingComponent(patientService as any, statusService as any);
+    const comp = new CallQueuePatientListingComponent(patientService as any);
     comp.patients = [
       { patientDischargeDate: '2020-01-01' },
       { patientDischargeDate: '2020-03-01' },
