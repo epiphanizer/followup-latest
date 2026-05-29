@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { SharedFunctions } from '@app/shared/shared.functions';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '@app/core/services/auth/auth.service';
+import { AuthenticationService } from '@app/core/authentication/auth.service';
 @Component({
   providers: [SharedFunctions, NotificationService, ToastrService],
   selector: 'app-notification-detail',
@@ -22,6 +22,7 @@ export class NotificationDetailComponent implements OnInit {
   patient: Patient;
   notificationReplies: NotificationReply[] = [];
   replyForm: FormGroup;
+  isReplyModalOpen: boolean = false;
   public selected:
     | {
         operation: Operation;
@@ -35,7 +36,7 @@ export class NotificationDetailComponent implements OnInit {
     private sharedFunctions: SharedFunctions,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private authService: AuthService
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit() {
@@ -74,7 +75,7 @@ export class NotificationDetailComponent implements OnInit {
       return;
     }
 
-    const currentUser = this.authService.getCurrentUser();
+    const currentUser = this.authService.currentUserValue;
     const replyBody = {
       userId: currentUser.userId,
       replyText: this.replyForm.get('replyText').value

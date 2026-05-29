@@ -90,7 +90,7 @@ export class PatientHistoryListingComponent implements OnInit {
         this.notificationService
           .getNotificationRepliesByNotificationId(patientNotification.notificationId)
           .subscribe((replies: NotificationReply[]) => {
-            patientNotification['notificationReplies'] = replies;
+            (patientNotification as any)['notificationReplies'] = replies;
           });
         this.patientActivity.push(patientNotification);
       });

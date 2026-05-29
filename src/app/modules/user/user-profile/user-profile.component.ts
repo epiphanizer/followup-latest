@@ -156,7 +156,10 @@ export class UserProfileComponent implements OnInit {
       ],
       userPhoneCountryCode: [this.user.userCountryCode || '1', [Validators.pattern(this.numericRegEx)]],
       userPhoneAreaCode: [this.user.userAreaCode || '', [Validators.pattern(this.numericRegEx)]],
-      userPhoneNumber: [this.formatPhoneInputValue(this.user.userPhoneNumber), [Validators.pattern(this.phoneRegEx)]],
+      userPhoneNumber: [
+        this.formatPhoneInputValue(String(this.user.userPhoneNumber || '')),
+        [Validators.pattern(this.phoneRegEx)]
+      ],
       userDob: this.fb.control(this.normalizeUserDob(this.user.userDob), [Validators.required]),
       userFavoriteDessert: this.fb.control(this.user.userFavoriteDessert),
       userSpeaksSpanish: this.fb.control(this.user.userSpeaksSpanish == true ? '1' : '0'),
@@ -232,7 +235,8 @@ export class UserProfileComponent implements OnInit {
     this.user.userLastName = formSubmission.userLastName;
     this.user.userCountryCode = formSubmission.userPhoneCountryCode;
     this.user.userAreaCode = formSubmission.userPhoneAreaCode;
-    this.user.userPhoneNumber = this.formatPhoneInputValue(formSubmission.userPhoneNumber);
+    this.user.userPhoneNumber =
+      parseInt(this.formatPhoneInputValue(formSubmission.userPhoneNumber).replace(/\D/g, ''), 10) || undefined;
     this.user.userDob = formSubmission.userDob;
     this.user.userSpeaksSpanish = formSubmission.userSpeaksSpanish;
     this.user.userFavoriteDessert = formSubmission.userFavoriteDessert;
