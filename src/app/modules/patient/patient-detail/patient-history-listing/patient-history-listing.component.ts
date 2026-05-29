@@ -87,14 +87,11 @@ export class PatientHistoryListingComponent implements OnInit {
         patientNotification.notificationMessage = this.sharedFunctions.returnHTML(
           patientNotification.notificationMessage
         );
-        // Fetch replies for this notification
-        this.notificationService
-          .getNotificationRepliesByNotificationId(patientNotification.notificationId)
-          .subscribe((replies: NotificationReply[]) => {
-            (patientNotification as any)['notificationReplies'] = replies;
-          });
+        patientNotification.notificationReplies = [];
         this.patientActivity.push(patientNotification);
       });
+
+      this.hydrateNotificationReplies();
     }
 
     this.patientActivity = this.patientActivity.sort(function(a: any, b: any) {
@@ -107,5 +104,35 @@ export class PatientHistoryListingComponent implements OnInit {
       }
       return new Date(createdCompareDate).getTime() - new Date(createdDate).getTime();
     });
+  }
+
+  private hydrateNotificationReplies() {
+    if (!this.patient?.patientId || !this.patientNotifications?.length) {
+      return;
+    }
+
+    this.notificationService.getNotificationRepliesByPatientId(this.patient.patientId).subscribe(
+      (replies: NotificationReply[]) => {
+        const repliesByNotificationId = (replies || []).reduce((acc, reply) => {
+          const notificationId = reply.notificationId;
+          if (!notificationId) {
+            return acc;
+          }
+
+          if (!acc[notificationId]) {
+            acc[notificationId] = [];
+          }
+          acc[notificationId].push(reply);
+          return acc;
+        }, {} as Record<string, NotificationReply[]>);
+
+        this.patientNotifications.forEach(notification => {
+          notification.notificationReplies = repliesByNotificationId[notification.notificationId] || [];
+        });
+      },
+      error => {
+        console.error('Error loading patient notification replies', error);
+      }
+    );
   }
 }
