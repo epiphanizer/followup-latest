@@ -3,7 +3,7 @@
   "version": "4.0.0",
   "private": true,
   "engines": {
-    "node": ">=18 <25",
+    "node": "^18 || ^20 || ^24",
     "npm": ">=9 <12"
   },
   "main": "./main.js",

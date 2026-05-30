@@ -578,7 +578,9 @@ describe('PatientFormComponent (Jest)', () => {
         operation: new FormBuilder().control('op-1')
       })
     });
-    const navigateSpy = jest.spyOn<any, any>(comp as any, 'navigateTo').mockImplementation(() => undefined);
+    const originalLocation = window.location;
+    const mockLocation = { ...originalLocation, href: '', reload: jest.fn() } as any;
+    Object.defineProperty(window, 'location', { configurable: true, value: mockLocation });
 
     const formSubmission: any = {
       patient: {
@@ -629,7 +631,9 @@ describe('PatientFormComponent (Jest)', () => {
       })
     );
     expect(services.userService.updateOperations).toHaveBeenCalledWith(comp.user);
-    expect(navigateSpy).toHaveBeenCalledWith('/operations/op-1/patients');
+    expect((window.location as any).href).toContain('/operations/op-1/patients');
+
+    Object.defineProperty(window, 'location', { configurable: true, value: originalLocation });
   });
 
   it('sends cleared language payload to the API call in create save path', async () => {
@@ -652,7 +656,9 @@ describe('PatientFormComponent (Jest)', () => {
         operation: new FormBuilder().control('op-1')
       })
     });
-    const navigateSpy = jest.spyOn<any, any>(comp as any, 'navigateTo').mockImplementation(() => undefined);
+    const originalLocation = window.location;
+    const mockLocation = { ...originalLocation, href: '', reload: jest.fn() } as any;
+    Object.defineProperty(window, 'location', { configurable: true, value: mockLocation });
 
     const formSubmission: any = {
       patient: {
@@ -706,7 +712,7 @@ describe('PatientFormComponent (Jest)', () => {
     );
     expect(services.userService.updateOperations).toHaveBeenCalledWith(comp.user);
 
-    expect(navigateSpy).toHaveBeenCalledWith('/operations/op-1/patients');
+    Object.defineProperty(window, 'location', { configurable: true, value: originalLocation });
   });
 
   it('normalizes short discharge year values before building payload', () => {
@@ -802,11 +808,17 @@ describe('PatientFormComponent (Jest)', () => {
       services.toastrService,
       services.userService
     );
-    const reloadSpy = jest.spyOn<any, any>(comp as any, 'reloadPage').mockImplementation(() => undefined);
+    const originalLocation = window.location;
+    const reloadMock = jest.fn();
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { ...originalLocation, reload: reloadMock }
+    });
 
     comp.cancel();
 
-    expect(reloadSpy).toHaveBeenCalled();
+    expect(reloadMock).toHaveBeenCalled();
+    Object.defineProperty(window, 'location', { configurable: true, value: originalLocation });
   });
 
   it('aborts submit when validation fails', () => {
@@ -866,14 +878,18 @@ describe('PatientFormComponent (Jest)', () => {
     comp.patient = { patientId: 'p-1', patientOperationId: 'op-1' } as any;
     comp.user = { id: 'u-1' } as any;
     const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
-    const navigateSpy = jest.spyOn<any, any>(comp as any, 'navigateTo').mockImplementation(() => undefined);
+    const originalLocation = window.location;
+    const mockLocation = { ...originalLocation, href: '', reload: jest.fn() } as any;
+    Object.defineProperty(window, 'location', { configurable: true, value: mockLocation });
 
     comp.deletePatient(1);
     await Promise.resolve();
 
     expect(services.patientService.deletePatientByPatientId).toHaveBeenCalledWith('p-1');
     expect(services.userService.updateOperations).toHaveBeenCalledWith(comp.user);
-    expect(navigateSpy).toHaveBeenCalledWith('/operations/op-1/patients');
+    expect((window.location as any).href).toContain('/operations/op-1/patients');
+
+    Object.defineProperty(window, 'location', { configurable: true, value: originalLocation });
     confirmSpy.mockRestore();
   });
 
