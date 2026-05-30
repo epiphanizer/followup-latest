@@ -108,6 +108,23 @@ describe('PatientService (Jest)', () => {
     req.flush(resp);
   });
 
+  it('reuses cached active patient list requests for the same operation', () => {
+    const resp = [{ id: 'p-cache' } as any];
+    const results: any[] = [];
+
+    service.getActivePatientListByOperationId('op-cache').subscribe(result => results.push(result));
+    service.getActivePatientListByOperationId('op-cache').subscribe(result => results.push(result));
+
+    const req = httpMock.expectOne('operations/op-cache/patients');
+    expect(req.request.method).toBe('GET');
+    req.flush(resp);
+
+    service.getActivePatientListByOperationId('op-cache').subscribe(result => results.push(result));
+
+    httpMock.expectNone('operations/op-cache/patients');
+    expect(results).toEqual([resp, resp, resp]);
+  });
+
   it('gets patient by id', () => {
     const resp = [{ patientId: 'p6' } as any];
 

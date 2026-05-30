@@ -6,7 +6,6 @@ import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 @Component({
-  providers: [PatientService],
   selector: 'app-call-queue-patient-listing[operation]',
   templateUrl: './call-queue-patient-listing.component.html',
   styleUrls: ['./call-queue-patient-listing.component.scss'],

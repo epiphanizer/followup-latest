@@ -34,7 +34,7 @@
             >
             </app-calendar>
             <app-call-queue-patient-filter
-              *ngIf="selected.operation || mode.spanish"
+              *ngIf="(selected.operation || mode.spanish) && selected.filterDate"
               [filterDate]="selected.filterDate"
               [operation]="selected.operation"
               [mode]="mode"

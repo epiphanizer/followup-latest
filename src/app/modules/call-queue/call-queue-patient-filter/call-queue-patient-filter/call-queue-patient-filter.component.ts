@@ -1,65 +1,39 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
-import { Observable } from 'rxjs';
-import { UserService } from '@app/modules/user/user.service';
-import { User } from '@app/modules/user/user';
-import { AuthenticationService } from '@app/core';
-import { Patient } from '@app/modules/patient/patient';
-import { PatientService } from '@app/modules/patient/patient.service';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
 import { PatientCall, PatientCallService } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  providers: [AuthenticationService, DatePipe, PatientService, UserService],
+  providers: [DatePipe],
   selector: 'app-call-queue-patient-filter[operation]',
   templateUrl: './call-queue-patient-filter.component.html',
   styleUrls: ['./call-queue-patient-filter.component.scss'],
   standalone: false
 })
-export class CallQueuePatientFilterComponent implements OnInit {
+export class CallQueuePatientFilterComponent implements OnInit, OnChanges {
   @Input() operation: Operation;
   @Input() mode: any;
   @Input() filterDate: string;
   @Input() patientCalls: PatientCall[];
   patientCallsFiltered: PatientCall[] = [];
-  user: User;
-  patients: Array<Patient> = [];
-  patients$: Observable<Patient[]>;
-  todaysDate: string;
 
   constructor(private patientCallService: PatientCallService, private datePipe: DatePipe) {}
-  ngOnInit() {
-    if (this.mode.spanish) {
-      this.patientCallService.getSpanishSpeakingPatientCalls().subscribe((patientCalls: PatientCall[]) => {
-        if (!patientCalls) {
-          this.patientCalls = [];
-        }
-        this.patientCalls = patientCalls;
-        this.searchPatientCallHistoryBySelectedDate(this.filterDate);
-      });
-    } else {
-      if (this.operation) {
-        this.patientCallService
-          .getPatientCallsByOperationId(this.operation.operationId)
-          .subscribe((patientCalls: PatientCall[]) => {
-            if (!patientCalls) {
-              this.patientCalls = [];
-            }
-            this.patientCalls = patientCalls;
-            this.searchPatientCallHistoryBySelectedDate(this.filterDate);
-          });
-      } else {
-        // spanish speaking won't have a specific operation tied to it
-        this.patientCallService.getSpanishSpeakingPatientCalls().subscribe((patientCalls: PatientCall[]) => {
-          if (!patientCalls) {
-            this.patientCalls = [];
-          }
-          this.patientCalls = patientCalls;
-          this.searchPatientCallHistoryBySelectedDate(this.filterDate);
-        });
-      }
-    }
+
+  private loadPatientCalls(): void {
+    const patientCalls$ = this.mode?.spanish || !this.operation
+      ? this.patientCallService.getSpanishSpeakingPatientCalls()
+      : this.patientCallService.getPatientCallsByOperationId(this.operation.operationId);
+
+    patientCalls$.subscribe((patientCalls: PatientCall[]) => {
+      this.patientCalls = patientCalls || [];
+      this.searchPatientCallHistoryBySelectedDate(this.filterDate);
+    });
   }
+
+  ngOnInit() {
+    this.loadPatientCalls();
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (this.patientCalls) {
       if (changes.filterDate) {
@@ -67,18 +41,16 @@ export class CallQueuePatientFilterComponent implements OnInit {
         this.searchPatientCallHistoryBySelectedDate(this.filterDate);
       }
     }
-    if (this.operation) {
-      if (changes.operation) {
-        this.patientCallService
-          .getPatientCallsByOperationId(this.operation.operationId)
-          .subscribe((patientCalls: PatientCall[]) => {
-            if (!patientCalls) {
-              this.patientCalls = [];
-            }
-            this.patientCalls = patientCalls;
-            this.searchPatientCallHistoryBySelectedDate(this.filterDate);
-          });
-      }
+
+    if (changes.operation && !changes.operation.firstChange) {
+      this.operation = changes.operation.currentValue;
+      this.loadPatientCalls();
+      return;
+    }
+
+    if (changes.mode && !changes.mode.firstChange) {
+      this.mode = changes.mode.currentValue;
+      this.loadPatientCalls();
     }
   }
 

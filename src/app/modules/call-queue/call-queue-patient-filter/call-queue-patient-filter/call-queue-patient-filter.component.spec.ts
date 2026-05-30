@@ -119,4 +119,27 @@ describe('CallQueuePatientFilterComponent (Jest)', () => {
     expect(comp.patientCallsFiltered.length).toBe(1);
     expect(comp.patientCallsFiltered[0]).toEqual(calls[0]);
   });
+
+  it('does not double-load operation calls across first change and init', async () => {
+    const calls = [{ patientCallScheduledTime: '2020-06-01T12:00:00' }] as any;
+    const svc = makePatientCallService(calls);
+    const comp = new CallQueuePatientFilterComponent(svc as any, new DatePipe('en-US'));
+    comp.mode = { spanish: false };
+    comp.operation = { operationId: 'op-init' } as any;
+    comp.filterDate = '2020-06-01T12:00:00';
+
+    comp.ngOnChanges({
+      operation: {
+        currentValue: { operationId: 'op-init' },
+        previousValue: undefined,
+        firstChange: true,
+        isFirstChange: () => true
+      } as any
+    });
+    comp.ngOnInit();
+    await Promise.resolve();
+
+    expect(svc.getPatientCallsByOperationId).toHaveBeenCalledTimes(1);
+    expect(svc.getPatientCallsByOperationId).toHaveBeenCalledWith('op-init');
+  });
 });

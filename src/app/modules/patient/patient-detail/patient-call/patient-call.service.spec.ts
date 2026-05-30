@@ -57,4 +57,24 @@ describe('PatientCallService (Jest)', () => {
       }
     });
   });
+
+  it('reuses cached operation call lookups until a call mutation clears the cache', () => {
+    const http = {
+      get: jest.fn(() => of([{ patientCallId: 'pc-1' }])),
+      post: jest.fn(() => of({}))
+    } as any;
+    const service = new PatientCallService(http);
+
+    service.getPatientCallsByOperationId('op-1').subscribe();
+    service.getPatientCallsByOperationId('op-1').subscribe();
+
+    expect(http.get).toHaveBeenCalledTimes(1);
+    expect(http.get).toHaveBeenCalledWith('operations/op-1/calls');
+
+    service.endPatientCall('pc-1').subscribe();
+    service.getPatientCallsByOperationId('op-1').subscribe();
+
+    expect(http.post).toHaveBeenCalledWith('patients/calls/pc-1/end', {});
+    expect(http.get).toHaveBeenCalledTimes(2);
+  });
 });

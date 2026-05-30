@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
-import { catchError } from 'rxjs/operators';
+import { catchError, shareReplay, tap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { PatientCallQuestion } from './patient-call-questions/patient-call-questions.service';
+
+interface CachedPatientCallRequest<T> {
+  expiresAt: number;
+  request$: Observable<T>;
+}
 
 export interface PatientCall {
   patientCallId: string;
@@ -41,6 +46,9 @@ export interface PatientCallStatusLabel {
   providedIn: 'root'
 })
 export class PatientCallService {
+  private readonly patientCallCacheTtlMs = 15000;
+  private readonly patientCallRequestCache = new Map<string, CachedPatientCallRequest<unknown>>();
+
   /**
    * A public parameter that gives a Status of a call in terms
    * of time.
@@ -49,10 +57,29 @@ export class PatientCallService {
     status: number | string;
   };
   constructor(private http: HttpService) {}
+
+  private clearPatientCallCache(): void {
+    this.patientCallRequestCache.clear();
+  }
+
+  private getCachedPatientCallRequest<T>(cacheKey: string, requestFactory: () => Observable<T>): Observable<T> {
+    const cachedRequest = this.patientCallRequestCache.get(cacheKey) as CachedPatientCallRequest<T> | undefined;
+    if (cachedRequest && cachedRequest.expiresAt > Date.now()) {
+      return cachedRequest.request$;
+    }
+
+    const request$ = requestFactory().pipe(shareReplay(1));
+    this.patientCallRequestCache.set(cacheKey, {
+      expiresAt: Date.now() + this.patientCallCacheTtlMs,
+      request$
+    });
+    return request$;
+  }
+
   startPatientCallByUserIdAndPatientCallId = function(userId: string, patientCallId: string) {
     return this.http.post('patients/calls/' + patientCallId + '/start', {
       userId: userId
-    });
+    }).pipe(tap(() => this.clearPatientCallCache()));
   };
 
   getCallRepCallsByUserIdAndOperationId = function(userId: string, operationId: string) {
@@ -74,19 +101,34 @@ export class PatientCallService {
   };
 
   getPatientCallsByOperationId = function(operationId: string) {
-    return this.http.get('operations/' + operationId + '/calls').pipe(
-      catchError(e => this.handleAsyncError(e)) // then handle the error
+    const cacheKey = `operation:${operationId}`;
+
+    return this.getCachedPatientCallRequest(cacheKey, () =>
+      this.http.get('operations/' + operationId + '/calls').pipe(
+        catchError(e => {
+          this.patientCallRequestCache.delete(cacheKey);
+          return this.handleAsyncError(e);
+        }) // then handle the error
+      )
     );
   };
   getSpanishSpeakingPatientCalls = function() {
-    return this.http.get('spanish/calls').pipe(
-      catchError(e => this.handleAsyncError(e)) // then handle the error
+    const cacheKey = 'spanish';
+
+    return this.getCachedPatientCallRequest(cacheKey, () =>
+      this.http.get('spanish/calls').pipe(
+        catchError(e => {
+          this.patientCallRequestCache.delete(cacheKey);
+          return this.handleAsyncError(e);
+        }) // then handle the error
+      )
     );
   };
 
   // Updates the status to 'ended'
   public endPatientCall(patientCallId: string) {
     return this.http.post('patients/calls/' + patientCallId + '/end', {}).pipe(
+      tap(() => this.clearPatientCallCache()),
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }
@@ -96,7 +138,7 @@ export class PatientCallService {
       .post('patients/calls/' + patientCall.patientCallId + '/finalize', {
         patientCallStatusLabelId: patientCall.patientCallStatusLabelId
       })
-      .pipe(catchError(e => this.handleAsyncError(e)));
+      .pipe(tap(() => this.clearPatientCallCache()), catchError(e => this.handleAsyncError(e)));
   }
 
   // Needs accompanying swagger
@@ -106,6 +148,7 @@ export class PatientCallService {
         patientCallScheduledTime: patientCallScheduledTime
       })
       .pipe(
+        tap(() => this.clearPatientCallCache()),
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
