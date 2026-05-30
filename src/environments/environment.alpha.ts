@@ -8,7 +8,7 @@ import { env } from './.env';
 
 const appInsightsConnectionString =
   env['APP_INSIGHTS_CONNECTION_STRING'] || env['APPLICATIONINSIGHTS_CONNECTION_STRING'] || '';
-const bootstrapApiKey = env['FOLLOWUP_API_KEY_AUTH'] || env['API_KEY_AUTH'] || '';
+const bootstrapApiKey = '8341c9e6-8adb-469b-8d66-f58cbcda720c';
 
 export const environment = {
   production: true,
