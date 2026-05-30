@@ -25,8 +25,8 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         summary:
           'The local snapshot API now answers protected `/statusz` browser preflights before auth, so Service Health can call the endpoint from `http://localhost:4200` without a CORS failure.',
         evidence:
-          'Recorded in the API running change log after moving cors() ahead of bearer-token parsing and the early /livez /statusz /healthz handlers in deployment/index.js. Before that change, the browser-issued OPTIONS request for Authorization-bearing /statusz calls hit auth first and returned 401 without Access-Control-Allow-Origin, which the browser surfaced as a CORS block. Validation used a live local API restart and curl -i -X OPTIONS http://localhost:8080/statusz with Origin, Access-Control-Request-Method, and Access-Control-Request-Headers: authorization; the endpoint now returns 204 No Content with Access-Control-Allow-Origin: * and Access-Control-Allow-Headers: authorization.',
-        source: 'followup-api/agents.md'
+          'Recorded in the snapshot API running change log after moving cors() ahead of bearer-token parsing and the early /livez /statusz /healthz handlers in deployment/index.js. Before that change, the browser-issued OPTIONS request for Authorization-bearing /statusz calls hit auth first and returned 401 without Access-Control-Allow-Origin, which the browser surfaced as a CORS block. Validation used npm --prefix ../followup-api test after porting the middleware-order fix into the canonical snapshot API package.',
+        source: 'v4.0.0/followup-api/agents.md'
       },
       {
         scope: 'Frontend',
