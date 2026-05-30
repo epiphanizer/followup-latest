@@ -53,3 +53,33 @@ export interface TeamOperationAssignmentPutItem {
   operationId: string;
   operationUserRoleLabelId: number;
 }
+
+export type TeamMemberOperationAccessMode = 'default' | 'override' | 'revoke';
+
+export interface TeamMemberOperationAccessEntry {
+  teamId: string;
+  teamMemberId: string;
+  userId?: string;
+  operationGroupId?: string;
+  operationGroupName?: string;
+  operationGroupShortName?: string;
+  operationId: string;
+  operationName?: string;
+  operationActive?: number;
+  teamOperationUserRoleLabelId?: number;
+  teamOperationUserRoleLabel?: string;
+  memberAccessMode?: TeamMemberOperationAccessMode;
+  memberOverrideOperationUserRoleLabelId?: number;
+  memberOverrideOperationUserRoleLabel?: string;
+  directOperationUserRoleLabelId?: number;
+  directOperationUserRoleLabel?: string;
+  effectiveOperationUserRoleLabelId?: number;
+  effectiveOperationUserRoleLabel?: string;
+  effectiveAccessSourceLabel?: string;
+}
+
+export interface TeamMemberOperationAccessPutItem {
+  operationId: string;
+  accessMode: Exclude<TeamMemberOperationAccessMode, 'default'>;
+  operationUserRoleLabelId?: number;
+}

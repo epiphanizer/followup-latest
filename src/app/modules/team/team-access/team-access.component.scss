@@ -55,6 +55,33 @@ ion-title {
   max-width: 720px;
 }
 
+.team-access-editor-switch {
+  display: inline-flex;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 6px;
+  border-radius: 999px;
+  background: #f5f2f2;
+}
+
+.team-access-editor-option {
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #6f6f75;
+  cursor: pointer;
+  font-family: AvenirDemi;
+  font-size: 14px;
+  line-height: 1;
+  padding: 10px 14px;
+
+  &.is-active {
+    background: #ffffff;
+    color: #222222;
+    box-shadow: 0 1px 2px rgba(34, 34, 34, 0.08);
+  }
+}
+
 .team-access-summary {
   margin-bottom: 18px;
 }
@@ -85,6 +112,41 @@ ion-title {
   display: flex;
   flex-direction: column;
   gap: 18px;
+}
+
+.member-access-toolbar {
+  margin-bottom: 20px;
+}
+
+.member-access-label {
+  margin-bottom: 8px;
+  font-family: AvenirDemi;
+  font-size: 14px;
+  color: #6f6f75;
+}
+
+.member-access-member-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.member-access-member-button {
+  border: 1px solid #d6d0d0;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #343638;
+  cursor: pointer;
+  font-family: AvenirDemi;
+  font-size: 14px;
+  line-height: 1;
+  padding: 9px 12px;
+
+  &.is-active {
+    border-color: #00b8be;
+    background: #00b8be;
+    color: #ffffff;
+  }
 }
 
 .team-access-group {
@@ -119,10 +181,38 @@ ion-title {
   min-width: 0;
 }
 
+.member-access-entry {
+  align-items: flex-start;
+}
+
 .team-access-entry-name {
   font-family: AvenirDemi;
   font-size: 16px;
   color: #222222;
+}
+
+.team-access-entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.team-access-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: #f4f1f1;
+  color: #6f6f75;
+  font-family: AvenirDemi;
+  font-size: 12px;
+  line-height: 1;
+  padding: 6px 9px;
+
+  &.is-emphasis {
+    background: #e7f7f8;
+    color: #008e94;
+  }
 }
 
 .team-access-entry-status {
@@ -141,4 +231,21 @@ ion-select {
   border: 1px solid #d6d0d0;
   border-radius: 999px;
   font-family: AvenirDemi;
+
+  @media screen and (max-width: 768px) {
+    min-width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .team-access-header,
+  .team-access-entry,
+  .member-access-entry {
+    flex-direction: column;
+  }
+
+  .save-access-button,
+  ion-select {
+    width: 100%;
+  }
 }

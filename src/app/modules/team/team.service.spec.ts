@@ -52,6 +52,30 @@ describe('TeamService (Jest)', () => {
       });
   });
 
+  it('gets and sets team member operation access exceptions', done => {
+    const http = makeHttp();
+    const svc = new TeamService(http as any);
+
+    svc.getTeamMemberOperationAccessByTeamIdAndTeamMemberId('t1', 'm1').subscribe(() => {
+      expect(http.get).toHaveBeenCalledWith('teams/t1/members/m1/operations');
+    });
+
+    svc
+      .setTeamMemberOperationAccessByTeamIdAndTeamMemberId('t1', 'm1', [
+        { operationId: 'op1', accessMode: 'override', operationUserRoleLabelId: 3 },
+        { operationId: 'op2', accessMode: 'revoke' }
+      ])
+      .subscribe(() => {
+        expect(http.put).toHaveBeenCalledWith('teams/t1/members/m1/operations', {
+          assignments: [
+            { operationId: 'op1', accessMode: 'override', operationUserRoleLabelId: 3 },
+            { operationId: 'op2', accessMode: 'revoke' }
+          ]
+        });
+        done();
+      });
+  });
+
   it('handles errors', done => {
     const http = { get: jest.fn(() => throwError(() => new HttpErrorResponse({ status: 500, error: 'fail' }))) } as any;
     const svc = new TeamService(http as any);

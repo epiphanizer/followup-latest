@@ -21,6 +21,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'API',
+        summary:
+          'Inherited team defaults and team-member exception state now flow through the existing user and operation access rosters instead of being isolated to the Team Access editor.',
+        evidence:
+          'Recorded in the snapshot API running change log after adding migration_sql/3.12.7migration-effective-team-access.sql, which creates dbo.teamMemberOperationOverrides, rewrites sp_getUserOperationsByUserId and sp_getAssignedUsersByOperationId to compute effective access from direct assignments plus team defaults plus member exceptions, and adds the /teams/{teamId}/members/{teamMemberId}/operations API for the member exception editor. Validation used rollback-scoped compile-validation of the migration, npm test on the API package, live apply to followup_alpha_20260517, and an isolated rollback transaction on alpha that proved inherited defaults, member override grants, and member revokes across all affected read paths.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Team Access screen now supports per-member override and revoke editing on top of the team defaults, with effective-role context shown inline for each operation.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after extending src/app/modules/team/team-access/team-access.component.ts, .html, and .scss with Team Defaults and Member Exceptions modes, adding the new TeamService member access calls, and surfacing the current team default, direct role, and effective role/source inside the member editor rows. Validation used focused Jest on the Team service and Team Access component (8/8 passing) plus npm run build -s.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'Database',
         summary:
           'The snapshot now has a dedicated `teamOperationAssignments` data model plus desired-state stored procedures for team-level default operation roles, and that migration is already applied on alpha.',

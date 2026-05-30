@@ -3,7 +3,12 @@ import { HttpService } from '@app/core';
 import { catchError, retry, delay } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { TeamOperationAssignment, TeamOperationAssignmentPutItem } from './team';
+import {
+  TeamMemberOperationAccessEntry,
+  TeamMemberOperationAccessPutItem,
+  TeamOperationAssignment,
+  TeamOperationAssignmentPutItem
+} from './team';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +63,23 @@ export class TeamService {
 
   setTeamOperationAssignmentsByTeamId = function(teamId: string, assignments: TeamOperationAssignmentPutItem[]) {
     return this.http.put('teams/' + teamId + '/operations', { assignments }).pipe(
+      catchError(e => this.handleAsyncError(e))
+    );
+  };
+
+  getTeamMemberOperationAccessByTeamIdAndTeamMemberId = function(teamId: string, teamMemberId: string) {
+    return this.http.get('teams/' + teamId + '/members/' + teamMemberId + '/operations').pipe(
+      retry(3),
+      catchError(e => this.handleAsyncError(e))
+    );
+  };
+
+  setTeamMemberOperationAccessByTeamIdAndTeamMemberId = function(
+    teamId: string,
+    teamMemberId: string,
+    assignments: TeamMemberOperationAccessPutItem[]
+  ) {
+    return this.http.put('teams/' + teamId + '/members/' + teamMemberId + '/operations', { assignments }).pipe(
       catchError(e => this.handleAsyncError(e))
     );
   };

@@ -37,6 +37,13 @@ export interface Operation {
   totalNotifications?: number;
   totalGraduates?: number;
   operationSpanishSpeaking?: boolean;
+  operationUserRoleLabelId?: number;
+  operationUserRoleLabel?: string;
+  directOperationUserRoleLabelId?: number;
+  directOperationUserRoleLabel?: string;
+  inheritedOperationUserRoleLabelId?: number;
+  inheritedOperationUserRoleLabel?: string;
+  accessSourceLabel?: string;
 }
 
 export interface OperationPutBody {

@@ -9,6 +9,12 @@ import { TeamService } from '../team.service';
 
 const teamServiceStub = {
   getTeams: jest.fn(() => of([{ teamId: 't1', teamName: 'Team One' }])),
+  getTeamMembersByTeamId: jest.fn(() =>
+    of([
+      { teamMemberId: 'm1', teamMemberFirstName: 'Ada', teamMemberLastName: 'Lovelace' },
+      { teamMemberId: 'm2', teamMemberFirstName: 'Grace', teamMemberLastName: 'Hopper' }
+    ])
+  ),
   getTeamOperationAssignmentsByTeamId: jest.fn(() =>
     of([
       {
@@ -38,6 +44,62 @@ const teamServiceStub = {
         operationName: 'Operation 2',
         operationUserRoleLabelId: 3,
         operationUserRoleLabel: 'Care Rep'
+      }
+    ])
+  ),
+  getTeamMemberOperationAccessByTeamIdAndTeamMemberId: jest.fn(() =>
+    of([
+      {
+        teamId: 't1',
+        teamMemberId: 'm1',
+        userId: 'u1',
+        operationId: 'op1',
+        operationGroupName: 'Group A',
+        operationName: 'Operation 1',
+        memberAccessMode: 'default',
+        teamOperationUserRoleLabel: 'Manager',
+        effectiveOperationUserRoleLabel: 'Manager',
+        effectiveAccessSourceLabel: 'Inherited'
+      },
+      {
+        teamId: 't1',
+        teamMemberId: 'm1',
+        userId: 'u1',
+        operationId: 'op2',
+        operationGroupName: 'Group A',
+        operationName: 'Operation 2',
+        memberAccessMode: 'override',
+        memberOverrideOperationUserRoleLabelId: 3,
+        memberOverrideOperationUserRoleLabel: 'Care Rep',
+        effectiveOperationUserRoleLabel: 'Care Rep',
+        effectiveAccessSourceLabel: 'Inherited'
+      }
+    ])
+  ),
+  setTeamMemberOperationAccessByTeamIdAndTeamMemberId: jest.fn(() =>
+    of([
+      {
+        teamId: 't1',
+        teamMemberId: 'm1',
+        userId: 'u1',
+        operationId: 'op1',
+        operationGroupName: 'Group A',
+        operationName: 'Operation 1',
+        memberAccessMode: 'revoke',
+        effectiveAccessSourceLabel: ''
+      },
+      {
+        teamId: 't1',
+        teamMemberId: 'm1',
+        userId: 'u1',
+        operationId: 'op2',
+        operationGroupName: 'Group A',
+        operationName: 'Operation 2',
+        memberAccessMode: 'override',
+        memberOverrideOperationUserRoleLabelId: 3,
+        memberOverrideOperationUserRoleLabel: 'Care Rep',
+        effectiveOperationUserRoleLabel: 'Care Rep',
+        effectiveAccessSourceLabel: 'Inherited'
       }
     ])
   )
@@ -83,6 +145,8 @@ describe('TeamAccessComponent (Jest)', () => {
     expect(component.team?.teamName).toBe('Team One');
     expect(component.groupedEntries.length).toBe(1);
     expect(component.groupedEntries[0].entries[0].selectedRoleId).toBe(2);
+    expect(component.teamMembers.length).toBe(2);
+    expect(component.groupedMemberEntries.length).toBe(1);
   });
 
   it('saves desired-state assignments', () => {
@@ -96,6 +160,24 @@ describe('TeamAccessComponent (Jest)', () => {
     expect(teamServiceStub.setTeamOperationAssignmentsByTeamId).toHaveBeenCalledWith('t1', [
       { operationId: 'op1', operationUserRoleLabelId: 2 },
       { operationId: 'op2', operationUserRoleLabelId: 3 }
+    ]);
+    expect(toastrStub.success).toHaveBeenCalled();
+  });
+
+  it('saves member override and revoke exceptions', () => {
+    const component = buildComponent();
+
+    component.ngOnInit();
+    component.setActiveEditor('member');
+    component.selectTeamMember('m1');
+    component.memberEntries[0].selectedState = 'revoke';
+    component.memberEntries[1].selectedState = 'override:3';
+    component.onMemberAccessChange();
+    component.saveMemberAccess();
+
+    expect(teamServiceStub.setTeamMemberOperationAccessByTeamIdAndTeamMemberId).toHaveBeenCalledWith('t1', 'm1', [
+      { operationId: 'op1', accessMode: 'revoke' },
+      { operationId: 'op2', accessMode: 'override', operationUserRoleLabelId: 3 }
     ]);
     expect(toastrStub.success).toHaveBeenCalled();
   });
