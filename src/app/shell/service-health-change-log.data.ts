@@ -16,10 +16,18 @@ export interface ServiceHealthChangeLogRelease {
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
     version: '4.0.0',
-    recordedAt: '2026-05-29',
+    recordedAt: '2026-05-30',
     label: 'Current alpha candidate',
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
+      {
+        scope: 'API',
+        summary:
+          'The 4.0.0 snapshot service layer now lets pool failures reject once, Kicktech auth/email calls are bounded by AbortController timeouts, and the cork-board file endpoint uses the same hardened transfer path as avatars and /data.',
+        evidence:
+          'Recorded in the API running change log after removing the broken outer wrapper catch pattern from 27 deployment/service files, adding KICKTECH_REQUEST_TIMEOUT_MS-backed AbortController timeouts around Kicktech /register, /userlogin, and /email requests with clean rejection propagation through NotificationService, and porting deployment/controllers/UserCorkBoard.js onto deployment/utils/fileTransfers.js so uploads sanitize stored filenames and downloads use the shared stream/error handling path. Validation used npm test (Syntax OK for 68 files) plus explicit node --check validation across the edited service/client/controller slice.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
       {
         scope: 'API',
         summary:

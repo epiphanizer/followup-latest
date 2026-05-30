@@ -55,6 +55,8 @@ Shared/core scaffolding
 
 ## Running change log (frontend)
 
+- 2026-05-30: Synced [src/app/shell/service-health-change-log.data.ts](src/app/shell/service-health-change-log.data.ts) with the next snapshot API runtime-hardening tranche so Service Health now records the 27-file service wrapper cleanup, bounded Kicktech request timeouts, and the cork-board file-transfer port onto the shared hardened helper path. Validation: clean `get_errors` on the touched service-health change-log file.
+
 - 2026-05-29: Synced [src/app/shell/service-health-change-log.data.ts](src/app/shell/service-health-change-log.data.ts) with the snapshot API auth/runtime hardening pass so Service Health now records verified bearer-token request auth on the highest-risk user mutations plus the controller/pool leak hardening work in the API snapshot. Validation: clean `get_errors` on the touched service-health change-log file.
 - 2026-05-29: Fixed snapshot `4.0.0` bearer-token compatibility in [src/app/app.module.ts](src/app/app.module.ts), [src/app/core/authentication/auth.service.ts](src/app/core/authentication/auth.service.ts), and [src/app/core/authentication/auth.service.spec.ts](src/app/core/authentication/auth.service.spec.ts) so login now stores the real JWT instead of an expiry stub, the existing `JwtInterceptor` can finally send `Authorization: Bearer ...`, and legacy non-JWT localStorage values are ignored instead of being forwarded as broken bearer headers. Validation: `npm test -- --runInBand --runTestsByPath src/app/core/authentication/auth.service.spec.ts` PASS (5/5), plus clean `get_errors` on the touched auth files.
 
