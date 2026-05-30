@@ -16,6 +16,7 @@ const bootstrapApiKey = env['FOLLOWUP_API_KEY_AUTH'] || env['API_KEY_AUTH'] || '
 
 export const environment = {
   production: true,
+  serviceWorkerEnabled: false,
   version: env.npm_package_version,
   // apiUrl: 'https://followupcare-api.azurewebsites.net/',
   apiUrl: 'http://localhost:8080/',

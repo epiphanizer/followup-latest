@@ -12,6 +12,7 @@ const bootstrapApiKey = env['FOLLOWUP_API_KEY_AUTH'] || env['API_KEY_AUTH'] || '
 
 export const environment = {
   production: true,
+  serviceWorkerEnabled: false,
   version: env.npm_package_version + '(alpha)',
   apiUrl: 'https://alpha-followup-api.azurewebsites.net/',
   apiKeyAuth: bootstrapApiKey,

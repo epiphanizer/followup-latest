@@ -44,7 +44,7 @@ export function tokenGetter() {
     BrowserModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('./ngsw-worker.js', {
-      enabled: environment.production
+      enabled: environment.serviceWorkerEnabled
     }),
     ToastrModule.forRoot(),
     FormsModule,
