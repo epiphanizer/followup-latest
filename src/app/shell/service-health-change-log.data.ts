@@ -21,6 +21,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'Database',
+        summary:
+          'The snapshot now has a dedicated `teamOperationAssignments` data model plus desired-state stored procedures for team-level default operation roles, and that migration is already applied on alpha.',
+        evidence:
+          'Recorded in the snapshot API running change log after adding migration_sql/3.12.6migration-team-operation-assignments.sql, which creates dbo.teamOperationAssignments plus sp_getTeamOperationAssignmentsByTeamId and sp_setTeamOperationAssignmentsByTeamId. The new table stores default team-to-operation role mappings without changing the existing direct user assignment tables yet, and the write proc accepts a full JSON assignment set so the UI can manage defaults as desired state instead of issuing row-by-row calls. Validation used transactional compile-validation of the migration, npm test on the API package, application of the migration to followup_alpha_20260517, and a rollback-scoped alpha round-trip that wrote and read back two assignments through the new stored procedures.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Admins can now manage default team operation roles from a dedicated Team Access screen inside the Teams section instead of relying only on per-operation assignment surfaces.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after adding src/app/modules/team/team-access/team-access.component.ts at /teams/:teamId/access, extending TeamService with /teams/{teamId}/operations read/write calls, and wiring entry points from the Teams listing, sidebar, and team-member detail view. The new screen loads the current team defaults plus the operations roster, groups rows by client/group, lets admins choose Unassigned, Manager, or Care Rep per operation, and saves the full desired state back through the new API endpoint while the sidebar now emits the team selection event it already exposed in the listing template. Validation used focused Jest on the Team service, Team Access component, and team sidebar slice (7/7 passing) plus npm run build -s.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'Performance',
         summary:
           'The snapshot alpha `/users/{userId}/operations` hotspot no longer computes counts through the global `VW_operationCounts` view and now uses a user-scoped procedure plan instead.',

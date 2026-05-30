@@ -31,6 +31,9 @@
             <span *ngIf="canImpersonate" (click)="loginAsUser()" class="impersonate-user">
               <a>Login as user</a>
             </span>
+            <span *ngIf="currentUser?.userLevel === userRoles.admin" class="manage-team-access-link">
+              <a [routerLink]="'/teams/' + teamId + '/access'">Manage team access</a>
+            </span>
             <div class="greeting">
               <span class="english" *ngIf="!teamMember.spanishSpeaking; else spanish">
                 Hello my name is...

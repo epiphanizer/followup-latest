@@ -1,0 +1,54 @@
+<ion-content>
+  <ion-row>
+    <ion-col class="team-sidebar">
+      <app-team-listing-sidebar></app-team-listing-sidebar>
+    </ion-col>
+    <ion-col class="team-content-wrapper team-access-content-wrapper">
+      <div class="team-access-header">
+        <div>
+          <ion-title>Team Access</ion-title>
+          <div class="team-access-subtitle" *ngIf="team?.teamName">{{ team.teamName }}</div>
+        </div>
+        <button type="button" class="save-access-button" [disabled]="!isDirty || isLoading || isSaving" (click)="saveAssignments()">
+          {{ isSaving ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+
+      <p class="team-access-description">
+        Set the team's default role for each operation. Member-specific direct assignments and revocations will build on top of these defaults.
+      </p>
+
+      <div class="team-access-state team-access-error" *ngIf="loadError">{{ loadError }}</div>
+      <div class="team-access-state" *ngIf="isLoading && !loadError">Loading team access...</div>
+
+      <div class="team-access-body" *ngIf="!isLoading && !loadError">
+        <div class="team-access-summary">Assigned {{ assignedCount }} of {{ entries.length }} operations.</div>
+
+        <div class="team-access-groups" *ngIf="groupedEntries.length; else noOperations">
+          <div class="team-access-group" *ngFor="let group of groupedEntries">
+            <div class="team-access-group-name">{{ group.groupName }}</div>
+            <div class="team-access-entry" *ngFor="let entry of group.entries">
+              <div class="team-access-entry-copy">
+                <div class="team-access-entry-name">{{ entry.operationName }}</div>
+                <div class="team-access-entry-status" *ngIf="entry.operationActive === 0">Inactive</div>
+              </div>
+              <ion-select
+                interface="popover"
+                [ngModel]="entry.selectedRoleId"
+                (ngModelChange)="entry.selectedRoleId = $event; onRoleChange()"
+              >
+                <ion-select-option *ngFor="let role of roleOptions" [value]="role.value">
+                  {{ role.label }}
+                </ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noOperations>
+          <div class="team-access-state">No operations are available for assignment.</div>
+        </ng-template>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

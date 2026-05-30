@@ -9,6 +9,10 @@
   <div class="team-dropdown-container" *ngIf="teams">
     <a class="team-dropdown-target" [routerLink]="'/teams'">THE TEAM<span *ngIf="teams.length > 1">s</span></a>
     <div *ngFor="let team of teams; trackBy: trackByTeam">
+      <div class="team-section-heading">
+        <a class="team-name-link" [routerLink]="'/teams/' + team.teamId" (click)="selectTeam(team)">{{ team.teamName }}</a>
+        <a class="team-access-link" [routerLink]="'/teams/' + team.teamId + '/access'">Access</a>
+      </div>
       <div class="team-member-container">
         <span class="sidebar-label" (click)="toggleTeamManagerSidebarMenu(team)"
           >MANAGERS

@@ -3,7 +3,7 @@ import { of, throwError } from 'rxjs';
 import { TeamService } from './team.service';
 
 describe('TeamService (Jest)', () => {
-  const makeHttp = () => ({ get: jest.fn(() => of([] as any)) });
+  const makeHttp = () => ({ get: jest.fn(() => of([] as any)), put: jest.fn(() => of([] as any)) });
 
   it('gets team member and members lists', done => {
     const http = makeHttp();
@@ -32,6 +32,24 @@ describe('TeamService (Jest)', () => {
       expect(http.get).toHaveBeenCalledWith('teams/totals');
       done();
     });
+  });
+
+  it('gets and sets team operation assignments', done => {
+    const http = makeHttp();
+    const svc = new TeamService(http as any);
+
+    svc.getTeamOperationAssignmentsByTeamId('t1').subscribe(() => {
+      expect(http.get).toHaveBeenCalledWith('teams/t1/operations');
+    });
+
+    svc
+      .setTeamOperationAssignmentsByTeamId('t1', [{ operationId: 'op1', operationUserRoleLabelId: 2 }])
+      .subscribe(() => {
+        expect(http.put).toHaveBeenCalledWith('teams/t1/operations', {
+          assignments: [{ operationId: 'op1', operationUserRoleLabelId: 2 }]
+        });
+        done();
+      });
   });
 
   it('handles errors', done => {

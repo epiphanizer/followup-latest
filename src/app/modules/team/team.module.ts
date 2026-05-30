@@ -6,13 +6,14 @@ import { TeamRoutingModule } from './team-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@app/shared';
 import { TeamMemberDetailComponent } from './team-detail/team-detail.component';
+import { TeamAccessComponent } from './team-access/team-access.component';
 import { TeamListingComponent } from './team-listing/team-listing.component';
 import { TeamListingSidebar } from './team-listing/team-listing-sidebar/team-listing-sidebar.component';
 import { TeamMembersListingComponent } from './team-listing/team-members-listing/team-members-listing.component';
 import { UserModule } from '../user/user.module';
 
 @NgModule({
-  declarations: [TeamListingComponent, TeamMembersListingComponent, TeamMemberDetailComponent, TeamListingSidebar],
+  declarations: [TeamListingComponent, TeamMembersListingComponent, TeamMemberDetailComponent, TeamAccessComponent, TeamListingSidebar],
   imports: [
     CommonModule,
     IonicModule,

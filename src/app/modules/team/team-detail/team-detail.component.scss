@@ -176,6 +176,20 @@
         }
       }
 
+      .manage-team-access-link {
+        float: right;
+        margin-right: 18px;
+        font-family: AvenirDemi;
+        font-size: 15px;
+        line-height: 0.86;
+        letter-spacing: 0.15px;
+
+        a {
+          color: #00b8be;
+          text-decoration: none;
+        }
+      }
+
       i.post-it {
         display: inline-block;
         vertical-align: bottom;

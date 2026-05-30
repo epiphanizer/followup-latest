@@ -3,6 +3,7 @@ import { HttpService } from '@app/core';
 import { catchError, retry, delay } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TeamOperationAssignment, TeamOperationAssignmentPutItem } from './team';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,20 @@ export class TeamService {
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
+
+  getTeamOperationAssignmentsByTeamId = function(teamId: string) {
+    return this.http.get('teams/' + teamId + '/operations').pipe(
+      retry(3),
+      catchError(e => this.handleAsyncError(e))
+    );
+  };
+
+  setTeamOperationAssignmentsByTeamId = function(teamId: string, assignments: TeamOperationAssignmentPutItem[]) {
+    return this.http.put('teams/' + teamId + '/operations', { assignments }).pipe(
+      catchError(e => this.handleAsyncError(e))
+    );
+  };
+
   private handleAsyncError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

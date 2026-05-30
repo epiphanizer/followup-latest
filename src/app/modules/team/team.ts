@@ -35,3 +35,21 @@ export interface TeamMember {
   spanishSpeaking?: boolean;
   needToKnow?: any;
 }
+
+export interface TeamOperationAssignment {
+  teamOperationAssignmentId?: string;
+  teamId: string;
+  operationId: string;
+  operationGroupId?: string;
+  operationGroupName?: string;
+  operationGroupShortName?: string;
+  operationName?: string;
+  operationActive?: number;
+  operationUserRoleLabelId: number;
+  operationUserRoleLabel?: string;
+}
+
+export interface TeamOperationAssignmentPutItem {
+  operationId: string;
+  operationUserRoleLabelId: number;
+}

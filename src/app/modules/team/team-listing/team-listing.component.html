@@ -7,6 +7,13 @@
       <ion-grid>
         <ion-row>
           <ion-title *ngIf="selected.team">Team Members</ion-title>
+          <a
+            *ngIf="selected.team && user?.userLevel === userRoles.admin"
+            class="team-access-launch"
+            [routerLink]="'/teams/' + selected.team.teamId + '/access'"
+          >
+            Manage Team Access
+          </a>
         </ion-row>
         <ion-row class="team-listing-row">
           <ion-col class="team-listing-wrapper">

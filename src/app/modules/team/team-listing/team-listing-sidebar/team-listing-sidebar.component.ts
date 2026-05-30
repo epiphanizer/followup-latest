@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {
   trigger,
   state,
@@ -64,6 +64,7 @@ export class TeamListingSidebar implements OnInit {
   teamMembers: TeamMember[];
   todaysDateDay: string;
   @Input() team: Team;
+  @Output() teamChangeEvent = new EventEmitter<Team>();
   constructor(private logService: LogService, private teamService: TeamService) {}
 
   ngOnInit() {
@@ -74,6 +75,9 @@ export class TeamListingSidebar implements OnInit {
         take(1),
         map((teams: Team[]) => {
           this.teams = teams;
+          if (this.teams?.length) {
+            this.teamChangeEvent.emit(this.teams[0]);
+          }
           this.teams.forEach((team: Team) => {
             this.teamService.getTeamMembersByTeamId(team.teamId).subscribe((teamMembers: TeamMember[]) => {
               try {
@@ -123,6 +127,10 @@ export class TeamListingSidebar implements OnInit {
   }
   toggleTeamSpanishSidebarMenu(team: Team) {
     team.teamSpanishSidebarDropdownOpen = !team.teamSpanishSidebarDropdownOpen;
+  }
+
+  selectTeam(team: Team) {
+    this.teamChangeEvent.emit(team);
   }
 
   trackByTeam(index: number, team: Team): string | number {

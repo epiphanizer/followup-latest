@@ -42,6 +42,26 @@
     text-decoration: none;
   }
 
+  .team-section-heading {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0 6px;
+  }
+
+  .team-name-link,
+  .team-access-link {
+    font-family: AvenirDemi;
+    font-size: 14px;
+    color: #00b4b9;
+    text-decoration: none;
+  }
+
+  .team-access-link {
+    color: #ef4627;
+  }
+
   .expand-members-trigger {
     cursor: pointer;
     background-image: url("/assets/icon-arrow-down@2x.png");

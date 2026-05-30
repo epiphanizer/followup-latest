@@ -1,0 +1,144 @@
+.team-sidebar {
+  max-width: 172px;
+  padding-bottom: 160px;
+  margin-left: 26px;
+  padding-top: 58px;
+}
+
+.team-content-wrapper.team-access-content-wrapper {
+  max-width: 980px;
+  margin-left: 92px;
+  margin-top: 8rem;
+  padding-bottom: 160px;
+
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    margin-left: 33px;
+  }
+}
+
+ion-title {
+  font-family: AvenirPro;
+  font-size: 45px;
+  font-style: normal;
+  line-height: 1.11;
+  letter-spacing: 0.45px;
+  text-align: left;
+  color: #3f3638;
+  padding-left: 0;
+}
+
+.team-access-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.team-access-subtitle {
+  margin-top: 6px;
+  font-family: AvenirDemi;
+  font-size: 16px;
+  color: #8e8e93;
+}
+
+.team-access-description,
+.team-access-summary,
+.team-access-state {
+  font-family: Avenir;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #343638;
+}
+
+.team-access-description {
+  margin: 18px 0 20px;
+  max-width: 720px;
+}
+
+.team-access-summary {
+  margin-bottom: 18px;
+}
+
+.team-access-error {
+  color: #ef4627;
+}
+
+.save-access-button {
+  border: 0;
+  border-radius: 999px;
+  background: #00b8be;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: AvenirDemi;
+  font-size: 15px;
+  line-height: 1;
+  padding: 12px 18px;
+
+  &:disabled {
+    cursor: default;
+    background: #d6d0d0;
+    color: #6f6f75;
+  }
+}
+
+.team-access-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.team-access-group {
+  border: 1px solid #ece8e8;
+  border-radius: 18px;
+  padding: 18px 20px;
+  background: #ffffff;
+}
+
+.team-access-group-name {
+  font-family: AvenirDemi;
+  font-size: 18px;
+  color: #00b4b9;
+  margin-bottom: 12px;
+}
+
+.team-access-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 0;
+  border-top: 1px solid #f2efef;
+
+  &:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+  }
+}
+
+.team-access-entry-copy {
+  min-width: 0;
+}
+
+.team-access-entry-name {
+  font-family: AvenirDemi;
+  font-size: 16px;
+  color: #222222;
+}
+
+.team-access-entry-status {
+  margin-top: 4px;
+  font-family: Avenir;
+  font-size: 13px;
+  color: #ef4627;
+}
+
+ion-select {
+  min-width: 180px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+  border: 1px solid #d6d0d0;
+  border-radius: 999px;
+  font-family: AvenirDemi;
+}
