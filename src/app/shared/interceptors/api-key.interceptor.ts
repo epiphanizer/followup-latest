@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
-export const API_KEY_AUTH_VALUE = '8341c9e6-8adb-469b-8d66-f58cbcda720c';
-var API_KEY_BOOTSTRAP_PATHS = ['/users/login', '/users/auth'];
+var API_KEY_BOOTSTRAP_PATHS = ['/users/login'];
 
 function getRequestPath(url: string): string {
   try {
@@ -17,18 +17,24 @@ function shouldAttachApiKey(url: string): boolean {
   return API_KEY_BOOTSTRAP_PATHS.includes(getRequestPath(url));
 }
 
+export function getApiKeyAuthValue(): string {
+  return String(environment.apiKeyAuth || '').trim();
+}
+
 @Injectable()
 export class ApiKeyInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!shouldAttachApiKey(request.url)) {
+    var apiKeyAuthValue = getApiKeyAuthValue();
+
+    if (!shouldAttachApiKey(request.url) || !apiKeyAuthValue) {
       return next.handle(request);
     }
 
     request = request.clone({
       setHeaders: {
-        ApiKeyAuth: API_KEY_AUTH_VALUE
+        ApiKeyAuth: apiKeyAuthValue
       }
     });
 

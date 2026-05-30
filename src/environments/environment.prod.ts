@@ -8,11 +8,13 @@ import { env } from './.env';
 
 const appInsightsConnectionString =
   env['APP_INSIGHTS_CONNECTION_STRING'] || env['APPLICATIONINSIGHTS_CONNECTION_STRING'] || '';
+const bootstrapApiKey = env['FOLLOWUP_API_KEY_AUTH'] || env['API_KEY_AUTH'] || '';
 
 export const environment = {
   production: true,
   version: env.npm_package_version,
   apiUrl: 'https://followupcare-api.azurewebsites.net/',
+  apiKeyAuth: bootstrapApiKey,
   applicationInsights: {
     enabled: !!appInsightsConnectionString,
     connectionString: appInsightsConnectionString

@@ -23,6 +23,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'API',
         summary:
+          'Privileged snapshot writes now enforce DB-backed admin, admin-or-manager, or admin-or-self authorization after Swagger validation instead of relying on JWT presence alone.',
+        evidence:
+          'Recorded in the API running change log after adding deployment/utils/routeAuthorization.js, wiring it into deployment/index.js, extending deployment/service/UserService.js with admin-or-manager checks, constraining user-owned writes like logout/avatar/cork-board/notification reply to the authenticated user or an admin, and removing the dead /users/auth stub from deployment/api/swagger.yaml plus the bootstrap API-key allowlist so shared ApiKeyAuth is now login-only. Validation used npm test (Syntax OK for 69 files).',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The snapshot bootstrap API key is now environment-delivered and only sent on the login bootstrap request when explicitly configured.',
+        evidence:
+          'Recorded in the frontend running change log after exposing FOLLOWUP_API_KEY_AUTH / API_KEY_AUTH through the environment files, updating src/app/shared/interceptors/api-key.interceptor.ts to attach ApiKeyAuth only for /users/login when that env value exists, and extending the focused interceptor spec to cover both configured and empty-env behavior. Validation used npm test -- --runInBand --runTestsByPath src/app/shared/interceptors/api-key.interceptor.spec.ts (3/3 passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
           'The 4.0.0 snapshot now treats JWT auth as the default API gate instead of the shared API key, with bootstrap API-key checks limited to login-only auth paths.',
         evidence:
           'Recorded in the API running change log after updating deployment/index.js so all Swagger-backed routes require an authenticated JWT by default, the shared ApiKeyAuth check is only honored for /users/login and the legacy /users/auth stub, /statusz now requires JWT auth, and login bootstrap ignores stale expired bearer headers so retries are not blocked by leftover tokens. Validation used node --check deployment/index.js plus npm test (Syntax OK for 68 files).',

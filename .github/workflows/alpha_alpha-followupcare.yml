@@ -53,7 +53,12 @@ jobs:
         run: npm run "build alpha"
 
       - name: Stage web.config for App Service
-        run: cp web.config dist/web.config
+        run: |
+          if [ -d dist/browser ]; then
+            cp web.config dist/browser/web.config
+          else
+            cp web.config dist/web.config
+          fi
 
       - name: Upload deploy artifact
         uses: actions/upload-artifact@v5
@@ -90,10 +95,16 @@ jobs:
           ls -la
           if [ -f dist/web.config ] && [ -f dist/index.html ]; then
             echo "Artifact layout detected: dist folder"
-            echo "ARTIFACT_SOURCE=dist" >> "$GITHUB_ENV"
+            echo "ARTIFACT_LAYOUT=dist" >> "$GITHUB_ENV"
           elif [ -f web.config ] && [ -f index.html ]; then
             echo "Artifact layout detected: flat root"
-            echo "ARTIFACT_SOURCE=." >> "$GITHUB_ENV"
+            echo "ARTIFACT_LAYOUT=root" >> "$GITHUB_ENV"
+          elif [ -f browser/web.config ] && [ -f browser/index.html ]; then
+            echo "Artifact layout detected: browser folder"
+            echo "ARTIFACT_LAYOUT=browser" >> "$GITHUB_ENV"
+          elif [ -f web.config ] && [ -f browser/index.html ]; then
+            echo "Artifact layout detected: browser folder with root web.config"
+            echo "ARTIFACT_LAYOUT=browser-root" >> "$GITHUB_ENV"
           else
             echo "Could not find expected web assets in dist/ or root"
             find . -maxdepth 4 -name web.config -print
@@ -105,11 +116,28 @@ jobs:
         run: |
           rm -rf deploy
           mkdir -p deploy/dist
-          if [ "$ARTIFACT_SOURCE" = "dist" ]; then
-            cp -R dist/. deploy/dist/
-          else
-            find . -mindepth 1 -maxdepth 1 ! -name deploy -exec cp -R {} deploy/dist/ \;
-          fi
+          case "$ARTIFACT_LAYOUT" in
+            dist)
+              cp -R dist/. deploy/dist/
+              ;;
+            root)
+              find . -mindepth 1 -maxdepth 1 ! -name deploy -exec cp -R {} deploy/dist/ \;
+              ;;
+            browser)
+              cp -R browser/. deploy/dist/
+              ;;
+            browser-root)
+              cp -R browser/. deploy/dist/
+              cp web.config deploy/dist/web.config
+              if [ -f prerendered-routes.json ]; then
+                cp prerendered-routes.json deploy/dist/prerendered-routes.json
+              fi
+              ;;
+            *)
+              echo "Unknown artifact layout: $ARTIFACT_LAYOUT"
+              exit 1
+              ;;
+          esac
           test -f deploy/dist/web.config
           test -f deploy/dist/index.html
 
