@@ -23,6 +23,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Snapshot Notify, Follow-up, and Post-it dialogs now use Ionic 8 modal host styling instead of the removed `.modal-wrapper` internals, restoring visible modal content after the framework migration.',
+        evidence:
+          'Recorded in the frontend running change log after replacing the legacy followup-modal and followup-post-it-modal wrapper selectors in theme.scss with ion-modal host variables and ::part(content/backdrop) styling that Ionic 8 actually honors. The shared modal entry points in toolbar-nav, patient follow-up completion, team detail, and team-members listing still opened these dialogs through the same cssClass values, so moving the sizing/overflow rules onto the modal host fixed the regression at the shared shell rather than at each call site. Validation used the focused notification-modal, toolbar-nav, team-detail, team-members-listing, and followup-complete-modal Jest slice (12/12 passing) plus npm run build -s.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Snapshot patient, user-profile, and operation contact-notification forms now use attached-label Ionic controls and flexible choice-row layouts instead of legacy nested Ionic 3 item markup.',
         evidence:
           'Recorded in the frontend running change log after updating the patient form, user-profile form, operation form, and theme.scss so checkbox/radio labels stay attached to their controls, wrapped labels no longer clip inside fixed-height rows, the discharge and notification choice lists use responsive flex/grid layouts, and obsolete global radio-internal overrides were removed from the migrated Ionic stack. Validation used the focused patient-form, user-profile, and operation-form Jest slice (48/48 passing) plus npm run build -s.',

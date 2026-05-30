@@ -56,32 +56,36 @@ ion-item {
 
 $item-md-padding-end: 0;
 
-.followup-modal {
-  position: absolute;
-  z-index: 20000;
-  height: 100%;
-  width: 100%;
-
-  ion-backdrop {
-    visibility: visible !important;
-  }
-
-  .modal-wrapper {
-    border-radius: 0;
-    overflow: hidden;
-    top: 25%;
-    left: 33%;
-    position: absolute;
-    width: 600px;
-    height: 510px;
-  }
+ion-modal.followup-modal,
+ion-modal.followup-post-it-modal {
+  --backdrop-opacity: 0.32;
 }
 
-.followup-post-it-modal {
-  .modal-wrapper {
-    height: 475px;
-    border-radius: 0;
-  }
+ion-modal.followup-modal {
+  --width: min(645px, calc(100vw - 32px));
+  --max-width: 645px;
+  --height: auto;
+  --max-height: min(510px, calc(100vh - 48px));
+  --border-radius: 0;
+}
+
+ion-modal.followup-post-it-modal {
+  --width: min(600px, calc(100vw - 32px));
+  --max-width: 600px;
+  --height: auto;
+  --max-height: min(475px, calc(100vh - 48px));
+  --border-radius: 0;
+}
+
+ion-modal.followup-modal::part(backdrop),
+ion-modal.followup-post-it-modal::part(backdrop) {
+  opacity: 1;
+}
+
+ion-modal.followup-modal::part(content),
+ion-modal.followup-post-it-modal::part(content) {
+  overflow: hidden;
+  max-height: calc(100vh - 48px);
 }
 
 .alert-danger {
