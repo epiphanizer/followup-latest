@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, BehaviorSubject, of } from 'rxjs';
+import { Observable, throwError, BehaviorSubject, of, firstValueFrom } from 'rxjs';
 import { map, catchError, retry } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -136,7 +136,7 @@ export class AuthenticationService {
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
   async signIn(username: string, password: string, selectedUserId?: string): Promise<any> {
-    let result = await this.doLogin(username, password, selectedUserId).toPromise();
+    const result = await firstValueFrom(this.doLogin(username, password, selectedUserId));
     if (!(await result)) {
       return false;
     }
@@ -145,7 +145,7 @@ export class AuthenticationService {
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
   async signOut(userId: string): Promise<any> {
-    let result = await this.doLogout(userId).toPromise();
+    const result = await firstValueFrom(this.doLogout(userId));
     if (!(await result)) {
       return false;
     }

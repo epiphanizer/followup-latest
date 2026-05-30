@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
 import { catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { throwError, BehaviorSubject } from 'rxjs';
+import { throwError, BehaviorSubject, firstValueFrom } from 'rxjs';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { User } from '@app/modules/user/user';
 
@@ -66,7 +66,7 @@ export class UserCorkBoardService {
         const imageFile = new File([imageBlob], fileName, {
           type: 'image/jpeg'
         });
-        this.addNewUserCorkBoardObjectByUserId(user.userId, imageFile).toPromise();
+        void firstValueFrom(this.addNewUserCorkBoardObjectByUserId(user.userId, imageFile));
       });
     });
   }

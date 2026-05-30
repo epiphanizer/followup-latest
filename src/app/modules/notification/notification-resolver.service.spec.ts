@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { NotificationResolver } from './notification-resolver.service';
 
 describe('NotificationResolver (Jest)', () => {
@@ -9,7 +9,7 @@ describe('NotificationResolver (Jest)', () => {
     } as any;
     const resolver = new NotificationResolver(notificationService as any);
 
-    const result = await resolver.resolve(route).toPromise();
+    const result = await firstValueFrom(resolver.resolve(route));
 
     expect(notificationService.getNotificationByNotificationId).toHaveBeenCalledWith('n1');
     expect(result).toEqual({ id: 'n1' });

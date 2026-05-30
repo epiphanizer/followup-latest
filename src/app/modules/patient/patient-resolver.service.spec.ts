@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { PatientResolver } from './patient-resolver.service';
 
 const makeRoute = (patientId: string) => ({
@@ -21,12 +21,12 @@ describe('PatientResolver (Jest)', () => {
     } as any;
     const resolver = new PatientResolver(patientService, patientCallService, patientContactService);
 
-    const result = await resolver.resolve(makeRoute('p-1') as any).toPromise();
+    const result = await firstValueFrom(resolver.resolve(makeRoute('p-1') as any));
 
     expect(patientService.getPatientByPatientId).toHaveBeenCalledWith('p-1');
     expect(result.patientId).toBe('p-1');
-    expect(await result.patientLanguages$.toPromise()).toEqual(['en']);
-    expect(await result.patientContacts$.toPromise()).toEqual(['contact']);
-    expect(await result.patientCalls$.toPromise()).toEqual(['call']);
+    expect(await firstValueFrom(result.patientLanguages$)).toEqual(['en']);
+    expect(await firstValueFrom(result.patientContacts$)).toEqual(['contact']);
+    expect(await firstValueFrom(result.patientCalls$)).toEqual(['call']);
   });
 });

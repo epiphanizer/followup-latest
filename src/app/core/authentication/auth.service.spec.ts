@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { of, throwError } from 'rxjs';
+import { firstValueFrom, of, throwError } from 'rxjs';
 
 import { AuthenticationService } from './auth.service';
 
@@ -41,7 +41,7 @@ describe('AuthenticationService', () => {
     operationService.getOperationGroups.mockReturnValue(of([{ operationGroupId: 1 }]));
     http.post.mockReturnValue(of({ token: 'jwt-token' }));
 
-    const result = await service.doLogin('alice', 'secret').toPromise();
+    const result = await firstValueFrom(service.doLogin('alice', 'secret'));
 
     expect(result).toEqual(decoded);
     expect(operationService.getOperationsByUserId).toHaveBeenCalledWith(1);
@@ -58,7 +58,7 @@ describe('AuthenticationService', () => {
     const { service, http } = build();
     http.post.mockReturnValue(throwError(new HttpErrorResponse({ status: 500, error: 'boom' })));
 
-    await expect(service.doLogin('bad', 'creds').toPromise()).rejects.toMatchObject(
+    await expect(firstValueFrom(service.doLogin('bad', 'creds'))).rejects.toMatchObject(
       expect.objectContaining({ status: 500, message: 'boom' })
     );
   });
@@ -78,7 +78,7 @@ describe('AuthenticationService', () => {
       )
     );
 
-    await expect(service.doLogin('dup', 'creds').toPromise()).rejects.toMatchObject(
+    await expect(firstValueFrom(service.doLogin('dup', 'creds'))).rejects.toMatchObject(
       expect.objectContaining({ status: 409, requiresAccountSelection: true, suggestedUserId: 'user-2' })
     );
   });
@@ -89,7 +89,7 @@ describe('AuthenticationService', () => {
     localStorage.setItem('followup-token', 'token');
     http.post.mockReturnValue(of({}));
 
-    await service.doLogout('2').toPromise();
+    await firstValueFrom(service.doLogout('2'));
 
     expect(localStorage.getItem('followup-user')).toBeNull();
     expect(localStorage.getItem('followup-token')).toBeNull();
@@ -103,7 +103,7 @@ describe('AuthenticationService', () => {
     localStorage.setItem('followup-token', 'token');
     http.post.mockReturnValue(throwError(new HttpErrorResponse({ status: 503, error: 'down' })));
 
-    await service.doLogout('3').toPromise();
+    await firstValueFrom(service.doLogout('3'));
 
     expect(localStorage.getItem('followup-user')).toBeNull();
     expect(localStorage.getItem('followup-token')).toBeNull();

@@ -17,14 +17,17 @@
         "@typescript-eslint/no-non-null-assertion": "off",
         "@angular-eslint/no-empty-lifecycle-method": "off",
         "@angular-eslint/contextual-lifecycle": "off",
-        "@angular-eslint/use-lifecycle-interface": "off"
+        "@angular-eslint/use-lifecycle-interface": "off",
+        "@angular-eslint/prefer-standalone": "off",
+        "@angular-eslint/prefer-inject": "off"
       }
     },
     {
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
-        "@angular-eslint/template/eqeqeq": "off"
+        "@angular-eslint/template/eqeqeq": "off",
+        "@angular-eslint/template/prefer-control-flow": "off"
       }
     }
   ]
