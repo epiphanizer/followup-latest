@@ -21,6 +21,30 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'Performance',
+        summary:
+          'The snapshot alpha `/users/{userId}/operations` hotspot no longer computes counts through the global `VW_operationCounts` view and now uses a user-scoped procedure plan instead.',
+        evidence:
+          'Recorded in the snapshot API running change log after adding migration_sql/3.12.5migration-user-operations-performance.sql and applying it to followup_alpha_20260517. The old sp_getUserOperationsByUserId was only a thin wrapper over VW_operationCounts, whose scalar subqueries forced the request to evaluate operation counts across the broader operations surface before filtering by the current user. The new procedure seeds distinct active user operations plus related patient ids into temp tables, computes latest patient status/admission/call state once per scoped patient, and aggregates only that reduced slice while preserving the existing row set. Validation used transactional compile-validation of the migration, EXCEPT-based equivalence checks against the previous proc for heavy users 11 and 19, and direct alpha benchmarking for userId 11 showing the same 72 rows with runtime reduced from 6388.3ms to 2030.7ms.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Local snapshot `NODE_ENV=dev` now defaults to the isolated alpha database instead of the production `followup` database when no `appDatabase` override is set.',
+        evidence:
+          'Recorded in the snapshot API running change log after updating deployment/config/env/dev.json from `followup` to `followup_alpha_20260517`. The deployment/config/index.js loader treats `NODE_ENV=dev` as a file-backed local mode and resolves config.sql.database from process.env.appDatabase first, then from the checked-in dev.json fallback, so the previous default could connect local npm run dev sessions to prod unexpectedly. Validation used NODE_ENV=dev node -e "const config=require(\'./deployment/config\'); console.log(config.sql.database)" and confirmed the resolved local dev database is now followup_alpha_20260517.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The top-nav Notify dialog now keeps a visible shell while its notification-type options load, fixing the backdrop-only collapse on first open.',
+        evidence:
+          'Recorded in the frontend running change log after updating src/app/shell/notification-modal/notification-modal.component.html and .scss so the modal renders a persistent shell, title row, and loading state before createNotificationForm exists, and so the old component-scoped :root sizing rule is replaced by a real :host min-height block. Previously the unsaved branch rendered no root content until getNotificationTypes() returned, which let the shared auto-height followup-modal collapse to backdrop-only when toolbar-nav opened the Notify dialog. Validation used npm run build -s.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'Frontend',
         summary:
           'Snapshot Notify, Follow-up, and Post-it dialogs now use Ionic 8 modal host styling instead of the removed `.modal-wrapper` internals, restoring visible modal content after the framework migration.',

@@ -1,7 +1,38 @@
-:root {
-  --height: 440px !important;
-  max-height: 440px !important;
-  width: 645px;
+:host {
+  display: block;
+  min-height: 440px;
+  width: 100%;
+}
+
+.notification-modal-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 440px;
+  width: 100%;
+}
+
+.notification-form {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.notification-loading {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 260px;
+  font-family: Avenir;
+  font-size: 14px;
+  color: #444444;
+}
+
+.notification-loading ion-spinner {
+  width: 18px;
+  height: 18px;
+  color: #08b4b9;
 }
 
 .notification-container {

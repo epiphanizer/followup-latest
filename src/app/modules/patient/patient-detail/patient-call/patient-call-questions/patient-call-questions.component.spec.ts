@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { PatientCallQuestionsComponent } from './patient-call-questions.component';
 import { PatientCallQuestionsService } from './patient-call-questions.service';
 
-const buildQuestion = (id: string, type: 'rating' | 'text') => ({
+const buildQuestion = (id: string, type: 'boolean' | 'rating' | 'text') => ({
   patientCallQuestionId: id,
   patientCallQuestion: `${type} question ${id}`,
   patientCallQuestionType: type,
@@ -15,6 +15,7 @@ const buildQuestion = (id: string, type: 'rating' | 'text') => ({
 });
 
 const questionsMock = [
+  buildQuestion('q0', 'boolean'),
   buildQuestion('q1', 'rating'),
   buildQuestion('q2', 'text'),
   buildQuestion('q3', 'rating'),
@@ -61,19 +62,30 @@ describe('PatientCallQuestionsComponent', () => {
   });
 
   it('sets ratings and exposes star state', () => {
-    component.questions = questionsMock;
+    component.questions = [questionsMock[1]];
     component.createForm();
-    component.addQuestionControl(questionsMock[0]);
+    component.addQuestionControl(questionsMock[1]);
     component.setRating('q1', 3);
 
     expect(component.isStarFilled(2, 'q1')).toBe(true);
     expect(component.isStarFilled(5, 'q1')).toBe(false);
   });
 
+  it('renders yes and no image-button radios for boolean questions', done => {
+    setTimeout(() => {
+      const element = fixture.nativeElement as HTMLElement;
+
+      expect(element.querySelector('ion-radio.radio-button-yes')).toBeTruthy();
+      expect(element.querySelector('ion-radio.radio-button-no')).toBeTruthy();
+      expect(element.querySelector('.boolean-question-group')).toBeTruthy();
+      done();
+    }, 0);
+  });
+
   it('emits answer changes via onChanges pipeline', done => {
     component.questions = questionsMock;
     component.createForm();
-    component.addQuestionControl(questionsMock[0]);
+    component.addQuestionControl(questionsMock[1]);
 
     component.patientCallAnwersChangeEmitter.subscribe(values => {
       expect(values.length).toBeGreaterThan(0);

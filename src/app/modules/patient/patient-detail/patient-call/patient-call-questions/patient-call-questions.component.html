@@ -8,18 +8,12 @@
               <span class="patient-call-question-label">
                 {{ question.patientCallQuestion }}
               </span>
-              <ion-radio-group formControlName="{{ question.patientCallQuestionId }}">
+              <ion-radio-group class="boolean-question-group" formControlName="{{ question.patientCallQuestionId }}">
                 <ion-item class="boolean-question">
-                  <ion-radio class="radio-button" mode="ios" value="true"> </ion-radio>
-                  <ion-label>
-                    Yes
-                  </ion-label>
+                  <ion-radio aria-label="Yes" class="radio-button-yes" mode="ios" value="true"> </ion-radio>
                 </ion-item>
                 <ion-item class="boolean-question">
-                  <ion-radio class="radio-button" mode="ios" value="false"> </ion-radio>
-                  <ion-label>
-                    No
-                  </ion-label>
+                  <ion-radio aria-label="No" class="radio-button-no" mode="ios" value="false"> </ion-radio>
                 </ion-item>
               </ion-radio-group>
             </ng-container>
