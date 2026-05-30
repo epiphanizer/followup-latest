@@ -31,7 +31,9 @@ const operationServiceStub = {
       {
         operationGroupName: 'Group A',
         operationName: 'Operation 1',
-        operationUserRoleLabel: 'Manager'
+        operationUserRoleLabel: 'Manager',
+        accessSourceLabel: 'Inherited',
+        inheritedOperationUserRoleLabel: 'Manager'
       }
     ])
   )
@@ -73,6 +75,8 @@ describe('TeamMemberDetailComponent (Jest)', () => {
     expect(component).toBeTruthy();
     expect(component.teamMember?.teamMemberId).toBe('m1');
     expect(component.user?.userInterests[0].nicename).toContain('Met favorite celebrity');
+    expect(component.accessGroups[0].entries[0].sourceLabel).toBe('Inherited');
+    expect(component.accessGroups[0].entries[0].sourceDetail).toContain('Team: Manager');
   });
 
   it('opens post it modal via helper', async () => {

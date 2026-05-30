@@ -312,12 +312,36 @@
 
     li {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
+      justify-content: space-between;
       gap: 8px;
       margin: 4px 0;
       padding: 4px 10px;
-      border-radius: 999px;
+      border-radius: 18px;
       background: #f3f2f1;
+
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+      }
+    }
+  }
+
+  .access-copy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .access-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-left: auto;
+
+    @media screen and (max-width: 768px) {
+      margin-left: 0;
+      justify-content: flex-start;
     }
   }
 
@@ -326,13 +350,36 @@
     font-size: 12px;
     color: #3f3638;
     white-space: nowrap;
-    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    background: #ffffff;
+    padding: 4px 10px;
   }
 
   .access-operation {
     font-family: Avenir;
     font-size: 13px;
     color: #222222;
+  }
+
+  .access-source {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    background: #e3f7f8;
+    color: #007c80;
+    font-family: AvenirDemi;
+    font-size: 12px;
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+
+  .access-source-detail {
+    font-family: Avenir;
+    font-size: 12px;
+    color: #6f6f75;
+    margin-top: 2px;
   }
 
   .user-information {

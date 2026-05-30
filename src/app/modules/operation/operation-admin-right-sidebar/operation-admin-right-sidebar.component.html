@@ -18,7 +18,7 @@
         <div class="manager-container" *ngFor="let manager of operationManagers; let idx = index">
           <ion-item class="sidebar-listing" id="operation-manager">
             <ion-select
-              *ngIf="(mode.edit || mode.add) && operationManagers; else managerSpan"
+              *ngIf="(mode.edit || mode.add) && operationManagers && isDirectAssignment(manager); else managerSpan"
               [class.edit]="mode.edit"
               [value]="manager?.userId"
               (ionChange)="managerOnSelect($event, idx)"
@@ -34,16 +34,23 @@
             </ion-select>
 
             <ion-note
-              *ngIf="mode.edit"
+              *ngIf="mode.edit && isDirectAssignment(manager)"
               item-end
               class="remove-icon"
               (click)="removeCallRepOrManager('manager', idx, manager.userId)"
               >X</ion-note
             >
             <ng-template #managerSpan>
-              <span class="operation-manager">
-                <b>{{ manager?.userFirstName }} {{ manager?.userLastName }}</b>
-              </span>
+              <div class="assignment-copy" [class.is-inherited]="isInheritedOnlyAssignment(manager)">
+                <span class="operation-manager">
+                  <b>{{ manager?.userFirstName }} {{ manager?.userLastName }}</b>
+                </span>
+                <span class="assignment-detail" *ngIf="getAssignmentDetail(manager)">{{ getAssignmentDetail(manager) }}</span>
+                <div class="assignment-pills" *ngIf="getAssignmentSourceLabel(manager)">
+                  <span class="assignment-source">{{ getAssignmentSourceLabel(manager) }}</span>
+                  <span class="assignment-lock" *ngIf="mode.edit && isInheritedOnlyAssignment(manager)">Manage from Teams</span>
+                </div>
+              </div>
             </ng-template>
           </ion-item>
         </div>
@@ -68,7 +75,7 @@
           <div class="callrep-container" *ngFor="let operationCallRep of operationAssignedUsers; let idx = index">
             <ion-item class="sidebar-listing" id="operationCallRep-{{ idx }}">
               <ion-select
-                *ngIf="users && ((mode.edit && operationAssignedUsers.length) || mode.add); else memberSpan"
+                *ngIf="users && (((mode.edit && operationAssignedUsers.length) || mode.add) && isDirectAssignment(operationCallRep)); else memberSpan"
                 (ionChange)="callRepOnSelect($event, idx)"
                 [class.edit]="mode.edit"
                 [value]="operationCallRep?.userId"
@@ -83,16 +90,27 @@
                 </ion-select-option>
               </ion-select>
               <ion-note
-                *ngIf="mode.edit"
+                *ngIf="mode.edit && isDirectAssignment(operationCallRep)"
                 item-end
                 class="remove-icon"
                 (click)="removeCallRepOrManager('callrep', idx, operationCallRep.userId)"
                 >X</ion-note
               >
               <ng-template #memberSpan>
-                <span class="operation-callrep">
-                  <b>{{ operationCallRep.userFirstName }} {{ operationCallRep.userLastName }}</b>
-                </span>
+                <div class="assignment-copy" [class.is-inherited]="isInheritedOnlyAssignment(operationCallRep)">
+                  <span class="operation-callrep">
+                    <b>{{ operationCallRep.userFirstName }} {{ operationCallRep.userLastName }}</b>
+                  </span>
+                  <span class="assignment-detail" *ngIf="getAssignmentDetail(operationCallRep)">
+                    {{ getAssignmentDetail(operationCallRep) }}
+                  </span>
+                  <div class="assignment-pills" *ngIf="getAssignmentSourceLabel(operationCallRep)">
+                    <span class="assignment-source">{{ getAssignmentSourceLabel(operationCallRep) }}</span>
+                    <span class="assignment-lock" *ngIf="mode.edit && isInheritedOnlyAssignment(operationCallRep)">
+                      Manage from Teams
+                    </span>
+                  </div>
+                </div>
               </ng-template>
             </ion-item>
           </div>

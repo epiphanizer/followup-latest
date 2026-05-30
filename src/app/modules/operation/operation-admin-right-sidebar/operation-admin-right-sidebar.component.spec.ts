@@ -12,9 +12,27 @@ describe('OperationAdminRightSidebarComponent', () => {
   let fixture: ComponentFixture<OperationAdminRightSidebarComponent>;
   const operationServiceMock: any = {
     getUsersAssignedByOperationId: jest.fn(() =>
-      of([{ userId: 'u1', userRoleLabel: 'Care Rep', userLastName: 'Alpha' }])
+      of([
+        {
+          userId: 'm1',
+          userFirstName: 'Manny',
+          userLastName: 'Beta',
+          operationUserRoleLabel: 'Manager',
+          accessSourceLabel: 'Inherited',
+          inheritedOperationUserRoleLabelId: 2,
+          inheritedOperationUserRoleLabel: 'Manager'
+        },
+        {
+          userId: 'u1',
+          userFirstName: 'Alice',
+          userLastName: 'Alpha',
+          operationUserRoleLabel: 'Care Rep',
+          accessSourceLabel: 'Direct',
+          directOperationUserRoleLabelId: 3,
+          directOperationUserRoleLabel: 'Care Rep'
+        }
+      ])
     ),
-    getOperationManagersByOperationId: jest.fn(() => of([{ userId: 'm1', userLastName: 'Beta' }])),
     assignManagerToOperationByOperationIdAndUserId: jest.fn(() => of({})),
     removeCallRepOrManager: jest.fn(() => of(true)),
     removeManagerByOperationIdAndUserId: jest.fn(() => of(true))
@@ -40,6 +58,7 @@ describe('OperationAdminRightSidebarComponent', () => {
   );
 
   beforeEach(() => {
+    jest.clearAllMocks();
     fixture = TestBed.createComponent(OperationAdminRightSidebarComponent);
     component = fixture.componentInstance;
     component.mode = { add: false, edit: true } as any;
@@ -49,8 +68,9 @@ describe('OperationAdminRightSidebarComponent', () => {
   });
 
   it('initializes managers and call reps from services', () => {
-    expect(component.operationManagersOriginal).toEqual(['m1']);
+    expect(component.operationManagersOriginal).toEqual([]);
     expect(component.operationAssignedUsersOriginal).toEqual(['u1']);
+    expect(component.operationManagers[0].accessSourceLabel).toBe('Inherited');
   });
 
   it('swaps call reps and persists add/remove', () => {
@@ -65,8 +85,8 @@ describe('OperationAdminRightSidebarComponent', () => {
   });
 
   it('assigns managers and toggles menus', () => {
-    component.operationManagers = [{ userId: 'm1', operationId: 'op1' } as any];
-    component.operationManagersOriginal = ['m1'];
+    component.operationManagers = [{ userId: 'm2', operationId: 'op1' } as any];
+    component.operationManagersOriginal = [];
 
     component.managerOnSelect({ detail: { value: 'm2' } }, 0);
     expect(operationServiceMock.assignManagerToOperationByOperationIdAndUserId).toHaveBeenCalledWith('op1', 'm2');
@@ -80,5 +100,22 @@ describe('OperationAdminRightSidebarComponent', () => {
     component.operationAssignedUsers = [];
     component.addAdditionalOperationCallRep();
     expect(component.operationAssignedUsers[0].userId).toBe(0);
+  });
+
+  it('does not remove inherited assignments through direct-write endpoints', () => {
+    component.operationManagers = [
+      {
+        userId: 'm1',
+        accessSourceLabel: 'Inherited',
+        inheritedOperationUserRoleLabelId: 2
+      } as any
+    ];
+
+    component.removeCallRepOrManager('manager', 0, 'm1');
+
+    expect(operationServiceMock.removeManagerByOperationIdAndUserId).not.toHaveBeenCalled();
+    expect(toastrMock.error).toHaveBeenCalledWith(
+      'This assignment is inherited from Team Access. Update it from the Teams section.'
+    );
   });
 });

@@ -8,6 +8,13 @@ export interface User {
   teamId?: string;
   userLevel: string;
   userRoleLabel?: string;
+  operationUserRoleLabelId?: number;
+  operationUserRoleLabel?: string;
+  directOperationUserRoleLabelId?: number;
+  directOperationUserRoleLabel?: string;
+  inheritedOperationUserRoleLabelId?: number;
+  inheritedOperationUserRoleLabel?: string;
+  accessSourceLabel?: string;
   username: string;
   userEmail: string;
   avatarData?: Blob;

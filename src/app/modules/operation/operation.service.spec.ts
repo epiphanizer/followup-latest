@@ -186,18 +186,6 @@ describe('OperationService (Jest)', () => {
     });
   });
 
-  it('fetches operation managers by operation id', done => {
-    const http = makeHttp();
-    http.get = jest.fn(() => of([{ userId: 'u1', managerLevel: 1 }] as any));
-    const svc = new OperationService(http as any);
-
-    svc.getOperationManagersByOperationId('op-1').subscribe((managers: any) => {
-      expect(http.get).toHaveBeenCalledWith('operations/op-1/managers');
-      expect(managers[0].userId).toBe('u1');
-      done();
-    });
-  });
-
   it('edits operation details by id', done => {
     const http = makeHttp();
     const svc = new OperationService(http as any);

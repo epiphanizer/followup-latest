@@ -39,11 +39,21 @@ export class TeamMemberDetailComponent implements OnInit {
   user: User;
   accessGroups: Array<{
     groupName: string;
-    entries: Array<{ operationName: string; roleLabel: string }>;
+    entries: Array<{
+      operationName: string;
+      roleLabel: string;
+      sourceLabel: string;
+      sourceDetail: string;
+    }>;
   }> = [];
   filteredAccessGroups: Array<{
     groupName: string;
-    entries: Array<{ operationName: string; roleLabel: string }>;
+    entries: Array<{
+      operationName: string;
+      roleLabel: string;
+      sourceLabel: string;
+      sourceDetail: string;
+    }>;
   }> = [];
   accessFilterOptions: string[] = ['All', 'Manager', 'Care Rep'];
   activeAccessFilter: string = 'All';
@@ -186,7 +196,10 @@ export class TeamMemberDetailComponent implements OnInit {
           this.activeAccessFilter = 'All';
           return;
         }
-        const grouped: Record<string, Array<{ operationName: string; roleLabel: string }>> = {};
+        const grouped: Record<
+          string,
+          Array<{ operationName: string; roleLabel: string; sourceLabel: string; sourceDetail: string }>
+        > = {};
         operations.forEach(operation => {
           const groupName = operation.operationGroupName || 'Other';
           if (!grouped[groupName]) {
@@ -196,9 +209,12 @@ export class TeamMemberDetailComponent implements OnInit {
           if (!roleLabel) {
             return;
           }
+          const sourceLabel = this.resolveAccessSourceLabel(operation);
           grouped[groupName].push({
             operationName: operation.operationName || 'Unnamed Operation',
-            roleLabel
+            roleLabel,
+            sourceLabel,
+            sourceDetail: this.resolveAccessSourceDetail(operation)
           });
         });
         this.accessGroups = Object.keys(grouped)
@@ -284,6 +300,28 @@ export class TeamMemberDetailComponent implements OnInit {
 
   postNote() {
     this.postItModal();
+  }
+
+  private resolveAccessSourceLabel(operation: Operation | any): string {
+    const sourceLabel = (operation?.accessSourceLabel || '').trim();
+    return sourceLabel || 'Direct';
+  }
+
+  private resolveAccessSourceDetail(operation: Operation | any): string {
+    const details: string[] = [];
+
+    const directRoleLabel = this.normalizeRoleLabel(operation?.directOperationUserRoleLabel || '');
+    const inheritedRoleLabel = this.normalizeRoleLabel(operation?.inheritedOperationUserRoleLabel || '');
+
+    if (directRoleLabel) {
+      details.push('Direct: ' + directRoleLabel);
+    }
+
+    if (inheritedRoleLabel) {
+      details.push('Team: ' + inheritedRoleLabel);
+    }
+
+    return details.join(' • ');
   }
 
   loginAsUser() {

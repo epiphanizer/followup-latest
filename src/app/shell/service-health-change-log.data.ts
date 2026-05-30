@@ -15,11 +15,19 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
-    version: '4.0.0',
+    version: '4.0.0_alpha_rc2',
     recordedAt: '2026-05-30',
-    label: 'Current alpha candidate',
+    label: 'Current alpha rc2 candidate',
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Team member detail and the operation assignment sidebar now show whether access is direct or team-managed, and the sidebar no longer tries to remove inherited rows through the direct assignment endpoints.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating src/app/modules/team/team-detail/team-detail.component.ts/.html/.scss, src/app/modules/operation/operation-admin-right-sidebar/operation-admin-right-sidebar.component.ts/.html/.scss, and src/app/modules/user/user.ts. Team detail ACCESS rows now render source pills plus direct/team role detail from the effective access payload, and the operation sidebar now derives both managers and care reps from the effective /operations/{operationId}/users roster, preserves direct add/remove for explicit direct assignments, and marks inherited rows as Manage from Teams instead of issuing legacy delete calls against team-managed access. Validation used focused Jest on the team-detail and operation-admin-right-sidebar slices (7/7 passing) plus npm run build -s.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
       {
         scope: 'API',
         summary:

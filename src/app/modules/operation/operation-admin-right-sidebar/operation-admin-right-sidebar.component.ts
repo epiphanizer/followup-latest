@@ -84,6 +84,7 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
   operationManagersToAdd: OperationManager[];
   operationManagersOriginal: string[];
   operationManagersToRemove: string[] = [];
+  effectiveAssignedUsers: User[] = [];
   ready: boolean = false;
   routeSubscription: SubscriptionLike;
 
@@ -136,6 +137,7 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
   }
   private initializeOperationContext(operationId: string) {
     this.activeOperationId = operationId;
+    this.effectiveAssignedUsers = [];
     this.operationManagers = [];
     this.operationManagersOriginal = [];
     this.operationManagersToAdd = [];
@@ -144,40 +146,40 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
     this.operationAssignedUsersOriginal = [];
     this.operationAssignedUsersToAdd = [];
     this.operationAssignedUsersToRemove = [];
-    this.getAssignedManagers();
-    this.updateAssignedUsers();
+    this.refreshEffectiveAssignments();
   }
+
+  refreshEffectiveAssignments(): any {
+    if (!this.activeOperationId) {
+      return;
+    }
+
+    return this.operationService
+      .getUsersAssignedByOperationId(this.activeOperationId)
+      .pipe(
+        map((users: User[]) => {
+          this.effectiveAssignedUsers = (users || []).sort((left: User, right: User) => {
+            const lastNameDifference = (left.userLastName || '').localeCompare(right.userLastName || '');
+            if (lastNameDifference !== 0) {
+              return lastNameDifference;
+            }
+
+            return (left.userFirstName || '').localeCompare(right.userFirstName || '');
+          });
+          this.syncManagerRowsFromEffectiveAssignments();
+          this.syncCallRepRowsFromEffectiveAssignments();
+        })
+      )
+      .subscribe();
+  }
+
   updateAssignedUsers(): any {
     this.operationAssignedUsers = [];
     this.operationAssignedUsersOriginal = [];
     if (!this.activeOperationId) {
       return;
     }
-    return this.operationService
-      .getUsersAssignedByOperationId(this.activeOperationId)
-      .pipe(
-        map((users: User[]) => {
-          if (users) {
-            this.operationAssignedUsers = users
-              .filter(user => {
-                return user.userRoleLabel === 'Care Rep';
-              })
-              .sort((a: User, b: User) => a.userLastName.localeCompare(b.userLastName));
-            this.operationAssignedUsersOriginal = this.operationAssignedUsers.map(function(user) {
-              return user.userId;
-            });
-          } else {
-            if (!this.mode.edit) {
-              this.callRepSidebarDropdownOpen = false;
-            } else {
-              for (var i = 0; i < 3; i++) {
-                this.operationAssignedUsers.push({});
-              }
-            }
-          }
-        })
-      )
-      .subscribe();
+    this.syncCallRepRowsFromEffectiveAssignments();
   }
   getAssignedManagers() {
     this.operationManagers = [];
@@ -185,34 +187,7 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
     if (!this.activeOperationId) {
       return;
     }
-    this.operationService
-      .getOperationManagersByOperationId(this.activeOperationId)
-      .pipe(
-        take(1),
-        map((managers: OperationManager[]) => {
-          if (managers) {
-            this.operationManagers = managers.sort((a: OperationManager, b: OperationManager) =>
-              a.userLastName.localeCompare(b.userLastName)
-            );
-            this.operationManagersOriginal = this.operationManagers.map(function(manager) {
-              return manager.userId;
-            });
-            // this.cdr.detectChanges();
-          } else {
-            if (!this.mode.edit) {
-              this.managerSidebarDropdownOpen = false;
-            } else {
-              for (var i = 0; i < 1; i++) {
-                this.operationManagers.push({
-                  userId: null,
-                  operationId: null
-                });
-              }
-            }
-          }
-        })
-      )
-      .subscribe();
+    this.syncManagerRowsFromEffectiveAssignments();
   }
 
   callRepOnSelect(event: any, index: number) {
@@ -253,7 +228,7 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
           count++;
           if (count == this.operationAssignedUsersToAdd?.length) {
             this.toastr.success('Care Reps successfully saved');
-            this.updateAssignedUsers();
+            this.refreshEffectiveAssignments();
           }
         });
     });
@@ -326,6 +301,7 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
           count++;
           if (count == this.operationManagersToAdd?.length) {
             this.toastr.success('Manager successfully saved');
+            this.refreshEffectiveAssignments();
           }
         });
     });
@@ -341,6 +317,11 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
       this.toastr.error('Please select a valid user before removing.');
       return;
     }
+    const row = type === 'manager' ? this.operationManagers[idx] : this.operationAssignedUsers[idx];
+    if (!this.isDirectAssignment(row)) {
+      this.toastr.error('This assignment is inherited from Team Access. Update it from the Teams section.');
+      return;
+    }
     const request =
       type === 'manager'
         ? this.operationService.removeManagerByOperationIdAndUserId(this.activeOperationId, userId)
@@ -352,18 +333,95 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
           case 'manager':
             this.operationManagersToRemove.push(this.operationManagers[idx].userId);
             this.operationManagers.splice(idx, 1);
-            this.getAssignedManagers();
+            this.refreshEffectiveAssignments();
             break;
           case 'callrep':
             this.operationAssignedUsersToRemove.push(this.operationAssignedUsers[idx].userId);
             this.operationAssignedUsers.splice(idx, 1);
-            this.updateAssignedUsers();
+            this.refreshEffectiveAssignments();
             break;
         }
       },
       error: () => {
         this.toastr.error('Oops! Could not remove the user.');
       }
+    });
+  }
+
+  isDirectAssignment(user: User | any): boolean {
+    return Number(user?.directOperationUserRoleLabelId) > 0 || !user?.accessSourceLabel;
+  }
+
+  isInheritedOnlyAssignment(user: User | any): boolean {
+    return !this.isDirectAssignment(user) && Number(user?.inheritedOperationUserRoleLabelId) > 0;
+  }
+
+  getAssignmentSourceLabel(user: User | any): string {
+    return (user?.accessSourceLabel || (this.isDirectAssignment(user) ? 'Direct' : '')).trim();
+  }
+
+  getAssignmentDetail(user: User | any): string {
+    const details: string[] = [];
+
+    if (user?.directOperationUserRoleLabel) {
+      details.push('Direct: ' + user.directOperationUserRoleLabel);
+    }
+
+    if (user?.inheritedOperationUserRoleLabel) {
+      details.push('Team: ' + user.inheritedOperationUserRoleLabel);
+    }
+
+    return details.join(' • ');
+  }
+
+  private syncCallRepRowsFromEffectiveAssignments() {
+    const callReps = this.filterEffectiveUsersByRole('care');
+
+    if (callReps.length) {
+      this.operationAssignedUsers = callReps;
+      this.operationAssignedUsersOriginal = callReps
+        .filter(user => this.isDirectAssignment(user))
+        .map(user => user.userId);
+      return;
+    }
+
+    if (!this.mode.edit) {
+      this.callRepSidebarDropdownOpen = false;
+      return;
+    }
+
+    this.operationAssignedUsers = [];
+    for (let index = 0; index < 3; index++) {
+      this.operationAssignedUsers.push({});
+    }
+  }
+
+  private syncManagerRowsFromEffectiveAssignments() {
+    const managers = this.filterEffectiveUsersByRole('manager');
+
+    if (managers.length) {
+      this.operationManagers = managers;
+      this.operationManagersOriginal = managers.filter(user => this.isDirectAssignment(user)).map(user => user.userId);
+      return;
+    }
+
+    if (!this.mode.edit) {
+      this.managerSidebarDropdownOpen = false;
+      return;
+    }
+
+    this.operationManagers = [
+      {
+        userId: null,
+        operationId: null
+      }
+    ];
+  }
+
+  private filterEffectiveUsersByRole(role: 'manager' | 'care'): User[] {
+    return (this.effectiveAssignedUsers || []).filter(user => {
+      const roleLabel = (user.operationUserRoleLabel || user.userRoleLabel || '').toLowerCase();
+      return role === 'manager' ? roleLabel.includes('manager') : roleLabel.includes('care');
     });
   }
   ngOnDestroy() {

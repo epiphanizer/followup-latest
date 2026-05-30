@@ -87,8 +87,14 @@
                     <div class="access-group-name">{{ group.groupName }}</div>
                     <ul class="access-list">
                       <li *ngFor="let access of group.entries">
-                        <span class="access-operation">{{ access.operationName }}</span>
-                        <span class="access-role">{{ access.roleLabel }}</span>
+                        <div class="access-copy">
+                          <span class="access-operation">{{ access.operationName }}</span>
+                          <span class="access-source-detail" *ngIf="access.sourceDetail">{{ access.sourceDetail }}</span>
+                        </div>
+                        <div class="access-pills">
+                          <span class="access-source">{{ access.sourceLabel }}</span>
+                          <span class="access-role">{{ access.roleLabel }}</span>
+                        </div>
                       </li>
                     </ul>
                   </div>
