@@ -1,4 +1,4 @@
-@import "../../theme/theme-variables";
+@use "../../theme/theme-variables" as *;
 
 [ion-fixed] {
   width: 100%;
