@@ -65,7 +65,23 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         summary:
           'Completed-patient status labels now retire three legacy outcomes without losing history by using an active flag in alpha plus proc-level filtering for the selection list.',
         evidence:
-          'Recorded in the frontend and API running change logs after applying 3.11.0migration-patient-status-labels.sql to followup_alpha_20260517, verifying with sqlcmd that Transferred to Another Facility, Hospice, and Transferred to Hospital from Facility now carry patientStatusLabelActive = 0, and confirming dbo.sp_getPatientStatusLabels returns zero deprecated rows. The frontend patient-status service also filters inactive labels as a rollout guard, backed by focused Jest coverage.',
+          'Recorded in the frontend and API running change logs after applying migration_sql/3.11.0migration-patient-status-labels.sql to followup_alpha_20260517, verifying with sqlcmd that Transferred to Another Facility, Hospice, and Transferred to Hospital from Facility now carry patientStatusLabelActive = 0, and confirming dbo.sp_getPatientStatusLabels returns zero deprecated rows. The frontend patient-status service also filters inactive labels as a rollout guard, backed by focused Jest coverage.',
+        source: 'v3.11.0/followup-frontend/agents.md + v3.11.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Database',
+        summary:
+          'The existing 2026-05-14 queue and roster performance indexes are now codified in a checked-in additive migration so future alpha/live rebuilds can recreate the tuned query path from source control.',
+        evidence:
+          'Recorded in the frontend and API running change logs after querying both followup_alpha_20260517 and followup, confirming the deployed IX_tune_20260514_* indexes already exist for notifications, operations, operationUsers, patientAdmissions, patientCalls, patientCallStatuses, patientDischarges, patients, and patientStatuses, and adding migration_sql/3.12.3migration-performance-tuned-indexes.sql with conditional CREATE INDEX statements for that tuned set. Validation used sqlcmd with SET NOEXEC ON plus sqlcmd -b to compile-check the migration cleanly against alpha without executing it.',
+        source: 'v3.11.0/followup-frontend/agents.md + v3.11.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Database',
+        summary:
+          'Canonical API SQL now lives under migration_sql, and notification reply support is present on live after the additive 3.11.0 plus 3.12.2 chain was applied.',
+        evidence:
+          'Recorded in the frontend and API running change logs after moving the versioned SQL files into followup-api/migration_sql, adding a checked-in manifest, audit, alpha NOEXEC validation wrapper, and corrective 3.12.4migration-assigned-users-deleted-filter.sql migration, then applying migration_sql/apply-live-notification-replies.sql to followup. Post-apply verification confirmed notificationReplies, its three indexes, LEFT JOIN-safe reply read procedures, reply insert operationId resolution, and zero pending notification-reply operation backfill rows on live.',
         source: 'v3.11.0/followup-frontend/agents.md + v3.11.0/followup-api/agents.md'
       },
       {
@@ -151,7 +167,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         scope: 'Database',
         summary: 'Notification reply support is now present on the isolated alpha database copy.',
         evidence:
-          '3.11.0migration.sql was applied to followup_alpha_20260517 and verified directly with sqlcmd plus sys.objects/sys.indexes checks.',
+          'migration_sql/3.11.0migration.sql was applied to followup_alpha_20260517 and verified directly with sqlcmd plus sys.objects/sys.indexes checks.',
         source: 'v3.11.0/followup-api/agents.md'
       },
       {
