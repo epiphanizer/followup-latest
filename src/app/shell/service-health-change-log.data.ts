@@ -21,6 +21,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'API',
+        summary:
+          'The local snapshot API now answers protected `/statusz` browser preflights before auth, so Service Health can call the endpoint from `http://localhost:4200` without a CORS failure.',
+        evidence:
+          'Recorded in the API running change log after moving cors() ahead of bearer-token parsing and the early /livez /statusz /healthz handlers in deployment/index.js. Before that change, the browser-issued OPTIONS request for Authorization-bearing /statusz calls hit auth first and returned 401 without Access-Control-Allow-Origin, which the browser surfaced as a CORS block. Validation used a live local API restart and curl -i -X OPTIONS http://localhost:8080/statusz with Origin, Access-Control-Request-Method, and Access-Control-Request-Headers: authorization; the endpoint now returns 204 No Content with Access-Control-Allow-Origin: * and Access-Control-Allow-Headers: authorization.',
+        source: 'followup-api/agents.md'
+      },
+      {
         scope: 'Frontend',
         summary:
           'Service Health now sends the current bearer token with its raw `/statusz` poller, so the protected API status check no longer falls back to unknown/degraded after the JWT auth rollout.',
