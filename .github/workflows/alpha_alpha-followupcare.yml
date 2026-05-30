@@ -18,10 +18,6 @@ permissions:
 
 env:
   NODE_VERSION: '20.x'
-  APP_INSIGHTS_CONNECTION_STRING: ${{ secrets.APP_INSIGHTS_CONNECTION_STRING }}
-  APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}
-  FOLLOWUP_API_KEY_AUTH: ${{ secrets.FOLLOWUP_API_KEY_AUTH != '' && secrets.FOLLOWUP_API_KEY_AUTH || secrets.API_KEY_AUTH }}
-  API_KEY_AUTH: ${{ secrets.API_KEY_AUTH }}
 
 concurrency:
   group: alpha-followupcare
@@ -30,6 +26,13 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: alpha
+    env:
+      APP_INSIGHTS_CONNECTION_STRING: ${{ secrets.APP_INSIGHTS_CONNECTION_STRING }}
+      APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}
+      FOLLOWUP_API_KEY_AUTH: ${{ secrets.FOLLOWUP_API_KEY_AUTH != '' && secrets.FOLLOWUP_API_KEY_AUTH || secrets.API_KEY_AUTH }}
+      API_KEY_AUTH: ${{ secrets.API_KEY_AUTH }}
 
     steps:
       - name: Checkout
