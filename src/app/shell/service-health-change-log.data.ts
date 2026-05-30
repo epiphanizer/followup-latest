@@ -23,6 +23,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Snapshot alpha login bootstrap now carries the `ApiKeyAuth` value through the frontend build pipeline instead of dropping it before bundle generation.',
+        evidence:
+          'Recorded in the frontend running change log after expanding package.json so npm run env exports FOLLOWUP_API_KEY_AUTH / API_KEY_AUTH into src/environments/.env.ts and updating the alpha frontend workflow to pass those values from GitHub Actions secrets into the build job. Live checks showed alpha-followup-api already had API_KEY_AUTH configured, login returned HTTP 403 without the header, and the same request returned HTTP 401 with the expected bootstrap key, confirming the issue was missing frontend build-time config rather than Azure App Service runtime config on the frontend. Validation used FOLLOWUP_API_KEY_AUTH=bootstrap-test-key npm run env -s plus the focused api-key interceptor and shell Jest slice.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Snapshot alpha service-worker registration now follows an explicit environment flag, keeping alpha out of the `ngsw-worker.js` MIME-type failure path while preserving production service-worker behavior.',
         evidence:
           'Recorded in the frontend running change log after updating src/app/app.module.ts plus the environment files so the snapshot keeps production mode but only registers ngsw-worker.js where serviceWorkerEnabled is true. This ports the live alpha fix into the v4.0.0 snapshot so the branch stays aligned with the canonical frontend runtime behavior. Validation used npm run build -s.',

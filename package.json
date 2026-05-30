@@ -20,7 +20,7 @@
     "test": "npm run check:node -s && npm run env -s && jest",
     "test:ci": "npm run check:node -s && npm run env -s && npm run lint -s && jest --runInBand --coverage",
     "docs": "npx http-server ./docs -o",
-    "env": "ngx-scripts env npm_package_version APP_INSIGHTS_CONNECTION_STRING APPLICATIONINSIGHTS_CONNECTION_STRING",
+    "env": "ngx-scripts env npm_package_version APP_INSIGHTS_CONNECTION_STRING APPLICATIONINSIGHTS_CONNECTION_STRING FOLLOWUP_API_KEY_AUTH API_KEY_AUTH",
     "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
     "prettier:check": "prettier --list-different \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
     "generate": "ng generate"
