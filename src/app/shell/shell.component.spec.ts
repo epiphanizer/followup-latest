@@ -1,5 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick, discardPeriodicTasks } from '@angular/core/testing';
-import { HttpBackend, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpBackend, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -16,6 +16,7 @@ class MockAuthenticationService {
   currentUser = userSubject.asObservable();
   impersonator = impersonatorSubject.asObservable();
   impersonatorValue: any = null;
+  getToken = jest.fn(() => 'header.payload.signature');
   get currentUserValue() {
     return userSubject.getValue();
   }
@@ -34,9 +35,41 @@ class MockHomeComponent {}
 describe('ShellComponent', () => {
   let component: ShellComponent;
   let fixture: ComponentFixture<ShellComponent>;
+  let httpBackendHandle: jest.Mock;
 
   beforeEach(
     waitForAsync(() => {
+      httpBackendHandle = jest.fn(() =>
+        of(
+          new HttpResponse({
+            status: 200,
+            headers: new HttpHeaders({
+              'Server-Timing': 'app;dur=18.2'
+            }),
+            body: {
+              status: 'ok',
+              service: {
+                name: 'alpha-followup-api',
+                host: 'alpha-followup-api.azurewebsites.net',
+                version: '3.11.0',
+                environment: 'prod'
+              },
+              database: {
+                name: 'followup_alpha_20260517',
+                role: 'alpha'
+              },
+              profiling: {
+                requestProfilingEnabled: true,
+                slowRequestMs: 700,
+                dbProfilingEnabled: true,
+                dbSlowQueryMs: 200,
+                databasePingMs: 4.8
+              }
+            }
+          })
+        )
+      );
+
       TestBed.configureTestingModule({
         imports: [
           RouterTestingModule.withRoutes([{ path: 'home', component: MockHomeComponent }]),
@@ -49,36 +82,7 @@ describe('ShellComponent', () => {
           {
             provide: HttpBackend,
             useValue: {
-              handle: jest.fn(() =>
-                of(
-                  new HttpResponse({
-                    status: 200,
-                    headers: new HttpHeaders({
-                      'Server-Timing': 'app;dur=18.2'
-                    }),
-                    body: {
-                      status: 'ok',
-                      service: {
-                        name: 'alpha-followup-api',
-                        host: 'alpha-followup-api.azurewebsites.net',
-                        version: '3.11.0',
-                        environment: 'prod'
-                      },
-                      database: {
-                        name: 'followup_alpha_20260517',
-                        role: 'alpha'
-                      },
-                      profiling: {
-                        requestProfilingEnabled: true,
-                        slowRequestMs: 700,
-                        dbProfilingEnabled: true,
-                        dbSlowQueryMs: 200,
-                        databasePingMs: 4.8
-                      }
-                    }
-                  })
-                )
-              )
+              handle: httpBackendHandle
             }
           },
           {
@@ -123,6 +127,20 @@ describe('ShellComponent', () => {
     expect(component.serviceStatus.health).toBe('ok');
     expect(component.serviceStatus.profilingSummary).toContain('API on');
     expect(component.serviceStatusPanelRendered).toBe(true);
+    component.ngOnDestroy();
+    discardPeriodicTasks();
+  }));
+
+  it('sends the current bearer token with the protected statusz request', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+
+    expect(httpBackendHandle).toHaveBeenCalled();
+    const request = httpBackendHandle.mock.calls[0][0] as HttpRequest<unknown>;
+
+    expect(request.url).toContain('statusz');
+    expect(request.headers.get('Authorization')).toBe('Bearer header.payload.signature');
+
     component.ngOnDestroy();
     discardPeriodicTasks();
   }));

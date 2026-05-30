@@ -23,6 +23,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Service Health now sends the current bearer token with its raw `/statusz` poller, so the protected API status check no longer falls back to unknown/degraded after the JWT auth rollout.',
+        evidence:
+          'Recorded in the frontend running change log after updating src/app/shell/shell.component.ts so the Service Health panel builds `Authorization: Bearer ...` headers from AuthenticationService.getToken() on each status poll even though it uses a raw HttpClient from HttpBackend. The previous implementation bypassed the interceptor chain, so `/statusz` stayed anonymous and the panel showed localhost:8080 · vunknown / UNKNOWN · unknown / Checked n/a once the API required JWT auth there. Validation used npm test -- --runInBand --runTestsByPath src/app/shell/shell.component.spec.ts (9/9 passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Snapshot alpha login bootstrap now carries the `ApiKeyAuth` value through the frontend build pipeline instead of dropping it before bundle generation.',
         evidence:
           'Recorded in the frontend running change log after expanding package.json so npm run env exports FOLLOWUP_API_KEY_AUTH / API_KEY_AUTH into src/environments/.env.ts and updating the alpha frontend workflow to pass those values from GitHub Actions secrets into the build job. Live checks showed alpha-followup-api already had API_KEY_AUTH configured, login returned HTTP 403 without the header, and the same request returned HTTP 401 with the expected bootstrap key, confirming the issue was missing frontend build-time config rather than Azure App Service runtime config on the frontend. Validation used FOLLOWUP_API_KEY_AUTH=bootstrap-test-key npm run env -s plus the focused api-key interceptor and shell Jest slice.',

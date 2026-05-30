@@ -338,15 +338,11 @@ export class ShellComponent {
   }
 
   private startServiceStatusPolling() {
-    const headers = new HttpHeaders({
-      'Cache-Control': 'no-cache',
-      Pragma: 'no-cache'
-    });
-
     this.serviceStatusSubscription = timer(0, this.statusRefreshMs)
       .pipe(
         switchMap(() => {
           const requestStartedAt = Date.now();
+          const headers = this.buildServiceStatusHeaders();
 
           return this.statusHttp
             .get<ServiceStatusResponse>(this.getServiceStatusUrl(), {
@@ -367,6 +363,20 @@ export class ShellComponent {
         this.syncServiceStatusVisibility(previousHealth);
         this._cdr.markForCheck();
       });
+  }
+
+  private buildServiceStatusHeaders(): HttpHeaders {
+    const headerValues: Record<string, string> = {
+      'Cache-Control': 'no-cache',
+      Pragma: 'no-cache'
+    };
+    const token = this.authenticationService.getToken();
+
+    if (token) {
+      headerValues.Authorization = `Bearer ${token}`;
+    }
+
+    return new HttpHeaders(headerValues);
   }
 
   private getServiceStatusUrl(): string {
