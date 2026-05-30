@@ -18,11 +18,11 @@ import { AuthenticationService } from '@app/core/authentication/auth.service';
   standalone: false
 })
 export class NotificationDetailComponent implements OnInit {
-  notification: Notification;
-  notificationDecoded: string;
-  patient: Patient;
+  notification!: Notification;
+  notificationDecoded: string = '';
+  patient!: Patient;
   notificationReplies: NotificationReply[] = [];
-  replyForm: FormGroup;
+  replyForm!: FormGroup;
   isReplyModalOpen: boolean = false;
   public selected:
     | {
@@ -61,7 +61,14 @@ export class NotificationDetailComponent implements OnInit {
   }
 
   loadNotificationReplies() {
-    this.notificationService.getNotificationRepliesByNotificationId(this.notification.notificationId).subscribe(
+    var notificationId = this.notification.notificationId;
+
+    if (!notificationId) {
+      this.notificationReplies = [];
+      return;
+    }
+
+    this.notificationService.getNotificationRepliesByNotificationId(notificationId).subscribe(
       (replies: NotificationReply[]) => {
         this.notificationReplies = replies;
       },
@@ -77,14 +84,21 @@ export class NotificationDetailComponent implements OnInit {
     }
 
     const currentUser = this.authService.currentUserValue;
+    const notificationId = this.notification.notificationId;
+    const replyTextControl = this.replyForm.get('replyText');
+
+    if (!notificationId || !replyTextControl) {
+      return;
+    }
+
     const replyBody = {
       userId: currentUser.userId,
-      replyText: this.replyForm.get('replyText').value
+      replyText: replyTextControl.value
     };
 
     this.notificationService
       .addNotificationReply(
-        this.notification.notificationId,
+        notificationId,
         this.notification.notificationPatientId,
         this.notification.notificationOperationId,
         replyBody

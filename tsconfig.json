@@ -14,10 +14,9 @@
     "useDefineForClassFields": false,
     "target": "es2020",
     "typeRoots": ["node_modules/@types"],
-    "baseUrl": "src",
     "paths": {
-      "@app/*": ["app/*"],
-      "@env/*": ["environments/*"]
+      "@app/*": ["./src/app/*"],
+      "@env/*": ["./src/environments/*"]
     }
   }
 }

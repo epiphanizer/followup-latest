@@ -56,7 +56,7 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.mode.add).toBe(true);
     expect(services.patientService.addNewPatient).toHaveBeenCalled();
     expect(comp.patientForm).toBeTruthy();
-    expect(comp.patientForm.get('patient.dischargeInfo.patientDischargedTo').value).toBe('2PEXyKgz');
+    expect(comp.patientForm.get('patient.dischargeInfo.patientDischargedTo')!.value).toBe('2PEXyKgz');
   });
 
   it('initializes edit mode and sets patient data', async () => {
@@ -102,7 +102,7 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.mode.edit).toBe(true);
     expect(services.patientService.getPatientByPatientId).toHaveBeenCalledWith('p-edit');
     expect(comp.patientForm).toBeTruthy();
-    expect(comp.patientForm.get('patient.dischargeInfo.patientDischargedTo').value).toBe('lbl-1');
+    expect(comp.patientForm.get('patient.dischargeInfo.patientDischargedTo')!.value).toBe('lbl-1');
   });
 
   it('adds additional patient contact to form', () => {
@@ -176,14 +176,14 @@ describe('PatientFormComponent (Jest)', () => {
     } as any;
 
     (comp as any).createForm();
-    comp.patientForm.get('patient.dischargeInfo.patientAdmitDate').setValue('2020-01-01');
-    comp.patientForm.get('patient.dischargeInfo.patientDischargeDate').setValue('2020-01-02');
+    comp.patientForm.get('patient.dischargeInfo.patientAdmitDate')!.setValue('2020-01-01');
+    comp.patientForm.get('patient.dischargeInfo.patientDischargeDate')!.setValue('2020-01-02');
 
     comp.updateDischargeFields();
 
     expect(comp.patientMaxAdmitDate).toBe('2020-01-02');
     expect(comp.patientMinDischargeDate).toBe('2020-01-01');
-    expect(comp.patientForm.get('patient.dischargeInfo.patientTotalDays').value).toBe(1);
+    expect(comp.patientForm.get('patient.dischargeInfo.patientTotalDays')!.value).toBe(1);
   });
 
   it('explicitly clears language state from the form', () => {
@@ -220,13 +220,13 @@ describe('PatientFormComponent (Jest)', () => {
     } as any;
 
     (comp as any).createForm();
-    expect(comp.patientForm.get('patient.patientSpeaksEnglish').value).toBe(true);
-    expect(comp.patientForm.get('patient.patientFluentLanguage').value).toBe('Spanish');
+  expect(comp.patientForm.get('patient.patientSpeaksEnglish')!.value).toBe(true);
+  expect(comp.patientForm.get('patient.patientFluentLanguage')!.value).toBe('Spanish');
 
     comp.clearPatientFluentLanguage();
 
-    expect(comp.patientForm.get('patient.patientSpeaksEnglish').value).toBe(false);
-    expect(comp.patientForm.get('patient.patientFluentLanguage').value).toBe('');
+  expect(comp.patientForm.get('patient.patientSpeaksEnglish')!.value).toBe(false);
+  expect(comp.patientForm.get('patient.patientFluentLanguage')!.value).toBe('');
   });
 
   it('selects patient contact relationship', () => {
@@ -404,11 +404,11 @@ describe('PatientFormComponent (Jest)', () => {
     comp.addAdditionalPatientContact();
 
     const patientContactControl = (comp.patientForm.get('patient.patientContacts') as FormArray).at(0);
-    patientContactControl.get('patientContactResponsiblePartyBoolean').setValue(true);
+    patientContactControl.get('patientContactResponsiblePartyBoolean')!.setValue(true);
 
     comp.syncContactFlags(0);
 
-    expect(patientContactControl.get('patientContactHIPAABoolean').value).toBe(true);
+    expect(patientContactControl.get('patientContactHIPAABoolean')!.value).toBe(true);
   });
 
   it('creates a form submission payload with cleared language when patient speaks english', () => {
