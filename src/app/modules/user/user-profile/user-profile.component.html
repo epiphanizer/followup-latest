@@ -29,7 +29,7 @@
             <ion-label color="medium" position="stacked">Last Name <span style="color:#f1624a">*</span></ion-label>
             <ion-input type="text" formControlName="userLastName" inputCapitalizeFirst required></ion-input>
           </ion-item>
-          <ion-item class="user-phone-container">
+          <div class="user-phone-container">
             <ion-item class="user-phone-country-code">
               <ion-label color="medium" position="stacked">US (+1)</ion-label>
               <ion-input type="text" maxLength="2" formControlName="userPhoneCountryCode" placeholder="1"></ion-input>
@@ -42,18 +42,30 @@
               <ion-label color="medium" position="stacked">Phone #</ion-label>
               <ion-input type="text" formControlName="userPhoneNumber" inputAddPhoneDashes></ion-input>
             </ion-item>
-          </ion-item>
-          <ion-item class="user-spanish-speaking">
+          </div>
+          <div class="user-spanish-speaking">
             <ion-label color="medium" class="spanish-label" position="stacked">Do you speak Spanish?</ion-label>
-            <ion-radio-group formControlName="userSpeaksSpanish">
-              <ion-item>
-                <ion-radio value="1" class="spanish-speaking radio-button-yes"> </ion-radio>
-              </ion-item>
-              <ion-item>
-                <ion-radio value="0" class="spanish-speaking radio-button-no"> </ion-radio>
-              </ion-item>
+            <ion-radio-group class="followup-form-choice-group" formControlName="userSpeaksSpanish">
+              <ion-radio
+                class="followup-form-choice followup-form-choice--compact"
+                value="1"
+                labelPlacement="end"
+                alignment="start"
+                justify="start"
+              >
+                Yes
+              </ion-radio>
+              <ion-radio
+                class="followup-form-choice followup-form-choice--compact"
+                value="0"
+                labelPlacement="end"
+                alignment="start"
+                justify="start"
+              >
+                No
+              </ion-radio>
             </ion-radio-group>
-          </ion-item>
+          </div>
         </ion-list>
         <h4 class="form-subheadline">
           <i class="icon-birthday"></i>
@@ -70,68 +82,25 @@
           </ion-item>
         </ion-list>
         <ion-list lines="none" inset class="checkbox-list-container">
-          <ion-item formGroupName="userInterests">
+          <div class="checkbox-section" formGroupName="userInterests">
             <ion-label class="main-label-box" color="medium" position="stacked">
               Do any of the following apply to you?
             </ion-label>
-            <ion-list class="checkboxes" lines="none" inset>
-              <ion-item>
-                <ion-checkbox formControlName="celebrity"></ion-checkbox>
-                <ion-label>Met your favorite celebrity</ion-label>
-              </ion-item>
-
-              <ion-item>
-                <ion-checkbox formControlName="helicopter"></ion-checkbox>
-                <ion-label>Flown in a helicopter</ion-label>
-              </ion-item>
-
-              <ion-item>
-                <ion-checkbox formControlName="kidney"></ion-checkbox>
-                <ion-label>Donated a kidney</ion-label>
-              </ion-item>
-
-              <ion-item>
-                <ion-checkbox formControlName="skydivedOrBungeed"></ion-checkbox>
-                <ion-label>Skydived or bungee jumped</ion-label>
-              </ion-item>
-              <ion-item>
-                <ion-checkbox formControlName="appearedOnTv"></ion-checkbox>
-                <ion-label>Appeared on TV</ion-label>
-              </ion-item>
-
-              <ion-item>
-                <ion-checkbox formControlName="janeAusten"></ion-checkbox>
-                <ion-label>Read Pride & Prejudice</ion-label>
-              </ion-item>
-
-              <ion-item>
-                <ion-checkbox formControlName="escargo"></ion-checkbox>
-                <ion-label>Eaten Escargo</ion-label>
-              </ion-item>
-
-              <ion-item>
-                <ion-checkbox formControlName="deployed"></ion-checkbox>
-                <ion-label>Been deployed</ion-label>
-              </ion-item>
-              <ion-item>
-                <ion-checkbox formControlName="instrument"></ion-checkbox>
-                <ion-label>Played an instrument</ion-label>
-              </ion-item>
-
-              <ion-item>
-                <ion-checkbox formControlName="seenTornado"></ion-checkbox>
-                <ion-label>Seen a tornado</ion-label>
-              </ion-item>
-              <ion-item>
-                <ion-checkbox formControlName="hitchhiked"></ion-checkbox>
-                <ion-label>Hitchhiked</ion-label>
-              </ion-item>
-              <ion-item>
-                <ion-checkbox formControlName="DND"></ion-checkbox>
-                <ion-label>Played Dungeons & Dragons</ion-label>
-              </ion-item>
-            </ion-list>
-          </ion-item>
+            <div class="checkboxes followup-form-choice-grid">
+              <ion-checkbox class="followup-form-choice" formControlName="celebrity" labelPlacement="end" alignment="start" justify="start">Met your favorite celebrity</ion-checkbox>
+              <ion-checkbox class="followup-form-choice" formControlName="helicopter" labelPlacement="end" alignment="start" justify="start">Flown in a helicopter</ion-checkbox>
+              <ion-checkbox class="followup-form-choice" formControlName="kidney" labelPlacement="end" alignment="start" justify="start">Donated a kidney</ion-checkbox>
+              <ion-checkbox class="followup-form-choice" formControlName="skydivedOrBungeed" labelPlacement="end" alignment="start" justify="start">Skydived or bungee jumped</ion-checkbox>
+              <ion-checkbox class="followup-form-choice" formControlName="appearedOnTv" labelPlacement="end" alignment="start" justify="start">Appeared on TV</ion-checkbox>
+              <ion-checkbox class="followup-form-choice" formControlName="janeAusten" labelPlacement="end" alignment="start" justify="start">Read Pride &amp; Prejudice</ion-checkbox>
+              <ion-checkbox class="followup-form-choice" formControlName="escargo" labelPlacement="end" alignment="start" justify="start">Eaten Escargo</ion-checkbox>
+              <ion-checkbox class="followup-form-choice" formControlName="deployed" labelPlacement="end" alignment="start" justify="start">Been deployed</ion-checkbox>
+              <ion-checkbox class="followup-form-choice" formControlName="instrument" labelPlacement="end" alignment="start" justify="start">Played an instrument</ion-checkbox>
+              <ion-checkbox class="followup-form-choice" formControlName="seenTornado" labelPlacement="end" alignment="start" justify="start">Seen a tornado</ion-checkbox>
+              <ion-checkbox class="followup-form-choice" formControlName="hitchhiked" labelPlacement="end" alignment="start" justify="start">Hitchhiked</ion-checkbox>
+              <ion-checkbox class="followup-form-choice" formControlName="DND" labelPlacement="end" alignment="start" justify="start">Played Dungeons &amp; Dragons</ion-checkbox>
+            </div>
+          </div>
         </ion-list>
         <div class="user-profile-more-container">
           <ion-list lines="none">

@@ -45,23 +45,25 @@
             <div class="operation-listing-header">
               <h2 class="section-header ion-float-left"><i class="icon-info"></i> Operation</h2>
               <div class="operation-controls ion-float-right">
-                <ion-radio-group class="operation-active-controls" formControlName="operationActive">
-                  <ion-item class="active-control">
-                    <span class="control">
-                      <ion-radio class="radio-button" mode="ios" value="1"></ion-radio>
-                      <span>
-                        Active
-                      </span>
-                    </span>
-                  </ion-item>
-                  <ion-item class="active-control">
-                    <span class="control">
-                      <ion-radio class="radio-button-notify" mode="ios" value="0"></ion-radio>
-                      <span>
-                        Archive
-                      </span>
-                    </span>
-                  </ion-item>
+                <ion-radio-group class="operation-active-controls followup-form-choice-group" formControlName="operationActive">
+                  <ion-radio
+                    class="active-control followup-form-choice followup-form-choice--compact"
+                    value="1"
+                    labelPlacement="end"
+                    alignment="start"
+                    justify="start"
+                  >
+                    Active
+                  </ion-radio>
+                  <ion-radio
+                    class="active-control followup-form-choice followup-form-choice--compact"
+                    value="0"
+                    labelPlacement="end"
+                    alignment="start"
+                    justify="start"
+                  >
+                    Archive
+                  </ion-radio>
                 </ion-radio-group>
               </div>
             </div>
@@ -266,14 +268,21 @@
                     </span>
                   </div>
                   <ion-list class="notification-container" formArrayName="operationContactNotifications">
-                    <ion-item
+                    <div
                       class="notification-type-option"
                       *ngFor="let notificationType of notificationTypes; let idx = index"
                       formGroupName="{{ idx }}"
                     >
-                      <ion-checkbox formControlName="{{ notificationType.notificationTypeId }}"></ion-checkbox>
-                      <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
-                    </ion-item>
+                      <ion-checkbox
+                        class="followup-form-choice"
+                        [formControlName]="notificationType.notificationTypeId"
+                        labelPlacement="end"
+                        alignment="start"
+                        justify="start"
+                      >
+                        {{ notificationType.notificationTypeLabel }}
+                      </ion-checkbox>
+                    </div>
                   </ion-list>
                 </ion-list>
               </div>

@@ -209,39 +209,10 @@ form {
   }
 
   .operation-active-controls {
+    gap: 12px 20px;
+
     .active-control {
-      display: inline-block;
-      margin-left: 8px;
-    }
-
-    ion-radio {
-      --color-checked: transparent;
-      display: inline-block;
-      height: 14px !important;
-      width: 14px !important;
-      margin: 0;
-    }
-
-    .radio-button {
-      background-size: cover;
-      background-image: url("/assets/button-radio@2x.png");
-
-      &:active,
-      &.radio-checked {
-        background-image: url("/assets/button-radio-checked-red@2x.png");
-      }
-    }
-
-    .radio-button-notify {
-      --ripple-color: transparent;
-      --background-hover: transparent;
-      background-size: cover;
-      background-image: url("/assets/button-radio@2x.png");
-
-      &:active,
-      &.radio-checked {
-        background-image: url("/assets/button-radio-checked-red@2x.png");
-      }
+      margin-left: 0;
     }
   }
 
@@ -574,38 +545,14 @@ form {
       width: 100%;
     }
 
-    width: 100%;
-    height: auto;
     padding-left: 0;
     margin-left: 0;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px 24px;
 
-    flex-direction: column;
-    flex-wrap: wrap;
-    max-height: 200px;
-
-    ion-item {
-      max-height: 37px;
-      margin-left: 0;
-      margin-right: 35px;
-
-      ion-checkbox {
-        width: 14px;
-        height: 14px;
-        margin-right: 10px;
-        margin-top: 17px;
-      }
-
-      ion-label {
-        font-family: AvenirPro;
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
-        text-align: left;
-        color: #222222;
-      }
+    .notification-type-option {
+      margin: 0;
     }
   }
 

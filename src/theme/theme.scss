@@ -43,25 +43,11 @@
   src: url("/assets/fonts/AvenirNextLTPro-MediumIt.otf") format("opentype");
 }
 
-/* Workaround to hide android default validation colors */
-ion-item.item-md.item-input.input-has-focus .item-inner,
-ion-item.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner,
-ion-item.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
-  border-bottom-color: #dadada;
-  box-shadow: none;
-}
 .native-input[disabled].sc-ion-input-md {
   opacity: 0.9;
 }
 ion-item {
   --background-focused: transparent !important;
-}
-
-/* Workaround to hide window phone default validation colors */
-ion-item.item-wp.item-input.input-has-focus .text-input,
-ion-item.item-wp.item-input.ng-valid.input-has-value:not(.input-has-focus) .text-input,
-ion-item.item-wp.item-input.ng-invalid.ng-touched:not(.input-has-focus) .text-input {
-  border: 2px solid #dadada;
 }
 
 .list-md.list-inset ion-item:first-child {
@@ -124,24 +110,50 @@ ion-item {
   --background-hover: transparent;
 }
 
-ion-radio {
-  :host {
-    border-radius: 0;
-    width: 15px !important;
-    height: 15px !important;
-  }
-
-  .radio-icon {
-    border-radius: 0;
-    width: 15px !important;
-    height: 15px !important;
-  }
+.followup-form-choice-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  width: 100%;
+  align-items: flex-start;
 }
 
-.radio-icon .radio-md {
-  border-radius: 0;
-  width: 15px !important;
-  height: 15px !important;
+.followup-form-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px 24px;
+  width: 100%;
+}
+
+.followup-form-choice {
+  width: 100%;
+  margin: 0;
+}
+
+.followup-form-choice.followup-form-choice--compact {
+  width: auto;
+  min-width: max-content;
+}
+
+.followup-form-choice::part(label) {
+  white-space: normal;
+  line-height: 1.45;
+  font-family: Avenir, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #222222;
+}
+
+.followup-form-choice.followup-form-choice--compact::part(label) {
+  font-family: AvenirPro, sans-serif;
+  font-weight: normal;
+  color: #444444;
+}
+
+@media screen and (max-width: 768px) {
+  .followup-form-choice-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 // Sort filter styles

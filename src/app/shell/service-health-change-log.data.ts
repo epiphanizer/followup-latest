@@ -21,6 +21,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'Frontend',
+        summary:
+          'Snapshot patient, user-profile, and operation contact-notification forms now use attached-label Ionic controls and flexible choice-row layouts instead of legacy nested Ionic 3 item markup.',
+        evidence:
+          'Recorded in the frontend running change log after updating the patient form, user-profile form, operation form, and theme.scss so checkbox/radio labels stay attached to their controls, wrapped labels no longer clip inside fixed-height rows, the discharge and notification choice lists use responsive flex/grid layouts, and obsolete global radio-internal overrides were removed from the migrated Ionic stack. Validation used the focused patient-form, user-profile, and operation-form Jest slice (48/48 passing) plus npm run build -s.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'API',
         summary:
           'The local snapshot API now answers protected `/statusz` browser preflights before auth, so Service Health can call the endpoint from `http://localhost:4200` without a CORS failure.',

@@ -52,18 +52,28 @@
             <ion-label color="medium" position="stacked">Birthday<span style="color:#f1624a">*</span></ion-label>
             <ion-input type="date" formControlName="patientDob" placeholder="Birthday"></ion-input>
           </ion-item>
-          <ion-item class="patient-gender">
-            <ion-radio-group class="patient-gender-radio" formControlName="patientGender">
-              <ion-item class="patient-gender-male">
-                <ion-radio class="radio-button" mode="ios" value="male"></ion-radio>
-                <ion-label>Male</ion-label>
-              </ion-item>
-              <ion-item class="patient-gender-female">
-                <ion-radio class="radio-button" mode="ios" value="female"></ion-radio>
-                <ion-label>Female</ion-label>
-              </ion-item>
+          <div class="patient-gender">
+            <ion-radio-group class="patient-gender-radio followup-form-choice-group" formControlName="patientGender">
+              <ion-radio
+                class="followup-form-choice followup-form-choice--compact"
+                value="male"
+                labelPlacement="end"
+                alignment="start"
+                justify="start"
+              >
+                Male
+              </ion-radio>
+              <ion-radio
+                class="followup-form-choice followup-form-choice--compact"
+                value="female"
+                labelPlacement="end"
+                alignment="start"
+                justify="start"
+              >
+                Female
+              </ion-radio>
             </ion-radio-group>
-          </ion-item>
+          </div>
           <div class="patient-phone-container">
             <ion-item class="patient-country-code">
               <ion-label color="medium" position="stacked">US (+1)</ion-label>
@@ -89,24 +99,37 @@
               ></ion-input>
             </ion-item>
           </div>
-          <ion-item class="inline-patient-responsibility-container">
-            <ion-item class="patient-is-hipaa">
-              <ion-checkbox formControlName="patientHIPAA"></ion-checkbox>
-              <ion-label>HIPAA</ion-label>
-            </ion-item>
-            <ion-item class="patient-is-responsible">
-              <ion-checkbox formControlName="patientIsResponsibleParty"></ion-checkbox>
-              <ion-label>Responsible Party</ion-label>
-            </ion-item>
-          </ion-item>
+          <div class="inline-patient-responsibility-container followup-form-choice-group">
+            <ion-checkbox
+              class="followup-form-choice followup-form-choice--compact"
+              formControlName="patientHIPAA"
+              labelPlacement="end"
+              alignment="start"
+              justify="start"
+            >
+              HIPAA
+            </ion-checkbox>
+            <ion-checkbox
+              class="followup-form-choice followup-form-choice--compact"
+              formControlName="patientIsResponsibleParty"
+              labelPlacement="end"
+              alignment="start"
+              justify="start"
+            >
+              Responsible Party
+            </ion-checkbox>
+          </div>
           <div class="language-container">
-            <ion-item class="speaks-english">
-              <ion-checkbox
-                formControlName="patientSpeaksEnglish"
-                (ionChange)="onPatientLanguageToggle()"
-              ></ion-checkbox>
-              <ion-label>Doesn't Speak English</ion-label>
-            </ion-item>
+            <ion-checkbox
+              class="speaks-english-toggle followup-form-choice followup-form-choice--compact"
+              formControlName="patientSpeaksEnglish"
+              (ionChange)="onPatientLanguageToggle()"
+              labelPlacement="end"
+              alignment="start"
+              justify="start"
+            >
+              Doesn't Speak English
+            </ion-checkbox>
             <ion-item
               class="fluent-language"
               [class.show]="patientForm.get('patient.patientSpeaksEnglish').value !== false"
@@ -202,13 +225,16 @@
                     <ion-label color="medium" position="stacked">Order</ion-label>
                     <ion-input type="number" formControlName="patientContactOrder" [value]="idx + 1"></ion-input>
                   </ion-item>
-                  <ion-item class="responsible-party">
-                    <ion-checkbox
-                      formControlName="patientContactResponsiblePartyBoolean"
-                      (ionChange)="syncContactFlags(idx)"
-                    ></ion-checkbox>
-                    <ion-label color="medium" type="stacked">Responsible Party</ion-label>
-                  </ion-item>
+                  <ion-checkbox
+                    class="responsible-party-toggle followup-form-choice followup-form-choice--compact"
+                    formControlName="patientContactResponsiblePartyBoolean"
+                    (ionChange)="syncContactFlags(idx)"
+                    labelPlacement="end"
+                    alignment="start"
+                    justify="start"
+                  >
+                    Responsible Party
+                  </ion-checkbox>
                 </div>
               </ion-list>
               <ion-item class="ion-float-right add-additional-contact" (click)="addAdditionalPatientContact()"
@@ -234,19 +260,34 @@
             <span class="discharge-header">Discharge Info</span>
           </div>
           <fieldset class="patient-discharge" formGroupName="dischargeInfo">
-            <ion-label class="discharged-label" color="medium" position="stacked">
-              Discharged Against Medical Advice? <span style="color:#f1624a">*</span>
-            </ion-label>
-            <ion-item class="discharged-ama">
-              <ion-radio-group formControlName="patientDischargedAma">
-                <ion-item>
-                  <ion-radio class="radio-button-yes discharged-ama" value="1"> </ion-radio>
-                </ion-item>
-                <ion-item>
-                  <ion-radio class="radio-button-no discharged-ama" value="0"> </ion-radio>
-                </ion-item>
+            <div class="discharged-ama">
+              <ion-label class="discharged-label" color="medium" position="stacked">
+                Discharged Against Medical Advice? <span style="color:#f1624a">*</span>
+              </ion-label>
+              <ion-radio-group
+                class="discharged-ama-options followup-form-choice-group"
+                formControlName="patientDischargedAma"
+              >
+                <ion-radio
+                  class="followup-form-choice followup-form-choice--compact"
+                  value="1"
+                  labelPlacement="end"
+                  alignment="start"
+                  justify="start"
+                >
+                  Yes
+                </ion-radio>
+                <ion-radio
+                  class="followup-form-choice followup-form-choice--compact"
+                  value="0"
+                  labelPlacement="end"
+                  alignment="start"
+                  justify="start"
+                >
+                  No
+                </ion-radio>
               </ion-radio-group>
-            </ion-item>
+            </div>
             <ion-list class="discharge-dates" inset lines="none">
               <div class="patient-discharge-dates-container">
                 <ion-item class="discharge-admit-date">
@@ -280,15 +321,18 @@
                   >Discharged To: <span style="color:#f1624a">*</span></ion-label
                 >
                 <ion-radio-group formControlName="patientDischargedTo">
-                  <ion-list inset lines="none">
-                    <ion-item class="discharge-location" *ngFor="let dischargeLabel of dischargeLabels">
-                      <ion-radio class="radio-button" mode="ios" value="{{ dischargeLabel.patientDischargeLabelId }}">
-                      </ion-radio>
-                      <ion-label>
-                        {{ dischargeLabel.patientDischargeLabel }}
-                      </ion-label>
-                    </ion-item>
-                  </ion-list>
+                  <div class="discharge-location-grid followup-form-choice-grid">
+                    <ion-radio
+                      class="discharge-location followup-form-choice"
+                      *ngFor="let dischargeLabel of dischargeLabels"
+                      [value]="dischargeLabel.patientDischargeLabelId"
+                      labelPlacement="end"
+                      alignment="start"
+                      justify="start"
+                    >
+                      {{ dischargeLabel.patientDischargeLabel }}
+                    </ion-radio>
+                  </div>
                 </ion-radio-group>
               </ion-item>
             </ion-list>
@@ -299,26 +343,44 @@
           </div>
           <fieldset class="patient-medical-conditions">
             <ion-list class="patient-medical-conditions" lines="none" inset>
-              <ion-item>
-                <ion-list inset lines="none" class="checkboxes-inline" formGroupName="patientMedicalConditions">
-                  <ion-item>
-                    <ion-label color="medium" position="stacked">Cardiac</ion-label>
-                    <ion-checkbox formControlName="cardiacBoolean"></ion-checkbox>
-                  </ion-item>
-                  <ion-item>
-                    <ion-label color="medium" position="stacked">Sepsis</ion-label>
-                    <ion-checkbox formControlName="sepsisBoolean"></ion-checkbox>
-                  </ion-item>
-                  <ion-item>
-                    <ion-label color="medium" position="stacked">Pulmonary</ion-label>
-                    <ion-checkbox formControlName="pulmonaryBoolean"></ion-checkbox>
-                  </ion-item>
-                  <ion-item>
-                    <ion-label color="medium" position="stacked">Other</ion-label>
-                    <ion-checkbox formControlName="otherBoolean"></ion-checkbox>
-                  </ion-item>
-                </ion-list>
-              </ion-item>
+              <div class="checkboxes-inline followup-form-choice-grid" formGroupName="patientMedicalConditions">
+                <ion-checkbox
+                  class="followup-form-choice"
+                  formControlName="cardiacBoolean"
+                  labelPlacement="end"
+                  alignment="start"
+                  justify="start"
+                >
+                  Cardiac
+                </ion-checkbox>
+                <ion-checkbox
+                  class="followup-form-choice"
+                  formControlName="sepsisBoolean"
+                  labelPlacement="end"
+                  alignment="start"
+                  justify="start"
+                >
+                  Sepsis
+                </ion-checkbox>
+                <ion-checkbox
+                  class="followup-form-choice"
+                  formControlName="pulmonaryBoolean"
+                  labelPlacement="end"
+                  alignment="start"
+                  justify="start"
+                >
+                  Pulmonary
+                </ion-checkbox>
+                <ion-checkbox
+                  class="followup-form-choice"
+                  formControlName="otherBoolean"
+                  labelPlacement="end"
+                  alignment="start"
+                  justify="start"
+                >
+                  Other
+                </ion-checkbox>
+              </div>
               <ion-item class="textarea-item">
                 <ion-label color="medium" position="stacked"
                   >Primary Diagnosis <span style="color:#f1624a">*</span>
@@ -382,10 +444,15 @@
             </div>
             <ion-textarea [autoGrow]="true" formControlName="patientNeedToKnow"></ion-textarea>
           </fieldset>
-          <ion-item class="is-active ion-float-right">
-            <ion-checkbox formControlName="patientActive"></ion-checkbox>
-            <ion-label color="medium">Active?</ion-label>
-          </ion-item>
+          <ion-checkbox
+            class="is-active followup-form-choice followup-form-choice--compact ion-float-right"
+            formControlName="patientActive"
+            labelPlacement="end"
+            alignment="start"
+            justify="start"
+          >
+            Active?
+          </ion-checkbox>
         </ion-list>
         <div class="form-button-controls">
           <button class="primary button" (click)="onFormSubmit()">

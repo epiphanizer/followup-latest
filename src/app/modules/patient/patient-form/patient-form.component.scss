@@ -2,28 +2,6 @@ ion-content {
   padding-bottom: 132px;
   overflow-y: scroll !important;
 }
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator {
-  display: none;
-  -webkit-appearance: none;
-}
-ion-radio {
-  --color-checked: transparent;
-  display: inline-block;
-  height: 14px !important;
-  width: 14px !important;
-  margin-right: 0;
-}
-
-.radio-button {
-  background-size: cover;
-  background-image: url("/assets/button-radio@2x.png");
-
-  &:active,
-  &.radio-checked {
-    background-image: url("/assets/button-radio-checked-green@2x.png");
-  }
-}
 
 .rating-option,
 .radio-button-yes,
@@ -145,7 +123,9 @@ form {
     letter-spacing: 0.3px;
     text-align: left;
     color: #222222;
-    margin-bottom: -0.45rem;
+    display: block;
+    margin: 0 0 0.5rem;
+    line-height: 1.35;
   }
 
   ion-select {
@@ -173,9 +153,12 @@ form {
     text-align: left;
     color: #8e8e93;
     --padding-start: 15px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
     border: solid 1px rgba(112, 112, 112, 0.15);
     background-color: #f5f5f5;
     --placeholder-color: #a6a6a7;
+    min-height: 44px;
     &.ion-invalid {
       border-bottom: 1px solid red;
     }
@@ -250,6 +233,7 @@ form {
     --padding-end: 0;
     --inner-padding-start: 0;
     --inner-padding-end: 0;
+    --min-height: auto;
 
     &.patient-first-name,
     &.patient-last-name {
@@ -262,78 +246,14 @@ form {
       width: 170px;
       display: inline-block;
       ion-input {
-        @media not all and (min-resolution: 0.001dpcm) {
-          @supports (-webkit-appearance: none) and (stroke-color: transparent) {
-            line-height: 22px;
-            height: 40px;
-          }
-        }
-      }
-      &::before {
-        cursor: pointer;
-        pointer-events: auto;
-        content: "";
-        display: block;
-        position: absolute;
-        top: 38px;
-        right: 0px;
-        filter: grayscale(1);
-        z-index: 8;
-        background: #f5f5f5;
-        height: 22px;
-        width: 26px;
-      }
-      &::after {
-        cursor: pointer;
-        pointer-events: auto;
-        content: "";
-        display: block;
-        position: absolute;
-        top: 40px;
-        right: 12px;
-        filter: grayscale(1);
-        z-index: 8;
-        background-image: url("/assets/icon-calendar@2x.png");
-        background-repeat: no-repeat;
-        background-size: 100%;
-        height: 21px;
-        width: 21px;
-        @media not all and (min-resolution: 0.001dpcm) {
-          @supports (-webkit-appearance: none) and (stroke-color: transparent) {
-            top: 37px;
-          }
-        }
+        --padding-end: 12px;
       }
     }
 
     &.patient-gender {
-      margin-left: 55px;
-      height: 47px;
-      margin-top: 1.75rem;
-      margin-right: 0;
-      float: none;
-
-      @media screen and (orientation: landscape) {
-        margin-right: 70px !important;
-        float: right;
-      }
-      @media screen and (orientation: portrait) and (max-width: 1024px) {
-        margin-left: 55px;
-        margin-bottom: -11px;
-        float: right;
-      }
-
-      ion-label {
-        font-family: AvenirPro;
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.2;
-        letter-spacing: normal;
-        text-align: left;
-        color: #444444;
-      }
+      display: block;
+      width: 100%;
+      margin: 1.25rem 0 0;
     }
 
     &.responsible-party {
@@ -342,56 +262,25 @@ form {
       }
     }
 
-    /**
-    * All the inline binary questions
-    **/
-    &.patient-gender,
-    &.patient-is-hipaa,
-    &.patient-is-responsible {
-      display: inline-block;
-      margin-right: 35px;
-
-      .patient-gender-male,
-      .patient-gender-female {
-        display: inline-block;
-        margin-right: 32px;
-      }
-
-      ion-checkbox,
-      ion-radio {
-        height: 14px;
-        width: 14px;
-      }
-
-      ion-label {
-        font-family: AvenirPro;
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.2;
-        letter-spacing: normal;
-        text-align: left;
-        color: #444444;
-        margin-bottom: 0.33rem;
-        margin-left: 6px;
-      }
+    &.patient-gender {
+      margin-right: 0;
     }
   }
 
   div.patient-phone-container {
-    float: left;
-    display: block;
-    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 8px;
+    width: 100%;
 
     @media screen and (orientation: portrait) and (max-width: 1024px) {
       margin-top: 8px;
-      width: 70%;
+      width: 100%;
     }
 
     ion-item {
-      margin-right: 8px;
-      display: inline-block;
+      margin-right: 0;
+      display: block;
 
       &.patient-country-code {
         margin-left: 0;
@@ -409,35 +298,16 @@ form {
   }
 
   div.language-container {
-    ion-item.speaks-english {
+    .speaks-english-toggle {
       display: block;
       clear: both;
-
-      ion-checkbox {
-        height: 14px;
-        width: 14px;
-      }
-
-      ion-label {
-        font-family: AvenirPro;
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.2;
-        letter-spacing: normal;
-        text-align: left;
-        color: #444444;
-        margin-bottom: 0.33rem;
-        margin-left: 6px;
-      }
     }
 
-    ion-item.fluent-language {
+    .fluent-language {
       display: none;
 
       &.show {
-        display: inline-block;
+        display: block;
         width: 100%;
       }
     }
@@ -649,10 +519,13 @@ form {
       padding-left: 0;
       width: calc(100% - 20px);
       clear: both;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 8px;
 
       ion-item {
-        margin-right: 8px;
-        display: inline-block;
+        margin-right: 0;
+        display: block;
 
         &.country-code {
           margin-left: 0;
@@ -685,30 +558,15 @@ form {
           }
         }
 
-        &.patient-contact-hipaa,
-        &.responsible-party {
-          vertical-align: bottom;
-
-          ion-label {
-            font-family: AvenirPro;
-            font-size: 15px;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.2;
-            letter-spacing: normal;
-            text-align: left;
-            color: #444444;
-            margin-bottom: 0.33rem;
-            margin-left: 6px;
-          }
-
-          ion-radio {
-            width: 14px;
-            height: 14px;
-            margin-left: 4px;
-          }
+        &.responsible-party-toggle {
+          align-self: flex-end;
+          margin-bottom: 6px;
         }
+      }
+
+      .responsible-party-toggle {
+        align-self: flex-end;
+        margin-bottom: 6px;
       }
     }
   }
@@ -730,6 +588,7 @@ form {
 
     .discharged-label {
       font-size: 17px;
+      margin-bottom: 0;
     }
 
     ion-list {
@@ -829,23 +688,8 @@ form {
     }
 
     .discharged-ama {
-      ion-radio-group {
-        ion-item {
-          display: inline-block;
-        }
-
-        ion-label {
-          font-size: 16px;
-          line-height: 31px;
-          font-family: Avenir;
-          display: inline-block;
-          margin-right: 1.5rem;
-        }
-
-        ion-radio {
-          display: inline-block;
-          margin-right: 8px;
-        }
+      .discharged-ama-options {
+        margin-top: 0.75rem;
       }
     }
 
@@ -856,28 +700,11 @@ form {
         margin-top: 8px;
       }
 
-      ion-list {
-        margin-left: 0;
-        margin-bottom: 0;
+      .discharge-location-grid {
         margin-top: 0.8rem;
 
         .discharge-location {
-          width: 300px;
-          float: left;
-          height: 34px;
-        }
-
-        ion-label {
-          margin-top: 0;
-          min-width: min-content;
-          font-family: Avenir;
-          font-size: 14px;
-          margin-left: 12px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          letter-spacing: 0.42px;
-          text-align: left;
+          width: 100%;
         }
       }
     }
@@ -938,18 +765,13 @@ form {
   }
 
   ion-input {
-    height: 39px;
+    min-height: 44px;
     width: 100%;
-    margin-top: 14px;
+    margin-top: 0;
   }
 
   .checkboxes-inline {
-    margin-top: 0px;
-
-    ion-item,
-    ion-radio {
-      display: inline-block;
-    }
+    margin-top: 0.75rem;
   }
 }
 
@@ -1211,27 +1033,8 @@ fieldset.need-to-know {
 .is-active {
   display: block;
   height: auto;
-  overflow: hidden;
+  overflow: visible;
   float: right;
-
-  ion-checkbox,
-  ion-label {
-    display: inline-block;
-    margin-left: 8px;
-  }
-
-  ion-label {
-    margin-top: 0;
-    font-family: AvenirPro;
-    font-size: 15px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.87;
-    letter-spacing: normal;
-    text-align: left;
-    color: #222222;
-  }
 }
 
 .form-button-controls {
