@@ -23,6 +23,30 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'API',
         summary:
+          'The 4.0.0 snapshot now validates signed bearer JWTs on the highest-risk user mutation routes and records acting-user audit context instead of relying only on the shared API key for those paths.',
+        evidence:
+          'Recorded in the API running change log after adding requestAuth middleware to deployment/index.js, verifying bearer tokens with jsonwebtoken against the existing RS256 keypair, attaching decoded acting-user context, and enforcing authenticated access for PUT /users/{userId}, DELETE /users/{userId}, POST /users/impersonate, and POST /users/merge-script in the User controller/service slice. Validation used npm install, npm test, clean get_errors on the touched API auth files, and focused frontend auth Jest to confirm the companion bearer-token client path.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Snapshot login now persists the real JWT and only exposes JWT-shaped values to the existing JwtInterceptor, so legacy expiry stubs no longer get forwarded as broken bearer headers.',
+        evidence:
+          'Recorded in the frontend running change log after updating app.module tokenGetter plus AuthenticationService login storage to keep the raw JWT in followup-token, ignore non-JWT legacy localStorage values, and preserve the existing ApiKey interceptor alongside the restored bearer path. Validation used the focused auth.service Jest slice (5/5 passing) and clean get_errors on the touched frontend auth files.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Performance',
+        summary:
+          'Avatar/data downloads and SQL-pool lifecycle now have explicit cleanup paths instead of relying on unhandled async stream patterns and always-live timers.',
+        evidence:
+          'Recorded in the API running change log after replacing the async-IIFE file stream pattern with shared fileTransfers helpers, sanitizing uploaded filenames, handling download stream errors and client disconnects explicitly in the avatar/data controllers, and adding unref reconnect/watchdog timers plus signal-driven pool shutdown cleanup in ConnectionPoolService. Validation used npm test and clean get_errors on the touched runtime files.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
           'The 4.0.0 snapshot API dependency baseline now clears all critical audit findings while keeping the legacy Node/OAS runtime and shared SQL pool surface intact.',
         evidence:
           'Recorded in the API running change log after removing unused jsonwebtoken, upgrading mssql to 12.5.5, downgrading applicationinsights to 2.9.8 to avoid the vulnerable 3.x OpenTelemetry tree, upgrading js-yaml to 3.14.2 and nodemon to 3.1.14, and pinning safe overrides for body-parser, qs, form-data, and z-schema in the legacy router subtree. Validation used npm install, npm test, fresh npm audit, and npm ls applicationinsights js-yaml mssql; the audit baseline fell from 56 total / 38 high / 2 critical to 13 total / 10 high / 1 moderate / 0 critical without needing source edits in the SQL pool or telemetry bootstrap files.',
