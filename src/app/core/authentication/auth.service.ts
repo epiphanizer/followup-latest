@@ -36,6 +36,10 @@ export interface LoginAccountSelectionResponse {
   accountChoices: LoginAccountChoice[];
 }
 
+function isJwtToken(value: string | null): boolean {
+  return !!value && value.split('.').length === 3;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -63,7 +67,14 @@ export class AuthenticationService {
   ngOnInit() {}
 
   public getToken(): string {
-    return localStorage.getItem('followup-token');
+    const token = localStorage.getItem('followup-token');
+
+    if (!isJwtToken(token)) {
+      localStorage.removeItem('followup-token');
+      return null;
+    }
+
+    return token;
   }
 
   public get currentUserValue(): User {
@@ -88,7 +99,7 @@ export class AuthenticationService {
             var token = this.jwtHelper.decodeToken(jwt.token);
             if (token.user.userId && token.user.userLevel) {
               // store user details and jwt token in local storage to keep user logged in between page refreshes
-              localStorage.setItem('followup-token', JSON.stringify({ expires: token.expires }));
+              localStorage.setItem('followup-token', jwt.token);
               var user = token.user;
               this._operationService.getOperationsByUserId(user.userId).subscribe(res => {
                 if (res) {

@@ -35,7 +35,8 @@ import { TeamModule } from './modules/team/team.module';
 import { nl2brPipe } from './shared/pipes/nl2br.pipe';
 
 export function tokenGetter() {
-  return localStorage.getItem('followup-token');
+  const token = localStorage.getItem('followup-token');
+  return token && token.split('.').length === 3 ? token : null;
 }
 
 @NgModule({

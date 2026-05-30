@@ -39,7 +39,7 @@ describe('AuthenticationService', () => {
       ])
     );
     operationService.getOperationGroups.mockReturnValue(of([{ operationGroupId: 1 }]));
-    http.post.mockReturnValue(of({ token: 'jwt-token' }));
+    http.post.mockReturnValue(of({ token: 'header.payload.signature' }));
 
     const result = await firstValueFrom(service.doLogin('alice', 'secret'));
 
@@ -51,7 +51,7 @@ describe('AuthenticationService', () => {
     expect(storedUser.operations.length).toBeGreaterThan(0);
     expect(storedUser.operationGroups[0].operations.length).toBeGreaterThan(0);
     expect(service.currentUserValue.userId).toBe(1);
-    expect(localStorage.getItem('followup-token')).toContain('expires');
+    expect(localStorage.getItem('followup-token')).toBe('header.payload.signature');
   });
 
   it('returns an error observable when login fails', async () => {
@@ -86,7 +86,7 @@ describe('AuthenticationService', () => {
   it('clears session data on logout', async () => {
     const { service, http } = build();
     localStorage.setItem('followup-user', JSON.stringify({ userId: 2 }));
-    localStorage.setItem('followup-token', 'token');
+    localStorage.setItem('followup-token', 'header.payload.signature');
     http.post.mockReturnValue(of({}));
 
     await firstValueFrom(service.doLogout('2'));
@@ -100,7 +100,7 @@ describe('AuthenticationService', () => {
   it('redirects and clears session data when logout fails', async () => {
     const { service, http } = build();
     localStorage.setItem('followup-user', JSON.stringify({ userId: 3 }));
-    localStorage.setItem('followup-token', 'token');
+    localStorage.setItem('followup-token', 'header.payload.signature');
     http.post.mockReturnValue(throwError(new HttpErrorResponse({ status: 503, error: 'down' })));
 
     await firstValueFrom(service.doLogout('3'));

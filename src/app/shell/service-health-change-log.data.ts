@@ -16,10 +16,18 @@ export interface ServiceHealthChangeLogRelease {
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
     version: '4.0.0',
-    recordedAt: '2026-05-20',
+    recordedAt: '2026-05-29',
     label: 'Current alpha candidate',
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
+      {
+        scope: 'API',
+        summary:
+          'The 4.0.0 snapshot API dependency baseline now clears all critical audit findings while keeping the legacy Node/OAS runtime and shared SQL pool surface intact.',
+        evidence:
+          'Recorded in the API running change log after removing unused jsonwebtoken, upgrading mssql to 12.5.5, downgrading applicationinsights to 2.9.8 to avoid the vulnerable 3.x OpenTelemetry tree, upgrading js-yaml to 3.14.2 and nodemon to 3.1.14, and pinning safe overrides for body-parser, qs, form-data, and z-schema in the legacy router subtree. Validation used npm install, npm test, fresh npm audit, and npm ls applicationinsights js-yaml mssql; the audit baseline fell from 56 total / 38 high / 2 critical to 13 total / 10 high / 1 moderate / 0 critical without needing source edits in the SQL pool or telemetry bootstrap files.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
       {
         scope: 'Frontend',
         summary:
