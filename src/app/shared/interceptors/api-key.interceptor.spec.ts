@@ -1,16 +1,16 @@
 import { HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
-import { ApiKeyInterceptor } from './api-key.interceptor';
+import { API_KEY_AUTH_VALUE, ApiKeyInterceptor } from './api-key.interceptor';
 
 describe('ApiKeyInterceptor (Jest)', () => {
   const handler = (): HttpHandler => ({
     handle: jest.fn(() => of(new HttpResponse({ status: 200 }))) as any
   });
 
-  it('adds ApiKeyAuth header to outgoing requests', done => {
+  it('adds ApiKeyAuth header to bootstrap auth requests', done => {
     const next = handler();
     const interceptor = new ApiKeyInterceptor();
-    const req = new HttpRequest('GET', '/path');
+    const req = new HttpRequest('POST', '/users/login', null);
 
     interceptor.intercept(req, next).subscribe({
       next: () => {
@@ -20,7 +20,22 @@ describe('ApiKeyInterceptor (Jest)', () => {
           })
         );
         const calledReq = (next.handle as jest.Mock).mock.calls[0][0] as HttpRequest<unknown>;
-        expect(calledReq.headers.get('ApiKeyAuth')).toBe('8341c9e6-8adb-469b-8d66-f58cbcda720c');
+        expect(calledReq.headers.get('ApiKeyAuth')).toBe(API_KEY_AUTH_VALUE);
+        done();
+      },
+      error: err => done.fail(err)
+    });
+  });
+
+  it('does not add ApiKeyAuth header to non-bootstrap requests', done => {
+    const next = handler();
+    const interceptor = new ApiKeyInterceptor();
+    const req = new HttpRequest('GET', '/users');
+
+    interceptor.intercept(req, next).subscribe({
+      next: () => {
+        const calledReq = (next.handle as jest.Mock).mock.calls[0][0] as HttpRequest<unknown>;
+        expect(calledReq.headers.has('ApiKeyAuth')).toBe(false);
         done();
       },
       error: err => done.fail(err)

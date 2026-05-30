@@ -55,6 +55,8 @@ Shared/core scaffolding
 
 ## Running change log (frontend)
 
+- 2026-05-30: Shrunk the snapshot `4.0.0` client-side shared API-key surface to bootstrap auth only by updating [src/app/shared/interceptors/api-key.interceptor.ts](src/app/shared/interceptors/api-key.interceptor.ts) so `ApiKeyAuth` is only attached for `/users/login` and the legacy `/users/auth` path, removing the explicit `ApiKeyAuth` header from the shell `/statusz` poller in [src/app/shell/shell.component.ts](src/app/shell/shell.component.ts), and updating focused coverage in [src/app/shared/interceptors/api-key.interceptor.spec.ts](src/app/shared/interceptors/api-key.interceptor.spec.ts). Validation: `npm test -- --runInBand --runTestsByPath src/app/shared/interceptors/api-key.interceptor.spec.ts src/app/shell/shell.component.spec.ts` PASS (10/10).
+
 - 2026-05-30: Synced [src/app/shell/service-health-change-log.data.ts](src/app/shell/service-health-change-log.data.ts) with the next snapshot API runtime-hardening tranche so Service Health now records the 27-file service wrapper cleanup, bounded Kicktech request timeouts, and the cork-board file-transfer port onto the shared hardened helper path. Validation: clean `get_errors` on the touched service-health change-log file.
 
 - 2026-05-29: Synced [src/app/shell/service-health-change-log.data.ts](src/app/shell/service-health-change-log.data.ts) with the snapshot API auth/runtime hardening pass so Service Health now records verified bearer-token request auth on the highest-risk user mutations plus the controller/pool leak hardening work in the API snapshot. Validation: clean `get_errors` on the touched service-health change-log file.

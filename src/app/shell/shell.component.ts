@@ -11,7 +11,6 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { ToastrService } from 'ngx-toastr';
 import { UserCorkBoardService } from './user-cork-board/user-cork-board.service';
-import { API_KEY_AUTH_VALUE } from '@app/shared/interceptors/api-key.interceptor';
 import { SERVICE_HEALTH_CHANGE_LOG, ServiceHealthChangeLogRelease } from './service-health-change-log.data';
 
 interface ServiceStatusResponse {
@@ -340,7 +339,6 @@ export class ShellComponent {
 
   private startServiceStatusPolling() {
     const headers = new HttpHeaders({
-      ApiKeyAuth: API_KEY_AUTH_VALUE,
       'Cache-Control': 'no-cache',
       Pragma: 'no-cache'
     });
