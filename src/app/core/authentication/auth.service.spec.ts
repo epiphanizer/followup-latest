@@ -54,6 +54,21 @@ describe('AuthenticationService', () => {
     expect(localStorage.getItem('followup-token')).toBe('header.payload.signature');
   });
 
+  it('clears stale stored session when token is expired at startup', () => {
+    localStorage.setItem('followup-user', JSON.stringify({ userId: 7 }));
+    localStorage.setItem('followup-token', 'header.payload.signature');
+
+    const { service, jwtHelper } = build();
+    jwtHelper.decodeToken.mockReturnValue({
+      user: { userLoginExpires: Date.now() - 1000 }
+    });
+
+    expect(service.getToken()).toBeNull();
+    expect(service.currentUserValue).toBeNull();
+    expect(localStorage.getItem('followup-user')).toBeNull();
+    expect(localStorage.getItem('followup-token')).toBeNull();
+  });
+
   it('returns an error observable when login fails', async () => {
     const { service, http } = build();
     http.post.mockReturnValue(throwError(new HttpErrorResponse({ status: 500, error: 'boom' })));
