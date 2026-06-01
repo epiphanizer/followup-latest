@@ -23,6 +23,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Operation add/edit now supports lookahead search for Ownership group selection, making large client-group lists filterable in the form dialog area.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after replacing the operation ownership ion-select with a typeahead input/list in operation-form.component and wiring reactive-form selection updates for operationGroupId. Search now matches both operationGroupName and operationGroupShortName with inline results in New Operation and Edit Operation. Validation used focused Jest on operation-form.component.spec.ts including lookahead filter/select coverage.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Clients Active/Archived listing is now resilient on mixed alpha database schemas and no longer blocked by duplicated Swagger response keys.',
+        evidence:
+          'Recorded in the snapshot API running change log after removing duplicated 400/401/404 response keys under GET /operations/groups/all in deployment/api/swagger.yaml (fixing local YAML boot parse failure) and hardening OperationService.getAllOperationGroups fallback queries to support databases where operationGroups.operationGroupActive is absent by returning a synthesized active flag. Validation used direct js-yaml parse of swagger plus node --check on OperationService.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Expired bearer sessions now auto-clear local auth state and redirect to login instead of repeatedly issuing unauthorized API calls.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating auth.service, app.module tokenGetter, and ErrorHandlerInterceptor to enforce userLoginExpires checks on stored JWTs, clear stale followup auth storage keys, and redirect on auth-related 401 responses outside /users/login. Validation used focused Jest on auth.service and error-handler interceptor specs (2/2 suites passing).',

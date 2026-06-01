@@ -39,6 +39,19 @@ describe('OperationOperationListingComponent (Jest)', () => {
     expect(component.operationsFiltered.every(op => op.operationGroupId === 'g1')).toBe(true);
   });
 
+  it('prefers hydrated operationGroup.operations over user operation fallback on init', () => {
+    const component = new OperationOperationListingComponent(routeStub);
+    component.operationGroup = {
+      operationGroupId: 'g1',
+      operations: [buildOperation({ operationName: 'Hydrated Facility' })]
+    } as any;
+
+    component.ngOnInit();
+
+    expect(component.operationsFiltered.length).toBe(1);
+    expect(component.operationsFiltered[0].operationName).toBe('Hydrated Facility');
+  });
+
   it('searches operations by name', () => {
     const component = buildComponent();
 

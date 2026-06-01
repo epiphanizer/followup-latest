@@ -28,7 +28,8 @@ describe('OperationListingComponent (Jest)', () => {
   beforeEach(async () => {
     const operationServiceStub = {
       getAllOperationGroups: jest.fn().mockReturnValue(of(userStub.operationGroups)),
-      getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([]))
+      getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([])),
+      getOperationsByOperationGroupId: jest.fn().mockReturnValue(of([]))
     };
 
     await TestBed.configureTestingModule({
@@ -59,7 +60,8 @@ describe('OperationListingComponent (Jest)', () => {
   it('handles users with no operation groups', () => {
     const operationServiceStub = {
       getAllOperationGroups: jest.fn().mockReturnValue(of([])),
-      getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([]))
+      getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([])),
+      getOperationsByOperationGroupId: jest.fn().mockReturnValue(of([]))
     };
     const route = {
       snapshot: { data: { user: { userId: 'u1', operations: [], operationGroups: [] } } },
@@ -85,7 +87,8 @@ describe('OperationListingComponent (Jest)', () => {
             operationGroupId: 'missingGroup'
           }
         ])
-      )
+      ),
+      getOperationsByOperationGroupId: jest.fn().mockReturnValue(of([]))
     };
     const route = {
       snapshot: { data: { user: { userId: 'u1', operations: [], operationGroups: [] } } },
@@ -117,7 +120,16 @@ describe('OperationListingComponent (Jest)', () => {
           }
         ])
       ),
-      getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([]))
+      getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([])),
+      getOperationsByOperationGroupId: jest.fn().mockReturnValue(
+        of([
+          {
+            operationId: 'op1',
+            operationGroupId: 'og1',
+            operationName: 'Facility 1'
+          }
+        ])
+      )
     };
     const route = {
       snapshot: { data: { user: userStub, section: 'clients', title: 'Clients' } },
@@ -134,5 +146,7 @@ describe('OperationListingComponent (Jest)', () => {
     expect(localComponent.clientMode).toBe(true);
     expect(localComponent.pageTitle).toBe('Clients');
     expect(operationServiceStub.getAllOperationGroups).toHaveBeenCalled();
+    expect(operationServiceStub.getOperationsByOperationGroupId).toHaveBeenCalled();
+    expect(localComponent.selected.operationGroup.operations.length).toBe(1);
   });
 });

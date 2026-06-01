@@ -29,8 +29,13 @@ export class OperationOperationListingComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     const userOperations = Array.isArray(this.user?.operations) ? this.user.operations : [];
     const selectedOperationGroupId = this.operationGroup?.operationGroupId;
+    const selectedGroupOperations = Array.isArray(this.operationGroup?.operations)
+      ? this.operationGroup.operations
+      : [];
 
-    this.operationsFiltered = this.operations = selectedOperationGroupId
+    this.operationsFiltered = this.operations = selectedGroupOperations.length
+      ? selectedGroupOperations
+      : selectedOperationGroupId
       ? userOperations.filter((operation: Operation) => operation.operationGroupId == selectedOperationGroupId)
       : [];
 

@@ -288,6 +288,48 @@ describe('OperationFormComponent logic', () => {
     });
   });
 
+  describe('Ownership Group Lookahead', () => {
+    beforeEach(() => {
+      component.operationGroups = [
+        { operationGroupId: 'og1', operationGroupName: 'West Coast PACS', operationGroupShortName: 'WCP' } as any,
+        {
+          operationGroupId: 'og2',
+          operationGroupName: 'Mountain View Rehab',
+          operationGroupShortName: 'MVR'
+        } as any,
+        { operationGroupId: 'og3', operationGroupName: 'Eastside Hospice', operationGroupShortName: 'EH' } as any
+      ];
+      component.operation = {
+        ...(component.operation as any),
+        operationGroupId: 'og1'
+      } as any;
+      (component as any).setOperationGroupSearchFromSelection('og1');
+    });
+
+    it('filters operation groups by lookahead term', () => {
+      component.onOperationGroupSearchInput({ detail: { value: 'mount' } });
+
+      expect(component.operationGroupLookaheadOpen).toBe(true);
+      expect(component.filteredOperationGroups.length).toBe(1);
+      expect(component.filteredOperationGroups[0].operationGroupId).toBe('og2');
+    });
+
+    it('selects operation group from lookahead and updates form control', () => {
+      const eventMock = {
+        preventDefault: jest.fn(),
+        stopPropagation: jest.fn()
+      } as any;
+
+      component.selectOperationGroupFromSearch(component.operationGroups[2], eventMock);
+
+      expect(eventMock.preventDefault).toHaveBeenCalled();
+      expect(component.operationGroupSearchTerm).toBe('Eastside Hospice');
+      expect(component.operationForm.get('operation.operationGroupId').value).toBe('og3');
+      expect(component.operation.operationGroupId).toBe('og3');
+      expect(component.operationGroupLookaheadOpen).toBe(false);
+    });
+  });
+
   describe('Operation Contact Management', () => {
     it('adds additional operation contacts with default notifications', () => {
       component.addAdditionalOperationContact();

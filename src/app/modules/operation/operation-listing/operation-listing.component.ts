@@ -73,9 +73,11 @@ export class OperationListingComponent implements OnInit {
       return;
     }
 
-    this.operationService
-      .getActiveOperationsByOperationGroupId({ operationGroupId } as OperationGroup, this.user)
-      .subscribe((operations: Operation[]) => {
+    const operationRequest$ = this.clientMode
+      ? this.operationService.getOperationsByOperationGroupId({ operationGroupId } as OperationGroup)
+      : this.operationService.getActiveOperationsByOperationGroupId({ operationGroupId } as OperationGroup, this.user);
+
+    operationRequest$.subscribe((operations: Operation[]) => {
         const safeOperations = Array.isArray(operations) ? operations : [];
         this.selected.operationGroup = {
           operationGroupId,
@@ -165,10 +167,17 @@ export class OperationListingComponent implements OnInit {
               operationGroupActive: 1,
               operations: []
             };
+          }
+
+          if (this.clientMode || !Array.isArray(this.selected.operationGroup.operations) || !this.selected.operationGroup.operations.length) {
             this.hydrateSelectedGroupById(operationGroupId);
           }
         } else {
           this.selected.operationGroup = this.operationGroups.length ? this.operationGroups[0] : null;
+
+          if (this.clientMode && this.selected.operationGroup?.operationGroupId) {
+            this.hydrateSelectedGroupById(this.selected.operationGroup.operationGroupId);
+          }
         }
 
         this._cdr.detectChanges();
@@ -193,6 +202,9 @@ export class OperationListingComponent implements OnInit {
         operationGroupActive: 1,
         operations: []
       };
+    }
+
+    if (this.clientMode || !Array.isArray(this.selected.operationGroup.operations) || !this.selected.operationGroup.operations.length) {
       this.hydrateSelectedGroupById(operationGroupId);
     }
   }

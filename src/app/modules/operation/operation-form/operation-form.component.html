@@ -69,21 +69,32 @@
             </div>
             <ion-item class="operation-group">
               <ion-label color="medium" position="stacked">Ownership <span style="color:#f1624a">*</span></ion-label>
-              <ion-select
-                *ngIf="(operationGroups && mode.add) || operation.operationGroupShortName"
-                formControlName="operationGroupId"
-                (ionChange)="operationGroupOnSelect($event)"
-                class="operation-group-select"
-                placeholder="Ownership"
-              >
-                <ion-select-option
-                  *ngFor="let operationGroup of operationGroups"
-                  [selected]="operationGroup.operationGroupId == operation.operationGroupId"
-                  [value]="operationGroup.operationGroupId"
-                >
-                  {{ operationGroup.operationGroupName }}
-                </ion-select-option>
-              </ion-select>
+              <div class="operation-group-typeahead" *ngIf="(operationGroups && mode.add) || operation.operationGroupShortName">
+                <ion-input
+                  class="operation-group-search-input"
+                  placeholder="Search ownership group"
+                  [value]="operationGroupSearchTerm"
+                  (ionInput)="onOperationGroupSearchInput($event)"
+                  (ionFocus)="onOperationGroupSearchFocus()"
+                  (ionBlur)="onOperationGroupSearchBlur()"
+                ></ion-input>
+                <div class="operation-group-lookahead" *ngIf="operationGroupLookaheadOpen">
+                  <button
+                    type="button"
+                    class="operation-group-lookahead-option"
+                    *ngFor="let operationGroup of filteredOperationGroups; trackBy: trackByOperationGroupOption"
+                    (mousedown)="selectOperationGroupFromSearch(operationGroup, $event)"
+                  >
+                    <span class="operation-group-name">{{ operationGroup.operationGroupName }}</span>
+                    <span class="operation-group-short" *ngIf="operationGroup.operationGroupShortName">
+                      {{ operationGroup.operationGroupShortName }}
+                    </span>
+                  </button>
+                  <div class="operation-group-lookahead-empty" *ngIf="!filteredOperationGroups.length">
+                    No ownership groups match your search.
+                  </div>
+                </div>
+              </div>
             </ion-item>
             <ion-item class="operation-name">
               <ion-label color="medium" position="stacked">Facility <span style="color:#f1624a">*</span></ion-label>
