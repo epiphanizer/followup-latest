@@ -267,6 +267,26 @@ export class TeamMemberDetailComponent implements OnInit {
     this.applyAccessFilters();
   }
 
+  get accessSummary() {
+    const allEntries = (this.accessGroups || []).reduce((entries, group) => {
+      entries.push(...group.entries);
+      return entries;
+    }, [] as Array<{ roleLabel: string; sourceLabel: string }>);
+
+    const directCount = allEntries.filter(entry => String(entry.sourceLabel || '').toLowerCase() === 'direct').length;
+    const inheritedCount = allEntries.length - directCount;
+    const managerCount = allEntries.filter(entry => entry.roleLabel === 'Manager').length;
+    const careRepCount = allEntries.filter(entry => entry.roleLabel === 'Care Rep').length;
+
+    return {
+      total: allEntries.length,
+      direct: directCount,
+      inherited: inheritedCount,
+      manager: managerCount,
+      careRep: careRepCount
+    };
+  }
+
   private normalizeRoleLabel(roleLabel: string): string | null {
     const normalized = (roleLabel || '').toLowerCase();
     if (normalized.includes('manager')) {

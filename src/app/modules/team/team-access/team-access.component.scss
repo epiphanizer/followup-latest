@@ -145,6 +145,30 @@ ion-title {
   gap: 8px;
 }
 
+.member-access-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.member-access-action-button {
+  border: 1px solid #d6d0d0;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #42454c;
+  cursor: pointer;
+  font-family: AvenirDemi;
+  font-size: 13px;
+  line-height: 1;
+  padding: 8px 12px;
+
+  &.is-emphasis {
+    border-color: #ef4627;
+    color: #ef4627;
+  }
+}
+
 .member-access-member-button {
   border: 1px solid #d6d0d0;
   border-radius: 999px;
@@ -255,6 +279,30 @@ ion-title {
   flex-wrap: wrap;
 }
 
+.client-assignee-toolbar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.client-assignee-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  border: 1px solid #f0ebeb;
+  border-radius: 14px;
+  padding: 10px;
+}
+
+.assignee-section-label {
+  font-family: AvenirDemi;
+  font-size: 12px;
+  color: #5f6168;
+  min-width: 108px;
+}
+
 .bulk-role-select {
   min-width: 170px;
 }
@@ -336,6 +384,25 @@ ion-title {
   gap: 8px;
 }
 
+.operation-assignee-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 8px;
+}
+
+.operation-assignee-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+    font-family: AvenirDemi;
+    font-size: 12px;
+    color: #6f6f75;
+  }
+}
+
 .team-access-entry-meta {
   display: flex;
   flex-wrap: wrap;
@@ -372,6 +439,11 @@ ion-title {
   &.is-unassigned {
     background: #f4f1f1;
     color: #6f6f75;
+  }
+
+  &.is-exception {
+    background: #ffe9e2;
+    color: #bf4f33;
   }
 
   &.is-disabled {
@@ -479,8 +551,14 @@ ion-select {
 
   .client-mode-toolbar,
   .client-bulk-toolbar,
-  .client-mode-options {
+  .client-mode-options,
+  .client-assignee-toolbar {
     width: 100%;
+  }
+
+  .client-assignee-toolbar,
+  .operation-assignee-grid {
+    grid-template-columns: 1fr;
   }
 
   .bulk-action-button,

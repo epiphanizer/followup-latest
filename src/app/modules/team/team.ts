@@ -49,11 +49,15 @@ export interface TeamOperationAssignment {
   operationActive?: number;
   operationUserRoleLabelId: number;
   operationUserRoleLabel?: string;
+  defaultManagerTeamMemberId?: string;
+  defaultCareRepTeamMemberId?: string;
 }
 
 export interface TeamOperationAssignmentPutItem {
   operationId: string;
   operationUserRoleLabelId: number;
+  defaultManagerTeamMemberId?: string;
+  defaultCareRepTeamMemberId?: string;
 }
 
 export type TeamMemberOperationAccessMode = 'default' | 'override' | 'revoke';

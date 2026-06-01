@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { AuthenticationService } from '@app/core';
+import { User, UserRoles } from '@app/modules/user/user';
+import { UserService } from '@app/modules/user/user.service';
 
 import { Operation } from '@app/modules/operation/operation';
 import { OperationService } from '@app/modules/operation/operation.service';
@@ -27,6 +30,8 @@ interface TeamAccessEntry {
   operationActive?: number;
   operationSelected: boolean;
   selectedRoleId: number;
+  defaultManagerTeamMemberId?: string;
+  defaultCareRepTeamMemberId?: string;
 }
 
 interface TeamAccessClientCard {
@@ -38,6 +43,8 @@ interface TeamAccessClientCard {
   expanded: boolean;
   accessMode: TeamClientAccessMode;
   bulkRoleId: number;
+  bulkManagerTeamMemberId?: string;
+  bulkCareRepTeamMemberId?: string;
 }
 
 interface TeamMemberAccessEntry {
@@ -79,6 +86,9 @@ export class TeamAccessComponent implements OnInit {
 
   teamId: string;
   team: Team;
+  currentUser: User;
+  isImpersonating: boolean = false;
+  userRoles = UserRoles;
   activeEditor: TeamAccessEditor = 'team';
   isLoading: boolean = true;
   isSaving: boolean = false;
@@ -95,18 +105,33 @@ export class TeamAccessComponent implements OnInit {
   isMemberSaving: boolean = false;
   isMemberDirty: boolean = false;
   memberLoadError: string = '';
+  private pendingSelectedTeamMemberId: string = '';
+  private pendingEditor: TeamAccessEditor = 'team';
   private initialSnapshot: string = '[]';
   private memberInitialSnapshot: string = '[]';
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private teamService: TeamService,
     private operationService: OperationService,
+    private userService: UserService,
+    private authenticationService: AuthenticationService,
     private toastrService: ToastrService
   ) {}
 
   ngOnInit() {
+    this.currentUser = this.authenticationService.currentUserValue;
+    this.isImpersonating = !!this.authenticationService.impersonatorValue;
     this.teamId = this.route.snapshot.params.teamId;
+    this.pendingSelectedTeamMemberId = String(this.route.snapshot.queryParamMap.get('memberId') || '');
+    this.pendingEditor = this.route.snapshot.queryParamMap.get('editor') === 'member' ? 'member' : 'team';
+
+    this.route.queryParamMap.subscribe(params => {
+      this.pendingSelectedTeamMemberId = String(params.get('memberId') || '');
+      this.pendingEditor = params.get('editor') === 'member' ? 'member' : 'team';
+    });
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.teamId = params.get('teamId');
       this.loadTeamAccess();
@@ -143,6 +168,8 @@ export class TeamAccessComponent implements OnInit {
     let managerDefaults = 0;
     let careRepDefaults = 0;
     let assignedDefaults = 0;
+    let managerDefaultAssignees = 0;
+    let careRepDefaultAssignees = 0;
 
     this.teamAccessClients.forEach(client => {
       totalOperations += client.entries.length;
@@ -163,6 +190,12 @@ export class TeamAccessComponent implements OnInit {
         if (entry.selectedRoleId === 3) {
           careRepDefaults += 1;
         }
+        if (entry.defaultManagerTeamMemberId) {
+          managerDefaultAssignees += 1;
+        }
+        if (entry.defaultCareRepTeamMemberId) {
+          careRepDefaultAssignees += 1;
+        }
       });
     });
 
@@ -173,6 +206,8 @@ export class TeamAccessComponent implements OnInit {
       totalOperations,
       managerDefaults,
       careRepDefaults,
+      managerDefaultAssignees,
+      careRepDefaultAssignees,
       assignedDefaults,
       exceptions: this.memberEntries.filter(entry => entry.selectedState !== 'default').length
     };
@@ -180,6 +215,15 @@ export class TeamAccessComponent implements OnInit {
 
   get selectedTeamMember(): TeamMember | null {
     return this.teamMembers.find(teamMember => teamMember.teamMemberId === this.selectedTeamMemberId) || null;
+  }
+
+  get canImpersonateSelectedMember(): boolean {
+    return (
+      !!this.currentUser &&
+      this.currentUser.userLevel === this.userRoles.admin &&
+      !this.isImpersonating &&
+      !!this.selectedTeamMember?.userId
+    );
   }
 
   get currentDescription(): string {
@@ -201,7 +245,7 @@ export class TeamAccessComponent implements OnInit {
     }
 
     const summary = this.teamDefaultsSummary;
-    return `Client access: ${summary.clientsEnabled} of ${summary.totalClients} enabled. Operation access: ${summary.operationsEnabled} of ${summary.totalOperations}. Manager defaults: ${summary.managerDefaults}. Care Rep defaults: ${summary.careRepDefaults}. Exceptions: ${summary.exceptions}.`;
+    return `Client access: ${summary.clientsEnabled} of ${summary.totalClients} enabled. Operation access: ${summary.operationsEnabled} of ${summary.totalOperations}. Manager defaults: ${summary.managerDefaults} (${summary.managerDefaultAssignees} assigned). Care Rep defaults: ${summary.careRepDefaults} (${summary.careRepDefaultAssignees} assigned). Exceptions: ${summary.exceptions}.`;
   }
 
   get currentSaveDisabled(): boolean {
@@ -251,6 +295,39 @@ export class TeamAccessComponent implements OnInit {
     this.loadMemberAccess();
   }
 
+  goToSelectedMemberDetails() {
+    if (!this.selectedTeamMemberId || !this.teamId) {
+      return;
+    }
+
+    this.router.navigate(['/teams', this.teamId, 'members', this.selectedTeamMemberId]);
+  }
+
+  loginAsSelectedMember() {
+    if (!this.canImpersonateSelectedMember) {
+      return;
+    }
+
+    const selectedMember = this.selectedTeamMember;
+    if (!selectedMember) {
+      return;
+    }
+
+    const adminUser = this.currentUser;
+    this.userService
+      .impersonateUser(adminUser.userId, selectedMember.userId)
+      .pipe(take(1))
+      .subscribe((user: User) => {
+        if (!user) {
+          return;
+        }
+
+        this.authenticationService.startImpersonation(user, adminUser).then(() => {
+          this.router.navigate(['/home']);
+        });
+      });
+  }
+
   saveActiveChanges() {
     if (this.activeEditor === 'member') {
       this.saveMemberAccess();
@@ -275,7 +352,9 @@ export class TeamAccessComponent implements OnInit {
         if (entry.selectedRoleId > 0) {
           assignments.push({
             operationId: entry.operationId,
-            operationUserRoleLabelId: entry.selectedRoleId
+            operationUserRoleLabelId: entry.selectedRoleId,
+            defaultManagerTeamMemberId: entry.defaultManagerTeamMemberId || undefined,
+            defaultCareRepTeamMemberId: entry.defaultCareRepTeamMemberId || undefined
           });
         }
       });
@@ -374,7 +453,10 @@ export class TeamAccessComponent implements OnInit {
 
           return (left.teamMemberFirstName || '').localeCompare(right.teamMemberFirstName || '');
         });
-        this.selectedTeamMemberId = this.teamMembers[0]?.teamMemberId || '';
+        const preferredTeamMemberId = this.pendingSelectedTeamMemberId;
+        const preferredTeamMember = this.teamMembers.find(teamMember => teamMember.teamMemberId === preferredTeamMemberId);
+        this.selectedTeamMemberId = preferredTeamMember?.teamMemberId || this.teamMembers[0]?.teamMemberId || '';
+        this.activeEditor = this.pendingEditor;
         this.isLoading = false;
 
         if (this.selectedTeamMemberId) {
@@ -435,7 +517,9 @@ export class TeamAccessComponent implements OnInit {
           operationGroupName: operation.operationGroupName || 'Other',
           operationActive: Number(operation.operationActive),
           operationSelected: Number(assignment?.operationUserRoleLabelId) > 0,
-          selectedRoleId: Number(assignment?.operationUserRoleLabelId) || 0
+          selectedRoleId: Number(assignment?.operationUserRoleLabelId) || 0,
+          defaultManagerTeamMemberId: assignment?.defaultManagerTeamMemberId || '',
+          defaultCareRepTeamMemberId: assignment?.defaultCareRepTeamMemberId || ''
         };
       })
       .sort((left, right) => {
@@ -462,7 +546,9 @@ export class TeamAccessComponent implements OnInit {
           enabled: false,
           expanded: false,
           accessMode: 'selectedOperations',
-          bulkRoleId: 0
+          bulkRoleId: 0,
+          bulkManagerTeamMemberId: '',
+          bulkCareRepTeamMemberId: ''
         });
       }
 
@@ -480,9 +566,30 @@ export class TeamAccessComponent implements OnInit {
           : 'selectedOperations';
         client.expanded = client.enabled;
         client.bulkRoleId = this.resolveClientBulkRole(client);
+        client.bulkManagerTeamMemberId = this.resolveClientBulkAssignee(client, 'manager');
+        client.bulkCareRepTeamMemberId = this.resolveClientBulkAssignee(client, 'careRep');
         return client;
       })
       .sort((left, right) => left.operationGroupName.localeCompare(right.operationGroupName));
+  }
+
+  private resolveClientBulkAssignee(client: TeamAccessClientCard, roleType: 'manager' | 'careRep'): string {
+    const assigneeCounts: Record<string, number> = {};
+    client.entries.forEach(entry => {
+      if (!this.isEntryInClientScope(client, entry)) {
+        return;
+      }
+
+      const assigneeId = roleType === 'manager' ? entry.defaultManagerTeamMemberId : entry.defaultCareRepTeamMemberId;
+      if (!assigneeId) {
+        return;
+      }
+
+      assigneeCounts[assigneeId] = (assigneeCounts[assigneeId] || 0) + 1;
+    });
+
+    const mostCommon = Object.keys(assigneeCounts).sort((left, right) => assigneeCounts[right] - assigneeCounts[left])[0];
+    return mostCommon || '';
   }
 
   private resolveClientBulkRole(client: TeamAccessClientCard): number {
@@ -563,6 +670,8 @@ export class TeamAccessComponent implements OnInit {
         return;
       }
       entry.selectedRoleId = 0;
+      entry.defaultManagerTeamMemberId = '';
+      entry.defaultCareRepTeamMemberId = '';
     });
     this.recomputeDirtyState();
   }
@@ -581,6 +690,65 @@ export class TeamAccessComponent implements OnInit {
       entry.operationSelected = true;
     }
     client.bulkRoleId = this.resolveClientBulkRole(client);
+    this.recomputeDirtyState();
+  }
+
+  applyBulkAssignee(client: TeamAccessClientCard, roleType: 'manager' | 'careRep', overwriteAll: boolean) {
+    if (!client.enabled) {
+      return;
+    }
+
+    const selectedAssigneeId = roleType === 'manager' ? client.bulkManagerTeamMemberId : client.bulkCareRepTeamMemberId;
+    if (!selectedAssigneeId) {
+      return;
+    }
+
+    client.entries.forEach(entry => {
+      if (!this.isEntryInClientScope(client, entry)) {
+        return;
+      }
+
+      if (roleType === 'manager') {
+        if (!overwriteAll && entry.defaultManagerTeamMemberId) {
+          return;
+        }
+        entry.defaultManagerTeamMemberId = selectedAssigneeId;
+      } else {
+        if (!overwriteAll && entry.defaultCareRepTeamMemberId) {
+          return;
+        }
+        entry.defaultCareRepTeamMemberId = selectedAssigneeId;
+      }
+    });
+
+    this.recomputeDirtyState();
+  }
+
+  clearBulkAssignee(client: TeamAccessClientCard, roleType: 'manager' | 'careRep') {
+    client.entries.forEach(entry => {
+      if (!this.isEntryInClientScope(client, entry)) {
+        return;
+      }
+
+      if (roleType === 'manager') {
+        entry.defaultManagerTeamMemberId = '';
+      } else {
+        entry.defaultCareRepTeamMemberId = '';
+      }
+    });
+
+    this.recomputeDirtyState();
+  }
+
+  onOperationAssigneeChange(client: TeamAccessClientCard, entry: TeamAccessEntry, roleType: 'manager' | 'careRep', teamMemberId: string) {
+    if (roleType === 'manager') {
+      entry.defaultManagerTeamMemberId = teamMemberId || '';
+      client.bulkManagerTeamMemberId = this.resolveClientBulkAssignee(client, 'manager');
+    } else {
+      entry.defaultCareRepTeamMemberId = teamMemberId || '';
+      client.bulkCareRepTeamMemberId = this.resolveClientBulkAssignee(client, 'careRep');
+    }
+
     this.recomputeDirtyState();
   }
 
@@ -605,6 +773,13 @@ export class TeamAccessComponent implements OnInit {
       return 'Unassigned';
     }
 
+    const hasAssigneeException =
+      (entry.defaultManagerTeamMemberId && client.bulkManagerTeamMemberId && entry.defaultManagerTeamMemberId !== client.bulkManagerTeamMemberId)
+      || (entry.defaultCareRepTeamMemberId && client.bulkCareRepTeamMemberId && entry.defaultCareRepTeamMemberId !== client.bulkCareRepTeamMemberId);
+    if (hasAssigneeException) {
+      return 'Exception';
+    }
+
     if (client.bulkRoleId > 0 && entry.selectedRoleId === client.bulkRoleId) {
       return 'Inherited';
     }
@@ -616,6 +791,9 @@ export class TeamAccessComponent implements OnInit {
     const label = this.getEntryStateLabel(client, entry).toLowerCase();
     if (label === 'custom') {
       return 'is-custom';
+    }
+    if (label === 'exception') {
+      return 'is-exception';
     }
     if (label === 'inherited') {
       return 'is-inherited';
@@ -700,7 +878,9 @@ export class TeamAccessComponent implements OnInit {
 
           assignments.push({
             operationId: entry.operationId,
-            operationUserRoleLabelId: entry.selectedRoleId
+            operationUserRoleLabelId: entry.selectedRoleId,
+            defaultManagerTeamMemberId: entry.defaultManagerTeamMemberId || undefined,
+            defaultCareRepTeamMemberId: entry.defaultCareRepTeamMemberId || undefined
           });
         });
 

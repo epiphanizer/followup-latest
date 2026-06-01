@@ -21,6 +21,30 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'API',
+        summary:
+          'Clients all-groups endpoint now performs proc/column capability detection before querying, removing expected fallback failures from DB perf logs on mixed schemas.',
+        evidence:
+          'Recorded in the snapshot API running change log after updating deployment/service/OperationService.js getAllOperationGroups to detect whether `sp_getAllOperationGroups` exists and whether `operationGroups.operationGroupActive` exists before selecting the query path. This avoids the old error-driven fallback chain (`Could not find stored procedure sp_getAllOperationGroups`, `Invalid column name operationGroupActive`) while preserving compatibility with both legacy and newer database shapes used by `/operations/groups/all` on the Clients page.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Database',
+        summary:
+          'A reversible direct-permission cutover path now exists to migrate non-admin operationUsers access into team-based assignments with backup/restore safety.',
+        evidence:
+          'Recorded in the snapshot API running change log after adding migration_sql/3.12.9migration-direct-permissions-team-cutover.sql. The migration adds cutover run/audit backup tables, sp_cutoverDirectOperationPermissionsToTeams (dry-run support, system-admin exclusion by default, optional dedicated one-user migration teams to avoid permission fan-out, and direct->team assignment migration), and sp_restoreDirectOperationPermissionsFromCutoverRun for rollback replay from backup. It also refreshes sp_getTeamMembersByTeamId so team member role labels still resolve from team-based access after direct permission cleanup.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Team Access defaults now persist per-operation default manager and care-rep assignees with role-filtered bulk apply controls.',
+        evidence:
+          'Recorded in the snapshot frontend/API running logs after extending Team Access defaults to include `defaultManagerTeamMemberId` and `defaultCareRepTeamMemberId` per operation across the Team Access UI, Team models, and Team operation assignment API payloads. Client cards now support role-filtered manager/care-rep baskets, operation-level assignee selectors, and fill-unassigned vs overwrite-all bulk semantics while preserving desired-state save behavior for `/teams/{teamId}/operations`. Backend support was added with additive migration `3.12.8migration-team-operation-default-assignees.sql` plus updated Team controller/service normalization and encoding for the new fields. Validation used API `npm test` (syntax pass), frontend `npm run build -s`, focused Team Jest slices, and full frontend Jest regression (`113/113` suites).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'Frontend',
         summary:
           'Team Access Team Defaults now uses a cascading Team -> Client -> Operation defaults workflow with client-level enable/mode controls, bulk role actions, and inheritance-state chips.',

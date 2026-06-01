@@ -34,6 +34,11 @@
             <span *ngIf="currentUser?.userLevel === userRoles.admin" class="manage-team-access-link">
               <a [routerLink]="'/teams/' + teamId + '/access'">Manage team access</a>
             </span>
+            <span *ngIf="currentUser?.userLevel === userRoles.admin" class="manage-team-access-link">
+              <a [routerLink]="'/teams/' + teamId + '/access'" [queryParams]="{ editor: 'member', memberId: teamMemberId }">
+                Edit member exceptions
+              </a>
+            </span>
             <div class="greeting">
               <span class="english" *ngIf="!teamMember.spanishSpeaking; else spanish">
                 Hello my name is...
@@ -71,6 +76,13 @@
             <ion-row>
               <div class="user-access" *ngIf="accessGroups?.length">
                 <h3 class="access-title">ACCESS</h3>
+                <div class="access-summary-chips">
+                  <span class="access-summary-chip">{{ accessSummary.total }} Total</span>
+                  <span class="access-summary-chip">{{ accessSummary.inherited }} Inherited</span>
+                  <span class="access-summary-chip">{{ accessSummary.direct }} Direct</span>
+                  <span class="access-summary-chip">{{ accessSummary.manager }} Manager</span>
+                  <span class="access-summary-chip">{{ accessSummary.careRep }} Care Rep</span>
+                </div>
                 <div class="access-filters">
                   <button
                     class="access-filter"

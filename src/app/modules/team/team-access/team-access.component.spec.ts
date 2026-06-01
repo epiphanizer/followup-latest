@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { OperationService } from '@app/modules/operation/operation.service';
+import { UserRoles } from '@app/modules/user/user';
+import { UserService } from '@app/modules/user/user.service';
+import { AuthenticationService } from '@app/core';
 import { TeamAccessComponent } from './team-access.component';
 import { TeamService } from '../team.service';
 
@@ -11,8 +14,20 @@ const teamServiceStub = {
   getTeams: jest.fn(() => of([{ teamId: 't1', teamName: 'Team One' }])),
   getTeamMembersByTeamId: jest.fn(() =>
     of([
-      { teamMemberId: 'm1', teamMemberFirstName: 'Ada', teamMemberLastName: 'Lovelace' },
-      { teamMemberId: 'm2', teamMemberFirstName: 'Grace', teamMemberLastName: 'Hopper' }
+      {
+        teamMemberId: 'm1',
+        userId: 'u1',
+        teamMemberFirstName: 'Ada',
+        teamMemberLastName: 'Lovelace',
+        teamMemberRoleLabel: 'Manager'
+      },
+      {
+        teamMemberId: 'm2',
+        userId: 'u2',
+        teamMemberFirstName: 'Grace',
+        teamMemberLastName: 'Hopper',
+        teamMemberRoleLabel: 'Care Rep'
+      }
     ])
   ),
   getTeamOperationAssignmentsByTeamId: jest.fn(() =>
@@ -115,8 +130,14 @@ const operationServiceStub = {
 };
 
 const activatedRouteStub: Partial<ActivatedRoute> = {
-  snapshot: { params: { teamId: 't1' } } as any,
-  paramMap: of({ get: (key: string) => (key === 'teamId' ? 't1' : null) }) as any
+  snapshot: {
+    params: { teamId: 't1' },
+    queryParamMap: {
+      get: (_key: string): string | null => null
+    }
+  } as any,
+  paramMap: of({ get: (key: string) => (key === 'teamId' ? 't1' : null) }) as any,
+  queryParamMap: of({ get: (_key: string): string | null => null }) as any
 };
 
 const toastrStub = {
@@ -124,12 +145,29 @@ const toastrStub = {
   error: jest.fn()
 };
 
+const userServiceStub = {
+  impersonateUser: jest.fn(() => of({ userId: 'u1' }))
+};
+
+const authServiceStub = {
+  currentUserValue: { userId: 'admin1', userLevel: UserRoles.admin },
+  impersonatorValue: null as any,
+  startImpersonation: jest.fn(() => Promise.resolve({ userId: 'u1' }))
+};
+
+const routerStub = {
+  navigate: jest.fn()
+};
+
 describe('TeamAccessComponent (Jest)', () => {
   const buildComponent = () =>
     new TeamAccessComponent(
       activatedRouteStub as ActivatedRoute,
+      routerStub as any,
       teamServiceStub as unknown as TeamService,
       operationServiceStub as unknown as OperationService,
+      userServiceStub as unknown as UserService,
+      authServiceStub as unknown as AuthenticationService,
       toastrStub as unknown as ToastrService
     );
 
@@ -160,10 +198,72 @@ describe('TeamAccessComponent (Jest)', () => {
     component.saveAssignments();
 
     expect(teamServiceStub.setTeamOperationAssignmentsByTeamId).toHaveBeenCalledWith('t1', [
-      { operationId: 'op1', operationUserRoleLabelId: 2 },
-      { operationId: 'op2', operationUserRoleLabelId: 3 }
+      {
+        operationId: 'op1',
+        operationUserRoleLabelId: 2,
+        defaultManagerTeamMemberId: undefined,
+        defaultCareRepTeamMemberId: undefined
+      },
+      {
+        operationId: 'op2',
+        operationUserRoleLabelId: 3,
+        defaultManagerTeamMemberId: undefined,
+        defaultCareRepTeamMemberId: undefined
+      }
     ]);
     expect(toastrStub.success).toHaveBeenCalled();
+  });
+
+  it('supports client mode transition from selected to all operations', () => {
+    const component = buildComponent();
+
+    component.ngOnInit();
+    const client = component.teamAccessClients[0];
+    expect(client.accessMode).toBe('selectedOperations');
+    expect(client.entries.find(entry => entry.operationId === 'op2')?.operationSelected).toBe(false);
+
+    component.setClientAccessMode(client, 'allOperations');
+
+    expect(client.entries.every(entry => entry.operationSelected)).toBe(true);
+    expect(component.isDirty).toBe(false);
+  });
+
+  it('applies bulk role with fill-unassigned semantics only', () => {
+    const component = buildComponent();
+
+    component.ngOnInit();
+    const client = component.teamAccessClients[0];
+    const op1 = client.entries.find(entry => entry.operationId === 'op1')!;
+    const op2 = client.entries.find(entry => entry.operationId === 'op2')!;
+
+    component.onOperationSelectedChange(client, op2, true);
+    client.bulkRoleId = 3;
+    component.applyBulkRole(client, false);
+
+    expect(op1.selectedRoleId).toBe(2);
+    expect(op2.selectedRoleId).toBe(3);
+  });
+
+  it('applies default assignee bulk with fill then overwrite semantics', () => {
+    const component = buildComponent();
+
+    component.ngOnInit();
+    const client = component.teamAccessClients[0];
+    const op1 = client.entries.find(entry => entry.operationId === 'op1')!;
+    const op2 = client.entries.find(entry => entry.operationId === 'op2')!;
+
+    component.onOperationSelectedChange(client, op2, true);
+    op1.defaultManagerTeamMemberId = 'm1';
+    op2.defaultManagerTeamMemberId = '';
+    client.bulkManagerTeamMemberId = 'm2';
+
+    component.applyBulkAssignee(client, 'manager', false);
+    expect(op1.defaultManagerTeamMemberId).toBe('m1');
+    expect(op2.defaultManagerTeamMemberId).toBe('m2');
+
+    component.applyBulkAssignee(client, 'manager', true);
+    expect(op1.defaultManagerTeamMemberId).toBe('m2');
+    expect(op2.defaultManagerTeamMemberId).toBe('m2');
   });
 
   it('saves member override and revoke exceptions', () => {
@@ -182,5 +282,20 @@ describe('TeamAccessComponent (Jest)', () => {
       { operationId: 'op2', accessMode: 'override', operationUserRoleLabelId: 3 }
     ]);
     expect(toastrStub.success).toHaveBeenCalled();
+  });
+
+  it('impersonates the selected team member from member exceptions view', async () => {
+    const component = buildComponent();
+
+    component.ngOnInit();
+    component.setActiveEditor('member');
+    component.selectTeamMember('m1');
+
+    component.loginAsSelectedMember();
+    await Promise.resolve();
+
+    expect(userServiceStub.impersonateUser).toHaveBeenCalledWith('admin1', 'u1');
+    expect(authServiceStub.startImpersonation).toHaveBeenCalled();
+    expect(routerStub.navigate).toHaveBeenCalledWith(['/home']);
   });
 });

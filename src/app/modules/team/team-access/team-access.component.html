@@ -129,6 +129,57 @@
                     </div>
                   </div>
 
+                  <div class="client-assignee-toolbar">
+                    <div class="client-assignee-section">
+                      <div class="assignee-section-label">Default Manager</div>
+                      <ion-select
+                        class="role-select-control bulk-role-select"
+                        interface="popover"
+                        [ngModel]="client.bulkManagerTeamMemberId"
+                        (ngModelChange)="client.bulkManagerTeamMemberId = $event"
+                        [disabled]="!client.enabled"
+                      >
+                        <ion-select-option value="">Unassigned</ion-select-option>
+                        <ion-select-option *ngFor="let member of roleEligibleMembers.managerEligible" [value]="member.teamMemberId">
+                          {{ member.teamMemberFirstName }} {{ member.teamMemberLastName }}
+                        </ion-select-option>
+                      </ion-select>
+                      <button type="button" class="bulk-action-button" (click)="applyBulkAssignee(client, 'manager', false)" [disabled]="!client.enabled">
+                        Fill Unassigned
+                      </button>
+                      <button type="button" class="bulk-action-button" (click)="applyBulkAssignee(client, 'manager', true)" [disabled]="!client.enabled">
+                        Overwrite All
+                      </button>
+                      <button type="button" class="bulk-action-button is-danger" (click)="clearBulkAssignee(client, 'manager')" [disabled]="!client.enabled">
+                        Clear
+                      </button>
+                    </div>
+                    <div class="client-assignee-section">
+                      <div class="assignee-section-label">Default Care Rep</div>
+                      <ion-select
+                        class="role-select-control bulk-role-select"
+                        interface="popover"
+                        [ngModel]="client.bulkCareRepTeamMemberId"
+                        (ngModelChange)="client.bulkCareRepTeamMemberId = $event"
+                        [disabled]="!client.enabled"
+                      >
+                        <ion-select-option value="">Unassigned</ion-select-option>
+                        <ion-select-option *ngFor="let member of roleEligibleMembers.careRepEligible" [value]="member.teamMemberId">
+                          {{ member.teamMemberFirstName }} {{ member.teamMemberLastName }}
+                        </ion-select-option>
+                      </ion-select>
+                      <button type="button" class="bulk-action-button" (click)="applyBulkAssignee(client, 'careRep', false)" [disabled]="!client.enabled">
+                        Fill Unassigned
+                      </button>
+                      <button type="button" class="bulk-action-button" (click)="applyBulkAssignee(client, 'careRep', true)" [disabled]="!client.enabled">
+                        Overwrite All
+                      </button>
+                      <button type="button" class="bulk-action-button is-danger" (click)="clearBulkAssignee(client, 'careRep')" [disabled]="!client.enabled">
+                        Clear
+                      </button>
+                    </div>
+                  </div>
+
                   <div class="team-access-entry access-row" *ngFor="let entry of client.entries">
                     <div class="team-access-entry-copy">
                       <div class="team-access-entry-name operation-name">{{ entry.operationName }}</div>
@@ -162,6 +213,40 @@
                           {{ role.label }}
                         </ion-select-option>
                       </ion-select>
+
+                      <div class="operation-assignee-grid" *ngIf="isEntryInClientScope(client, entry)">
+                        <div class="operation-assignee-field">
+                          <label>Default Manager</label>
+                          <ion-select
+                            class="role-select-control"
+                            interface="popover"
+                            [ngModel]="entry.defaultManagerTeamMemberId"
+                            (ngModelChange)="onOperationAssigneeChange(client, entry, 'manager', $event)"
+                            [disabled]="!isEntryInClientScope(client, entry)"
+                          >
+                            <ion-select-option value="">Unassigned</ion-select-option>
+                            <ion-select-option *ngFor="let member of roleEligibleMembers.managerEligible" [value]="member.teamMemberId">
+                              {{ member.teamMemberFirstName }} {{ member.teamMemberLastName }}
+                            </ion-select-option>
+                          </ion-select>
+                        </div>
+
+                        <div class="operation-assignee-field">
+                          <label>Default Care Rep</label>
+                          <ion-select
+                            class="role-select-control"
+                            interface="popover"
+                            [ngModel]="entry.defaultCareRepTeamMemberId"
+                            (ngModelChange)="onOperationAssigneeChange(client, entry, 'careRep', $event)"
+                            [disabled]="!isEntryInClientScope(client, entry)"
+                          >
+                            <ion-select-option value="">Unassigned</ion-select-option>
+                            <ion-select-option *ngFor="let member of roleEligibleMembers.careRepEligible" [value]="member.teamMemberId">
+                              {{ member.teamMemberFirstName }} {{ member.teamMemberLastName }}
+                            </ion-select-option>
+                          </ion-select>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -183,6 +268,19 @@
                   (click)="selectTeamMember(teamMember.teamMemberId)"
                 >
                   {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
+                </button>
+              </div>
+              <div class="member-access-actions" *ngIf="selectedTeamMember">
+                <button type="button" class="member-access-action-button" (click)="goToSelectedMemberDetails()">
+                  Open Member Card
+                </button>
+                <button
+                  type="button"
+                  class="member-access-action-button is-emphasis"
+                  *ngIf="canImpersonateSelectedMember"
+                  (click)="loginAsSelectedMember()"
+                >
+                  Login as User
                 </button>
               </div>
             </div>

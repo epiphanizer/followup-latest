@@ -77,6 +77,9 @@ describe('TeamMemberDetailComponent (Jest)', () => {
     expect(component.user?.userInterests[0].nicename).toContain('Met favorite celebrity');
     expect(component.accessGroups[0].entries[0].sourceLabel).toBe('Inherited');
     expect(component.accessGroups[0].entries[0].sourceDetail).toContain('Team: Manager');
+    expect(component.accessSummary.total).toBe(1);
+    expect(component.accessSummary.inherited).toBe(1);
+    expect(component.accessSummary.direct).toBe(0);
   });
 
   it('opens post it modal via helper', async () => {

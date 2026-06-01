@@ -71,10 +71,24 @@ describe('TeamService (Jest)', () => {
     });
 
     svc
-      .setTeamOperationAssignmentsByTeamId('t1', [{ operationId: 'op1', operationUserRoleLabelId: 2 }])
+      .setTeamOperationAssignmentsByTeamId('t1', [
+        {
+          operationId: 'op1',
+          operationUserRoleLabelId: 2,
+          defaultManagerTeamMemberId: 'm1',
+          defaultCareRepTeamMemberId: 'm2'
+        }
+      ])
       .subscribe(() => {
         expect(http.put).toHaveBeenCalledWith('teams/t1/operations', {
-          assignments: [{ operationId: 'op1', operationUserRoleLabelId: 2 }]
+          assignments: [
+            {
+              operationId: 'op1',
+              operationUserRoleLabelId: 2,
+              defaultManagerTeamMemberId: 'm1',
+              defaultCareRepTeamMemberId: 'm2'
+            }
+          ]
         });
         done();
       });
