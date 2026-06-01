@@ -18,6 +18,7 @@ export class OperationOperationListingComponent implements OnInit {
   public operationsFiltered: Operation[];
   public pageOfItems: Operation[];
   public selectedSortFlag: string = 'desc';
+  public clientMode = false;
   private user: User;
   // col definitions
   public colDefs = ['Facility', 'Ownership', 'Queue', 'Notifs', 'Grads', 'Status', 'Date'];
@@ -27,17 +28,24 @@ export class OperationOperationListingComponent implements OnInit {
   constructor(public route: ActivatedRoute) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
+    this.clientMode = this.route.snapshot.data.section === 'clients';
     const userOperations = Array.isArray(this.user?.operations) ? this.user.operations : [];
     const selectedOperationGroupId = this.operationGroup?.operationGroupId;
     const selectedGroupOperations = Array.isArray(this.operationGroup?.operations)
       ? this.operationGroup.operations
       : [];
 
-    this.operationsFiltered = this.operations = selectedGroupOperations.length
-      ? selectedGroupOperations
-      : selectedOperationGroupId
-      ? userOperations.filter((operation: Operation) => operation.operationGroupId == selectedOperationGroupId)
-      : [];
+    if (this.clientMode) {
+      // In client mode we trust the parent-selected group's operations only.
+      // Falling back to user-scoped operations can collapse a hydrated client roster.
+      this.operationsFiltered = this.operations = selectedGroupOperations;
+    } else {
+      this.operationsFiltered = this.operations = selectedGroupOperations.length
+        ? selectedGroupOperations
+        : selectedOperationGroupId
+        ? userOperations.filter((operation: Operation) => operation.operationGroupId == selectedOperationGroupId)
+        : [];
+    }
 
     this.runSortSwitch();
   }

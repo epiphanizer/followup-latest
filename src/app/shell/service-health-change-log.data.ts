@@ -23,6 +23,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Clients detail table no longer collapses from hydrated multi-row results to a smaller user-scoped fallback set after initial load.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating operation-operation-listing.component.ts to keep strict client-mode data flow (`section === clients`) and avoid init-time fallback to `user.operations` while client-group hydration is in flight.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Team Access member-exceptions left-side alignment was tightened so member selection and row layout no longer appear loose or jagged.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating src/app/modules/team/team-access/team-access.component.scss to standardize member picker button grid alignment and strengthen member-exception row column structure on the Team Access edit surface.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Team Member detail styling regression was corrected by restoring a coherent profile-grid stylesheet and component structure, bringing back Follow-up visual treatment.',
         evidence:
           'Recorded in the snapshot frontend running change log after repairing src/app/modules/team/team-detail/team-detail.component.scss and .html to remove a broken mixed-style state that caused default/raw rendering. The member page now renders as a stable two-column profile layout with styled action row, greeting/name hierarchy, and full ACCESS chip/list treatment; source detail text was also normalized in team-detail.component.ts to avoid duplicated role/source copy.',

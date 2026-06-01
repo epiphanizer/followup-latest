@@ -32,6 +32,25 @@ describe('OperationOperationListingComponent (Jest)', () => {
     return component;
   };
 
+  it('does not fallback to user operations in client mode when selected group operations are empty', () => {
+    const clientRouteStub = {
+      snapshot: {
+        data: {
+          section: 'clients',
+          user: {
+            operations: [otherGroup]
+          }
+        }
+      }
+    } as any;
+    const component = new OperationOperationListingComponent(clientRouteStub);
+    component.operationGroup = { operationGroupId: 'g1', operations: [] } as any;
+
+    component.ngOnInit();
+
+    expect(component.operationsFiltered.length).toBe(0);
+  });
+
   it('filters operations by group on init', () => {
     const component = buildComponent();
 
