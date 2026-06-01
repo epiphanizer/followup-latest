@@ -23,6 +23,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Team Access Team Defaults now uses a cascading Team -> Client -> Operation defaults workflow with client-level enable/mode controls, bulk role actions, and inheritance-state chips.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after refactoring team-access.component.ts/.html/.scss to replace the flat grouped operation list with client cards that support client access enabled state, all-operations vs selected-operations mode, per-client bulk role apply (fill-unassigned or overwrite-all), per-operation enable toggles for selected mode, and state chips (Inherited, Custom, Unassigned, Disabled) while preserving existing desired-state save semantics for /teams/{teamId}/operations. The Team Access summary now reports enabled clients, enabled operations, manager defaults, care-rep defaults, and exception count. Validation used focused Jest on team-access.component.spec.ts (3/3 passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'User Profile edit checklist now uses a structured two-column grid with tighter checkbox-label spacing and consistent row/column alignment.',
         evidence:
           'Recorded in the snapshot frontend running change log after refactoring the userInterests question layout in user-profile.component to use a real checkbox grid with compact checkbox+label option units, standardized checkbox-to-label spacing (~22px), controlled column gap (~72px), and shared row rhythm instead of ad-hoc spacing offsets. Validation used focused Jest on user-profile.component.spec.ts (7/7 passing).',

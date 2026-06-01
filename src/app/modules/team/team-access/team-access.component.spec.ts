@@ -143,8 +143,9 @@ describe('TeamAccessComponent (Jest)', () => {
     component.ngOnInit();
 
     expect(component.team?.teamName).toBe('Team One');
-    expect(component.groupedEntries.length).toBe(1);
-    expect(component.groupedEntries[0].entries[0].selectedRoleId).toBe(2);
+    expect(component.teamAccessClients.length).toBe(1);
+    expect(component.teamAccessClients[0].entries[0].selectedRoleId).toBe(2);
+    expect(component.teamAccessClients[0].enabled).toBe(true);
     expect(component.teamMembers.length).toBe(2);
     expect(component.groupedMemberEntries.length).toBe(1);
   });
@@ -153,8 +154,9 @@ describe('TeamAccessComponent (Jest)', () => {
     const component = buildComponent();
 
     component.ngOnInit();
-    component.entries[1].selectedRoleId = 3;
-    component.onRoleChange();
+    const client = component.teamAccessClients[0];
+    const op2Entry = client.entries.find(entry => entry.operationId === 'op2')!;
+    component.onOperationRoleChange(client, op2Entry, 3);
     component.saveAssignments();
 
     expect(teamServiceStub.setTeamOperationAssignmentsByTeamId).toHaveBeenCalledWith('t1', [

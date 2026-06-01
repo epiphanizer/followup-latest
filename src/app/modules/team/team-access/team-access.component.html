@@ -43,21 +43,120 @@
           <div class="team-access-summary">{{ currentSummary }}</div>
 
           <ng-container *ngIf="activeEditor === 'team'">
-            <div class="team-access-groups" *ngIf="groupedEntries.length; else noOperations">
-              <div class="team-access-group access-card" *ngFor="let group of groupedEntries">
-                <div class="team-access-group-name access-card-header">{{ group.groupName }}</div>
-                <div class="access-card-body">
-                  <div class="team-access-entry access-row" *ngFor="let entry of group.entries">
+            <div class="team-access-groups" *ngIf="teamAccessClients.length; else noOperations">
+              <div class="team-access-group access-card" *ngFor="let client of teamAccessClients">
+                <div class="team-access-group-name access-card-header">
+                  <div class="client-header-main">
+                    <button type="button" class="client-expand-toggle" (click)="toggleClientExpanded(client)">
+                      {{ client.expanded ? 'Hide' : 'Show' }}
+                    </button>
+                    <span class="client-name">{{ client.operationGroupName }}</span>
+                    <span class="team-access-meta-pill" [class.is-emphasis]="client.enabled">
+                      {{ getClientOperationAssignedCount(client) }} assigned / {{ getClientOperationEnabledCount(client) }} enabled
+                    </span>
+                  </div>
+                  <div class="client-header-actions">
+                    <label class="client-enable-toggle">
+                      <input
+                        type="checkbox"
+                        [checked]="client.enabled"
+                        (change)="toggleClientEnabled(client, $any($event.target).checked)"
+                      />
+                      <span>Client access enabled</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="access-card-body" *ngIf="client.expanded">
+                  <div class="client-mode-toolbar">
+                    <div class="client-mode-options">
+                      <label>
+                        <input
+                          type="radio"
+                          [checked]="client.accessMode === 'allOperations'"
+                          (change)="setClientAccessMode(client, 'allOperations')"
+                          [disabled]="!client.enabled"
+                        />
+                        <span>All Operations</span>
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          [checked]="client.accessMode === 'selectedOperations'"
+                          (change)="setClientAccessMode(client, 'selectedOperations')"
+                          [disabled]="!client.enabled"
+                        />
+                        <span>Selected Operations</span>
+                      </label>
+                    </div>
+
+                    <div class="client-bulk-toolbar">
+                      <ion-select
+                        class="role-select-control bulk-role-select"
+                        interface="popover"
+                        [ngModel]="client.bulkRoleId"
+                        (ngModelChange)="client.bulkRoleId = $event"
+                        [disabled]="!client.enabled"
+                      >
+                        <ion-select-option *ngFor="let role of roleOptions" [value]="role.value">
+                          {{ role.label }}
+                        </ion-select-option>
+                      </ion-select>
+                      <button
+                        type="button"
+                        class="bulk-action-button"
+                        (click)="applyBulkRole(client, false)"
+                        [disabled]="!client.enabled"
+                      >
+                        Fill Unassigned
+                      </button>
+                      <button
+                        type="button"
+                        class="bulk-action-button"
+                        (click)="applyBulkRole(client, true)"
+                        [disabled]="!client.enabled"
+                      >
+                        Overwrite All
+                      </button>
+                      <button
+                        type="button"
+                        class="bulk-action-button is-danger"
+                        (click)="clearClientRoles(client)"
+                        [disabled]="!client.enabled"
+                      >
+                        Clear Defaults
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="team-access-entry access-row" *ngFor="let entry of client.entries">
                     <div class="team-access-entry-copy">
                       <div class="team-access-entry-name operation-name">{{ entry.operationName }}</div>
+                      <div class="team-access-entry-meta">
+                        <span class="team-access-meta-pill" [ngClass]="getEntryStateClass(client, entry)">
+                          {{ getEntryStateLabel(client, entry) }}
+                        </span>
+                      </div>
                       <div class="team-access-entry-status" *ngIf="entry.operationActive === 0">Inactive</div>
                     </div>
-                    <div class="role-select">
+
+                    <div class="role-select role-select-stack">
+                      <label class="operation-enable-toggle" *ngIf="client.accessMode === 'selectedOperations'">
+                        <input
+                          type="checkbox"
+                          [checked]="entry.operationSelected"
+                          [disabled]="!client.enabled"
+                          (change)="onOperationSelectedChange(client, entry, $any($event.target).checked)"
+                        />
+                        <span>Operation enabled</span>
+                      </label>
+
                       <ion-select
                         class="role-select-control"
                         interface="popover"
                         [ngModel]="entry.selectedRoleId"
-                        (ngModelChange)="entry.selectedRoleId = $event; onRoleChange()"
+                        (ngModelChange)="onOperationRoleChange(client, entry, $event)"
+                        [disabled]="!isEntryInClientScope(client, entry)"
                       >
                         <ion-select-option *ngFor="let role of roleOptions" [value]="role.value">
                           {{ role.label }}
