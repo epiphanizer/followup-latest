@@ -7,50 +7,14 @@
   </div>
 
   <div class="team-dropdown-container" *ngIf="teams">
-    <a class="team-dropdown-target" [routerLink]="'/teams'">THE TEAM<span *ngIf="teams.length > 1">s</span></a>
-    <div *ngFor="let team of teams; trackBy: trackByTeam">
+    <a class="team-dropdown-target" [routerLink]="'/teams'">TEAMS</a>
+    <div class="team-item" *ngFor="let team of teams; trackBy: trackByTeam" [class.active]="isSelectedTeam(team)">
       <div class="team-section-heading">
         <a class="team-name-link" [routerLink]="'/teams/' + team.teamId" (click)="selectTeam(team)">{{ team.teamName }}</a>
-        <a class="team-access-link" [routerLink]="'/teams/' + team.teamId + '/access'">Access</a>
+        <span class="team-member-count">{{ getTeamMemberCount(team) }}</span>
       </div>
-      <div class="team-member-container">
-        <span class="sidebar-label" (click)="toggleTeamManagerSidebarMenu(team)"
-          >MANAGERS
-          <i class="expand-members-trigger" [@turnArrow]="team.teamManagerSidebarDropdownOpen ? 'open' : 'closed'"> </i>
-        </span>
-        <ul class="team-members-list" *ngIf="team.teamManagerSidebarDropdownOpen">
-          <li *ngFor="let teamMember of team.teamManagers; trackBy: trackByTeamMember">
-            <a [routerLink]="'/teams/' + team.teamId + '/members/' + teamMember.teamMemberId" class="team-member-link">
-              {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="team-member-container">
-        <span class="sidebar-label" (click)="toggleTeamCareRepSidebarMenu(team)"
-          >CARE REPS
-          <i class="expand-members-trigger" [@turnArrow]="team.teamCareRepSidebarDropdownOpen ? 'open' : 'closed'"> </i>
-        </span>
-        <ul class="team-members-list" *ngIf="team.teamCareRepSidebarDropdownOpen">
-          <li *ngFor="let teamMember of team.teamCareReps; trackBy: trackByTeamMember">
-            <a [routerLink]="'/teams/' + team.teamId + '/members/' + teamMember.teamMemberId" class="team-member-link">
-              {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="team-member-container">
-        <span class="sidebar-label" (click)="toggleTeamSpanishSidebarMenu(team)"
-          >SPANISH
-          <i class="expand-members-trigger" [@turnArrow]="team.teamSpanishSidebarDropdownOpen ? 'open' : 'closed'"> </i>
-        </span>
-        <ul class="team-members-list" *ngIf="team.teamSpanishSidebarDropdownOpen">
-          <li *ngFor="let teamMember of team.teamSpanishSpeaking; trackBy: trackByTeamMember">
-            <a [routerLink]="'/teams/' + team.teamId + '/members/' + teamMember.teamMemberId" class="team-member-link">
-              {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
-            </a>
-          </li>
-        </ul>
+      <div class="team-item-actions" *ngIf="isSelectedTeam(team)">
+        <a class="team-access-link" [routerLink]="'/teams/' + team.teamId + '/access'">Manage access</a>
       </div>
     </div>
   </div>

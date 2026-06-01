@@ -69,6 +69,16 @@ describe('OperationService (Jest)', () => {
     });
   });
 
+  it('getAllOperationGroups uses operations/groups/all', () => {
+    const http = makeHttp();
+    const svc = new OperationService(http as any);
+
+    svc.getAllOperationGroups().subscribe((groups: any) => {
+      expect(groups).toEqual([]);
+      expect(http.get).toHaveBeenCalledWith('operations/groups/all');
+    });
+  });
+
   it('does not overwrite localStorage on subsequent fetches', done => {
     const http = makeHttp();
     http.get = jest.fn(() => of([{ operationGroupId: 'og1' }] as any));

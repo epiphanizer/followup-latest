@@ -62,6 +62,9 @@ export class OperationAdminSidebarComponent implements OnInit {
   private currentRouteOperationId: string | null = null;
   private currentRouteOperationGroupId: string | null = null;
   clientMode: boolean = false;
+  clientFilter: 'active' | 'archived' = 'active';
+  isRestoringClient: boolean = false;
+  private restoreInFlightByGroupId: { [operationGroupId: string]: boolean } = {};
   groupNavigationLabel: string = 'FACILITIES';
   editMode: boolean;
   @Output() operationChangeEvent = new EventEmitter<string>();
@@ -94,9 +97,27 @@ export class OperationAdminSidebarComponent implements OnInit {
   }
 
   private openOnlyOperationGroup(operationGroupId: string | null | undefined) {
+    if (this.clientMode) {
+      this.operationGroups.forEach((operationGroup: OperationGroup) => {
+        operationGroup.sidebarDropdownOpen = false;
+      });
+      return;
+    }
+
     this.operationGroups.forEach((operationGroup: OperationGroup) => {
       operationGroup.sidebarDropdownOpen = !!operationGroupId && operationGroup.operationGroupId == operationGroupId;
     });
+  }
+
+  private normalizeOperationGroup(operationGroup: OperationGroup): OperationGroup {
+    const isActive = Number(operationGroup?.operationGroupActive) === 0 ? 0 : 1;
+
+    return {
+      ...operationGroup,
+      operationGroupActive: isActive,
+      operations: Array.isArray(operationGroup?.operations) ? operationGroup.operations : [],
+      sidebarDropdownOpen: !!operationGroup?.sidebarDropdownOpen
+    };
   }
 
   private syncOperationGroupSelection(operationGroupId: string | null | undefined) {
@@ -165,20 +186,27 @@ export class OperationAdminSidebarComponent implements OnInit {
             (operation: Operation) => operation.operationGroupId == operationGroup.operationGroupId
           );
 
-      return {
+      return this.normalizeOperationGroup({
         ...operationGroup,
         operations,
+        operationGroupActive: Number(operationGroup?.operationGroupActive) === 0 ? 0 : 1,
         sidebarDropdownOpen: !!operationGroup.sidebarDropdownOpen
-      };
+      });
     });
   }
 
-  ngOnInit() {
-    this.user = this.route.snapshot.data.user || ({} as User);
-    this.clientMode = this.route.snapshot.data.section === 'clients';
-    this.groupNavigationLabel = this.clientMode ? 'CLIENTS' : 'FACILITIES';
-    const userOperationGroups = this.getUserOperationGroups();
+  private loadOperationGroupsForClients() {
+    this.operationService.getAllOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
+      const safeOperationGroups = Array.isArray(operationGroups) ? operationGroups : [];
+      this.operationGroups = safeOperationGroups.map((operationGroup: OperationGroup) =>
+        this.normalizeOperationGroup(operationGroup)
+      );
+      this.syncSelectionFromRoute();
+      this._cdr.detectChanges();
+    });
+  }
 
+  private loadOperationGroupsForOperations(userOperationGroups: OperationGroup[]) {
     if (!localStorage.getItem('operationGroups')) {
       this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
         const safeOperationGroups = Array.isArray(operationGroups) ? operationGroups : [];
@@ -189,7 +217,7 @@ export class OperationAdminSidebarComponent implements OnInit {
           return;
         }
 
-        operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+        operationGroups.forEach((operationGroup: OperationGroup) => {
           operationGroup.operations = [];
           operationGroup.operations$ = this.operationService
             .getActiveOperationsByOperationGroupId(operationGroup, this.user)
@@ -203,12 +231,118 @@ export class OperationAdminSidebarComponent implements OnInit {
             );
           operationGroup.sidebarDropdownOpen = false;
         });
-        this.operationGroups = safeOperationGroups;
+        this.operationGroups = safeOperationGroups.map((operationGroup: OperationGroup) =>
+          this.normalizeOperationGroup(operationGroup)
+        );
         this.syncSelectionFromRoute();
       });
+      return;
+    }
+
+    this.operationGroups = userOperationGroups;
+    this.syncSelectionFromRoute();
+  }
+
+  get clientCounts() {
+    const active = this.operationGroups.filter((operationGroup: OperationGroup) => operationGroup.operationGroupActive !== 0)
+      .length;
+    const archived = this.operationGroups.filter((operationGroup: OperationGroup) => operationGroup.operationGroupActive === 0)
+      .length;
+
+    return { active, archived };
+  }
+
+  get visibleOperationGroups(): OperationGroup[] {
+    if (!this.clientMode) {
+      return this.operationGroups;
+    }
+
+    return this.operationGroups.filter((operationGroup: OperationGroup) => {
+      const isArchived = operationGroup.operationGroupActive === 0;
+      return this.clientFilter === 'archived' ? isArchived : !isArchived;
+    });
+  }
+
+  setClientFilter(nextFilter: 'active' | 'archived') {
+    if (this.clientFilter === nextFilter) {
+      return;
+    }
+
+    this.clientFilter = nextFilter;
+
+    if (!this.selected.operationGroup) {
+      return;
+    }
+
+    const selectedIsArchived = this.selected.operationGroup.operationGroupActive === 0;
+    if ((nextFilter === 'archived' && !selectedIsArchived) || (nextFilter === 'active' && selectedIsArchived)) {
+      const fallbackOperationGroup = this.visibleOperationGroups[0] || null;
+      if (!fallbackOperationGroup) {
+        this.selected.operationGroup = null;
+        this.activeOperationGroupId = null;
+        return;
+      }
+      this.setActiveOperationGroup(fallbackOperationGroup);
+    }
+  }
+
+  isClientRestoreInFlight(operationGroup: OperationGroup): boolean {
+    const operationGroupId = operationGroup?.operationGroupId;
+    return !!operationGroupId && !!this.restoreInFlightByGroupId[operationGroupId];
+  }
+
+  restoreClient(operationGroup: OperationGroup, event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!operationGroup?.operationGroupId || this.isClientRestoreInFlight(operationGroup)) {
+      return;
+    }
+
+    const shouldRestore = window.confirm('Restore this archived client?');
+    if (!shouldRestore) {
+      return;
+    }
+
+    const operationGroupId = operationGroup.operationGroupId;
+    this.restoreInFlightByGroupId[operationGroupId] = true;
+    this.isRestoringClient = true;
+
+    this.operationService.restoreOperationGroupByOperationGroupId(operationGroupId).subscribe(
+      () => {
+        this.restoreInFlightByGroupId[operationGroupId] = false;
+        this.isRestoringClient = Object.values(this.restoreInFlightByGroupId).some((inFlight: boolean) => inFlight);
+        operationGroup.operationGroupActive = 1;
+
+        if (this.clientFilter === 'archived') {
+          const nextArchived = this.visibleOperationGroups[0] || null;
+          if (nextArchived) {
+            this.setActiveOperationGroup(nextArchived);
+          } else {
+            this.selected.operationGroup = null;
+            this.activeOperationGroupId = null;
+          }
+        }
+
+        this._cdr.detectChanges();
+      },
+      () => {
+        this.restoreInFlightByGroupId[operationGroupId] = false;
+        this.isRestoringClient = Object.values(this.restoreInFlightByGroupId).some((inFlight: boolean) => inFlight);
+      }
+    );
+  }
+
+  ngOnInit() {
+    this.user = this.route.snapshot.data.user || ({} as User);
+    this.clientMode = this.route.snapshot.data.section === 'clients';
+    this.groupNavigationLabel = this.clientMode ? 'CLIENTS' : 'FACILITIES';
+    const userOperationGroups = this.getUserOperationGroups();
+
+    if (this.clientMode) {
+      this.loadOperationGroupsForClients();
     } else {
-      this.operationGroups = userOperationGroups;
-      this.syncSelectionFromRoute();
+      this.loadOperationGroupsForOperations(userOperationGroups);
     }
 
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');

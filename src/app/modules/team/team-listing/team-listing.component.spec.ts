@@ -4,11 +4,15 @@ import { Team } from '../team';
 describe('TeamListingComponent (Jest)', () => {
   const route = {
     snapshot: {
+      params: {},
       data: {
         user: {
           teams: [{ teamId: 't1' }, { teamId: 't2' }]
         }
       }
+    },
+    paramMap: {
+      subscribe: (fn: any): any => fn({ get: (_key: string): string | null => null })
     }
   } as any;
 

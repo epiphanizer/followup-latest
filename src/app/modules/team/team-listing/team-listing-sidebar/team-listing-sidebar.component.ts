@@ -55,59 +55,33 @@ import { map, take } from 'rxjs/operators';
   standalone: false
 })
 export class TeamListingSidebar implements OnInit {
-  primaryTeam: number = 1;
-  isOpen: boolean = true;
-  careRepTeamMembers: TeamMember[] = [];
-  managerTeamMembers: TeamMember[] = [];
-  spanishSpeakingTeamMembers: TeamMember[] = [];
   teams: Team[];
-  teamMembers: TeamMember[];
   todaysDateDay: string;
+  selectedTeamId: string | null = null;
   @Input() team: Team;
   @Output() teamChangeEvent = new EventEmitter<Team>();
   constructor(private logService: LogService, private teamService: TeamService) {}
 
   ngOnInit() {
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
+    this.selectedTeamId = this.team?.teamId || null;
     this.teamService
       .getTeams()
       .pipe(
         take(1),
         map((teams: Team[]) => {
-          this.teams = teams;
+          this.teams = Array.isArray(teams) ? teams : [];
           if (this.teams?.length) {
-            this.teamChangeEvent.emit(this.teams[0]);
+            const initialTeam =
+              this.teams.find((team: Team) => team.teamId === this.selectedTeamId) ||
+              this.teams[0];
+            this.selectedTeamId = initialTeam.teamId;
+            this.teamChangeEvent.emit(initialTeam);
           }
           this.teams.forEach((team: Team) => {
             this.teamService.getTeamMembersByTeamId(team.teamId).subscribe((teamMembers: TeamMember[]) => {
               try {
-                /**
-                 * Initiate local team variables
-                 */
-                team.teamMembers = teamMembers;
-                team.teamManagers = [];
-                team.teamCareReps = [];
-                team.teamSpanishSpeaking = [];
-                /**
-                 * Set defaults on the sidebar collapse states for each team
-                 */
-                team.teamManagerSidebarDropdownOpen = false;
-                team.teamCareRepSidebarDropdownOpen = false;
-                team.teamSpanishSidebarDropdownOpen = false;
-                teamMembers.forEach((teamMember: TeamMember, index: number) => {
-                  if (teamMember.teamMemberRoleLabel == 'Manager') {
-                    team.teamManagers.push(teamMember);
-                  }
-                  if (teamMember.teamMemberRoleLabel == 'Care Rep') {
-                    team.teamCareReps.push(teamMember);
-                  }
-                  /**
-                   * Check for Spanish speaking
-                   */
-                  if (teamMember.spanishSpeaking) {
-                    team.teamSpanishSpeaking.push(teamMember);
-                  }
-                });
+                team.teamMembers = Array.isArray(teamMembers) ? teamMembers : [];
               } catch (error) {
                 this.logService.log(error);
               }
@@ -119,18 +93,24 @@ export class TeamListingSidebar implements OnInit {
         //
       });
   }
-  toggleTeamManagerSidebarMenu(team: Team) {
-    team.teamManagerSidebarDropdownOpen = !team.teamManagerSidebarDropdownOpen;
-  }
-  toggleTeamCareRepSidebarMenu(team: Team) {
-    team.teamCareRepSidebarDropdownOpen = !team.teamCareRepSidebarDropdownOpen;
-  }
-  toggleTeamSpanishSidebarMenu(team: Team) {
-    team.teamSpanishSidebarDropdownOpen = !team.teamSpanishSidebarDropdownOpen;
+
+  ngOnChanges(changes: any) {
+    if (changes.team && changes.team.currentValue) {
+      this.selectedTeamId = changes.team.currentValue.teamId;
+    }
   }
 
   selectTeam(team: Team) {
+    this.selectedTeamId = team?.teamId || null;
     this.teamChangeEvent.emit(team);
+  }
+
+  getTeamMemberCount(team: Team): number {
+    return Array.isArray(team?.teamMembers) ? team.teamMembers.length : 0;
+  }
+
+  isSelectedTeam(team: Team): boolean {
+    return !!team?.teamId && team.teamId === this.selectedTeamId;
   }
 
   trackByTeam(index: number, team: Team): string | number {

@@ -7,6 +7,7 @@ ion-title {
   text-align: left;
   color: #3f3638;
   padding-left: 0;
+  margin-bottom: 0;
 }
 
 .teams-page-content {
@@ -54,15 +55,59 @@ ion-title {
 
 .team-content-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 24px;
   width: 100%;
 }
 
+.team-content-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.team-content-subtitle {
+  margin: 0;
+  font-family: AvenirDemi;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.45px;
+  color: #726568;
+}
+
 .team-listing-row {
   margin-top: 1rem;
   min-width: 0;
+}
+
+.team-view-tabs {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-view-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(63, 54, 56, 0.16);
+  background: #ffffff;
+  text-decoration: none;
+  font-family: AvenirDemi;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.35px;
+  color: #3f3638;
+
+  &.active {
+    border-color: #00b4b9;
+    color: #00b4b9;
+  }
 }
 
 .calendar-wrapper {

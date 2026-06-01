@@ -7,10 +7,28 @@
   </div>
   <div class="facility-dropdown-container">
     <a class="facility-dropdown-target">{{ groupNavigationLabel }}</a>
+    <div class="client-filter-toggle" *ngIf="clientMode">
+      <button
+        type="button"
+        class="client-filter-button"
+        [class.active]="clientFilter === 'active'"
+        (click)="setClientFilter('active')"
+      >
+        Active ({{ clientCounts.active }})
+      </button>
+      <button
+        type="button"
+        class="client-filter-button"
+        [class.active]="clientFilter === 'archived'"
+        (click)="setClientFilter('archived')"
+      >
+        Archived ({{ clientCounts.archived }})
+      </button>
+    </div>
     <ng-container *ngIf="operationGroups">
       <div
         class="operation-group-container"
-        *ngFor="let operationGroup of operationGroups; let i = index; trackBy: trackByOperationGroup"
+        *ngFor="let operationGroup of visibleOperationGroups; let i = index; trackBy: trackByOperationGroup"
       >
         <span class="operation-group"
           ><a
@@ -25,15 +43,25 @@
             }}</a
           >
           <i
+            *ngIf="!clientMode"
             class="expand-facilities-trigger"
             [@turnArrow]="isOperationGroupExpanded(operationGroup) ? 'open' : 'closed'"
             (click)="toggleOperationSidebarMenu(operationGroup)"
           >
           </i>
+          <button
+            *ngIf="clientMode && operationGroup.operationGroupActive === 0"
+            type="button"
+            class="client-restore-inline"
+            [disabled]="isClientRestoreInFlight(operationGroup)"
+            (click)="restoreClient(operationGroup, $event)"
+          >
+            {{ isClientRestoreInFlight(operationGroup) ? 'Restoring...' : 'Restore' }}
+          </button>
           <ul
             class="group-operations"
             [class.show]="isOperationGroupExpanded(operationGroup)"
-            *ngIf="operationGroup.operations"
+            *ngIf="!clientMode && operationGroup.operations"
           >
             <li
               *ngFor="let operation of operationGroup.operations; trackBy: trackByOperation"

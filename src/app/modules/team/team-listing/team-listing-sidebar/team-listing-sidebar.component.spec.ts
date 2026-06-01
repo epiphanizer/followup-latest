@@ -28,11 +28,15 @@ const teamServiceStub = {
 describe('TeamListingSidebar (Jest)', () => {
   const buildComponent = () => new TeamListingSidebar(logServiceStub as any, teamServiceStub as any);
 
-  it('loads teams and categorizes members', () => {
+  it('loads teams and emits initial selection', () => {
     const component = buildComponent();
-    component.team = { teamId: 't1', teamCareReps: [], teamManagers: [], teamSpanishSpeaking: [] } as any;
+    const emitSpy = jest.spyOn(component.teamChangeEvent, 'emit');
+    component.team = { teamId: 't1' } as any;
     component.ngOnInit();
+
     expect(component).toBeTruthy();
     expect(component.teams?.length).toBeGreaterThan(0);
+    expect(component.getTeamMemberCount(component.teams[0] as any)).toBe(2);
+    expect(emitSpy).toHaveBeenCalled();
   });
 });

@@ -1,22 +1,26 @@
 <ion-content class="teams-page-content">
   <div class="teams-page">
     <aside class="team-sidebar">
-      <app-team-listing-sidebar (teamChangeEvent)="teamChangeEventHandler($event)"> </app-team-listing-sidebar>
+      <app-team-listing-sidebar [team]="selected.team" (teamChangeEvent)="teamChangeEventHandler($event)">
+      </app-team-listing-sidebar>
     </aside>
-    <section class="team-content-wrapper" *ngIf="teams">
+    <section class="team-content-wrapper" *ngIf="selected.team">
       <div class="team-content">
         <div class="team-content-header">
-          <ion-title *ngIf="selected.team">Team Members</ion-title>
-          <a
-            *ngIf="selected.team && user?.userLevel === userRoles.admin"
-            class="team-access-launch"
-            [routerLink]="'/teams/' + selected.team.teamId + '/access'"
-          >
+          <div class="team-content-heading">
+            <ion-title>{{ selectedTeamName }}</ion-title>
+            <p class="team-content-subtitle">{{ selectedTeamMemberCount }} Members</p>
+          </div>
+          <a *ngIf="canManageTeamAccess" class="team-access-launch" [routerLink]="selectedTeamAccessLink">
             Manage Team Access
           </a>
         </div>
+        <nav class="team-view-tabs" aria-label="Team views">
+          <a class="team-view-tab active" [routerLink]="selectedTeamMembersLink">Members</a>
+          <a class="team-view-tab" [routerLink]="selectedTeamAccessLink">Access</a>
+        </nav>
         <div class="team-listing-row">
-          <app-team-members-listing *ngIf="selected.team" [team]="selected.team"> </app-team-members-listing>
+          <app-team-members-listing [team]="selected.team"> </app-team-members-listing>
         </div>
       </div>
     </section>

@@ -23,6 +23,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Clients now supports active/archived browsing with direct restore actions, and Teams has been reshaped into a teams-first workspace with selected-team members/access context.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating the operation-admin sidebar and operation-listing slices to add Active/Archived client filtering, archived restore controls, and selected-client archive status handling, and after refactoring the team-listing, team sidebar, and team members table slices so the Teams view now centers on selecting a team first and then working in Members or Access from the same main workspace header. Validation used focused Jest on operation/team touched slices (5/5 suites passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'The API now exposes an all-clients operation-group endpoint so the frontend can browse archived client groups without overloading active-only routes.',
+        evidence:
+          'Recorded in the snapshot API running change log after adding GET /operations/groups/all in deployment/api/swagger.yaml, deployment/controllers/Operations.js, and deployment/service/OperationService.js. The service tries sp_getAllOperationGroups first and falls back to a direct operationGroups table query while preserving encoded ids and normalized operationGroupActive values for active/archive filtering in the Clients UI. Validation used node --check on the touched API controller/service files.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Team member detail and the operation assignment sidebar now show whether access is direct or team-managed, and the sidebar no longer tries to remove inherited rows through the direct assignment endpoints.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating src/app/modules/team/team-detail/team-detail.component.ts/.html/.scss, src/app/modules/operation/operation-admin-right-sidebar/operation-admin-right-sidebar.component.ts/.html/.scss, and src/app/modules/user/user.ts. Team detail ACCESS rows now render source pills plus direct/team role detail from the effective access payload, and the operation sidebar now derives both managers and care reps from the effective /operations/{operationId}/users roster, preserves direct add/remove for explicit direct assignments, and marks inherited rows as Manage from Teams instead of issuing legacy delete calls against team-managed access. Validation used focused Jest on the team-detail and operation-admin-right-sidebar slices (7/7 passing) plus npm run build -s.',

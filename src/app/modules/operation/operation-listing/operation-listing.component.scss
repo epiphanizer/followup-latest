@@ -81,11 +81,26 @@ ion-title {
   color: #008489;
 }
 
+.client-chip.archived {
+  background: rgba(239, 70, 39, 0.12);
+  color: #b73a25;
+}
+
 .selected-client-action {
   border: 0;
   background: #3f3638;
   color: #ffffff;
   text-decoration: none;
+
+  &.restore {
+    background: #00a5ab;
+    cursor: pointer;
+
+    &:disabled {
+      background: #8eb5b8;
+      cursor: default;
+    }
+  }
 }
 
 .operation-sidebar {

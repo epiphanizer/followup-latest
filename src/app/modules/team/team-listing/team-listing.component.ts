@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Team, TeamMember } from '@app/modules/team/team';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User, UserRoles } from '@app/modules/user/user';
+import { User, UserRoles, UserRolesMap } from '@app/modules/user/user';
 import { ActivatedRoute } from '@angular/router';
 import { TeamService } from '@app/modules/team/team.service';
 
@@ -29,10 +29,34 @@ export class TeamListingComponent implements OnInit {
   user: User;
   constructor(private route: ActivatedRoute) {}
 
+  get selectedTeamName(): string {
+    return this.selected?.team?.teamName || 'Team';
+  }
+
+  get selectedTeamMemberCount(): number {
+    return Array.isArray(this.selected?.team?.teamMembers) ? this.selected.team.teamMembers.length : 0;
+  }
+
+  get selectedTeamMembersLink(): any[] {
+    return ['/teams', this.selected?.team?.teamId];
+  }
+
+  get selectedTeamAccessLink(): any[] {
+    return ['/teams', this.selected?.team?.teamId, 'access'];
+  }
+
+  get canManageTeamAccess(): boolean {
+    const userLevel =
+      typeof this.user?.userLevel === 'number'
+        ? this.user.userLevel
+        : (UserRolesMap as any)[String(this.user?.userLevel)] || 0;
+    return !!this.selected?.team?.teamId && userLevel === (UserRolesMap as any)[UserRoles.admin];
+  }
+
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.teams = this.user.teams || [];
-    this.setSelectedTeam(this.route.snapshot.params.teamId);
+    this.setSelectedTeam(this.route.snapshot?.params?.teamId || null);
 
     this.route.paramMap.subscribe(params => {
       this.setSelectedTeam(params.get('teamId'));

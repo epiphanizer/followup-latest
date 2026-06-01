@@ -18,6 +18,18 @@
         <div class="selected-client-meta">
           <span class="client-chip">{{ selectedGroupOperationsCount }} Operations</span>
           <span class="client-chip secondary" *ngIf="selectedGroupShortName">{{ selectedGroupShortName }}</span>
+          <span class="client-chip" [class.archived]="selectedGroupIsArchived">
+            {{ selectedGroupIsArchived ? 'Archived' : 'Active' }}
+          </span>
+          <button
+            type="button"
+            class="selected-client-action restore"
+            *ngIf="canEditClient && selectedGroupIsArchived"
+            [disabled]="isRestoringClient"
+            (click)="restoreSelectedClient()"
+          >
+            {{ isRestoringClient ? 'Restoring...' : 'Restore Client' }}
+          </button>
           <a class="selected-client-action" *ngIf="canEditClient" [routerLink]="clientEditLink">Edit Client</a>
         </div>
       </div>

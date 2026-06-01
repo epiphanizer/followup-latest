@@ -47,6 +47,12 @@ describe('OperationAdminSidebarComponent', () => {
   let fixture: ComponentFixture<OperationAdminSidebarComponent>;
   let consoleLogSpy: jest.SpyInstance;
   const operationServiceMock: any = {
+    getAllOperationGroups: jest.fn(() =>
+      of([
+        { operationGroupId: 'g1', operationGroupName: 'Group One', operationGroupShortName: 'G1', operationGroupActive: 1 },
+        { operationGroupId: 'g2', operationGroupName: 'Group Two', operationGroupShortName: 'G2', operationGroupActive: 0 }
+      ])
+    ),
     getOperationGroups: jest.fn(() =>
       of([
         { operationGroupId: 'g1', operations: [], sidebarDropdownOpen: false },
@@ -149,6 +155,10 @@ describe('OperationAdminSidebarComponent', () => {
     localComponent.ngOnInit();
 
     expect(localComponent.clientMode).toBe(true);
+    expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalled();
+    expect(localComponent.visibleOperationGroups.length).toBe(1);
+    localComponent.setClientFilter('archived');
+    expect(localComponent.visibleOperationGroups.length).toBe(1);
     expect(localComponent.getOperationGroupRoute({ operationGroupId: 'g1' } as any)).toEqual(['/clients', 'g1']);
   });
 

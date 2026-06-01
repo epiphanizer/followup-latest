@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User, UserRolesMap } from '@app/modules/user/user';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-operation-listing',
@@ -16,6 +17,7 @@ export class OperationListingComponent implements OnInit {
   public operationGroups$: Observable<OperationGroup[]>;
   public pageTitle = 'Operations';
   public clientMode = false;
+  public isRestoringClient = false;
 
   @Input() operationGroup: OperationGroup;
 
@@ -52,6 +54,10 @@ export class OperationListingComponent implements OnInit {
       : 0;
   }
 
+  get selectedGroupIsArchived(): boolean {
+    return Number(this.selected?.operationGroup?.operationGroupActive) === 0;
+  }
+
   get canEditClient(): boolean {
     return (
       this.clientMode && this.getUserRoleValue(this.user) === 1 && !!this.selected?.operationGroup?.operationGroupId
@@ -75,8 +81,63 @@ export class OperationListingComponent implements OnInit {
           operationGroupId,
           operationGroupName: this.selected.operationGroup?.operationGroupName || '',
           operationGroupShortName: this.selected.operationGroup?.operationGroupShortName || '',
+          operationGroupActive:
+            Number(this.selected.operationGroup?.operationGroupActive) === 0
+              ? 0
+              : 1,
           operations: safeOperations
         };
+        this._cdr.detectChanges();
+      });
+  }
+
+  private normalizeOperationGroup(operationGroup: OperationGroup): OperationGroup {
+    return {
+      ...operationGroup,
+      operationGroupActive: Number(operationGroup?.operationGroupActive) === 0 ? 0 : 1,
+      operations: Array.isArray(operationGroup?.operations) ? operationGroup.operations : []
+    };
+  }
+
+  private findOperationGroupById(operationGroupId: string): OperationGroup | null {
+    return (
+      this.operationGroups.find(
+        (operationGroup: OperationGroup) => operationGroup.operationGroupId == operationGroupId
+      ) || null
+    );
+  }
+
+  private loadClientOperationGroups(done?: () => void) {
+    this.operationService.getAllOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
+      this.operationGroups = (Array.isArray(operationGroups) ? operationGroups : []).map((operationGroup: OperationGroup) =>
+        this.normalizeOperationGroup(operationGroup)
+      );
+
+      if (done) {
+        done();
+      }
+    });
+  }
+
+  restoreSelectedClient() {
+    const operationGroupId = this.selected?.operationGroup?.operationGroupId;
+    if (!this.clientMode || !operationGroupId || this.isRestoringClient || !this.selectedGroupIsArchived) {
+      return;
+    }
+
+    this.isRestoringClient = true;
+    this.operationService
+      .restoreOperationGroupByOperationGroupId(operationGroupId)
+      .pipe(finalize(() => (this.isRestoringClient = false)))
+      .subscribe(() => {
+        this.selected.operationGroup = {
+          ...this.selected.operationGroup,
+          operationGroupActive: 1
+        };
+        const found = this.findOperationGroupById(operationGroupId);
+        if (found) {
+          found.operationGroupActive = 1;
+        }
         this._cdr.detectChanges();
       });
   }
@@ -85,45 +146,51 @@ export class OperationListingComponent implements OnInit {
     this.user = this.route.snapshot.data.user || ({} as User);
     this.pageTitle = this.route.snapshot.data.title || 'Operations';
     this.clientMode = this.route.snapshot.data.section === 'clients';
-    this.operationGroups = Array.isArray(this.user?.operationGroups) ? this.user.operationGroups : [];
+    this.operationGroups = (Array.isArray(this.user?.operationGroups) ? this.user.operationGroups : []).map(
+      (operationGroup: OperationGroup) => this.normalizeOperationGroup(operationGroup)
+    );
 
     this.route.paramMap.subscribe((data: any) => {
       const operationGroupId = data.get ? data.get('operationGroupId') : data.params?.operationGroupId;
 
-      if (operationGroupId) {
-        this.selected.operationGroup =
-          this.operationGroups.find(
-            (operationGroup: OperationGroup) => operationGroupId == operationGroup.operationGroupId
-          ) || null;
+      const applySelection = () => {
+        if (operationGroupId) {
+          this.selected.operationGroup = this.findOperationGroupById(operationGroupId);
 
-        if (!this.selected.operationGroup) {
-          this.selected.operationGroup = {
-            operationGroupId,
-            operationGroupName: '',
-            operationGroupShortName: '',
-            operations: []
-          };
-          this.hydrateSelectedGroupById(operationGroupId);
+          if (!this.selected.operationGroup) {
+            this.selected.operationGroup = {
+              operationGroupId,
+              operationGroupName: '',
+              operationGroupShortName: '',
+              operationGroupActive: 1,
+              operations: []
+            };
+            this.hydrateSelectedGroupById(operationGroupId);
+          }
+        } else {
+          this.selected.operationGroup = this.operationGroups.length ? this.operationGroups[0] : null;
         }
-      } else {
-        this.selected.operationGroup = this.operationGroups.length ? this.operationGroups[0] : null;
-      }
 
-      this._cdr.detectChanges();
+        this._cdr.detectChanges();
+      };
+
+      if (this.clientMode) {
+        this.loadClientOperationGroups(applySelection);
+      } else {
+        applySelection();
+      }
     });
   }
 
   operationGroupChangeEventHandler(operationGroupId: string) {
-    this.selected.operationGroup =
-      this.operationGroups.find(
-        (operationGroup: OperationGroup) => operationGroup.operationGroupId == operationGroupId
-      ) || null;
+    this.selected.operationGroup = this.findOperationGroupById(operationGroupId);
 
     if (!this.selected.operationGroup) {
       this.selected.operationGroup = {
         operationGroupId,
         operationGroupName: '',
         operationGroupShortName: '',
+        operationGroupActive: 1,
         operations: []
       };
       this.hydrateSelectedGroupById(operationGroupId);

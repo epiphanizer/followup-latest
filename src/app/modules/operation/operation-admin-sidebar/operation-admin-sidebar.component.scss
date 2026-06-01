@@ -97,6 +97,31 @@
   background-repeat: no-repeat;
 }
 
+.client-filter-toggle {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  margin: 0 0 0.9rem;
+}
+
+.client-filter-button {
+  appearance: none;
+  border: 1px solid #c7d0d4;
+  background: #fff;
+  color: #42505a;
+  border-radius: 999px;
+  font-family: AvenirDemi;
+  font-size: 12px;
+  line-height: 1;
+  padding: 0.4rem 0.65rem;
+  cursor: pointer;
+
+  &.active {
+    border-color: #00b4b9;
+    color: #00b4b9;
+  }
+}
+
 .operation-group-container {
   margin-bottom: 22px;
 }
@@ -107,6 +132,24 @@
 
   &.active {
     color: #00b4b9;
+  }
+}
+
+.client-restore-inline {
+  margin-left: 0.45rem;
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #00b4b9;
+  font-family: AvenirDemi;
+  font-size: 11px;
+  line-height: 1;
+  text-transform: none;
+  cursor: pointer;
+
+  &:disabled {
+    color: #9aa3ab;
+    cursor: default;
   }
 }
 

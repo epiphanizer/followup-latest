@@ -82,7 +82,7 @@ ion-title {
 table.team-member-table {
   list-style-type: none;
   width: 100%;
-  min-width: 900px;
+  min-width: 0;
   table-layout: fixed;
   padding-left: 0;
   margin-bottom: 0.75rem;
@@ -95,6 +95,30 @@ table.team-member-table {
     text-transform: uppercase;
     letter-spacing: 0.3px;
     line-height: 12.9px;
+  }
+
+  .col-hired {
+    width: 16%;
+  }
+
+  .col-name {
+    width: 24%;
+  }
+
+  .col-position {
+    width: 20%;
+  }
+
+  .col-birthday {
+    width: 17%;
+  }
+
+  .col-languages {
+    width: 15%;
+  }
+
+  .col-message {
+    width: 8%;
   }
 
   thead {

@@ -27,6 +27,7 @@ describe('OperationListingComponent (Jest)', () => {
 
   beforeEach(async () => {
     const operationServiceStub = {
+      getAllOperationGroups: jest.fn().mockReturnValue(of(userStub.operationGroups)),
       getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([]))
     };
 
@@ -57,6 +58,7 @@ describe('OperationListingComponent (Jest)', () => {
 
   it('handles users with no operation groups', () => {
     const operationServiceStub = {
+      getAllOperationGroups: jest.fn().mockReturnValue(of([])),
       getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([]))
     };
     const route = {
@@ -75,6 +77,7 @@ describe('OperationListingComponent (Jest)', () => {
 
   it('hydrates group operations when selected group is not in user operationGroups', () => {
     const operationServiceStub = {
+      getAllOperationGroups: jest.fn().mockReturnValue(of([])),
       getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(
         of([
           {
@@ -103,6 +106,17 @@ describe('OperationListingComponent (Jest)', () => {
 
   it('switches into client mode when routed from clients', () => {
     const operationServiceStub = {
+      getAllOperationGroups: jest.fn().mockReturnValue(
+        of([
+          {
+            operationGroupId: 'og1',
+            operationGroupName: 'Client One',
+            operationGroupShortName: 'CO',
+            operationGroupActive: 1,
+            operations: []
+          }
+        ])
+      ),
       getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([]))
     };
     const route = {
@@ -119,5 +133,6 @@ describe('OperationListingComponent (Jest)', () => {
 
     expect(localComponent.clientMode).toBe(true);
     expect(localComponent.pageTitle).toBe('Clients');
+    expect(operationServiceStub.getAllOperationGroups).toHaveBeenCalled();
   });
 });
