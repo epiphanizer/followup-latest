@@ -21,6 +21,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'Database',
+        summary:
+          'Alpha now has the previously missing migration set (`3.12.4`, `3.12.8`, `3.12.9`) applied, including mixed-schema compatibility updates for Team Access defaults and direct-permission cutover procedures.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after applying the pending scripts on `followup_alpha_20260517` and patching migration compatibility where alpha schema drift existed. `3.12.8` was updated to validate default assignee ids via `userTeams.userTeamId` (instead of `teamMemberId`), and `3.12.9` was updated to avoid hard dependencies on optional columns (`operationUsers.operationUserId`, `users.userLevel`, `teams.teamActive`) while preserving cutover/restore procedure creation. Post-apply verification confirms `3.12.8` and `3.12.9` signatures are present and `sp_getAssignedUsersByOperationId` includes deleted-user filtering for the `3.12.4` intent.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
         scope: 'API',
         summary:
           'Client archive requests now succeed on mixed schemas where `sp_deactivateOperationGroupByOperationGroupId` is missing, using a safe direct-update fallback.',

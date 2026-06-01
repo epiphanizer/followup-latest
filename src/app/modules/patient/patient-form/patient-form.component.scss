@@ -207,6 +207,14 @@ form {
     }
   }
 
+  .patient-form-section {
+    max-width: 900px;
+  }
+
+  .form-row {
+    margin-top: 24px;
+  }
+
   ion-item {
     &.patient-facility {
       display: inline-block;
@@ -268,13 +276,19 @@ form {
   }
 
   div.patient-phone-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px 8px;
+    display: grid;
+    grid-template-columns: 120px 140px 240px;
+    column-gap: 18px;
+    row-gap: 0;
+    align-items: end;
     width: 100%;
+    max-width: 720px;
+    margin-top: 26px;
 
     @media screen and (orientation: portrait) and (max-width: 1024px) {
-      margin-top: 8px;
+      grid-template-columns: 1fr;
+      row-gap: 12px;
+      margin-top: 20px;
       width: 100%;
     }
 
@@ -284,32 +298,96 @@ form {
 
       &.patient-country-code {
         margin-left: 0;
-        width: 60px;
+        width: auto;
       }
 
       &.patient-area-code {
-        width: 70px;
+        width: auto;
       }
 
       &.patient-phone-number {
-        width: 120px;
+        width: auto;
+      }
+    }
+
+    .phone-field {
+      ion-label {
+        display: block;
+        min-height: 42px;
+        margin-bottom: 6px;
+      }
+
+      ion-input {
+        min-height: 58px;
       }
     }
   }
 
-  div.language-container {
-    .speaks-english-toggle {
-      display: block;
-      clear: both;
+  .patient-gender {
+    margin-top: 14px;
+  }
+
+  .gender-row {
+    display: flex;
+    align-items: center;
+    gap: 42px;
+    margin-top: 0;
+  }
+
+  .gender-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .patient-checkbox-grid {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    column-gap: 54px;
+    row-gap: 12px;
+    align-items: center;
+    margin-top: 36px;
+
+    @media screen and (orientation: portrait) and (max-width: 1024px) {
+      grid-template-columns: 1fr;
+      column-gap: 0;
+      row-gap: 12px;
     }
+
+    .checkbox-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .checkbox-option ion-checkbox,
+    .checkbox-option input[type="checkbox"] {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .language-section {
+    margin-top: 28px;
+    max-width: 720px;
 
     .fluent-language {
       display: none;
+      margin-bottom: 0;
 
       &.show {
         display: block;
         width: 100%;
       }
+
+      ion-select {
+        width: 100%;
+        min-height: 58px;
+      }
+    }
+
+    .clear-language {
+      margin-top: 28px;
     }
   }
 

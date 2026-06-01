@@ -11,7 +11,7 @@
           <span class="patient-header" *ngIf="mode.add">New Patient</span>
           <span class="patient-header" *ngIf="mode.edit">Edit Patient</span>
         </div>
-        <ion-list class="patient-primary-info-list" lines="none" inset formGroupName="patient">
+        <ion-list class="patient-primary-info-list patient-form-section" lines="none" inset formGroupName="patient">
           <ion-item class="patient-facility">
             <ion-label color="medium" position="stacked">Facility<span style="color:#f1624a">*</span></ion-label>
             <ion-select placeholder="Facility" class="select-facility" formControlName="operation">
@@ -52,10 +52,10 @@
             <ion-label color="medium" position="stacked">Birthday<span style="color:#f1624a">*</span></ion-label>
             <ion-input type="date" formControlName="patientDob" placeholder="Birthday"></ion-input>
           </ion-item>
-          <div class="patient-gender">
-            <ion-radio-group class="patient-gender-radio followup-form-choice-group" formControlName="patientGender">
+          <div class="patient-gender form-row">
+            <ion-radio-group class="patient-gender-radio gender-row followup-form-choice-group" formControlName="patientGender">
               <ion-radio
-                class="followup-form-choice followup-form-choice--compact"
+                class="followup-form-choice followup-form-choice--compact gender-option"
                 value="male"
                 labelPlacement="end"
                 alignment="start"
@@ -64,7 +64,7 @@
                 Male
               </ion-radio>
               <ion-radio
-                class="followup-form-choice followup-form-choice--compact"
+                class="followup-form-choice followup-form-choice--compact gender-option"
                 value="female"
                 labelPlacement="end"
                 alignment="start"
@@ -74,12 +74,12 @@
               </ion-radio>
             </ion-radio-group>
           </div>
-          <div class="patient-phone-container">
-            <ion-item class="patient-country-code">
+          <div class="patient-phone-container form-row">
+            <ion-item class="patient-country-code phone-field">
               <ion-label color="medium" position="stacked">US (+1)</ion-label>
               <ion-input type="text" maxLength="2" formControlName="patientCountryCode" placeholder="1"></ion-input>
             </ion-item>
-            <ion-item class="patient-area-code">
+            <ion-item class="patient-area-code phone-field">
               <ion-label color="medium" position="stacked">(###)</ion-label>
               <ion-input
                 type="text"
@@ -89,7 +89,7 @@
                 placeholder="000"
               ></ion-input>
             </ion-item>
-            <ion-item class="patient-phone-number">
+            <ion-item class="patient-phone-number phone-field">
               <ion-label color="medium" position="stacked">Phone #</ion-label>
               <ion-input
                 type="text"
@@ -99,9 +99,9 @@
               ></ion-input>
             </ion-item>
           </div>
-          <div class="inline-patient-responsibility-container followup-form-choice-group">
+          <div class="patient-checkbox-grid form-row followup-form-choice-group">
             <ion-checkbox
-              class="followup-form-choice followup-form-choice--compact"
+              class="followup-form-choice followup-form-choice--compact checkbox-option"
               formControlName="patientHIPAA"
               labelPlacement="end"
               alignment="start"
@@ -110,7 +110,7 @@
               HIPAA
             </ion-checkbox>
             <ion-checkbox
-              class="followup-form-choice followup-form-choice--compact"
+              class="followup-form-choice followup-form-choice--compact checkbox-option"
               formControlName="patientIsResponsibleParty"
               labelPlacement="end"
               alignment="start"
@@ -118,10 +118,8 @@
             >
               Responsible Party
             </ion-checkbox>
-          </div>
-          <div class="language-container">
             <ion-checkbox
-              class="speaks-english-toggle followup-form-choice followup-form-choice--compact"
+              class="speaks-english-toggle followup-form-choice followup-form-choice--compact checkbox-option"
               formControlName="patientSpeaksEnglish"
               (ionChange)="onPatientLanguageToggle()"
               labelPlacement="end"
@@ -130,6 +128,8 @@
             >
               Doesn't Speak English
             </ion-checkbox>
+          </div>
+          <div class="language-section form-row">
             <ion-item
               class="fluent-language"
               [class.show]="patientForm.get('patient.patientSpeaksEnglish').value !== false"
@@ -141,7 +141,7 @@
                 <ion-select-option value="Navajo">Navajo</ion-select-option>
               </ion-select>
             </ion-item>
-            <ion-item
+            <div
               class="clear-language"
               *ngIf="
                 patientForm.get('patient.patientSpeaksEnglish').value &&
@@ -151,7 +151,7 @@
               <ion-button type="button" fill="clear" size="small" (click)="clearPatientFluentLanguage()"
                 >Clear Language</ion-button
               >
-            </ion-item>
+            </div>
           </div>
           <div class="section-header contacts">
             <i class="icon-contacts"></i>

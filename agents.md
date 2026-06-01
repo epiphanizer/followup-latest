@@ -55,6 +55,8 @@ Shared/core scaffolding
 
 ## Running change log (frontend)
 
+- 2026-06-01: Synced snapshot `4.0.0_alpha_rc2` database migration state after applying the remaining alpha scripts on `followup_alpha_20260517` (`3.12.4`, `3.12.8`, `3.12.9`) with mixed-schema compatibility updates in [../followup-api/migration_sql/3.12.8migration-team-operation-default-assignees.sql](../followup-api/migration_sql/3.12.8migration-team-operation-default-assignees.sql) and [../followup-api/migration_sql/3.12.9migration-direct-permissions-team-cutover.sql](../followup-api/migration_sql/3.12.9migration-direct-permissions-team-cutover.sql). This closes the pending alpha DB drift behind Team Access default assignees and direct-permission cutover tooling, and keeps Service Health version evidence aligned with the now-applied migration baseline.
+
 - 2026-05-31: Synced snapshot `4.0.0_alpha_rc2` client archive reliability with an API fallback fix in [../followup-api/deployment/service/OperationService.js](../followup-api/deployment/service/OperationService.js) `deactivateOperationGroupByOperationGroupId`. Archive requests (`DELETE /operations/groups/{operationGroupId}`) now fall back to a direct `operationGroups.operationGroupActive = 0` update when `sp_deactivateOperationGroupByOperationGroupId` is missing, preventing the mixed-schema 400 path (`Could not find stored procedure ...`) from surfacing as `Unable to archive this client record` in the Edit Client view. Validation: API `npm test --silent` PASS (`Syntax OK for 69 files`).
 
 - 2026-05-31: Updated the Clients dropdown wording in [src/app/shell/toolbar-nav/toolbar-nav.component.ts](src/app/shell/toolbar-nav/toolbar-nav.component.ts) so the submenu item now reads `Operations` instead of `Client Groups`.
