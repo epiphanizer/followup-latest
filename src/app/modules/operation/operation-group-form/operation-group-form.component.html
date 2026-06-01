@@ -38,10 +38,25 @@
           <div class="eyebrow">Lifecycle</div>
           <p class="client-lifecycle-copy">
             Archiving is a soft delete. The client record is preserved for audit history, but it will drop out of the
-            active Clients workflow. There is currently no restore button in this screen.
+            active Clients workflow. Archived records can be restored from this screen.
           </p>
-          <button class="secondary button archive-button" type="button" [disabled]="isArchiving" (click)="onArchive()">
+          <button
+            *ngIf="operationGroup?.operationGroupActive !== 0"
+            class="secondary button archive-button"
+            type="button"
+            [disabled]="isArchiving || isRestoring"
+            (click)="onArchive()"
+          >
             {{ isArchiving ? 'Archiving...' : 'Archive Client' }}
+          </button>
+          <button
+            *ngIf="operationGroup?.operationGroupActive === 0"
+            class="primary button archive-button"
+            type="button"
+            [disabled]="isArchiving || isRestoring"
+            (click)="onRestore()"
+          >
+            {{ isRestoring ? 'Restoring...' : 'Restore Client' }}
           </button>
         </div>
       </div>

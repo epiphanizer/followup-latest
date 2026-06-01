@@ -36,6 +36,7 @@ describe('OperationGroupFormComponent (Jest)', () => {
         of({ operationGroupId: 'og1', operationGroupName: 'Providence West', operationGroupShortName: 'PROVW' })
       ),
       deactivateOperationGroupByOperationGroupId: jest.fn(() => of({ success: 1 })),
+      restoreOperationGroupByOperationGroupId: jest.fn(() => of({ success: 1 })),
       getOperationGroups: jest.fn(() =>
         of([
           {
@@ -161,6 +162,21 @@ describe('OperationGroupFormComponent (Jest)', () => {
     comp.onArchive();
 
     expect(operationService.deactivateOperationGroupByOperationGroupId).not.toHaveBeenCalled();
+    confirmSpy.mockRestore();
+  });
+
+  it('restores the client and routes back to the client detail page', () => {
+    const { comp, router, operationService, userService } = makeComponent();
+    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
+
+    comp.ngOnInit();
+    comp.operationGroup.operationGroupActive = 0 as any;
+    comp.onRestore();
+
+    expect(operationService.restoreOperationGroupByOperationGroupId).toHaveBeenCalledWith('og1');
+    expect(comp.operationGroup?.operationGroupActive).toBe(1);
+    expect(userService.updateOperations).toHaveBeenCalledWith(comp.user);
+    expect(router.navigate).toHaveBeenCalledWith(['/clients', 'og1']);
     confirmSpy.mockRestore();
   });
 });

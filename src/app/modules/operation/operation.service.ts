@@ -47,6 +47,12 @@ export class OperationService {
     );
   }
 
+  restoreOperationGroupByOperationGroupId(operationGroupId: string): Observable<any> {
+    return this.http.post('operations/groups/' + operationGroupId + '/restore', {}).pipe(
+      catchError(e => this.handleAsyncError(e)) // then handle the error
+    );
+  }
+
   public assignManagerToOperationByOperationIdAndUserId(operationId: string, userId: string) {
     return this.http.post('operations/' + operationId + '/managers/' + userId, {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error

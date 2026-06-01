@@ -151,6 +151,16 @@ describe('OperationService (Jest)', () => {
     });
   });
 
+  it('restores operation groups by id', done => {
+    const http = makeHttp();
+    const svc = new OperationService(http as any);
+
+    svc.restoreOperationGroupByOperationGroupId('og-1').subscribe(() => {
+      expect(http.post).toHaveBeenCalledWith('operations/groups/og-1/restore', {});
+      done();
+    });
+  });
+
   it('handles error when deactivating operation group fails', done => {
     const http = {
       delete: jest.fn(() => throwError(() => new HttpErrorResponse({ status: 400, error: 'Cannot deactivate' })))

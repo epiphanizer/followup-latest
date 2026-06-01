@@ -21,6 +21,7 @@ export class OperationGroupFormComponent implements OnInit {
   operationGroupForm: FormGroup;
   isLoading = false;
   isArchiving = false;
+  isRestoring = false;
   loadError: string | null = null;
 
   constructor(
@@ -160,6 +161,50 @@ export class OperationGroupFormComponent implements OnInit {
         },
         error: (error: any) => {
           this.verifyArchiveStateAfterError(operationGroupId, error);
+        }
+      });
+  }
+
+  onRestore() {
+    if (!this.operationGroup?.operationGroupId || this.isRestoring) {
+      return;
+    }
+
+    const operationGroupId = this.operationGroup.operationGroupId;
+
+    if (typeof window !== 'undefined' && typeof window.confirm === 'function') {
+      const confirmed = window.confirm('Restore this client to active client workflows?');
+      if (!confirmed) {
+        return;
+      }
+    }
+
+    this.isRestoring = true;
+    this.loadError = null;
+
+    this.operationService
+      .restoreOperationGroupByOperationGroupId(operationGroupId)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          if (this.operationGroup) {
+            this.operationGroup.operationGroupActive = 1;
+          }
+          this.userService.updateOperations(this.user).catch(() => {});
+          this.isRestoring = false;
+          this.toastrService
+            .success('Successfully restored client')
+            .onShown.pipe(take(1))
+            .subscribe(() => {
+              this.router.navigate(['/clients', operationGroupId]);
+            });
+        },
+        error: (error: any) => {
+          this.isRestoring = false;
+          const detail = String(error?.detail || error?.message || '').trim();
+          this.loadError = detail
+            ? `Unable to restore this client record. ${detail}`
+            : 'Unable to restore this client record.';
         }
       });
   }

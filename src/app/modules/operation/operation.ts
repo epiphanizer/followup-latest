@@ -62,6 +62,7 @@ export interface OperationGroup {
   operationGroupId?: string;
   operationGroupName: string;
   operationGroupShortName?: string;
+  operationGroupActive?: number;
   operations?: Operation[];
   operations$?: Observable<Operation[]>;
   // control state for the sidebar
