@@ -11,6 +11,8 @@ export interface TeamMessage {
 export interface Team {
   teamId: string;
   teamName: string;
+  teamActive?: number;
+  roleGroupSidebarOpen?: { [roleGroup: string]: boolean };
   teamManagerSidebarDropdownOpen?: boolean;
   teamCareRepSidebarDropdownOpen?: boolean;
   teamSpanishSidebarDropdownOpen?: boolean;

@@ -7,14 +7,85 @@
   </div>
 
   <div class="team-dropdown-container" *ngIf="teams">
-    <a class="team-dropdown-target" [routerLink]="'/teams'">TEAMS</a>
-    <div class="team-item" *ngFor="let team of teams; trackBy: trackByTeam" [class.active]="isSelectedTeam(team)">
+    <div class="team-header-row">
+      <a class="team-dropdown-target" [routerLink]="'/teams'">TEAMS</a>
+      <button type="button" class="team-create-action" *ngIf="canManageTeams" [disabled]="isBusy" (click)="createTeam()">
+        + Create
+      </button>
+    </div>
+    <div class="team-filter-toggle">
+      <button
+        type="button"
+        class="team-filter-button"
+        [class.active]="teamVisibilityFilter === 'active'"
+        (click)="setTeamVisibilityFilter('active')"
+      >
+        Active ({{ teamCounts.active }})
+      </button>
+      <button
+        type="button"
+        class="team-filter-button"
+        [class.active]="teamVisibilityFilter === 'archived'"
+        (click)="setTeamVisibilityFilter('archived')"
+      >
+        Archived ({{ teamCounts.archived }})
+      </button>
+    </div>
+    <div class="team-item" *ngFor="let team of visibleTeams; trackBy: trackByTeam" [class.active]="isSelectedTeam(team)">
       <div class="team-section-heading">
         <a class="team-name-link" [routerLink]="'/teams/' + team.teamId" (click)="selectTeam(team)">{{ team.teamName }}</a>
         <span class="team-member-count">{{ getTeamMemberCount(team) }}</span>
       </div>
       <div class="team-item-actions" *ngIf="isSelectedTeam(team)">
+        <span class="team-state-pill" [class.archived]="team.teamActive === 0">
+          {{ team.teamActive === 0 ? 'Archived' : 'Active' }}
+        </span>
         <a class="team-access-link" [routerLink]="'/teams/' + team.teamId + '/access'">Manage access</a>
+        <button
+          *ngIf="canManageTeams"
+          type="button"
+          class="team-lifecycle-action rename"
+          [disabled]="isBusy"
+          (click)="renameTeam(team, $event)"
+        >
+          Rename
+        </button>
+        <button
+          *ngIf="canManageTeams && team.teamActive !== 0"
+          type="button"
+          class="team-lifecycle-action"
+          [disabled]="isBusy"
+          (click)="archiveTeam(team, $event)"
+        >
+          Archive
+        </button>
+        <button
+          *ngIf="canManageTeams && team.teamActive === 0"
+          type="button"
+          class="team-lifecycle-action restore"
+          [disabled]="isBusy"
+          (click)="restoreTeam(team, $event)"
+        >
+          Restore
+        </button>
+      </div>
+      <div class="team-role-groups" *ngIf="isSelectedTeam(team)">
+        <div class="team-role-group" *ngFor="let roleGroupKey of roleGroupKeys">
+          <button type="button" class="team-role-group-header" (click)="toggleRoleGroup(team, roleGroupKey)">
+            <span>{{ getRoleGroupLabel(roleGroupKey) }}</span>
+            <span class="team-role-group-count">{{ getRoleGroupCount(team, roleGroupKey) }}</span>
+            <i class="expand-members-trigger" [@turnArrow]="isRoleGroupExpanded(team, roleGroupKey) ? 'open' : 'closed'">
+            </i>
+          </button>
+          <ul class="team-members-list" *ngIf="isRoleGroupExpanded(team, roleGroupKey)">
+            <li *ngFor="let teamMember of getRoleGroupMembers(team, roleGroupKey); trackBy: trackByTeamMember">
+              <a [routerLink]="'/teams/' + team.teamId + '/members/' + teamMember.teamMemberId" class="team-member-link">
+                {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
+              </a>
+            </li>
+            <li class="team-member-empty" *ngIf="!getRoleGroupMembers(team, roleGroupKey).length">No members</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

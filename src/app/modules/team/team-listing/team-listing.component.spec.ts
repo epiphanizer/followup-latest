@@ -7,6 +7,7 @@ describe('TeamListingComponent (Jest)', () => {
       params: {},
       data: {
         user: {
+          userLevel: '2PEXyKgz',
           teams: [{ teamId: 't1' }, { teamId: 't2' }]
         }
       }
@@ -32,5 +33,12 @@ describe('TeamListingComponent (Jest)', () => {
     comp.teamChangeEventHandler(next);
 
     expect(comp.selected.team).toBe(next);
+  });
+
+  it('recognizes admin team lifecycle permissions', () => {
+    const comp = new TeamListingComponent(route);
+    comp.ngOnInit();
+
+    expect(comp.canManageTeams).toBe(true);
   });
 });

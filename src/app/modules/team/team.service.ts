@@ -47,6 +47,28 @@ export class TeamService {
     );
   };
 
+  addTeam = function(teamName: string) {
+    return this.http
+      .post('teams', {
+        teamName: teamName,
+        teamActive: 1
+      })
+      .pipe(catchError(e => this.handleAsyncError(e)));
+  };
+
+  editTeamByTeamId = function(teamId: string, payload: { teamName: string; teamActive?: number }) {
+    return this.http.put('teams/' + teamId, payload).pipe(catchError(e => this.handleAsyncError(e)));
+  };
+
+  deactivateTeamByTeamId = function(teamId: string, options?: { teamName?: string; cascadePermissions?: boolean }) {
+    const body = {
+      teamName: options?.teamName || '',
+      cascadePermissions: options?.cascadePermissions !== false
+    };
+
+    return this.http.delete('teams/' + teamId, { body }).pipe(catchError(e => this.handleAsyncError(e)));
+  };
+
   getTeamTotals = function() {
     return this.http.get('teams/totals').pipe(
       retry(3),

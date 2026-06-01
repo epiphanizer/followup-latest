@@ -3,7 +3,12 @@ import { of, throwError } from 'rxjs';
 import { TeamService } from './team.service';
 
 describe('TeamService (Jest)', () => {
-  const makeHttp = () => ({ get: jest.fn(() => of([] as any)), put: jest.fn(() => of([] as any)) });
+  const makeHttp = () => ({
+    get: jest.fn(() => of([] as any)),
+    put: jest.fn(() => of([] as any)),
+    post: jest.fn(() => of({} as any)),
+    delete: jest.fn(() => of({} as any))
+  });
 
   it('gets team member and members lists', done => {
     const http = makeHttp();
@@ -30,6 +35,29 @@ describe('TeamService (Jest)', () => {
     });
     svc.getTeamTotals().subscribe(() => {
       expect(http.get).toHaveBeenCalledWith('teams/totals');
+      done();
+    });
+  });
+
+  it('creates, edits, and archives teams', done => {
+    const http = makeHttp();
+    const svc = new TeamService(http as any);
+
+    svc.addTeam('New Team').subscribe(() => {
+      expect(http.post).toHaveBeenCalledWith('teams', {
+        teamName: 'New Team',
+        teamActive: 1
+      });
+    });
+
+    svc.editTeamByTeamId('t2', { teamName: 'Renamed Team', teamActive: 1 }).subscribe(() => {
+      expect(http.put).toHaveBeenCalledWith('teams/t2', { teamName: 'Renamed Team', teamActive: 1 });
+    });
+
+    svc.deactivateTeamByTeamId('t2', { teamName: 'Renamed Team', cascadePermissions: true }).subscribe(() => {
+      expect(http.delete).toHaveBeenCalledWith('teams/t2', {
+        body: { teamName: 'Renamed Team', cascadePermissions: true }
+      });
       done();
     });
   });

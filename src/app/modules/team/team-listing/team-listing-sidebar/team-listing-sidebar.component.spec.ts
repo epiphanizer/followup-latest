@@ -13,7 +13,8 @@ const teamServiceStub = {
     of([
       {
         teamId: 't1',
-        teamName: 'Team One'
+        teamName: 'Team One',
+        teamActive: 1
       }
     ])
   ),
@@ -22,7 +23,10 @@ const teamServiceStub = {
       { teamMemberId: 'm1', teamMemberRoleLabel: 'Manager', spanishSpeaking: true },
       { teamMemberId: 'm2', teamMemberRoleLabel: 'Care Rep', spanishSpeaking: false }
     ])
-  )
+  ),
+  addTeam: jest.fn(() => of({ teamId: 't-new', teamName: 'New Team', teamActive: 1 })),
+  editTeamByTeamId: jest.fn(() => of({})),
+  deactivateTeamByTeamId: jest.fn(() => of({}))
 };
 
 describe('TeamListingSidebar (Jest)', () => {
@@ -37,6 +41,20 @@ describe('TeamListingSidebar (Jest)', () => {
     expect(component).toBeTruthy();
     expect(component.teams?.length).toBeGreaterThan(0);
     expect(component.getTeamMemberCount(component.teams[0] as any)).toBe(2);
+    expect(component.getRoleGroupCount(component.teams[0] as any, 'managers')).toBe(1);
     expect(emitSpy).toHaveBeenCalled();
+  });
+
+  it('toggles role-group expansion for selected team', () => {
+    const component = buildComponent();
+    component.team = { teamId: 't1' } as any;
+    component.ngOnInit();
+
+    const team = component.teams[0] as any;
+    expect(component.isRoleGroupExpanded(team, 'managers')).toBe(true);
+
+    component.toggleRoleGroup(team, 'managers');
+
+    expect(component.isRoleGroupExpanded(team, 'managers')).toBe(false);
   });
 });

@@ -31,7 +31,7 @@
   .team-dropdown-target {
     display: block;
     font-family: AvenirBold;
-    margin: 0 0 14px;
+    margin: 0;
     font-size: 20px;
     font-weight: bold;
     font-stretch: normal;
@@ -41,6 +41,58 @@
     text-align: left;
     color: #00b4b9;
     text-decoration: none;
+  }
+
+  .team-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .team-create-action {
+    appearance: none;
+    border: 1px solid rgba(0, 180, 185, 0.35);
+    background: rgba(0, 180, 185, 0.08);
+    color: #008e92;
+    border-radius: 999px;
+    font-family: AvenirDemi;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28px;
+    padding: 4px 10px;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  .team-filter-toggle {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.35rem;
+    margin: 0 0 0.9rem;
+  }
+
+  .team-filter-button {
+    appearance: none;
+    border: 1px solid #c7d0d4;
+    background: #fff;
+    color: #42505a;
+    border-radius: 999px;
+    font-family: AvenirDemi;
+    font-size: 11px;
+    line-height: 1;
+    padding: 0.35rem 0.55rem;
+    cursor: pointer;
+
+    &.active {
+      border-color: #00b4b9;
+      color: #00b4b9;
+    }
   }
 
   .team-item {
@@ -89,6 +141,30 @@
 
   .team-item-actions {
     margin-top: 8px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .team-state-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 22px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: rgba(0, 180, 185, 0.12);
+    color: #00858a;
+    font-family: AvenirDemi;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+
+    &.archived {
+      background: rgba(239, 70, 39, 0.14);
+      color: #ba412a;
+    }
   }
 
   .team-access-link {
@@ -100,11 +176,118 @@
     text-decoration: none;
   }
 
+  .team-lifecycle-action {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: #ba412a;
+    font-family: AvenirDemi;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+
+    &.restore {
+      color: #008e92;
+    }
+
+    &.rename {
+      color: #1f7f9d;
+    }
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: default;
+    }
+  }
+
+  .team-role-groups {
+    margin-top: 10px;
+  }
+
+  .team-role-group {
+    border-top: 1px solid rgba(63, 54, 56, 0.08);
+    padding-top: 8px;
+    margin-top: 8px;
+  }
+
+  .team-role-group-header {
+    width: 100%;
+    appearance: none;
+    border: none;
+    background: transparent;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    column-gap: 8px;
+    padding: 0;
+    text-align: left;
+    font-family: AvenirBold;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.28px;
+    color: #384247;
+    cursor: pointer;
+  }
+
+  .team-role-group-count {
+    min-width: 20px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba(63, 54, 56, 0.1);
+    color: #3f3638;
+    font-family: AvenirDemi;
+    font-size: 10px;
+    line-height: 18px;
+    text-align: center;
+  }
+
+  .team-members-list {
+    list-style-type: none;
+    margin: 6px 0 0;
+    padding: 0;
+
+    li {
+      margin-top: 5px;
+    }
+  }
+
+  .team-member-link {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: AvenirDemi;
+    font-size: 13px;
+    line-height: 1.3;
+    color: #343638;
+    word-break: break-word;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .team-member-empty {
+    font-family: Avenir;
+    font-size: 12px;
+    color: #7a6c70;
+  }
+
   i {
     margin-left: 12px;
     display: inline-block;
     width: 10px;
     height: 10px;
+  }
+
+  .expand-members-trigger {
+    cursor: pointer;
+    background-image: url('/assets/icon-arrow-down@2x.png');
+    width: 10px;
+    height: 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: 0;
   }
 
 }

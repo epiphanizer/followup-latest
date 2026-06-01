@@ -37,6 +37,10 @@ export class TeamListingComponent implements OnInit {
     return Array.isArray(this.selected?.team?.teamMembers) ? this.selected.team.teamMembers.length : 0;
   }
 
+  get selectedTeamIsArchived(): boolean {
+    return Number(this.selected?.team?.teamActive) === 0;
+  }
+
   get selectedTeamMembersLink(): any[] {
     return ['/teams', this.selected?.team?.teamId];
   }
@@ -53,6 +57,14 @@ export class TeamListingComponent implements OnInit {
     return !!this.selected?.team?.teamId && userLevel === (UserRolesMap as any)[UserRoles.admin];
   }
 
+  get canManageTeams(): boolean {
+    const userLevel =
+      typeof this.user?.userLevel === 'number'
+        ? this.user.userLevel
+        : (UserRolesMap as any)[String(this.user?.userLevel)] || 0;
+    return userLevel === (UserRolesMap as any)[UserRoles.admin];
+  }
+
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.teams = this.user.teams || [];
@@ -63,7 +75,7 @@ export class TeamListingComponent implements OnInit {
     });
   }
 
-  teamChangeEventHandler($event: Team) {
+  teamChangeEventHandler($event: Team | null) {
     this.selected.team = $event;
   }
 
