@@ -1,11 +1,28 @@
-ion-content {
-  --background: transparent;
-  height: 100vh;
+.login-content {
+  --background: #ffcc00;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+.login-content::part(scroll) {
+  width: 100%;
+  min-height: 100%;
+}
+
+.login-page {
+  position: relative;
+  min-height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+  background: #ffcc00;
 }
 
 ion-list {
   background: transparent;
   margin: 0;
+  padding: 0;
 }
 
 ion-item {
@@ -14,17 +31,12 @@ ion-item {
   --highlight-background: none;
   --inner-padding-start: 0;
   --inner-padding-end: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --min-height: 0;
   --background: transparent;
-
-  &.password {
-    width: 190px;
-    display: inline-block;
-  }
-
-  &.login-button {
-    background: transparent;
-    display: inline-block;
-  }
+  border: solid 1px rgba(112, 112, 112, 0.34);
+  background-image: linear-gradient(190deg, #fafbfb 14%, #e6e7e8 75%);
 }
 
 .login-header,
@@ -33,68 +45,81 @@ ion-item {
 }
 
 .login-background {
-  height: 100%;
-  width: 100%;
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
+  z-index: 0;
   background-image: url("/assets/background@2x.png");
-  background-size: 75%;
+  background-size: min(78vw, 1260px);
   background-repeat: no-repeat;
-  background-position: bottom left;
+  background-position: calc(50% - 225px) calc(-50% + 280px);
 }
 
 #login-form {
   display: block;
-  width: 331px;
+  width: 315px;
   height: auto;
-  margin: 0 auto;
-  margin-left: 196px;
-  margin-top: 30vh;
-  position: relative;
-  z-index: 1;
+  margin: 0;
+  position: absolute;
+  left: 14.4vw;
+  top: calc(36vh - 20px);
+  z-index: 2;
   background-repeat: no-repeat;
   background-size: 100%;
-  padding-top: 37px;
+  padding-top: 0;
   transition: opacity 0.18s ease;
 
   .toolbar-logo {
     display: block;
-    height: 44px;
-    width: 183px;
-    margin: 0px 0px;
+    height: 38px;
+    width: 155px;
+    margin: 0;
+    margin-bottom: 24px;
     background-image: url("/assets/logo-white@2x.png");
     background-repeat: no-repeat;
     background-size: contain;
-    background-position: center center;
+    background-position: left center;
   }
+
   .login-inputs {
     margin-top: 0;
   }
+
+  ion-item.username {
+    width: 100%;
+    height: 36px;
+  }
+
+  ion-item.password {
+    width: 200px;
+    height: 36px;
+    flex: 0 0 200px;
+  }
+
   ion-input {
-    --padding-bottom: 7px;
-    --padding-start: 8px;
-    font-family: Avenir;
-    font-size: 14px;
-    height: 34px;
-    // line-height: 34px;
-
-    &.username {
-      width: 305px;
-    }
-
-    &.password {
-      width: 190px;
-    }
+    --background: #e8eef8;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 10px;
+    --padding-end: 10px;
+    --placeholder-opacity: 1;
+    font-family: Avenir, sans-serif;
+    font-size: 12px;
+    line-height: 36px;
+    min-height: 36px;
+    height: 36px;
+    color: #222;
 
     input.native-input {
-      --inner-padding-end: 0px !important;
+      --inner-padding-end: 0 !important;
     }
+  }
 
-    border: solid 0.9px rgba(112, 112, 112, 0.34);
-    background-image: linear-gradient(190deg, #fafbfb 14%, #e6e7e8 75%);
+  ion-input::part(native) {
+    height: 36px;
+    line-height: 36px;
+    padding-top: 0;
+    padding-bottom: 0;
+    box-sizing: border-box;
   }
 
   .login-controls-container {
@@ -103,49 +128,54 @@ ion-item {
   }
 }
 
+.login-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 33px;
+  margin-top: 15px;
+}
+
 .login-container.account-selection-active {
   #login-form {
     opacity: 0.25;
   }
 }
 
-ion-item {
-  &.login-button {
-    display: inline-block;
-    vertical-align: top;
-    margin-left: 2px;
-    --padding-start: 0;
-    width: auto;
-    height: 42px;
-  }
-}
-
 .login-submit {
   text-align: center;
-  float: right;
-  height: 34px;
-  line-height: 32px;
+  float: none;
+  width: 83px;
+  min-width: 83px;
+  height: 36px;
+  line-height: 36px;
   outline: none;
-  margin-top: 7px;
+  margin: 0;
+  padding: 0;
+  align-self: stretch;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
 }
 
 .login-container {
   background: none;
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
-.version-stamp {
+.version-label {
   position: absolute;
-  right: 18px;
-  bottom: 16px;
+  right: 20px;
+  top: 51.2%;
+  transform: translateY(-50%);
   z-index: 2;
   pointer-events: none;
   font-family: Avenir, sans-serif;
-  font-size: 10pt;
-  letter-spacing: 0.4px;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
   color: #ffffff;
-  opacity: 0.9;
 }
 
 .account-selection-overlay {
@@ -276,13 +306,83 @@ ion-item {
 
 @media (max-width: 720px) {
   #login-form {
+    position: relative;
+    left: auto;
+    top: auto;
     width: calc(100% - 32px);
     max-width: 331px;
-    margin: 22vh auto 0;
+    margin: 26vh auto 0;
+  }
+
+  #login-form .toolbar-logo {
+    width: 155px;
+    height: 38px;
+    margin-bottom: 18px;
+  }
+
+  #login-form ion-item.password {
+    width: min(200px, calc(100vw - 170px));
+    flex: 1 1 auto;
+  }
+
+  #login-form ion-input {
+    font-size: 12px;
+    min-height: 36px;
+    height: 36px;
+  }
+
+  .login-submit {
+    width: 83px;
+    min-width: 83px;
+    height: 36px;
+    font-size: 15px;
+  }
+
+  .login-actions-row {
+    gap: 16px;
+  }
+
+  .version-label {
+    top: auto;
+    right: 16px;
+    bottom: 16px;
+    transform: none;
+    font-size: 11px;
   }
 }
 
 @media (max-width: 480px) {
+  .login-background {
+    background-size: 128vw;
+    background-position: calc(50% - 225px) calc(50% + 280px);
+  }
+
+  #login-form {
+    margin-top: 22vh;
+  }
+
+  #login-form ion-item.username,
+  #login-form ion-item.password {
+    height: 36px;
+  }
+
+  #login-form ion-input {
+    height: 36px;
+    min-height: 36px;
+    font-size: 12px;
+  }
+
+  .login-actions-row {
+    gap: 10px;
+  }
+
+  .login-submit {
+    width: 83px;
+    min-width: 83px;
+    height: 36px;
+    font-size: 15px;
+  }
+
   .account-selection-overlay {
     align-items: flex-start;
     padding: 16px;
