@@ -16,10 +16,18 @@ export interface ServiceHealthChangeLogRelease {
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
     version: '4.0.0_alpha_rc2',
-    recordedAt: '2026-05-30',
+    recordedAt: '2026-05-31',
     label: 'Current alpha rc2 candidate',
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Expired bearer sessions now auto-clear local auth state and redirect to login instead of repeatedly issuing unauthorized API calls.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating auth.service, app.module tokenGetter, and ErrorHandlerInterceptor to enforce userLoginExpires checks on stored JWTs, clear stale followup auth storage keys, and redirect on auth-related 401 responses outside /users/login. Validation used focused Jest on auth.service and error-handler interceptor specs (2/2 suites passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
       {
         scope: 'Frontend',
         summary:
