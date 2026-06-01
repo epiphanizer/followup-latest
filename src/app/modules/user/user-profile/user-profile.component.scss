@@ -310,29 +310,26 @@ form {
   }
 
   .checkbox-option {
-    display: grid;
-    grid-template-columns: 36px minmax(0, max-content);
-    column-gap: 22px;
+    display: inline-flex;
     align-items: center;
-    cursor: pointer;
+    gap: 16px;
+    margin: 0;
+    width: 100%;
   }
 
-  .checkbox-option input {
+  .checkbox-option::part(container) {
     width: 36px;
     height: 36px;
-    margin: 0;
-    justify-self: start;
   }
 
-  .checkbox-option span {
-    margin: 0;
-    line-height: 1.2;
+  .checkbox-option::part(label) {
     white-space: nowrap;
     font-family: Avenir;
     font-size: 18px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
+    line-height: 1.2;
     letter-spacing: 0.28px;
     text-align: left;
     color: #343638;
