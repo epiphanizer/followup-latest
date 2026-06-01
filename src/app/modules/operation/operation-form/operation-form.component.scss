@@ -238,7 +238,23 @@ form {
     letter-spacing: 0.3px;
     text-align: left;
     color: #222222;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.7rem;
+    line-height: 1.4;
+  }
+
+  .operation-details--editable {
+    .operation-listing-header {
+      margin-bottom: 18px;
+    }
+
+    ion-item.operation-group,
+    ion-item.operation-name,
+    ion-item.address,
+    ion-item.city,
+    ion-item.state,
+    ion-item.zip {
+      margin-bottom: 18px;
+    }
   }
 
   ion-item {
@@ -345,6 +361,7 @@ form {
     background: #f5f5f5;
     border: solid 1px rgba(112, 112, 112, 0.15);
     font-family: Avenir;
+    min-height: 52px;
     &.ion-invalid {
       border-bottom: 1px solid red;
     }
@@ -376,6 +393,40 @@ form {
       &.phone-number {
         width: 120px;
       }
+    }
+  }
+
+  .phone-container--primary {
+    display: grid;
+    grid-template-columns: 78px 92px 176px;
+    column-gap: 14px;
+    row-gap: 0;
+    align-items: end;
+    max-width: 430px;
+    margin: 8px 0 26px 25px;
+
+    ion-item {
+      display: block;
+      margin-right: 0;
+
+      &.country-code,
+      &.area-code,
+      &.phone-number {
+        width: auto;
+        margin-left: 0;
+      }
+    }
+
+    ion-label {
+      display: block;
+      min-height: 40px;
+      margin-bottom: 8px;
+    }
+  }
+
+  .operation-contact-entry {
+    ion-item {
+      margin-bottom: 18px;
     }
   }
 

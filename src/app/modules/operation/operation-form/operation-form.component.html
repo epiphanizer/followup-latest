@@ -41,7 +41,7 @@
               </a>
             </ion-item>
           </ion-list>
-          <ion-list *ngIf="mode.add || mode.edit" class="operation-details" lines="none" inset>
+          <ion-list *ngIf="mode.add || mode.edit" class="operation-details operation-details--editable" lines="none" inset>
             <div class="operation-listing-header">
               <h2 class="section-header ion-float-left"><i class="icon-info"></i> Operation</h2>
               <div class="operation-controls ion-float-right">
@@ -118,7 +118,7 @@
               <ion-label color="medium" position="stacked">Zip</ion-label>
               <ion-input type="text" formControlName="operationZip" placeholder="Zip"></ion-input>
             </ion-item>
-            <ion-list inset lines="none" class="phone-container">
+            <ion-list inset lines="none" class="phone-container phone-container--primary">
               <ion-item class="country-code">
                 <ion-label color="medium" position="stacked">US (+1)</ion-label>
                 <ion-input type="text" formControlName="operationCountryCode" placeholder="1"></ion-input>
@@ -230,7 +230,7 @@
                     <ion-input type="text" formControlName="operationContactTitle" placeholder="Title / Position">
                     </ion-input>
                   </ion-item>
-                  <div class="phone-container">
+                  <div class="phone-container phone-container--contact">
                     <ion-item class="country-code">
                       <ion-label position="stacked" color="medium">
                         US (+1)

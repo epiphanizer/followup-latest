@@ -3,6 +3,9 @@
     <ion-item class="headline-item">
       <h3 class="headline"><i class="icon-team"></i> Team Members</h3>
     </ion-item>
+    <p class="sidebar-guidance" *ngIf="mode.edit">
+      Direct changes happen here. Team Access assignments stay read-only and are edited from Teams.
+    </p>
     <fieldset class="operation-team-members">
       <span class="section-label" (click)="toggleOperationManagersAssignedMenu()">
         <span *ngIf="mode.edit || mode.add">Assigned </span>Manager(s)
@@ -17,29 +20,44 @@
       >
         <div class="manager-container" *ngFor="let manager of operationManagers; let idx = index">
           <ion-item class="sidebar-listing" id="operation-manager">
-            <ion-select
+            <div
+              class="assignment-editor"
               *ngIf="(mode.edit || mode.add) && operationManagers && isDirectAssignment(manager); else managerSpan"
-              [class.edit]="mode.edit"
-              [value]="manager?.userId"
-              (ionChange)="managerOnSelect($event, idx)"
-              placeholder="Assign Manager"
             >
-              <ion-select-option
-                *ngFor="let user of users"
-                [value]="user.userId"
-                [selected]="user.userId == manager?.userId"
+              <ion-select
+                [class.edit]="mode.edit"
+                [value]="manager?.userId"
+                (ionChange)="managerOnSelect($event, idx)"
+                placeholder="Assign Manager"
               >
-                {{ user.userLastName }}, {{ user.userFirstName }}
-              </ion-select-option>
-            </ion-select>
-
-            <ion-note
-              *ngIf="mode.edit && isDirectAssignment(manager)"
-              item-end
-              class="remove-icon"
+                <ion-select-option
+                  *ngFor="let user of users"
+                  [value]="user.userId"
+                  [selected]="user.userId == manager?.userId"
+                >
+                  {{ user.userLastName }}, {{ user.userFirstName }}
+                </ion-select-option>
+              </ion-select>
+              <div class="assignment-editor-meta" *ngIf="manager?.userId">
+                <div class="assignment-pills" *ngIf="getAssignmentSourceLabel(manager) || hasInheritedTeamAccess(manager)">
+                  <span class="assignment-source" *ngIf="getAssignmentSourceLabel(manager)">
+                    {{ getAssignmentSourceLabel(manager) }}
+                  </span>
+                  <span class="assignment-lock" *ngIf="hasInheritedTeamAccess(manager)">Team Access still applies</span>
+                </div>
+                <span class="assignment-detail" *ngIf="hasInheritedTeamAccess(manager) && getAssignmentDetail(manager)">
+                  {{ getAssignmentDetail(manager) }}
+                </span>
+              </div>
+            </div>
+            <button
+              *ngIf="mode.edit && isDirectAssignment(manager) && manager?.userId"
+              type="button"
+              class="remove-assignment"
               (click)="removeCallRepOrManager('manager', idx, manager.userId)"
-              >X</ion-note
             >
+              Remove Direct
+            </button>
             <ng-template #managerSpan>
               <div class="assignment-copy" [class.is-inherited]="isInheritedOnlyAssignment(manager)">
                 <span class="operation-manager">
@@ -48,7 +66,7 @@
                 <span class="assignment-detail" *ngIf="getAssignmentDetail(manager)">{{ getAssignmentDetail(manager) }}</span>
                 <div class="assignment-pills" *ngIf="getAssignmentSourceLabel(manager)">
                   <span class="assignment-source">{{ getAssignmentSourceLabel(manager) }}</span>
-                  <span class="assignment-lock" *ngIf="mode.edit && isInheritedOnlyAssignment(manager)">Manage from Teams</span>
+                  <span class="assignment-lock" *ngIf="mode.edit && isInheritedOnlyAssignment(manager)">Edit in Teams</span>
                 </div>
               </div>
             </ng-template>
@@ -74,28 +92,52 @@
         >
           <div class="callrep-container" *ngFor="let operationCallRep of operationAssignedUsers; let idx = index">
             <ion-item class="sidebar-listing" id="operationCallRep-{{ idx }}">
-              <ion-select
+              <div
+                class="assignment-editor"
                 *ngIf="users && (((mode.edit && operationAssignedUsers.length) || mode.add) && isDirectAssignment(operationCallRep)); else memberSpan"
-                (ionChange)="callRepOnSelect($event, idx)"
-                [class.edit]="mode.edit"
-                [value]="operationCallRep?.userId"
-                placeholder="Select User"
               >
-                <ion-select-option
-                  *ngFor="let user of users"
-                  [value]="user.userId"
-                  [selected]="user.userId == operationCallRep.userId"
+                <ion-select
+                  (ionChange)="callRepOnSelect($event, idx)"
+                  [class.edit]="mode.edit"
+                  [value]="operationCallRep?.userId"
+                  placeholder="Select User"
                 >
-                  {{ user.userLastName }}, {{ user.userFirstName }}
-                </ion-select-option>
-              </ion-select>
-              <ion-note
-                *ngIf="mode.edit && isDirectAssignment(operationCallRep)"
-                item-end
-                class="remove-icon"
+                  <ion-select-option
+                    *ngFor="let user of users"
+                    [value]="user.userId"
+                    [selected]="user.userId == operationCallRep.userId"
+                  >
+                    {{ user.userLastName }}, {{ user.userFirstName }}
+                  </ion-select-option>
+                </ion-select>
+                <div class="assignment-editor-meta" *ngIf="operationCallRep?.userId">
+                  <div
+                    class="assignment-pills"
+                    *ngIf="getAssignmentSourceLabel(operationCallRep) || hasInheritedTeamAccess(operationCallRep)"
+                  >
+                    <span class="assignment-source" *ngIf="getAssignmentSourceLabel(operationCallRep)">
+                      {{ getAssignmentSourceLabel(operationCallRep) }}
+                    </span>
+                    <span class="assignment-lock" *ngIf="hasInheritedTeamAccess(operationCallRep)">
+                      Team Access still applies
+                    </span>
+                  </div>
+                  <span
+                    class="assignment-detail"
+                    *ngIf="hasInheritedTeamAccess(operationCallRep) && getAssignmentDetail(operationCallRep)"
+                  >
+                    {{ getAssignmentDetail(operationCallRep) }}
+                  </span>
+                </div>
+              </div>
+              <button
+                *ngIf="mode.edit && isDirectAssignment(operationCallRep) && operationCallRep?.userId"
+                type="button"
+                class="remove-assignment"
                 (click)="removeCallRepOrManager('callrep', idx, operationCallRep.userId)"
-                >X</ion-note
               >
+                Remove Direct
+              </button>
               <ng-template #memberSpan>
                 <div class="assignment-copy" [class.is-inherited]="isInheritedOnlyAssignment(operationCallRep)">
                   <span class="operation-callrep">
@@ -107,7 +149,7 @@
                   <div class="assignment-pills" *ngIf="getAssignmentSourceLabel(operationCallRep)">
                     <span class="assignment-source">{{ getAssignmentSourceLabel(operationCallRep) }}</span>
                     <span class="assignment-lock" *ngIf="mode.edit && isInheritedOnlyAssignment(operationCallRep)">
-                      Manage from Teams
+                      Edit in Teams
                     </span>
                   </div>
                 </div>

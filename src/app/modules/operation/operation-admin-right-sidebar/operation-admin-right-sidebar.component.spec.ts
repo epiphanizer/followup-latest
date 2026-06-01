@@ -118,4 +118,49 @@ describe('OperationAdminRightSidebarComponent', () => {
       'This assignment is inherited from Team Access. Update it from the Teams section.'
     );
   });
+
+  it('keeps team-access context when removing only the direct portion of an assignment', () => {
+    component.operationManagers = [
+      {
+        userId: 'm2',
+        directOperationUserRoleLabelId: 2,
+        directOperationUserRoleLabel: 'Manager',
+        inheritedOperationUserRoleLabelId: 2,
+        inheritedOperationUserRoleLabel: 'Manager',
+        accessSourceLabel: 'Direct + Team'
+      } as any
+    ];
+
+    component.removeCallRepOrManager('manager', 0, 'm2');
+
+    expect(operationServiceMock.removeManagerByOperationIdAndUserId).toHaveBeenCalledWith('op1', 'm2');
+    expect(toastrMock.success).toHaveBeenCalledWith('Direct assignment removed. Team Access still applies.');
+  });
+
+  it('sorts direct role assignments ahead of inherited team rows', () => {
+    component.effectiveAssignedUsers = [
+      {
+        userId: 'm1',
+        userFirstName: 'Ina',
+        userLastName: 'Inherited',
+        operationUserRoleLabel: 'Manager',
+        accessSourceLabel: 'Inherited',
+        inheritedOperationUserRoleLabelId: 2,
+        inheritedOperationUserRoleLabel: 'Manager'
+      },
+      {
+        userId: 'm2',
+        userFirstName: 'Dara',
+        userLastName: 'Direct',
+        operationUserRoleLabel: 'Manager',
+        accessSourceLabel: 'Direct',
+        directOperationUserRoleLabelId: 2,
+        directOperationUserRoleLabel: 'Manager'
+      }
+    ] as any;
+
+    (component as any).syncManagerRowsFromEffectiveAssignments();
+
+    expect(component.operationManagers.map(manager => manager.userId)).toEqual(['m2', 'm1']);
+  });
 });

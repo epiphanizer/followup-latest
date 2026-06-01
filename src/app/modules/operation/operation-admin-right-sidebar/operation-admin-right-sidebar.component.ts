@@ -318,6 +318,7 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
       return;
     }
     const row = type === 'manager' ? this.operationManagers[idx] : this.operationAssignedUsers[idx];
+    const inheritedTeamAccess = this.hasInheritedTeamAccess(row);
     if (!this.isDirectAssignment(row)) {
       this.toastr.error('This assignment is inherited from Team Access. Update it from the Teams section.');
       return;
@@ -328,7 +329,9 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
         : this.operationService.removeCallRepOrManager(this.activeOperationId, userId);
     request.subscribe({
       next: () => {
-        this.toastr.success('Successfully removed the user.');
+        this.toastr.success(
+          inheritedTeamAccess ? 'Direct assignment removed. Team Access still applies.' : 'Direct assignment removed.'
+        );
         switch (type) {
           case 'manager':
             this.operationManagersToRemove.push(this.operationManagers[idx].userId);
@@ -354,6 +357,10 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
 
   isInheritedOnlyAssignment(user: User | any): boolean {
     return !this.isDirectAssignment(user) && Number(user?.inheritedOperationUserRoleLabelId) > 0;
+  }
+
+  hasInheritedTeamAccess(user: User | any): boolean {
+    return Number(user?.inheritedOperationUserRoleLabelId) > 0 || !!user?.inheritedOperationUserRoleLabel;
   }
 
   getAssignmentSourceLabel(user: User | any): string {
@@ -419,10 +426,24 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
   }
 
   private filterEffectiveUsersByRole(role: 'manager' | 'care'): User[] {
-    return (this.effectiveAssignedUsers || []).filter(user => {
-      const roleLabel = (user.operationUserRoleLabel || user.userRoleLabel || '').toLowerCase();
-      return role === 'manager' ? roleLabel.includes('manager') : roleLabel.includes('care');
-    });
+    return (this.effectiveAssignedUsers || [])
+      .filter(user => {
+        const roleLabel = (user.operationUserRoleLabel || user.userRoleLabel || '').toLowerCase();
+        return role === 'manager' ? roleLabel.includes('manager') : roleLabel.includes('care');
+      })
+      .sort((left: User, right: User) => {
+        const directDifference = Number(this.isDirectAssignment(right)) - Number(this.isDirectAssignment(left));
+        if (directDifference !== 0) {
+          return directDifference;
+        }
+
+        const lastNameDifference = (left.userLastName || '').localeCompare(right.userLastName || '');
+        if (lastNameDifference !== 0) {
+          return lastNameDifference;
+        }
+
+        return (left.userFirstName || '').localeCompare(right.userFirstName || '');
+      });
   }
   ngOnDestroy() {
     this.routeSubscription?.unsubscribe();
