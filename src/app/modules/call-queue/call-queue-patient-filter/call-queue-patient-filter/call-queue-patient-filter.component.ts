@@ -20,9 +20,10 @@ export class CallQueuePatientFilterComponent implements OnInit, OnChanges {
   constructor(private patientCallService: PatientCallService, private datePipe: DatePipe) {}
 
   private loadPatientCalls(): void {
-    const patientCalls$ = this.mode?.spanish || !this.operation
-      ? this.patientCallService.getSpanishSpeakingPatientCalls()
-      : this.patientCallService.getPatientCallsByOperationId(this.operation.operationId);
+    const patientCalls$ =
+      this.mode?.spanish || !this.operation
+        ? this.patientCallService.getSpanishSpeakingPatientCalls()
+        : this.patientCallService.getPatientCallsByOperationId(this.operation.operationId);
 
     patientCalls$.subscribe((patientCalls: PatientCall[]) => {
       this.patientCalls = patientCalls || [];
@@ -76,5 +77,14 @@ export class CallQueuePatientFilterComponent implements OnInit, OnChanges {
       return patientFullName.toLowerCase().includes(searchText);
     });
     return this.patientCallsFiltered;
+  }
+
+  getPatientCallLink(patientCall: PatientCall): string {
+    const operationId = patientCall?.patientOperationId || this.operation?.operationId;
+    if (!operationId || !patientCall?.patientId) {
+      return '/call-queue';
+    }
+
+    return '/call-queue/operations/' + operationId + '/patient/' + patientCall.patientId;
   }
 }

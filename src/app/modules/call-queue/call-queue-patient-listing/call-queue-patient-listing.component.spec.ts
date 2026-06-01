@@ -136,4 +136,22 @@ describe('CallQueuePatientListingComponent (Jest)', () => {
     comp.sortPatientsByDischargeDate();
     expect(comp.patients[0].patientDischargeDate).toBe('2020-03-01');
   });
+
+  it('falls back to selected operation id when patient operation id is missing', () => {
+    const patientService = makePatientService();
+    const comp = new CallQueuePatientListingComponent(patientService as any);
+    comp.operation = { operationId: 'op-fallback' } as any;
+
+    const link = comp.getPatientLink({ patientId: 'p-1' } as any);
+
+    expect(link).toBe('/call-queue/operations/op-fallback/patient/p-1');
+  });
+
+  it('returns call queue root when operation or patient id is unavailable', () => {
+    const patientService = makePatientService();
+    const comp = new CallQueuePatientListingComponent(patientService as any);
+
+    expect(comp.getPatientLink({ patientId: 'p-1' } as any)).toBe('/call-queue');
+    expect(comp.getPatientLink({ patientOperationId: 'op-1' } as any)).toBe('/call-queue');
+  });
 });

@@ -16,12 +16,7 @@
   <ng-container class="patient-filter-results" *ngIf="patientCalls; else noPatientCalls">
     <ion-list *ngIf="patientCallsFiltered.length >= 1; else noCalls" lines="none" inset>
       <ion-item class="patient-call-filter-listing" *ngFor="let patientCall of patientCallsFiltered">
-        <a
-          class="patient-link"
-          [routerLink]="
-            '/call-queue/operations/' + patientCall.patientOperationId + '/patient/' + patientCall.patientId
-          "
-        >
+        <a class="patient-link" [routerLink]="getPatientCallLink(patientCall)">
           <span class="patient-filter-patient-name">
             {{ patientCall.patientFirstName }} {{ patientCall.patientLastName }}:&nbsp;
           </span>

@@ -142,4 +142,31 @@ describe('CallQueuePatientFilterComponent (Jest)', () => {
     expect(svc.getPatientCallsByOperationId).toHaveBeenCalledTimes(1);
     expect(svc.getPatientCallsByOperationId).toHaveBeenCalledWith('op-init');
   });
+
+  it('builds patient call link with patient operation id when present', () => {
+    const svc = makePatientCallService([]);
+    const comp = new CallQueuePatientFilterComponent(svc as any, new DatePipe('en-US'));
+
+    const link = comp.getPatientCallLink({ patientId: 'p-1', patientOperationId: 'op-1' } as any);
+
+    expect(link).toBe('/call-queue/operations/op-1/patient/p-1');
+  });
+
+  it('falls back to selected operation id when call payload has no operation id', () => {
+    const svc = makePatientCallService([]);
+    const comp = new CallQueuePatientFilterComponent(svc as any, new DatePipe('en-US'));
+    comp.operation = { operationId: 'op-fallback' } as any;
+
+    const link = comp.getPatientCallLink({ patientId: 'p-2' } as any);
+
+    expect(link).toBe('/call-queue/operations/op-fallback/patient/p-2');
+  });
+
+  it('returns call queue root when operation and patient ids are missing', () => {
+    const svc = makePatientCallService([]);
+    const comp = new CallQueuePatientFilterComponent(svc as any, new DatePipe('en-US'));
+
+    expect(comp.getPatientCallLink({ patientId: 'p-2' } as any)).toBe('/call-queue');
+    expect(comp.getPatientCallLink({ patientOperationId: 'op-2' } as any)).toBe('/call-queue');
+  });
 });

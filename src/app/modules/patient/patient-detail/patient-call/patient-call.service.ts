@@ -13,6 +13,7 @@ interface CachedPatientCallRequest<T> {
 export interface PatientCall {
   patientCallId: string;
   patientId: string;
+  patientOperationId?: string;
   patientCalledByUserId?: string;
   patientContactNumberId?: string;
   patientCallCreatedTime: Date;
@@ -77,9 +78,11 @@ export class PatientCallService {
   }
 
   startPatientCallByUserIdAndPatientCallId = function(userId: string, patientCallId: string) {
-    return this.http.post('patients/calls/' + patientCallId + '/start', {
-      userId: userId
-    }).pipe(tap(() => this.clearPatientCallCache()));
+    return this.http
+      .post('patients/calls/' + patientCallId + '/start', {
+        userId: userId
+      })
+      .pipe(tap(() => this.clearPatientCallCache()));
   };
 
   getCallRepCallsByUserIdAndOperationId = function(userId: string, operationId: string) {
@@ -138,7 +141,10 @@ export class PatientCallService {
       .post('patients/calls/' + patientCall.patientCallId + '/finalize', {
         patientCallStatusLabelId: patientCall.patientCallStatusLabelId
       })
-      .pipe(tap(() => this.clearPatientCallCache()), catchError(e => this.handleAsyncError(e)));
+      .pipe(
+        tap(() => this.clearPatientCallCache()),
+        catchError(e => this.handleAsyncError(e))
+      );
   }
 
   // Needs accompanying swagger

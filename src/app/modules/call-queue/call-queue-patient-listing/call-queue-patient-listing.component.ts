@@ -139,6 +139,15 @@ export class CallQueuePatientListingComponent implements OnInit, OnChanges {
     return patient?.patientId ?? index;
   }
 
+  getPatientLink(patient: Patient): string {
+    const operationId = patient?.patientOperationId || this.operation?.operationId;
+    if (!operationId || !patient?.patientId) {
+      return '/call-queue';
+    }
+
+    return '/call-queue/operations/' + operationId + '/patient/' + patient.patientId;
+  }
+
   runSortSwitch() {
     switch (this.selectedSortOption) {
       case 'Discharge Date':

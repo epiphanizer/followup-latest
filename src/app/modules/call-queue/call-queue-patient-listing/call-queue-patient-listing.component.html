@@ -18,7 +18,7 @@
       class="active patient-list-item"
       [class.todays-call]="checkDateGreaterThanEqualToToday(patient.patientNextCallScheduledTime)"
       [class.new-discharge]="patient.patientCallCount == 1"
-      [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId"
+      [routerLink]="getPatientLink(patient)"
     >
       <div class="call-queue-number">
         {{ patient.patientCallCount - 1 }}
@@ -33,7 +33,7 @@
       </div>
       <div class="call-queue-patient-information">
         <span class="call-queue-patient-name">
-          <a [routerLink]="'/call-queue/operations/' + patient.patientOperationId + '/patient/' + patient.patientId">
+          <a [routerLink]="getPatientLink(patient)">
             {{ patient.patientFirstName }}
             {{ patient.patientLastName }}
           </a>
