@@ -9,8 +9,7 @@
     <fieldset class="operation-team-members">
       <span class="section-label" (click)="toggleOperationManagersAssignedMenu()">
         <span *ngIf="mode.edit || mode.add">Assigned </span>Manager(s)
-        <i *ngIf="mode.view" class="icon-dropdown" [@turnArrow]="managerSidebarDropdownOpen ? 'open' : 'closed'"></i
-      ></span>
+      </span>
       <ion-list
         class="assigned-manager-list"
         [class.edit]="mode.edit || mode.add"
@@ -81,8 +80,7 @@
       <ng-container>
         <span class="section-label" (click)="toggleOperationCallRepsAssignedMenu()">
           <span *ngIf="mode.edit || mode.add">Assigned </span>Care Reps
-          <i *ngIf="mode.view" class="icon-dropdown" [@turnArrow]="callRepSidebarDropdownOpen ? 'open' : 'closed'"></i
-        ></span>
+        </span>
         <ion-list
           class="assigned-callrep-list"
           lines="none"
