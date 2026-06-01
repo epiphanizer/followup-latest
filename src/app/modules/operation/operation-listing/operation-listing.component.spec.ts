@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 
 import { OperationListingComponent } from './operation-listing.component';
 import { OperationService } from '../operation.service';
@@ -191,6 +191,114 @@ describe('OperationListingComponent (Jest)', () => {
     paramMap$.next({ params: { operationGroupId: 'og1' } } as any);
 
     expect(localComponent.selected.operationGroup.operations.length).toBe(1);
+    expect(operationServiceStub.getOperationsByOperationGroupId).toHaveBeenCalledTimes(1);
+  });
+
+  it('ignores stale hydration responses after rapid client group switches', () => {
+    const paramMap$ = new BehaviorSubject({ params: { operationGroupId: 'og1' } } as any);
+    const og1$ = new Subject<any[]>();
+    const og2$ = new Subject<any[]>();
+    const operationServiceStub = {
+      getAllOperationGroups: jest.fn().mockReturnValue(
+        of([
+          {
+            operationGroupId: 'og1',
+            operationGroupName: 'Client One',
+            operationGroupShortName: 'C1',
+            operationGroupActive: 1,
+            operations: []
+          },
+          {
+            operationGroupId: 'og2',
+            operationGroupName: 'Client Two',
+            operationGroupShortName: 'C2',
+            operationGroupActive: 1,
+            operations: []
+          }
+        ])
+      ),
+      getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([])),
+      getOperationsByOperationGroupId: jest.fn((group: any) => {
+        if (group.operationGroupId === 'og1') {
+          return og1$.asObservable();
+        }
+
+        return og2$.asObservable();
+      })
+    };
+    const route = {
+      snapshot: { data: { user: userStub, section: 'clients', title: 'Clients' } },
+      paramMap: paramMap$.asObservable()
+    } as any;
+    const localComponent = new OperationListingComponent(
+      { detectChanges: jest.fn() } as any,
+      route,
+      operationServiceStub as any
+    );
+
+    localComponent.ngOnInit();
+    paramMap$.next({ params: { operationGroupId: 'og2' } } as any);
+
+    og2$.next([
+      {
+        operationId: 'op-2',
+        operationGroupId: 'og2',
+        operationName: 'Facility Two'
+      }
+    ] as any);
+
+    og1$.next([
+      {
+        operationId: 'op-1',
+        operationGroupId: 'og1',
+        operationName: 'Facility One'
+      }
+    ] as any);
+
+    expect(localComponent.selected.operationGroup.operationGroupId).toBe('og2');
+    expect(localComponent.selected.operationGroup.operations.length).toBe(1);
+    expect(localComponent.selected.operationGroup.operations[0].operationId).toBe('op-2');
+  });
+
+  it('does not rehydrate when selecting identical client group id', () => {
+    const operationServiceStub = {
+      getAllOperationGroups: jest.fn().mockReturnValue(
+        of([
+          {
+            operationGroupId: 'og1',
+            operationGroupName: 'Client One',
+            operationGroupShortName: 'CO',
+            operationGroupActive: 1,
+            operations: []
+          }
+        ])
+      ),
+      getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([])),
+      getOperationsByOperationGroupId: jest.fn().mockReturnValue(
+        of([
+          {
+            operationId: 'op1',
+            operationGroupId: 'og1',
+            operationName: 'Facility 1'
+          }
+        ])
+      )
+    };
+    const route = {
+      snapshot: { data: { user: userStub, section: 'clients', title: 'Clients' } },
+      paramMap: of({ params: { operationGroupId: 'og1' } })
+    } as any;
+    const localComponent = new OperationListingComponent(
+      { detectChanges: jest.fn() } as any,
+      route,
+      operationServiceStub as any
+    );
+
+    localComponent.ngOnInit();
+    expect(operationServiceStub.getOperationsByOperationGroupId).toHaveBeenCalledTimes(1);
+
+    localComponent.operationGroupChangeEventHandler('og1');
+
     expect(operationServiceStub.getOperationsByOperationGroupId).toHaveBeenCalledTimes(1);
   });
 });

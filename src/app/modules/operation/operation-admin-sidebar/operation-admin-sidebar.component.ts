@@ -141,6 +141,18 @@ export class OperationAdminSidebarComponent implements OnInit {
         operationGroupShortName: '',
         operations: []
       } as OperationGroup);
+
+    if (this.clientMode && this.selected.operationGroup) {
+      const selectedIsArchived = this.selected.operationGroup.operationGroupActive === 0;
+      const selectedVisibleInCurrentFilter =
+        (this.clientFilter === 'archived' && selectedIsArchived) ||
+        (this.clientFilter === 'active' && !selectedIsArchived);
+
+      if (!selectedVisibleInCurrentFilter) {
+        this.clientFilter = selectedIsArchived ? 'archived' : 'active';
+      }
+    }
+
     this.activeOperationGroupId = operationGroupId;
     this.openOnlyOperationGroup(operationGroupId);
   }
@@ -364,6 +376,14 @@ export class OperationAdminSidebarComponent implements OnInit {
   }
 
   setActiveOperationGroup(operationGroup: OperationGroup) {
+    if (!operationGroup?.operationGroupId) {
+      return;
+    }
+
+    if (this.activeOperationGroupId === operationGroup.operationGroupId) {
+      return;
+    }
+
     this.selected.operation = null;
     this.activeOperationId = null;
     operationGroup.sidebarDropdownOpen = true;

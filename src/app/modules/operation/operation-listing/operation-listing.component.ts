@@ -30,6 +30,8 @@ export class OperationListingComponent implements OnInit {
       }
     | any = {};
   private lastHydratedOperationGroupId: string | null = null;
+  private latestHydrationRequestId = 0;
+  private hydrationInFlightByGroupId: { [operationGroupId: string]: boolean } = {};
   user: User;
   constructor(
     private _cdr: ChangeDetectorRef,
@@ -78,11 +80,29 @@ export class OperationListingComponent implements OnInit {
       return;
     }
 
+    if (this.hydrationInFlightByGroupId[operationGroupId]) {
+      return;
+    }
+
+    const requestId = ++this.latestHydrationRequestId;
+    this.hydrationInFlightByGroupId[operationGroupId] = true;
+
     const operationRequest$ = this.clientMode
       ? this.operationService.getOperationsByOperationGroupId({ operationGroupId } as OperationGroup)
       : this.operationService.getActiveOperationsByOperationGroupId({ operationGroupId } as OperationGroup, this.user);
 
     operationRequest$.subscribe((operations: Operation[]) => {
+        this.hydrationInFlightByGroupId[operationGroupId] = false;
+
+        // Ignore stale async responses so older loads cannot collapse the current client roster.
+        if (requestId !== this.latestHydrationRequestId) {
+          return;
+        }
+
+        if (this.selected?.operationGroup?.operationGroupId !== operationGroupId) {
+          return;
+        }
+
         const safeOperations = Array.isArray(operations) ? operations : [];
         this.lastHydratedOperationGroupId = operationGroupId;
         this.selected.operationGroup = {
@@ -182,6 +202,12 @@ export class OperationListingComponent implements OnInit {
     this.route.paramMap.subscribe((data: any) => {
       const operationGroupId = data.get ? data.get('operationGroupId') : data.params?.operationGroupId;
 
+      // Route reuse can briefly emit an empty id for /clients/:operationGroupId.
+      // In client mode, ignore this transient emission when a selection already exists.
+      if (this.clientMode && !operationGroupId && this.selected?.operationGroup?.operationGroupId) {
+        return;
+      }
+
       const applySelection = () => {
         if (operationGroupId) {
           this.selected.operationGroup = this.preserveSelectedGroupOperations(
@@ -228,6 +254,14 @@ export class OperationListingComponent implements OnInit {
   }
 
   operationGroupChangeEventHandler(operationGroupId: string) {
+    if (!operationGroupId) {
+      return;
+    }
+
+    if (this.clientMode && this.selected?.operationGroup?.operationGroupId === operationGroupId) {
+      return;
+    }
+
     this.lastHydratedOperationGroupId = null;
     this.selected.operationGroup = this.preserveSelectedGroupOperations(this.findOperationGroupById(operationGroupId));
 

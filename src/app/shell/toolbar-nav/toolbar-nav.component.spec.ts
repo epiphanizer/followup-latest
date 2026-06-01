@@ -73,6 +73,8 @@ describe('ToolbarNavComponent logic', () => {
     expect(component.navLinks.length).toBeGreaterThan(0);
     expect(component.dropdowns.length).toBeGreaterThan(0);
     expect(component.navLinks.some(link => link.linkName === 'Clients')).toBe(true);
+    const clientsNavLink = component.navLinks.find(link => link.linkName === 'Clients');
+    expect(clientsNavLink?.dropdown?.links?.some((link: any) => link.linkName === 'Operations')).toBe(true);
     expect(component.navLinks[0].dropdown.links.some((link: any) => link.linkName === 'Version Change Log')).toBe(
       false
     );

@@ -105,7 +105,7 @@ export class ToolbarNavComponent implements OnInit {
           links: [
             {
               linkAction: '/clients',
-              linkName: 'Client Groups'
+              linkName: 'Operations'
             },
             {
               linkAction: '/operation/add',

@@ -21,6 +21,30 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'API',
+        summary:
+          'Client archive requests now succeed on mixed schemas where `sp_deactivateOperationGroupByOperationGroupId` is missing, using a safe direct-update fallback.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after updating OperationService.deactivateOperationGroupByOperationGroupId to fall back to `UPDATE operationGroups SET operationGroupActive = 0` when the deactivate stored procedure is unavailable. This resolves the 400 path on `DELETE /operations/groups/{operationGroupId}` that previously surfaced as `Could not find stored procedure ...` in audit/perf logs and blocked archive from the Edit Client screen. Validation used API syntax tests (`npm test --silent`).',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Clients operation-group detail endpoint now returns row arrays instead of a recordset wrapper, resolving the persistent single-row roster symptom in `/clients/:operationGroupId`.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after fixing OperationService.getOperationsByOperationGroupId to use `results.recordsets[0]` (rows) instead of `results.recordsets` (array of recordsets). The previous shape mismatch could surface in the frontend table as one top-level item regardless of actual operation count. Validation used API syntax tests (`npm test --silent`) plus focused frontend operation listing Jest coverage.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Clients detail hydration now ignores duplicate/empty route emissions and stale async responses so rapid navigation cannot overwrite the selected client roster.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after adding second-pass guards in operation-listing.component.ts and operation-admin-sidebar.component.ts: transient empty client-route group ids are ignored when a selection already exists, duplicate in-flight hydrations are suppressed per group id, stale asynchronous hydration responses are dropped unless they match the latest request and current selection, same-group sidebar reselection emits are short-circuited, and client filter state auto-aligns so routed archived selections remain visible. This prevents post-hydration row collapse caused by out-of-order responses during route reuse and rapid group switches. Validation used focused operation sidebar/listing Jest suites (21/21 passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'Frontend',
         summary:
           'Clients detail table no longer collapses from hydrated multi-row results to a smaller user-scoped fallback set after initial load.',
