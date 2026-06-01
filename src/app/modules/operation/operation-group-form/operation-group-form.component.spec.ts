@@ -1,5 +1,6 @@
 import { FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
+import { throwError } from 'rxjs';
 import { UserRoles } from '@app/modules/user/user';
 
 import { OperationGroupFormComponent } from './operation-group-form.component';
@@ -34,7 +35,16 @@ describe('OperationGroupFormComponent (Jest)', () => {
       editOperationGroupByOperationGroupId: jest.fn(() =>
         of({ operationGroupId: 'og1', operationGroupName: 'Providence West', operationGroupShortName: 'PROVW' })
       ),
-      deactivateOperationGroupByOperationGroupId: jest.fn(() => of({ success: 1 }))
+      deactivateOperationGroupByOperationGroupId: jest.fn(() => of({ success: 1 })),
+      getOperationGroups: jest.fn(() =>
+        of([
+          {
+            operationGroupId: 'og1',
+            operationGroupName: 'Providence',
+            operationGroupShortName: 'PROV'
+          }
+        ] as any)
+      )
     } as any;
     const userService = { updateOperations: jest.fn(() => Promise.resolve()) } as any;
     const toastrService = {
@@ -100,6 +110,46 @@ describe('OperationGroupFormComponent (Jest)', () => {
     expect(operationService.deactivateOperationGroupByOperationGroupId).toHaveBeenCalledWith('og1');
     expect(userService.updateOperations).toHaveBeenCalledWith(comp.user);
     expect(router.navigate).toHaveBeenCalledWith(['/clients']);
+    confirmSpy.mockRestore();
+  });
+
+  it('treats archive as success when delete reports an error but the client is no longer active', () => {
+    const { comp, router, operationService, userService } = makeComponent();
+    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
+    operationService.deactivateOperationGroupByOperationGroupId = jest.fn(() =>
+      throwError(() => ({ message: 'delete reported failure' }))
+    );
+    operationService.getOperationGroups = jest.fn(() => of([] as any));
+
+    comp.ngOnInit();
+    comp.onArchive();
+
+    expect(operationService.getOperationGroups).toHaveBeenCalled();
+    expect(userService.updateOperations).toHaveBeenCalledWith(comp.user);
+    expect(router.navigate).toHaveBeenCalledWith(['/clients']);
+    confirmSpy.mockRestore();
+  });
+
+  it('shows archive error detail when archive still fails after verification', () => {
+    const { comp, operationService } = makeComponent();
+    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
+    operationService.deactivateOperationGroupByOperationGroupId = jest.fn(() =>
+      throwError(() => ({ detail: 'Operation group still has active references.' }))
+    );
+    operationService.getOperationGroups = jest.fn(() =>
+      of([
+        {
+          operationGroupId: 'og1',
+          operationGroupName: 'Providence',
+          operationGroupShortName: 'PROV'
+        }
+      ] as any)
+    );
+
+    comp.ngOnInit();
+    comp.onArchive();
+
+    expect(comp.loadError).toContain('Operation group still has active references.');
     confirmSpy.mockRestore();
   });
 

@@ -137,6 +137,8 @@ export class OperationGroupFormComponent implements OnInit {
       return;
     }
 
+    const operationGroupId = this.operationGroup.operationGroupId;
+
     if (typeof window !== 'undefined' && typeof window.confirm === 'function') {
       const confirmed = window.confirm(
         'Archive this client? This is a soft delete that removes it from active client workflows.'
@@ -150,24 +152,61 @@ export class OperationGroupFormComponent implements OnInit {
     this.loadError = null;
 
     this.operationService
-      .deactivateOperationGroupByOperationGroupId(this.operationGroup.operationGroupId)
+      .deactivateOperationGroupByOperationGroupId(operationGroupId)
       .pipe(take(1))
       .subscribe({
         next: () => {
-          this.removeOperationGroupFromCaches(this.operationGroup.operationGroupId as string);
-          this.userService.updateOperations(this.user).catch(() => {});
+          this.handleArchiveSuccess(operationGroupId);
+        },
+        error: (error: any) => {
+          this.verifyArchiveStateAfterError(operationGroupId, error);
+        }
+      });
+  }
+
+  private verifyArchiveStateAfterError(operationGroupId: string, error: any) {
+    this.operationService
+      .getOperationGroups()
+      .pipe(take(1))
+      .subscribe({
+        next: (operationGroups: OperationGroup[]) => {
+          const stillActive = (operationGroups || []).some(
+            (operationGroupRecord: OperationGroup) => operationGroupRecord.operationGroupId === operationGroupId
+          );
+
+          if (!stillActive) {
+            this.handleArchiveSuccess(operationGroupId);
+            return;
+          }
+
           this.isArchiving = false;
-          this.toastrService
-            .success('Successfully archived client')
-            .onShown.pipe(take(1))
-            .subscribe(() => {
-              this.router.navigate(['/clients']);
-            });
+          this.loadError = this.getArchiveFailureMessage(error);
         },
         error: () => {
           this.isArchiving = false;
-          this.loadError = 'Unable to archive this client record.';
+          this.loadError = this.getArchiveFailureMessage(error);
         }
+      });
+  }
+
+  private getArchiveFailureMessage(error: any): string {
+    const detail = String(error?.detail || error?.message || '').trim();
+    if (detail) {
+      return `Unable to archive this client record. ${detail}`;
+    }
+
+    return 'Unable to archive this client record. If this client must be restored later, there is currently no self-service unarchive action in the UI.';
+  }
+
+  private handleArchiveSuccess(operationGroupId: string) {
+    this.removeOperationGroupFromCaches(operationGroupId);
+    this.userService.updateOperations(this.user).catch(() => {});
+    this.isArchiving = false;
+    this.toastrService
+      .success('Successfully archived client')
+      .onShown.pipe(take(1))
+      .subscribe(() => {
+        this.router.navigate(['/clients']);
       });
   }
 

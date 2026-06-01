@@ -7,91 +7,93 @@
   </app-listing-filter>
   <app-listing-search (searchFilterEventEmitted)="searchTeamMembers($event)"></app-listing-search>
 </div>
-<table class="team-member-table">
-  <thead>
-    <tr>
-      <th>
-        <div class="status-filter-container">
-          Hired
-        </div>
-      </th>
-      <th>
-        <div class="status-filter-container">
-          Name
-        </div>
-      </th>
-      <th>
-        <div class="status-filter-container">
-          Position
-        </div>
-      </th>
-      <th>
-        <div class="status-filter-container">
-          Birthday
-        </div>
-      </th>
-      <th>
-        <div class="status-filter-container">
-          Languages
-        </div>
-      </th>
-      <th style="text-align: center; padding-left: 0;">
-        Message
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let teamMember of teamMembersFiltered; trackBy: trackByTeamMember" class="active">
-      <td class="listing-body-cell">
-        <div class="team-member-information">
-          <span class="team-member-hired">
-            {{ teamMember.teamMemberHired | date: 'MM/dd/yy' }}
-          </span>
-        </div>
-      </td>
-      <td
-        class="has-link listing-body-cell"
-        [routerLink]="'/teams/' + teamMember.teamId + '/members/' + teamMember.teamMemberId"
-      >
-        <div>
-          <span class="team-member-name">
-            {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
-          </span>
-        </div>
-      </td>
-      <td class="listing-body-cell">
-        <div>
-          <span class="team-member-role">
-            {{ teamMember.teamMemberRoleLabel }}
-          </span>
-        </div>
-      </td>
-      <td class="listing-body-cell">
-        <div>
-          <span class="team-member-birthday">
-            {{
-              teamMember.teamMemberBirthday ? (teamMember.teamMemberBirthday | date: 'MM/dd/yy':'UTC') : 'Not Provided'
-            }}
-          </span>
-        </div>
-      </td>
-      <td class="listing-body-cell">
-        <div>
-          <span class="team-member-languages">
-            {{ teamMember.spanishSpeaking ? 'English, Spanish' : 'English' }}
-          </span>
-        </div>
-      </td>
-      <td class="has-link listing-body-cell">
-        <div>
-          <span class="post-it-note" (click)="postItModal(teamMember)">
-            <img class="post-it-note" src="/assets/icon-post-it@2x.png" alt="" />
-          </span>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="team-table-wrapper">
+  <table class="team-member-table">
+    <thead>
+      <tr>
+        <th>
+          <div class="status-filter-container">
+            Hired
+          </div>
+        </th>
+        <th>
+          <div class="status-filter-container">
+            Name
+          </div>
+        </th>
+        <th>
+          <div class="status-filter-container">
+            Position
+          </div>
+        </th>
+        <th>
+          <div class="status-filter-container">
+            Birthday
+          </div>
+        </th>
+        <th>
+          <div class="status-filter-container">
+            Languages
+          </div>
+        </th>
+        <th style="text-align: center; padding-left: 0;">
+          Message
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let teamMember of teamMembersFiltered; trackBy: trackByTeamMember" class="active">
+        <td class="listing-body-cell">
+          <div class="team-member-information">
+            <span class="team-member-hired">
+              {{ teamMember.teamMemberHired | date: 'MM/dd/yy' }}
+            </span>
+          </div>
+        </td>
+        <td
+          class="has-link listing-body-cell"
+          [routerLink]="'/teams/' + teamMember.teamId + '/members/' + teamMember.teamMemberId"
+        >
+          <div>
+            <span class="team-member-name">
+              {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
+            </span>
+          </div>
+        </td>
+        <td class="listing-body-cell">
+          <div>
+            <span class="team-member-role">
+              {{ teamMember.teamMemberRoleLabel }}
+            </span>
+          </div>
+        </td>
+        <td class="listing-body-cell">
+          <div>
+            <span class="team-member-birthday">
+              {{
+                teamMember.teamMemberBirthday ? (teamMember.teamMemberBirthday | date: 'MM/dd/yy':'UTC') : 'Not Provided'
+              }}
+            </span>
+          </div>
+        </td>
+        <td class="listing-body-cell">
+          <div>
+            <span class="team-member-languages">
+              {{ teamMember.spanishSpeaking ? 'English, Spanish' : 'English' }}
+            </span>
+          </div>
+        </td>
+        <td class="has-link listing-body-cell">
+          <div>
+            <span class="post-it-note" (click)="postItModal(teamMember)">
+              <img class="post-it-note" src="/assets/icon-post-it@2x.png" alt="" />
+            </span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 <jw-pagination *ngIf="teamMembersFiltered" [items]="teamMembersFiltered" (changePage)="onChangePage($event)">
 </jw-pagination>
 

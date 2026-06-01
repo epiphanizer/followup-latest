@@ -1,19 +1,33 @@
+.team-access-page-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+.team-access-page {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  column-gap: 56px;
+  padding: 72px 56px 0 72px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
 .team-sidebar {
-  max-width: 172px;
+  width: 220px;
+  min-width: 0;
   padding-bottom: 160px;
-  margin-left: 26px;
-  padding-top: 58px;
 }
 
 .team-content-wrapper.team-access-content-wrapper {
-  max-width: 980px;
-  margin-left: 92px;
-  margin-top: 8rem;
+  min-width: 0;
   padding-bottom: 160px;
+}
 
-  @media screen and (orientation: portrait) and (max-width: 1024px) {
-    margin-left: 33px;
-  }
+.team-access-content {
+  max-width: 1050px;
+  min-width: 0;
 }
 
 ion-title {
@@ -51,7 +65,7 @@ ion-title {
 }
 
 .team-access-description {
-  margin: 18px 0 20px;
+  margin: 14px 0 18px;
   max-width: 720px;
 }
 
@@ -152,24 +166,30 @@ ion-title {
 .team-access-group {
   border: 1px solid #ece8e8;
   border-radius: 18px;
-  padding: 18px 20px;
+  padding: 18px 0 0;
   background: #ffffff;
+  max-width: 1050px;
 }
 
 .team-access-group-name {
   font-family: AvenirDemi;
   font-size: 18px;
   color: #00b4b9;
-  margin-bottom: 12px;
+  margin-bottom: 0;
+  padding: 0 24px 12px;
+}
+
+.access-card-body {
+  padding: 0 24px 18px;
 }
 
 .team-access-entry {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) minmax(260px, 420px);
+  column-gap: 32px;
   align-items: center;
-  gap: 18px;
-  padding: 10px 0;
-  border-top: 1px solid #f2efef;
+  padding: 14px 0;
+  border-top: 1px solid #eeeeee;
 
   &:first-of-type {
     border-top: 0;
@@ -178,17 +198,33 @@ ion-title {
 }
 
 .team-access-entry-copy {
+  width: 100%;
+  min-width: 220px;
   min-width: 0;
 }
 
 .member-access-entry {
-  align-items: flex-start;
+  align-items: start;
 }
 
 .team-access-entry-name {
   font-family: AvenirDemi;
   font-size: 16px;
   color: #222222;
+}
+
+.operation-name {
+  min-width: 220px;
+  max-width: 320px;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+}
+
+.role-select {
+  width: 100%;
+  max-width: 420px;
 }
 
 .team-access-entry-meta {
@@ -222,30 +258,115 @@ ion-title {
   color: #ef4627;
 }
 
+.role-select-control {
+  width: 100%;
+  max-width: 420px;
+  min-height: 46px;
+  --highlight-height: 0;
+  --highlight-color-focused: transparent;
+  --highlight-color-valid: transparent;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+  border: 1px solid #d8d8d8;
+  border-radius: 24px;
+  background: #ffffff;
+  font-family: AvenirDemi;
+
+  &::part(container) {
+    border: 0;
+    box-shadow: none;
+  }
+
+  &::part(text) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    border-color: #00b8be;
+    box-shadow: 0 0 0 2px rgba(0, 184, 190, 0.15);
+  }
+}
+
+ion-item.role-select-item {
+  --inner-border-width: 0;
+  --border-width: 0;
+  --highlight-height: 0;
+  --background: transparent;
+}
+
 ion-select {
-  min-width: 180px;
+  min-width: 0;
   --padding-start: 12px;
   --padding-end: 12px;
   --padding-top: 10px;
   --padding-bottom: 10px;
-  border: 1px solid #d6d0d0;
-  border-radius: 999px;
   font-family: AvenirDemi;
+}
 
-  @media screen and (max-width: 768px) {
-    min-width: 100%;
+@media screen and (max-width: 1280px) {
+  .team-access-page {
+    grid-template-columns: 220px minmax(0, 1fr);
+    column-gap: 36px;
+    padding: 56px 32px 0 36px;
+  }
+
+  ion-title {
+    font-size: 38px;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 800px) {
+  .team-access-page {
+    grid-template-columns: 1fr;
+    row-gap: 28px;
+    padding: 40px 22px 0;
+  }
+
+  .team-sidebar {
+    width: 100%;
+    padding-bottom: 0;
+  }
+
+  .team-content-wrapper.team-access-content-wrapper {
+    padding-bottom: 88px;
+  }
+
   .team-access-header,
-  .team-access-entry,
-  .member-access-entry {
+  .member-access-entry,
+  .team-access-entry {
     flex-direction: column;
   }
 
+  .team-access-entry,
+  .member-access-entry {
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+    column-gap: 0;
+  }
+
+  .team-access-entry-copy,
+  .operation-name {
+    min-width: 0;
+    max-width: none;
+  }
+
+  .role-select,
+  .role-select-control {
+    max-width: none;
+  }
+
   .save-access-button,
-  ion-select {
+  .role-select-control {
     width: 100%;
+  }
+
+  ion-title {
+    font-size: 32px;
   }
 }

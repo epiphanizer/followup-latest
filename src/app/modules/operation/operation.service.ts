@@ -130,11 +130,21 @@ export class OperationService {
       // The response body may contain clues as to what went wrong,
       console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
     }
+    var backendError = error && error.error;
+    var backendMessage = '';
+    if (typeof backendError === 'string') {
+      backendMessage = backendError;
+    } else if (backendError && typeof backendError.message === 'string') {
+      backendMessage = backendError.message;
+    }
+
     // return an observable with a user-facing error message
     return throwError({
+      status: error.status,
       message:
         'We had trouble connecting to the operation API route. \
-    Please contact your IT department and relay this message.'
+    Please contact your IT department and relay this message.',
+      detail: backendMessage
     });
   }
 }

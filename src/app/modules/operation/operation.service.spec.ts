@@ -161,6 +161,8 @@ describe('OperationService (Jest)', () => {
       next: () => done.fail('expected error'),
       error: (err: any) => {
         expect(err.message).toContain('operation API route');
+        expect(err.detail).toBe('Cannot deactivate');
+        expect(err.status).toBe(400);
         done();
       }
     });

@@ -195,9 +195,9 @@ ion-item {
   width: min(440px, calc(100vw - 32px));
   padding: 28px 24px 24px;
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(8, 24, 33, 0.96);
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
+  border: 1px solid rgba(31, 57, 70, 0.16);
+  background: #ffffff;
+  box-shadow: 0 22px 52px rgba(14, 40, 52, 0.2);
 }
 
 .account-selection-title {
@@ -205,7 +205,7 @@ ion-item {
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.8px;
-  color: #ffffff;
+  color: #1a2d36;
   text-transform: uppercase;
 }
 
@@ -214,7 +214,7 @@ ion-item {
   font-family: Avenir, sans-serif;
   font-size: 13px;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.86);
+  color: rgba(26, 45, 54, 0.88);
 }
 
 .account-selection-options {
@@ -232,28 +232,28 @@ ion-item {
   margin: 0;
   padding: 16px 18px;
   text-align: left;
-  background: rgba(20, 54, 68, 0.96);
-  border: 1px solid rgba(159, 205, 222, 0.26);
+  background: #f7fbfc;
+  border: 1px solid rgba(34, 77, 93, 0.2);
   border-radius: 14px;
-  color: #ffffff;
+  color: #1c3540;
   line-height: 1.35;
   box-shadow: none;
 }
 
 .account-option:hover {
-  background: rgba(26, 63, 79, 0.98);
+  background: #edf6f8;
 }
 
 .account-option.selected {
-  background: linear-gradient(135deg, rgba(8, 184, 190, 0.95), rgba(7, 143, 164, 0.98));
-  border-color: rgba(240, 255, 255, 0.92);
-  box-shadow: 0 12px 30px rgba(8, 184, 190, 0.24);
+  background: linear-gradient(135deg, rgba(212, 245, 247, 0.98), rgba(192, 239, 244, 0.98));
+  border-color: rgba(8, 184, 190, 0.72);
+  box-shadow: 0 8px 18px rgba(8, 184, 190, 0.16);
 }
 
 .account-option.account-option-inactive {
-  background: rgba(66, 78, 86, 0.96);
-  border-color: rgba(255, 255, 255, 0.16);
-  color: rgba(255, 255, 255, 0.8);
+  background: #eceff1;
+  border-color: rgba(44, 55, 62, 0.2);
+  color: rgba(35, 45, 52, 0.8);
 }
 
 .account-option-name,
@@ -273,7 +273,7 @@ ion-item {
   font-family: Avenir, sans-serif;
   font-size: 12px;
   line-height: 1.45;
-  opacity: 0.95;
+  opacity: 0.9;
   word-break: break-word;
 }
 
@@ -284,10 +284,11 @@ ion-item {
   margin-top: 10px;
   padding: 0 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(28, 53, 64, 0.12);
   font-family: AvenirBold, sans-serif;
   font-size: 10px;
   letter-spacing: 0.7px;
+  color: #32464f;
   text-transform: uppercase;
 }
 

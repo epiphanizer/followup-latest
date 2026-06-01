@@ -1,11 +1,11 @@
-<ion-content>
-  <ion-row>
-    <ion-col class="team-sidebar">
+<ion-content class="teams-page-content">
+  <div class="teams-page">
+    <aside class="team-sidebar">
       <app-team-listing-sidebar (teamChangeEvent)="teamChangeEventHandler($event)"> </app-team-listing-sidebar>
-    </ion-col>
-    <ion-col class="team-content-wrapper" *ngIf="teams">
-      <ion-grid>
-        <ion-row>
+    </aside>
+    <section class="team-content-wrapper" *ngIf="teams">
+      <div class="team-content">
+        <div class="team-content-header">
           <ion-title *ngIf="selected.team">Team Members</ion-title>
           <a
             *ngIf="selected.team && user?.userLevel === userRoles.admin"
@@ -14,13 +14,11 @@
           >
             Manage Team Access
           </a>
-        </ion-row>
-        <ion-row class="team-listing-row">
-          <ion-col class="team-listing-wrapper">
-            <app-team-members-listing *ngIf="selected.team" [team]="selected.team"> </app-team-members-listing>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-col>
-  </ion-row>
+        </div>
+        <div class="team-listing-row">
+          <app-team-members-listing *ngIf="selected.team" [team]="selected.team"> </app-team-members-listing>
+        </div>
+      </div>
+    </section>
+  </div>
 </ion-content>

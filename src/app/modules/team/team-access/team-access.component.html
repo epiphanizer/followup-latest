@@ -1,127 +1,139 @@
-<ion-content>
-  <ion-row>
-    <ion-col class="team-sidebar">
+<ion-content class="team-access-page-content">
+  <div class="team-access-page">
+    <aside class="team-sidebar">
       <app-team-listing-sidebar></app-team-listing-sidebar>
-    </ion-col>
-    <ion-col class="team-content-wrapper team-access-content-wrapper">
-      <div class="team-access-header">
-        <div>
-          <ion-title>Team Access</ion-title>
-          <div class="team-access-subtitle" *ngIf="team?.teamName">{{ team.teamName }}</div>
+    </aside>
+    <section class="team-content-wrapper team-access-content-wrapper">
+      <div class="team-access-content">
+        <div class="team-access-header">
+          <div>
+            <ion-title>Team Access</ion-title>
+            <div class="team-access-subtitle" *ngIf="team?.teamName">{{ team.teamName }}</div>
+          </div>
+          <button type="button" class="save-access-button" [disabled]="currentSaveDisabled" (click)="saveActiveChanges()">
+            {{ currentSaveLabel }}
+          </button>
         </div>
-        <button type="button" class="save-access-button" [disabled]="currentSaveDisabled" (click)="saveActiveChanges()">
-          {{ currentSaveLabel }}
-        </button>
-      </div>
 
-      <div class="team-access-editor-switch">
-        <button
-          type="button"
-          class="team-access-editor-option"
-          [class.is-active]="activeEditor === 'team'"
-          (click)="setActiveEditor('team')"
-        >
-          Team Defaults
-        </button>
-        <button
-          type="button"
-          class="team-access-editor-option"
-          [class.is-active]="activeEditor === 'member'"
-          (click)="setActiveEditor('member')"
-        >
-          Member Exceptions
-        </button>
-      </div>
+        <p class="team-access-description">{{ currentDescription }}</p>
 
-      <p class="team-access-description">{{ currentDescription }}</p>
+        <div class="team-access-editor-switch">
+          <button
+            type="button"
+            class="team-access-editor-option"
+            [class.is-active]="activeEditor === 'team'"
+            (click)="setActiveEditor('team')"
+          >
+            Team Defaults
+          </button>
+          <button
+            type="button"
+            class="team-access-editor-option"
+            [class.is-active]="activeEditor === 'member'"
+            (click)="setActiveEditor('member')"
+          >
+            Member Exceptions
+          </button>
+        </div>
 
-      <div class="team-access-state team-access-error" *ngIf="loadError">{{ loadError }}</div>
-      <div class="team-access-state" *ngIf="isLoading && !loadError">Loading team access...</div>
+        <div class="team-access-state team-access-error" *ngIf="loadError">{{ loadError }}</div>
+        <div class="team-access-state" *ngIf="isLoading && !loadError">Loading team access...</div>
 
-      <div class="team-access-body" *ngIf="!isLoading && !loadError">
-        <div class="team-access-summary">{{ currentSummary }}</div>
+        <div class="team-access-body" *ngIf="!isLoading && !loadError">
+          <div class="team-access-summary">{{ currentSummary }}</div>
 
-        <ng-container *ngIf="activeEditor === 'team'">
-          <div class="team-access-groups" *ngIf="groupedEntries.length; else noOperations">
-            <div class="team-access-group" *ngFor="let group of groupedEntries">
-              <div class="team-access-group-name">{{ group.groupName }}</div>
-              <div class="team-access-entry" *ngFor="let entry of group.entries">
-                <div class="team-access-entry-copy">
-                  <div class="team-access-entry-name">{{ entry.operationName }}</div>
-                  <div class="team-access-entry-status" *ngIf="entry.operationActive === 0">Inactive</div>
-                </div>
-                <ion-select
-                  interface="popover"
-                  [ngModel]="entry.selectedRoleId"
-                  (ngModelChange)="entry.selectedRoleId = $event; onRoleChange()"
-                >
-                  <ion-select-option *ngFor="let role of roleOptions" [value]="role.value">
-                    {{ role.label }}
-                  </ion-select-option>
-                </ion-select>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="activeEditor === 'member'">
-          <div class="team-access-state" *ngIf="!teamMembers.length">No team members are available for member exceptions.</div>
-
-          <div class="member-access-toolbar" *ngIf="teamMembers.length">
-            <div class="member-access-label">Editing exceptions for</div>
-            <div class="member-access-member-list">
-              <button
-                type="button"
-                class="member-access-member-button"
-                *ngFor="let teamMember of teamMembers"
-                [class.is-active]="selectedTeamMemberId === teamMember.teamMemberId"
-                (click)="selectTeamMember(teamMember.teamMemberId)"
-              >
-                {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
-              </button>
-            </div>
-          </div>
-
-          <div class="team-access-state team-access-error" *ngIf="memberLoadError">{{ memberLoadError }}</div>
-          <div class="team-access-state" *ngIf="isMemberLoading && !memberLoadError">Loading member access...</div>
-
-          <div class="team-access-groups" *ngIf="!isMemberLoading && !memberLoadError && groupedMemberEntries.length">
-            <div class="team-access-group" *ngFor="let group of groupedMemberEntries">
-              <div class="team-access-group-name">{{ group.groupName }}</div>
-              <div class="team-access-entry member-access-entry" *ngFor="let entry of group.entries">
-                <div class="team-access-entry-copy">
-                  <div class="team-access-entry-name">{{ entry.operationName }}</div>
-                  <div class="team-access-entry-meta">
-                    <span class="team-access-meta-pill" *ngIf="entry.teamRoleLabel">Team default: {{ entry.teamRoleLabel }}</span>
-                    <span class="team-access-meta-pill" *ngIf="entry.directRoleLabel">Direct: {{ entry.directRoleLabel }}</span>
-                    <span class="team-access-meta-pill is-emphasis" *ngIf="entry.effectiveRoleLabel">
-                      Effective: {{ entry.effectiveRoleLabel }}
-                      <ng-container *ngIf="entry.effectiveAccessSourceLabel">({{ entry.effectiveAccessSourceLabel }})</ng-container>
-                    </span>
+          <ng-container *ngIf="activeEditor === 'team'">
+            <div class="team-access-groups" *ngIf="groupedEntries.length; else noOperations">
+              <div class="team-access-group access-card" *ngFor="let group of groupedEntries">
+                <div class="team-access-group-name access-card-header">{{ group.groupName }}</div>
+                <div class="access-card-body">
+                  <div class="team-access-entry access-row" *ngFor="let entry of group.entries">
+                    <div class="team-access-entry-copy">
+                      <div class="team-access-entry-name operation-name">{{ entry.operationName }}</div>
+                      <div class="team-access-entry-status" *ngIf="entry.operationActive === 0">Inactive</div>
+                    </div>
+                    <div class="role-select">
+                      <ion-select
+                        class="role-select-control"
+                        interface="popover"
+                        [ngModel]="entry.selectedRoleId"
+                        (ngModelChange)="entry.selectedRoleId = $event; onRoleChange()"
+                      >
+                        <ion-select-option *ngFor="let role of roleOptions" [value]="role.value">
+                          {{ role.label }}
+                        </ion-select-option>
+                      </ion-select>
+                    </div>
                   </div>
-                  <div class="team-access-entry-status" *ngIf="entry.operationActive === 0">Inactive</div>
                 </div>
-                <ion-select
-                  interface="popover"
-                  [ngModel]="entry.selectedState"
-                  (ngModelChange)="entry.selectedState = $event; onMemberAccessChange()"
-                >
-                  <ion-select-option *ngFor="let state of memberAccessStateOptions" [value]="state.value">
-                    {{ state.label }}
-                  </ion-select-option>
-                </ion-select>
               </div>
             </div>
-          </div>
-          <div class="team-access-state" *ngIf="!isMemberLoading && !memberLoadError && teamMembers.length && !groupedMemberEntries.length">
-            No operations are available for member exceptions.
-          </div>
-        </ng-container>
+          </ng-container>
 
-        <ng-template #noOperations>
-          <div class="team-access-state">No operations are available for assignment.</div>
-        </ng-template>
+          <ng-container *ngIf="activeEditor === 'member'">
+            <div class="team-access-state" *ngIf="!teamMembers.length">No team members are available for member exceptions.</div>
+
+            <div class="member-access-toolbar" *ngIf="teamMembers.length">
+              <div class="member-access-label">Editing exceptions for</div>
+              <div class="member-access-member-list">
+                <button
+                  type="button"
+                  class="member-access-member-button"
+                  *ngFor="let teamMember of teamMembers"
+                  [class.is-active]="selectedTeamMemberId === teamMember.teamMemberId"
+                  (click)="selectTeamMember(teamMember.teamMemberId)"
+                >
+                  {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}
+                </button>
+              </div>
+            </div>
+
+            <div class="team-access-state team-access-error" *ngIf="memberLoadError">{{ memberLoadError }}</div>
+            <div class="team-access-state" *ngIf="isMemberLoading && !memberLoadError">Loading member access...</div>
+
+            <div class="team-access-groups" *ngIf="!isMemberLoading && !memberLoadError && groupedMemberEntries.length">
+              <div class="team-access-group access-card" *ngFor="let group of groupedMemberEntries">
+                <div class="team-access-group-name access-card-header">{{ group.groupName }}</div>
+                <div class="access-card-body">
+                  <div class="team-access-entry member-access-entry access-row" *ngFor="let entry of group.entries">
+                    <div class="team-access-entry-copy">
+                      <div class="team-access-entry-name operation-name">{{ entry.operationName }}</div>
+                      <div class="team-access-entry-meta">
+                        <span class="team-access-meta-pill" *ngIf="entry.teamRoleLabel">Team default: {{ entry.teamRoleLabel }}</span>
+                        <span class="team-access-meta-pill" *ngIf="entry.directRoleLabel">Direct: {{ entry.directRoleLabel }}</span>
+                        <span class="team-access-meta-pill is-emphasis" *ngIf="entry.effectiveRoleLabel">
+                          Effective: {{ entry.effectiveRoleLabel }}
+                          <ng-container *ngIf="entry.effectiveAccessSourceLabel">({{ entry.effectiveAccessSourceLabel }})</ng-container>
+                        </span>
+                      </div>
+                      <div class="team-access-entry-status" *ngIf="entry.operationActive === 0">Inactive</div>
+                    </div>
+                    <div class="role-select">
+                      <ion-select
+                        class="role-select-control"
+                        interface="popover"
+                        [ngModel]="entry.selectedState"
+                        (ngModelChange)="entry.selectedState = $event; onMemberAccessChange()"
+                      >
+                        <ion-select-option *ngFor="let state of memberAccessStateOptions" [value]="state.value">
+                          {{ state.label }}
+                        </ion-select-option>
+                      </ion-select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="team-access-state" *ngIf="!isMemberLoading && !memberLoadError && teamMembers.length && !groupedMemberEntries.length">
+              No operations are available for member exceptions.
+            </div>
+          </ng-container>
+
+          <ng-template #noOperations>
+            <div class="team-access-state">No operations are available for assignment.</div>
+          </ng-template>
+        </div>
       </div>
-    </ion-col>
-  </ion-row>
+    </section>
+  </div>
 </ion-content>
