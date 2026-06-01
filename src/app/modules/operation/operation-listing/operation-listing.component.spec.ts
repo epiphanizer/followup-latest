@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { OperationListingComponent } from './operation-listing.component';
 import { OperationService } from '../operation.service';
@@ -148,5 +148,49 @@ describe('OperationListingComponent (Jest)', () => {
     expect(operationServiceStub.getAllOperationGroups).toHaveBeenCalled();
     expect(operationServiceStub.getOperationsByOperationGroupId).toHaveBeenCalled();
     expect(localComponent.selected.operationGroup.operations.length).toBe(1);
+  });
+
+  it('keeps hydrated operations when route emits same client group again', () => {
+    const paramMap$ = new BehaviorSubject({ params: { operationGroupId: 'og1' } } as any);
+    const operationServiceStub = {
+      getAllOperationGroups: jest.fn().mockReturnValue(
+        of([
+          {
+            operationGroupId: 'og1',
+            operationGroupName: 'Client One',
+            operationGroupShortName: 'CO',
+            operationGroupActive: 1,
+            operations: []
+          }
+        ])
+      ),
+      getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([])),
+      getOperationsByOperationGroupId: jest.fn().mockReturnValue(
+        of([
+          {
+            operationId: 'op1',
+            operationGroupId: 'og1',
+            operationName: 'Facility 1'
+          }
+        ])
+      )
+    };
+    const route = {
+      snapshot: { data: { user: userStub, section: 'clients', title: 'Clients' } },
+      paramMap: paramMap$.asObservable()
+    } as any;
+    const localComponent = new OperationListingComponent(
+      { detectChanges: jest.fn() } as any,
+      route,
+      operationServiceStub as any
+    );
+
+    localComponent.ngOnInit();
+    expect(localComponent.selected.operationGroup.operations.length).toBe(1);
+
+    paramMap$.next({ params: { operationGroupId: 'og1' } } as any);
+
+    expect(localComponent.selected.operationGroup.operations.length).toBe(1);
+    expect(operationServiceStub.getOperationsByOperationGroupId).toHaveBeenCalledTimes(1);
   });
 });

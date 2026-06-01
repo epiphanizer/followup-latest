@@ -82,23 +82,59 @@
           </ion-item>
         </ion-list>
         <ion-list lines="none" inset class="checkbox-list-container">
-          <div class="checkbox-section" formGroupName="userInterests">
-            <ion-label class="main-label-box" color="medium" position="stacked">
+          <div class="checkbox-section checkbox-question" formGroupName="userInterests">
+            <ion-label class="main-label-box checkbox-question-title" color="medium" position="stacked">
               Do any of the following apply to you?
             </ion-label>
-            <div class="checkboxes followup-form-choice-grid">
-              <ion-checkbox class="followup-form-choice" formControlName="celebrity" labelPlacement="end" alignment="start" justify="start">Met your favorite celebrity</ion-checkbox>
-              <ion-checkbox class="followup-form-choice" formControlName="helicopter" labelPlacement="end" alignment="start" justify="start">Flown in a helicopter</ion-checkbox>
-              <ion-checkbox class="followup-form-choice" formControlName="kidney" labelPlacement="end" alignment="start" justify="start">Donated a kidney</ion-checkbox>
-              <ion-checkbox class="followup-form-choice" formControlName="skydivedOrBungeed" labelPlacement="end" alignment="start" justify="start">Skydived or bungee jumped</ion-checkbox>
-              <ion-checkbox class="followup-form-choice" formControlName="appearedOnTv" labelPlacement="end" alignment="start" justify="start">Appeared on TV</ion-checkbox>
-              <ion-checkbox class="followup-form-choice" formControlName="janeAusten" labelPlacement="end" alignment="start" justify="start">Read Pride &amp; Prejudice</ion-checkbox>
-              <ion-checkbox class="followup-form-choice" formControlName="escargo" labelPlacement="end" alignment="start" justify="start">Eaten Escargo</ion-checkbox>
-              <ion-checkbox class="followup-form-choice" formControlName="deployed" labelPlacement="end" alignment="start" justify="start">Been deployed</ion-checkbox>
-              <ion-checkbox class="followup-form-choice" formControlName="instrument" labelPlacement="end" alignment="start" justify="start">Played an instrument</ion-checkbox>
-              <ion-checkbox class="followup-form-choice" formControlName="seenTornado" labelPlacement="end" alignment="start" justify="start">Seen a tornado</ion-checkbox>
-              <ion-checkbox class="followup-form-choice" formControlName="hitchhiked" labelPlacement="end" alignment="start" justify="start">Hitchhiked</ion-checkbox>
-              <ion-checkbox class="followup-form-choice" formControlName="DND" labelPlacement="end" alignment="start" justify="start">Played Dungeons &amp; Dragons</ion-checkbox>
+            <div class="checkbox-grid" role="group" aria-label="User interests checklist">
+              <label class="checkbox-option">
+                <input type="checkbox" formControlName="celebrity" />
+                <span>Met your favorite celebrity</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" formControlName="helicopter" />
+                <span>Flown in a helicopter</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" formControlName="kidney" />
+                <span>Donated a kidney</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" formControlName="skydivedOrBungeed" />
+                <span>Skydived or bungee jumped</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" formControlName="appearedOnTv" />
+                <span>Appeared on TV</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" formControlName="janeAusten" />
+                <span>Read Pride &amp; Prejudice</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" formControlName="escargo" />
+                <span>Eaten Escargo</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" formControlName="deployed" />
+                <span>Been deployed</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" formControlName="instrument" />
+                <span>Played an instrument</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" formControlName="seenTornado" />
+                <span>Seen a tornado</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" formControlName="hitchhiked" />
+                <span>Hitchhiked</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" formControlName="DND" />
+                <span>Played Dungeons &amp; Dragons</span>
+              </label>
             </div>
           </div>
         </ion-list>

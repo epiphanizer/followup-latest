@@ -29,6 +29,7 @@ export class OperationListingComponent implements OnInit {
         operation$: Observable<Operation>;
       }
     | any = {};
+  private lastHydratedOperationGroupId: string | null = null;
   user: User;
   constructor(
     private _cdr: ChangeDetectorRef,
@@ -73,12 +74,17 @@ export class OperationListingComponent implements OnInit {
       return;
     }
 
+    if (this.clientMode && this.lastHydratedOperationGroupId === operationGroupId) {
+      return;
+    }
+
     const operationRequest$ = this.clientMode
       ? this.operationService.getOperationsByOperationGroupId({ operationGroupId } as OperationGroup)
       : this.operationService.getActiveOperationsByOperationGroupId({ operationGroupId } as OperationGroup, this.user);
 
     operationRequest$.subscribe((operations: Operation[]) => {
         const safeOperations = Array.isArray(operations) ? operations : [];
+        this.lastHydratedOperationGroupId = operationGroupId;
         this.selected.operationGroup = {
           operationGroupId,
           operationGroupName: this.selected.operationGroup?.operationGroupName || '',
@@ -107,6 +113,27 @@ export class OperationListingComponent implements OnInit {
         (operationGroup: OperationGroup) => operationGroup.operationGroupId == operationGroupId
       ) || null
     );
+  }
+
+  private preserveSelectedGroupOperations(nextOperationGroup: OperationGroup | null): OperationGroup | null {
+    if (!nextOperationGroup) {
+      return null;
+    }
+
+    const previousSelection = this.selected?.operationGroup;
+    const previousOperations =
+      previousSelection &&
+      previousSelection.operationGroupId == nextOperationGroup.operationGroupId &&
+      Array.isArray(previousSelection.operations)
+        ? previousSelection.operations
+        : [];
+
+    const fallbackOperations = Array.isArray(nextOperationGroup.operations) ? nextOperationGroup.operations : [];
+
+    return {
+      ...nextOperationGroup,
+      operations: previousOperations.length ? previousOperations : fallbackOperations
+    };
   }
 
   private loadClientOperationGroups(done?: () => void) {
@@ -157,9 +184,12 @@ export class OperationListingComponent implements OnInit {
 
       const applySelection = () => {
         if (operationGroupId) {
-          this.selected.operationGroup = this.findOperationGroupById(operationGroupId);
+          this.selected.operationGroup = this.preserveSelectedGroupOperations(
+            this.findOperationGroupById(operationGroupId)
+          );
 
           if (!this.selected.operationGroup) {
+            this.lastHydratedOperationGroupId = null;
             this.selected.operationGroup = {
               operationGroupId,
               operationGroupName: '',
@@ -169,11 +199,17 @@ export class OperationListingComponent implements OnInit {
             };
           }
 
-          if (this.clientMode || !Array.isArray(this.selected.operationGroup.operations) || !this.selected.operationGroup.operations.length) {
+          if (
+            this.clientMode ||
+            !Array.isArray(this.selected.operationGroup.operations) ||
+            !this.selected.operationGroup.operations.length
+          ) {
             this.hydrateSelectedGroupById(operationGroupId);
           }
         } else {
-          this.selected.operationGroup = this.operationGroups.length ? this.operationGroups[0] : null;
+          this.selected.operationGroup = this.preserveSelectedGroupOperations(
+            this.operationGroups.length ? this.operationGroups[0] : null
+          );
 
           if (this.clientMode && this.selected.operationGroup?.operationGroupId) {
             this.hydrateSelectedGroupById(this.selected.operationGroup.operationGroupId);
@@ -192,7 +228,8 @@ export class OperationListingComponent implements OnInit {
   }
 
   operationGroupChangeEventHandler(operationGroupId: string) {
-    this.selected.operationGroup = this.findOperationGroupById(operationGroupId);
+    this.lastHydratedOperationGroupId = null;
+    this.selected.operationGroup = this.preserveSelectedGroupOperations(this.findOperationGroupById(operationGroupId));
 
     if (!this.selected.operationGroup) {
       this.selected.operationGroup = {

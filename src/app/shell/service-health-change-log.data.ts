@@ -23,6 +23,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'User Profile edit checklist now uses a structured two-column grid with tighter checkbox-label spacing and consistent row/column alignment.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after refactoring the userInterests question layout in user-profile.component to use a real checkbox grid with compact checkbox+label option units, standardized checkbox-to-label spacing (~22px), controlled column gap (~72px), and shared row rhythm instead of ad-hoc spacing offsets. Validation used focused Jest on user-profile.component.spec.ts (7/7 passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Client detail now keeps linked facilities visible without blinking/disappearing when selecting the same client group repeatedly.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating operation-listing and operation-operation-listing components so hydrated selected.operationGroup.operations are preserved across repeated route param emissions and sidebar reselection of the same group id. Client mode now avoids redundant re-hydration resets for the same group and the table initializes from hydrated input operations before fallback filtering. Validation used focused Jest on operation listing/table components (11/11 passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Operation add/edit now supports lookahead search for Ownership group selection, making large client-group lists filterable in the form dialog area.',
         evidence:
           'Recorded in the snapshot frontend running change log after replacing the operation ownership ion-select with a typeahead input/list in operation-form.component and wiring reactive-form selection updates for operationGroupId. Search now matches both operationGroupName and operationGroupShortName with inline results in New Operation and Edit Operation. Validation used focused Jest on operation-form.component.spec.ts including lookahead filter/select coverage.',
