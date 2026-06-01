@@ -21,6 +21,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'Frontend',
+        summary:
+          'Team Member detail styling regression was corrected by restoring a coherent profile-grid stylesheet and component structure, bringing back Follow-up visual treatment.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after repairing src/app/modules/team/team-detail/team-detail.component.scss and .html to remove a broken mixed-style state that caused default/raw rendering. The member page now renders as a stable two-column profile layout with styled action row, greeting/name hierarchy, and full ACCESS chip/list treatment; source detail text was also normalized in team-detail.component.ts to avoid duplicated role/source copy.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Team Member detail now uses a unified profile grid with anchored action row and full-width Access alignment instead of floating blocks.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating src/app/modules/team/team-detail/team-detail.component.html and .scss so the page title aligns with the content container, avatar/member content uses a stable two-column grid, profile actions are grouped in a dedicated right-aligned header row, and the ACCESS section uses consistent width and row-grid alignment for operation name/detail, source, and role chips.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'API',
         summary:
           'Clients all-groups endpoint now performs proc/column capability detection before querying, removing expected fallback failures from DB perf logs on mixed schemas.',

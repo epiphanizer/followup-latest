@@ -328,20 +328,27 @@ export class TeamMemberDetailComponent implements OnInit {
   }
 
   private resolveAccessSourceDetail(operation: Operation | any): string {
-    const details: string[] = [];
+    const sourceLabel = this.resolveAccessSourceLabel(operation).toLowerCase();
+    const hasDirect = !!this.normalizeRoleLabel(operation?.directOperationUserRoleLabel || '');
+    const hasInherited = !!this.normalizeRoleLabel(operation?.inheritedOperationUserRoleLabel || '');
 
-    const directRoleLabel = this.normalizeRoleLabel(operation?.directOperationUserRoleLabel || '');
-    const inheritedRoleLabel = this.normalizeRoleLabel(operation?.inheritedOperationUserRoleLabel || '');
-
-    if (directRoleLabel) {
-      details.push('Direct: ' + directRoleLabel);
+    if (sourceLabel.includes('direct') && sourceLabel.includes('inherited')) {
+      return 'Direct and team assignment';
     }
 
-    if (inheritedRoleLabel) {
-      details.push('Team: ' + inheritedRoleLabel);
+    if (sourceLabel.includes('exception')) {
+      return 'Member exception assignment';
     }
 
-    return details.join(' • ');
+    if (sourceLabel.includes('inherited') || (!hasDirect && hasInherited)) {
+      return 'Inherited from team defaults';
+    }
+
+    if (sourceLabel.includes('direct') || hasDirect) {
+      return 'Direct assignment';
+    }
+
+    return '';
   }
 
   loginAsUser() {

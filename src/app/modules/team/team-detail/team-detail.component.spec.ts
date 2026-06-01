@@ -76,7 +76,7 @@ describe('TeamMemberDetailComponent (Jest)', () => {
     expect(component.teamMember?.teamMemberId).toBe('m1');
     expect(component.user?.userInterests[0].nicename).toContain('Met favorite celebrity');
     expect(component.accessGroups[0].entries[0].sourceLabel).toBe('Inherited');
-    expect(component.accessGroups[0].entries[0].sourceDetail).toContain('Team: Manager');
+    expect(component.accessGroups[0].entries[0].sourceDetail).toBe('Inherited from team defaults');
     expect(component.accessSummary.total).toBe(1);
     expect(component.accessSummary.inherited).toBe(1);
     expect(component.accessSummary.direct).toBe(0);

@@ -6,49 +6,90 @@
 }
 
 .team-content-wrapper {
-  max-width: 966px;
+  max-width: 1100px;
   margin-left: 92px;
-  margin-top: 8rem;
-  @media screen and (orientation: portrait) and (max-width: 1024px) {
+  margin-top: 5.5rem;
+
+  @media screen and (max-width: 1024px) {
     margin-left: 33px;
+    margin-right: 24px;
+    margin-top: 3.5rem;
   }
 
-  ion-title {
+  @media screen and (max-width: 768px) {
+    margin-left: 18px;
+    margin-right: 18px;
+    margin-top: 2.5rem;
+  }
+
+  .member-page-title {
     font-family: AvenirPro;
     font-size: 45px;
     font-style: normal;
     line-height: 1.11;
     letter-spacing: 0.45px;
-    text-align: left;
     color: #3f3638;
     padding-left: 0;
-    margin-bottom: 2rem;
+    margin-bottom: 2.9rem;
   }
 
-  .team-member-avatar {
-    float: left;
-    clear: both;
-    width: 230px;
-    height: auto;
+  .member-detail-layout {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    column-gap: 72px;
+    align-items: start;
 
-    @media screen and (orientation: portrait) and (max-width: 1024px) {
-      width: 180px;
+    @media screen and (max-width: 1024px) {
+      grid-template-columns: 280px minmax(0, 1fr);
+      column-gap: 36px;
     }
+
+    @media screen and (max-width: 768px) {
+      grid-template-columns: 1fr;
+      row-gap: 24px;
+    }
+  }
+
+  .avatar-card {
+    width: 300px;
     min-height: 302px;
-    border: 10px solid white;
+    border: 10px solid #ffffff;
+
+    @media screen and (max-width: 1024px) {
+      width: 260px;
+    }
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    app-user-avatar {
+      display: block;
+      max-width: 300px;
+      width: 100%;
+    }
+
+    .team-member-info-details {
+      margin-top: 10px;
+    }
 
     i.icon-info {
       display: inline-block;
       vertical-align: middle;
       width: 20px;
       height: 20px;
-      background-image: url("/assets/icon-info@2x.png");
+      background-image: url('/assets/icon-info@2x.png');
       background-repeat: no-repeat;
       background-size: 100%;
     }
 
     span {
       margin-left: 8px;
+      font-family: AvenirDemi;
+      font-size: 15px;
+      line-height: 1.87;
+      color: #222222;
 
       &:nth-child(1) {
         margin-left: 28px;
@@ -58,146 +99,55 @@
         text-decoration: none;
         color: #222222;
       }
-
-      font-family: AvenirDemi;
-      font-size: 15px;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.87;
-      letter-spacing: normal;
-      text-align: left;
-      color: #222222;
     }
   }
 
-  .team-member-info-container {
-    float: left;
-    max-width: 662px;
-    margin-left: 62px;
-    @media screen and (max-width: 1024px) and (orientation: portrait) {
-      margin-left: 31px;
-    }
-    margin-top: 10px;
-    width: calc(100% - 320px);
+  .member-main {
+    width: 100%;
+    min-width: 0;
+    max-width: 780px;
   }
 
-  .user-info-container {
+  .profile-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 32px;
+
+    @media screen and (max-width: 1024px) {
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+
+  .member-identity {
+    min-width: 0;
+  }
+
+  .team-member-role {
+    display: block;
     font-family: AvenirDemi;
     font-size: 15px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.87;
-    letter-spacing: normal;
-    text-align: left;
-    color: #222222;
+    line-height: 1.47;
+    letter-spacing: 0.15px;
+    color: #8e8e93;
+    margin-bottom: 10px;
   }
 
-  .team-member-info {
-    float: left;
-    width: 100%;
-    max-width: 662px;
+  .greeting {
+    margin-bottom: 12px;
 
-    .team-member-details-container {
-      width: 100%;
+    span {
+      font-family: AvenirDemi;
+      font-size: 20px;
+      line-height: 0.9;
 
-      span.team-member-role {
-        float: left;
-        font-family: AvenirDemi;
-        font-size: 15px;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.47;
-        letter-spacing: 0.15px;
-        text-align: left;
-        color: #8e8e93;
-        margin-bottom: 0.5rem;
+      &.english {
+        color: #9acc38;
       }
 
-      .greeting {
-        clear: left;
-        display: block;
-        width: 100%;
-        height: auto;
-        margin-bottom: 1.25rem;
-
-        span {
-          font-family: AvenirDemi;
-          font-size: 20px;
-          font-weight: normal;
-          font-stretch: normal;
-          font-style: normal;
-          line-height: 0.9;
-          letter-spacing: normal;
-          text-align: left;
-
-          &.english {
-            color: #9acc38;
-          }
-
-          &.spanish {
-            color: #ef4627;
-          }
-        }
-      }
-
-      .post-it-note {
-        cursor: pointer;
-        float: right;
-        font-family: AvenirDemi;
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 0.86;
-        letter-spacing: 0.15px;
-        text-align: left;
-        color: #00b8be;
-      }
-
-      .impersonate-user {
-        cursor: pointer;
-        float: right;
-        margin-right: 18px;
-        font-family: AvenirDemi;
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 0.86;
-        letter-spacing: 0.15px;
-        text-align: left;
+      &.spanish {
         color: #ef4627;
-
-        a {
-          color: #ef4627;
-          text-decoration: none;
-        }
-      }
-
-      .manage-team-access-link {
-        float: right;
-        margin-right: 18px;
-        font-family: AvenirDemi;
-        font-size: 15px;
-        line-height: 0.86;
-        letter-spacing: 0.15px;
-
-        a {
-          color: #00b8be;
-          text-decoration: none;
-        }
-      }
-
-      i.post-it {
-        display: inline-block;
-        vertical-align: bottom;
-        width: 20px;
-        height: 20px;
-        background-image: url("/assets/icon-post-it@2x.png");
-        background-repeat: no-repeat;
-        background-size: 100%;
       }
     }
   }
@@ -205,74 +155,123 @@
   .user-name {
     font-family: AvenirPro;
     font-size: 40px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1;
     letter-spacing: 0.8px;
-    text-align: left;
     color: #222222;
+    margin: 0;
+  }
+
+  .profile-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 28px;
+    white-space: nowrap;
+
+    @media screen and (max-width: 1024px) {
+      justify-content: flex-start;
+      gap: 14px;
+      white-space: normal;
+    }
+  }
+
+  .profile-action {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+    font-family: AvenirDemi;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0.15px;
+    color: #00b8be;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    &.is-critical {
+      color: #ef4627;
+    }
+  }
+
+  i.post-it {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('/assets/icon-post-it@2x.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
   }
 
   .additional-details {
-    span {
+    margin-top: 18px;
+
+    > span {
       display: block;
       width: 100%;
       padding-top: 6px;
       padding-bottom: 6px;
       font-family: Avenir;
       color: #222222;
-      &.leader {
+
+      .leader {
         font-family: AvenirDemi;
       }
+    }
+  }
+
+  .user-information {
+    margin-top: 10px;
+    font-family: Avenir;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #222222;
+
+    p {
+      margin-top: 0;
     }
   }
 
   h3.about-me {
     font-family: AvenirDemi;
     font-size: 20px;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.05;
     letter-spacing: 1.2px;
-    text-align: left;
     color: #00b4b9;
     margin-bottom: 0;
   }
 
-  .user-access {
-    margin-top: 12px;
+  .user-interests {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
+
+  .member-access {
+    margin-top: 56px;
+    width: 100%;
+    max-width: 720px;
   }
 
   .access-title {
     font-family: AvenirDemi;
     font-size: 20px;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.05;
     letter-spacing: 1.2px;
-    text-align: left;
     color: #00b4b9;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
-  .access-groups {
-    display: block;
-    width: 100%;
-  }
-
+  .access-summary-chips,
   .access-filters {
     display: flex;
+    align-items: center;
+    gap: 10px;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-
-  .access-summary-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 10px;
+    width: 100%;
+    margin-bottom: 12px;
   }
 
   .access-summary-chip {
@@ -289,7 +288,7 @@
   .access-filter {
     border: 1px solid #d6d0d0;
     border-radius: 999px;
-    padding: 4px 12px;
+    padding: 5px 12px;
     background: #ffffff;
     font-family: AvenirDemi;
     font-size: 12px;
@@ -303,15 +302,14 @@
     color: #007c80;
   }
 
-  .access-filter-clear {
-    border-color: #b5b0b0;
-    color: #6b6b6b;
+  .access-groups {
+    width: 100%;
   }
 
   .access-group {
+    width: 100%;
     border-top: 1px solid #e6e3e3;
-    padding: 8px 0 10px;
-    background: transparent;
+    padding: 10px 0 12px;
   }
 
   .access-group-name {
@@ -320,27 +318,29 @@
     letter-spacing: 0.6px;
     text-transform: uppercase;
     color: #8e8e93;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
   .access-list {
     list-style-type: none;
     padding-left: 0;
     margin: 0;
+  }
 
-    li {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 8px;
-      margin: 4px 0;
-      padding: 4px 10px;
-      border-radius: 18px;
-      background: #f3f2f1;
+  .access-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    column-gap: 12px;
+    margin: 6px 0;
+    padding: 10px 14px;
+    border-radius: 24px;
+    background: #f3f3f3;
 
-      @media screen and (max-width: 768px) {
-        flex-direction: column;
-      }
+    @media screen and (max-width: 768px) {
+      grid-template-columns: 1fr;
+      row-gap: 8px;
+      border-radius: 14px;
     }
   }
 
@@ -350,47 +350,10 @@
     min-width: 0;
   }
 
-  .access-pills {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 6px;
-    margin-left: auto;
-
-    @media screen and (max-width: 768px) {
-      margin-left: 0;
-      justify-content: flex-start;
-    }
-  }
-
-  .access-role {
-    font-family: AvenirDemi;
-    font-size: 12px;
-    color: #3f3638;
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: center;
-    border-radius: 999px;
-    background: #ffffff;
-    padding: 4px 10px;
-  }
-
   .access-operation {
-    font-family: Avenir;
-    font-size: 13px;
-    color: #222222;
-  }
-
-  .access-source {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 999px;
-    background: #e3f7f8;
-    color: #007c80;
     font-family: AvenirDemi;
-    font-size: 12px;
-    padding: 4px 10px;
-    white-space: nowrap;
+    font-size: 14px;
+    color: #222222;
   }
 
   .access-source-detail {
@@ -400,28 +363,26 @@
     margin-top: 2px;
   }
 
-  .user-information {
-    margin-top: 0;
-
-    p {
-      margin-top: 0;
-    }
-
-    font-family: Avenir;
-    font-size: 15px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.6;
-    letter-spacing: normal;
-    text-align: left;
-    color: #222222;
+  .access-source,
+  .access-role {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    font-family: AvenirDemi;
+    font-size: 12px;
+    padding: 4px 10px;
+    white-space: nowrap;
   }
 
-  .user-interests {
-    list-style-type: none;
-    padding-left: 0;
-    margin-left: 0;
+  .access-source {
+    background: #e3f7f8;
+    color: #007c80;
+  }
+
+  .access-role {
+    background: #ffffff;
+    color: #3f3638;
   }
 }
 
@@ -430,11 +391,8 @@
   display: block;
   font-family: AvenirBold;
   font-size: 20px;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.05;
   letter-spacing: 1.2px;
-  text-align: left;
   color: #00b4b9;
   text-transform: uppercase;
 }

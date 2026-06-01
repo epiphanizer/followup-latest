@@ -4,116 +4,124 @@
       <app-team-listing-sidebar> </app-team-listing-sidebar>
     </ion-col>
     <ion-col class="team-content-wrapper">
-      <ion-title class="ion-float-left">
+      <ion-title class="member-page-title">
         Team Members
       </ion-title>
 
-      <div class="team-member-avatar">
-        <app-user-avatar *ngIf="user" [user]="user"></app-user-avatar>
-        <div class="team-member-info-details" *ngIf="teamMember?.teamMemberEmail || teamMember?.teamMemberPhoneNumber">
-          <i class="icon-info"></i>
-          <span class="team-member-email" *ngIf="teamMember?.teamMemberEmail">
-            <a href="mailto:{{ teamMember.teamMemberEmail }}">{{ teamMember.teamMemberEmail }}</a>
-          </span>
-          <span class="team-member-phone" *ngIf="teamMember?.teamMemberPhoneNumber">
-            <a href="tel:{{ teamMember.teamMemberPhoneNumber }}">{{ teamMember.teamMemberPhoneNumber }}</a>
-          </span>
+      <div class="member-detail-layout" *ngIf="teamMember">
+        <div class="avatar-card">
+          <app-user-avatar *ngIf="user" [user]="user"></app-user-avatar>
+          <div class="team-member-info-details" *ngIf="teamMember?.teamMemberEmail || teamMember?.teamMemberPhoneNumber">
+            <i class="icon-info"></i>
+            <span class="team-member-email" *ngIf="teamMember?.teamMemberEmail">
+              <a href="mailto:{{ teamMember.teamMemberEmail }}">{{ teamMember.teamMemberEmail }}</a>
+            </span>
+            <span class="team-member-phone" *ngIf="teamMember?.teamMemberPhoneNumber">
+              <a href="tel:{{ teamMember.teamMemberPhoneNumber }}">{{ teamMember.teamMemberPhoneNumber }}</a>
+            </span>
+          </div>
         </div>
-      </div>
 
-      <div class="team-member-info-container">
-        <div class="team-member-info" *ngIf="teamMember">
-          <div class="team-member-details-container">
-            <span class="team-member-role">
-              {{ teamMember.teamMemberRoleLabel }}
-            </span>
-            <span (click)="postNote(teamMember)" class="post-it-note"><i class="post-it"></i> <a>Post a note</a></span>
-            <span *ngIf="canImpersonate" (click)="loginAsUser()" class="impersonate-user">
-              <a>Login as user</a>
-            </span>
-            <span *ngIf="currentUser?.userLevel === userRoles.admin" class="manage-team-access-link">
-              <a [routerLink]="'/teams/' + teamId + '/access'">Manage team access</a>
-            </span>
-            <span *ngIf="currentUser?.userLevel === userRoles.admin" class="manage-team-access-link">
-              <a [routerLink]="'/teams/' + teamId + '/access'" [queryParams]="{ editor: 'member', memberId: teamMemberId }">
+        <div class="member-main">
+          <div class="profile-info-header">
+            <div class="member-identity">
+              <span class="team-member-role">
+                {{ teamMember.teamMemberRoleLabel }}
+              </span>
+              <div class="greeting">
+                <span class="english" *ngIf="!teamMember.spanishSpeaking; else spanish">
+                  Hello my name is...
+                </span>
+                <ng-template #spanish>
+                  <span class="spanish">Hola! Mi nombre es...</span>
+                </ng-template>
+              </div>
+              <h2 class="user-name">
+                {{ teamMember.teamMemberFirstName }}
+                {{ teamMember.teamMemberLastName }}
+              </h2>
+            </div>
+
+            <div class="profile-actions">
+              <a
+                *ngIf="currentUser?.userLevel === userRoles.admin"
+                class="profile-action"
+                [routerLink]="'/teams/' + teamId + '/access'"
+                [queryParams]="{ editor: 'member', memberId: teamMemberId }"
+              >
                 Edit member exceptions
               </a>
-            </span>
-            <div class="greeting">
-              <span class="english" *ngIf="!teamMember.spanishSpeaking; else spanish">
-                Hello my name is...
-              </span>
-              <ng-template #spanish>
-                <span class="spanish">Hola! Mi nombre es...</span>
-              </ng-template>
+              <a
+                *ngIf="currentUser?.userLevel === userRoles.admin"
+                class="profile-action"
+                [routerLink]="'/teams/' + teamId + '/access'"
+              >
+                Manage team access
+              </a>
+              <button *ngIf="canImpersonate" type="button" (click)="loginAsUser()" class="profile-action is-critical">
+                Login as user
+              </button>
+              <button type="button" (click)="postNote(teamMember)" class="profile-action">
+                <i class="post-it"></i>
+                <span>Post a note</span>
+              </button>
             </div>
           </div>
-          <div class="team-member-details">
-            <h2 class="user-name">
-              {{ teamMember.teamMemberFirstName }}
-              {{ teamMember.teamMemberLastName }}
-            </h2>
-            <div class="additional-details" *ngIf="user">
-              <span class="team-member-birthday">
-                <span class="leader">Birthday: </span
-                >{{ user.userDob ? (user.userDob | date: 'mm/dd/yy') : 'Not Provided' }}
-              </span>
-              <span class="team-member-dessert">
-                <span class="leader">Favorite Dessert: </span
-                >{{ user.userFavoriteDessert ? user.userFavoriteDessert : 'Not Provided' }}
-              </span>
-              <div class="user-information">
-                <h3 class="about-me" *ngIf="additionalInfoDecoded || user.userInterests">ABOUT ME</h3>
-                <p class="additional-info" [innerHTML]="additionalInfoDecoded"></p>
-                <ul class="user-interests" *ngIf="user">
-                  <li *ngFor="let interest of user.userInterests | keyvalue">
-                    {{ interest.value.value ? '' : interest.value.nicename }}
+
+          <div class="additional-details" *ngIf="user">
+            <span class="team-member-birthday">
+              <span class="leader">Birthday: </span>{{ user.userDob ? (user.userDob | date: 'mm/dd/yy') : 'Not Provided' }}
+            </span>
+            <span class="team-member-dessert">
+              <span class="leader">Favorite Dessert: </span>{{ user.userFavoriteDessert ? user.userFavoriteDessert : 'Not Provided' }}
+            </span>
+            <div class="user-information">
+              <h3 class="about-me" *ngIf="additionalInfoDecoded || user.userInterests">ABOUT ME</h3>
+              <p class="additional-info" [innerHTML]="additionalInfoDecoded"></p>
+              <ul class="user-interests" *ngIf="user">
+                <li *ngFor="let interest of user.userInterests | keyvalue">
+                  {{ interest.value.value ? '' : interest.value.nicename }}
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <section class="member-access" *ngIf="accessGroups?.length">
+            <h3 class="access-title">ACCESS</h3>
+            <div class="access-summary-chips">
+              <span class="access-summary-chip">{{ accessSummary.total }} Total</span>
+              <span class="access-summary-chip">{{ accessSummary.inherited }} Inherited</span>
+              <span class="access-summary-chip">{{ accessSummary.direct }} Direct</span>
+              <span class="access-summary-chip">{{ accessSummary.manager }} Manager</span>
+              <span class="access-summary-chip">{{ accessSummary.careRep }} Care Rep</span>
+            </div>
+            <div class="access-filters">
+              <button
+                class="access-filter"
+                *ngFor="let role of accessFilterOptions"
+                type="button"
+                [class.is-active]="activeAccessFilter === role"
+                (click)="setAccessFilter(role)"
+              >
+                {{ role }}
+              </button>
+            </div>
+            <div class="access-groups" *ngIf="filteredAccessGroups?.length">
+              <div class="access-group" *ngFor="let group of filteredAccessGroups">
+                <div class="access-group-name">{{ group.groupName }}</div>
+                <ul class="access-list">
+                  <li class="access-row" *ngFor="let access of group.entries">
+                    <div class="access-copy">
+                      <span class="access-operation">{{ access.operationName }}</span>
+                      <span class="access-source-detail" *ngIf="access.sourceDetail">{{ access.sourceDetail }}</span>
+                    </div>
+                    <span class="access-source">{{ access.sourceLabel }}</span>
+                    <span class="access-role">{{ access.roleLabel }}</span>
                   </li>
                 </ul>
               </div>
             </div>
-
-            <ion-row>
-              <div class="user-access" *ngIf="accessGroups?.length">
-                <h3 class="access-title">ACCESS</h3>
-                <div class="access-summary-chips">
-                  <span class="access-summary-chip">{{ accessSummary.total }} Total</span>
-                  <span class="access-summary-chip">{{ accessSummary.inherited }} Inherited</span>
-                  <span class="access-summary-chip">{{ accessSummary.direct }} Direct</span>
-                  <span class="access-summary-chip">{{ accessSummary.manager }} Manager</span>
-                  <span class="access-summary-chip">{{ accessSummary.careRep }} Care Rep</span>
-                </div>
-                <div class="access-filters">
-                  <button
-                    class="access-filter"
-                    *ngFor="let role of accessFilterOptions"
-                    type="button"
-                    [class.is-active]="activeAccessFilter === role"
-                    (click)="setAccessFilter(role)"
-                  >
-                    {{ role }}
-                  </button>
-                </div>
-                <div class="access-groups" *ngIf="filteredAccessGroups?.length">
-                  <div class="access-group" *ngFor="let group of filteredAccessGroups">
-                    <div class="access-group-name">{{ group.groupName }}</div>
-                    <ul class="access-list">
-                      <li *ngFor="let access of group.entries">
-                        <div class="access-copy">
-                          <span class="access-operation">{{ access.operationName }}</span>
-                          <span class="access-source-detail" *ngIf="access.sourceDetail">{{ access.sourceDetail }}</span>
-                        </div>
-                        <div class="access-pills">
-                          <span class="access-source">{{ access.sourceLabel }}</span>
-                          <span class="access-role">{{ access.roleLabel }}</span>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </ion-row>
-          </div>
+          </section>
         </div>
       </div>
     </ion-col>
