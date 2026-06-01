@@ -23,6 +23,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Teams now keeps selected-team state visible in both sidebar and header, expands selected-team members by top role assignment, and exposes admin create/rename/archive/restore controls in the sidebar.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating the team-listing sidebar and team-listing workspace slices to add active/archived team filtering, role-group expansion by top role label (Admins, Managers, Care Reps, Other), selected-team status badges, and team lifecycle actions for admins. Validation used focused Jest on team service/listing/sidebar specs (3/3 suites passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'The API now includes explicit team CRUD and soft-archive endpoints, and archive can cascade-remove team-level and member-override permission assignments.',
+        evidence:
+          'Recorded in the snapshot API running change log after adding POST /teams, GET/PUT /teams/{teamId}, and DELETE /teams/{teamId} plus route-authorization policies in the Team controller/service/swagger stack. The archive route accepts cascadePermissions and removes records from teamOperationAssignments and teamMemberOperationOverrides when requested to prevent stale inherited access. Validation used node --check across the touched Team API files.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Clients now supports active/archived browsing with direct restore actions, and Teams has been reshaped into a teams-first workspace with selected-team members/access context.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating the operation-admin sidebar and operation-listing slices to add Active/Archived client filtering, archived restore controls, and selected-client archive status handling, and after refactoring the team-listing, team sidebar, and team members table slices so the Teams view now centers on selecting a team first and then working in Members or Access from the same main workspace header. Validation used focused Jest on operation/team touched slices (5/5 suites passing).',

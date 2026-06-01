@@ -58,7 +58,12 @@ export class AuthenticationService {
     private jwtHelper: JwtHelperService,
     private _operationService: OperationService
   ) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('followup-user')));
+    const existingToken = localStorage.getItem('followup-token');
+    if (!this.isTokenSessionActive(existingToken)) {
+      this.clearStoredSession(false);
+    }
+
+    this.currentUserSubject = new BehaviorSubject<User>(this.getStoredUser());
     this.currentUser = this.currentUserSubject.asObservable();
     this.impersonatorSubject = new BehaviorSubject<User>(this.getStoredImpersonator());
     this.impersonator = this.impersonatorSubject.asObservable();
@@ -69,8 +74,8 @@ export class AuthenticationService {
   public getToken(): string {
     const token = localStorage.getItem('followup-token');
 
-    if (!isJwtToken(token)) {
-      localStorage.removeItem('followup-token');
+    if (!this.isTokenSessionActive(token)) {
+      this.clearStoredSession(false);
       return null;
     }
 
@@ -209,7 +214,54 @@ export class AuthenticationService {
 
   private getStoredImpersonator(): User {
     const stored = localStorage.getItem('followup-impersonator');
-    return stored ? JSON.parse(stored) : null;
+    if (!stored) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(stored);
+    } catch (_error) {
+      localStorage.removeItem('followup-impersonator');
+      return null;
+    }
+  }
+
+  private getStoredUser(): User {
+    const stored = localStorage.getItem('followup-user');
+    if (!stored) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(stored);
+    } catch (_error) {
+      localStorage.removeItem('followup-user');
+      return null;
+    }
+  }
+
+  private isTokenSessionActive(token: string | null): boolean {
+    if (!isJwtToken(token)) {
+      return false;
+    }
+
+    try {
+      const decoded = this.jwtHelper.decodeToken(token);
+      const userLoginExpires = Number(decoded?.user?.userLoginExpires || 0);
+      return Number.isFinite(userLoginExpires) && userLoginExpires > Date.now();
+    } catch (_error) {
+      return false;
+    }
+  }
+
+  private clearStoredSession(clearAllStorage: boolean) {
+    localStorage.removeItem('followup-user');
+    localStorage.removeItem('followup-token');
+    localStorage.removeItem('followup-impersonator');
+
+    if (clearAllStorage) {
+      localStorage.clear();
+    }
   }
 
   private refreshUserContext(user: User): Promise<User> {
@@ -299,10 +351,7 @@ export class AuthenticationService {
   private clearSessionAndRedirect() {
     this.user$ = null;
     this.authenticated = false;
-    localStorage.removeItem('followup-user');
-    localStorage.removeItem('followup-token');
-    localStorage.removeItem('followup-impersonator');
-    localStorage.clear();
+    this.clearStoredSession(true);
     this.currentUserSubject.next(null);
     this.impersonatorSubject.next(null);
     window.location.href = '/login';

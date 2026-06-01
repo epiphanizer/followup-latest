@@ -34,9 +34,42 @@ import { ApiKeyInterceptor } from './shared/interceptors/api-key.interceptor';
 import { TeamModule } from './modules/team/team.module';
 import { nl2brPipe } from './shared/pipes/nl2br.pipe';
 
+function parseTokenPayload(token: string): any | null {
+  try {
+    const tokenParts = token.split('.');
+    if (tokenParts.length !== 3) {
+      return null;
+    }
+
+    const payload = tokenParts[1].replace(/-/g, '+').replace(/_/g, '/');
+    const padded = payload + '='.repeat((4 - (payload.length % 4)) % 4);
+    return JSON.parse(atob(padded));
+  } catch (_error) {
+    return null;
+  }
+}
+
+function clearStoredAuthState() {
+  localStorage.removeItem('followup-token');
+  localStorage.removeItem('followup-user');
+  localStorage.removeItem('followup-impersonator');
+}
+
 export function tokenGetter() {
   const token = localStorage.getItem('followup-token');
-  return token && token.split('.').length === 3 ? token : null;
+  if (!token || token.split('.').length !== 3) {
+    clearStoredAuthState();
+    return null;
+  }
+
+  const payload = parseTokenPayload(token);
+  const userLoginExpires = Number(payload?.user?.userLoginExpires || 0);
+  if (!Number.isFinite(userLoginExpires) || userLoginExpires <= Date.now()) {
+    clearStoredAuthState();
+    return null;
+  }
+
+  return token;
 }
 
 @NgModule({
