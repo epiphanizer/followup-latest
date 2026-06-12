@@ -1,4 +1,9 @@
 <div class="listing-controls">
+  <div class="team-member-management" *ngIf="canManageTeams">
+    <button type="button" class="team-member-add-trigger" [disabled]="isAddMemberBusy" (click)="openAddMemberModal()">
+      + Add Member
+    </button>
+  </div>
   <app-listing-filter
     [options]="cols"
     (sortOptionSelectedEventEmitter)="handleSortOptionEvent($event)"
@@ -7,6 +12,47 @@
   </app-listing-filter>
   <app-listing-search (searchFilterEventEmitted)="searchTeamMembers($event)"></app-listing-search>
 </div>
+
+<div class="team-member-picker-modal" *ngIf="isAddMemberModalOpen">
+  <button type="button" class="team-member-picker-backdrop" (click)="closeAddMemberModal()" aria-label="Close add member dialog"></button>
+  <div class="team-member-picker-panel" role="dialog" aria-modal="true" aria-label="Add team member">
+    <div class="team-member-picker-header">
+      <div>
+        <h3>Add Team Member</h3>
+        <p>Search active users and add them to {{ team?.teamName }}.</p>
+      </div>
+      <button type="button" class="team-member-picker-close" (click)="closeAddMemberModal()">Close</button>
+    </div>
+
+    <label class="team-member-picker-search-label" for="team-member-picker-search">Search users</label>
+    <input
+      id="team-member-picker-search"
+      type="text"
+      class="team-member-picker-search"
+      [value]="addMemberSearchText"
+      (input)="updateAddMemberSearch($any($event.target).value)"
+      placeholder="Search by name, email, username, or role"
+    />
+
+    <div class="team-member-picker-status" *ngIf="isAddMemberBusy">Loading users...</div>
+    <div class="team-member-picker-list" *ngIf="!isAddMemberBusy && availableUsersFiltered.length">
+      <button
+        type="button"
+        class="team-member-picker-row"
+        *ngFor="let availableUser of availableUsersFiltered; trackBy: trackByAvailableUser"
+        (click)="addTeamMember(availableUser)"
+      >
+        <span class="team-member-picker-name">{{ getAvailableUserDisplayName(availableUser) }}</span>
+        <span class="team-member-picker-meta">{{ availableUser.userEmail || availableUser.username }}</span>
+        <span class="team-member-picker-role">{{ getAvailableUserRoleLabel(availableUser) }}</span>
+      </button>
+    </div>
+    <div class="team-member-picker-empty" *ngIf="!isAddMemberBusy && !availableUsersFiltered.length">
+      No active users match this search or everyone is already on the team.
+    </div>
+  </div>
+</div>
+
 <div class="team-table-wrapper">
   <table class="team-member-table">
     <colgroup>
@@ -16,6 +62,7 @@
       <col class="col-birthday" />
       <col class="col-languages" />
       <col class="col-message" />
+      <col class="col-manage" *ngIf="canManageTeams" />
     </colgroup>
     <thead>
       <tr>
@@ -47,6 +94,9 @@
         <th class="message-column-header" style="text-align: center; padding-left: 0;">
           Message
         </th>
+        <th *ngIf="canManageTeams" class="manage-column-header">
+          Manage
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -68,11 +118,31 @@
             </span>
           </div>
         </td>
-        <td class="listing-body-cell">
+        <td class="listing-body-cell team-member-role-cell">
           <div>
-            <span class="team-member-role">
-              {{ teamMember.teamMemberRoleLabel }}
-            </span>
+            <select
+              *ngIf="canManageTeams; else readOnlyRole"
+              class="team-member-role-select"
+              [disabled]="isUpdatingTeamMemberRole(teamMember)"
+              (change)="updateTeamMemberRole(teamMember, $any($event.target).value)"
+              aria-label="Team member role"
+            >
+              <option value="" disabled [selected]="getTeamMemberRoleValue(teamMember) === null">
+                Select role
+              </option>
+              <option
+                *ngFor="let role of roleOptions"
+                [value]="role.value"
+                [selected]="getTeamMemberRoleValue(teamMember) === role.value"
+              >
+                {{ role.label }}
+              </option>
+            </select>
+            <ng-template #readOnlyRole>
+              <span class="team-member-role">
+                {{ teamMember.teamMemberRoleLabel }}
+              </span>
+            </ng-template>
           </div>
         </td>
         <td class="listing-body-cell">
@@ -97,6 +167,16 @@
               <img class="post-it-note" src="/assets/icon-post-it@2x.png" alt="" />
             </span>
           </div>
+        </td>
+        <td *ngIf="canManageTeams" class="listing-body-cell manage-cell">
+          <button
+            type="button"
+            class="team-member-remove-trigger"
+            [disabled]="isRemovingTeamMember(teamMember) || isUpdatingTeamMemberRole(teamMember)"
+            (click)="removeTeamMember(teamMember, $event)"
+          >
+            {{ isRemovingTeamMember(teamMember) ? 'Removing...' : 'Remove' }}
+          </button>
         </td>
       </tr>
     </tbody>

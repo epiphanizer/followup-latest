@@ -82,7 +82,7 @@ export class TeamListingSidebar implements OnInit {
   }
 
   get roleGroupKeys(): TeamRoleGroupKey[] {
-    return ['admins', 'managers', 'careReps', 'others'];
+    return ['admins', 'managers', 'careReps'];
   }
 
   get teamCounts(): { active: number; archived: number } {
@@ -219,15 +219,40 @@ export class TeamListingSidebar implements OnInit {
     }
   }
 
-  private getTopRoleGroup(teamMember: TeamMember): TeamRoleGroupKey {
+  private getTeamMemberRoleId(teamMember: TeamMember): number {
+    const storedRoleId = Number(teamMember?.teamMemberRoleLabelId);
+    if (storedRoleId === 1 || storedRoleId === 2 || storedRoleId === 3) {
+      return storedRoleId;
+    }
+
+    const effectiveRoleId = Number(teamMember?.effectiveTeamMemberRoleLabelId);
+    if (effectiveRoleId === 1 || effectiveRoleId === 2 || effectiveRoleId === 3) {
+      return effectiveRoleId;
+    }
+
     const roleLabel = String(teamMember?.teamMemberRoleLabel || '').toLowerCase();
     if (roleLabel.includes('admin')) {
-      return 'admins';
+      return 1;
     }
     if (roleLabel.includes('manager')) {
-      return 'managers';
+      return 2;
     }
     if (roleLabel.includes('care')) {
+      return 3;
+    }
+
+    return 0;
+  }
+
+  private getTopRoleGroup(teamMember: TeamMember): TeamRoleGroupKey {
+    const roleId = this.getTeamMemberRoleId(teamMember);
+    if (roleId === 1) {
+      return 'admins';
+    }
+    if (roleId === 2) {
+      return 'managers';
+    }
+    if (roleId === 3) {
       return 'careReps';
     }
     return 'others';
@@ -325,11 +350,18 @@ export class TeamListingSidebar implements OnInit {
       return;
     }
 
+    const shouldRestore = window.confirm('Restore this archived team?');
+    if (!shouldRestore) {
+      return;
+    }
+
     this.isBusy = true;
     this.teamService.editTeamByTeamId(team.teamId, { teamName: team.teamName, teamActive: 1 }).subscribe(
       () => {
         this.isBusy = false;
         team.teamActive = 1;
+        this.teamVisibilityFilter = 'active';
+        this.selectTeam(team);
         this.loadTeams(team.teamId);
       },
       () => {

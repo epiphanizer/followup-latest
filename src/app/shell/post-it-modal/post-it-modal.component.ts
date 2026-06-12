@@ -41,13 +41,14 @@ export class PostItModalComponent {
 
   createForm() {
     this.createUserMessageForm = this.fb.group({
-      messageType: this.fb.control('', [Validators.required]),
+      messageType: this.fb.control('user', [Validators.required]),
       messageBody: this.fb.control('', [Validators.required])
     });
+    this.messageType = this.createUserMessageForm.get('messageType').value;
   }
   ngOnChanges(changes: any) {}
-  selectMessageType(event: any) {
-    this.messageType = event.detail.value;
+  selectMessageType(messageType: string) {
+    this.messageType = messageType;
   }
   onTextAreaChange($event: any) {
     let formData = this.createUserMessageForm.getRawValue();

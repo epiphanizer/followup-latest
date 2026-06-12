@@ -1,7 +1,11 @@
 <ion-content class="team-access-page-content">
   <div class="team-access-page">
     <aside class="team-sidebar">
-      <app-team-listing-sidebar></app-team-listing-sidebar>
+      <app-team-listing-sidebar
+        [team]="team"
+        [canManageTeams]="canManageTeams"
+        (teamChangeEvent)="handleSidebarTeamChange($event)"
+      ></app-team-listing-sidebar>
     </aside>
     <section class="team-content-wrapper team-access-content-wrapper">
       <div class="team-access-content">

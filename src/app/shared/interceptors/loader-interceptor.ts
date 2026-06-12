@@ -17,6 +17,14 @@ export class LoaderInterceptor implements HttpInterceptor {
     this.loaderService.isLoading.next(this.requests.length > 0);
   }
 
+  private isExpectedLoginAccountSelectionConflict(req: HttpRequest<any>, err: any): boolean {
+    return !!(
+      req?.url?.includes('/users/login') &&
+      Number(err?.status) === 409 &&
+      err?.error?.requiresAccountSelection
+    );
+  }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.requests.push(req);
     this.loaderService.isLoading.next(true);
@@ -29,7 +37,9 @@ export class LoaderInterceptor implements HttpInterceptor {
           }
         },
         err => {
-          console.log(err);
+          if (!this.isExpectedLoginAccountSelectionConflict(req, err)) {
+            console.log(err);
+          }
           this.removeRequest(req);
           observer.error(err);
         },

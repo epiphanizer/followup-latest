@@ -284,6 +284,55 @@ describe('TeamAccessComponent (Jest)', () => {
     expect(toastrStub.success).toHaveBeenCalled();
   });
 
+  it('supports admin role overrides in member exceptions', () => {
+    const component = buildComponent();
+
+    component.ngOnInit();
+    component.setActiveEditor('member');
+    component.selectTeamMember('m1');
+    component.memberEntries[0].selectedState = 'override:1';
+    component.onMemberAccessChange();
+    component.saveMemberAccess();
+
+    expect(teamServiceStub.setTeamMemberOperationAccessByTeamIdAndTeamMemberId).toHaveBeenCalledWith('t1', 'm1', [
+      { operationId: 'op1', accessMode: 'override', operationUserRoleLabelId: 1 },
+      { operationId: 'op2', accessMode: 'override', operationUserRoleLabelId: 3 }
+    ]);
+  });
+
+  it('derives eligible assignee members from the stored team role before broader labels', () => {
+    teamServiceStub.getTeamMembersByTeamId.mockReturnValueOnce(
+      of([
+        {
+          teamMemberId: 'm1',
+          userId: 'u1',
+          teamMemberFirstName: 'Ada',
+          teamMemberLastName: 'Lovelace',
+          teamMemberRoleLabelId: 2,
+          teamMemberRoleLabel: 'Manager',
+          effectiveTeamMemberRoleLabelId: 1,
+          effectiveTeamMemberRoleLabel: 'Admin'
+        },
+        {
+          teamMemberId: 'm2',
+          userId: 'u2',
+          teamMemberFirstName: 'Grace',
+          teamMemberLastName: 'Hopper',
+          teamMemberRoleLabelId: 3,
+          teamMemberRoleLabel: 'Care Rep',
+          effectiveTeamMemberRoleLabelId: 1,
+          effectiveTeamMemberRoleLabel: 'Admin'
+        }
+      ])
+    );
+
+    const component = buildComponent();
+    component.ngOnInit();
+
+    expect(component.roleEligibleMembers.managerEligible.map(member => member.teamMemberId)).toEqual(['m1']);
+    expect(component.roleEligibleMembers.careRepEligible.map(member => member.teamMemberId).sort()).toEqual(['m1', 'm2']);
+  });
+
   it('impersonates the selected team member from member exceptions view', async () => {
     const component = buildComponent();
 
@@ -297,5 +346,14 @@ describe('TeamAccessComponent (Jest)', () => {
     expect(userServiceStub.impersonateUser).toHaveBeenCalledWith('admin1', 'u1');
     expect(authServiceStub.startImpersonation).toHaveBeenCalled();
     expect(routerStub.navigate).toHaveBeenCalledWith(['/home']);
+  });
+
+  it('navigates Team Access when the sidebar selects a different team', () => {
+    const component = buildComponent();
+    component.ngOnInit();
+
+    component.handleSidebarTeamChange({ teamId: 't2' } as any);
+
+    expect(routerStub.navigate).toHaveBeenCalledWith(['/teams', 't2', 'access']);
   });
 });

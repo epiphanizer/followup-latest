@@ -125,6 +125,31 @@ describe('OperationAdminSidebarComponent', () => {
     expect(group.sidebarDropdownOpen).toBe(true);
   });
 
+  it('collapses an active group when its label is clicked again', () => {
+    const preventDefault = jest.fn();
+    const stopPropagation = jest.fn();
+    const group = { operationGroupId: 'g1', sidebarDropdownOpen: true } as any;
+
+    component.activeOperationGroupId = 'g1';
+    component.handleOperationGroupClick(group, { preventDefault, stopPropagation } as any);
+
+    expect(preventDefault).toHaveBeenCalled();
+    expect(stopPropagation).toHaveBeenCalled();
+    expect(group.sidebarDropdownOpen).toBe(false);
+  });
+
+  it('opens a new group when its label is clicked', () => {
+    const emitSpy = jest.spyOn(component.operationGroupChangeEvent, 'emit');
+    const group = { operationGroupId: 'g2', sidebarDropdownOpen: false } as any;
+
+    component.activeOperationGroupId = 'g1';
+    component.handleOperationGroupClick(group);
+
+    expect(group.sidebarDropdownOpen).toBe(true);
+    expect(component.activeOperationGroupId).toBe('g2');
+    expect(emitSpy).toHaveBeenCalledWith('g2');
+  });
+
   it('does not crash when user has no operation groups', () => {
     const emptyRouteMock: any = {
       snapshot: {

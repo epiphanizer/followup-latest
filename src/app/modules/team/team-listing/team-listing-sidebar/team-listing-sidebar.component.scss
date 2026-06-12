@@ -1,8 +1,10 @@
 .team-sidebar {
   width: 100%;
-  max-width: 220px;
+  max-width: 185px;
 
   .team-sidebar-calendar {
+    width: 100%;
+
     h4.todays-date {
       text-align: right;
       font-family: AvenirBold;

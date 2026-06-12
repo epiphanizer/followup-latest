@@ -56,6 +56,57 @@ export class TeamService {
       .pipe(catchError(e => this.handleAsyncError(e)));
   };
 
+  addTeamMemberByTeamIdAndUserId = function(teamId: string, userId: string) {
+    return this.http.post('teams/' + teamId + '/members', { userId }).pipe(catchError(e => this.handleAsyncError(e)));
+  };
+
+  removeTeamMemberByTeamIdAndTeamMemberId = function(teamId: string, teamMemberId: string) {
+    return this.http.delete('teams/' + teamId + '/members/' + teamMemberId).pipe(catchError(e => this.handleAsyncError(e)));
+  };
+
+  setTeamMemberRoleByTeamIdAndTeamMemberId = function(
+    teamId: string,
+    teamMemberId: string,
+    teamMemberRoleLabelId: number,
+    options?: { forceDirectPermissionCleanup?: boolean }
+  ) {
+    const body: { teamMemberRoleLabelId: number; forceDirectPermissionCleanup?: boolean } = {
+      teamMemberRoleLabelId
+    };
+
+    if (options?.forceDirectPermissionCleanup) {
+      body.forceDirectPermissionCleanup = true;
+    }
+
+    return this.http.put('teams/' + teamId + '/members/' + teamMemberId + '/role', body).pipe(
+      catchError(e => this.handleTeamMemberRoleUpdateError(e))
+    );
+  };
+
+  private handleTeamMemberRoleUpdateError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error('An error occurred:', error.error.message);
+      return throwError(() => ({
+        statusCode: error.status || 0,
+        message: error.error.message || 'We had trouble updating this team member role.'
+      }));
+    }
+
+    console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
+
+    if (error.error && typeof error.error === 'object') {
+      return throwError(() => ({
+        statusCode: error.status,
+        ...error.error
+      }));
+    }
+
+    return throwError(() => ({
+      statusCode: error.status,
+      message: 'We had trouble updating this team member role.'
+    }));
+  }
+
   editTeamByTeamId = function(teamId: string, payload: { teamName: string; teamActive?: number }) {
     return this.http.put('teams/' + teamId, payload).pipe(catchError(e => this.handleAsyncError(e)));
   };
