@@ -23,6 +23,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'The Teams page now has an admin-only searchable add-member picker that loads active system users, filters out existing team members, and adds a selected user directly into the current team roster.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after wiring `POST /teams/{teamId}/members` into src/app/modules/team/team.service.ts and adding an `+ Add Member` modal-style picker to src/app/modules/team/team-listing/team-members-listing. The picker is backed by `UserService.getActiveUsers()`, supports typeahead filtering by name/email/username/role, shows a scrollable result list, excludes users already on the selected team, and reloads the members roster after a successful add so the Team page count updates immediately. Validation used the focused team-members-listing Jest slice with explicit picker and add-member coverage.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Archived teams can now be restored cleanly from the Teams sidebar; restore switches back to the active view so the restored team stays visible instead of disappearing from the current archived filter.',
         evidence:
           'Recorded in the snapshot frontend running change log after tightening src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.ts. The restore action already existed, but once `teamActive` flipped back to `1` it could leave the user parked on the Archived filter, which made the restored team vanish from the current list and made unarchive feel incomplete. Restore now confirms intent, switches the sidebar back to Active, reselects the restored team, and reloads the roster. Validation used the focused Teams sidebar Jest slice with explicit restore coverage.',

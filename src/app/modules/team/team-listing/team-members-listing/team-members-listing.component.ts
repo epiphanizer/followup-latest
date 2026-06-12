@@ -7,6 +7,7 @@ import { PostItModalComponent } from '@app/shell/post-it-modal/post-it-modal.com
 import { ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
+import { UserService } from '@app/modules/user/user.service';
 
 @Component({
   selector: 'app-team-members-listing',
@@ -16,10 +17,16 @@ import { User } from '@app/modules/user/user';
 })
 export class TeamMembersListingComponent implements OnInit {
   @Input() team: Team;
+  @Input() canManageTeams: boolean = false;
   user: User;
   public teamMembers: TeamMember[];
   public teamMembersFiltered: TeamMember[];
+  public availableUsers: User[] = [];
+  public availableUsersFiltered: User[] = [];
   public pageOfItems: Team[];
+  addMemberSearchText: string = '';
+  isAddMemberModalOpen: boolean = false;
+  isAddMemberBusy: boolean = false;
   // asc or desc
   selectedSortFlag: string = 'asc';
   // column by which we will search
@@ -29,7 +36,8 @@ export class TeamMembersListingComponent implements OnInit {
   constructor(
     private modalController: ModalController,
     private route: ActivatedRoute,
-    private teamService: TeamService
+    private teamService: TeamService,
+    private userService: UserService
   ) {}
   ngOnInit() {
     /**
@@ -37,39 +45,149 @@ export class TeamMembersListingComponent implements OnInit {
      */
     this.user = this.route.snapshot.data.user;
     this.teamMembers = [];
-    this.teamService
-      .getTeamMembersByTeamId(this.team.teamId)
-      .pipe(
-        take(1),
-        map((teamMembers: [TeamMember]) => {
-          this.teamMembers = teamMembers;
-          this.teamMembersFiltered = teamMembers;
-          this.runSortSwitch();
-        })
-      )
-      .subscribe();
+    this.reloadTeamMembers();
   }
 
   ngOnChanges(changes: any) {
     if (changes.team) {
       this.teamMembers = [];
       this.team = changes.team.currentValue;
-      this.teamService
-        .getTeamMembersByTeamId(this.team.teamId)
-        .pipe(
-          take(1),
-          map((teamMembers: [TeamMember]) => {
-            if (teamMembers) {
-              this.teamMembers = teamMembers;
-              this.teamMembersFiltered = teamMembers;
-              // this.sortTeamMembersByTeamMemberName(this.selectedSortFlag);
-            } else {
-              this.teamMembersFiltered = this.teamMembers = [];
-            }
-          })
-        )
-        .subscribe();
+      this.closeAddMemberModal();
+      this.reloadTeamMembers();
     }
+  }
+
+  private reloadTeamMembers() {
+    if (!this.team?.teamId) {
+      this.teamMembersFiltered = this.teamMembers = [];
+      return;
+    }
+
+    this.teamService
+      .getTeamMembersByTeamId(this.team.teamId)
+      .pipe(
+        take(1),
+        map((teamMembers: [TeamMember]) => {
+          if (teamMembers) {
+            this.teamMembers = teamMembers;
+            this.teamMembersFiltered = teamMembers;
+            this.team.teamMembers = teamMembers;
+            this.runSortSwitch();
+          } else {
+            this.team.teamMembers = [];
+            this.teamMembersFiltered = this.teamMembers = [];
+          }
+          this.refreshAvailableUsers();
+        })
+      )
+      .subscribe();
+  }
+
+  openAddMemberModal() {
+    if (!this.canManageTeams || !this.team?.teamId || this.isAddMemberBusy) {
+      return;
+    }
+
+    this.isAddMemberModalOpen = true;
+    this.addMemberSearchText = '';
+
+    if (this.availableUsers.length) {
+      this.refreshAvailableUsers();
+      return;
+    }
+
+    this.isAddMemberBusy = true;
+    this.userService
+      .getActiveUsers()
+      .pipe(take(1))
+      .subscribe(
+        (users: User[]) => {
+          this.isAddMemberBusy = false;
+          this.availableUsers = Array.isArray(users) ? users : [];
+          this.refreshAvailableUsers();
+        },
+        () => {
+          this.isAddMemberBusy = false;
+          this.availableUsers = [];
+          this.availableUsersFiltered = [];
+        }
+      );
+  }
+
+  closeAddMemberModal() {
+    this.isAddMemberModalOpen = false;
+    this.addMemberSearchText = '';
+    this.availableUsersFiltered = [];
+  }
+
+  updateAddMemberSearch(searchText: string) {
+    this.addMemberSearchText = String(searchText || '');
+    this.refreshAvailableUsers();
+  }
+
+  private refreshAvailableUsers() {
+    const memberIds = new Set((this.teamMembers || []).map((teamMember: TeamMember) => String(teamMember?.userId || '')));
+    const searchText = this.addMemberSearchText.trim().toLowerCase();
+
+    this.availableUsersFiltered = (this.availableUsers || [])
+      .filter((candidate: User) => {
+        if (!candidate?.userId || memberIds.has(String(candidate.userId))) {
+          return false;
+        }
+
+        if (!searchText) {
+          return true;
+        }
+
+        const haystack = [
+          candidate.userFirstName,
+          candidate.userLastName,
+          candidate.userEmail,
+          candidate.username,
+          candidate.userRoleLabel
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+
+        return haystack.includes(searchText);
+      })
+      .sort((a: User, b: User) => {
+        const lastNameCompare = String(a?.userLastName || '').localeCompare(String(b?.userLastName || ''));
+        if (lastNameCompare !== 0) {
+          return lastNameCompare;
+        }
+        return String(a?.userFirstName || '').localeCompare(String(b?.userFirstName || ''));
+      });
+  }
+
+  addTeamMember(userToAdd: User) {
+    if (!this.team?.teamId || !userToAdd?.userId || this.isAddMemberBusy) {
+      return;
+    }
+
+    this.isAddMemberBusy = true;
+    this.teamService
+      .addTeamMemberByTeamIdAndUserId(this.team.teamId, userToAdd.userId)
+      .pipe(take(1))
+      .subscribe(
+        () => {
+          this.isAddMemberBusy = false;
+          this.closeAddMemberModal();
+          this.reloadTeamMembers();
+        },
+        () => {
+          this.isAddMemberBusy = false;
+        }
+      );
+  }
+
+  getAvailableUserRoleLabel(user: User): string {
+    return user?.userRoleLabel || user?.operationUserRoleLabel || 'Team member';
+  }
+
+  getAvailableUserDisplayName(user: User): string {
+    return [user?.userFirstName, user?.userLastName].filter(Boolean).join(' ') || user?.username || 'User';
   }
 
   handleSearchFilterEvent($event: string) {
@@ -276,5 +394,9 @@ export class TeamMembersListingComponent implements OnInit {
 
   trackByTeamMember(index: number, teamMember: TeamMember): string | number {
     return teamMember?.teamMemberId || teamMember?.userId || index;
+  }
+
+  trackByAvailableUser(index: number, user: User): string | number {
+    return user?.userId || index;
   }
 }

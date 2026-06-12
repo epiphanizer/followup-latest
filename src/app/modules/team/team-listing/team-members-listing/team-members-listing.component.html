@@ -1,4 +1,9 @@
 <div class="listing-controls">
+  <div class="team-member-management" *ngIf="canManageTeams">
+    <button type="button" class="team-member-add-trigger" [disabled]="isAddMemberBusy" (click)="openAddMemberModal()">
+      + Add Member
+    </button>
+  </div>
   <app-listing-filter
     [options]="cols"
     (sortOptionSelectedEventEmitter)="handleSortOptionEvent($event)"
@@ -7,6 +12,47 @@
   </app-listing-filter>
   <app-listing-search (searchFilterEventEmitted)="searchTeamMembers($event)"></app-listing-search>
 </div>
+
+<div class="team-member-picker-modal" *ngIf="isAddMemberModalOpen">
+  <button type="button" class="team-member-picker-backdrop" (click)="closeAddMemberModal()" aria-label="Close add member dialog"></button>
+  <div class="team-member-picker-panel" role="dialog" aria-modal="true" aria-label="Add team member">
+    <div class="team-member-picker-header">
+      <div>
+        <h3>Add Team Member</h3>
+        <p>Search active users and add them to {{ team?.teamName }}.</p>
+      </div>
+      <button type="button" class="team-member-picker-close" (click)="closeAddMemberModal()">Close</button>
+    </div>
+
+    <label class="team-member-picker-search-label" for="team-member-picker-search">Search users</label>
+    <input
+      id="team-member-picker-search"
+      type="text"
+      class="team-member-picker-search"
+      [value]="addMemberSearchText"
+      (input)="updateAddMemberSearch($any($event.target).value)"
+      placeholder="Search by name, email, username, or role"
+    />
+
+    <div class="team-member-picker-status" *ngIf="isAddMemberBusy">Loading users...</div>
+    <div class="team-member-picker-list" *ngIf="!isAddMemberBusy && availableUsersFiltered.length">
+      <button
+        type="button"
+        class="team-member-picker-row"
+        *ngFor="let availableUser of availableUsersFiltered; trackBy: trackByAvailableUser"
+        (click)="addTeamMember(availableUser)"
+      >
+        <span class="team-member-picker-name">{{ getAvailableUserDisplayName(availableUser) }}</span>
+        <span class="team-member-picker-meta">{{ availableUser.userEmail || availableUser.username }}</span>
+        <span class="team-member-picker-role">{{ getAvailableUserRoleLabel(availableUser) }}</span>
+      </button>
+    </div>
+    <div class="team-member-picker-empty" *ngIf="!isAddMemberBusy && !availableUsersFiltered.length">
+      No active users match this search or everyone is already on the team.
+    </div>
+  </div>
+</div>
+
 <div class="team-table-wrapper">
   <table class="team-member-table">
     <colgroup>

@@ -27,7 +27,7 @@
           <a class="team-view-tab" [routerLink]="selectedTeamAccessLink">Access</a>
         </nav>
         <div class="team-listing-row">
-          <app-team-members-listing [team]="selected.team"> </app-team-members-listing>
+          <app-team-members-listing [team]="selected.team" [canManageTeams]="canManageTeams"> </app-team-members-listing>
         </div>
       </div>
     </section>

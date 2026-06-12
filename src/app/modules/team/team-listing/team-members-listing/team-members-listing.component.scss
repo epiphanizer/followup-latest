@@ -13,6 +13,158 @@
   min-height: 45px;
 }
 
+.team-member-management {
+  display: flex;
+  align-items: center;
+}
+
+.team-member-add-trigger {
+  border: 1px solid #00b4b9;
+  background: #ffffff;
+  color: #00b4b9;
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font-family: "AvenirBold";
+  font-size: 12px;
+  letter-spacing: 0.24px;
+  text-transform: uppercase;
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: default;
+  }
+}
+
+.team-member-picker-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.team-member-picker-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(39, 31, 34, 0.4);
+}
+
+.team-member-picker-panel {
+  position: relative;
+  width: min(720px, 100%);
+  max-height: min(80vh, 720px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.25rem;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fefefe 0%, #f6f4ef 100%);
+  box-shadow: 0 24px 60px rgba(30, 23, 24, 0.24);
+}
+
+.team-member-picker-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+
+  h3 {
+    margin: 0;
+    font-family: "AvenirBold";
+    font-size: 24px;
+    color: #3f3638;
+  }
+
+  p {
+    margin: 0.25rem 0 0;
+    color: #64585a;
+    font-size: 14px;
+  }
+}
+
+.team-member-picker-close {
+  border: 0;
+  background: transparent;
+  color: #00b4b9;
+  font-family: "AvenirBold";
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.team-member-picker-search-label {
+  font-family: "AvenirBold";
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #64585a;
+}
+
+.team-member-picker-search {
+  width: 100%;
+  border: 1px solid #d8d2d2;
+  border-radius: 12px;
+  padding: 0.8rem 0.95rem;
+  font-family: "Avenir";
+  font-size: 15px;
+  color: #3f3638;
+  background: #fff;
+}
+
+.team-member-picker-status,
+.team-member-picker-empty {
+  padding: 0.8rem 0;
+  color: #64585a;
+  font-size: 14px;
+}
+
+.team-member-picker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.team-member-picker-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid #ece6e6;
+  border-radius: 14px;
+  background: #fff;
+  padding: 0.85rem 1rem;
+  text-align: left;
+
+  &:hover {
+    border-color: #00b4b9;
+    background: #f2fbfb;
+  }
+}
+
+.team-member-picker-name {
+  font-family: "AvenirBold";
+  color: #3f3638;
+}
+
+.team-member-picker-meta {
+  min-width: 0;
+  color: #64585a;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.team-member-picker-role {
+  color: #00b4b9;
+  font-family: "AvenirBold";
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
 .listing-controls app-listing-filter,
 .listing-controls app-listing-search {
   float: none;
@@ -220,5 +372,14 @@ jw-pagination {
 
   .listing-controls app-listing-search {
     margin-left: 0;
+  }
+
+  .team-member-picker-panel {
+    width: 100%;
+    max-height: 85vh;
+  }
+
+  .team-member-picker-row {
+    grid-template-columns: 1fr;
   }
 }

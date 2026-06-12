@@ -56,6 +56,10 @@ export class TeamService {
       .pipe(catchError(e => this.handleAsyncError(e)));
   };
 
+  addTeamMemberByTeamIdAndUserId = function(teamId: string, userId: string) {
+    return this.http.post('teams/' + teamId + '/members', { userId }).pipe(catchError(e => this.handleAsyncError(e)));
+  };
+
   editTeamByTeamId = function(teamId: string, payload: { teamName: string; teamActive?: number }) {
     return this.http.put('teams/' + teamId, payload).pipe(catchError(e => this.handleAsyncError(e)));
   };
