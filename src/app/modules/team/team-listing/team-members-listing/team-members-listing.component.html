@@ -118,11 +118,25 @@
             </span>
           </div>
         </td>
-        <td class="listing-body-cell">
+        <td class="listing-body-cell team-member-role-cell">
           <div>
-            <span class="team-member-role">
-              {{ teamMember.teamMemberRoleLabel }}
-            </span>
+            <ion-select
+              *ngIf="canManageTeams; else readOnlyRole"
+              class="team-member-role-select"
+              interface="popover"
+              [ngModel]="getTeamMemberRoleValue(teamMember)"
+              [disabled]="isUpdatingTeamMemberRole(teamMember)"
+              (ngModelChange)="updateTeamMemberRole(teamMember, $event)"
+            >
+              <ion-select-option *ngFor="let role of roleOptions" [value]="role.value">
+                {{ role.label }}
+              </ion-select-option>
+            </ion-select>
+            <ng-template #readOnlyRole>
+              <span class="team-member-role">
+                {{ teamMember.teamMemberRoleLabel }}
+              </span>
+            </ng-template>
           </div>
         </td>
         <td class="listing-body-cell">
@@ -152,7 +166,7 @@
           <button
             type="button"
             class="team-member-remove-trigger"
-            [disabled]="isRemovingTeamMember(teamMember)"
+            [disabled]="isRemovingTeamMember(teamMember) || isUpdatingTeamMemberRole(teamMember)"
             (click)="removeTeamMember(teamMember, $event)"
           >
             {{ isRemovingTeamMember(teamMember) ? 'Removing...' : 'Remove' }}

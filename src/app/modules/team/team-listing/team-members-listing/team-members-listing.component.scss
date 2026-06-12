@@ -370,6 +370,29 @@ table.team-member-table {
   text-align: center;
 }
 
+.team-member-role-cell {
+  ion-select.team-member-role-select {
+    width: 100%;
+    max-width: 180px;
+    --padding-start: 0.7rem;
+    --padding-end: 2rem;
+    --padding-top: 0.45rem;
+    --padding-bottom: 0.45rem;
+    --border-radius: 999px;
+    --border-width: 1px;
+    --border-style: solid;
+    --border-color: #d5cece;
+    --highlight-color-focused: #00b4b9;
+    --highlight-color-invalid: #d95f5f;
+    --placeholder-color: #8f8585;
+    font-family: "AvenirBold";
+    font-size: 12px;
+    letter-spacing: 0.2px;
+    color: #3f3638;
+    background: #ffffff;
+  }
+}
+
 .team-member-remove-trigger {
   border: 1px solid #d95f5f;
   background: #fff5f5;

@@ -16,6 +16,11 @@ import { UserService } from '@app/modules/user/user.service';
   standalone: false
 })
 export class TeamMembersListingComponent implements OnInit {
+  readonly roleOptions = [
+    { label: 'Admin', value: 1 },
+    { label: 'Manager', value: 2 },
+    { label: 'Care Rep', value: 3 }
+  ];
   @Input() team: Team;
   @Input() canManageTeams: boolean = false;
   user: User;
@@ -27,6 +32,7 @@ export class TeamMembersListingComponent implements OnInit {
   addMemberSearchText: string = '';
   isAddMemberModalOpen: boolean = false;
   isAddMemberBusy: boolean = false;
+  updatingRoleTeamMemberId: string | null = null;
   removingUserId: string | null = null;
   // asc or desc
   selectedSortFlag: string = 'asc';
@@ -219,12 +225,91 @@ export class TeamMembersListingComponent implements OnInit {
     return !!teamMember?.userId && this.removingUserId === teamMember.userId;
   }
 
+  isUpdatingTeamMemberRole(teamMember: TeamMember): boolean {
+    return !!teamMember?.teamMemberId && this.updatingRoleTeamMemberId === teamMember.teamMemberId;
+  }
+
+  getTeamMemberRoleValue(teamMember: TeamMember): number | null {
+    const explicitRoleId = this.normalizeTeamMemberRoleId(teamMember?.teamMemberRoleLabelId);
+    if (explicitRoleId) {
+      return explicitRoleId;
+    }
+
+    const effectiveRoleId = this.normalizeTeamMemberRoleId(teamMember?.effectiveTeamMemberRoleLabelId);
+    if (effectiveRoleId) {
+      return effectiveRoleId;
+    }
+
+    const inferredRoleId = this.inferTeamMemberRoleId(teamMember?.teamMemberRoleLabel);
+    return inferredRoleId || null;
+  }
+
+  updateTeamMemberRole(teamMember: TeamMember, roleValue: number | string | null | undefined) {
+    const nextRoleId = this.normalizeTeamMemberRoleId(roleValue);
+
+    if (!this.canManageTeams || !this.team?.teamId || !teamMember?.teamMemberId || !nextRoleId || this.updatingRoleTeamMemberId) {
+      return;
+    }
+
+    this.updatingRoleTeamMemberId = teamMember.teamMemberId;
+    this.teamService
+      .setTeamMemberRoleByTeamIdAndTeamMemberId(this.team.teamId, teamMember.teamMemberId, nextRoleId)
+      .pipe(take(1))
+      .subscribe(
+        (updatedTeamMember: TeamMember) => {
+          this.updatingRoleTeamMemberId = null;
+          const appliedRoleId = this.normalizeTeamMemberRoleId(updatedTeamMember?.teamMemberRoleLabelId) || nextRoleId;
+          const appliedRoleLabel = updatedTeamMember?.teamMemberRoleLabel || this.getRoleLabelById(nextRoleId);
+
+          [this.teamMembers, this.teamMembersFiltered, this.team?.teamMembers].forEach((members: TeamMember[] | undefined) => {
+            (members || []).forEach((member: TeamMember) => {
+              if (member?.teamMemberId === teamMember.teamMemberId) {
+                member.teamMemberRoleLabelId = appliedRoleId;
+                member.teamMemberRoleLabel = appliedRoleLabel;
+              }
+            });
+          });
+
+          if (this.selectedSortOption === 'Position') {
+            this.runSortSwitch();
+          }
+        },
+        () => {
+          this.updatingRoleTeamMemberId = null;
+        }
+      );
+  }
+
   getAvailableUserRoleLabel(user: User): string {
     return user?.userRoleLabel || user?.operationUserRoleLabel || 'Team member';
   }
 
   getAvailableUserDisplayName(user: User): string {
     return [user?.userFirstName, user?.userLastName].filter(Boolean).join(' ') || user?.username || 'User';
+  }
+
+  private normalizeTeamMemberRoleId(roleValue: number | string | null | undefined): number {
+    const numericRoleId = Number(roleValue);
+    return numericRoleId === 1 || numericRoleId === 2 || numericRoleId === 3 ? numericRoleId : 0;
+  }
+
+  private inferTeamMemberRoleId(roleLabel?: string): number {
+    const normalizedRoleLabel = String(roleLabel || '').toLowerCase();
+    if (normalizedRoleLabel.includes('admin')) {
+      return 1;
+    }
+    if (normalizedRoleLabel.includes('manager')) {
+      return 2;
+    }
+    if (normalizedRoleLabel.includes('care')) {
+      return 3;
+    }
+    return 0;
+  }
+
+  private getRoleLabelById(roleId: number): string {
+    const matchingRole = this.roleOptions.find(role => role.value === roleId);
+    return matchingRole?.label || 'Team Member';
   }
 
   handleSearchFilterEvent($event: string) {
@@ -301,15 +386,15 @@ export class TeamMembersListingComponent implements OnInit {
     }
   };
   sortTeamByTeamMemberPosition = function() {
-    const getRank = (roleLabel?: string) => {
-      const role = (roleLabel || '').toLowerCase();
-      if (role.includes('admin')) {
+    const getRank = (teamMember: TeamMember) => {
+      const roleId = this.getTeamMemberRoleValue(teamMember);
+      if (roleId === 1) {
         return 0;
       }
-      if (role.includes('manager')) {
+      if (roleId === 2) {
         return 1;
       }
-      if (role.includes('care')) {
+      if (roleId === 3) {
         return 2;
       }
       return 3;
@@ -317,7 +402,7 @@ export class TeamMembersListingComponent implements OnInit {
     const sortDirection = this.selectedSortFlag == 'desc' ? -1 : 1;
     this.teamMembersFiltered = this.teamMembers
       .sort((a: TeamMember, b: TeamMember) => {
-        const rankDiff = (getRank(a.teamMemberRoleLabel) - getRank(b.teamMemberRoleLabel)) * sortDirection;
+        const rankDiff = (getRank(a) - getRank(b)) * sortDirection;
         if (rankDiff !== 0) {
           return rankDiff;
         }
@@ -403,13 +488,13 @@ export class TeamMembersListingComponent implements OnInit {
     if (sortFlag == 'desc') {
       this.teamMembersFiltered = this.teams
         .sort((a: TeamMember, b: TeamMember) => {
-          return a.teamMemberRoleLabel.localeCompare(b.teamMemberRoleLabel);
+          return String(a.teamMemberRoleLabel || '').localeCompare(String(b.teamMemberRoleLabel || ''));
         })
         .slice();
     } else {
       this.teamMembersFiltered = this.teams
         .sort((a: TeamMember, b: TeamMember) => {
-          return b.teamMemberRoleLabel.localeCompare(a.teamMemberRoleLabel);
+          return String(b.teamMemberRoleLabel || '').localeCompare(String(a.teamMemberRoleLabel || ''));
         })
         .slice();
     }

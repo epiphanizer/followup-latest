@@ -64,6 +64,12 @@ export class TeamService {
     return this.http.delete('teams/' + teamId + '/members/' + teamMemberId).pipe(catchError(e => this.handleAsyncError(e)));
   };
 
+  setTeamMemberRoleByTeamIdAndTeamMemberId = function(teamId: string, teamMemberId: string, teamMemberRoleLabelId: number) {
+    return this.http.put('teams/' + teamId + '/members/' + teamMemberId + '/role', { teamMemberRoleLabelId }).pipe(
+      catchError(e => this.handleAsyncError(e))
+    );
+  };
+
   editTeamByTeamId = function(teamId: string, payload: { teamName: string; teamActive?: number }) {
     return this.http.put('teams/' + teamId, payload).pipe(catchError(e => this.handleAsyncError(e)));
   };

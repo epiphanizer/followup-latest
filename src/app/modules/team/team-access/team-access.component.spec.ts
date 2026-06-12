@@ -284,6 +284,22 @@ describe('TeamAccessComponent (Jest)', () => {
     expect(toastrStub.success).toHaveBeenCalled();
   });
 
+  it('supports admin role overrides in member exceptions', () => {
+    const component = buildComponent();
+
+    component.ngOnInit();
+    component.setActiveEditor('member');
+    component.selectTeamMember('m1');
+    component.memberEntries[0].selectedState = 'override:1';
+    component.onMemberAccessChange();
+    component.saveMemberAccess();
+
+    expect(teamServiceStub.setTeamMemberOperationAccessByTeamIdAndTeamMemberId).toHaveBeenCalledWith('t1', 'm1', [
+      { operationId: 'op1', accessMode: 'override', operationUserRoleLabelId: 1 },
+      { operationId: 'op2', accessMode: 'override', operationUserRoleLabelId: 3 }
+    ]);
+  });
+
   it('impersonates the selected team member from member exceptions view', async () => {
     const component = buildComponent();
 

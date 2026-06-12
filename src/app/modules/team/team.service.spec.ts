@@ -118,6 +118,18 @@ describe('TeamService (Jest)', () => {
       });
   });
 
+  it('sets a team member general role', done => {
+    const http = makeHttp();
+    const svc = new TeamService(http as any);
+
+    svc.setTeamMemberRoleByTeamIdAndTeamMemberId('t1', 'm1', 2).subscribe(() => {
+      expect(http.put).toHaveBeenCalledWith('teams/t1/members/m1/role', {
+        teamMemberRoleLabelId: 2
+      });
+      done();
+    });
+  });
+
   it('handles errors', done => {
     const http = { get: jest.fn(() => throwError(() => new HttpErrorResponse({ status: 500, error: 'fail' }))) } as any;
     const svc = new TeamService(http as any);

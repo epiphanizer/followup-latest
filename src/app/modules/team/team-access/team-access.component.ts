@@ -73,12 +73,14 @@ interface TeamAccessGroup<TEntry> {
 })
 export class TeamAccessComponent implements OnInit {
   readonly roleOptions = [
+    { label: 'Admin', value: 1 },
     { label: 'Unassigned', value: 0 },
     { label: 'Manager', value: 2 },
     { label: 'Care Rep', value: 3 }
   ];
   readonly memberAccessStateOptions = [
     { label: 'Team Default', value: 'default' },
+    { label: 'Override: Admin', value: 'override:1' },
     { label: 'Override: Manager', value: 'override:2' },
     { label: 'Override: Care Rep', value: 'override:3' },
     { label: 'Revoke', value: 'revoke' }

@@ -21,6 +21,54 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'Frontend',
+        summary:
+          'The Teams roster Position dropdown now emits the live membership-role update request reliably instead of stopping at a visually changed select state.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.html to use the same `ion-select` `[ngModel]` plus `(ngModelChange)` binding path already used by the working Team Access controls. The earlier roster control used `[value]` plus `(ionChange)`, which left live Position changes failing to consistently drive the existing `PUT /teams/{teamId}/members/{teamMemberId}/role` request path even though the focused component logic and service contract were already in place. Validation used the focused Teams Jest slice (`20/20` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Changing a team member\'s Position from the Teams roster now propagates into the actual Team Access permission matrix instead of only storing a display role on the membership row.',
+        evidence:
+          'Recorded in the snapshot API running change log after updating deployment/controllers/Team.js, deployment/service/TeamService.js, and migration_sql/3.12.12migration-team-member-general-role.sql. The earlier role route only wrote `userTeams.teamMemberRoleLabelId`; it now also rewrites that member\'s `teamMemberOperationOverrides` across the current team access scope so effective permissions follow the selected team role. The canonical SQL source was widened at the same time so Team Access constraints and write procedures accept `Admin` (`1`) alongside `Manager` and `Care Rep`. Validation used `npm test --silent` (`Syntax OK for 69 files`).',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Teams roster Position dropdown and the Team Access editor now describe the same role space, including `Admin`, so membership-role changes no longer stop at a UI label.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating src/app/modules/team/team-access/team-access.component.ts and its focused Jest coverage to include `Admin` as a valid Team Access default/member-override role, aligned with the backend propagation fix for `PUT /teams/{teamId}/members/{teamMemberId}/role`. Validation used the focused Teams Jest slice covering the roster editor, Team service contract, and Team Access component (`20/20` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Database',
+        summary:
+          'Team memberships now support a persisted team-specific general role on `userTeams`, with a focused write procedure for the Teams roster dropdown instead of relying only on the old derived highest-role label.',
+        evidence:
+          'Recorded in the snapshot API running change log after adding `v4.0.0/followup-api/migration_sql/3.12.12migration-team-member-general-role.sql`, wiring it into the migration manifest and alpha compile wrapper, and introducing `userTeams.teamMemberRoleLabelId` plus `sp_setTeamMemberRoleByTeamIdAndTeamMemberId`. The migration also backfills existing memberships from the prior computed highest-role behavior so the first roster render stays aligned with current data before admins begin choosing team-specific overrides. Validation used the snapshot API syntax test path and the new migration is now part of the canonical ordered SQL chain.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'The API now exposes `PUT /teams/{teamId}/members/{teamMemberId}/role`, and team-member roster/detail reads surface the selected team-specific role while preserving mixed-schema fallback behavior.',
+        evidence:
+          'Recorded in the snapshot API running change log after updating deployment/controllers/Team.js, deployment/service/TeamService.js, and deployment/api/swagger.yaml. The service now supports the focused role-update route for the Teams members table, enriches team-member reads with the stored team role when present, and keeps the prior derived-role value available as a fallback so older schemas or pre-migration reads do not collapse to blank role labels during rollout. Validation used `npm test --silent` (`Syntax OK for 69 files`).',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Teams admins can now choose each member’s team-specific general/highest role directly from the roster table through an inline Position dropdown.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating src/app/modules/team/team-listing/team-members-listing so the static `Position` label becomes an admin-only dropdown backed by `PUT /teams/{teamId}/members/{teamMemberId}/role`. The table now keeps team role selection local to the selected team, updates the roster in place after save, and preserves the existing read-only label for non-admins. Validation used the focused team-members-listing and team.service Jest slice (`12/12` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'API',
         summary:
           'Team-member removal now matches the canonical member-detail route: Swagger exposes `DELETE /teams/{teamId}/members/{teamMemberId}` and the backend resolves that team member id back to the underlying user before delete.',

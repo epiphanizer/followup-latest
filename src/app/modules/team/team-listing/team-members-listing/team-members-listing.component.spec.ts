@@ -24,6 +24,7 @@ const teamServiceStub = {
           userId,
           teamMemberFirstName: addedUser?.userFirstName || 'Added',
           teamMemberLastName: addedUser?.userLastName || 'User',
+          teamMemberRoleLabelId: addedUser?.userRoleLabel === 'Admin' ? 1 : addedUser?.userRoleLabel === 'Manager' ? 2 : 3,
           teamMemberRoleLabel: addedUser?.userRoleLabel || 'Manager',
           teamMemberHired: '2026-01-01',
           spanishSpeaking: !!addedUser?.userSpeaksSpanish
@@ -31,6 +32,23 @@ const teamServiceStub = {
       ];
     }
     return of({});
+  }),
+  setTeamMemberRoleByTeamIdAndTeamMemberId: jest.fn((teamId: string, teamMemberId: string, teamMemberRoleLabelId: number) => {
+    const nextRoleLabel = teamMemberRoleLabelId === 1 ? 'Admin' : teamMemberRoleLabelId === 2 ? 'Manager' : 'Care Rep';
+    teamMembersResponse = teamMembersResponse.map(member => {
+      if (member.teamId === teamId && member.teamMemberId === teamMemberId) {
+        return {
+          ...member,
+          teamMemberRoleLabelId,
+          teamMemberRoleLabel: nextRoleLabel
+        };
+      }
+
+      return member;
+    });
+
+    const updatedMember = teamMembersResponse.find(member => member.teamId === teamId && member.teamMemberId === teamMemberId);
+    return of({ ...updatedMember });
   }),
   removeTeamMemberByTeamIdAndTeamMemberId: jest.fn((teamId: string, teamMemberId: string) => {
     teamMembersResponse = teamMembersResponse.filter(
@@ -60,6 +78,7 @@ describe('TeamMembersListingComponent (Jest)', () => {
         teamId: 't1',
         teamMemberFirstName: 'Care',
         teamMemberLastName: 'Rep',
+        teamMemberRoleLabelId: 3,
         teamMemberRoleLabel: 'Care Rep',
         teamMemberHired: '2026-01-01',
         spanishSpeaking: true
@@ -135,5 +154,13 @@ describe('TeamMembersListingComponent (Jest)', () => {
     expect(confirmSpy).toHaveBeenCalledWith('Remove Care Rep from this team?');
     expect(teamServiceStub.removeTeamMemberByTeamIdAndTeamMemberId).toHaveBeenCalledWith('t1', 'm1');
     expect(component.teamMembers.some(member => member.userId === 'u-existing')).toBe(false);
+  });
+
+  it('updates the selected team-specific role for a team member', () => {
+    component.updateTeamMemberRole(teamMembersResponse[0] as any, 2);
+
+    expect(teamServiceStub.setTeamMemberRoleByTeamIdAndTeamMemberId).toHaveBeenCalledWith('t1', 'm1', 2);
+    expect(component.teamMembers[0].teamMemberRoleLabelId).toBe(2);
+    expect(component.teamMembers[0].teamMemberRoleLabel).toBe('Manager');
   });
 });

@@ -30,7 +30,10 @@ export interface TeamMember {
   teamMemberHired: string;
   teamMemberFirstName: string;
   teamMemberLastName: string;
+  teamMemberRoleLabelId?: number;
   teamMemberRoleLabel?: string;
+  effectiveTeamMemberRoleLabelId?: number;
+  effectiveTeamMemberRoleLabel?: string;
   teamMemberEmail?: string;
   teamMemberBirthday?: string;
   teamMemberPhoneNumber?: string;
