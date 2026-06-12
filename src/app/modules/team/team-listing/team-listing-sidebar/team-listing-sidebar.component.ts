@@ -82,7 +82,7 @@ export class TeamListingSidebar implements OnInit {
   }
 
   get roleGroupKeys(): TeamRoleGroupKey[] {
-    return ['admins', 'managers', 'careReps', 'others'];
+    return ['admins', 'managers', 'careReps'];
   }
 
   get teamCounts(): { active: number; archived: number } {

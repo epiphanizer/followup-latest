@@ -34,7 +34,7 @@
           ><a
             class="operation-group-link"
             [class.active]="isOperationGroupActive(operationGroup)"
-            (click)="setActiveOperationGroup(operationGroup)"
+            (click)="handleOperationGroupClick(operationGroup, $event)"
             [routerLink]="getOperationGroupRoute(operationGroup)"
             >{{
               operationGroup.operationGroupShortName?.length
@@ -46,7 +46,7 @@
             *ngIf="!clientMode"
             class="expand-facilities-trigger"
             [@turnArrow]="isOperationGroupExpanded(operationGroup) ? 'open' : 'closed'"
-            (click)="toggleOperationSidebarMenu(operationGroup)"
+            (click)="toggleOperationSidebarMenu(operationGroup, $event)"
           >
           </i>
           <button

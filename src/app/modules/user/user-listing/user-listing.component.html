@@ -208,9 +208,9 @@
                 <div class="status-panel error" *ngIf="group.mergeError">{{ group.mergeError }}</div>
                 <div class="merge-script-panel" *ngIf="group.mergeScript">
                   <div class="merge-script-header">
-                    <div class="merge-script-title">Generated SQL workup</div>
+                    <div class="merge-script-title">Generated merge workup</div>
                     <div class="merge-script-copy">
-                      Rollback-first output from the admin-only `/users/merge-script` endpoint.
+                      Stored procedure invocation from the admin-only `/users/merge-script` endpoint.
                     </div>
                   </div>
                   <ion-textarea [value]="group.mergeScript" readonly autoGrow="true"></ion-textarea>

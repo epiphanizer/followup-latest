@@ -4,18 +4,30 @@
       <ion-title>Post A Note</ion-title>
       <img class="post-it-icon-image" src="/assets/icon-postit-lg@2x.png" alt="" />
     </ion-row>
-    <ion-radio-group value="user" formControlName="messageType" (ionChange)="selectMessageType($event)">
-      <ion-item lines="none">
-        <ion-radio class="radio-button-notify" mode="ios" value="user"> </ion-radio>
+    <div class="message-recipient-group" role="radiogroup" aria-label="Post note recipient">
+      <label class="message-recipient-option">
+        <input
+          class="message-recipient-radio"
+          type="radio"
+          formControlName="messageType"
+          value="user"
+          (change)="selectMessageType('user')"
+        />
         <span class="message-to-label"
           ><strong>To:</strong> {{ teamMember.teamMemberFirstName }} {{ teamMember.teamMemberLastName }}</span
         >
-      </ion-item>
-      <ion-item lines="none">
-        <ion-radio class="radio-button-notify" mode="ios" value="team"> </ion-radio>
+      </label>
+      <label class="message-recipient-option">
+        <input
+          class="message-recipient-radio"
+          type="radio"
+          formControlName="messageType"
+          value="team"
+          (change)="selectMessageType('team')"
+        />
         <span class="message-to-label"><strong>To:</strong> Dashboard Message</span>
-      </ion-item>
-    </ion-radio-group>
+      </label>
+    </div>
     <span class="message-label"><strong>Message:</strong></span>
     <ion-textarea
       (ionChange)="onTextAreaChange($event)"

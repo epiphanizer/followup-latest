@@ -393,7 +393,35 @@ export class OperationAdminSidebarComponent implements OnInit {
     this.operationGroupChangeEvent.emit(this.activeOperationGroupId);
   }
 
-  toggleOperationSidebarMenu(operationGroup: OperationGroup) {
+  handleOperationGroupClick(operationGroup: OperationGroup, event?: Event) {
+    if (!operationGroup?.operationGroupId) {
+      return;
+    }
+
+    if (this.clientMode) {
+      this.setActiveOperationGroup(operationGroup);
+      return;
+    }
+
+    if (this.activeOperationGroupId === operationGroup.operationGroupId) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      this.toggleOperationSidebarMenu(operationGroup);
+      return;
+    }
+
+    this.setActiveOperationGroup(operationGroup);
+  }
+
+  toggleOperationSidebarMenu(operationGroup: OperationGroup, event?: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     if (!this.isTouched) this.isTouched = true;
 
     if (operationGroup.sidebarDropdownOpen) {

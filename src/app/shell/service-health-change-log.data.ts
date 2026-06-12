@@ -23,6 +23,86 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Database',
         summary:
+          'Alpha and prod now have the missing team lifecycle database foundation (`teams.teamActive`, `sp_addTeam`, `sp_editTeamByTeamId`, `sp_getTeamByTeamId`, and a refreshed `sp_getTeams`), removing the 400 team create/rename/archive path that left the Teams sidebar stale.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after adding and applying `v4.0.0/followup-api/migration_sql/3.12.11migration-team-lifecycle-foundation.sql` to both `followup_alpha_20260517` and `followup`. Before the migration, the affected schemas still exposed `dbo.teams` with only `teamId` and `teamName`, `sp_getTeams` returned no active-state metadata, and `sp_addTeam`, `sp_editTeamByTeamId`, and `sp_getTeamByTeamId` were absent, which is why team lifecycle requests could fail with `Could not find stored procedure` errors even when the frontend request itself was correct. The migration backfills `teams.teamActive`, recreates the missing lifecycle procedures, and updates `sp_getTeams` to include `teamActive`. Validation used `sqlcmd -b -i validate-all-alpha.noexec.sql`, alpha apply, rollback-scoped alpha SQL smoke for `sp_editTeamByTeamId` + `sp_getTeamByTeamId` + `sp_getTeams`, a local TeamService smoke plus explicit restore of the test team state, prod apply, and final capability verification showing `1 1 1 1` for add proc / edit proc / get-team proc / teamActive column in both databases.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Team rename, archive, and restore flows now fall back to direct `dbo.teams` updates when `sp_editTeamByTeamId` is missing instead of failing with a 400 at the API layer.',
+        evidence:
+          'Recorded in the snapshot API running change log after updating deployment/service/TeamService.js to detect whether `sp_editTeamByTeamId` and `teams.teamActive` exist before writing team changes. The prior team flows still assumed the shared edit proc existed after the `teamActive` binding fix, so requests like `PUT /teams/{teamId}` and `DELETE /teams/{teamId}` could still fail with `Could not find stored procedure \`sp_editTeamByTeamId\`.` on mixed schemas even though direct table writes were possible. The service now uses the proc when present and otherwise falls back to direct `dbo.teams` updates, only rejecting archive-state writes when the schema also lacks `teamActive`. Validation used API syntax tests (`npm test --silent`) and clean editor diagnostics on deployment/service/TeamService.js.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Database',
+        summary:
+          'Duplicate-account merge workups now run through `dbo.sp_runUserMergeWorkup` on both alpha and prod instead of exposing a full inline SQL transaction script from the API.',
+        evidence:
+          'Recorded in the snapshot API running change log after adding migration `v4.0.0/followup-api/migration_sql/3.12.10migration-user-merge-workup-procedure.sql`, compile-validating the standardized migration chain on alpha, applying the new procedure to `followup_alpha_20260517` and `followup`, and verifying the object exists in both databases. The alpha rollback-preview smoke for the real `58 -> 19` `bneff@hgmgt.com -> bneff` pair also exposed and then validated a unique-index deduplication hardening on `dbo.operationUsers`, so the final proc now pre-deletes source rows that would collide with target unique keys before FK reassignment.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The duplicate-account merge panel now presents `/users/merge-script` output as a stored-procedure workup instead of a raw SQL block.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating src/app/modules/user/user-listing/user-listing.component.html copy to describe the merge output as a stored procedure invocation. This matches the API/backend contract change where `/users/merge-script` now returns a rollback-first `EXEC dbo.sp_runUserMergeWorkup ... @commitChanges = 0` snippet for admin review. Validation used the focused user-listing Jest spec (`4/4` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Team creation now works on mixed schemas where `sp_addTeam` is absent; the API falls back to inserting directly into `dbo.teams` and still returns a normalized created-team payload.',
+        evidence:
+          'Recorded in the snapshot API running change log after updating deployment/service/TeamService.js `addTeam` to detect whether `sp_addTeam` and `teams.teamActive` exist before creating a team. The previous `POST /teams` path failed with `Could not find stored procedure \`sp_addTeam\`.` and the frontend appeared to do nothing because the Teams sidebar refresh only runs after a successful response. The service now uses the proc when present and otherwise inserts directly into `dbo.teams` with schema-aware handling for the optional `teamActive` column. Validation used `node --check deployment/service/TeamService.js` and API syntax tests (`npm test --silent`).',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Teams sidebar `TODAY\'S DATE` block now sits on the same column width as the other major sidebars instead of rendering inside a wider Teams column.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after narrowing the Teams sidebar column in src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.scss to the same effective width used by the call queue, notifications, users, and operations sidebars. The typography values were already aligned; the inconsistency was the wider Teams column causing the date composition to render on a broader measure than the rest of the app. Validation used the focused Teams sidebar Jest spec (`3/3` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Team create, rename, restore, and archive flows now reach the shared team edit stored procedure again; the API no longer rejects numeric `teamActive` values as invalid strings.',
+        evidence:
+          'Recorded in the snapshot API running change log after fixing deployment/service/TeamService.js so all `sp_editTeamByTeamId` callers normalize `teamActive` to `0` or `1` and bind it as `sql.Int` instead of `sql.VarChar`. The previous binding caused `Validation failed for parameter \`teamActive\`. Invalid string.` during team create, rename/edit, restore, and archive follow-up flows before the procedure ran, which left the Teams widget unchanged because the sidebar reload path only executes after a successful response. The service now returns a stable edited-team payload for the direct edit path as well. Validation used `node --check deployment/service/TeamService.js` and API syntax tests (`npm test --silent`).',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Teams sidebar no longer renders an `Other` member bucket; it now shows only Admins, Managers, and Care Reps.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after narrowing the visible Teams sidebar role-group list in src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.ts to `admins`, `managers`, and `careReps`. Focused sidebar Jest coverage also confirms that `createTeam()` still invokes the frontend team service after prompt confirmation, so the create click path remains live while the API-side teamActive binding fix restores the backend write. Validation used the focused team-listing-sidebar Jest spec (`3/3` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Post A Note modal recipient choices now render as stable single-selection controls again instead of overlapping/broken icons.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after replacing the legacy custom-skinned `ion-radio` recipient controls in src/app/shell/post-it-modal/post-it-modal.component with native radio inputs bound to the existing reactive form state. The prior markup depended on pre-Ionic-8 radio styling and could show duplicated or malformed outlines beside `To: <team member>` and `To: Dashboard Message`. The modal now uses stable native inputs with the existing checked/unchecked art assets, defaults to the direct-user selection, and keeps the surrounding textarea/button spacing responsive. Validation used the focused Post A Note Jest spec (`2/2` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Authenticated users can delete newly added cork-board images again; the owner-authorization lookup no longer fails when the cork-board proc omits a direct `userId` field.',
+        evidence:
+          'Recorded in the snapshot API running change log after hardening deployment/utils/routeAuthorization.js resolveCorkBoardOwnerUserId. The previous admin-or-self guard only read `response[0].userId` from `sp_getUserCorkBoardObjectByUserCorkBoardObjectId`, which could leave delete requests for newly added cork-board images failing early with `Target user id is required.` when the proc response only included the stored upload-path record. The resolver now checks several owner-id aliases and falls back to the persisted upload filename pattern (`<timestamp>-<encodedUserId>-corkboard-object-...`) to recover the owning user for authorization before delete. Validation used `node --check deployment/utils/routeAuthorization.js` and API syntax tests (`npm test --silent`).',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Database',
+        summary:
           'Alpha now has the previously missing migration set (`3.12.4`, `3.12.8`, `3.12.9`) applied, including mixed-schema compatibility updates for Team Access defaults and direct-permission cutover procedures.',
         evidence:
           'Recorded in the snapshot API/frontend running change logs after applying the pending scripts on `followup_alpha_20260517` and patching migration compatibility where alpha schema drift existed. `3.12.8` was updated to validate default assignee ids via `userTeams.userTeamId` (instead of `teamMemberId`), and `3.12.9` was updated to avoid hard dependencies on optional columns (`operationUsers.operationUserId`, `users.userLevel`, `teams.teamActive`) while preserving cutover/restore procedure creation. Post-apply verification confirms `3.12.8` and `3.12.9` signatures are present and `sp_getAssignedUsersByOperationId` includes deleted-user filtering for the `3.12.4` intent.',

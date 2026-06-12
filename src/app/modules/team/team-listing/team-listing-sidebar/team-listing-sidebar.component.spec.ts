@@ -32,6 +32,10 @@ const teamServiceStub = {
 describe('TeamListingSidebar (Jest)', () => {
   const buildComponent = () => new TeamListingSidebar(logServiceStub as any, teamServiceStub as any);
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('loads teams and emits initial selection', () => {
     const component = buildComponent();
     const emitSpy = jest.spyOn(component.teamChangeEvent, 'emit');
@@ -42,6 +46,7 @@ describe('TeamListingSidebar (Jest)', () => {
     expect(component.teams?.length).toBeGreaterThan(0);
     expect(component.getTeamMemberCount(component.teams[0] as any)).toBe(2);
     expect(component.getRoleGroupCount(component.teams[0] as any, 'managers')).toBe(1);
+    expect(component.roleGroupKeys).toEqual(['admins', 'managers', 'careReps']);
     expect(emitSpy).toHaveBeenCalled();
   });
 
@@ -56,5 +61,16 @@ describe('TeamListingSidebar (Jest)', () => {
     component.toggleRoleGroup(team, 'managers');
 
     expect(component.isRoleGroupExpanded(team, 'managers')).toBe(false);
+  });
+
+  it('creates a team after prompt confirmation', () => {
+    const component = buildComponent();
+    component.canManageTeams = true;
+    const promptSpy = jest.spyOn(window, 'prompt').mockReturnValue('  New Team  ');
+
+    component.createTeam();
+
+    expect(promptSpy).toHaveBeenCalledWith('New team name');
+    expect(teamServiceStub.addTeam).toHaveBeenCalledWith('New Team');
   });
 });
