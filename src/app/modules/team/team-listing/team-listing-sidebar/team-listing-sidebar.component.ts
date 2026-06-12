@@ -325,11 +325,18 @@ export class TeamListingSidebar implements OnInit {
       return;
     }
 
+    const shouldRestore = window.confirm('Restore this archived team?');
+    if (!shouldRestore) {
+      return;
+    }
+
     this.isBusy = true;
     this.teamService.editTeamByTeamId(team.teamId, { teamName: team.teamName, teamActive: 1 }).subscribe(
       () => {
         this.isBusy = false;
         team.teamActive = 1;
+        this.teamVisibilityFilter = 'active';
+        this.selectTeam(team);
         this.loadTeams(team.teamId);
       },
       () => {

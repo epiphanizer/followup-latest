@@ -21,6 +21,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'Frontend',
+        summary:
+          'Archived teams can now be restored cleanly from the Teams sidebar; restore switches back to the active view so the restored team stays visible instead of disappearing from the current archived filter.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after tightening src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.ts. The restore action already existed, but once `teamActive` flipped back to `1` it could leave the user parked on the Archived filter, which made the restored team vanish from the current list and made unarchive feel incomplete. Restore now confirms intent, switches the sidebar back to Active, reselects the restored team, and reloads the roster. Validation used the focused Teams sidebar Jest slice with explicit restore coverage.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'Database',
         summary:
           'Alpha and prod now have the missing team lifecycle database foundation (`teams.teamActive`, `sp_addTeam`, `sp_editTeamByTeamId`, `sp_getTeamByTeamId`, and a refreshed `sp_getTeams`), removing the 400 team create/rename/archive path that left the Teams sidebar stale.',
