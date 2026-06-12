@@ -174,4 +174,28 @@ describe('NotificationPatientListingComponent (Jest)', () => {
 
     expect(notificationServiceStub.updateNotificationStatus).not.toHaveBeenCalled();
   });
+
+  it('shows replied when a notification has attached replies even without replyCount', () => {
+    const notification = {
+      notificationId: 'n1',
+      notificationStatusLabelId: 'status-unresolved',
+      notificationStatusLabel: 'Unresolved',
+      notificationReplies: [{ notificationReplyId: 'r1' }]
+    } as any;
+
+    expect(component.getReplyCount(notification)).toBe(1);
+    expect(component.getDisplayStatus(notification)).toBe('Replied');
+  });
+
+  it('treats string replyCount values as replied status', () => {
+    const notification = {
+      notificationId: 'n2',
+      notificationStatusLabelId: 'status-unresolved',
+      notificationStatusLabel: 'Unresolved',
+      replyCount: '2'
+    } as any;
+
+    expect(component.getReplyCount(notification)).toBe(2);
+    expect(component.getDisplayStatus(notification)).toBe('Replied');
+  });
 });

@@ -284,12 +284,13 @@ form {
     height: 52px;
     min-height: 0;
     border: solid 1px rgba(112, 112, 112, 0.15);
+    border-radius: 4px;
     background: #f5f5f5;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 0 14px;
+    padding: 0 16px;
     text-align: left;
     cursor: pointer;
     float: none;
@@ -330,6 +331,13 @@ form {
   .operation-group-search-input {
     width: 100%;
     display: block;
+    border: solid 1px rgba(112, 112, 112, 0.15);
+    border-radius: 4px;
+    background: #f5f5f5;
+    --padding-top: 12px;
+    --padding-end: 14px;
+    --padding-bottom: 12px;
+    --padding-start: 14px;
     margin-right: 0;
   }
 
@@ -339,9 +347,10 @@ form {
     max-height: 220px;
     overflow-y: auto;
     border: solid 1px rgba(112, 112, 112, 0.15);
+    border-radius: 6px;
     background: #ffffff;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-    padding: 8px;
+    padding: 10px;
     margin: 0;
   }
 
@@ -358,7 +367,7 @@ form {
   }
 
   .operation-group-lookahead .operation-group-search-input {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
   .operation-group-lookahead-loading,
@@ -375,7 +384,7 @@ form {
     text-align: left;
     cursor: pointer;
     background: #ffffff;
-    padding: 0.55rem 0.7rem;
+    padding: 0.7rem 0.85rem;
     display: block;
     margin: 0;
     float: none;

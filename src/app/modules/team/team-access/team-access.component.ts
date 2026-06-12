@@ -381,23 +381,12 @@ export class TeamAccessComponent implements OnInit {
       return;
     }
 
-    const assignments: TeamOperationAssignmentPutItem[] = [];
-    this.teamAccessClients.forEach(client => {
-      client.entries.forEach(entry => {
-        if (!this.isEntryInClientScope(client, entry)) {
-          return;
-        }
+    if (this.hasIncompleteScopedAssignments()) {
+      this.toastrService.error('Choose a default role for each enabled operation before saving team defaults.');
+      return;
+    }
 
-        if (entry.selectedRoleId > 0) {
-          assignments.push({
-            operationId: entry.operationId,
-            operationUserRoleLabelId: entry.selectedRoleId,
-            defaultManagerTeamMemberId: entry.defaultManagerTeamMemberId || undefined,
-            defaultCareRepTeamMemberId: entry.defaultCareRepTeamMemberId || undefined
-          });
-        }
-      });
-    });
+    const assignments = this.buildScopedAssignments();
 
     this.isSaving = true;
     this.teamService
@@ -407,7 +396,7 @@ export class TeamAccessComponent implements OnInit {
         next: (updatedAssignments: TeamOperationAssignment[]) => {
           this.entries = this.buildEntries(this.allOperations, updatedAssignments || []);
           this.teamAccessClients = this.buildClientCards(this.entries);
-          this.initialSnapshot = this.createSnapshot(this.entries);
+          this.initialSnapshot = this.createSnapshot();
           this.isDirty = false;
           this.isSaving = false;
           if (this.selectedTeamMemberId) {
@@ -483,7 +472,7 @@ export class TeamAccessComponent implements OnInit {
         this.allOperations = operations;
         this.entries = this.buildEntries(this.allOperations, assignments);
         this.teamAccessClients = this.buildClientCards(this.entries);
-        this.initialSnapshot = this.createSnapshot(this.entries);
+        this.initialSnapshot = this.createSnapshot();
         this.teamMembers = teamMembers.sort((left, right) => {
           const lastNameDifference = (left.teamMemberLastName || '').localeCompare(right.teamMemberLastName || '');
           if (lastNameDifference !== 0) {
@@ -851,7 +840,7 @@ export class TeamAccessComponent implements OnInit {
       allEntries.push(...client.entries);
       return allEntries;
     }, []);
-    this.isDirty = this.createSnapshot(this.entries) !== this.initialSnapshot;
+    this.isDirty = this.createSnapshot() !== this.initialSnapshot;
   }
 
   private buildMemberEntries(entries: TeamMemberOperationAccessEntry[]): TeamMemberAccessEntry[] {
@@ -907,8 +896,29 @@ export class TeamAccessComponent implements OnInit {
     }));
   }
 
-  private createSnapshot(entries: TeamAccessEntry[]): string {
-    const scopedAssignments = this.teamAccessClients
+  private createSnapshot(): string {
+    const clientsSnapshot = this.teamAccessClients
+      .map((client: TeamAccessClientCard) => ({
+        key: client.key,
+        enabled: client.enabled,
+        accessMode: client.accessMode,
+        entries: [...client.entries]
+          .map((entry: TeamAccessEntry) => ({
+            operationId: entry.operationId,
+            operationSelected: !!entry.operationSelected,
+            selectedRoleId: Number(entry.selectedRoleId) || 0,
+            defaultManagerTeamMemberId: entry.defaultManagerTeamMemberId || '',
+            defaultCareRepTeamMemberId: entry.defaultCareRepTeamMemberId || ''
+          }))
+          .sort((left, right) => left.operationId.localeCompare(right.operationId))
+      }))
+      .sort((left, right) => left.key.localeCompare(right.key));
+
+    return JSON.stringify(clientsSnapshot);
+  }
+
+  private buildScopedAssignments(): TeamOperationAssignmentPutItem[] {
+    return this.teamAccessClients
       .reduce((assignments, client: TeamAccessClientCard) => {
         client.entries.forEach((entry: TeamAccessEntry) => {
           if (!this.isEntryInClientScope(client, entry) || entry.selectedRoleId <= 0) {
@@ -928,8 +938,12 @@ export class TeamAccessComponent implements OnInit {
       .sort((left: TeamOperationAssignmentPutItem, right: TeamOperationAssignmentPutItem) =>
         left.operationId.localeCompare(right.operationId)
       );
+  }
 
-    return JSON.stringify(scopedAssignments);
+  private hasIncompleteScopedAssignments(): boolean {
+    return this.teamAccessClients.some((client: TeamAccessClientCard) =>
+      client.entries.some((entry: TeamAccessEntry) => this.isEntryInClientScope(client, entry) && entry.selectedRoleId <= 0)
+    );
   }
 
   private createMemberSnapshot(entries: TeamMemberAccessEntry[]): string {

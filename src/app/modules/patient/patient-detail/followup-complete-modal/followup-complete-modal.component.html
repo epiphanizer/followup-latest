@@ -8,7 +8,7 @@
 
       <div class="modal-body">
         <div class="patient-status-container">
-          <ng-container *ngIf="completionTypesLoading; else completionOptionsState">
+          <ng-container *ngIf="completionTypesLoading && !completionTypes.length; else completionOptionsState">
             <div class="completion-loading">
               <ion-spinner name="crescent"></ion-spinner>
               <span>Loading completion options...</span>

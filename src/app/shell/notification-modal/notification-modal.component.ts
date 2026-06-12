@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { formatDate } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Notification, NotificationRecipient, NotificationType } from '@app/modules/notification/notification';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { take, finalize } from 'rxjs/operators';
 import { OperationContact } from '@app/modules/operation/operation-contact/operation-contact';
 import { OperationContactsService } from '@app/modules/operation/operation-contacts.service';
 import { ToastrService } from 'ngx-toastr';
@@ -18,7 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NotificationModalComponent {
   createNotificationForm: FormGroup;
-  notification: Notification;
+  @Input() notification: Notification;
   notificationRecipients: NotificationRecipient[];
   notificationType: NotificationType;
   notificationTypes: NotificationType[] = [];
@@ -50,26 +51,33 @@ export class NotificationModalComponent {
   ) {}
 
   ngOnInit() {
+    this.notification = this.buildSafeNotification(this.notification);
     this.createForm();
     this.onChanges();
     this.todaysDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
 
-    this.notificationService.getNotificationTypes().subscribe({
-      next: (data: NotificationType[] | null) => {
-        this.notificationTypes = Array.isArray(data) ? data : [];
-        this.notificationTypesLoading = false;
-        this.notificationTypesError = null;
-      },
-      error: () => {
-        this.notificationTypes = [];
-        this.notificationTypesLoading = false;
-        this.notificationTypesError = 'Unable to load notification options.';
-      }
-    });
+    this.notificationService
+      .getNotificationTypes()
+      .pipe(
+        take(1),
+        finalize(() => {
+          this.notificationTypesLoading = false;
+        })
+      )
+      .subscribe({
+        next: (data: NotificationType[] | { data?: NotificationType[]; notificationTypes?: NotificationType[] } | null) => {
+          this.notificationTypes = this.normalizeNotificationTypes(data);
+          this.notificationTypesError = null;
+        },
+        error: () => {
+          this.notificationTypes = [];
+          this.notificationTypesError = 'Unable to load notification options.';
+        }
+      });
 
-    this.operationContacts$ = this.operationContactsService.getOperationContactsByOperationId(
-      this.notification.notificationOperationId
-    );
+    this.operationContacts$ = this.notification.notificationOperationId
+      ? this.operationContactsService.getOperationContactsByOperationId(this.notification.notificationOperationId)
+      : of([]);
   }
   onChanges() {
     if (this.createNotificationForm) {
@@ -138,5 +146,39 @@ export class NotificationModalComponent {
     this.modalCtrl.dismiss({
       dismissed: true
     });
+  }
+
+  private buildSafeNotification(notification?: Notification | null): Notification {
+    return {
+      notificationCreatedByUserId: notification?.notificationCreatedByUserId || '',
+      notificationMessage: notification?.notificationMessage || '',
+      notificationOperationId: notification?.notificationOperationId || '',
+      notificationPatientId: notification?.notificationPatientId || '',
+      notificationTypeId: notification?.notificationTypeId || '',
+      notificationTypeLabel: notification?.notificationTypeLabel || '',
+      notificationIconImage: notification?.notificationIconImage || '',
+      notificationOperationName: notification?.notificationOperationName || '',
+      notificationPatientFirstName: notification?.notificationPatientFirstName || '',
+      notificationPatientLastName: notification?.notificationPatientLastName || '',
+      notificationPatientMedicalRecordNumber: notification?.notificationPatientMedicalRecordNumber || undefined
+    };
+  }
+
+  private normalizeNotificationTypes(
+    response: NotificationType[] | { data?: NotificationType[]; notificationTypes?: NotificationType[] } | null
+  ): NotificationType[] {
+    if (Array.isArray(response)) {
+      return response;
+    }
+
+    if (Array.isArray(response?.notificationTypes)) {
+      return response.notificationTypes;
+    }
+
+    if (Array.isArray(response?.data)) {
+      return response.data;
+    }
+
+    return [];
   }
 }

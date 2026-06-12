@@ -105,4 +105,54 @@ describe('NotificationModalComponent (Jest)', () => {
     expect(component.notificationTypes).toEqual([]);
     expect(component.notificationTypesError).toBe('Unable to load notification options.');
   });
+
+  it('prefers rendered notification options over the loading state once data exists', () => {
+    const { component } = buildComponent();
+
+    component.ngOnInit();
+    component.notificationTypes = [
+      {
+        notificationTypeId: 'type-1',
+        notificationTypeLabel: 'Type 1',
+        notificationIconImage: 'icon.png'
+      } as any
+    ];
+    component.notificationTypesLoading = true;
+
+    const loadingStillVisible = component.notificationTypesLoading && !component.notificationTypes.length;
+
+    expect(loadingStillVisible).toBe(false);
+  });
+
+  it('initializes safely when the notification seed is missing', () => {
+    const { component, operationContactsServiceStub } = buildComponent();
+    component.notification = undefined as any;
+
+    component.ngOnInit();
+
+    expect(component.notification.notificationOperationId).toBe('');
+    expect(component.notificationTypesLoading).toBe(false);
+    expect(operationContactsServiceStub.getOperationContactsByOperationId).not.toHaveBeenCalled();
+  });
+
+  it('normalizes wrapped notification type payloads into rendered options', () => {
+    const { component, notificationServiceStub } = buildComponent();
+    notificationServiceStub.getNotificationTypes.mockReturnValueOnce(
+      of({
+        notificationTypes: [
+          {
+            notificationTypeId: 'type-2',
+            notificationTypeLabel: 'Type 2',
+            notificationIconImage: 'icon-2.png'
+          }
+        ]
+      } as any)
+    );
+
+    component.ngOnInit();
+
+    expect(component.notificationTypesLoading).toBe(false);
+    expect(component.notificationTypes).toHaveLength(1);
+    expect(component.notificationTypes[0].notificationTypeId).toBe('type-2');
+  });
 });

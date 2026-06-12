@@ -3,6 +3,7 @@ import { Patient } from '../../patient';
 import { PatientStatusService, PatientStatus } from '../../patient-status.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { take, finalize } from 'rxjs/operators';
 
 @Component({
   providers: [PatientStatusService],
@@ -24,18 +25,24 @@ export class FollowupCompleteModalComponent implements OnInit {
   completionTypesError: string | null = null;
   ngOnInit() {
     this.createForm();
-    this.patientStatusService.getPatientStatusLabels().subscribe({
-      next: (data: PatientStatus[] | null) => {
-        this.completionTypes = Array.isArray(data) ? data : [];
-        this.completionTypesLoading = false;
-        this.completionTypesError = null;
-      },
-      error: () => {
-        this.completionTypes = [];
-        this.completionTypesLoading = false;
-        this.completionTypesError = 'Unable to load completion options.';
-      }
-    });
+    this.patientStatusService
+      .getPatientStatusLabels()
+      .pipe(
+        take(1),
+        finalize(() => {
+          this.completionTypesLoading = false;
+        })
+      )
+      .subscribe({
+        next: (data: PatientStatus[] | null) => {
+          this.completionTypes = Array.isArray(data) ? data : [];
+          this.completionTypesError = null;
+        },
+        error: () => {
+          this.completionTypes = [];
+          this.completionTypesError = 'Unable to load completion options.';
+        }
+      });
   }
   createForm() {
     this.followupCompleteForm = this.fb.group({

@@ -12,7 +12,7 @@
 
   <ng-container *ngIf="status.notification.saved == false; else sendNotification">
     <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm" class="notification-form">
-      <ng-container *ngIf="notificationTypesLoading; else notificationTypesState">
+      <ng-container *ngIf="notificationTypesLoading && !notificationTypes.length; else notificationTypesState">
         <div class="notification-loading">
           <ion-spinner name="crescent"></ion-spinner>
           <span>Loading notification options...</span>

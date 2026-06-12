@@ -416,7 +416,7 @@ export class OperationFormComponent implements OnInit {
 
     const triggerRect = this.operationGroupTriggerElement.getBoundingClientRect();
     this.operationGroupOverlayStyle = {
-      top: `${triggerRect.bottom + 4}px`,
+      top: `${triggerRect.top}px`,
       left: `${triggerRect.left}px`,
       width: `${triggerRect.width}px`
     };

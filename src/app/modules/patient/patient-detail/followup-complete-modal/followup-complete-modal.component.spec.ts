@@ -97,4 +97,16 @@ describe('FollowupCompleteModalComponent', () => {
     expect(errorComponent.completionTypes).toEqual([]);
     expect(errorComponent.completionTypesError).toBe('Unable to load completion options.');
   });
+
+  it('prefers rendered options over the loading state once completion types exist', () => {
+    component.completionTypes = [{ patientStatusLabelId: '1', patientStatusLabel: 'Completed' }] as any;
+    component.completionTypesLoading = true;
+    component.completionTypesError = null;
+
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelector('.completion-loading')).toBeNull();
+    expect(element.querySelectorAll('.status-option').length).toBe(1);
+  });
 });

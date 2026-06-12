@@ -343,7 +343,7 @@ describe('OperationFormComponent logic', () => {
 
       const trigger = document.createElement('button');
       Object.defineProperty(trigger, 'getBoundingClientRect', {
-        value: () => ({ left: 10, bottom: 30, width: 200 })
+        value: () => ({ left: 10, top: 12, bottom: 30, width: 200 })
       });
       component.toggleOperationGroupDropdown({ currentTarget: trigger } as any);
 
@@ -351,7 +351,7 @@ describe('OperationFormComponent logic', () => {
       expect(component.operationGroupSearchTerm).toBe('');
       expect(component.filteredOperationGroups.length).toBe(3);
       expect(component.operationGroupOverlayStyle.left).toBe('10px');
-      expect(component.operationGroupOverlayStyle.top).toBe('34px');
+      expect(component.operationGroupOverlayStyle.top).toBe('12px');
       expect(component.operationGroupOverlayStyle.width).toBe('200px');
 
       component.toggleOperationGroupDropdown({ currentTarget: trigger } as any);

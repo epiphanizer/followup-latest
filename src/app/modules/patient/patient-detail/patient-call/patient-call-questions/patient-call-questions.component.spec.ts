@@ -71,14 +71,14 @@ describe('PatientCallQuestionsComponent', () => {
     expect(component.isStarFilled(5, 'q1')).toBe(false);
   });
 
-  it('renders inline true and false checkbox options for boolean questions', done => {
+  it('renders inline yes and no checkbox options for boolean questions', done => {
     setTimeout(() => {
       const element = fixture.nativeElement as HTMLElement;
       const options = Array.from(element.querySelectorAll('ion-checkbox.boolean-option')) as HTMLElement[];
 
       expect(options).toHaveLength(2);
-      expect(options[0].textContent).toContain('True');
-      expect(options[1].textContent).toContain('False');
+      expect(options[0].textContent).toContain('Yes');
+      expect(options[1].textContent).toContain('No');
       expect(element.querySelector('.boolean-question-group')).toBeTruthy();
       done();
     }, 0);

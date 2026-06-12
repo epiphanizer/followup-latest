@@ -225,7 +225,41 @@ describe('TeamAccessComponent (Jest)', () => {
     component.setClientAccessMode(client, 'allOperations');
 
     expect(client.entries.every(entry => entry.operationSelected)).toBe(true);
-    expect(component.isDirty).toBe(false);
+    expect(component.isDirty).toBe(true);
+  });
+
+  it('activates save state when enabling a previously disabled client', () => {
+    teamServiceStub.getTeamOperationAssignmentsByTeamId.mockReturnValueOnce(of([]));
+
+    const component = buildComponent();
+
+    component.ngOnInit();
+    const client = component.teamAccessClients[0];
+    expect(client.enabled).toBe(false);
+    expect(component.currentSaveDisabled).toBe(true);
+
+    component.toggleClientEnabled(client, true);
+
+    expect(component.isDirty).toBe(true);
+    expect(component.currentSaveDisabled).toBe(false);
+  });
+
+  it('blocks saving enabled operations that do not yet have a role default', () => {
+    teamServiceStub.getTeamOperationAssignmentsByTeamId.mockReturnValueOnce(of([]));
+
+    const component = buildComponent();
+
+    component.ngOnInit();
+    const client = component.teamAccessClients[0];
+    component.toggleClientEnabled(client, true);
+    component.setClientAccessMode(client, 'allOperations');
+
+    component.saveAssignments();
+
+    expect(teamServiceStub.setTeamOperationAssignmentsByTeamId).not.toHaveBeenCalled();
+    expect(toastrStub.error).toHaveBeenCalledWith(
+      'Choose a default role for each enabled operation before saving team defaults.'
+    );
   });
 
   it('applies bulk role with fill-unassigned semantics only', () => {

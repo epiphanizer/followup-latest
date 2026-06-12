@@ -174,10 +174,23 @@ export class NotificationPatientListingComponent implements OnInit {
   };
 
   getDisplayStatus(notification: Notification): string {
-    if (notification.replyCount && notification.replyCount > 0) {
+    if (this.getReplyCount(notification) > 0) {
       return 'Replied';
     }
     return notification.notificationStatusLabel || 'Unresolved';
+  }
+
+  getReplyCount(notification: Notification): number {
+    const replyCount = Number(notification?.replyCount);
+    if (!Number.isNaN(replyCount) && replyCount > 0) {
+      return replyCount;
+    }
+
+    if (Array.isArray(notification?.notificationReplies)) {
+      return notification.notificationReplies.length;
+    }
+
+    return 0;
   }
 
   getStatusSelectValue(notification: Notification): string {

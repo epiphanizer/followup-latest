@@ -46,7 +46,7 @@
       <td>
         <span class="status-badge" [ngClass]="'status-' + (getDisplayStatus(notification) | lowercase)">
           {{ getDisplayStatus(notification) }}
-          <span class="reply-count" *ngIf="notification.replyCount > 0"> ({{ notification.replyCount }}) </span>
+          <span class="reply-count" *ngIf="getReplyCount(notification) > 0"> ({{ getReplyCount(notification) }}) </span>
         </span>
         <select
           *ngIf="hasEditableStatuses()"
