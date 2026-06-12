@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 
 import { NotificationModalComponent } from './notification-modal.component';
@@ -60,6 +60,8 @@ describe('NotificationModalComponent (Jest)', () => {
     expect(notificationServiceStub.getNotificationTypes).toHaveBeenCalled();
     expect(operationContactsServiceStub.getOperationContactsByOperationId).toHaveBeenCalledWith('op-1');
     expect(component.createNotificationForm).toBeTruthy();
+    expect(component.notificationTypesLoading).toBe(false);
+    expect(component.notificationTypesError).toBeNull();
     expect(typeof component.todaysDate).toBe('string');
   });
 
@@ -90,5 +92,17 @@ describe('NotificationModalComponent (Jest)', () => {
     expect(notificationServiceStub.sendNotificationByNotificationId).toHaveBeenCalledWith('notif-1');
     expect(toastrStub.success).toHaveBeenCalled();
     expect(modalCtrlStub.dismiss).toHaveBeenCalled();
+  });
+
+  it('stops loading and records an error when notification types fail to load', () => {
+    const { component, notificationServiceStub } = buildComponent();
+    notificationServiceStub.getNotificationTypes.mockReturnValueOnce(throwError(() => new Error('boom')));
+
+    component.ngOnInit();
+
+    expect(component.createNotificationForm).toBeTruthy();
+    expect(component.notificationTypesLoading).toBe(false);
+    expect(component.notificationTypes).toEqual([]);
+    expect(component.notificationTypesError).toBe('Unable to load notification options.');
   });
 });

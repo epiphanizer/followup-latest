@@ -21,11 +21,13 @@ export class NotificationModalComponent {
   notification: Notification;
   notificationRecipients: NotificationRecipient[];
   notificationType: NotificationType;
-  notificationTypes: NotificationType[];
+  notificationTypes: NotificationType[] = [];
   notificationTypesListLeft: NotificationType[] = [];
   notificationTypesListRight: NotificationType[] = [];
   operationContacts$: Observable<OperationContact[]>;
   notificationRecipients$: Observable<NotificationRecipient[]>;
+  notificationTypesLoading: boolean = true;
+  notificationTypesError: string | null = null;
   status: {
     notification: {
       saved: boolean;
@@ -48,21 +50,31 @@ export class NotificationModalComponent {
   ) {}
 
   ngOnInit() {
-    this.notificationService.getNotificationTypes().subscribe((data: any) => {
-      this.notificationTypes = data;
-      this.createForm();
-      this.onChanges();
-      this.todaysDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.createForm();
+    this.onChanges();
+    this.todaysDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+
+    this.notificationService.getNotificationTypes().subscribe({
+      next: (data: NotificationType[] | null) => {
+        this.notificationTypes = Array.isArray(data) ? data : [];
+        this.notificationTypesLoading = false;
+        this.notificationTypesError = null;
+      },
+      error: () => {
+        this.notificationTypes = [];
+        this.notificationTypesLoading = false;
+        this.notificationTypesError = 'Unable to load notification options.';
+      }
     });
+
     this.operationContacts$ = this.operationContactsService.getOperationContactsByOperationId(
       this.notification.notificationOperationId
     );
   }
   onChanges() {
-    let notificationTypes = this.notificationTypes;
     if (this.createNotificationForm) {
       this.createNotificationForm.get('notificationTypeId').valueChanges.subscribe(val => {
-        this.notificationType = notificationTypes.find(
+        this.notificationType = this.notificationTypes.find(
           notificationTypes => notificationTypes.notificationTypeId == val
         );
         if (this.notificationType !== undefined) {

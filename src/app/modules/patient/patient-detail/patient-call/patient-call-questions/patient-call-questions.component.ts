@@ -117,6 +117,32 @@ export class PatientCallQuestionsComponent implements OnInit {
     formArray.push(newFormGroup);
   }
 
+  private getQuestionControl(questionIndex: number, questionId: string): FormControl | null {
+    const formArray = this.patientCallQuestionsAnswersForm.get('patientCallQuestionsAnswers') as FormArray;
+    return (formArray.at(questionIndex)?.get(questionId.toString()) as FormControl) || null;
+  }
+
+  isBooleanAnswer(questionIndex: number, questionId: string, expectedValue: string): boolean {
+    return this.getQuestionControl(questionIndex, questionId)?.value === expectedValue;
+  }
+
+  onBooleanAnswerChange(questionIndex: number, questionId: string, answerValue: string, checked: boolean) {
+    const control = this.getQuestionControl(questionIndex, questionId);
+
+    if (!control) {
+      return;
+    }
+
+    if (checked) {
+      control.setValue(answerValue);
+      return;
+    }
+
+    if (control.value === answerValue) {
+      control.setValue('');
+    }
+  }
+
   setRating(questionId: string, rating: number) {
     const formArray = this.patientCallQuestionsAnswersForm.get('patientCallQuestionsAnswers') as FormArray;
 

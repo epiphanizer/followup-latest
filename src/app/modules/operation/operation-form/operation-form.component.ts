@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Injectable, ChangeDetectorRef, HostListener } from '@angular/core';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -79,8 +79,11 @@ export class OperationFormComponent implements OnInit {
   filteredOperationGroups: OperationGroup[] = [];
   operationGroupSearchTerm: string = '';
   operationGroupLookaheadOpen: boolean = false;
+  operationGroupsLoading: boolean = false;
+  operationGroupOverlayStyle: { [key: string]: string } = {};
   user: User;
   private operationGroupBlurTimeout: ReturnType<typeof setTimeout> | null = null;
+  private operationGroupTriggerElement: HTMLElement | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -96,8 +99,10 @@ export class OperationFormComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    this.operationGroups = this.user.operationGroups;
+    this.operationGroups = Array.isArray(this.user?.operationGroups) ? this.user.operationGroups : [];
+    this.loadCachedOperationGroups();
     this.filteredOperationGroups = this.filterOperationGroups('');
+    this.loadOperationGroups();
 
     this.userService.getActiveUsers().subscribe((users: User[]) => {
       this.availableUsers = users;
@@ -302,17 +307,46 @@ export class OperationFormComponent implements OnInit {
     this.operationGroupLookaheadOpen = true;
   }
 
+  toggleOperationGroupDropdown(event?: Event) {
+    this.clearOperationGroupBlurTimeout();
+
+    if (event?.currentTarget instanceof HTMLElement) {
+      this.operationGroupTriggerElement = event.currentTarget;
+    }
+
+    if (this.operationGroupLookaheadOpen) {
+      this.closeOperationGroupDropdown();
+      return;
+    }
+
+    this.operationGroupSearchTerm = '';
+    this.filteredOperationGroups = this.filterOperationGroups('');
+
+    if (!this.filteredOperationGroups.length && !this.operationGroupsLoading) {
+      this.loadOperationGroups();
+      this.filteredOperationGroups = this.filterOperationGroups('');
+    }
+
+    this.operationGroupLookaheadOpen = true;
+    this.updateOperationGroupOverlayPosition();
+  }
+
   onOperationGroupSearchFocus() {
     this.clearOperationGroupBlurTimeout();
     this.filteredOperationGroups = this.filterOperationGroups(this.operationGroupSearchTerm);
     this.operationGroupLookaheadOpen = true;
+    this.updateOperationGroupOverlayPosition();
   }
 
   onOperationGroupSearchBlur() {
     this.clearOperationGroupBlurTimeout();
     this.operationGroupBlurTimeout = setTimeout(() => {
-      this.operationGroupLookaheadOpen = false;
+      this.closeOperationGroupDropdown();
     }, 120);
+  }
+
+  closeOperationGroupDropdown() {
+    this.operationGroupLookaheadOpen = false;
   }
 
   selectOperationGroupFromSearch(operationGroup: OperationGroup, event?: Event) {
@@ -326,12 +360,20 @@ export class OperationFormComponent implements OnInit {
     }
 
     this.clearOperationGroupBlurTimeout();
-    this.operationGroupSearchTerm = operationGroup.operationGroupName || '';
-    this.operationGroupLookaheadOpen = false;
+    this.operationGroupSearchTerm = '';
+    this.closeOperationGroupDropdown();
 
     const operationControls = this.operationForm.get('operation') as FormGroup;
     operationControls.controls.operationGroupId.setValue(operationGroup.operationGroupId);
     this.operationGroupOnSelect({ detail: { value: operationGroup.operationGroupId } });
+  }
+
+  getSelectedOperationGroupLabel(): string {
+    const selectedOperationGroup = (this.operationGroups || []).find(
+      (operationGroup: OperationGroup) => operationGroup.operationGroupId == this.operation?.operationGroupId
+    );
+
+    return selectedOperationGroup?.operationGroupName || '';
   }
 
   trackByOperationGroupOption(index: number, operationGroup: OperationGroup): string | number {
@@ -355,12 +397,8 @@ export class OperationFormComponent implements OnInit {
   }
 
   private setOperationGroupSearchFromSelection(operationGroupId: string) {
-    const selectedOperationGroup = (this.operationGroups || []).find(
-      (operationGroup: OperationGroup) => operationGroup.operationGroupId == operationGroupId
-    );
-
-    this.operationGroupSearchTerm = selectedOperationGroup ? selectedOperationGroup.operationGroupName : '';
-    this.filteredOperationGroups = this.filterOperationGroups(this.operationGroupSearchTerm);
+    this.operationGroupSearchTerm = '';
+    this.filteredOperationGroups = this.filterOperationGroups('');
   }
 
   private clearOperationGroupBlurTimeout() {
@@ -369,6 +407,102 @@ export class OperationFormComponent implements OnInit {
       this.operationGroupBlurTimeout = null;
     }
   }
+
+  private updateOperationGroupOverlayPosition() {
+    if (!this.operationGroupTriggerElement) {
+      this.operationGroupOverlayStyle = {};
+      return;
+    }
+
+    const triggerRect = this.operationGroupTriggerElement.getBoundingClientRect();
+    this.operationGroupOverlayStyle = {
+      top: `${triggerRect.bottom + 4}px`,
+      left: `${triggerRect.left}px`,
+      width: `${triggerRect.width}px`
+    };
+  }
+
+  private loadOperationGroups() {
+    this.operationGroupsLoading = true;
+
+    this.operationService.getAllOperationGroups().subscribe({
+      next: (operationGroups: OperationGroup[]) => {
+        const safeOperationGroups = Array.isArray(operationGroups) ? operationGroups : [];
+        if (!safeOperationGroups.length) {
+          this.loadFallbackOperationGroups();
+          return;
+        }
+
+        this.operationGroups = safeOperationGroups;
+        this.filteredOperationGroups = this.filterOperationGroups(this.operationGroupSearchTerm);
+        this.operationGroupsLoading = false;
+        this.updateOperationGroupOverlayPosition();
+
+        if (this.operation?.operationGroupId) {
+          this.setOperationGroupSearchFromSelection(this.operation.operationGroupId);
+        }
+      },
+      error: () => this.loadFallbackOperationGroups()
+    });
+  }
+
+  private loadCachedOperationGroups() {
+    const cachedOperationGroups = this.readCachedOperationGroups();
+    if (!cachedOperationGroups.length) {
+      return;
+    }
+
+    this.operationGroups = cachedOperationGroups;
+  }
+
+  private readCachedOperationGroups(): OperationGroup[] {
+    const cachedOperationGroupsRaw = localStorage.getItem('operationGroups');
+    if (!cachedOperationGroupsRaw) {
+      return [];
+    }
+
+    try {
+      const cachedOperationGroups = JSON.parse(cachedOperationGroupsRaw);
+      return Array.isArray(cachedOperationGroups) ? cachedOperationGroups : [];
+    } catch (_error) {
+      return [];
+    }
+  }
+
+  private loadFallbackOperationGroups() {
+    this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
+      const safeOperationGroups = Array.isArray(operationGroups) ? operationGroups : [];
+      if (!safeOperationGroups.length) {
+        this.filteredOperationGroups = this.filterOperationGroups(this.operationGroupSearchTerm);
+        this.operationGroupsLoading = false;
+        return;
+      }
+
+      this.operationGroups = safeOperationGroups;
+      this.filteredOperationGroups = this.filterOperationGroups(this.operationGroupSearchTerm);
+      this.operationGroupsLoading = false;
+      this.updateOperationGroupOverlayPosition();
+
+      if (this.operation?.operationGroupId) {
+        this.setOperationGroupSearchFromSelection(this.operation.operationGroupId);
+      }
+    });
+  }
+
+  @HostListener('window:resize')
+  onWindowResize() {
+    if (this.operationGroupLookaheadOpen) {
+      this.updateOperationGroupOverlayPosition();
+    }
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    if (this.operationGroupLookaheadOpen) {
+      this.updateOperationGroupOverlayPosition();
+    }
+  }
+
   addAdditionalOperationContact() {
     let formArray = this.operationForm.controls.operationContacts as FormArray;
     var count = formArray.length;

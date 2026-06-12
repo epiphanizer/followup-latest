@@ -1,21 +1,38 @@
 <form [formGroup]="patientCallQuestionsAnswersForm">
   <ion-list scrollY="true" lines="none" class="patient-call-question-list" formArrayName="patientCallQuestionsAnswers">
     <div *ngFor="let question of questions; let idx = index" formGroupName="{{ idx }}">
-      <ion-item *ngIf="question.patientQuestionTypeLabel == 'boolean'" class="call-question ion-text-center">
+      <ion-item *ngIf="question.patientQuestionTypeLabel == 'boolean'" class="call-question boolean-call-question ion-text-center">
         <div class="call-question-body-container">
-          <div class="call-question">
+          <div class="call-question boolean-question-layout">
             <ng-container>
-              <span class="patient-call-question-label">
+              <span class="patient-call-question-label" [id]="'patient-call-question-' + idx">
                 {{ question.patientCallQuestion }}
               </span>
-              <ion-radio-group class="boolean-question-group" formControlName="{{ question.patientCallQuestionId }}">
-                <ion-item class="boolean-question">
-                  <ion-radio aria-label="Yes" class="radio-button-yes" mode="ios" value="true"> </ion-radio>
-                </ion-item>
-                <ion-item class="boolean-question">
-                  <ion-radio aria-label="No" class="radio-button-no" mode="ios" value="false"> </ion-radio>
-                </ion-item>
-              </ion-radio-group>
+              <div
+                class="boolean-question-group"
+                [attr.aria-labelledby]="'patient-call-question-' + idx"
+              >
+                <ion-checkbox
+                  class="boolean-option followup-form-choice followup-form-choice--compact"
+                  [checked]="isBooleanAnswer(idx, question.patientCallQuestionId, 'true')"
+                  (ionChange)="onBooleanAnswerChange(idx, question.patientCallQuestionId, 'true', $event.detail.checked)"
+                  labelPlacement="end"
+                  alignment="center"
+                  justify="start"
+                >
+                  True
+                </ion-checkbox>
+                <ion-checkbox
+                  class="boolean-option followup-form-choice followup-form-choice--compact"
+                  [checked]="isBooleanAnswer(idx, question.patientCallQuestionId, 'false')"
+                  (ionChange)="onBooleanAnswerChange(idx, question.patientCallQuestionId, 'false', $event.detail.checked)"
+                  labelPlacement="end"
+                  alignment="center"
+                  justify="start"
+                >
+                  False
+                </ion-checkbox>
+              </div>
             </ng-container>
           </div>
         </div>

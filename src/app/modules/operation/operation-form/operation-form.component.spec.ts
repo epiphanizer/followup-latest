@@ -14,6 +14,8 @@ describe('OperationFormComponent logic', () => {
     addNewOperation: jest.fn(() => of({ operationId: 'op1' })),
     editOperationByOperationId: jest.fn(() => of({})),
     getOperationByOperationId: jest.fn(() => of({ operationId: 'op1' })),
+    getAllOperationGroups: jest.fn(() => of([])),
+    getOperationGroups: jest.fn(() => of([])),
     addNewOperationGroup: jest.fn(() => of([{ operationGroupId: 'og1', operationGroupName: 'Ops' }])),
     editOperationGroupByOperationGroupId: jest.fn(() =>
       of([{ operationGroupId: 'og1', operationGroupName: 'PACS', operationGroupShortName: 'WZ PACS' }])
@@ -28,10 +30,15 @@ describe('OperationFormComponent logic', () => {
   const routeStub: any = { snapshot: { data: { user: { operationGroups: [] }, mode: 'edit' } } };
   const routerStub: any = { navigate: jest.fn() };
   const toastrMock: any = { success: jest.fn(), error: jest.fn() };
-  const userServiceMock: any = { updateOperations: jest.fn(() => Promise.resolve()) };
+  const userServiceMock: any = {
+    updateOperations: jest.fn(() => Promise.resolve()),
+    getActiveUsers: jest.fn(() => of([]))
+  };
   const cdrMock: any = { detectChanges: jest.fn() };
 
   beforeEach(() => {
+    jest.clearAllMocks();
+    localStorage.clear();
     fb = new FormBuilder();
     component = new OperationFormComponent(
       fb,
@@ -323,10 +330,136 @@ describe('OperationFormComponent logic', () => {
       component.selectOperationGroupFromSearch(component.operationGroups[2], eventMock);
 
       expect(eventMock.preventDefault).toHaveBeenCalled();
-      expect(component.operationGroupSearchTerm).toBe('Eastside Hospice');
+      expect(component.operationGroupSearchTerm).toBe('');
       expect(component.operationForm.get('operation.operationGroupId').value).toBe('og3');
       expect(component.operation.operationGroupId).toBe('og3');
+      expect(component.getSelectedOperationGroupLabel()).toBe('Eastside Hospice');
       expect(component.operationGroupLookaheadOpen).toBe(false);
+    });
+
+    it('opens as a dropdown trigger and resets search to the full list', () => {
+      component.operationGroupSearchTerm = 'east';
+      component.filteredOperationGroups = component.operationGroups.slice(2);
+
+      const trigger = document.createElement('button');
+      Object.defineProperty(trigger, 'getBoundingClientRect', {
+        value: () => ({ left: 10, bottom: 30, width: 200 })
+      });
+      component.toggleOperationGroupDropdown({ currentTarget: trigger } as any);
+
+      expect(component.operationGroupLookaheadOpen).toBe(true);
+      expect(component.operationGroupSearchTerm).toBe('');
+      expect(component.filteredOperationGroups.length).toBe(3);
+      expect(component.operationGroupOverlayStyle.left).toBe('10px');
+      expect(component.operationGroupOverlayStyle.top).toBe('34px');
+      expect(component.operationGroupOverlayStyle.width).toBe('200px');
+
+      component.toggleOperationGroupDropdown({ currentTarget: trigger } as any);
+
+      expect(component.operationGroupLookaheadOpen).toBe(false);
+    });
+
+    it('hydrates ownership groups from the API for add mode when the user snapshot is empty', () => {
+      routeStub.snapshot.data.mode = 'add';
+      routeStub.snapshot.data.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] };
+      operationServiceMock.getAllOperationGroups.mockReturnValueOnce(
+        of([
+          { operationGroupId: 'og10', operationGroupName: 'Alpha Group', operationGroupShortName: 'AG' },
+          { operationGroupId: 'og11', operationGroupName: 'Beta Group', operationGroupShortName: 'BG' }
+        ] as any)
+      );
+
+      const addModeComponent = new OperationFormComponent(
+        fb,
+        notificationServiceMock,
+        notificationRecipientServiceMock,
+        operationServiceMock,
+        operationContactsServiceMock,
+        routeStub,
+        routerStub,
+        toastrMock,
+        userServiceMock,
+        cdrMock
+      );
+
+      addModeComponent.ngOnInit();
+      addModeComponent.onOperationGroupSearchInput({ detail: { value: 'beta' } });
+
+      expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalled();
+      expect(addModeComponent.operationGroups.length).toBe(2);
+      expect(addModeComponent.filteredOperationGroups.length).toBe(1);
+      expect(addModeComponent.filteredOperationGroups[0].operationGroupId).toBe('og11');
+
+      routeStub.snapshot.data.mode = 'edit';
+      routeStub.snapshot.data.user = { operationGroups: [] };
+    });
+
+    it('falls back to the narrower ownership group feed when the all-groups request is empty', () => {
+      routeStub.snapshot.data.mode = 'add';
+      routeStub.snapshot.data.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] };
+      operationServiceMock.getAllOperationGroups.mockReturnValueOnce(of([]));
+      operationServiceMock.getOperationGroups.mockReturnValueOnce(
+        of([{ operationGroupId: 'og20', operationGroupName: 'Fallback Group', operationGroupShortName: 'FG' }] as any)
+      );
+
+      const addModeComponent = new OperationFormComponent(
+        fb,
+        notificationServiceMock,
+        notificationRecipientServiceMock,
+        operationServiceMock,
+        operationContactsServiceMock,
+        routeStub,
+        routerStub,
+        toastrMock,
+        userServiceMock,
+        cdrMock
+      );
+
+      addModeComponent.ngOnInit();
+      addModeComponent.toggleOperationGroupDropdown();
+
+      expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalled();
+      expect(operationServiceMock.getOperationGroups).toHaveBeenCalled();
+      expect(addModeComponent.operationGroups.length).toBe(1);
+      expect(addModeComponent.filteredOperationGroups[0].operationGroupId).toBe('og20');
+
+      routeStub.snapshot.data.mode = 'edit';
+      routeStub.snapshot.data.user = { operationGroups: [] };
+    });
+
+    it('uses cached ownership groups immediately while api hydration is still pending', () => {
+      routeStub.snapshot.data.mode = 'add';
+      routeStub.snapshot.data.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] };
+      localStorage.setItem(
+        'operationGroups',
+        JSON.stringify([
+          { operationGroupId: 'og30', operationGroupName: 'Cached Group', operationGroupShortName: 'CG' }
+        ])
+      );
+      operationServiceMock.getAllOperationGroups.mockReturnValueOnce(of([]));
+      operationServiceMock.getOperationGroups.mockReturnValueOnce(of([]));
+
+      const addModeComponent = new OperationFormComponent(
+        fb,
+        notificationServiceMock,
+        notificationRecipientServiceMock,
+        operationServiceMock,
+        operationContactsServiceMock,
+        routeStub,
+        routerStub,
+        toastrMock,
+        userServiceMock,
+        cdrMock
+      );
+
+      addModeComponent.ngOnInit();
+      addModeComponent.toggleOperationGroupDropdown();
+
+      expect(addModeComponent.operationGroups.length).toBe(1);
+      expect(addModeComponent.filteredOperationGroups[0].operationGroupId).toBe('og30');
+
+      routeStub.snapshot.data.mode = 'edit';
+      routeStub.snapshot.data.user = { operationGroups: [] };
     });
   });
 

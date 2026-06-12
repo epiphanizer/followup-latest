@@ -71,15 +71,31 @@ describe('PatientCallQuestionsComponent', () => {
     expect(component.isStarFilled(5, 'q1')).toBe(false);
   });
 
-  it('renders yes and no image-button radios for boolean questions', done => {
+  it('renders inline true and false checkbox options for boolean questions', done => {
     setTimeout(() => {
       const element = fixture.nativeElement as HTMLElement;
+      const options = Array.from(element.querySelectorAll('ion-checkbox.boolean-option')) as HTMLElement[];
 
-      expect(element.querySelector('ion-radio.radio-button-yes')).toBeTruthy();
-      expect(element.querySelector('ion-radio.radio-button-no')).toBeTruthy();
+      expect(options).toHaveLength(2);
+      expect(options[0].textContent).toContain('True');
+      expect(options[1].textContent).toContain('False');
       expect(element.querySelector('.boolean-question-group')).toBeTruthy();
       done();
     }, 0);
+  });
+
+  it('keeps true and false mutually exclusive when toggled', () => {
+    component.questions = [questionsMock[0]] as any;
+    component.createForm();
+    component.addQuestionControl(questionsMock[0] as any);
+
+    component.onBooleanAnswerChange(0, 'q0', 'true', true);
+    expect(component.isBooleanAnswer(0, 'q0', 'true')).toBe(true);
+    expect(component.isBooleanAnswer(0, 'q0', 'false')).toBe(false);
+
+    component.onBooleanAnswerChange(0, 'q0', 'false', true);
+    expect(component.isBooleanAnswer(0, 'q0', 'true')).toBe(false);
+    expect(component.isBooleanAnswer(0, 'q0', 'false')).toBe(true);
   });
 
   it('emits answer changes via onChanges pipeline', done => {

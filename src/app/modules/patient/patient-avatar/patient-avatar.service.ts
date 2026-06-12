@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { HttpErrorResponse, HttpClient } from '@angular/common/http';
-import { catchError, shareReplay } from 'rxjs/operators';
+import { catchError, shareReplay, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -32,9 +32,11 @@ export class PatientAvatarService {
   }
 
   uploadPatientAvatarByPatientId(patientId: string, file: File) {
+    const cacheKey = String(patientId);
     let formData = new FormData();
     formData.append('avatarBlob', file, file.name);
     return this.http.post('patients/' + patientId + '/avatar', formData).pipe(
+      tap(() => this.avatarRequestCache.delete(cacheKey)),
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   }

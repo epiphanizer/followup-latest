@@ -20,10 +20,21 @@ export class FollowupCompleteModalComponent implements OnInit {
   @Input() patient: Patient;
   followupCompleteForm: FormGroup;
   completionTypes: PatientStatus[] = [];
+  completionTypesLoading: boolean = true;
+  completionTypesError: string | null = null;
   ngOnInit() {
     this.createForm();
-    this.patientStatusService.getPatientStatusLabels().subscribe((data: PatientStatus[]) => {
-      this.completionTypes = data;
+    this.patientStatusService.getPatientStatusLabels().subscribe({
+      next: (data: PatientStatus[] | null) => {
+        this.completionTypes = Array.isArray(data) ? data : [];
+        this.completionTypesLoading = false;
+        this.completionTypesError = null;
+      },
+      error: () => {
+        this.completionTypes = [];
+        this.completionTypesLoading = false;
+        this.completionTypesError = 'Unable to load completion options.';
+      }
     });
   }
   createForm() {
@@ -32,6 +43,28 @@ export class FollowupCompleteModalComponent implements OnInit {
       completionNotes: this.fb.control('')
     });
   }
+
+  isCompletionTypeSelected(patientStatusLabelId: string): boolean {
+    return this.followupCompleteForm?.get('patientStatusLabelId')?.value === patientStatusLabelId;
+  }
+
+  onCompletionTypeChange(patientStatusLabelId: string, checked: boolean) {
+    const control = this.followupCompleteForm?.get('patientStatusLabelId');
+
+    if (!control) {
+      return;
+    }
+
+    if (checked) {
+      control.setValue(patientStatusLabelId);
+      return;
+    }
+
+    if (control.value === patientStatusLabelId) {
+      control.setValue('');
+    }
+  }
+
   archivePatient(patient: Patient) {
     var formSubmission = this.followupCompleteForm.getRawValue();
     var patientStatusLabelId = formSubmission.patientStatusLabelId;

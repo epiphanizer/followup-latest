@@ -30,7 +30,9 @@ i.icon-question-mark {
 
 ion-item.call-question {
   margin-bottom: 0.5rem;
-  height: 30px;
+  height: auto;
+  min-height: 0;
+  --min-height: 0;
   ion-label {
     display: inline-block;
     font-family: Avenir;
@@ -47,8 +49,8 @@ ion-item.call-question {
     font-size: 15px;
   }
 
-  ion-radio-group {
-    display: inline-block;
+  .boolean-question-group {
+    display: inline-flex;
   }
 
   --inner-padding-start: 0;
@@ -127,6 +129,25 @@ ion-item.call-question {
   }
 }
 
+ion-item.boolean-call-question {
+  align-items: flex-start;
+}
+
+.boolean-question-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  flex-wrap: wrap;
+
+  .patient-call-question-label {
+    width: auto;
+    flex: 1 1 260px;
+    min-width: 0;
+  }
+}
+
 .is-highlighted {
   width: auto;
   border-bottom: yellow 3px solid;
@@ -140,57 +161,47 @@ ion-item.call-question {
   }
 }
 
-ion-item.boolean-question {
-  --ripple-color: transparent;
-  --background-hover: transparent;
-  display: inline-block;
-  vertical-align: middle;
-  --padding-start: 0;
-  margin-top: 4px;
-  margin-right: 8px;
-  --inner-padding-start: 0;
-  --inner-padding-end: 0;
-  --padding-end: 0;
-  width: auto;
-}
-
-ion-radio {
-  display: inline-block;
-}
-
 .boolean-question-group {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 10px;
+  gap: 16px;
+  margin-top: 0;
+  flex-wrap: wrap;
+  flex: 0 0 auto;
 }
 
-.radio-button-yes,
-.radio-button-no {
-  --color: transparent;
-  --color-checked: transparent;
-  border: 0;
-  width: 34px !important;
-  height: 32px !important;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
+.boolean-option {
+  --size: 22px;
+  --color: #5f6b78;
+  --checkmark-color: #ffffff;
+  --checkbox-background: #ffffff;
+  --checkbox-background-checked: #00b8be;
+  --border-color: #7c8794;
+  --border-color-checked: #00b8be;
+  --border-radius: 4px;
+  align-items: center;
+  display: inline-flex;
+  min-height: 32px;
+  width: auto;
+  min-width: max-content;
+  font-family: AvenirPro;
+  font-size: 14px;
+  font-weight: 600;
+  color: #243746;
 
-.radio-button-yes {
-  background-image: url("/assets/button-yes@2x.png");
-
-  &:active,
-  &.radio-checked {
-    background-image: url("/assets/button-yes-select@2x.png");
+  &::part(container) {
+    margin-inline-end: 8px;
+    align-self: center;
   }
-}
 
-.radio-button-no {
-  background-image: url("/assets/button-no@2x.png");
-
-  &:active,
-  &.radio-checked {
-    background-image: url("/assets/button-no-select@2x.png");
+  &::part(label) {
+    display: inline-flex;
+    align-items: center;
+    color: #243746;
+    font-family: AvenirPro, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
   }
 }
 

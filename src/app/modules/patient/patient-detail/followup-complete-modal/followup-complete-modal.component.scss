@@ -1,144 +1,184 @@
-:root {
-  --height: 450px !important;
-  max-height: 450px !important;
-  width: 645px;
+:host {
+  display: block;
+  width: 100%;
+  max-height: min(100%, calc(100vh - 48px));
+}
+
+.followup-complete-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.followup-complete-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+  max-height: min(100%, calc(100vh - 48px));
+  width: 100%;
 }
 
 .graduation-container {
-  padding-top: 55px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 44px 40px 0;
+}
 
-  img {
-    width: 281px;
-    margin-right: 38px;
-    height: auto;
-    position: absolute;
-    right: 0;
-    z-index: 5000;
-  }
+.graduation-image {
+  width: min(220px, 38vw);
+  height: auto;
+  flex: 0 0 auto;
 }
 
 ion-title {
   font-family: AvenirPro;
   font-size: 40px;
   font-weight: 300;
-  font-stretch: normal;
-  margin-left: 40px;
-  font-style: normal;
+  margin: 0;
+  padding: 0;
   line-height: 1.11;
   letter-spacing: 0.45px;
   text-align: left;
   color: #343638;
 }
 
+.modal-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0 40px 20px;
+}
+
 .patient-status-container {
-  max-width: 545px;
-  margin-left: 40px;
-  margin-top: 1rem;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.completion-loading,
+.completion-load-error {
+  display: flex;
+  min-height: 96px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 12px;
+  text-align: center;
+  font-family: Avenir, sans-serif;
+  font-size: 14px;
+}
+
+.completion-loading {
+  color: #444444;
+}
+
+.completion-load-error {
+  color: #c33;
+}
+
+.completion-loading ion-spinner {
+  width: 18px;
+  height: 18px;
 }
 
 .graduation-options-container {
-  list-style-type: none;
-  padding-left: 18px;
-  margin-bottom: 0;
-
-  li {
-    width: 50%;
-    float: left;
-  }
-
-  ion-item {
-    --padding-start: 0;
-    height: 35px;
-    line-height: 35px;
-    vertical-align: middle;
-
-    ion-radio {
-      --color-checked: transparent;
-      display: inline-block;
-      height: 14px !important;
-      width: 14px !important;
-      margin-right: 4px;
-    }
-    .radio-button-notify {
-      background-size: cover;
-      background-image: url("/assets/button-radio@2x.png");
-      &:active,
-      &.radio-checked {
-        background-image: url("/assets/button-radio-checked-red@2x.png");
-      }
-    }
-
-    ion-item {
-      --min-height: 32px;
-      margin-left: 0;
-      padding-left: 0;
-    }
-
-    ion-label {
-      display: inline-block;
-      font-family: Avenir;
-      font-size: 12px;
-      margin-left: 6px;
-      line-height: 25px;
-    }
-  }
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 20px;
+  width: 100%;
 }
 
-ion-radio,
-ion-label {
-  display: inline-block;
-  margin-right: 5px;
+.status-option {
+  --padding-start: 0;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --padding-end: 0;
+  --min-height: 32px;
+  margin: 0;
 }
 
-ion-radio {
-  :host {
-    width: 15px !important;
-    height: 15px !important;
-  }
-
-  .radio-icon {
-    width: 15px !important;
-    height: 15px !important;
-  }
+.status-checkbox {
+  --size: 22px;
+  --color: #5f6b78;
+  --checkmark-color: #ffffff;
+  --checkbox-background: #ffffff;
+  --checkbox-background-checked: #00b8be;
+  --border-color: #7c8794;
+  --border-color-checked: #00b8be;
+  --border-radius: 4px;
+  align-items: center;
+  display: inline-flex;
+  min-height: 32px;
+  width: auto;
+  min-width: max-content;
+  font-family: AvenirPro, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #243746;
 }
 
-ion-textarea {
-  padding-left: 12px;
-  height: auto;
-  min-height: 115px;
-  max-height: 115px;
-  width: 480px;
-  margin: 0 auto;
-  font-size: 13px;
-  font-family: Avenir;
-  background-color: #f5f5f5;
-  margin-top: 1.25rem;
-  margin-bottom: 1rem;
-  overflow: auto;
+.status-checkbox::part(container) {
+  margin-inline-end: 8px;
+  align-self: center;
+}
+
+.status-checkbox::part(label) {
+  display: inline-flex;
+  align-items: center;
+  white-space: normal;
+  line-height: 1.3;
+  font-family: AvenirPro, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #243746;
+}
+
+.completion-notes {
+  --padding-start: 12px;
+  --inner-padding-start: 12px;
+  --inner-padding-end: 12px;
   display: block;
-  height: 100%;
-
-  textarea {
-    height: 100%;
-  }
-}
-
-.primary.button {
-  float: right;
-  margin-right: 58px;
-  margin-bottom: 2rem;
-  margin-left: 1rem;
-}
-
-.secondary.button {
+  width: 100%;
+  min-height: 140px;
+  max-height: 220px;
+  margin-top: 20px;
+  background-color: #f5f5f5;
+  font-size: 13px;
+  font-family: Avenir, sans-serif;
 }
 
 .send-container {
-  width: 100%;
-  margin-bottom: 2rem;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 0 40px 28px;
 }
-.primary.button.save {
-  margin-top: 10px;
-  margin-right: 62px;
+
+@media screen and (max-width: 768px) {
+  .followup-complete-shell {
+    min-height: 0;
+  }
+
+  .graduation-container {
+    padding: 28px 20px 0;
+  }
+
+  .modal-body {
+    padding: 0 20px 16px;
+  }
+
+  .graduation-options-container {
+    grid-template-columns: 1fr;
+  }
+
+  .graduation-image {
+    width: 140px;
+  }
+
+  .send-container {
+    padding: 0 20px 20px;
+    flex-wrap: wrap;
+  }
 }

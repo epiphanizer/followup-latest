@@ -29,6 +29,19 @@
   color: #444444;
 }
 
+.notification-load-error {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+  padding: 0 24px;
+  text-align: center;
+  font-family: Avenir;
+  font-size: 14px;
+  color: #c33;
+}
+
 .notification-loading ion-spinner {
   width: 18px;
   height: 18px;
@@ -63,28 +76,6 @@ ion-title {
   letter-spacing: 0.45px;
   text-align: left;
   color: #343638;
-}
-
-.notification-list-container {
-  list-style-type: none;
-  padding-left: 18px;
-  margin-bottom: 0;
-
-  li {
-    width: 33.333333%;
-    float: left;
-  }
-
-  ion-item {
-    --padding-start: 0;
-    height: 35px;
-    line-height: 35px;
-    vertical-align: middle;
-
-    ion-radio {
-      margin: 0;
-    }
-  }
 }
 
 ion-textarea {
@@ -160,6 +151,7 @@ h3 {
   --min-height: 28px;
   max-height: 70px;
   overflow-y: auto;
+
   span.label {
     font-family: AvenirBold;
   }
@@ -213,17 +205,13 @@ h3 {
   }
 }
 
-ion-radio {
-  :host {
-    width: 15px !important;
-    height: 15px !important;
-  }
-
-  .radio-icon {
-    width: 15px !important;
-    height: 15px !important;
-  }
+.notification-choice {
+  font-family: Avenir;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #343638;
 }
+
 .review-container {
   margin-left: 40px;
   max-height: 240px;

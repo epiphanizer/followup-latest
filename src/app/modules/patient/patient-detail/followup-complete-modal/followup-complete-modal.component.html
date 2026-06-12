@@ -1,29 +1,66 @@
-<form [formGroup]="followupCompleteForm" novalidate>
+<form [formGroup]="followupCompleteForm" novalidate class="followup-complete-form" (ngSubmit)="archivePatient(patient)">
   <ng-container *ngIf="patient">
-    <ion-row class="graduation-container">
-      <ion-title>Follow-up</ion-title>
-      <img class="ion-float-right graduation-image" src="/assets/complete-graphic@2x.png" />
-    </ion-row>
-    <ion-row class="patient-status-container">
-      <ul class="graduation-options-container" lines="none">
-        <ion-radio-group formControlName="patientStatusLabelId">
-          <li *ngFor="let patientStatus of completionTypes">
-            <ion-item>
-              <ion-radio class="radio-button-notify" mode="ios" value="{{ patientStatus.patientStatusLabelId }}">
-                {{ patientStatus.patientStatusLabelId }}
-              </ion-radio>
-              <ion-label class="patient-status-label ion-text-wrap">
-                {{ patientStatus.patientStatusLabel }}
-              </ion-label>
-            </ion-item>
-          </li>
-        </ion-radio-group>
-      </ul>
-    </ion-row>
-    <ion-textarea [autoGrow]="true" formControlName="completionNotes" placeholder="Any Notes?"> </ion-textarea>
-    <div class="send-container">
-      <button class="secondary button" (click)="dismiss()">Cancel</button>
-      <button class="primary button" type="submit" (click)="archivePatient(patient)">Save</button>
+    <div class="followup-complete-shell">
+      <div class="graduation-container">
+        <ion-title>Follow-up</ion-title>
+        <img class="graduation-image" src="/assets/complete-graphic@2x.png" alt="" />
+      </div>
+
+      <div class="modal-body">
+        <div class="patient-status-container">
+          <ng-container *ngIf="completionTypesLoading; else completionOptionsState">
+            <div class="completion-loading">
+              <ion-spinner name="crescent"></ion-spinner>
+              <span>Loading completion options...</span>
+            </div>
+          </ng-container>
+
+          <ng-template #completionOptionsState>
+            <div *ngIf="completionTypesError; else completionOptions" class="completion-load-error" role="alert">
+              <span>{{ completionTypesError }}</span>
+            </div>
+          </ng-template>
+
+          <ng-template #completionOptions>
+            <div
+              class="graduation-options-container"
+              role="group"
+              aria-label="Completion status"
+            >
+              <ion-item *ngFor="let patientStatus of completionTypes" class="status-option" lines="none">
+                <ion-checkbox
+                  class="status-checkbox followup-form-choice followup-form-choice--compact"
+                  [checked]="isCompletionTypeSelected(patientStatus.patientStatusLabelId)"
+                  (ionChange)="onCompletionTypeChange(patientStatus.patientStatusLabelId, $event.detail.checked)"
+                  labelPlacement="end"
+                  alignment="center"
+                  justify="start"
+                >
+                  {{ patientStatus.patientStatusLabel }}
+                </ion-checkbox>
+              </ion-item>
+            </div>
+          </ng-template>
+        </div>
+
+        <ion-textarea
+          class="completion-notes"
+          [autoGrow]="true"
+          formControlName="completionNotes"
+          placeholder="Any Notes?"
+        ></ion-textarea>
+      </div>
+
+      <div class="send-container">
+        <button class="secondary button" type="button" (click)="dismiss()">Cancel</button>
+        <button
+          class="primary button"
+          type="submit"
+          [disabled]="followupCompleteForm.invalid || completionTypesLoading || !!completionTypesError"
+        >
+          Save
+        </button>
+      </div>
     </div>
   </ng-container>
 </form>

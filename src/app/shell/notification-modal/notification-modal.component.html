@@ -11,22 +11,37 @@
   </ion-row>
 
   <ng-container *ngIf="status.notification.saved == false; else sendNotification">
-    <form *ngIf="createNotificationForm; else loadingNotificationTypes" [formGroup]="createNotificationForm" class="notification-form">
-      <ion-list *ngIf="notificationTypes" class="notification-options" lines="none" inset>
-        <ion-radio-group formControlName="notificationTypeId">
-          <ion-row>
-            <ul class="notification-list-container">
-              <li *ngFor="let notificationType of notificationTypes">
-                <ion-item class="notification-list-choice">
-                  <ion-radio class="radio-button-notify" mode="ios" value="{{ notificationType.notificationTypeId }}">
-                  </ion-radio>
-                  <ion-label color="normal">{{ notificationType.notificationTypeLabel }}</ion-label>
-                </ion-item>
-              </li>
-            </ul>
-          </ion-row>
-        </ion-radio-group>
-      </ion-list>
+    <form *ngIf="createNotificationForm" [formGroup]="createNotificationForm" class="notification-form">
+      <ng-container *ngIf="notificationTypesLoading; else notificationTypesState">
+        <div class="notification-loading">
+          <ion-spinner name="crescent"></ion-spinner>
+          <span>Loading notification options...</span>
+        </div>
+      </ng-container>
+
+      <ng-template #notificationTypesState>
+        <div *ngIf="notificationTypesError; else notificationOptions" class="notification-load-error" role="alert">
+          <span>{{ notificationTypesError }}</span>
+        </div>
+      </ng-template>
+
+      <ng-template #notificationOptions>
+        <ion-list class="notification-options" lines="none" inset>
+          <ion-radio-group class="followup-form-choice-grid" formControlName="notificationTypeId">
+            <ion-radio
+              *ngFor="let notificationType of notificationTypes"
+              class="followup-form-choice notification-choice"
+              [value]="notificationType.notificationTypeId"
+              labelPlacement="end"
+              alignment="start"
+              justify="start"
+            >
+              {{ notificationType.notificationTypeLabel }}
+            </ion-radio>
+          </ion-radio-group>
+        </ion-list>
+      </ng-template>
+
       <ion-textarea
         [autoGrow]="true"
         class="notification-textarea"
@@ -37,7 +52,7 @@
         <div class="send-container">
           <button class="secondary button" type="button" (click)="dismiss()">Cancel</button>
           <button
-            [disabled]="createNotificationForm.invalid"
+            [disabled]="createNotificationForm.invalid || notificationTypesLoading || !!notificationTypesError"
             class="primary button"
             type="button"
             (click)="saveNotification()"
@@ -106,12 +121,5 @@
         <button class="ion-float-right primary button send" (click)="sendTheNotification()">Send</button>
       </div>
     </ion-row>
-  </ng-template>
-
-  <ng-template #loadingNotificationTypes>
-    <div class="notification-loading">
-      <ion-spinner name="crescent"></ion-spinner>
-      <span>Loading notification options...</span>
-    </div>
   </ng-template>
 </div>
