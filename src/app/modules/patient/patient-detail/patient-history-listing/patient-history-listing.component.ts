@@ -12,6 +12,8 @@ import { Notification, NotificationReply } from '@app/modules/notification/notif
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { Patient } from '../../patient';
 import { SharedFunctions } from '@app/shared/shared.functions';
+import { User, UserRoles } from '@app/modules/user/user';
+import { Operation } from '@app/modules/operation/operation';
 
 @Component({
   providers: [PatientCallQuestionsService, SharedFunctions, NotificationService],
@@ -21,12 +23,13 @@ import { SharedFunctions } from '@app/shared/shared.functions';
   standalone: false
 })
 export class PatientHistoryListingComponent implements OnInit {
-  @Input() patient: Patient;
-  @Input() patientCalls: PatientCall[];
-  @Input() patientNotifications: Notification[];
+  @Input() patient!: Patient;
+  @Input() user!: User;
+  @Input() patientCalls!: PatientCall[];
+  @Input() patientNotifications!: Notification[];
   patientActivity: [Notification[] | PatientCall[]] | any;
-  patientFirstCallIndexCallId: string;
-  patientHistory: PatientCall[];
+  patientFirstCallIndexCallId = '';
+  patientHistory: PatientCall[] = [];
   patientCallQuestions: PatientCallQuestion[] = [];
 
   constructor(
@@ -46,6 +49,10 @@ export class PatientHistoryListingComponent implements OnInit {
           this.patientCalls[index].patientCallQuestions = patientCallQuestions;
           this.patientCalls[index].patientCallQuestions.forEach(
             (patientCallQuestion: PatientCallQuestion, idx: number) => {
+              if (!patientCallQuestion.patientCallQuestionId) {
+                return;
+              }
+
               this.patientCallQuestionAnswerService
                 .getPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestion.patientCallQuestionId)
                 .pipe(
@@ -87,12 +94,13 @@ export class PatientHistoryListingComponent implements OnInit {
         patientNotification.notificationMessage = this.sharedFunctions.returnHTML(
           patientNotification.notificationMessage
         );
-        // Fetch replies for this notification
-        this.notificationService
-          .getNotificationRepliesByNotificationId(patientNotification.notificationId)
-          .subscribe((replies: NotificationReply[]) => {
-            (patientNotification as any)['notificationReplies'] = replies;
-          });
+        if (patientNotification.notificationId) {
+          this.notificationService
+            .getNotificationRepliesByNotificationId(patientNotification.notificationId)
+            .subscribe((replies: NotificationReply[]) => {
+              (patientNotification as any)['notificationReplies'] = replies;
+            });
+        }
         this.patientActivity.push(patientNotification);
       });
     }
@@ -107,5 +115,36 @@ export class PatientHistoryListingComponent implements OnInit {
       }
       return new Date(createdCompareDate).getTime() - new Date(createdDate).getTime();
     });
+  }
+
+  canViewNotificationReply(notification: Notification): boolean {
+    if (!notification?.notificationId) {
+      return false;
+    }
+
+    if (this.user?.userLevel === UserRoles.admin) {
+      return true;
+    }
+
+    const operationId = this.patient?.patientOperationId || notification?.notificationOperationId;
+    if (!operationId || !Array.isArray(this.user?.operations)) {
+      return false;
+    }
+
+    const matchingOperation = (this.user.operations as Operation[]).find(
+      (operation: Operation) => operation?.operationId === operationId
+    );
+
+    if (!matchingOperation) {
+      return false;
+    }
+
+    const candidateRoleIds = [
+      Number(matchingOperation.operationUserRoleLabelId),
+      Number(matchingOperation.directOperationUserRoleLabelId),
+      Number(matchingOperation.inheritedOperationUserRoleLabelId)
+    ].filter(roleId => Number.isFinite(roleId) && roleId > 0);
+
+    return candidateRoleIds.some(roleId => roleId === 1 || roleId === 2);
   }
 }

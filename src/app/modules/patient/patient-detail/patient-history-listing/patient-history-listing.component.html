@@ -24,7 +24,11 @@
             Message
           </span>
           <div class="notification-message" [innerHTML]="activity.notificationMessage"></div>
-          <a class="notification-detail-link" [routerLink]="['/notifications', activity.notificationId]">
+          <a
+            *ngIf="canViewNotificationReply(activity)"
+            class="notification-detail-link"
+            [routerLink]="['/notifications', activity.notificationId]"
+          >
             View / Reply
           </a>
         </div>

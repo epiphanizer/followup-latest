@@ -8,6 +8,7 @@
       <app-patient-history-listing
         *ngIf="patient.patientCalls && patient.patientNotifications"
         [patient]="patient"
+        [user]="user"
         [patientCalls]="patient.patientCalls"
         [patientNotifications]="patient.patientNotifications"
       >

@@ -277,11 +277,19 @@ export class OperationFormComponent implements OnInit {
     if (!operationRecord) {
       return;
     }
-    this.operation = operationRecord;
+    const existingOperationGroupId =
+      this.operationForm?.get('operation.operationGroupId')?.value || this.operation?.operationGroupId || '';
+    const nextOperationGroupId = operationRecord.operationGroupId || existingOperationGroupId;
+
+    this.operation = {
+      ...this.operation,
+      ...operationRecord,
+      operationGroupId: nextOperationGroupId
+    };
     var operationFormControls = this.operationForm.get('operation') as FormGroup;
     operationFormControls.controls.operationId.setValue(this.operation.operationId);
     operationFormControls.controls.operationName.setValue(this.operation.operationName);
-    operationFormControls.controls.operationGroupId.setValue(this.operation.operationGroupId);
+    operationFormControls.controls.operationGroupId.setValue(nextOperationGroupId);
     operationFormControls.controls.operationAddress.setValue(this.operation.operationAddress);
     operationFormControls.controls.operationCity.setValue(this.operation.operationCity);
     operationFormControls.controls.operationState.setValue(this.operation.operationState);
@@ -369,8 +377,10 @@ export class OperationFormComponent implements OnInit {
   }
 
   getSelectedOperationGroupLabel(): string {
+    const selectedOperationGroupId =
+      this.operationForm?.get('operation.operationGroupId')?.value || this.operation?.operationGroupId;
     const selectedOperationGroup = (this.operationGroups || []).find(
-      (operationGroup: OperationGroup) => operationGroup.operationGroupId == this.operation?.operationGroupId
+      (operationGroup: OperationGroup) => operationGroup.operationGroupId == selectedOperationGroupId
     );
 
     return selectedOperationGroup?.operationGroupName || '';

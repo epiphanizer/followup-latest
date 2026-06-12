@@ -461,6 +461,29 @@ describe('OperationFormComponent logic', () => {
       routeStub.snapshot.data.mode = 'edit';
       routeStub.snapshot.data.user = { operationGroups: [] };
     });
+
+    it('preserves the existing ownership group when a refresh payload omits operationGroupId', () => {
+      component.operationGroups = [
+        { operationGroupId: 'og1', operationGroupName: 'West Coast PACS', operationGroupShortName: 'WCP' } as any
+      ];
+
+      component.updateOperation({
+        operationId: 'op1',
+        operationName: 'Updated Op',
+        operationAddress: '',
+        operationCity: '',
+        operationState: '',
+        operationZip: '',
+        operationCountryCode: '1',
+        operationAreaCode: '',
+        operationPhoneNumber: '',
+        operationActive: true
+      } as any);
+
+      expect(component.operation.operationGroupId).toBe('og1');
+      expect(component.operationForm.get('operation.operationGroupId')?.value).toBe('og1');
+      expect(component.getSelectedOperationGroupLabel()).toBe('West Coast PACS');
+    });
   });
 
   describe('Operation Contact Management', () => {
