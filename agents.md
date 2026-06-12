@@ -1,6 +1,6 @@
 # Followup Frontend — feature/robot_work_1
 
-Project version: 4.0.0_alpha_rc2 (package). Goal: modernize the Angular/Ionic app for Followup v4.
+Project version: 4.0.0_alpha_rc4 (package). Goal: modernize the Angular/Ionic app for Followup v4.
 
 ## Findings
 
@@ -54,6 +54,8 @@ Shared/core scaffolding
 - Rule: whenever frontend, API, or database work changes what should appear in the shell Service Health -> Version Change Log, update `src/app/shell/service-health-change-log.data.ts` and the matching frontend/API running change log entries before closing the task.
 
 ## Running change log (frontend)
+
+- 2026-06-12: Promoted the snapshot frontend package/version metadata to `4.0.0_alpha_rc4` by updating [package.json](package.json), [package-lock.json](package-lock.json), [src/environments/.env.ts](src/environments/.env.ts), [src/app/shell/service-health-change-log.data.ts](src/app/shell/service-health-change-log.data.ts), and [src/app/shell/shell.component.spec.ts](src/app/shell/shell.component.spec.ts) so the current alpha now appears as rc4 in build metadata, the shell Service Health version selector, and the release-history expectations. Validation used the focused shell Service Health Jest slice.
 
 - 2026-06-12: Fixed the snapshot `4.0.0_alpha_rc2` Teams roster Position dropdown so the selected option now resolves from the active team's scoped membership role instead of falling through to the first option (`Admin`) when the row is missing only the numeric role id. Updated [src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.ts](src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.ts), [src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.html](src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.html), and [src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.spec.ts](src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.spec.ts). The table now prefers `teamMemberRoleLabelId`, falls back only to the same row's team-scoped `teamMemberRoleLabel`, and explicitly marks the matching `<option>` selected so browser defaulting cannot drift to `Admin` when the sidebar correctly groups the member under `Managers`. Validation: focused Jest on [src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.spec.ts](src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.spec.ts) PASS (`10/10`).
 
