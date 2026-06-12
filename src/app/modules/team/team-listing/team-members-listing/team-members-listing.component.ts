@@ -235,13 +235,8 @@ export class TeamMembersListingComponent implements OnInit {
       return explicitRoleId;
     }
 
-    const effectiveRoleId = this.normalizeTeamMemberRoleId(teamMember?.effectiveTeamMemberRoleLabelId);
-    if (effectiveRoleId) {
-      return effectiveRoleId;
-    }
-
-    const inferredRoleId = this.inferTeamMemberRoleId(teamMember?.teamMemberRoleLabel);
-    return inferredRoleId || null;
+    const scopedRoleId = this.inferTeamMemberRoleId(teamMember?.teamMemberRoleLabel);
+    return scopedRoleId || null;
   }
 
   updateTeamMemberRole(teamMember: TeamMember, roleValue: number | string | null | undefined) {
@@ -251,9 +246,19 @@ export class TeamMembersListingComponent implements OnInit {
       return;
     }
 
+    this.commitTeamMemberRoleChange(teamMember, nextRoleId);
+  }
+
+  private commitTeamMemberRoleChange(
+    teamMember: TeamMember,
+    nextRoleId: number,
+    options?: { forceDirectPermissionCleanup?: boolean }
+  ) {
+    const forceDirectPermissionCleanup = !!options?.forceDirectPermissionCleanup;
+
     this.updatingRoleTeamMemberId = teamMember.teamMemberId;
     this.teamService
-      .setTeamMemberRoleByTeamIdAndTeamMemberId(this.team.teamId, teamMember.teamMemberId, nextRoleId)
+      .setTeamMemberRoleByTeamIdAndTeamMemberId(this.team.teamId, teamMember.teamMemberId, nextRoleId, options)
       .pipe(take(1))
       .subscribe(
         (updatedTeamMember: TeamMember) => {
@@ -274,10 +279,46 @@ export class TeamMembersListingComponent implements OnInit {
             this.runSortSwitch();
           }
         },
-        () => {
+        (error: any) => {
+          if (!forceDirectPermissionCleanup && this.requiresDirectPermissionCleanupConfirmation(error)) {
+            const shouldContinue = window.confirm(this.buildDirectPermissionCleanupMessage(teamMember, nextRoleId, error));
+
+            if (shouldContinue) {
+              this.commitTeamMemberRoleChange(teamMember, nextRoleId, { forceDirectPermissionCleanup: true });
+              return;
+            }
+          }
+
           this.updatingRoleTeamMemberId = null;
+          this.reloadTeamMembers();
         }
       );
+  }
+
+  private requiresDirectPermissionCleanupConfirmation(error: any): boolean {
+    return !!(
+      error &&
+      Number(error.statusCode) === 409 &&
+      error.directPermissionImpact &&
+      Number(error.directPermissionImpact.affectedCount) > 0
+    );
+  }
+
+  private buildDirectPermissionCleanupMessage(teamMember: TeamMember, nextRoleId: number, error: any): string {
+    const affectedCount = Number(error?.directPermissionImpact?.affectedCount) || 0;
+    const sampleOperations = Array.isArray(error?.directPermissionImpact?.operations)
+      ? error.directPermissionImpact.operations
+          .map((operation: any) => operation?.operationName)
+          .filter(Boolean)
+          .slice(0, 3)
+      : [];
+    const displayName = [teamMember?.teamMemberFirstName, teamMember?.teamMemberLastName].filter(Boolean).join(' ') || 'This team member';
+    const nextRoleLabel = this.getRoleLabelById(nextRoleId);
+    const operationsSuffix = sampleOperations.length
+      ? ` Example operations: ${sampleOperations.join(', ')}${affectedCount > sampleOperations.length ? ', ...' : ''}.`
+      : '';
+
+    return `${displayName} still has ${affectedCount} stronger direct operation permission${affectedCount === 1 ? '' : 's'} in this team's scope. Changing the team role to ${nextRoleLabel} will remove those stronger direct permission${affectedCount === 1 ? '' : 's'}. Continue?${operationsSuffix}`;
   }
 
   getAvailableUserRoleLabel(user: User): string {

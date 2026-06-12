@@ -219,15 +219,40 @@ export class TeamListingSidebar implements OnInit {
     }
   }
 
-  private getTopRoleGroup(teamMember: TeamMember): TeamRoleGroupKey {
+  private getTeamMemberRoleId(teamMember: TeamMember): number {
+    const storedRoleId = Number(teamMember?.teamMemberRoleLabelId);
+    if (storedRoleId === 1 || storedRoleId === 2 || storedRoleId === 3) {
+      return storedRoleId;
+    }
+
+    const effectiveRoleId = Number(teamMember?.effectiveTeamMemberRoleLabelId);
+    if (effectiveRoleId === 1 || effectiveRoleId === 2 || effectiveRoleId === 3) {
+      return effectiveRoleId;
+    }
+
     const roleLabel = String(teamMember?.teamMemberRoleLabel || '').toLowerCase();
     if (roleLabel.includes('admin')) {
-      return 'admins';
+      return 1;
     }
     if (roleLabel.includes('manager')) {
-      return 'managers';
+      return 2;
     }
     if (roleLabel.includes('care')) {
+      return 3;
+    }
+
+    return 0;
+  }
+
+  private getTopRoleGroup(teamMember: TeamMember): TeamRoleGroupKey {
+    const roleId = this.getTeamMemberRoleId(teamMember);
+    if (roleId === 1) {
+      return 'admins';
+    }
+    if (roleId === 2) {
+      return 'managers';
+    }
+    if (roleId === 3) {
       return 'careReps';
     }
     return 'others';

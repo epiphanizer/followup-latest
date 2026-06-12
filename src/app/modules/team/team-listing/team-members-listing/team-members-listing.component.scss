@@ -371,25 +371,29 @@ table.team-member-table {
 }
 
 .team-member-role-cell {
-  ion-select.team-member-role-select {
+  select.team-member-role-select {
     width: 100%;
     max-width: 180px;
-    --padding-start: 0.7rem;
-    --padding-end: 2rem;
-    --padding-top: 0.45rem;
-    --padding-bottom: 0.45rem;
-    --border-radius: 999px;
-    --border-width: 1px;
-    --border-style: solid;
-    --border-color: #d5cece;
-    --highlight-color-focused: #00b4b9;
-    --highlight-color-invalid: #d95f5f;
-    --placeholder-color: #8f8585;
+    padding: 0.45rem 2rem 0.45rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid #d5cece;
     font-family: "AvenirBold";
     font-size: 12px;
     letter-spacing: 0.2px;
     color: #3f3638;
     background: #ffffff;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #64585a 50%), linear-gradient(135deg, #64585a 50%, transparent 50%);
+    background-position: calc(100% - 18px) calc(50% - 2px), calc(100% - 12px) calc(50% - 2px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+
+    &:focus {
+      outline: none;
+      border-color: #00b4b9;
+      box-shadow: 0 0 0 2px rgba(0, 180, 185, 0.15);
+    }
   }
 }
 

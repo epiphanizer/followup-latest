@@ -83,6 +83,38 @@ describe('TeamListingSidebar (Jest)', () => {
     expect(component.isRoleGroupExpanded(team, 'managers')).toBe(false);
   });
 
+  it('groups members by the stored team role before broader effective labels', () => {
+    teamMembersResponseByTeamId = {
+      t1: [
+        {
+          teamMemberId: 'm1',
+          teamMemberRoleLabelId: 2,
+          teamMemberRoleLabel: 'Manager',
+          effectiveTeamMemberRoleLabelId: 1,
+          effectiveTeamMemberRoleLabel: 'Admin',
+          spanishSpeaking: true
+        },
+        {
+          teamMemberId: 'm2',
+          teamMemberRoleLabelId: 3,
+          teamMemberRoleLabel: 'Care Rep',
+          effectiveTeamMemberRoleLabelId: 1,
+          effectiveTeamMemberRoleLabel: 'Admin',
+          spanishSpeaking: false
+        }
+      ],
+      t2: []
+    };
+
+    const component = buildComponent();
+    component.team = { teamId: 't1' } as any;
+    component.ngOnInit();
+
+    expect(component.getRoleGroupCount(component.teams[0] as any, 'admins')).toBe(0);
+    expect(component.getRoleGroupCount(component.teams[0] as any, 'managers')).toBe(1);
+    expect(component.getRoleGroupCount(component.teams[0] as any, 'careReps')).toBe(1);
+  });
+
   it('creates a team after prompt confirmation', () => {
     const component = buildComponent();
     component.canManageTeams = true;

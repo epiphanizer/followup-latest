@@ -147,12 +147,12 @@ export class TeamAccessComponent implements OnInit {
   get roleEligibleMembers() {
     const members = this.teamMembers || [];
     const managerEligible = members.filter(member => {
-      const role = String(member.teamMemberRoleLabel || '').toLowerCase();
-      return role.includes('manager') || role.includes('admin');
+      const roleId = this.getTeamMemberRoleId(member);
+      return roleId === 1 || roleId === 2;
     });
     const careRepEligible = members.filter(member => {
-      const role = String(member.teamMemberRoleLabel || '').toLowerCase();
-      return role.includes('care') || role.includes('rep') || role.includes('manager') || role.includes('admin');
+      const roleId = this.getTeamMemberRoleId(member);
+      return roleId === 1 || roleId === 2 || roleId === 3;
     });
 
     return {
@@ -228,6 +228,10 @@ export class TeamAccessComponent implements OnInit {
     );
   }
 
+  get canManageTeams(): boolean {
+    return !!this.currentUser && this.currentUser.userLevel === this.userRoles.admin;
+  }
+
   get currentDescription(): string {
     if (this.activeEditor === 'member') {
       return 'Apply member-specific overrides or revocations on top of the team defaults. Direct assignments from the operation admin surfaces still win independently.';
@@ -272,6 +276,31 @@ export class TeamAccessComponent implements OnInit {
     return this.isSaving ? 'Saving...' : 'Save Team Defaults';
   }
 
+  private getTeamMemberRoleId(teamMember: TeamMember | null | undefined): number {
+    const storedRoleId = Number(teamMember?.teamMemberRoleLabelId);
+    if (storedRoleId === 1 || storedRoleId === 2 || storedRoleId === 3) {
+      return storedRoleId;
+    }
+
+    const effectiveRoleId = Number(teamMember?.effectiveTeamMemberRoleLabelId);
+    if (effectiveRoleId === 1 || effectiveRoleId === 2 || effectiveRoleId === 3) {
+      return effectiveRoleId;
+    }
+
+    const roleLabel = String(teamMember?.teamMemberRoleLabel || '').toLowerCase();
+    if (roleLabel.includes('admin')) {
+      return 1;
+    }
+    if (roleLabel.includes('manager')) {
+      return 2;
+    }
+    if (roleLabel.includes('care') || roleLabel.includes('rep')) {
+      return 3;
+    }
+
+    return 0;
+  }
+
   onRoleChange() {
     this.recomputeDirtyState();
   }
@@ -295,6 +324,14 @@ export class TeamAccessComponent implements OnInit {
 
     this.selectedTeamMemberId = teamMemberId;
     this.loadMemberAccess();
+  }
+
+  handleSidebarTeamChange(team: Team | null) {
+    if (!team?.teamId || team.teamId === this.teamId) {
+      return;
+    }
+
+    this.router.navigate(['/teams', team.teamId, 'access']);
   }
 
   goToSelectedMemberDetails() {

@@ -120,18 +120,22 @@
         </td>
         <td class="listing-body-cell team-member-role-cell">
           <div>
-            <ion-select
+            <select
               *ngIf="canManageTeams; else readOnlyRole"
               class="team-member-role-select"
-              interface="popover"
-              [ngModel]="getTeamMemberRoleValue(teamMember)"
+              [ngModel]="getTeamMemberRoleValue(teamMember) || ''"
+              [ngModelOptions]="{ standalone: true }"
               [disabled]="isUpdatingTeamMemberRole(teamMember)"
               (ngModelChange)="updateTeamMemberRole(teamMember, $event)"
+              aria-label="Team member role"
             >
-              <ion-select-option *ngFor="let role of roleOptions" [value]="role.value">
+              <option value="" disabled>
+                Select role
+              </option>
+              <option *ngFor="let role of roleOptions" [value]="role.value">
                 {{ role.label }}
-              </ion-select-option>
-            </ion-select>
+              </option>
+            </select>
             <ng-template #readOnlyRole>
               <span class="team-member-role">
                 {{ teamMember.teamMemberRoleLabel }}

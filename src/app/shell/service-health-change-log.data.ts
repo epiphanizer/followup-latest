@@ -23,9 +23,65 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'The Team Access sidebar now follows the active route team instead of defaulting to the first loaded team, removing a remaining mismatch between the left rail and the team access content panel.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-access/team-access.component.ts` and `.html` to pass the active `team` into `app-team-listing-sidebar`, pass through admin capability, and navigate to `/teams/:teamId/access` when the sidebar selects a different team. Before this fix, the Team Access sidebar could initialize independently against the first team returned by `getTeams()`, which made the left-rail grouping look wrong even after the active-team role derivation fixes had landed. Validation used focused Jest on the Team Access slice (`10/10` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Team Access and Teams sidebar role-derived UI now prefer the active team\'s stored membership role before any broader effective label fallback.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-access/team-access.component.ts` and `src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.ts`. The remaining `ion-select`-driven assignee eligibility lists and sidebar member grouping had still been reading `teamMemberRoleLabel` text, which could reflect a broader role story than the active team-specific membership role. Those paths now derive from `teamMemberRoleLabelId` first and only fall back to the scoped effective role id when no stored team role exists. Validation used focused Jest on the Team Access and Teams sidebar slices (`14/14` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The editable Teams Position dropdown now binds only to the stored team-specific role and no longer silently displays `Admin` from broader derived access or from a blank select default.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.ts` and `.html`. The admin Position select previously fell back to `effectiveTeamMemberRoleLabelId` and inferred labels, and because the control had no blank placeholder it could also silently render the first option `Admin` when no stored team-specific role was present. The editable dropdown now uses only `teamMemberRoleLabelId` and includes a disabled blank option so the visible selection stays aligned with the stored membership role for the active team. Validation used the focused team-members-listing Jest slice (`9/9` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Database',
+        summary:
+          'Teams roster Position reads now derive fallback/effective roles from the selected team scope instead of leaking a stronger direct role from some other team.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after tightening `v4.0.0/followup-api/migration_sql/3.12.12migration-team-member-general-role.sql` and reapplying it to `followup_alpha_20260517`. The first stored-procedure cut still treated `operationUsers` as globally authoritative during null-role backfill and `sp_getTeamMembersByTeamId` effective-role derivation, which allowed a stronger direct role from unrelated operations to make the current team roster still display `Admin` after a successful team-role update. The migration now scopes direct-role candidates to the selected team\'s operation set before deriving fallback/effective team roles. Validation used direct `sqlcmd -b -i` reapply plus before/after mismatch probes, where a live `storedRoleId = 2 / effectiveRoleId = 1` mismatch disappeared under the corrected team-scoped derivation.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Database',
+        summary:
+          'The team general-role database contract is now applied on the active alpha database behind local dev, so Teams Position changes can persist instead of failing on a missing column/proc.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after applying `v4.0.0/followup-api/migration_sql/3.12.12migration-team-member-general-role.sql` to `followup_alpha_20260517`. The first apply exposed that this database compatibility level rejected bare `THROW` inside `sp_setTeamMemberRoleByTeamIdAndTeamMemberId`, so the migration catch block was corrected to `RAISERROR(ERROR_MESSAGE(), ERROR_SEVERITY(), ERROR_STATE())` and then reapplied cleanly. Post-apply capability probes confirmed `userTeams.teamMemberRoleLabelId`, `sp_setTeamMemberRoleByTeamIdAndTeamMemberId`, and the refreshed `sp_getTeamMembersByTeamId` are now present on the database used by localhost API runs.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Team-role downgrades now stop for confirmation when stronger direct operation permissions would need to be removed, instead of silently leaving higher effective access behind.',
+        evidence:
+          'Recorded in the snapshot API running change log after updating deployment/controllers/Team.js, deployment/service/TeamService.js, and deployment/api/swagger.yaml. The team-role route now detects stronger direct `operationUsers` rows within the selected team scope, returns a structured `409` conflict with impacted-count preview data, and only removes those direct rows when the caller explicitly retries with `forceDirectPermissionCleanup`. Validation used `npm test --silent` (`Syntax OK for 69 files`).',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Teams roster Position editor now warns before a downgrade strips stronger direct permissions and only retries the change after explicit confirmation.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating the Team service and team-members-listing component/specs so structured `409` downgrade conflicts are preserved, surfaced as a confirmation dialog with impacted-count context, and retried with `forceDirectPermissionCleanup` only when the admin confirms. Validation used the focused Teams Jest slice (`24/24` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'The Teams roster Position dropdown now emits the live membership-role update request reliably instead of stopping at a visually changed select state.',
         evidence:
-          'Recorded in the snapshot frontend running change log after updating src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.html to use the same `ion-select` `[ngModel]` plus `(ngModelChange)` binding path already used by the working Team Access controls. The earlier roster control used `[value]` plus `(ionChange)`, which left live Position changes failing to consistently drive the existing `PUT /teams/{teamId}/members/{teamMemberId}/role` request path even though the focused component logic and service contract were already in place. Validation used the focused Teams Jest slice (`20/20` passing).',
+          'Recorded in the snapshot frontend running change log after replacing the roster Position cell control in src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.html with a native `<select>` styled in the companion SCSS and covered by a DOM-level Jest regression. The earlier `ion-select` continued to look interactive without reliably driving the existing `PUT /teams/{teamId}/members/{teamMemberId}/role` request path in the live UI, so the roster now uses a direct browser `change` event into the existing component/service update flow. Validation used the focused Teams Jest slice (`21/21` passing).',
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {

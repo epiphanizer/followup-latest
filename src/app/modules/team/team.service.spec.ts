@@ -130,6 +130,48 @@ describe('TeamService (Jest)', () => {
     });
   });
 
+  it('sets a team member general role with forced direct permission cleanup', done => {
+    const http = makeHttp();
+    const svc = new TeamService(http as any);
+
+    svc
+      .setTeamMemberRoleByTeamIdAndTeamMemberId('t1', 'm1', 2, { forceDirectPermissionCleanup: true })
+      .subscribe(() => {
+        expect(http.put).toHaveBeenCalledWith('teams/t1/members/m1/role', {
+          teamMemberRoleLabelId: 2,
+          forceDirectPermissionCleanup: true
+        });
+        done();
+      });
+  });
+
+  it('preserves structured role-update conflicts', done => {
+    const http = {
+      put: jest.fn(() =>
+        throwError(
+          () =>
+            new HttpErrorResponse({
+              status: 409,
+              error: {
+                message: 'conflict',
+                directPermissionImpact: { affectedCount: 2 }
+              }
+            })
+        )
+      )
+    } as any;
+    const svc = new TeamService(http);
+
+    svc.setTeamMemberRoleByTeamIdAndTeamMemberId('t1', 'm1', 2).subscribe({
+      next: () => done.fail('expected error'),
+      error: (err: any) => {
+        expect(err.statusCode).toBe(409);
+        expect(err.directPermissionImpact.affectedCount).toBe(2);
+        done();
+      }
+    });
+  });
+
   it('handles errors', done => {
     const http = { get: jest.fn(() => throwError(() => new HttpErrorResponse({ status: 500, error: 'fail' }))) } as any;
     const svc = new TeamService(http as any);
