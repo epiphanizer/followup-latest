@@ -21,6 +21,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'API',
+        summary:
+          'Team-member removal now matches the canonical member-detail route: Swagger exposes `DELETE /teams/{teamId}/members/{teamMemberId}` and the backend resolves that team member id back to the underlying user before delete.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after adding the missing delete operation to deployment/api/swagger.yaml and aligning the frontend remove call to use `teamMemberId` instead of treating the member-detail route segment like a raw user id. The remove action had been hitting the existing member-detail path shape all along, but Swagger only defined `GET` there, which caused oas3-tools to reject the request with `405` before the controller ran. TeamService on the API side now resolves `userTeams.userTeamId` to the correct `userId` before invoking the existing remove proc/table path. Validation used direct swagger parsing, API syntax tests, and the focused team-members-listing Jest slice.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Teams admins can now remove users directly from the team roster on the Teams page, alongside the new searchable add-member picker.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after wiring team-member removal into src/app/modules/team/team.service.ts and adding a row-level admin remove action in src/app/modules/team/team-listing/team-members-listing. Each roster row now exposes a confirmed remove action that reloads the member list and team count after success, and the remove path now uses the canonical `teamMemberId` member-detail route shape rather than treating the route segment like a raw `userId`. Validation used the focused team-members-listing Jest slice with explicit remove-member coverage.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'Frontend',
         summary:
           'The Teams page now has an admin-only searchable add-member picker that loads active system users, filters out existing team members, and adds a selected user directly into the current team roster.',

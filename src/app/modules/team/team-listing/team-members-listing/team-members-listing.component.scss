@@ -273,6 +273,10 @@ table.team-member-table {
     width: 8%;
   }
 
+  .col-manage {
+    width: 12%;
+  }
+
   thead {
     vertical-align: middle;
     height: 30px;
@@ -289,6 +293,11 @@ table.team-member-table {
   td,
   th {
     text-align: left;
+  }
+
+  .manage-column-header {
+    text-align: center;
+    padding-left: 0;
   }
 
   tbody {
@@ -354,6 +363,27 @@ table.team-member-table {
     margin-top: 16px;
     text-align: center;
     display: block;
+  }
+}
+
+.manage-cell {
+  text-align: center;
+}
+
+.team-member-remove-trigger {
+  border: 1px solid #d95f5f;
+  background: #fff5f5;
+  color: #b34747;
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  font-family: "AvenirBold";
+  font-size: 11px;
+  letter-spacing: 0.22px;
+  text-transform: uppercase;
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: default;
   }
 }
 

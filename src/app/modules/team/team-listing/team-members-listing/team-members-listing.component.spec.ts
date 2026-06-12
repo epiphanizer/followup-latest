@@ -31,6 +31,12 @@ const teamServiceStub = {
       ];
     }
     return of({});
+  }),
+  removeTeamMemberByTeamIdAndTeamMemberId: jest.fn((teamId: string, teamMemberId: string) => {
+    teamMembersResponse = teamMembersResponse.filter(
+      member => !(member.teamId === teamId && member.teamMemberId === teamMemberId)
+    );
+    return of({});
   })
 };
 
@@ -119,5 +125,15 @@ describe('TeamMembersListingComponent (Jest)', () => {
     expect(teamServiceStub.addTeamMemberByTeamIdAndUserId).toHaveBeenCalledWith('t1', 'u-new');
     expect(component.isAddMemberModalOpen).toBe(false);
     expect(component.teamMembers.some(member => member.userId === 'u-new')).toBe(true);
+  });
+
+  it('removes an existing team member and refreshes the roster', () => {
+    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
+
+    component.removeTeamMember(teamMembersResponse[0] as any);
+
+    expect(confirmSpy).toHaveBeenCalledWith('Remove Care Rep from this team?');
+    expect(teamServiceStub.removeTeamMemberByTeamIdAndTeamMemberId).toHaveBeenCalledWith('t1', 'm1');
+    expect(component.teamMembers.some(member => member.userId === 'u-existing')).toBe(false);
   });
 });

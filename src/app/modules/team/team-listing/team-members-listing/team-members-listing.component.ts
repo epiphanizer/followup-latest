@@ -27,6 +27,7 @@ export class TeamMembersListingComponent implements OnInit {
   addMemberSearchText: string = '';
   isAddMemberModalOpen: boolean = false;
   isAddMemberBusy: boolean = false;
+  removingUserId: string | null = null;
   // asc or desc
   selectedSortFlag: string = 'asc';
   // column by which we will search
@@ -180,6 +181,42 @@ export class TeamMembersListingComponent implements OnInit {
           this.isAddMemberBusy = false;
         }
       );
+  }
+
+  removeTeamMember(teamMember: TeamMember, event?: Event) {
+    event?.preventDefault();
+    event?.stopPropagation();
+
+    if (!this.canManageTeams || !this.team?.teamId || !teamMember?.teamMemberId || !teamMember?.userId || this.removingUserId) {
+      return;
+    }
+
+    const shouldRemove = window.confirm(
+      `Remove ${teamMember.teamMemberFirstName || ''} ${teamMember.teamMemberLastName || ''} from ${this.team?.teamName || 'this team'}?`
+        .replace(/\s+/g, ' ')
+        .trim()
+    );
+    if (!shouldRemove) {
+      return;
+    }
+
+    this.removingUserId = teamMember.userId;
+    this.teamService
+      .removeTeamMemberByTeamIdAndTeamMemberId(this.team.teamId, teamMember.teamMemberId)
+      .pipe(take(1))
+      .subscribe(
+        () => {
+          this.removingUserId = null;
+          this.reloadTeamMembers();
+        },
+        () => {
+          this.removingUserId = null;
+        }
+      );
+  }
+
+  isRemovingTeamMember(teamMember: TeamMember): boolean {
+    return !!teamMember?.userId && this.removingUserId === teamMember.userId;
   }
 
   getAvailableUserRoleLabel(user: User): string {
