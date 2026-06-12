@@ -123,16 +123,18 @@
             <select
               *ngIf="canManageTeams; else readOnlyRole"
               class="team-member-role-select"
-              [ngModel]="getTeamMemberRoleValue(teamMember) || ''"
-              [ngModelOptions]="{ standalone: true }"
               [disabled]="isUpdatingTeamMemberRole(teamMember)"
-              (ngModelChange)="updateTeamMemberRole(teamMember, $event)"
+              (change)="updateTeamMemberRole(teamMember, $any($event.target).value)"
               aria-label="Team member role"
             >
-              <option value="" disabled>
+              <option value="" disabled [selected]="getTeamMemberRoleValue(teamMember) === null">
                 Select role
               </option>
-              <option *ngFor="let role of roleOptions" [value]="role.value">
+              <option
+                *ngFor="let role of roleOptions"
+                [value]="role.value"
+                [selected]="getTeamMemberRoleValue(teamMember) === role.value"
+              >
                 {{ role.label }}
               </option>
             </select>

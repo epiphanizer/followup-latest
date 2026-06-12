@@ -23,6 +23,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'The editable Teams roster Position dropdown now resolves its selected option from the active team membership role instead of falling through to `Admin` when only the numeric role id is missing.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.ts` and `.html` so the roster dropdown prefers `teamMemberRoleLabelId`, falls back only to the same row\'s team-scoped `teamMemberRoleLabel`, and explicitly marks the matching option selected. This closes the remaining mismatch where the Teams left sidebar correctly grouped members under `Managers` while the editable roster dropdown still visually defaulted to `Admin`. Validation used focused Jest on the team-members listing slice (`10/10` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'The Team Access sidebar now follows the active route team instead of defaulting to the first loaded team, removing a remaining mismatch between the left rail and the team access content panel.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-access/team-access.component.ts` and `.html` to pass the active `team` into `app-team-listing-sidebar`, pass through admin capability, and navigate to `/teams/:teamId/access` when the sidebar selects a different team. Before this fix, the Team Access sidebar could initialize independently against the first team returned by `getTeams()`, which made the left-rail grouping look wrong even after the active-team role derivation fixes had landed. Validation used focused Jest on the Team Access slice (`10/10` passing).',
