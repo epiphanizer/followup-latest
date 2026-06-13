@@ -262,6 +262,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'API',
         summary:
+          'Client archive and restore now detect whether the database can actually support soft-archive before writing, instead of falling through to a blank generic route error on legacy schemas.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after updating deployment/service/OperationService.js so the `DELETE /operations/groups/{operationGroupId}` and restore paths capability-detect both the stored procedures and `operationGroups.operationGroupActive` before deciding whether to execute the proc or the direct-update fallback. The previous mixed-schema fix only handled a missing deactivate/restore proc and still failed generically on databases where the active-state column itself was absent. The API now preserves the direct `UPDATE operationGroups SET operationGroupActive = ...` fallback when the column exists and returns a clear unsupported-schema message when soft archive/restore requires the missing column migration. Validation used `node --check deployment/service/OperationService.js` plus API syntax tests (`npm test --silent`).',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
           'Client archive requests now succeed on mixed schemas where `sp_deactivateOperationGroupByOperationGroupId` is missing, using a safe direct-update fallback.',
         evidence:
           'Recorded in the snapshot API/frontend running change logs after updating OperationService.deactivateOperationGroupByOperationGroupId to fall back to `UPDATE operationGroups SET operationGroupActive = 0` when the deactivate stored procedure is unavailable. This resolves the 400 path on `DELETE /operations/groups/{operationGroupId}` that previously surfaced as `Could not find stored procedure ...` in audit/perf logs and blocked archive from the Edit Client screen. Validation used API syntax tests (`npm test --silent`).',
