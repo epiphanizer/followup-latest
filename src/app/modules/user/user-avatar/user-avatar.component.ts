@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { UserAvatarService } from './user-avatar.service';
 import { User } from '../user';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -13,11 +13,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-avatar.component.scss'],
   standalone: false
 })
-export class UserAvatarComponent implements OnInit {
+export class UserAvatarComponent implements OnInit, OnChanges {
   avatarUrl: SafeStyle;
   imgResultBeforeCompress: string;
   imgResultAfterCompress: string;
   isCircle: boolean = false;
+  private lastRequestedUserId: string | null = null;
   @Input() user: User;
   @Output() userAvatarEventEmitter = new EventEmitter<boolean>();
   /**
@@ -40,10 +41,34 @@ export class UserAvatarComponent implements OnInit {
     if (this.route.url.includes('team')) {
       this.teamProfile = true;
     }
-    this.userAvatarService.getUserAvatarByUserId(this.user.userId).subscribe((data: any) => {
+    this.loadAvatar();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.user) {
+      this.loadAvatar();
+    }
+  }
+
+  private loadAvatar() {
+    const userId = this.user?.userId || null;
+    if (!userId) {
+      this.avatarExists = false;
+      this.avatarUrl = undefined;
+      this.lastRequestedUserId = null;
+      return;
+    }
+
+    if (this.lastRequestedUserId === userId) {
+      return;
+    }
+
+    this.lastRequestedUserId = userId;
+    this.userAvatarService.getUserAvatarByUserId(userId).subscribe((data: any) => {
       var self = this;
+      self.avatarExists = data !== null;
+
       if (data !== null) {
-        self.avatarExists = true;
         var reader = new FileReader();
         reader.readAsDataURL(data);
         var self = this;
@@ -51,7 +76,10 @@ export class UserAvatarComponent implements OnInit {
           var base64data = reader.result;
           self.avatarUrl = self.sanitizer.bypassSecurityTrustStyle(`url(${base64data})`);
         };
+        return;
       }
+
+      self.avatarUrl = undefined;
     });
   }
 
