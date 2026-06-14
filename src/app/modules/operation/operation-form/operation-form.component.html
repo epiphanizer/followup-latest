@@ -71,7 +71,7 @@
               <ion-label color="medium" position="stacked">Ownership <span style="color:#f1624a">*</span></ion-label>
               <ion-select placeholder="Ownership" class="select-ownership" formControlName="operationGroupId">
                 <ion-select-option
-                  *ngFor="let operationGroup of operationGroups"
+                  *ngFor="let operationGroup of selectableOperationGroups"
                   [value]="operationGroup.operationGroupId"
                 >
                   {{ operationGroup.operationGroupName }}

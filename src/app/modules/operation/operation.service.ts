@@ -1,4 +1,4 @@
-import { Observable, throwError } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../user/user';
@@ -13,7 +13,14 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class OperationService {
+  private clientGroupsChangedSubject = new Subject<void>();
+  public clientGroupsChanged$ = this.clientGroupsChangedSubject.asObservable();
+
   constructor(private http: HttpClient) {}
+
+  notifyClientGroupsChanged(): void {
+    this.clientGroupsChangedSubject.next();
+  }
 
   addNewOperation(): Observable<Operation> {
     return this.http.post<Operation>('operations', {}).pipe(

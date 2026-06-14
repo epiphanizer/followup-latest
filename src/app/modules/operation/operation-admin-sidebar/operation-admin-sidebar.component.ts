@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { formatDate } from '@angular/common';
 import {
   trigger,
@@ -11,7 +11,7 @@ import {
 import { OperationService } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Operation, OperationGroup } from '../operation';
 import { map } from 'rxjs/operators';
 
@@ -79,6 +79,7 @@ export class OperationAdminSidebarComponent implements OnInit {
   isTouched: boolean = false;
   operationGroups: OperationGroup[] = [];
   operationGroups$: Observable<OperationGroup[]>;
+  private clientGroupsChangedSubscription: Subscription | null = null;
   operations: Operation[] = [];
   user: User;
   todaysDateDay: string;
@@ -353,6 +354,9 @@ export class OperationAdminSidebarComponent implements OnInit {
 
     if (this.clientMode) {
       this.loadOperationGroupsForClients();
+      this.clientGroupsChangedSubscription = this.operationService.clientGroupsChanged$.subscribe(() => {
+        this.loadOperationGroupsForClients();
+      });
     } else {
       this.loadOperationGroupsForOperations(userOperationGroups);
     }
@@ -366,6 +370,10 @@ export class OperationAdminSidebarComponent implements OnInit {
       this.syncSelectionFromRoute();
       this.operations = this.selected.operationGroup?.operations || [];
     });
+  }
+
+  ngOnDestroy() {
+    this.clientGroupsChangedSubscription?.unsubscribe();
   }
 
   setActiveOperation(operation: Operation) {

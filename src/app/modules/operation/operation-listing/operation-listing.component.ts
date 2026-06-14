@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Operation, OperationGroup } from '@app/modules/operation/operation';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { User, UserRolesMap } from '@app/modules/user/user';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { ActivatedRoute } from '@angular/router';
@@ -30,8 +30,10 @@ export class OperationListingComponent implements OnInit {
       }
     | any = {};
   private lastHydratedOperationGroupId: string | null = null;
+  private currentRouteOperationGroupId: string | null = null;
   private latestHydrationRequestId = 0;
   private hydrationInFlightByGroupId: { [operationGroupId: string]: boolean } = {};
+  private clientGroupsChangedSubscription: Subscription | null = null;
   user: User;
   constructor(
     private _cdr: ChangeDetectorRef,
@@ -168,6 +170,36 @@ export class OperationListingComponent implements OnInit {
     });
   }
 
+  private refreshClientSelectionFromLatestRoute() {
+    this.lastHydratedOperationGroupId = null;
+
+    if (this.currentRouteOperationGroupId) {
+      this.selected.operationGroup = this.preserveSelectedGroupOperations(
+        this.findOperationGroupById(this.currentRouteOperationGroupId)
+      );
+
+      if (!this.selected.operationGroup) {
+        this.selected.operationGroup = {
+          operationGroupId: this.currentRouteOperationGroupId,
+          operationGroupName: '',
+          operationGroupShortName: '',
+          operationGroupActive: 1,
+          operations: []
+        };
+      }
+    } else {
+      this.selected.operationGroup = this.preserveSelectedGroupOperations(
+        this.operationGroups.length ? this.operationGroups[0] : null
+      );
+    }
+
+    if (this.selected.operationGroup?.operationGroupId) {
+      this.hydrateSelectedGroupById(this.selected.operationGroup.operationGroupId);
+    }
+
+    this._cdr.detectChanges();
+  }
+
   restoreSelectedClient() {
     const operationGroupId = this.selected?.operationGroup?.operationGroupId;
     if (!this.clientMode || !operationGroupId || this.isRestoringClient || !this.selectedGroupIsArchived) {
@@ -199,8 +231,17 @@ export class OperationListingComponent implements OnInit {
       (operationGroup: OperationGroup) => this.normalizeOperationGroup(operationGroup)
     );
 
+    if (this.clientMode) {
+      this.clientGroupsChangedSubscription = this.operationService.clientGroupsChanged$.subscribe(() => {
+        this.loadClientOperationGroups(() => {
+          this.refreshClientSelectionFromLatestRoute();
+        });
+      });
+    }
+
     this.route.paramMap.subscribe((data: any) => {
       const operationGroupId = data.get ? data.get('operationGroupId') : data.params?.operationGroupId;
+      this.currentRouteOperationGroupId = operationGroupId || null;
 
       // Route reuse can briefly emit an empty id for /clients/:operationGroupId.
       // In client mode, ignore this transient emission when a selection already exists.
@@ -251,6 +292,10 @@ export class OperationListingComponent implements OnInit {
         applySelection();
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.clientGroupsChangedSubscription?.unsubscribe();
   }
 
   operationGroupChangeEventHandler(operationGroupId: string) {

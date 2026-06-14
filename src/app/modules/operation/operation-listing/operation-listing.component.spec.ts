@@ -108,7 +108,9 @@ describe('OperationListingComponent (Jest)', () => {
   });
 
   it('switches into client mode when routed from clients', () => {
+    const clientGroupsChanged$ = new Subject<void>();
     const operationServiceStub = {
+      clientGroupsChanged$: clientGroupsChanged$.asObservable(),
       getAllOperationGroups: jest.fn().mockReturnValue(
         of([
           {
@@ -152,7 +154,9 @@ describe('OperationListingComponent (Jest)', () => {
 
   it('keeps hydrated operations when route emits same client group again', () => {
     const paramMap$ = new BehaviorSubject({ params: { operationGroupId: 'og1' } } as any);
+    const clientGroupsChanged$ = new Subject<void>();
     const operationServiceStub = {
+      clientGroupsChanged$: clientGroupsChanged$.asObservable(),
       getAllOperationGroups: jest.fn().mockReturnValue(
         of([
           {
@@ -198,7 +202,9 @@ describe('OperationListingComponent (Jest)', () => {
     const paramMap$ = new BehaviorSubject({ params: { operationGroupId: 'og1' } } as any);
     const og1$ = new Subject<any[]>();
     const og2$ = new Subject<any[]>();
+    const clientGroupsChanged$ = new Subject<void>();
     const operationServiceStub = {
+      clientGroupsChanged$: clientGroupsChanged$.asObservable(),
       getAllOperationGroups: jest.fn().mockReturnValue(
         of([
           {
@@ -261,7 +267,9 @@ describe('OperationListingComponent (Jest)', () => {
   });
 
   it('does not rehydrate when selecting identical client group id', () => {
+    const clientGroupsChanged$ = new Subject<void>();
     const operationServiceStub = {
+      clientGroupsChanged$: clientGroupsChanged$.asObservable(),
       getAllOperationGroups: jest.fn().mockReturnValue(
         of([
           {
@@ -300,5 +308,60 @@ describe('OperationListingComponent (Jest)', () => {
     localComponent.operationGroupChangeEventHandler('og1');
 
     expect(operationServiceStub.getOperationsByOperationGroupId).toHaveBeenCalledTimes(1);
+  });
+
+  it('reloads the client roster when client groups change and no specific client is routed', () => {
+    const paramMap$ = new BehaviorSubject({ params: {} } as any);
+    const clientGroupsChanged$ = new Subject<void>();
+    const operationServiceStub = {
+      clientGroupsChanged$: clientGroupsChanged$.asObservable(),
+      getAllOperationGroups: jest
+        .fn()
+        .mockReturnValueOnce(
+          of([
+            {
+              operationGroupId: 'og1',
+              operationGroupName: 'Client One',
+              operationGroupShortName: 'C1',
+              operationGroupActive: 1,
+              operations: []
+            }
+          ])
+        )
+        .mockReturnValueOnce(
+          of([
+            {
+              operationGroupId: 'og2',
+              operationGroupName: 'Client Two',
+              operationGroupShortName: 'C2',
+              operationGroupActive: 1,
+              operations: []
+            }
+          ])
+        ),
+      getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([])),
+      getOperationsByOperationGroupId: jest
+        .fn()
+        .mockReturnValueOnce(of([{ operationId: 'op1', operationGroupId: 'og1', operationName: 'Facility 1' }]))
+        .mockReturnValueOnce(of([{ operationId: 'op2', operationGroupId: 'og2', operationName: 'Facility 2' }]))
+    };
+    const route = {
+      snapshot: { data: { user: userStub, section: 'clients', title: 'Clients' } },
+      paramMap: paramMap$.asObservable()
+    } as any;
+    const localComponent = new OperationListingComponent(
+      { detectChanges: jest.fn() } as any,
+      route,
+      operationServiceStub as any
+    );
+
+    localComponent.ngOnInit();
+    expect(localComponent.selected.operationGroup.operationGroupId).toBe('og1');
+
+    clientGroupsChanged$.next();
+
+    expect(operationServiceStub.getAllOperationGroups).toHaveBeenCalledTimes(2);
+    expect(localComponent.selected.operationGroup.operationGroupId).toBe('og2');
+    expect(localComponent.selected.operationGroup.operations[0].operationId).toBe('op2');
   });
 });

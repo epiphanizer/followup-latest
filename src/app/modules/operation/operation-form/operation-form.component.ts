@@ -79,6 +79,35 @@ export class OperationFormComponent implements OnInit {
   operationGroupsLoading: boolean = false;
   user: User;
 
+  get selectableOperationGroups(): OperationGroup[] {
+    const operationGroups = Array.isArray(this.operationGroups) ? this.operationGroups : [];
+    const activeOperationGroups = operationGroups.filter(
+      (operationGroup: OperationGroup) => Number(operationGroup?.operationGroupActive) !== 0
+    );
+
+    if (this.mode.add) {
+      return activeOperationGroups;
+    }
+
+    const selectedOperationGroupId =
+      this.operationForm?.get('operation.operationGroupId')?.value || this.operation?.operationGroupId;
+    const selectedOperationGroup = operationGroups.find(
+      (operationGroup: OperationGroup) => operationGroup?.operationGroupId === selectedOperationGroupId
+    );
+
+    if (
+      selectedOperationGroup &&
+      Number(selectedOperationGroup?.operationGroupActive) === 0 &&
+      !activeOperationGroups.some(
+        (operationGroup: OperationGroup) => operationGroup?.operationGroupId === selectedOperationGroup.operationGroupId
+      )
+    ) {
+      return [selectedOperationGroup, ...activeOperationGroups];
+    }
+
+    return activeOperationGroups;
+  }
+
   constructor(
     private fb: FormBuilder,
     private notificationService: NotificationService,

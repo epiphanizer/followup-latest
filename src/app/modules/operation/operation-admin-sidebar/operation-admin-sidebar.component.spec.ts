@@ -1,5 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -46,6 +46,7 @@ describe('OperationAdminSidebarComponent', () => {
   let component: OperationAdminSidebarComponent;
   let fixture: ComponentFixture<OperationAdminSidebarComponent>;
   let consoleLogSpy: jest.SpyInstance;
+  let clientGroupsChanged$: Subject<void>;
   const operationServiceMock: any = {
     getAllOperationGroups: jest.fn(() =>
       of([
@@ -86,6 +87,8 @@ describe('OperationAdminSidebarComponent', () => {
   );
 
   beforeEach(() => {
+    clientGroupsChanged$ = new Subject<void>();
+    operationServiceMock.clientGroupsChanged$ = clientGroupsChanged$.asObservable();
     consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     fixture = TestBed.createComponent(OperationAdminSidebarComponent);
     component = fixture.componentInstance;
@@ -185,6 +188,20 @@ describe('OperationAdminSidebarComponent', () => {
     localComponent.setClientFilter('archived');
     expect(localComponent.visibleOperationGroups.length).toBe(1);
     expect(localComponent.getOperationGroupRoute({ operationGroupId: 'g1' } as any)).toEqual(['/clients', 'g1']);
+  });
+
+  it('reloads client groups when notified of a successful archive or restore', () => {
+    const clientsRouteMock: any = createRouteMock({ section: 'clients' });
+    const localComponent = new OperationAdminSidebarComponent(clientsRouteMock, operationServiceMock, {
+      detectChanges: jest.fn()
+    } as any);
+
+    localComponent.ngOnInit();
+    expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalledTimes(2);
+
+    clientGroupsChanged$.next();
+
+    expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalledTimes(3);
   });
 
   it('syncs active group from routed operation group ids', () => {

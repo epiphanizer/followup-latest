@@ -298,17 +298,33 @@ describe('OperationFormComponent logic', () => {
   describe('Ownership Group Select', () => {
     beforeEach(() => {
       component.operationGroups = [
-        { operationGroupId: 'og1', operationGroupName: 'West Coast PACS', operationGroupShortName: 'WCP' } as any,
+        {
+          operationGroupId: 'og1',
+          operationGroupName: 'West Coast PACS',
+          operationGroupShortName: 'WCP',
+          operationGroupActive: 1
+        } as any,
         {
           operationGroupId: 'og2',
           operationGroupName: 'Mountain View Rehab',
-          operationGroupShortName: 'MVR'
+          operationGroupShortName: 'MVR',
+          operationGroupActive: 0
         } as any,
-        { operationGroupId: 'og3', operationGroupName: 'Eastside Hospice', operationGroupShortName: 'EH' } as any
+        {
+          operationGroupId: 'og3',
+          operationGroupName: 'Eastside Hospice',
+          operationGroupShortName: 'EH',
+          operationGroupActive: 1
+        } as any
       ];
       component.operation = {
         ...(component.operation as any),
         operationGroupId: 'og1'
+      } as any;
+      component.mode = {
+        add: true,
+        edit: false,
+        view: false
       } as any;
     });
 
@@ -317,6 +333,13 @@ describe('OperationFormComponent logic', () => {
 
       expect(component.operationForm.get('operation.operationGroupId').value).toBe('og3');
       expect(component.operation.operationGroupId).toBe('og3');
+    });
+
+    it('only exposes active operation groups for add-mode ownership selection', () => {
+      expect(component.selectableOperationGroups.map((operationGroup: any) => operationGroup.operationGroupId)).toEqual([
+        'og1',
+        'og3'
+      ]);
     });
 
     it('hydrates ownership groups from the API for add mode when the user snapshot is empty', () => {
@@ -416,6 +439,22 @@ describe('OperationFormComponent logic', () => {
 
       routeStub.snapshot.data.mode = 'edit';
       routeStub.snapshot.data.user = { operationGroups: [] };
+    });
+
+    it('preserves the currently selected archived ownership group outside add mode', () => {
+      component.mode = {
+        add: false,
+        edit: true,
+        view: false
+      } as any;
+      component.operation.operationGroupId = 'og2';
+      component.operationForm.get('operation.operationGroupId').setValue('og2');
+
+      expect(component.selectableOperationGroups.map((operationGroup: any) => operationGroup.operationGroupId)).toEqual([
+        'og2',
+        'og1',
+        'og3'
+      ]);
     });
 
     it('preserves the existing ownership group when a refresh payload omits operationGroupId', () => {

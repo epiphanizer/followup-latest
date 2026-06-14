@@ -37,6 +37,7 @@ describe('OperationGroupFormComponent (Jest)', () => {
       ),
       deactivateOperationGroupByOperationGroupId: jest.fn(() => of({ success: 1 })),
       restoreOperationGroupByOperationGroupId: jest.fn(() => of({ success: 1 })),
+      notifyClientGroupsChanged: jest.fn(),
       getOperationGroups: jest.fn(() =>
         of([
           {
@@ -109,6 +110,7 @@ describe('OperationGroupFormComponent (Jest)', () => {
     comp.onArchive();
 
     expect(operationService.deactivateOperationGroupByOperationGroupId).toHaveBeenCalledWith('og1');
+    expect(operationService.notifyClientGroupsChanged).toHaveBeenCalled();
     expect(userService.updateOperations).toHaveBeenCalledWith(comp.user);
     expect(router.navigate).toHaveBeenCalledWith(['/clients']);
     confirmSpy.mockRestore();
@@ -174,9 +176,23 @@ describe('OperationGroupFormComponent (Jest)', () => {
     comp.onRestore();
 
     expect(operationService.restoreOperationGroupByOperationGroupId).toHaveBeenCalledWith('og1');
+    expect(operationService.notifyClientGroupsChanged).toHaveBeenCalled();
     expect(comp.operationGroup?.operationGroupActive).toBe(1);
     expect(userService.updateOperations).toHaveBeenCalledWith(comp.user);
     expect(router.navigate).toHaveBeenCalledWith(['/clients', 'og1']);
     confirmSpy.mockRestore();
+  });
+
+  it('notifies client group listeners after a rename succeeds', () => {
+    const { comp, operationService } = makeComponent();
+
+    comp.ngOnInit();
+    comp.operationGroupForm.patchValue({
+      operationGroupName: 'Providence West',
+      operationGroupShortName: 'PROVW'
+    });
+    comp.onSubmit();
+
+    expect(operationService.notifyClientGroupsChanged).toHaveBeenCalled();
   });
 });

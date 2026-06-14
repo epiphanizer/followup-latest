@@ -79,6 +79,17 @@ describe('OperationService (Jest)', () => {
     });
   });
 
+  it('emits when client groups change', done => {
+    const http = makeHttp();
+    const svc = new OperationService(http as any);
+
+    svc.clientGroupsChanged$.subscribe(() => {
+      done();
+    });
+
+    svc.notifyClientGroupsChanged();
+  });
+
   it('does not overwrite localStorage on subsequent fetches', done => {
     const http = makeHttp();
     http.get = jest.fn(() => of([{ operationGroupId: 'og1' }] as any));

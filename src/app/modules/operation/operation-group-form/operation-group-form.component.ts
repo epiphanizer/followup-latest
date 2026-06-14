@@ -114,6 +114,7 @@ export class OperationGroupFormComponent implements OnInit {
         }
 
         this.applyOperationGroupRename(updatedOperationGroup);
+        this.operationService.notifyClientGroupsChanged();
         this.userService.updateOperations(this.user).catch(() => {});
         this.toastrService
           .success('Successfully updated client')
@@ -190,6 +191,7 @@ export class OperationGroupFormComponent implements OnInit {
           if (this.operationGroup) {
             this.operationGroup.operationGroupActive = 1;
           }
+          this.operationService.notifyClientGroupsChanged();
           this.userService.updateOperations(this.user).catch(() => {});
           this.isRestoring = false;
           this.toastrService
@@ -245,6 +247,7 @@ export class OperationGroupFormComponent implements OnInit {
 
   private handleArchiveSuccess(operationGroupId: string) {
     this.removeOperationGroupFromCaches(operationGroupId);
+    this.operationService.notifyClientGroupsChanged();
     this.userService.updateOperations(this.user).catch(() => {});
     this.isArchiving = false;
     this.toastrService
