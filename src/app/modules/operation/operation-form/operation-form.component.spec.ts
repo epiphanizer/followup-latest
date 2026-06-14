@@ -295,7 +295,7 @@ describe('OperationFormComponent logic', () => {
     });
   });
 
-  describe('Ownership Group Lookahead', () => {
+  describe('Ownership Group Select', () => {
     beforeEach(() => {
       component.operationGroups = [
         { operationGroupId: 'og1', operationGroupName: 'West Coast PACS', operationGroupShortName: 'WCP' } as any,
@@ -310,53 +310,13 @@ describe('OperationFormComponent logic', () => {
         ...(component.operation as any),
         operationGroupId: 'og1'
       } as any;
-      (component as any).setOperationGroupSearchFromSelection('og1');
     });
 
-    it('filters operation groups by lookahead term', () => {
-      component.onOperationGroupSearchInput({ detail: { value: 'mount' } });
+    it('selects an ownership group from the ionic select and updates form control', () => {
+      component.operationGroupOnSelect({ detail: { value: 'og3' } });
 
-      expect(component.operationGroupLookaheadOpen).toBe(true);
-      expect(component.filteredOperationGroups.length).toBe(1);
-      expect(component.filteredOperationGroups[0].operationGroupId).toBe('og2');
-    });
-
-    it('selects operation group from lookahead and updates form control', () => {
-      const eventMock = {
-        preventDefault: jest.fn(),
-        stopPropagation: jest.fn()
-      } as any;
-
-      component.selectOperationGroupFromSearch(component.operationGroups[2], eventMock);
-
-      expect(eventMock.preventDefault).toHaveBeenCalled();
-      expect(component.operationGroupSearchTerm).toBe('');
       expect(component.operationForm.get('operation.operationGroupId').value).toBe('og3');
       expect(component.operation.operationGroupId).toBe('og3');
-      expect(component.getSelectedOperationGroupLabel()).toBe('Eastside Hospice');
-      expect(component.operationGroupLookaheadOpen).toBe(false);
-    });
-
-    it('opens as a dropdown trigger and resets search to the full list', () => {
-      component.operationGroupSearchTerm = 'east';
-      component.filteredOperationGroups = component.operationGroups.slice(2);
-
-      const trigger = document.createElement('button');
-      Object.defineProperty(trigger, 'getBoundingClientRect', {
-        value: () => ({ left: 10, top: 12, bottom: 30, width: 200 })
-      });
-      component.toggleOperationGroupDropdown({ currentTarget: trigger } as any);
-
-      expect(component.operationGroupLookaheadOpen).toBe(true);
-      expect(component.operationGroupSearchTerm).toBe('');
-      expect(component.filteredOperationGroups.length).toBe(3);
-      expect(component.operationGroupOverlayStyle.left).toBe('10px');
-      expect(component.operationGroupOverlayStyle.top).toBe('12px');
-      expect(component.operationGroupOverlayStyle.width).toBe('200px');
-
-      component.toggleOperationGroupDropdown({ currentTarget: trigger } as any);
-
-      expect(component.operationGroupLookaheadOpen).toBe(false);
     });
 
     it('hydrates ownership groups from the API for add mode when the user snapshot is empty', () => {
@@ -383,12 +343,10 @@ describe('OperationFormComponent logic', () => {
       );
 
       addModeComponent.ngOnInit();
-      addModeComponent.onOperationGroupSearchInput({ detail: { value: 'beta' } });
 
       expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalled();
       expect(addModeComponent.operationGroups.length).toBe(2);
-      expect(addModeComponent.filteredOperationGroups.length).toBe(1);
-      expect(addModeComponent.filteredOperationGroups[0].operationGroupId).toBe('og11');
+      expect(addModeComponent.operationGroups[1].operationGroupId).toBe('og11');
 
       routeStub.snapshot.data.mode = 'edit';
       routeStub.snapshot.data.user = { operationGroups: [] };
@@ -416,12 +374,11 @@ describe('OperationFormComponent logic', () => {
       );
 
       addModeComponent.ngOnInit();
-      addModeComponent.toggleOperationGroupDropdown();
 
       expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalled();
       expect(operationServiceMock.getOperationGroups).toHaveBeenCalled();
       expect(addModeComponent.operationGroups.length).toBe(1);
-      expect(addModeComponent.filteredOperationGroups[0].operationGroupId).toBe('og20');
+      expect(addModeComponent.operationGroups[0].operationGroupId).toBe('og20');
 
       routeStub.snapshot.data.mode = 'edit';
       routeStub.snapshot.data.user = { operationGroups: [] };
@@ -453,10 +410,9 @@ describe('OperationFormComponent logic', () => {
       );
 
       addModeComponent.ngOnInit();
-      addModeComponent.toggleOperationGroupDropdown();
 
       expect(addModeComponent.operationGroups.length).toBe(1);
-      expect(addModeComponent.filteredOperationGroups[0].operationGroupId).toBe('og30');
+      expect(addModeComponent.operationGroups[0].operationGroupId).toBe('og30');
 
       routeStub.snapshot.data.mode = 'edit';
       routeStub.snapshot.data.user = { operationGroups: [] };
@@ -482,7 +438,6 @@ describe('OperationFormComponent logic', () => {
 
       expect(component.operation.operationGroupId).toBe('og1');
       expect(component.operationForm.get('operation.operationGroupId')?.value).toBe('og1');
-      expect(component.getSelectedOperationGroupLabel()).toBe('West Coast PACS');
     });
   });
 

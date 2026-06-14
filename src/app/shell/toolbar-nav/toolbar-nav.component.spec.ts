@@ -10,6 +10,7 @@ import { ToolbarNavComponent } from './toolbar-nav.component';
 describe('ToolbarNavComponent logic', () => {
   let component: ToolbarNavComponent;
   const modalCtrlMock: any = { create: jest.fn(() => Promise.resolve({ present: jest.fn() })) };
+  const notificationServiceMock: any = { getNotificationTypes: jest.fn(() => of([])) };
   const routeMock: any = {
     snapshot: {
       data: { user: { userId: 'u1' }, patient: null },
@@ -46,12 +47,17 @@ describe('ToolbarNavComponent logic', () => {
       routeMock as any,
       routerMock as any,
       dataServiceMock,
-      authServiceMock
+      authServiceMock,
+      notificationServiceMock
     );
     component.callQueuePage = true;
     component.createNotification = jest.fn();
     ((FileSaver.saveAs as unknown) as jest.Mock).mockClear();
     component.ngOnInit();
+  });
+
+  afterEach(() => {
+    notificationServiceMock.getNotificationTypes.mockClear();
   });
 
   it('updates the user from auth service changes', () => {
@@ -99,6 +105,13 @@ describe('ToolbarNavComponent logic', () => {
     component.dynamicLink({ linkAction: 'getExcelReport' } as any);
     expect(dataServiceMock.getData).toHaveBeenCalled();
     expect(FileSaver.saveAs).toHaveBeenCalled();
+  });
+
+  it('preloads notification types when opening the notify modal', async () => {
+    await component.createNotificationModal();
+
+    expect(notificationServiceMock.getNotificationTypes).toHaveBeenCalled();
+    expect(modalCtrlMock.create).toHaveBeenCalled();
   });
 
   it('emits a service health request from the admin menu action', () => {

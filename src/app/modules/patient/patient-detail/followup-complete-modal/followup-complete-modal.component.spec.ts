@@ -32,11 +32,6 @@ describe('FollowupCompleteModalComponent', () => {
           { provide: ModalController, useValue: modalControllerStub }
         ]
       })
-        .overrideComponent(FollowupCompleteModalComponent, {
-          set: {
-            providers: [{ provide: PatientStatusService, useValue: patientStatusServiceStub }]
-          }
-        })
         .compileComponents();
     })
   );

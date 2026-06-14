@@ -381,6 +381,11 @@ export class TeamAccessComponent implements OnInit {
       return;
     }
 
+    if (this.hasEnabledClientsWithoutScopedOperations()) {
+      this.toastrService.error('Enable at least one operation for each enabled client before saving team defaults.');
+      return;
+    }
+
     if (this.hasIncompleteScopedAssignments()) {
       this.toastrService.error('Choose a default role for each enabled operation before saving team defaults.');
       return;
@@ -650,10 +655,18 @@ export class TeamAccessComponent implements OnInit {
 
   toggleClientEnabled(client: TeamAccessClientCard, enabled: boolean) {
     client.enabled = enabled;
-    if (enabled && client.accessMode === 'allOperations') {
-      client.entries.forEach(entry => {
-        entry.operationSelected = true;
-      });
+    if (enabled) {
+      client.expanded = true;
+
+      if (!client.entries.some(entry => entry.operationSelected)) {
+        client.accessMode = 'allOperations';
+      }
+
+      if (client.accessMode === 'allOperations') {
+        client.entries.forEach(entry => {
+          entry.operationSelected = true;
+        });
+      }
     }
     this.recomputeDirtyState();
   }
@@ -943,6 +956,12 @@ export class TeamAccessComponent implements OnInit {
   private hasIncompleteScopedAssignments(): boolean {
     return this.teamAccessClients.some((client: TeamAccessClientCard) =>
       client.entries.some((entry: TeamAccessEntry) => this.isEntryInClientScope(client, entry) && entry.selectedRoleId <= 0)
+    );
+  }
+
+  private hasEnabledClientsWithoutScopedOperations(): boolean {
+    return this.teamAccessClients.some((client: TeamAccessClientCard) =>
+      client.enabled && !client.entries.some((entry: TeamAccessEntry) => this.isEntryInClientScope(client, entry))
     );
   }
 

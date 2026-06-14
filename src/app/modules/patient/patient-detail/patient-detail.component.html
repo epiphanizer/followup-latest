@@ -15,7 +15,7 @@
       </app-patient-history-listing>
     </ion-col>
 
-    <ion-col class="right-hand-detail">
+    <ion-col id="patient-detail-review-top" class="right-hand-detail">
       <ng-container *ngIf="patientCall$ | async">
         <app-patient-call-status-controls
           [patientCall]="patientCall"

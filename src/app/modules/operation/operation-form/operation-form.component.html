@@ -69,60 +69,15 @@
             </div>
             <ion-item class="operation-group">
               <ion-label color="medium" position="stacked">Ownership <span style="color:#f1624a">*</span></ion-label>
-              <div class="operation-group-typeahead">
-                <button
-                  type="button"
-                  class="operation-group-trigger"
-                  [class.is-open]="operationGroupLookaheadOpen"
-                  (click)="toggleOperationGroupDropdown($event)"
+              <ion-select placeholder="Ownership" class="select-ownership" formControlName="operationGroupId">
+                <ion-select-option
+                  *ngFor="let operationGroup of operationGroups"
+                  [value]="operationGroup.operationGroupId"
                 >
-                  <span
-                    class="operation-group-trigger-label"
-                    [class.is-placeholder]="!getSelectedOperationGroupLabel()"
-                  >
-                    {{ getSelectedOperationGroupLabel() || 'Select ownership group' }}
-                  </span>
-                  <span class="operation-group-trigger-icon" aria-hidden="true"></span>
-                </button>
-              </div>
+                  {{ operationGroup.operationGroupName }}
+                </ion-select-option>
+              </ion-select>
             </ion-item>
-            <button
-              *ngIf="operationGroupLookaheadOpen"
-              type="button"
-              class="operation-group-overlay-backdrop"
-              (click)="closeOperationGroupDropdown()"
-            ></button>
-            <div
-              class="operation-group-lookahead operation-group-lookahead--overlay"
-              *ngIf="operationGroupLookaheadOpen"
-              [ngStyle]="operationGroupOverlayStyle"
-            >
-              <ion-input
-                class="operation-group-search-input"
-                placeholder="Search for Ownership Group"
-                [value]="operationGroupSearchTerm"
-                (ionInput)="onOperationGroupSearchInput($event)"
-                (ionFocus)="onOperationGroupSearchFocus()"
-                (ionBlur)="onOperationGroupSearchBlur()"
-              ></ion-input>
-              <div class="operation-group-lookahead-loading" *ngIf="operationGroupsLoading && !filteredOperationGroups.length">
-                Loading ownership groups...
-              </div>
-              <button
-                type="button"
-                class="operation-group-lookahead-option"
-                *ngFor="let operationGroup of filteredOperationGroups; trackBy: trackByOperationGroupOption"
-                (mousedown)="selectOperationGroupFromSearch(operationGroup, $event)"
-              >
-                <span class="operation-group-name">{{ operationGroup.operationGroupName }}</span>
-                <span class="operation-group-short" *ngIf="operationGroup.operationGroupShortName">
-                  {{ operationGroup.operationGroupShortName }}
-                </span>
-              </button>
-              <div class="operation-group-lookahead-empty" *ngIf="!operationGroupsLoading && !filteredOperationGroups.length">
-                No ownership groups match your search.
-              </div>
-            </div>
             <ion-item class="operation-name">
               <ion-label color="medium" position="stacked">Facility <span style="color:#f1624a">*</span></ion-label>
               <ion-input type="text" formControlName="operationName" placeholder="Facility" inputCapitalizeFirst>

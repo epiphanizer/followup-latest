@@ -15,17 +15,121 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
-    version: '4.0.0_alpha_rc4',
-    recordedAt: '2026-06-12',
-    label: 'Current alpha rc4 candidate',
+    version: '4.0.0_alpha_rc5',
+    recordedAt: '2026-06-14',
+    label: 'Current alpha rc5 candidate',
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
-        scope: 'Release',
-        summary: 'The current v4 alpha snapshot is now tagged and surfaced as `4.0.0_alpha_rc4` across the frontend build metadata, API package metadata, and the Service Health version history.',
+        scope: 'Frontend',
+        summary:
+          'Stop & Review in Patient Detail now returns the user to the top of the right-hand review pane automatically.',
         evidence:
-          'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_alpha_rc2` to `4.0.0_alpha_rc4`, updating `src/environments/.env.ts`, and retagging this top Service Health release entry so the active alpha shows up consistently in the shell version panel and status payloads.',
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-detail/patient-detail.component.html`, `patient-detail.component.ts`, and `patient-detail.component.spec.ts` to add a review-pane top anchor and scroll to it when `patientCallEndEventHandler(...)` transitions the call into `In Review`. Before this change, users who clicked `Stop & Review` stayed scrolled at the bottom of the active-call form and had to manually scroll back up before they could review the call status, notes, and next-call or follow-up controls. Validation used focused Jest on `src/app/modules/patient/patient-detail/patient-detail.component.spec.ts` (`11/11` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Performance',
+        summary:
+          'Patient Detail now avoids duplicate question reads and unnecessary per-question answer fan-out when hydrating active-call and history question data.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-detail/patient-call/patient-call-questions/patient-call-questions.service.ts`, `patient-call-questions.component.ts`, `patient-history-listing.component.ts`, and `patient-detail.component.ts`. The active-call question editor had been fetching the current call questions twice and then issuing per-question answer requests for the previous call, while the history panel eagerly loaded every call\'s questions plus every individual answer on initial render even for statuses that never display answers. The frontend now uses a cached shared `getPatientCallQuestionsWithAnswersByPatientCallId(...)` path, reuses root-scoped question services instead of local component instances, reuses the first current-call question read for the active editor, and only hydrates historical question answers for `Contacted` calls where the UI actually renders them. Validation used focused Jest on the patient-detail question/history slice (`4/4` suites, `27/27` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Operation form Ownership field now uses the same standard Ionic select pattern as the Patient Facility field instead of a custom lookahead overlay.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-form/operation-form.component.ts`, `.html`, `.scss`, and `.spec.ts` to remove the bespoke ownership trigger/overlay/typeahead path and restore a native `ion-select` for ownership-group selection. The earlier custom dropdown had diverged from the rest of the form UX and carried its own local overlay state and dead styling surface; the form now uses the standard Ionic selector while keeping the reactive form control and backing operation model synchronized through the existing select handler. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts` (`25/25` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Release',
+        summary: 'The current v4 alpha snapshot is now tagged and surfaced as `4.0.0_alpha_rc5` across the frontend build metadata, API package metadata, and the Service Health version history.',
+        evidence:
+          'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_alpha_rc4` to `4.0.0_alpha_rc5`, updating `src/environments/.env.ts`, and retagging this top Service Health release entry so the active alpha shows up consistently in the shell version panel, branch merge target, and status payloads.',
         source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Notify modal radio options now render unselected by default and only show the teal inner mark for the actually checked notification type.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/shell/notification-modal/notification-modal.component.scss` so the custom `ion-radio::part(mark)` teal fill is hidden by default and revealed only for `.radio-checked` / `aria-checked="true"`. The first teal restyle had already removed the broken transparent legacy skin, but because the custom mark styling was always visible every notification-type option looked selected on first render even though the form control itself was unset. This follow-up ties the visible teal dot back to the checked state. Validation used a clean static error pass on `src/app/shell/notification-modal/notification-modal.component.scss`.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Notify modal notification-type radios now use the same teal/dark-label form-control styling as the rest of the migrated UI instead of the broken transparent legacy radio skin.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/shell/notification-modal/notification-modal.component.scss` to remove the old pre-Ionic-8 `ion-radio` overrides that forced transparent checked colors and custom red-image radio art. Those legacy rules made checked choices appear to vanish or turn into white outlines and left labels looking washed out inside the modal. The modal now styles `.notification-choice` through `ion-radio::part(container|mark|label)` using the standard teal border/fill treatment, white radio background, and explicit dark AvenirPro label styling for stable contrast. Validation used a clean static error pass on `src/app/shell/notification-modal/notification-modal.component.scss`.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Notify modal now reliably swaps from its loading state to the loaded notification-type options as soon as `/notifications/types` returns inside the Ionic overlay.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/shell/notification-modal/notification-modal.component.ts` so the modal flips `notificationTypesLoading` directly inside the success/error handlers and forces a local change-detection pass after applying the new state. The request path had already been restored, but the overlay was still relying on the outer finalize path to settle the loading branch, which could leave the visible modal stuck on `Loading notification options...` even after the type array had arrived. The modal now clears that branch immediately when the data is normalized and applied. Validation used focused Jest on `src/app/shell/notification-modal/notification-modal.component.spec.ts`, `src/app/shell/toolbar-nav/toolbar-nav.component.spec.ts`, and `src/app/modules/notification/notification.service.spec.ts` (`3/3` suites, `25/25` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The toolbar `Notify` action now starts the notification-type fetch immediately when the modal is opened, instead of leaving the modal component to begin that read only after it starts rendering.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/shell/toolbar-nav/toolbar-nav.component.ts` to prewarm `NotificationService.getNotificationTypes()` before creating and presenting the Notify modal. The modal still performs its own `getNotificationTypes()` read during `ngOnInit`, but it now attaches to an already-started shared request or cached response rather than being the first place that triggers the network call after render. This shifts the start of `GET /notifications/types` onto the actual toolbar open action and trims avoidable delay from the visible modal load path. Validation used focused Jest on `src/app/shell/toolbar-nav/toolbar-nav.component.spec.ts`, `src/app/shell/notification-modal/notification-modal.component.spec.ts`, and `src/app/modules/notification/notification.service.spec.ts` (`3/3` suites, `25/25` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Notify modal notification-type loader now retries and recovers after a stalled or failed `/notifications/types` read instead of reusing one stuck shared request for the rest of the session.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/notification/notification.service.ts` so notification types are cached only after a successful response, while the in-flight request reference is cleared on completion/error and bounded by a timeout. The earlier modal performance optimization cached the raw shared observable itself; if the first type request hung, every later Notify modal open reused that same unresolved stream, stayed on `Loading notification options...`, and never issued a fresh network request. The loader now restores `retry(3)`, adds a bounded timeout, and memoizes only resolved type arrays, so later opens stay instant after a successful fetch but can retry cleanly after a stall or failure. Validation used focused Jest on `src/app/modules/notification/notification.service.spec.ts` and `src/app/shell/notification-modal/notification-modal.component.spec.ts` (`2/2` suites, `18/18` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Follow-up completion and Notification modals now reuse cached static option lists across opens instead of showing a fresh multi-second loading state every time.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-status.service.ts` and `src/app/modules/notification/notification.service.ts` to cache their static label/type GETs with `shareReplay(1)` and reset that cache on error, while also removing the modal-local service providers from `src/app/modules/patient/patient-detail/followup-complete-modal/followup-complete-modal.component.ts` and `src/app/shell/notification-modal/notification-modal.component.ts`. Those component-scoped providers had been forcing brand new service instances on each modal open, which discarded any reusable option state and guaranteed another round-trip; `retry(3)` on the list reads then stretched any slow/failing fetch into a visible 5-second spinner. Validation used focused Jest on the touched modal/service slice (`5/5` suites, `30/30` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Call Queue left sidebar now reflects the dedicated Spanish Speaking route instead of leaving another facility group looking active/open underneath it.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.ts`, `.html`, and `.scss` so the sidebar reads route `mode: "spanish"`, clears any stale active operation in that mode, suppresses the normal default first-operation auto-open behavior, and highlights the `SPANISH` link itself through router-driven active styling. Before this fix, `/call-queue/spanish` had no `operationId`, but the sidebar still fell back to the first operation group and made the left rail look like a normal facility queue was selected even while the main panel was showing the cross-facility Spanish Speaking feed. Validation used focused Jest on the Call Queue sidebar/component slice (`2/2` suites, `7/7` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Teams sidebar lifecycle actions now stack more tightly, so wrapped controls like `Rename` and `Archive` no longer show the extra vertical spacing inherited from the global button chrome.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.scss` to reduce wrapped action-row row-gap and reset `.team-lifecycle-action` away from the shared shell button dimensions (`height: auto`, `min-height: 0`, `padding: 0`, compact line-height). This keeps the same action order and behavior while removing the large vertical gap that appeared when the Teams sidebar lifecycle controls wrapped onto multiple lines. Validation used focused Jest on the Teams sidebar component slice (`5/5` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Teams left sidebar now uses the same narrower sidebar measure as the other left rails, bringing its `TODAY\'S DATE` block back into the same visual centering pattern.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.scss` to normalize the sidebar component width from `185px` back to the shared `172px` sidebar measure used across the rest of the app. The typography for the Teams calendar block already matched the other sidebars; the centering drift came from the broader internal sidebar column. Narrowing that component width realigns the date block without changing the Teams page content grid. Validation used focused Jest on the Teams sidebar component slice (`5/5` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The User Profile `Do any of the following apply to you?` checklist now matches the rest of the migrated app instead of rendering oversized checkbox boxes, oversized labels, and excessive checkbox-to-label spacing.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/user/user-profile/user-profile.component.scss` to remove the local `36px` checkbox container override, drop the extra host-level gap, tighten the checkbox container margin to `4px`, replace the oversized `18px` label styling with the compact Ionic checkbox pattern already used across the migrated UI (`--size: 22px`, compact row height, and `14px` AvenirPro label styling), and remove the profile-only width-cap plus `nowrap` combination that could cut off label text at the right edge. This keeps the existing two-column interest checklist layout intact while bringing both the checkbox control and its label spacing back into line with the other forms. Validation used focused Jest on `src/app/modules/user/user-profile/user-profile.component.spec.ts` (`7/7` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
         scope: 'Frontend',
@@ -265,6 +369,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
           'Client archive and restore now detect whether the database can actually support soft-archive before writing, instead of falling through to a blank generic route error on legacy schemas.',
         evidence:
           'Recorded in the snapshot API/frontend running change logs after updating deployment/service/OperationService.js so the `DELETE /operations/groups/{operationGroupId}` and restore paths capability-detect both the stored procedures and `operationGroups.operationGroupActive` before deciding whether to execute the proc or the direct-update fallback. The previous mixed-schema fix only handled a missing deactivate/restore proc and still failed generically on databases where the active-state column itself was absent. The API now preserves the direct `UPDATE operationGroups SET operationGroupActive = ...` fallback when the column exists and returns a clear unsupported-schema message when soft archive/restore requires the missing column migration. Validation used `node --check deployment/service/OperationService.js` plus API syntax tests (`npm test --silent`).',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Database',
+        summary:
+          'The local alpha backup database now has `operationGroups.operationGroupActive` deployed, so snapshot client archive and restore can complete through the existing direct-update fallback path.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after adding `v4.0.0/followup-api/migration_sql/3.12.13migration-operation-group-active.sql`, wiring it into `migration_sql/README.md` and `migration_sql/validate-all-alpha.noexec.sql`, and applying it to `followup_alpha_20260517`. Before this rollout, the snapshot API correctly reported soft archive unsupported because the alpha backup database had neither the archive procedures nor the `operationGroups.operationGroupActive` column. The additive migration backfilled all existing operation groups to active, made the column non-null with default `1`, compile-validated cleanly through the standardized no-exec wrapper, and was then verified with a local `NODE_ENV=dev` `OperationService` round-trip where `operationGroupId=1` archived to `0` and restored to `1` with both service calls returning success.',
         source: 'v4.0.0/followup-api/agents.md'
       },
       {

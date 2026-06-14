@@ -95,11 +95,17 @@ describe('PatientDetailComponent', () => {
   });
 
   it('ends call and sets label when status not Started', () => {
+    const scrollIntoView = jest.fn();
+    const querySelectorSpy = jest.spyOn(document, 'querySelector').mockReturnValue({ scrollIntoView } as any);
     component.patientCall.patientCallStatusLabel = 'Done';
     component.patientCallEndEventHandler(component.patientCall);
 
     expect(patientCallServiceMock.endPatientCall).toHaveBeenCalledWith('pc1');
     expect(component.patientCall.patientCallStatusLabel).toBe('In Review');
+    expect(querySelectorSpy).toHaveBeenCalledWith('#patient-detail-review-top');
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
+
+    querySelectorSpy.mockRestore();
   });
 
   it('updates status label and id on status change', () => {

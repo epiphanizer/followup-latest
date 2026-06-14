@@ -273,142 +273,19 @@ form {
     --overflow: visible;
   }
 
-  .operation-group-typeahead {
-    position: relative;
+  .select-ownership {
     width: 100%;
-    overflow: visible;
-  }
-
-  .operation-group-trigger {
-    width: 100%;
-    height: 52px;
-    min-height: 0;
-    border: solid 1px rgba(112, 112, 112, 0.15);
-    border-radius: 4px;
-    background: #f5f5f5;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 0 16px;
-    text-align: left;
-    cursor: pointer;
-    float: none;
-    clear: none;
-    margin: 0;
-
-    &.is-open {
-      border-color: rgba(0, 180, 185, 0.45);
-      box-shadow: 0 0 0 2px rgba(0, 180, 185, 0.08);
-    }
-  }
-
-  .operation-group-trigger-label {
+    max-width: 100%;
+    min-height: 52px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --placeholder-color: #7b7b7b;
+    --placeholder-opacity: 1;
+    --highlight-color-focused: transparent;
+    --highlight-color-valid: transparent;
     font-family: Avenir;
     font-size: 14px;
     color: #222222;
-    line-height: 1.4;
-
-    &.is-placeholder {
-      color: #7b7b7b;
-    }
-  }
-
-  .operation-group-trigger-icon {
-    flex: 0 0 auto;
-    width: 10px;
-    height: 10px;
-    border-left: 2px solid #666666;
-    border-bottom: 2px solid #666666;
-    transform: rotate(-45deg) translateY(-2px);
-    transition: transform 120ms ease;
-  }
-
-  .operation-group-trigger.is-open .operation-group-trigger-icon {
-    transform: rotate(135deg) translateX(-2px);
-  }
-
-  .operation-group-search-input {
-    width: 100%;
-    display: block;
-    border: solid 1px rgba(112, 112, 112, 0.15);
-    border-radius: 4px;
-    background: #f5f5f5;
-    --padding-top: 12px;
-    --padding-end: 14px;
-    --padding-bottom: 12px;
-    --padding-start: 14px;
-    margin-right: 0;
-  }
-
-  .operation-group-lookahead {
-    position: fixed;
-    z-index: 50000;
-    max-height: 220px;
-    overflow-y: auto;
-    border: solid 1px rgba(112, 112, 112, 0.15);
-    border-radius: 6px;
-    background: #ffffff;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-    padding: 10px;
-    margin: 0;
-  }
-
-  .operation-group-overlay-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 49999;
-    border: 0;
-    background: transparent;
-    cursor: default;
-    margin: 0;
-    padding: 0;
-    float: none;
-  }
-
-  .operation-group-lookahead .operation-group-search-input {
-    margin-bottom: 10px;
-  }
-
-  .operation-group-lookahead-loading,
-  .operation-group-lookahead-empty {
-    padding: 0.65rem 0.7rem;
-    font-family: AvenirPro;
-    font-size: 13px;
-    color: #666666;
-  }
-
-  .operation-group-lookahead-option {
-    border: 0;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    background: #ffffff;
-    padding: 0.7rem 0.85rem;
-    display: block;
-    margin: 0;
-    float: none;
-
-    &:hover,
-    &:focus {
-      background: #f5f5f5;
-      outline: none;
-    }
-
-    .operation-group-name {
-      display: block;
-      font-family: AvenirDemi;
-      font-size: 14px;
-      color: #222222;
-    }
-
-    .operation-group-short {
-      display: block;
-      margin-top: 2px;
-      font-family: AvenirPro;
-      font-size: 12px;
-      color: #666666;
-    }
   }
 
   span.add-group-label {

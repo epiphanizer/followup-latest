@@ -6,7 +6,7 @@ describe('FollowupCompleteButtonComponent (Jest)', () => {
     const present = jest.fn();
     const modal = { onDidDismiss, present } as any;
     const modalCtrl = { create: jest.fn(() => Promise.resolve(modal)) } as any;
-    const comp = new FollowupCompleteButtonComponent(modalCtrl as any, {} as any);
+    const comp = new FollowupCompleteButtonComponent(modalCtrl as any);
     comp.patientCall = { patientCallId: 'pc-1' } as any;
     const emitSpy = jest.spyOn(comp.patientCallFinalizeEventEmitter, 'emit');
 

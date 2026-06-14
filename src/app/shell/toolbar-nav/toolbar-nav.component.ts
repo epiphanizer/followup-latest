@@ -2,10 +2,11 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd, ActivationEnd, ActivatedRouteSnapshot } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
+import { NotificationService } from '@app/modules/notification/notification.service';
 import { Patient } from '@app/modules/patient/patient';
 import { User, UserRoles, UserRolesMap } from '@app/modules/user/user';
 import { MenuService, MenuLink } from '@app/shared/menu/menu.service';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, take } from 'rxjs/operators';
 import { DataService } from '@app/modules/data/data.service';
 import { AuthenticationService } from '@app/core';
 import * as FileSaver from 'file-saver';
@@ -25,7 +26,8 @@ export class ToolbarNavComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private notificationService: NotificationService
   ) {}
 
   callQueuePage: boolean = false;
@@ -237,6 +239,12 @@ export class ToolbarNavComponent implements OnInit {
   }
 
   async createNotificationModal() {
+    this.notificationService.getNotificationTypes().pipe(take(1)).subscribe({
+      error: () => {
+        // Let the modal render its own error state if the shared preload fails.
+      }
+    });
+
     if (this.route.snapshot.children) {
       this.patient = this.route.snapshot.children[0].data.patient;
     } else {

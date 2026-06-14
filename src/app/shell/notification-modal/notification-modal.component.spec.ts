@@ -26,6 +26,9 @@ const buildComponent = () => {
     success: jest.fn(),
     error: jest.fn()
   } as any;
+  const changeDetectorRefStub = {
+    detectChanges: jest.fn()
+  } as any;
   const routeStub = { snapshot: { data: {} } } as any;
 
   const component = new NotificationModalComponent(
@@ -34,7 +37,8 @@ const buildComponent = () => {
     notificationServiceStub,
     operationContactsServiceStub,
     routeStub,
-    toastrStub
+    toastrStub,
+    changeDetectorRefStub
   );
   component.notification = {
     notificationOperationId: 'op-1',

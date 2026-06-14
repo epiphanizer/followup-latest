@@ -98,6 +98,7 @@ ion-textarea {
 .notification-options {
   width: 85%;
   margin: 0 auto;
+  padding-top: 6px;
 
   ion-item {
     --min-height: 32px;
@@ -114,19 +115,50 @@ ion-textarea {
   }
 }
 
-ion-radio {
-  --color-checked: transparent;
-  display: inline-block;
-  height: 14px !important;
-  width: 14px !important;
+.notification-choice {
+  --color: #08b4b9;
+  --color-checked: #08b4b9;
+  --border-color: #08b4b9;
+  --inner-border-radius: 50%;
+  --inner-border-width: 10px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --ripple-color: transparent;
+  --background-hover: transparent;
+  width: 100%;
+  margin: 0;
 }
-.radio-button-notify {
-  background-size: cover;
-  background-image: url("/assets/button-radio@2x.png");
-  &:active,
-  &.radio-checked {
-    background-image: url("/assets/button-radio-checked-red@2x.png");
-  }
+
+.notification-choice::part(container) {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #08b4b9;
+  background: #ffffff;
+  margin-inline-end: 8px;
+}
+
+.notification-choice::part(mark) {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #08b4b9;
+  transform: none;
+  opacity: 0;
+}
+
+.notification-choice.radio-checked::part(mark),
+.notification-choice[aria-checked="true"]::part(mark) {
+  opacity: 1;
+}
+
+.notification-choice::part(label) {
+  white-space: normal;
+  font-family: AvenirPro, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: #444444;
 }
 
 h3 {
