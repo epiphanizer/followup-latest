@@ -310,29 +310,38 @@ form {
   }
 
   .checkbox-option {
+    --size: 22px;
+    --color: #5f6b78;
+    --checkmark-color: #ffffff;
+    --checkbox-background: #ffffff;
+    --checkbox-background-checked: #00b8be;
+    --border-color: #7c8794;
+    --border-color-checked: #00b8be;
+    --border-radius: 4px;
     display: inline-flex;
     align-items: center;
-    gap: 16px;
+    gap: 0;
     margin: 0;
     width: 100%;
+    min-height: 28px;
   }
 
   .checkbox-option::part(container) {
-    width: 36px;
-    height: 36px;
+    margin-inline-end: 6px;
+    align-self: center;
   }
 
   .checkbox-option::part(label) {
     white-space: nowrap;
-    font-family: Avenir;
-    font-size: 18px;
+    font-family: AvenirPro, sans-serif;
+    font-size: 15px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
-    line-height: 1.2;
+    line-height: 1.35;
     letter-spacing: 0.28px;
     text-align: left;
-    color: #343638;
+    color: #444444;
   }
 
   @media screen and (max-width: 1024px) {

@@ -89,6 +89,25 @@ describe('NotificationService (Jest)', () => {
     req.flush([{ id: 't1' }]);
   });
 
+  it('caches notification types across repeated reads', () => {
+    let firstResponse: any;
+    let secondResponse: any;
+
+    service.getNotificationTypes().subscribe(resp => {
+      firstResponse = resp;
+    });
+
+    const req = httpMock.expectOne('notifications/types');
+    req.flush([{ id: 't1' }]);
+
+    service.getNotificationTypes().subscribe(resp => {
+      secondResponse = resp;
+    });
+
+    httpMock.expectNone('notifications/types');
+    expect(secondResponse).toEqual(firstResponse);
+  });
+
   it('saves notification by patient id', () => {
     service.saveNotificationByPatientId('p2').subscribe(resp => {
       expect(resp).toEqual({ ok: true } as any);

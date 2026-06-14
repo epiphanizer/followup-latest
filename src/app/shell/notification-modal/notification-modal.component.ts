@@ -11,7 +11,7 @@ import { OperationContact } from '@app/modules/operation/operation-contact/opera
 import { OperationContactsService } from '@app/modules/operation/operation-contacts.service';
 import { ToastrService } from 'ngx-toastr';
 @Component({
-  providers: [NotificationService, ToastrService],
+  providers: [ToastrService],
   selector: 'app-notification-modal',
   templateUrl: './notification-modal.component.html',
   styleUrls: ['./notification-modal.component.scss'],

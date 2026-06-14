@@ -30,6 +30,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Follow-up completion and Notification modals now reuse cached static option lists across opens instead of showing a fresh multi-second loading state every time.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-status.service.ts` and `src/app/modules/notification/notification.service.ts` to cache their static label/type GETs with `shareReplay(1)` and reset that cache on error, while also removing the modal-local service providers from `src/app/modules/patient/patient-detail/followup-complete-modal/followup-complete-modal.component.ts` and `src/app/shell/notification-modal/notification-modal.component.ts`. Those component-scoped providers had been forcing brand new service instances on each modal open, which discarded any reusable option state and guaranteed another round-trip; `retry(3)` on the list reads then stretched any slow/failing fetch into a visible 5-second spinner. Validation used focused Jest on the touched modal/service slice (`5/5` suites, `30/30` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The User Profile `Do any of the following apply to you?` checklist now matches the rest of the migrated app instead of rendering oversized checkbox boxes, oversized labels, and excessive checkbox-to-label spacing.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/user/user-profile/user-profile.component.scss` to remove the local `36px` checkbox container override, drop the extra host-level gap, tighten the checkbox container margin, and replace the oversized `18px` label styling with the compact Ionic checkbox pattern already used across the migrated UI (`--size: 22px`, compact row height, and `15px` AvenirPro label styling). This keeps the existing two-column interest checklist layout intact while bringing both the checkbox control and its label spacing back into line with the other forms. Validation used focused Jest on `src/app/modules/user/user-profile/user-profile.component.spec.ts` (`7/7` passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'The editable Teams roster Position dropdown now resolves its selected option from the active team membership role instead of falling through to `Admin` when only the numeric role id is missing.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.ts` and `.html` so the roster dropdown prefers `teamMemberRoleLabelId`, falls back only to the same row\'s team-scoped `teamMemberRoleLabel`, and explicitly marks the matching option selected. This closes the remaining mismatch where the Teams left sidebar correctly grouped members under `Managers` while the editable roster dropdown still visually defaulted to `Admin`. Validation used focused Jest on the team-members listing slice (`10/10` passing).',

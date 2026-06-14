@@ -6,7 +6,6 @@ import { ModalController } from '@ionic/angular';
 import { take, finalize } from 'rxjs/operators';
 
 @Component({
-  providers: [PatientStatusService],
   selector: 'app-followup-complete-modal',
   templateUrl: './followup-complete-modal.component.html',
   styleUrls: ['./followup-complete-modal.component.scss'],
@@ -23,6 +22,7 @@ export class FollowupCompleteModalComponent implements OnInit {
   completionTypes: PatientStatus[] = [];
   completionTypesLoading: boolean = true;
   completionTypesError: string | null = null;
+
   ngOnInit() {
     this.createForm();
     this.patientStatusService

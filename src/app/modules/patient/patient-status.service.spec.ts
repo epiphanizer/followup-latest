@@ -58,6 +58,19 @@ describe('PatientStatusService (Jest)', () => {
     });
   });
 
+  it('caches status labels across repeated reads', done => {
+    const http = makeHttp();
+    const svc = new PatientStatusService(http as any);
+
+    svc.getPatientStatusLabels().subscribe(firstLabels => {
+      svc.getPatientStatusLabels().subscribe(secondLabels => {
+        expect(secondLabels).toEqual(firstLabels);
+        expect(http.get).toHaveBeenCalledTimes(1);
+        done();
+      });
+    });
+  });
+
   it('gets status by patient id and statuses list', done => {
     const http = makeHttp();
     const svc = new PatientStatusService(http as any);

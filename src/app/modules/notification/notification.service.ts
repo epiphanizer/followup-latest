@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { retry, catchError, map } from 'rxjs/operators';
+import { retry, catchError, map, shareReplay } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   Notification,
@@ -15,6 +15,8 @@ import {
   providedIn: 'root'
 })
 export class NotificationService {
+  private notificationTypes$?: Observable<NotificationType[]>;
+
   constructor(private http: HttpClient) {}
   addNotificationByOperationIdAndNotificationTypeId(notification: Notification): Observable<Notification> {
     let notificationPostBody: NotificationPostBody = {
@@ -57,10 +59,17 @@ export class NotificationService {
       );
   }
   getNotificationTypes(): Observable<NotificationType[]> {
-    return this.http.get<NotificationType[]>('notifications/types').pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
+    if (!this.notificationTypes$) {
+      this.notificationTypes$ = this.http.get<NotificationType[]>('notifications/types').pipe(
+        catchError(e => {
+          this.notificationTypes$ = undefined;
+          return this.handleAsyncError(e);
+        }),
+        shareReplay(1)
+      );
+    }
+
+    return this.notificationTypes$;
   }
   saveNotificationByPatientId(patientId: string): Observable<any> {
     return this.http.post<Notification>('notifications/operations/' + patientId, {}).pipe(
