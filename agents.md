@@ -1,6 +1,6 @@
 # Followup Frontend — feature/robot_work_1
 
-Project version: 4.0.0_alpha_rc4 (package). Goal: modernize the Angular/Ionic app for Followup v4.
+Project version: 4.0.0_alpha_rc5 (package). Goal: modernize the Angular/Ionic app for Followup v4.
 
 ## Findings
 
@@ -54,6 +54,8 @@ Shared/core scaffolding
 - Rule: whenever frontend, API, or database work changes what should appear in the shell Service Health -> Version Change Log, update `src/app/shell/service-health-change-log.data.ts` and the matching frontend/API running change log entries before closing the task.
 
 ## Running change log (frontend)
+
+- 2026-06-14: Promoted the snapshot frontend package/version metadata to `4.0.0_alpha_rc5` by updating [package.json](package.json), [package-lock.json](package-lock.json), [src/environments/.env.ts](src/environments/.env.ts), [src/app/shell/service-health-change-log.data.ts](src/app/shell/service-health-change-log.data.ts), [src/app/shell/shell.component.spec.ts](src/app/shell/shell.component.spec.ts), and this running log header so the active alpha release stamp matches the API package metadata and the `alpha_rc5` branch being merged forward.
 
 - 2026-06-14: Synced [src/app/shell/service-health-change-log.data.ts](src/app/shell/service-health-change-log.data.ts) with the applied snapshot `4.0.0_alpha_rc4` database rollout for [../followup-api/migration_sql/3.12.13migration-operation-group-active.sql](../followup-api/migration_sql/3.12.13migration-operation-group-active.sql). The snapshot API had already been hardened to detect when `operationGroups.operationGroupActive` was missing, but localhost client archive from `/clients/:operationGroupId/edit` still could not succeed until that column was actually deployed on `followup_alpha_20260517`. Service Health now records that the alpha backup database has the column backfilled/defaulted, the standardized no-exec migration chain compiles with the new script included, and the local snapshot `OperationService` archive/restore round-trip now succeeds through the existing direct-update fallback path. Validation: alpha `sqlcmd` compile/apply plus local `NODE_ENV=dev` service round-trip (`1 -> 0 -> 1`) recorded in the snapshot API running log.
 

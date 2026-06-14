@@ -15,9 +15,9 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
-    version: '4.0.0_alpha_rc4',
-    recordedAt: '2026-06-12',
-    label: 'Current alpha rc4 candidate',
+    version: '4.0.0_alpha_rc5',
+    recordedAt: '2026-06-14',
+    label: 'Current alpha rc5 candidate',
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
@@ -46,9 +46,9 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       },
       {
         scope: 'Release',
-        summary: 'The current v4 alpha snapshot is now tagged and surfaced as `4.0.0_alpha_rc4` across the frontend build metadata, API package metadata, and the Service Health version history.',
+        summary: 'The current v4 alpha snapshot is now tagged and surfaced as `4.0.0_alpha_rc5` across the frontend build metadata, API package metadata, and the Service Health version history.',
         evidence:
-          'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_alpha_rc2` to `4.0.0_alpha_rc4`, updating `src/environments/.env.ts`, and retagging this top Service Health release entry so the active alpha shows up consistently in the shell version panel and status payloads.',
+          'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_alpha_rc4` to `4.0.0_alpha_rc5`, updating `src/environments/.env.ts`, and retagging this top Service Health release entry so the active alpha shows up consistently in the shell version panel, branch merge target, and status payloads.',
         source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
       },
       {
