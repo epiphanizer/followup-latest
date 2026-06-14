@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, Injectable, ChangeDetectorRef } from '@angular/core';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -76,14 +76,8 @@ export class OperationFormComponent implements OnInit {
   operationContactsToEdit: OperationContact[] = [];
   operationContactsToRemove: string[] = [];
   operationGroups: OperationGroup[] = [];
-  filteredOperationGroups: OperationGroup[] = [];
-  operationGroupSearchTerm: string = '';
-  operationGroupLookaheadOpen: boolean = false;
   operationGroupsLoading: boolean = false;
-  operationGroupOverlayStyle: { [key: string]: string } = {};
   user: User;
-  private operationGroupBlurTimeout: ReturnType<typeof setTimeout> | null = null;
-  private operationGroupTriggerElement: HTMLElement | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -101,7 +95,6 @@ export class OperationFormComponent implements OnInit {
     this.user = this.route.snapshot.data.user;
     this.operationGroups = Array.isArray(this.user?.operationGroups) ? this.user.operationGroups : [];
     this.loadCachedOperationGroups();
-    this.filteredOperationGroups = this.filterOperationGroups('');
     this.loadOperationGroups();
 
     this.userService.getActiveUsers().subscribe((users: User[]) => {
@@ -300,136 +293,6 @@ export class OperationFormComponent implements OnInit {
       this.formatPhoneInputValue(this.operation.operationPhoneNumber)
     );
     operationFormControls.controls.operationActive.setValue(this.operation.operationActive ? '1' : '0');
-    this.setOperationGroupSearchFromSelection(this.operation.operationGroupId);
-  }
-
-  onOperationGroupSearchInput(event: any) {
-    const nextTerm = (event && event.detail && typeof event.detail.value === 'string'
-      ? event.detail.value
-      : event && event.target && typeof event.target.value === 'string'
-      ? event.target.value
-      : '') as string;
-
-    this.operationGroupSearchTerm = nextTerm;
-    this.filteredOperationGroups = this.filterOperationGroups(nextTerm);
-    this.operationGroupLookaheadOpen = true;
-  }
-
-  toggleOperationGroupDropdown(event?: Event) {
-    this.clearOperationGroupBlurTimeout();
-
-    if (event?.currentTarget instanceof HTMLElement) {
-      this.operationGroupTriggerElement = event.currentTarget;
-    }
-
-    if (this.operationGroupLookaheadOpen) {
-      this.closeOperationGroupDropdown();
-      return;
-    }
-
-    this.operationGroupSearchTerm = '';
-    this.filteredOperationGroups = this.filterOperationGroups('');
-
-    if (!this.filteredOperationGroups.length && !this.operationGroupsLoading) {
-      this.loadOperationGroups();
-      this.filteredOperationGroups = this.filterOperationGroups('');
-    }
-
-    this.operationGroupLookaheadOpen = true;
-    this.updateOperationGroupOverlayPosition();
-  }
-
-  onOperationGroupSearchFocus() {
-    this.clearOperationGroupBlurTimeout();
-    this.filteredOperationGroups = this.filterOperationGroups(this.operationGroupSearchTerm);
-    this.operationGroupLookaheadOpen = true;
-    this.updateOperationGroupOverlayPosition();
-  }
-
-  onOperationGroupSearchBlur() {
-    this.clearOperationGroupBlurTimeout();
-    this.operationGroupBlurTimeout = setTimeout(() => {
-      this.closeOperationGroupDropdown();
-    }, 120);
-  }
-
-  closeOperationGroupDropdown() {
-    this.operationGroupLookaheadOpen = false;
-  }
-
-  selectOperationGroupFromSearch(operationGroup: OperationGroup, event?: Event) {
-    if (!operationGroup) {
-      return;
-    }
-
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    this.clearOperationGroupBlurTimeout();
-    this.operationGroupSearchTerm = '';
-    this.closeOperationGroupDropdown();
-
-    const operationControls = this.operationForm.get('operation') as FormGroup;
-    operationControls.controls.operationGroupId.setValue(operationGroup.operationGroupId);
-    this.operationGroupOnSelect({ detail: { value: operationGroup.operationGroupId } });
-  }
-
-  getSelectedOperationGroupLabel(): string {
-    const selectedOperationGroupId =
-      this.operationForm?.get('operation.operationGroupId')?.value || this.operation?.operationGroupId;
-    const selectedOperationGroup = (this.operationGroups || []).find(
-      (operationGroup: OperationGroup) => operationGroup.operationGroupId == selectedOperationGroupId
-    );
-
-    return selectedOperationGroup?.operationGroupName || '';
-  }
-
-  trackByOperationGroupOption(index: number, operationGroup: OperationGroup): string | number {
-    return operationGroup?.operationGroupId || index;
-  }
-
-  private filterOperationGroups(searchTerm: string): OperationGroup[] {
-    const normalizedSearch = String(searchTerm || '')
-      .toLowerCase()
-      .trim();
-
-    if (!normalizedSearch) {
-      return [...(this.operationGroups || [])];
-    }
-
-    return (this.operationGroups || []).filter((operationGroup: OperationGroup) => {
-      const operationGroupName = String(operationGroup?.operationGroupName || '').toLowerCase();
-      const operationGroupShortName = String(operationGroup?.operationGroupShortName || '').toLowerCase();
-      return operationGroupName.includes(normalizedSearch) || operationGroupShortName.includes(normalizedSearch);
-    });
-  }
-
-  private setOperationGroupSearchFromSelection(operationGroupId: string) {
-    this.operationGroupSearchTerm = '';
-    this.filteredOperationGroups = this.filterOperationGroups('');
-  }
-
-  private clearOperationGroupBlurTimeout() {
-    if (this.operationGroupBlurTimeout) {
-      clearTimeout(this.operationGroupBlurTimeout);
-      this.operationGroupBlurTimeout = null;
-    }
-  }
-
-  private updateOperationGroupOverlayPosition() {
-    if (!this.operationGroupTriggerElement) {
-      this.operationGroupOverlayStyle = {};
-      return;
-    }
-
-    const triggerRect = this.operationGroupTriggerElement.getBoundingClientRect();
-    this.operationGroupOverlayStyle = {
-      top: `${triggerRect.top}px`,
-      left: `${triggerRect.left}px`,
-      width: `${triggerRect.width}px`
-    };
   }
 
   private loadOperationGroups() {
@@ -444,13 +307,7 @@ export class OperationFormComponent implements OnInit {
         }
 
         this.operationGroups = safeOperationGroups;
-        this.filteredOperationGroups = this.filterOperationGroups(this.operationGroupSearchTerm);
         this.operationGroupsLoading = false;
-        this.updateOperationGroupOverlayPosition();
-
-        if (this.operation?.operationGroupId) {
-          this.setOperationGroupSearchFromSelection(this.operation.operationGroupId);
-        }
       },
       error: () => this.loadFallbackOperationGroups()
     });
@@ -483,34 +340,13 @@ export class OperationFormComponent implements OnInit {
     this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
       const safeOperationGroups = Array.isArray(operationGroups) ? operationGroups : [];
       if (!safeOperationGroups.length) {
-        this.filteredOperationGroups = this.filterOperationGroups(this.operationGroupSearchTerm);
         this.operationGroupsLoading = false;
         return;
       }
 
       this.operationGroups = safeOperationGroups;
-      this.filteredOperationGroups = this.filterOperationGroups(this.operationGroupSearchTerm);
       this.operationGroupsLoading = false;
-      this.updateOperationGroupOverlayPosition();
-
-      if (this.operation?.operationGroupId) {
-        this.setOperationGroupSearchFromSelection(this.operation.operationGroupId);
-      }
     });
-  }
-
-  @HostListener('window:resize')
-  onWindowResize() {
-    if (this.operationGroupLookaheadOpen) {
-      this.updateOperationGroupOverlayPosition();
-    }
-  }
-
-  @HostListener('window:scroll')
-  onWindowScroll() {
-    if (this.operationGroupLookaheadOpen) {
-      this.updateOperationGroupOverlayPosition();
-    }
   }
 
   addAdditionalOperationContact() {
@@ -576,8 +412,6 @@ export class OperationFormComponent implements OnInit {
       operationManagers: this.fb.array([]),
       operationCallReps: this.fb.array([])
     });
-
-    this.setOperationGroupSearchFromSelection(this.operation.operationGroupId);
   }
 
   operationPutFactory(formSubmission: any): OperationPutBody {
@@ -613,6 +447,7 @@ export class OperationFormComponent implements OnInit {
   operationGroupOnSelect(event: any) {
     let operationGroupId = event.detail.value;
     this.operation.operationGroupId = operationGroupId;
+    this.operationForm?.get('operation.operationGroupId')?.setValue(operationGroupId);
   }
   operationCallRepPostFactory(formSubmission: any): OperationCallRepPostBody {
     try {
@@ -969,7 +804,6 @@ export class OperationFormComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.clearOperationGroupBlurTimeout();
     this.operationContacts = null;
     this.operationContactsOriginal = null;
   }

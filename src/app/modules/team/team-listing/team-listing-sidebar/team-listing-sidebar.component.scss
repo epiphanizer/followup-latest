@@ -1,6 +1,6 @@
 .team-sidebar {
   width: 100%;
-  max-width: 185px;
+  max-width: 172px;
 
   .team-sidebar-calendar {
     width: 100%;
@@ -146,7 +146,8 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 6px;
+    column-gap: 6px;
+    row-gap: 2px;
   }
 
   .team-state-pill {
@@ -182,6 +183,13 @@
     appearance: none;
     border: none;
     background: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    min-height: 0;
+    padding: 0;
+    line-height: 1.1;
     color: #ba412a;
     font-family: AvenirDemi;
     font-size: 11px;

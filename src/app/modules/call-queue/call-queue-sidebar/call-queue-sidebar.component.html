@@ -23,7 +23,7 @@
               class="expand-facilities-trigger"
               [@turnArrow]="
                 operationGroup.sidebarDropdownOpen ||
-                (operationGroup.operationGroupId == selected.operation?.operationGroupId && !isTouched)
+                (operationGroup.operationGroupId == selected.operation?.operationGroupId && !isTouched && !isSpanishMode)
                   ? 'open'
                   : 'closed'
               "
@@ -33,7 +33,7 @@
               class="group-operations"
               [class.show]="
                 operationGroup.sidebarDropdownOpen ||
-                (operationGroup.operationGroupId == selected.operation?.operationGroupId && !isTouched)
+                (operationGroup.operationGroupId == selected.operation?.operationGroupId && !isTouched && !isSpanishMode)
               "
             >
               <li
@@ -67,8 +67,8 @@
       </div>
     </ng-container>
 
-    <span class="spanish-indicator">
-      <a href="/call-queue/spanish">SPANISH</a> <i class="patient"></i
+    <span class="spanish-indicator" [class.active]="isSpanishMode">
+      <a [routerLink]="'/call-queue/spanish'" [class.active]="isSpanishMode">SPANISH</a> <i class="patient"></i
       ><i *ngIf="spanishNewDischarges" class="indicator"></i
     ></span>
 

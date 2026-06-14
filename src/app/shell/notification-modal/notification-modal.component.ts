@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { formatDate } from '@angular/common';
@@ -6,7 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Notification, NotificationRecipient, NotificationType } from '@app/modules/notification/notification';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { take, finalize } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { OperationContact } from '@app/modules/operation/operation-contact/operation-contact';
 import { OperationContactsService } from '@app/modules/operation/operation-contacts.service';
 import { ToastrService } from 'ngx-toastr';
@@ -47,7 +47,8 @@ export class NotificationModalComponent {
     private notificationService: NotificationService,
     private operationContactsService: OperationContactsService,
     private route: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -58,20 +59,19 @@ export class NotificationModalComponent {
 
     this.notificationService
       .getNotificationTypes()
-      .pipe(
-        take(1),
-        finalize(() => {
-          this.notificationTypesLoading = false;
-        })
-      )
+      .pipe(take(1))
       .subscribe({
         next: (data: NotificationType[] | { data?: NotificationType[]; notificationTypes?: NotificationType[] } | null) => {
           this.notificationTypes = this.normalizeNotificationTypes(data);
+          this.notificationTypesLoading = false;
           this.notificationTypesError = null;
+          this.changeDetectorRef.detectChanges();
         },
         error: () => {
           this.notificationTypes = [];
+          this.notificationTypesLoading = false;
           this.notificationTypesError = 'Unable to load notification options.';
+          this.changeDetectorRef.detectChanges();
         }
       });
 

@@ -28,7 +28,16 @@ describe('PatientCallQuestionsComponent', () => {
   let fixture: ComponentFixture<PatientCallQuestionsComponent>;
   const serviceStub = {
     getPatientCallQuestionsByPatientCallId: jest.fn(() => of(questionsMock)),
-    getPatientCallQuestionAnswersByPatientCallQuestionId: jest.fn(() => of([{ patientCallQuestionAnswer: '4' }]))
+    getPatientCallQuestionsWithAnswersByPatientCallId: jest.fn(() =>
+      of([
+        buildQuestion('q0', 'boolean'),
+        buildQuestion('q1', 'rating'),
+        buildQuestion('q2', 'text'),
+        { ...buildQuestion('q3', 'rating'), patientCallQuestionAnswer: '4' },
+        { ...buildQuestion('q4', 'rating'), patientCallQuestionAnswer: '2' },
+        { ...buildQuestion('q5', 'rating'), patientCallQuestionAnswer: '5' }
+      ])
+    )
   } as any;
 
   beforeEach(
@@ -55,8 +64,7 @@ describe('PatientCallQuestionsComponent', () => {
       const formArray = component.patientCallQuestionsAnswersForm.get('patientCallQuestionsAnswers');
       expect(formArray?.value.length).toBe(questionsMock.length);
       expect(serviceStub.getPatientCallQuestionsByPatientCallId).toHaveBeenCalledWith('pc1');
-      // last call path executes answer fetch
-      expect(serviceStub.getPatientCallQuestionAnswersByPatientCallQuestionId).toHaveBeenCalled();
+      expect(serviceStub.getPatientCallQuestionsWithAnswersByPatientCallId).toHaveBeenCalledWith('pc2');
       done();
     }, 0);
   });

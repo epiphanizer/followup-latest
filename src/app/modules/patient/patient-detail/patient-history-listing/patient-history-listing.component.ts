@@ -1,13 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {
-  PatientCall,
-  PatientCallQuestionAnswer
-} from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
+import { PatientCall } from '@app/modules/patient/patient-detail/patient-call/patient-call.service';
 import {
   PatientCallQuestion,
   PatientCallQuestionsService
 } from '@app/modules/patient/patient-detail/patient-call/patient-call-questions/patient-call-questions.service';
-import { map } from 'rxjs/operators';
 import { Notification, NotificationReply } from '@app/modules/notification/notification';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { Patient } from '../../patient';
@@ -16,7 +12,7 @@ import { User, UserRoles } from '@app/modules/user/user';
 import { Operation } from '@app/modules/operation/operation';
 
 @Component({
-  providers: [PatientCallQuestionsService, SharedFunctions, NotificationService],
+  providers: [SharedFunctions, NotificationService],
   selector: 'app-patient-history-listing',
   templateUrl: './patient-history-listing.component.html',
   styleUrls: ['./patient-history-listing.component.scss'],
@@ -34,7 +30,6 @@ export class PatientHistoryListingComponent implements OnInit {
 
   constructor(
     private patientCallQuestionService: PatientCallQuestionsService,
-    private patientCallQuestionAnswerService: PatientCallQuestionsService,
     private notificationService: NotificationService,
     private sharedFunctions: SharedFunctions
   ) {}
@@ -43,34 +38,14 @@ export class PatientHistoryListingComponent implements OnInit {
     this.patientActivity = [];
     // Go get our calls and warm up the observables.
     this.patientCalls.forEach((patientCall: PatientCall, index: number) => {
+      if (patientCall?.patientCallStatusLabel !== 'Contacted' || !patientCall?.patientCallId) {
+        return;
+      }
+
       this.patientCallQuestionService
-        .getPatientCallQuestionsByPatientCallId(patientCall.patientCallId)
+        .getPatientCallQuestionsWithAnswersByPatientCallId(patientCall.patientCallId)
         .subscribe((patientCallQuestions: PatientCallQuestion[]) => {
           this.patientCalls[index].patientCallQuestions = patientCallQuestions;
-          this.patientCalls[index].patientCallQuestions.forEach(
-            (patientCallQuestion: PatientCallQuestion, idx: number) => {
-              if (!patientCallQuestion.patientCallQuestionId) {
-                return;
-              }
-
-              this.patientCallQuestionAnswerService
-                .getPatientCallQuestionAnswersByPatientCallQuestionId(patientCallQuestion.patientCallQuestionId)
-                .pipe(
-                  map((patientCallQuestionAnswer: PatientCallQuestionAnswer[] | null) => {
-                    if (patientCallQuestionAnswer && patientCallQuestionAnswer.length > 0) {
-                      if (
-                        this.patientCalls[index].patientCallQuestions[idx] &&
-                        patientCallQuestionAnswer[0].patientCallQuestionAnswer
-                      ) {
-                        this.patientCalls[index].patientCallQuestions[idx].patientCallQuestionAnswer =
-                          patientCallQuestionAnswer[0].patientCallQuestionAnswer;
-                      }
-                    }
-                  })
-                )
-                .subscribe();
-            }
-          );
         });
     });
 

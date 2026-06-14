@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { PatientCallQuestionsService, PatientCallQuestion } from './patient-call-questions.service';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-patient-call-questions',
@@ -48,38 +47,21 @@ export class PatientCallQuestionsComponent implements OnInit {
   }
 
   handleLastCall() {
-    // Fetch questions for lastCall in parallel
-    forkJoin({
-      patientCallQuestions: this.patientCallQuestionsService.getPatientCallQuestionsByPatientCallId(
-        this.patientCall.patientCallId
-      ) as Observable<PatientCallQuestion[]>,
-      lastCallQuestions: this.patientCallQuestionsService.getPatientCallQuestionsByPatientCallId(
-        this.lastCall.patientCallId
-      ) as Observable<PatientCallQuestion[]>
-    }).subscribe(({ lastCallQuestions }) => {
-      // Fetch answers for lastCall questions
-      const answerObservables = lastCallQuestions.slice(3, 8).map((question: PatientCallQuestion, index: number) =>
-        this.patientCallQuestionsService
-          .getPatientCallQuestionAnswersByPatientCallQuestionId(question.patientCallQuestionId)
-          .pipe(
-            map((patientCallQuestionAnswers: PatientCallQuestionAnswer[] | null) => {
-              // Ensure patientCallQuestionAnswers is not null or undefined before accessing length
-              if (patientCallQuestionAnswers && patientCallQuestionAnswers.length > 0) {
-                return patientCallQuestionAnswers[0].patientCallQuestionAnswer;
-              } else {
-                return null; // If no answers exist, return null
-              }
-            })
-          )
-      );
+    this.patientCallQuestionsService
+      .getPatientCallQuestionsWithAnswersByPatientCallId(this.lastCall.patientCallId)
+      .subscribe((lastCallQuestions: PatientCallQuestion[]) => {
+        const sanitizedAnswers = lastCallQuestions
+          .slice(3, 8)
+          .map((question: PatientCallQuestion) =>
+            question.patientCallQuestionAnswer !== null &&
+            question.patientCallQuestionAnswer !== undefined &&
+            question.patientCallQuestionAnswer !== ''
+              ? question.patientCallQuestionAnswer
+              : 0
+          );
 
-      // Wait for all answers to be retrieved before processing
-      forkJoin(answerObservables).subscribe((answersArray: any[]) => {
-        const sanitizedAnswers = answersArray.map(answer => (answer !== null && answer !== undefined ? answer : 0));
-        // Map the sanitized answers to the patient call questions (starting from index 3)
         this.setAnswerForQuestions(sanitizedAnswers, 3);
       });
-    });
   }
 
   setAnswerForQuestions(answers: any[], startingIndex: number) {

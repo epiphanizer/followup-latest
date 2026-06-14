@@ -72,6 +72,11 @@
   .spanish-indicator {
     margin-top: 22px;
     height: 19px;
+
+    &.active,
+    a.active {
+      color: #00b4b9;
+    }
   }
 
   .facility-dropdown-target {

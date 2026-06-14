@@ -38,6 +38,41 @@ describe('PatientCallQuestionsService (Jest)', () => {
     });
   });
 
+  it('hydrates questions with answers and reuses the cached result for the same call id', done => {
+    const http = {
+      get: jest.fn((url: string) => {
+        if (url === 'patients/calls/pc-hydrated/questions') {
+          return of([
+            { patientCallQuestionId: 'q1', patientQuestionTypeLabel: 'rating' },
+            {
+              patientCallQuestionId: 'q2',
+              patientQuestionTypeLabel: 'text',
+              patientCallQuestionAnswer: 'already-there'
+            }
+          ] as any);
+        }
+
+        if (url === 'patients/calls/questions/q1/answers') {
+          return of([{ patientCallQuestionAnswer: '5' }] as any);
+        }
+
+        return of([] as any);
+      })
+    } as any;
+    const svc = new PatientCallQuestionsService(http as any);
+
+    svc.getPatientCallQuestionsWithAnswersByPatientCallId('pc-hydrated').subscribe((firstResult: any) => {
+      expect(firstResult[0].patientCallQuestionAnswer).toBe('5');
+      expect(firstResult[1].patientCallQuestionAnswer).toBe('already-there');
+
+      svc.getPatientCallQuestionsWithAnswersByPatientCallId('pc-hydrated').subscribe((secondResult: any) => {
+        expect(secondResult[0].patientCallQuestionAnswer).toBe('5');
+        expect(http.get).toHaveBeenCalledTimes(2);
+        done();
+      });
+    });
+  });
+
   it('handles errors', done => {
     const http = { get: jest.fn(() => throwError(() => new HttpErrorResponse({ status: 500, error: 'fail' }))) } as any;
     const svc = new PatientCallQuestionsService(http as any);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { retry, catchError, map, shareReplay } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { retry, catchError, finalize, map, shareReplay, tap, timeout } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   Notification,
@@ -15,7 +15,8 @@ import {
   providedIn: 'root'
 })
 export class NotificationService {
-  private notificationTypes$?: Observable<NotificationType[]>;
+  private notificationTypesCache?: NotificationType[];
+  private notificationTypesRequest$?: Observable<NotificationType[]>;
 
   constructor(private http: HttpClient) {}
   addNotificationByOperationIdAndNotificationTypeId(notification: Notification): Observable<Notification> {
@@ -59,17 +60,29 @@ export class NotificationService {
       );
   }
   getNotificationTypes(): Observable<NotificationType[]> {
-    if (!this.notificationTypes$) {
-      this.notificationTypes$ = this.http.get<NotificationType[]>('notifications/types').pipe(
+    if (this.notificationTypesCache) {
+      return of(this.notificationTypesCache);
+    }
+
+    if (!this.notificationTypesRequest$) {
+      this.notificationTypesRequest$ = this.http.get<NotificationType[]>('notifications/types').pipe(
+        retry(3),
+        timeout(15000),
+        tap((notificationTypes: NotificationType[] | null) => {
+          this.notificationTypesCache = notificationTypes || [];
+        }),
+        finalize(() => {
+          this.notificationTypesRequest$ = undefined;
+        }),
         catchError(e => {
-          this.notificationTypes$ = undefined;
+          this.notificationTypesCache = undefined;
           return this.handleAsyncError(e);
         }),
         shareReplay(1)
       );
     }
 
-    return this.notificationTypes$;
+    return this.notificationTypesRequest$;
   }
   saveNotificationByPatientId(patientId: string): Observable<any> {
     return this.http.post<Notification>('notifications/operations/' + patientId, {}).pipe(

@@ -26,7 +26,7 @@ import { Notification } from '@app/modules/notification/notification';
 import { UserService } from '@app/modules/user/user.service';
 
 @Component({
-  providers: [PatientCallService, PatientCallNotesService, PatientCallQuestionsService],
+  providers: [PatientCallService, PatientCallNotesService],
   selector: 'app-patient-detail',
   templateUrl: './patient-detail.component.html',
   styleUrls: ['./patient-detail.component.scss'],
@@ -153,6 +153,7 @@ export class PatientDetailComponent implements OnInit {
      * Change the label, but not the ID.
      */
     this.patientCall.patientCallStatusLabel = 'In Review';
+    this.scrollReviewPaneToTop();
   }
 
   patientCallStatusLabelChangeHandler($event: string) {
@@ -317,6 +318,16 @@ export class PatientDetailComponent implements OnInit {
 
   private navigateTo(url: string): void {
     window.location.href = url;
+  }
+
+  private scrollReviewPaneToTop(): void {
+    const reviewPaneTop = document.querySelector('#patient-detail-review-top');
+    if (reviewPaneTop) {
+      reviewPaneTop.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 
   private reloadPage(): void {

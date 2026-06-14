@@ -13,8 +13,7 @@ describe('PatientHistoryListingComponent (Jest)', () => {
   let fixture: ComponentFixture<PatientHistoryListingComponent>;
 
   const patientCallQuestionsServiceStub = {
-    getPatientCallQuestionsByPatientCallId: jest.fn(() => of([])),
-    getPatientCallQuestionAnswersByPatientCallQuestionId: jest.fn(() => of([]))
+    getPatientCallQuestionsWithAnswersByPatientCallId: jest.fn(() => of([]))
   };
 
   const sharedFunctionsStub = {
@@ -76,6 +75,46 @@ describe('PatientHistoryListingComponent (Jest)', () => {
   it('combines patient calls and notifications into activity', () => {
     expect(component).toBeTruthy();
     expect(component.patientActivity.length).toBe(2);
+  });
+
+  it('hydrates call questions only for contacted history calls', () => {
+    jest.clearAllMocks();
+    component.patientActivity = [];
+    component.patientCalls = [
+      {
+        patientCallId: 'c-contacted',
+        patientCallStatusLabel: 'Contacted',
+        patientCallNotes: '<p>note</p>',
+        patientCallStartTime: '2020-01-02T00:00:00Z',
+        patientCallQuestions: []
+      }
+    ] as any;
+    component.patientNotifications = [] as any;
+
+    component.ngOnInit();
+
+    expect(patientCallQuestionsServiceStub.getPatientCallQuestionsWithAnswersByPatientCallId).toHaveBeenCalledWith(
+      'c-contacted'
+    );
+  });
+
+  it('skips call-question hydration for non-contacted history calls', () => {
+    jest.clearAllMocks();
+    component.patientActivity = [];
+    component.patientCalls = [
+      {
+        patientCallId: 'c-started',
+        patientCallStatusLabel: 'Started',
+        patientCallNotes: '<p>note</p>',
+        patientCallStartTime: '2020-01-02T00:00:00Z',
+        patientCallQuestions: []
+      }
+    ] as any;
+    component.patientNotifications = [] as any;
+
+    component.ngOnInit();
+
+    expect(patientCallQuestionsServiceStub.getPatientCallQuestionsWithAnswersByPatientCallId).not.toHaveBeenCalled();
   });
 
   it('shows View / Reply for manager-or-above access on the patient operation', () => {

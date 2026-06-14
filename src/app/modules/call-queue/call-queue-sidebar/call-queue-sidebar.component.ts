@@ -63,6 +63,7 @@ export class CallQueueSidebarComponent {
   currentNewDischargeCount: number;
   @Output() operationChangeEvent = new EventEmitter<Operation>();
   errorFallback: boolean = false;
+  isSpanishMode: boolean = false;
   isTouched: boolean = false;
   selected: {
     operation: Operation | null;
@@ -132,9 +133,35 @@ export class CallQueueSidebarComponent {
     });
   }
 
+  private collapseOperationGroups() {
+    const operationGroups = this.operationGroups?.length ? this.operationGroups : this.user?.operationGroups || [];
+
+    operationGroups.forEach((operationGroup: OperationGroup) => {
+      operationGroup.sidebarDropdownOpen = false;
+    });
+  }
+
+  private syncRouteMode(routeData?: any) {
+    this.isSpanishMode = (routeData?.mode || this.route.snapshot?.data?.mode) === 'spanish';
+
+    if (this.isSpanishMode) {
+      this.selected.operation = null;
+      this.activeOperationId = null;
+      this.collapseOperationGroups();
+    }
+  }
+
   ngOnInit() {
     /** Init to the first user operation (alphabetically,) */
     this.user = this.route.snapshot.data.user;
+    this.syncRouteMode(this.route.snapshot?.data);
+
+    if (this.route.data?.subscribe) {
+      this.route.data.subscribe((routeData: any) => {
+        this.syncRouteMode(routeData);
+      });
+    }
+
     if (!localStorage.getItem('operationGroups')) {
       this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
@@ -146,7 +173,7 @@ export class CallQueueSidebarComponent {
                   operations.forEach((operation: Operation) => this.normalizeOperationCounters(operation));
                   operationGroup.operations = operations;
                   this.refreshSpanishNewDischarges();
-                  if (idx == 0 && !this.selected.operation) {
+                  if (idx == 0 && !this.selected.operation && !this.isSpanishMode) {
                     this.selected.operation = operations[0];
                     this.activeOperationId = this.selected.operation.operationId;
                   }
@@ -167,14 +194,31 @@ export class CallQueueSidebarComponent {
     }
 
     this.route.paramMap.subscribe((data: any) => {
+      this.syncRouteMode();
+
+      if (this.isSpanishMode) {
+        return;
+      }
+
       var operationId;
       if (data.params.operationId) {
         operationId = data.params.operationId;
       } else {
+        if (!this.user?.operationGroups?.length || !this.user?.operations?.length) {
+          this.selected.operation = null;
+          this.activeOperationId = null;
+          return;
+        }
+
         let firstGroup = this.user.operationGroups[0];
         let firstOperation = this.user.operations.find(
           (operation: Operation) => operation.operationGroupId == firstGroup.operationGroupId
         );
+        if (!firstOperation) {
+          this.selected.operation = null;
+          this.activeOperationId = null;
+          return;
+        }
         operationId = firstOperation.operationId;
         this.operations = this.user.operationGroups[0].operations;
       }
@@ -191,6 +235,7 @@ export class CallQueueSidebarComponent {
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
   setActiveOperation = function(operation: Operation) {
+    this.isSpanishMode = false;
     this.selected.operation = operation;
     this.activeOperationId = operation.operationId;
     this.operationChangeEvent.emit(operation);
