@@ -372,6 +372,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         source: 'v4.0.0/followup-api/agents.md'
       },
       {
+        scope: 'Database',
+        summary:
+          'The local alpha backup database now has `operationGroups.operationGroupActive` deployed, so snapshot client archive and restore can complete through the existing direct-update fallback path.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after adding `v4.0.0/followup-api/migration_sql/3.12.13migration-operation-group-active.sql`, wiring it into `migration_sql/README.md` and `migration_sql/validate-all-alpha.noexec.sql`, and applying it to `followup_alpha_20260517`. Before this rollout, the snapshot API correctly reported soft archive unsupported because the alpha backup database had neither the archive procedures nor the `operationGroups.operationGroupActive` column. The additive migration backfilled all existing operation groups to active, made the column non-null with default `1`, compile-validated cleanly through the standardized no-exec wrapper, and was then verified with a local `NODE_ENV=dev` `OperationService` round-trip where `operationGroupId=1` archived to `0` and restored to `1` with both service calls returning success.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
         scope: 'API',
         summary:
           'Client archive requests now succeed on mixed schemas where `sp_deactivateOperationGroupByOperationGroupId` is missing, using a safe direct-update fallback.',
