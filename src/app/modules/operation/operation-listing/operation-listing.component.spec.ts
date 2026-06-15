@@ -364,6 +364,16 @@ describe('OperationListingComponent (Jest)', () => {
       { updateOperations: jest.fn(() => Promise.resolve()) } as any
     );
 
+    localComponent.ngOnInit();
+    expect(localComponent.selected.operationGroup.operationGroupId).toBe('og1');
+
+    clientGroupsChanged$.next();
+
+    expect(operationServiceStub.getAllOperationGroups).toHaveBeenCalledTimes(2);
+    expect(localComponent.selected.operationGroup.operationGroupId).toBe('og2');
+    expect(localComponent.selected.operationGroup.operations[0].operationId).toBe('op2');
+  });
+
   it('notifies client group listeners after restoring the selected archived client', () => {
     const clientGroupsChanged$ = new Subject<void>();
     const operationServiceStub = {
@@ -409,15 +419,5 @@ describe('OperationListingComponent (Jest)', () => {
 
     expect(operationServiceStub.notifyClientGroupsChanged).toHaveBeenCalled();
     expect(userServiceStub.updateOperations).toHaveBeenCalledWith(localComponent.user);
-  });
-
-    localComponent.ngOnInit();
-    expect(localComponent.selected.operationGroup.operationGroupId).toBe('og1');
-
-    clientGroupsChanged$.next();
-
-    expect(operationServiceStub.getAllOperationGroups).toHaveBeenCalledTimes(2);
-    expect(localComponent.selected.operationGroup.operationGroupId).toBe('og2');
-    expect(localComponent.selected.operationGroup.operations[0].operationId).toBe('op2');
   });
 });
