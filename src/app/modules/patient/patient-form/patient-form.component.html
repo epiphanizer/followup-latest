@@ -14,36 +14,20 @@
         <ion-list class="patient-primary-info-list patient-form-section" lines="none" inset formGroupName="patient">
           <ion-item class="patient-facility">
             <ion-label color="medium" position="stacked">Facility<span style="color:#f1624a">*</span></ion-label>
-            <div class="facility-search-shell" [class.facility-search-open]="facilitySearchOpen">
-              <ion-input
-                type="text"
-                class="select-facility facility-search-input"
-                placeholder="Search facility"
-                [value]="facilitySearchText"
-                (ionFocus)="onFacilitySearchFocus()"
-                (ionInput)="onFacilitySearchInput($event)"
-                (ionBlur)="onFacilitySearchBlur()"
-              ></ion-input>
-
-              <div class="facility-search-results" *ngIf="facilitySearchOpen">
-                <ng-container *ngIf="filteredGroupedOperations.length; else noFacilityMatches">
-                  <div class="facility-search-group" *ngFor="let operationGroup of filteredGroupedOperations">
-                    <div class="facility-search-group-label">{{ operationGroup.label }}</div>
-                    <button
-                      type="button"
-                      class="facility-search-option"
-                      *ngFor="let operation of operationGroup.operations"
-                      (mousedown)="selectFacilityOperation(operation)"
-                    >
-                      {{ operation.operationName }}
-                    </button>
-                  </div>
-                </ng-container>
-                <ng-template #noFacilityMatches>
-                  <div class="facility-search-empty">No facilities match your search.</div>
-                </ng-template>
-              </div>
-            </div>
+            <ion-select placeholder="Facility" class="select-facility" formControlName="operation">
+              <ng-container *ngFor="let operationGroup of groupedOperations">
+                <ion-select-option [disabled]="true" [value]="null">
+                  {{ operationGroup.label }}
+                </ion-select-option>
+                <ion-select-option
+                  *ngFor="let operation of operationGroup.operations"
+                  [selected]="operation.operationId == patient.patientOperationId"
+                  [value]="operation.operationId"
+                >
+                  {{ '- ' + operation.operationName }}
+                </ion-select-option>
+              </ng-container>
+            </ion-select>
           </ion-item>
           <ion-item class="patient-medical-record-number">
             <ion-label color="medium" position="stacked">Patient # <span style="color:#f1624a">*</span></ion-label>

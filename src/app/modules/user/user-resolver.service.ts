@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {
+  private readonly userIdleTimeoutMs = 15 * 60 * 1000;
   user: User;
   user$: Observable<User>;
   constructor(private authService: AuthenticationService, private http: HttpService) {}
@@ -30,8 +31,8 @@ export class UserResolver implements Resolve<User> {
     /**
      * If we are under 15 mins, give the user another 15.
      */
-    if (this.user.userLoginExpires - currentTime < 900000) {
-      this.user.userLoginExpires = currentTime + 900000;
+    if (this.user.userLoginExpires - currentTime < this.userIdleTimeoutMs) {
+      this.user.userLoginExpires = currentTime + this.userIdleTimeoutMs;
       this.authService.currentUserSubject.next(this.user);
       localStorage.setItem('followup-user', JSON.stringify(this.user));
     }

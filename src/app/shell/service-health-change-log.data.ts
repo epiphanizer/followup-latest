@@ -23,17 +23,17 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
-          'The Patient contact phone row now follows the same grid alignment as the primary patient phone fields higher in the form.',
+          'Session timeout handling now separates the 15-minute frontend inactivity window from the bearer-token lifetime, and ordinary desktop clicks and wheel scrolling now count as real activity instead of being treated as idle time.',
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html` and `.scss`. The contact `US (+1)` / area code / phone-number controls were still using an older flex layout with narrower widths, which left them visually misaligned compared with the main patient phone row. The contact row now uses the same three-column grid sizing and shared label/input height treatment as the primary patient phone fields. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`24/24` tests passing), plus clean editor diagnostics on the touched template and stylesheet.',
-        source: 'v4.0.0/followup-frontend/agents.md'
+          'Recorded in the snapshot frontend/API running change logs after updating `src/app/shell/shell.component.ts`, `src/app/shell/shell.component.spec.ts`, `src/app/modules/user/user-resolver.service.ts`, `v4.0.0/followup-api/deployment/service/UserAuthService.js`, and `v4.0.0/followup-api/deployment/service/UserService.js`. The frontend shell had only been extending its local inactivity deadline on mouse-move, touch, and keyboard activity, while the API was also embedding a hard `Date.now() + 900000` expiry into the JWT itself. That combination made active desktop users vulnerable to unexpected logout from click-only navigation or any workflow that crossed the 15-minute token age boundary. The shell now treats mouse-down and wheel activity as session activity, keeps the local inactivity window explicit at 15 minutes, and the API now issues an 8-hour JWT session window so active users are not forcibly logged out mid-workflow. Validation used focused frontend Jest on `src/app/shell/shell.component.spec.ts`, `src/app/core/authentication/auth.service.spec.ts`, and `src/app/core/http/error-handler.interceptor.spec.ts` (`18/18` tests passing) plus API `npm test --silent` (`Syntax OK for 69 files`).',
+        source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
       },
       {
         scope: 'Frontend',
         summary:
-          'The New Patient facility picker is now searchable while preserving the grouped-by-client layout and the same underlying `patient.operation` form contract.',
+          'The Patient contact phone row now follows the same grid alignment as the primary patient phone fields higher in the form.',
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.ts`, `.html`, `.scss`, and `.spec.ts`. After the facility selector was grouped by client, it was still a plain Ionic select, which made larger visible facility sets slow to scan. The form now uses an inline searchable picker that keeps the same reactive-form value, filters grouped facilities by facility or client name, preserves client headings in the result list, and restores the selected facility name back into the field after focus leaves the search surface. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`24/24` tests passing), plus clean editor diagnostics on the touched patient-form files.',
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html` and `.scss`. The contact `US (+1)` / area code / phone-number controls were still using an older flex layout with narrower widths, which left them visually misaligned compared with the main patient phone row. The contact row now uses the same three-column grid sizing and shared label/input height treatment as the primary patient phone fields. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`24/24` tests passing), plus clean editor diagnostics on the touched template and stylesheet.',
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {

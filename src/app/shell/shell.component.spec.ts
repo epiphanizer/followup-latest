@@ -145,6 +145,15 @@ describe('ShellComponent', () => {
     discardPeriodicTasks();
   }));
 
+  it('extends the idle expiry window on desktop mouse activity', () => {
+    const before = Date.now() + 1000;
+    userSubject.next({ userId: 'u1', userLoginExpires: before });
+
+    component.onMouseDown();
+
+    expect(userSubject.getValue().userLoginExpires).toBeGreaterThan(before + 100000);
+  });
+
   it('auto-hides a healthy status panel after the login toast window', fakeAsync(() => {
     const buildCheckingStatus = (component as any).buildCheckingStatus.bind(component);
 

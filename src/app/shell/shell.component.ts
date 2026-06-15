@@ -77,6 +77,8 @@ interface ServiceStatusViewModel {
   standalone: false
 })
 export class ShellComponent {
+  private readonly userIdleTimeoutMs = 15 * 60 * 1000;
+  private readonly idleWarningThresholdMs = 30 * 1000;
   private readonly statusRefreshMs = 60000;
   private readonly statusAutoHideMs = 5000;
   private readonly statusFadeOutMs = 250;
@@ -175,20 +177,28 @@ export class ShellComponent {
   }
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: any) {
-    this.updateUserExpiry();
+    this.markUserActivity();
     this.updateServiceStatusDrag(e && e.clientX, e && e.clientY);
+  }
+  @HostListener('document:mousedown')
+  onMouseDown() {
+    this.markUserActivity();
   }
   @HostListener('document:touchstart', ['$event'])
   onTouchStart(e: any) {
-    this.updateUserExpiry();
+    this.markUserActivity();
   }
   @HostListener('document:touchmove', ['$event'])
   onTouchMove(e: any) {
-    this.updateUserExpiry();
+    this.markUserActivity();
     const touchPoint = this.getTouchPoint(e);
     if (touchPoint) {
       this.updateServiceStatusDrag(touchPoint.clientX, touchPoint.clientY);
     }
+  }
+  @HostListener('window:wheel')
+  onWheel() {
+    this.markUserActivity();
   }
   @HostListener('document:mouseup')
   onMouseUp() {
@@ -200,6 +210,10 @@ export class ShellComponent {
   }
   @HostListener('document:keydown', ['$event'])
   onKeydown(e: any) {
+    this.markUserActivity();
+  }
+
+  private markUserActivity() {
     this.updateUserExpiry();
   }
 
@@ -207,9 +221,13 @@ export class ShellComponent {
     /**
      * Updates our expire time within the shell component
      */
-    var date = new Date();
     this.user = this.authenticationService.currentUserSubject.getValue();
-    this.user.userLoginExpires = date.getTime() + 900000;
+    if (!this.user) {
+      return;
+    }
+
+    var date = new Date();
+    this.user.userLoginExpires = date.getTime() + this.userIdleTimeoutMs;
     this.authenticationService.currentUserSubject.next(this.user);
     localStorage.removeItem('followup-user');
     localStorage.setItem('followup-user', JSON.stringify(this.user));
@@ -219,10 +237,14 @@ export class ShellComponent {
     var self = this;
     this.idleLogoutTimer = setInterval(function() {
       self.user = self.authenticationService.currentUserSubject.getValue();
+      if (!self.user || !self.user.userLoginExpires) {
+        return;
+      }
+
       var date = new Date();
       var currentTime = date.getTime();
       var timeRemaining = Math.round((self.user.userLoginExpires - currentTime) / 1000);
-      if (self.user.userLoginExpires - currentTime < 30000) {
+      if (self.user.userLoginExpires - currentTime < self.idleWarningThresholdMs) {
         self.toastrService.success('Your session will log out in ' + timeRemaining + ' seconds due to inactivity!');
       }
       if (currentTime > self.user.userLoginExpires) {
