@@ -31,6 +31,7 @@
             </i>
             <ul
               class="group-operations"
+              (click)="$event.stopPropagation()"
               [class.show]="
                 operationGroup.sidebarDropdownOpen ||
                 (operationGroup.operationGroupId == selected.operation?.operationGroupId && !isTouched && !isSpanishMode)

@@ -21,6 +21,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'API',
+        summary:
+          'Client archive now also marks child facilities inactive in the snapshot API, so archived clients no longer leave technically active facility rows underneath them.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after updating `v4.0.0/followup-api/deployment/service/OperationService.js` so `deactivateOperationGroupByOperationGroupId` follows successful client archive with `UPDATE operations SET operationActive = 0 WHERE operationGroupId = @operationGroupId`, while still preserving the existing mixed-schema client-archive compatibility path if the child active-state column is absent. The frontend had already been hiding facilities under archived clients through filtered active operation-group context; this API change aligns the underlying facility active-state with that archived client status instead of relying on frontend filtering alone. Validation used the snapshot API syntax check (`npm test --silent`, `Syntax OK for 69 files`).',
+        source: 'v4.0.0/followup-api/agents.md + v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Call Queue no longer collapses and re-expands the active facility accordion when the user clicks another operation inside the same already-open group.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.html` so clicks inside the open `.group-operations` list stop propagating back to the clickable facility-group wrapper. The accordion toggle had been attached to a parent wrapper that also contained the operation list, so selecting another operation in the same visible group retriggered the group toggle through bubbling and caused the left rail to collapse/reopen on each click. Validation used `npm run build -s`, which completed successfully after the template change; existing build warnings remained unchanged and were unrelated to this fix.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'Frontend',
         summary:
           'Call Queue now keeps the selected facility group expanded when the user switches operations, and sidebar operation links now show an underline affordance on hover across the shared sidebar family.',
