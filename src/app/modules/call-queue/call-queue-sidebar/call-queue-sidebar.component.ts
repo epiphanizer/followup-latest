@@ -165,6 +165,7 @@ export class CallQueueSidebarComponent {
     if (!localStorage.getItem('operationGroups')) {
       this.operationService.getOperationGroups().subscribe((operationGroups: OperationGroup[]) => {
         operationGroups.forEach((operationGroup: OperationGroup, idx: number) => {
+          operationGroup.sidebarDropdownOpen = idx === 0 && !this.isSpanishMode;
           operationGroup.operations$ = this.operationService
             .getActiveOperationsByOperationGroupId(operationGroup, this.user)
             .pipe(
@@ -174,8 +175,7 @@ export class CallQueueSidebarComponent {
                   operationGroup.operations = operations;
                   this.refreshSpanishNewDischarges();
                   if (idx == 0 && !this.selected.operation && !this.isSpanishMode) {
-                    this.selected.operation = operations[0];
-                    this.activeOperationId = this.selected.operation.operationId;
+                    this.setActiveOperationInternal(operations[0], false);
                   }
                   return operations;
                 }
@@ -183,10 +183,18 @@ export class CallQueueSidebarComponent {
             );
         });
         this.operationGroups = operationGroups;
+        if (this.selected.operation?.operationGroupId) {
+          this.openOperationGroup(this.selected.operation.operationGroupId);
+        }
         this.refreshSpanishNewDischarges();
       });
     } else {
       this.operationGroups = this.user.operationGroups;
+      this.operationGroups?.forEach((operationGroup: OperationGroup, idx: number) => {
+        if (typeof operationGroup.sidebarDropdownOpen !== 'boolean') {
+          operationGroup.sidebarDropdownOpen = idx === 0 && !this.isSpanishMode;
+        }
+      });
       this.operationGroups?.forEach((operationGroup: OperationGroup) => {
         operationGroup.operations?.forEach((operation: Operation) => this.normalizeOperationCounters(operation));
       });
@@ -224,21 +232,14 @@ export class CallQueueSidebarComponent {
       }
       this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation | Operation[]) => {
         const operation = Array.isArray(data) ? data[0] : data;
-        if (operation) {
-          this.normalizeOperationCounters(operation);
-          this.selected.operation = operation;
-          this.activeOperationId = this.selected.operation.operationId;
-        }
+        this.setActiveOperationInternal(operation, false);
       });
     });
 
     this.todaysDateDay = formatDate(new Date(), 'dd', 'en');
   }
   setActiveOperation = function(operation: Operation) {
-    this.isSpanishMode = false;
-    this.selected.operation = operation;
-    this.activeOperationId = operation.operationId;
-    this.operationChangeEvent.emit(operation);
+    this.setActiveOperationInternal(operation, true);
   };
   setActiveOperationGroup = function(operationGroup: OperationGroup) {
     operationGroup.sidebarDropdownOpen = true;
@@ -250,8 +251,43 @@ export class CallQueueSidebarComponent {
     this.operationGroupChangeEvent.emit(this.activeOperationGroupId);
   };
   toggleOperationSidebarMenu(operationGroup: OperationGroup) {
+    if (!operationGroup) {
+      return;
+    }
     if (!this.isTouched) this.isTouched = true;
-    operationGroup.sidebarDropdownOpen = !operationGroup.sidebarDropdownOpen;
+    const nextOpenState = !operationGroup.sidebarDropdownOpen;
+    (this.operationGroups || []).forEach((group: OperationGroup) => {
+      group.sidebarDropdownOpen =
+        group.operationGroupId === operationGroup.operationGroupId ? nextOpenState : false;
+    });
+  }
+
+  private setActiveOperationInternal(operation: Operation, emitEvent: boolean) {
+    if (!operation) {
+      return;
+    }
+
+    this.isSpanishMode = false;
+    this.normalizeOperationCounters(operation);
+    this.selected.operation = operation;
+    this.activeOperationId = operation.operationId;
+    this.openOperationGroup(operation.operationGroupId);
+
+    if (emitEvent) {
+      this.operationChangeEvent.emit(operation);
+    }
+  }
+
+  private openOperationGroup(operationGroupId: string) {
+    if (!operationGroupId) {
+      return;
+    }
+
+    const operationGroups = this.operationGroups?.length ? this.operationGroups : this.user?.operationGroups || [];
+
+    operationGroups.forEach((operationGroup: OperationGroup) => {
+      operationGroup.sidebarDropdownOpen = operationGroup.operationGroupId === operationGroupId;
+    });
   }
 
   trackByOperationGroup(index: number, operationGroup: OperationGroup): string | number {

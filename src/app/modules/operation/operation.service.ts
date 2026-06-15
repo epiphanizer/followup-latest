@@ -22,6 +22,12 @@ export class OperationService {
     this.clientGroupsChangedSubject.next();
   }
 
+  public filterActiveOperationGroups(operationGroups: OperationGroup[]): OperationGroup[] {
+    return (Array.isArray(operationGroups) ? operationGroups : []).filter((operationGroup: OperationGroup) => {
+      return Number(operationGroup?.operationGroupActive) !== 0;
+    });
+  }
+
   addNewOperation(): Observable<Operation> {
     return this.http.post<Operation>('operations', {}).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
@@ -69,10 +75,11 @@ export class OperationService {
   public getOperationGroups(): Observable<OperationGroup[]> {
     return this.http.get<OperationGroup[]>('operations/groups').pipe(
       map((operationGroups: OperationGroup[]) => {
+        const activeOperationGroups = this.filterActiveOperationGroups(operationGroups);
         if (!localStorage.getItem('operationGroups')) {
-          localStorage.setItem('operationGroups', JSON.stringify(operationGroups));
+          localStorage.setItem('operationGroups', JSON.stringify(activeOperationGroups));
         }
-        return operationGroups;
+        return activeOperationGroups;
       }),
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

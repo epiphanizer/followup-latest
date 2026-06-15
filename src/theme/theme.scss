@@ -114,6 +114,17 @@ ion-item {
   --background-hover: transparent;
 }
 
+.group-operations li a.operation-link {
+  transition: text-decoration-color 0.15s ease;
+}
+
+.group-operations li a.operation-link:hover,
+.group-operations li a.operation-link:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
 .followup-form-choice-group {
   display: flex;
   flex-wrap: wrap;

@@ -23,6 +23,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Call Queue now keeps the selected facility group expanded when the user switches operations, and sidebar operation links now show an underline affordance on hover across the shared sidebar family.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.ts`, `call-queue-sidebar.component.spec.ts`, and `src/theme/theme.scss`. Call Queue selection now uses the same explicit `openOperationGroup(...)` behavior already used in the Patients and Notifications sidebars, so the selected operation\'s parent facility stays open while sibling facility groups collapse. The shared theme also now underlines `.operation-link` entries on hover/focus-visible so sidebar operation options provide a clearer movement affordance across Call Queue, Patients, Notifications, and Clients sidebars that reuse that class. Validation used focused Jest on `src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.spec.ts` (`6/6` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Archived clients are now removed from active facility contexts, so their facilities no longer appear in Call Queue and related left-side facility pickers after the client is archived.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation.service.ts`, `src/app/modules/user/user.service.ts`, and `src/app/core/authentication/auth.service.ts` so the active `operations/groups` feed is filtered to `operationGroupActive !== 0`, cached active operation-group snapshots are kept in sync, and user operation lists are pruned to facilities that still belong to active client groups during login and `updateOperations(...)` refreshes. This means a client archived from the Clients UI now removes its facilities from active queue/sidebar context on the next shared user-context refresh instead of leaving them visible in Call Queue, Notifications, and other operation-group-driven sidebars. Validation used focused Jest on `src/app/modules/operation/operation.service.spec.ts`, `src/app/modules/user/user.service.spec.ts`, and `src/app/core/authentication/auth.service.spec.ts` (`35/35` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Stop & Review in Patient Detail now returns the user to the top of the right-hand review pane automatically.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-detail/patient-detail.component.html`, `patient-detail.component.ts`, and `patient-detail.component.spec.ts` to add a review-pane top anchor and scroll to it when `patientCallEndEventHandler(...)` transitions the call into `In Review`. Before this change, users who clicked `Stop & Review` stayed scrolled at the bottom of the active-call form and had to manually scroll back up before they could review the call status, notes, and next-call or follow-up controls. Validation used focused Jest on `src/app/modules/patient/patient-detail/patient-detail.component.spec.ts` (`11/11` tests passing).',

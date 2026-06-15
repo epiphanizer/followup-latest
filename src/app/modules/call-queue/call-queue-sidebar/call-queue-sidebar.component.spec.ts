@@ -42,16 +42,23 @@ describe('CallQueueSidebarComponent (Jest)', () => {
     const patientService = {} as any;
     const comp = new CallQueueSidebarComponent(route, operationService, patientService);
     const emitSpy = jest.spyOn(comp.operationChangeEvent, 'emit');
-    const op = { operationId: 'op-1' } as any;
+    comp.operationGroups = [
+      { operationGroupId: 'g1', sidebarDropdownOpen: true },
+      { operationGroupId: 'g2', sidebarDropdownOpen: false }
+    ] as any;
+    const op = { operationId: 'op-1', operationGroupId: 'g2' } as any;
 
     comp.setActiveOperation(op);
     expect(comp.selected.operation).toBe(op);
     expect(comp.activeOperationId).toBe('op-1');
+    expect(comp.operationGroups[0].sidebarDropdownOpen).toBe(false);
+    expect(comp.operationGroups[1].sidebarDropdownOpen).toBe(true);
     expect(emitSpy).toHaveBeenCalledWith(op);
 
-    const group = { sidebarDropdownOpen: false } as any;
+    const group = comp.operationGroups[0] as any;
     comp.toggleOperationSidebarMenu(group);
-    expect(group.sidebarDropdownOpen).toBe(true);
+    expect(comp.operationGroups[0].sidebarDropdownOpen).toBe(true);
+    expect(comp.operationGroups[1].sidebarDropdownOpen).toBe(false);
     expect(comp.isTouched).toBe(true);
   });
 
@@ -122,6 +129,47 @@ describe('CallQueueSidebarComponent (Jest)', () => {
       expect(comp.activeOperationId).toBeNull();
       expect(user.operationGroups[0].sidebarDropdownOpen).toBe(false);
       expect(operationService.getOperationByOperationId).not.toHaveBeenCalled();
+      done();
+    }, 0);
+  });
+
+  it('opens the selected operation group from the route when a different operation is active', done => {
+    const firstGroupOperation = { operationId: 'op-1', operationGroupId: 'g1', operationActive: 1 } as any;
+    const secondGroupOperation = { operationId: 'op-2', operationGroupId: 'g2', operationActive: 1 } as any;
+    const user = {
+      operationGroups: [
+        {
+          operationGroupId: 'g1',
+          operationGroupShortName: 'G1',
+          operations: [firstGroupOperation]
+        },
+        {
+          operationGroupId: 'g2',
+          operationGroupShortName: 'G2',
+          operations: [secondGroupOperation]
+        }
+      ],
+      operations: [firstGroupOperation, secondGroupOperation]
+    } as any;
+
+    const route = {
+      snapshot: { data: { user } },
+      paramMap: { subscribe: (cb: any) => cb({ params: { operationId: 'op-2' } }) }
+    } as any;
+    const operationService = {
+      getOperationGroups: jest.fn(() => of(user.operationGroups)),
+      getActiveOperationsByOperationGroupId: jest.fn((operationGroup: any) => of(operationGroup.operations)),
+      getOperationByOperationId: jest.fn(() => of(secondGroupOperation))
+    } as any;
+    const patientService = {} as any;
+
+    const comp = new CallQueueSidebarComponent(route, operationService, patientService);
+    comp.ngOnInit();
+
+    setTimeout(() => {
+      expect(comp.activeOperationId).toBe('op-2');
+      expect(comp.operationGroups[0].sidebarDropdownOpen).toBe(false);
+      expect(comp.operationGroups[1].sidebarDropdownOpen).toBe(true);
       done();
     }, 0);
   });

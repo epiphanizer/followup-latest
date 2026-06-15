@@ -90,6 +90,47 @@ export class AuthenticationService {
     return this.impersonatorSubject.value;
   }
 
+  private isOperationActive(operation: Operation): boolean {
+    return Number((operation as any)?.operationActive) !== 0;
+  }
+
+  private filterActiveOperationGroups(operationGroups: OperationGroup[]): OperationGroup[] {
+    return (Array.isArray(operationGroups) ? operationGroups : []).filter((operationGroup: OperationGroup) => {
+      return Number(operationGroup?.operationGroupActive) !== 0;
+    });
+  }
+
+  private applyVisibleOperationContext(user: User, operationGroups: OperationGroup[]): void {
+    const activeOperationGroups = this.filterActiveOperationGroups(operationGroups || []);
+    const activeOperationGroupIds = new Set(
+      activeOperationGroups.map((operationGroup: OperationGroup) => operationGroup.operationGroupId)
+    );
+
+    user.operations = (user.operations || []).filter((operation: Operation) => {
+      return activeOperationGroupIds.has(operation.operationGroupId) && this.isOperationActive(operation);
+    });
+
+    activeOperationGroups.forEach((operationGroup: OperationGroup) => {
+      operationGroup.operations = (user.operations || [])
+        .filter((operation: Operation) => {
+          return operationGroup.operationGroupId == operation.operationGroupId;
+        })
+        .sort(function(a: Operation, b: Operation) {
+          if (a.operationName < b.operationName) {
+            return -1;
+          }
+          if (a.operationName > b.operationName) {
+            return 1;
+          }
+          return 0;
+        });
+    });
+
+    user.operationGroups = activeOperationGroups.filter((operationGroup: OperationGroup) => {
+      return operationGroup.operations?.length > 0;
+    });
+  }
+
   doLogin(username: string, password: string, selectedUserId?: string): Observable<any> {
     return this.http
       .post('users/login', {
@@ -111,31 +152,9 @@ export class AuthenticationService {
                   user.operations = res;
                 }
                 this._operationService.getOperationGroups().subscribe(res => {
-                  if (res) {
-                    user.operationGroups = res;
-                  }
-
-                  user.operationGroups.forEach((operationGroup: OperationGroup) => {
-                    // Could use a stronger approach but this does the trick
-
-                    operationGroup.operations = user.operations
-                      .filter((operation: Operation) => {
-                        return operationGroup.operationGroupId == operation.operationGroupId;
-                      })
-                      .sort(function(a: Operation, b: Operation) {
-                        if (a.operationName < b.operationName) {
-                          return -1;
-                        }
-                        if (a.operationName > b.operationName) {
-                          return 1;
-                        }
-                        return 0;
-                      });
-                  });
-
-                  user.operationGroups = user.operationGroups.filter((operationGroup: OperationGroup) => {
-                    return operationGroup.operations?.length > 0;
-                  });
+                  this.applyVisibleOperationContext(user, res || []);
+                  localStorage.setItem('operationGroups', JSON.stringify(user.operationGroups || []));
+                  this.currentUserSubject.next(user);
                 });
                 localStorage.setItem('followup-user', JSON.stringify(user));
               });
@@ -277,30 +296,8 @@ export class AuthenticationService {
           }
           this._operationService.getOperationGroups().subscribe({
             next: (groups: OperationGroup[]) => {
-              if (groups) {
-                user.operationGroups = groups;
-              }
-              if (user.operationGroups?.length) {
-                user.operationGroups.forEach((operationGroup: OperationGroup) => {
-                  operationGroup.operations = (user.operations || [])
-                    .filter((operation: Operation) => {
-                      return operationGroup.operationGroupId == operation.operationGroupId;
-                    })
-                    .sort(function(a: Operation, b: Operation) {
-                      if (a.operationName < b.operationName) {
-                        return -1;
-                      }
-                      if (a.operationName > b.operationName) {
-                        return 1;
-                      }
-                      return 0;
-                    });
-                });
-
-                user.operationGroups = user.operationGroups.filter((operationGroup: OperationGroup) => {
-                  return operationGroup.operations?.length > 0;
-                });
-              }
+              this.applyVisibleOperationContext(user, groups || []);
+              localStorage.setItem('operationGroups', JSON.stringify(user.operationGroups || []));
               localStorage.setItem('followup-user', JSON.stringify(user));
               this.currentUserSubject.next(user);
               resolve(user);

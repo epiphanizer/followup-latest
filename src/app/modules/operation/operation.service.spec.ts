@@ -69,6 +69,23 @@ describe('OperationService (Jest)', () => {
     });
   });
 
+  it('filters archived operation groups from the active groups feed', done => {
+    const http = makeHttp();
+    http.get = jest.fn(() =>
+      of([
+        { operationGroupId: 'og1', operationGroupActive: 1 },
+        { operationGroupId: 'og2', operationGroupActive: 0 },
+        { operationGroupId: 'og3' }
+      ] as any)
+    );
+    const svc = new OperationService(http as any);
+
+    svc.getOperationGroups().subscribe((groups: any) => {
+      expect(groups.map((group: any) => group.operationGroupId)).toEqual(['og1', 'og3']);
+      done();
+    });
+  });
+
   it('getAllOperationGroups uses operations/groups/all', () => {
     const http = makeHttp();
     const svc = new OperationService(http as any);

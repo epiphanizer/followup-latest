@@ -19,6 +19,16 @@ export interface UserMergeScriptResponse {
 export class UserService {
   constructor(private http: HttpClient, private operationService: OperationService) {}
 
+  private isOperationActive(operation: Operation): boolean {
+    return Number((operation as any)?.operationActive) !== 0;
+  }
+
+  private filterActiveOperationGroups(operationGroups: OperationGroup[]): OperationGroup[] {
+    return (Array.isArray(operationGroups) ? operationGroups : []).filter((operationGroup: OperationGroup) => {
+      return Number(operationGroup?.operationGroupActive) !== 0;
+    });
+  }
+
   deactivateUserByUserId(userId: string) {
     return this.http.delete('users/' + userId).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
@@ -136,12 +146,16 @@ export class UserService {
           user.operations = res;
         }
         _this.operationService.getOperationGroups().subscribe((res: any) => {
-          if (res) {
-            user.operationGroups = res;
-          }
-          user.operationGroups.forEach((operationGroup: OperationGroup) => {
-            // Could use a stronger approach but this does the trick
+          user.operationGroups = _this.filterActiveOperationGroups(res || []);
+          const activeOperationGroupIds = new Set(
+            user.operationGroups.map((operationGroup: OperationGroup) => operationGroup.operationGroupId)
+          );
 
+          user.operations = (user.operations || []).filter((operation: Operation) => {
+            return activeOperationGroupIds.has(operation.operationGroupId) && _this.isOperationActive(operation);
+          });
+
+          user.operationGroups.forEach((operationGroup: OperationGroup) => {
             operationGroup.operations = user.operations
               .filter((operation: Operation) => {
                 return operationGroup.operationGroupId == operation.operationGroupId;
@@ -160,6 +174,7 @@ export class UserService {
           user.operationGroups = user.operationGroups.filter((operationGroup: OperationGroup) => {
             return operationGroup.operations?.length > 0;
           });
+          localStorage.setItem('operationGroups', JSON.stringify(user.operationGroups || []));
           localStorage.setItem('followup-user', JSON.stringify(user));
           resolve(true);
         });

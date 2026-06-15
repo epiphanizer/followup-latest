@@ -54,6 +54,40 @@ describe('AuthenticationService', () => {
     expect(localStorage.getItem('followup-token')).toBe('header.payload.signature');
   });
 
+  it('filters archived client groups and their facilities during login hydration', async () => {
+    const { service, http, jwtHelper, operationService } = build();
+    const decoded = {
+      user: {
+        userId: 1,
+        userLevel: 'admin',
+        operations: [],
+        operationGroups: []
+      }
+    } as any;
+    jwtHelper.decodeToken.mockReturnValue(decoded);
+    operationService.getOperationsByUserId.mockReturnValue(
+      of([
+        { operationId: 'op1', operationGroupId: 1, operationName: 'Visible Facility', operationActive: 1 },
+        { operationId: 'op2', operationGroupId: 2, operationName: 'Archived Client Facility', operationActive: 1 }
+      ])
+    );
+    operationService.getOperationGroups.mockReturnValue(
+      of([
+        { operationGroupId: 1, operationGroupActive: 1 },
+        { operationGroupId: 2, operationGroupActive: 0 }
+      ])
+    );
+    http.post.mockReturnValue(of({ token: 'header.payload.signature' }));
+
+    await firstValueFrom(service.doLogin('alice', 'secret'));
+
+    const storedUser = JSON.parse(localStorage.getItem('followup-user'));
+    expect(storedUser.operations.map((operation: any) => operation.operationId)).toEqual(['op1']);
+    expect(storedUser.operationGroups.map((operationGroup: any) => operationGroup.operationGroupId)).toEqual([1]);
+    expect(localStorage.getItem('operationGroups')).toContain('1');
+    expect(localStorage.getItem('operationGroups')).not.toContain('2');
+  });
+
   it('clears stale stored session when token is expired at startup', () => {
     localStorage.setItem('followup-user', JSON.stringify({ userId: 7 }));
     localStorage.setItem('followup-token', 'header.payload.signature');

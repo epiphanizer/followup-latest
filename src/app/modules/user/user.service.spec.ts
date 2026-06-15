@@ -70,4 +70,31 @@ describe('UserService (Jest)', () => {
     expect(user.operationGroups[0].operations[0].operationName).toBe('A');
     expect(localStorage.getItem('followup-user')).toContain('op1');
   });
+
+  it('drops operations that belong to archived client groups during refresh', async () => {
+    const http = makeHttp();
+    const operationService = {
+      getOperationsByUserId: jest.fn(() =>
+        of([
+          { operationId: 'op1', operationGroupId: 'og1', operationName: 'Visible Facility', operationActive: 1 } as any,
+          { operationId: 'op2', operationGroupId: 'og2', operationName: 'Archived Client Facility', operationActive: 1 } as any
+        ])
+      ),
+      getOperationGroups: jest.fn(() =>
+        of([
+          { operationGroupId: 'og1', operationGroupActive: 1, operations: [] } as any,
+          { operationGroupId: 'og2', operationGroupActive: 0, operations: [] } as any
+        ])
+      )
+    } as any;
+    const svc = new UserService(http as any, operationService as any);
+    const user: any = { userId: 'u1', operations: [], operationGroups: [] };
+
+    await svc.updateOperations(user);
+
+    expect(user.operations.map((operation: any) => operation.operationId)).toEqual(['op1']);
+    expect(user.operationGroups.map((operationGroup: any) => operationGroup.operationGroupId)).toEqual(['og1']);
+    expect(localStorage.getItem('operationGroups')).toContain('og1');
+    expect(localStorage.getItem('operationGroups')).not.toContain('og2');
+  });
 });
