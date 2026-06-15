@@ -23,6 +23,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'New Operation save now returns to the selected ownership client detail page instead of any legacy operations-group route, including the old `/operations/group/undefined` failure case when the placeholder operation record has no group id yet.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-form/operation-form.component.ts` so operation-save success now redirects from the submitted `operation.operationGroupId` form value through a shared helper instead of reading `this.operation.operationGroupId` from the pre-save placeholder object. That helper now routes to `/clients/:operationGroupId` for the fuller client view rather than the older `/operations/group/:operationGroupId` detail route, and it still avoids the prior undefined-group failure case by taking the submitted ownership client id from the form. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts` (`30/30` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Add New Operation now loads ownership choices from the active-only client feed, so archived clients are not selectable when creating a new facility.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-form/operation-form.component.ts` so the form resolves its mode before loading ownership groups and uses `getOperationGroups()` in add mode instead of starting from the broader `getAllOperationGroups()` feed. Edit and view modes still use the all-groups path so an already assigned archived ownership client can continue to display for existing records, but the add workflow now only hydrates active clients into the Ionic ownership selector. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts` (`28/28` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Restored clients now move back into the active Clients sidebar immediately without requiring a manual refresh on the client detail route.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-listing/operation-listing.component.ts` and `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.ts` so both restore entry points now emit the shared `notifyClientGroupsChanged()` signal and refresh the active user operation context through `updateOperations(...)`, matching the existing archive flow. Before this change, restoring a client could flip the detail-panel badge back to `Active` while leaving the sibling Clients sidebar on stale archived-state data until the page was refreshed. Validation used focused Jest on `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts` and `src/app/modules/operation/operation-listing/operation-listing.component.spec.ts` (`20/20` tests passing).',

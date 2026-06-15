@@ -1,7 +1,7 @@
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SuperForm } from 'angular-super-validator';
 import { OperationFormComponent } from './operation-form.component';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 describe('OperationFormComponent logic', () => {
   let component: OperationFormComponent;
@@ -345,10 +345,10 @@ describe('OperationFormComponent logic', () => {
     it('hydrates ownership groups from the API for add mode when the user snapshot is empty', () => {
       routeStub.snapshot.data.mode = 'add';
       routeStub.snapshot.data.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] };
-      operationServiceMock.getAllOperationGroups.mockReturnValueOnce(
+      operationServiceMock.getOperationGroups.mockReturnValueOnce(
         of([
-          { operationGroupId: 'og10', operationGroupName: 'Alpha Group', operationGroupShortName: 'AG' },
-          { operationGroupId: 'og11', operationGroupName: 'Beta Group', operationGroupShortName: 'BG' }
+          { operationGroupId: 'og10', operationGroupName: 'Alpha Group', operationGroupShortName: 'AG', operationGroupActive: 1 },
+          { operationGroupId: 'og11', operationGroupName: 'Beta Group', operationGroupShortName: 'BG', operationGroupActive: 1 }
         ] as any)
       );
 
@@ -367,7 +367,8 @@ describe('OperationFormComponent logic', () => {
 
       addModeComponent.ngOnInit();
 
-      expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalled();
+      expect(operationServiceMock.getOperationGroups).toHaveBeenCalled();
+      expect(operationServiceMock.getAllOperationGroups).not.toHaveBeenCalled();
       expect(addModeComponent.operationGroups.length).toBe(2);
       expect(addModeComponent.operationGroups[1].operationGroupId).toBe('og11');
 
@@ -375,12 +376,15 @@ describe('OperationFormComponent logic', () => {
       routeStub.snapshot.data.user = { operationGroups: [] };
     });
 
-    it('falls back to the narrower ownership group feed when the all-groups request is empty', () => {
+    it('clears add-mode ownership options when the active-only feed returns no selectable clients', () => {
       routeStub.snapshot.data.mode = 'add';
       routeStub.snapshot.data.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] };
-      operationServiceMock.getAllOperationGroups.mockReturnValueOnce(of([]));
       operationServiceMock.getOperationGroups.mockReturnValueOnce(
-        of([{ operationGroupId: 'og20', operationGroupName: 'Fallback Group', operationGroupShortName: 'FG' }] as any)
+        of([])
+      );
+      localStorage.setItem(
+        'operationGroups',
+        JSON.stringify([{ operationGroupId: 'og20', operationGroupName: 'Fallback Group', operationGroupShortName: 'FG' }])
       );
 
       const addModeComponent = new OperationFormComponent(
@@ -398,26 +402,66 @@ describe('OperationFormComponent logic', () => {
 
       addModeComponent.ngOnInit();
 
-      expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalled();
       expect(operationServiceMock.getOperationGroups).toHaveBeenCalled();
-      expect(addModeComponent.operationGroups.length).toBe(1);
-      expect(addModeComponent.operationGroups[0].operationGroupId).toBe('og20');
+      expect(addModeComponent.operationGroups.length).toBe(0);
 
       routeStub.snapshot.data.mode = 'edit';
+      routeStub.snapshot.data.user = { operationGroups: [] };
+    });
+
+    it('uses the all-groups ownership feed outside add mode so archived current owners can still display', () => {
+      routeStub.snapshot.data.mode = 'edit';
+      routeStub.snapshot.data.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] };
+      routeStub.snapshot.data.operation = {
+        operationId: 'op40',
+        operationGroupId: 'og40',
+        operationName: 'Archived Facility',
+        operationAddress: '',
+        operationCity: '',
+        operationState: '',
+        operationZip: '',
+        operationCountryCode: '1',
+        operationAreaCode: '',
+        operationPhoneNumber: '',
+        operationActive: true
+      };
+      operationServiceMock.getAllOperationGroups.mockReturnValueOnce(
+        of([{ operationGroupId: 'og40', operationGroupName: 'Archived Group', operationGroupShortName: 'AG', operationGroupActive: 0 }] as any)
+      );
+
+      const editModeComponent = new OperationFormComponent(
+        fb,
+        notificationServiceMock,
+        notificationRecipientServiceMock,
+        operationServiceMock,
+        operationContactsServiceMock,
+        routeStub,
+        routerStub,
+        toastrMock,
+        userServiceMock,
+        cdrMock
+      );
+
+      editModeComponent.ngOnInit();
+
+      expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalled();
+      expect(editModeComponent.operationGroups[0].operationGroupId).toBe('og40');
+
+      routeStub.snapshot.data.operation = undefined;
       routeStub.snapshot.data.user = { operationGroups: [] };
     });
 
     it('uses cached ownership groups immediately while api hydration is still pending', () => {
       routeStub.snapshot.data.mode = 'add';
       routeStub.snapshot.data.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] };
+      const operationGroupsSubject = new Subject<any[]>();
       localStorage.setItem(
         'operationGroups',
         JSON.stringify([
           { operationGroupId: 'og30', operationGroupName: 'Cached Group', operationGroupShortName: 'CG' }
         ])
       );
-      operationServiceMock.getAllOperationGroups.mockReturnValueOnce(of([]));
-      operationServiceMock.getOperationGroups.mockReturnValueOnce(of([]));
+      operationServiceMock.getOperationGroups.mockReturnValueOnce(operationGroupsSubject.asObservable());
 
       const addModeComponent = new OperationFormComponent(
         fb,
@@ -436,6 +480,49 @@ describe('OperationFormComponent logic', () => {
 
       expect(addModeComponent.operationGroups.length).toBe(1);
       expect(addModeComponent.operationGroups[0].operationGroupId).toBe('og30');
+
+      operationGroupsSubject.next([]);
+      operationGroupsSubject.complete();
+
+      expect(addModeComponent.operationGroups.length).toBe(0);
+
+      routeStub.snapshot.data.mode = 'edit';
+      routeStub.snapshot.data.user = { operationGroups: [] };
+    });
+
+    it('filters archived ownership groups out of the add-mode cached list before the api response arrives', () => {
+      routeStub.snapshot.data.mode = 'add';
+      routeStub.snapshot.data.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] };
+      const operationGroupsSubject = new Subject<any[]>();
+      localStorage.setItem(
+        'operationGroups',
+        JSON.stringify([
+          { operationGroupId: 'og50', operationGroupName: 'Visible Group', operationGroupShortName: 'VG', operationGroupActive: 1 },
+          { operationGroupId: 'og51', operationGroupName: 'Archived Group', operationGroupShortName: 'AG', operationGroupActive: 0 }
+        ])
+      );
+      operationServiceMock.getOperationGroups.mockReturnValueOnce(operationGroupsSubject.asObservable());
+
+      const addModeComponent = new OperationFormComponent(
+        fb,
+        notificationServiceMock,
+        notificationRecipientServiceMock,
+        operationServiceMock,
+        operationContactsServiceMock,
+        routeStub,
+        routerStub,
+        toastrMock,
+        userServiceMock,
+        cdrMock
+      );
+
+      addModeComponent.ngOnInit();
+
+      expect(addModeComponent.operationGroups.map((operationGroup: any) => operationGroup.operationGroupId)).toEqual([
+        'og50'
+      ]);
+
+      operationGroupsSubject.complete();
 
       routeStub.snapshot.data.mode = 'edit';
       routeStub.snapshot.data.user = { operationGroups: [] };
@@ -544,6 +631,16 @@ describe('OperationFormComponent logic', () => {
 
       expect(spy).toHaveBeenCalled();
       expect(operationServiceMock.getOperationByOperationId).toHaveBeenCalledWith('new-op-id');
+    });
+
+    it('redirects save success to the submitted ownership client even when the placeholder operation group id is empty', async () => {
+      component.operation.operationGroupId = undefined as any;
+      component['handleOperationSaveSuccess']('og3');
+      await Promise.resolve();
+
+      expect(toastrMock.success).toHaveBeenCalledWith('Successfully saved operation');
+      expect(userServiceMock.updateOperations).toHaveBeenCalledWith(component.user);
+      expect(routerStub.navigate).toHaveBeenCalledWith(['/clients', 'og3']);
     });
   });
 

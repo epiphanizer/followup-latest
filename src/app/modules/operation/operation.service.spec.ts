@@ -107,7 +107,7 @@ describe('OperationService (Jest)', () => {
     svc.notifyClientGroupsChanged();
   });
 
-  it('does not overwrite localStorage on subsequent fetches', done => {
+  it('refreshes the cached active operation groups on subsequent fetches', done => {
     const http = makeHttp();
     http.get = jest.fn(() => of([{ operationGroupId: 'og1' }] as any));
     const svc = new OperationService(http as any);
@@ -116,7 +116,7 @@ describe('OperationService (Jest)', () => {
 
     svc.getOperationGroups().subscribe((groups: any) => {
       const cached = JSON.parse(localStorage.getItem('operationGroups'));
-      expect(cached[0].operationGroupId).toBe('og-cached');
+      expect(cached[0].operationGroupId).toBe('og1');
       done();
     });
   });

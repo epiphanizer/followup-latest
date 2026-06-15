@@ -76,9 +76,7 @@ export class OperationService {
     return this.http.get<OperationGroup[]>('operations/groups').pipe(
       map((operationGroups: OperationGroup[]) => {
         const activeOperationGroups = this.filterActiveOperationGroups(operationGroups);
-        if (!localStorage.getItem('operationGroups')) {
-          localStorage.setItem('operationGroups', JSON.stringify(activeOperationGroups));
-        }
+        localStorage.setItem('operationGroups', JSON.stringify(activeOperationGroups));
         return activeOperationGroups;
       }),
       catchError(e => this.handleAsyncError(e)) // then handle the error

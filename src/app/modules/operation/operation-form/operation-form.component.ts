@@ -122,6 +122,14 @@ export class OperationFormComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
+    if (this.route.snapshot.data.mode == 'add') {
+      this.mode.add = true;
+    } else if (this.route.snapshot.data.mode == 'edit') {
+      this.mode.edit = true;
+    } else if (this.route.snapshot.data.mode == 'view') {
+      this.mode.view = true;
+    }
+
     this.operationGroups = Array.isArray(this.user?.operationGroups) ? this.user.operationGroups : [];
     this.loadCachedOperationGroups();
     this.loadOperationGroups();
@@ -130,13 +138,6 @@ export class OperationFormComponent implements OnInit {
       this.availableUsers = users;
     });
 
-    if (this.route.snapshot.data.mode == 'add') {
-      this.mode.add = true;
-    } else if (this.route.snapshot.data.mode == 'edit') {
-      this.mode.edit = true;
-    } else if (this.route.snapshot.data.mode == 'view') {
-      this.mode.view = true;
-    }
     if (!this.mode.view) {
       this.notificationService.getNotificationTypes().subscribe((notificationTypes: NotificationType[]) => {
         this.notificationTypes = notificationTypes;
@@ -327,6 +328,19 @@ export class OperationFormComponent implements OnInit {
   private loadOperationGroups() {
     this.operationGroupsLoading = true;
 
+    if (this.mode.add) {
+      this.operationService.getOperationGroups().subscribe({
+        next: (operationGroups: OperationGroup[]) => {
+          this.operationGroups = Array.isArray(operationGroups) ? operationGroups : [];
+          this.operationGroupsLoading = false;
+        },
+        error: () => {
+          this.operationGroupsLoading = false;
+        }
+      });
+      return;
+    }
+
     this.operationService.getAllOperationGroups().subscribe({
       next: (operationGroups: OperationGroup[]) => {
         const safeOperationGroups = Array.isArray(operationGroups) ? operationGroups : [];
@@ -359,7 +373,10 @@ export class OperationFormComponent implements OnInit {
 
     try {
       const cachedOperationGroups = JSON.parse(cachedOperationGroupsRaw);
-      return Array.isArray(cachedOperationGroups) ? cachedOperationGroups : [];
+      const safeOperationGroups = Array.isArray(cachedOperationGroups) ? cachedOperationGroups : [];
+      return this.mode.add
+        ? safeOperationGroups.filter((operationGroup: OperationGroup) => Number(operationGroup?.operationGroupActive) !== 0)
+        : safeOperationGroups;
     } catch (_error) {
       return [];
     }
@@ -544,6 +561,27 @@ export class OperationFormComponent implements OnInit {
     }
     // do nothing
   }
+
+  private navigateToSubmittedOperationGroup(operationGroupId?: string) {
+    const targetOperationGroupId =
+      operationGroupId || this.operationForm?.get('operation.operationGroupId')?.value || this.operation?.operationGroupId;
+
+    if (targetOperationGroupId) {
+      this.operation.operationGroupId = targetOperationGroupId;
+      this.router.navigate(['/clients', targetOperationGroupId]);
+      return;
+    }
+
+    this.router.navigate(['/clients']);
+  }
+
+  private handleOperationSaveSuccess(operationGroupId?: string) {
+    this.toastr.success('Successfully saved operation');
+    this.userService.updateOperations(this.user).then(() => {
+      this.navigateToSubmittedOperationGroup(operationGroupId);
+    });
+  }
+
   onFormSubmit() {
     if (!this.validateControls()) {
       return;
@@ -551,6 +589,7 @@ export class OperationFormComponent implements OnInit {
     // Passing E2E
 
     let formSubmission = this.operationForm.getRawValue();
+    const submittedOperationGroupId = formSubmission?.operation?.operationGroupId || this.operation?.operationGroupId;
     /**
      * In order to see which contacts to add, we
      * filter this.operationContactsOriginal's values
@@ -623,11 +662,7 @@ export class OperationFormComponent implements OnInit {
                           this.operationService
                             .editOperationByOperationId(this.operation.operationId, operationPut)
                             .subscribe(() => {
-                              this.toastr.success('Successfully saved operation');
-                              var _this = this;
-                              this.userService.updateOperations(this.user).then(function() {
-                                window.location.href = '/operations/group/' + _this.operation.operationGroupId;
-                              });
+                              this.handleOperationSaveSuccess(submittedOperationGroupId);
                             });
                         }
                       }
@@ -682,11 +717,7 @@ export class OperationFormComponent implements OnInit {
                         this.operationService
                           .editOperationByOperationId(this.operation.operationId, operationPut)
                           .subscribe(() => {
-                            var _this = this;
-                            this.toastr.success('Successfully saved operation');
-                            this.userService.updateOperations(this.user).then(function() {
-                              window.location.href = '/operations/group/' + _this.operation.operationGroupId;
-                            });
+                            this.handleOperationSaveSuccess(submittedOperationGroupId);
                           });
                       }
                     }
@@ -726,10 +757,7 @@ export class OperationFormComponent implements OnInit {
                   this.operationService
                     .editOperationByOperationId(this.operation.operationId, operationPut)
                     .subscribe(() => {
-                      this.toastr.success('Successfully saved operation');
-                      this.userService.updateOperations(this.user).then(function() {
-                        window.location.href = '/operations/group/' + this.operation.operationGroupId;
-                      });
+                      this.handleOperationSaveSuccess(submittedOperationGroupId);
                     });
                 }
               });
@@ -737,11 +765,7 @@ export class OperationFormComponent implements OnInit {
         });
       } else {
         this.operationService.editOperationByOperationId(this.operation.operationId, operationPut).subscribe(() => {
-          this.toastr.success('Successfully saved operation');
-          var _this = this;
-          this.userService.updateOperations(this.user).then(function() {
-            window.location.href = '/operations/group/' + _this.operation.operationGroupId;
-          });
+          this.handleOperationSaveSuccess(submittedOperationGroupId);
         });
       }
     }
