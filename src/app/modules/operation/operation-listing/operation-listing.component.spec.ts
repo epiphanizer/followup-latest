@@ -5,6 +5,7 @@ import { BehaviorSubject, of, Subject } from 'rxjs';
 
 import { OperationListingComponent } from './operation-listing.component';
 import { OperationService } from '../operation.service';
+import { UserService } from '@app/modules/user/user.service';
 
 describe('OperationListingComponent (Jest)', () => {
   let component: OperationListingComponent;
@@ -36,6 +37,7 @@ describe('OperationListingComponent (Jest)', () => {
       declarations: [OperationListingComponent],
       providers: [
         { provide: OperationService, useValue: operationServiceStub },
+        { provide: UserService, useValue: { updateOperations: jest.fn(() => Promise.resolve()) } },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -70,7 +72,8 @@ describe('OperationListingComponent (Jest)', () => {
     const localComponent = new OperationListingComponent(
       { detectChanges: jest.fn() } as any,
       route,
-      operationServiceStub as any
+      operationServiceStub as any,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any
     );
 
     expect(() => localComponent.ngOnInit()).not.toThrow();
@@ -97,7 +100,8 @@ describe('OperationListingComponent (Jest)', () => {
     const localComponent = new OperationListingComponent(
       { detectChanges: jest.fn() } as any,
       route,
-      operationServiceStub as any
+      operationServiceStub as any,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any
     );
 
     localComponent.ngOnInit();
@@ -140,7 +144,8 @@ describe('OperationListingComponent (Jest)', () => {
     const localComponent = new OperationListingComponent(
       { detectChanges: jest.fn() } as any,
       route,
-      operationServiceStub as any
+      operationServiceStub as any,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any
     );
 
     localComponent.ngOnInit();
@@ -186,7 +191,8 @@ describe('OperationListingComponent (Jest)', () => {
     const localComponent = new OperationListingComponent(
       { detectChanges: jest.fn() } as any,
       route,
-      operationServiceStub as any
+      operationServiceStub as any,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any
     );
 
     localComponent.ngOnInit();
@@ -239,7 +245,8 @@ describe('OperationListingComponent (Jest)', () => {
     const localComponent = new OperationListingComponent(
       { detectChanges: jest.fn() } as any,
       route,
-      operationServiceStub as any
+      operationServiceStub as any,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any
     );
 
     localComponent.ngOnInit();
@@ -299,7 +306,8 @@ describe('OperationListingComponent (Jest)', () => {
     const localComponent = new OperationListingComponent(
       { detectChanges: jest.fn() } as any,
       route,
-      operationServiceStub as any
+      operationServiceStub as any,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any
     );
 
     localComponent.ngOnInit();
@@ -352,8 +360,56 @@ describe('OperationListingComponent (Jest)', () => {
     const localComponent = new OperationListingComponent(
       { detectChanges: jest.fn() } as any,
       route,
-      operationServiceStub as any
+      operationServiceStub as any,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any
     );
+
+  it('notifies client group listeners after restoring the selected archived client', () => {
+    const clientGroupsChanged$ = new Subject<void>();
+    const operationServiceStub = {
+      clientGroupsChanged$: clientGroupsChanged$.asObservable(),
+      notifyClientGroupsChanged: jest.fn(),
+      restoreOperationGroupByOperationGroupId: jest.fn().mockReturnValue(of({ success: 1 })),
+      getAllOperationGroups: jest.fn().mockReturnValue(
+        of([
+          {
+            operationGroupId: 'og1',
+            operationGroupName: 'Client One',
+            operationGroupShortName: 'C1',
+            operationGroupActive: 0,
+            operations: []
+          }
+        ])
+      ),
+      getActiveOperationsByOperationGroupId: jest.fn().mockReturnValue(of([])),
+      getOperationsByOperationGroupId: jest.fn().mockReturnValue(of([]))
+    };
+    const userServiceStub = { updateOperations: jest.fn(() => Promise.resolve()) };
+    const route = {
+      snapshot: { data: { user: userStub, section: 'clients', title: 'Clients' } },
+      paramMap: of({ params: { operationGroupId: 'og1' } })
+    } as any;
+    const localComponent = new OperationListingComponent(
+      { detectChanges: jest.fn() } as any,
+      route,
+      operationServiceStub as any,
+      userServiceStub as any
+    );
+
+    localComponent.ngOnInit();
+    localComponent.selected.operationGroup = {
+      operationGroupId: 'og1',
+      operationGroupName: 'Client One',
+      operationGroupShortName: 'C1',
+      operationGroupActive: 0,
+      operations: []
+    } as any;
+
+    localComponent.restoreSelectedClient();
+
+    expect(operationServiceStub.notifyClientGroupsChanged).toHaveBeenCalled();
+    expect(userServiceStub.updateOperations).toHaveBeenCalledWith(localComponent.user);
+  });
 
     localComponent.ngOnInit();
     expect(localComponent.selected.operationGroup.operationGroupId).toBe('og1');

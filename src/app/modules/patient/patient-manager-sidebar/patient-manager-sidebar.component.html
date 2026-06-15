@@ -21,6 +21,7 @@
           </div>
           <ul
             class="group-operations"
+            (click)="$event.stopPropagation()"
             [class.show]="operationGroup.sidebarDropdownOpen"
             *ngIf="operationGroup.operations"
           >

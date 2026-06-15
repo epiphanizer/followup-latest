@@ -11,6 +11,7 @@ import {
 import { OperationService } from '../operation.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
+import { UserService } from '@app/modules/user/user.service';
 import { Observable, Subscription } from 'rxjs';
 import { Operation, OperationGroup } from '../operation';
 import { map } from 'rxjs/operators';
@@ -86,6 +87,7 @@ export class OperationAdminSidebarComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private operationService: OperationService,
+    private userService: UserService,
     private _cdr: ChangeDetectorRef
   ) {}
 
@@ -326,6 +328,8 @@ export class OperationAdminSidebarComponent implements OnInit {
         this.restoreInFlightByGroupId[operationGroupId] = false;
         this.isRestoringClient = Object.values(this.restoreInFlightByGroupId).some((inFlight: boolean) => inFlight);
         operationGroup.operationGroupActive = 1;
+        this.operationService.notifyClientGroupsChanged();
+        this.userService.updateOperations(this.user).catch(() => {});
 
         if (this.clientFilter === 'archived') {
           const nextArchived = this.visibleOperationGroups[0] || null;

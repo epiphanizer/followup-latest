@@ -7,6 +7,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { OperationAdminSidebarComponent } from './operation-admin-sidebar.component';
 import { OperationService } from '../operation.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { UserService } from '@app/modules/user/user.service';
 
 function createParamMap(params: Record<string, string> = {}) {
   return {
@@ -80,6 +81,7 @@ describe('OperationAdminSidebarComponent', () => {
         providers: [
           { provide: ActivatedRoute, useValue: routeMock },
           { provide: OperationService, useValue: operationServiceMock },
+          { provide: UserService, useValue: { updateOperations: jest.fn(() => Promise.resolve()) } },
           { provide: ChangeDetectorRef, useValue: { detectChanges: jest.fn() } }
         ]
       }).compileComponents();
@@ -166,9 +168,14 @@ describe('OperationAdminSidebarComponent', () => {
       },
       paramMap: { subscribe: (fn: any) => fn(createParamMap()) }
     };
-    const localComponent = new OperationAdminSidebarComponent(emptyRouteMock, operationServiceMock, {
-      detectChanges: jest.fn()
-    } as any);
+    const localComponent = new OperationAdminSidebarComponent(
+      emptyRouteMock,
+      operationServiceMock,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any,
+      {
+        detectChanges: jest.fn()
+      } as any
+    );
 
     expect(() => localComponent.ngOnInit()).not.toThrow();
     expect(Array.isArray(localComponent.operationGroups)).toBe(true);
@@ -176,9 +183,14 @@ describe('OperationAdminSidebarComponent', () => {
 
   it('builds client routes when used from the clients section', () => {
     const clientsRouteMock: any = createRouteMock({ section: 'clients' });
-    const localComponent = new OperationAdminSidebarComponent(clientsRouteMock, operationServiceMock, {
-      detectChanges: jest.fn()
-    } as any);
+    const localComponent = new OperationAdminSidebarComponent(
+      clientsRouteMock,
+      operationServiceMock,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any,
+      {
+        detectChanges: jest.fn()
+      } as any
+    );
 
     localComponent.ngOnInit();
 
@@ -192,9 +204,14 @@ describe('OperationAdminSidebarComponent', () => {
 
   it('reloads client groups when notified of a successful archive or restore', () => {
     const clientsRouteMock: any = createRouteMock({ section: 'clients' });
-    const localComponent = new OperationAdminSidebarComponent(clientsRouteMock, operationServiceMock, {
-      detectChanges: jest.fn()
-    } as any);
+    const localComponent = new OperationAdminSidebarComponent(
+      clientsRouteMock,
+      operationServiceMock,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any,
+      {
+        detectChanges: jest.fn()
+      } as any
+    );
 
     localComponent.ngOnInit();
     expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalledTimes(2);
@@ -206,9 +223,14 @@ describe('OperationAdminSidebarComponent', () => {
 
   it('syncs active group from routed operation group ids', () => {
     const groupedRouteMock: any = createRouteMock({}, { operationGroupId: 'g2' });
-    const localComponent = new OperationAdminSidebarComponent(groupedRouteMock, operationServiceMock, {
-      detectChanges: jest.fn()
-    } as any);
+    const localComponent = new OperationAdminSidebarComponent(
+      groupedRouteMock,
+      operationServiceMock,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any,
+      {
+        detectChanges: jest.fn()
+      } as any
+    );
 
     localComponent.ngOnInit();
 
@@ -220,9 +242,14 @@ describe('OperationAdminSidebarComponent', () => {
 
   it('syncs active group from routed operations', () => {
     const operationRouteMock: any = createRouteMock({}, { operationId: 'op2' });
-    const localComponent = new OperationAdminSidebarComponent(operationRouteMock, operationServiceMock, {
-      detectChanges: jest.fn()
-    } as any);
+    const localComponent = new OperationAdminSidebarComponent(
+      operationRouteMock,
+      operationServiceMock,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any,
+      {
+        detectChanges: jest.fn()
+      } as any
+    );
 
     localComponent.ngOnInit();
 
@@ -231,5 +258,38 @@ describe('OperationAdminSidebarComponent', () => {
     expect(localComponent.activeOperationGroupId).toBe('g2');
     expect(localComponent.selected.operationGroup?.operationGroupId).toBe('g2');
     expect(localComponent.operationGroups[1].sidebarDropdownOpen).toBe(true);
+  });
+
+  it('notifies listeners after restoring an archived client from the sidebar', () => {
+    const clientsRouteMock: any = createRouteMock({ section: 'clients' });
+    operationServiceMock.restoreOperationGroupByOperationGroupId = jest.fn(() => of({ success: 1 }));
+    operationServiceMock.notifyClientGroupsChanged = jest.fn();
+    const userServiceMock = { updateOperations: jest.fn(() => Promise.resolve()) };
+    const localComponent = new OperationAdminSidebarComponent(
+      clientsRouteMock,
+      operationServiceMock,
+      userServiceMock as any,
+      {
+        detectChanges: jest.fn()
+      } as any
+    );
+    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
+
+    localComponent.ngOnInit();
+    localComponent.clientFilter = 'archived';
+    localComponent.restoreClient(
+      {
+        operationGroupId: 'g2',
+        operationGroupName: 'Group Two',
+        operationGroupShortName: 'G2',
+        operationGroupActive: 0,
+        operations: []
+      } as any,
+      { preventDefault: jest.fn(), stopPropagation: jest.fn() } as any
+    );
+
+    expect(operationServiceMock.notifyClientGroupsChanged).toHaveBeenCalled();
+    expect(userServiceMock.updateOperations).toHaveBeenCalledWith(localComponent.user);
+    confirmSpy.mockRestore();
   });
 });

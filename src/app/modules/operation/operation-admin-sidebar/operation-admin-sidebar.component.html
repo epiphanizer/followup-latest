@@ -60,6 +60,7 @@
           </button>
           <ul
             class="group-operations"
+            (click)="$event.stopPropagation()"
             [class.show]="isOperationGroupExpanded(operationGroup)"
             *ngIf="!clientMode && operationGroup.operations"
           >
@@ -71,7 +72,7 @@
                 <a
                   class="operation-link"
                   [routerLink]="'/operation/' + operation.operationId"
-                  (click)="setActiveOperation(operation)"
+                  (click)="$event.stopPropagation(); setActiveOperation(operation)"
                   [class.active]="activeOperationId == operation.operationId"
                 >
                   {{ operation.operationName | slice: 0:15

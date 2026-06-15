@@ -3,6 +3,7 @@ import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import { Observable, Subscription } from 'rxjs';
 import { User, UserRolesMap } from '@app/modules/user/user';
 import { OperationService } from '@app/modules/operation/operation.service';
+import { UserService } from '@app/modules/user/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
@@ -38,7 +39,8 @@ export class OperationListingComponent implements OnInit {
   constructor(
     private _cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private operationService: OperationService
+    private operationService: OperationService,
+    private userService: UserService
   ) {}
 
   get selectedGroupName(): string {
@@ -211,6 +213,8 @@ export class OperationListingComponent implements OnInit {
       .restoreOperationGroupByOperationGroupId(operationGroupId)
       .pipe(finalize(() => (this.isRestoringClient = false)))
       .subscribe(() => {
+        this.operationService.notifyClientGroupsChanged();
+        this.userService.updateOperations(this.user).catch(() => {});
         this.selected.operationGroup = {
           ...this.selected.operationGroup,
           operationGroupActive: 1
