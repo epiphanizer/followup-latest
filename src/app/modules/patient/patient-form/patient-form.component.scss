@@ -224,6 +224,65 @@ form {
         height: 43px;
         padding-left: 11px;
       }
+
+      .facility-search-shell {
+        position: relative;
+        width: 350px;
+      }
+
+      .facility-search-results {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        right: 0;
+        max-height: 320px;
+        overflow-y: auto;
+        background: #ffffff;
+        border: 1px solid rgba(112, 112, 112, 0.15);
+        box-shadow: 0 10px 24px rgb(35 31 32 / 12%);
+        z-index: 20;
+      }
+
+      .facility-search-group + .facility-search-group {
+        border-top: 1px solid rgba(112, 112, 112, 0.08);
+      }
+
+      .facility-search-group-label {
+        padding: 10px 15px 6px;
+        font-family: AvenirPro;
+        font-size: 13px;
+        letter-spacing: 0.2px;
+        color: #00b4b9;
+        background: #f9fbfb;
+      }
+
+      .facility-search-option,
+      .facility-search-empty {
+        display: block;
+        width: 100%;
+        padding: 10px 15px;
+        text-align: left;
+        font-family: Avenir;
+        font-size: 15px;
+        line-height: 1.4;
+        color: #3f3638;
+        background: #ffffff;
+      }
+
+      .facility-search-option {
+        border: 0;
+        cursor: pointer;
+      }
+
+      .facility-search-option:hover,
+      .facility-search-option:focus {
+        background: #f5f5f5;
+        outline: none;
+      }
+
+      .facility-search-empty {
+        color: #8e8e93;
+      }
     }
 
     &.patient-medical-record-number {
@@ -595,11 +654,19 @@ form {
 
     .phone-container {
       padding-left: 0;
-      width: calc(100% - 20px);
+      width: 100%;
+      max-width: 720px;
       clear: both;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 8px;
+      display: grid;
+      grid-template-columns: 120px 140px 240px;
+      column-gap: 18px;
+      row-gap: 0;
+      align-items: end;
+
+      @media screen and (orientation: portrait) and (max-width: 1024px) {
+        grid-template-columns: 1fr;
+        row-gap: 12px;
+      }
 
       ion-item {
         margin-right: 0;
@@ -607,19 +674,15 @@ form {
 
         &.country-code {
           margin-left: 0;
-          width: 55px;
+          width: auto;
         }
 
         &.area-code {
-          width: 65px;
+          width: auto;
         }
 
         &.phone-number {
-          width: 120px;
-
-          @media screen and (orientation: portrait) and (max-width: 1024px) {
-            margin-right: 170px;
-          }
+          width: auto;
         }
 
         ion-item {
@@ -639,6 +702,18 @@ form {
         &.responsible-party-toggle {
           align-self: flex-end;
           margin-bottom: 6px;
+        }
+      }
+
+      .phone-field {
+        ion-label {
+          display: block;
+          min-height: 42px;
+          margin-bottom: 6px;
+        }
+
+        ion-input {
+          min-height: 58px;
         }
       }
 

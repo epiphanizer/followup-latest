@@ -187,9 +187,14 @@ export class ToolbarNavComponent implements OnInit {
       }
     }
     if (link.linkAction == 'getExcelReport') {
-      this.dataService.getData().subscribe((data: Blob) => {
-        var blob = new Blob([data], { type: data.type });
-        FileSaver.saveAs(blob, 'data.xlsx');
+      this.dataService.getData().subscribe(response => {
+        var data = response?.body;
+        if (!data) {
+          return;
+        }
+
+        var blob = new Blob([data], { type: data.type || 'application/octet-stream' });
+        FileSaver.saveAs(blob, this.getDownloadFileName(response.headers?.get('content-disposition')));
       });
     }
     if (link.linkAction == 'toggleServiceHealth') {
@@ -203,6 +208,17 @@ export class ToolbarNavComponent implements OnInit {
     });
     this.dropdownActivated = false;
   }
+
+  private getDownloadFileName(contentDisposition: string | null): string {
+    var match = String(contentDisposition || '').match(/filename\*?=(?:UTF-8''|\")?([^";]+)/i);
+
+    if (!match || !match[1]) {
+      return 'data.xlsx';
+    }
+
+    return decodeURIComponent(match[1].trim()).replace(/^"|"$/g, '') || 'data.xlsx';
+  }
+
   closeDropdown(i: number) {
     this.dropdowns[i].activated = false;
     this.dropdownActivated = this.dropdowns.some(dropdown => dropdown.activated);

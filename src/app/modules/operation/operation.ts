@@ -18,6 +18,8 @@ export interface Operation {
   operationPhoneNumber?: string;
   operationActive?: number;
   operationStartDate: Date;
+  operationCreated?: Date;
+  operationEdited?: Date;
   operationContacts$?: Observable<OperationContact[]>;
   operationAssignedManagerUserId?: number;
   operationAssignedManagerName?: string;

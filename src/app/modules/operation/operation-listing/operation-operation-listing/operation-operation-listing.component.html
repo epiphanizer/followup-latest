@@ -87,7 +87,7 @@
       <td class="centered listing-body-cell">
         <div class="operation-group-information">
           <span class="operation-start-date">
-            {{ operation.operationStartDate | date: 'MM/dd/YY' }}
+            {{ getOperationAddedDate(operation) | date: 'MM/dd/YY' }}
           </span>
         </div>
       </td>

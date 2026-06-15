@@ -3,8 +3,14 @@ import { of } from 'rxjs';
 import { PatientFormComponent } from './patient-form.component';
 
 const baseUser = {
-  operations: [{ operationId: 'op-1' }],
-  operationGroups: [{ operationGroupId: 'og-1', operations: [{ operationId: 'op-1' }] }]
+  operations: [{ operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1' }],
+  operationGroups: [
+    {
+      operationGroupId: 'og-1',
+      operationGroupName: 'Client One',
+      operations: [{ operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1' }]
+    }
+  ]
 } as any;
 
 const makeServices = (overrides?: any) => {
@@ -56,7 +62,136 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.mode.add).toBe(true);
     expect(services.patientService.addNewPatient).toHaveBeenCalled();
     expect(comp.patientForm).toBeTruthy();
+    expect(comp.groupedOperations.map(group => group.label)).toEqual(['Client One']);
     expect(comp.patientForm.get('patient.dischargeInfo.patientDischargedTo')!.value).toBe('2PEXyKgz');
+  });
+
+  it('groups available operations by client group for the facility selector', () => {
+    const groupedUser = {
+      operations: [
+        { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationId: 'op-2', operationName: 'Facility Two', operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationId: 'op-3', operationName: 'Facility Three', operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ],
+      operationGroups: [
+        { operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ]
+    } as any;
+    const route = { snapshot: { data: { mode: 'add', user: groupedUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+
+    comp.ngOnInit();
+
+    expect(comp.groupedOperations.map(group => group.label)).toEqual(['Client One', 'Client Two']);
+    expect(comp.groupedOperations[0].operations.map(operation => operation.operationName)).toEqual([
+      'Facility One',
+      'Facility Two'
+    ]);
+    expect(comp.groupedOperations[1].operations.map(operation => operation.operationName)).toEqual(['Facility Three']);
+  });
+
+  it('falls back to grouping by operation group name when user operation groups are unavailable', () => {
+    const groupedUser = {
+      operations: [
+        { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationId: 'op-2', operationName: 'Facility Two', operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ]
+    } as any;
+    const route = { snapshot: { data: { mode: 'add', user: groupedUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+
+    comp.ngOnInit();
+
+    expect(comp.groupedOperations.map(group => group.label)).toEqual(['Client One', 'Client Two']);
+  });
+
+  it('filters searchable facilities by facility or client name and updates the selected operation', () => {
+    const groupedUser = {
+      operations: [
+        { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationId: 'op-2', operationName: 'Facility Two', operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationId: 'op-3', operationName: 'Facility Three', operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ],
+      operationGroups: [
+        { operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ]
+    } as any;
+    const route = { snapshot: { data: { user: groupedUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+
+    comp.operations = groupedUser.operations;
+    comp.groupedOperations = (comp as any).buildGroupedOperations(groupedUser.operations, groupedUser.operationGroups);
+    comp.patient = {
+      patientOperationId: '',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+
+    comp.onFacilitySearchInput({ detail: { value: 'three' } });
+
+    expect(comp.filteredGroupedOperations.map(group => group.label)).toEqual(['Client Two']);
+    expect(comp.filteredGroupedOperations[0].operations.map(operation => operation.operationName)).toEqual([
+      'Facility Three'
+    ]);
+
+    comp.onFacilitySearchInput({ detail: { value: 'client one' } });
+
+    expect(comp.filteredGroupedOperations.map(group => group.label)).toEqual(['Client One']);
+    expect(comp.filteredGroupedOperations[0].operations.map(operation => operation.operationName)).toEqual([
+      'Facility One',
+      'Facility Two'
+    ]);
+
+    comp.selectFacilityOperation(groupedUser.operations[2]);
+
+    expect(comp.patientForm.get('patient.operation')!.value).toBe('op-3');
+    expect(comp.patient.patientOperationId).toBe('op-3');
+    expect(comp.facilitySearchText).toBe('Facility Three');
+    expect(comp.facilitySearchOpen).toBe(false);
   });
 
   it('initializes edit mode and sets patient data', async () => {
@@ -102,6 +237,7 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.mode.edit).toBe(true);
     expect(services.patientService.getPatientByPatientId).toHaveBeenCalledWith('p-edit');
     expect(comp.patientForm).toBeTruthy();
+    expect(comp.facilitySearchText).toBe('Facility One');
     expect(comp.patientForm.get('patient.dischargeInfo.patientDischargedTo')!.value).toBe('lbl-1');
   });
 

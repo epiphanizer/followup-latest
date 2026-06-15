@@ -8,6 +8,8 @@ const buildOperation = (overrides: any = {}) => ({
   totalNotifications: 2,
   totalGraduates: 3,
   operationActive: 1,
+  operationCreated: '2024-01-02',
+  operationEdited: '2024-01-03',
   operationStartDate: '2024-01-01',
   ...overrides
 });
@@ -106,8 +108,22 @@ describe('OperationOperationListingComponent (Jest)', () => {
   it('supports additional sort options and paging', () => {
     const component = buildComponent();
     const enriched = [
-      buildOperation({ operationName: 'Zeta', totalNotifications: 10, totalGraduates: 5, operationActive: 0 }),
-      buildOperation({ operationName: 'Eta', totalNotifications: 2, totalGraduates: 1, operationActive: 1 })
+      buildOperation({
+        operationName: 'Zeta',
+        totalNotifications: 10,
+        totalGraduates: 5,
+        operationActive: 0,
+        operationCreated: '2024-03-10',
+        operationStartDate: '2023-01-01'
+      }),
+      buildOperation({
+        operationName: 'Eta',
+        totalNotifications: 2,
+        totalGraduates: 1,
+        operationActive: 1,
+        operationCreated: '2024-01-05',
+        operationStartDate: '2024-12-31'
+      })
     ];
     component.operations = component.operationsFiltered = enriched as any;
 
@@ -124,9 +140,28 @@ describe('OperationOperationListingComponent (Jest)', () => {
     expect(component.operationsFiltered[0].operationActive).toBe(0);
 
     component.handleSortOptionEvent('Date');
-    expect(component.operationsFiltered.length).toBe(2);
+    expect(component.operationsFiltered[0].operationName).toBe('Zeta');
+
+    component.handleSortDirectionEvent('asc');
+    expect(component.operationsFiltered[0].operationName).toBe('Eta');
 
     component.onChangePage([{ operationName: 'PageItem' } as any]);
     expect(component.pageOfItems[0].operationName).toBe('PageItem');
+  });
+
+  it('falls back to edited or start date when created date is unavailable', () => {
+    const component = buildComponent();
+
+    expect(
+      component.getOperationAddedDate(
+        buildOperation({ operationCreated: null, operationEdited: '2024-04-01', operationStartDate: '2024-01-01' }) as any
+      )
+    ).toBe('2024-04-01');
+
+    expect(
+      component.getOperationAddedDate(
+        buildOperation({ operationCreated: null, operationEdited: null, operationStartDate: '2024-01-01' }) as any
+      )
+    ).toBe('2024-01-01');
   });
 });

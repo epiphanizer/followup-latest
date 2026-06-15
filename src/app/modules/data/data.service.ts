@@ -3,15 +3,15 @@ import { AuthenticationService, HttpService } from '@app/core';
 import { share, catchError } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { Observable, of, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 @Injectable()
 export class DataService {
   constructor(private http: HttpService) {}
 
-  public getData(): Observable<Blob> {
+  public getData(): Observable<HttpResponse<Blob>> {
     return this.http
-      .get<Blob>('data', { responseType: 'blob' as 'json' })
+      .get('data', { observe: 'response', responseType: 'blob' })
       .pipe(
         share(),
         catchError(error => this.handleAsyncError(error))

@@ -1,3 +1,4 @@
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
 
 import { BehaviorSubject, of } from 'rxjs';
@@ -31,7 +32,16 @@ describe('ToolbarNavComponent logic', () => {
     }
   };
   const routerMock: any = { events: of(new NavigationEnd(1, '/home', '/home')), navigate: jest.fn() };
-  const dataServiceMock: any = { getData: jest.fn(() => of(new Blob(['x'], { type: 'text/plain' }))) };
+  const dataServiceMock: any = {
+    getData: jest.fn(() =>
+      of(
+        new HttpResponse({
+          body: new Blob(['x'], { type: 'text/plain' }),
+          headers: new HttpHeaders({ 'content-disposition': 'attachment; filename="data-dev.xlsx"' })
+        })
+      )
+    )
+  };
   const authUserSubject = new BehaviorSubject<any>({ userId: 'u1', userLevel: UserRoles.admin });
   const authServiceMock: any = {
     currentUserSubject: authUserSubject,
@@ -104,7 +114,7 @@ describe('ToolbarNavComponent logic', () => {
 
     component.dynamicLink({ linkAction: 'getExcelReport' } as any);
     expect(dataServiceMock.getData).toHaveBeenCalled();
-    expect(FileSaver.saveAs).toHaveBeenCalled();
+    expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.any(Blob), 'data-dev.xlsx');
   });
 
   it('preloads notification types when opening the notify modal', async () => {

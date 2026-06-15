@@ -130,7 +130,11 @@ export class OperationFormComponent implements OnInit {
       this.mode.view = true;
     }
 
-    this.operationGroups = Array.isArray(this.user?.operationGroups) ? this.user.operationGroups : [];
+    this.operationGroups = this.mode.add
+      ? this.getVisibleOwnershipOperationGroupsFromUser()
+      : Array.isArray(this.user?.operationGroups)
+        ? this.user.operationGroups
+        : [];
     this.loadCachedOperationGroups();
     this.loadOperationGroups();
 
@@ -329,15 +333,8 @@ export class OperationFormComponent implements OnInit {
     this.operationGroupsLoading = true;
 
     if (this.mode.add) {
-      this.operationService.getOperationGroups().subscribe({
-        next: (operationGroups: OperationGroup[]) => {
-          this.operationGroups = Array.isArray(operationGroups) ? operationGroups : [];
-          this.operationGroupsLoading = false;
-        },
-        error: () => {
-          this.operationGroupsLoading = false;
-        }
-      });
+      this.operationGroups = this.getVisibleOwnershipOperationGroupsFromUser();
+      this.operationGroupsLoading = false;
       return;
     }
 
@@ -357,12 +354,32 @@ export class OperationFormComponent implements OnInit {
   }
 
   private loadCachedOperationGroups() {
+    if (this.mode.add) {
+      return;
+    }
+
     const cachedOperationGroups = this.readCachedOperationGroups();
     if (!cachedOperationGroups.length) {
       return;
     }
 
     this.operationGroups = cachedOperationGroups;
+  }
+
+  private getVisibleOwnershipOperationGroupsFromUser(): OperationGroup[] {
+    const visibleOperationGroups = Array.isArray(this.user?.operationGroups) ? this.user.operationGroups : [];
+
+    return visibleOperationGroups
+      .filter((operationGroup: OperationGroup) => Number(operationGroup?.operationGroupActive) !== 0)
+      .map((operationGroup: OperationGroup) => ({
+        ...operationGroup,
+        operations: Array.isArray(operationGroup?.operations)
+          ? operationGroup.operations.filter((operation: Operation) => Number((operation as any)?.operationActive) !== 0)
+          : operationGroup.operations
+      }))
+      .filter((operationGroup: OperationGroup) => {
+        return !Array.isArray(operationGroup?.operations) || operationGroup.operations.length > 0;
+      });
   }
 
   private readCachedOperationGroups(): OperationGroup[] {
@@ -844,9 +861,6 @@ export class OperationFormComponent implements OnInit {
         if (operationGroup) {
           this.toastr.success('Successfully added operation group');
           this.operationGroups.push(operationGroup[0]);
-          this.user.operationGroups = this.operationGroups;
-          localStorage.setItem('operationGroups', JSON.stringify(this.operationGroups));
-          localStorage.setItem('followup-user', JSON.stringify(this.user));
           this.addOperationGroupModalOn = false;
           this.cdr.detectChanges();
         } else {

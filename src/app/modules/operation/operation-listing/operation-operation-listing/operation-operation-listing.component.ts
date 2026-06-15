@@ -99,9 +99,13 @@ export class OperationOperationListingComponent implements OnInit {
         this.sortOperationsByStatus();
         break;
       case 'Date':
-        this.sortOperationsByStartDate();
+        this.sortOperationsByAddedDate();
         break;
     }
+  }
+
+  getOperationAddedDate(operation: Operation): Date | string | null {
+    return operation?.operationCreated || operation?.operationEdited || operation?.operationStartDate || null;
   }
 
   sortOperationsByOperationName = function() {
@@ -194,17 +198,24 @@ export class OperationOperationListingComponent implements OnInit {
         .slice();
     }
   };
-  sortOperationsByStartDate = function() {
+  private getOperationAddedTimestamp(operation: Operation): number {
+    const addedDate = this.getOperationAddedDate(operation);
+    const timestamp = addedDate ? new Date(addedDate).getTime() : 0;
+
+    return Number.isNaN(timestamp) ? 0 : timestamp;
+  }
+
+  sortOperationsByAddedDate = function() {
     if (this.selectedSortFlag == 'desc') {
       this.operationsFiltered = this.operations
         .sort((a: Operation, b: Operation) => {
-          return <any>new Date(a.operationStartDate) - <any>new Date(b.operationActive);
+          return this.getOperationAddedTimestamp(b) - this.getOperationAddedTimestamp(a);
         })
         .slice();
     } else {
       this.operationsFiltered = this.operations
         .sort((a: Operation, b: Operation) => {
-          return <any>new Date(b.operationActive) - <any>new Date(a.operationActive);
+          return this.getOperationAddedTimestamp(a) - this.getOperationAddedTimestamp(b);
         })
         .slice();
     }

@@ -2,6 +2,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SuperForm } from 'angular-super-validator';
 import { OperationFormComponent } from './operation-form.component';
 import { of, Subject } from 'rxjs';
+import { OperationGroup } from '../operation';
 
 describe('OperationFormComponent logic', () => {
   let component: OperationFormComponent;
@@ -278,8 +279,25 @@ describe('OperationFormComponent logic', () => {
   });
 
   describe('Operation Group CRUD Operations', () => {
-    it('adds new operation group and updates local caches', () => {
-      component.operationGroups = [];
+    it('adds new operation group without poisoning shared user operation-group caches', () => {
+      component.user.operationGroups = [
+        {
+          operationGroupId: 'visible-og1',
+          operationGroupName: 'Visible Client',
+          operationGroupShortName: 'VC',
+          operationGroupActive: 1
+        } as any
+      ];
+      component.operationGroups = [
+        {
+          operationGroupId: 'archived-og1',
+          operationGroupName: 'Archived Client',
+          operationGroupShortName: 'AC',
+          operationGroupActive: 0
+        } as any
+      ];
+      localStorage.setItem('operationGroups', JSON.stringify(component.user.operationGroups));
+      localStorage.setItem('followup-user', JSON.stringify(component.user));
       component.addOperationGroupForm();
       component.addOperationGroupFormControl.patchValue({
         operationGroupName: 'PACS',
@@ -290,7 +308,17 @@ describe('OperationFormComponent logic', () => {
 
       expect(operationServiceMock.addNewOperationGroup).toHaveBeenCalledWith('PACS', 'WZ PACS');
       expect(toastrMock.success).toHaveBeenCalledWith('Successfully added operation group');
-      expect(component.operationGroups.length).toBe(1);
+      expect(component.operationGroups.length).toBe(2);
+      expect(component.user.operationGroups).toEqual([
+        {
+          operationGroupId: 'visible-og1',
+          operationGroupName: 'Visible Client',
+          operationGroupShortName: 'VC',
+          operationGroupActive: 1
+        }
+      ]);
+      expect(JSON.parse(localStorage.getItem('operationGroups'))).toEqual(component.user.operationGroups);
+      expect(JSON.parse(localStorage.getItem('followup-user')).operationGroups).toEqual(component.user.operationGroups);
       expect(component.addOperationGroupModalOn).toBe(false);
     });
   });
@@ -342,15 +370,28 @@ describe('OperationFormComponent logic', () => {
       ]);
     });
 
-    it('hydrates ownership groups from the API for add mode when the user snapshot is empty', () => {
+    it('hydrates add-mode ownership groups from the visible user snapshot instead of the global API feed', () => {
       routeStub.snapshot.data.mode = 'add';
-      routeStub.snapshot.data.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] };
-      operationServiceMock.getOperationGroups.mockReturnValueOnce(
-        of([
-          { operationGroupId: 'og10', operationGroupName: 'Alpha Group', operationGroupShortName: 'AG', operationGroupActive: 1 },
-          { operationGroupId: 'og11', operationGroupName: 'Beta Group', operationGroupShortName: 'BG', operationGroupActive: 1 }
-        ] as any)
-      );
+      routeStub.snapshot.data.user = {
+        userId: 'u1',
+        userLevel: '2PEXyKgz',
+        operationGroups: [
+          {
+            operationGroupId: 'og10',
+            operationGroupName: 'Alpha Group',
+            operationGroupShortName: 'AG',
+            operationGroupActive: 1,
+            operations: [{ operationId: 'op10', operationActive: 1 }]
+          },
+          {
+            operationGroupId: 'og11',
+            operationGroupName: 'Beta Group',
+            operationGroupShortName: 'BG',
+            operationGroupActive: 1,
+            operations: [{ operationId: 'op11', operationActive: 1 }]
+          }
+        ]
+      };
 
       const addModeComponent = new OperationFormComponent(
         fb,
@@ -367,21 +408,60 @@ describe('OperationFormComponent logic', () => {
 
       addModeComponent.ngOnInit();
 
-      expect(operationServiceMock.getOperationGroups).toHaveBeenCalled();
       expect(operationServiceMock.getAllOperationGroups).not.toHaveBeenCalled();
+      expect(operationServiceMock.getOperationGroups).not.toHaveBeenCalled();
       expect(addModeComponent.operationGroups.length).toBe(2);
-      expect(addModeComponent.operationGroups[1].operationGroupId).toBe('og11');
+      expect(addModeComponent.operationGroups.map((operationGroup: any) => operationGroup.operationGroupId)).toEqual([
+        'og10',
+        'og11'
+      ]);
 
       routeStub.snapshot.data.mode = 'edit';
       routeStub.snapshot.data.user = { operationGroups: [] };
     });
 
-    it('clears add-mode ownership options when the active-only feed returns no selectable clients', () => {
+    it('does not widen add-mode ownership groups beyond the visible user snapshot', () => {
+      routeStub.snapshot.data.mode = 'add';
+      routeStub.snapshot.data.user = {
+        userId: 'u1',
+        userLevel: '2PEXyKgz',
+        operationGroups: [
+          {
+            operationGroupId: 'og90',
+            operationGroupName: 'Visible Group',
+            operationGroupShortName: 'VG',
+            operationGroupActive: 1,
+            operations: [{ operationId: 'op90', operationActive: 1 }]
+          }
+        ]
+      };
+
+      const addModeComponent = new OperationFormComponent(
+        fb,
+        notificationServiceMock,
+        notificationRecipientServiceMock,
+        operationServiceMock,
+        operationContactsServiceMock,
+        routeStub,
+        routerStub,
+        toastrMock,
+        userServiceMock,
+        cdrMock
+      );
+
+      addModeComponent.ngOnInit();
+
+      expect(addModeComponent.operationGroups.map((operationGroup: any) => operationGroup.operationGroupId)).toEqual([
+        'og90'
+      ]);
+
+      routeStub.snapshot.data.mode = 'edit';
+      routeStub.snapshot.data.user = { operationGroups: [] };
+    });
+
+    it('clears add-mode ownership options when the visible user snapshot has no selectable clients', () => {
       routeStub.snapshot.data.mode = 'add';
       routeStub.snapshot.data.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] };
-      operationServiceMock.getOperationGroups.mockReturnValueOnce(
-        of([])
-      );
       localStorage.setItem(
         'operationGroups',
         JSON.stringify([{ operationGroupId: 'og20', operationGroupName: 'Fallback Group', operationGroupShortName: 'FG' }])
@@ -402,7 +482,8 @@ describe('OperationFormComponent logic', () => {
 
       addModeComponent.ngOnInit();
 
-      expect(operationServiceMock.getOperationGroups).toHaveBeenCalled();
+  expect(operationServiceMock.getAllOperationGroups).not.toHaveBeenCalled();
+  expect(operationServiceMock.getOperationGroups).not.toHaveBeenCalled();
       expect(addModeComponent.operationGroups.length).toBe(0);
 
       routeStub.snapshot.data.mode = 'edit';
@@ -451,17 +532,27 @@ describe('OperationFormComponent logic', () => {
       routeStub.snapshot.data.user = { operationGroups: [] };
     });
 
-    it('uses cached ownership groups immediately while api hydration is still pending', () => {
+    it('does not use cached ownership groups in add mode when visible user context is available', () => {
       routeStub.snapshot.data.mode = 'add';
-      routeStub.snapshot.data.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] };
-      const operationGroupsSubject = new Subject<any[]>();
+      routeStub.snapshot.data.user = {
+        userId: 'u1',
+        userLevel: '2PEXyKgz',
+        operationGroups: [
+          {
+            operationGroupId: 'og31',
+            operationGroupName: 'Visible Group',
+            operationGroupShortName: 'VG',
+            operationGroupActive: 1,
+            operations: [{ operationId: 'op31', operationActive: 1 }]
+          }
+        ]
+      };
       localStorage.setItem(
         'operationGroups',
         JSON.stringify([
           { operationGroupId: 'og30', operationGroupName: 'Cached Group', operationGroupShortName: 'CG' }
         ])
       );
-      operationServiceMock.getOperationGroups.mockReturnValueOnce(operationGroupsSubject.asObservable());
 
       const addModeComponent = new OperationFormComponent(
         fb,
@@ -478,30 +569,43 @@ describe('OperationFormComponent logic', () => {
 
       addModeComponent.ngOnInit();
 
-      expect(addModeComponent.operationGroups.length).toBe(1);
-      expect(addModeComponent.operationGroups[0].operationGroupId).toBe('og30');
-
-      operationGroupsSubject.next([]);
-      operationGroupsSubject.complete();
-
-      expect(addModeComponent.operationGroups.length).toBe(0);
+      expect(addModeComponent.operationGroups.map((operationGroup: any) => operationGroup.operationGroupId)).toEqual([
+        'og31'
+      ]);
 
       routeStub.snapshot.data.mode = 'edit';
       routeStub.snapshot.data.user = { operationGroups: [] };
     });
 
-    it('filters archived ownership groups out of the add-mode cached list before the api response arrives', () => {
+    it('filters archived and operation-less ownership groups out of the visible add-mode user context', () => {
       routeStub.snapshot.data.mode = 'add';
-      routeStub.snapshot.data.user = { userId: 'u1', userLevel: '2PEXyKgz', operationGroups: [] };
-      const operationGroupsSubject = new Subject<any[]>();
-      localStorage.setItem(
-        'operationGroups',
-        JSON.stringify([
-          { operationGroupId: 'og50', operationGroupName: 'Visible Group', operationGroupShortName: 'VG', operationGroupActive: 1 },
-          { operationGroupId: 'og51', operationGroupName: 'Archived Group', operationGroupShortName: 'AG', operationGroupActive: 0 }
-        ])
-      );
-      operationServiceMock.getOperationGroups.mockReturnValueOnce(operationGroupsSubject.asObservable());
+      routeStub.snapshot.data.user = {
+        userId: 'u1',
+        userLevel: '2PEXyKgz',
+        operationGroups: [
+          {
+            operationGroupId: 'og50',
+            operationGroupName: 'Visible Group',
+            operationGroupShortName: 'VG',
+            operationGroupActive: 1,
+            operations: [{ operationId: 'op50', operationActive: 1 }]
+          },
+          {
+            operationGroupId: 'og51',
+            operationGroupName: 'Archived Group',
+            operationGroupShortName: 'AG',
+            operationGroupActive: 0,
+            operations: [{ operationId: 'op51', operationActive: 1 }]
+          },
+          {
+            operationGroupId: 'og52',
+            operationGroupName: 'No Operations Group',
+            operationGroupShortName: 'NOG',
+            operationGroupActive: 1,
+            operations: []
+          }
+        ]
+      };
 
       const addModeComponent = new OperationFormComponent(
         fb,
@@ -521,8 +625,6 @@ describe('OperationFormComponent logic', () => {
       expect(addModeComponent.operationGroups.map((operationGroup: any) => operationGroup.operationGroupId)).toEqual([
         'og50'
       ]);
-
-      operationGroupsSubject.complete();
 
       routeStub.snapshot.data.mode = 'edit';
       routeStub.snapshot.data.user = { operationGroups: [] };

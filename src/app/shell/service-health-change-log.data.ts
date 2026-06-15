@@ -23,6 +23,70 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'The Patient contact phone row now follows the same grid alignment as the primary patient phone fields higher in the form.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html` and `.scss`. The contact `US (+1)` / area code / phone-number controls were still using an older flex layout with narrower widths, which left them visually misaligned compared with the main patient phone row. The contact row now uses the same three-column grid sizing and shared label/input height treatment as the primary patient phone fields. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`24/24` tests passing), plus clean editor diagnostics on the touched template and stylesheet.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The New Patient facility picker is now searchable while preserving the grouped-by-client layout and the same underlying `patient.operation` form contract.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.ts`, `.html`, `.scss`, and `.spec.ts`. After the facility selector was grouped by client, it was still a plain Ionic select, which made larger visible facility sets slow to scan. The form now uses an inline searchable picker that keeps the same reactive-form value, filters grouped facilities by facility or client name, preserves client headings in the result list, and restores the selected facility name back into the field after focus leaves the search surface. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`24/24` tests passing), plus clean editor diagnostics on the touched patient-form files.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The New Patient facility selector now groups facilities under their client headings instead of presenting one flat cross-client list.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.ts`, `.html`, and `.spec.ts`. The Patient form had been rendering a flat `ion-select` list from `user.operations`, which made the available facilities modal feel dislocated once the user had access to operations from multiple clients. The selector now derives grouped option sections from the existing visible `user.operationGroups` context, renders a disabled client header row for each group inside the Ionic select, and falls back to grouping by `operationGroupName` when the user snapshot lacks explicit group metadata. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`23/23` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Clients portal `Date Added` column now uses the operation-created timestamp instead of `operationStartDate`, with fallback to the best available legacy date for older rows.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-listing/operation-operation-listing/operation-operation-listing.component.ts`, `.html`, `.spec.ts`, and `src/app/modules/operation/operation.ts`. The client/facility table had been labeling `operationStartDate` as `Date Added`, and its sort path was also comparing a date value against `operationActive`, so the displayed value and ordering could both be wrong. The listing now derives one added-date value per row by preferring `operationCreated`, then `operationEdited`, then `operationStartDate`, and it sorts by that same derived timestamp in both directions. Validation used focused Jest on `src/app/modules/operation/operation-listing/operation-operation-listing/operation-operation-listing.component.spec.ts` (`8/8` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Database',
+        summary:
+          'Operation create/read timestamps are now part of the active alpha DB contract, so new facilities stamp created/edited time on insert and the client roster read proc returns those fields for the portal.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after adding `v4.0.0/followup-api/migration_sql/3.12.14migration-operation-created-edited.sql` and applying it to `followup_alpha_20260517`. The migration backfills legacy `operations.operationCreated` / `operationEdited` nulls, adds defaults for future direct inserts, updates `sp_addOperation` to stamp both timestamps with `[dbo].[getlocaldate]()`, and extends `sp_getOperationsByOperationGroupId` to return `operationCreated` / `operationEdited` alongside the existing client roster fields. Validation used the standardized no-exec wrapper, live alpha apply, post-apply null-count verification, a rollback-scoped `sp_addOperation` smoke, and a sample `sp_getOperationsByOperationGroupId` result showing the new fields.',
+        source: 'v4.0.0/followup-api/agents.md + v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Operation form no longer writes its broader local client list back into the shared active-client cache when a user creates a new client inline, preventing archived or global-only clients from resurfacing later in otherwise filtered selectors and sidebars.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after auditing the remaining client-group hydration paths and updating `src/app/modules/operation/operation-form/operation-form.component.ts`. After the ownership selector itself moved to the logged-in user\'s visible `user.operationGroups` context, the remaining leak was the inline `+ Add Client` modal in Operation Form: it was still copying the form\'s local `operationGroups` array back into `user.operationGroups`, `localStorage.operationGroups`, and the persisted user snapshot, even when that local list had been hydrated from the broader all-clients feed used by edit/view to preserve archived ownership display. The form now keeps the new client only in the local selector list and leaves the shared active-client cache untouched. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts`, `src/app/modules/data/data.service.spec.ts`, and `src/app/shell/toolbar-nav/toolbar-nav.component.spec.ts` (`40/40` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Wizard Bridge downloads now default to the dev workbook for non-production origins instead of trusting a single server-side workbook filename for every caller.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after updating `v4.0.0/followup-api/deployment/controllers/Data.js` so `/data` resolves the workbook from request origin/host. Requests from `app.followup.care`, `www.app.followup.care`, and the live frontend host still resolve to the production workbook (`data.xlsx` or the configured prod override), while localhost, alpha, and other non-production callers now default to `data-dev.xlsx` with optional `WIZARD_BRIDGE_WORKBOOK_DEV` / `DATA_REPORT_FILE_NAME_DEV` overrides. The frontend download path was updated alongside this change so `src/app/modules/data/data.service.ts` now preserves the API response headers and `src/app/shell/toolbar-nav/toolbar-nav.component.ts` saves the workbook under the filename returned by `Content-Disposition` instead of always forcing `data.xlsx`. Validation used `node --check v4.0.0/followup-api/deployment/controllers/Data.js` plus focused Jest on the touched frontend download slice (`40/40` tests passing).',
+        source: 'v4.0.0/followup-api/agents.md + v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'The active client-groups API now excludes archived clients at the source, so `/operations/groups` no longer leaks archived alpha smoke clients into ownership selectors or other active-client consumers.',
+        evidence:
+          'Recorded in the snapshot API/frontend running change logs after updating `v4.0.0/followup-api/deployment/service/OperationService.js` so `getOperationGroups` capability-detects `operationGroups.operationGroupActive` and queries only active rows (`ISNULL(operationGroupActive, 1) = 1`) whenever the archive-state column exists, instead of trusting the legacy `sp_getOperationGroups` proc. Direct alpha-backed dev inspection on `followup_alpha_20260517` showed that proc still returned every operation-group row with no active filter, including archived smoke clients at ids `12`, `13`, and `16`; a direct local `NODE_ENV=dev` `OperationService.getOperationGroups()` probe after the fix returned only active groups and excluded those archived rows. Validation used `npm --prefix v4.0.0/followup-api test --silent` (`Syntax OK for 69 files`) plus the direct service probe against the alpha backup database.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'New Operation save now returns to the selected ownership client detail page instead of any legacy operations-group route, including the old `/operations/group/undefined` failure case when the placeholder operation record has no group id yet.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-form/operation-form.component.ts` so operation-save success now redirects from the submitted `operation.operationGroupId` form value through a shared helper instead of reading `this.operation.operationGroupId` from the pre-save placeholder object. That helper now routes to `/clients/:operationGroupId` for the fuller client view rather than the older `/operations/group/:operationGroupId` detail route, and it still avoids the prior undefined-group failure case by taking the submitted ownership client id from the form. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts` (`30/30` tests passing).',
@@ -33,7 +97,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         summary:
           'Add New Operation now loads ownership choices from the active-only client feed, so archived clients are not selectable when creating a new facility.',
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-form/operation-form.component.ts` so the form resolves its mode before loading ownership groups and uses `getOperationGroups()` in add mode instead of starting from the broader `getAllOperationGroups()` feed. Edit and view modes still use the all-groups path so an already assigned archived ownership client can continue to display for existing records, but the add workflow now only hydrates active clients into the Ionic ownership selector. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts` (`28/28` tests passing).',
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-form/operation-form.component.ts` so the form resolves its mode before loading ownership groups, skips stale cached `operationGroups` hydration entirely in add mode, and derives add-mode ownership choices from the logged-in user\'s visible `user.operationGroups` context rather than a global client-group feed. That keeps Ownership aligned with the Patient Facility picker: only active groups with at least one active visible operation remain selectable, which removes both archived rows and broader active noise such as Alpha Smoke clients or duplicate global entries that are outside the user-scoped visible context. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts` (`31/31` tests passing), and live browser verification confirmed the selector behavior.',
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {

@@ -1,15 +1,21 @@
+import { HttpResponse } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { DataService } from './data.service';
 
 describe('DataService (Jest)', () => {
   it('fetches data blob', done => {
-    const http = { get: jest.fn(() => of('blob' as any)) } as any;
+    const response = new HttpResponse({
+      body: new Blob(['blob'], { type: 'application/octet-stream' }),
+      headers: undefined,
+      status: 200
+    });
+    const http = { get: jest.fn(() => of(response as any)) } as any;
     const svc = new DataService(http);
 
     svc.getData().subscribe((result: any) => {
-      expect(result).toBe('blob');
-      expect(http.get).toHaveBeenCalledWith('data', { responseType: 'blob' as 'json' });
+      expect(result).toBe(response);
+      expect(http.get).toHaveBeenCalledWith('data', { observe: 'response', responseType: 'blob' });
       done();
     });
   });

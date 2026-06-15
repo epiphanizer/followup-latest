@@ -9,7 +9,7 @@ import { User } from '@app/modules/user/user';
 import { PatientPutBody } from './patient-form';
 import { PatientContact, PatientContactPostBody, PatientContactPutBody } from '../patient-contact/patient-contact';
 import { PatientContactService } from '../patient-contact/patient-contact.service';
-import { Operation } from '@app/modules/operation/operation';
+import { Operation, OperationGroup } from '@app/modules/operation/operation';
 import {
   PatientIntakeQuestion,
   PatientIntakeQuestionAnswer
@@ -63,6 +63,10 @@ export class PatientFormComponent implements OnInit {
   patientMinDischargeDate: string = (new Date().getFullYear() + 1).toString();
   patientMedicalConditions?: string;
   operations: Operation[];
+  groupedOperations: { label: string; operations: Operation[] }[] = [];
+  filteredGroupedOperations: { label: string; operations: Operation[] }[] = [];
+  facilitySearchText: string = '';
+  facilitySearchOpen: boolean = false;
   operations$: Observable<Operation[]>;
   stringMinimumOneWordRegEx = RegExp(/^(?!\s*$).+/);
   private readonly phoneNumberRegEx = RegExp(/^[0-9-]{7,}$/);
@@ -82,7 +86,9 @@ export class PatientFormComponent implements OnInit {
   ngOnInit() {
     this.currentYear = new Date().getFullYear();
     this.user = this.route.snapshot.data.user;
-    this.operations = this.user.operations;
+    this.operations = Array.isArray(this.user?.operations) ? this.user.operations : [];
+    this.groupedOperations = this.buildGroupedOperations(this.operations, this.user?.operationGroups);
+    this.updateFilteredGroupedOperations('');
     this.patientService.getPatientDischargeLabels().subscribe((data: any) => {
       this.dischargeLabels = data;
       this.dischargedTo = data;
@@ -242,6 +248,61 @@ export class PatientFormComponent implements OnInit {
     }
   }
 
+  private buildGroupedOperations(
+    operations: Operation[],
+    operationGroups: OperationGroup[]
+  ): { label: string; operations: Operation[] }[] {
+    const safeOperations = Array.isArray(operations) ? operations : [];
+    const safeOperationGroups = Array.isArray(operationGroups) ? operationGroups : [];
+    const groupedOperations: { label: string; operations: Operation[] }[] = [];
+    const seenOperationIds = new Set<string>();
+
+    safeOperationGroups.forEach((operationGroup: OperationGroup) => {
+      const operationsForGroup = safeOperations.filter((operation: Operation) => {
+        return operation.operationGroupId == operationGroup.operationGroupId;
+      });
+
+      if (!operationsForGroup.length) {
+        return;
+      }
+
+      operationsForGroup.forEach((operation: Operation) => {
+        if (operation?.operationId) {
+          seenOperationIds.add(operation.operationId);
+        }
+      });
+
+      groupedOperations.push({
+        label: operationGroup.operationGroupName || operationGroup.operationGroupShortName || 'Client',
+        operations: operationsForGroup
+      });
+    });
+
+    const fallbackGroupMap = new Map<string, { label: string; operations: Operation[] }>();
+
+    safeOperations.forEach((operation: Operation) => {
+      if (operation?.operationId && seenOperationIds.has(operation.operationId)) {
+        return;
+      }
+
+      const fallbackKey = String(
+        operation?.operationGroupId || operation?.operationGroupName || operation?.operationGroupShortName || 'other'
+      );
+      const fallbackLabel = operation?.operationGroupName || operation?.operationGroupShortName || 'Other Clients';
+
+      if (!fallbackGroupMap.has(fallbackKey)) {
+        fallbackGroupMap.set(fallbackKey, {
+          label: fallbackLabel,
+          operations: []
+        });
+      }
+
+      fallbackGroupMap.get(fallbackKey).operations.push(operation);
+    });
+
+    return groupedOperations.concat(Array.from(fallbackGroupMap.values()));
+  }
+
   private createForm() {
     this.patientForm = this.fb.group({
       patient: this.fb.group({
@@ -329,6 +390,88 @@ export class PatientFormComponent implements OnInit {
     });
 
     this.syncLanguageControls();
+    this.syncSelectedFacilitySearchText();
+    this.updateFilteredGroupedOperations('');
+  }
+
+  onFacilitySearchFocus() {
+    this.facilitySearchOpen = true;
+    this.updateFilteredGroupedOperations('');
+  }
+
+  onFacilitySearchInput(event: any) {
+    const searchText = event?.detail?.value || '';
+    this.facilitySearchText = searchText;
+    this.facilitySearchOpen = true;
+    this.updateFilteredGroupedOperations(searchText);
+  }
+
+  onFacilitySearchBlur() {
+    setTimeout(() => {
+      this.facilitySearchOpen = false;
+      this.syncSelectedFacilitySearchText();
+      this.updateFilteredGroupedOperations('');
+    }, 150);
+  }
+
+  selectFacilityOperation(operation: Operation) {
+    const operationId = operation?.operationId;
+
+    if (!operationId || !this.patientForm) {
+      return;
+    }
+
+    this.patientForm.get('patient.operation').setValue(operationId);
+
+    if (this.patient) {
+      this.patient.patientOperationId = operationId;
+    }
+
+    this.facilitySearchText = operation?.operationName || '';
+    this.facilitySearchOpen = false;
+    this.updateFilteredGroupedOperations('');
+  }
+
+  private syncSelectedFacilitySearchText() {
+    const selectedOperationId = this.patientForm?.get('patient.operation')?.value || this.patient?.patientOperationId;
+    const safeOperations = Array.isArray(this.operations) ? this.operations : [];
+    const selectedOperation = safeOperations.find((operation: Operation) => {
+      return operation?.operationId === selectedOperationId;
+    });
+
+    this.facilitySearchText = selectedOperation?.operationName || '';
+  }
+
+  private updateFilteredGroupedOperations(searchText: string) {
+    const normalizedSearchText = String(searchText || '')
+      .trim()
+      .toLowerCase();
+
+    if (!normalizedSearchText) {
+      this.filteredGroupedOperations = this.groupedOperations.map(group => ({
+        label: group.label,
+        operations: group.operations.slice()
+      }));
+      return;
+    }
+
+    this.filteredGroupedOperations = this.groupedOperations
+      .map(group => {
+        const groupLabel = String(group?.label || '').toLowerCase();
+        const groupMatches = groupLabel.includes(normalizedSearchText);
+        const operations = groupMatches
+          ? group.operations.slice()
+          : group.operations.filter((operation: Operation) => {
+              const operationName = String(operation?.operationName || '').toLowerCase();
+              return operationName.includes(normalizedSearchText);
+            });
+
+        return {
+          label: group.label,
+          operations
+        };
+      })
+      .filter(group => group.operations.length > 0);
   }
 
   onPatientLanguageToggle() {

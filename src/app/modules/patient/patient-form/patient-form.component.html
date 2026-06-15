@@ -14,15 +14,36 @@
         <ion-list class="patient-primary-info-list patient-form-section" lines="none" inset formGroupName="patient">
           <ion-item class="patient-facility">
             <ion-label color="medium" position="stacked">Facility<span style="color:#f1624a">*</span></ion-label>
-            <ion-select placeholder="Facility" class="select-facility" formControlName="operation">
-              <ion-select-option
-                *ngFor="let operation of operations"
-                [selected]="operation.operationId == patient.patientOperationId"
-                [value]="operation.operationId"
-              >
-                {{ operation.operationName }}
-              </ion-select-option>
-            </ion-select>
+            <div class="facility-search-shell" [class.facility-search-open]="facilitySearchOpen">
+              <ion-input
+                type="text"
+                class="select-facility facility-search-input"
+                placeholder="Search facility"
+                [value]="facilitySearchText"
+                (ionFocus)="onFacilitySearchFocus()"
+                (ionInput)="onFacilitySearchInput($event)"
+                (ionBlur)="onFacilitySearchBlur()"
+              ></ion-input>
+
+              <div class="facility-search-results" *ngIf="facilitySearchOpen">
+                <ng-container *ngIf="filteredGroupedOperations.length; else noFacilityMatches">
+                  <div class="facility-search-group" *ngFor="let operationGroup of filteredGroupedOperations">
+                    <div class="facility-search-group-label">{{ operationGroup.label }}</div>
+                    <button
+                      type="button"
+                      class="facility-search-option"
+                      *ngFor="let operation of operationGroup.operations"
+                      (mousedown)="selectFacilityOperation(operation)"
+                    >
+                      {{ operation.operationName }}
+                    </button>
+                  </div>
+                </ng-container>
+                <ng-template #noFacilityMatches>
+                  <div class="facility-search-empty">No facilities match your search.</div>
+                </ng-template>
+              </div>
+            </div>
           </ion-item>
           <ion-item class="patient-medical-record-number">
             <ion-label color="medium" position="stacked">Patient # <span style="color:#f1624a">*</span></ion-label>
@@ -203,16 +224,21 @@
                 </ion-item>
 
                 <div class="phone-container">
-                  <ion-item class="country-code">
+                  <ion-item class="country-code phone-field">
                     <ion-label color="medium" position="stacked">US (+1)</ion-label>
-                    <ion-input type="text" maxLength="2" formControlName="patientContactCountryCode"></ion-input>
+                    <ion-input
+                      type="text"
+                      maxLength="2"
+                      formControlName="patientContactCountryCode"
+                      placeholder="1"
+                    ></ion-input>
                   </ion-item>
-                  <ion-item class="area-code">
+                  <ion-item class="area-code phone-field">
                     <ion-label color="medium" position="stacked">(###)</ion-label>
                     <ion-input type="text" maxLength="3" formControlName="patientContactAreaCode" placeholder="000">
                     </ion-input>
                   </ion-item>
-                  <ion-item class="phone-number">
+                  <ion-item class="phone-number phone-field">
                     <ion-label color="medium" position="stacked">Phone #</ion-label>
                     <ion-input
                       type="text"
