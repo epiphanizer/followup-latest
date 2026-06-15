@@ -23,6 +23,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Restored clients now move back into the active Clients sidebar immediately without requiring a manual refresh on the client detail route.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-listing/operation-listing.component.ts` and `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.ts` so both restore entry points now emit the shared `notifyClientGroupsChanged()` signal and refresh the active user operation context through `updateOperations(...)`, matching the existing archive flow. Before this change, restoring a client could flip the detail-panel badge back to `Active` while leaving the sibling Clients sidebar on stale archived-state data until the page was refreshed. Validation used focused Jest on `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts` and `src/app/modules/operation/operation-listing/operation-listing.component.spec.ts` (`20/20` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'The grouped operation sidebars now share the same inside-list accordion behavior across Call Queue, Patients, Notifications, and Clients operations browsing.',
         evidence:
           'Recorded in the snapshot frontend running change log after reviewing the grouped sidebar family and updating `src/app/modules/notification/notification-listing/notification-listing-sidebar/notification-listing-sidebar.component.html`, `src/app/modules/patient/patient-manager-sidebar/patient-manager-sidebar.component.html`, and `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.html` to stop click bubbling from expanded `.group-operations` content and to keep operation-link clicks from retriggering parent accordion behavior. Call Queue had already been hardened first because its open list lived directly inside a clickable group wrapper; this follow-up normalizes the same guard across the other grouped operation sidebars so they behave under the same click conditions even when interacting inside an already expanded group. Validation used focused Jest on the Operation Admin, Notification sidebar, and Patient Manager sidebar slices (`17/17` tests passing) plus `npm run build -s`.',
