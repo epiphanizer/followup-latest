@@ -173,6 +173,7 @@ describe('TeamAccessComponent (Jest)', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    authServiceStub.currentUserValue = { userId: 'admin1', userLevel: UserRoles.admin } as any;
   });
 
   it('loads grouped team access entries', () => {
@@ -186,6 +187,16 @@ describe('TeamAccessComponent (Jest)', () => {
     expect(component.teamAccessClients[0].enabled).toBe(true);
     expect(component.teamMembers.length).toBe(2);
     expect(component.groupedMemberEntries.length).toBe(1);
+  });
+
+  it('lets managers load the team permissions workspace', () => {
+    authServiceStub.currentUserValue = { userId: 'manager1', userLevel: UserRoles.manager } as any;
+    const component = buildComponent();
+
+    component.ngOnInit();
+
+    expect(component.team?.teamName).toBe('Team One');
+    expect(component.canManageTeams).toBe(false);
   });
 
   it('saves desired-state assignments', () => {

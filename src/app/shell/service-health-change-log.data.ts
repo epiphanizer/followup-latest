@@ -23,6 +23,54 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'The Primary Contact segmented phone fields now match the rest of the patient form inputs and the Responsible Party checkbox no longer collides with that phone row.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html` and `src/app/modules/patient/patient-form/patient-form.component.scss`. The contact phone grid had still been using oversized `58px` inputs and kept the `Responsible Party` checkbox inside the same three-column grid, which made the segmented phone fields look taller and more boxy than the First Name / Last Name / Relationship inputs and let the checkbox sit too close to the phone row. The phone segments now use an explicit `44px` fixed height with tighter vertical padding so they cannot render taller than the surrounding text inputs, the horizontal segment spacing is normalized, the contact `Responsible Party` checkbox is rendered on its own row below the phone inputs, and the wrap breakpoint is narrowed so tablet widths keep the row intact while mobile widths still stack cleanly. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`28/28` tests passing).',
+        source: 'followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The duplicate-account admin panel can now execute the merge workup directly instead of only printing the stored procedure invocation.',
+        evidence:
+          'Recorded in the snapshot frontend/API running change logs after updating `src/app/modules/user/user-listing/user-listing.component.ts`, `src/app/modules/user/user-listing/user-listing.component.html`, `src/app/modules/user/user.service.ts`, `followup-api/deployment/controllers/User.js`, `followup-api/deployment/service/UserService.js`, and `followup-api/deployment/api/swagger.yaml`. The admin-only duplicate-login panel in `/users` still supports previewing the `sp_runUserMergeWorkup` invocation, but it now also exposes `Run Merge Now`, which confirms the action, calls the same endpoint with `commitChanges = true`, and applies the committed final-user state back into the local roster. On the API side, `POST /users/merge-script` now preserves preview mode by default and executes the stored procedure only when the request explicitly opts into commit mode. Validation used focused Jest on `src/app/modules/user/user-listing/user-listing.component.spec.ts` (`6/6` tests passing) plus `node --check` on `followup-api/deployment/controllers/User.js` and `followup-api/deployment/service/UserService.js`.',
+        source: 'followup-frontend/agents.md + followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Team permissions now live in the team-facing manager/admin workflow: managers can open the team permissions screen from Teams, and the old Admin menu is renamed to Team Management.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-routing.module.ts`, `src/app/modules/team/team-listing/team-listing.component.ts`, `src/app/modules/team/team-listing/team-listing.component.html`, `src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.html`, `src/app/modules/team/team-access/team-access.component.html`, and `src/app/shell/toolbar-nav/toolbar-nav.component.ts`. The `teams/:teamId/access` route now allows managers alongside admins, the team page and sidebar relabel that path as `Team Permissions`, and the top navigation now presents the manager-visible section as `Team Management` with the primary child link renamed from `Team Members` to `Team Management`. Validation used focused Jest on the team-listing, team-access, and toolbar-nav slices (`26/26` tests passing).',
+        source: 'followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Managers can now open the user roster, edit another user profile, and keep the duplicate-account debug tooling admin-only instead of treating all user-management flows as admin-only.',
+        evidence:
+          'Recorded in the snapshot frontend/API running change logs after updating `src/app/modules/user/user-routing.module.ts`, `src/app/modules/user/user-profile/user-profile-routing.module.ts`, `src/app/modules/user/user-profile/user-profile.component.ts`, `src/app/modules/user/user-listing/user-listing.component.ts`, `src/app/modules/user/user-listing/user-listing.component.html`, `src/app/shell/toolbar-nav/toolbar-nav.component.ts`, `src/app/shell/toolbar-nav/toolbar-nav.component.html`, and `followup-api/deployment/utils/routeAuthorization.js`. The frontend now allows manager access to `/users` and `/users/:userId`, keeps the duplicate-login debug panel admin-only inside the user roster, and exposes the `User Management` nav item to managers without opening the rest of the admin-only child links. The API authorization layer now explicitly treats `getUsers`, `getActiveUsers`, `getUserByUserId`, `editUserByUserId`, and user-avatar writes as manager-plus or self-service routes instead of leaving other-user edits behind an admin-only frontend gate. Validation used focused Jest on the user-profile, user-listing, toolbar-nav, and user-resolver slices (`25/25` tests passing) plus `node --check followup-api/deployment/utils/routeAuthorization.js`.',
+        source: 'followup-frontend/agents.md + followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The New Patient facility selector now uses a searchable collapsible picker so users can open one client at a time instead of scrolling through a single long grouped modal list.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.ts`, `.html`, `.scss`, and `.spec.ts`. The earlier grouped facility selector still rendered one long cross-client list inside the Ionic select overlay, which made the modal taller and harder to scan once a user could see many facilities. The patient form now opens a custom facility picker with collapsible client sections, inline typeahead filtering across both client and facility names, automatic expansion for the currently selected facility group, and direct reactive-form updates when a facility is chosen. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`28/28` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The patient form now uses a single `Responsible Party` checkbox instead of separate patient-level `HIPAA` and `Responsible Party` toggles.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html`, `patient-form.component.ts`, and `patient-form.component.spec.ts`. The patient form had still been exposing separate patient-level `HIPAA` and `Responsible Party` checkboxes even though the product request is to keep only the RP state. The patient HIPAA checkbox has been removed from the form, edit-mode hydration now treats legacy `patientHIPAA = true` records as responsible-party patients when the remaining checkbox is built, and submit payloads now derive the legacy `patientHIPAA` field directly from `patientIsResponsibleParty` so the backend contract stays compatible without a second UI toggle. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`25/25` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Session timeout handling now separates the 15-minute frontend inactivity window from the bearer-token lifetime, and ordinary desktop clicks and wheel scrolling now count as real activity instead of being treated as idle time.',
         evidence:
           'Recorded in the snapshot frontend/API running change logs after updating `src/app/shell/shell.component.ts`, `src/app/shell/shell.component.spec.ts`, `src/app/modules/user/user-resolver.service.ts`, `v4.0.0/followup-api/deployment/service/UserAuthService.js`, and `v4.0.0/followup-api/deployment/service/UserService.js`. The frontend shell had only been extending its local inactivity deadline on mouse-move, touch, and keyboard activity, while the API was also embedding a hard `Date.now() + 900000` expiry into the JWT itself. That combination made active desktop users vulnerable to unexpected logout from click-only navigation or any workflow that crossed the 15-minute token age boundary. The shell now treats mouse-down and wheel activity as session activity, keeps the local inactivity window explicit at 15 minutes, and the API now issues an 8-hour JWT session window so active users are not forcibly logged out mid-workflow. Validation used focused frontend Jest on `src/app/shell/shell.component.spec.ts`, `src/app/core/authentication/auth.service.spec.ts`, and `src/app/core/http/error-handler.interceptor.spec.ts` (`18/18` tests passing) plus API `npm test --silent` (`Syntax OK for 69 files`).',

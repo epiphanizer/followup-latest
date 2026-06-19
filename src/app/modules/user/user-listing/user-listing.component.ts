@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, ViewChild, DOCUMENT } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '@app/core';
 import { IonContent } from '@ionic/angular';
-import { UserService } from '../user.service';
+import { UserMergeExecutionResponse, UserService } from '../user.service';
 import { User, UserRolesMap } from '../user';
 
 interface DuplicateUserGroup {
@@ -12,8 +12,10 @@ interface DuplicateUserGroup {
   suggestedTargetUserId: string | null;
   selectedTargetUserId: string | null;
   mergeScript: string | null;
+  mergeResult: UserMergeExecutionResponse | null;
   mergeError: string | null;
   mergeLoading: boolean;
+  mergeLoadingAction: 'preview' | 'execute' | null;
 }
 
 @Component({
@@ -51,11 +53,16 @@ export class UserListingComponent implements OnInit {
   ngOnInit() {
     this.user = this.authenticationService.currentUserValue || this.route.snapshot.data.user;
 
-    if (!this.isAdmin) {
+    if (!this.canManageUsers) {
       return;
     }
 
     this.loadUsers();
+  }
+
+  get canManageUsers(): boolean {
+    const roleValue = this.getUserRoleValue(this.user);
+    return roleValue === 1 || roleValue === 2;
   }
 
   get isAdmin(): boolean {
@@ -246,23 +253,19 @@ export class UserListingComponent implements OnInit {
 
   selectTarget(group: DuplicateUserGroup, userId: string) {
     group.selectedTargetUserId = userId;
-    group.mergeError = null;
-    group.mergeScript = null;
+    this.resetMergeOutput(group);
   }
 
   generateMergeScript(group: DuplicateUserGroup, sourceUser: User) {
-    if (!this.user?.userId) {
-      group.mergeError = 'Admin access is required to generate merge scripts.';
-      return;
-    }
-
-    if (!group.selectedTargetUserId || group.selectedTargetUserId === sourceUser.userId) {
-      group.mergeError = 'Choose a different target account before generating a merge script.';
+    const validationError = this.getMergeValidationError(group, sourceUser);
+    if (validationError) {
+      group.mergeError = validationError;
       return;
     }
 
     group.mergeLoading = true;
-    group.mergeError = null;
+    group.mergeLoadingAction = 'preview';
+    this.resetMergeOutput(group);
 
     this.userService
       .generateUserMergeScript(this.user.userId, sourceUser.userId, group.selectedTargetUserId)
@@ -270,12 +273,48 @@ export class UserListingComponent implements OnInit {
         next: response => {
           group.mergeScript = response?.mergeScript || null;
           group.mergeLoading = false;
+          group.mergeLoadingAction = null;
         },
         error: () => {
           group.mergeLoading = false;
+          group.mergeLoadingAction = null;
           group.mergeError = 'Unable to generate a merge script for this account pair.';
         }
       });
+  }
+
+  executeMerge(group: DuplicateUserGroup, sourceUser: User) {
+    const validationError = this.getMergeValidationError(group, sourceUser);
+    if (validationError) {
+      group.mergeError = validationError;
+      return;
+    }
+
+    if (
+      !window.confirm(
+        'Run this merge now? This will immediately reassign references from the source user to the selected target and mark the source user deleted.'
+      )
+    ) {
+      return;
+    }
+
+    group.mergeLoading = true;
+    group.mergeLoadingAction = 'execute';
+    this.resetMergeOutput(group);
+
+    this.userService.executeUserMerge(this.user.userId, sourceUser.userId, group.selectedTargetUserId).subscribe({
+      next: response => {
+        group.mergeResult = response || null;
+        this.applyMergeResult(group, response);
+        group.mergeLoading = false;
+        group.mergeLoadingAction = null;
+      },
+      error: () => {
+        group.mergeLoading = false;
+        group.mergeLoadingAction = null;
+        group.mergeError = 'Unable to execute this merge workup.';
+      }
+    });
   }
 
   private loadUsers() {
@@ -291,7 +330,7 @@ export class UserListingComponent implements OnInit {
       },
       error: () => {
         this.isLoading = false;
-        this.loadError = 'Unable to load users for admin review.';
+        this.loadError = 'Unable to load users for roster review.';
       }
     });
   }
@@ -321,8 +360,10 @@ export class UserListingComponent implements OnInit {
           suggestedTargetUserId: suggestedTarget ? suggestedTarget.userId : null,
           selectedTargetUserId: suggestedTarget ? suggestedTarget.userId : null,
           mergeScript: null,
+          mergeResult: null,
           mergeError: null,
-          mergeLoading: false
+          mergeLoading: false,
+          mergeLoadingAction: null
         } as DuplicateUserGroup;
       })
       .filter(group => group.users.length > 1)
@@ -564,5 +605,44 @@ export class UserListingComponent implements OnInit {
     }
 
     return (UserRolesMap as any)[String(user.userLevel)] || 0;
+  }
+
+  private getMergeValidationError(group: DuplicateUserGroup, sourceUser: User): string | null {
+    if (!this.user?.userId || !this.isAdmin) {
+      return 'Admin access is required to run user merges.';
+    }
+
+    if (!group.selectedTargetUserId || group.selectedTargetUserId === sourceUser.userId) {
+      return 'Choose a different target account before continuing.';
+    }
+
+    return null;
+  }
+
+  private resetMergeOutput(group: DuplicateUserGroup) {
+    group.mergeError = null;
+    group.mergeScript = null;
+    group.mergeResult = null;
+  }
+
+  private applyMergeResult(group: DuplicateUserGroup, response: UserMergeExecutionResponse) {
+    const finalUsers = Array.isArray(response?.finalUsers) ? response.finalUsers : [];
+    if (!finalUsers.length) {
+      return;
+    }
+
+    const finalUsersById = new Map(finalUsers.map(user => [user.userId, user]));
+
+    group.users = group.users.map(account => {
+      const finalUser = finalUsersById.get(account.userId);
+      return finalUser ? ({ ...account, ...finalUser } as User) : account;
+    });
+
+    this.users = this.users.map(account => {
+      const finalUser = finalUsersById.get(account.userId);
+      return finalUser ? ({ ...account, ...finalUser } as User) : account;
+    });
+
+    this.updateRosterUsers();
   }
 }

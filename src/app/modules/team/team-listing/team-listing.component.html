@@ -19,12 +19,12 @@
             </span>
           </div>
           <a *ngIf="canManageTeamAccess" class="team-access-launch" [routerLink]="selectedTeamAccessLink">
-            Manage Team Access
+            Team Permissions
           </a>
         </div>
         <nav class="team-view-tabs" aria-label="Team views">
           <a class="team-view-tab active" [routerLink]="selectedTeamMembersLink">Members</a>
-          <a class="team-view-tab" [routerLink]="selectedTeamAccessLink">Access</a>
+          <a class="team-view-tab" [routerLink]="selectedTeamAccessLink">Permissions</a>
         </nav>
         <div class="team-listing-row">
           <app-team-members-listing [team]="selected.team" [canManageTeams]="canManageTeams"> </app-team-members-listing>

@@ -30,7 +30,7 @@ const routes: Routes = [
       component: UserProfileComponent,
       canActivate: [AuthGuardService],
       data: {
-        roles: [UserRoles.admin],
+        roles: [UserRoles.admin, UserRoles.manager],
         title: extract('Edit User')
       },
       resolve: {

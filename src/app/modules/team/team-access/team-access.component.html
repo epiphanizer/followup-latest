@@ -11,7 +11,7 @@
       <div class="team-access-content">
         <div class="team-access-header">
           <div>
-            <ion-title>Team Access</ion-title>
+            <ion-title>Team Permissions</ion-title>
             <div class="team-access-subtitle" *ngIf="team?.teamName">{{ team.teamName }}</div>
           </div>
           <button type="button" class="save-access-button" [disabled]="currentSaveDisabled" (click)="saveActiveChanges()">
@@ -28,7 +28,7 @@
             [class.is-active]="activeEditor === 'team'"
             (click)="setActiveEditor('team')"
           >
-            Team Defaults
+            Team Permissions
           </button>
           <button
             type="button"

@@ -43,10 +43,19 @@
         >
           <ul *ngIf="link.minRole >= getUserRoleValue(user)">
             <li *ngFor="let childLink of link.dropdown.links">
-              <a *ngIf="!childLink.dynamic" (click)="closeDropdowns()" [routerLink]="childLink.linkAction">
+              <a
+                *ngIf="!childLink.dynamic && (childLink.minRole || link.minRole) >= getUserRoleValue(user)"
+                (click)="closeDropdowns()"
+                [routerLink]="childLink.linkAction"
+              >
                 {{ childLink.linkName }}</a
               >
-              <button *ngIf="childLink.dynamic" type="button" class="dropdown-action" (click)="dynamicLink(childLink)">
+              <button
+                *ngIf="childLink.dynamic && (childLink.minRole || link.minRole) >= getUserRoleValue(user)"
+                type="button"
+                class="dropdown-action"
+                (click)="dynamicLink(childLink)"
+              >
                 {{ childLink.linkName }}
               </button>
             </li>

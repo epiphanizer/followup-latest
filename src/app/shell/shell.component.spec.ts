@@ -51,7 +51,7 @@ describe('ShellComponent', () => {
               service: {
                 name: 'alpha-followup-api',
                 host: 'alpha-followup-api.azurewebsites.net',
-                version: '3.11.0',
+                version: '4.0.0_alpha_rc6',
                 environment: 'prod'
               },
               database: {

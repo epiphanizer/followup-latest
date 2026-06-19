@@ -3,39 +3,38 @@
     <ion-row class="user-admin-row">
       <ion-col class="user-admin-content-wrapper">
         <div class="user-admin-page">
-          <div class="eyebrow">Admin Only</div>
+          <div class="eyebrow">{{ isAdmin ? 'Admin Only' : 'Manager Workspace' }}</div>
           <ion-title>User Management</ion-title>
           <p class="page-intro">
-            Use the standard roster to review, edit, and debug user accounts. Accounts that resolve to more than one
-            canonical login key are flagged in-line and can open the duplicate-account debug panel without replacing the
-            normal admin roster flow.
+            Use the standard roster to review and edit user accounts. Duplicate-account debugging remains admin-only,
+            but managers can now open and update other user profiles from the same roster flow.
           </p>
 
-          <div class="summary-grid" *ngIf="isAdmin">
+          <div class="summary-grid" *ngIf="canManageUsers">
             <div class="summary-card">
               <span class="summary-label">Users</span>
               <span class="summary-value">{{ users.length }}</span>
             </div>
-            <div class="summary-card">
+            <div class="summary-card" *ngIf="isAdmin">
               <span class="summary-label">Issue Users</span>
               <span class="summary-value">{{ usersWithIssuesCount }}</span>
             </div>
-            <div class="summary-card">
+            <div class="summary-card" *ngIf="isAdmin">
               <span class="summary-label">Duplicate Groups</span>
               <span class="summary-value">{{ duplicateGroups.length }}</span>
             </div>
-            <div class="summary-card">
+            <div class="summary-card" *ngIf="isAdmin">
               <span class="summary-label">Accounts in Groups</span>
               <span class="summary-value">{{ duplicateAccountCount }}</span>
             </div>
           </div>
 
-          <div class="access-panel" *ngIf="!isAdmin">
-            Admin access is required to review duplicate login accounts and manage user records.
+          <div class="access-panel" *ngIf="!canManageUsers">
+            Manager or admin access is required to review and manage user records.
           </div>
 
-          <div class="status-panel" *ngIf="isAdmin && isLoading">Loading user roster...</div>
-          <div class="status-panel error" *ngIf="isAdmin && loadError">{{ loadError }}</div>
+          <div class="status-panel" *ngIf="canManageUsers && isLoading">Loading user roster...</div>
+          <div class="status-panel error" *ngIf="canManageUsers && loadError">{{ loadError }}</div>
 
           <div class="debug-banner" *ngIf="isAdmin && !isLoading && hasDuplicateIssues">
             <div>
@@ -47,7 +46,7 @@
             <button type="button" class="section-button" (click)="openDebugPanel()">Review All Issues</button>
           </div>
 
-          <div class="listing-controls" *ngIf="isAdmin && !isLoading && !loadError">
+          <div class="listing-controls" *ngIf="canManageUsers && !isLoading && !loadError">
             <app-listing-filter
               [options]="rosterColumns"
               (sortOptionSelectedEventEmitter)="handleSortOptionEvent($event)"
@@ -57,7 +56,7 @@
             <app-listing-search (searchFilterEventEmitted)="handleSearchFilterEvent($event)"></app-listing-search>
           </div>
 
-          <table class="user-table" *ngIf="isAdmin && !isLoading && !loadError && usersFiltered.length">
+          <table class="user-table" *ngIf="canManageUsers && !isLoading && !loadError && usersFiltered.length">
             <thead>
               <tr>
                 <th>Name</th>
@@ -91,7 +90,7 @@
                 <td class="listing-body-cell action-cell">
                   <a class="row-action" [routerLink]="['/users', account.userId]">Edit User</a>
                   <button
-                    *ngIf="hasUserDebugIssue(account)"
+                    *ngIf="isAdmin && hasUserDebugIssue(account)"
                     type="button"
                     class="row-action secondary"
                     (click)="openDebugPanel(getDuplicateGroupForUser(account.userId))"
@@ -104,13 +103,13 @@
           </table>
 
           <jw-pagination
-            *ngIf="isAdmin && !isLoading && !loadError && usersFiltered.length"
+            *ngIf="canManageUsers && !isLoading && !loadError && usersFiltered.length"
             [items]="usersFiltered"
             (changePage)="onChangePage($event)"
           >
           </jw-pagination>
 
-          <div class="status-panel" *ngIf="isAdmin && !isLoading && !loadError && !usersFiltered.length">
+          <div class="status-panel" *ngIf="canManageUsers && !isLoading && !loadError && !usersFiltered.length">
             No users match the current roster filters.
           </div>
 
@@ -159,8 +158,8 @@
                 <div>
                   <div class="group-key">{{ group.key }}</div>
                   <div class="group-copy">
-                    Suggested target stays highlighted. Generate merge SQL only from a non-target account into the
-                    selected target after confirming downstream ownership and audit history.
+                    Suggested target stays highlighted. Preview the stored procedure invocation first, then run the
+                    merge from a non-target account into the selected target once you have confirmed downstream ownership.
                   </div>
                 </div>
                 <div class="group-header-actions">
@@ -197,9 +196,19 @@
                         class="merge-button"
                         type="button"
                         *ngIf="group.selectedTargetUserId !== account.userId"
+                        [disabled]="group.mergeLoading"
                         (click)="generateMergeScript(group, account)"
                       >
-                        {{ group.mergeLoading ? 'Generating...' : 'Generate Merge Script' }}
+                        {{ group.mergeLoading && group.mergeLoadingAction === 'preview' ? 'Generating...' : 'Preview Merge Workup' }}
+                      </button>
+                      <button
+                        class="merge-button secondary"
+                        type="button"
+                        *ngIf="group.selectedTargetUserId !== account.userId"
+                        [disabled]="group.mergeLoading"
+                        (click)="executeMerge(group, account)"
+                      >
+                        {{ group.mergeLoading && group.mergeLoadingAction === 'execute' ? 'Running...' : 'Run Merge Now' }}
                       </button>
                     </div>
                   </div>
@@ -210,10 +219,19 @@
                   <div class="merge-script-header">
                     <div class="merge-script-title">Generated merge workup</div>
                     <div class="merge-script-copy">
-                      Stored procedure invocation from the admin-only `/users/merge-script` endpoint.
+                      Stored procedure invocation from the admin-only `/users/merge-script` endpoint. This remains a preview until you click `Run Merge Now`.
                     </div>
                   </div>
                   <ion-textarea [value]="group.mergeScript" readonly autoGrow="true"></ion-textarea>
+                </div>
+
+                <div class="merge-script-panel" *ngIf="group.mergeResult">
+                  <div class="merge-script-header">
+                    <div class="merge-script-title">Executed merge workup</div>
+                    <div class="merge-script-copy">
+                      {{ group.mergeResult.message }} Outcome: {{ group.mergeResult.transactionOutcome }}.
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

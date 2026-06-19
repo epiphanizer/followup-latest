@@ -13,29 +13,40 @@ export class UserResolver implements Resolve<User> {
   user: User;
   user$: Observable<User>;
   constructor(private authService: AuthenticationService, private http: HttpService) {}
+
   resolve(): Observable<User> {
-    if (!this.authService.currentUserValue) {
+    const currentUser = this.authService.currentUserValue || this.authService.currentUserSubject.getValue();
+
+    if (!currentUser) {
       window.location.href = '/login';
+      return of(null);
     }
+
     /**
      * Make sure timeout hasn't occurred;
      */
-    this.user$ = of(this.authService.currentUserValue);
-    this.user = this.authService.currentUserSubject.getValue();
+    this.user$ = of(currentUser);
+    this.user = currentUser;
     var date = new Date();
     var currentTime = date.getTime();
+
     if (currentTime > this.user.userLoginExpires) {
+      if (this.hasActiveTokenSession()) {
+        this.extendUserSession(currentTime);
+        return this.user$;
+      }
+
       this.authService.signOut(this.user.userId);
-      return;
+      return of(null);
     }
+
     /**
      * If we are under 15 mins, give the user another 15.
      */
     if (this.user.userLoginExpires - currentTime < this.userIdleTimeoutMs) {
-      this.user.userLoginExpires = currentTime + this.userIdleTimeoutMs;
-      this.authService.currentUserSubject.next(this.user);
-      localStorage.setItem('followup-user', JSON.stringify(this.user));
+      this.extendUserSession(currentTime);
     }
+
     return this.user$;
   }
 
@@ -59,5 +70,19 @@ export class UserResolver implements Resolve<User> {
     return throwError({
       message: 'We had trouble within the authentication service.'
     });
+  }
+
+  private hasActiveTokenSession(): boolean {
+    if (typeof this.authService.getToken !== 'function') {
+      return false;
+    }
+
+    return !!this.authService.getToken();
+  }
+
+  private extendUserSession(currentTime: number) {
+    this.user.userLoginExpires = currentTime + this.userIdleTimeoutMs;
+    this.authService.currentUserSubject.next(this.user);
+    localStorage.setItem('followup-user', JSON.stringify(this.user));
   }
 }

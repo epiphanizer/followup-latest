@@ -124,6 +124,108 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.groupedOperations.map(group => group.label)).toEqual(['Client One', 'Client Two']);
   });
 
+  it('keeps facility groups collapsed by default and expands only the selected group when opened', () => {
+    const groupedUser = {
+      operations: [
+        { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationId: 'op-2', operationName: 'Facility Two', operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ],
+      operationGroups: [
+        { operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ]
+    } as any;
+    const route = { snapshot: { data: { mode: 'add', user: groupedUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+
+    comp.ngOnInit();
+
+    expect(comp.groupedOperations.every(group => group.expanded === false)).toBe(true);
+
+    comp.patientForm.get('patient.operation')!.setValue('op-2');
+    comp.toggleFacilityPicker();
+
+    expect(comp.facilityPickerOpen).toBe(true);
+    expect(comp.groupedOperations.map(group => group.expanded)).toEqual([false, true]);
+  });
+
+  it('filters grouped facilities by search term and keeps matching groups expanded', () => {
+    const groupedUser = {
+      operations: [
+        { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationId: 'op-2', operationName: 'South Facility', operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ],
+      operationGroups: [
+        { operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ]
+    } as any;
+    const route = { snapshot: { data: { mode: 'add', user: groupedUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+
+    comp.ngOnInit();
+    comp.updateFacilitySearch('south');
+
+    expect(comp.filteredGroupedOperations.map(group => group.label)).toEqual(['Client Two']);
+    expect(comp.filteredGroupedOperations[0].operations.map(operation => operation.operationName)).toEqual([
+      'South Facility'
+    ]);
+    expect(comp.isFacilityGroupExpanded(comp.filteredGroupedOperations[0])).toBe(true);
+  });
+
+  it('selects a facility from the custom picker and writes the operation id back to the form', () => {
+    const groupedUser = {
+      operations: [
+        { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationId: 'op-2', operationName: 'Facility Two', operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ],
+      operationGroups: [
+        { operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ]
+    } as any;
+    const route = { snapshot: { data: { mode: 'add', user: groupedUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+
+    comp.ngOnInit();
+    comp.facilityPickerOpen = true;
+    comp.updateFacilitySearch('facility');
+
+    comp.selectFacility(groupedUser.operations[1]);
+
+    expect(comp.patientForm.get('patient.operation')!.value).toBe('op-2');
+    expect(comp.selectedOperationName).toBe('Facility Two');
+    expect(comp.facilityPickerOpen).toBe(false);
+    expect(comp.facilitySearchText).toBe('');
+  });
+
   it('initializes edit mode and sets patient data', async () => {
     const patient = {
       patientId: 'p-edit',
@@ -499,8 +601,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientAreaCode: '212',
         patientPhoneNumber: '5551234',
         patientGender: 'M',
-        patientHIPAA: true,
-        patientIsResponsibleParty: false,
+        patientIsResponsibleParty: true,
         patientSpeaksEnglish: false,
         patientFluentLanguage: 'Spanish',
         hospitalAdmitted: {
@@ -539,7 +640,7 @@ describe('PatientFormComponent (Jest)', () => {
       patientPhoneNumber: '555-1234',
       patientGender: 'M',
       patientHIPAA: 1,
-      patientIsResponsibleParty: 0,
+      patientIsResponsibleParty: 1,
       patientSpeaksEnglish: 1,
       patientFluentLanguage: '',
       patientHospitalAdmitted: 'General Hospital',
@@ -584,8 +685,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientAreaCode: '212',
         patientPhoneNumber: '555-1234',
         patientGender: 'M',
-        patientHIPAA: true,
-        patientIsResponsibleParty: false,
+        patientIsResponsibleParty: true,
         patientSpeaksEnglish: true,
         patientFluentLanguage: 'Spanish',
         hospitalAdmitted: {
@@ -655,8 +755,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientAreaCode: '212',
         patientPhoneNumber: '555-1234',
         patientGender: 'M',
-        patientHIPAA: true,
-        patientIsResponsibleParty: false,
+        patientIsResponsibleParty: true,
         patientSpeaksEnglish: true,
         patientFluentLanguage: 'Spanish',
         hospitalAdmitted: {
@@ -730,8 +829,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientAreaCode: '212',
         patientPhoneNumber: '5551234',
         patientGender: 'M',
-        patientHIPAA: true,
-        patientIsResponsibleParty: false,
+        patientIsResponsibleParty: true,
         patientSpeaksEnglish: false,
         patientFluentLanguage: 'Spanish',
         hospitalAdmitted: {
@@ -798,8 +896,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientAreaCode: '212',
         patientPhoneNumber: '5551234',
         patientGender: 'M',
-        patientHIPAA: true,
-        patientIsResponsibleParty: false,
+        patientIsResponsibleParty: true,
         patientSpeaksEnglish: false,
         patientFluentLanguage: '',
         hospitalAdmitted: {
@@ -829,6 +926,97 @@ describe('PatientFormComponent (Jest)', () => {
 
     expect(payload.patientAdmitDate).toBe('2026-01-02T12:00:00.00Z');
     expect(payload.patientDischargeDate).toBe('2026-01-03T12:00:00.00Z');
+  });
+
+  it('normalizes legacy patient HIPAA state into the responsible-party checkbox', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientHIPAA: true,
+      patientIsResponsibleParty: false,
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+
+    expect(comp.patientForm.get('patient.patientIsResponsibleParty')!.value).toBe(true);
+  });
+
+  it('derives patient HIPAA from responsible-party state in the submit payload', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+
+    const payload = (comp as any).formSubmissionFactory({
+      patient: {
+        patientDob: '2021-01-01',
+        operation: 'op-1',
+        patientMedicalRecordNumber: 'mrn',
+        patientName: { patientFirstName: 'John', patientLastName: 'Doe' },
+        patientCountryCode: '1',
+        patientAreaCode: '212',
+        patientPhoneNumber: '5551234',
+        patientGender: 'M',
+        patientIsResponsibleParty: false,
+        patientSpeaksEnglish: false,
+        patientFluentLanguage: '',
+        hospitalAdmitted: {
+          patientHospitalAdmitted: 'General Hospital'
+        },
+        dischargeInfo: {
+          patientAdmitDate: '2021-01-02',
+          patientDischargeDate: '2021-01-03',
+          patientDischargedAma: true,
+          patientDischargedTo: 'lbl-1'
+        },
+        patientMedicalConditions: {
+          cardiacBoolean: 1,
+          sepsisBoolean: 0,
+          pulmonaryBoolean: 0,
+          otherBoolean: 1
+        },
+        patientDischargedCondition: 'Stable',
+        patientPrimaryDiagnosis: 'DX',
+        patientIntakeQuestionAnswers: [],
+        patientNeedToKnow: 'notes',
+        patientActive: true
+      }
+    });
+
+    expect(payload.patientHIPAA).toBe(0);
+    expect(payload.patientIsResponsibleParty).toBe(0);
   });
 
   it('validates controls and returns flags based on DOM', () => {
