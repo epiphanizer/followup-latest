@@ -1,0 +1,120 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 420px;
+  background: #ffffff;
+}
+
+.searchable-select-modal-header ion-toolbar {
+  --background: #ffffff;
+  --border-width: 0;
+  --min-height: 64px;
+  padding: 6px 0 0;
+}
+
+.searchable-select-modal-header ion-title {
+  font-family: AvenirPro;
+  font-size: 24px;
+  letter-spacing: 0.24px;
+  color: #3f3638;
+  padding-inline: 20px;
+  text-align: left;
+}
+
+.searchable-select-modal-content {
+  --background: #ffffff;
+}
+
+.searchable-select-modal-search {
+  padding: 4px 20px 12px;
+  border-bottom: 1px solid rgba(112, 112, 112, 0.12);
+}
+
+.searchable-select-modal-search ion-searchbar {
+  --background: #f5f5f5;
+  --box-shadow: none;
+  --border-radius: 8px;
+  --color: #3f3638;
+  --placeholder-color: #8e8e93;
+  --icon-color: #8e8e93;
+  --clear-button-color: #8e8e93;
+  padding: 0;
+}
+
+.searchable-select-modal-list {
+  padding: 0;
+  margin: 0;
+}
+
+.searchable-select-modal-option {
+  --background: #ffffff;
+  --inner-padding-end: 20px;
+  --min-height: 52px;
+  font-family: AvenirPro;
+  font-size: 16px;
+  color: #222222;
+}
+
+.searchable-select-modal-option ion-label {
+  margin: 14px 0;
+  white-space: normal;
+  line-height: 1.4;
+}
+
+.searchable-select-modal-option ion-radio {
+  margin-right: 16px;
+  --color: rgba(0, 180, 185, 0.38);
+  --color-checked: #00b4b9;
+}
+
+.searchable-select-modal-option ion-radio::part(container) {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+  border-color: rgba(0, 180, 185, 0.42);
+  background: #ffffff;
+}
+
+.searchable-select-modal-option ion-radio::part(mark) {
+  transform: scale(0.9);
+}
+
+.searchable-select-modal-empty {
+  padding: 28px 20px 36px;
+  font-family: Avenir;
+  font-size: 15px;
+  color: #8e8e93;
+}
+
+.searchable-select-modal-footer {
+  border-top: 1px solid rgba(112, 112, 112, 0.12);
+}
+
+.searchable-select-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 0 16px 16px;
+}
+
+.searchable-select-modal-actions ion-button {
+  font-family: AvenirDemi;
+  text-transform: uppercase;
+  letter-spacing: 0.35px;
+}
+
+@media screen and (max-width: 767px) {
+  .searchable-select-modal-header ion-title {
+    font-size: 20px;
+    padding-inline: 16px;
+  }
+
+  .searchable-select-modal-search {
+    padding: 4px 16px 12px;
+  }
+
+  .searchable-select-modal-actions {
+    padding: 0 12px 12px;
+  }
+}

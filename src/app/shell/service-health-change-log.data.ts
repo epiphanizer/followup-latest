@@ -23,6 +23,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'The Patient Facility field now opens a reusable searchable Ionic modal that preserves the current value until the user explicitly confirms the new selection.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.ts`, `src/app/modules/patient/patient-form/patient-form.component.html`, the new reusable `src/app/shared/searchable-select-modal/*` component, `src/app/shared/shared.module.ts`, and `src/theme/theme.scss`. The old inline facility picker panel was removed in favor of a reusable modal that preselects the current facility, filters in real time through an `ion-searchbar`, keeps the form control unchanged until the user presses `OK`, and leaves the prior value untouched on `Cancel` or backdrop dismissal. The modal uses radio-style single-select semantics, normalizes facility search text so names still match naturally regardless of label formatting, shows a `No facilities found` empty state, and keeps the footer actions visible under long lists. Validation used focused Jest on `src/app/shared/searchable-select-modal/searchable-select-modal.component.spec.ts` and `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`32/32` tests passing).',
+        source: 'followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'The Primary Contact segmented phone fields now match the rest of the patient form inputs and the Responsible Party checkbox no longer collides with that phone row.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html` and `src/app/modules/patient/patient-form/patient-form.component.scss`. The contact phone grid had still been using oversized `58px` inputs and kept the `Responsible Party` checkbox inside the same three-column grid, which made the segmented phone fields look taller and more boxy than the First Name / Last Name / Relationship inputs and let the checkbox sit too close to the phone row. The phone segments now use an explicit `44px` fixed height with tighter vertical padding so they cannot render taller than the surrounding text inputs, the horizontal segment spacing is normalized, the contact `Responsible Party` checkbox is rendered on its own row below the phone inputs, and the wrap breakpoint is narrowed so tablet widths keep the row intact while mobile widths still stack cleanly. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`28/28` tests passing).',

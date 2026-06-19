@@ -18,16 +18,20 @@ import { PatientIntakeQuestionService } from '../patient-intake-question/patient
 import { SafeStyle } from '@angular/platform-browser';
 import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { ModalController } from '@ionic/angular';
 
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { formatDate } from '@angular/common';
 import { UserService } from '@app/modules/user/user.service';
+import {
+  SearchableSelectModalComponent,
+  SearchableSelectModalItem
+} from '@app/shared/searchable-select-modal/searchable-select-modal.component';
 
 type FacilityOperationGroup = {
   key: string;
   label: string;
   operations: Operation[];
-  expanded: boolean;
 };
 
 @Component({
@@ -72,8 +76,6 @@ export class PatientFormComponent implements OnInit {
   operations: Operation[];
   groupedOperations: FacilityOperationGroup[] = [];
   operations$: Observable<Operation[]>;
-  facilityPickerOpen = false;
-  facilitySearchText = '';
   stringMinimumOneWordRegEx = RegExp(/^(?!\s*$).+/);
   private readonly phoneNumberRegEx = RegExp(/^[0-9-]{7,}$/);
 
@@ -86,7 +88,8 @@ export class PatientFormComponent implements OnInit {
     private patientContactService: PatientContactService,
     private patientIntakeQuestionService: PatientIntakeQuestionService,
     private toastrService: ToastrService,
-    private userService: UserService
+    private userService: UserService,
+    private modalController?: ModalController
   ) {}
 
   ngOnInit() {
@@ -280,8 +283,7 @@ export class PatientFormComponent implements OnInit {
       groupedOperations.push({
         key: String(operationGroup.operationGroupId || operationGroup.operationGroupName || groupedOperations.length),
         label: operationGroup.operationGroupName || operationGroup.operationGroupShortName || 'Client',
-        operations: operationsForGroup,
-        expanded: false
+        operations: operationsForGroup
       });
     });
 
@@ -301,8 +303,7 @@ export class PatientFormComponent implements OnInit {
         fallbackGroupMap.set(fallbackKey, {
           key: fallbackKey,
           label: fallbackLabel,
-          operations: [],
-          expanded: false
+          operations: []
         });
       }
 
@@ -312,35 +313,6 @@ export class PatientFormComponent implements OnInit {
     return groupedOperations.concat(Array.from(fallbackGroupMap.values()));
   }
 
-  get filteredGroupedOperations(): FacilityOperationGroup[] {
-    const normalizedSearch = this.normalizeFacilitySearchText(this.facilitySearchText);
-
-    if (!normalizedSearch) {
-      return this.groupedOperations;
-    }
-
-    return this.groupedOperations
-      .map((operationGroup: FacilityOperationGroup) => {
-        const groupMatches = this.normalizeFacilitySearchText(operationGroup.label).includes(normalizedSearch);
-        const operations = groupMatches
-          ? operationGroup.operations
-          : operationGroup.operations.filter((operation: Operation) =>
-              this.matchesFacilitySearch(operation, normalizedSearch)
-            );
-
-        if (!operations.length) {
-          return null;
-        }
-
-        return {
-          ...operationGroup,
-          operations,
-          expanded: true
-        };
-      })
-      .filter((operationGroup: FacilityOperationGroup | null): operationGroup is FacilityOperationGroup => !!operationGroup);
-  }
-
   get selectedOperationName(): string {
     const selectedOperationId = this.patientForm?.get('patient.operation')?.value || this.patient?.patientOperationId;
     const selectedOperation = this.operations?.find((operation: Operation) => operation.operationId == selectedOperationId);
@@ -348,110 +320,80 @@ export class PatientFormComponent implements OnInit {
     return selectedOperation?.operationName || '';
   }
 
-  toggleFacilityPicker(): void {
-    if (this.facilityPickerOpen) {
-      this.closeFacilityPicker();
+  async openFacilitySelectModal(): Promise<void> {
+    if (!this.modalController) {
       return;
     }
 
-    this.facilityPickerOpen = true;
-    this.expandSelectedFacilityGroup();
-  }
+    const modal = await this.modalController.create({
+      component: SearchableSelectModalComponent,
+      cssClass: 'searchable-select-modal',
+      componentProps: {
+        title: 'Select Facility',
+        items: this.buildFacilitySelectItems(),
+        selectedValue: this.patientForm?.get('patient.operation')?.value || this.patient?.patientOperationId || null,
+        placeholder: 'Search facilities'
+      }
+    });
 
-  closeFacilityPicker(): void {
-    this.facilityPickerOpen = false;
-    this.clearFacilitySearch();
-  }
+    await modal.present();
 
-  updateFacilitySearch(value: string): void {
-    this.facilitySearchText = value || '';
+    const { data, role } = await modal.onDidDismiss();
 
-    if (!this.normalizeFacilitySearchText(this.facilitySearchText)) {
-      this.expandSelectedFacilityGroup();
+    if (role !== 'confirm' || !data) {
+      return;
     }
-  }
 
-  clearFacilitySearch(): void {
-    this.facilitySearchText = '';
-    this.expandSelectedFacilityGroup();
-  }
-
-  toggleFacilityGroup(groupKey: string): void {
-    this.groupedOperations = this.groupedOperations.map((operationGroup: FacilityOperationGroup) => ({
-      ...operationGroup,
-      expanded: operationGroup.key === groupKey ? !operationGroup.expanded : false
-    }));
+    this.applyFacilitySelectionByValue(data.value);
   }
 
   selectFacility(operation: Operation): void {
-    if (!operation?.operationId || !this.patientForm) {
+    this.applyFacilitySelectionByValue(operation?.operationId);
+  }
+
+  private applyFacilitySelectionByValue(operationId: string | number): void {
+    if (!operationId || !this.patientForm) {
+      return;
+    }
+
+    const selectedOperation = this.operations?.find((operation: Operation) => operation.operationId == operationId);
+
+    if (!selectedOperation?.operationId) {
       return;
     }
 
     const operationControl = this.patientForm.get('patient.operation');
-    operationControl?.setValue(operation.operationId);
+    const existingValue = operationControl?.value;
+
+    operationControl?.setValue(selectedOperation.operationId);
     operationControl?.markAsDirty();
     operationControl?.markAsTouched();
 
-    if (this.patient) {
-      this.patient.patientOperationId = operation.operationId as any;
+    if (existingValue == selectedOperation.operationId) {
+      operationControl?.markAsPristine();
     }
 
-    this.groupedOperations = this.groupedOperations.map((operationGroup: FacilityOperationGroup) => ({
-      ...operationGroup,
-      expanded: operationGroup.operations.some(
-        (candidateOperation: Operation) => candidateOperation.operationId == operation.operationId
-      )
-    }));
-
-    this.closeFacilityPicker();
+    if (this.patient) {
+      this.patient.patientOperationId = selectedOperation.operationId as any;
+    }
   }
 
-  isSelectedFacility(operation: Operation): boolean {
-    const selectedOperationId = this.patientForm?.get('patient.operation')?.value || this.patient?.patientOperationId;
+  private buildFacilitySelectItems(): SearchableSelectModalItem[] {
+    return this.groupedOperations.reduce((items: SearchableSelectModalItem[], operationGroup: FacilityOperationGroup) => {
+      const nextItems = operationGroup.operations.map((operation: Operation) => ({
+        label: this.formatFacilityOptionLabel(operation),
+        value: operation.operationId,
+        searchText: [operation?.operationName, operationGroup.label, operation?.operationGroupShortName]
+          .filter(Boolean)
+          .join(' ')
+      }));
 
-    return operation?.operationId == selectedOperationId;
+      return items.concat(nextItems);
+    }, []);
   }
 
-  isFacilityGroupExpanded(operationGroup: FacilityOperationGroup): boolean {
-    return !!this.normalizeFacilitySearchText(this.facilitySearchText) || !!operationGroup?.expanded;
-  }
-
-  getFacilityGroupCount(operationGroup: FacilityOperationGroup): number {
-    return Array.isArray(operationGroup?.operations) ? operationGroup.operations.length : 0;
-  }
-
-  private expandSelectedFacilityGroup(): void {
-    const selectedOperationId = this.patientForm?.get('patient.operation')?.value || this.patient?.patientOperationId;
-    const selectedGroupKey = selectedOperationId
-      ? this.groupedOperations.find((operationGroup: FacilityOperationGroup) =>
-          operationGroup.operations.some((operation: Operation) => operation.operationId == selectedOperationId)
-        )?.key
-      : '';
-
-    this.groupedOperations = this.groupedOperations.map((operationGroup: FacilityOperationGroup) => ({
-      ...operationGroup,
-      expanded: !!selectedGroupKey && operationGroup.key === selectedGroupKey
-    }));
-  }
-
-  private normalizeFacilitySearchText(value: string): string {
-    return String(value || '')
-      .trim()
-      .toLowerCase();
-  }
-
-  private matchesFacilitySearch(operation: Operation, normalizedSearch: string): boolean {
-    const searchableText = [
-      operation?.operationName,
-      operation?.operationGroupName,
-      operation?.operationGroupShortName
-    ]
-      .filter(Boolean)
-      .join(' ')
-      .toLowerCase();
-
-    return searchableText.includes(normalizedSearch);
+  private formatFacilityOptionLabel(operation: Operation): string {
+    return String(operation?.operationName || '').toUpperCase();
   }
 
   private createForm() {

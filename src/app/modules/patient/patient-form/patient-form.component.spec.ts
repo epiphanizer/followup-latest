@@ -2,6 +2,8 @@ import { FormArray, FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 import { PatientFormComponent } from './patient-form.component';
 
+let facilityModalDismissResult: { data?: any; role?: string } = { role: 'cancel' };
+
 const baseUser = {
   operations: [{ operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1' }],
   operationGroups: [
@@ -32,17 +34,30 @@ const makeServices = (overrides?: any) => {
   } as any;
   const toastrService = { success: jest.fn() } as any;
   const userService = { updateOperations: jest.fn(() => Promise.resolve()) } as any;
+  const modalController = {
+    create: jest.fn(() =>
+      Promise.resolve({
+        present: jest.fn(() => Promise.resolve()),
+        onDidDismiss: jest.fn(() => Promise.resolve(facilityModalDismissResult))
+      })
+    )
+  } as any;
   return {
     patientService,
     patientContactService,
     patientIntakeQuestionService,
     toastrService,
     userService,
+    modalController,
     ...(overrides || {})
   };
 };
 
 describe('PatientFormComponent (Jest)', () => {
+  beforeEach(() => {
+    facilityModalDismissResult = { role: 'cancel' };
+  });
+
   it('initializes add mode and builds form defaults', async () => {
     const route = { snapshot: { data: { mode: 'add', user: baseUser } } } as any;
     const services = makeServices();
@@ -53,7 +68,8 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
 
     comp.ngOnInit();
@@ -87,7 +103,8 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
 
     comp.ngOnInit();
@@ -116,7 +133,8 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
 
     comp.ngOnInit();
@@ -124,7 +142,7 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.groupedOperations.map(group => group.label)).toEqual(['Client One', 'Client Two']);
   });
 
-  it('keeps facility groups collapsed by default and expands only the selected group when opened', () => {
+  it('opens the searchable facility modal with the current selection and uppercase option labels', async () => {
     const groupedUser = {
       operations: [
         { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
@@ -144,21 +162,31 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
 
     comp.ngOnInit();
-
-    expect(comp.groupedOperations.every(group => group.expanded === false)).toBe(true);
-
     comp.patientForm.get('patient.operation')!.setValue('op-2');
-    comp.toggleFacilityPicker();
 
-    expect(comp.facilityPickerOpen).toBe(true);
-    expect(comp.groupedOperations.map(group => group.expanded)).toEqual([false, true]);
+    await comp.openFacilitySelectModal();
+
+    expect(services.modalController.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        cssClass: 'searchable-select-modal',
+        componentProps: expect.objectContaining({
+          title: 'Select Facility',
+          selectedValue: 'op-2',
+          placeholder: 'Search facilities'
+        })
+      })
+    );
+
+    const modalConfig = services.modalController.create.mock.calls[0][0];
+    expect(modalConfig.componentProps.items.map((item: any) => item.label)).toEqual(['FACILITY ONE', 'FACILITY TWO']);
   });
 
-  it('filters grouped facilities by search term and keeps matching groups expanded', () => {
+  it('applies the selected facility only after the modal confirms', async () => {
     const groupedUser = {
       operations: [
         { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
@@ -178,20 +206,21 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
 
     comp.ngOnInit();
-    comp.updateFacilitySearch('south');
+    comp.patientForm.get('patient.operation')!.setValue('op-1');
+    facilityModalDismissResult = { role: 'confirm', data: { value: 'op-2' } };
 
-    expect(comp.filteredGroupedOperations.map(group => group.label)).toEqual(['Client Two']);
-    expect(comp.filteredGroupedOperations[0].operations.map(operation => operation.operationName)).toEqual([
-      'South Facility'
-    ]);
-    expect(comp.isFacilityGroupExpanded(comp.filteredGroupedOperations[0])).toBe(true);
+    await comp.openFacilitySelectModal();
+
+    expect(comp.patientForm.get('patient.operation')!.value).toBe('op-2');
+    expect(comp.selectedOperationName).toBe('South Facility');
   });
 
-  it('selects a facility from the custom picker and writes the operation id back to the form', () => {
+  it('keeps the existing facility when the modal is cancelled', async () => {
     const groupedUser = {
       operations: [
         { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
@@ -211,19 +240,18 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
 
     comp.ngOnInit();
-    comp.facilityPickerOpen = true;
-    comp.updateFacilitySearch('facility');
+    comp.patientForm.get('patient.operation')!.setValue('op-1');
+    facilityModalDismissResult = { role: 'cancel' };
 
-    comp.selectFacility(groupedUser.operations[1]);
+    await comp.openFacilitySelectModal();
 
-    expect(comp.patientForm.get('patient.operation')!.value).toBe('op-2');
-    expect(comp.selectedOperationName).toBe('Facility Two');
-    expect(comp.facilityPickerOpen).toBe(false);
-    expect(comp.facilitySearchText).toBe('');
+    expect(comp.patientForm.get('patient.operation')!.value).toBe('op-1');
+    expect(comp.selectedOperationName).toBe('Facility One');
   });
 
   it('initializes edit mode and sets patient data', async () => {
@@ -260,7 +288,8 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
 
     comp.ngOnInit();
@@ -282,7 +311,8 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
     comp.patient = {
       patientOperationId: 'op-1',

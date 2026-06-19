@@ -14,66 +14,16 @@
         <ion-list class="patient-primary-info-list patient-form-section" lines="none" inset formGroupName="patient">
           <ion-item class="patient-facility">
             <ion-label color="medium" position="stacked">Facility<span style="color:#f1624a">*</span></ion-label>
-            <div class="facility-picker" [class.open]="facilityPickerOpen">
+            <div class="facility-picker">
               <button
                 type="button"
                 class="facility-picker-trigger"
                 [class.placeholder]="!selectedOperationName"
-                [attr.aria-expanded]="facilityPickerOpen"
-                (click)="toggleFacilityPicker()"
+                aria-haspopup="dialog"
+                (click)="openFacilitySelectModal()"
               >
                 <span>{{ selectedOperationName || 'Select facility' }}</span>
               </button>
-
-              <div class="facility-picker-panel" *ngIf="facilityPickerOpen">
-                <div class="facility-picker-search-row">
-                  <input
-                    type="text"
-                    class="facility-picker-search"
-                    [value]="facilitySearchText"
-                    (input)="updateFacilitySearch($any($event.target).value)"
-                    placeholder="Search facilities or clients"
-                  />
-                  <button
-                    *ngIf="facilitySearchText"
-                    type="button"
-                    class="facility-picker-clear"
-                    (click)="clearFacilitySearch()"
-                  >
-                    Clear
-                  </button>
-                </div>
-
-                <div class="facility-picker-groups" *ngIf="filteredGroupedOperations.length; else noFacilityMatches">
-                  <div class="facility-picker-group" *ngFor="let operationGroup of filteredGroupedOperations">
-                    <button
-                      type="button"
-                      class="facility-picker-group-header"
-                      [attr.aria-expanded]="isFacilityGroupExpanded(operationGroup)"
-                      (click)="toggleFacilityGroup(operationGroup.key)"
-                    >
-                      <span>{{ operationGroup.label }}</span>
-                      <span class="facility-picker-group-count">{{ getFacilityGroupCount(operationGroup) }}</span>
-                    </button>
-
-                    <div class="facility-picker-options" *ngIf="isFacilityGroupExpanded(operationGroup)">
-                      <button
-                        type="button"
-                        class="facility-picker-option"
-                        *ngFor="let operation of operationGroup.operations"
-                        [class.selected]="isSelectedFacility(operation)"
-                        (click)="selectFacility(operation)"
-                      >
-                        {{ operation.operationName }}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <ng-template #noFacilityMatches>
-                  <div class="facility-picker-empty">No facilities match this search.</div>
-                </ng-template>
-              </div>
             </div>
           </ion-item>
           <ion-item class="patient-medical-record-number">

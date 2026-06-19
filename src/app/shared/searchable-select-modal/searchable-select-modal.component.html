@@ -1,0 +1,45 @@
+<ion-header class="searchable-select-modal-header">
+  <ion-toolbar>
+    <ion-title>{{ title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="searchable-select-modal-content">
+  <div class="searchable-select-modal-search">
+    <ion-searchbar
+      [placeholder]="placeholder || 'Search'"
+      [value]="searchText"
+      (ionInput)="onSearchChange($event)"
+      showClearButton="focus"
+      animated="true"
+    ></ion-searchbar>
+  </div>
+
+  <ion-list class="searchable-select-modal-list" lines="full" *ngIf="filteredItems.length; else emptyState">
+    <ion-radio-group [(ngModel)]="tempSelectedValue">
+      <ion-item
+        class="searchable-select-modal-option"
+        button
+        detail="false"
+        *ngFor="let item of filteredItems; trackBy: trackByValue"
+        (click)="selectValue(item.value)"
+      >
+        <ion-radio slot="start" [value]="item.value"></ion-radio>
+        <ion-label>{{ item.label }}</ion-label>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ng-template #emptyState>
+    <div class="searchable-select-modal-empty">No facilities found</div>
+  </ng-template>
+</ion-content>
+
+<ion-footer class="searchable-select-modal-footer">
+  <ion-toolbar>
+    <div class="searchable-select-modal-actions">
+      <ion-button type="button" fill="clear" color="medium" (click)="cancel()">Cancel</ion-button>
+      <ion-button type="button" color="primary" [disabled]="!hasSelection" (click)="confirm()">OK</ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>
