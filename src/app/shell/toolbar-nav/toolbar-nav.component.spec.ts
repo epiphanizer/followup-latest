@@ -94,6 +94,20 @@ describe('ToolbarNavComponent logic', () => {
     expect(component.navLinks[0].dropdown.links.some((link: any) => link.linkName === 'Version Change Log')).toBe(
       false
     );
+    const patientPortal = component.navLinks.find(link => link.linkName === 'Patient Portal');
+    const addPatientLink = patientPortal?.dropdown?.links?.find((link: any) => link.linkName === 'Add Patient');
+    expect(addPatientLink?.minRole).toBe(2);
+  });
+
+  it('keeps Add Patient manager-plus in the toolbar dropdown', () => {
+    const patientPortal = component.navLinks.find(link => link.linkName === 'Patient Portal');
+    const addPatientLink = patientPortal?.dropdown?.links?.find((link: any) => link.linkName === 'Add Patient');
+
+    authUserSubject.next({ userId: 'manager-1', userLevel: UserRoles.manager });
+    expect(component.canAccessLink(addPatientLink)).toBe(true);
+
+    authUserSubject.next({ userId: 'user-1', userLevel: UserRoles.user });
+    expect(component.canAccessLink(addPatientLink)).toBe(false);
   });
 
   it('opens and closes dropdowns', () => {

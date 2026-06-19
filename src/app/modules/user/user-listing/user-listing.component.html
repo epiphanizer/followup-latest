@@ -159,8 +159,8 @@
                 <div>
                   <div class="group-key">{{ group.key }}</div>
                   <div class="group-copy">
-                    Suggested target stays highlighted. Generate merge SQL only from a non-target account into the
-                    selected target after confirming downstream ownership and audit history.
+                    Suggested target stays highlighted. Preview the stored procedure invocation first, then run the
+                    merge from a non-target account into the selected target once you have confirmed downstream ownership.
                   </div>
                 </div>
                 <div class="group-header-actions">
@@ -197,9 +197,19 @@
                         class="merge-button"
                         type="button"
                         *ngIf="group.selectedTargetUserId !== account.userId"
+                        [disabled]="group.mergeLoading"
                         (click)="generateMergeScript(group, account)"
                       >
-                        {{ group.mergeLoading ? 'Generating...' : 'Generate Merge Script' }}
+                        {{ group.mergeLoading && group.mergeLoadingAction === 'preview' ? 'Generating...' : 'Preview Merge Workup' }}
+                      </button>
+                      <button
+                        class="merge-button secondary"
+                        type="button"
+                        *ngIf="group.selectedTargetUserId !== account.userId"
+                        [disabled]="group.mergeLoading"
+                        (click)="executeMerge(group, account)"
+                      >
+                        {{ group.mergeLoading && group.mergeLoadingAction === 'execute' ? 'Running...' : 'Run Merge Now' }}
                       </button>
                     </div>
                   </div>
@@ -210,10 +220,19 @@
                   <div class="merge-script-header">
                     <div class="merge-script-title">Generated merge workup</div>
                     <div class="merge-script-copy">
-                      Stored procedure invocation from the admin-only `/users/merge-script` endpoint.
+                      Stored procedure invocation from the admin-only `/users/merge-script` endpoint. This remains a preview until you click `Run Merge Now`.
                     </div>
                   </div>
                   <ion-textarea [value]="group.mergeScript" readonly autoGrow="true"></ion-textarea>
+                </div>
+
+                <div class="merge-script-panel" *ngIf="group.mergeResult">
+                  <div class="merge-script-header">
+                    <div class="merge-script-title">Executed merge workup</div>
+                    <div class="merge-script-copy">
+                      {{ group.mergeResult.message }} Outcome: {{ group.mergeResult.transactionOutcome }}.
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

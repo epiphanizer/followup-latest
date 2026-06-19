@@ -130,7 +130,8 @@ export class ToolbarNavComponent implements OnInit {
             },
             {
               linkAction: '/patients/add',
-              linkName: 'Add Patient'
+              linkName: 'Add Patient',
+              minRole: 2
             },
             {
               linkAction: '/notifications',
@@ -174,6 +175,14 @@ export class ToolbarNavComponent implements OnInit {
     }
     const mappedRole = this.userRolesArray[String(user.userLevel)];
     return mappedRole ? mappedRole : 0;
+  }
+
+  canAccessLink(link: MenuLink | { minRole?: number } | undefined | null): boolean {
+    if (!link?.minRole) {
+      return true;
+    }
+
+    return link.minRole >= this.getUserRoleValue(this.user);
   }
 
   createNotification() {

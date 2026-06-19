@@ -1,7 +1,7 @@
 <nav [class.dropdown-active]="dropdownActivated" *ngIf="user && navLinks" (mouseleave)="closeDropdowns()">
   <div class="nav-list">
     <div class="nav-link-container" *ngFor="let link of navLinks; let i = index">
-      <div class="nav-link-row" *ngIf="link.minRole >= getUserRoleValue(user)">
+      <div class="nav-link-row" *ngIf="canAccessLink(link)">
         <a
           *ngIf="!link.dropdown && !link.dynamic"
           class="nav-link"
@@ -41,12 +41,21 @@
           (mouseenter)="openDropdown(i)"
           (mouseleave)="closeDropdown(i)"
         >
-          <ul *ngIf="link.minRole >= getUserRoleValue(user)">
-            <li *ngFor="let childLink of link.dropdown.links">
-              <a *ngIf="!childLink.dynamic" (click)="closeDropdowns()" [routerLink]="childLink.linkAction">
+          <ul *ngIf="canAccessLink(link)">
+            <li *ngFor="let childLink of link.dropdown.links" [hidden]="!canAccessLink(childLink)">
+              <a
+                *ngIf="!childLink.dynamic && canAccessLink(childLink)"
+                (click)="closeDropdowns()"
+                [routerLink]="childLink.linkAction"
+              >
                 {{ childLink.linkName }}</a
               >
-              <button *ngIf="childLink.dynamic" type="button" class="dropdown-action" (click)="dynamicLink(childLink)">
+              <button
+                *ngIf="childLink.dynamic && canAccessLink(childLink)"
+                type="button"
+                class="dropdown-action"
+                (click)="dynamicLink(childLink)"
+              >
                 {{ childLink.linkName }}
               </button>
             </li>

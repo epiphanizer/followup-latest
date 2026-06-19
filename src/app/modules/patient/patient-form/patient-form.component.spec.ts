@@ -354,6 +354,91 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.patientContacts.length).toBe(0);
   });
 
+  it('reindexes remaining contact orders after a removal', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+    comp.addAdditionalPatientContact();
+    comp.addAdditionalPatientContact();
+    comp.patientContacts[0].patientContactId = 'pc-1';
+    comp.patientContacts[1].patientContactId = 'pc-2';
+
+    comp.removeAdditionalPatientContact(0);
+
+    expect(comp.patientContactsToRemove).toEqual(['pc-1']);
+    expect(comp.patientContacts.length).toBe(1);
+    expect(comp.patientContacts[0].patientContactOrder).toBe('1');
+    expect((comp.patientForm.get('patient.patientContacts') as FormArray).at(0).get('patientContactOrder')!.value).toBe(1);
+  });
+
+  it('does not queue an undefined removal id for unsaved contacts', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+    comp.addAdditionalPatientContact();
+
+    comp.removeAdditionalPatientContact(0);
+
+    expect(comp.patientContactsToRemove).toEqual([]);
+    expect((comp.patientForm.get('patient.patientContacts') as FormArray).length).toBe(0);
+  });
+
   it('builds a patient contact put payload with coercions', () => {
     const route = { snapshot: { data: { user: baseUser } } } as any;
     const services = makeServices();

@@ -1,0 +1,159 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 440px;
+  background: #ffffff;
+}
+
+.searchable-select-modal-header ion-toolbar,
+.searchable-select-modal-footer ion-toolbar {
+  --background: #ffffff;
+  --border-width: 0;
+  --min-height: 58px;
+}
+
+.searchable-select-modal-header ion-title {
+  font-family: AvenirPro;
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: 0.32px;
+  color: #343638;
+  padding-inline: 28px 20px;
+  text-align: left;
+}
+
+.searchable-select-modal-content {
+  --background: #ffffff;
+}
+
+.searchable-select-modal-search {
+  padding: 6px 28px 12px;
+  border-bottom: 1px solid rgba(112, 112, 112, 0.12);
+}
+
+.searchable-select-modal-search ion-searchbar {
+  --background: #f5f5f5;
+  --box-shadow: none;
+  --border-radius: 0;
+  --color: #3f3638;
+  --placeholder-color: #8e8e93;
+  --icon-color: #8e8e93;
+  --clear-button-color: #8e8e93;
+  font-family: Avenir;
+  font-size: 14px;
+  padding: 0;
+}
+
+.searchable-select-modal-list {
+  padding: 0;
+  margin: 0;
+}
+
+.searchable-select-modal-group {
+  --background: #ffffff;
+  --inner-padding-end: 20px;
+  --padding-start: 28px;
+  --min-height: 34px;
+  margin-top: 10px;
+}
+
+.searchable-select-modal-group ion-label {
+  margin: 0;
+  font-family: AvenirDemi;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #ef4136;
+}
+
+.searchable-select-modal-option {
+  --background: #ffffff;
+  --inner-padding-end: 20px;
+  --padding-start: 28px;
+  --min-height: 40px;
+  font-family: Avenir;
+  font-size: 14px;
+  color: #444444;
+}
+
+.searchable-select-modal-option ion-label {
+  margin: 8px 0;
+  white-space: normal;
+  line-height: 1.35;
+}
+
+.searchable-select-modal-radio {
+  --color: #08b4b9;
+  --color-checked: #08b4b9;
+  --border-color: #08b4b9;
+  --inner-border-radius: 50%;
+  --inner-border-width: 10px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --ripple-color: transparent;
+  --background-hover: transparent;
+  width: 18px;
+  margin-right: 12px;
+}
+
+.searchable-select-modal-radio::part(container) {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #08b4b9;
+  background: #ffffff;
+}
+
+.searchable-select-modal-radio::part(mark) {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #08b4b9;
+  transform: none;
+  opacity: 0;
+}
+
+.searchable-select-modal-radio.radio-checked::part(mark),
+.searchable-select-modal-radio[aria-checked="true"]::part(mark) {
+  opacity: 1;
+}
+
+.searchable-select-modal-empty {
+  padding: 30px 28px 38px;
+  font-family: Avenir;
+  font-size: 14px;
+  color: #8e8e93;
+}
+
+.searchable-select-modal-footer {
+  border-top: 1px solid rgba(112, 112, 112, 0.12);
+}
+
+.searchable-select-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 0 20px 16px;
+}
+
+.searchable-select-modal-actions ion-button {
+  font-family: Avenir;
+  text-transform: uppercase;
+  letter-spacing: 0.45px;
+}
+
+@media screen and (max-width: 767px) {
+  .searchable-select-modal-header ion-title {
+    font-size: 22px;
+    padding-inline: 20px 16px;
+  }
+
+  .searchable-select-modal-search {
+    padding: 4px 20px 12px;
+  }
+
+  .searchable-select-modal-actions {
+    padding: 0 14px 12px;
+  }
+}

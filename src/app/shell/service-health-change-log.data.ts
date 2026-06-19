@@ -21,6 +21,86 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'API',
+        summary:
+          'The executable duplicate-account merge path now uses an explicit long-running stored-procedure timeout budget instead of failing at the MSSQL driver default on larger merges.',
+        evidence:
+          'Recorded in the snapshot API running change log after updating `v4.0.0/followup-api/deployment/service/UserService.js`. Real merge executions through `/users/merge-script` now set `USER_MERGE_WORKUP_TIMEOUT_MS` on the `dbo.sp_runUserMergeWorkup` request instead of relying on the driver's shorter default request timeout, which could surface raw `RequestError` `ETIMEOUT` failures for larger duplicate-account merges. When the stored procedure still exceeds that budget, the API now returns a clear `504` message describing the timeout and the override/direct-SQL fallback rather than leaking the raw MSSQL error object. Validation used `node --check deployment/service/UserService.js` on `v4.0.0/followup-api`.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'User Management can now execute a duplicate-account merge directly after previewing the generated workup instead of stopping at a preview-only SQL invocation.',
+        evidence:
+          'Recorded in the snapshot frontend/API running change logs after updating `src/app/modules/user/user-listing/user-listing.component.ts`, `.html`, `.spec.ts`, `src/app/modules/user/user.service.ts`, `v4.0.0/followup-api/deployment/controllers/User.js`, `v4.0.0/followup-api/deployment/service/UserService.js`, and `v4.0.0/followup-api/deployment/api/swagger.yaml`. The active v4 snapshot still exposed only `Generate Merge Script` after `Generated merge workup`, while the newer admin flow already supported executing the same merge directly from User Management. The debug panel now supports both preview and execute actions, the API accepts `commitChanges = true` on the same admin-only `/users/merge-script` endpoint, and successful executions return final user rows so the local roster state can update immediately after commit. Validation used focused Jest on `src/app/modules/user/user-listing/user-listing.component.spec.ts` (`5/5` tests passing), `npm run build -s` on `v4.0.0/followup-frontend`, and `node --check` on the touched snapshot API controller/service files.',
+        source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Patient Detail `Yes` / `No` boolean answers now keep their labels closer to the checkbox squares on the call screen.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-detail/patient-call/patient-call-questions/patient-call-questions.component.scss`. The patient-detail call screen already used a component-scoped checkbox style for boolean answers, but that local rule was still adding an `8px` inline margin between each checkbox square and its label, which made the `Yes` / `No` labels feel too detached from the checkboxes on `/call-queue/operations/:operationId/patient/:patientId`. Reducing that local checkbox-to-label spacing tightened the control presentation without changing the surrounding layout or control behavior. Validation used `npm run build -s` on `v4.0.0/followup-frontend`.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Patient add/remove contact controls now share the same contained header layout, and contact deletions keep order fields synchronized between the model and the reactive form.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html`, `.scss`, `.ts`, and `.spec.ts`. `Remove Contact` was still using the old float-based header placement after `Add Contact` had already been normalized, which left it vulnerable to the same obscured layout behavior when additional contacts were shown. The contact header now uses contained flex alignment for both the contact label and remove action, and the add/remove logic now reindexes `patientContactOrder` in both the backing `patientContacts` array and the reactive form controls after every mutation while avoiding undefined removal ids for unsaved contacts. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`25/25` tests passing) plus `npm run build -s` on `v4.0.0/followup-frontend`.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Patient form now gives `Add Contact` its own contained row again and adds clearer separation inside the medical-condition textarea block.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.scss`. The `Add Contact` control was still using a floated legacy placement inside the contacts fieldset, which could let nearby section content visually cover it after the surrounding patient-form layout changes, and the medical-condition textareas had no dedicated vertical separation rule of their own. The contacts fieldset now establishes its own block formatting context, the `Add Contact` action is rendered as a contained right-aligned row instead of an escaping float, and the medical-condition section now has explicit bottom spacing plus a small gap between the diagnosis/discharged-condition textarea rows. Validation used `npm run build -s` on `v4.0.0/followup-frontend`.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Patient contact phone row now gives the `Responsible Party` checkbox its own unclipped row below the phone inputs instead of pulling it up into the grid.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.scss`. Once the contact phone inputs were returned to the shared migrated Ionic height, the remaining layout issue was the contact phone wrapper itself: it still behaved like a zero-gap bottom-aligned grid while the `Responsible Party` checkbox lived inside that same grid, which could pull the checkbox upward into the phone row and clip it visually. The contact phone grid now uses natural vertical spacing, aligns content from the top instead of forcing bottom alignment, keeps the Order field on its own stable row position, and places the `Responsible Party` checkbox on an explicit full-width row below the phone inputs so it no longer overlaps or clips. Validation used `npm run build -s` on `v4.0.0/followup-frontend`.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Add Patient phone fields now use the same migrated Ionic input height as the rest of the form instead of the older oversized phone-specific sizing.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.scss`. The patient form already had a shared local `ion-input { min-height: 44px; }` baseline for normal fields, but both the main patient phone row and the contact phone rows were still carrying older `.phone-field ion-input { min-height: 58px; }` overrides from the pre-migration styling path, which left those inputs visibly taller and more padded than neighboring fields after the Ionic migration. Removing the stale phone-specific overrides lets those controls fall back to the same shared `44px` height as the rest of the form. Validation used `npm run build -s` on `v4.0.0/followup-frontend`.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The selected Facility value now keeps the same title casing as the modal list, and the `Select Facility` modal title has been reduced slightly for a better visual fit.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.scss` and `src/app/shared/searchable-select-modal/searchable-select-modal.component.scss`. The Facility trigger in New Patient is a plain `button`, and the shared theme still applies uppercase transforms to buttons globally, which was forcing the selected facility display back to all caps even after the modal labels were corrected. The trigger now explicitly opts out of uppercase button styling so the selected value keeps the same title casing shown in the modal, and the `Select Facility` modal title has been reduced slightly for a closer match to the rest of the app. Validation used `npm run build -s` on `v4.0.0/followup-frontend`.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The searchable New Patient Facility modal now preserves grouped client headers, app-style display casing, and correct single-select radio state instead of rendering one flat all-uppercase list.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.ts`, `src/app/modules/patient/patient-form/patient-form.component.scss`, and the reusable `src/app/shared/searchable-select-modal/*` component files. The first modal pass opened correctly but flattened grouped facilities into one list, displayed all-uppercase facility labels, left the trigger styling slightly off from the rest of the patient form, and styled radios in a way that made every visible row appear selected. The refined modal now preserves client-group sections during both normal browsing and filtered search, formats facility names back into the app\'s expected display casing while keeping submitted ids unchanged, left-aligns the Facility trigger text like the surrounding form fields, and reuses the existing notification-modal radio-state pattern so only the temporary or committed choice renders as selected. Validation used `npm run build -s` on `v4.0.0/followup-frontend`.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Add Patient toolbar entry now carries its own explicit manager-plus role gate instead of relying only on the broader Patient Portal dropdown visibility.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/shell/toolbar-nav/toolbar-nav.component.ts`, `.html`, and `.spec.ts`. The active v4 frontend already had manager-plus route protection on `/patients/add`, and the API already enforced `addPatient` as `adminOrManager`, but the toolbar dropdown still relied on the parent Patient Portal menu gate rather than expressing the Add Patient child-link rule directly. The toolbar now supports child-level role checks and marks `Add Patient` itself as manager-plus, so the UI contract stays explicit and remains correct even if the broader Patient Portal menu changes later. Validation used focused Jest on `src/app/shell/toolbar-nav/toolbar-nav.component.spec.ts` (`8/8` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'Frontend',
         summary:
           'Session timeout handling now separates the 15-minute frontend inactivity window from the bearer-token lifetime, and ordinary desktop clicks and wheel scrolling now count as real activity instead of being treated as idle time.',

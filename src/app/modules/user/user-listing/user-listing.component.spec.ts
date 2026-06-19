@@ -19,7 +19,8 @@ describe('UserListingComponent (Jest)', () => {
   } as any;
   const userService = {
     getAllUsers: jest.fn(),
-    generateUserMergeScript: jest.fn()
+    generateUserMergeScript: jest.fn(),
+    executeUserMerge: jest.fn()
   } as any;
 
   beforeEach(async () => {
@@ -53,6 +54,19 @@ describe('UserListingComponent (Jest)', () => {
       ])
     );
     userService.generateUserMergeScript.mockReturnValue(of({ mergeScript: 'SELECT 1;' }));
+    userService.executeUserMerge.mockReturnValue(
+      of({
+        sourceUserId: 'u1',
+        targetUserId: 'u2',
+        commitChanges: true,
+        transactionOutcome: 'COMMIT',
+        message: 'Merge committed successfully.',
+        finalUsers: [
+          { userId: 'u1', userActive: false, deleted: true },
+          { userId: 'u2', userActive: true, deleted: false }
+        ]
+      })
+    );
 
     await TestBed.configureTestingModule({
       declarations: [UserListingComponent],
@@ -85,6 +99,19 @@ describe('UserListingComponent (Jest)', () => {
 
     expect(userService.generateUserMergeScript).toHaveBeenCalledWith('admin-1', 'u1', 'u2');
     expect(group.mergeScript).toBe('SELECT 1;');
+  });
+
+  it('executes a merge workup for a selected source account after confirmation', () => {
+    const group = component.duplicateGroups[0];
+    const sourceUser = group.users.find(user => user.userId === 'u1') as any;
+    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
+
+    component.executeMerge(group as any, sourceUser);
+
+    expect(confirmSpy).toHaveBeenCalled();
+    expect(userService.executeUserMerge).toHaveBeenCalledWith('admin-1', 'u1', 'u2');
+    expect(group.mergeResult?.transactionOutcome).toBe('COMMIT');
+    expect(group.users.find(user => user.userId === 'u1')?.deleted).toBe(true);
   });
 
   it('derives the highest effective role from nested operation access', () => {

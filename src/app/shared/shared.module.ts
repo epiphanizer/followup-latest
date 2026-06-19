@@ -12,6 +12,7 @@ import { ListingSearchComponent } from './listing-search/listing-search.componen
 import { CapitalizeFirstDirective } from './directives/capitalize-first.directive';
 import { AddPhoneDashesDirective } from './directives/add-phone-dashes.directive';
 import { IonContentScrollFixDirective } from './directives/ion-content-scroll-fix.directive';
+import { SearchableSelectModalComponent } from './searchable-select-modal/searchable-select-modal.component';
 
 @NgModule({
   imports: [CommonModule, IonicModule, FormsModule],
@@ -25,7 +26,8 @@ import { IonContentScrollFixDirective } from './directives/ion-content-scroll-fi
     ListingSearchComponent,
     CapitalizeFirstDirective,
     AddPhoneDashesDirective,
-    IonContentScrollFixDirective
+    IonContentScrollFixDirective,
+    SearchableSelectModalComponent
   ],
   exports: [
     LoaderComponent,
@@ -36,7 +38,8 @@ import { IonContentScrollFixDirective } from './directives/ion-content-scroll-fi
     ListingSearchComponent,
     CapitalizeFirstDirective,
     AddPhoneDashesDirective,
-    IonContentScrollFixDirective
+    IonContentScrollFixDirective,
+    SearchableSelectModalComponent
   ]
 })
 export class SharedModule {}

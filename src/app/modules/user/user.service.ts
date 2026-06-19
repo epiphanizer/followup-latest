@@ -13,6 +13,15 @@ export interface UserMergeScriptResponse {
   mergeScript: string;
 }
 
+export interface UserMergeExecutionResponse {
+  sourceUserId: string;
+  targetUserId: string;
+  commitChanges: boolean;
+  transactionOutcome: string;
+  message: string;
+  finalUsers?: Array<Partial<User> & { userId: string }>;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -82,6 +91,17 @@ export class UserService {
         adminUserId: adminUserId,
         sourceUserId: sourceUserId,
         targetUserId: targetUserId
+      })
+      .pipe(catchError(e => this.handleAsyncError(e)));
+  }
+
+  executeUserMerge(adminUserId: string, sourceUserId: string, targetUserId: string) {
+    return this.http
+      .post<UserMergeExecutionResponse>('users/merge-script', {
+        adminUserId: adminUserId,
+        sourceUserId: sourceUserId,
+        targetUserId: targetUserId,
+        commitChanges: true
       })
       .pipe(catchError(e => this.handleAsyncError(e)));
   }

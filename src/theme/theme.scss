@@ -77,13 +77,22 @@ ion-modal.followup-post-it-modal {
   --border-radius: 0;
 }
 
+ion-modal.searchable-select-modal {
+  --width: min(560px, calc(100vw - 32px));
+  --max-width: 560px;
+  --height: auto;
+  --max-height: min(620px, calc(100vh - 48px));
+  --border-radius: 0;
+}
+
 ion-modal.followup-modal::part(backdrop),
 ion-modal.followup-post-it-modal::part(backdrop) {
   opacity: 1;
 }
 
 ion-modal.followup-modal::part(content),
-ion-modal.followup-post-it-modal::part(content) {
+ion-modal.followup-post-it-modal::part(content),
+ion-modal.searchable-select-modal::part(content) {
   overflow: hidden;
   max-height: calc(100vh - 48px);
 }

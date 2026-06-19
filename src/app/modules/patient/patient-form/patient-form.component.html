@@ -14,20 +14,17 @@
         <ion-list class="patient-primary-info-list patient-form-section" lines="none" inset formGroupName="patient">
           <ion-item class="patient-facility">
             <ion-label color="medium" position="stacked">Facility<span style="color:#f1624a">*</span></ion-label>
-            <ion-select placeholder="Facility" class="select-facility" formControlName="operation">
-              <ng-container *ngFor="let operationGroup of groupedOperations">
-                <ion-select-option [disabled]="true" [value]="null">
-                  {{ operationGroup.label }}
-                </ion-select-option>
-                <ion-select-option
-                  *ngFor="let operation of operationGroup.operations"
-                  [selected]="operation.operationId == patient.patientOperationId"
-                  [value]="operation.operationId"
-                >
-                  {{ '- ' + operation.operationName }}
-                </ion-select-option>
-              </ng-container>
-            </ion-select>
+            <div class="facility-picker">
+              <button
+                type="button"
+                class="facility-picker-trigger"
+                [class.placeholder]="!selectedOperationName"
+                aria-haspopup="dialog"
+                (click)="openFacilitySelectModal()"
+              >
+                <span>{{ selectedOperationName || 'Select facility' }}</span>
+              </button>
+            </div>
           </ion-item>
           <ion-item class="patient-medical-record-number">
             <ion-label color="medium" position="stacked">Patient # <span style="color:#f1624a">*</span></ion-label>
@@ -182,11 +179,7 @@
                   </ng-template>
 
                   <!-- only show removal option if it's past the first index -->
-                  <ion-item
-                    *ngIf="idx > 0"
-                    class="ion-float-right remove-contact-label"
-                    (click)="removeAdditionalPatientContact(idx)"
-                  >
+                  <ion-item *ngIf="idx > 0" class="remove-contact-label" (click)="removeAdditionalPatientContact(idx)">
                     Remove Contact
                   </ion-item>
                 </div>
