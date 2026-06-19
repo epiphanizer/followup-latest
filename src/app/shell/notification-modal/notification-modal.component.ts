@@ -20,6 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 export class NotificationModalComponent {
   createNotificationForm: FormGroup;
   @Input() notification: Notification;
+  private createdNotificationId: string | null = null;
   notificationRecipients: NotificationRecipient[];
   notificationType: NotificationType;
   notificationTypes: NotificationType[] = [];
@@ -126,25 +127,41 @@ export class NotificationModalComponent {
   sendTheNotification() {
     let formData = this.createNotificationForm.getRawValue();
     this.notification.notificationTypeId = formData.notificationTypeId;
+    this.notification.notificationMessage = encodeURI(formData.notificationMessage);
 
-    this.notification.notificationMessage = formData.notificationMessage;
+    if (this.createdNotificationId) {
+      this.dispatchNotification(this.createdNotificationId);
+      return;
+    }
+
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
-      .subscribe((data: any) => {
-        let notificationId = data.notificationId;
-        /**
-         * If successful, actually email out the notification
-         */
-        this.notificationService.sendNotificationByNotificationId(notificationId).subscribe(() => {
-          this.toastr.success('Successfully sent notification!');
-        });
-        this.dismiss();
+      .subscribe({
+        next: (data: any) => {
+          this.createdNotificationId = data.notificationId;
+          this.dispatchNotification(this.createdNotificationId);
+        },
+        error: () => {
+          this.toastr.error('Unable to create the notification right now.');
+        }
       });
   }
 
   dismiss() {
     this.modalCtrl.dismiss({
       dismissed: true
+    });
+  }
+
+  private dispatchNotification(notificationId: string) {
+    this.notificationService.sendNotificationByNotificationId(notificationId).subscribe({
+      next: () => {
+        this.toastr.success('Successfully sent notification!');
+        this.dismiss();
+      },
+      error: () => {
+        this.toastr.error('Unable to send the notification right now.');
+      }
     });
   }
 

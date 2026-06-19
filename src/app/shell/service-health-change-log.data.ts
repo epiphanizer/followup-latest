@@ -15,9 +15,9 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
-    version: '4.0.0_alpha_rc5',
-    recordedAt: '2026-06-14',
-    label: 'Current alpha rc5 candidate',
+    version: '4.0.0_alpha_rc6',
+    recordedAt: '2026-06-19',
+    label: 'Current alpha rc6 candidate',
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
@@ -27,6 +27,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         evidence:
           'Recorded in the snapshot frontend/API running change logs after updating `src/app/shell/shell.component.ts`, `src/app/shell/shell.component.spec.ts`, `src/app/modules/user/user-resolver.service.ts`, `v4.0.0/followup-api/deployment/service/UserAuthService.js`, and `v4.0.0/followup-api/deployment/service/UserService.js`. The frontend shell had only been extending its local inactivity deadline on mouse-move, touch, and keyboard activity, while the API was also embedding a hard `Date.now() + 900000` expiry into the JWT itself. That combination made active desktop users vulnerable to unexpected logout from click-only navigation or any workflow that crossed the 15-minute token age boundary. The shell now treats mouse-down and wheel activity as session activity, keeps the local inactivity window explicit at 15 minutes, and the API now issues an 8-hour JWT session window so active users are not forcibly logged out mid-workflow. Validation used focused frontend Jest on `src/app/shell/shell.component.spec.ts`, `src/app/core/authentication/auth.service.spec.ts`, and `src/app/core/http/error-handler.interceptor.spec.ts` (`18/18` tests passing) plus API `npm test --silent` (`Syntax OK for 69 files`).',
         source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Notification detail access now follows the manager-plus `View / Reply` rule, and the Notify modal no longer closes or recreates duplicate notifications when the email-send step fails.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/notification/notification-routing.module.ts`, `src/app/modules/patient/patient-detail/patient-history-listing/patient-history-listing.component.ts`, `patient-history-listing.component.html`, and `src/app/shell/notification-modal/notification-modal.component.ts`. Notification detail navigation now uses the standard auth guard with manager-plus roles, patient-history reply hydration/rendering now follows the same gate instead of fetching reply content for care reps, and the Notify modal now preserves the created `notificationId` across retries, keeps the dialog open on send failures, and only dismisses after a successful send so retrying a failed email does not create duplicate notification records. Validation used focused Jest on the notification modal, patient history, notification detail, and auth guard slices (`4/4` suites, `20/20` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
         scope: 'Frontend',
@@ -67,6 +75,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         evidence:
           'Recorded in the snapshot frontend running change log after auditing the remaining client-group hydration paths and updating `src/app/modules/operation/operation-form/operation-form.component.ts`. After the ownership selector itself moved to the logged-in user\'s visible `user.operationGroups` context, the remaining leak was the inline `+ Add Client` modal in Operation Form: it was still copying the form\'s local `operationGroups` array back into `user.operationGroups`, `localStorage.operationGroups`, and the persisted user snapshot, even when that local list had been hydrated from the broader all-clients feed used by edit/view to preserve archived ownership display. The form now keeps the new client only in the local selector list and leaves the shared active-client cache untouched. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts`, `src/app/modules/data/data.service.spec.ts`, and `src/app/shell/toolbar-nav/toolbar-nav.component.spec.ts` (`40/40` tests passing).',
         source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Notification create/send is now authenticated-user accessible while notification detail reads are restricted to manager-plus at the API authorization layer.',
+        evidence:
+          'Recorded in the snapshot API running change log after updating `deployment/utils/routeAuthorization.js` and `deployment/index.js` so `addNotification` and `sendNotificationByNotificationId` use an authenticated-user policy, while `getNotificationByNotificationId`, `getNotificationRepliesByNotificationId`, and `getNotificationRepliesByPatientId` require manager-plus. The authorization middleware now enforces operation policies generically instead of only treating them as write-only rules, which lets the API mirror the frontend `View / Reply` boundary without blocking care-rep initiated sends. Validation used `node --check deployment/index.js` and `node --check deployment/utils/routeAuthorization.js`.',
+        source: 'v4.0.0/followup-api/agents.md'
       },
       {
         scope: 'API',
@@ -174,9 +190,9 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       },
       {
         scope: 'Release',
-        summary: 'The current v4 alpha snapshot is now tagged and surfaced as `4.0.0_alpha_rc5` across the frontend build metadata, API package metadata, and the Service Health version history.',
+        summary: 'The current v4 alpha snapshot is now tagged and surfaced as `4.0.0_alpha_rc6` across the frontend build metadata, API package metadata, and the Service Health version history.',
         evidence:
-          'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_alpha_rc4` to `4.0.0_alpha_rc5`, updating `src/environments/.env.ts`, and retagging this top Service Health release entry so the active alpha shows up consistently in the shell version panel, branch merge target, and status payloads.',
+          'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_alpha_rc5` to `4.0.0_alpha_rc6`, updating `src/environments/.env.ts`, and retagging this top Service Health release entry so the active alpha shows up consistently in the shell version panel, branch merge target, and status payloads.',
         source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
       },
       {
