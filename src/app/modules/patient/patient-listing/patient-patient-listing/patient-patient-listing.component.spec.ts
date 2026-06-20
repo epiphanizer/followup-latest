@@ -187,6 +187,30 @@ describe('PatientPatientListingComponent (Jest)', () => {
     expect(component.patientsFiltered?.length).toBeGreaterThan(0);
   });
 
+  it('normalizes inactive patients to archived status labels', () => {
+    patientServiceStub.getPatientsByOperationId.mockReturnValueOnce(
+      of([
+        {
+          patientId: 'p3',
+          patientFirstName: 'Archie',
+          patientLastName: 'Vega',
+          patientDischargeDate: '2020-03-01',
+          patientMedicalRecordNumber: '789',
+          patientGender: 'M',
+          patientStatusLabel: 'In Progress',
+          patientGraduated: 0,
+          patientOperationId: 'op1',
+          patientActive: 0
+        }
+      ])
+    );
+
+    component.ngOnChanges({ operation: { currentValue: { operationId: 'op1' } } as any });
+
+    expect(component.patients[0].patientStatusLabel).toBe('Archived');
+    expect(component.patientsFiltered[0].patientStatusLabel).toBe('Archived');
+  });
+
   it('builds patient links based on status', () => {
     const patientActive = {
       patientStatusLabel: 'In Progress',

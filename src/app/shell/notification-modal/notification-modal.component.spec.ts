@@ -98,6 +98,31 @@ describe('NotificationModalComponent (Jest)', () => {
     expect(modalCtrlStub.dismiss).toHaveBeenCalled();
   });
 
+  it('syncs current form values before entering saved review mode', () => {
+    const { component, notificationServiceStub } = buildComponent();
+
+    component.ngOnInit();
+    component.createNotificationForm.get('notificationTypeId').setValue('type-1');
+    component.createNotificationForm.get('notificationMessage').setValue('review me');
+
+    component.notification.notificationTypeId = '' as any;
+    component.notification.notificationTypeLabel = '';
+    component.notification.notificationIconImage = '';
+    component.notification.notificationMessage = '';
+
+    component.saveNotification();
+
+    expect(component.status.notification.saved).toBe(true);
+    expect(component.notification.notificationTypeId).toBe('type-1');
+    expect(component.notification.notificationTypeLabel).toBe('Type 1');
+    expect(component.notification.notificationIconImage).toBe('icon.png');
+    expect(component.notification.notificationMessage).toBe(encodeURI('review me'));
+    expect(notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId).toHaveBeenCalledWith(
+      'op-1',
+      'type-1'
+    );
+  });
+
   it('keeps the created notification id across send retries and does not dismiss on failure', () => {
     const { component, notificationServiceStub, modalCtrlStub, toastrStub } = buildComponent();
     notificationServiceStub.sendNotificationByNotificationId

@@ -21,6 +21,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'Frontend',
+        summary:
+          'Archived patients now render as `Archived` in the patient listing and route directly to history instead of still appearing as `In Progress` links into the live call flow.',
+        evidence:
+          'Recorded in the frontend running change log after updating `src/app/modules/patient/patient-listing/patient-patient-listing/patient-patient-listing.component.ts`, `.html`, and `.spec.ts`. The patient listing had been rendering the raw API `patientStatusLabel` even when `patientActive = 0`, so archived patients could still show `In Progress`, and the table row template was bypassing its own `getPatientLink(...)` helper with a hardcoded live patient route. The listing now normalizes inactive rows to display `Archived` before sort and search logic runs, and the row routerLink now uses `getPatientLink(patient)` so archived rows open the history view instead of the live call route. Validation used focused Jest on `src/app/modules/patient/patient-listing/patient-patient-listing/patient-patient-listing.component.spec.ts` (`9/9` tests passing).',
+        source: 'followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Notify modal now syncs the current form values before entering review mode, so the first Save shows the correct notification type and message instead of a blank or stale review state.',
+        evidence:
+          'Recorded in the frontend running change log after updating `src/app/shell/notification-modal/notification-modal.component.ts`, `.html`, and `.spec.ts`. The modal review step had been switching `status.notification.saved` before explicitly syncing the current form state back into the notification object, which could leave the first review pass missing the selected notification type metadata or current message content. The modal now uses one shared form-to-notification sync path before both `saveNotification()` and `sendTheNotification()`, and the no-recipient fallback link now points at the correct `notificationOperationId` route binding. Validation used focused Jest on `src/app/shell/notification-modal/notification-modal.component.spec.ts` (`8/8` tests passing).',
+        source: 'followup-frontend/agents.md'
+      },
+      {
         scope: 'API',
         summary:
           'Duplicate-account merge execution now uses a real long-running stored-procedure timeout override instead of failing at the MSSQL driver default on larger account pairs.',
