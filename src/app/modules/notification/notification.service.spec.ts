@@ -108,6 +108,27 @@ describe('NotificationService (Jest)', () => {
     expect(secondResponse).toEqual(firstResponse);
   });
 
+  it('shares an in-flight notification types request across concurrent reads', () => {
+    let firstResponse: any;
+    let secondResponse: any;
+
+    service.getNotificationTypes().subscribe(resp => {
+      firstResponse = resp;
+    });
+
+    service.getNotificationTypes().subscribe(resp => {
+      secondResponse = resp;
+    });
+
+    const requests = httpMock.match('notifications/types');
+    expect(requests.length).toBe(1);
+
+    requests[0].flush([{ id: 't-shared' }]);
+
+    expect(firstResponse).toEqual([{ id: 't-shared' }]);
+    expect(secondResponse).toEqual(firstResponse);
+  });
+
   it('saves notification by patient id', () => {
     service.saveNotificationByPatientId('p2').subscribe(resp => {
       expect(resp).toEqual({ ok: true } as any);
@@ -145,6 +166,16 @@ describe('NotificationService (Jest)', () => {
     req.flush([{ notificationReplyId: 'r2' }]);
   });
 
+  it('normalizes notification replies when the API returns a replies wrapper', () => {
+    service.getNotificationRepliesByNotificationId('n5').subscribe(resp => {
+      expect(resp).toEqual([{ notificationReplyId: 'r2' }] as any);
+    });
+
+    const req = httpMock.expectOne('notification/n5/replies');
+    expect(req.request.method).toBe('GET');
+    req.flush({ replies: [{ notificationReplyId: 'r2' }] });
+  });
+
   it('gets notification replies by patient id', () => {
     service.getNotificationRepliesByPatientId('p5').subscribe(resp => {
       expect(resp).toEqual([{ notificationReplyId: 'r3' }] as any);
@@ -153,6 +184,16 @@ describe('NotificationService (Jest)', () => {
     const req = httpMock.expectOne('patient/p5/notification-replies');
     expect(req.request.method).toBe('GET');
     req.flush([{ notificationReplyId: 'r3' }]);
+  });
+
+  it('normalizes patient notification replies when the API returns a data wrapper', () => {
+    service.getNotificationRepliesByPatientId('p5').subscribe(resp => {
+      expect(resp).toEqual([{ notificationReplyId: 'r3' }] as any);
+    });
+
+    const req = httpMock.expectOne('patient/p5/notification-replies');
+    expect(req.request.method).toBe('GET');
+    req.flush({ data: [{ notificationReplyId: 'r3' }] });
   });
 
   it('sends notification by id', () => {
