@@ -21,6 +21,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'API',
+        summary:
+          'Duplicate-account merge execution now uses a real long-running stored-procedure timeout override instead of failing at the MSSQL driver default on larger account pairs.',
+        evidence:
+          'Recorded in the API and frontend running change logs after updating `followup-api/deployment/service/UserService.js`, `followup-api/deployment/config/index.js`, and this release log. The executable `/users/merge-script` path was still using the driver default `15000ms` request timeout, which caused real admin merge attempts like the `Lesa Thompson` `26 -> 68` pair to fail with raw `RequestError` `ETIMEOUT` output even though a safe preview of the same stored procedure needed about `23.6s` to complete. The API now uses the actual per-request timeout override path with a `USER_MERGE_WORKUP_TIMEOUT_MS` default of `300000ms`, and timeout overruns now return a clear `504` message instead of the raw driver object. Validation used `node --check` on the touched API files, `npm run build -s` on `followup-frontend`, and direct local preview execution of `sp_runUserMergeWorkup` for `sourceUserId = 26`, `targetUserId = 68`, `commitChanges = 0`, which completed in about `23612ms`.',
+        source: 'followup-api/agents.md + followup-frontend/agents.md'
+      },
+      {
         scope: 'Frontend',
         summary:
           'The Patient Facility field now opens a reusable searchable Ionic modal that preserves the current value until the user explicitly confirms the new selection.',
