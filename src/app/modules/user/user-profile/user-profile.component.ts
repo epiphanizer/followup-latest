@@ -46,7 +46,7 @@ export class UserProfileComponent implements OnInit {
     this.isAdminEditMode = !!routeUserId;
 
     if (routeUserId) {
-      if (this.getUserRoleValue(this.currentUser) !== 1) {
+      if (!this.canManageOtherUsers()) {
         this.router.navigate(['/user/profile']);
         return;
       }
@@ -71,7 +71,7 @@ export class UserProfileComponent implements OnInit {
 
   get pageCopy(): string {
     return this.isAdminEditMode
-      ? 'Admin edits update the selected user record and avatar without leaving the standard roster flow.'
+      ? 'Manager and admin edits update the selected user record and avatar without leaving the standard roster flow.'
       : 'Update your profile information and avatar.';
   }
 
@@ -318,5 +318,10 @@ export class UserProfileComponent implements OnInit {
     }
 
     return (UserRolesMap as any)[String(user.userLevel)] || 0;
+  }
+
+  private canManageOtherUsers(): boolean {
+    const userRoleValue = this.getUserRoleValue(this.currentUser);
+    return userRoleValue === 1 || userRoleValue === 2;
   }
 }

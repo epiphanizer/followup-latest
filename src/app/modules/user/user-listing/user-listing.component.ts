@@ -53,11 +53,16 @@ export class UserListingComponent implements OnInit {
   ngOnInit() {
     this.user = this.authenticationService.currentUserValue || this.route.snapshot.data.user;
 
-    if (!this.isAdmin) {
+    if (!this.canManageUsers) {
       return;
     }
 
     this.loadUsers();
+  }
+
+  get canManageUsers(): boolean {
+    const roleValue = this.getUserRoleValue(this.user);
+    return roleValue === 1 || roleValue === 2;
   }
 
   get isAdmin(): boolean {
@@ -325,7 +330,7 @@ export class UserListingComponent implements OnInit {
       },
       error: () => {
         this.isLoading = false;
-        this.loadError = 'Unable to load users for admin review.';
+        this.loadError = 'Unable to load users for roster review.';
       }
     });
   }

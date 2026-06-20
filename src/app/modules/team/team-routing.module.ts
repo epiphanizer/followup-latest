@@ -46,7 +46,7 @@ const routes: Routes = [
       component: TeamAccessComponent,
       canActivate: [AuthGuardService],
       data: {
-        roles: [UserRoles.admin],
+        roles: [UserRoles.admin, UserRoles.manager],
         teamId: ':teamId'
       },
       resolve: {

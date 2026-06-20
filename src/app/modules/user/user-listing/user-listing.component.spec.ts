@@ -25,6 +25,10 @@ describe('UserListingComponent (Jest)', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
+    authenticationService.currentUserValue = {
+      userId: 'admin-1',
+      userLevel: UserRoles.admin
+    } as any;
     userService.getAllUsers.mockReturnValue(
       of([
         {
@@ -89,6 +93,21 @@ describe('UserListingComponent (Jest)', () => {
     expect(component.duplicateGroups.length).toBe(1);
     expect(component.duplicateGroups[0].selectedTargetUserId).toBe('u2');
     expect(component.duplicateGroups[0].collapsed).toBe(false);
+  });
+
+  it('loads the roster for managers without granting admin-only debug mode', async () => {
+    authenticationService.currentUserValue = {
+      userId: 'manager-1',
+      userLevel: UserRoles.manager
+    } as any;
+
+    const managerFixture = TestBed.createComponent(UserListingComponent);
+    const managerComponent = managerFixture.componentInstance;
+    managerFixture.detectChanges();
+
+    expect(managerComponent.canManageUsers).toBe(true);
+    expect(managerComponent.isAdmin).toBe(false);
+    expect(userService.getAllUsers).toHaveBeenCalled();
   });
 
   it('requests a merge script for a selected source account', () => {

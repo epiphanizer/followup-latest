@@ -72,6 +72,21 @@ describe('UserProfileComponent (Jest)', () => {
     expect(comp.pageTitle).toBe('Edit User');
   });
 
+  it('allows managers to load another user from the edit route', () => {
+    const { comp, userService, authenticationService } = makeComponent({
+      routeUserId: 'u2',
+      loadedUser: { ...baseUser, userId: 'u2', userFirstName: 'Grace', userLastName: 'Hopper' }
+    });
+
+    const managerUser = { ...baseUser, userLevel: 'xmKxrNOy' } as any;
+    authenticationService.currentUserSubject.next(managerUser);
+
+    comp.ngOnInit();
+
+    expect(userService.getUserByUserId).toHaveBeenCalledWith('u2');
+    expect(comp.user.userId).toBe('u2');
+  });
+
   it('falls back to default interests when admin edit loads malformed legacy profile data', () => {
     const { comp } = makeComponent({
       routeUserId: 'u2',

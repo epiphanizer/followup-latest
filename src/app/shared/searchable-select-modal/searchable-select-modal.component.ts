@@ -12,7 +12,6 @@ export interface SearchableSelectModalGroup {
   label: string;
   items: SearchableSelectModalItem[];
 }
-
 @Component({
   selector: 'app-searchable-select-modal',
   templateUrl: './searchable-select-modal.component.html',
@@ -98,7 +97,6 @@ export class SearchableSelectModalComponent implements AfterViewInit {
   trackByGroup(index: number, group: SearchableSelectModalGroup): string {
     return group?.key || String(index);
   }
-
   private matchesSearch(item: SearchableSelectModalItem, normalizedSearch: string): boolean {
     const searchableText = [item?.label, item?.searchText].filter(Boolean).join(' ');
     return this.normalizeSearchValue(searchableText).includes(normalizedSearch);

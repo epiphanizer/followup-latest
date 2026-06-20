@@ -2,6 +2,8 @@ import { FormArray, FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 import { PatientFormComponent } from './patient-form.component';
 
+let facilityModalDismissResult: { data?: any; role?: string } = { role: 'cancel' };
+
 const baseUser = {
   operations: [{ operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1' }],
   operationGroups: [
@@ -32,17 +34,30 @@ const makeServices = (overrides?: any) => {
   } as any;
   const toastrService = { success: jest.fn() } as any;
   const userService = { updateOperations: jest.fn(() => Promise.resolve()) } as any;
+  const modalController = {
+    create: jest.fn(() =>
+      Promise.resolve({
+        present: jest.fn(() => Promise.resolve()),
+        onDidDismiss: jest.fn(() => Promise.resolve(facilityModalDismissResult))
+      })
+    )
+  } as any;
   return {
     patientService,
     patientContactService,
     patientIntakeQuestionService,
     toastrService,
     userService,
+    modalController,
     ...(overrides || {})
   };
 };
 
 describe('PatientFormComponent (Jest)', () => {
+  beforeEach(() => {
+    facilityModalDismissResult = { role: 'cancel' };
+  });
+
   it('initializes add mode and builds form defaults', async () => {
     const route = { snapshot: { data: { mode: 'add', user: baseUser } } } as any;
     const services = makeServices();
@@ -53,7 +68,8 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
 
     comp.ngOnInit();
@@ -87,7 +103,8 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
 
     comp.ngOnInit();
@@ -116,12 +133,127 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
 
     comp.ngOnInit();
 
     expect(comp.groupedOperations.map(group => group.label)).toEqual(['Client One', 'Client Two']);
+  });
+
+  it('opens the searchable facility modal with the current selection and uppercase option labels', async () => {
+    const groupedUser = {
+      operations: [
+        { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationId: 'op-2', operationName: 'Facility Two', operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ],
+      operationGroups: [
+        { operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ]
+    } as any;
+    const route = { snapshot: { data: { mode: 'add', user: groupedUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService,
+      services.modalController
+    );
+
+    comp.ngOnInit();
+    comp.patientForm.get('patient.operation')!.setValue('op-2');
+
+    await comp.openFacilitySelectModal();
+
+    expect(services.modalController.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        cssClass: 'searchable-select-modal',
+        componentProps: expect.objectContaining({
+          title: 'Select Facility',
+          selectedValue: 'op-2',
+          placeholder: 'Search facilities'
+        })
+      })
+    );
+
+    const modalConfig = services.modalController.create.mock.calls[0][0];
+    expect(modalConfig.componentProps.groups.map((group: any) => group.label)).toEqual(['Client One', 'Client Two']);
+    expect(modalConfig.componentProps.groups[0].items.map((item: any) => item.label)).toEqual(['Facility One']);
+    expect(modalConfig.componentProps.groups[1].items.map((item: any) => item.label)).toEqual(['Facility Two']);
+  });
+
+  it('applies the selected facility only after the modal confirms', async () => {
+    const groupedUser = {
+      operations: [
+        { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationId: 'op-2', operationName: 'South Facility', operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ],
+      operationGroups: [
+        { operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ]
+    } as any;
+    const route = { snapshot: { data: { mode: 'add', user: groupedUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService,
+      services.modalController
+    );
+
+    comp.ngOnInit();
+    comp.patientForm.get('patient.operation')!.setValue('op-1');
+    facilityModalDismissResult = { role: 'confirm', data: { value: 'op-2' } };
+
+    await comp.openFacilitySelectModal();
+
+    expect(comp.patientForm.get('patient.operation')!.value).toBe('op-2');
+    expect(comp.selectedOperationName).toBe('South Facility');
+  });
+
+  it('keeps the existing facility when the modal is cancelled', async () => {
+    const groupedUser = {
+      operations: [
+        { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationId: 'op-2', operationName: 'Facility Two', operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ],
+      operationGroups: [
+        { operationGroupId: 'og-1', operationGroupName: 'Client One' },
+        { operationGroupId: 'og-2', operationGroupName: 'Client Two' }
+      ]
+    } as any;
+    const route = { snapshot: { data: { mode: 'add', user: groupedUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService,
+      services.modalController
+    );
+
+    comp.ngOnInit();
+    comp.patientForm.get('patient.operation')!.setValue('op-1');
+    facilityModalDismissResult = { role: 'cancel' };
+
+    await comp.openFacilitySelectModal();
+
+    expect(comp.patientForm.get('patient.operation')!.value).toBe('op-1');
+    expect(comp.selectedOperationName).toBe('Facility One');
   });
 
   it('initializes edit mode and sets patient data', async () => {
@@ -158,7 +290,8 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
 
     comp.ngOnInit();
@@ -180,7 +313,8 @@ describe('PatientFormComponent (Jest)', () => {
       services.patientContactService,
       services.patientIntakeQuestionService,
       services.toastrService,
-      services.userService
+      services.userService,
+      services.modalController
     );
     comp.patient = {
       patientOperationId: 'op-1',
@@ -584,8 +718,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientAreaCode: '212',
         patientPhoneNumber: '5551234',
         patientGender: 'M',
-        patientHIPAA: true,
-        patientIsResponsibleParty: false,
+        patientIsResponsibleParty: true,
         patientSpeaksEnglish: false,
         patientFluentLanguage: 'Spanish',
         hospitalAdmitted: {
@@ -624,7 +757,7 @@ describe('PatientFormComponent (Jest)', () => {
       patientPhoneNumber: '555-1234',
       patientGender: 'M',
       patientHIPAA: 1,
-      patientIsResponsibleParty: 0,
+      patientIsResponsibleParty: 1,
       patientSpeaksEnglish: 1,
       patientFluentLanguage: '',
       patientHospitalAdmitted: 'General Hospital',
@@ -669,8 +802,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientAreaCode: '212',
         patientPhoneNumber: '555-1234',
         patientGender: 'M',
-        patientHIPAA: true,
-        patientIsResponsibleParty: false,
+        patientIsResponsibleParty: true,
         patientSpeaksEnglish: true,
         patientFluentLanguage: 'Spanish',
         hospitalAdmitted: {
@@ -740,8 +872,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientAreaCode: '212',
         patientPhoneNumber: '555-1234',
         patientGender: 'M',
-        patientHIPAA: true,
-        patientIsResponsibleParty: false,
+        patientIsResponsibleParty: true,
         patientSpeaksEnglish: true,
         patientFluentLanguage: 'Spanish',
         hospitalAdmitted: {
@@ -815,8 +946,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientAreaCode: '212',
         patientPhoneNumber: '5551234',
         patientGender: 'M',
-        patientHIPAA: true,
-        patientIsResponsibleParty: false,
+        patientIsResponsibleParty: true,
         patientSpeaksEnglish: false,
         patientFluentLanguage: 'Spanish',
         hospitalAdmitted: {
@@ -883,8 +1013,7 @@ describe('PatientFormComponent (Jest)', () => {
         patientAreaCode: '212',
         patientPhoneNumber: '5551234',
         patientGender: 'M',
-        patientHIPAA: true,
-        patientIsResponsibleParty: false,
+        patientIsResponsibleParty: true,
         patientSpeaksEnglish: false,
         patientFluentLanguage: '',
         hospitalAdmitted: {
@@ -914,6 +1043,97 @@ describe('PatientFormComponent (Jest)', () => {
 
     expect(payload.patientAdmitDate).toBe('2026-01-02T12:00:00.00Z');
     expect(payload.patientDischargeDate).toBe('2026-01-03T12:00:00.00Z');
+  });
+
+  it('normalizes legacy patient HIPAA state into the responsible-party checkbox', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientHIPAA: true,
+      patientIsResponsibleParty: false,
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+
+    expect(comp.patientForm.get('patient.patientIsResponsibleParty')!.value).toBe(true);
+  });
+
+  it('derives patient HIPAA from responsible-party state in the submit payload', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+
+    const payload = (comp as any).formSubmissionFactory({
+      patient: {
+        patientDob: '2021-01-01',
+        operation: 'op-1',
+        patientMedicalRecordNumber: 'mrn',
+        patientName: { patientFirstName: 'John', patientLastName: 'Doe' },
+        patientCountryCode: '1',
+        patientAreaCode: '212',
+        patientPhoneNumber: '5551234',
+        patientGender: 'M',
+        patientIsResponsibleParty: false,
+        patientSpeaksEnglish: false,
+        patientFluentLanguage: '',
+        hospitalAdmitted: {
+          patientHospitalAdmitted: 'General Hospital'
+        },
+        dischargeInfo: {
+          patientAdmitDate: '2021-01-02',
+          patientDischargeDate: '2021-01-03',
+          patientDischargedAma: true,
+          patientDischargedTo: 'lbl-1'
+        },
+        patientMedicalConditions: {
+          cardiacBoolean: 1,
+          sepsisBoolean: 0,
+          pulmonaryBoolean: 0,
+          otherBoolean: 1
+        },
+        patientDischargedCondition: 'Stable',
+        patientPrimaryDiagnosis: 'DX',
+        patientIntakeQuestionAnswers: [],
+        patientNeedToKnow: 'notes',
+        patientActive: true
+      }
+    });
+
+    expect(payload.patientHIPAA).toBe(0);
+    expect(payload.patientIsResponsibleParty).toBe(0);
   });
 
   it('validates controls and returns flags based on DOM', () => {

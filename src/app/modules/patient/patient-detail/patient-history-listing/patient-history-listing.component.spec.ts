@@ -124,6 +124,10 @@ describe('PatientHistoryListingComponent (Jest)', () => {
     expect(element.querySelector('.notification-detail-link')?.textContent).toContain('View / Reply');
   });
 
+  it('hydrates notification replies only for manager-or-above access on the patient operation', () => {
+    expect(notificationServiceStub.getNotificationRepliesByNotificationId).toHaveBeenCalledWith('n1');
+  });
+
   it('hides View / Reply for care rep access on the patient operation', () => {
     component.user = {
       userId: 'u2',
@@ -135,6 +139,20 @@ describe('PatientHistoryListingComponent (Jest)', () => {
 
     const element = fixture.nativeElement as HTMLElement;
     expect(element.querySelector('.notification-detail-link')).toBeNull();
+  });
+
+  it('skips notification reply hydration for care rep access on the patient operation', () => {
+    jest.clearAllMocks();
+    component.user = {
+      userId: 'u2',
+      userLevel: UserRoles.user,
+      operations: [{ operationId: 'op-1', operationUserRoleLabelId: 3 }]
+    } as any;
+    component.patientActivity = [];
+
+    component.ngOnInit();
+
+    expect(notificationServiceStub.getNotificationRepliesByNotificationId).not.toHaveBeenCalled();
   });
 
   it('hides View / Reply when the user has manager access on a different operation only', () => {

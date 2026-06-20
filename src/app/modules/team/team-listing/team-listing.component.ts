@@ -54,7 +54,10 @@ export class TeamListingComponent implements OnInit {
       typeof this.user?.userLevel === 'number'
         ? this.user.userLevel
         : (UserRolesMap as any)[String(this.user?.userLevel)] || 0;
-    return !!this.selected?.team?.teamId && userLevel === (UserRolesMap as any)[UserRoles.admin];
+    return (
+      !!this.selected?.team?.teamId &&
+      (userLevel === (UserRolesMap as any)[UserRoles.admin] || userLevel === (UserRolesMap as any)[UserRoles.manager])
+    );
   }
 
   get canManageTeams(): boolean {

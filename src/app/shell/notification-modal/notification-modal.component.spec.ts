@@ -123,6 +123,31 @@ describe('NotificationModalComponent (Jest)', () => {
     );
   });
 
+  it('keeps the created notification id across send retries and does not dismiss on failure', () => {
+    const { component, notificationServiceStub, modalCtrlStub, toastrStub } = buildComponent();
+    notificationServiceStub.sendNotificationByNotificationId
+      .mockReturnValueOnce(throwError(() => new Error('send failed')))
+      .mockReturnValueOnce(of(null));
+
+    component.ngOnInit();
+    component.createNotificationForm.get('notificationTypeId').setValue('type-1');
+    component.createNotificationForm.get('notificationMessage').setValue('hello world');
+
+    component.sendTheNotification();
+
+    expect(notificationServiceStub.addNotificationByOperationIdAndNotificationTypeId).toHaveBeenCalledTimes(1);
+    expect(notificationServiceStub.sendNotificationByNotificationId).toHaveBeenCalledTimes(1);
+    expect(toastrStub.error).toHaveBeenCalledWith('Unable to send the notification right now.');
+    expect(modalCtrlStub.dismiss).not.toHaveBeenCalled();
+
+    component.sendTheNotification();
+
+    expect(notificationServiceStub.addNotificationByOperationIdAndNotificationTypeId).toHaveBeenCalledTimes(1);
+    expect(notificationServiceStub.sendNotificationByNotificationId).toHaveBeenCalledTimes(2);
+    expect(toastrStub.success).toHaveBeenCalled();
+    expect(modalCtrlStub.dismiss).toHaveBeenCalled();
+  });
+
   it('stops loading and records an error when notification types fail to load', () => {
     const { component, notificationServiceStub } = buildComponent();
     notificationServiceStub.getNotificationTypes.mockReturnValueOnce(throwError(() => new Error('boom')));

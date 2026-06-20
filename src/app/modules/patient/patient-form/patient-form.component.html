@@ -104,15 +104,6 @@
           <div class="patient-checkbox-grid form-row followup-form-choice-group">
             <ion-checkbox
               class="followup-form-choice followup-form-choice--compact checkbox-option"
-              formControlName="patientHIPAA"
-              labelPlacement="end"
-              alignment="start"
-              justify="start"
-            >
-              HIPAA
-            </ion-checkbox>
-            <ion-checkbox
-              class="followup-form-choice followup-form-choice--compact checkbox-option"
               formControlName="patientIsResponsibleParty"
               labelPlacement="end"
               alignment="start"
@@ -228,6 +219,8 @@
                     <ion-label color="medium" position="stacked">Order</ion-label>
                     <ion-input type="number" formControlName="patientContactOrder" [value]="idx + 1"></ion-input>
                   </ion-item>
+                </div>
+                <div class="patient-contact-flags">
                   <ion-checkbox
                     class="responsible-party-toggle followup-form-choice followup-form-choice--compact"
                     formControlName="patientContactResponsiblePartyBoolean"

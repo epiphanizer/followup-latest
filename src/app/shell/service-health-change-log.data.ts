@@ -15,9 +15,9 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
-    version: '4.0.0_alpha_rc5',
-    recordedAt: '2026-06-14',
-    label: 'Current alpha rc5 candidate',
+    version: '4.0.0_alpha_rc6',
+    recordedAt: '2026-06-19',
+    label: 'Current alpha rc6 candidate',
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
@@ -39,73 +39,57 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'API',
         summary:
-          'The executable duplicate-account merge path now uses an explicit long-running stored-procedure timeout budget instead of failing at the MSSQL driver default on larger merges.',
+          'Duplicate-account merge execution now uses a real long-running stored-procedure timeout override instead of failing at the MSSQL driver default on larger account pairs.',
         evidence:
-          'Recorded in the snapshot API running change log after updating `v4.0.0/followup-api/deployment/service/UserService.js`. Real merge executions through `/users/merge-script` now set `USER_MERGE_WORKUP_TIMEOUT_MS` on the `dbo.sp_runUserMergeWorkup` request instead of relying on the driver default shorter request timeout, which could surface raw `RequestError` `ETIMEOUT` failures for larger duplicate-account merges. When the stored procedure still exceeds that budget, the API now returns a clear `504` message describing the timeout and the override/direct-SQL fallback rather than leaking the raw MSSQL error object. Validation used `node --check deployment/service/UserService.js` on `v4.0.0/followup-api`.',
+          'Recorded in the snapshot API running change log after updating `v4.0.0/followup-api/deployment/service/UserService.js` and `v4.0.0/followup-api/deployment/config/index.js`. The executable `/users/merge-script` path had still been using the driver default `15000ms` request timeout, which could fail on larger duplicate-account pairs even though the preview stored procedure needed about `23.6s` to complete safely on the reproduced `Lesa Thompson` `26 -> 68` case. The API now uses the actual per-request timeout override path with a `USER_MERGE_WORKUP_TIMEOUT_MS` default of `300000ms`, and timeout overruns return a clear `504` message instead of the raw driver object. Validation used `node --check` on the touched API files plus direct local preview execution of `sp_runUserMergeWorkup` for `sourceUserId = 26`, `targetUserId = 68`, `commitChanges = 0`, which completed in about `23612ms`.',
         source: 'v4.0.0/followup-api/agents.md'
       },
       {
         scope: 'Frontend',
         summary:
-          'User Management can now execute a duplicate-account merge directly after previewing the generated workup instead of stopping at a preview-only SQL invocation.',
+          'The Patient Facility field now opens a reusable grouped searchable Ionic modal that preserves the current value until the user explicitly confirms the new selection.',
         evidence:
-          'Recorded in the snapshot frontend/API running change logs after updating `src/app/modules/user/user-listing/user-listing.component.ts`, `.html`, `.spec.ts`, `src/app/modules/user/user.service.ts`, `v4.0.0/followup-api/deployment/controllers/User.js`, `v4.0.0/followup-api/deployment/service/UserService.js`, and `v4.0.0/followup-api/deployment/api/swagger.yaml`. The active v4 snapshot still exposed only `Generate Merge Script` after `Generated merge workup`, while the newer admin flow already supported executing the same merge directly from User Management. The debug panel now supports both preview and execute actions, the API accepts `commitChanges = true` on the same admin-only `/users/merge-script` endpoint, and successful executions return final user rows so the local roster state can update immediately after commit. Validation used focused Jest on `src/app/modules/user/user-listing/user-listing.component.spec.ts` (`5/5` tests passing), `npm run build -s` on `v4.0.0/followup-frontend`, and `node --check` on the touched snapshot API controller/service files.',
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.ts`, `src/app/modules/patient/patient-form/patient-form.component.html`, the reusable `src/app/shared/searchable-select-modal/*` component, and the related patient-form styles/tests. The old inline facility picker panel was removed in favor of a reusable modal that preselects the current facility, filters in real time through an `ion-searchbar`, keeps the form value unchanged until the user presses `OK`, preserves grouped client sections during search, and leaves the existing value untouched on `Cancel` or backdrop dismissal. Validation used focused Jest on `src/app/shared/searchable-select-modal/searchable-select-modal.component.spec.ts` and `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`32/32` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Primary Contact segmented phone fields now match the rest of the patient form inputs and the Responsible Party checkbox no longer collides with that phone row.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html` and `src/app/modules/patient/patient-form/patient-form.component.scss`. The contact phone grid had still been using oversized `58px` inputs and kept the `Responsible Party` checkbox inside the same three-column grid, which made the segmented phone fields look taller and more boxy than the First Name / Last Name / Relationship inputs and let the checkbox sit too close to the phone row. The phone segments now use an explicit `44px` fixed height with tighter vertical padding so they cannot render taller than the surrounding text inputs, the horizontal segment spacing is normalized, the contact `Responsible Party` checkbox is rendered on its own row below the phone inputs, and the wrap breakpoint is narrowed so tablet widths keep the row intact while mobile widths still stack cleanly. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`28/28` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The duplicate-account admin panel can now execute the merge workup directly instead of only printing the stored procedure invocation.',
+        evidence:
+          'Recorded in the snapshot frontend/API running change logs after updating `src/app/modules/user/user-listing/user-listing.component.ts`, `src/app/modules/user/user-listing/user-listing.component.html`, `src/app/modules/user/user.service.ts`, `v4.0.0/followup-api/deployment/controllers/User.js`, `v4.0.0/followup-api/deployment/service/UserService.js`, and `v4.0.0/followup-api/deployment/api/swagger.yaml`. The admin-only duplicate-login panel in `/users` still supports previewing the `sp_runUserMergeWorkup` invocation, but it now also exposes `Run Merge Now`, which confirms the action, calls the same endpoint with `commitChanges = true`, and applies the committed final-user state back into the local roster. Validation used focused Jest on `src/app/modules/user/user-listing/user-listing.component.spec.ts` (`6/6` tests passing) plus `node --check` on the touched snapshot API controller/service files.',
         source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
       },
       {
         scope: 'Frontend',
         summary:
-          'The Patient Detail `Yes` / `No` boolean answers now keep their labels closer to the checkbox squares on the call screen.',
+          'Team permissions now live in the team-facing manager/admin workflow: managers can open the team permissions screen from Teams, and the old Admin menu is renamed to Team Management.',
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-detail/patient-call/patient-call-questions/patient-call-questions.component.scss`. The patient-detail call screen already used a component-scoped checkbox style for boolean answers, but that local rule was still adding an `8px` inline margin between each checkbox square and its label, which made the `Yes` / `No` labels feel too detached from the checkboxes on `/call-queue/operations/:operationId/patient/:patientId`. Reducing that local checkbox-to-label spacing tightened the control presentation without changing the surrounding layout or control behavior. Validation used `npm run build -s` on `v4.0.0/followup-frontend`.',
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-routing.module.ts`, `src/app/modules/team/team-listing/team-listing.component.ts`, `src/app/modules/team/team-listing/team-listing.component.html`, `src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.html`, `src/app/modules/team/team-access/team-access.component.html`, and `src/app/shell/toolbar-nav/toolbar-nav.component.ts`. The `teams/:teamId/access` route now allows managers alongside admins, the team page and sidebar relabel that path as `Team Permissions`, and the top navigation now presents the manager-visible section as `Team Management` with the primary child link renamed from `Team Members` to `Team Management`. Validation used focused Jest on the team-listing, team-access, and toolbar-nav slices (`26/26` tests passing).',
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
         scope: 'Frontend',
         summary:
-          'The Patient add/remove contact controls now share the same contained header layout, and contact deletions keep order fields synchronized between the model and the reactive form.',
+          'Managers can now open the user roster, edit another user profile, and keep the duplicate-account debug tooling admin-only instead of treating all user-management flows as admin-only.',
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html`, `.scss`, `.ts`, and `.spec.ts`. `Remove Contact` was still using the old float-based header placement after `Add Contact` had already been normalized, which left it vulnerable to the same obscured layout behavior when additional contacts were shown. The contact header now uses contained flex alignment for both the contact label and remove action, and the add/remove logic now reindexes `patientContactOrder` in both the backing `patientContacts` array and the reactive form controls after every mutation while avoiding undefined removal ids for unsaved contacts. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`25/25` tests passing) plus `npm run build -s` on `v4.0.0/followup-frontend`.',
-        source: 'v4.0.0/followup-frontend/agents.md'
+          'Recorded in the snapshot frontend/API running change logs after updating `src/app/modules/user/user-routing.module.ts`, `src/app/modules/user/user-profile/user-profile-routing.module.ts`, `src/app/modules/user/user-profile/user-profile.component.ts`, `src/app/modules/user/user-listing/user-listing.component.ts`, `src/app/modules/user/user-listing/user-listing.component.html`, `src/app/shell/toolbar-nav/toolbar-nav.component.ts`, `src/app/shell/toolbar-nav/toolbar-nav.component.html`, and `v4.0.0/followup-api/deployment/utils/routeAuthorization.js`. The frontend now allows manager access to `/users` and `/users/:userId`, keeps the duplicate-login debug panel admin-only inside the user roster, and exposes the `User Management` nav item to managers without opening the rest of the admin-only child links. The API authorization layer now explicitly treats `getUsers`, `getActiveUsers`, `getUserByUserId`, `editUserByUserId`, and user-avatar writes as manager-plus or self-service routes instead of leaving other-user edits behind an admin-only frontend gate. Validation used focused Jest on the user-profile, user-listing, toolbar-nav, and user-resolver slices (`25/25` tests passing) plus `node --check v4.0.0/followup-api/deployment/utils/routeAuthorization.js`.',
+        source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
       },
       {
         scope: 'Frontend',
         summary:
-          'The Patient form now gives `Add Contact` its own contained row again and adds clearer separation inside the medical-condition textarea block.',
+          'The patient form now shows only one patient-level `Responsible Party` toggle, while the Facility picker keeps grouped client headers and the contact phone row uses the same 44px field treatment as the rest of the form.',
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.scss`. The `Add Contact` control was still using a floated legacy placement inside the contacts fieldset, which could let nearby section content visually cover it after the surrounding patient-form layout changes, and the medical-condition textareas had no dedicated vertical separation rule of their own. The contacts fieldset now establishes its own block formatting context, the `Add Contact` action is rendered as a contained right-aligned row instead of an escaping float, and the medical-condition section now has explicit bottom spacing plus a small gap between the diagnosis/discharged-condition textarea rows. Validation used `npm run build -s` on `v4.0.0/followup-frontend`.',
-        source: 'v4.0.0/followup-frontend/agents.md'
-      },
-      {
-        scope: 'Frontend',
-        summary:
-          'The Patient contact phone row now gives the `Responsible Party` checkbox its own unclipped row below the phone inputs instead of pulling it up into the grid.',
-        evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.scss`. Once the contact phone inputs were returned to the shared migrated Ionic height, the remaining layout issue was the contact phone wrapper itself: it still behaved like a zero-gap bottom-aligned grid while the `Responsible Party` checkbox lived inside that same grid, which could pull the checkbox upward into the phone row and clip it visually. The contact phone grid now uses natural vertical spacing, aligns content from the top instead of forcing bottom alignment, keeps the Order field on its own stable row position, and places the `Responsible Party` checkbox on an explicit full-width row below the phone inputs so it no longer overlaps or clips. Validation used `npm run build -s` on `v4.0.0/followup-frontend`.',
-        source: 'v4.0.0/followup-frontend/agents.md'
-      },
-      {
-        scope: 'Frontend',
-        summary:
-          'Add Patient phone fields now use the same migrated Ionic input height as the rest of the form instead of the older oversized phone-specific sizing.',
-        evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.scss`. The patient form already had a shared local `ion-input { min-height: 44px; }` baseline for normal fields, but both the main patient phone row and the contact phone rows were still carrying older `.phone-field ion-input { min-height: 58px; }` overrides from the pre-migration styling path, which left those inputs visibly taller and more padded than neighboring fields after the Ionic migration. Removing the stale phone-specific overrides lets those controls fall back to the same shared `44px` height as the rest of the form. Validation used `npm run build -s` on `v4.0.0/followup-frontend`.',
-        source: 'v4.0.0/followup-frontend/agents.md'
-      },
-      {
-        scope: 'Frontend',
-        summary:
-          'The selected Facility value now keeps the same title casing as the modal list, and the `Select Facility` modal title has been reduced slightly for a better visual fit.',
-        evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.scss` and `src/app/shared/searchable-select-modal/searchable-select-modal.component.scss`. The Facility trigger in New Patient is a plain `button`, and the shared theme still applies uppercase transforms to buttons globally, which was forcing the selected facility display back to all caps even after the modal labels were corrected. The trigger now explicitly opts out of uppercase button styling so the selected value keeps the same title casing shown in the modal, and the `Select Facility` modal title has been reduced slightly for a closer match to the rest of the app. Validation used `npm run build -s` on `v4.0.0/followup-frontend`.',
-        source: 'v4.0.0/followup-frontend/agents.md'
-      },
-      {
-        scope: 'Frontend',
-        summary:
-          'The searchable New Patient Facility modal now preserves grouped client headers, app-style display casing, and correct single-select radio state instead of rendering one flat all-uppercase list.',
-        evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.ts`, `src/app/modules/patient/patient-form/patient-form.component.scss`, and the reusable `src/app/shared/searchable-select-modal/*` component files. The first modal pass opened correctly but flattened grouped facilities into one list, displayed all-uppercase facility labels, left the trigger styling slightly off from the rest of the patient form, and styled radios in a way that made every visible row appear selected. The refined modal now preserves client-group sections during both normal browsing and filtered search, formats facility names back into the app\'s expected display casing while keeping submitted ids unchanged, left-aligns the Facility trigger text like the surrounding form fields, and reuses the existing notification-modal radio-state pattern so only the temporary or committed choice renders as selected. Validation used `npm run build -s` on `v4.0.0/followup-frontend`.',
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.ts`, `.html`, `.scss`, and `.spec.ts` plus the reusable searchable-select modal files. The patient HIPAA checkbox has been removed in favor of deriving the legacy compatibility field from the remaining responsible-party state, the grouped Facility modal preserves client sections and title-cased labels during search, and the segmented Primary Contact phone fields now use the same fixed 44px height and separate Responsible Party row as the rest of the migrated form. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` and `src/app/shared/searchable-select-modal/searchable-select-modal.component.spec.ts` (`32/32` tests passing).',
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
@@ -123,6 +107,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         evidence:
           'Recorded in the snapshot frontend/API running change logs after updating `src/app/shell/shell.component.ts`, `src/app/shell/shell.component.spec.ts`, `src/app/modules/user/user-resolver.service.ts`, `v4.0.0/followup-api/deployment/service/UserAuthService.js`, and `v4.0.0/followup-api/deployment/service/UserService.js`. The frontend shell had only been extending its local inactivity deadline on mouse-move, touch, and keyboard activity, while the API was also embedding a hard `Date.now() + 900000` expiry into the JWT itself. That combination made active desktop users vulnerable to unexpected logout from click-only navigation or any workflow that crossed the 15-minute token age boundary. The shell now treats mouse-down and wheel activity as session activity, keeps the local inactivity window explicit at 15 minutes, and the API now issues an 8-hour JWT session window so active users are not forcibly logged out mid-workflow. Validation used focused frontend Jest on `src/app/shell/shell.component.spec.ts`, `src/app/core/authentication/auth.service.spec.ts`, and `src/app/core/http/error-handler.interceptor.spec.ts` (`18/18` tests passing) plus API `npm test --silent` (`Syntax OK for 69 files`).',
         source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Notification detail access now follows the manager-plus `View / Reply` rule, and the Notify modal no longer closes or recreates duplicate notifications when the email-send step fails.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/notification/notification-routing.module.ts`, `src/app/modules/patient/patient-detail/patient-history-listing/patient-history-listing.component.ts`, `patient-history-listing.component.html`, and `src/app/shell/notification-modal/notification-modal.component.ts`. Notification detail navigation now uses the standard auth guard with manager-plus roles, patient-history reply hydration/rendering now follows the same gate instead of fetching reply content for care reps, and the Notify modal now preserves the created `notificationId` across retries, keeps the dialog open on send failures, and only dismisses after a successful send so retrying a failed email does not create duplicate notification records. Validation used focused Jest on the notification modal, patient history, notification detail, and auth guard slices (`4/4` suites, `20/20` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
         scope: 'Frontend',
@@ -163,6 +155,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         evidence:
           'Recorded in the snapshot frontend running change log after auditing the remaining client-group hydration paths and updating `src/app/modules/operation/operation-form/operation-form.component.ts`. After the ownership selector itself moved to the logged-in user\'s visible `user.operationGroups` context, the remaining leak was the inline `+ Add Client` modal in Operation Form: it was still copying the form\'s local `operationGroups` array back into `user.operationGroups`, `localStorage.operationGroups`, and the persisted user snapshot, even when that local list had been hydrated from the broader all-clients feed used by edit/view to preserve archived ownership display. The form now keeps the new client only in the local selector list and leaves the shared active-client cache untouched. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts`, `src/app/modules/data/data.service.spec.ts`, and `src/app/shell/toolbar-nav/toolbar-nav.component.spec.ts` (`40/40` tests passing).',
         source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Notification create/send is now authenticated-user accessible while notification detail reads are restricted to manager-plus at the API authorization layer.',
+        evidence:
+          'Recorded in the snapshot API running change log after updating `deployment/utils/routeAuthorization.js` and `deployment/index.js` so `addNotification` and `sendNotificationByNotificationId` use an authenticated-user policy, while `getNotificationByNotificationId`, `getNotificationRepliesByNotificationId`, and `getNotificationRepliesByPatientId` require manager-plus. The authorization middleware now enforces operation policies generically instead of only treating them as write-only rules, which lets the API mirror the frontend `View / Reply` boundary without blocking care-rep initiated sends. Validation used `node --check deployment/index.js` and `node --check deployment/utils/routeAuthorization.js`.',
+        source: 'v4.0.0/followup-api/agents.md'
       },
       {
         scope: 'API',
@@ -270,9 +270,9 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       },
       {
         scope: 'Release',
-        summary: 'The current v4 alpha snapshot is now tagged and surfaced as `4.0.0_alpha_rc5` across the frontend build metadata, API package metadata, and the Service Health version history.',
+        summary: 'The current v4 alpha snapshot is now tagged and surfaced as `4.0.0_alpha_rc6` across the frontend build metadata, API package metadata, and the Service Health version history.',
         evidence:
-          'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_alpha_rc4` to `4.0.0_alpha_rc5`, updating `src/environments/.env.ts`, and retagging this top Service Health release entry so the active alpha shows up consistently in the shell version panel, branch merge target, and status payloads.',
+          'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_alpha_rc5` to `4.0.0_alpha_rc6`, updating `src/environments/.env.ts`, and retagging this top Service Health release entry so the active alpha shows up consistently in the shell version panel, branch merge target, and status payloads.',
         source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
       },
       {

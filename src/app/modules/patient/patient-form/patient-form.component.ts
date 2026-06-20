@@ -461,8 +461,7 @@ export class PatientFormComponent implements OnInit {
         patientPhoneNumber: this.fb.control(this.formatPhoneInputValue(this.patient.patientPhoneNumber), [
           Validators.pattern(this.phoneNumberRegEx)
         ]),
-        patientHIPAA: this.fb.control(this.patient.patientHIPAA),
-        patientIsResponsibleParty: this.fb.control(this.patient.patientIsResponsibleParty),
+        patientIsResponsibleParty: this.fb.control(this.normalizePatientResponsiblePartyBoolean(this.patient)),
         patientSpeaksEnglish: this.fb.control(
           typeof this.patient.patientSpeaksEnglish == 'undefined' || this.patient.patientSpeaksEnglish == true
             ? false
@@ -892,7 +891,7 @@ export class PatientFormComponent implements OnInit {
       patientAreaCode: formSubmission.patient.patientAreaCode || '',
       patientPhoneNumber: this.formatPhoneInputValue(formSubmission.patient.patientPhoneNumber),
       patientGender: formSubmission.patient.patientGender,
-      patientHIPAA: formSubmission.patient.patientHIPAA == true ? 1 : 0,
+      patientHIPAA: formSubmission.patient.patientIsResponsibleParty == true ? 1 : 0,
       patientIsResponsibleParty: formSubmission.patient.patientIsResponsibleParty == true ? 1 : 0,
       patientSpeaksEnglish: doesNotSpeakEnglish ? 0 : 1,
       patientFluentLanguage: patientFluentLanguage,
@@ -919,6 +918,10 @@ export class PatientFormComponent implements OnInit {
       (patientContact.patientContactResponsiblePartyBoolean == true ||
         patientContact.patientContactHIPAABoolean == true)
     );
+  }
+
+  private normalizePatientResponsiblePartyBoolean(patient: Patient): boolean {
+    return !!(patient && (patient.patientIsResponsibleParty == true || patient.patientHIPAA == true));
   }
 
   private formatPhoneInputValue(phoneValue: string): string {

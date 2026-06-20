@@ -15,11 +15,11 @@
 
 .searchable-select-modal-header ion-title {
   font-family: AvenirPro;
-  font-size: 26px;
+  font-size: 24px;
+  letter-spacing: 0.24px;
+  color: #3f3638;
   font-weight: 300;
   line-height: 1.1;
-  letter-spacing: 0.32px;
-  color: #343638;
   padding-inline: 28px 20px;
   text-align: left;
 }
@@ -145,15 +145,15 @@
 
 @media screen and (max-width: 767px) {
   .searchable-select-modal-header ion-title {
-    font-size: 22px;
-    padding-inline: 20px 16px;
+    font-size: 20px;
+    padding-inline: 16px;
   }
 
   .searchable-select-modal-search {
-    padding: 4px 20px 12px;
+    padding: 4px 16px 12px;
   }
 
   .searchable-select-modal-actions {
-    padding: 0 14px 12px;
+    padding: 0 12px 12px;
   }
 }

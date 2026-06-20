@@ -41,4 +41,28 @@ describe('TeamListingComponent (Jest)', () => {
 
     expect(comp.canManageTeams).toBe(true);
   });
+
+  it('allows managers to open team permissions without granting lifecycle management', () => {
+    const managerRoute = {
+      snapshot: {
+        params: {},
+        data: {
+          user: {
+            userLevel: 'xmKxrNOy',
+            teams: [{ teamId: 't1' }]
+          }
+        }
+      },
+      paramMap: {
+        subscribe: (fn: any): any => fn({ get: (_key: string): string | null => null })
+      }
+    } as any;
+
+    const comp = new TeamListingComponent(managerRoute);
+    comp.ngOnInit();
+
+    expect(comp.canManageTeamAccess).toBe(true);
+    expect(comp.canManageTeams).toBe(false);
+    expect(comp.selectedTeamAccessLink).toEqual(['/teams', 't1', 'access']);
+  });
 });

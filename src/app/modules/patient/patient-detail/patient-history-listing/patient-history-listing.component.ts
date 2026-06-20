@@ -69,7 +69,7 @@ export class PatientHistoryListingComponent implements OnInit {
         patientNotification.notificationMessage = this.sharedFunctions.returnHTML(
           patientNotification.notificationMessage
         );
-        if (patientNotification.notificationId) {
+        if (patientNotification.notificationId && this.canViewNotificationReply(patientNotification)) {
           this.notificationService
             .getNotificationRepliesByNotificationId(patientNotification.notificationId)
             .subscribe((replies: NotificationReply[]) => {

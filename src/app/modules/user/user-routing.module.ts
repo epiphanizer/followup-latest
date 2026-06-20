@@ -15,7 +15,7 @@ const routes: Routes = [
       component: UserListingComponent,
       canActivate: [AuthGuardService],
       data: {
-        roles: [UserRoles.admin],
+        roles: [UserRoles.admin, UserRoles.manager],
         title: extract('Users Listing')
       },
       resolve: {

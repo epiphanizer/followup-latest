@@ -321,17 +321,17 @@ form {
 
   div.patient-phone-container {
     display: grid;
-    grid-template-columns: 120px 140px 240px;
-    column-gap: 18px;
+    grid-template-columns: 104px 112px minmax(220px, 1fr);
+    column-gap: 16px;
     row-gap: 0;
-    align-items: end;
+    align-items: start;
     width: 100%;
     max-width: 720px;
     margin-top: 26px;
 
-    @media screen and (orientation: portrait) and (max-width: 1024px) {
+    @media screen and (max-width: 767px) {
       grid-template-columns: 1fr;
-      row-gap: 12px;
+      row-gap: 14px;
       margin-top: 20px;
       width: 100%;
     }
@@ -357,8 +357,16 @@ form {
     .phone-field {
       ion-label {
         display: block;
-        min-height: 42px;
-        margin-bottom: 6px;
+        min-height: 0;
+        margin-bottom: 8px;
+        white-space: nowrap;
+      }
+
+      ion-input {
+        min-height: 44px;
+        height: 44px;
+        --padding-top: 8px;
+        --padding-bottom: 8px;
       }
     }
   }
@@ -664,14 +672,14 @@ form {
       max-width: 720px;
       clear: both;
       display: grid;
-      grid-template-columns: 120px 140px 240px;
-      column-gap: 18px;
-      row-gap: 12px;
+      grid-template-columns: 104px 112px minmax(220px, 1fr);
+      column-gap: 16px;
+      row-gap: 0;
       align-items: start;
 
-      @media screen and (orientation: portrait) and (max-width: 1024px) {
+      @media screen and (max-width: 767px) {
         grid-template-columns: 1fr;
-        row-gap: 12px;
+        row-gap: 14px;
       }
 
       ion-item {
@@ -709,13 +717,32 @@ form {
       .phone-field {
         ion-label {
           display: block;
-          min-height: 42px;
-          margin-bottom: 6px;
+          min-height: 0;
+          margin-bottom: 8px;
+          white-space: nowrap;
+        }
+
+        ion-input {
+          min-height: 44px;
+          height: 44px;
+          --padding-top: 8px;
+          --padding-bottom: 8px;
         }
       }
+    }
 
-      .patient-contact-order {
-        align-self: end;
+    .patient-contact-flags {
+      clear: both;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 24px;
+      width: 100%;
+      max-width: 720px;
+      margin-top: 18px;
+
+      @media screen and (max-width: 767px) {
+        margin-top: 16px;
       }
 
       .responsible-party-toggle {

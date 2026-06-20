@@ -35,7 +35,7 @@
 
         <div
           class="notification-replies-container"
-          *ngIf="activity.notificationReplies && activity.notificationReplies.length > 0"
+          *ngIf="canViewNotificationReply(activity) && activity.notificationReplies && activity.notificationReplies.length > 0"
         >
           <span class="notification-label">Replies</span>
           <div class="notification-reply" *ngFor="let reply of activity.notificationReplies">

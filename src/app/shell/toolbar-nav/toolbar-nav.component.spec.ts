@@ -110,6 +110,21 @@ describe('ToolbarNavComponent logic', () => {
     expect(component.canAccessLink(addPatientLink)).toBe(false);
   });
 
+  it('marks User Management as manager-visible while keeping admin-only child links stricter', () => {
+    const managementNavLink = component.navLinks.find(link => link.linkName === 'Team Management') as any;
+
+    expect(managementNavLink.minRole).toBe(2);
+    expect(managementNavLink.dropdown.links.find((link: any) => link.linkName === 'User Management').minRole).toBe(2);
+    expect(managementNavLink.dropdown.links.find((link: any) => link.linkName === 'Team Management').minRole).toBe(1);
+  });
+
+  it('renames the manager-facing admin menu to Team Management', () => {
+    const managementNavLink = component.navLinks.find(link => link.linkName === 'Team Management') as any;
+
+    expect(managementNavLink).toBeTruthy();
+    expect(managementNavLink.dropdown.links.find((link: any) => link.linkName === 'Team Management')).toBeTruthy();
+  });
+
   it('opens and closes dropdowns', () => {
     component.openDropdown(0);
     expect(component.dropdowns[0].activated).toBe(true);

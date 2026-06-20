@@ -71,32 +71,36 @@ export class ToolbarNavComponent implements OnInit {
     this.navLinks = [
       {
         linkAction: '/teams',
-        linkName: 'Admin',
+        linkName: 'Team Management',
         dynamic: false,
         dropdown: {
           activated: false,
           links: [
             {
               linkAction: '/teams',
-              linkName: 'Team Members'
+              linkName: 'Team Management',
+              minRole: 1
             },
             {
               linkAction: '/users',
-              linkName: 'User Management'
+              linkName: 'User Management',
+              minRole: 2
             },
             {
               linkAction: 'toggleServiceHealth',
               dynamic: true,
-              linkName: 'Service Health'
+              linkName: 'Service Health',
+              minRole: 1
             },
             {
               linkAction: 'getExcelReport',
               dynamic: true,
-              linkName: 'Excel Report'
+              linkName: 'Excel Report',
+              minRole: 1
             }
           ]
         },
-        minRole: 1
+        minRole: 2
       },
       {
         linkAction: '/clients',

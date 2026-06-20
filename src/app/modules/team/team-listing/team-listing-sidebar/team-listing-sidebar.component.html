@@ -40,7 +40,7 @@
         <span class="team-state-pill" [class.archived]="team.teamActive === 0">
           {{ team.teamActive === 0 ? 'Archived' : 'Active' }}
         </span>
-        <a class="team-access-link" [routerLink]="'/teams/' + team.teamId + '/access'">Manage access</a>
+        <a class="team-access-link" [routerLink]="'/teams/' + team.teamId + '/access'">Team permissions</a>
         <button
           *ngIf="canManageTeams"
           type="button"
