@@ -93,7 +93,7 @@
                 </ng-container>
                 <ng-template #noRecipients>
                   Woops! No recipients have been set. Click
-                  <a href="/operations/" + {{ notification.notifcationOperationId }}>here</a>
+                  <a [routerLink]="['/operations', notification.notificationOperationId]">here</a>
                   to go set some recipients!
                 </ng-template>
               </ion-label>

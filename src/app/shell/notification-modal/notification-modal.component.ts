@@ -106,7 +106,9 @@ export class NotificationModalComponent {
   editNotification() {
     this.status.notification.saved = false;
   }
+
   saveNotification() {
+    this.syncNotificationFromForm();
     this.status.notification.saved = true;
     this.notificationService
       .getNotificationRecipientsByOperationIdAndNotificationTypeId(
@@ -123,11 +125,9 @@ export class NotificationModalComponent {
         }
       });
   }
-  sendTheNotification() {
-    let formData = this.createNotificationForm.getRawValue();
-    this.notification.notificationTypeId = formData.notificationTypeId;
 
-    this.notification.notificationMessage = formData.notificationMessage;
+  sendTheNotification() {
+    this.syncNotificationFromForm();
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe((data: any) => {
@@ -180,5 +180,24 @@ export class NotificationModalComponent {
     }
 
     return [];
+  }
+
+  private syncNotificationFromForm() {
+    if (!this.createNotificationForm) {
+      return;
+    }
+
+    const formData = this.createNotificationForm.getRawValue();
+    const notificationType = this.notificationTypes.find((type: NotificationType) => {
+      return type.notificationTypeId == formData.notificationTypeId;
+    });
+
+    this.notification.notificationTypeId = formData.notificationTypeId;
+    this.notification.notificationMessage = encodeURI(formData.notificationMessage || '');
+
+    if (notificationType) {
+      this.notification.notificationTypeLabel = notificationType.notificationTypeLabel;
+      this.notification.notificationIconImage = notificationType.notificationIconImage;
+    }
   }
 }

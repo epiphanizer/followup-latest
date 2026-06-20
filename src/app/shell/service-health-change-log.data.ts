@@ -21,11 +21,27 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'Frontend',
+        summary:
+          'Archived patients now render as `Archived` in the patient listing and route directly to history instead of still appearing as `In Progress` links into the live call flow.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-listing/patient-patient-listing/patient-patient-listing.component.ts`, `.html`, and `.spec.ts`. The patient listing had been rendering the raw API `patientStatusLabel` even when `patientActive = 0`, so archived patients could still show `In Progress`, and the table row template was bypassing its own `getPatientLink(...)` helper with a hardcoded live patient route. The listing now normalizes inactive rows to display `Archived` before sort and search logic runs, and the row routerLink now uses `getPatientLink(patient)` so archived rows open the history view instead of the live call route. Validation used focused Jest on `src/app/modules/patient/patient-listing/patient-patient-listing/patient-patient-listing.component.spec.ts` (`9/9` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Notify modal now syncs the current form values before entering review mode, so the first Save shows the correct notification type and message instead of a blank or stale review state.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/shell/notification-modal/notification-modal.component.ts`, `.html`, and `.spec.ts`. The modal review step had been switching `status.notification.saved` before explicitly syncing the current form state back into the notification object, which could leave the first review pass missing the selected notification type metadata or current message content. The modal now uses one shared form-to-notification sync path before both `saveNotification()` and `sendTheNotification()`, and the no-recipient fallback link now points at the correct `notificationOperationId` route binding. Validation used focused Jest on `src/app/shell/notification-modal/notification-modal.component.spec.ts` (`7/7` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'API',
         summary:
           'The executable duplicate-account merge path now uses an explicit long-running stored-procedure timeout budget instead of failing at the MSSQL driver default on larger merges.',
         evidence:
-          'Recorded in the snapshot API running change log after updating `v4.0.0/followup-api/deployment/service/UserService.js`. Real merge executions through `/users/merge-script` now set `USER_MERGE_WORKUP_TIMEOUT_MS` on the `dbo.sp_runUserMergeWorkup` request instead of relying on the driver's shorter default request timeout, which could surface raw `RequestError` `ETIMEOUT` failures for larger duplicate-account merges. When the stored procedure still exceeds that budget, the API now returns a clear `504` message describing the timeout and the override/direct-SQL fallback rather than leaking the raw MSSQL error object. Validation used `node --check deployment/service/UserService.js` on `v4.0.0/followup-api`.',
+          'Recorded in the snapshot API running change log after updating `v4.0.0/followup-api/deployment/service/UserService.js`. Real merge executions through `/users/merge-script` now set `USER_MERGE_WORKUP_TIMEOUT_MS` on the `dbo.sp_runUserMergeWorkup` request instead of relying on the driver default shorter request timeout, which could surface raw `RequestError` `ETIMEOUT` failures for larger duplicate-account merges. When the stored procedure still exceeds that budget, the API now returns a clear `504` message describing the timeout and the override/direct-SQL fallback rather than leaking the raw MSSQL error object. Validation used `node --check deployment/service/UserService.js` on `v4.0.0/followup-api`.',
         source: 'v4.0.0/followup-api/agents.md'
       },
       {

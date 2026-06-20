@@ -24,14 +24,15 @@ export class PatientPatientListingComponent implements OnInit {
   public colDefs = ['Date', 'Patient', 'Sex', 'Patient #', 'Status', 'Completed'];
   public selectedSortOption: string = this.colDefs[0];
   constructor(private patientService: PatientService) {}
+
   ngOnInit() {
     if (this.mode.spanish) {
       this.patientService.getActiveSpanishPatients().pipe(
         take(1),
         map((patients: Patient[]) => {
           if (patients) {
-            this.patients = patients;
-            this.patientsFiltered = patients;
+            this.patients = this.normalizePatients(patients);
+            this.patientsFiltered = this.patients;
             this.runSortSwitch();
           } else {
             this.patientsFiltered = this.patients = [];
@@ -46,8 +47,8 @@ export class PatientPatientListingComponent implements OnInit {
           take(1),
           map((patients: Patient[]) => {
             if (patients) {
-              this.patients = patients;
-              this.patientsFiltered = patients;
+              this.patients = this.normalizePatients(patients);
+              this.patientsFiltered = this.patients;
               this.runSortSwitch();
             } else {
               this.patientsFiltered = this.patients = [];
@@ -70,8 +71,8 @@ export class PatientPatientListingComponent implements OnInit {
             if (patients) {
               this.pageSelected = 0;
               this.sorted = false;
-              this.patients = patients;
-              this.patientsFiltered = patients;
+              this.patients = this.normalizePatients(patients);
+              this.patientsFiltered = this.patients;
               this.runSortSwitch();
               // this.onChangePage(patients);
             } else {
@@ -242,5 +243,18 @@ export class PatientPatientListingComponent implements OnInit {
 
   trackByPatientId(index: number, patient: Patient): string | number {
     return patient?.patientId || index;
+  }
+
+  private normalizePatients(patients: Patient[]): Patient[] {
+    return (patients || []).map((patient: Patient) => {
+      const patientIsActive = Number(patient?.patientActive) === 1;
+      if (!patientIsActive) {
+        return {
+          ...patient,
+          patientStatusLabel: 'Archived'
+        };
+      }
+      return patient;
+    });
   }
 }
