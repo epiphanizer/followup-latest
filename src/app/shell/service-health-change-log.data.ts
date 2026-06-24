@@ -21,6 +21,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'API',
+        summary:
+          'The rc7 snapshot API dependency pass removes the optional App Insights runtime package, removes `file-type` from the download path, and trims the live audit surface down to three moderate legacy-router advisories.',
+        evidence:
+          'Recorded after updating `v4.0.0/followup-api/package.json`, `package-lock.json`, `deployment/index.js`, `deployment/telemetry.js`, and `deployment/utils/fileTransfers.js`. The API no longer ships `applicationinsights`, no longer depends on `file-type` / `read-chunk` to infer outgoing download MIME types, now uses top-level `js-yaml.load(...)` for local swagger parsing, and pins safer router transitives through `overrides` (`multer@1.4.5-lts.2`, `path-to-regexp@3.3.0`, `superagent@7.1.6`) while preserving the existing `oas3-tools.initializeMiddleware(...)` contract. Validation used `npm install`, a compatibility probe confirming `oas3-tools.initializeMiddleware` still exists and telemetry remains safely disabled when unconfigured, `npm test --silent` PASS (`8/8` tests), and `npm audit --json` reduced to `3` moderate findings, all remaining in the legacy `oas3-tools` -> `json-refs` -> `js-yaml` stack with no safe drop-in fix short of replacing that router subtree.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The rc7 snapshot frontend dependency pass moves the app to the latest Angular 21 patch line and the patched browser App Insights SDK, while leaving only force-level Angular build-tooling advisories behind.',
+        evidence:
+          'Recorded after updating `v4.0.0/followup-frontend/package.json` and `package-lock.json`. The frontend now runs on Angular runtime packages `21.2.17`, CLI/build packages `21.2.16`, and `@microsoft/applicationinsights-web@3.4.2`, followed by the safe `npm audit fix --legacy-peer-deps` pass available on that line. Validation used `npm install --legacy-peer-deps`, `npm run build -s` PASS before and after the safe audit-fix pass, and `npm audit --json`, which reduced the earlier `44` findings to `34` remaining vulnerabilities. Those remaining findings are concentrated in the Angular/build-tooling stack (`@angular-devkit/build-angular`, `@angular/build`, `@angular/compiler-cli`, `@angular/localize`, `@babel/core`, and `esbuild`) and would require a force-level or major-version toolchain move rather than another safe rc7 hotfix.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'Frontend',
         summary:
           'Non-production Wizard Bridge downloads now present as `data-alpha.xlsx` instead of inheriting the older dev or production filename path.',
