@@ -75,6 +75,10 @@ export class UserProfileComponent implements OnInit {
       : 'Update your profile information and avatar.';
   }
 
+  get canLoginAsUser(): boolean {
+    return this.isAdminEditMode && this.getUserRoleValue(this.currentUser) === 1 && !!this.user?.userId && this.user.userId !== this.currentUser?.userId;
+  }
+
   private buildDefaultUserInterests() {
     return {
       celebrity: false,
@@ -205,6 +209,26 @@ export class UserProfileComponent implements OnInit {
 
   cancelUpdateProfile() {
     this.router.navigate(this.isAdminEditMode ? ['/users'] : ['/user/profile']);
+  }
+
+  loginAsUser() {
+    if (!this.canLoginAsUser) {
+      return;
+    }
+
+    const adminUser = this.currentUser;
+    this.userService
+      .impersonateUser(adminUser.userId, this.user.userId)
+      .pipe(take(1))
+      .subscribe((user: User) => {
+        if (!user) {
+          return;
+        }
+
+        this.authenticationService.startImpersonation(user, adminUser).then(() => {
+          this.router.navigate(['/home']);
+        });
+      });
   }
 
   updateUserProfile() {

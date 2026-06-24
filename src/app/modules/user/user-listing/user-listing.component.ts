@@ -34,7 +34,7 @@ export class UserListingComponent implements OnInit {
   duplicateGroups: DuplicateUserGroup[] = [];
   isLoading = false;
   loadError: string | null = null;
-  rosterColumns: string[] = ['Name', 'Role', 'Username', 'Modified', 'Issue'];
+  rosterColumns: string[] = ['Name', 'Username', 'Modified', 'Issue'];
   selectedSortFlag = 'asc';
   selectedSortOption = 'Name';
   searchQuery = '';

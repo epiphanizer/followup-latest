@@ -5,7 +5,12 @@
     </ion-col>
     <ion-col class="team-sidebar profile-sidebar-spacer" *ngIf="isAdminEditMode"></ion-col>
     <ion-col class="user-profile-content">
-      <a class="profile-back-link" *ngIf="isAdminEditMode" [routerLink]="['/users']">Back to User Roster</a>
+      <div class="profile-action-row" *ngIf="isAdminEditMode">
+        <a class="profile-back-link" [routerLink]="['/users']">Back to User Roster</a>
+        <button class="secondary button profile-login-as-user-button" *ngIf="canLoginAsUser" type="button" (click)="loginAsUser()">
+          Login as User
+        </button>
+      </div>
       <ion-title>{{ pageTitle }}</ion-title>
       <p class="profile-copy" *ngIf="!error">{{ pageCopy }}</p>
       <div class="status-panel" *ngIf="isLoading">Loading user profile...</div>

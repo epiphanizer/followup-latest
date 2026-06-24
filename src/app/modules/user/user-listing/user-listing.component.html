@@ -60,7 +60,6 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Role</th>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Status</th>
@@ -77,7 +76,6 @@
                 <td class="listing-body-cell has-link" [routerLink]="['/users', account.userId]">
                   <span class="user-table-name">{{ getUserDisplayName(account) }}</span>
                 </td>
-                <td class="listing-body-cell">{{ getUserRoleLabel(account) }}</td>
                 <td class="listing-body-cell">{{ account.username || 'n/a' }}</td>
                 <td class="listing-body-cell">{{ account.userEmail || 'n/a' }}</td>
                 <td class="listing-body-cell">{{ getUserStatusLabel(account) }}</td>

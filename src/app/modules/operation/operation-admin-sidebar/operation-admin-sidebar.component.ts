@@ -63,9 +63,7 @@ export class OperationAdminSidebarComponent implements OnInit {
   private currentRouteOperationId: string | null = null;
   private currentRouteOperationGroupId: string | null = null;
   clientMode: boolean = false;
-  clientFilter: 'active' | 'archived' = 'active';
-  isRestoringClient: boolean = false;
-  private restoreInFlightByGroupId: { [operationGroupId: string]: boolean } = {};
+  clientFilter: 'active' | 'archived' | null = 'active';
   groupNavigationLabel: string = 'FACILITIES';
   editMode: boolean;
   @Output() operationChangeEvent = new EventEmitter<string>();
@@ -272,82 +270,27 @@ export class OperationAdminSidebarComponent implements OnInit {
       return this.operationGroups;
     }
 
+    if (!this.clientFilter) {
+      return [];
+    }
+
+    return this.getOperationGroupsForClientFilter(this.clientFilter);
+  }
+
+  getOperationGroupsForClientFilter(filter: 'active' | 'archived'): OperationGroup[] {
     return this.operationGroups.filter((operationGroup: OperationGroup) => {
       const isArchived = operationGroup.operationGroupActive === 0;
-      return this.clientFilter === 'archived' ? isArchived : !isArchived;
+      return filter === 'archived' ? isArchived : !isArchived;
     });
   }
 
   setClientFilter(nextFilter: 'active' | 'archived') {
     if (this.clientFilter === nextFilter) {
+      this.clientFilter = null;
       return;
     }
 
     this.clientFilter = nextFilter;
-
-    if (!this.selected.operationGroup) {
-      return;
-    }
-
-    const selectedIsArchived = this.selected.operationGroup.operationGroupActive === 0;
-    if ((nextFilter === 'archived' && !selectedIsArchived) || (nextFilter === 'active' && selectedIsArchived)) {
-      const fallbackOperationGroup = this.visibleOperationGroups[0] || null;
-      if (!fallbackOperationGroup) {
-        this.selected.operationGroup = null;
-        this.activeOperationGroupId = null;
-        return;
-      }
-      this.setActiveOperationGroup(fallbackOperationGroup);
-    }
-  }
-
-  isClientRestoreInFlight(operationGroup: OperationGroup): boolean {
-    const operationGroupId = operationGroup?.operationGroupId;
-    return !!operationGroupId && !!this.restoreInFlightByGroupId[operationGroupId];
-  }
-
-  restoreClient(operationGroup: OperationGroup, event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (!operationGroup?.operationGroupId || this.isClientRestoreInFlight(operationGroup)) {
-      return;
-    }
-
-    const shouldRestore = window.confirm('Restore this archived client?');
-    if (!shouldRestore) {
-      return;
-    }
-
-    const operationGroupId = operationGroup.operationGroupId;
-    this.restoreInFlightByGroupId[operationGroupId] = true;
-    this.isRestoringClient = true;
-
-    this.operationService.restoreOperationGroupByOperationGroupId(operationGroupId).subscribe(
-      () => {
-        this.restoreInFlightByGroupId[operationGroupId] = false;
-        this.isRestoringClient = Object.values(this.restoreInFlightByGroupId).some((inFlight: boolean) => inFlight);
-        operationGroup.operationGroupActive = 1;
-        this.operationService.notifyClientGroupsChanged();
-        this.userService.updateOperations(this.user).catch(() => {});
-
-        if (this.clientFilter === 'archived') {
-          const nextArchived = this.visibleOperationGroups[0] || null;
-          if (nextArchived) {
-            this.setActiveOperationGroup(nextArchived);
-          } else {
-            this.selected.operationGroup = null;
-            this.activeOperationGroupId = null;
-          }
-        }
-
-        this._cdr.detectChanges();
-      },
-      () => {
-        this.restoreInFlightByGroupId[operationGroupId] = false;
-        this.isRestoringClient = Object.values(this.restoreInFlightByGroupId).some((inFlight: boolean) => inFlight);
-      }
-    );
   }
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-<div class="operation-sidebar" *ngIf="user">
+<div class="operation-sidebar" *ngIf="user" [class.client-mode]="clientMode">
   <div class="sidebar-calendar">
     <h4 class="todays-date">TODAY'S DATE</h4>
     <div class="caption">
@@ -7,88 +7,134 @@
   </div>
   <div class="facility-dropdown-container">
     <a class="facility-dropdown-target">{{ groupNavigationLabel }}</a>
-    <div class="client-filter-toggle" *ngIf="clientMode">
-      <button
-        type="button"
-        class="client-filter-button"
-        [class.active]="clientFilter === 'active'"
-        (click)="setClientFilter('active')"
-      >
-        Active ({{ clientCounts.active }})
-      </button>
-      <button
-        type="button"
-        class="client-filter-button"
-        [class.active]="clientFilter === 'archived'"
-        (click)="setClientFilter('archived')"
-      >
-        Archived ({{ clientCounts.archived }})
-      </button>
-    </div>
     <ng-container *ngIf="operationGroups">
-      <div
-        class="operation-group-container"
-        *ngFor="let operationGroup of visibleOperationGroups; let i = index; trackBy: trackByOperationGroup"
-      >
-        <span class="operation-group"
-          ><a
-            class="operation-group-link"
-            [class.active]="isOperationGroupActive(operationGroup)"
-            (click)="handleOperationGroupClick(operationGroup, $event)"
-            [routerLink]="getOperationGroupRoute(operationGroup)"
-            >{{
-              operationGroup.operationGroupShortName?.length
-                ? operationGroup.operationGroupShortName
-                : operationGroup.operationGroupName
-            }}</a
-          >
-          <i
-            *ngIf="!clientMode"
-            class="expand-facilities-trigger"
-            [@turnArrow]="isOperationGroupExpanded(operationGroup) ? 'open' : 'closed'"
-            (click)="toggleOperationSidebarMenu(operationGroup, $event)"
-          >
-          </i>
-          <button
-            *ngIf="clientMode && operationGroup.operationGroupActive === 0"
-            type="button"
-            class="client-restore-inline"
-            [disabled]="isClientRestoreInFlight(operationGroup)"
-            (click)="restoreClient(operationGroup, $event)"
-          >
-            {{ isClientRestoreInFlight(operationGroup) ? 'Restoring...' : 'Restore' }}
-          </button>
-          <ul
-            class="group-operations"
-            (click)="$event.stopPropagation()"
-            [class.show]="isOperationGroupExpanded(operationGroup)"
-            *ngIf="!clientMode && operationGroup.operations"
-          >
-            <li
-              *ngFor="let operation of operationGroup.operations; trackBy: trackByOperation"
-              [class.spanish]="operation.spanishSpeaking"
+      <ng-container *ngIf="clientMode; else facilitiesSidebarList">
+        <div class="client-filter-sections">
+          <div class="client-filter-section">
+            <button
+              type="button"
+              class="client-filter-heading"
+              [class.active]="clientFilter === 'active'"
+              (click)="setClientFilter('active')"
             >
-              <div class="operation-link-container" *ngIf="operation.operationActive">
-                <a
-                  class="operation-link"
-                  [routerLink]="'/operation/' + operation.operationId"
-                  (click)="$event.stopPropagation(); setActiveOperation(operation)"
-                  [class.active]="activeOperationId == operation.operationId"
-                >
-                  {{ operation.operationName | slice: 0:15
-                  }}<span *ngIf="operation.operationName.length > 16">
-                    <!-- ... -->
-                  </span>
-                </a>
+              <span class="client-filter-label">Active</span>
+              <span class="client-filter-count">{{ clientCounts.active }}</span>
+              <i class="expand-facilities-trigger" [@turnArrow]="clientFilter === 'active' ? 'open' : 'closed'"></i>
+            </button>
 
-                <span class="current-patients">
-                  {{ operation.currentAssignedPatientCount }}
-                </span>
+            <div class="client-filter-list" *ngIf="clientFilter === 'active'">
+              <div
+                class="operation-group-container"
+                *ngFor="let operationGroup of getOperationGroupsForClientFilter('active'); trackBy: trackByOperationGroup"
+              >
+                <span class="operation-group"
+                  ><a
+                    class="operation-group-link"
+                    [class.active]="isOperationGroupActive(operationGroup)"
+                    (click)="handleOperationGroupClick(operationGroup, $event)"
+                    [routerLink]="getOperationGroupRoute(operationGroup)"
+                    >{{
+                      operationGroup.operationGroupShortName?.length
+                        ? operationGroup.operationGroupShortName
+                        : operationGroup.operationGroupName
+                    }}</a
+                  ></span
+                >
               </div>
-            </li>
-          </ul>
-        </span>
-      </div>
+            </div>
+          </div>
+
+          <div class="client-filter-section">
+            <button
+              type="button"
+              class="client-filter-heading"
+              [class.active]="clientFilter === 'archived'"
+              (click)="setClientFilter('archived')"
+            >
+              <span class="client-filter-label">Archived</span>
+              <span class="client-filter-count">{{ clientCounts.archived }}</span>
+              <i class="expand-facilities-trigger" [@turnArrow]="clientFilter === 'archived' ? 'open' : 'closed'"></i>
+            </button>
+
+            <div class="client-filter-list" *ngIf="clientFilter === 'archived'">
+              <div
+                class="operation-group-container"
+                *ngFor="let operationGroup of getOperationGroupsForClientFilter('archived'); trackBy: trackByOperationGroup"
+              >
+                <span class="operation-group"
+                  ><a
+                    class="operation-group-link"
+                    [class.active]="isOperationGroupActive(operationGroup)"
+                    (click)="handleOperationGroupClick(operationGroup, $event)"
+                    [routerLink]="getOperationGroupRoute(operationGroup)"
+                    >{{
+                      operationGroup.operationGroupShortName?.length
+                        ? operationGroup.operationGroupShortName
+                        : operationGroup.operationGroupName
+                    }}</a
+                  ></span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #facilitiesSidebarList>
+        <div
+          class="operation-group-container"
+          *ngFor="let operationGroup of visibleOperationGroups; let i = index; trackBy: trackByOperationGroup"
+        >
+          <span class="operation-group"
+            ><a
+              class="operation-group-link"
+              [class.active]="isOperationGroupActive(operationGroup)"
+              (click)="handleOperationGroupClick(operationGroup, $event)"
+              [routerLink]="getOperationGroupRoute(operationGroup)"
+              >{{
+                operationGroup.operationGroupShortName?.length
+                  ? operationGroup.operationGroupShortName
+                  : operationGroup.operationGroupName
+              }}</a
+            >
+            <i
+              class="expand-facilities-trigger"
+              [@turnArrow]="isOperationGroupExpanded(operationGroup) ? 'open' : 'closed'"
+              (click)="toggleOperationSidebarMenu(operationGroup, $event)"
+            >
+            </i>
+            <ul
+              class="group-operations"
+              (click)="$event.stopPropagation()"
+              [class.show]="isOperationGroupExpanded(operationGroup)"
+              *ngIf="operationGroup.operations"
+            >
+              <li
+                *ngFor="let operation of operationGroup.operations; trackBy: trackByOperation"
+                [class.spanish]="operation.spanishSpeaking"
+              >
+                <div class="operation-link-container" *ngIf="operation.operationActive">
+                  <a
+                    class="operation-link"
+                    [routerLink]="'/operation/' + operation.operationId"
+                    (click)="$event.stopPropagation(); setActiveOperation(operation)"
+                    [class.active]="activeOperationId == operation.operationId"
+                  >
+                    {{ operation.operationName | slice: 0:15
+                    }}<span *ngIf="operation.operationName.length > 16">
+                      <!-- ... -->
+                    </span>
+                  </a>
+
+                  <span class="current-patients">
+                    {{ operation.currentAssignedPatientCount }}
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </div>
+      </ng-template>
     </ng-container>
   </div>
 </div>

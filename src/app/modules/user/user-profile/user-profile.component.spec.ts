@@ -21,7 +21,10 @@ describe('UserProfileComponent (Jest)', () => {
   };
 
   const makeComponent = (options?: { routeUserId?: string; loadedUser?: any }) => {
-    const authenticationService = { currentUserSubject: new BehaviorSubject(baseUser) } as any;
+    const authenticationService = {
+      currentUserSubject: new BehaviorSubject(baseUser),
+      startImpersonation: jest.fn(() => Promise.resolve(options?.loadedUser || { ...baseUser, userId: 'u2' }))
+    } as any;
     const route = {
       snapshot: {
         data: { user: baseUser },
@@ -34,7 +37,8 @@ describe('UserProfileComponent (Jest)', () => {
     const toastrService = { success: jest.fn(() => ({ onShown: { pipe: () => ({ subscribe: jest.fn() }) } })) } as any;
     const userService = {
       updateUserByUserId: jest.fn(() => of({})),
-      getUserByUserId: jest.fn(() => of(options?.loadedUser || { ...baseUser, userId: 'u2', userFirstName: 'Grace' }))
+      getUserByUserId: jest.fn(() => of(options?.loadedUser || { ...baseUser, userId: 'u2', userFirstName: 'Grace' })),
+      impersonateUser: jest.fn(() => of(options?.loadedUser || { ...baseUser, userId: 'u2', userFirstName: 'Grace' }))
     } as any;
 
     const comp = new UserProfileComponent(
@@ -85,6 +89,31 @@ describe('UserProfileComponent (Jest)', () => {
 
     expect(userService.getUserByUserId).toHaveBeenCalledWith('u2');
     expect(comp.user.userId).toBe('u2');
+  });
+
+  it('allows admins to login as the viewed user from admin edit mode', async () => {
+    const loadedUser = { ...baseUser, userId: 'u2', userFirstName: 'Grace', userLastName: 'Hopper' };
+    const { comp, userService, authenticationService, router } = makeComponent({
+      routeUserId: 'u2',
+      loadedUser
+    });
+
+    comp.ngOnInit();
+    comp.loginAsUser();
+
+    expect(userService.impersonateUser).toHaveBeenCalledWith('u1', 'u2');
+    expect(authenticationService.startImpersonation).toHaveBeenCalledWith(loadedUser, baseUser);
+
+    await Promise.resolve();
+    expect(router.navigate).toHaveBeenCalledWith(['/home']);
+  });
+
+  it('does not expose login as user for the current self profile', () => {
+    const { comp } = makeComponent({ routeUserId: 'u1', loadedUser: { ...baseUser } });
+
+    comp.ngOnInit();
+
+    expect(comp.canLoginAsUser).toBe(false);
   });
 
   it('falls back to default interests when admin edit loads malformed legacy profile data', () => {

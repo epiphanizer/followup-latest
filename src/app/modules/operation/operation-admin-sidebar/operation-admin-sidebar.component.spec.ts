@@ -89,6 +89,7 @@ describe('OperationAdminSidebarComponent', () => {
   );
 
   beforeEach(() => {
+    jest.clearAllMocks();
     clientGroupsChanged$ = new Subject<void>();
     operationServiceMock.clientGroupsChanged$ = clientGroupsChanged$.asObservable();
     consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
@@ -202,6 +203,53 @@ describe('OperationAdminSidebarComponent', () => {
     expect(localComponent.getOperationGroupRoute({ operationGroupId: 'g1' } as any)).toEqual(['/clients', 'g1']);
   });
 
+  it('collapses the open client filter when the same heading is clicked again', () => {
+    const clientsRouteMock: any = createRouteMock({ section: 'clients' });
+    const localComponent = new OperationAdminSidebarComponent(
+      clientsRouteMock,
+      operationServiceMock,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any,
+      {
+        detectChanges: jest.fn()
+      } as any
+    );
+
+    localComponent.ngOnInit();
+    expect(localComponent.clientFilter).toBe('active');
+
+    localComponent.setClientFilter('active');
+
+    expect(localComponent.clientFilter).toBeNull();
+    expect(localComponent.visibleOperationGroups).toEqual([]);
+  });
+
+  it('does not auto-select a different client when switching filters', () => {
+    const clientsRouteMock: any = createRouteMock({ section: 'clients' });
+    const localComponent = new OperationAdminSidebarComponent(
+      clientsRouteMock,
+      operationServiceMock,
+      { updateOperations: jest.fn(() => Promise.resolve()) } as any,
+      {
+        detectChanges: jest.fn()
+      } as any
+    );
+    const emitSpy = jest.spyOn(localComponent.operationGroupChangeEvent, 'emit');
+
+    localComponent.ngOnInit();
+    localComponent.selected.operationGroup = {
+      operationGroupId: 'g1',
+      operationGroupActive: 1
+    } as any;
+    localComponent.activeOperationGroupId = 'g1';
+
+    localComponent.setClientFilter('archived');
+
+    expect(localComponent.clientFilter).toBe('archived');
+    expect(localComponent.selected.operationGroup?.operationGroupId).toBe('g1');
+    expect(localComponent.activeOperationGroupId).toBe('g1');
+    expect(emitSpy).not.toHaveBeenCalled();
+  });
+
   it('reloads client groups when notified of a successful archive or restore', () => {
     const clientsRouteMock: any = createRouteMock({ section: 'clients' });
     const localComponent = new OperationAdminSidebarComponent(
@@ -214,11 +262,11 @@ describe('OperationAdminSidebarComponent', () => {
     );
 
     localComponent.ngOnInit();
-    expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalledTimes(2);
+    expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalledTimes(1);
 
     clientGroupsChanged$.next();
 
-    expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalledTimes(3);
+    expect(operationServiceMock.getAllOperationGroups).toHaveBeenCalledTimes(2);
   });
 
   it('syncs active group from routed operation group ids', () => {
@@ -258,38 +306,5 @@ describe('OperationAdminSidebarComponent', () => {
     expect(localComponent.activeOperationGroupId).toBe('g2');
     expect(localComponent.selected.operationGroup?.operationGroupId).toBe('g2');
     expect(localComponent.operationGroups[1].sidebarDropdownOpen).toBe(true);
-  });
-
-  it('notifies listeners after restoring an archived client from the sidebar', () => {
-    const clientsRouteMock: any = createRouteMock({ section: 'clients' });
-    operationServiceMock.restoreOperationGroupByOperationGroupId = jest.fn(() => of({ success: 1 }));
-    operationServiceMock.notifyClientGroupsChanged = jest.fn();
-    const userServiceMock = { updateOperations: jest.fn(() => Promise.resolve()) };
-    const localComponent = new OperationAdminSidebarComponent(
-      clientsRouteMock,
-      operationServiceMock,
-      userServiceMock as any,
-      {
-        detectChanges: jest.fn()
-      } as any
-    );
-    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
-
-    localComponent.ngOnInit();
-    localComponent.clientFilter = 'archived';
-    localComponent.restoreClient(
-      {
-        operationGroupId: 'g2',
-        operationGroupName: 'Group Two',
-        operationGroupShortName: 'G2',
-        operationGroupActive: 0,
-        operations: []
-      } as any,
-      { preventDefault: jest.fn(), stopPropagation: jest.fn() } as any
-    );
-
-    expect(operationServiceMock.notifyClientGroupsChanged).toHaveBeenCalled();
-    expect(userServiceMock.updateOperations).toHaveBeenCalledWith(localComponent.user);
-    confirmSpy.mockRestore();
   });
 });

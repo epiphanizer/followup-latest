@@ -15,11 +15,154 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
-    version: '4.0.0_alpha_rc6',
-    recordedAt: '2026-06-19',
-    label: 'Current alpha rc6 candidate',
+    version: '4.0.0_alpha_rc7',
+    recordedAt: '2026-06-23',
+    label: 'Current alpha rc7 candidate',
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'The final Clients sidebar alignment pass pulls the `Active` / `Archived` label, count, and dropdown arrow into one tight right-edge cluster instead of leaving extra space before the arrow.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.scss`. The arrow had already been moved back to the far right, but there was still too much separation between the text/count cluster and the icon. The final spacing pass reduces the heading gap and trims the arrow margin so the entire heading reads as one flush right-aligned control. Validation used focused Jest on `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts` (`12/12` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The last Clients sidebar icon adjustment restores the dropdown arrow to the far right of the `Active` / `Archived` heading row while keeping the stronger final visual weight.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.scss`. The earlier icon cleanup removed the last local arrow override, but that also let the heading arrow fall into the wrong flex position. The final pass restores explicit right-side flex ordering and a slightly stronger `12px` footprint while keeping the shared arrow asset. Validation used focused Jest on `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts` (`12/12` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The final Clients sidebar icon pass removes the last local arrow override so the `Active` / `Archived` headings inherit the Call Queue dropdown icon treatment exactly.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.scss`. The prior polish had brought the Clients sidebar arrow closer to the reference sidebar, but it was still being shaped by a client-mode override instead of truly sharing the Call Queue arrow treatment. Removing that override lets the Clients sidebar headings inherit the same dropdown icon styling wholesale. Validation used focused Jest on `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts` (`12/12` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The final Clients sidebar polish tightens the stacked section spacing and brings the dropdown arrow back in line with the smaller Call Queue sidebar icon treatment.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.scss`. After the structural dropdown refactor, the Clients sidebar still felt slightly looser than the Call Queue reference because the stacked section spacing was a bit larger and the arrow was slightly oversized/offset. The section/list spacing is now tighter and the arrow is back to the smaller `10px` treatment with the familiar offset used in the reference sidebar. Validation used focused Jest on `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts` (`12/12` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Switching the Clients sidebar between `Active` and `Archived` no longer forces the detail panel to jump to a different client or visibly reload just to change the sidebar list.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.ts` and `.spec.ts`. The sidebar headings had already been restyled into stacked dropdowns, but changing filters was still auto-selecting the first client in the newly chosen section whenever the current selection belonged to the other section, which forced the client detail panel to blank/reload and caused a visible flicker. The sidebar now treats `Active` / `Archived` as a pure list filter change and leaves the current client detail stable until the user explicitly chooses another client. Validation used focused Jest on `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts` and `src/app/modules/operation/operation-listing/operation-listing.component.spec.ts` (`21/21` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Clients sidebar Active/Archived dropdowns now collapse when their currently open heading is clicked again instead of staying permanently open after the first load.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.ts` and `.spec.ts`. The stacked Clients sidebar headings already opened the correct list on first load, but clicking the currently open heading still no-oped because `setClientFilter(...)` returned immediately when the requested filter matched the active one. The sidebar now supports a real collapsed state by clearing `clientFilter` on same-heading clicks while still defaulting to `Active` on first load, and the focused sidebar spec now asserts that re-clicking the open heading collapses the visible client list. Validation used focused Jest on `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts` and `src/app/modules/operation/operation-listing/operation-listing.component.spec.ts` (`20/20` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Clients sidebar Active/Archived controls now behave like stacked Call Queue-style dropdown headings with arrows instead of inline filters, while client rows remain the smaller nested list layer.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.html`, `.ts`, and `.scss`. The first sidebar pass fixed the typography hierarchy, but the filter still read like a separate control instead of the Call Queue-style heading/list structure the app already uses elsewhere. The Clients sidebar now renders `Active` and `Archived` as separate bold heading rows with arrow affordances, reveals only the selected section list below each heading, keeps client names in the smaller nested list font treatment, and preserves the client-detail `Restore Client` action as the only restore path. Validation used focused Jest on `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts` and `src/app/modules/operation/operation-listing/operation-listing.component.spec.ts` (`19/19` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Clients sidebar now uses a clearer hierarchy: `Active` / `Archived` read as the bold heading layer, while client names render in the smaller list font used elsewhere in the Call Queue sidebar pattern.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.html` and `.scss`. The first Clients sidebar cleanup removed the redundant inline restore action and tightened the filter treatment, but the user-facing hierarchy still felt inverted because the filter labels were visually quieter than the client names. The sidebar now applies a client-mode class hook, the filter labels use bold uppercase heading typography, and client names render in the smaller `14px` list style while the selected client still keeps a stronger active-state emphasis. Validation used focused Jest on `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts` (`10/10` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Clients sidebar Active/Archived filters now follow the shared sidebar pill styling more closely, and archived clients are no longer restored directly from the sidebar itself.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.scss`, `.html`, `.ts`, and `.spec.ts`. The Clients sidebar still had a slightly different Active/Archived pill treatment than the other sidebars and exposed an extra inline `Restore` action beside archived client names even though the selected client panel already provides the canonical `Restore Client` button. The filter pills now use the same compact sizing pattern as the Teams sidebar, and the redundant sidebar restore path has been removed so restore happens only from the client-detail action area. Validation used focused Jest on `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts` and `src/app/modules/operation/operation-listing/operation-listing.component.spec.ts` (`19/19` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The homepage post-it note now gives the message body roughly 50% more space from the top of the sticky-note artwork before the copy begins.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/home/home.component.scss`. The sticky-note layout and scroll behavior were already stable, but the message copy was still starting slightly too close to the top edge of the note artwork. The note body top padding moved from `2.35rem` to `3.5rem`, which lowers the message start point without changing the note frame, sender alignment, or internal scroll handling. Validation used focused Jest on `src/app/home/home.component.spec.ts` (`4/4` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Admins can now use the standard Login as User flow directly from `/users/:userId`, and the `/users` roster no longer spends a full column on Role.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/user/user-profile/user-profile.component.ts`, `.html`, and `.spec.ts` plus the user-management roster slice in `src/app/modules/user/user-listing/user-listing.component.ts`, `.html`, and `.spec.ts`. The admin edit route now reuses the existing impersonation path already used elsewhere in the app, showing an admin-only `Login as User` action when viewing another user record and starting impersonation through `UserService.impersonateUser(...)` plus `AuthenticationService.startImpersonation(...)` before routing to `/home`. The `/users` listing also removes the redundant Role column from the visible roster and sort/filter column set so the table stays tighter around the actual management actions. Validation used focused Jest on `src/app/modules/user/user-profile/user-profile.component.spec.ts` and `src/app/modules/user/user-listing/user-listing.component.spec.ts` (`17/17` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Release',
+        summary: 'The current v4 alpha snapshot is now tagged and surfaced as `4.0.0_alpha_rc7` across the frontend build metadata, API package metadata, and the Service Health version history.',
+        evidence:
+          'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_alpha_rc6` to `4.0.0_alpha_rc7`, updating `src/environments/.env.ts`, `src/app/shell/shell.component.spec.ts`, and retagging this top Service Health release entry so the active alpha shows up consistently in the shell version panel, branch merge target, and status payloads.',
+        source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Resolved duplicate-account merges now disappear from the admin duplicate-review panel as soon as the API marks the source account deleted.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/user/user-listing/user-listing.component.ts` and `.spec.ts`. A successful `Run Merge Now` call had still been leaving the same pair flagged as a duplicate inside User Management because the merge result only patched a couple of in-memory rows and never rebuilt `duplicateGroups`, while the duplicate-group builder was still counting deleted users. The duplicate-account view now excludes deleted users from duplicate grouping and refreshes the duplicate groups/map immediately after a successful merge result so resolved pairs drop out of the panel without a manual refresh. Validation used focused Jest on `src/app/modules/user/user-listing/user-listing.component.spec.ts` (`7/7` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Duplicate-account merge preview and execute failures now surface the backend message directly instead of collapsing everything into one generic frontend error.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/user/user.service.ts`, `src/app/modules/user/user-listing/user-listing.component.ts`, and `src/app/modules/user/user-listing/user-listing.component.spec.ts`. The User Management debug panel had been converting merge API failures into the shared patient-service HTML wrapper and then discarding the original payload, which reduced every execute failure to `Unable to execute this merge workup.` even when the API already had a specific timeout or validation message. Merge preview and execute calls now preserve the raw backend error response and the user-listing component surfaces those specific API messages directly while keeping the existing fallback copy for truly empty errors. Validation used focused Jest on `src/app/modules/user/user-listing/user-listing.component.spec.ts` (`7/7` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Duplicate-account merge execution now honors the long-running MSSQL timeout override end to end, and the shared API DB timeout default is raised to `45000ms` for slower queries app-wide.',
+        evidence:
+          'Recorded in the snapshot API running change log after updating `v4.0.0/followup-api/deployment/service/ConnectionPoolService.js` and `v4.0.0/followup-api/deployment/config/index.js`. The executable `/users/merge-script` path was still timing out at about `15000ms` even though `UserService` was already calling `pool.request({ requestTimeout: USER_MERGE_WORKUP_TIMEOUT_MS })`, because the DB profiling wrapper in `ConnectionPoolService` had replaced `pool.request()` with a no-argument shim that silently discarded request options before the driver saw them. The pool wrapper now forwards the original `pool.request(...)` arguments intact so per-request overrides like `USER_MERGE_WORKUP_TIMEOUT_MS` actually apply, and the shared API default `config.sql.requestTimeout` fallback is now `45000ms` instead of `15000ms` so slower non-merge queries get more headroom app-wide even without an explicit override. Validation used `node --check deployment/service/ConnectionPoolService.js` and `node --check deployment/config/index.js`.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The patient-detail discharge summary now expands and wraps long `Discharged To` labels plus the `(AMA)` flag instead of clipping them inside the fixed-height right-column summary box.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-detail/patient-notes/patient-notes.component.scss`. The visible clip in the patient call queue detail summary was not just the `Discharged To` row itself; the owning right-side discharge list (`.inline-discharge-section.right-column`) was still constrained by a fixed `75px`/`83px` column height, so longer discharge labels combined with the `(AMA)` flag were being cut off even after the inner row tried to grow. The discharge row now uses `height: auto` with the existing `60px` value preserved as a minimum height, explicitly allows normal wrapping, and the left/right discharge columns now use `height: auto` with the previous fixed heights preserved as minimums so the summary can expand naturally when discharge text runs long. Validation used focused Jest on `src/app/modules/patient/patient-detail/patient-notes/patient-notes.component.spec.ts` (`1/1` test passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The Teams landing page sidebar now matches the shared portal rail geometry, and the redundant selected-team `Team permissions` sidebar link has been removed.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-listing/team-listing.component.scss`, `src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.scss`, and `src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.html`. The `/teams` page wrapper had still been using a bespoke wider/offset geometry that made the entire left rail sit farther right and lower than the Patient and Clients sidebars, and the selected-team pane still exposed a redundant `Team permissions` action even though the main team content area already owns that entry point. The page now uses the shared sidebar width and portal offsets, right-aligns the sidebar internals to match the rest of the site, and removes the duplicate selected-team permissions link. Validation used focused Jest on the team-listing and team-sidebar slices (`9/9` and `5/5` tests passing) plus repeated `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Anonymous visits to protected routes now stay inside Followup by redirecting to `/login` with a `returnUrl` instead of sending the browser back to the referring site.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/core/authentication/auth-guard.service.ts` and `src/app/core/authentication/auth-guard.service.spec.ts`. The auth guard had still been calling `Location.back()` for unauthenticated protected-route visits, which meant direct visits to `https://alpha.followup.care` from another site could bounce the browser straight back to the referrer instead of keeping the user inside Followup. The guard now performs an explicit in-app redirect to `/login` and preserves the requested route in `returnUrl` query params so protected deep links still have a stable post-login target. Validation used focused Jest on `src/app/core/authentication/auth-guard.service.spec.ts` (`3/3` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
       {
         scope: 'Frontend',
         summary:
@@ -267,13 +410,6 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-form/operation-form.component.ts`, `.html`, `.scss`, and `.spec.ts` to remove the bespoke ownership trigger/overlay/typeahead path and restore a native `ion-select` for ownership-group selection. The earlier custom dropdown had diverged from the rest of the form UX and carried its own local overlay state and dead styling surface; the form now uses the standard Ionic selector while keeping the reactive form control and backing operation model synchronized through the existing select handler. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts` (`25/25` tests passing).',
         source: 'v4.0.0/followup-frontend/agents.md'
-      },
-      {
-        scope: 'Release',
-        summary: 'The current v4 alpha snapshot is now tagged and surfaced as `4.0.0_alpha_rc6` across the frontend build metadata, API package metadata, and the Service Health version history.',
-        evidence:
-          'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_alpha_rc5` to `4.0.0_alpha_rc6`, updating `src/environments/.env.ts`, and retagging this top Service Health release entry so the active alpha shows up consistently in the shell version panel, branch merge target, and status payloads.',
-        source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
       },
       {
         scope: 'Frontend',

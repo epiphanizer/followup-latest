@@ -90,6 +90,7 @@ describe('UserListingComponent (Jest)', () => {
   it('creates component', () => {
     expect(component).toBeTruthy();
     expect(component.user.userId).toBe('admin-1');
+    expect(component.rosterColumns).toEqual(['Name', 'Username', 'Modified', 'Issue']);
     expect(component.duplicateGroups.length).toBe(1);
     expect(component.duplicateGroups[0].selectedTargetUserId).toBe('u2');
     expect(component.duplicateGroups[0].collapsed).toBe(false);

@@ -97,29 +97,64 @@
   background-repeat: no-repeat;
 }
 
-.client-filter-toggle {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.35rem;
-  margin: 0 0 0.9rem;
+.client-filter-sections {
+  margin-bottom: 0.5rem;
 }
 
-.client-filter-button {
+.client-filter-section {
+  margin-bottom: 14px;
+}
+
+.client-filter-heading {
   appearance: none;
-  border: 1px solid #c7d0d4;
-  background: #fff;
-  color: #42505a;
-  border-radius: 999px;
+  border: none;
+  background: transparent;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 0;
+  cursor: pointer;
+  text-align: right;
+  color: #222222;
+
+  &.active {
+    color: #00b4b9;
+  }
+}
+
+.client-filter-label {
+  font-family: AvenirBold;
+  font-size: 16px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.81;
+  letter-spacing: 0.32px;
+  text-transform: uppercase;
+  order: 1;
+}
+
+.client-filter-count {
+  min-width: 18px;
   font-family: AvenirDemi;
   font-size: 12px;
   line-height: 1;
-  padding: 0.4rem 0.65rem;
-  cursor: pointer;
+  text-align: right;
+  order: 2;
+}
 
-  &.active {
-    border-color: #00b4b9;
-    color: #00b4b9;
-  }
+.client-filter-list {
+  margin-top: 2px;
+}
+
+.client-filter-heading .expand-facilities-trigger {
+  order: 3;
+  flex: 0 0 12px;
+  width: 12px;
+  height: 12px;
+  margin-left: 4px;
+  margin-right: 0;
 }
 
 .operation-group-container {
@@ -135,21 +170,30 @@
   }
 }
 
-.client-restore-inline {
-  margin-left: 0.45rem;
-  appearance: none;
-  border: none;
-  background: transparent;
-  color: #00b4b9;
-  font-family: AvenirDemi;
-  font-size: 11px;
-  line-height: 1;
-  text-transform: none;
-  cursor: pointer;
+.operation-sidebar.client-mode {
+  .operation-group {
+    font-family: AvenirDemi;
+    font-size: 14px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.86;
+    letter-spacing: 0.14px;
+    text-transform: none;
+  }
 
-  &:disabled {
-    color: #9aa3ab;
-    cursor: default;
+  .operation-group-container {
+    margin-bottom: 10px;
+  }
+
+  .operation-group-link {
+    display: inline-block;
+    margin-right: 17px;
+    color: #343638;
+
+    &.active {
+      font-family: "AvenirBold";
+      color: #00b4b9;
+    }
   }
 }
 
