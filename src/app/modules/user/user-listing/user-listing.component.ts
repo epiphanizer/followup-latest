@@ -323,8 +323,7 @@ export class UserListingComponent implements OnInit {
     this.userService.getAllUsers().subscribe({
       next: users => {
         this.users = users || [];
-        this.duplicateGroups = this.buildDuplicateGroups(this.users);
-        this.rebuildDuplicateGroupMap();
+        this.refreshDuplicateGroups();
         this.updateRosterUsers();
         this.isLoading = false;
       },
@@ -338,7 +337,7 @@ export class UserListingComponent implements OnInit {
   private buildDuplicateGroups(users: User[]): DuplicateUserGroup[] {
     const groupedUsers = new Map<string, User[]>();
 
-    users.forEach(user => {
+    users.filter(user => !user?.deleted).forEach(user => {
       this.getCanonicalLoginKeys(user).forEach(key => {
         const existingUsers = groupedUsers.get(key) || [];
         if (!existingUsers.some(existingUser => existingUser.userId === user.userId)) {
@@ -424,6 +423,11 @@ export class UserListingComponent implements OnInit {
         this.duplicateGroupsByUserId.set(account.userId, group);
       });
     });
+  }
+
+  private refreshDuplicateGroups() {
+    this.duplicateGroups = this.buildDuplicateGroups(this.users);
+    this.rebuildDuplicateGroupMap();
   }
 
   private updateRosterUsers() {
@@ -664,6 +668,7 @@ export class UserListingComponent implements OnInit {
       return finalUser ? ({ ...account, ...finalUser } as User) : account;
     });
 
+    this.refreshDuplicateGroups();
     this.updateRosterUsers();
   }
 }

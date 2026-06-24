@@ -38,8 +38,8 @@ describe('UserListingComponent (Jest)', () => {
           userEmail: null,
           userFirstName: 'Anna',
           userLastName: 'Smith',
-          userActive: false,
-          deleted: true,
+          userActive: true,
+          deleted: false,
           userCreated: '2024-01-01T00:00:00.000Z',
           userModified: '2024-01-02T00:00:00.000Z'
         },
@@ -130,7 +130,9 @@ describe('UserListingComponent (Jest)', () => {
     expect(confirmSpy).toHaveBeenCalled();
     expect(userService.executeUserMerge).toHaveBeenCalledWith('admin-1', 'u1', 'u2');
     expect(group.mergeResult?.transactionOutcome).toBe('COMMIT');
-    expect(group.users.find(user => user.userId === 'u1')?.deleted).toBe(true);
+    expect(component.users.find(user => user.userId === 'u1')?.deleted).toBe(true);
+    expect(component.duplicateGroups.length).toBe(0);
+    expect(component.hasDuplicateIssues).toBe(false);
   });
 
   it('shows the backend execute error message when a merge fails', () => {
