@@ -1,19 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { AuthenticationService } from './auth.service';
-import { Location } from '@angular/common';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
   public user: User;
-  constructor(
-    private authenticationService: AuthenticationService,
-    private location: Location,
-    public route: ActivatedRoute,
-    public router: Router
-  ) {}
-  canActivate(route: ActivatedRouteSnapshot) {
+  constructor(private authenticationService: AuthenticationService, public router: Router) {}
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const user = this.authenticationService.currentUserValue;
     if (user) {
       if (route.data.roles && route.data.roles.indexOf(user.userLevel) === -1) {
@@ -25,7 +19,11 @@ export class AuthGuardService implements CanActivate {
       return true;
     }
     // not logged in so redirect to login page with the return url
-    this.location.back();
+    this.router.navigate(['/login'], {
+      queryParams: {
+        returnUrl: state.url || '/home'
+      }
+    });
     return false;
   }
 }
