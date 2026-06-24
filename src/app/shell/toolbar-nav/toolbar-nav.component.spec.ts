@@ -37,7 +37,7 @@ describe('ToolbarNavComponent logic', () => {
       of(
         new HttpResponse({
           body: new Blob(['x'], { type: 'text/plain' }),
-          headers: new HttpHeaders({ 'content-disposition': 'attachment; filename="data-dev.xlsx"' })
+          headers: new HttpHeaders({ 'content-disposition': 'attachment; filename="data-alpha.xlsx"' })
         })
       )
     )
@@ -143,7 +143,22 @@ describe('ToolbarNavComponent logic', () => {
 
     component.dynamicLink({ linkAction: 'getExcelReport' } as any);
     expect(dataServiceMock.getData).toHaveBeenCalled();
-    expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.any(Blob), 'data-dev.xlsx');
+    expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.any(Blob), 'data-alpha.xlsx');
+  });
+
+  it('falls back to data-alpha.xlsx outside production when the API omits a filename', () => {
+    dataServiceMock.getData.mockReturnValueOnce(
+      of(
+        new HttpResponse({
+          body: new Blob(['x'], { type: 'text/plain' }),
+          headers: new HttpHeaders()
+        })
+      )
+    );
+
+    component.dynamicLink({ linkAction: 'getExcelReport' } as any);
+
+    expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.any(Blob), 'data-alpha.xlsx');
   });
 
   it('preloads notification types when opening the notify modal', async () => {

@@ -21,6 +21,8 @@ export type ServiceHealthRequestMode = 'panel' | 'change-log';
   standalone: false
 })
 export class ToolbarNavComponent implements OnInit {
+  private readonly productionWorkbookHosts = ['app.followup.care', 'www.app.followup.care', 'followupcare.azurewebsites.net'];
+
   constructor(
     public modalController: ModalController,
     private route: ActivatedRoute,
@@ -226,10 +228,20 @@ export class ToolbarNavComponent implements OnInit {
     var match = String(contentDisposition || '').match(/filename\*?=(?:UTF-8''|\")?([^";]+)/i);
 
     if (!match || !match[1]) {
+      return this.getDefaultWorkbookFileName();
+    }
+
+    return decodeURIComponent(match[1].trim()).replace(/^"|"$/g, '') || this.getDefaultWorkbookFileName();
+  }
+
+  private getDefaultWorkbookFileName(): string {
+    var hostname = String(window?.location?.hostname || '').toLowerCase();
+
+    if (this.productionWorkbookHosts.indexOf(hostname) >= 0) {
       return 'data.xlsx';
     }
 
-    return decodeURIComponent(match[1].trim()).replace(/^"|"$/g, '') || 'data.xlsx';
+    return 'data-alpha.xlsx';
   }
 
   closeDropdown(i: number) {

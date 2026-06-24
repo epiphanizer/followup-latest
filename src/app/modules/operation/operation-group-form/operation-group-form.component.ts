@@ -45,13 +45,29 @@ export class OperationGroupFormComponent implements OnInit {
       return;
     }
 
-    const localOperationGroup = this.findOperationGroup(operationGroupId, this.user?.operationGroups);
-    if (localOperationGroup) {
-      this.setOperationGroup(localOperationGroup);
-      return;
-    }
-
     this.isLoading = true;
+    this.operationService
+      .getAllOperationGroups()
+      .pipe(take(1))
+      .subscribe({
+        next: (operationGroups: OperationGroup[]) => {
+          const operationGroup = this.findOperationGroup(operationGroupId, operationGroups);
+
+          if (operationGroup) {
+            this.setOperationGroup(operationGroup);
+            this.isLoading = false;
+            return;
+          }
+
+          this.loadOperationGroupDetails(operationGroupId);
+        },
+        error: () => {
+          this.loadOperationGroupDetails(operationGroupId);
+        }
+      });
+  }
+
+  private loadOperationGroupDetails(operationGroupId: string) {
     this.operationService
       .getOperationGroupByOperationGroupId(operationGroupId)
       .pipe(take(1))

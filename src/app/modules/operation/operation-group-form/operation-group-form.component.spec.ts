@@ -13,7 +13,8 @@ describe('OperationGroupFormComponent (Jest)', () => {
       {
         operationGroupId: 'og1',
         operationGroupName: 'Providence',
-        operationGroupShortName: 'PROV'
+        operationGroupShortName: 'PROV',
+        operationGroupActive: 1
       }
     ]
   };
@@ -29,11 +30,21 @@ describe('OperationGroupFormComponent (Jest)', () => {
     } as any;
     const router = { navigate: jest.fn() } as any;
     const operationService = {
+      getAllOperationGroups: jest.fn(() =>
+        of([
+          {
+            operationGroupId: 'og1',
+            operationGroupName: 'Providence',
+            operationGroupShortName: 'PROV',
+            operationGroupActive: 1
+          }
+        ] as any)
+      ),
       getOperationGroupByOperationGroupId: jest.fn(() =>
-        of({ operationGroupId: 'og1', operationGroupName: 'Providence', operationGroupShortName: 'PROV' })
+        of({ operationGroupId: 'og1', operationGroupName: 'Providence', operationGroupShortName: 'PROV', operationGroupActive: 1 })
       ),
       editOperationGroupByOperationGroupId: jest.fn(() =>
-        of({ operationGroupId: 'og1', operationGroupName: 'Providence West', operationGroupShortName: 'PROVW' })
+        of({ operationGroupId: 'og1', operationGroupName: 'Providence West', operationGroupShortName: 'PROVW', operationGroupActive: 1 })
       ),
       deactivateOperationGroupByOperationGroupId: jest.fn(() => of({ success: 1 })),
       restoreOperationGroupByOperationGroupId: jest.fn(() => of({ success: 1 })),
@@ -95,11 +106,32 @@ describe('OperationGroupFormComponent (Jest)', () => {
   it('loads the client from the service when it is missing from local user state', () => {
     const { comp, route, operationService } = makeComponent();
     route.snapshot.data.user.operationGroups = [];
+    operationService.getAllOperationGroups = jest.fn(() => of([] as any));
 
     comp.ngOnInit();
 
     expect(operationService.getOperationGroupByOperationGroupId).toHaveBeenCalledWith('og1');
     expect(comp.operationGroup?.operationGroupName).toBe('Providence');
+  });
+
+  it('prefers the all-clients feed so archived lifecycle state stays accurate on edit', () => {
+    const { comp, operationService } = makeComponent();
+    operationService.getAllOperationGroups = jest.fn(() =>
+      of([
+        {
+          operationGroupId: 'og1',
+          operationGroupName: 'Providence',
+          operationGroupShortName: 'PROV',
+          operationGroupActive: 0
+        }
+      ] as any)
+    );
+
+    comp.ngOnInit();
+
+    expect(operationService.getAllOperationGroups).toHaveBeenCalled();
+    expect(comp.operationGroup?.operationGroupActive).toBe(0);
+    expect(operationService.getOperationGroupByOperationGroupId).not.toHaveBeenCalled();
   });
 
   it('archives the client and routes back to the client roster', () => {

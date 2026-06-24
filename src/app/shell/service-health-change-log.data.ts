@@ -23,6 +23,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Non-production Wizard Bridge downloads now present as `data-alpha.xlsx` instead of inheriting the older dev or production filename path.',
+        evidence:
+          'Recorded after updating `v4.0.0/followup-api/deployment/controllers/Data.js`, `src/app/shell/toolbar-nav/toolbar-nav.component.ts`, and `src/app/shell/toolbar-nav/toolbar-nav.component.spec.ts`. The previous origin-aware workbook selector already routed localhost, alpha, and other non-production callers to the alpha workbook resource, but the visible filename contract still came through the old `data-dev.xlsx` lineage and could fall back to `data.xlsx` when the header path drifted. The API now serves non-production downloads as `data-alpha.xlsx` while still using the existing alpha workbook source asset, and the toolbar falls back to `data-alpha.xlsx` automatically on non-production hosts if `Content-Disposition` is missing. Validation used focused Jest on `src/app/shell/toolbar-nav/toolbar-nav.component.spec.ts` (`11/11` tests passing) plus snapshot API `npm test --silent` PASS (`8/8` tests).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Queue-facing patient and patient-call reads now enforce both facility active-state and parent client active-state, so archived facilities or archived clients no longer leak rows into Spanish queue listings or direct operation queue lookups.',
+        evidence:
+          'Recorded after updating `v4.0.0/followup-api/deployment/service/activeQueueScope.js`, `deployment/service/OperationService.js`, `deployment/service/PatientService.js`, and `deployment/service/PatientCallsService.js`, plus the matching client-edit fix in `src/app/modules/operation/operation-group-form/operation-group-form.component.ts`. The observed regression was that cross-facility queue reads such as `/patients/spanish` and `/spanish/calls` could still surface patients from archived facilities or from facilities under archived parent clients. The snapshot API now short-circuits operation-scoped queue reads when the operation or parent client is archived and post-filters Spanish queue stored-procedure rows against live `operations.operationActive` plus `operationGroups.operationGroupActive` before returning them. The client edit page also now resolves archived lifecycle state from the all-clients feed first so already archived clients correctly render the `Restore Client` action. Validation used focused Jest on `src/app/modules/operation/operation-group-form/operation-group-form.component.spec.ts` (`10/10` tests passing) plus snapshot API `npm test --silent` PASS (`8/8` tests).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'The final Clients sidebar alignment pass pulls the `Active` / `Archived` label, count, and dropdown arrow into one tight right-edge cluster instead of leaving extra space before the arrow.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.scss`. The arrow had already been moved back to the far right, but there was still too much separation between the text/count cluster and the icon. The final spacing pass reduces the heading gap and trims the arrow margin so the entire heading reads as one flush right-aligned control. Validation used focused Jest on `src/app/modules/operation/operation-admin-sidebar/operation-admin-sidebar.component.spec.ts` (`12/12` tests passing) plus `npm run build -s` PASS.',
