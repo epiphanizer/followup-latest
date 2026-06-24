@@ -1,6 +1,7 @@
 .team-sidebar {
   width: 100%;
   max-width: 172px;
+  text-align: right;
 
   .team-sidebar-calendar {
     width: 100%;
@@ -33,6 +34,7 @@
   .team-dropdown-target {
     display: block;
     font-family: AvenirBold;
+    margin-left: auto;
     margin: 0;
     font-size: 20px;
     font-weight: bold;
@@ -40,7 +42,7 @@
     font-style: normal;
     line-height: 1.4;
     letter-spacing: 1.2px;
-    text-align: left;
+    text-align: right;
     color: #00b4b9;
     text-decoration: none;
   }
@@ -48,7 +50,7 @@
   .team-header-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 8px;
     margin-bottom: 10px;
   }
@@ -103,6 +105,7 @@
     border-radius: 10px;
     border: 1px solid transparent;
     background: transparent;
+    text-align: right;
 
     &.active {
       border-color: rgba(0, 180, 185, 0.2);
@@ -116,7 +119,8 @@
 
   .team-section-heading {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
     align-items: baseline;
     gap: 10px;
     margin: 0;
@@ -145,6 +149,7 @@
     margin-top: 8px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     flex-wrap: wrap;
     column-gap: 6px;
     row-gap: 2px;
@@ -168,15 +173,6 @@
       background: rgba(239, 70, 39, 0.14);
       color: #ba412a;
     }
-  }
-
-  .team-access-link {
-    font-family: AvenirDemi;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    color: #00aeb3;
-    text-decoration: none;
   }
 
   .team-lifecycle-action {
@@ -227,11 +223,11 @@
     border: none;
     background: transparent;
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: auto auto 1fr;
     align-items: center;
     column-gap: 8px;
     padding: 0;
-    text-align: left;
+    text-align: right;
     font-family: AvenirBold;
     font-size: 12px;
     text-transform: uppercase;
@@ -256,6 +252,7 @@
     list-style-type: none;
     margin: 6px 0 0;
     padding: 0;
+    text-align: right;
 
     li {
       margin-top: 5px;
@@ -281,6 +278,7 @@
     font-family: Avenir;
     font-size: 12px;
     color: #7a6c70;
+    text-align: right;
   }
 
   i {

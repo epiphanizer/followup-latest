@@ -19,9 +19,9 @@ ion-title {
 
 .teams-page {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
+  grid-template-columns: 172px minmax(0, 1fr);
   column-gap: 48px;
-  padding: 72px 56px 0 80px;
+  padding: 0 56px 0 0;
   box-sizing: border-box;
   overflow-x: hidden;
 }
@@ -37,13 +37,18 @@ ion-title {
 }
 
 .team-sidebar {
-  width: 220px;
+  width: 172px;
+  max-width: 172px;
   min-width: 0;
+  margin-left: 26px;
+  padding-top: 58px;
   padding-bottom: 160px;
 }
 
 .team-content-wrapper {
   min-width: 0;
+  margin-left: 92px;
+  margin-top: 8rem;
   padding-bottom: 160px;
 }
 
@@ -144,9 +149,9 @@ ion-title {
 
 @media screen and (max-width: 1280px) {
   .teams-page {
-    grid-template-columns: 220px minmax(0, 1fr);
+    grid-template-columns: 172px minmax(0, 1fr);
     column-gap: 32px;
-    padding: 56px 32px 0 36px;
+    padding: 0 32px 0 0;
   }
 
   ion-title {
@@ -163,10 +168,15 @@ ion-title {
 
   .team-sidebar {
     width: 100%;
+    max-width: none;
+    margin-left: 0;
+    padding-top: 0;
     padding-bottom: 0;
   }
 
   .team-content-wrapper {
+    margin-left: 0;
+    margin-top: 0;
     padding-bottom: 88px;
   }
 
