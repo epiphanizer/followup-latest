@@ -86,24 +86,20 @@ export class UserService {
   }
 
   generateUserMergeScript(adminUserId: string, sourceUserId: string, targetUserId: string) {
-    return this.http
-      .post<UserMergeScriptResponse>('users/merge-script', {
-        adminUserId: adminUserId,
-        sourceUserId: sourceUserId,
-        targetUserId: targetUserId
-      })
-      .pipe(catchError(e => this.handleAsyncError(e)));
+    return this.http.post<UserMergeScriptResponse>('users/merge-script', {
+      adminUserId: adminUserId,
+      sourceUserId: sourceUserId,
+      targetUserId: targetUserId
+    });
   }
 
   executeUserMerge(adminUserId: string, sourceUserId: string, targetUserId: string) {
-    return this.http
-      .post<UserMergeExecutionResponse>('users/merge-script', {
-        adminUserId: adminUserId,
-        sourceUserId: sourceUserId,
-        targetUserId: targetUserId,
-        commitChanges: true
-      })
-      .pipe(catchError(e => this.handleAsyncError(e)));
+    return this.http.post<UserMergeExecutionResponse>('users/merge-script', {
+      adminUserId: adminUserId,
+      sourceUserId: sourceUserId,
+      targetUserId: targetUserId,
+      commitChanges: true
+    });
   }
 
   public getUserCalls(user: User): Observable<any> {

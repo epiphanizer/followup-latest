@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { AuthenticationService } from '@app/core';
 import { UserRoles } from '../user';
 import { UserService } from '../user.service';
@@ -131,6 +131,21 @@ describe('UserListingComponent (Jest)', () => {
     expect(userService.executeUserMerge).toHaveBeenCalledWith('admin-1', 'u1', 'u2');
     expect(group.mergeResult?.transactionOutcome).toBe('COMMIT');
     expect(group.users.find(user => user.userId === 'u1')?.deleted).toBe(true);
+  });
+
+  it('shows the backend execute error message when a merge fails', () => {
+    const group = component.duplicateGroups[0];
+    const sourceUser = group.users.find(user => user.userId === 'u1') as any;
+    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
+
+    userService.executeUserMerge.mockReturnValue(
+      throwError(() => ({ error: { message: 'The merge workup exceeded the current API timeout.' } }))
+    );
+
+    component.executeMerge(group as any, sourceUser);
+
+    expect(group.mergeError).toBe('The merge workup exceeded the current API timeout.');
+    confirmSpy.mockRestore();
   });
 
   it('derives the highest effective role from nested operation access', () => {

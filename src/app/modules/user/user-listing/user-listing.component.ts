@@ -275,10 +275,10 @@ export class UserListingComponent implements OnInit {
           group.mergeLoading = false;
           group.mergeLoadingAction = null;
         },
-        error: () => {
+        error: error => {
           group.mergeLoading = false;
           group.mergeLoadingAction = null;
-          group.mergeError = 'Unable to generate a merge script for this account pair.';
+          group.mergeError = this.getMergeErrorMessage(error, 'Unable to generate a merge script for this account pair.');
         }
       });
   }
@@ -309,10 +309,10 @@ export class UserListingComponent implements OnInit {
         group.mergeLoading = false;
         group.mergeLoadingAction = null;
       },
-      error: () => {
+      error: error => {
         group.mergeLoading = false;
         group.mergeLoadingAction = null;
-        group.mergeError = 'Unable to execute this merge workup.';
+        group.mergeError = this.getMergeErrorMessage(error, 'Unable to execute this merge workup.');
       }
     });
   }
@@ -623,6 +623,27 @@ export class UserListingComponent implements OnInit {
     group.mergeError = null;
     group.mergeScript = null;
     group.mergeResult = null;
+  }
+
+  private getMergeErrorMessage(error: any, fallback: string): string {
+    const backendMessage = error?.error?.message;
+    if (typeof backendMessage === 'string' && backendMessage.trim().length) {
+      return backendMessage.trim();
+    }
+
+    if (typeof error?.error === 'string' && error.error.trim().length) {
+      return error.error.trim();
+    }
+
+    if (typeof error?.message === 'string' && error.message.trim().length) {
+      return error.message.trim();
+    }
+
+    if (typeof error === 'string' && error.trim().length) {
+      return error.trim();
+    }
+
+    return fallback;
   }
 
   private applyMergeResult(group: DuplicateUserGroup, response: UserMergeExecutionResponse) {

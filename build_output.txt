@@ -1,0 +1,91 @@
+❯ Building...
+✔ Building...
+Initial chunk files   | Names                  |  Raw size | Estimated transfer size
+main-ICUBMSLH.js      | main                   |   1.90 MB |               386.54 kB
+styles-X6EPJHOM.css   | styles                 |  50.71 kB |                 7.69 kB
+chunk-NXOGHEEP.js     | -                      |  47.65 kB |                15.30 kB
+polyfills-5FDKUQTZ.js | polyfills              |  34.61 kB |                11.36 kB
+chunk-EPJ2ENLK.js     | -                      |  10.29 kB |                 2.67 kB
+chunk-YUK2B4W4.js     | -                      |  10.16 kB |                 2.63 kB
+chunk-62N2W5YM.js     | -                      |   7.57 kB |                 2.99 kB
+chunk-DLSJARPM.js     | -                      |   7.50 kB |                 2.60 kB
+chunk-AYI5DRDM.js     | -                      |   5.50 kB |                 2.18 kB
+chunk-J7NP7S6I.js     | -                      |   3.93 kB |                 1.48 kB
+chunk-6JK63745.js     | -                      |   3.67 kB |                 1.29 kB
+chunk-VZWY4NEG.js     | -                      |   3.32 kB |                 1.50 kB
+chunk-WXMHWQAX.js     | -                      |   3.17 kB |                 1.26 kB
+chunk-WI5MSH4N.js     | -                      |   2.53 kB |               739 bytes
+chunk-LT42NMUM.js     | -                      |   2.31 kB |                 1.05 kB
+chunk-QOEAYYXG.js     | -                      |   1.73 kB |               745 bytes
+chunk-VI73JOY6.js     | -                      |   1.53 kB |               669 bytes
+chunk-C2SDHZTI.js     | -                      |   1.52 kB |               668 bytes
+chunk-MOABHAMW.js     | -                      | 978 bytes |               978 bytes
+chunk-D4ZMGL7S.js     | -                      | 969 bytes |               969 bytes
+chunk-QUJFQN2Y.js     | -                      | 962 bytes |               962 bytes
+chunk-7VMAFNFA.js     | -                      | 932 bytes |               932 bytes
+chunk-IACAUHTZ.js     | -                      | 563 bytes |               563 bytes
+chunk-CKP3SGE2.js     | -                      |  99 bytes |                99 bytes
+
+                      | Initial total          |   2.10 MB |               447.87 kB
+
+Lazy chunk files      | Names                  |  Raw size | Estimated transfer size
+chunk-XCM2DUO6.js     | ion-datetime_3-entry   |  75.14 kB |                14.57 kB
+chunk-EPIBFSA7.js     | ion-item_8-entry       |  55.18 kB |                 7.23 kB
+chunk-47MR4LKW.js     | ion-textarea-entry     |  47.21 kB |                 5.76 kB
+chunk-FG44WQI5.js     | ion-select_3-entry     |  43.58 kB |                 7.40 kB
+chunk-6MJULQBI.js     | ion-modal-entry        |  42.51 kB |                10.11 kB
+chunk-B6MFRUT3.js     | ion-app_8-entry        |  42.00 kB |                 9.32 kB
+chunk-2HLU5W25.js     | ion-input-entry        |  41.58 kB |                 5.80 kB
+chunk-M4WLJZHY.js     | ion-alert-entry        |  36.29 kB |                 6.52 kB
+chunk-L2UY7Q4H.js     | ion-range-entry        |  30.95 kB |                 6.07 kB
+chunk-PKYPGCBL.js     | ion-segment_2-entry    |  29.38 kB |                 5.51 kB
+chunk-EONVQ5GW.js     | ion-button_2-entry     |  27.90 kB |                 5.52 kB
+chunk-3NUD5GN4.js     | ion-popover-entry      |  25.63 kB |                 6.31 kB
+chunk-UVTIP5ZM.js     | ion-refresher_2-entry  |  25.56 kB |                 5.28 kB
+chunk-VN3KV5R5.js     | ion-action-sheet-entry |  24.70 kB |                 4.80 kB
+chunk-7RZARZRM.js     | ion-menu_3-entry       |  23.85 kB |                 5.02 kB
+...and 67 more lazy chunks files. Use "--verbose" to show all the files.
+
+Application bundle generation complete. [3.996 seconds] - 2026-06-24T02:22:37.886Z
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mTypeScript compiler options 'target' and 'useDefineForClassFields' are set to 'ES2022' and 'false' respectively by the Angular CLI.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/tsconfig.app.json:0:0:
+[37m      0 │ [32m[37m
+        ╵ [32m^[0m
+
+  To control ECMA version and features use the Browserslist configuration. For more information, see [4mhttps://angular.dev/tools/cli/build#configuring-browser-compatibility[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mTypeScript compiler options 'target' and 'useDefineForClassFields' are set to 'ES2022' and 'false' respectively by the Angular CLI.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/tsconfig.app.json:0:0:
+[37m      0 │ [32m[37m
+        ╵ [32m^[0m
+
+  To control ECMA version and features use the Browserslist configuration. For more information, see [4mhttps://angular.dev/tools/cli/build#configuring-browser-compatibility[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mbundle initial exceeded maximum budget. Budget 2.00 MB was not met by 98.45 kB with a total of 2.10 MB.[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mModule 'file-saver' used by 'src/app/shell/toolbar-nav/toolbar-nav.component.ts' is not ESM[0m
+
+  CommonJS or AMD dependencies can cause optimization bailouts.
+  For more information see: [4mhttps://angular.dev/tools/cli/build#configuring-commonjs-dependencies[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mModule 'lodash' used by 'src/app/modules/patient/patient-form/patient-form.component.ts' is not ESM[0m
+
+  CommonJS or AMD dependencies can cause optimization bailouts.
+  For more information see: [4mhttps://angular.dev/tools/cli/build#configuring-commonjs-dependencies[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mModule 'angular-super-validator' used by 'src/app/modules/operation/operation-form/operation-form.component.ts' is not ESM[0m
+
+  CommonJS or AMD dependencies can cause optimization bailouts.
+  For more information see: [4mhttps://angular.dev/tools/cli/build#configuring-commonjs-dependencies[0m
+
+
+Output location: /Users/seanhalls/Desktop/sh/clients/followup_master/v4.0.0/followup-frontend/dist
+

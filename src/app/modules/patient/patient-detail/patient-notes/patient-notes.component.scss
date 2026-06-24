@@ -12,11 +12,12 @@ i {
 .right-column {
   display: inline-block;
   margin: 0;
-  height: 75px;
+  min-height: 75px;
+  height: auto;
   vertical-align: top;
 
   @media screen and (max-width: 1200px) {
-    height: 83px;
+    min-height: 83px;
   }
 }
 .left-column {
@@ -113,7 +114,9 @@ ion-list {
       height: 34px;
       padding: 0;
       &.discharged-to {
-        height: 60px;
+        height: auto;
+        min-height: 60px;
+        white-space: normal;
       }
     }
   }
