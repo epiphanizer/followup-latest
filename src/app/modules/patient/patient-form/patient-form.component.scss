@@ -168,6 +168,11 @@ form {
     }
   }
 
+  ion-textarea {
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+  }
+
   .main-label-box {
     font-family: Avenir;
     font-size: 21px;

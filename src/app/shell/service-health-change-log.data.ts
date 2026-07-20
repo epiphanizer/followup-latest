@@ -23,6 +23,30 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Shared radio, checkbox, and toggle labels no longer inherit Ionic\'s default in-item top margin, which keeps aligned labels from being pushed downward after the rc7 control-spacing refinements.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/theme/theme.scss`. Ionic\'s internal `:host(.in-item) .label-text-wrapper` rule was still adding a `10px` top margin to shared radio, checkbox, and toggle label wrappers, which reintroduced downward drift even after the local alignment passes. The theme now overrides the exposed label part for those controls so the top margin is cleared globally without patching `node_modules`, while the bottom spacing remains intact. Validation used `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Textarea inputs now share a slightly roomier vertical padding baseline, and the patient diagnosis/discharge notes no longer inherit the tighter single-line input feel.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/theme/theme.scss` and `src/app/modules/patient/patient-form/patient-form.component.scss`. The patient Primary Diagnosis and Discharged Condition textareas had been inheriting the tighter single-line field padding after the recent input-height refinement, which made their content sit too high compared with other textarea surfaces. The frontend now gives `ion-textarea` a shared `10px` vertical padding baseline at the theme layer and keeps the patient form aligned to that same spacing locally, so the patient diagnosis/discharge fields and other standard textarea inputs start with more top breathing room without changing their overall layout. Validation used `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The patient Birthday field now matches the page\'s inline Ionic date-picker contract, while the standard patient-form radio fill and date-input icon alignment are corrected locally.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html`, `.ts`, `.scss`, and `.spec.ts`. The Birthday control had still been using the old browser `type="date"` path instead of the stabilized patient-form date contract, and the page\'s standard radios plus calendar-input affordances had drifted slightly in visual alignment. Birthday now uses the same typed `mm/dd/yyyy` input plus inline Ionic calendar pattern as Admit/Discharge, the patient-form radio fill is explicitly centered inside the control again, the gender row sits farther below Birthday, and the patient-form calendar icons are nudged slightly lower so the affordance reads centered in the input. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`36/36` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'The patient add/edit form inputs now use a slightly shorter shared control height so the page reads less bulky while keeping the migrated styling consistent.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.scss`. The patient form had been using a slightly tall `44px` shared control baseline plus a taller Fluent Language select, which made the page feel heavier than intended. The current refinement reduces the shared control height a bit across the standard patient-form `ion-input` / `ion-select` / `ion-textarea` styling and mirrors that lower baseline through the custom facility picker trigger, the segmented phone inputs, and the typed admit/discharge date shell, while also shortening the taller Fluent Language select so the page stays visually uniform. Validation used `npm run build -s` PASS.',

@@ -174,6 +174,17 @@ ion-item {
   color: #444444;
 }
 
+ion-radio::part(label),
+ion-checkbox::part(label),
+ion-toggle::part(label) {
+  margin-top: 0 !important;
+}
+
+ion-textarea {
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+}
+
 @media screen and (max-width: 768px) {
   .followup-form-choice-grid {
     grid-template-columns: 1fr;
