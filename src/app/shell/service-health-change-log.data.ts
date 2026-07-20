@@ -15,9 +15,9 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
-    version: '4.0.0_alpha_rc7',
-    recordedAt: '2026-06-23',
-    label: 'Current alpha rc7 candidate',
+    version: '4.0.0_beta_rc1',
+    recordedAt: '2026-07-20',
+    label: 'Current beta rc1 candidate',
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
@@ -206,9 +206,9 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       },
       {
         scope: 'Release',
-        summary: 'The current v4 alpha snapshot is now tagged and surfaced as `4.0.0_alpha_rc7` across the frontend build metadata, API package metadata, and the Service Health version history.',
+        summary: 'The current v4 beta snapshot is now tagged and surfaced as `4.0.0_beta_rc1` across the frontend build metadata, API package metadata, and the Service Health version history.',
         evidence:
-          'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_alpha_rc6` to `4.0.0_alpha_rc7`, updating `src/environments/.env.ts`, `src/app/shell/shell.component.spec.ts`, and retagging this top Service Health release entry so the active alpha shows up consistently in the shell version panel, branch merge target, and status payloads.',
+          'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_alpha_rc7` to `4.0.0_beta_rc1`, updating `src/environments/.env.ts`, `src/app/shell/shell.component.spec.ts`, and retagging this top Service Health release entry so the active beta stamp shows up consistently in the shell version panel and API status payloads while the alpha branches and pipelines remain the deployment path.',
         source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
       },
       {

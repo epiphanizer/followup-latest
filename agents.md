@@ -1,6 +1,6 @@
 # Followup Frontend — feature/robot_work_1
 
-Project version: 4.0.0_alpha_rc7 (package). Goal: modernize the Angular/Ionic app for Followup v4.
+Project version: 4.0.0_beta_rc1 (package). Goal: modernize the Angular/Ionic app for Followup v4.
 
 ## Findings
 
@@ -54,6 +54,8 @@ Shared/core scaffolding
 - Rule: whenever frontend, API, or database work changes what should appear in the shell Service Health -> Version Change Log, update `src/app/shell/service-health-change-log.data.ts` and the matching frontend/API running change log entries before closing the task.
 
 ## Running change log (frontend)
+- 2026-07-20: Promoted the snapshot frontend package/version metadata to `4.0.0_beta_rc1` by updating [package.json](package.json), [package-lock.json](package-lock.json), [src/environments/.env.ts](src/environments/.env.ts), [src/app/shell/service-health-change-log.data.ts](src/app/shell/service-health-change-log.data.ts), [src/app/shell/shell.component.spec.ts](src/app/shell/shell.component.spec.ts), and this running log header so the active beta rc1 stamp matches the snapshot API metadata and the shell Service Health release selector while deployment still flows through the existing alpha branches and pipelines. Validation: `npm run build -s` PASS.
+
 - 2026-07-20: Tightened the snapshot `4.0.0_alpha_rc7` patient-form textarea label gap in [src/app/modules/patient/patient-form/patient-form.component.scss](src/app/modules/patient/patient-form/patient-form.component.scss). The Primary Diagnosis and Discharged Condition rows were still inheriting the normal stacked-label gap, which left those labels sitting a few pixels too high above their textarea fields relative to the intended spacing. The patient form now trims the `textarea-item` label bottom margin by about `3px`, bringing those two labels closer to the textarea inputs without affecting the surrounding layout. Validation: `npm run build -s` PASS.
 
 - 2026-07-20: Removed the snapshot `4.0.0_alpha_rc7` Ionic in-item label top offset for shared radio, checkbox, and toggle controls in [src/theme/theme.scss](src/theme/theme.scss). Ionic's internal `:host(.in-item) .label-text-wrapper` rule was adding a `10px` top margin to those label wrappers, which kept pushing shared form-control labels down even after the local alignment passes. The theme now overrides the exposed label part for `ion-radio`, `ion-checkbox`, and `ion-toggle` so that top margin is cleared globally without patching `node_modules`, while the bottom spacing remains untouched. Validation: `npm run build -s` PASS.
