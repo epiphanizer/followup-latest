@@ -23,6 +23,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Alpha frontend deployments now emit hashed asset filenames, which forces browsers to pick up the current runtime bundle instead of reusing a stale stable-name `main.js` cache entry.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `angular.json`. The live `alpha.followup.care` beta rc1 deployment had already succeeded at the App Service layer and the host was serving the new HTML shell plus beta bundle content, but browsers could still execute the prior `4.0.0_alpha_rc7(alpha)` runtime because the alpha build emitted stable asset names like `main.js` and `styles.css`. The alpha build configuration now sets `outputHashing: "all"`, so each deployment references hashed `main-*`, `polyfills-*`, and `styles-*` asset filenames instead of reusing the old cache path. Validation used `npm run "build alpha" -s` PASS, and the generated `dist/browser/index.html` now points at hashed asset filenames.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'The patient Primary Diagnosis and Discharged Condition labels now sit a few pixels closer to their textarea inputs instead of inheriting the wider default stacked-label gap.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.scss`. Those two patient-form textarea rows were still using the normal stacked-label bottom margin, which left the labels a few pixels too high above the textarea fields relative to the intended spacing. The patient form now trims the `textarea-item` label bottom margin by about `3px`, bringing the labels closer without changing the surrounding layout. Validation used `npm run build -s` PASS.',
