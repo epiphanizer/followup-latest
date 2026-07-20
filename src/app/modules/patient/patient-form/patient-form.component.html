@@ -50,10 +50,47 @@
               ></ion-input>
             </ion-item>
           </ion-list>
-          <ion-item class="patient-dob">
-            <ion-label color="medium" position="stacked">Birthday<span style="color:#f1624a">*</span></ion-label>
-            <ion-input type="date" formControlName="patientDob" placeholder="Birthday"></ion-input>
-          </ion-item>
+          <div class="patient-dob-wrapper">
+            <ion-item class="patient-dob">
+              <ion-label color="medium" position="stacked">Birthday<span style="color:#f1624a">*</span></ion-label>
+              <input type="hidden" formControlName="patientDob" />
+              <div class="date-input-shell" [class.is-open]="isPatientDobPickerOpen">
+                <input
+                  class="date-text-input"
+                  type="text"
+                  inputmode="numeric"
+                  placeholder="mm/dd/yyyy"
+                  [value]="getPatientDobDisplayValue()"
+                  (input)="onPatientDobInput($any($event.target).value)"
+                  (blur)="onPatientDobInputBlur()"
+                />
+                <button
+                  class="date-picker-toggle"
+                  type="button"
+                  aria-label="Open birthday date picker"
+                  (click)="openPatientDobPicker()"
+                ></button>
+              </div>
+            </ion-item>
+            <div class="date-picker-panel patient-dob-picker-panel" *ngIf="isPatientDobPickerOpen">
+              <div class="date-picker-header">
+                <span class="date-picker-title">Select birthday</span>
+                <button class="date-picker-close" type="button" aria-label="Close birthday date picker" (click)="closePatientDobPicker()">
+                  Close
+                </button>
+              </div>
+              <ion-datetime
+                class="date-picker"
+                presentation="date"
+                [value]="activePatientDobValue || undefined"
+                [max]="getPatientDobPickerMax()"
+                [formatOptions]="dischargeDateFormatOptions"
+                [showAdjacentDays]="true"
+                (ionChange)="onPatientDobPickerChange($event)"
+              >
+              </ion-datetime>
+            </div>
+          </div>
           <div class="patient-gender form-row">
             <ion-radio-group class="patient-gender-radio gender-row followup-form-choice-group" formControlName="patientGender">
               <ion-radio
@@ -289,9 +326,9 @@
                 <ion-item class="discharge-admit-date">
                   <ion-label color="medium" position="stacked">Admitted <span style="color:#f1624a">*</span></ion-label>
                   <input type="hidden" formControlName="patientAdmitDate" />
-                  <div class="discharge-date-input-shell" [class.is-open]="activeDischargeDateControl === 'patientAdmitDate'">
+                  <div class="date-input-shell discharge-date-input-shell" [class.is-open]="activeDischargeDateControl === 'patientAdmitDate'">
                     <input
-                      class="discharge-date-text-input"
+                      class="date-text-input discharge-date-text-input"
                       type="text"
                       inputmode="numeric"
                       placeholder="mm/dd/yyyy"
@@ -300,7 +337,7 @@
                       (blur)="onDischargeDateInputBlur('patientAdmitDate')"
                     />
                     <button
-                      class="discharge-date-picker-toggle"
+                      class="date-picker-toggle discharge-date-picker-toggle"
                       type="button"
                       aria-label="Open admit date picker"
                       (click)="openDischargeDatePicker('patientAdmitDate')"
@@ -312,9 +349,9 @@
                     >Discharged <span style="color:#f1624a">*</span></ion-label
                   >
                   <input type="hidden" formControlName="patientDischargeDate" />
-                  <div class="discharge-date-input-shell" [class.is-open]="activeDischargeDateControl === 'patientDischargeDate'">
+                  <div class="date-input-shell discharge-date-input-shell" [class.is-open]="activeDischargeDateControl === 'patientDischargeDate'">
                     <input
-                      class="discharge-date-text-input"
+                      class="date-text-input discharge-date-text-input"
                       type="text"
                       inputmode="numeric"
                       placeholder="mm/dd/yyyy"
@@ -323,7 +360,7 @@
                       (blur)="onDischargeDateInputBlur('patientDischargeDate')"
                     />
                     <button
-                      class="discharge-date-picker-toggle"
+                      class="date-picker-toggle discharge-date-picker-toggle"
                       type="button"
                       aria-label="Open discharge date picker"
                       (click)="openDischargeDatePicker('patientDischargeDate')"
@@ -335,11 +372,11 @@
                   <ion-label color="medium" position="stacked">Total Days</ion-label>
                   <ion-input formControlName="patientTotalDays" [readonly]="true"></ion-input>
                 </ion-item>
-                <div class="discharge-date-picker-panel" *ngIf="activeDischargeDateControl">
-                  <div class="discharge-date-picker-header">
-                    <span class="discharge-date-picker-title">{{ getActiveDischargeDateTitle() }}</span>
+                <div class="date-picker-panel discharge-date-picker-panel" *ngIf="activeDischargeDateControl">
+                  <div class="date-picker-header discharge-date-picker-header">
+                    <span class="date-picker-title discharge-date-picker-title">{{ getActiveDischargeDateTitle() }}</span>
                     <button
-                      class="discharge-date-picker-close"
+                      class="date-picker-close discharge-date-picker-close"
                       type="button"
                       aria-label="Close date picker"
                       (click)="closeDischargeDatePicker()"
@@ -348,7 +385,7 @@
                     </button>
                   </div>
                   <ion-datetime
-                    class="discharge-date-picker"
+                    class="date-picker discharge-date-picker"
                     presentation="date"
                     [value]="activeDischargeDateValue || undefined"
                     [min]="getActiveDischargeDateMin()"

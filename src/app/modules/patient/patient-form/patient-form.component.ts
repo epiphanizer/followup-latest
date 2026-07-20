@@ -73,12 +73,16 @@ export class PatientFormComponent implements OnInit {
   patientIntakeQuestionAnswersToAdd: PatientIntakeQuestionAnswer[] = [];
   activeDischargeDateControl: DischargeDateControlName | null = null;
   activeDischargeDateValue: string | null = null;
+  isPatientDobPickerOpen: boolean = false;
+  activePatientDobValue: string | null = null;
+  patientDobDisplayValue: string = '';
   dischargeDateDisplayValues: Record<DischargeDateControlName, string> = {
     patientAdmitDate: '',
     patientDischargeDate: ''
   };
   patientMaxAdmitDate: string = '';
   patientMinDischargeDate: string = '';
+  readonly patientDobMax: string = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   readonly dischargeDateFormatOptions = {
     date: {
       month: '2-digit',
@@ -532,6 +536,7 @@ export class PatientFormComponent implements OnInit {
 
     this.syncLanguageControls();
     this.updateDischargeFields();
+    this.syncPatientDobDisplayValue();
     this.syncDischargeDateDisplayValue('patientAdmitDate');
     this.syncDischargeDateDisplayValue('patientDischargeDate');
   }
@@ -616,6 +621,85 @@ export class PatientFormComponent implements OnInit {
     contactGroup.get('patientContactHIPAABoolean').setValue(isResponsibleParty);
   }
 
+  onPatientDobInput(inputValue: string) {
+    this.patientDobDisplayValue = inputValue || '';
+  }
+
+  onPatientDobInputBlur() {
+    const control = this.patientForm.get('patient.patientDob');
+
+    if (!control) {
+      return;
+    }
+
+    const typedValue = (this.patientDobDisplayValue || '').trim();
+
+    if (!typedValue) {
+      control.setValue('');
+      control.markAsDirty();
+      control.markAsTouched();
+      this.patientDobDisplayValue = '';
+      return;
+    }
+
+    const normalized = this.normalizeDischargeDateValue(typedValue);
+
+    if (this.isNormalizedDischargeDateValue(normalized)) {
+      control.setValue(normalized);
+      control.markAsDirty();
+      control.markAsTouched();
+      this.syncPatientDobDisplayValue();
+
+      if (this.isPatientDobPickerOpen) {
+        this.activePatientDobValue = normalized;
+      }
+    } else {
+      control.setValue('');
+      control.markAsDirty();
+      control.markAsTouched();
+    }
+  }
+
+  openPatientDobPicker() {
+    if (this.isPatientDobPickerOpen) {
+      this.closePatientDobPicker();
+      return;
+    }
+
+    this.closeDischargeDatePicker();
+    this.isPatientDobPickerOpen = true;
+    this.activePatientDobValue = this.getPatientDobControlValue() || null;
+  }
+
+  closePatientDobPicker() {
+    this.isPatientDobPickerOpen = false;
+    this.activePatientDobValue = null;
+  }
+
+  onPatientDobPickerChange(event: CustomEvent<{ value?: string | null }>) {
+    const control = this.patientForm.get('patient.patientDob');
+
+    if (!control) {
+      this.closePatientDobPicker();
+      return;
+    }
+
+    const normalized = this.normalizeDischargeDateValue(event.detail?.value || '');
+    control.setValue(normalized || '');
+    control.markAsDirty();
+    control.markAsTouched();
+    this.syncPatientDobDisplayValue();
+    this.closePatientDobPicker();
+  }
+
+  getPatientDobDisplayValue(): string {
+    return this.patientDobDisplayValue || '';
+  }
+
+  getPatientDobPickerMax(): string | undefined {
+    return this.patientDobMax || undefined;
+  }
+
   onDischargeDateBlur(controlName: 'patientAdmitDate' | 'patientDischargeDate') {
     const control = this.patientForm.get('patient.dischargeInfo.' + controlName);
 
@@ -680,6 +764,7 @@ export class PatientFormComponent implements OnInit {
       return;
     }
 
+    this.closePatientDobPicker();
     this.activeDischargeDateControl = controlName;
     this.activeDischargeDateValue = this.getDischargeDateControlValue(controlName) || null;
   }
@@ -714,6 +799,11 @@ export class PatientFormComponent implements OnInit {
 
   getDischargeDateDisplayValue(controlName: DischargeDateControlName): string {
     return this.dischargeDateDisplayValues[controlName] || '';
+  }
+
+  private syncPatientDobDisplayValue() {
+    const value = this.getPatientDobControlValue();
+    this.patientDobDisplayValue = this.formatDischargeDateDisplayValue(value);
   }
 
   private syncDischargeDateDisplayValue(controlName: DischargeDateControlName) {
@@ -1001,7 +1091,8 @@ export class PatientFormComponent implements OnInit {
     /**
      * Do transforms so we have proper UTC times on the dates
      */
-    var patientDob = formSubmission.patient.patientDob.substr(0, 10) + 'T12:00:00.00Z';
+    const normalizedPatientDob = this.normalizeDischargeDateValue(formSubmission.patient.patientDob);
+    var patientDob = normalizedPatientDob.substr(0, 10) + 'T12:00:00.00Z';
     const normalizedAdmitDate = this.normalizeDischargeDateValue(formSubmission.patient.dischargeInfo.patientAdmitDate);
     const normalizedDischargeDate = this.normalizeDischargeDateValue(
       formSubmission.patient.dischargeInfo.patientDischargeDate
@@ -1137,6 +1228,11 @@ export class PatientFormComponent implements OnInit {
     return /^\d{4}-\d{2}-\d{2}$/.test(dateValue || '');
   }
 
+  private getPatientDobControlValue(): string {
+    const control = this.patientForm?.get('patient.patientDob');
+    return this.normalizeDischargeDateValue(control?.value);
+  }
+
   private getDischargeDateControlValue(controlName: DischargeDateControlName): string {
     const control = this.patientForm?.get('patient.dischargeInfo.' + controlName);
     return this.normalizeDischargeDateValue(control?.value);
@@ -1187,15 +1283,16 @@ export class PatientFormComponent implements OnInit {
     });
 
     this.addCustomInvalidValidationCandidate(invalidCandidates, 'patient.operation', '.facility-picker-trigger');
+    this.addCustomInvalidValidationCandidate(invalidCandidates, 'patient.patientDob', '.patient-dob-wrapper .date-input-shell');
     this.addCustomInvalidValidationCandidate(
       invalidCandidates,
       'patient.dischargeInfo.patientAdmitDate',
-      '.discharge-admit-date .discharge-date-input-shell'
+      '.discharge-admit-date .date-input-shell'
     );
     this.addCustomInvalidValidationCandidate(
       invalidCandidates,
       'patient.dischargeInfo.patientDischargeDate',
-      '.discharge-discharge-date .discharge-date-input-shell'
+      '.discharge-discharge-date .date-input-shell'
     );
 
     return Array.from(invalidCandidates).sort((left, right) => {
@@ -1228,7 +1325,7 @@ export class PatientFormComponent implements OnInit {
   private getValidationScrollTarget(element: HTMLElement): HTMLElement {
     return (
       (element.closest(
-        'ion-item, .form-row, .discharged-ama, .patient-checkbox-grid, .patient-contact-flags, .patient-discharge-dates-container, .call-question-body-container'
+        'ion-item, .patient-dob-wrapper, .form-row, .discharged-ama, .patient-checkbox-grid, .patient-contact-flags, .patient-discharge-dates-container, .call-question-body-container'
       ) as HTMLElement | null) || element
     );
   }

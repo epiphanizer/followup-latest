@@ -437,6 +437,130 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.activeDischargeDateValue).toBeNull();
   });
 
+  it('opens the birthday date picker with the current control value and toggles closed', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+    comp.openPatientDobPicker();
+
+    expect(comp.isPatientDobPickerOpen).toBe(true);
+    expect(comp.activePatientDobValue).toBe('2020-01-01');
+    expect(comp.getPatientDobDisplayValue()).toBe('01/01/2020');
+
+    comp.openPatientDobPicker();
+
+    expect(comp.isPatientDobPickerOpen).toBe(false);
+    expect(comp.activePatientDobValue).toBeNull();
+  });
+
+  it('accepts manually typed birthday text and normalizes it into the form control', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+    comp.onPatientDobInput('2/5/2026');
+    comp.onPatientDobInputBlur();
+
+    expect(comp.patientForm.get('patient.patientDob')!.value).toBe('2026-02-05');
+    expect(comp.getPatientDobDisplayValue()).toBe('02/05/2026');
+  });
+
+  it('applies a confirmed birthday date picker selection back into the form', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+    comp.openPatientDobPicker();
+    comp.onPatientDobPickerChange({ detail: { value: '2020-01-05T00:00:00' } } as any);
+
+    expect(comp.patientForm.get('patient.patientDob')!.value).toBe('2020-01-05');
+    expect(comp.getPatientDobDisplayValue()).toBe('01/05/2020');
+    expect(comp.isPatientDobPickerOpen).toBe(false);
+    expect(comp.activePatientDobValue).toBeNull();
+  });
+
   it('accepts manually typed discharge date text and normalizes it into the form control', () => {
     const route = { snapshot: { data: { user: baseUser } } } as any;
     const services = makeServices();
