@@ -437,6 +437,46 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.activeDischargeDateValue).toBeNull();
   });
 
+  it('accepts manually typed discharge date text and normalizes it into the form control', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+    comp.onDischargeDateInput('patientAdmitDate', '2/5/2026');
+    comp.onDischargeDateInputBlur('patientAdmitDate');
+
+    expect(comp.patientForm.get('patient.dischargeInfo.patientAdmitDate')!.value).toBe('2026-02-05');
+    expect(comp.getDischargeDateDisplayValue('patientAdmitDate')).toBe('02/05/2026');
+    expect(comp.patientMinDischargeDate).toBe('2026-02-05');
+  });
+
   it('applies a confirmed discharge date picker selection back into the form', () => {
     const route = { snapshot: { data: { user: baseUser } } } as any;
     const services = makeServices();
@@ -1247,9 +1287,19 @@ describe('PatientFormComponent (Jest)', () => {
     document.body.innerHTML = '';
     expect(comp.validateControls()).toBe(true);
 
-    document.body.innerHTML = '<ion-item><div class="ng-invalid"></div></ion-item>';
+    document.body.innerHTML =
+      '<div class="form-row" id="earliest-invalid"><ion-radio-group class="ng-invalid"></ion-radio-group></div>' +
+      '<ion-item id="later-invalid"><ion-input class="ng-invalid"></ion-input></ion-item>';
+
+    const scrollSpy = jest.fn();
+    (document.getElementById('earliest-invalid') as any).scrollIntoView = scrollSpy;
+
     expect(comp.validateControls()).toBe(false);
     expect(alertSpy).toHaveBeenCalled();
+    expect(scrollSpy).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      block: 'center'
+    });
 
     alertSpy.mockRestore();
     document.body.innerHTML = '';

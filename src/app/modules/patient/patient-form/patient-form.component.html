@@ -289,40 +289,46 @@
                 <ion-item class="discharge-admit-date">
                   <ion-label color="medium" position="stacked">Admitted <span style="color:#f1624a">*</span></ion-label>
                   <input type="hidden" formControlName="patientAdmitDate" />
-                  <button
-                    class="discharge-date-trigger"
-                    [class.is-open]="activeDischargeDateControl === 'patientAdmitDate'"
-                    type="button"
-                    aria-label="Select admitted date"
-                    (click)="openDischargeDatePicker('patientAdmitDate')"
-                  >
-                    <span
-                      class="discharge-date-trigger-text"
-                      [class.is-placeholder]="!getDischargeDateDisplayValue('patientAdmitDate')"
-                    >
-                      {{ getDischargeDateDisplayValue('patientAdmitDate') || 'mm/dd/yyyy' }}
-                    </span>
-                  </button>
+                  <div class="discharge-date-input-shell" [class.is-open]="activeDischargeDateControl === 'patientAdmitDate'">
+                    <input
+                      class="discharge-date-text-input"
+                      type="text"
+                      inputmode="numeric"
+                      placeholder="mm/dd/yyyy"
+                      [value]="getDischargeDateDisplayValue('patientAdmitDate')"
+                      (input)="onDischargeDateInput('patientAdmitDate', $any($event.target).value)"
+                      (blur)="onDischargeDateInputBlur('patientAdmitDate')"
+                    />
+                    <button
+                      class="discharge-date-picker-toggle"
+                      type="button"
+                      aria-label="Open admit date picker"
+                      (click)="openDischargeDatePicker('patientAdmitDate')"
+                    ></button>
+                  </div>
                 </ion-item>
                 <ion-item class="discharge-discharge-date">
                   <ion-label color="medium" position="stacked"
                     >Discharged <span style="color:#f1624a">*</span></ion-label
                   >
                   <input type="hidden" formControlName="patientDischargeDate" />
-                  <button
-                    class="discharge-date-trigger"
-                    [class.is-open]="activeDischargeDateControl === 'patientDischargeDate'"
-                    type="button"
-                    aria-label="Select discharge date"
-                    (click)="openDischargeDatePicker('patientDischargeDate')"
-                  >
-                    <span
-                      class="discharge-date-trigger-text"
-                      [class.is-placeholder]="!getDischargeDateDisplayValue('patientDischargeDate')"
-                    >
-                      {{ getDischargeDateDisplayValue('patientDischargeDate') || 'mm/dd/yyyy' }}
-                    </span>
-                  </button>
+                  <div class="discharge-date-input-shell" [class.is-open]="activeDischargeDateControl === 'patientDischargeDate'">
+                    <input
+                      class="discharge-date-text-input"
+                      type="text"
+                      inputmode="numeric"
+                      placeholder="mm/dd/yyyy"
+                      [value]="getDischargeDateDisplayValue('patientDischargeDate')"
+                      (input)="onDischargeDateInput('patientDischargeDate', $any($event.target).value)"
+                      (blur)="onDischargeDateInputBlur('patientDischargeDate')"
+                    />
+                    <button
+                      class="discharge-date-picker-toggle"
+                      type="button"
+                      aria-label="Open discharge date picker"
+                      (click)="openDischargeDatePicker('patientDischargeDate')"
+                    ></button>
+                  </div>
                 </ion-item>
                 <img class="equal-sign" src="/assets/icon-equal-sign@2x.png" />
                 <ion-item class="discharge-total-days">

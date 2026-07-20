@@ -73,6 +73,10 @@ export class PatientFormComponent implements OnInit {
   patientIntakeQuestionAnswersToAdd: PatientIntakeQuestionAnswer[] = [];
   activeDischargeDateControl: DischargeDateControlName | null = null;
   activeDischargeDateValue: string | null = null;
+  dischargeDateDisplayValues: Record<DischargeDateControlName, string> = {
+    patientAdmitDate: '',
+    patientDischargeDate: ''
+  };
   patientMaxAdmitDate: string = '';
   patientMinDischargeDate: string = '';
   readonly dischargeDateFormatOptions = {
@@ -528,6 +532,8 @@ export class PatientFormComponent implements OnInit {
 
     this.syncLanguageControls();
     this.updateDischargeFields();
+    this.syncDischargeDateDisplayValue('patientAdmitDate');
+    this.syncDischargeDateDisplayValue('patientDischargeDate');
   }
 
   onPatientLanguageToggle() {
@@ -622,6 +628,49 @@ export class PatientFormComponent implements OnInit {
       control.setValue(normalized);
     }
 
+    this.syncDischargeDateDisplayValue(controlName);
+    this.updateDischargeFields();
+  }
+
+  onDischargeDateInput(controlName: DischargeDateControlName, inputValue: string) {
+    this.dischargeDateDisplayValues[controlName] = inputValue || '';
+  }
+
+  onDischargeDateInputBlur(controlName: DischargeDateControlName) {
+    const control = this.patientForm.get('patient.dischargeInfo.' + controlName);
+
+    if (!control) {
+      return;
+    }
+
+    const typedValue = (this.dischargeDateDisplayValues[controlName] || '').trim();
+
+    if (!typedValue) {
+      control.setValue('');
+      control.markAsDirty();
+      control.markAsTouched();
+      this.dischargeDateDisplayValues[controlName] = '';
+      this.updateDischargeFields();
+      return;
+    }
+
+    const normalized = this.normalizeDischargeDateValue(typedValue);
+
+    if (this.isNormalizedDischargeDateValue(normalized)) {
+      control.setValue(normalized);
+      control.markAsDirty();
+      control.markAsTouched();
+      this.syncDischargeDateDisplayValue(controlName);
+
+      if (this.activeDischargeDateControl === controlName) {
+        this.activeDischargeDateValue = normalized;
+      }
+    } else {
+      control.setValue('');
+      control.markAsDirty();
+      control.markAsTouched();
+    }
+
     this.updateDischargeFields();
   }
 
@@ -646,7 +695,8 @@ export class PatientFormComponent implements OnInit {
       return;
     }
 
-    const control = this.patientForm.get('patient.dischargeInfo.' + this.activeDischargeDateControl);
+    const controlName = this.activeDischargeDateControl;
+    const control = this.patientForm.get('patient.dischargeInfo.' + controlName);
 
     if (!control) {
       this.closeDischargeDatePicker();
@@ -657,23 +707,26 @@ export class PatientFormComponent implements OnInit {
     control.setValue(normalized || '');
     control.markAsDirty();
     control.markAsTouched();
+    this.syncDischargeDateDisplayValue(controlName);
     this.updateDischargeFields();
     this.closeDischargeDatePicker();
   }
 
   getDischargeDateDisplayValue(controlName: DischargeDateControlName): string {
-    const value = this.getDischargeDateControlValue(controlName);
+    return this.dischargeDateDisplayValues[controlName] || '';
+  }
 
-    if (!value) {
-      return '';
+  private syncDischargeDateDisplayValue(controlName: DischargeDateControlName) {
+    const value = this.getDischargeDateControlValue(controlName);
+    this.dischargeDateDisplayValues[controlName] = this.formatDischargeDateDisplayValue(value);
+  }
+
+  private formatDischargeDateDisplayValue(value: string): string {
+    if (!this.isNormalizedDischargeDateValue(value)) {
+      return value || '';
     }
 
     const dateParts = value.split('-');
-
-    if (dateParts.length !== 3) {
-      return value;
-    }
-
     return dateParts[1] + '/' + dateParts[2] + '/' + dateParts[0];
   }
 
@@ -1027,7 +1080,39 @@ export class PatientFormComponent implements OnInit {
       return dateValue;
     }
 
-    const normalizedDate = dateValue.substr(0, 10);
+    const trimmedDate = dateValue.trim();
+
+    if (!trimmedDate) {
+      return '';
+    }
+
+    if (trimmedDate.includes('/')) {
+      const dateParts = trimmedDate.split('/');
+
+      if (dateParts.length !== 3) {
+        return trimmedDate;
+      }
+
+      const parsedMonth = parseInt(dateParts[0], 10);
+      const parsedDay = parseInt(dateParts[1], 10);
+      const parsedYear = parseInt(dateParts[2], 10);
+
+      if ([parsedMonth, parsedDay, parsedYear].some(value => isNaN(value))) {
+        return trimmedDate;
+      }
+
+      const correctedYear = parsedYear >= 1900 ? parsedYear : parsedYear >= 100 ? parsedYear : parsedYear + 2000;
+      const normalizedDate =
+        correctedYear.toString().padStart(4, '0') +
+        '-' +
+        parsedMonth.toString().padStart(2, '0') +
+        '-' +
+        parsedDay.toString().padStart(2, '0');
+
+      return this.isNormalizedDischargeDateValue(normalizedDate) ? normalizedDate : trimmedDate;
+    }
+
+    const normalizedDate = trimmedDate.substr(0, 10);
     const dateParts = normalizedDate.split('-');
 
     if (dateParts.length !== 3) {
@@ -1048,6 +1133,10 @@ export class PatientFormComponent implements OnInit {
     return correctedYear.toString().padStart(4, '0') + '-' + dateParts[1] + '-' + dateParts[2];
   }
 
+  private isNormalizedDischargeDateValue(dateValue: string): boolean {
+    return /^\d{4}-\d{2}-\d{2}$/.test(dateValue || '');
+  }
+
   private getDischargeDateControlValue(controlName: DischargeDateControlName): string {
     const control = this.patientForm?.get('patient.dischargeInfo.' + controlName);
     return this.normalizeDischargeDateValue(control?.value);
@@ -1059,22 +1148,89 @@ export class PatientFormComponent implements OnInit {
    * bounce the user to the top.
    */
   validateControls(): boolean {
-    const firstError = <HTMLElement>document.querySelectorAll('ion-item .ng-invalid')[0];
+    this.patientForm?.markAllAsTouched();
 
-    function scroll(el: HTMLElement) {
-      el.scrollIntoView({
+    const firstError = this.getFirstInvalidValidationElement();
+
+    if (firstError) {
+      this.getValidationScrollTarget(firstError).scrollIntoView({
         behavior: 'smooth',
         block: 'center'
       });
-    }
-    if (firstError) {
-      console.log(firstError);
-      // scroll(firstError);
       alert('Failed validation, please check fields');
       return false;
     } else {
       return true;
     }
+  }
+
+  private getFirstInvalidValidationElement(): HTMLElement | null {
+    const invalidDomSelectors = [
+      'ion-input.ng-invalid',
+      'ion-select.ng-invalid',
+      'ion-textarea.ng-invalid',
+      'ion-radio-group.ng-invalid',
+      'ion-checkbox.ng-invalid',
+      'input.ng-invalid',
+      'textarea.ng-invalid',
+      'select.ng-invalid'
+    ].join(', ');
+
+    const invalidCandidates = new Set<HTMLElement>();
+
+    document.querySelectorAll(invalidDomSelectors).forEach(node => {
+      const element = node as HTMLElement;
+
+      if (!this.isHiddenValidationElement(element)) {
+        invalidCandidates.add(element);
+      }
+    });
+
+    this.addCustomInvalidValidationCandidate(invalidCandidates, 'patient.operation', '.facility-picker-trigger');
+    this.addCustomInvalidValidationCandidate(
+      invalidCandidates,
+      'patient.dischargeInfo.patientAdmitDate',
+      '.discharge-admit-date .discharge-date-input-shell'
+    );
+    this.addCustomInvalidValidationCandidate(
+      invalidCandidates,
+      'patient.dischargeInfo.patientDischargeDate',
+      '.discharge-discharge-date .discharge-date-input-shell'
+    );
+
+    return Array.from(invalidCandidates).sort((left, right) => {
+      if (left === right) {
+        return 0;
+      }
+
+      const position = left.compareDocumentPosition(right);
+      return position & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+    })[0] || null;
+  }
+
+  private addCustomInvalidValidationCandidate(
+    candidates: Set<HTMLElement>,
+    controlPath: string,
+    selector: string
+  ) {
+    const control = this.patientForm?.get(controlPath);
+    const element = document.querySelector(selector) as HTMLElement | null;
+
+    if (control?.invalid && element) {
+      candidates.add(element);
+    }
+  }
+
+  private isHiddenValidationElement(element: HTMLElement): boolean {
+    return element instanceof HTMLInputElement && element.type === 'hidden';
+  }
+
+  private getValidationScrollTarget(element: HTMLElement): HTMLElement {
+    return (
+      (element.closest(
+        'ion-item, .form-row, .discharged-ama, .patient-checkbox-grid, .patient-contact-flags, .patient-discharge-dates-container, .call-question-body-container'
+      ) as HTMLElement | null) || element
+    );
   }
 
   private navigateTo(url: string): void {

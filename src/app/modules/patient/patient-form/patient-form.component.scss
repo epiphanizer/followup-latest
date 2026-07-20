@@ -33,6 +33,10 @@ ion-content {
   }
 }
 
+$patient-form-control-height: 42px;
+$patient-form-control-padding-y: 8px;
+$patient-form-tall-select-height: 52px;
+
 .patient-sidebar {
   max-width: 172px;
   padding-bottom: 160px;
@@ -153,12 +157,12 @@ form {
     text-align: left;
     color: #8e8e93;
     --padding-start: 15px;
-    --padding-top: 10px;
-    --padding-bottom: 10px;
+    --padding-top: $patient-form-control-padding-y;
+    --padding-bottom: $patient-form-control-padding-y;
     border: solid 1px rgba(112, 112, 112, 0.15);
     background-color: #f5f5f5;
     --placeholder-color: #a6a6a7;
-    min-height: 44px;
+    min-height: $patient-form-control-height;
     &.ion-invalid {
       border-bottom: 1px solid red;
     }
@@ -225,7 +229,7 @@ form {
 
       .facility-picker-trigger {
         width: 100%;
-        min-height: 44px;
+        min-height: $patient-form-control-height;
         display: flex;
         align-items: center;
         justify-content: flex-start;
@@ -235,7 +239,7 @@ form {
         font-family: Avenir;
         font-size: 15px;
         line-height: 1.4;
-        padding: 10px 42px 10px 15px;
+        padding: $patient-form-control-padding-y 42px $patient-form-control-padding-y 15px;
         text-align: left;
         text-transform: none;
         position: relative;
@@ -257,10 +261,10 @@ form {
           position: absolute;
           top: 50%;
           right: 16px;
-          width: 10px;
-          height: 10px;
-          border-right: 2px solid #ffa612;
-          border-bottom: 2px solid #ffa612;
+          width: 5px;
+          height: 5px;
+          border-right: 1px solid #222222;
+          border-bottom: 1px solid #222222;
           transform: translateY(-65%) rotate(45deg);
         }
 
@@ -363,8 +367,8 @@ form {
       }
 
       ion-input {
-        min-height: 44px;
-        height: 44px;
+        min-height: $patient-form-control-height;
+        height: $patient-form-control-height;
         --padding-top: 8px;
         --padding-bottom: 8px;
       }
@@ -382,10 +386,33 @@ form {
     margin-top: 0;
   }
 
+  .followup-form-choice {
+    --size: 18px;
+    align-items: center;
+    min-height: 24px;
+
+    &::part(container) {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      min-height: 18px;
+      margin-inline-end: 8px;
+      align-self: center;
+      flex: 0 0 18px;
+    }
+
+    &::part(label) {
+      display: inline-flex;
+      align-items: center;
+      margin-inline-start: 0;
+      font-size: 15px;
+      line-height: 1.35;
+    }
+  }
+
   .gender-option {
     display: inline-flex;
     align-items: center;
-    gap: 16px;
   }
 
   .patient-checkbox-grid {
@@ -405,13 +432,12 @@ form {
     .checkbox-option {
       display: inline-flex;
       align-items: center;
-      gap: 16px;
     }
 
     .checkbox-option ion-checkbox,
     .checkbox-option input[type="checkbox"] {
-      width: 32px;
-      height: 32px;
+      width: 18px;
+      height: 18px;
     }
   }
 
@@ -430,7 +456,7 @@ form {
 
       ion-select {
         width: 100%;
-        min-height: 58px;
+        min-height: $patient-form-tall-select-height;
       }
     }
 
@@ -723,8 +749,8 @@ form {
         }
 
         ion-input {
-          min-height: 44px;
-          height: 44px;
+          min-height: $patient-form-control-height;
+          height: $patient-form-control-height;
           --padding-top: 8px;
           --padding-bottom: 8px;
         }
@@ -785,62 +811,59 @@ form {
         display: inline-block;
         width: 160px;
         height: auto;
-        border: solid 1px var(--brownish-grey-15);
-        background-color: #f5f5f5;
         margin-right: 16px;
 
-        .discharge-date-trigger {
+        .discharge-date-input-shell {
           position: relative;
-          display: block;
+          display: flex;
+          align-items: center;
           width: 100%;
-          min-height: 44px;
-          padding: 8px 44px 8px 12px;
-          border: none;
-          background: transparent;
-          text-align: left;
-          font-family: Avenir;
-          font-size: 15px;
-          font-weight: normal;
-          line-height: 1.73;
-          letter-spacing: 0.3px;
-          color: #8e8e93;
-          cursor: pointer;
-          appearance: none;
-          -webkit-appearance: none;
-
-          &:focus-visible {
-            outline: 2px solid #7397b0;
-            outline-offset: -2px;
-          }
+          min-height: $patient-form-control-height;
+          border: solid 1px var(--brownish-grey-15);
+          background-color: #f5f5f5;
 
           &.is-open {
             box-shadow: inset 0 0 0 1px #7397b0;
           }
 
-          .discharge-date-trigger-text {
-            display: block;
+          .discharge-date-text-input {
             width: 100%;
-            line-height: 22px;
+            min-width: 0;
+            min-height: $patient-form-control-height;
+            padding: 8px 10px 8px 12px;
+            border: none;
+            background: transparent;
+            font-family: Avenir;
+            font-size: 15px;
+            font-weight: normal;
+            line-height: 1.73;
+            letter-spacing: 0.3px;
+            color: #8e8e93;
 
-            &.is-placeholder {
+            &::placeholder {
               color: #a6a6a7;
+            }
+
+            &:focus {
+              outline: none;
             }
           }
 
-          &::after {
-            pointer-events: none;
-            content: "";
-            display: block;
-            position: absolute;
-            top: 50%;
-            right: 12px;
-            transform: translateY(-50%);
-            filter: grayscale(1);
+          .discharge-date-picker-toggle {
+            flex: 0 0 36px;
+            align-self: stretch;
+            border: none;
+            border-left: 1px solid rgba(112, 112, 112, 0.12);
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
             background-image: url("/assets/icon-calendar@2x.png");
             background-repeat: no-repeat;
-            background-size: 100%;
+            background-size: 18px 18px;
+            background-position: center;
+            filter: grayscale(1);
             height: 21px;
-            width: 21px;
+            width: 36px;
           }
         }
       }
@@ -944,21 +967,12 @@ form {
           width: 100%;
 
           &::part(container) {
-            width: 16px;
-            height: 16px;
-            margin-inline-end: 6px;
-          }
-
-          &::part(mark) {
-            width: 8px;
-            height: 8px;
+            margin-inline-end: 8px;
           }
 
           &::part(label) {
-            margin-inline-start: 0;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 1.3;
+            font-size: 15px;
+            line-height: 1.35;
           }
         }
       }
@@ -1021,7 +1035,7 @@ form {
   }
 
   ion-input {
-    min-height: 44px;
+    min-height: $patient-form-control-height;
     width: 100%;
     margin-top: 0;
   }

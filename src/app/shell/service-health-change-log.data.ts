@@ -23,9 +23,25 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
-          'The patient form Admit/Discharge date controls now open a real Ionic calendar picker again in both add and edit flows through an inline standalone date panel instead of a modal overlay.',
+          'The patient add/edit form inputs now use a slightly shorter shared control height so the page reads less bulky while keeping the migrated styling consistent.',
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html`, `.ts`, `.scss`, and `.spec.ts`. The discharge section had been rendering `patientAdmitDate` and `patientDischargeDate` through a styled `ion-input type="date"` shell with a painted calendar affordance, which preserved the old look but did not reliably surface a working calendar picker after the Ionic migration. The final fix swaps those visible fields to stable trigger buttons backed by a freshly mounted inline `ion-datetime` panel inside the form, keeps the existing reactive-form values and admit/discharge constraint calculations in sync, preserves validation through hidden bound controls, aligns the inactive trigger typography with the rest of the form inputs, and closes the picker locally on repeat click or date selection instead of relying on overlay dismiss behavior. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`32/32` tests passing) plus repeated `npm run build -s` PASS after the inline-picker conversion.',
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.scss`. The patient form had been using a slightly tall `44px` shared control baseline plus a taller Fluent Language select, which made the page feel heavier than intended. The current refinement reduces the shared control height a bit across the standard patient-form `ion-input` / `ion-select` / `ion-textarea` styling and mirrors that lower baseline through the custom facility picker trigger, the segmented phone inputs, and the typed admit/discharge date shell, while also shortening the taller Fluent Language select so the page stays visually uniform. Validation used `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Failed patient-form validation now scrolls to the top-most visible invalid field, and the page\'s standard radios and checkboxes share one consistent control size and label scale.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.ts`, `.scss`, and `.spec.ts`. Failed patient saves now mark the form touched, resolve the earliest visible invalid field including the custom facility picker and admit/discharge date controls, and scroll that field into view before raising the validation alert. The same refinement standardizes the patient form\'s normal choice-control container size and label sizing so Gender, Responsible Party, Discharged To, Medical Condition, and Active render on the same baseline instead of mixing slightly different local overrides. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`33/33` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The patient form Admit/Discharge date controls now support both manual typed entry and an inline Ionic calendar option, while the page-level radios and checkboxes render with more consistent sizing and alignment.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html`, `.ts`, `.scss`, and `.spec.ts`. The discharge section had been rendering `patientAdmitDate` and `patientDischargeDate` through a styled `ion-input type="date"` shell with a painted calendar affordance, which preserved the old look but did not reliably surface a working calendar picker after the Ionic migration. The final fix keeps manual typing available through visible `mm/dd/yyyy` text inputs, moves the Ionic calendar behind a dedicated calendar-icon button that opens a freshly mounted inline `ion-datetime` panel, keeps the existing reactive-form values and admit/discharge constraint calculations in sync, preserves validation through hidden bound controls, and normalizes typed slash-delimited dates into the internal ISO form on blur. The same pass also standardizes the patient-form radio and checkbox control sizing/alignment so Gender, Discharged To, and the other shared choice controls render with consistent box sizes and label alignment. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`33/33` tests passing) plus repeated `npm run build -s` PASS after the manual-entry and control-alignment refinements.',
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
