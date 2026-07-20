@@ -13,7 +13,7 @@ const bootstrapApiKey = '8341c9e6-8adb-469b-8d66-f58cbcda720c';
 export const environment = {
   production: true,
   serviceWorkerEnabled: false,
-  version: env.npm_package_version + '(alpha)',
+  version: env.npm_package_version,
   apiUrl: 'https://alpha-followup-api.azurewebsites.net/',
   apiKeyAuth: bootstrapApiKey,
   applicationInsights: {
