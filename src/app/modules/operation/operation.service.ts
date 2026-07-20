@@ -1,5 +1,5 @@
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, retry, map } from 'rxjs/operators';
+import { catchError, retry, map, shareReplay } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../user/user';
 import {
@@ -13,6 +13,14 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class OperationService {
+  private readonly operationDetailCacheTtlMs = 5000;
+  private readonly operationDetailRequestCache = new Map<
+    string,
+    {
+      expiresAt: number;
+      request$: Observable<Operation>;
+    }
+  >();
   private clientGroupsChangedSubject = new Subject<void>();
   public clientGroupsChanged$ = this.clientGroupsChangedSubject.asObservable();
 
@@ -127,10 +135,32 @@ export class OperationService {
     return this.http.get<Array<Operation>>('operations').pipe(catchError(error => this.handleAsyncError(error)));
   }
 
+  private getCachedOperationDetailRequest(
+    operationId: string,
+    requestFactory: () => Observable<Operation>
+  ): Observable<Operation> {
+    const cachedRequest = this.operationDetailRequestCache.get(operationId);
+    if (cachedRequest && cachedRequest.expiresAt > Date.now()) {
+      return cachedRequest.request$;
+    }
+
+    const request$ = requestFactory().pipe(shareReplay(1));
+    this.operationDetailRequestCache.set(operationId, {
+      expiresAt: Date.now() + this.operationDetailCacheTtlMs,
+      request$
+    });
+    return request$;
+  }
+
   public getOperationByOperationId(operationId: string): Observable<Operation> {
-    return this.http
-      .get<Operation>('operations/' + operationId)
-      .pipe(catchError(error => this.handleAsyncError(error)));
+    return this.getCachedOperationDetailRequest(operationId, () =>
+      this.http.get<Operation>('operations/' + operationId).pipe(
+        catchError(error => {
+          this.operationDetailRequestCache.delete(operationId);
+          return this.handleAsyncError(error);
+        })
+      )
+    );
   }
 
   public getOperationsByUserId(userId: string): Observable<Array<Operation>> {

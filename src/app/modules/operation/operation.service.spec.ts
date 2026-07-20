@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { of, throwError } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { OperationService } from './operation.service';
 
 describe('OperationService (Jest)', () => {
@@ -267,6 +267,31 @@ describe('OperationService (Jest)', () => {
       expect(op.operationId).toBe('op1');
       done();
     });
+  });
+
+  it('reuses in-flight operation detail requests for the same operation id', done => {
+    const response$ = new Subject<any>();
+    const http = makeHttp();
+    http.get = jest.fn(() => response$.asObservable());
+    const svc = new OperationService(http as any);
+    const results: any[] = [];
+
+    svc.getOperationByOperationId('op-1').subscribe(result => results.push(result));
+    svc.getOperationByOperationId('op-1').subscribe(result => results.push(result));
+
+    expect(http.get).toHaveBeenCalledTimes(1);
+    expect(http.get).toHaveBeenCalledWith('operations/op-1');
+
+    response$.next({ operationId: 'op-1', operationName: 'Shared Op' });
+    response$.complete();
+
+    setTimeout(() => {
+      expect(results).toEqual([
+        { operationId: 'op-1', operationName: 'Shared Op' },
+        { operationId: 'op-1', operationName: 'Shared Op' }
+      ]);
+      done();
+    }, 0);
   });
 
   it('fetches operations by user id', done => {

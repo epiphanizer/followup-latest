@@ -2,7 +2,7 @@
   margin-top: 0;
   margin-left: 0;
   width: 100%;
-  padding-left: 18px;
+  padding-left: 0;
 }
 form {
   .patient-call-note-highlight-controls {
@@ -38,7 +38,7 @@ form {
 }
 
 ion-item {
-  // --padding-start: 0;
+  --padding-start: 0;
   --padding-end: 0;
   --inner-padding-start: 0;
   --inner-padding-end: 0;
@@ -55,7 +55,7 @@ ion-item {
     text-align: left;
     width: 100%;
     display: block;
-    padding-bottom: 8px;
+    padding-bottom: 12px;
   }
 
   ion-textarea {

@@ -289,8 +289,10 @@
                 <ion-item class="discharge-admit-date">
                   <ion-label color="medium" position="stacked">Admitted <span style="color:#f1624a">*</span></ion-label>
                   <ion-input
+                    class="discharge-date-input"
                     type="date"
                     formControlName="patientAdmitDate"
+                    [max]="patientMaxAdmitDate || null"
                     (ionChange)="updateDischargeFields()"
                     (ionBlur)="onDischargeDateBlur('patientAdmitDate')"
                   ></ion-input>
@@ -300,8 +302,10 @@
                     >Discharged <span style="color:#f1624a">*</span></ion-label
                   >
                   <ion-input
+                    class="discharge-date-input"
                     type="date"
                     formControlName="patientDischargeDate"
+                    [min]="patientMinDischargeDate || null"
                     (ionChange)="updateDischargeFields()"
                     (ionBlur)="onDischargeDateBlur('patientDischargeDate')"
                   ></ion-input>

@@ -32,6 +32,7 @@ describe('CallQueueSidebarComponent (Jest)', () => {
       expect(comp.selected.operation?.operationId).toBe('op-1');
       expect(comp.activeOperationId).toBe('op-1');
       expect(operationService.getOperationGroups).toHaveBeenCalled();
+      expect(operationService.getOperationByOperationId).not.toHaveBeenCalled();
       done();
     }, 0);
   });
@@ -170,6 +171,7 @@ describe('CallQueueSidebarComponent (Jest)', () => {
       expect(comp.activeOperationId).toBe('op-2');
       expect(comp.operationGroups[0].sidebarDropdownOpen).toBe(false);
       expect(comp.operationGroups[1].sidebarDropdownOpen).toBe(true);
+      expect(operationService.getOperationByOperationId).not.toHaveBeenCalled();
       done();
     }, 0);
   });

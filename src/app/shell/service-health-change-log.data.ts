@@ -21,6 +21,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {
+        scope: 'Frontend',
+        summary:
+          'The patient form Admit/Discharge date controls are clickable again in both add and edit flows while keeping the prior Ionic date-field interface.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html`, `.ts`, and `.scss`. The discharge section had been rendering `patientAdmitDate` and `patientDischargeDate` through `ion-input type="date"` plus a discharge-only custom calendar decoration built from clickable pseudo-elements on the input host, which made the browser interaction unreliable even though the edit path was already normalizing stored values to valid `yyyy-MM-dd` strings. The final fix keeps those controls on `ion-input type="date"`, initializes the existing computed constraint state when the form is created, clears stale one-sided `min` / `max` values, and makes the custom calendar overlay decoration non-interactive so it no longer intercepts clicks meant for the underlying Ionic date input. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`30/30` tests passing) plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Performance',
+        summary:
+          'Initial Call Queue boot now reuses the authenticated user\'s hydrated operation context instead of issuing duplicate operation-detail reads for the selected facility.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/call-queue/call-queue.component.ts`, `src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.ts`, `src/app/modules/operation/operation.service.ts`, and the focused Jest specs for those slices. The traced queue load had been issuing redundant `GET /operations/{operationId}` reads from both the main Call Queue shell and the left sidebar even though login hydration already provides `user.operations` plus grouped `user.operationGroups[].operations` metadata with the counters and labels needed to identify the active facility. The queue now resolves the active operation from that authenticated user context first and falls back to the detail API only when the route targets an operation missing from hydrated user state, while the operation service also shares short-lived in-flight detail requests for any remaining concurrent callers. Validation used focused Jest on `src/app/modules/operation/operation.service.spec.ts` (`24/24` tests passing) plus `src/app/modules/call-queue/call-queue.component.spec.ts` and `src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.spec.ts` (`9/9` tests passing).',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
         scope: 'API',
         summary:
           'The rc7 snapshot API dependency pass removes the optional App Insights runtime package, removes `file-type` from the download path, and trims the live audit surface down to three moderate legacy-router advisories.',

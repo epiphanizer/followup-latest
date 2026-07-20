@@ -73,6 +73,60 @@ describe('OperationAdminRightSidebarComponent', () => {
     expect(component.operationManagers[0].accessSourceLabel).toBe('Inherited');
   });
 
+  it('hydrates inherited and direct rows on load when the roster only exposes direct and inherited role fields', () => {
+    operationServiceMock.getUsersAssignedByOperationId.mockReturnValueOnce(
+      of([
+        {
+          userId: 'm1',
+          userFirstName: 'Manny',
+          userLastName: 'Beta',
+          accessSourceLabel: 'Inherited',
+          inheritedOperationUserRoleLabelId: 2,
+          inheritedOperationUserRoleLabel: 'Manager'
+        },
+        {
+          userId: 'u1',
+          userFirstName: 'Alice',
+          userLastName: 'Alpha',
+          accessSourceLabel: 'Direct',
+          directOperationUserRoleLabelId: 3,
+          directOperationUserRoleLabel: 'Care Rep'
+        }
+      ])
+    );
+
+    component.refreshEffectiveAssignments();
+
+    expect(component.operationManagers.map(manager => manager.userId)).toEqual(['m1']);
+    expect(component.operationAssignedUsers.map(user => user.userId)).toEqual(['u1']);
+  });
+
+  it('hydrates inherited and direct rows on load when the roster only exposes role ids', () => {
+    operationServiceMock.getUsersAssignedByOperationId.mockReturnValueOnce(
+      of([
+        {
+          userId: 'm1',
+          userFirstName: 'Manny',
+          userLastName: 'Beta',
+          accessSourceLabel: 'Inherited',
+          inheritedOperationUserRoleLabelId: 2
+        },
+        {
+          userId: 'u1',
+          userFirstName: 'Alice',
+          userLastName: 'Alpha',
+          accessSourceLabel: 'Direct',
+          directOperationUserRoleLabelId: 3
+        }
+      ])
+    );
+
+    component.refreshEffectiveAssignments();
+
+    expect(component.operationManagers.map(manager => manager.userId)).toEqual(['m1']);
+    expect(component.operationAssignedUsers.map(user => user.userId)).toEqual(['u1']);
+  });
+
   it('swaps call reps and persists add/remove', () => {
     component.operationAssignedUsers = [{ userId: 'u1', operationId: 'op1' } as any];
     component.operationAssignedUsersOriginal = ['u1'];

@@ -34,9 +34,26 @@ describe('CallQueueComponent (Jest)', () => {
     comp.ngOnInit();
 
     setTimeout(() => {
-      expect(operationService.getOperationByOperationId).toHaveBeenCalledWith('op-1');
+      expect(operationService.getOperationByOperationId).not.toHaveBeenCalled();
       expect(comp.selected.operation.operationGroupShortName).toBe('G1');
       expect(comp.mode.spanish).toBe(false);
+      done();
+    }, 0);
+  });
+
+  it('uses the hydrated user operation for explicit routes before falling back to the API', done => {
+    const user = {
+      operationGroups: [{ operationGroupId: 'g1', operationGroupShortName: 'G1', operations: [] }],
+      operations: [{ operationId: 'op-2', operationGroupId: 'g1', operationGroupShortName: 'G1' }]
+    } as any;
+    const route = { snapshot: { data: { user } }, paramMap: of({ params: { operationId: 'op-2' } }) } as any;
+    const comp = new CallQueueComponent(route, { detectChanges: jest.fn() } as any, operationService);
+
+    comp.ngOnInit();
+
+    setTimeout(() => {
+      expect(operationService.getOperationByOperationId).not.toHaveBeenCalled();
+      expect(comp.selected.operation.operationId).toBe('op-2');
       done();
     }, 0);
   });

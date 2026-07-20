@@ -10,6 +10,8 @@ export interface User {
   userRoleLabel?: string;
   operationUserRoleLabelId?: number;
   operationUserRoleLabel?: string;
+  effectiveOperationUserRoleLabelId?: number;
+  effectiveOperationUserRoleLabel?: string;
   directOperationUserRoleLabelId?: number;
   directOperationUserRoleLabel?: string;
   inheritedOperationUserRoleLabelId?: number;

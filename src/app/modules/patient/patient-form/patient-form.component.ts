@@ -69,9 +69,8 @@ export class PatientFormComponent implements OnInit {
   }[] = [];
   patientIntakeQuestionAnswers: PatientIntakeQuestionAnswer[] = [];
   patientIntakeQuestionAnswersToAdd: PatientIntakeQuestionAnswer[] = [];
-  patientMaxAdmitDate: string = new Date().getFullYear().toString();
-  // default to 2019 as our first year
-  patientMinDischargeDate: string = (new Date().getFullYear() + 1).toString();
+  patientMaxAdmitDate: string = '';
+  patientMinDischargeDate: string = '';
   patientMedicalConditions?: string;
   operations: Operation[];
   groupedOperations: FacilityOperationGroup[] = [];
@@ -517,6 +516,7 @@ export class PatientFormComponent implements OnInit {
     });
 
     this.syncLanguageControls();
+    this.updateDischargeFields();
   }
 
   onPatientLanguageToggle() {
@@ -657,13 +657,14 @@ export class PatientFormComponent implements OnInit {
     );
     if (!startDate || !endDate) {
       if (startDate) {
-        this.patientMinDischargeDate = this.patientForm
-          .get('patient.dischargeInfo.patientAdmitDate')
-          .value.substr(0, 10);
+        this.patientMinDischargeDate = startDate.substr(0, 10);
+        this.patientMaxAdmitDate = '';
       } else if (endDate) {
-        this.patientMaxAdmitDate = this.patientForm
-          .get('patient.dischargeInfo.patientDischargeDate')
-          .value.substr(0, 10);
+        this.patientMaxAdmitDate = endDate.substr(0, 10);
+        this.patientMinDischargeDate = '';
+      } else {
+        this.patientMaxAdmitDate = '';
+        this.patientMinDischargeDate = '';
       }
       return;
     }

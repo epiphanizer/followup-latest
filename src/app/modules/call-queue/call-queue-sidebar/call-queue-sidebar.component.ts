@@ -151,6 +151,39 @@ export class CallQueueSidebarComponent {
     }
   }
 
+  private resolveOperationFromUserContext(operationId?: string): Operation | null {
+    const operationGroups = this.user?.operationGroups || [];
+    const groupedOperations = operationGroups.reduce((allOperations: Operation[], operationGroup: OperationGroup) => {
+      if (operationGroup?.operations?.length) {
+        return allOperations.concat(operationGroup.operations);
+      }
+
+      return allOperations;
+    }, []);
+    const operations = groupedOperations.length ? groupedOperations : this.user?.operations || [];
+
+    if (!operations.length) {
+      return null;
+    }
+
+    if (operationId) {
+      return (
+        operations.find((operation: Operation) => String(operation?.operationId) === String(operationId)) || null
+      );
+    }
+
+    const firstGroup = operationGroups[0];
+    if (!firstGroup) {
+      return operations[0] || null;
+    }
+
+    return (
+      firstGroup.operations?.[0] ||
+      operations.find((operation: Operation) => String(operation?.operationGroupId) === String(firstGroup.operationGroupId)) ||
+      null
+    );
+  }
+
   ngOnInit() {
     /** Init to the first user operation (alphabetically,) */
     this.user = this.route.snapshot.data.user;
@@ -208,28 +241,19 @@ export class CallQueueSidebarComponent {
         return;
       }
 
-      var operationId;
-      if (data.params.operationId) {
-        operationId = data.params.operationId;
-      } else {
-        if (!this.user?.operationGroups?.length || !this.user?.operations?.length) {
-          this.selected.operation = null;
-          this.activeOperationId = null;
-          return;
-        }
-
-        let firstGroup = this.user.operationGroups[0];
-        let firstOperation = this.user.operations.find(
-          (operation: Operation) => operation.operationGroupId == firstGroup.operationGroupId
-        );
-        if (!firstOperation) {
-          this.selected.operation = null;
-          this.activeOperationId = null;
-          return;
-        }
-        operationId = firstOperation.operationId;
-        this.operations = this.user.operationGroups[0].operations;
+      const selectedOperation = this.resolveOperationFromUserContext(data.params.operationId);
+      if (selectedOperation) {
+        this.setActiveOperationInternal(selectedOperation, false);
+        return;
       }
+
+      if (!data.params.operationId) {
+        this.selected.operation = null;
+        this.activeOperationId = null;
+        return;
+      }
+
+      const operationId = data.params.operationId;
       this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation | Operation[]) => {
         const operation = Array.isArray(data) ? data[0] : data;
         this.setActiveOperationInternal(operation, false);

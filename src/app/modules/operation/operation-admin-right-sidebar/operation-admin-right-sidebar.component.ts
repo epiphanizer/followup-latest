@@ -381,6 +381,39 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
     return details.join(' • ');
   }
 
+  private getEffectiveRoleLabel(user: User | any): string {
+    const labeledRole = [
+      user?.operationUserRoleLabel,
+      user?.effectiveOperationUserRoleLabel,
+      user?.directOperationUserRoleLabel,
+      user?.inheritedOperationUserRoleLabel,
+      user?.userRoleLabel
+    ].find(roleLabel => typeof roleLabel === 'string' && roleLabel.trim().length > 0);
+
+    if (labeledRole) {
+      return String(labeledRole).toLowerCase();
+    }
+
+    const roleId = Number(
+      user?.operationUserRoleLabelId ??
+        user?.effectiveOperationUserRoleLabelId ??
+        user?.directOperationUserRoleLabelId ??
+        user?.inheritedOperationUserRoleLabelId ??
+        0
+    );
+
+    switch (roleId) {
+      case 2:
+        return 'manager';
+      case 3:
+        return 'care rep';
+      case 1:
+        return 'admin';
+      default:
+        return '';
+    }
+  }
+
   private syncCallRepRowsFromEffectiveAssignments() {
     const callReps = this.filterEffectiveUsersByRole('care');
 
@@ -428,7 +461,7 @@ export class OperationAdminRightSidebarComponent implements OnInit, OnChanges {
   private filterEffectiveUsersByRole(role: 'manager' | 'care'): User[] {
     return (this.effectiveAssignedUsers || [])
       .filter(user => {
-        const roleLabel = (user.operationUserRoleLabel || user.userRoleLabel || '').toLowerCase();
+        const roleLabel = this.getEffectiveRoleLabel(user);
         return role === 'manager' ? roleLabel.includes('manager') : roleLabel.includes('care');
       })
       .sort((left: User, right: User) => {
