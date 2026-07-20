@@ -23,20 +23,23 @@
               class="assignment-editor"
               *ngIf="(mode.edit || mode.add) && operationManagers && isDirectAssignment(manager); else managerSpan"
             >
-              <ion-select
-                [class.edit]="mode.edit"
-                [value]="manager?.userId"
-                (ionChange)="managerOnSelect($event, idx)"
-                placeholder="Assign Manager"
-              >
-                <ion-select-option
-                  *ngFor="let user of users"
-                  [value]="user.userId"
-                  [selected]="user.userId == manager?.userId"
+              <div class="assignment-select-shell">
+                <ion-select
+                  [class.edit]="mode.edit"
+                  [value]="manager?.userId"
+                  (ionChange)="managerOnSelect($event, idx)"
+                  placeholder="Assign Manager"
                 >
-                  {{ user.userLastName }}, {{ user.userFirstName }}
-                </ion-select-option>
-              </ion-select>
+                  <ion-select-option
+                    *ngFor="let user of users"
+                    [value]="user.userId"
+                    [selected]="user.userId == manager?.userId"
+                  >
+                    {{ user.userLastName }}, {{ user.userFirstName }}
+                  </ion-select-option>
+                </ion-select>
+                <span *ngIf="!manager?.userId" class="assignment-select-plus" aria-hidden="true"></span>
+              </div>
               <div class="assignment-editor-meta" *ngIf="manager?.userId">
                 <div class="assignment-pills" *ngIf="getAssignmentSourceLabel(manager) || hasInheritedTeamAccess(manager)">
                   <span class="assignment-source" *ngIf="getAssignmentSourceLabel(manager)">
@@ -96,20 +99,23 @@
                 class="assignment-editor"
                 *ngIf="users && (((mode.edit && operationAssignedUsers.length) || mode.add) && isDirectAssignment(operationCallRep)); else memberSpan"
               >
-                <ion-select
-                  (ionChange)="callRepOnSelect($event, idx)"
-                  [class.edit]="mode.edit"
-                  [value]="operationCallRep?.userId"
-                  placeholder="Select User"
-                >
-                  <ion-select-option
-                    *ngFor="let user of users"
-                    [value]="user.userId"
-                    [selected]="user.userId == operationCallRep.userId"
+                <div class="assignment-select-shell">
+                  <ion-select
+                    (ionChange)="callRepOnSelect($event, idx)"
+                    [class.edit]="mode.edit"
+                    [value]="operationCallRep?.userId"
+                    placeholder="Select User"
                   >
-                    {{ user.userLastName }}, {{ user.userFirstName }}
-                  </ion-select-option>
-                </ion-select>
+                    <ion-select-option
+                      *ngFor="let user of users"
+                      [value]="user.userId"
+                      [selected]="user.userId == operationCallRep.userId"
+                    >
+                      {{ user.userLastName }}, {{ user.userFirstName }}
+                    </ion-select-option>
+                  </ion-select>
+                  <span *ngIf="!operationCallRep?.userId" class="assignment-select-plus" aria-hidden="true"></span>
+                </div>
                 <div class="assignment-editor-meta" *ngIf="operationCallRep?.userId">
                   <div
                     class="assignment-pills"
