@@ -385,6 +385,100 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.patientForm.get('patient.dischargeInfo.patientTotalDays')!.value).toBe(1);
   });
 
+  it('opens the discharge date picker with the current control value and current admit/discharge bounds', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+    comp.openDischargeDatePicker('patientAdmitDate');
+
+    expect(comp.activeDischargeDateControl).toBe('patientAdmitDate');
+    expect(comp.activeDischargeDateValue).toBe('2020-01-01');
+    expect(comp.getActiveDischargeDateMax()).toBe('2020-01-02');
+    expect(comp.getActiveDischargeDateMin()).toBeUndefined();
+
+    comp.openDischargeDatePicker('patientDischargeDate');
+
+    expect(comp.activeDischargeDateControl).toBe('patientDischargeDate');
+    expect(comp.activeDischargeDateValue).toBe('2020-01-02');
+    expect(comp.getActiveDischargeDateMin()).toBe('2020-01-01');
+    expect(comp.getActiveDischargeDateMax()).toBeUndefined();
+
+    comp.openDischargeDatePicker('patientDischargeDate');
+
+    expect(comp.activeDischargeDateControl).toBeNull();
+    expect(comp.activeDischargeDateValue).toBeNull();
+  });
+
+  it('applies a confirmed discharge date picker selection back into the form', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+    comp.openDischargeDatePicker('patientDischargeDate');
+    comp.onDischargeDatePickerChange({ detail: { value: '2020-01-05T00:00:00' } } as any);
+
+    expect(comp.patientForm.get('patient.dischargeInfo.patientDischargeDate')!.value).toBe('2020-01-05');
+    expect(comp.patientMaxAdmitDate).toBe('2020-01-05');
+    expect(comp.patientForm.get('patient.dischargeInfo.patientTotalDays')!.value).toBe(4);
+    expect(comp.activeDischargeDateControl).toBeNull();
+    expect(comp.activeDischargeDateValue).toBeNull();
+  });
+
   it('explicitly clears language state from the form', () => {
     const route = { snapshot: { data: { user: baseUser } } } as any;
     const services = makeServices();

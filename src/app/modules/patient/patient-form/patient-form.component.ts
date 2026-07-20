@@ -34,6 +34,8 @@ interface FacilityOperationGroup {
   operations: Operation[];
 }
 
+type DischargeDateControlName = 'patientAdmitDate' | 'patientDischargeDate';
+
 @Component({
   providers: [NgxImageCompressService, PatientService, PatientIntakeQuestionService],
   selector: 'app-patient-form',
@@ -69,8 +71,17 @@ export class PatientFormComponent implements OnInit {
   }[] = [];
   patientIntakeQuestionAnswers: PatientIntakeQuestionAnswer[] = [];
   patientIntakeQuestionAnswersToAdd: PatientIntakeQuestionAnswer[] = [];
+  activeDischargeDateControl: DischargeDateControlName | null = null;
+  activeDischargeDateValue: string | null = null;
   patientMaxAdmitDate: string = '';
   patientMinDischargeDate: string = '';
+  readonly dischargeDateFormatOptions = {
+    date: {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric'
+    }
+  } as const;
   patientMedicalConditions?: string;
   operations: Operation[];
   groupedOperations: FacilityOperationGroup[] = [];
@@ -614,6 +625,74 @@ export class PatientFormComponent implements OnInit {
     this.updateDischargeFields();
   }
 
+  openDischargeDatePicker(controlName: DischargeDateControlName) {
+    if (this.activeDischargeDateControl === controlName) {
+      this.closeDischargeDatePicker();
+      return;
+    }
+
+    this.activeDischargeDateControl = controlName;
+    this.activeDischargeDateValue = this.getDischargeDateControlValue(controlName) || null;
+  }
+
+  closeDischargeDatePicker() {
+    this.activeDischargeDateControl = null;
+    this.activeDischargeDateValue = null;
+  }
+
+  onDischargeDatePickerChange(event: CustomEvent<{ value?: string | null }>) {
+    if (!this.activeDischargeDateControl) {
+      this.closeDischargeDatePicker();
+      return;
+    }
+
+    const control = this.patientForm.get('patient.dischargeInfo.' + this.activeDischargeDateControl);
+
+    if (!control) {
+      this.closeDischargeDatePicker();
+      return;
+    }
+
+    const normalized = this.normalizeDischargeDateValue(event.detail?.value || '');
+    control.setValue(normalized || '');
+    control.markAsDirty();
+    control.markAsTouched();
+    this.updateDischargeFields();
+    this.closeDischargeDatePicker();
+  }
+
+  getDischargeDateDisplayValue(controlName: DischargeDateControlName): string {
+    const value = this.getDischargeDateControlValue(controlName);
+
+    if (!value) {
+      return '';
+    }
+
+    const dateParts = value.split('-');
+
+    if (dateParts.length !== 3) {
+      return value;
+    }
+
+    return dateParts[1] + '/' + dateParts[2] + '/' + dateParts[0];
+  }
+
+  getActiveDischargeDateTitle(): string {
+    return this.activeDischargeDateControl === 'patientAdmitDate' ? 'Select admit date' : 'Select discharge date';
+  }
+
+  getActiveDischargeDateMin(): string | undefined {
+    return this.activeDischargeDateControl === 'patientDischargeDate' && this.patientMinDischargeDate
+      ? this.patientMinDischargeDate
+      : undefined;
+  }
+
+  getActiveDischargeDateMax(): string | undefined {
+    return this.activeDischargeDateControl === 'patientAdmitDate' && this.patientMaxAdmitDate
+      ? this.patientMaxAdmitDate
+      : undefined;
+  }
+
   removeAdditionalPatientContact(idx: number) {
     let patientContactArray = this.patientForm.get('patient.patientContacts') as FormArray;
     const patientContact = this.patientContacts[idx];
@@ -967,6 +1046,11 @@ export class PatientFormComponent implements OnInit {
 
     const correctedYear = parsedYear >= 100 ? parsedYear : parsedYear + 2000;
     return correctedYear.toString().padStart(4, '0') + '-' + dateParts[1] + '-' + dateParts[2];
+  }
+
+  private getDischargeDateControlValue(controlName: DischargeDateControlName): string {
+    const control = this.patientForm?.get('patient.dischargeInfo.' + controlName);
+    return this.normalizeDischargeDateValue(control?.value);
   }
 
   /**

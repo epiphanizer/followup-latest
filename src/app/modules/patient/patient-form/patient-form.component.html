@@ -288,33 +288,71 @@
               <div class="patient-discharge-dates-container">
                 <ion-item class="discharge-admit-date">
                   <ion-label color="medium" position="stacked">Admitted <span style="color:#f1624a">*</span></ion-label>
-                  <ion-input
-                    class="discharge-date-input"
-                    type="date"
-                    formControlName="patientAdmitDate"
-                    [max]="patientMaxAdmitDate || null"
-                    (ionChange)="updateDischargeFields()"
-                    (ionBlur)="onDischargeDateBlur('patientAdmitDate')"
-                  ></ion-input>
+                  <input type="hidden" formControlName="patientAdmitDate" />
+                  <button
+                    class="discharge-date-trigger"
+                    [class.is-open]="activeDischargeDateControl === 'patientAdmitDate'"
+                    type="button"
+                    aria-label="Select admitted date"
+                    (click)="openDischargeDatePicker('patientAdmitDate')"
+                  >
+                    <span
+                      class="discharge-date-trigger-text"
+                      [class.is-placeholder]="!getDischargeDateDisplayValue('patientAdmitDate')"
+                    >
+                      {{ getDischargeDateDisplayValue('patientAdmitDate') || 'mm/dd/yyyy' }}
+                    </span>
+                  </button>
                 </ion-item>
                 <ion-item class="discharge-discharge-date">
                   <ion-label color="medium" position="stacked"
                     >Discharged <span style="color:#f1624a">*</span></ion-label
                   >
-                  <ion-input
-                    class="discharge-date-input"
-                    type="date"
-                    formControlName="patientDischargeDate"
-                    [min]="patientMinDischargeDate || null"
-                    (ionChange)="updateDischargeFields()"
-                    (ionBlur)="onDischargeDateBlur('patientDischargeDate')"
-                  ></ion-input>
+                  <input type="hidden" formControlName="patientDischargeDate" />
+                  <button
+                    class="discharge-date-trigger"
+                    [class.is-open]="activeDischargeDateControl === 'patientDischargeDate'"
+                    type="button"
+                    aria-label="Select discharge date"
+                    (click)="openDischargeDatePicker('patientDischargeDate')"
+                  >
+                    <span
+                      class="discharge-date-trigger-text"
+                      [class.is-placeholder]="!getDischargeDateDisplayValue('patientDischargeDate')"
+                    >
+                      {{ getDischargeDateDisplayValue('patientDischargeDate') || 'mm/dd/yyyy' }}
+                    </span>
+                  </button>
                 </ion-item>
                 <img class="equal-sign" src="/assets/icon-equal-sign@2x.png" />
                 <ion-item class="discharge-total-days">
                   <ion-label color="medium" position="stacked">Total Days</ion-label>
                   <ion-input formControlName="patientTotalDays" [readonly]="true"></ion-input>
                 </ion-item>
+                <div class="discharge-date-picker-panel" *ngIf="activeDischargeDateControl">
+                  <div class="discharge-date-picker-header">
+                    <span class="discharge-date-picker-title">{{ getActiveDischargeDateTitle() }}</span>
+                    <button
+                      class="discharge-date-picker-close"
+                      type="button"
+                      aria-label="Close date picker"
+                      (click)="closeDischargeDatePicker()"
+                    >
+                      Close
+                    </button>
+                  </div>
+                  <ion-datetime
+                    class="discharge-date-picker"
+                    presentation="date"
+                    [value]="activeDischargeDateValue || undefined"
+                    [min]="getActiveDischargeDateMin()"
+                    [max]="getActiveDischargeDateMax()"
+                    [formatOptions]="dischargeDateFormatOptions"
+                    [showAdjacentDays]="true"
+                    (ionChange)="onDischargeDatePickerChange($event)"
+                  >
+                  </ion-datetime>
+                </div>
               </div>
               <ion-item class="discharge-to-location" *ngIf="dischargeLabels">
                 <ion-label color="medium" position="stacked"
