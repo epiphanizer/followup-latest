@@ -23,6 +23,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Alpha IIS route rewrites now target `/index.html` explicitly, so deployed SPA routes such as `/login` resolve through the static Angular shell instead of failing at the site root rewrite path.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `web.config`. The hashed-assets beta rc1 alpha deployment left `alpha.followup.care/index.html` healthy and serving the current shell plus bundle references, but routed URLs like `/login` were still hitting a server runtime error because the IIS rewrite action targeted `/` instead of the static entry document. The deployed SPA rewrite now points directly at `/index.html`, keeping route rewrites aligned with the static Angular hosting model. Validation used `npm run "build alpha" -s` PASS, and the generated `dist/browser/web.config` now rewrites to `/index.html`.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Alpha frontend deployments now emit hashed asset filenames, which forces browsers to pick up the current runtime bundle instead of reusing a stale stable-name `main.js` cache entry.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `angular.json`. The live `alpha.followup.care` beta rc1 deployment had already succeeded at the App Service layer and the host was serving the new HTML shell plus beta bundle content, but browsers could still execute the prior `4.0.0_alpha_rc7(alpha)` runtime because the alpha build emitted stable asset names like `main.js` and `styles.css`. The alpha build configuration now sets `outputHashing: "all"`, so each deployment references hashed `main-*`, `polyfills-*`, and `styles-*` asset filenames instead of reusing the old cache path. Validation used `npm run "build alpha" -s` PASS, and the generated `dist/browser/index.html` now points at hashed asset filenames.',
