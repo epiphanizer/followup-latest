@@ -23,6 +23,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'The patient Primary Diagnosis and Discharged Condition labels now sit a few pixels closer to their textarea inputs instead of inheriting the wider default stacked-label gap.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.scss`. Those two patient-form textarea rows were still using the normal stacked-label bottom margin, which left the labels a few pixels too high above the textarea fields relative to the intended spacing. The patient form now trims the `textarea-item` label bottom margin by about `3px`, bringing the labels closer without changing the surrounding layout. Validation used `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Shared radio, checkbox, and toggle labels no longer inherit Ionic\'s default in-item top margin, which keeps aligned labels from being pushed downward after the rc7 control-spacing refinements.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/theme/theme.scss`. Ionic\'s internal `:host(.in-item) .label-text-wrapper` rule was still adding a `10px` top margin to shared radio, checkbox, and toggle label wrappers, which reintroduced downward drift even after the local alignment passes. The theme now overrides the exposed label part for those controls so the top margin is cleared globally without patching `node_modules`, while the bottom spacing remains intact. Validation used `npm run build -s` PASS.',

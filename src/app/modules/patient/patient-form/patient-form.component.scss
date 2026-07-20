@@ -1119,6 +1119,10 @@ fieldset.patient-medical-conditions {
       ion-item {
         &.textarea-item {
           margin-left: 22px;
+
+          ion-label {
+            margin-bottom: 5px;
+          }
         }
 
         &.textarea-item + .textarea-item {
