@@ -151,6 +151,7 @@ ion-select {
   }
 
   max-width: unset;
+  position: relative;
   font-family: Avenir;
   font-size: 14px;
   width: 100%;
@@ -167,15 +168,12 @@ ion-select {
   padding-bottom: 8px;
   min-height: 46px;
   border-radius: 14px;
+  --padding-end: 36px;
   &.edit {
     margin-right: 0;
     width: 100%;
-    &:after {
-      right: 32px;
-    }
   }
   padding-bottom: 1px;
-  --padding-end: 0;
   .select-icon-inner {
     margin-top: -2px;
   }
@@ -188,13 +186,15 @@ ion-select {
     display: block;
     position: absolute;
     content: "";
-    top: 12px;
-    background-image: url("/assets/icon-arrow-down@2x.png");
-    background-size: 100%;
-    background-repeat: no-repeat;
-    height: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 14px;
     width: 14px;
-    right: 12px;
+    right: 14px;
+    pointer-events: none;
+    background:
+      linear-gradient(#00b8be 0 0) center / 14px 2px no-repeat,
+      linear-gradient(#00b8be 0 0) center / 2px 14px no-repeat;
   }
 }
 
@@ -247,25 +247,40 @@ ion-item {
 }
 .remove-assignment {
   appearance: none;
-  border: 1px solid rgba(239, 70, 39, 0.16);
-  background: #fff5f2;
-  color: #ef4627;
+  border: none;
+  background: transparent;
   border-radius: 999px;
-  padding: 8px 12px;
-  font-family: AvenirDemi;
-  font-size: 11px;
-  line-height: 1;
-  letter-spacing: 0.22px;
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  padding: 4px;
+  margin-top: 11px;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-  white-space: nowrap;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+
+  .remove-assignment-icon {
+    display: block;
+    width: 14px;
+    height: 14px;
+    background-image: url("/assets/icon-close-modal@2x.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.82;
+  }
 
   &:hover,
   &:focus {
-    background: #ffe8e2;
-    border-color: rgba(239, 70, 39, 0.28);
-    color: #d9472a;
+    background: rgba(239, 70, 39, 0.08);
     outline: none;
+
+    .remove-assignment-icon {
+      opacity: 1;
+    }
   }
 }
 

@@ -53,9 +53,11 @@
               *ngIf="mode.edit && isDirectAssignment(manager) && manager?.userId"
               type="button"
               class="remove-assignment"
+              aria-label="Remove direct manager assignment"
+              title="Remove direct manager assignment"
               (click)="removeCallRepOrManager('manager', idx, manager.userId)"
             >
-              Remove Direct
+              <span class="remove-assignment-icon" aria-hidden="true"></span>
             </button>
             <ng-template #managerSpan>
               <div class="assignment-copy" [class.is-inherited]="isInheritedOnlyAssignment(manager)">
@@ -132,9 +134,11 @@
                 *ngIf="mode.edit && isDirectAssignment(operationCallRep) && operationCallRep?.userId"
                 type="button"
                 class="remove-assignment"
+                aria-label="Remove direct care rep assignment"
+                title="Remove direct care rep assignment"
                 (click)="removeCallRepOrManager('callrep', idx, operationCallRep.userId)"
               >
-                Remove Direct
+                <span class="remove-assignment-icon" aria-hidden="true"></span>
               </button>
               <ng-template #memberSpan>
                 <div class="assignment-copy" [class.is-inherited]="isInheritedOnlyAssignment(operationCallRep)">
