@@ -302,23 +302,10 @@
   }
 
   .reply-submit-btn {
-    padding: 0.75rem 1.5rem;
-    background-color: #ef4627;
-    color: white;
-    border: none;
-    border-radius: 2px;
-    font-family: AvenirDemi;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-
-    &:hover:not(:disabled) {
-      background-color: #d63e21;
-    }
+    align-self: flex-start;
 
     &:disabled {
-      background-color: #ccc;
+      opacity: 0.6;
       cursor: not-allowed;
     }
   }

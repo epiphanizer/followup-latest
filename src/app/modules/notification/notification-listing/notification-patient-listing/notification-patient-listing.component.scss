@@ -167,3 +167,22 @@ jw-pagination {
   display: block;
   text-align: right;
 }
+
+.empty-notification-table {
+  width: 95%;
+
+  tbody {
+    border-top: 1px solid black;
+  }
+}
+
+.empty-state-row {
+  td.empty-state-cell {
+    padding: 18px 15px;
+    font-family: "Avenir";
+    font-size: 14px;
+    color: #555555;
+    text-align: left;
+    background-color: #ffffff;
+  }
+}

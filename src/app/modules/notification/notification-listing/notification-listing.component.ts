@@ -59,13 +59,23 @@ export class NotificationListingComponent implements OnInit {
   }
 
   private getDefaultOperationFromUser(): Operation | null {
+    let firstAvailableOperation: Operation | null = null;
+
     for (const operationGroup of this.user?.operationGroups || []) {
       if (!operationGroup.operations || !operationGroup.operations.length) {
         continue;
       }
-      const activeOperation = operationGroup.operations.find((operation: Operation) => operation.operationActive !== 0);
-      return activeOperation || operationGroup.operations[0];
+
+      if (!firstAvailableOperation) {
+        firstAvailableOperation = operationGroup.operations[0];
+      }
+
+      const activeOperation = operationGroup.operations.find((operation: Operation) => Number(operation?.operationActive) !== 0);
+      if (activeOperation) {
+        return activeOperation;
+      }
     }
-    return null;
+
+    return firstAvailableOperation;
   }
 }

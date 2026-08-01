@@ -21,13 +21,22 @@
       </div>
       <div class="followup-controls" [class.locked]="isFollowupLocked" [attr.aria-disabled]="isFollowupLocked">
         <ng-container *ngIf="patientCall$ | async">
-          <app-patient-call-status-controls
-            [patientCall]="patientCall"
-            [disabled]="isFollowupLocked"
-            (patientCallStatusChangeEmitter)="patientCallStatusLabelChangeHandler($event)"
-            (patientFinalCallStatusChangeEmitter)="patientFinalCallChangeHandler($event)"
+          <div *ngIf="showPatientCallStatusValidation" class="patient-call-status-validation" role="alert" aria-live="polite">
+            Please select a call status before stopping the call.
+          </div>
+          <div
+            id="patient-call-status-field"
+            class="patient-call-status-field"
+            [class.has-validation-error]="showPatientCallStatusValidation"
           >
-          </app-patient-call-status-controls>
+            <app-patient-call-status-controls
+              [patientCall]="patientCall"
+              [disabled]="isFollowupLocked"
+              (patientCallStatusChangeEmitter)="patientCallStatusLabelChangeHandler($event)"
+              (patientFinalCallStatusChangeEmitter)="patientFinalCallChangeHandler($event)"
+            >
+            </app-patient-call-status-controls>
+          </div>
           <!-- this will be hidden if we have advanced past ID 3, which is the "started" state, but hide if it is the final call -->
           <app-patient-call-start-button
             *ngIf="

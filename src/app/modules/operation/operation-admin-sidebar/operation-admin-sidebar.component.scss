@@ -164,6 +164,7 @@
 .operation-group-link {
   text-decoration: none;
   color: #222222;
+  cursor: pointer;
 
   &.active {
     color: #00b4b9;
@@ -189,6 +190,7 @@
     display: inline-block;
     margin-right: 17px;
     color: #343638;
+    cursor: pointer !important;
 
     &.active {
       font-family: "AvenirBold";

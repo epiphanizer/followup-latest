@@ -29,6 +29,7 @@
 
   .spanish-indicator,
   .operation-group {
+    cursor: pointer;
     display: block;
     font-family: AvenirBold;
     font-size: 16px;
@@ -106,6 +107,67 @@
   background-repeat: no-repeat;
 }
 
+.facility-filter-sections {
+  margin-bottom: 14px;
+}
+
+.facility-filter-section {
+  margin-bottom: 14px;
+}
+
+.facility-filter-heading {
+  appearance: none;
+  border: none;
+  background: transparent;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 0;
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-align: right;
+  color: #222222;
+
+  &.active {
+    color: #00b4b9;
+  }
+}
+
+.facility-filter-list {
+  margin-top: 2px;
+}
+
+.facility-filter-label {
+  font-family: AvenirBold;
+  font-size: 16px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.81;
+  letter-spacing: 0.32px;
+  text-transform: uppercase;
+  order: 1;
+}
+
+.facility-filter-count {
+  min-width: 18px;
+  font-family: AvenirDemi;
+  font-size: 12px;
+  line-height: 1;
+  text-align: right;
+  order: 2;
+}
+
+.facility-filter-heading .expand-facilities-trigger {
+  order: 3;
+  flex: 0 0 12px;
+  width: 12px;
+  height: 12px;
+  margin-left: 4px;
+  margin-right: 0;
+}
+
 .operation-group-container {
   margin-bottom: 22px;
 }
@@ -135,6 +197,7 @@
       text-decoration: none;
       text-transform: capitalize;
       color: #343638;
+      cursor: pointer;
       &.active {
         font-family: "AvenirBold";
         color: #000;
@@ -145,4 +208,8 @@
       min-width: 8px;
     }
   }
+}
+
+.operation-link-container.archived {
+  opacity: 0.8;
 }

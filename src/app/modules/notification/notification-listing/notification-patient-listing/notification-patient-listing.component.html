@@ -27,7 +27,7 @@
       </th>
     </tr>
   </thead>
-  <tbody *ngIf="notificationsFiltered; else noNotifications">
+  <tbody *ngIf="hasVisibleNotifications; else noNotifications">
     <tr *ngFor="let notification of notificationsFiltered; trackBy: trackByNotification" class="active">
       <td>
         {{ notification.notificationCreatedTime | date: 'MM/dd/yy':'UTC' }}
@@ -63,13 +63,17 @@
     </tr>
   </tbody>
 </table>
-<jw-pagination *ngIf="notificationsFiltered" [items]="notificationsFiltered" (changePage)="onChangePage($event)">
+<jw-pagination *ngIf="hasVisibleNotifications" [items]="notificationsFiltered" (changePage)="onChangePage($event)">
 </jw-pagination>
 
 <ng-template #noNotifications>
-  <tbody>
-    <p style="font-family: Avenir">
-      Sorry! No notifications exist for this operation, or your search is too narrow!
-    </p>
-  </tbody>
+  <table class="notification-table empty-notification-table" *ngIf="hasLoadedNotifications">
+    <tbody>
+      <tr class="empty-state-row">
+        <td class="empty-state-cell" colspan="5">
+          {{ emptyStateMessage }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </ng-template>

@@ -80,7 +80,7 @@
                 placeholder="Enter your reply..."
                 rows="4"
               ></textarea>
-              <button type="submit" [disabled]="replyForm.invalid" class="reply-submit-btn">
+              <button type="submit" [disabled]="replyForm.invalid" class="reply-submit-btn primary button">
                 Submit Reply
               </button>
             </form>
@@ -90,14 +90,4 @@
     </ion-col>
   </ion-row>
 
-  <app-notification-reply-modal
-    *ngIf="isReplyModalOpen"
-    [notification]="notification"
-    [patient]="patient"
-    [operation]="replyOperation"
-    [currentUserId]="currentUserId"
-    (replySubmitted)="onReplySubmitted()"
-    (closeModal)="closeReplyModal()"
-  >
-  </app-notification-reply-modal>
 </ion-content>

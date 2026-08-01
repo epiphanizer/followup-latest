@@ -2,6 +2,12 @@ import { PatientListingComponent } from './patient-listing.component';
 import { of } from 'rxjs';
 
 const makeRoute = (mode?: 'spanish', operationId?: string, userOverride?: any) => {
+  const paramMapValue = {
+    get: jest.fn(() => operationId || null),
+    params: {
+      operationId: operationId || null
+    }
+  };
   const user =
     userOverride ||
     ({
@@ -14,10 +20,9 @@ const makeRoute = (mode?: 'spanish', operationId?: string, userOverride?: any) =
   return {
     snapshot: {
       data: { user, mode },
-      paramMap: {
-        get: jest.fn(() => operationId || null)
-      }
-    }
+      paramMap: paramMapValue
+    },
+    paramMap: of(paramMapValue)
   } as any;
 };
 
@@ -93,6 +98,35 @@ describe('PatientListingComponent (Jest)', () => {
     comp.ngOnInit();
 
     expect(operationService.getOperationByOperationId).toHaveBeenCalledWith('op-99');
+  });
+
+  it('uses the routed operation from hydrated user context without forcing a detail reload', () => {
+    const route = makeRoute(undefined, 'op-2', {
+      operationGroups: [
+        {
+          operationGroupName: 'Main Group',
+          operationGroupShortName: 'MG',
+          operations: [{ operationId: 'op-2', operationName: 'Operation Two', operationActive: 1 }]
+        }
+      ]
+    });
+    const { patientService, operationService } = makeServices();
+    const cdr = { detectChanges: jest.fn() } as any;
+    const comp = new PatientListingComponent(cdr, patientService, operationService, route, {
+      onPopState: jest.fn()
+    } as any);
+
+    comp.ngOnInit();
+
+    expect(operationService.getOperationByOperationId).not.toHaveBeenCalled();
+    expect(comp.selected.operation).toEqual(
+      expect.objectContaining({
+        operationId: 'op-2',
+        operationName: 'Operation Two',
+        operationGroupName: 'Main Group',
+        operationGroupShortName: 'MG'
+      })
+    );
   });
 
   it('handles operation change by fetching patients and updating selection', done => {

@@ -134,7 +134,7 @@ ion-textarea {
   height: 18px;
   border: 1.5px solid #08b4b9;
   background: #ffffff;
-  margin-inline-end: 8px;
+  margin-inline-end: 4px;
 }
 
 .notification-choice::part(mark) {
@@ -153,10 +153,14 @@ ion-textarea {
 
 .notification-choice::part(label) {
   white-space: normal;
+  display: flex;
+  align-items: center;
+  min-height: 18px;
+  padding-top: 1px;
   font-family: AvenirPro, sans-serif;
   font-size: 14px;
   font-weight: normal;
-  line-height: 1.35;
+  line-height: 18px;
   letter-spacing: 0;
   color: #444444;
 }

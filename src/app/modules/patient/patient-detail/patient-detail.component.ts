@@ -38,6 +38,7 @@ export class PatientDetailComponent implements OnInit {
   patient: Patient = null;
   operation: Operation;
   followupReadOnly: boolean = false;
+  showPatientCallStatusValidation: boolean = false;
   patientCall: PatientCall;
   patientCall$: Observable<PatientCall>;
   patientCallNotes: PatientCallNotes;
@@ -170,6 +171,7 @@ export class PatientDetailComponent implements OnInit {
         })
       )
       .subscribe((data: any) => {
+        this.clearPatientCallStatusValidation();
         this.patientCall.patientCallStatusLabelId = 'XAE2oKVR';
         this.patientCall.patientCallStatusLabel = 'Started';
       });
@@ -181,10 +183,14 @@ export class PatientDetailComponent implements OnInit {
     }
 
     this.patientCall = $event;
+    this.clearPatientCallStatusValidation();
+
     if (this.patientCall.patientCallStatusLabel == 'Started') {
-      alert('Please select a call status');
+      this.showPatientCallStatusValidation = true;
+      this.scrollToCallStatusField();
       return;
     }
+
     this.patientCallService.endPatientCall(this.patientCall.patientCallId);
     /**
      * Change the label, but not the ID.
@@ -205,6 +211,9 @@ export class PatientDetailComponent implements OnInit {
       alert('Please begin call first.');
       return;
     }
+
+    this.clearPatientCallStatusValidation();
+
     let patientCallStatusLabelId = $event;
     this.patientCall.patientCallStatusLabelId = patientCallStatusLabelId;
     this.patientCall.patientCallStatusLabel = 'User Selected Status';
@@ -379,6 +388,20 @@ export class PatientDetailComponent implements OnInit {
         block: 'start'
       });
     }
+  }
+
+  private scrollToCallStatusField(): void {
+    const callStatusField = document.querySelector('#patient-call-status-field');
+    if (callStatusField) {
+      callStatusField.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }
+
+  private clearPatientCallStatusValidation(): void {
+    this.showPatientCallStatusValidation = false;
   }
 
   private reloadPage(): void {

@@ -34,6 +34,27 @@ describe('NotificationListingComponent (Jest)', () => {
     expect(comp.selected.operation.operationId).toBe('op-2');
   });
 
+  it('prefers an active operation even when an archived facility appears first', () => {
+    const route = {
+      snapshot: {
+        data: {
+          user: {
+            operationGroups: [
+              { operations: [{ operationId: 'op-archived', operationActive: 0 }] },
+              { operations: [{ operationId: 'op-active', operationActive: 1 }] }
+            ]
+          }
+        }
+      }
+    } as any;
+    const notificationService = { getNotificationsByOperationId: jest.fn() } as any;
+    const comp = new NotificationListingComponent(notificationService as any, route);
+
+    comp.ngOnInit();
+
+    expect(comp.selected.operation.operationId).toBe('op-active');
+  });
+
   it('fetches notifications on operation change', done => {
     const route = { snapshot: { data: { operation: { operationId: 'op-2' } } } } as any;
     const notificationService = {

@@ -10,6 +10,8 @@ import { SharedFunctions } from '@app/shared/shared.functions';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from '@app/core/authentication/auth.service';
+import { ModalController } from '@ionic/angular';
+import { NotificationReplyModalComponent } from '../notification-reply-modal/notification-reply-modal.component';
 @Component({
   providers: [SharedFunctions, NotificationService, ToastrService],
   selector: 'app-notification-detail',
@@ -23,7 +25,6 @@ export class NotificationDetailComponent implements OnInit {
   patient!: Patient;
   notificationReplies: NotificationReply[] = [];
   replyForm!: FormGroup;
-  isReplyModalOpen: boolean = false;
   public selected:
     | {
         operation: Operation;
@@ -37,7 +38,8 @@ export class NotificationDetailComponent implements OnInit {
     private sharedFunctions: SharedFunctions,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private modalController: ModalController
   ) {}
 
   get currentUserId(): string {
@@ -69,22 +71,32 @@ export class NotificationDetailComponent implements OnInit {
     this.loadNotificationReplies();
   }
 
-  openReplyModal() {
-    if (!this.notification?.notificationId || !this.patient?.patientId || !this.currentUserId) {
+  async openReplyModal(): Promise<void> {
+    if (!this.notification?.notificationId || !this.patient?.patientId || !this.currentUserId || !this.replyOperation) {
       return;
     }
 
-    this.isReplyModalOpen = true;
-  }
+    const modal = await this.modalController.create({
+      component: NotificationReplyModalComponent,
+      cssClass: ['followup-modal', 'notification-reply-modal'],
+      componentProps: {
+        notification: this.notification,
+        patient: this.patient,
+        operation: this.replyOperation,
+        currentUserId: this.currentUserId
+      }
+    });
 
-  closeReplyModal() {
-    this.isReplyModalOpen = false;
-  }
+    modal.onDidDismiss().then(result => {
+      if (!result?.data?.submitted) {
+        return;
+      }
 
-  onReplySubmitted() {
-    this.isReplyModalOpen = false;
-    this.toastr.success('Reply submitted successfully');
-    this.loadNotificationReplies();
+      this.toastr.success('Reply submitted successfully');
+      this.loadNotificationReplies();
+    });
+
+    await modal.present();
   }
 
   createReplyForm() {

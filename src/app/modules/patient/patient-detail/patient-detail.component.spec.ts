@@ -145,14 +145,21 @@ describe('PatientDetailComponent', () => {
     expect(patientCallServiceMock.startPatientCallByUserIdAndPatientCallId).not.toHaveBeenCalled();
   });
 
-  it('alerts instead of ending when status is Started', () => {
-    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+  it('shows inline validation and scrolls to the call status controls when status is Started', () => {
+    const scrollIntoView = jest.fn();
+    const querySelectorSpy = jest.spyOn(document, 'querySelector').mockReturnValue({ scrollIntoView } as any);
     component.patientCall.patientCallStatusLabel = 'Started';
-    component.patientCallEndEventHandler(component.patientCall);
 
-    expect(alertSpy).toHaveBeenCalled();
+    component.patientCallEndEventHandler(component.patientCall);
+    fixture.detectChanges();
+
     expect(patientCallServiceMock.endPatientCall).not.toHaveBeenCalled();
-    alertSpy.mockRestore();
+    expect(component.showPatientCallStatusValidation).toBe(true);
+    expect(querySelectorSpy).toHaveBeenCalledWith('#patient-call-status-field');
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
+    expect(fixture.nativeElement.textContent).toContain('Please select a call status before stopping the call.');
+
+    querySelectorSpy.mockRestore();
   });
 
   it('ends call and sets label when status not Started', () => {
@@ -170,11 +177,14 @@ describe('PatientDetailComponent', () => {
   });
 
   it('updates status label and id on status change', () => {
+    component.showPatientCallStatusValidation = true;
     component.patientCall.patientCallStatusLabel = 'In Progress';
+
     component.patientCallStatusLabelChangeHandler('status-1');
 
     expect(component.patientCall.patientCallStatusLabelId).toBe('status-1');
     expect(component.patientCall.patientCallStatusLabel).toBe('User Selected Status');
+    expect(component.showPatientCallStatusValidation).toBe(false);
   });
 
   it('blocks status change for restricted labels', () => {

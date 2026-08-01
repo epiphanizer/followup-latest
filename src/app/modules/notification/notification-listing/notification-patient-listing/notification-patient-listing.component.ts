@@ -12,6 +12,8 @@ import { Notification } from '../../notification';
 })
 export class NotificationPatientListingComponent implements OnInit {
   @Input() operation: Operation;
+  public hasLoadedNotifications: boolean = false;
+  public currentSearchText: string = '';
   public notifications: Notification[];
   public notificationsFiltered: Notification[];
   public pageOfItems: Notification[];
@@ -24,6 +26,7 @@ export class NotificationPatientListingComponent implements OnInit {
   constructor(private notificationService: NotificationService) {}
   ngOnInit() {
     this.notifications = [];
+    this.notificationsFiltered = [];
     this.operation = this.operation;
     this.loadNotificationsForOperation(this.operation);
   }
@@ -31,9 +34,22 @@ export class NotificationPatientListingComponent implements OnInit {
   ngOnChanges(changes: any) {
     if (changes.operation) {
       this.notifications = [];
+      this.notificationsFiltered = [];
       this.operation = changes.operation.currentValue;
       this.loadNotificationsForOperation(this.operation);
     }
+  }
+
+  get hasVisibleNotifications(): boolean {
+    return Array.isArray(this.notificationsFiltered) && this.notificationsFiltered.length > 0;
+  }
+
+  get emptyStateMessage(): string {
+    if (this.currentSearchText.trim().length > 0 && Array.isArray(this.notifications) && this.notifications.length > 0) {
+      return 'No notifications match the current search.';
+    }
+
+    return 'No notifications have been created for this operation yet.';
   }
   toggleAscDesc($event: string) {
     this.selectedSortFlag = $event;
@@ -216,6 +232,7 @@ export class NotificationPatientListingComponent implements OnInit {
   }
 
   searchNotifications($event: string): Notification[] {
+    this.currentSearchText = $event || '';
     let searchText = $event;
     searchText = searchText.toLowerCase();
     this.notificationsFiltered = this.notifications.filter((notification: Notification) => {
@@ -253,8 +270,12 @@ export class NotificationPatientListingComponent implements OnInit {
   private loadNotificationsForOperation(operation: Operation | undefined): void {
     const operationId = operation?.operationId;
 
+    this.hasLoadedNotifications = false;
+    this.currentSearchText = '';
+
     if (!operationId) {
       this.statusOptions = [];
+      this.hasLoadedNotifications = true;
       this.notificationsFiltered = this.notifications = [];
       return;
     }
@@ -268,6 +289,7 @@ export class NotificationPatientListingComponent implements OnInit {
         },
         () => {
           this.statusOptions = [];
+          this.hasLoadedNotifications = true;
           this.notificationsFiltered = this.notifications = [];
         }
       );
@@ -277,6 +299,7 @@ export class NotificationPatientListingComponent implements OnInit {
     this.notifications = Array.isArray(notifications) ? notifications : [];
     this.notificationsFiltered = this.notifications;
     this.rebuildStatusOptions(this.notifications);
+    this.hasLoadedNotifications = true;
     this.runSortSwitch();
   }
 }

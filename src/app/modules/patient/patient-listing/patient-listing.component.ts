@@ -43,11 +43,7 @@ export class PatientListingComponent implements OnInit, AfterViewInit {
     private operationService: OperationService,
     private route: ActivatedRoute,
     private location: LocationStrategy
-  ) {
-    this.location.onPopState(() => {
-      window.location.reload();
-    });
-  }
+  ) {}
 
   async ngAfterViewInit() {
     if (!this.content) {
@@ -63,21 +59,31 @@ export class PatientListingComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
-    if (!this.route.snapshot.paramMap.get('operationId')) {
-      if (this.route.snapshot.data.mode == 'spanish') {
-        this.mode.spanish = true;
-      } else {
-        this.selected.operation = this.getDefaultOperationFromUser();
-      }
-    } else {
-      // Sort by language
-      this.operationService
-        .getOperationByOperationId(this.route.snapshot.paramMap.get('operationId'))
-        .subscribe((data: Operation | Operation[]) => {
-          const operation = Array.isArray(data) ? data[0] : data;
-          this.selected.operation = operation || this.getDefaultOperationFromUser();
-        });
+    this.mode.spanish = this.route.snapshot.data.mode == 'spanish';
+
+    if (this.mode.spanish) {
+      return;
     }
+
+    this.route.paramMap.subscribe((paramMap: any) => {
+      const operationId = paramMap.get ? paramMap.get('operationId') : paramMap.params?.operationId;
+      const selectedOperation = this.resolveOperationFromUserContext(operationId);
+
+      if (selectedOperation) {
+        this.selected.operation = selectedOperation;
+        return;
+      }
+
+      if (!operationId) {
+        this.selected.operation = null;
+        return;
+      }
+
+      this.operationService.getOperationByOperationId(operationId).subscribe((data: Operation | Operation[]) => {
+        const operation = Array.isArray(data) ? data[0] : data;
+        this.selected.operation = operation || this.resolveOperationFromUserContext();
+      });
+    });
   }
 
   handleDateFilterChangeEvent($event: string) {
@@ -95,6 +101,35 @@ export class PatientListingComponent implements OnInit, AfterViewInit {
   }
   ngOnDestroy() {
     this.patients = null;
+  }
+
+  private resolveOperationFromUserContext(operationId?: string | null): Operation | null {
+    for (const operationGroup of this.user?.operationGroups || []) {
+      const operations = operationGroup?.operations || [];
+
+      if (operationId) {
+        const matchingOperation = operations.find((operation: Operation) => String(operation?.operationId) === String(operationId));
+
+        if (matchingOperation) {
+          return {
+            ...matchingOperation,
+            operationGroupName: matchingOperation.operationGroupName || operationGroup.operationGroupName,
+            operationGroupShortName: matchingOperation.operationGroupShortName || operationGroup.operationGroupShortName
+          };
+        }
+
+        continue;
+      }
+
+      if (!operations.length) {
+        continue;
+      }
+
+      const activeOperation = operations.find((operation: Operation) => operation.operationActive !== 0);
+      return activeOperation || operations[0];
+    }
+
+    return null;
   }
 
   private getDefaultOperationFromUser(): Operation | null {

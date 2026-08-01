@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { NotificationReplyModalComponent } from './notification-reply-modal.component';
 import { NotificationService } from '../notification.service';
 import { of, throwError } from 'rxjs';
+import { ModalController } from '@ionic/angular';
 
 describe('NotificationReplyModalComponent', () => {
   let component: NotificationReplyModalComponent;
@@ -10,19 +11,29 @@ describe('NotificationReplyModalComponent', () => {
   let notificationService: {
     addNotificationReply: jest.Mock;
   };
+  let modalController: {
+    dismiss: jest.Mock;
+  };
 
   beforeEach(async () => {
     const notificationServiceSpy = {
       addNotificationReply: jest.fn()
     };
+    const modalControllerSpy = {
+      dismiss: jest.fn()
+    };
 
     await TestBed.configureTestingModule({
       declarations: [NotificationReplyModalComponent],
       imports: [FormsModule],
-      providers: [{ provide: NotificationService, useValue: notificationServiceSpy }]
+      providers: [
+        { provide: NotificationService, useValue: notificationServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy }
+      ]
     }).compileComponents();
 
     notificationService = TestBed.inject(NotificationService) as any;
+    modalController = TestBed.inject(ModalController) as any;
     fixture = TestBed.createComponent(NotificationReplyModalComponent);
     component = fixture.componentInstance;
     component.notification = { notificationId: 'n1', notificationTypeLabel: 'Test' };
@@ -60,7 +71,6 @@ describe('NotificationReplyModalComponent', () => {
   it('should submit reply successfully', () => {
     component.replyText = 'Test reply';
     const mockResponse = { notificationReplyId: 'abc123' };
-    const replySubmittedSpy = jest.spyOn(component.replySubmitted, 'emit');
     notificationService.addNotificationReply.mockReturnValue(of(mockResponse));
 
     component.submitReply();
@@ -74,8 +84,9 @@ describe('NotificationReplyModalComponent', () => {
         userId: component.currentUserId
       }
     );
-    expect(replySubmittedSpy).toHaveBeenCalledWith({
+    expect(modalController.dismiss).toHaveBeenCalledWith({
       success: true,
+      submitted: true,
       reply: mockResponse,
       replyText: 'Test reply'
     });
@@ -87,21 +98,19 @@ describe('NotificationReplyModalComponent', () => {
     component.replyText = 'Test reply';
     const mockError = { error: { message: 'Server error' } };
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    const replySubmittedSpy = jest.spyOn(component.replySubmitted, 'emit');
     notificationService.addNotificationReply.mockReturnValue(throwError(mockError));
 
     component.submitReply();
 
     expect(component.submitError).toBe('Server error');
     expect(component.isSubmitting).toBeFalsy();
-    expect(replySubmittedSpy).not.toHaveBeenCalled();
+    expect(modalController.dismiss).not.toHaveBeenCalled();
     consoleErrorSpy.mockRestore();
   });
 
   it('should close modal on cancel', () => {
-    const closeModalSpy = jest.spyOn(component.closeModal, 'emit');
     component.closeAndCancel();
-    expect(closeModalSpy).toHaveBeenCalled();
+    expect(modalController.dismiss).toHaveBeenCalledWith({ dismissed: true });
     expect(component.replyText).toBe('');
   });
 

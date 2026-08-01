@@ -49,6 +49,27 @@ ion-row {
   color: #243746;
 }
 
+.patient-call-status-field {
+  scroll-margin-top: 120px;
+  margin-bottom: 12px;
+
+  &.has-validation-error {
+    outline: 1px solid rgba(239, 70, 39, 0.24);
+    outline-offset: 8px;
+    border-radius: 6px;
+  }
+}
+
+.patient-call-status-validation {
+  margin-bottom: 12px;
+  font-family: AvenirDemi, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  text-align: left;
+  color: #c4452d;
+}
+
 .followup-controls.locked {
   opacity: 0.55;
   pointer-events: none;

@@ -171,7 +171,7 @@ ion-item.boolean-call-question {
 }
 
 .boolean-option {
-  --size: 20px;
+  --size: 18px;
   --color: #5f6b78;
   --checkmark-color: #ffffff;
   --checkbox-background: #ffffff;
@@ -181,6 +181,7 @@ ion-item.boolean-call-question {
   --border-radius: 4px;
   align-items: center;
   display: inline-flex;
+  column-gap: 8px;
   min-height: 28px;
   width: auto;
   min-width: max-content;
@@ -190,19 +191,25 @@ ion-item.boolean-call-question {
   color: #243746;
 
   &::part(container) {
-    margin-inline-end: 3px;
+    margin-inline-end: 4px;
     align-self: center;
+    flex: 0 0 auto;
   }
 
   &::part(label) {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    margin-inline-start: 2px;
+    align-self: center;
+    min-height: 18px;
+    padding-top: 1px;
+    margin-block: 0;
+    margin-inline-start: 0;
+    white-space: normal;
     color: #243746;
     font-family: AvenirPro, sans-serif;
     font-size: 14px;
     font-weight: 500;
-    line-height: 1.2;
+    line-height: 18px;
   }
 }
 

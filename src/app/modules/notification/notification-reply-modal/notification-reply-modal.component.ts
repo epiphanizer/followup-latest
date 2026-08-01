@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { NotificationReply } from '../notification';
 import { NotificationService } from '../notification.service';
 
@@ -15,15 +16,12 @@ export class NotificationReplyModalComponent implements OnInit {
   @Input() operation: any;
   @Input() currentUserId: string;
 
-  @Output() replySubmitted = new EventEmitter<any>();
-  @Output() closeModal = new EventEmitter<void>();
-
   replyText: string = '';
   isSubmitting: boolean = false;
   submitError: string = '';
   maxCharacters: number = 2000;
 
-  constructor(private notificationService: NotificationService) {}
+  constructor(private notificationService: NotificationService, private modalController: ModalController) {}
 
   ngOnInit(): void {
     this.resetForm();
@@ -64,8 +62,9 @@ export class NotificationReplyModalComponent implements OnInit {
       .subscribe(
         (response: NotificationReply) => {
           this.isSubmitting = false;
-          this.replySubmitted.emit({
+          this.modalController.dismiss({
             success: true,
+            submitted: true,
             reply: response,
             replyText: this.replyText
           });
@@ -81,7 +80,9 @@ export class NotificationReplyModalComponent implements OnInit {
 
   closeAndCancel(): void {
     this.resetForm();
-    this.closeModal.emit();
+    this.modalController.dismiss({
+      dismissed: true
+    });
   }
 
   private resetForm(): void {

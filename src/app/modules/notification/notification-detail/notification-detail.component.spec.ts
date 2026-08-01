@@ -1,5 +1,6 @@
 import { of } from 'rxjs';
 import { NotificationDetailComponent } from './notification-detail.component';
+import { NotificationReplyModalComponent } from '../notification-reply-modal/notification-reply-modal.component';
 
 describe('NotificationDetailComponent (Jest)', () => {
   const buildComponent = () => {
@@ -33,6 +34,13 @@ describe('NotificationDetailComponent (Jest)', () => {
     } as any;
     const toastr = { success: jest.fn(), error: jest.fn() } as any;
     const authService = { currentUserValue: { userId: 'u1' } } as any;
+    const modal = {
+      present: jest.fn(() => Promise.resolve()),
+      onDidDismiss: jest.fn(() => Promise.resolve({ data: { submitted: true } }))
+    } as any;
+    const modalController = {
+      create: jest.fn(() => Promise.resolve(modal))
+    } as any;
 
     const comp = new NotificationDetailComponent(
       route,
@@ -41,10 +49,11 @@ describe('NotificationDetailComponent (Jest)', () => {
       sharedFunctions,
       fb,
       toastr,
-      authService
+      authService,
+      modalController
     );
 
-    return { comp, patientService, notificationService, sharedFunctions, toastr };
+    return { comp, patientService, notificationService, sharedFunctions, toastr, modalController, modal };
   };
 
   it('loads notification and patient details', () => {
@@ -73,24 +82,31 @@ describe('NotificationDetailComponent (Jest)', () => {
     expect(notificationService.getNotificationRepliesByNotificationId).toHaveBeenCalledTimes(2);
   });
 
-  it('opens the reply modal and refreshes replies after modal submission', () => {
-    const { comp, notificationService, toastr } = buildComponent();
+  it('opens the reply modal with ModalController and refreshes replies after modal submission', async () => {
+    const { comp, notificationService, toastr, modalController, modal } = buildComponent();
 
     comp.ngOnInit();
 
     expect(comp.currentUserId).toBe('u1');
     expect(comp.replyOperation).toEqual({ operationId: 'op1', operationGroupName: 'Main Operation' });
 
-    comp.openReplyModal();
-    expect(comp.isReplyModalOpen).toBe(true);
+    await comp.openReplyModal();
+    await Promise.resolve();
 
-    comp.onReplySubmitted();
-
-    expect(comp.isReplyModalOpen).toBe(false);
+    expect(modalController.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        component: NotificationReplyModalComponent,
+        cssClass: ['followup-modal', 'notification-reply-modal'],
+        componentProps: expect.objectContaining({
+          notification: comp.notification,
+          patient: comp.patient,
+          operation: { operationId: 'op1', operationGroupName: 'Main Operation' },
+          currentUserId: 'u1'
+        })
+      })
+    );
+    expect(modal.present).toHaveBeenCalled();
     expect(toastr.success).toHaveBeenCalledWith('Reply submitted successfully');
     expect(notificationService.getNotificationRepliesByNotificationId).toHaveBeenCalledTimes(2);
-
-    comp.closeReplyModal();
-    expect(comp.isReplyModalOpen).toBe(false);
   });
 });

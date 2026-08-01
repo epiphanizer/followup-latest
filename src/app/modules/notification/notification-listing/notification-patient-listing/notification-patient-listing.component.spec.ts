@@ -75,6 +75,7 @@ describe('NotificationPatientListingComponent (Jest)', () => {
     expect(filtered.length).toBe(1);
     const none = component.searchNotifications('missing');
     expect(none.length).toBe(0);
+    expect(component.emptyStateMessage).toBe('No notifications match the current search.');
   });
 
   it('sorts by patient name in both directions', () => {
@@ -212,5 +213,17 @@ describe('NotificationPatientListingComponent (Jest)', () => {
     } as any;
 
     expect(component.getDisplayStatus(notification)).toBe('Resolved');
+  });
+
+  it('shows explanatory text when an operation has no notifications', () => {
+    component.notifications = [];
+    component.notificationsFiltered = [];
+    component.hasLoadedNotifications = true;
+    component.currentSearchText = '';
+
+    fixture.detectChanges();
+
+    expect(component.emptyStateMessage).toBe('No notifications have been created for this operation yet.');
+    expect(fixture.nativeElement.textContent).toContain('No notifications have been created for this operation yet.');
   });
 });

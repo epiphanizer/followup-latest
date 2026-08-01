@@ -81,7 +81,8 @@
 .searchable-select-modal-option ion-label {
   margin: 8px 0;
   white-space: normal;
-  line-height: 1.35;
+  font-size: 14px;
+  line-height: 18px;
 }
 
 .searchable-select-modal-radio {
@@ -95,7 +96,7 @@
   --ripple-color: transparent;
   --background-hover: transparent;
   width: 18px;
-  margin-right: 12px;
+  margin-right: 4px;
 }
 
 .searchable-select-modal-radio::part(container) {
