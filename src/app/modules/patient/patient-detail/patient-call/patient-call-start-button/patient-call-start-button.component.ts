@@ -12,12 +12,17 @@ import { User } from '@app/modules/user/user';
 export class PatientCallStartButtonComponent implements OnInit {
   @Input() user: User;
   @Input() patientCall: PatientCall;
+  @Input() disabled: boolean = false;
   @Output() patientCallStartEventEmitter = new EventEmitter<string>();
   constructor() {}
 
   ngOnInit() {}
 
   public patientCallStartEvent() {
+    if (this.disabled) {
+      return;
+    }
+
     let userId = this.user.userId;
     this.patientCallStartEventEmitter.emit(userId);
   }

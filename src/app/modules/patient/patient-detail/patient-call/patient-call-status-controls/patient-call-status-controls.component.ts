@@ -13,6 +13,7 @@ import { PatientCall } from '../patient-call.service';
 })
 export class PatientCallStatusControlsComponent implements OnInit {
   @Input() patientCall: PatientCall;
+  @Input() disabled: boolean = false;
   @Output() patientCallStatusChangeEmitter = new EventEmitter<number>();
   @Output() patientFinalCallStatusChangeEmitter = new EventEmitter<boolean>();
   finalCallStatus: boolean;
@@ -26,6 +27,10 @@ export class PatientCallStatusControlsComponent implements OnInit {
     });
   }
   updateFinalCallStatus() {
+    if (this.disabled) {
+      return;
+    }
+
     if (!this.finalCallStatus == true) {
       this.finalCallStatus = true;
       this.patientFinalCallStatusChangeEmitter.emit(true);
@@ -35,6 +40,10 @@ export class PatientCallStatusControlsComponent implements OnInit {
     }
   }
   updatePatientCallStatus(patientCallStatusLabelId: number) {
+    if (this.disabled) {
+      return;
+    }
+
     // Inert if the call hasn't actually been started and we are just showing a legend.
     if (this.patientCall.patientCallStatusLabel != 'Pending') {
       this.patientCallStatusChangeEmitter.emit(patientCallStatusLabelId);

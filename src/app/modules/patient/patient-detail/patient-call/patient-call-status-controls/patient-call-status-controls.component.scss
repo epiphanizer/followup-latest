@@ -2,6 +2,13 @@ ion-list {
   &.inactive {
     opacity: 0.2;
   }
+
+  &.disabled {
+    ion-item {
+      cursor: default;
+      opacity: 0.55;
+    }
+  }
 }
 
 .patient-call-status-legend {

@@ -72,4 +72,25 @@ describe('NotificationDetailComponent (Jest)', () => {
     expect(toastr.success).toHaveBeenCalled();
     expect(notificationService.getNotificationRepliesByNotificationId).toHaveBeenCalledTimes(2);
   });
+
+  it('opens the reply modal and refreshes replies after modal submission', () => {
+    const { comp, notificationService, toastr } = buildComponent();
+
+    comp.ngOnInit();
+
+    expect(comp.currentUserId).toBe('u1');
+    expect(comp.replyOperation).toEqual({ operationId: 'op1', operationGroupName: 'Main Operation' });
+
+    comp.openReplyModal();
+    expect(comp.isReplyModalOpen).toBe(true);
+
+    comp.onReplySubmitted();
+
+    expect(comp.isReplyModalOpen).toBe(false);
+    expect(toastr.success).toHaveBeenCalledWith('Reply submitted successfully');
+    expect(notificationService.getNotificationRepliesByNotificationId).toHaveBeenCalledTimes(2);
+
+    comp.closeReplyModal();
+    expect(comp.isReplyModalOpen).toBe(false);
+  });
 });

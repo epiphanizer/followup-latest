@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { NotificationService } from '../../notification.service';
-import { Notification } from '../../notification';
+import { Notification, NotificationReply } from '../../notification';
 
 @Component({
   selector: 'app-notification-patient-listing',
@@ -25,41 +25,14 @@ export class NotificationPatientListingComponent implements OnInit {
   ngOnInit() {
     this.notifications = [];
     this.operation = this.operation;
-    this.notificationService
-      .getNotificationsByOperationId(this.operation.operationId)
-      .pipe(
-        take(1),
-        map((notifications: [Notification]) => {
-          this.notifications = notifications;
-          this.notificationsFiltered = notifications;
-          this.rebuildStatusOptions(this.notifications);
-          this.runSortSwitch();
-        })
-      )
-      .subscribe();
+    this.loadNotificationsForOperation(this.operation);
   }
 
   ngOnChanges(changes: any) {
     if (changes.operation) {
       this.notifications = [];
       this.operation = changes.operation.currentValue;
-      this.notificationService
-        .getNotificationsByOperationId(this.operation.operationId)
-        .pipe(
-          take(1),
-          map((notifications: [Notification]) => {
-            if (notifications) {
-              this.notifications = notifications;
-              this.notificationsFiltered = notifications;
-              this.rebuildStatusOptions(this.notifications);
-              this.runSortSwitch();
-            } else {
-              this.statusOptions = [];
-              this.notificationsFiltered = this.notifications = [];
-            }
-          })
-        )
-        .subscribe();
+      this.loadNotificationsForOperation(this.operation);
     }
   }
   toggleAscDesc($event: string) {
@@ -174,10 +147,17 @@ export class NotificationPatientListingComponent implements OnInit {
   };
 
   getDisplayStatus(notification: Notification): string {
+    const currentStatus = String(notification?.notificationStatusLabel || '').trim();
+
     if (this.getReplyCount(notification) > 0) {
-      return 'Replied';
+      if (currentStatus && currentStatus.toLowerCase() !== 'unresolved') {
+        return currentStatus;
+      }
+
+      return 'Resolved';
     }
-    return notification.notificationStatusLabel || 'Unresolved';
+
+    return currentStatus || 'Unresolved';
   }
 
   getReplyCount(notification: Notification): number {
@@ -268,5 +248,60 @@ export class NotificationPatientListingComponent implements OnInit {
     this.statusOptions = Object.keys(labelsById)
       .map(id => ({ id, label: labelsById[id] }))
       .sort((a, b) => a.label.localeCompare(b.label));
+  }
+
+  private loadNotificationsForOperation(operation: Operation | undefined): void {
+    const operationId = operation?.operationId;
+
+    if (!operationId) {
+      this.statusOptions = [];
+      this.notificationsFiltered = this.notifications = [];
+      return;
+    }
+
+    this.notificationService
+      .getNotificationsByOperationId(operationId)
+      .pipe(take(1))
+      .subscribe(
+        (notifications: Notification[]) => {
+          this.applyNotifications(notifications);
+        },
+        () => {
+          this.statusOptions = [];
+          this.notificationsFiltered = this.notifications = [];
+        }
+      );
+  }
+
+  private applyNotifications(notifications: Notification[] | null | undefined): void {
+    this.notifications = Array.isArray(notifications) ? notifications : [];
+    this.notificationsFiltered = this.notifications;
+    this.rebuildStatusOptions(this.notifications);
+    this.runSortSwitch();
+    this.loadNotificationReplies(this.notifications);
+  }
+
+  private loadNotificationReplies(notifications: Notification[] = []): void {
+    notifications.forEach((notification: Notification) => {
+      if (!notification?.notificationId) {
+        return;
+      }
+
+      this.notificationService
+        .getNotificationRepliesByNotificationId(notification.notificationId)
+        .pipe(take(1))
+        .subscribe(
+          (replies: NotificationReply[]) => {
+            notification.notificationReplies = Array.isArray(replies) ? replies : [];
+
+            if (this.getReplyCount(notification) > 0 || this.selectedSortOption === 'Status') {
+              this.runSortSwitch();
+            }
+          },
+          () => {
+            notification.notificationReplies = [];
+          }
+        );
+    });
   }
 }

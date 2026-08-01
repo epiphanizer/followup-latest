@@ -23,6 +23,30 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'History routes and patients outside the active `In Progress` follow-up state now gate the right-hand follow-up workflow, so users can still view history and leave notifications without reopening follow-up actions such as Start Follow-Up.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-detail/patient-detail.component.ts`, `.html`, `.scss`, the right-side follow-up control components under `src/app/modules/patient/patient-detail/patient-call`, `src/app/modules/patient/patient-detail/followup-complete-button/followup-complete-button.component.ts`, and the focused Jest specs for that slice. Completed patients had still been able to interact with the right-hand follow-up workflow after opening Patient Detail or the history view, and direct URL access could still reopen follow-up when a patient status was no longer `In Progress`. The detail view now treats history routes, non-`In Progress` statuses, completed (`patientGraduated`), or inactive patients as follow-up locked, shows an explanatory notice, visually deactivates the right-hand control area, disables the start/save/complete buttons plus status controls, and adds defensive no-op guards in the action handlers so notifications can still be left elsewhere without reopening follow-up on the patient. Validation used focused Jest on the patient-detail, start-button, status-controls, stop-button, next-call-finish-button, and followup-complete-button specs (`23/23` tests passing), plus the direct-route non-`In Progress` patient-detail spec (`16/16` tests passing), plus clean editor diagnostics on the touched files.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Archived patient history links now resolve inside the app instead of falling through to the login redirect, which also avoids the duplicate-account 409 detour for affected users.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-routing.module.ts` and adding `src/app/modules/patient/patient-routing.module.spec.ts`. The patient listing had already been sending archived or non-`In Progress` rows to `/call-queue/operations/:operationId/patient/:patientId/history`, but the router still only registered the live patient-detail path. Clicking those rows therefore fell through the global `** -> /login` route, which is why users could appear to be kicked out and then hit the duplicate-account `/users/login` `409` flow instead of seeing patient history. The frontend now registers the missing history route against `PatientDetailComponent` with the same `UserResolver` and `PatientResolver` contract as the live detail route. Validation used focused Jest on `src/app/modules/patient/patient-routing.module.spec.ts` (`1/1` tests passing) plus clean editor diagnostics on the touched route files.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Patient completion now fails fast with retry instead of hanging on completion-option loads, notification reply actions are wired again, and the patient facility picker hides archived facilities while normalizing the affected display names.',
+        evidence:
+          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-status.service.ts`, `src/app/modules/patient/patient-detail/followup-complete-modal/followup-complete-modal.component.ts`, `src/app/modules/patient/patient-detail/followup-complete-modal/followup-complete-modal.component.html`, `src/app/modules/notification/notification-detail/notification-detail.component.ts`, `src/app/modules/notification/notification-listing/notification-patient-listing/notification-patient-listing.component.ts`, and `src/app/modules/patient/patient-form/patient-form.component.ts`. The completion modal no longer reuses a single never-settling status-label request forever: status-label reads now time out, retry cleanly, and expose a visible Retry action when the list cannot be loaded. The notification detail screen now reconnects the dead `Reply to Notification` CTA to the existing modal reply flow, and the operation notification list now hydrates replies so unresolved items with replies surface as `Resolved` immediately. The patient facility selector now filters archived facilities/clients out of active selection, preserves the currently selected archived facility on edit screens, and normalizes the affected labels to `Villages of ...` plus `Salt Lake` for the renamed South Salt Lake facility. Validation used focused Jest on the touched patient-status, completion-modal, notification-detail, notification-listing, and patient-form specs, plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Alpha IIS route rewrites now target `/index.html` explicitly, so deployed SPA routes such as `/login` resolve through the static Angular shell instead of failing at the site root rewrite path.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `web.config`. The hashed-assets beta rc1 alpha deployment left `alpha.followup.care/index.html` healthy and serving the current shell plus bundle references, but routed URLs like `/login` were still hitting a server runtime error because the IIS rewrite action targeted `/` instead of the static entry document. The deployed SPA rewrite now points directly at `/index.html`, keeping route rewrites aligned with the static Angular hosting model. Validation used `npm run "build alpha" -s` PASS, and the generated `dist/browser/web.config` now rewrites to `/index.html`.',

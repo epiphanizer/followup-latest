@@ -142,7 +142,7 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.groupedOperations.map(group => group.label)).toEqual(['Client One', 'Client Two']);
   });
 
-  it('opens the searchable facility modal with the current selection and uppercase option labels', async () => {
+  it('opens the searchable facility modal with the current selection and formatted option labels', async () => {
     const groupedUser = {
       operations: [
         { operationId: 'op-1', operationName: 'Facility One', operationGroupId: 'og-1', operationGroupName: 'Client One' },
@@ -186,6 +186,62 @@ describe('PatientFormComponent (Jest)', () => {
     expect(modalConfig.componentProps.groups.map((group: any) => group.label)).toEqual(['Client One', 'Client Two']);
     expect(modalConfig.componentProps.groups[0].items.map((item: any) => item.label)).toEqual(['Facility One']);
     expect(modalConfig.componentProps.groups[1].items.map((item: any) => item.label)).toEqual(['Facility Two']);
+  });
+
+  it('filters archived facilities from the selector and normalizes display labels', async () => {
+    const groupedUser = {
+      operations: [
+        {
+          operationId: 'op-1',
+          operationName: 'Facility One',
+          operationGroupId: 'og-1',
+          operationGroupName: 'Client One',
+          operationActive: 1
+        },
+        {
+          operationId: 'op-2',
+          operationName: 'Monument South Salt Lake',
+          operationGroupId: 'og-2',
+          operationGroupName: 'Villages Of Utah',
+          operationActive: 1
+        },
+        {
+          operationId: 'op-3',
+          operationName: 'Archived Facility',
+          operationGroupId: 'og-3',
+          operationGroupName: 'Archived Client',
+          operationActive: 0
+        }
+      ],
+      operationGroups: [
+        { operationGroupId: 'og-1', operationGroupName: 'Client One', operationGroupActive: 1 },
+        { operationGroupId: 'og-2', operationGroupName: 'Villages Of Utah', operationGroupActive: 1 },
+        { operationGroupId: 'og-3', operationGroupName: 'Archived Client', operationGroupActive: 0 }
+      ]
+    } as any;
+    const route = { snapshot: { data: { mode: 'add', user: groupedUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService,
+      services.modalController
+    );
+
+    comp.ngOnInit();
+    await comp.openFacilitySelectModal();
+
+    const modalConfig = services.modalController.create.mock.calls[0][0];
+
+    expect(modalConfig.componentProps.groups.map((group: any) => group.label)).toEqual([
+      'Client One',
+      'Villages of Utah'
+    ]);
+    expect(modalConfig.componentProps.groups[1].items.map((item: any) => item.label)).toEqual(['Salt Lake']);
   });
 
   it('applies the selected facility only after the modal confirms', async () => {
@@ -254,6 +310,66 @@ describe('PatientFormComponent (Jest)', () => {
 
     expect(comp.patientForm.get('patient.operation')!.value).toBe('op-1');
     expect(comp.selectedOperationName).toBe('Facility One');
+  });
+
+  it('keeps the currently selected archived facility visible in edit mode', async () => {
+    const patient = {
+      patientId: 'p-edit',
+      patientOperationId: 'op-archived',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'John',
+      patientLastName: 'Doe',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: JSON.stringify({
+        cardiacBoolean: true,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      }),
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1'
+    } as any;
+    const user = {
+      operations: [
+        { operationId: 'op-active', operationName: 'Facility One', operationGroupId: 'og-1', operationActive: 1 },
+        {
+          operationId: 'op-archived',
+          operationName: 'Archived Facility',
+          operationGroupId: 'og-2',
+          operationActive: 0
+        }
+      ],
+      operationGroups: [
+        { operationGroupId: 'og-1', operationGroupName: 'Client One', operationGroupActive: 1 },
+        { operationGroupId: 'og-2', operationGroupName: 'Archived Client', operationGroupActive: 0 }
+      ]
+    } as any;
+    const route = { snapshot: { data: { mode: 'edit', user, patient } } } as any;
+    const services = makeServices({
+      patientService: {
+        getPatientDischargeLabels: jest.fn(() => of([])),
+        getPatientByPatientId: jest.fn(() => of([patient])),
+        addNewPatient: jest.fn()
+      } as any
+    });
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService,
+      services.modalController
+    );
+
+    comp.ngOnInit();
+    await Promise.resolve();
+
+    expect(comp.selectedOperationName).toBe('Archived Facility');
+    expect(comp.groupedOperations.map(group => group.label)).toEqual(['Client One', 'Archived Client']);
   });
 
   it('initializes edit mode and sets patient data', async () => {

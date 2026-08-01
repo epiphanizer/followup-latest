@@ -24,6 +24,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '@app/modules/notification/notification.service';
 import { Notification } from '@app/modules/notification/notification';
 import { UserService } from '@app/modules/user/user.service';
+import { PatientStatusService } from '../patient-status.service';
 
 @Component({
   providers: [PatientCallService, PatientCallNotesService],
@@ -36,6 +37,7 @@ export class PatientDetailComponent implements OnInit {
   user: User;
   patient: Patient = null;
   operation: Operation;
+  followupReadOnly: boolean = false;
   patientCall: PatientCall;
   patientCall$: Observable<PatientCall>;
   patientCallNotes: PatientCallNotes;
@@ -51,12 +53,30 @@ export class PatientDetailComponent implements OnInit {
   };
   patientNextCallQuestions: PatientCallQuestion[];
 
+  get isFollowupLocked(): boolean {
+    return (
+      this.followupReadOnly ||
+      this.isPatientInactive(this.patient) ||
+      this.isPatientCompleted(this.patient) ||
+      this.isPatientOutsideFollowupWorkflow(this.patient)
+    );
+  }
+
+  get followupLockMessage(): string {
+    if (this.followupReadOnly) {
+      return 'This is the patient history view. Follow-up actions are unavailable here, but notifications are still available.';
+    }
+
+    return 'Follow-up is unavailable for this patient in the current status, but notifications are still available.';
+  }
+
   constructor(
     private userService: UserService,
     private patientCallService: PatientCallService,
     private notificationService: NotificationService,
     private patientCallNotesService: PatientCallNotesService,
     private patientCallQuestionsService: PatientCallQuestionsService,
+    private patientStatusService: PatientStatusService,
     private route: ActivatedRoute,
     private toastrService: ToastrService
   ) {}
@@ -64,6 +84,17 @@ export class PatientDetailComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user;
     this.patient = this.route.snapshot.data.patient;
+    this.followupReadOnly = !!this.route.snapshot.data.followupReadOnly;
+
+    if (!this.isFollowupLocked) {
+      this.patientStatusService
+        .getPatientStatusLabels()
+        .pipe(take(1))
+        .subscribe({
+          error: () => undefined
+        });
+    }
+
     this.patientCall$ = this.patientCallService
       .getPatientCallByPatientCallId(this.patient.patientId, this.patient.nextPatientCallId)
       .pipe(
@@ -109,12 +140,15 @@ export class PatientDetailComponent implements OnInit {
   }
 
   patientCallStartEventHandler(userId: string) {
+    if (this.isFollowupLocked) {
+      return;
+    }
+
     this.patientCallService
       .startPatientCallByUserIdAndPatientCallId(userId, this.patientCall.patientCallId)
       .pipe(
         catchError((err, obs) => {
           if (err.status == 400) {
-            console.log(err);
             alert('It looks like this call has already finished!');
           }
           var unstick = confirm('Unstick patient?');
@@ -123,7 +157,6 @@ export class PatientDetailComponent implements OnInit {
 
             var dateArray = newDate.split('-');
             var isoString = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] + 'T12:00:00.000Z';
-            console.log(isoString);
             this.patientCallService
               .addNewPatientCallByPatientId(this.patientCall.patientId, isoString)
               .subscribe(res => {
@@ -143,6 +176,10 @@ export class PatientDetailComponent implements OnInit {
   }
 
   patientCallEndEventHandler($event: PatientCall) {
+    if (this.isFollowupLocked) {
+      return;
+    }
+
     this.patientCall = $event;
     if (this.patientCall.patientCallStatusLabel == 'Started') {
       alert('Please select a call status');
@@ -157,6 +194,10 @@ export class PatientDetailComponent implements OnInit {
   }
 
   patientCallStatusLabelChangeHandler($event: string) {
+    if (this.isFollowupLocked) {
+      return;
+    }
+
     if (
       this.patientCall.patientCallStatusLabel == 'New Discharge' ||
       this.patientCall.patientCallStatusLabel == 'Scheduled'
@@ -170,6 +211,10 @@ export class PatientDetailComponent implements OnInit {
   }
 
   patientFinalCallChangeHandler($event: boolean) {
+    if (this.isFollowupLocked) {
+      return;
+    }
+
     if ($event == true) {
       this.patientCall.finalCall = true;
     } else {
@@ -178,6 +223,10 @@ export class PatientDetailComponent implements OnInit {
   }
 
   patientNextCallDateSelectedEventHandler($event: string) {
+    if (this.isFollowupLocked) {
+      return;
+    }
+
     let selectedDate = $event;
     let newDate = formatDate(selectedDate, 'MM-dd-yyyy', 'en-US');
     this.patientNextCall.date = newDate;
@@ -193,7 +242,6 @@ export class PatientDetailComponent implements OnInit {
 
   patientCallQuestionsChangeHandler($event: Array<Record<string, string | number>>) {
     this.patientCallQuestionAnswers = $event;
-    console.log(this.patientCallQuestionAnswers);
   }
 
   private isPatientCallQuestionAnswer(answer: unknown): answer is PatientCallQuestionAnswer {
@@ -206,6 +254,10 @@ export class PatientDetailComponent implements OnInit {
   }
 
   patientCallFinishEventHandler($event: PatientCall) {
+    if (this.isFollowupLocked) {
+      return;
+    }
+
     this.patientCall = $event;
 
     if (!this.patientNextCall.date && !this.patientCall.finalCall) {
@@ -264,8 +316,7 @@ export class PatientDetailComponent implements OnInit {
 
             if (observables.length > 0) {
               forkJoin(observables).subscribe({
-                next: responses => {
-                  console.log('All patient call question answers have been submitted successfully:', responses);
+                next: () => {
                   // Continue with the rest of the flow after submitting the answers
                   this.finalizeCallAndNavigate();
                 },
@@ -332,6 +383,28 @@ export class PatientDetailComponent implements OnInit {
 
   private reloadPage(): void {
     window.location.reload();
+  }
+
+  private isPatientCompleted(patient: Patient | null): boolean {
+    return Boolean(patient?.patientGraduated);
+  }
+
+  private isPatientOutsideFollowupWorkflow(patient: Patient | null): boolean {
+    const statusLabel = patient?.patientStatusLabel?.trim() || patient?.patientCurrentStatusLabel?.trim();
+
+    if (!statusLabel) {
+      return false;
+    }
+
+    return statusLabel.toLowerCase() !== 'in progress';
+  }
+
+  private isPatientInactive(patient: Patient | null): boolean {
+    if (typeof patient?.patientActive === 'undefined' || patient?.patientActive === null) {
+      return false;
+    }
+
+    return Number(patient.patientActive) !== 1;
   }
 
   ngOnDestroy() {}

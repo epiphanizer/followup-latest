@@ -20,6 +20,7 @@ const notificationServiceStub = {
       }
     ])
   ),
+  getNotificationRepliesByNotificationId: jest.fn(() => of([])),
   updateNotificationStatus: jest.fn((notificationId: string, statusLabelId: string) =>
     of({
       notificationId,
@@ -35,6 +36,8 @@ describe('NotificationPatientListingComponent (Jest)', () => {
 
   beforeEach(async () => {
     notificationServiceStub.getNotificationsByOperationId.mockClear();
+    notificationServiceStub.getNotificationRepliesByNotificationId.mockClear();
+    notificationServiceStub.getNotificationRepliesByNotificationId.mockImplementation(() => of([]));
     notificationServiceStub.updateNotificationStatus.mockClear();
 
     await TestBed.configureTestingModule({
@@ -53,6 +56,7 @@ describe('NotificationPatientListingComponent (Jest)', () => {
     expect(component).toBeTruthy();
     expect(component.notificationsFiltered?.length).toBe(1);
     expect(component.statusOptions).toEqual([{ id: 'status-new', label: 'New' }]);
+    expect(notificationServiceStub.getNotificationRepliesByNotificationId).toHaveBeenCalledWith('n1');
   });
 
   it('sorts notifications by date and toggles direction', () => {
@@ -175,7 +179,7 @@ describe('NotificationPatientListingComponent (Jest)', () => {
     expect(notificationServiceStub.updateNotificationStatus).not.toHaveBeenCalled();
   });
 
-  it('shows replied when a notification has attached replies even without replyCount', () => {
+  it('shows resolved when an unresolved notification has attached replies even without replyCount', () => {
     const notification = {
       notificationId: 'n1',
       notificationStatusLabelId: 'status-unresolved',
@@ -184,10 +188,10 @@ describe('NotificationPatientListingComponent (Jest)', () => {
     } as any;
 
     expect(component.getReplyCount(notification)).toBe(1);
-    expect(component.getDisplayStatus(notification)).toBe('Replied');
+    expect(component.getDisplayStatus(notification)).toBe('Resolved');
   });
 
-  it('treats string replyCount values as replied status', () => {
+  it('treats string replyCount values as resolved status when the notification is unresolved', () => {
     const notification = {
       notificationId: 'n2',
       notificationStatusLabelId: 'status-unresolved',
@@ -196,6 +200,17 @@ describe('NotificationPatientListingComponent (Jest)', () => {
     } as any;
 
     expect(component.getReplyCount(notification)).toBe(2);
-    expect(component.getDisplayStatus(notification)).toBe('Replied');
+    expect(component.getDisplayStatus(notification)).toBe('Resolved');
+  });
+
+  it('keeps an explicit non-unresolved status label even when replies exist', () => {
+    const notification = {
+      notificationId: 'n3',
+      notificationStatusLabelId: 'status-resolved',
+      notificationStatusLabel: 'Resolved',
+      notificationReplies: [{ notificationReplyId: 'r1' }]
+    } as any;
+
+    expect(component.getDisplayStatus(notification)).toBe('Resolved');
   });
 });

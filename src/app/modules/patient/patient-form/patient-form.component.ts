@@ -96,6 +96,9 @@ export class PatientFormComponent implements OnInit {
   operations$: Observable<Operation[]>;
   stringMinimumOneWordRegEx = RegExp(/^(?!\s*$).+/);
   private readonly phoneNumberRegEx = RegExp(/^[0-9-]{7,}$/);
+  private readonly facilityLabelOverrides: Record<string, string> = {
+    'MONUMENT SOUTH SALT LAKE': 'Salt Lake'
+  };
 
   user: User;
 
@@ -113,12 +116,6 @@ export class PatientFormComponent implements OnInit {
   ngOnInit() {
     this.currentYear = new Date().getFullYear();
     this.user = this.route.snapshot.data.user;
-    this.operations = Array.isArray(this.user?.operations) ? this.user.operations : [];
-    this.groupedOperations = this.buildGroupedOperations(this.operations, this.user?.operationGroups);
-    this.patientService.getPatientDischargeLabels().subscribe((data: any) => {
-      this.dischargeLabels = data;
-      this.dischargedTo = data;
-    });
 
     if (this.route.snapshot.data.mode == 'edit') {
       this.mode.edit = true;
@@ -126,6 +123,19 @@ export class PatientFormComponent implements OnInit {
     } else if (this.route.snapshot.data.mode == 'add') {
       this.mode.add = true;
     }
+
+    this.operations = this.getVisibleOperations(
+      Array.isArray(this.user?.operations) ? this.user.operations : [],
+      this.user?.operationGroups,
+      this.route.snapshot.data.patient?.patientOperationId || this.patient?.patientOperationId
+    );
+    this.groupedOperations = this.buildGroupedOperations(this.operations, this.user?.operationGroups);
+
+    this.patientService.getPatientDischargeLabels().subscribe((data: any) => {
+      this.dischargeLabels = data;
+      this.dischargedTo = data;
+    });
+
     if (this.mode.add) {
       /**
        * Creating a shell of the patient object within the database first
@@ -272,6 +282,38 @@ export class PatientFormComponent implements OnInit {
             });
         });
     }
+  }
+
+  private getVisibleOperations(
+    operations: Operation[],
+    operationGroups: OperationGroup[],
+    selectedOperationId?: string
+  ): Operation[] {
+    const activeOperationGroupIds = new Set(
+      (Array.isArray(operationGroups) ? operationGroups : [])
+        .filter((operationGroup: OperationGroup) => Number(operationGroup?.operationGroupActive) !== 0)
+        .map((operationGroup: OperationGroup) => String(operationGroup?.operationGroupId))
+    );
+
+    return (Array.isArray(operations) ? operations : []).filter((operation: Operation) => {
+      if (!operation?.operationId) {
+        return false;
+      }
+
+      if (selectedOperationId && operation.operationId === selectedOperationId) {
+        return true;
+      }
+
+      if (Number(operation?.operationActive) === 0) {
+        return false;
+      }
+
+      if (!operation?.operationGroupId || !activeOperationGroupIds.size) {
+        return true;
+      }
+
+      return activeOperationGroupIds.has(String(operation.operationGroupId));
+    });
   }
 
   private buildGroupedOperations(
@@ -425,14 +467,16 @@ export class PatientFormComponent implements OnInit {
       return '';
     }
 
-    if (/[a-z]/.test(normalizedValue)) {
-      return normalizedValue;
-    }
+    const formattedValue = /[a-z]/.test(normalizedValue)
+      ? normalizedValue
+      : normalizedValue
+          .split(/(\s+|-|\/)/)
+          .map((segment: string) => this.formatFacilitySegment(segment))
+          .join('');
 
-    return normalizedValue
-      .split(/(\s+|-|\/)/)
-      .map((segment: string) => this.formatFacilitySegment(segment))
-      .join('');
+    const overriddenValue = this.facilityLabelOverrides[formattedValue.toUpperCase()] || formattedValue;
+
+    return overriddenValue.replace(/\bOf\b/g, 'of');
   }
 
   private formatFacilitySegment(segment: string): string {

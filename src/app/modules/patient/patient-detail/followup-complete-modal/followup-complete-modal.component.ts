@@ -25,6 +25,13 @@ export class FollowupCompleteModalComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+    this.loadCompletionTypes();
+  }
+
+  loadCompletionTypes() {
+    this.completionTypesLoading = true;
+    this.completionTypesError = null;
+
     this.patientStatusService
       .getPatientStatusLabels()
       .pipe(

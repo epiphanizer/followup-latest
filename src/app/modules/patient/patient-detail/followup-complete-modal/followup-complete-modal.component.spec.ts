@@ -37,6 +37,17 @@ describe('FollowupCompleteModalComponent', () => {
   );
 
   beforeEach(() => {
+    patientStatusServiceStub.getPatientStatusLabels.mockReset();
+    patientStatusServiceStub.getPatientStatusLabels.mockImplementation(() =>
+      of([
+        { patientStatusLabelId: '1', patientStatusLabel: 'Completed' },
+        { patientStatusLabelId: '2', patientStatusLabel: 'Hospice' }
+      ])
+    );
+    patientStatusServiceStub.addPatientStatusByPatientId.mockReset();
+    patientStatusServiceStub.addPatientStatusByPatientId.mockReturnValue(of({ saved: true }));
+    modalControllerStub.dismiss.mockReset();
+
     fixture = TestBed.createComponent(FollowupCompleteModalComponent);
     component = fixture.componentInstance;
     component.patient = { patientId: 'p1' } as any;
@@ -91,6 +102,28 @@ describe('FollowupCompleteModalComponent', () => {
     expect(errorComponent.completionTypesLoading).toBe(false);
     expect(errorComponent.completionTypes).toEqual([]);
     expect(errorComponent.completionTypesError).toBe('Unable to load completion options.');
+  });
+
+  it('retries loading completion options after a failure', () => {
+    patientStatusServiceStub.getPatientStatusLabels
+      .mockReturnValueOnce(throwError(() => new Error('boom')))
+      .mockReturnValueOnce(of([{ patientStatusLabelId: '1', patientStatusLabel: 'Completed' }]));
+
+    const retryFixture = TestBed.createComponent(FollowupCompleteModalComponent);
+    const retryComponent = retryFixture.componentInstance;
+    retryComponent.patient = { patientId: 'p3' } as any;
+
+    retryFixture.detectChanges();
+
+    expect(retryComponent.completionTypesError).toBe('Unable to load completion options.');
+
+    retryComponent.loadCompletionTypes();
+
+    expect(retryComponent.completionTypesLoading).toBe(false);
+    expect(retryComponent.completionTypesError).toBeNull();
+    expect(retryComponent.completionTypes).toEqual([
+      { patientStatusLabelId: '1', patientStatusLabel: 'Completed' }
+    ]);
   });
 
   it('prefers rendered options over the loading state once completion types exist', () => {

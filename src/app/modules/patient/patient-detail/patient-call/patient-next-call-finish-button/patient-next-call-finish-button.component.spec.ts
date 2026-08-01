@@ -23,4 +23,14 @@ describe('PatientNextCallFinishButtonComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('does not emit finalize when disabled', () => {
+    component.disabled = true;
+    component.patientCall = { patientCallId: 'pc1' } as any;
+    const emitSpy = jest.spyOn(component.patientCallFinalizeEventEmitter, 'emit');
+
+    component.finalizePatientCall(component.patientCall);
+
+    expect(emitSpy).not.toHaveBeenCalled();
+  });
 });

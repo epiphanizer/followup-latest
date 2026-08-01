@@ -13,11 +13,16 @@ import { PatientCall } from '../patient-call/patient-call.service';
 export class FollowupCompleteButtonComponent implements OnInit {
   @Input() patient: Patient;
   @Input() patientCall: PatientCall;
+  @Input() disabled: boolean = false;
   @Output() patientCallFinalizeEventEmitter = new EventEmitter<PatientCall>();
   constructor(private modalCtrl: ModalController) {}
 
   ngOnInit() {}
   async createFollowupCompleteModal(patient: Patient) {
+    if (this.disabled) {
+      return;
+    }
+
     const modal = await this.modalCtrl.create({
       component: FollowupCompleteModalComponent,
       cssClass: 'followup-modal',

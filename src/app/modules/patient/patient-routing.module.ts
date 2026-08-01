@@ -12,7 +12,7 @@ import { PatientListingComponent } from './patient-listing/patient-listing.compo
 import { AuthGuardService } from '@app/core/authentication/auth-guard.service';
 import { UserRoles } from '../user/user';
 
-const routes: Routes = [
+export const patientRoutes: Routes = [
   Shell.childRoutes([
     {
       path: 'operations/:operationId/patients',
@@ -35,6 +35,19 @@ const routes: Routes = [
       data: {
         mode: 'spanish',
         title: extract('Patient Listing')
+      }
+    },
+    {
+      path: 'call-queue/operations/:operationId/patient/:patientId/history',
+      pathMatch: 'full',
+      component: PatientDetailComponent,
+      resolve: {
+        user: UserResolver,
+        patient: PatientResolver
+      },
+      data: {
+        followupReadOnly: true,
+        title: extract('Patient History')
       }
     },
     {
@@ -93,7 +106,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(patientRoutes)],
   exports: [RouterModule],
   providers: [UserResolver, PatientResolver]
 })

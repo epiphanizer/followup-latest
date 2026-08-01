@@ -11,11 +11,16 @@ import { Patient } from '@app/modules/patient/patient';
 export class PatientNextCallFinishButtonComponent implements OnInit {
   @Input() patient: Patient;
   @Input() patientCall: PatientCall;
+  @Input() disabled: boolean = false;
   @Output() patientCallFinalizeEventEmitter = new EventEmitter<PatientCall>();
 
   ngOnInit() {}
 
   finalizePatientCall(patientCall: PatientCall) {
+    if (this.disabled) {
+      return;
+    }
+
     this.patientCallFinalizeEventEmitter.emit(patientCall);
   }
 }

@@ -40,6 +40,21 @@ export class NotificationDetailComponent implements OnInit {
     private authService: AuthenticationService
   ) {}
 
+  get currentUserId(): string {
+    return this.authService.currentUserValue?.userId || '';
+  }
+
+  get replyOperation(): Operation | null {
+    if (!this.notification?.notificationOperationId) {
+      return null;
+    }
+
+    return {
+      operationId: this.notification.notificationOperationId,
+      operationGroupName: this.notification.notificationOperationName || this.patient?.patientOperationName || ''
+    } as Operation;
+  }
+
   ngOnInit() {
     this.notification = this.route.snapshot.data.notification;
     this.notification.notificationMessage = this.sharedFunctions.returnHTML(this.notification.notificationMessage);
@@ -51,6 +66,24 @@ export class NotificationDetailComponent implements OnInit {
         this.patient = patientRecord;
       });
     // Load replies for this notification
+    this.loadNotificationReplies();
+  }
+
+  openReplyModal() {
+    if (!this.notification?.notificationId || !this.patient?.patientId || !this.currentUserId) {
+      return;
+    }
+
+    this.isReplyModalOpen = true;
+  }
+
+  closeReplyModal() {
+    this.isReplyModalOpen = false;
+  }
+
+  onReplySubmitted() {
+    this.isReplyModalOpen = false;
+    this.toastr.success('Reply submitted successfully');
     this.loadNotificationReplies();
   }
 
@@ -83,16 +116,15 @@ export class NotificationDetailComponent implements OnInit {
       return;
     }
 
-    const currentUser = this.authService.currentUserValue;
     const notificationId = this.notification.notificationId;
     const replyTextControl = this.replyForm.get('replyText');
 
-    if (!notificationId || !replyTextControl) {
+    if (!notificationId || !replyTextControl || !this.currentUserId) {
       return;
     }
 
     const replyBody = {
-      userId: currentUser.userId,
+      userId: this.currentUserId,
       replyText: replyTextControl.value
     };
 

@@ -71,6 +71,31 @@ describe('PatientStatusService (Jest)', () => {
     });
   });
 
+  it('retries a fresh status-label request after an earlier failure', done => {
+    const http = {
+      get: jest
+        .fn()
+        .mockReturnValueOnce(throwError(() => new HttpErrorResponse({ status: 500, error: 'fail' })))
+        .mockReturnValueOnce(
+          of([{ patientStatusLabelId: 'lbl1', patientStatusLabel: 'Completed', patientStatusLabelActive: 1 }] as any)
+        )
+    } as any;
+    const svc = new PatientStatusService(http);
+
+    svc.getPatientStatusLabels().subscribe({
+      next: () => done.fail('expected initial error'),
+      error: () => {
+        svc.getPatientStatusLabels().subscribe((labels: any) => {
+          expect(labels).toEqual([
+            { patientStatusLabelId: 'lbl1', patientStatusLabel: 'Completed', patientStatusLabelActive: 1 }
+          ]);
+          expect(http.get).toHaveBeenCalledTimes(2);
+          done();
+        });
+      }
+    });
+  });
+
   it('gets status by patient id and statuses list', done => {
     const http = makeHttp();
     const svc = new PatientStatusService(http as any);

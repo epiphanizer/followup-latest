@@ -9,11 +9,16 @@ import { PatientCallService, PatientCall } from '../patient-call.service';
 })
 export class PatientCallStopButtonComponent implements OnInit {
   @Input() patientCall: PatientCall;
+  @Input() disabled: boolean = false;
   @Output() patientCallEndEventEmitter = new EventEmitter<PatientCall>();
   constructor(private patientCallService: PatientCallService) {}
 
   ngOnInit() {}
   stopPatientCall() {
+    if (this.disabled) {
+      return;
+    }
+
     this.patientCallService.endPatientCall(this.patientCall.patientCallId).subscribe((patientCall: PatientCall) => {
       this.patientCallEndEventEmitter.emit(patientCall);
     });

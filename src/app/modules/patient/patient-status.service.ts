@@ -1,5 +1,5 @@
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, retry, shareReplay } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, finalize, map, retry, shareReplay, tap, timeout } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -15,7 +15,8 @@ export interface PatientStatus {
   providedIn: 'root'
 })
 export class PatientStatusService {
-  private patientStatusLabels$?: Observable<PatientStatus[]>;
+  private patientStatusLabelsCache?: PatientStatus[];
+  private patientStatusLabelsRequest$?: Observable<PatientStatus[]>;
 
   constructor(private http: HttpClient) {}
 
@@ -48,8 +49,14 @@ export class PatientStatusService {
       );
   }
   getPatientStatusLabels(): Observable<PatientStatus[]> {
-    if (!this.patientStatusLabels$) {
-      this.patientStatusLabels$ = this.http.get<PatientStatus[]>('patients/statuses').pipe(
+    if (this.patientStatusLabelsCache) {
+      return of(this.patientStatusLabelsCache);
+    }
+
+    if (!this.patientStatusLabelsRequest$) {
+      this.patientStatusLabelsRequest$ = this.http.get<PatientStatus[]>('patients/statuses').pipe(
+        retry(3),
+        timeout(15000),
         map((labels: PatientStatus[]) => {
           return (labels || []).filter((label: PatientStatus) => {
             if (typeof label.patientStatusLabelActive === 'undefined') {
@@ -58,15 +65,21 @@ export class PatientStatusService {
             return Number(label.patientStatusLabelActive) === 1;
           });
         }),
+        tap((labels: PatientStatus[] | null) => {
+          this.patientStatusLabelsCache = labels || [];
+        }),
+        finalize(() => {
+          this.patientStatusLabelsRequest$ = undefined;
+        }),
         catchError(e => {
-          this.patientStatusLabels$ = undefined;
+          this.patientStatusLabelsCache = undefined;
           return this.handleAsyncError(e);
         }),
         shareReplay(1)
       );
     }
 
-    return this.patientStatusLabels$;
+    return this.patientStatusLabelsRequest$;
   }
   getPatientDischargeLabels(): any {
     return this.http.get('patients/discharge/labels').pipe(

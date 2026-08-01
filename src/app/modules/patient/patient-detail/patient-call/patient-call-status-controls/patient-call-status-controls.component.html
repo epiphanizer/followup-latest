@@ -2,6 +2,8 @@
   id="patientCallStatusControls"
   lines="none"
   class="patient-call-status-legend"
+  [class.disabled]="disabled"
+  [attr.aria-disabled]="disabled"
   [class.inactive]="patientCall.patientCallStatusLabel == 'Scheduled'"
 >
   <ion-item

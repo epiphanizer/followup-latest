@@ -1,5 +1,5 @@
 <ng-container *ngIf="patient">
-  <button class="primary button" (click)="createFollowupCompleteModal(patient)">
+  <button class="primary button" [disabled]="disabled" (click)="createFollowupCompleteModal(patient)">
     Complete
   </button>
 </ng-container>

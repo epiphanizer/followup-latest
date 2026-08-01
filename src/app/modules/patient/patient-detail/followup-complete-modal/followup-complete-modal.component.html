@@ -18,6 +18,9 @@
           <ng-template #completionOptionsState>
             <div *ngIf="completionTypesError; else completionOptions" class="completion-load-error" role="alert">
               <span>{{ completionTypesError }}</span>
+              <button class="secondary button completion-retry-button" type="button" (click)="loadCompletionTypes()">
+                Retry
+              </button>
             </div>
           </ng-template>
 

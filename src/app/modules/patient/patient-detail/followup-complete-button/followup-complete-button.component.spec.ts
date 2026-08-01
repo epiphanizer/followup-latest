@@ -16,4 +16,14 @@ describe('FollowupCompleteButtonComponent (Jest)', () => {
     expect(onDidDismiss).toHaveBeenCalled();
     expect(emitSpy).toHaveBeenCalledWith({ patientCallId: 'pc-1' });
   });
+
+  it('does not open the modal when disabled', async () => {
+    const modalCtrl = { create: jest.fn() } as any;
+    const comp = new FollowupCompleteButtonComponent(modalCtrl as any);
+    comp.disabled = true;
+
+    await comp.createFollowupCompleteModal({} as any);
+
+    expect(modalCtrl.create).not.toHaveBeenCalled();
+  });
 });

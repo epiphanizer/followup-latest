@@ -36,3 +36,20 @@ ion-row {
     padding-right: 2rem;
   }
 }
+
+.followup-lock-message {
+  margin-bottom: 14px;
+  padding: 12px 16px;
+  border: 1px solid rgba(36, 55, 70, 0.18);
+  border-radius: 10px;
+  background: rgba(36, 55, 70, 0.06);
+  font-family: AvenirPro, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #243746;
+}
+
+.followup-controls.locked {
+  opacity: 0.55;
+  pointer-events: none;
+}
