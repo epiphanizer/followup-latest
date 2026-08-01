@@ -51,7 +51,7 @@ describe('ShellComponent', () => {
               service: {
                 name: 'alpha-followup-api',
                 host: 'alpha-followup-api.azurewebsites.net',
-                version: '4.0.0_beta_rc1',
+                version: '4.0.0_beta_rc2',
                 environment: 'prod'
               },
               database: {
@@ -175,7 +175,7 @@ describe('ShellComponent', () => {
 
   it('filters and scopes the version change log to markdown-backed versions only', () => {
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual([
-      '4.0.0_beta_rc1',
+      '4.0.0_beta_rc2',
       '3.10.0-rc3',
       '3.12.0',
       '3.10.0'
@@ -185,7 +185,7 @@ describe('ShellComponent', () => {
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual(['3.10.0-rc3']);
 
     component.selectChangeLogVersion('3.10.0-rc3');
-    expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual(['4.0.0_beta_rc1', '3.10.0-rc3']);
+    expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual(['4.0.0_beta_rc2', '3.10.0-rc3']);
   });
 
   it('keeps a degraded status panel visible instead of auto-hiding', fakeAsync(() => {

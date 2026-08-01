@@ -110,6 +110,7 @@ ion-title {
   --border-radius: 4px;
   align-items: center;
   display: inline-flex;
+  column-gap: 8px;
   min-height: 28px;
   width: auto;
   min-width: max-content;
@@ -120,15 +121,18 @@ ion-title {
 }
 
 .status-checkbox::part(container) {
-  margin-inline-end: 8px;
+  margin-inline-end: 0;
   align-self: center;
+  flex: 0 0 auto;
 }
 
 .status-checkbox::part(label) {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  min-height: 18px;
+  padding-top: 1px;
   white-space: normal;
-  line-height: 1.35;
+  line-height: 18px;
   font-family: AvenirPro, sans-serif;
   font-size: 14px;
   font-weight: normal;

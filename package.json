@@ -1,6 +1,6 @@
 {
   "name": "followup-care",
-  "version": "4.0.0_beta_rc1",
+  "version": "4.0.0_beta_rc2",
   "private": true,
   "engines": {
     "node": "^18 || ^20 || ^24",
