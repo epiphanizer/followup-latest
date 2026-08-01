@@ -23,6 +23,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'The notifications route now receives reply counts and resolved/unresolved status in the main operation-list payload, eliminating one `/notification/{id}/replies` request per row.',
+        evidence:
+          'Recorded in the snapshot frontend and API running change logs after updating `src/app/modules/notification/notification-listing/notification-patient-listing.component.ts`, the focused listing/service specs, `deployment/service/NotificationService.js`, and `migration_sql/3.12.15migration-notification-operation-reply-counts.sql`. The notifications page had been rendering the main list and then calling `/notification/{id}/replies` once per row just to derive resolved badges and reply counts, which created noisy audit traffic and kept extra loader work alive after the page was already visible. The main operation notifications response now carries `replyCount` plus a derived `notificationStatusLabel`, and the frontend list now relies on that payload directly instead of hydrating every row through a secondary reply read. Validation used focused Jest on the frontend notification service and listing specs plus `npm run build -s` PASS.',
+        source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'API',
+        summary:
+          'The operation notifications list stored procedure is now reply-aware, returning `replyCount` and a derived resolved/unresolved label in one query.',
+        evidence:
+          'Recorded in the snapshot API running change log after adding `migration_sql/3.12.15migration-notification-operation-reply-counts.sql` and updating `deployment/service/NotificationService.js`. The legacy `sp_getNotificationsByNotificationOperationId` result set exposed only flat notification rows, so the frontend had no choice but to call the replies endpoint repeatedly to discover whether each row was effectively resolved. The replacement procedure left-joins `notificationReplies`, groups once per notification, returns `replyCount`, and derives `notificationStatusLabel` from `notificationResolved` plus reply presence so the operation listing can stay one-round-trip. Validation used alpha backup procedure inspection and `npm test --silent` PASS.',
+        source: 'v4.0.0/followup-api/agents.md'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'History routes and patients outside the active `In Progress` follow-up state now gate the right-hand follow-up workflow, so users can still view history and leave notifications without reopening follow-up actions such as Start Follow-Up.',
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-detail/patient-detail.component.ts`, `.html`, `.scss`, the right-side follow-up control components under `src/app/modules/patient/patient-detail/patient-call`, `src/app/modules/patient/patient-detail/followup-complete-button/followup-complete-button.component.ts`, and the focused Jest specs for that slice. Completed patients had still been able to interact with the right-hand follow-up workflow after opening Patient Detail or the history view, and direct URL access could still reopen follow-up when a patient status was no longer `In Progress`. The detail view now treats history routes, non-`In Progress` statuses, completed (`patientGraduated`), or inactive patients as follow-up locked, shows an explanatory notice, visually deactivates the right-hand control area, disables the start/save/complete buttons plus status controls, and adds defensive no-op guards in the action handlers so notifications can still be left elsewhere without reopening follow-up on the patient. Validation used focused Jest on the patient-detail, start-button, status-controls, stop-button, next-call-finish-button, and followup-complete-button specs (`23/23` tests passing), plus the direct-route non-`In Progress` patient-detail spec (`16/16` tests passing), plus clean editor diagnostics on the touched files.',

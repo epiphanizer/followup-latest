@@ -56,7 +56,7 @@ describe('NotificationPatientListingComponent (Jest)', () => {
     expect(component).toBeTruthy();
     expect(component.notificationsFiltered?.length).toBe(1);
     expect(component.statusOptions).toEqual([{ id: 'status-new', label: 'New' }]);
-    expect(notificationServiceStub.getNotificationRepliesByNotificationId).toHaveBeenCalledWith('n1');
+    expect(notificationServiceStub.getNotificationRepliesByNotificationId).not.toHaveBeenCalled();
   });
 
   it('sorts notifications by date and toggles direction', () => {

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpContextToken, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoaderService } from '../loader/loader.service';
+
+export const SKIP_GLOBAL_LOADER = new HttpContextToken<boolean>(() => false);
 
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
@@ -25,7 +27,15 @@ export class LoaderInterceptor implements HttpInterceptor {
     );
   }
 
+  private shouldSkipLoader(req: HttpRequest<any>): boolean {
+    return req.context.get(SKIP_GLOBAL_LOADER);
+  }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (this.shouldSkipLoader(req)) {
+      return next.handle(req);
+    }
+
     this.requests.push(req);
     this.loaderService.isLoading.next(true);
     return Observable.create((observer: any) => {

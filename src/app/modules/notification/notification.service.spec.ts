@@ -1,6 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { NotificationService } from './notification.service';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 describe('NotificationService (Jest)', () => {
   let service: NotificationService;
@@ -163,6 +164,16 @@ describe('NotificationService (Jest)', () => {
 
     const req = httpMock.expectOne('notification/n5/replies');
     expect(req.request.method).toBe('GET');
+    req.flush([{ notificationReplyId: 'r2' }]);
+  });
+
+  it('can fetch notification replies without triggering the global loader', () => {
+    service.getNotificationRepliesByNotificationId('n5', true).subscribe(resp => {
+      expect(resp).toEqual([{ notificationReplyId: 'r2' }] as any);
+    });
+
+    const req = httpMock.expectOne('notification/n5/replies');
+    expect(req.request.context.get(SKIP_GLOBAL_LOADER)).toBe(true);
     req.flush([{ notificationReplyId: 'r2' }]);
   });
 

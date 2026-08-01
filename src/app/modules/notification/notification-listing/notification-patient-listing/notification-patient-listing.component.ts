@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Operation } from '@app/modules/operation/operation';
 import { take } from 'rxjs/operators';
 import { NotificationService } from '../../notification.service';
-import { Notification, NotificationReply } from '../../notification';
+import { Notification } from '../../notification';
 
 @Component({
   selector: 'app-notification-patient-listing',
@@ -278,30 +278,5 @@ export class NotificationPatientListingComponent implements OnInit {
     this.notificationsFiltered = this.notifications;
     this.rebuildStatusOptions(this.notifications);
     this.runSortSwitch();
-    this.loadNotificationReplies(this.notifications);
-  }
-
-  private loadNotificationReplies(notifications: Notification[] = []): void {
-    notifications.forEach((notification: Notification) => {
-      if (!notification?.notificationId) {
-        return;
-      }
-
-      this.notificationService
-        .getNotificationRepliesByNotificationId(notification.notificationId)
-        .pipe(take(1))
-        .subscribe(
-          (replies: NotificationReply[]) => {
-            notification.notificationReplies = Array.isArray(replies) ? replies : [];
-
-            if (this.getReplyCount(notification) > 0 || this.selectedSortOption === 'Status') {
-              this.runSortSwitch();
-            }
-          },
-          () => {
-            notification.notificationReplies = [];
-          }
-        );
-    });
   }
 }

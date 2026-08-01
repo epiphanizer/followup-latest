@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { retry, catchError, finalize, map, shareReplay, tap, timeout } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpErrorResponse } from '@angular/common/http';
 import {
   Notification,
   NotificationType,
@@ -10,6 +10,7 @@ import {
   NotificationReply,
   NotificationStatusUpdateBody
 } from './notification';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 @Injectable({
   providedIn: 'root'
@@ -98,8 +99,15 @@ export class NotificationService {
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }
-  getNotificationRepliesByNotificationId(notificationId: string): Observable<NotificationReply[]> {
-    return this.http.get<any>('notification/' + notificationId + '/replies').pipe(
+  getNotificationRepliesByNotificationId(
+    notificationId: string,
+    skipGlobalLoader: boolean = false
+  ): Observable<NotificationReply[]> {
+    const requestOptions = skipGlobalLoader
+      ? { context: new HttpContext().set(SKIP_GLOBAL_LOADER, true) }
+      : {};
+
+    return this.http.get<any>('notification/' + notificationId + '/replies', requestOptions).pipe(
       map(response => this.normalizeReplyCollection(response)),
       retry(3),
       catchError(e => this.handleAsyncError(e))
