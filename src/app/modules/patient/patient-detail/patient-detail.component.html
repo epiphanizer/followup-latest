@@ -81,7 +81,7 @@
               patientCall.patientCallStatusLabel == 'Started' ||
               patientCall.patientCallStatusLabel == 'User Selected Status'
             "
-            (patientCallEndEventEmitter)="patientCallEndEventHandler(patientCall)"
+            (patientCallEndEventEmitter)="patientCallEndEventHandler($event)"
           >
           </app-patient-call-stop-button>
           <ng-container *ngIf="patientCall.patientCallStatusLabel == 'In Review' && !patientCall.finalCall">

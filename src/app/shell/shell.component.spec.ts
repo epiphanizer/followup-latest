@@ -180,12 +180,29 @@ describe('ShellComponent', () => {
       '3.12.0',
       '3.10.0'
     ]);
+    expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
+      '4.0.0_beta_rc2',
+      '3.10.0-rc3',
+      '3.12.0',
+      '3.10.0'
+    ]);
+    expect(component.changeLogSummary).toBe('Showing all 4 recorded releases.');
 
     component.changeLogVersionQuery = 'rc3';
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual(['3.10.0-rc3']);
 
     component.selectChangeLogVersion('3.10.0-rc3');
-    expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual(['4.0.0_beta_rc2', '3.10.0-rc3']);
+    expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual(['3.10.0-rc3']);
+    expect(component.changeLogSummary).toBe('Showing 1 recorded release for v3.10.0-rc3.');
+
+    component.selectChangeLogVersion('3.10.0-rc3');
+    expect(component.selectedChangeLogVersion).toBe('');
+    expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
+      '4.0.0_beta_rc2',
+      '3.10.0-rc3',
+      '3.12.0',
+      '3.10.0'
+    ]);
   });
 
   it('keeps a degraded status panel visible instead of auto-hiding', fakeAsync(() => {

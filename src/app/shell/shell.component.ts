@@ -110,9 +110,7 @@ export class ShellComponent {
   serviceStatusPanelVisible: boolean = false;
   serviceStatusPosition: ServiceStatusPanelPosition = null;
   readonly serviceHealthChangeLog: ServiceHealthChangeLogRelease[] = SERVICE_HEALTH_CHANGE_LOG;
-  selectedChangeLogVersion: string = SERVICE_HEALTH_CHANGE_LOG.length
-    ? SERVICE_HEALTH_CHANGE_LOG[SERVICE_HEALTH_CHANGE_LOG.length - 1].version
-    : '';
+  selectedChangeLogVersion: string = '';
   changeLogVersionQuery: string = '';
   changeLogExpanded: boolean = false;
   private serviceStatusAutoHideTimeout: ReturnType<typeof setTimeout>;
@@ -308,7 +306,7 @@ export class ShellComponent {
   }
 
   selectChangeLogVersion(version: string) {
-    this.selectedChangeLogVersion = version;
+    this.selectedChangeLogVersion = this.selectedChangeLogVersion === version ? '' : version;
     this.openServiceStatusPanel(true);
   }
 
@@ -329,25 +327,27 @@ export class ShellComponent {
   }
 
   get visibleChangeLogReleases(): ServiceHealthChangeLogRelease[] {
-    const selectedIndex = this.serviceHealthChangeLog.findIndex(
-      release => release.version === this.selectedChangeLogVersion
-    );
-
-    if (selectedIndex < 0) {
+    if (!this.selectedChangeLogVersion) {
       return this.serviceHealthChangeLog;
     }
 
-    return this.serviceHealthChangeLog.slice(0, selectedIndex + 1);
+    return this.serviceHealthChangeLog.filter(release => release.version === this.selectedChangeLogVersion);
   }
 
   get changeLogSummary(): string {
     if (!this.selectedChangeLogVersion) {
-      return 'Choose a known version';
+      return 'Showing all ' + this.serviceHealthChangeLog.length + ' recorded releases.';
     }
 
     const releaseCount = this.visibleChangeLogReleases.length;
     return (
-      releaseCount + ' recorded release' + (releaseCount === 1 ? '' : 's') + ' since v' + this.selectedChangeLogVersion
+      'Showing ' +
+      releaseCount +
+      ' recorded release' +
+      (releaseCount === 1 ? '' : 's') +
+      ' for v' +
+      this.selectedChangeLogVersion +
+      '.'
     );
   }
   signOut() {

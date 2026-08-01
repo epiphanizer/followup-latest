@@ -191,12 +191,17 @@ export class PatientDetailComponent implements OnInit {
       return;
     }
 
-    this.patientCallService.endPatientCall(this.patientCall.patientCallId);
-    /**
-     * Change the label, but not the ID.
-     */
-    this.patientCall.patientCallStatusLabel = 'In Review';
-    this.scrollReviewPaneToTop();
+    this.patientCallService.endPatientCall(this.patientCall.patientCallId).subscribe((patientCall: PatientCall) => {
+      this.patientCall = {
+        ...this.patientCall,
+        ...patientCall
+      };
+      /**
+       * Change the label, but not the ID.
+       */
+      this.patientCall.patientCallStatusLabel = 'In Review';
+      this.scrollReviewPaneToTop();
+    });
   }
 
   patientCallStatusLabelChangeHandler($event: string) {

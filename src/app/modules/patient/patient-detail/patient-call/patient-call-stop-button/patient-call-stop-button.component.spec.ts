@@ -1,21 +1,15 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
 
 import { PatientCallStopButtonComponent } from './patient-call-stop-button.component';
-import { PatientCallService } from '../patient-call.service';
 
 describe('PatientCallStopButtonComponent', () => {
   let component: PatientCallStopButtonComponent;
   let fixture: ComponentFixture<PatientCallStopButtonComponent>;
-  const patientCallServiceMock = {
-    endPatientCall: jest.fn(() => of({ patientCallId: 'pc1' }))
-  };
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [PatientCallStopButtonComponent],
-        providers: [{ provide: PatientCallService, useValue: patientCallServiceMock }]
+        declarations: [PatientCallStopButtonComponent]
       }).compileComponents();
     })
   );
@@ -38,7 +32,14 @@ describe('PatientCallStopButtonComponent', () => {
 
     component.stopPatientCall();
 
-    expect(patientCallServiceMock.endPatientCall).not.toHaveBeenCalled();
     expect(emitSpy).not.toHaveBeenCalled();
+  });
+
+  it('emits the current patient call when enabled', () => {
+    const emitSpy = jest.spyOn(component.patientCallEndEventEmitter, 'emit');
+
+    component.stopPatientCall();
+
+    expect(emitSpy).toHaveBeenCalledWith(component.patientCall);
   });
 });
