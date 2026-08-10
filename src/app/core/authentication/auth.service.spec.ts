@@ -112,6 +112,32 @@ describe('AuthenticationService', () => {
     );
   });
 
+  it('surfaces backend object messages from login failures and logs the payload clearly', async () => {
+    const { service, http } = build();
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    http.post.mockReturnValue(
+      throwError(
+        new HttpErrorResponse({
+          status: 401,
+          error: { message: 'Incorrect username or password.' }
+        })
+      )
+    );
+
+    try {
+      await expect(firstValueFrom(service.doLogin('bad', 'creds'))).rejects.toMatchObject(
+        expect.objectContaining({ status: 401, message: 'Incorrect username or password.' })
+      );
+
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Backend returned code 401, body was: {"message":"Incorrect username or password."}'
+      );
+    } finally {
+      consoleErrorSpy.mockRestore();
+    }
+  });
+
   it('surfaces duplicate-account selection payloads from login', async () => {
     const { service, http } = build();
     http.post.mockReturnValue(
