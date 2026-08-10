@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
 import { catchError, retry } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { OperationContact } from './operation-contact/operation-contact';
 
@@ -66,10 +66,14 @@ export class OperationContactsService {
     );
   }
   public getOperationContactsByOperationId(operationId: string) {
-    return this.http.get<OperationContact[]>('operations/' + operationId + '/contacts').pipe(
+    return this.http
+      .get<OperationContact[]>('operations/' + operationId + '/contacts', {
+        params: new HttpParams().set('_', Date.now().toString())
+      })
+      .pipe(
       retry(1), // retry a failed request up to 2 total times
       catchError(error => this.handleAsyncError(error))
-    );
+      );
   }
 
   private handleAsyncError(error: HttpErrorResponse) {

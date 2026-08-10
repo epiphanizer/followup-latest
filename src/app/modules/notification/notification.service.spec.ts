@@ -75,7 +75,9 @@ describe('NotificationService (Jest)', () => {
       expect(resp).toEqual([{ id: 'r1' } as any]);
     });
 
-    const req = httpMock.expectOne('operations/op3/notifications/t9/recipients');
+    const req = httpMock.expectOne(request => {
+      return request.url === 'operations/op3/notifications/t9/recipients' && request.params.has('_');
+    });
     expect(req.request.method).toBe('GET');
     req.flush([{ id: 'r1' }]);
   });

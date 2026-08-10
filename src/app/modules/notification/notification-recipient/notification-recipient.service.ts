@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { NotificationRecipient, NotificationType } from '../notification';
 
 export interface NotificationRecipientPostBody {}
@@ -20,9 +20,13 @@ export class NotificationRecipientService {
       );
   }
   getNotificationRecipientByOperationContactId(notificationOperationContactId: string) {
-    return this.http.get<NotificationType[]>('notifications/contacts/' + notificationOperationContactId).pipe(
-      catchError(e => this.handleAsyncError(e)) // then handle the error
-    );
+    return this.http
+      .get<NotificationType[]>('notifications/contacts/' + notificationOperationContactId, {
+        params: new HttpParams().set('_', Date.now().toString())
+      })
+      .pipe(
+        catchError(e => this.handleAsyncError(e)) // then handle the error
+      );
   }
 
   private handleAsyncError(error: HttpErrorResponse) {
