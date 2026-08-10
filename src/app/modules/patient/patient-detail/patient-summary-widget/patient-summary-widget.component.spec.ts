@@ -30,6 +30,48 @@ describe('PatientSummaryWidgetComponent (Jest)', () => {
     expect(comp.patientContacts[0].patientContactPhoneNumber).toBe('987-6543');
   });
 
+  it('dedupes repeated patient contacts and drops blank rows', () => {
+    const svc = makePatientContactService([
+      {
+        patientContactFirstName: ' Ann ',
+        patientContactLastName: 'Smith',
+        patientContactRelationship: 'Daughter',
+        patientContactCountryCode: '1',
+        patientContactAreaCode: '480',
+        patientContactPhoneNumber: '5551234',
+        patientContactResponsiblePartyBoolean: false,
+        patientContactHIPAABoolean: false
+      } as any,
+      {
+        patientContactFirstName: 'ann',
+        patientContactLastName: 'smith',
+        patientContactRelationship: 'daughter',
+        patientContactCountryCode: '1',
+        patientContactAreaCode: '480',
+        patientContactPhoneNumber: '555-1234',
+        patientContactResponsiblePartyBoolean: true,
+        patientContactHIPAABoolean: true
+      } as any,
+      {
+        patientContactFirstName: ' ',
+        patientContactLastName: '',
+        patientContactRelationship: '',
+        patientContactCountryCode: '',
+        patientContactAreaCode: '',
+        patientContactPhoneNumber: ''
+      } as any
+    ]);
+    const comp = new PatientSummaryWidgetComponent(svc as any);
+    comp.patient = { patientId: 'p5', patientPhoneNumber: '5551234' } as any;
+
+    comp.ngOnInit();
+
+    expect(comp.patientContacts).toHaveLength(1);
+    expect(comp.patientContacts[0].patientContactPhoneNumber).toBe('555-1234');
+    expect(comp.patientContacts[0].patientContactResponsiblePartyBoolean).toBe(true);
+    expect(comp.patientContacts[0].patientContactHIPAABoolean).toBe(true);
+  });
+
   it('builds fallback display phone when only 10-digit number is present', () => {
     const svc = makePatientContactService([]);
     const comp = new PatientSummaryWidgetComponent(svc as any);
