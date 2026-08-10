@@ -15,9 +15,9 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
-    version: '4.0.0_beta_rc2',
-    recordedAt: '2026-08-01',
-    label: 'Current beta rc2 candidate',
+    version: '4.0.0',
+    recordedAt: '2026-08-09',
+    label: 'Current 4.0.0 release',
     notes: 'Evidence comes from the v4.0.0 frontend and API markdown change logs and is kept in sync with them.',
     entries: [
       {

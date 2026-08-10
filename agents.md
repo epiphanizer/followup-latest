@@ -1,6 +1,6 @@
 # Followup Frontend — feature/robot_work_1
 
-Project version: 4.0.0_beta_rc2 (package). Goal: modernize the Angular/Ionic app for Followup v4.
+Project version: 4.0.0 (package). Goal: modernize the Angular/Ionic app for Followup v4.
 
 ## Findings
 

@@ -51,7 +51,7 @@ describe('ShellComponent', () => {
               service: {
                 name: 'alpha-followup-api',
                 host: 'alpha-followup-api.azurewebsites.net',
-                version: '4.0.0_beta_rc2',
+                version: '4.0.0',
                 environment: 'prod'
               },
               database: {
@@ -175,13 +175,13 @@ describe('ShellComponent', () => {
 
   it('filters and scopes the version change log to markdown-backed versions only', () => {
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual([
-      '4.0.0_beta_rc2',
+      '4.0.0',
       '3.10.0-rc3',
       '3.12.0',
       '3.10.0'
     ]);
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
-      '4.0.0_beta_rc2',
+      '4.0.0',
       '3.10.0-rc3',
       '3.12.0',
       '3.10.0'
@@ -198,7 +198,7 @@ describe('ShellComponent', () => {
     component.selectChangeLogVersion('3.10.0-rc3');
     expect(component.selectedChangeLogVersion).toBe('');
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
-      '4.0.0_beta_rc2',
+      '4.0.0',
       '3.10.0-rc3',
       '3.12.0',
       '3.10.0'
