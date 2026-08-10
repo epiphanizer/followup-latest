@@ -12,6 +12,7 @@ import { environment } from '@env/environment';
 import { ToastrService } from 'ngx-toastr';
 import { UserCorkBoardService } from './user-cork-board/user-cork-board.service';
 import { SERVICE_HEALTH_CHANGE_LOG, ServiceHealthChangeLogRelease } from './service-health-change-log.data';
+import { UserRolesMap } from '@app/modules/user/user';
 
 interface ServiceStatusResponse {
   status?: string;
@@ -77,6 +78,11 @@ interface ServiceStatusViewModel {
   standalone: false
 })
 export class ShellComponent {
+  private readonly productionServiceHealthHosts = [
+    'app.followup.care',
+    'www.app.followup.care',
+    'followupcare.azurewebsites.net'
+  ];
   private readonly userIdleTimeoutMs = 15 * 60 * 1000;
   private readonly idleWarningThresholdMs = 30 * 1000;
   private readonly statusRefreshMs = 60000;
@@ -567,9 +573,44 @@ export class ShellComponent {
       (!this.serviceStatusHasAutoShown || previousHealth === 'degraded' || previousHealth === 'checking')
     ) {
       this.serviceStatusHasAutoShown = true;
+
+      if (this.shouldSuppressAutomaticServiceStatusPanel()) {
+        return;
+      }
+
       this.openServiceStatusPanel(false);
       this.scheduleServiceStatusAutoHide();
     }
+  }
+
+  private shouldSuppressAutomaticServiceStatusPanel(): boolean {
+    return this.isProductionServiceHealthHost() && this.isManagerOrAdmin(this.user);
+  }
+
+  private isProductionServiceHealthHost(): boolean {
+    return this.productionServiceHealthHosts.indexOf(this.getShellHostName()) >= 0;
+  }
+
+  private getShellHostName(): string {
+    return String(window?.location?.hostname || '').toLowerCase();
+  }
+
+  private isManagerOrAdmin(user: User): boolean {
+    const userRoleValue = this.getUserRoleValue(user);
+    return userRoleValue > 0 && userRoleValue <= 2;
+  }
+
+  private getUserRoleValue(user: User): number {
+    if (!user) {
+      return 0;
+    }
+
+    if (typeof user.userLevel === 'number') {
+      return user.userLevel;
+    }
+
+    const userRolesMap = UserRolesMap as unknown as Record<string, number>;
+    return Number(userRolesMap[String(user.userLevel)] || 0);
   }
 
   private openServiceStatusPanel(pinOpen: boolean) {
