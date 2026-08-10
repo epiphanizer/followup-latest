@@ -1,0 +1,193 @@
+name: Deploy Followup Frontend (Prod)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'angular.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'web.config'
+      - '.github/workflows/prod_followupcare.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '20.x'
+
+concurrency:
+  group: prod-followupcare
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    env:
+      APP_INSIGHTS_CONNECTION_STRING: ${{ secrets.APP_INSIGHTS_CONNECTION_STRING }}
+      APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}
+      FOLLOWUP_API_KEY_AUTH: ${{ secrets.FOLLOWUP_API_KEY_AUTH != '' && secrets.FOLLOWUP_API_KEY_AUTH || secrets.API_KEY_AUTH }}
+      API_KEY_AUTH: ${{ secrets.API_KEY_AUTH }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Print toolchain versions
+        run: |
+          node --version
+          npm --version
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Stage web.config for App Service
+        run: |
+          if [ -d dist/browser ]; then
+            cp web.config dist/browser/web.config
+          else
+            cp web.config dist/web.config
+          fi
+
+      - name: Upload deploy artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: followup-frontend-dist
+          path: dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: production
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      PUBLISH_PROFILE_PRIMARY: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_FRONTEND }}
+      PUBLISH_PROFILE_FALLBACK: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    steps:
+      - name: Download deploy artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: followup-frontend-dist
+          path: .
+
+      - name: Validate deploy package layout
+        run: |
+          echo "Checking downloaded artifact layout"
+          ls -la
+          if [ -f dist/web.config ] && [ -f dist/index.html ]; then
+            echo "Artifact layout detected: dist folder"
+            echo "ARTIFACT_LAYOUT=dist" >> "$GITHUB_ENV"
+          elif [ -f web.config ] && [ -f index.html ]; then
+            echo "Artifact layout detected: flat root"
+            echo "ARTIFACT_LAYOUT=root" >> "$GITHUB_ENV"
+          elif [ -f browser/web.config ] && [ -f browser/index.html ]; then
+            echo "Artifact layout detected: browser folder"
+            echo "ARTIFACT_LAYOUT=browser" >> "$GITHUB_ENV"
+          elif [ -f web.config ] && [ -f browser/index.html ]; then
+            echo "Artifact layout detected: browser folder with root web.config"
+            echo "ARTIFACT_LAYOUT=browser-root" >> "$GITHUB_ENV"
+          else
+            echo "Could not find expected web assets in dist/ or root"
+            find . -maxdepth 4 -name web.config -print
+            find . -maxdepth 4 -name index.html -print
+            exit 1
+          fi
+
+      - name: Build zip-deploy payload with top-level dist folder
+        run: |
+          rm -rf deploy
+          mkdir -p deploy/dist
+          case "$ARTIFACT_LAYOUT" in
+            dist)
+              cp -R dist/. deploy/dist/
+              ;;
+            root)
+              find . -mindepth 1 -maxdepth 1 ! -name deploy -exec cp -R {} deploy/dist/ \;
+              ;;
+            browser)
+              cp -R browser/. deploy/dist/
+              ;;
+            browser-root)
+              cp -R browser/. deploy/dist/
+              cp web.config deploy/dist/web.config
+              if [ -f prerendered-routes.json ]; then
+                cp prerendered-routes.json deploy/dist/prerendered-routes.json
+              fi
+              ;;
+            *)
+              echo "Unknown artifact layout: $ARTIFACT_LAYOUT"
+              exit 1
+              ;;
+          esac
+          test -f deploy/dist/web.config
+          test -f deploy/dist/index.html
+
+      - name: Resolve deploy auth mode
+        id: auth_mode
+        run: |
+          if [ -n "$PUBLISH_PROFILE_PRIMARY" ] || [ -n "$PUBLISH_PROFILE_FALLBACK" ]; then
+            echo "mode=publish" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ -n "$AZURE_CLIENT_ID" ] && [ -n "$AZURE_TENANT_ID" ] && [ -n "$AZURE_SUBSCRIPTION_ID" ]; then
+            echo "mode=oidc" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Missing frontend deployment credentials. Configure either publish profile secrets (AZURE_WEBAPP_PUBLISH_PROFILE_FRONTEND or AZURE_WEBAPP_PUBLISH_PROFILE) or OIDC secrets (AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID) in the production environment."
+          exit 1
+
+      - name: Login to Azure (OIDC)
+        if: steps.auth_mode.outputs.mode == 'oidc'
+        uses: azure/login@v2
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy to Azure Web App (Publish Profile)
+        if: steps.auth_mode.outputs.mode == 'publish'
+        id: deploy-to-webapp
+        env:
+          NODE_NO_WARNINGS: '1'
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: followupcare
+          slot-name: Production
+          publish-profile: ${{ env.PUBLISH_PROFILE_PRIMARY != '' && env.PUBLISH_PROFILE_PRIMARY || env.PUBLISH_PROFILE_FALLBACK }}
+          package: deploy
+
+      - name: Deploy to Azure Web App (OIDC)
+        if: steps.auth_mode.outputs.mode == 'oidc'
+        id: deploy-to-webapp-oidc
+        env:
+          NODE_NO_WARNINGS: '1'
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: followupcare
+          slot-name: Production
+          package: deploy
