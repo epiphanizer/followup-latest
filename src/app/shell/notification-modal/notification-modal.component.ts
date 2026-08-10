@@ -21,7 +21,7 @@ export class NotificationModalComponent {
   createNotificationForm: FormGroup;
   @Input() notification: Notification;
   private createdNotificationId: string | null = null;
-  notificationRecipients: NotificationRecipient[];
+  notificationRecipients: NotificationRecipient[] = [];
   notificationType: NotificationType;
   notificationTypes: NotificationType[] = [];
   notificationTypesListLeft: NotificationType[] = [];
@@ -110,25 +110,45 @@ export class NotificationModalComponent {
 
   saveNotification() {
     this.syncNotificationFromForm();
-    this.status.notification.saved = true;
+
+    if (!this.notification.notificationOperationId) {
+      this.notificationRecipients = [];
+      this.status.notification.saved = false;
+      this.toastr.error('Unable to determine the patient facility for notification recipients.');
+      return;
+    }
+
+    this.notificationRecipients = [];
     this.notificationService
       .getNotificationRecipientsByOperationIdAndNotificationTypeId(
         this.notification.notificationOperationId,
         this.notification.notificationTypeId
       )
-      .subscribe((data: NotificationRecipient[]) => {
-        if (data !== null) {
-          this.notificationRecipients = data;
-        } else {
-          alert('No notification recipients are configured, please configure notification recipients');
+      .subscribe({
+        next: (data: NotificationRecipient[] | null) => {
+          this.notificationRecipients = Array.isArray(data) ? data : [];
+          this.status.notification.saved = true;
+        },
+        error: () => {
+          this.notificationRecipients = [];
           this.status.notification.saved = false;
-          return;
+          this.toastr.error('Unable to load notification recipients right now.');
         }
       });
   }
 
   sendTheNotification() {
     this.syncNotificationFromForm();
+
+    if (!this.notification.notificationOperationId) {
+      this.toastr.error('Unable to determine the patient facility for notification recipients.');
+      return;
+    }
+
+    if (!this.hasNotificationRecipients) {
+      this.toastr.error('No notification recipients are configured for this notification type.');
+      return;
+    }
 
     if (this.createdNotificationId) {
       this.dispatchNotification(this.createdNotificationId);
@@ -164,6 +184,10 @@ export class NotificationModalComponent {
         this.toastr.error('Unable to send the notification right now.');
       }
     });
+  }
+
+  get hasNotificationRecipients(): boolean {
+    return Array.isArray(this.notificationRecipients) && this.notificationRecipients.length > 0;
   }
 
   private buildSafeNotification(notification?: Notification | null): Notification {
