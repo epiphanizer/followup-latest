@@ -30,6 +30,7 @@ export class NotificationModalComponent {
   notificationRecipients$: Observable<NotificationRecipient[]>;
   notificationTypesLoading: boolean = true;
   notificationTypesError: string | null = null;
+  notificationRecipientsLoading: boolean = false;
   status: {
     notification: {
       saved: boolean;
@@ -100,16 +101,30 @@ export class NotificationModalComponent {
 
   createForm() {
     this.createNotificationForm = this.fb.group({
-      notificationTypeId: this.fb.control(false, [Validators.required]),
+      notificationTypeId: this.fb.control(null, [Validators.required]),
       notificationMessage: this.fb.control('', [Validators.required])
     });
   }
   editNotification() {
+    if (this.notificationRecipientsLoading) {
+      return;
+    }
+
     this.status.notification.saved = false;
   }
 
   saveNotification() {
     this.syncNotificationFromForm();
+
+    if (this.notificationRecipientsLoading) {
+      return;
+    }
+
+    if (this.createNotificationForm.invalid) {
+      this.createNotificationForm.markAllAsTouched();
+      this.status.notification.saved = false;
+      return;
+    }
 
     if (!this.notification.notificationOperationId) {
       this.notificationRecipients = [];
@@ -118,6 +133,7 @@ export class NotificationModalComponent {
       return;
     }
 
+    this.notificationRecipientsLoading = true;
     this.notificationRecipients = [];
     this.notificationService
       .getNotificationRecipientsByOperationIdAndNotificationTypeId(
@@ -127,10 +143,12 @@ export class NotificationModalComponent {
       .subscribe({
         next: (data: NotificationRecipient[] | null) => {
           this.notificationRecipients = Array.isArray(data) ? data : [];
+          this.notificationRecipientsLoading = false;
           this.status.notification.saved = true;
         },
         error: () => {
           this.notificationRecipients = [];
+          this.notificationRecipientsLoading = false;
           this.status.notification.saved = false;
           this.toastr.error('Unable to load notification recipients right now.');
         }
@@ -139,6 +157,11 @@ export class NotificationModalComponent {
 
   sendTheNotification() {
     this.syncNotificationFromForm();
+
+    if (this.notificationRecipientsLoading || this.createNotificationForm.invalid) {
+      this.createNotificationForm.markAllAsTouched();
+      return;
+    }
 
     if (!this.notification.notificationOperationId) {
       this.toastr.error('Unable to determine the patient facility for notification recipients.');
