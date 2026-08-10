@@ -8,6 +8,7 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import { AuthenticationService, CoreModule } from '@app/core';
 import { UserCorkBoardService } from './user-cork-board/user-cork-board.service';
+import { UserRoles } from '@app/modules/user/user';
 
 const userSubject = new BehaviorSubject<any>({ userId: 'u1', userLoginExpires: Date.now() + 600000 });
 const impersonatorSubject = new BehaviorSubject<any>(null);
@@ -173,6 +174,40 @@ describe('ShellComponent', () => {
     expect(component.serviceStatusPanelRendered).toBe(false);
   }));
 
+  it('suppresses healthy service status auto-show for manager-plus users on production hosts', () => {
+    const buildCheckingStatus = (component as any).buildCheckingStatus.bind(component);
+
+    component.user = { userId: 'manager-1', userLevel: UserRoles.manager } as any;
+    jest.spyOn(component as any, 'getShellHostName').mockReturnValue('followupcare.azurewebsites.net');
+    component.serviceStatus = {
+      ...buildCheckingStatus(),
+      health: 'ok',
+      healthLabel: 'Healthy'
+    };
+
+    (component as any).syncServiceStatusVisibility('checking');
+
+    expect(component.serviceStatusPanelRendered).toBe(false);
+    expect(component.serviceStatusPanelVisible).toBe(false);
+  });
+
+  it('still auto-shows healthy service status for standard users on production hosts', () => {
+    const buildCheckingStatus = (component as any).buildCheckingStatus.bind(component);
+
+    component.user = { userId: 'user-1', userLevel: UserRoles.user } as any;
+    jest.spyOn(component as any, 'getShellHostName').mockReturnValue('followupcare.azurewebsites.net');
+    component.serviceStatus = {
+      ...buildCheckingStatus(),
+      health: 'ok',
+      healthLabel: 'Healthy'
+    };
+
+    (component as any).syncServiceStatusVisibility('checking');
+
+    expect(component.serviceStatusPanelRendered).toBe(true);
+    expect(component.serviceStatusPanelVisible).toBe(true);
+  });
+
   it('filters and scopes the version change log to markdown-backed versions only', () => {
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual([
       '4.0.0',
@@ -259,6 +294,17 @@ describe('ShellComponent', () => {
     expect(component.serviceStatusPanelRendered).toBe(true);
     expect(component.serviceStatusPanelVisible).toBe(true);
     expect(component.changeLogExpanded).toBe(true);
+  });
+
+  it('still lets admins manually open service health on production hosts', () => {
+    component.user = { userId: 'admin-1', userLevel: UserRoles.admin } as any;
+    jest.spyOn(component as any, 'getShellHostName').mockReturnValue('followupcare.azurewebsites.net');
+
+    component.handleServiceHealthRequest('panel');
+
+    expect(component.serviceStatusPanelPinned).toBe(true);
+    expect(component.serviceStatusPanelRendered).toBe(true);
+    expect(component.serviceStatusPanelVisible).toBe(true);
   });
 
   it('tears down safely before subscriptions are initialized', () => {
