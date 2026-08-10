@@ -52,12 +52,12 @@
         <div class="send-container">
           <button class="secondary button" type="button" (click)="dismiss()">Cancel</button>
           <button
-            [disabled]="createNotificationForm.invalid || notificationTypesLoading || !!notificationTypesError"
+            [disabled]="createNotificationForm.invalid || notificationTypesLoading || !!notificationTypesError || notificationRecipientsLoading"
             class="primary button"
             type="button"
             (click)="saveNotification()"
           >
-            Save
+            {{ notificationRecipientsLoading ? 'Checking...' : 'Save' }}
           </button>
         </div>
       </ion-row>
@@ -118,7 +118,11 @@
     <ion-row>
       <div class="send-container">
         <button class="ion-float-left secondary button edit" (click)="editNotification()">Back</button>
-        <button class="ion-float-right primary button send" [disabled]="!hasNotificationRecipients" (click)="sendTheNotification()">
+        <button
+          class="ion-float-right primary button send"
+          [disabled]="notificationRecipientsLoading || createNotificationForm.invalid || !hasNotificationRecipients"
+          (click)="sendTheNotification()"
+        >
           Send
         </button>
       </div>

@@ -1,4 +1,4 @@
-import { of, throwError } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 
 import { NotificationModalComponent } from './notification-modal.component';
@@ -66,7 +66,20 @@ describe('NotificationModalComponent (Jest)', () => {
     expect(component.createNotificationForm).toBeTruthy();
     expect(component.notificationTypesLoading).toBe(false);
     expect(component.notificationTypesError).toBeNull();
+    expect(component.createNotificationForm.invalid).toBe(true);
     expect(typeof component.todaysDate).toBe('string');
+  });
+
+  it('does not load recipients until a notification type is selected', () => {
+    const { component, notificationServiceStub } = buildComponent();
+
+    component.ngOnInit();
+    component.createNotificationForm.get('notificationMessage').setValue('hello world');
+
+    component.saveNotification();
+
+    expect(component.status.notification.saved).toBe(false);
+    expect(notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId).not.toHaveBeenCalled();
   });
 
   it('updates notification on form changes, saves, and sends', () => {
@@ -161,7 +174,33 @@ describe('NotificationModalComponent (Jest)', () => {
 
     expect(component.status.notification.saved).toBe(false);
     expect(component.notificationRecipients).toEqual([]);
+    expect(component.notificationRecipientsLoading).toBe(false);
     expect(toastrStub.error).toHaveBeenCalledWith('Unable to load notification recipients right now.');
+  });
+
+  it('ignores repeated save clicks while recipients are still loading', () => {
+    const { component, notificationServiceStub } = buildComponent();
+    const recipientsSubject = new Subject<any>();
+    notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId.mockReturnValueOnce(
+      recipientsSubject.asObservable()
+    );
+
+    component.ngOnInit();
+    component.createNotificationForm.get('notificationTypeId').setValue('type-1');
+    component.createNotificationForm.get('notificationMessage').setValue('hello world');
+
+    component.saveNotification();
+    component.saveNotification();
+
+    expect(component.notificationRecipientsLoading).toBe(true);
+    expect(notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId).toHaveBeenCalledTimes(1);
+
+    recipientsSubject.next([{ notificationRecipientEmail: 'first@example.com' }]);
+    recipientsSubject.complete();
+
+    expect(component.notificationRecipientsLoading).toBe(false);
+    expect(component.status.notification.saved).toBe(true);
+    expect(component.hasNotificationRecipients).toBe(true);
   });
 
   it('prevents send when no recipients are configured', () => {
