@@ -14,9 +14,15 @@ describe('ToolbarNavComponent logic', () => {
   const notificationServiceMock: any = { getNotificationTypes: jest.fn(() => of([])) };
   const routeMock: any = {
     snapshot: {
+      paramMap: {
+        get: jest.fn((_: string): string | null => null)
+      },
       data: { user: { userId: 'u1' }, patient: null },
       children: [
         {
+          paramMap: {
+            get: jest.fn((paramName: string): string | null => (paramName === 'operationId' ? 'op1' : null))
+          },
           data: {
             patient: {
               patientId: 'p1',
@@ -166,6 +172,28 @@ describe('ToolbarNavComponent logic', () => {
 
     expect(notificationServiceMock.getNotificationTypes).toHaveBeenCalled();
     expect(modalCtrlMock.create).toHaveBeenCalled();
+  });
+
+  it('falls back to the route operation id when the patient seed is missing it', async () => {
+    routeMock.snapshot.children[0].data.patient = {
+      patientId: 'p1',
+      patientFirstName: 'Pat',
+      patientLastName: 'Smith',
+      patientMedicalRecordNumber: '123',
+      patientOperationName: 'Op'
+    };
+
+    await component.createNotificationModal();
+
+    expect(modalCtrlMock.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        componentProps: expect.objectContaining({
+          notification: expect.objectContaining({
+            notificationOperationId: 'op1'
+          })
+        })
+      })
+    );
   });
 
   it('emits a service health request from the admin menu action', () => {

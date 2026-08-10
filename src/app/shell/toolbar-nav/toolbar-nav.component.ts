@@ -286,11 +286,9 @@ export class ToolbarNavComponent implements OnInit {
       }
     });
 
-    if (this.route.snapshot.children) {
-      this.patient = this.route.snapshot.children[0].data.patient;
-    } else {
-      this.patient = this.route.snapshot.data.patient;
-    }
+    const activeRouteSnapshot = this.getDeepestRouteSnapshot(this.route.snapshot);
+    this.patient = this.getRoutePatient(activeRouteSnapshot);
+    const operationId = this.patient?.patientOperationId || this.getRouteParam(activeRouteSnapshot, 'operationId');
 
     const modal = await this.modalController.create({
       component: NotificationModalComponent,
@@ -300,7 +298,7 @@ export class ToolbarNavComponent implements OnInit {
         notification: {
           notificationCreatedByUserId: this.user.userId,
           notificationMessage: '',
-          notificationOperationId: this.patient?.patientOperationId,
+          notificationOperationId: operationId,
           notificationPatientFirstName: this.patient?.patientFirstName,
           notificationPatientLastName: this.patient?.patientLastName,
           notificationPatientMedicalRecordNumber: this.patient?.patientMedicalRecordNumber,
@@ -312,5 +310,51 @@ export class ToolbarNavComponent implements OnInit {
       }
     });
     return await modal.present();
+  }
+
+  private getDeepestRouteSnapshot(snapshot: ActivatedRouteSnapshot | null): ActivatedRouteSnapshot | null {
+    let activeSnapshot = snapshot;
+
+    while (activeSnapshot) {
+      const nextSnapshot = activeSnapshot.firstChild || activeSnapshot.children?.[0];
+
+      if (!nextSnapshot) {
+        break;
+      }
+
+      activeSnapshot = nextSnapshot;
+    }
+
+    return activeSnapshot;
+  }
+
+  private getRoutePatient(snapshot: ActivatedRouteSnapshot | null): Patient | null {
+    let activeSnapshot = snapshot;
+
+    while (activeSnapshot) {
+      if (activeSnapshot.data?.patient) {
+        return activeSnapshot.data.patient as Patient;
+      }
+
+      activeSnapshot = activeSnapshot.parent;
+    }
+
+    return this.route.snapshot.data.patient || null;
+  }
+
+  private getRouteParam(snapshot: ActivatedRouteSnapshot | null, paramName: string): string {
+    let activeSnapshot = snapshot;
+
+    while (activeSnapshot) {
+      const paramValue = activeSnapshot.paramMap?.get(paramName);
+
+      if (paramValue) {
+        return paramValue;
+      }
+
+      activeSnapshot = activeSnapshot.parent;
+    }
+
+    return '';
   }
 }

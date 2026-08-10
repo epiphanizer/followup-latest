@@ -85,7 +85,7 @@
             <ion-item class="notification-review-item ion-text-wrap">
               <ion-label class="label ion-text-wrap"
                 ><span class="label">Notify:&nbsp;</span>
-                <ng-container *ngIf="notificationRecipients; else noRecipients">
+                <ng-container *ngIf="hasNotificationRecipients; else noRecipients">
                   <span *ngFor="let notificationRecipient of notificationRecipients; let idx = index">
                     {{ notificationRecipient.notificationRecipientEmail
                     }}{{ idx + 1 == notificationRecipients.length ? '' : ', ' }}
@@ -118,7 +118,9 @@
     <ion-row>
       <div class="send-container">
         <button class="ion-float-left secondary button edit" (click)="editNotification()">Back</button>
-        <button class="ion-float-right primary button send" (click)="sendTheNotification()">Send</button>
+        <button class="ion-float-right primary button send" [disabled]="!hasNotificationRecipients" (click)="sendTheNotification()">
+          Send
+        </button>
       </div>
     </ion-row>
   </ng-template>

@@ -86,6 +86,7 @@ describe('NotificationModalComponent (Jest)', () => {
       'type-1'
     );
     expect(component.notificationRecipients?.length).toBe(1);
+    expect(component.hasNotificationRecipients).toBe(true);
     expect(component.status.notification.saved).toBe(true);
 
     component.sendTheNotification();
@@ -123,6 +124,63 @@ describe('NotificationModalComponent (Jest)', () => {
     );
   });
 
+  it('keeps the full notification recipient list returned by the API', () => {
+    const { component, notificationServiceStub } = buildComponent();
+    notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId.mockReturnValueOnce(
+      of([
+        { notificationRecipientEmail: 'first@example.com' } as any,
+        { notificationRecipientEmail: 'second@example.com' } as any
+      ])
+    );
+
+    component.ngOnInit();
+    component.createNotificationForm.get('notificationTypeId').setValue('type-1');
+    component.createNotificationForm.get('notificationMessage').setValue('hello world');
+
+    component.saveNotification();
+
+    expect(component.notificationRecipients).toEqual([
+      expect.objectContaining({ notificationRecipientEmail: 'first@example.com' }),
+      expect.objectContaining({ notificationRecipientEmail: 'second@example.com' })
+    ]);
+    expect(component.notificationRecipients).toHaveLength(2);
+    expect(component.hasNotificationRecipients).toBe(true);
+  });
+
+  it('stays in edit mode when loading recipients fails', () => {
+    const { component, notificationServiceStub, toastrStub } = buildComponent();
+    notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId.mockReturnValueOnce(
+      throwError(() => new Error('lookup failed'))
+    );
+
+    component.ngOnInit();
+    component.createNotificationForm.get('notificationTypeId').setValue('type-1');
+    component.createNotificationForm.get('notificationMessage').setValue('hello world');
+
+    component.saveNotification();
+
+    expect(component.status.notification.saved).toBe(false);
+    expect(component.notificationRecipients).toEqual([]);
+    expect(toastrStub.error).toHaveBeenCalledWith('Unable to load notification recipients right now.');
+  });
+
+  it('prevents send when no recipients are configured', () => {
+    const { component, notificationServiceStub, toastrStub } = buildComponent();
+    notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId.mockReturnValueOnce(of(null));
+
+    component.ngOnInit();
+    component.createNotificationForm.get('notificationTypeId').setValue('type-1');
+    component.createNotificationForm.get('notificationMessage').setValue('hello world');
+
+    component.saveNotification();
+    component.sendTheNotification();
+
+    expect(component.status.notification.saved).toBe(true);
+    expect(component.hasNotificationRecipients).toBe(false);
+    expect(notificationServiceStub.addNotificationByOperationIdAndNotificationTypeId).not.toHaveBeenCalled();
+    expect(toastrStub.error).toHaveBeenCalledWith('No notification recipients are configured for this notification type.');
+  });
+
   it('keeps the created notification id across send retries and does not dismiss on failure', () => {
     const { component, notificationServiceStub, modalCtrlStub, toastrStub } = buildComponent();
     notificationServiceStub.sendNotificationByNotificationId
@@ -132,6 +190,7 @@ describe('NotificationModalComponent (Jest)', () => {
     component.ngOnInit();
     component.createNotificationForm.get('notificationTypeId').setValue('type-1');
     component.createNotificationForm.get('notificationMessage').setValue('hello world');
+    component.notificationRecipients = [{ id: 'r1' } as any];
 
     component.sendTheNotification();
 
