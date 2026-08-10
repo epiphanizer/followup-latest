@@ -56,7 +56,6 @@ export class NotificationService {
         params: new HttpParams().set('_', Date.now().toString())
       })
       .pipe(
-        retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
   }

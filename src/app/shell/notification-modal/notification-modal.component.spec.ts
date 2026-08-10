@@ -82,6 +82,22 @@ describe('NotificationModalComponent (Jest)', () => {
     expect(notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId).not.toHaveBeenCalled();
   });
 
+  it('prefetches recipients on type selection and reuses the cached result on save', () => {
+    const { component, notificationServiceStub } = buildComponent();
+
+    component.ngOnInit();
+    component.createNotificationForm.get('notificationTypeId').setValue('type-1');
+    component.createNotificationForm.get('notificationMessage').setValue('hello world');
+
+    expect(notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId).toHaveBeenCalledTimes(1);
+
+    component.saveNotification();
+
+    expect(notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId).toHaveBeenCalledTimes(1);
+    expect(component.status.notification.saved).toBe(true);
+    expect(component.hasNotificationRecipients).toBe(true);
+  });
+
   it('updates notification on form changes, saves, and sends', () => {
     const { component, notificationServiceStub, modalCtrlStub, toastrStub } = buildComponent();
 
@@ -162,7 +178,7 @@ describe('NotificationModalComponent (Jest)', () => {
 
   it('stays in edit mode when loading recipients fails', () => {
     const { component, notificationServiceStub, toastrStub } = buildComponent();
-    notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId.mockReturnValueOnce(
+    notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId.mockReturnValue(
       throwError(() => new Error('lookup failed'))
     );
 

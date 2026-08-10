@@ -6,7 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Notification, NotificationRecipient, NotificationType } from '@app/modules/notification/notification';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { finalize, map, shareReplay, take, tap } from 'rxjs/operators';
 import { OperationContact } from '@app/modules/operation/operation-contact/operation-contact';
 import { OperationContactsService } from '@app/modules/operation/operation-contacts.service';
 import { ToastrService } from 'ngx-toastr';
@@ -31,6 +31,8 @@ export class NotificationModalComponent {
   notificationTypesLoading: boolean = true;
   notificationTypesError: string | null = null;
   notificationRecipientsLoading: boolean = false;
+  private notificationRecipientCache = new Map<string, NotificationRecipient[]>();
+  private notificationRecipientRequests = new Map<string, Observable<NotificationRecipient[]>>();
   status: {
     notification: {
       saved: boolean;
@@ -91,6 +93,11 @@ export class NotificationModalComponent {
           this.notification.notificationTypeId = this.notificationType.notificationTypeId;
           this.notification.notificationTypeLabel = this.notificationType.notificationTypeLabel;
           this.notification.notificationIconImage = this.notificationType.notificationIconImage;
+          this.primeNotificationRecipients(this.notification.notificationTypeId);
+        } else {
+          this.notification.notificationTypeId = '';
+          this.notification.notificationTypeLabel = '';
+          this.notification.notificationIconImage = '';
         }
       });
       this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
@@ -135,14 +142,10 @@ export class NotificationModalComponent {
 
     this.notificationRecipientsLoading = true;
     this.notificationRecipients = [];
-    this.notificationService
-      .getNotificationRecipientsByOperationIdAndNotificationTypeId(
-        this.notification.notificationOperationId,
-        this.notification.notificationTypeId
-      )
+    this.getNotificationRecipientRequest(this.notification.notificationTypeId)
       .subscribe({
-        next: (data: NotificationRecipient[] | null) => {
-          this.notificationRecipients = Array.isArray(data) ? data : [];
+        next: (data: NotificationRecipient[]) => {
+          this.notificationRecipients = data;
           this.notificationRecipientsLoading = false;
           this.status.notification.saved = true;
         },
@@ -257,12 +260,62 @@ export class NotificationModalComponent {
       return type.notificationTypeId == formData.notificationTypeId;
     });
 
-    this.notification.notificationTypeId = formData.notificationTypeId;
+    this.notification.notificationTypeId = formData.notificationTypeId || '';
     this.notification.notificationMessage = formData.notificationMessage || '';
 
     if (notificationType) {
       this.notification.notificationTypeLabel = notificationType.notificationTypeLabel;
       this.notification.notificationIconImage = notificationType.notificationIconImage;
     }
+  }
+
+  private primeNotificationRecipients(notificationTypeId: string) {
+    if (!this.canLoadNotificationRecipients(notificationTypeId)) {
+      return;
+    }
+
+    this.getNotificationRecipientRequest(notificationTypeId)
+      .pipe(take(1))
+      .subscribe({
+        error: () => undefined
+      });
+  }
+
+  private getNotificationRecipientRequest(notificationTypeId: string): Observable<NotificationRecipient[]> {
+    const cacheKey = this.getNotificationRecipientCacheKey(notificationTypeId);
+
+    if (this.notificationRecipientCache.has(cacheKey)) {
+      return of(this.notificationRecipientCache.get(cacheKey) || []);
+    }
+
+    if (!this.notificationRecipientRequests.has(cacheKey)) {
+      const request$ = this.notificationService
+        .getNotificationRecipientsByOperationIdAndNotificationTypeId(
+          this.notification.notificationOperationId,
+          notificationTypeId
+        )
+        .pipe(
+          map((data: NotificationRecipient[] | null) => (Array.isArray(data) ? data : [])),
+          tap((notificationRecipients: NotificationRecipient[]) => {
+            this.notificationRecipientCache.set(cacheKey, notificationRecipients);
+          }),
+          finalize(() => {
+            this.notificationRecipientRequests.delete(cacheKey);
+          }),
+          shareReplay(1)
+        );
+
+      this.notificationRecipientRequests.set(cacheKey, request$);
+    }
+
+    return this.notificationRecipientRequests.get(cacheKey);
+  }
+
+  private canLoadNotificationRecipients(notificationTypeId: string): boolean {
+    return !!this.notification.notificationOperationId && !!notificationTypeId;
+  }
+
+  private getNotificationRecipientCacheKey(notificationTypeId: string): string {
+    return this.notification.notificationOperationId + ':' + notificationTypeId;
   }
 }
