@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { retry, catchError, finalize, map, shareReplay, tap, timeout } from 'rxjs/operators';
-import { HttpClient, HttpContext, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {
   Notification,
   NotificationType,
@@ -52,9 +52,9 @@ export class NotificationService {
   }
   getNotificationRecipientsByOperationIdAndNotificationTypeId(operationId: string, notificationTypeId: string) {
     return this.http
-      .get<NotificationRecipient[]>(
-        'operations/' + operationId + '/notifications/' + notificationTypeId + '/recipients'
-      )
+      .get<NotificationRecipient[]>('operations/' + operationId + '/notifications/' + notificationTypeId + '/recipients', {
+        params: new HttpParams().set('_', Date.now().toString())
+      })
       .pipe(
         retry(3), // retry a failed request up to 3 times
         catchError(e => this.handleAsyncError(e)) // then handle the error

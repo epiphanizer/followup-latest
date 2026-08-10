@@ -7,6 +7,10 @@ import { Logger } from './logger.service';
 
 const log = new Logger('TelemetryService');
 
+function isValidConnectionString(value: string) {
+  return /(^|;)\s*InstrumentationKey\s*=\s*[^;]+/i.test(value);
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,31 +24,43 @@ export class TelemetryService {
     }
 
     const appInsightsConfig = environment.applicationInsights;
-    if (!appInsightsConfig || !appInsightsConfig.enabled || !appInsightsConfig.connectionString) {
+    const connectionString = appInsightsConfig?.connectionString?.trim() || '';
+
+    if (!appInsightsConfig || !appInsightsConfig.enabled || !connectionString) {
       return;
     }
 
-    this.appInsights = new ApplicationInsights({
-      config: {
-        connectionString: appInsightsConfig.connectionString,
-        enableAutoRouteTracking: false,
-        disableFetchTracking: false,
-        disableAjaxTracking: false,
-        enableUnhandledPromiseRejectionTracking: true,
-        disableInstrumentationKeyValidation: true
-      }
-    });
+    if (!isValidConnectionString(connectionString)) {
+      log.warn('Skipping Application Insights telemetry because the configured connection string is invalid.');
+      return;
+    }
 
-    this.appInsights.loadAppInsights();
-    this.appInsights.addTelemetryInitializer(envelope => {
-      envelope.tags = envelope.tags || [];
-      envelope.tags['ai.cloud.role'] = 'followup-frontend';
-      envelope.tags['ai.application.ver'] = environment.version;
-    });
+    try {
+      this.appInsights = new ApplicationInsights({
+        config: {
+          connectionString,
+          enableAutoRouteTracking: false,
+          disableFetchTracking: false,
+          disableAjaxTracking: false,
+          enableUnhandledPromiseRejectionTracking: true,
+          disableInstrumentationKeyValidation: true
+        }
+      });
 
-    this.initialized = true;
-    this.trackEvent('frontend_telemetry_initialized');
-    log.info('Application Insights telemetry initialized.');
+      this.appInsights.loadAppInsights();
+      this.appInsights.addTelemetryInitializer(envelope => {
+        envelope.tags = envelope.tags || [];
+        envelope.tags['ai.cloud.role'] = 'followup-frontend';
+        envelope.tags['ai.application.ver'] = environment.version;
+      });
+
+      this.initialized = true;
+      this.trackEvent('frontend_telemetry_initialized');
+      log.info('Application Insights telemetry initialized.');
+    } catch (error) {
+      this.appInsights = null;
+      log.warn('Skipping Application Insights telemetry because initialization failed.', error);
+    }
   }
 
   trackPageView(path: string) {

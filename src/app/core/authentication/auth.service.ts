@@ -36,6 +36,26 @@ export interface LoginAccountSelectionResponse {
   accountChoices: LoginAccountChoice[];
 }
 
+function formatBackendErrorBody(errorBody: unknown): string {
+  if (typeof errorBody === 'string') {
+    return errorBody;
+  }
+
+  if (errorBody === undefined || errorBody === null) {
+    return '';
+  }
+
+  if (typeof errorBody === 'object') {
+    try {
+      return JSON.stringify(errorBody);
+    } catch (_error) {
+      return String(errorBody);
+    }
+  }
+
+  return String(errorBody);
+}
+
 function isJwtToken(value: string | null): boolean {
   return !!value && value.split('.').length === 3;
 }
@@ -322,6 +342,7 @@ export class AuthenticationService {
 
   private handleAsyncError(error: HttpErrorResponse) {
     const backendMessage = typeof error.error === 'string' ? error.error : error?.error?.message;
+    const backendErrorBody = formatBackendErrorBody(error.error);
 
     if (error.status === 409 && error?.error?.requiresAccountSelection) {
       return throwError({
@@ -336,7 +357,7 @@ export class AuthenticationService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
+      console.error(`Backend returned code ${error.status}, ` + `body was: ${backendErrorBody}`);
     }
     // return an observable with a user-facing error message
     return throwError({
@@ -358,7 +379,7 @@ export class AuthenticationService {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);
     } else {
-      console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
+      console.error(`Backend returned code ${error.status}, ` + `body was: ${formatBackendErrorBody(error.error)}`);
     }
   }
 }

@@ -77,7 +77,7 @@ describe('NotificationModalComponent (Jest)', () => {
     component.createNotificationForm.get('notificationMessage').setValue('hello world');
 
     expect(component.notification.notificationTypeId).toBe('type-1');
-    expect(component.notification.notificationMessage).toBe(encodeURI('hello world'));
+    expect(component.notification.notificationMessage).toBe('hello world');
 
     component.saveNotification();
 
@@ -116,7 +116,7 @@ describe('NotificationModalComponent (Jest)', () => {
     expect(component.notification.notificationTypeId).toBe('type-1');
     expect(component.notification.notificationTypeLabel).toBe('Type 1');
     expect(component.notification.notificationIconImage).toBe('icon.png');
-    expect(component.notification.notificationMessage).toBe(encodeURI('review me'));
+    expect(component.notification.notificationMessage).toBe('review me');
     expect(notificationServiceStub.getNotificationRecipientsByOperationIdAndNotificationTypeId).toHaveBeenCalledWith(
       'op-1',
       'type-1'

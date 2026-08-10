@@ -39,7 +39,13 @@ describe('OperationContactsService (Jest)', () => {
     expect(httpMock.delete).toHaveBeenCalledWith('operations/op1/contacts/c1');
 
     service.getOperationContactsByOperationId('op1').subscribe();
-    expect(httpMock.get).toHaveBeenCalledWith('operations/op1/contacts');
+    expect(httpMock.get).toHaveBeenCalledWith(
+      'operations/op1/contacts',
+      expect.objectContaining({ params: expect.anything() })
+    );
+
+    const getCallOptions = httpMock.get.mock.calls[0][1];
+    expect(getCallOptions.params.get('_')).toBeTruthy();
   });
 
   it('handles client-side errors', done => {

@@ -93,7 +93,7 @@ export class NotificationModalComponent {
         }
       });
       this.createNotificationForm.get('notificationMessage').valueChanges.subscribe(val => {
-        this.notification.notificationMessage = encodeURI(val);
+        this.notification.notificationMessage = val || '';
       });
     }
   }
@@ -211,7 +211,7 @@ export class NotificationModalComponent {
     });
 
     this.notification.notificationTypeId = formData.notificationTypeId;
-    this.notification.notificationMessage = encodeURI(formData.notificationMessage || '');
+    this.notification.notificationMessage = formData.notificationMessage || '';
 
     if (notificationType) {
       this.notification.notificationTypeLabel = notificationType.notificationTypeLabel;
