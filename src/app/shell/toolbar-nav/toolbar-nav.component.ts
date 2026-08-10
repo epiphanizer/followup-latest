@@ -286,9 +286,12 @@ export class ToolbarNavComponent implements OnInit {
       }
     });
 
-    const activeRouteSnapshot = this.getDeepestRouteSnapshot(this.route.snapshot);
+    const activeRouteSnapshot = this.getDeepestRouteSnapshot(this.router.routerState.snapshot.root || this.route.snapshot);
     this.patient = this.getRoutePatient(activeRouteSnapshot);
-    const operationId = this.patient?.patientOperationId || this.getRouteParam(activeRouteSnapshot, 'operationId');
+    const operationId =
+      this.patient?.patientOperationId ||
+      this.getRouteParam(activeRouteSnapshot, 'operationId') ||
+      this.getRouteParamFromUrl('operationId');
 
     const modal = await this.modalController.create({
       component: NotificationModalComponent,
@@ -353,6 +356,29 @@ export class ToolbarNavComponent implements OnInit {
       }
 
       activeSnapshot = activeSnapshot.parent;
+    }
+
+    return '';
+  }
+
+  private getRouteParamFromUrl(paramName: string): string {
+    const normalizedUrl = String(this.router.url || '').split('?')[0];
+    const segments = normalizedUrl.split('/').filter(Boolean);
+
+    if (paramName === 'operationId') {
+      const operationSegmentIndex = segments.indexOf('operations');
+
+      if (operationSegmentIndex >= 0 && segments[operationSegmentIndex + 1]) {
+        return segments[operationSegmentIndex + 1];
+      }
+    }
+
+    if (paramName === 'patientId') {
+      const patientSegmentIndex = segments.indexOf('patient');
+
+      if (patientSegmentIndex >= 0 && segments[patientSegmentIndex + 1]) {
+        return segments[patientSegmentIndex + 1];
+      }
     }
 
     return '';

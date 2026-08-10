@@ -38,6 +38,12 @@ describe('ToolbarNavComponent logic', () => {
     }
   };
   const routerMock: any = { events: of(new NavigationEnd(1, '/home', '/home')), navigate: jest.fn() };
+  routerMock.url = '/call-queue/operations/op1/patient/p1';
+  routerMock.routerState = {
+    snapshot: {
+      root: routeMock.snapshot
+    }
+  };
   const dataServiceMock: any = {
     getData: jest.fn(() =>
       of(
@@ -190,6 +196,38 @@ describe('ToolbarNavComponent logic', () => {
         componentProps: expect.objectContaining({
           notification: expect.objectContaining({
             notificationOperationId: 'op1'
+          })
+        })
+      })
+    );
+  });
+
+  it('falls back to the current url operation id when the route snapshot does not expose one', async () => {
+    routeMock.snapshot.children = [
+      {
+        paramMap: {
+          get: jest.fn((_: string): string | null => null)
+        },
+        data: {
+          patient: {
+            patientId: 'p1',
+            patientFirstName: 'Pat',
+            patientLastName: 'Smith',
+            patientMedicalRecordNumber: '123',
+            patientOperationName: 'Op'
+          }
+        }
+      }
+    ];
+    routerMock.url = '/call-queue/operations/op-url/patient/p1';
+
+    await component.createNotificationModal();
+
+    expect(modalCtrlMock.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        componentProps: expect.objectContaining({
+          notification: expect.objectContaining({
+            notificationOperationId: 'op-url'
           })
         })
       })
