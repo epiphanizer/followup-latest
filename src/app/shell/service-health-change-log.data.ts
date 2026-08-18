@@ -15,6 +15,79 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.0.4',
+    recordedAt: '2026-08-10',
+    label: 'Version alignment stamp',
+    notes:
+      'Frontend- and API-only package/version bump with no functional change, promoting the 4.0.3 fix to the current released version. The frontend/API running change logs were not updated for this stamp, so this entry is reconstructed directly from git history (frontend `ccda744a`, API `413a076`).',
+    entries: [
+      {
+        scope: 'Release',
+        summary: 'Promoted the frontend and API package/version metadata to 4.0.4 with no additional code changes.',
+        evidence: 'git commit `ccda744a` (frontend) "Release 4.0.4" and `413a076` (API) "Release 4.0.4" touch only package.json/package-lock.json/.env.ts.',
+        source: 'v4.0.0/followup-frontend git history + v4.0.0/followup-api git history'
+      }
+    ]
+  },
+  {
+    version: '4.0.3',
+    recordedAt: '2026-08-10',
+    label: 'Notification modal type validation fix',
+    notes:
+      'The frontend/API running change logs were not updated for this hotfix, so this entry is reconstructed directly from git history (frontend `84a883a1`, API `6f4b798`).',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'The notification modal now blocks saving/sending while the notification type is unselected or recipients are still loading, instead of silently accepting an incomplete form.',
+        evidence:
+          'git commit `84a883a1` "Fix notify modal type validation and release 4.0.3" changed `src/app/shell/notification-modal/notification-modal.component.ts` to require a real `notificationTypeId` selection, added a `notificationRecipientsLoading` guard so double-submits are ignored mid-request, and marks all form controls touched to surface validation errors when the form is invalid.',
+        source: 'v4.0.0/followup-frontend git history (commit 84a883a1)'
+      }
+    ]
+  },
+  {
+    version: '4.0.2',
+    recordedAt: '2026-08-10',
+    label: 'Notification modal recipients fix',
+    notes:
+      'The frontend/API running change logs were not updated for this hotfix, so this entry is reconstructed directly from git history (frontend `12742aee`, API `4a7bb69`).',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Sending a notification from a nested patient route no longer silently drops the recipient list; the modal now resolves the operation id from the deepest active route and treats a missing/failed recipient lookup as an explicit error instead of leaving stale recipients in place.',
+        evidence:
+          'git commit `12742aee` "Fix notification modal recipients and release 4.0.2" reworked `src/app/shell/toolbar-nav/toolbar-nav.component.ts` to walk the full route snapshot tree (`getDeepestRouteSnapshot`/`getRoutePatient`/`getRouteParam`) instead of only checking the first-level child route, and updated `src/app/shell/notification-modal/notification-modal.component.ts` to reset `notificationRecipients` on every save attempt, surface toast errors when the operation id or recipient lookup fails, and block sending when no recipients are configured.',
+        source: 'v4.0.0/followup-frontend git history (commit 12742aee)'
+      }
+    ]
+  },
+  {
+    version: '4.0.1',
+    recordedAt: '2026-08-10',
+    label: 'Notification recipient cache-busting and email normalization',
+    notes:
+      'The frontend/API running change logs were not updated for this hotfix, so this entry is reconstructed directly from git history (frontend `f07be254`, API `bb290a9`).',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Notification recipient and operation contact reads now append a cache-busting query parameter so stale cached responses no longer mask newly configured recipients/contacts.',
+        evidence:
+          'git commit `f07be254` "chore: stamp 4.0.1 and refresh contact reads" updated `src/app/modules/notification/notification.service.ts` and `src/app/modules/operation/operation-contacts.service.ts` to append `HttpParams().set(\'_\', Date.now().toString())` to the recipient/contact GET requests.',
+        source: 'v4.0.0/followup-frontend git history (commit f07be254)'
+      },
+      {
+        scope: 'API',
+        summary: 'Outgoing notification emails now decode a URI-encoded notification message before sending, instead of emailing the raw encoded text.',
+        evidence:
+          'git commit `bb290a9` "chore: stamp 4.0.1 and normalize notification email" added `normalizeNotificationMessage()` to `deployment/clients/kicktechAPIService/kicktechAPIService.js`, which safely `decodeURIComponent`s the notification message before it is used in the outgoing email.',
+        source: 'v4.0.0/followup-api git history (commit bb290a9)'
+      }
+    ]
+  },
+  {
     version: '4.0.0',
     recordedAt: '2026-08-09',
     label: 'Current 4.0.0 release',

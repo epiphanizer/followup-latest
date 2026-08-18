@@ -12,7 +12,6 @@ import { environment } from '@env/environment';
 import { ToastrService } from 'ngx-toastr';
 import { UserCorkBoardService } from './user-cork-board/user-cork-board.service';
 import { SERVICE_HEALTH_CHANGE_LOG, ServiceHealthChangeLogRelease } from './service-health-change-log.data';
-import { UserRolesMap } from '@app/modules/user/user';
 
 interface ServiceStatusResponse {
   status?: string;
@@ -78,15 +77,9 @@ interface ServiceStatusViewModel {
   standalone: false
 })
 export class ShellComponent {
-  private readonly productionServiceHealthHosts = [
-    'app.followup.care',
-    'www.app.followup.care',
-    'followupcare.azurewebsites.net'
-  ];
   private readonly userIdleTimeoutMs = 15 * 60 * 1000;
   private readonly idleWarningThresholdMs = 30 * 1000;
   private readonly statusRefreshMs = 60000;
-  private readonly statusAutoHideMs = 5000;
   private readonly statusFadeOutMs = 250;
   private readonly statusViewportPaddingPx = 12;
   private readonly statusHttp: HttpClient;
@@ -119,10 +112,10 @@ export class ShellComponent {
   selectedChangeLogVersion: string = '';
   changeLogVersionQuery: string = '';
   changeLogExpanded: boolean = false;
-  private serviceStatusAutoHideTimeout: ReturnType<typeof setTimeout>;
+
   private serviceStatusFadeOutTimeout: ReturnType<typeof setTimeout>;
   private serviceStatusDragState: ServiceStatusDragState = null;
-  private serviceStatusHasAutoShown: boolean = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -386,9 +379,8 @@ export class ShellComponent {
         })
       )
       .subscribe((statusResult: ServiceStatusRequestResult) => {
-        const previousHealth = this.serviceStatus ? this.serviceStatus.health : 'checking';
         this.serviceStatus = this.mapServiceStatus(statusResult);
-        this.syncServiceStatusVisibility(previousHealth);
+        this.syncServiceStatusVisibility();
         this._cdr.markForCheck();
       });
   }
@@ -553,64 +545,11 @@ export class ShellComponent {
     return timingMatch ? this.roundDurationMs(parseFloat(timingMatch[1])) : 0;
   }
 
-  private syncServiceStatusVisibility(previousHealth: 'checking' | 'ok' | 'degraded') {
-    if (!this.serviceStatus) {
-      return;
-    }
-
-    if (this.serviceStatus.health === 'degraded') {
-      this.openServiceStatusPanel(false);
-      return;
-    }
-
+  private syncServiceStatusVisibility() {
+    // Status is tracked in the background only; the panel is opened solely via handleServiceHealthRequest().
     if (this.serviceStatusPanelPinned) {
       this.openServiceStatusPanel(true);
-      return;
     }
-
-    if (
-      this.serviceStatus.health === 'ok' &&
-      (!this.serviceStatusHasAutoShown || previousHealth === 'degraded' || previousHealth === 'checking')
-    ) {
-      this.serviceStatusHasAutoShown = true;
-
-      if (this.shouldSuppressAutomaticServiceStatusPanel()) {
-        return;
-      }
-
-      this.openServiceStatusPanel(false);
-      this.scheduleServiceStatusAutoHide();
-    }
-  }
-
-  private shouldSuppressAutomaticServiceStatusPanel(): boolean {
-    return this.isProductionServiceHealthHost() && this.isManagerOrAdmin(this.user);
-  }
-
-  private isProductionServiceHealthHost(): boolean {
-    return this.productionServiceHealthHosts.indexOf(this.getShellHostName()) >= 0;
-  }
-
-  private getShellHostName(): string {
-    return String(window?.location?.hostname || '').toLowerCase();
-  }
-
-  private isManagerOrAdmin(user: User): boolean {
-    const userRoleValue = this.getUserRoleValue(user);
-    return userRoleValue > 0 && userRoleValue <= 2;
-  }
-
-  private getUserRoleValue(user: User): number {
-    if (!user) {
-      return 0;
-    }
-
-    if (typeof user.userLevel === 'number') {
-      return user.userLevel;
-    }
-
-    const userRolesMap = UserRolesMap as unknown as Record<string, number>;
-    return Number(userRolesMap[String(user.userLevel)] || 0);
   }
 
   private openServiceStatusPanel(pinOpen: boolean) {
@@ -632,22 +571,7 @@ export class ShellComponent {
     }, this.statusFadeOutMs);
   }
 
-  private scheduleServiceStatusAutoHide() {
-    this.clearServiceStatusPanelTimers();
-    this.serviceStatusAutoHideTimeout = setTimeout(() => {
-      if (!this.serviceStatusPanelPinned && this.serviceStatus && this.serviceStatus.health === 'ok') {
-        this.hideServiceStatusPanel();
-        this._cdr.markForCheck();
-      }
-    }, this.statusAutoHideMs);
-  }
-
   private clearServiceStatusPanelTimers() {
-    if (this.serviceStatusAutoHideTimeout) {
-      clearTimeout(this.serviceStatusAutoHideTimeout);
-      this.serviceStatusAutoHideTimeout = null;
-    }
-
     if (this.serviceStatusFadeOutTimeout) {
       clearTimeout(this.serviceStatusFadeOutTimeout);
       this.serviceStatusFadeOutTimeout = null;

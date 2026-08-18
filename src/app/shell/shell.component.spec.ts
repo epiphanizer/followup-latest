@@ -127,7 +127,7 @@ describe('ShellComponent', () => {
     expect(component.serviceStatus.databaseName).toBe('followup_alpha_20260517');
     expect(component.serviceStatus.health).toBe('ok');
     expect(component.serviceStatus.profilingSummary).toContain('API on');
-    expect(component.serviceStatusPanelRendered).toBe(true);
+    expect(component.serviceStatusPanelRendered).toBe(false);
     component.ngOnDestroy();
     discardPeriodicTasks();
   }));
@@ -155,73 +155,60 @@ describe('ShellComponent', () => {
     expect(userSubject.getValue().userLoginExpires).toBeGreaterThan(before + 100000);
   });
 
-  it('auto-hides a healthy status panel after the login toast window', fakeAsync(() => {
+  it('never auto-opens the panel for a healthy status', () => {
     const buildCheckingStatus = (component as any).buildCheckingStatus.bind(component);
 
-    (component as any).statusAutoHideMs = 1;
-    (component as any).statusFadeOutMs = 1;
     component.serviceStatus = {
       ...buildCheckingStatus(),
       health: 'ok',
       healthLabel: 'Healthy'
     };
 
-    (component as any).syncServiceStatusVisibility('checking');
-    expect(component.serviceStatusPanelRendered).toBe(true);
-
-    tick(5);
-
-    expect(component.serviceStatusPanelRendered).toBe(false);
-  }));
-
-  it('suppresses healthy service status auto-show for manager-plus users on production hosts', () => {
-    const buildCheckingStatus = (component as any).buildCheckingStatus.bind(component);
-
-    component.user = { userId: 'manager-1', userLevel: UserRoles.manager } as any;
-    jest.spyOn(component as any, 'getShellHostName').mockReturnValue('followupcare.azurewebsites.net');
-    component.serviceStatus = {
-      ...buildCheckingStatus(),
-      health: 'ok',
-      healthLabel: 'Healthy'
-    };
-
-    (component as any).syncServiceStatusVisibility('checking');
+    (component as any).syncServiceStatusVisibility();
 
     expect(component.serviceStatusPanelRendered).toBe(false);
     expect(component.serviceStatusPanelVisible).toBe(false);
   });
 
-  it('still auto-shows healthy service status for standard users on production hosts', () => {
+  it('never auto-opens the panel for a degraded status, regardless of user role or host', () => {
     const buildCheckingStatus = (component as any).buildCheckingStatus.bind(component);
 
     component.user = { userId: 'user-1', userLevel: UserRoles.user } as any;
-    jest.spyOn(component as any, 'getShellHostName').mockReturnValue('followupcare.azurewebsites.net');
     component.serviceStatus = {
       ...buildCheckingStatus(),
-      health: 'ok',
-      healthLabel: 'Healthy'
+      health: 'degraded',
+      healthLabel: 'Degraded',
+      error: 'Service status unavailable.'
     };
 
-    (component as any).syncServiceStatusVisibility('checking');
+    (component as any).syncServiceStatusVisibility();
 
-    expect(component.serviceStatusPanelRendered).toBe(true);
-    expect(component.serviceStatusPanelVisible).toBe(true);
+    expect(component.serviceStatusPanelRendered).toBe(false);
+    expect(component.serviceStatusPanelVisible).toBe(false);
   });
 
   it('filters and scopes the version change log to markdown-backed versions only', () => {
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual([
+      '4.0.4',
+      '4.0.3',
+      '4.0.2',
+      '4.0.1',
       '4.0.0',
       '3.10.0-rc3',
       '3.12.0',
       '3.10.0'
     ]);
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
+      '4.0.4',
+      '4.0.3',
+      '4.0.2',
+      '4.0.1',
       '4.0.0',
       '3.10.0-rc3',
       '3.12.0',
       '3.10.0'
     ]);
-    expect(component.changeLogSummary).toBe('Showing all 4 recorded releases.');
+    expect(component.changeLogSummary).toBe('Showing all 8 recorded releases.');
 
     component.changeLogVersionQuery = 'rc3';
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual(['3.10.0-rc3']);
@@ -233,6 +220,10 @@ describe('ShellComponent', () => {
     component.selectChangeLogVersion('3.10.0-rc3');
     expect(component.selectedChangeLogVersion).toBe('');
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
+      '4.0.4',
+      '4.0.3',
+      '4.0.2',
+      '4.0.1',
       '4.0.0',
       '3.10.0-rc3',
       '3.12.0',
@@ -240,30 +231,22 @@ describe('ShellComponent', () => {
     ]);
   });
 
-  it('keeps a degraded status panel visible instead of auto-hiding', fakeAsync(() => {
+  it('keeps a pinned status panel open across status refreshes, healthy or degraded', fakeAsync(() => {
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
 
-    (component as any).statusAutoHideMs = 1;
-    (component as any).statusFadeOutMs = 1;
+    component.serviceStatusPanelPinned = true;
     component.serviceStatus = {
       ...component.serviceStatus,
       health: 'degraded',
       healthLabel: 'Degraded',
       error: 'Service status unavailable.'
     };
-    component.serviceStatusPanelRendered = false;
-    component.serviceStatusPanelVisible = false;
-    component.serviceStatusPanelPinned = false;
 
-    (component as any).syncServiceStatusVisibility('ok');
+    (component as any).syncServiceStatusVisibility();
     expect(component.serviceStatusPanelRendered).toBe(true);
     expect(component.serviceStatusPanelVisible).toBe(true);
-
-    tick(5);
-
-    expect(component.serviceStatusPanelRendered).toBe(true);
     component.ngOnDestroy();
     discardPeriodicTasks();
   }));
@@ -296,9 +279,8 @@ describe('ShellComponent', () => {
     expect(component.changeLogExpanded).toBe(true);
   });
 
-  it('still lets admins manually open service health on production hosts', () => {
+  it('still lets admins manually open service health regardless of host', () => {
     component.user = { userId: 'admin-1', userLevel: UserRoles.admin } as any;
-    jest.spyOn(component as any, 'getShellHostName').mockReturnValue('followupcare.azurewebsites.net');
 
     component.handleServiceHealthRequest('panel');
 

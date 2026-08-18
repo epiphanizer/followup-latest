@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpContextToken, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpContextToken, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, finalize, timeout } from 'rxjs/operators';
 import { LoaderService } from '../loader/loader.service';
 
 export const SKIP_GLOBAL_LOADER = new HttpContextToken<boolean>(() => false);
 
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
+  // Guards against a hung backend request leaving the global spinner on forever.
+  private readonly requestTimeoutMs = 30000;
   private requests: HttpRequest<any>[] = [];
 
   constructor(private loaderService: LoaderService) {}
@@ -38,31 +41,16 @@ export class LoaderInterceptor implements HttpInterceptor {
 
     this.requests.push(req);
     this.loaderService.isLoading.next(true);
-    return Observable.create((observer: any) => {
-      const subscription = next.handle(req).subscribe(
-        event => {
-          if (event instanceof HttpResponse) {
-            this.removeRequest(req);
-            observer.next(event);
-          }
-        },
-        err => {
-          if (!this.isExpectedLoginAccountSelectionConflict(req, err)) {
-            console.log(err);
-          }
-          this.removeRequest(req);
-          observer.error(err);
-        },
-        () => {
-          this.removeRequest(req);
-          observer.complete();
+
+    return next.handle(req).pipe(
+      timeout(this.requestTimeoutMs),
+      catchError(err => {
+        if (!this.isExpectedLoginAccountSelectionConflict(req, err)) {
+          console.log(err);
         }
-      );
-      // remove request from queue when cancelled
-      return () => {
-        this.removeRequest(req);
-        subscription.unsubscribe();
-      };
-    });
+        return throwError(() => err);
+      }),
+      finalize(() => this.removeRequest(req))
+    );
   }
 }
