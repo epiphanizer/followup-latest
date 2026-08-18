@@ -15,6 +15,44 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.0.5',
+    recordedAt: '2026-08-17',
+    label: 'Service Health manual-only + spinner/telemetry reliability fixes',
+    notes: 'Bundles this session\'s fixes; no prior running change log entry existed for this work before the release stamp.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'The Service Health panel no longer pops open automatically on a degraded or healthy status change; it now opens only when a user manually selects it from the Admin menu.',
+        evidence:
+          'Updated `syncServiceStatusVisibility()` in `src/app/shell/shell.component.ts` to drop the auto-open-on-degraded and 5-second auto-hide-on-healthy branches, and removed the now-dead production/manager auto-show suppression helpers. `shell.component.spec.ts` updated to assert the panel stays closed on any health transition unless pinned or manually opened.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-17)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The global loading spinner can no longer hang forever if a backend request never resolves; requests now time out after 30 seconds and always clear the spinner.',
+        evidence:
+          'Replaced the manual `Observable.create` wrapper in `src/app/shared/interceptors/loader-interceptor.ts` with `.pipe(timeout(30000), catchError(...), finalize(() => removeRequest(req)))`, guaranteeing cleanup on every terminal path (success/error/timeout/cancel). Added a fake-timers unit test proving a never-resolving request times out and clears `isLoading`.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-17)'
+      },
+      {
+        scope: 'Frontend',
+        summary: 'The Service Health Version Change Log search now includes the 4.0.1-4.0.4 patch releases, which had been missing from the manifest.',
+        evidence:
+          'Added `4.0.1`, `4.0.2`, `4.0.3`, and `4.0.4` release entries to `service-health-change-log.data.ts`, reconstructed from git history since the running change logs were never updated for those hotfix releases.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-17)'
+      },
+      {
+        scope: 'API',
+        summary: 'API telemetry now actually reaches Application Insights; it had been silently disabled in every environment because the `applicationinsights` package was never declared as a dependency.',
+        evidence:
+          'Added `applicationinsights` to `followup-api/package.json` dependencies and corrected the production `followupcare-api` App Service\'s `APPLICATIONINSIGHTS_CONNECTION_STRING` app setting, which had been pointed at a stale, unrelated App Insights resource. Confirmed via production log files that `[telemetry] Application Insights enabled for API runtime.` now prints on startup.',
+        source: 'v4.0.0/followup-api session change (2026-08-17)'
+      }
+    ]
+  },
+  {
     version: '4.0.4',
     recordedAt: '2026-08-10',
     label: 'Version alignment stamp',
