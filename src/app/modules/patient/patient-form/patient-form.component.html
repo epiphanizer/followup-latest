@@ -466,11 +466,23 @@
                 <ion-label color="medium" position="stacked"
                   >Primary Diagnosis <span style="color:#f1624a">*</span>
                 </ion-label>
-                <ion-textarea [autoGrow]="true" formControlName="patientPrimaryDiagnosis"></ion-textarea>
+                <ion-textarea
+                  [autoGrow]="true"
+                  formControlName="patientPrimaryDiagnosis"
+                  spellcheck="true"
+                  autocorrect="on"
+                  autocapitalize="sentences"
+                ></ion-textarea>
               </ion-item>
               <ion-item class="textarea-item" *ngIf="patient">
                 <ion-label color="medium" position="stacked">Discharged Condition </ion-label>
-                <ion-textarea [autoGrow]="true" formControlName="patientDischargedCondition"></ion-textarea>
+                <ion-textarea
+                  [autoGrow]="true"
+                  formControlName="patientDischargedCondition"
+                  spellcheck="true"
+                  autocorrect="on"
+                  autocapitalize="sentences"
+                ></ion-textarea>
               </ion-item>
             </ion-list>
           </fieldset>
@@ -523,7 +535,13 @@
               <i class="icon-info"></i>
               <span class="contact-header">Need To Know</span>
             </div>
-            <ion-textarea [autoGrow]="true" formControlName="patientNeedToKnow"></ion-textarea>
+            <ion-textarea
+              [autoGrow]="true"
+              formControlName="patientNeedToKnow"
+              spellcheck="true"
+              autocorrect="on"
+              autocapitalize="sentences"
+            ></ion-textarea>
           </fieldset>
           <ion-checkbox
             class="is-active followup-form-choice followup-form-choice--compact ion-float-right"
@@ -536,10 +554,10 @@
           </ion-checkbox>
         </ion-list>
         <div class="form-button-controls">
-          <button class="primary button" (click)="onFormSubmit()">
+          <button type="button" class="primary button" [disabled]="isSaving" (click)="onFormSubmit()">
             Save
           </button>
-          <button *ngIf="mode.edit" class="secondary button" (click)="cancel()">
+          <button type="button" *ngIf="mode.edit" class="secondary button" (click)="cancel()">
             Cancel
           </button>
         </div>

@@ -97,6 +97,12 @@ describe('ToolbarNavComponent logic', () => {
     expect(component.getUserRoleValue(component.user)).toBe(2);
   });
 
+  it('normalizes numeric-string and label user roles', () => {
+    expect(component.getUserRoleValue({ userLevel: '3' } as any)).toBe(3);
+    expect(component.getUserRoleValue({ userLevel: 'Care Rep' } as any)).toBe(3);
+    expect(component.getUserRoleValue({ userLevel: 'Manager' } as any)).toBe(2);
+  });
+
   it('initializes nav links and dropdowns', () => {
     expect(component.navLinks.length).toBeGreaterThan(0);
     expect(component.dropdowns.length).toBeGreaterThan(0);
@@ -120,6 +126,25 @@ describe('ToolbarNavComponent logic', () => {
 
     authUserSubject.next({ userId: 'user-1', userLevel: UserRoles.user });
     expect(component.canAccessLink(addPatientLink)).toBe(false);
+  });
+
+  it('keeps Notify visible for a Care Rep user', () => {
+    const notifyLink = component.navLinks.find(link => link.linkName === 'Notify');
+
+    authUserSubject.next({ userId: 'lesa-active', userLevel: UserRoles.user });
+
+    expect(component.getUserRoleValue(component.user)).toBe(3);
+    expect(notifyLink?.minRole).toBeUndefined();
+    expect(component.canAccessLink(notifyLink)).toBe(true);
+  });
+
+  it('keeps Notify visible when a legacy session has an unrecognized role format', () => {
+    const notifyLink = component.navLinks.find(link => link.linkName === 'Notify');
+
+    authUserSubject.next({ userId: 'legacy-session', userLevel: 'legacy-care-rep-role' });
+
+    expect(component.getUserRoleValue(component.user)).toBe(0);
+    expect(component.canAccessLink(notifyLink)).toBe(true);
   });
 
   it('marks User Management as manager-visible while keeping admin-only child links stricter', () => {

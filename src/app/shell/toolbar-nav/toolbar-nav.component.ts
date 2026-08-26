@@ -39,8 +39,6 @@ export class ToolbarNavComponent implements OnInit {
   patient: Patient;
   userRoles = UserRoles;
   user: User;
-  userRolesMap: Array<[string, number]> = [];
-  userRolesArray: Record<string, number> = {};
   @Output() dropdownEvent: EventEmitter<Boolean> = new EventEmitter(false);
   @Output() serviceHealthRequested: EventEmitter<ServiceHealthRequestMode> = new EventEmitter<
     ServiceHealthRequestMode
@@ -52,11 +50,6 @@ export class ToolbarNavComponent implements OnInit {
       if (user) {
         this.user = user;
       }
-    });
-    this.userRolesMap = Object.entries(UserRolesMap) as Array<[string, number]>;
-    this.userRolesArray = {};
-    this.userRolesMap.forEach(userRole => {
-      this.userRolesArray[userRole[0]] = userRole[1];
     });
     this.router.events
       .pipe(
@@ -160,8 +153,7 @@ export class ToolbarNavComponent implements OnInit {
         linkName: 'Notify',
         linkIcon: 'notify',
         dropdown: false,
-        dynamic: true,
-        minRole: 3
+        dynamic: true
       }
     ];
     this.navLinks.forEach(dropdown => {
@@ -176,11 +168,32 @@ export class ToolbarNavComponent implements OnInit {
     if (!user) {
       return 0;
     }
-    if (typeof user.userLevel === 'number') {
-      return user.userLevel;
+
+    const rawRole = user.userLevel as any;
+    if (typeof rawRole === 'number') {
+      return rawRole;
     }
-    const mappedRole = this.userRolesArray[String(user.userLevel)];
-    return mappedRole ? mappedRole : 0;
+
+    const numericRole = Number(rawRole);
+    if (Number.isFinite(numericRole) && numericRole >= 1 && numericRole <= 3) {
+      return numericRole;
+    }
+
+    const mappedRole = (UserRolesMap as any)[String(rawRole)];
+    if (typeof mappedRole === 'number') {
+      return mappedRole;
+    }
+
+    const normalizedRole = String(rawRole || '').trim().toLowerCase().replace(/[\s_-]+/g, '');
+    const roleLabels: Record<string, number> = {
+      admin: 1,
+      administrator: 1,
+      manager: 2,
+      user: 3,
+      carerep: 3,
+      callrep: 3
+    };
+    return roleLabels[normalizedRole] || 0;
   }
 
   canAccessLink(link: MenuLink | { minRole?: number } | undefined | null): boolean {

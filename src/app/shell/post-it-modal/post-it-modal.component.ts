@@ -23,6 +23,7 @@ export class PostItModalComponent {
   userMessage: UserMessage;
   todaysDate: string;
   todaysDateDay: number;
+  isSubmitting: boolean = false;
 
   constructor(
     private modalCtrl: ModalController,
@@ -55,27 +56,49 @@ export class PostItModalComponent {
     this.characters = formData.messageBody.length;
   }
   sendTheMessage() {
+    if (this.isSubmitting || this.createUserMessageForm.invalid) {
+      this.createUserMessageForm.markAllAsTouched();
+      return;
+    }
+
+    this.isSubmitting = true;
     let formData = this.createUserMessageForm.getRawValue();
     this.messageType = formData.messageType;
     this.userMessage.messageBody = encodeURI(formData.messageBody);
     if (this.messageType == 'user') {
-      this.userMessageService.sendUserMessage(this.userMessage).subscribe((data: any) => {
-        if (data) {
-          this.toastr.success('Successfully sent user message');
-        } else {
-          this.toastr.error('Uh oh! Something went wrong! Please try again.');
+      this.userMessageService.sendUserMessage(this.userMessage).subscribe({
+        next: (data: any) => {
+          this.isSubmitting = false;
+          if (data) {
+            this.toastr.success('Successfully sent user message');
+            this.dismiss();
+          } else {
+            this.toastr.error('Message was not sent. Your note is still here; please try again.');
+          }
+        },
+        error: () => {
+          this.isSubmitting = false;
+          this.toastr.error('Message was not sent. Your note is still here; please try again.');
         }
-        this.dismiss();
       });
     } else if (this.messageType == 'team') {
-      this.teamMessageService.sendTeamMessage(this.teamId, this.userMessage).subscribe((data: any) => {
-        if (data) {
-          this.toastr.success('Successfully sent team message');
-        } else {
-          this.toastr.error('Uh oh! Something went wrong! Please try again.');
+      this.teamMessageService.sendTeamMessage(this.teamId, this.userMessage).subscribe({
+        next: (data: any) => {
+          this.isSubmitting = false;
+          if (data) {
+            this.toastr.success('Successfully sent team message');
+            this.dismiss();
+          } else {
+            this.toastr.error('Message was not sent. Your note is still here; please try again.');
+          }
+        },
+        error: () => {
+          this.isSubmitting = false;
+          this.toastr.error('Message was not sent. Your note is still here; please try again.');
         }
-        this.dismiss();
       });
+    } else {
+      this.isSubmitting = false;
     }
   }
 

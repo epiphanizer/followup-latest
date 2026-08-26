@@ -79,8 +79,11 @@
                 class="reply-textarea"
                 placeholder="Enter your reply..."
                 rows="4"
+                spellcheck="true"
+                autocorrect="on"
+                autocapitalize="sentences"
               ></textarea>
-              <button type="submit" [disabled]="replyForm.invalid" class="reply-submit-btn primary button">
+              <button type="submit" [disabled]="replyForm.invalid || isSubmittingReply" class="reply-submit-btn primary button">
                 Submit Reply
               </button>
             </form>

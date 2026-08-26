@@ -79,6 +79,14 @@ describe('FollowupCompleteModalComponent', () => {
     expect(element.querySelector('.send-container .secondary.button')).toBeTruthy();
   });
 
+  it('enables native spellcheck and writing assistance for completion notes', () => {
+    const textarea = fixture.nativeElement.querySelector('ion-textarea.completion-notes') as HTMLElement;
+
+    expect(textarea.getAttribute('spellcheck')).toBe('true');
+    expect(textarea.getAttribute('autocorrect')).toBe('on');
+    expect(textarea.getAttribute('autocapitalize')).toBe('sentences');
+  });
+
   it('keeps completion selections mutually exclusive', () => {
     component.onCompletionTypeChange('1', true);
     expect(component.isCompletionTypeSelected('1')).toBe(true);
@@ -136,5 +144,24 @@ describe('FollowupCompleteModalComponent', () => {
     const element = fixture.nativeElement as HTMLElement;
     expect(element.querySelector('.completion-loading')).toBeNull();
     expect(element.querySelectorAll('.status-option').length).toBe(1);
+  });
+
+  it('keeps the completion selection and notes when saving fails', () => {
+    patientStatusServiceStub.addPatientStatusByPatientId.mockReturnValueOnce(
+      throwError(() => new Error('save failed'))
+    );
+    component.followupCompleteForm.setValue({ patientStatusLabelId: '1', completionNotes: 'Keep these notes' });
+
+    component.archivePatient(component.patient);
+
+    expect(component.isSaving).toBe(false);
+    expect(component.followupCompleteForm.getRawValue()).toEqual({
+      patientStatusLabelId: '1',
+      completionNotes: 'Keep these notes'
+    });
+    expect(component.completionSaveError).toBe(
+      'Follow-up was not completed. Your selection and notes are still here; please try again.'
+    );
+    expect(modalControllerStub.dismiss).not.toHaveBeenCalled();
   });
 });

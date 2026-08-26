@@ -15,6 +15,181 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.0.6',
+    recordedAt: '2026-08-25',
+    label: 'Workflow reliability and progressive loading',
+    notes:
+      'Alpha candidate covering safer form submissions, progressive avatar loading, resilient Notify access, draggable clinical dialogs, and native spelling assistance.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Patient notes, notification messages and replies, and follow-up completion notes now opt into native spelling correction and sentence capitalization.',
+        evidence:
+          'Enabled `spellcheck`, OS/browser autocorrect, and sentence capitalization on patient call notes, free-text call questions, patient diagnosis/discharge/Need-to-Know fields, notification compose/review/reply fields, and completion notes. This uses the browser and device editing controls instead of introducing a third-party service that could receive clinical text. Six focused Jest suites pass 83/83 tests.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-25)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Notify is now always present for authenticated users, regardless of legacy role formatting, while other role-gated toolbar links normalize numeric, encoded, and label role values consistently.',
+        evidence:
+          'Removed the redundant `minRole` gate from the Notify action and replaced TypeScript enum reverse-map role parsing with explicit numeric-string, encoded-id, and role-label normalization. Read-only production SQL verification found active Lesa Thompson is Care Rep with 73 direct facilities and Steph Neff is active Admin; neither valid role should suppress Notify. Lesa also has one inactive legacy duplicate account, but its login fallback still resolves to Care Rep. Focused toolbar/shell Jest passes 28/28 tests, and browser verification confirms Notify renders for an unrecognized legacy session role.',
+        source: 'v4.0.0/followup-frontend + production read-only audit (2026-08-25)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Notification and Follow-up Complete dialogs can now be dragged aside so users can inspect the patient screen without closing their work.',
+        evidence:
+          'Added a shared pointer-and-keyboard draggable modal directive, visible grip handles on both dialog title rows, viewport-bound movement, and Ionic modal content translation that leaves the backdrop fixed. Escape resets the dialog position and arrow keys provide accessible movement. Focused directive and modal Jest coverage passes 24/24 tests.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-25)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'All active data-entry forms were audited for the discharge-save failure pattern; Facility and User Profile now target real invalid controls, and network forms preserve entries and block duplicate submissions.',
+        evidence:
+          'Removed the remaining DOM-only `ng-invalid` validation from Facility and User Profile, added exact field scrolling/focus, consolidated Facility and Patient multi-request saves so one final record PUT runs after prerequisites, and added retry-safe in-flight/error handling to Client edit, Post-it, Notification, Notification Detail reply, and Follow-up Complete. The live `<form>` inventory also confirmed login and patient call child forms were already safe or emit-only. Eight focused Jest suites pass 131/131 tests.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-25)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Patient discharge saves now identify and focus the exact invalid field, validate typed dates immediately, and preserve all entered data when the API cannot save.',
+        evidence:
+          'Made the reactive form the validation source of truth, synchronized visible date text with hidden controls on input, rejected impossible calendar dates and discharge-before-admit ranges, and changed the generic validation alert to name and focus the first invalid field. Patient PUT failures now leave the form mounted and show explicit retry guidance. Focused patient-form Jest coverage passes 42/42 tests.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-25)'
+      },
+      {
+        scope: 'Performance',
+        summary:
+          'Patient and user avatars now populate progressively without keeping the full-page loading spinner active after patient or facility data is ready.',
+        evidence:
+          'Updated both avatar read services to set the existing `SKIP_GLOBAL_LOADER` HTTP context token on `GET /patients/{id}/avatar` and `GET /users/{id}/avatar`. Upload requests still use the global loader. Focused patient-avatar, user-avatar, and loader-interceptor Jest coverage passes.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-25)'
+      },
+      {
+        scope: 'Release',
+        summary: 'Promoted the frontend alpha candidate to version 4.0.6.',
+        evidence:
+          'Aligned package.json, package-lock.json, generated environment metadata, shell version assertions, and this Service Health manifest before promoting main into the alpha deployment branch.',
+        source: 'v4.0.0/followup-frontend release stamp (2026-08-25)'
+      },
+    ]
+  },
+  {
+    version: '4.0.5',
+    recordedAt: '2026-08-17',
+    label: 'Service Health manual-only + spinner/telemetry reliability fixes',
+    notes: 'Bundles this session\'s fixes; no prior running change log entry existed for this work before the release stamp.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'The Service Health panel no longer pops open automatically on a degraded or healthy status change; it now opens only when a user manually selects it from the Admin menu.',
+        evidence:
+          'Updated `syncServiceStatusVisibility()` in `src/app/shell/shell.component.ts` to drop the auto-open-on-degraded and 5-second auto-hide-on-healthy branches, and removed the now-dead production/manager auto-show suppression helpers. `shell.component.spec.ts` updated to assert the panel stays closed on any health transition unless pinned or manually opened.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-17)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'The global loading spinner can no longer hang forever if a backend request never resolves; requests now time out after 30 seconds and always clear the spinner.',
+        evidence:
+          'Replaced the manual `Observable.create` wrapper in `src/app/shared/interceptors/loader-interceptor.ts` with `.pipe(timeout(30000), catchError(...), finalize(() => removeRequest(req)))`, guaranteeing cleanup on every terminal path (success/error/timeout/cancel). Added a fake-timers unit test proving a never-resolving request times out and clears `isLoading`.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-17)'
+      },
+      {
+        scope: 'Frontend',
+        summary: 'The Service Health Version Change Log search now includes the 4.0.1-4.0.4 patch releases, which had been missing from the manifest.',
+        evidence:
+          'Added `4.0.1`, `4.0.2`, `4.0.3`, and `4.0.4` release entries to `service-health-change-log.data.ts`, reconstructed from git history since the running change logs were never updated for those hotfix releases.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-17)'
+      },
+      {
+        scope: 'API',
+        summary: 'API telemetry now actually reaches Application Insights; it had been silently disabled in every environment because the `applicationinsights` package was never declared as a dependency.',
+        evidence:
+          'Added `applicationinsights` to `followup-api/package.json` dependencies and corrected the production `followupcare-api` App Service\'s `APPLICATIONINSIGHTS_CONNECTION_STRING` app setting, which had been pointed at a stale, unrelated App Insights resource. Confirmed via production log files that `[telemetry] Application Insights enabled for API runtime.` now prints on startup.',
+        source: 'v4.0.0/followup-api session change (2026-08-17)'
+      }
+    ]
+  },
+  {
+    version: '4.0.4',
+    recordedAt: '2026-08-10',
+    label: 'Version alignment stamp',
+    notes:
+      'Frontend- and API-only package/version bump with no functional change, promoting the 4.0.3 fix to the current released version. The frontend/API running change logs were not updated for this stamp, so this entry is reconstructed directly from git history (frontend `ccda744a`, API `413a076`).',
+    entries: [
+      {
+        scope: 'Release',
+        summary: 'Promoted the frontend and API package/version metadata to 4.0.4 with no additional code changes.',
+        evidence: 'git commit `ccda744a` (frontend) "Release 4.0.4" and `413a076` (API) "Release 4.0.4" touch only package.json/package-lock.json/.env.ts.',
+        source: 'v4.0.0/followup-frontend git history + v4.0.0/followup-api git history'
+      }
+    ]
+  },
+  {
+    version: '4.0.3',
+    recordedAt: '2026-08-10',
+    label: 'Notification modal type validation fix',
+    notes:
+      'The frontend/API running change logs were not updated for this hotfix, so this entry is reconstructed directly from git history (frontend `84a883a1`, API `6f4b798`).',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'The notification modal now blocks saving/sending while the notification type is unselected or recipients are still loading, instead of silently accepting an incomplete form.',
+        evidence:
+          'git commit `84a883a1` "Fix notify modal type validation and release 4.0.3" changed `src/app/shell/notification-modal/notification-modal.component.ts` to require a real `notificationTypeId` selection, added a `notificationRecipientsLoading` guard so double-submits are ignored mid-request, and marks all form controls touched to surface validation errors when the form is invalid.',
+        source: 'v4.0.0/followup-frontend git history (commit 84a883a1)'
+      }
+    ]
+  },
+  {
+    version: '4.0.2',
+    recordedAt: '2026-08-10',
+    label: 'Notification modal recipients fix',
+    notes:
+      'The frontend/API running change logs were not updated for this hotfix, so this entry is reconstructed directly from git history (frontend `12742aee`, API `4a7bb69`).',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Sending a notification from a nested patient route no longer silently drops the recipient list; the modal now resolves the operation id from the deepest active route and treats a missing/failed recipient lookup as an explicit error instead of leaving stale recipients in place.',
+        evidence:
+          'git commit `12742aee` "Fix notification modal recipients and release 4.0.2" reworked `src/app/shell/toolbar-nav/toolbar-nav.component.ts` to walk the full route snapshot tree (`getDeepestRouteSnapshot`/`getRoutePatient`/`getRouteParam`) instead of only checking the first-level child route, and updated `src/app/shell/notification-modal/notification-modal.component.ts` to reset `notificationRecipients` on every save attempt, surface toast errors when the operation id or recipient lookup fails, and block sending when no recipients are configured.',
+        source: 'v4.0.0/followup-frontend git history (commit 12742aee)'
+      }
+    ]
+  },
+  {
+    version: '4.0.1',
+    recordedAt: '2026-08-10',
+    label: 'Notification recipient cache-busting and email normalization',
+    notes:
+      'The frontend/API running change logs were not updated for this hotfix, so this entry is reconstructed directly from git history (frontend `f07be254`, API `bb290a9`).',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Notification recipient and operation contact reads now append a cache-busting query parameter so stale cached responses no longer mask newly configured recipients/contacts.',
+        evidence:
+          'git commit `f07be254` "chore: stamp 4.0.1 and refresh contact reads" updated `src/app/modules/notification/notification.service.ts` and `src/app/modules/operation/operation-contacts.service.ts` to append `HttpParams().set(\'_\', Date.now().toString())` to the recipient/contact GET requests.',
+        source: 'v4.0.0/followup-frontend git history (commit f07be254)'
+      },
+      {
+        scope: 'API',
+        summary: 'Outgoing notification emails now decode a URI-encoded notification message before sending, instead of emailing the raw encoded text.',
+        evidence:
+          'git commit `bb290a9` "chore: stamp 4.0.1 and normalize notification email" added `normalizeNotificationMessage()` to `deployment/clients/kicktechAPIService/kicktechAPIService.js`, which safely `decodeURIComponent`s the notification message before it is used in the outgoing email.',
+        source: 'v4.0.0/followup-api git history (commit bb290a9)'
+      }
+    ]
+  },
+  {
     version: '4.0.0',
     recordedAt: '2026-08-09',
     label: 'Current 4.0.0 release',

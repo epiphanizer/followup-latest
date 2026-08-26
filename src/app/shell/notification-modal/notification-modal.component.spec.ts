@@ -262,6 +262,24 @@ describe('NotificationModalComponent (Jest)', () => {
     expect(modalCtrlStub.dismiss).toHaveBeenCalled();
   });
 
+  it('ignores repeated send clicks while notification creation is pending', () => {
+    const { component, notificationServiceStub } = buildComponent();
+    const pendingCreate = new Subject<any>();
+    notificationServiceStub.addNotificationByOperationIdAndNotificationTypeId.mockReturnValue(pendingCreate);
+    component.ngOnInit();
+    component.createNotificationForm.get('notificationTypeId').setValue('type-1');
+    component.createNotificationForm.get('notificationMessage').setValue('hello world');
+    component.notificationRecipients = [{ id: 'r1' } as any];
+
+    component.sendTheNotification();
+    component.sendTheNotification();
+
+    expect(notificationServiceStub.addNotificationByOperationIdAndNotificationTypeId).toHaveBeenCalledTimes(1);
+    expect(component.isSending).toBe(true);
+    pendingCreate.error(new Error('create failed'));
+    expect(component.isSending).toBe(false);
+  });
+
   it('stops loading and records an error when notification types fail to load', () => {
     const { component, notificationServiceStub } = buildComponent();
     notificationServiceStub.getNotificationTypes.mockReturnValueOnce(throwError(() => new Error('boom')));

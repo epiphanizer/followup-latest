@@ -285,10 +285,10 @@
             </ion-list>
           </ng-container>
         </fieldset>
-        <button *ngIf="!mode.view" class="ion-float-right primary button" (click)="onFormSubmit()">
+        <button type="button" *ngIf="!mode.view" class="ion-float-right primary button" [disabled]="isSaving" (click)="onFormSubmit()">
           Save
         </button>
-        <button *ngIf="!mode.view" class="ion-float-right secondary button" (click)="onCancelSubmit()">
+        <button type="button" *ngIf="!mode.view" class="ion-float-right secondary button" (click)="onCancelSubmit()">
           Cancel
         </button>
       </form>

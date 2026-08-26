@@ -103,6 +103,25 @@ describe('OperationGroupFormComponent (Jest)', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/clients', 'og1']);
   });
 
+  it('keeps client edits available for retry when the update fails', () => {
+    const { comp, router, operationService } = makeComponent();
+    operationService.editOperationGroupByOperationGroupId.mockReturnValueOnce(
+      throwError(() => new Error('save failed'))
+    );
+    comp.ngOnInit();
+    comp.operationGroupForm.patchValue({
+      operationGroupName: 'Unsaved Client Name',
+      operationGroupShortName: 'UNSAVED'
+    });
+
+    comp.onSubmit();
+
+    expect(comp.isSaving).toBe(false);
+    expect(comp.operationGroupForm.get('operationGroupName')?.value).toBe('Unsaved Client Name');
+    expect(comp.saveError).toBe('Client was not saved. Your entries are still here; please try again.');
+    expect(router.navigate).not.toHaveBeenCalled();
+  });
+
   it('loads the client from the service when it is missing from local user state', () => {
     const { comp, route, operationService } = makeComponent();
     route.snapshot.data.user.operationGroups = [];

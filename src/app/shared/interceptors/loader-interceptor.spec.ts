@@ -1,5 +1,5 @@
-import { HttpErrorResponse, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
-import { of, throwError } from 'rxjs';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
+import { NEVER, of, throwError } from 'rxjs';
 import { LoaderInterceptor } from './loader-interceptor';
 import { LoaderService } from '../loader/loader.service';
 
@@ -16,46 +16,51 @@ const createLoaderService = () => {
 };
 
 describe('LoaderInterceptor (smoke)', () => {
-  it('sets loading true then false on success', done => {
+  it('sets loading true then false on success', () => {
     const loaderService = createLoaderService();
     const interceptor = new LoaderInterceptor(loaderService);
     const request = new HttpRequest('GET', '/api/test');
     const handler = createHandler(() => of(new HttpResponse({ status: 200, body: { ok: true } })));
 
+    let receivedEvent: HttpEvent<any>;
     interceptor.intercept(request, handler).subscribe({
       next: event => {
-        expect(event instanceof HttpResponse).toBe(true);
-        expect(handler.handle).toHaveBeenCalledWith(request);
-        expect((loaderService as any).isLoading.next).toHaveBeenCalledWith(true);
-        expect((loaderService as any).isLoading.next).toHaveBeenLastCalledWith(false);
-        done();
+        receivedEvent = event;
       },
       error: err => {
-        done.fail(err);
+        throw err;
       }
     });
+
+    expect(receivedEvent instanceof HttpResponse).toBe(true);
+    expect(handler.handle).toHaveBeenCalledWith(request);
+    expect((loaderService as any).isLoading.next).toHaveBeenCalledWith(true);
+    expect((loaderService as any).isLoading.next).toHaveBeenLastCalledWith(false);
   });
 
-  it('sets loading true then false on error', done => {
+  it('sets loading true then false on error', () => {
     const loaderService = createLoaderService();
     const interceptor = new LoaderInterceptor(loaderService);
     const request = new HttpRequest('GET', '/api/fail');
     const handler = createHandler(() => throwError(() => new Error('boom')));
 
+    let receivedError: any;
     interceptor.intercept(request, handler).subscribe({
       next: () => {
-        done.fail('expected error');
+        throw new Error('expected error');
       },
-      error: () => {
-        expect(handler.handle).toHaveBeenCalledWith(request);
-        expect((loaderService as any).isLoading.next).toHaveBeenCalledWith(true);
-        expect((loaderService as any).isLoading.next).toHaveBeenLastCalledWith(false);
-        done();
+      error: err => {
+        receivedError = err;
       }
     });
+
+    expect(receivedError).toBeDefined();
+    expect(handler.handle).toHaveBeenCalledWith(request);
+    expect((loaderService as any).isLoading.next).toHaveBeenCalledWith(true);
+    expect((loaderService as any).isLoading.next).toHaveBeenLastCalledWith(false);
   });
 
-  it('does not log expected duplicate-account login conflicts', done => {
+  it('does not log expected duplicate-account login conflicts', () => {
     const loaderService = createLoaderService();
     const interceptor = new LoaderInterceptor(loaderService);
     const request = new HttpRequest('POST', '/users/login', {});
@@ -69,18 +74,42 @@ describe('LoaderInterceptor (smoke)', () => {
     const handler = createHandler(() => throwError(() => loginConflict));
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
 
+    let receivedError: any;
     interceptor.intercept(request, handler).subscribe({
       next: () => {
-        done.fail('expected error');
+        throw new Error('expected error');
       },
       error: err => {
-        expect(err).toBe(loginConflict);
-        expect(consoleSpy).not.toHaveBeenCalled();
-        expect((loaderService as any).isLoading.next).toHaveBeenCalledWith(true);
-        expect((loaderService as any).isLoading.next).toHaveBeenLastCalledWith(false);
-        consoleSpy.mockRestore();
-        done();
+        receivedError = err;
       }
     });
+
+    expect(receivedError).toBe(loginConflict);
+    expect(consoleSpy).not.toHaveBeenCalled();
+    expect((loaderService as any).isLoading.next).toHaveBeenCalledWith(true);
+    expect((loaderService as any).isLoading.next).toHaveBeenLastCalledWith(false);
+    consoleSpy.mockRestore();
+  });
+
+  it('forces a hung request to error out so the spinner cannot stay on forever', () => {
+    jest.useFakeTimers();
+    const loaderService = createLoaderService();
+    const interceptor = new LoaderInterceptor(loaderService);
+    const request = new HttpRequest('GET', '/api/hangs');
+    const handler = createHandler(() => NEVER);
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
+
+    const errorSpy = jest.fn();
+    interceptor.intercept(request, handler).subscribe({ next: () => undefined, error: errorSpy });
+
+    expect((loaderService as any).isLoading.next).toHaveBeenLastCalledWith(true);
+
+    jest.advanceTimersByTime((interceptor as any).requestTimeoutMs + 1);
+
+    expect(errorSpy).toHaveBeenCalled();
+    expect((loaderService as any).isLoading.next).toHaveBeenLastCalledWith(false);
+
+    consoleSpy.mockRestore();
+    jest.useRealTimers();
   });
 });

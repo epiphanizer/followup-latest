@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { HttpErrorResponse, HttpClient } from '@angular/common/http';
+import { HttpContext, HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { catchError, shareReplay, tap } from 'rxjs/operators';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,10 @@ export class PatientAvatarService {
     }
 
     const request$ = this.http
-      .get<any>('patients/' + patientId + '/avatar', { responseType: 'blob' as 'json' })
+      .get<any>('patients/' + patientId + '/avatar', {
+        responseType: 'blob' as 'json',
+        context: new HttpContext().set(SKIP_GLOBAL_LOADER, true)
+      })
       .pipe(
         shareReplay(1),
         catchError(e => {

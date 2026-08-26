@@ -62,7 +62,12 @@
             {{ question.patientCallQuestion }}
           </ion-label>
           <ion-item class="patient-call-question-container call-question">
-            <ion-textarea formControlName="{{ question.patientCallQuestionId }}"></ion-textarea>
+            <ion-textarea
+              formControlName="{{ question.patientCallQuestionId }}"
+              spellcheck="true"
+              autocorrect="on"
+              autocapitalize="sentences"
+            ></ion-textarea>
           </ion-item>
         </div>
       </ng-container>

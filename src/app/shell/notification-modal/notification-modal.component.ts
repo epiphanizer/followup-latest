@@ -31,6 +31,7 @@ export class NotificationModalComponent {
   notificationTypesLoading: boolean = true;
   notificationTypesError: string | null = null;
   notificationRecipientsLoading: boolean = false;
+  isSending: boolean = false;
   private notificationRecipientCache = new Map<string, NotificationRecipient[]>();
   private notificationRecipientRequests = new Map<string, Observable<NotificationRecipient[]>>();
   status: {
@@ -159,6 +160,10 @@ export class NotificationModalComponent {
   }
 
   sendTheNotification() {
+    if (this.isSending) {
+      return;
+    }
+
     this.syncNotificationFromForm();
 
     if (this.notificationRecipientsLoading || this.createNotificationForm.invalid) {
@@ -177,10 +182,12 @@ export class NotificationModalComponent {
     }
 
     if (this.createdNotificationId) {
+      this.isSending = true;
       this.dispatchNotification(this.createdNotificationId);
       return;
     }
 
+    this.isSending = true;
     this.notificationService
       .addNotificationByOperationIdAndNotificationTypeId(this.notification)
       .subscribe({
@@ -189,6 +196,7 @@ export class NotificationModalComponent {
           this.dispatchNotification(this.createdNotificationId);
         },
         error: () => {
+          this.isSending = false;
           this.toastr.error('Unable to create the notification right now.');
         }
       });
@@ -203,10 +211,12 @@ export class NotificationModalComponent {
   private dispatchNotification(notificationId: string) {
     this.notificationService.sendNotificationByNotificationId(notificationId).subscribe({
       next: () => {
+        this.isSending = false;
         this.toastr.success('Successfully sent notification!');
         this.dismiss();
       },
       error: () => {
+        this.isSending = false;
         this.toastr.error('Unable to send the notification right now.');
       }
     });

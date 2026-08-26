@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 /**
  * A class for talking to the user avatar API
@@ -13,7 +14,10 @@ export class UserAvatarService {
 
   getUserAvatarByUserId(userId: string): Observable<any> {
     return this.http
-      .get<any>('users/' + userId + '/avatar', { responseType: 'blob' as 'json' })
+      .get<any>('users/' + userId + '/avatar', {
+        responseType: 'blob' as 'json',
+        context: new HttpContext().set(SKIP_GLOBAL_LOADER, true)
+      })
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );

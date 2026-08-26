@@ -1,5 +1,5 @@
-import { FormArray, FormBuilder } from '@angular/forms';
-import { of } from 'rxjs';
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { of, throwError } from 'rxjs';
 import { PatientFormComponent } from './patient-form.component';
 
 let facilityModalDismissResult: { data?: any; role?: string } = { role: 'cancel' };
@@ -32,7 +32,7 @@ const makeServices = (overrides?: any) => {
     addPatientIntakeQuestionAnswerByPatientIntakeQuestionId: jest.fn(() => of(null)),
     editPatientIntakeQuestionAnswerByPatientIntakeQuestionId: jest.fn(() => of(null))
   } as any;
-  const toastrService = { success: jest.fn() } as any;
+  const toastrService = { success: jest.fn(), error: jest.fn() } as any;
   const userService = { updateOperations: jest.fn(() => Promise.resolve()) } as any;
   const modalController = {
     create: jest.fn(() =>
@@ -1545,6 +1545,127 @@ describe('PatientFormComponent (Jest)', () => {
     document.body.innerHTML = '';
   });
 
+  it('uses form validity to name, scroll to, and focus a discharge field even before DOM invalid classes update', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const formBuilder = new FormBuilder();
+    const comp = new PatientFormComponent(
+      formBuilder,
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patientForm = formBuilder.group({
+      patient: formBuilder.group({
+        dischargeInfo: formBuilder.group({
+          patientDischargeDate: formBuilder.control('', Validators.required)
+        })
+      })
+    });
+    document.body.innerHTML =
+      '<ion-item class="discharge-discharge-date"><ion-label>Discharged *</ion-label>' +
+      '<input type="hidden" formControlName="patientDischargeDate" />' +
+      '<div class="date-input-shell"><input class="date-text-input" /></div></ion-item>';
+    const item = document.querySelector('.discharge-discharge-date') as HTMLElement;
+    const visibleInput = document.querySelector('.date-text-input') as HTMLInputElement;
+    item.scrollIntoView = jest.fn();
+    visibleInput.focus = jest.fn();
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => undefined);
+
+    expect(comp.validateControls()).toBe(false);
+    expect(item.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' });
+    expect(visibleInput.focus).toHaveBeenCalled();
+    expect(alertSpy).toHaveBeenCalledWith('Unable to save. Please check Discharged date.');
+
+    alertSpy.mockRestore();
+    document.body.innerHTML = '';
+  });
+
+  it('keeps the hidden discharge control synchronized while a date is typed', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const formBuilder = new FormBuilder();
+    const comp = new PatientFormComponent(
+      formBuilder,
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patientForm = formBuilder.group({
+      patient: formBuilder.group({
+        dischargeInfo: formBuilder.group({
+          patientAdmitDate: formBuilder.control('2026-08-20'),
+          patientDischargeDate: formBuilder.control(''),
+          patientTotalDays: formBuilder.control(0)
+        })
+      })
+    });
+
+    comp.onDischargeDateInput('patientDischargeDate', '8/25/2026');
+
+    expect(comp.patientForm.get('patient.dischargeInfo.patientDischargeDate')!.value).toBe('2026-08-25');
+  });
+
+  it('rejects impossible calendar dates and discharge dates before admission', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const formBuilder = new FormBuilder();
+    const comp = new PatientFormComponent(
+      formBuilder,
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+
+    expect((comp as any).isNormalizedDischargeDateValue('2026-02-29')).toBe(false);
+    expect((comp as any).isNormalizedDischargeDateValue('2028-02-29')).toBe(true);
+
+    const dischargeInfo = formBuilder.group(
+      {
+        patientAdmitDate: new FormControl('2026-08-25'),
+        patientDischargeDate: new FormControl('2026-08-24')
+      },
+      { validators: (comp as any).dischargeDateOrderValidator }
+    );
+    expect(dischargeInfo.hasError('dischargeBeforeAdmit')).toBe(true);
+  });
+
+  it('keeps entered data in place and reports a patient save failure', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices({
+      patientService: {
+        editPatientByPatientId: jest.fn(() => throwError(() => new Error('save failed')))
+      }
+    });
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = { patientId: 'p1' } as any;
+    jest.spyOn(comp as any, 'formSubmissionFactory').mockReturnValue({ patientFirstName: 'Still here' });
+
+    comp.editPatient({});
+
+    expect(services.toastrService.error).toHaveBeenCalledWith(
+      'Patient was not saved. Your entries are still here; please review them and try again.'
+    );
+    expect(services.userService.updateOperations).not.toHaveBeenCalled();
+  });
+
   it('reloads the page on cancel', () => {
     const route = { snapshot: { data: { user: baseUser } } } as any;
     const services = makeServices();
@@ -1584,6 +1705,61 @@ describe('PatientFormComponent (Jest)', () => {
     expect(
       services.patientIntakeQuestionService.addPatientIntakeQuestionAnswerByPatientIntakeQuestionId
     ).not.toHaveBeenCalled();
+  });
+
+  it('runs exactly one patient save after all prerequisite writes complete', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const formBuilder = new FormBuilder();
+    const comp = new PatientFormComponent(
+      formBuilder,
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.user = baseUser;
+    comp.patientForm = formBuilder.group({ patient: formBuilder.group({ operation: formBuilder.control('op-1') }) });
+    jest.spyOn(comp, 'validateControls').mockReturnValue(true);
+    jest.spyOn(comp as any, 'buildPatientPrerequisiteSaveRequests').mockReturnValue([of({}), of({})]);
+    const saveRequestSpy = jest.spyOn(comp as any, 'getPatientSaveRequest').mockReturnValue(of({}));
+    jest.spyOn(comp as any, 'navigateTo').mockImplementation(() => undefined);
+
+    comp.onFormSubmit();
+
+    expect(saveRequestSpy).toHaveBeenCalledTimes(1);
+    expect(comp.isSaving).toBe(false);
+  });
+
+  it('does not attempt the final patient save when a prerequisite write fails', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const formBuilder = new FormBuilder();
+    const comp = new PatientFormComponent(
+      formBuilder,
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patientForm = formBuilder.group({ patient: formBuilder.group({ operation: formBuilder.control('op-1') }) });
+    jest.spyOn(comp, 'validateControls').mockReturnValue(true);
+    jest.spyOn(comp as any, 'buildPatientPrerequisiteSaveRequests').mockReturnValue([
+      throwError(() => new Error('contact failed'))
+    ]);
+    const saveRequestSpy = jest.spyOn(comp as any, 'getPatientSaveRequest').mockReturnValue(of({}));
+
+    comp.onFormSubmit();
+
+    expect(saveRequestSpy).not.toHaveBeenCalled();
+    expect(comp.isSaving).toBe(false);
+    expect(services.toastrService.error).toHaveBeenCalledWith(
+      'Patient was not saved. Your entries are still here; please review them and try again.'
+    );
   });
 
   it('skips delete when not confirmed', () => {

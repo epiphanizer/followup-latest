@@ -213,7 +213,7 @@
             </ion-item>
           </ion-list>
         </div>
-        <button class="save primary button" (click)="updateUserProfile()" type="button">
+        <button class="save primary button" (click)="updateUserProfile()" type="button" [disabled]="isSaving">
           Save
         </button>
         <button class="cancel secondary button" (click)="cancelUpdateProfile()" type="button">

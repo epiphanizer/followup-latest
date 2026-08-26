@@ -20,9 +20,11 @@ export class OperationGroupFormComponent implements OnInit {
   operationGroup: OperationGroup | null = null;
   operationGroupForm: FormGroup;
   isLoading = false;
+  isSaving = false;
   isArchiving = false;
   isRestoring = false;
   loadError: string | null = null;
+  saveError: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -109,10 +111,13 @@ export class OperationGroupFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.operationGroup?.operationGroupId || !this.operationGroupForm?.valid) {
+    if (this.isSaving || !this.operationGroup?.operationGroupId || !this.operationGroupForm?.valid) {
+      this.operationGroupForm?.markAllAsTouched();
       return;
     }
 
+    this.isSaving = true;
+    this.saveError = null;
     const formSubmission = this.operationGroupForm.getRawValue();
     const operationGroupPutBody: OperationGroupPutBody = {
       operationGroupName: (formSubmission.operationGroupName || '').trim(),
@@ -122,22 +127,29 @@ export class OperationGroupFormComponent implements OnInit {
     this.operationService
       .editOperationGroupByOperationGroupId(this.operationGroup.operationGroupId, operationGroupPutBody)
       .pipe(take(1))
-      .subscribe((result: OperationGroup | OperationGroup[]) => {
-        const updatedOperationGroup = Array.isArray(result) ? result[0] : result;
-        if (!updatedOperationGroup) {
-          this.loadError = 'Unable to update this client record.';
-          return;
-        }
+      .subscribe({
+        next: (result: OperationGroup | OperationGroup[]) => {
+          this.isSaving = false;
+          const updatedOperationGroup = Array.isArray(result) ? result[0] : result;
+          if (!updatedOperationGroup) {
+            this.saveError = 'Client was not saved. Your entries are still here; please try again.';
+            return;
+          }
 
-        this.applyOperationGroupRename(updatedOperationGroup);
-        this.operationService.notifyClientGroupsChanged();
-        this.userService.updateOperations(this.user).catch(() => {});
-        this.toastrService
-          .success('Successfully updated client')
-          .onShown.pipe(take(1))
-          .subscribe(() => {
-            this.router.navigate(['/clients', updatedOperationGroup.operationGroupId]);
-          });
+          this.applyOperationGroupRename(updatedOperationGroup);
+          this.operationService.notifyClientGroupsChanged();
+          this.userService.updateOperations(this.user).catch(() => {});
+          this.toastrService
+            .success('Successfully updated client')
+            .onShown.pipe(take(1))
+            .subscribe(() => {
+              this.router.navigate(['/clients', updatedOperationGroup.operationGroupId]);
+            });
+        },
+        error: () => {
+          this.isSaving = false;
+          this.saveError = 'Client was not saved. Your entries are still here; please try again.';
+        }
       });
   }
 
