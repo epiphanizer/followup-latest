@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { NotificationDetailComponent } from './notification-detail.component';
 import { NotificationReplyModalComponent } from '../notification-reply-modal/notification-reply-modal.component';
 
@@ -80,6 +80,22 @@ describe('NotificationDetailComponent (Jest)', () => {
     });
     expect(toastr.success).toHaveBeenCalled();
     expect(notificationService.getNotificationRepliesByNotificationId).toHaveBeenCalledTimes(2);
+  });
+
+  it('ignores repeated reply submissions while the first request is pending', () => {
+    const { comp, notificationService } = buildComponent();
+    const pendingReply = new Subject<any>();
+    notificationService.addNotificationReply.mockReturnValueOnce(pendingReply);
+    comp.ngOnInit();
+
+    comp.submitReply();
+    comp.submitReply();
+
+    expect(notificationService.addNotificationReply).toHaveBeenCalledTimes(1);
+    expect(comp.isSubmittingReply).toBe(true);
+    pendingReply.next({});
+    pendingReply.complete();
+    expect(comp.isSubmittingReply).toBe(false);
   });
 
   it('opens the reply modal with ModalController and refreshes replies after modal submission', async () => {

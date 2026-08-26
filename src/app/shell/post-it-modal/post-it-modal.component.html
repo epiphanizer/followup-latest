@@ -40,7 +40,7 @@
     <div class="button-container">
       <button class="secondary button" type="button" (click)="dismiss()">Cancel</button>
       <button
-        [disabled]="createUserMessageForm.invalid || (messageType == 'user' && characters > maxCharacters)"
+        [disabled]="isSubmitting || createUserMessageForm.invalid || (messageType == 'user' && characters > maxCharacters)"
         class="primary button send-button"
         type="button"
         (click)="sendTheMessage()"

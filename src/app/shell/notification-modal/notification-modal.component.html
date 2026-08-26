@@ -1,5 +1,13 @@
 <div class="notification-modal-shell">
-  <ion-row class="notification-container">
+  <ion-row
+    class="notification-container modal-drag-handle"
+    appDraggableModal
+    role="button"
+    tabindex="0"
+    aria-label="Move notification dialog"
+    title="Drag to move dialog"
+  >
+    <span class="modal-drag-grip" aria-hidden="true"></span>
     <ion-title class="ion-float-left">
       {{ status.notification.saved ? notification?.notificationTypeLabel : 'Notification' }}
     </ion-title>
@@ -47,6 +55,9 @@
         class="notification-textarea"
         formControlName="notificationMessage"
         placeholder="Leave Your Notes Here"
+        spellcheck="true"
+        autocorrect="on"
+        autocapitalize="sentences"
       ></ion-textarea>
       <ion-row>
         <div class="send-container">
@@ -109,6 +120,9 @@
                 [autoGrow]="true"
                 class="notification-review-textarea"
                 formControlName="notificationMessage"
+                spellcheck="true"
+                autocorrect="on"
+                autocapitalize="sentences"
               ></ion-textarea>
             </ion-item>
           </ion-list>
@@ -117,10 +131,11 @@
     </ion-row>
     <ion-row>
       <div class="send-container">
-        <button class="ion-float-left secondary button edit" (click)="editNotification()">Back</button>
+        <button class="ion-float-left secondary button edit" type="button" [disabled]="isSending" (click)="editNotification()">Back</button>
         <button
           class="ion-float-right primary button send"
-          [disabled]="notificationRecipientsLoading || createNotificationForm.invalid || !hasNotificationRecipients"
+          [disabled]="isSending || notificationRecipientsLoading || createNotificationForm.invalid || !hasNotificationRecipients"
+          type="button"
           (click)="sendTheNotification()"
         >
           Send

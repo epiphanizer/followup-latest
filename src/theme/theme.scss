@@ -97,6 +97,38 @@ ion-modal.searchable-select-modal::part(content) {
   max-height: calc(100vh - 48px);
 }
 
+ion-modal.followup-modal::part(content) {
+  translate: var(--followup-modal-drag-x, 0) var(--followup-modal-drag-y, 0);
+}
+
+.modal-drag-handle {
+  position: relative;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.modal-drag-handle.is-dragging {
+  cursor: grabbing;
+}
+
+.modal-drag-handle:focus-visible {
+  outline: 2px solid #08b4b9;
+  outline-offset: -2px;
+}
+
+.modal-drag-grip {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 38px;
+  height: 4px;
+  border-radius: 2px;
+  background: #9da3a8;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
 .alert-danger {
   color: --ion-color-danger !important;
 }

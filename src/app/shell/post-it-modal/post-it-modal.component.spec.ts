@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 
 import { PostItModalComponent } from './post-it-modal.component';
@@ -56,5 +56,35 @@ describe('PostItModalComponent (Jest)', () => {
 
     expect(teamMessageServiceStub.sendTeamMessage).toHaveBeenCalledWith('team-1', component.userMessage);
     expect(modalCtrlStub.dismiss).toHaveBeenCalled();
+  });
+
+  it('keeps the note open and available for retry when sending fails', () => {
+    const { component, userMessageServiceStub, modalCtrlStub, toastrStub } = buildComponent();
+    userMessageServiceStub.sendUserMessage.mockReturnValue(throwError(() => new Error('send failed')));
+    component.ngOnInit();
+    component.createUserMessageForm.setValue({ messageType: 'user', messageBody: 'keep this note' });
+
+    component.sendTheMessage();
+
+    expect(component.isSubmitting).toBe(false);
+    expect(component.createUserMessageForm.get('messageBody')!.value).toBe('keep this note');
+    expect(toastrStub.error).toHaveBeenCalledWith('Message was not sent. Your note is still here; please try again.');
+    expect(modalCtrlStub.dismiss).not.toHaveBeenCalled();
+  });
+
+  it('ignores repeated send clicks while a message request is pending', () => {
+    const { component, userMessageServiceStub } = buildComponent();
+    const pendingRequest = new Subject<any>();
+    userMessageServiceStub.sendUserMessage.mockReturnValue(pendingRequest);
+    component.ngOnInit();
+    component.createUserMessageForm.setValue({ messageType: 'user', messageBody: 'one note' });
+
+    component.sendTheMessage();
+    component.sendTheMessage();
+
+    expect(userMessageServiceStub.sendUserMessage).toHaveBeenCalledTimes(1);
+    expect(component.isSubmitting).toBe(true);
+    pendingRequest.error(new Error('send failed'));
+    expect(component.isSubmitting).toBe(false);
   });
 });

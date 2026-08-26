@@ -17,6 +17,7 @@
         </p>
 
         <form [formGroup]="operationGroupForm" novalidate>
+          <div class="status-panel error" *ngIf="saveError" role="alert">{{ saveError }}</div>
           <ion-list lines="none" inset>
             <ion-item>
               <ion-label color="medium" position="stacked">Client Name <span style="color:#f1624a">*</span></ion-label>
@@ -29,7 +30,7 @@
           </ion-list>
 
           <div class="client-form-actions">
-            <button class="primary button" type="button" (click)="onSubmit()">Save Client</button>
+            <button class="primary button" type="button" [disabled]="isSaving" (click)="onSubmit()">Save Client</button>
             <button class="secondary button" type="button" (click)="onCancel()">Cancel</button>
           </div>
         </form>

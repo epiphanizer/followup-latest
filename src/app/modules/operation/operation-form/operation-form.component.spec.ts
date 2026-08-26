@@ -1,7 +1,6 @@
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { SuperForm } from 'angular-super-validator';
 import { OperationFormComponent } from './operation-form.component';
-import { of, Subject } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { OperationGroup } from '../operation';
 
 describe('OperationFormComponent logic', () => {
@@ -232,31 +231,91 @@ describe('OperationFormComponent logic', () => {
       component.operationForm = fb.group({
         field: new FormControl('', Validators.required)
       });
-      const errorsSpy = jest.spyOn(SuperForm, 'getAllErrors').mockReturnValue({ field: true });
-      const errorsFlatSpy = jest.spyOn(SuperForm, 'getAllErrorsFlat').mockReturnValue({ field: true });
       const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-      document.body.innerHTML = '<div class="ng-invalid"></div>';
+      document.body.innerHTML =
+        '<ion-item><ion-label>Facility Name *</ion-label><ion-input formControlName="field"></ion-input></ion-item>';
+      const item = document.querySelector('ion-item') as HTMLElement;
+      const input = document.querySelector('ion-input') as any;
+      item.scrollIntoView = jest.fn();
+      input.setFocus = jest.fn(() => Promise.resolve());
 
       expect(component.validateControls()).toBe(false);
-      expect(alertSpy).toHaveBeenCalled();
+      expect(item.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' });
+      expect(input.setFocus).toHaveBeenCalled();
+      expect(alertSpy).toHaveBeenCalledWith('Unable to save. Please check Facility Name.');
 
       alertSpy.mockRestore();
-      errorsSpy.mockRestore();
-      errorsFlatSpy.mockRestore();
     });
 
     it('passes validation when no invalid controls are present', () => {
+      component.operationForm = fb.group({
+        operationName: new FormControl('Facility', Validators.required)
+      });
       document.body.innerHTML = '';
       expect(component.validateControls()).toBe(true);
     });
 
-    it('returns false for empty field with required validator', () => {
+    it('returns false from reactive form validity before ng-invalid classes render', () => {
       component.operationForm = fb.group({
         operationName: new FormControl('', Validators.required)
       });
-      document.body.innerHTML = '<div class="ng-invalid"></div>';
+      const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+      document.body.innerHTML = '';
 
       expect(component.validateControls()).toBe(false);
+      expect(alertSpy).toHaveBeenCalledWith(
+        'Unable to save. Please check the highlighted required fields. Your entries have been preserved.'
+      );
+      alertSpy.mockRestore();
+    });
+  });
+
+  describe('Save Safety', () => {
+    it('saves the facility once when a new contact has no notification types selected', () => {
+      component.addAdditionalOperationContact();
+      const contactGroup = (component.operationForm.get('operationContacts') as any).at(0);
+      contactGroup.patchValue({
+        operationContactFirstName: 'No',
+        operationContactLastName: 'Alerts',
+        operationContactEmail: 'no-alerts@example.com'
+      });
+      contactGroup.get('operationContactNotifications').at(0).get('n1').setValue(false);
+
+      component.onFormSubmit();
+
+      expect(operationContactsServiceMock.addOperationContactByOperationId).toHaveBeenCalledTimes(1);
+      expect(notificationRecipientServiceMock.addNotificationRecipientByOperationContactId).not.toHaveBeenCalled();
+      expect(operationServiceMock.editOperationByOperationId).toHaveBeenCalledTimes(1);
+      expect(component.isSaving).toBe(false);
+    });
+
+    it('keeps the facility form available for retry when a contact save fails', () => {
+      operationContactsServiceMock.addOperationContactByOperationId.mockReturnValueOnce(
+        throwError(() => new Error('contact failed'))
+      );
+      component.addAdditionalOperationContact();
+
+      component.onFormSubmit();
+
+      expect(operationServiceMock.editOperationByOperationId).not.toHaveBeenCalled();
+      expect(toastrMock.error).toHaveBeenCalledWith(
+        'Facility was not fully saved. Your entries are still here; please review them and try again.'
+      );
+      expect(component.isSaving).toBe(false);
+    });
+
+    it('ignores repeated save clicks while contact work is pending', () => {
+      const pendingContact = new Subject<any>();
+      operationContactsServiceMock.addOperationContactByOperationId.mockReturnValueOnce(pendingContact);
+      component.addAdditionalOperationContact();
+
+      component.onFormSubmit();
+      component.onFormSubmit();
+
+      expect(operationContactsServiceMock.addOperationContactByOperationId).toHaveBeenCalledTimes(1);
+      expect(component.isSaving).toBe(true);
+      pendingContact.error(new Error('contact failed'));
+      expect(component.isSaving).toBe(false);
     });
   });
 

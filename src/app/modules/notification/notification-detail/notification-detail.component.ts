@@ -25,6 +25,7 @@ export class NotificationDetailComponent implements OnInit {
   patient!: Patient;
   notificationReplies: NotificationReply[] = [];
   replyForm!: FormGroup;
+  isSubmittingReply = false;
   public selected:
     | {
         operation: Operation;
@@ -124,7 +125,12 @@ export class NotificationDetailComponent implements OnInit {
   }
 
   submitReply() {
+    if (this.isSubmittingReply) {
+      return;
+    }
+
     if (this.replyForm.invalid) {
+      this.replyForm.markAllAsTouched();
       return;
     }
 
@@ -140,6 +146,7 @@ export class NotificationDetailComponent implements OnInit {
       replyText: replyTextControl.value
     };
 
+    this.isSubmittingReply = true;
     this.notificationService
       .addNotificationReply(
         notificationId,
@@ -147,17 +154,19 @@ export class NotificationDetailComponent implements OnInit {
         this.notification.notificationOperationId,
         replyBody
       )
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
+          this.isSubmittingReply = false;
           this.toastr.success('Reply submitted successfully');
           this.replyForm.reset();
           this.loadNotificationReplies();
         },
-        error => {
+        error: error => {
+          this.isSubmittingReply = false;
           this.toastr.error('Error submitting reply');
           console.error('Error submitting reply', error);
         }
-      );
+      });
   }
   operationChangeEventHandler($event: Operation) {
     if (!this.selected.operation) {

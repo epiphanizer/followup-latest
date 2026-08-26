@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { PatientAvatarService } from './patient-avatar.service';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 describe('PatientAvatarService (Jest)', () => {
   it('fetches patient avatar', done => {
@@ -9,7 +10,11 @@ describe('PatientAvatarService (Jest)', () => {
 
     svc.getPatientAvatarByPatientId('p1').subscribe((result: any) => {
       expect(result).toBe('blob');
-      expect(http.get).toHaveBeenCalledWith('patients/p1/avatar', { responseType: 'blob' as 'json' });
+      expect(http.get).toHaveBeenCalledWith(
+        'patients/p1/avatar',
+        expect.objectContaining({ responseType: 'blob' })
+      );
+      expect(http.get.mock.calls[0][1].context.get(SKIP_GLOBAL_LOADER)).toBe(true);
       done();
     });
   });

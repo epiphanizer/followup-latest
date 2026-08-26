@@ -15,6 +15,70 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.0.6',
+    recordedAt: '2026-08-25',
+    label: 'Workflow reliability and progressive loading',
+    notes:
+      'Alpha candidate covering safer form submissions, progressive avatar loading, resilient Notify access, draggable clinical dialogs, and native spelling assistance.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Patient notes, notification messages and replies, and follow-up completion notes now opt into native spelling correction and sentence capitalization.',
+        evidence:
+          'Enabled `spellcheck`, OS/browser autocorrect, and sentence capitalization on patient call notes, free-text call questions, patient diagnosis/discharge/Need-to-Know fields, notification compose/review/reply fields, and completion notes. This uses the browser and device editing controls instead of introducing a third-party service that could receive clinical text. Six focused Jest suites pass 83/83 tests.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-25)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Notify is now always present for authenticated users, regardless of legacy role formatting, while other role-gated toolbar links normalize numeric, encoded, and label role values consistently.',
+        evidence:
+          'Removed the redundant `minRole` gate from the Notify action and replaced TypeScript enum reverse-map role parsing with explicit numeric-string, encoded-id, and role-label normalization. Read-only production SQL verification found active Lesa Thompson is Care Rep with 73 direct facilities and Steph Neff is active Admin; neither valid role should suppress Notify. Lesa also has one inactive legacy duplicate account, but its login fallback still resolves to Care Rep. Focused toolbar/shell Jest passes 28/28 tests, and browser verification confirms Notify renders for an unrecognized legacy session role.',
+        source: 'v4.0.0/followup-frontend + production read-only audit (2026-08-25)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Notification and Follow-up Complete dialogs can now be dragged aside so users can inspect the patient screen without closing their work.',
+        evidence:
+          'Added a shared pointer-and-keyboard draggable modal directive, visible grip handles on both dialog title rows, viewport-bound movement, and Ionic modal content translation that leaves the backdrop fixed. Escape resets the dialog position and arrow keys provide accessible movement. Focused directive and modal Jest coverage passes 24/24 tests.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-25)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'All active data-entry forms were audited for the discharge-save failure pattern; Facility and User Profile now target real invalid controls, and network forms preserve entries and block duplicate submissions.',
+        evidence:
+          'Removed the remaining DOM-only `ng-invalid` validation from Facility and User Profile, added exact field scrolling/focus, consolidated Facility and Patient multi-request saves so one final record PUT runs after prerequisites, and added retry-safe in-flight/error handling to Client edit, Post-it, Notification, Notification Detail reply, and Follow-up Complete. The live `<form>` inventory also confirmed login and patient call child forms were already safe or emit-only. Eight focused Jest suites pass 131/131 tests.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-25)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Patient discharge saves now identify and focus the exact invalid field, validate typed dates immediately, and preserve all entered data when the API cannot save.',
+        evidence:
+          'Made the reactive form the validation source of truth, synchronized visible date text with hidden controls on input, rejected impossible calendar dates and discharge-before-admit ranges, and changed the generic validation alert to name and focus the first invalid field. Patient PUT failures now leave the form mounted and show explicit retry guidance. Focused patient-form Jest coverage passes 42/42 tests.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-25)'
+      },
+      {
+        scope: 'Performance',
+        summary:
+          'Patient and user avatars now populate progressively without keeping the full-page loading spinner active after patient or facility data is ready.',
+        evidence:
+          'Updated both avatar read services to set the existing `SKIP_GLOBAL_LOADER` HTTP context token on `GET /patients/{id}/avatar` and `GET /users/{id}/avatar`. Upload requests still use the global loader. Focused patient-avatar, user-avatar, and loader-interceptor Jest coverage passes.',
+        source: 'v4.0.0/followup-frontend session change (2026-08-25)'
+      },
+      {
+        scope: 'Release',
+        summary: 'Promoted the frontend alpha candidate to version 4.0.6.',
+        evidence:
+          'Aligned package.json, package-lock.json, generated environment metadata, shell version assertions, and this Service Health manifest before promoting main into the alpha deployment branch.',
+        source: 'v4.0.0/followup-frontend release stamp (2026-08-25)'
+      },
+    ]
+  },
+  {
     version: '4.0.5',
     recordedAt: '2026-08-17',
     label: 'Service Health manual-only + spinner/telemetry reliability fixes',

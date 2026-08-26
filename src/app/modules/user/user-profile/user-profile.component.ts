@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { SuperForm } from 'angular-super-validator';
+import { AbstractControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { UserPutObject } from '@app/modules/user/user';
 import { UserService } from '@app/modules/user/user.service';
 import { User, UserRolesMap } from '@app/modules/user/user';
@@ -24,6 +23,7 @@ export class UserProfileComponent implements OnInit {
   currentUser: User;
   userProfileForm: FormGroup;
   isLoading = false;
+  isSaving = false;
   isAdminEditMode = false;
 
   numericRegEx = RegExp(/^[0-9]{1,7}$/);
@@ -232,26 +232,34 @@ export class UserProfileComponent implements OnInit {
   }
 
   updateUserProfile() {
-    if (!this.validateControls()) {
+    if (this.isSaving || !this.validateControls()) {
       return;
     }
+    this.isSaving = true;
     let formSubmission = this.userProfileForm.getRawValue();
     let userPutPayload = this.userFormSubmissionFactory(formSubmission);
-    this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe((data: any) => {
-      this.toastrService
-        .success(this.isAdminEditMode ? 'Successfully updated user record!' : 'Successfully updated user profile!')
-        .onShown.pipe(take(1))
-        .subscribe(() => {
-          this.applyFormSubmissionToUser(formSubmission);
+    this.userService.updateUserByUserId(this.user.userId, userPutPayload).subscribe({
+      next: () => {
+        this.isSaving = false;
+        this.toastrService
+          .success(this.isAdminEditMode ? 'Successfully updated user record!' : 'Successfully updated user profile!')
+          .onShown.pipe(take(1))
+          .subscribe(() => {
+            this.applyFormSubmissionToUser(formSubmission);
 
-          if (this.user?.userId === this.currentUser?.userId) {
-            this.authenticationService.currentUserSubject.next(this.user);
-            localStorage.setItem('followup-user', JSON.stringify(this.user));
-          }
+            if (this.user?.userId === this.currentUser?.userId) {
+              this.authenticationService.currentUserSubject.next(this.user);
+              localStorage.setItem('followup-user', JSON.stringify(this.user));
+            }
 
-          this.createForm();
-          this.router.navigate(this.isAdminEditMode ? ['/users'] : ['/user/profile']);
-        });
+            this.createForm();
+            this.router.navigate(this.isAdminEditMode ? ['/users'] : ['/user/profile']);
+          });
+      },
+      error: () => {
+        this.isSaving = false;
+        this.toastrService.error('Profile was not saved. Your entries are still here; please review them and try again.');
+      }
     });
   }
 
@@ -312,23 +320,58 @@ export class UserProfileComponent implements OnInit {
    * out what the error is in the console.
    */
   validateControls(): boolean {
-    console.log('Finding invalid controls...');
-    const errors = SuperForm.getAllErrors(this.userProfileForm);
-    console.log(JSON.stringify(errors));
-    const errorsFlat = SuperForm.getAllErrorsFlat(this.userProfileForm);
-    console.log(JSON.stringify(errorsFlat));
-    const firstError = <HTMLElement>document.getElementsByClassName('ng-invalid')[0];
+    this.userProfileForm?.markAllAsTouched();
+    this.userProfileForm?.updateValueAndValidity();
 
-    function scroll(el: HTMLElement) {
-      // window.scrollTo(0, 0);
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    if (firstError) {
-      // scroll(firstError);
-      alert('Please fill all required fields');
-      return false;
-    } else {
+    if (!this.userProfileForm || this.userProfileForm.valid) {
       return true;
+    }
+
+    const firstError = this.getFirstInvalidControlElement(this.userProfileForm);
+    if (firstError) {
+      const scrollTarget = (firstError.closest('ion-item, .form-row') as HTMLElement | null) || firstError;
+      scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      this.focusValidationElement(firstError);
+      alert('Unable to save. Please check ' + this.getValidationFieldLabel(firstError) + '.');
+      return false;
+    }
+
+    alert('Unable to save. Please check the highlighted required fields. Your entries have been preserved.');
+    return false;
+  }
+
+  private getFirstInvalidControlElement(control: AbstractControl): HTMLElement | null {
+    const childControls = (control as FormGroup).controls;
+    if (!childControls) {
+      return null;
+    }
+
+    for (const controlName of Object.keys(childControls)) {
+      const childControl = childControls[controlName];
+      const nestedElement = this.getFirstInvalidControlElement(childControl);
+      if (nestedElement) {
+        return nestedElement;
+      }
+      if (childControl.invalid) {
+        return document.querySelector('[formControlName="' + controlName + '"]') as HTMLElement | null;
+      }
+    }
+
+    return null;
+  }
+
+  private getValidationFieldLabel(element: HTMLElement): string {
+    const label = element.closest('ion-item, .form-row')?.querySelector('ion-label, label');
+    const text = (label?.textContent || '').replace(/\*/g, '').replace(/\s+/g, ' ').trim().replace(/:$/, '');
+    return text || 'the first highlighted field';
+  }
+
+  private focusValidationElement(element: HTMLElement) {
+    const focusTarget = element as HTMLElement & { setFocus?: () => Promise<void> };
+    if (focusTarget.setFocus) {
+      void focusTarget.setFocus();
+    } else {
+      focusTarget.focus();
     }
   }
 

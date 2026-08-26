@@ -47,6 +47,14 @@ describe('NotificationReplyModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('enables native spellcheck and writing assistance for replies', () => {
+    const textarea = fixture.nativeElement.querySelector('.reply-textarea') as HTMLTextAreaElement;
+
+    expect(textarea.getAttribute('spellcheck')).toBe('true');
+    expect(textarea.getAttribute('autocorrect')).toBe('on');
+    expect(textarea.getAttribute('autocapitalize')).toBe('sentences');
+  });
+
   it('should calculate character count correctly', () => {
     component.replyText = 'Hello World';
     expect(component.characterCount).toBe(11);

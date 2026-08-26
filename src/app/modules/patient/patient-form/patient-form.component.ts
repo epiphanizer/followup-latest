@@ -1,9 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { Patient, PatientDischargeLabel } from '@app/modules/patient/patient';
 import { PatientService } from '@app/modules/patient/patient.service';
-import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormArray,
+  FormControl,
+  ValidationErrors
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '@app/modules/user/user';
 import { PatientPutBody } from './patient-form';
@@ -16,7 +24,7 @@ import {
 } from '../patient-intake-question/patient-intake-question.component';
 import { PatientIntakeQuestionService } from '../patient-intake-question/patient-intake-question.service';
 import { SafeStyle } from '@angular/platform-browser';
-import { take } from 'rxjs/operators';
+import { finalize, switchMap, take, tap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { ModalController } from '@ionic/angular';
 
@@ -91,6 +99,7 @@ export class PatientFormComponent implements OnInit {
     }
   } as const;
   patientMedicalConditions?: string;
+  isSaving: boolean = false;
   operations: Operation[];
   groupedOperations: FacilityOperationGroup[] = [];
   operations$: Observable<Operation[]>;
@@ -560,7 +569,7 @@ export class PatientFormComponent implements OnInit {
           patientDischargedAma: this.fb.control(this.patient.patientDischargedAma == true ? '1' : '0', [
             Validators.required
           ])
-        }),
+        }, { validators: this.dischargeDateOrderValidator }),
         patientMedicalConditions: this.fb.group({
           cardiacBoolean: this.fb.control(this.patient.patientMedicalConditions.cardiacBoolean == true ? 1 : 0),
           sepsisBoolean: this.fb.control(this.patient.patientMedicalConditions.sepsisBoolean == true ? 1 : 0),
@@ -667,6 +676,7 @@ export class PatientFormComponent implements OnInit {
 
   onPatientDobInput(inputValue: string) {
     this.patientDobDisplayValue = inputValue || '';
+    this.syncTypedDateControl('patient.patientDob', this.patientDobDisplayValue);
   }
 
   onPatientDobInputBlur() {
@@ -762,6 +772,8 @@ export class PatientFormComponent implements OnInit {
 
   onDischargeDateInput(controlName: DischargeDateControlName, inputValue: string) {
     this.dischargeDateDisplayValues[controlName] = inputValue || '';
+    this.syncTypedDateControl('patient.dischargeInfo.' + controlName, this.dischargeDateDisplayValues[controlName]);
+    this.updateDischargeFields();
   }
 
   onDischargeDateInputBlur(controlName: DischargeDateControlName) {
@@ -957,134 +969,151 @@ export class PatientFormComponent implements OnInit {
     this.reloadPage();
   }
   onFormSubmit(): void {
-    if (!this.validateControls()) {
+    if (this.isSaving || !this.validateControls()) {
       return;
     }
-    let formSubmission = this.patientForm.getRawValue();
-    /**
-     * Run processing on our patient intake questions
-     */
-    let intakeAnswers = this.patientForm.controls.patient.get('patientIntakeQuestionAnswers') as FormArray;
-    let intakeAnswersArray = intakeAnswers.getRawValue();
+    this.isSaving = true;
+    const formSubmission = this.patientForm.getRawValue();
+    const prerequisiteRequests = this.buildPatientPrerequisiteSaveRequests(formSubmission);
+    const prerequisites = prerequisiteRequests.length ? forkJoin(prerequisiteRequests) : of([]);
 
-    /**
-     * Add answers if we don't have them yet, we do this by comparing the objects
-     */
+    prerequisites
+      .pipe(
+        switchMap(() => this.getPatientSaveRequest(formSubmission)),
+        finalize(() => {
+          this.isSaving = false;
+        })
+      )
+      .subscribe({
+        next: () => this.handlePatientSaveSuccess(),
+        error: () => this.handlePatientSaveError()
+      });
+  }
+
+  private buildPatientPrerequisiteSaveRequests(formSubmission: any): Observable<any>[] {
+    const requests: Observable<any>[] = [];
+    const intakeAnswers = this.patientForm.controls.patient.get('patientIntakeQuestionAnswers') as FormArray;
+    const intakeAnswersArray = intakeAnswers.getRawValue();
+
+    this.patientIntakeQuestionAnswersToAdd = this.patientIntakeQuestionAnswersOriginal.length
+      ? intakeAnswersArray.filter((answer: any, index: number) => !this.patientIntakeQuestionAnswersOriginal[index])
+      : intakeAnswersArray;
+
+    this.patientIntakeQuestionAnswersToAdd.forEach((answer: PatientIntakeQuestionAnswer) => {
+      const questionId = Object.keys(answer).toString();
+      requests.push(
+        this.patientIntakeQuestionService.addPatientIntakeQuestionAnswerByPatientIntakeQuestionId(
+          questionId,
+          (answer as any)[questionId]
+        )
+      );
+    });
 
     if (this.patientIntakeQuestionAnswersOriginal.length) {
-      this.patientIntakeQuestionAnswersToAdd = intakeAnswersArray.filter(
-        (patientContactQuestionAnswer: any, index: number) => {
-          return (
-            Object.is(patientContactQuestionAnswer[index], this.patientIntakeQuestionAnswersOriginal[index]) &&
-            patientContactQuestionAnswer[index] !== undefined
-          );
+      intakeAnswersArray.forEach((answer: any, index: number) => {
+        if (!this.patientIntakeQuestionAnswersOriginal[index]) {
+          return;
         }
-      );
-    } else {
-      this.patientIntakeQuestionAnswersToAdd = intakeAnswersArray;
+        const questionId = Object.keys(answer).toString();
+        requests.push(
+          this.patientIntakeQuestionService.editPatientIntakeQuestionAnswerByPatientIntakeQuestionId(
+            questionId,
+            answer[questionId]
+          )
+        );
+      });
     }
 
-    this.patientIntakeQuestionAnswersToAdd.forEach((patientIntakeQuestionAnswer: PatientIntakeQuestionAnswer) => {
-      var patientIntakeQuestionId = Object.keys(patientIntakeQuestionAnswer).toString();
-      const intakeAnswer = patientIntakeQuestionAnswer as any;
-      var patientQuestionAnswer = intakeAnswer[patientIntakeQuestionId];
-      this.patientIntakeQuestionService
-        .addPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
-        .subscribe((data: any) => {});
-    });
-    /**
-     * Edit questions if we already had them
-     */
-    intakeAnswersArray.forEach((patientIntakeQuestionAnswer: any) => {
-      var patientIntakeQuestionId = Object.keys(patientIntakeQuestionAnswer).toString();
-      var patientQuestionAnswer = (patientIntakeQuestionAnswer as any)[patientIntakeQuestionId];
-      this.patientIntakeQuestionService
-        .editPatientIntakeQuestionAnswerByPatientIntakeQuestionId(patientIntakeQuestionId, patientQuestionAnswer)
-        .subscribe((data: any) => {});
-    });
-
-    // Passing E2E
-    this.patientContactsToRemove.forEach((patientContactId: string, index: number) => {
-      if (patientContactId) {
-        this.patientContactService.removePatientContactByPatientContactId(patientContactId).subscribe(() => {
-          this.toastrService.success('Successfully removed patient contact');
-        });
-      }
-    });
-
-    /**
-     * Get a diff from our original patient contacts
-     */
-    this.patientContactsToAdd = this.patientContacts.filter((patientContact: PatientContact) => {
-      return this.patientContactsOriginal.indexOf(patientContact) == -1;
-    });
-
-    // Passing E2E
-    this.patientContactsToAdd.forEach((patientContact: PatientContact, index: number) => {
-      var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
-      this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
-      var patientContactPost = this.patientContactPostFactory(this.patientContacts[indexToGrab]);
-      this.patientContactService
-        .addNewPatientContactByPatientId(this.patient.patientId, patientContactPost)
-        .subscribe(() => {
-          this.toastrService.success('Successfully added patient contact');
-        });
-    });
-
-    if (this.patientContacts.length) {
-      this.patientContactsToEdit = this.patientContacts.filter((patientContact: any, index: number) => {
-        if (!patientContact.patientContactId) {
-          return false;
-        }
-        /**
-         * Get the actual form submission value and then compare it to see if we need to edit
-         */
-        var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
-        // Set patient contact id since we have no form control.
-        formSubmission.patient.patientContacts[indexToGrab].patientContactId = patientContact.patientContactId;
-        formSubmission.patient.patientContacts[indexToGrab].patientId = this.patient.patientId;
-        this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
-        // Use lodash to see if these are deep-equal
-        return !_.isEqual(patientContact, this.patientContacts[indexToGrab]);
+    this.patientContactsToRemove
+      .filter((patientContactId: string) => !!patientContactId)
+      .forEach((patientContactId: string) => {
+        requests.push(
+          this.patientContactService
+            .removePatientContactByPatientContactId(patientContactId)
+            .pipe(tap(() => this.toastrService.success('Successfully removed patient contact')))
+        );
       });
-      if (!this.patientContactsToEdit.length) {
-        this.editPatient(formSubmission);
-      }
 
-      this.patientContactsToEdit.forEach((patientContact: PatientContact, index: number) => {
-        // Now that we have these, we need to reassign to the form-submitted value.
-        var indexToGrab = parseInt(patientContact.patientContactOrder) - 1;
-        this.patientContacts[indexToGrab] = formSubmission.patient.patientContacts[indexToGrab];
-        var patientContactPut = this.patientContactPutFactory(this.patientContacts[indexToGrab]);
-
+    this.patientContactsToAdd = this.patientContacts.filter(
+      (patientContact: PatientContact) => !patientContact.patientContactId
+    );
+    this.patientContactsToAdd.forEach((patientContact: PatientContact) => {
+      const index = parseInt(patientContact.patientContactOrder, 10) - 1;
+      const submittedContact = formSubmission.patient.patientContacts[index];
+      requests.push(
         this.patientContactService
-          .editPatientContactByPatientId(this.patientContacts[indexToGrab].patientContactId, patientContactPut)
-          .subscribe(() => {
-            this.toastrService.success('Successfully edited patient contact');
-            /**
-             * Now go ahead and save other patient details
-             */
-            this.editPatient(formSubmission);
-          });
-      });
-    } else {
-      this.editPatient(formSubmission);
-    }
-  }
-  editPatient(formSubmission: any) {
-    let patientPutBody = this.formSubmissionFactory(formSubmission);
-
-    this.patientService.editPatientByPatientId(this.patient.patientId, patientPutBody).subscribe(value => {
-      this.toastrService.success('Successfully edited patient!');
-
-      this.userService.updateOperations(this.user).then(res => {
-        this.navigateTo('/operations/' + this.patientForm.get('patient.operation').value + '/patients');
-
-        if (!this.mode.edit) {
-          this.patientForm.reset();
-        }
-      });
+          .addNewPatientContactByPatientId(this.patient.patientId, this.patientContactPostFactory(submittedContact))
+          .pipe(tap(() => this.toastrService.success('Successfully added patient contact')))
+      );
     });
+
+    this.patientContactsToEdit = this.patientContacts.filter((patientContact: PatientContact) => {
+      if (!patientContact.patientContactId) {
+        return false;
+      }
+      const index = parseInt(patientContact.patientContactOrder, 10) - 1;
+      const submittedContact = {
+        ...formSubmission.patient.patientContacts[index],
+        patientContactId: patientContact.patientContactId,
+        patientId: this.patient.patientId
+      };
+      return !_.isEqual(patientContact, submittedContact);
+    });
+
+    this.patientContactsToEdit.forEach((patientContact: PatientContact) => {
+      const index = parseInt(patientContact.patientContactOrder, 10) - 1;
+      const submittedContact = {
+        ...formSubmission.patient.patientContacts[index],
+        patientContactId: patientContact.patientContactId,
+        patientId: this.patient.patientId
+      };
+      requests.push(
+        this.patientContactService
+          .editPatientContactByPatientId(
+            patientContact.patientContactId,
+            this.patientContactPutFactory(submittedContact)
+          )
+          .pipe(tap(() => this.toastrService.success('Successfully edited patient contact')))
+      );
+    });
+
+    return requests;
+  }
+
+  editPatient(formSubmission: any) {
+    this.isSaving = true;
+    this.getPatientSaveRequest(formSubmission)
+      .pipe(
+        finalize(() => {
+          this.isSaving = false;
+        })
+      )
+      .subscribe({
+        next: () => this.handlePatientSaveSuccess(),
+        error: () => this.handlePatientSaveError()
+      });
+  }
+
+  private getPatientSaveRequest(formSubmission: any): Observable<any> {
+    return this.patientService.editPatientByPatientId(
+      this.patient.patientId,
+      this.formSubmissionFactory(formSubmission)
+    );
+  }
+
+  private handlePatientSaveSuccess() {
+    this.toastrService.success('Successfully edited patient!');
+    this.userService.updateOperations(this.user).then(() => {
+      this.navigateTo('/operations/' + this.patientForm.get('patient.operation').value + '/patients');
+
+      if (!this.mode.edit) {
+        this.patientForm.reset();
+      }
+    });
+  }
+
+  private handlePatientSaveError() {
+    this.toastrService.error('Patient was not saved. Your entries are still here; please review them and try again.');
   }
   patientContactPutFactory(patientContact: PatientContact): PatientContactPutBody {
     const isResponsibleParty = patientContact.patientContactResponsiblePartyBoolean == true;
@@ -1269,8 +1298,41 @@ export class PatientFormComponent implements OnInit {
   }
 
   private isNormalizedDischargeDateValue(dateValue: string): boolean {
-    return /^\d{4}-\d{2}-\d{2}$/.test(dateValue || '');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateValue || '')) {
+      return false;
+    }
+
+    const [year, month, day] = dateValue.split('-').map(value => parseInt(value, 10));
+    const parsedDate = new Date(Date.UTC(year, month - 1, day));
+
+    return (
+      parsedDate.getUTCFullYear() === year &&
+      parsedDate.getUTCMonth() === month - 1 &&
+      parsedDate.getUTCDate() === day
+    );
   }
+
+  private syncTypedDateControl(controlPath: string, typedValue: string) {
+    const control = this.patientForm?.get(controlPath);
+    if (!control) {
+      return;
+    }
+
+    const normalized = this.normalizeDischargeDateValue((typedValue || '').trim());
+    control.setValue(this.isNormalizedDischargeDateValue(normalized) ? normalized : '', { emitEvent: false });
+    control.updateValueAndValidity({ emitEvent: false });
+  }
+
+  private readonly dischargeDateOrderValidator = (control: AbstractControl): ValidationErrors | null => {
+    const admitDate = this.normalizeDischargeDateValue(control.get('patientAdmitDate')?.value);
+    const dischargeDate = this.normalizeDischargeDateValue(control.get('patientDischargeDate')?.value);
+
+    if (!this.isNormalizedDischargeDateValue(admitDate) || !this.isNormalizedDischargeDateValue(dischargeDate)) {
+      return null;
+    }
+
+    return dischargeDate < admitDate ? { dischargeBeforeAdmit: true } : null;
+  };
 
   private getPatientDobControlValue(): string {
     const control = this.patientForm?.get('patient.patientDob');
@@ -1289,6 +1351,11 @@ export class PatientFormComponent implements OnInit {
    */
   validateControls(): boolean {
     this.patientForm?.markAllAsTouched();
+    this.patientForm?.updateValueAndValidity();
+
+    if (this.patientForm && this.patientForm.valid) {
+      return true;
+    }
 
     const firstError = this.getFirstInvalidValidationElement();
 
@@ -1297,11 +1364,17 @@ export class PatientFormComponent implements OnInit {
         behavior: 'smooth',
         block: 'center'
       });
-      alert('Failed validation, please check fields');
+      this.focusValidationElement(firstError);
+      alert('Unable to save. Please check ' + this.getValidationFieldLabel(firstError) + '.');
       return false;
-    } else {
-      return true;
     }
+
+    if (this.patientForm?.invalid) {
+      alert('Unable to save. Please check the highlighted required fields. Your entries have been preserved.');
+      return false;
+    }
+
+    return true;
   }
 
   private getFirstInvalidValidationElement(): HTMLElement | null {
@@ -1338,6 +1411,11 @@ export class PatientFormComponent implements OnInit {
       'patient.dischargeInfo.patientDischargeDate',
       '.discharge-discharge-date .date-input-shell'
     );
+    this.addCustomInvalidValidationCandidate(
+      invalidCandidates,
+      'patient.dischargeInfo',
+      '.discharge-discharge-date .date-input-shell'
+    );
 
     return Array.from(invalidCandidates).sort((left, right) => {
       if (left === right) {
@@ -1372,6 +1450,41 @@ export class PatientFormComponent implements OnInit {
         'ion-item, .patient-dob-wrapper, .form-row, .discharged-ama, .patient-checkbox-grid, .patient-contact-flags, .patient-discharge-dates-container, .call-question-body-container'
       ) as HTMLElement | null) || element
     );
+  }
+
+  private getValidationFieldLabel(element: HTMLElement): string {
+    if (element.matches('.facility-picker-trigger') || element.closest('.patient-facility')) {
+      return 'Facility';
+    }
+    if (element.closest('.patient-dob-wrapper')) {
+      return 'Birthday';
+    }
+    if (element.closest('.discharge-admit-date')) {
+      return 'Admitted date';
+    }
+    if (element.closest('.discharge-discharge-date')) {
+      return this.patientForm?.get('patient.dischargeInfo')?.hasError('dischargeBeforeAdmit')
+        ? 'Discharged date (it cannot be before the admitted date)'
+        : 'Discharged date';
+    }
+
+    const label = element.closest('ion-item, .form-row, .discharged-ama')?.querySelector('ion-label, label');
+    const labelText = (label?.textContent || '').replace(/\*/g, '').replace(/\s+/g, ' ').trim().replace(/:$/, '');
+    return labelText || 'the first highlighted field';
+  }
+
+  private focusValidationElement(element: HTMLElement) {
+    const focusTarget = (element.matches('input:not([type="hidden"]), textarea, select, button, ion-input, ion-select, ion-textarea, ion-radio, ion-checkbox')
+      ? element
+      : element.querySelector(
+          'input:not([type="hidden"]), textarea, select, button, ion-input, ion-select, ion-textarea, ion-radio, ion-checkbox'
+        )) as (HTMLElement & { setFocus?: () => Promise<void> }) | null;
+
+    if (focusTarget?.setFocus) {
+      void focusTarget.setFocus();
+    } else {
+      focusTarget?.focus();
+    }
   }
 
   private navigateTo(url: string): void {

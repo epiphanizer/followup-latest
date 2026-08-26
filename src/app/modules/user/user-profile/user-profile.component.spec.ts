@@ -1,6 +1,5 @@
-import { BehaviorSubject, of } from 'rxjs';
-import { FormBuilder } from '@angular/forms';
-import { SuperForm } from 'angular-super-validator';
+import { BehaviorSubject, of, throwError } from 'rxjs';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { UserProfileComponent } from './user-profile.component';
 
@@ -34,7 +33,10 @@ describe('UserProfileComponent (Jest)', () => {
       }
     } as any;
     const router = { navigate: jest.fn() } as any;
-    const toastrService = { success: jest.fn(() => ({ onShown: { pipe: () => ({ subscribe: jest.fn() }) } })) } as any;
+    const toastrService = {
+      success: jest.fn(() => ({ onShown: { pipe: () => ({ subscribe: jest.fn() }) } })),
+      error: jest.fn()
+    } as any;
     const userService = {
       updateUserByUserId: jest.fn(() => of({})),
       getUserByUserId: jest.fn(() => of(options?.loadedUser || { ...baseUser, userId: 'u2', userFirstName: 'Grace' })),
@@ -50,7 +52,7 @@ describe('UserProfileComponent (Jest)', () => {
       userService
     );
 
-    return { comp, authenticationService, route, router, userService };
+    return { comp, authenticationService, route, router, toastrService, userService };
   };
 
   it('builds the profile form from the current user', () => {
@@ -172,17 +174,47 @@ describe('UserProfileComponent (Jest)', () => {
     const { comp } = makeComponent();
     comp.user = baseUser;
     comp.ngOnInit();
-    document.body.innerHTML = '<div class="ng-invalid"></div>';
+    comp.userProfileForm.setControl('userFirstName', new FormControl('', Validators.required));
+    document.body.innerHTML =
+      '<ion-item><ion-label>First Name *</ion-label><ion-input formControlName="userFirstName"></ion-input></ion-item>';
+    const item = document.querySelector('ion-item') as HTMLElement;
+    const input = document.querySelector('ion-input') as any;
+    item.scrollIntoView = jest.fn();
+    input.setFocus = jest.fn(() => Promise.resolve());
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-    // @ts-ignore
-    SuperForm.getAllErrors = jest.fn(() => ({ field: true }));
-    // @ts-ignore
-    SuperForm.getAllErrorsFlat = jest.fn(() => ({ field: true }));
 
     const valid = comp.validateControls();
 
     expect(valid).toBe(false);
-    expect(alertSpy).toHaveBeenCalled();
+    expect(item.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' });
+    expect(input.setFocus).toHaveBeenCalled();
+    expect(alertSpy).toHaveBeenCalledWith('Unable to save. Please check First Name.');
     alertSpy.mockRestore();
+    document.body.innerHTML = '';
+  });
+
+  it('ignores unrelated ng-invalid DOM classes when the profile form is valid', () => {
+    const { comp } = makeComponent();
+    comp.ngOnInit();
+    document.body.innerHTML = '<div class="ng-invalid"></div>';
+
+    expect(comp.validateControls()).toBe(true);
+    document.body.innerHTML = '';
+  });
+
+  it('keeps profile entries and allows retry after an update failure', () => {
+    const { comp, router, toastrService, userService } = makeComponent();
+    comp.ngOnInit();
+    userService.updateUserByUserId.mockReturnValue(throwError(() => new Error('save failed')));
+    const enteredName = comp.userProfileForm.get('userFirstName')!.value;
+
+    comp.updateUserProfile();
+
+    expect(comp.isSaving).toBe(false);
+    expect(comp.userProfileForm.get('userFirstName')!.value).toBe(enteredName);
+    expect(toastrService.error).toHaveBeenCalledWith(
+      'Profile was not saved. Your entries are still here; please review them and try again.'
+    );
+    expect(router.navigate).not.toHaveBeenCalled();
   });
 });

@@ -22,6 +22,8 @@ export class FollowupCompleteModalComponent implements OnInit {
   completionTypes: PatientStatus[] = [];
   completionTypesLoading: boolean = true;
   completionTypesError: string | null = null;
+  completionSaveError: string | null = null;
+  isSaving: boolean = false;
 
   ngOnInit() {
     this.createForm();
@@ -80,14 +82,31 @@ export class FollowupCompleteModalComponent implements OnInit {
   }
 
   archivePatient(patient: Patient) {
+    if (this.isSaving || this.followupCompleteForm.invalid) {
+      this.followupCompleteForm.markAllAsTouched();
+      return;
+    }
+
+    this.isSaving = true;
+    this.completionSaveError = null;
     var formSubmission = this.followupCompleteForm.getRawValue();
     var patientStatusLabelId = formSubmission.patientStatusLabelId;
     var patientStatusNotes = formSubmission.completionNotes;
     this.patientStatusService
       .addPatientStatusByPatientId(patient.patientId, patientStatusLabelId, patientStatusNotes)
-      .subscribe((data: any) => {
-        // Emitter here
-        this.dismissSuccess();
+      .pipe(
+        take(1),
+        finalize(() => {
+          this.isSaving = false;
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.dismissSuccess();
+        },
+        error: () => {
+          this.completionSaveError = 'Follow-up was not completed. Your selection and notes are still here; please try again.';
+        }
       });
   }
 

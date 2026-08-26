@@ -1,7 +1,15 @@
 <form [formGroup]="followupCompleteForm" novalidate class="followup-complete-form" (ngSubmit)="archivePatient(patient)">
   <ng-container *ngIf="patient">
     <div class="followup-complete-shell">
-      <div class="graduation-container">
+      <div
+        class="graduation-container modal-drag-handle"
+        appDraggableModal
+        role="button"
+        tabindex="0"
+        aria-label="Move follow-up completion dialog"
+        title="Drag to move dialog"
+      >
+        <span class="modal-drag-grip" aria-hidden="true"></span>
         <ion-title>Follow-up</ion-title>
         <img class="graduation-image" src="/assets/complete-graphic@2x.png" alt="" />
       </div>
@@ -51,15 +59,19 @@
           [autoGrow]="true"
           formControlName="completionNotes"
           placeholder="Any Notes?"
+          spellcheck="true"
+          autocorrect="on"
+          autocapitalize="sentences"
         ></ion-textarea>
       </div>
 
       <div class="send-container">
+        <p class="completion-error" *ngIf="completionSaveError" role="alert">{{ completionSaveError }}</p>
         <button class="secondary button" type="button" (click)="dismiss()">Cancel</button>
         <button
           class="primary button"
           type="submit"
-          [disabled]="followupCompleteForm.invalid || completionTypesLoading || !!completionTypesError"
+          [disabled]="isSaving || followupCompleteForm.invalid || completionTypesLoading || !!completionTypesError"
         >
           Save
         </button>
