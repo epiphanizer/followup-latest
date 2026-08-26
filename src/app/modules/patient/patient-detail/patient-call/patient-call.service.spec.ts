@@ -40,6 +40,29 @@ describe('PatientCallService (Jest)', () => {
     });
   });
 
+  it('loads patient detail call reads without the global loader', () => {
+    const http = {
+      get: jest.fn(() => of([{ patientCallId: 'pc-1' }]))
+    } as any;
+    const service = new PatientCallService(http);
+
+    service.getPatientCallByPatientCallId('p1', 'pc-1').subscribe();
+    service.getPatientCallsByPatientId('p1').subscribe();
+
+    expect(http.get).toHaveBeenNthCalledWith(
+      1,
+      'patients/p1/calls/pc-1',
+      expect.objectContaining({ context: expect.anything() })
+    );
+    expect(http.get).toHaveBeenNthCalledWith(
+      2,
+      'patients/p1/calls',
+      expect.objectContaining({ context: expect.anything() })
+    );
+    expect(http.get.mock.calls[0][1].context.get(SKIP_GLOBAL_LOADER)).toBe(true);
+    expect(http.get.mock.calls[1][1].context.get(SKIP_GLOBAL_LOADER)).toBe(true);
+  });
+
   it('logs client-side errors in handleAsyncError', done => {
     const http = {
       get: jest.fn(() =>

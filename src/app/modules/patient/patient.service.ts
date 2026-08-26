@@ -95,7 +95,7 @@ export class PatientService {
     );
   }
   getPatientLanguagesByPatientId(patientId: string): Observable<[UserLanguage]> {
-    return this.http.get<[UserLanguage]>('patients/' + patientId + '/languages').pipe(
+    return this.http.get<[UserLanguage]>('patients/' + patientId + '/languages', this.progressiveLoadOptions).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

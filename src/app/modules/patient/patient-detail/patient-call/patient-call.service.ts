@@ -97,13 +97,13 @@ export class PatientCallService {
   };
 
   getPatientCallByPatientCallId = function(patientId: string, patientCallId: string) {
-    return this.http.get('patients/' + patientId + '/calls/' + patientCallId).pipe(
+    return this.http.get('patients/' + patientId + '/calls/' + patientCallId, this.progressiveLoadOptions).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
   getPatientCallsByPatientId = function(patientId: string) {
-    return this.http.get('patients/' + patientId + '/calls').pipe(
+    return this.http.get('patients/' + patientId + '/calls', this.progressiveLoadOptions).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };

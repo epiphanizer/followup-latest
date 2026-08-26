@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
 import { catchError, retry, delay } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpContext, HttpErrorResponse } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { PatientContactPostBody, PatientContactPutBody } from './patient-contact';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,12 @@ export class PatientContactService {
   };
   constructor(private http: HttpService) {}
 
+  private readonly progressiveLoadOptions = {
+    context: new HttpContext().set(SKIP_GLOBAL_LOADER, true)
+  };
+
   getPatientContactsByPatientId = function(patientId: string) {
-    return this.http.get('patients/' + patientId + '/contacts/').pipe(
+    return this.http.get('patients/' + patientId + '/contacts/', this.progressiveLoadOptions).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };

@@ -1,5 +1,6 @@
 import { of } from 'rxjs';
 import { PatientIntakeQuestionService } from './patient-intake-question.service';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 describe('PatientIntakeQuestionService (Jest)', () => {
   const makeHttp = () => ({
@@ -38,7 +39,12 @@ describe('PatientIntakeQuestionService (Jest)', () => {
       expect(result).toEqual([{ id: 'q1' }] as any);
     });
 
-    expect(http.get).toHaveBeenCalledWith('patients/p1/questions');
+    expect(http.get).toHaveBeenCalledWith(
+      'patients/p1/questions',
+      expect.objectContaining({ context: expect.anything() })
+    );
+    const requestOptions = (http.get as jest.Mock).mock.calls[0][1] as any;
+    expect(requestOptions.context.get(SKIP_GLOBAL_LOADER)).toBe(true);
   });
 
   it('gets intake question answers by question id', () => {
@@ -49,6 +55,11 @@ describe('PatientIntakeQuestionService (Jest)', () => {
       expect(result).toEqual([{ id: 'q1' }] as any);
     });
 
-    expect(http.get).toHaveBeenCalledWith('patients/questions/q3/answers');
+    expect(http.get).toHaveBeenCalledWith(
+      'patients/questions/q3/answers',
+      expect.objectContaining({ context: expect.anything() })
+    );
+    const requestOptions = (http.get as jest.Mock).mock.calls[0][1] as any;
+    expect(requestOptions.context.get(SKIP_GLOBAL_LOADER)).toBe(true);
   });
 });

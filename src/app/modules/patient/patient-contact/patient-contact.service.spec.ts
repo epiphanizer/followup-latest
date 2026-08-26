@@ -1,5 +1,6 @@
 import { of } from 'rxjs';
 import { PatientContactService } from './patient-contact.service';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 describe('PatientContactService (Jest)', () => {
   const makeHttp = () => ({
@@ -17,7 +18,12 @@ describe('PatientContactService (Jest)', () => {
       expect(result).toEqual([{ id: 'c1' }] as any);
     });
 
-    expect(http.get).toHaveBeenCalledWith('patients/p1/contacts/');
+    expect(http.get).toHaveBeenCalledWith(
+      'patients/p1/contacts/',
+      expect.objectContaining({ context: expect.anything() })
+    );
+    const requestOptions = (http.get as jest.Mock).mock.calls[0][1] as any;
+    expect(requestOptions.context.get(SKIP_GLOBAL_LOADER)).toBe(true);
   });
 
   it('adds a patient contact', () => {

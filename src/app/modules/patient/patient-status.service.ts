@@ -1,7 +1,8 @@
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, map, retry, shareReplay, tap, timeout } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 export interface PatientStatus {
   patientStatusId: string;
@@ -19,6 +20,10 @@ export class PatientStatusService {
   private patientStatusLabelsRequest$?: Observable<PatientStatus[]>;
 
   constructor(private http: HttpClient) {}
+
+  private readonly progressiveLoadOptions = {
+    context: new HttpContext().set(SKIP_GLOBAL_LOADER, true)
+  };
 
   addPatientStatusByPatientId(
     patientId: string,
@@ -54,7 +59,7 @@ export class PatientStatusService {
     }
 
     if (!this.patientStatusLabelsRequest$) {
-      this.patientStatusLabelsRequest$ = this.http.get<PatientStatus[]>('patients/statuses').pipe(
+      this.patientStatusLabelsRequest$ = this.http.get<PatientStatus[]>('patients/statuses', this.progressiveLoadOptions).pipe(
         retry(3),
         timeout(15000),
         map((labels: PatientStatus[]) => {

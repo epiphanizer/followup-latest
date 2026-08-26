@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
 import { catchError, retry } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpContext, HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientIntakeQuestionService {
   constructor(private http: HttpService) {}
+
+  private readonly progressiveLoadOptions = {
+    context: new HttpContext().set(SKIP_GLOBAL_LOADER, true)
+  };
 
   addPatientIntakeQuestionAnswerByPatientIntakeQuestionId = function(
     patientIntakeQuestionId: string,
@@ -38,14 +43,14 @@ export class PatientIntakeQuestionService {
       );
   };
   getPatientIntakeQuestionsByPatientId = function(patientId: string) {
-    return this.http.get('patients/' + patientId + '/questions').pipe(
+    return this.http.get('patients/' + patientId + '/questions', this.progressiveLoadOptions).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
 
   getPatientIntakeQuestionAnswersByPatientIntakeQuestionId = function(patientIntakeQuestionId: string) {
-    return this.http.get('patients/questions/' + patientIntakeQuestionId + '/answers').pipe(
+    return this.http.get('patients/questions/' + patientIntakeQuestionId + '/answers', this.progressiveLoadOptions).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );

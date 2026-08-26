@@ -164,6 +164,7 @@ describe('PatientService (Jest)', () => {
 
     const req = httpMock.expectOne('patients/p1/languages');
     expect(req.request.method).toBe('GET');
+    expect(req.request.context.get(SKIP_GLOBAL_LOADER)).toBe(true);
     req.flush(mockLanguages as any);
   });
 });

@@ -45,7 +45,11 @@ export class NotificationService {
     );
   }
   getNotificationsByPatientId(patientId: string): Observable<Notification[]> {
-    return this.http.get<Notification[]>('notifications/patient/' + patientId).pipe(
+    return this.http
+      .get<Notification[]>('notifications/patient/' + patientId, {
+        context: new HttpContext().set(SKIP_GLOBAL_LOADER, true)
+      })
+      .pipe(
       retry(3),
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
@@ -114,7 +118,9 @@ export class NotificationService {
   }
 
   getNotificationRepliesByPatientId(patientId: string): Observable<NotificationReply[]> {
-    return this.http.get<any>('patient/' + patientId + '/notification-replies').pipe(
+    return this.http.get<any>('patient/' + patientId + '/notification-replies', {
+      context: new HttpContext().set(SKIP_GLOBAL_LOADER, true)
+    }).pipe(
       map(response => this.normalizeReplyCollection(response)),
       retry(3),
       catchError(e => this.handleAsyncError(e))
