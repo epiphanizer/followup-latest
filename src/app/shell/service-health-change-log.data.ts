@@ -32,9 +32,9 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Performance',
         summary:
-          'Login context reads now run in parallel, patient notification history no longer requests replies once per notification, and call-question history hydrates in one patient-scoped request.',
+          'Call Queue reads render progressively, login context reads run in parallel, patient notification history no longer requests replies once per notification, and call-question history hydrates in one patient-scoped request.',
         evidence:
-          'Operation and operation-group hydration now starts together through `forkJoin`. Patient notification history uses the existing patient-level reply endpoint once and groups replies in memory by notification id, replacing row-level reply fan-out. Patient call history now calls `/patients/{patientId}/calls/questions` once and groups question answers by call id instead of loading each contacted call separately. The matching stored procedure was applied to alpha `followup_alpha_20260517` and returned the expected 96 rows for the busiest sampled patient.',
+          'Call Queue patient roster and same-day call-history GETs now use the existing `SKIP_GLOBAL_LOADER` context, so slow S2-backed queue reads do not hold the whole-page spinner after the route shell is ready. Operation and operation-group hydration starts together through `forkJoin`. Patient notification history uses the existing patient-level reply endpoint once and groups replies in memory by notification id, replacing row-level reply fan-out. Patient call history now calls `/patients/{patientId}/calls/questions` once and groups question answers by call id instead of loading each contacted call separately. The matching stored procedure was applied to alpha `followup_alpha_20260517` and returned the expected 96 rows for the busiest sampled patient.',
         source: 'v4.0.0 frontend/API small-tier query audit (2026-08-26)'
       },
       {

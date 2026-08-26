@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core';
 import { catchError, shareReplay, tap } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpContext, HttpErrorResponse } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { PatientCallQuestion } from './patient-call-questions/patient-call-questions.service';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 interface CachedPatientCallRequest<T> {
   expiresAt: number;
@@ -59,6 +60,10 @@ export class PatientCallService {
   };
   constructor(private http: HttpService) {}
 
+  private readonly progressiveLoadOptions = {
+    context: new HttpContext().set(SKIP_GLOBAL_LOADER, true)
+  };
+
   private clearPatientCallCache(): void {
     this.patientCallRequestCache.clear();
   }
@@ -107,7 +112,7 @@ export class PatientCallService {
     const cacheKey = `operation:${operationId}`;
 
     return this.getCachedPatientCallRequest(cacheKey, () =>
-      this.http.get('operations/' + operationId + '/calls').pipe(
+      this.http.get('operations/' + operationId + '/calls', this.progressiveLoadOptions).pipe(
         catchError(e => {
           this.patientCallRequestCache.delete(cacheKey);
           return this.handleAsyncError(e);
@@ -121,7 +126,7 @@ export class PatientCallService {
     const query = normalizedFilterDate ? `?filterDate=${encodeURIComponent(normalizedFilterDate)}` : '';
 
     return this.getCachedPatientCallRequest(cacheKey, () =>
-      this.http.get('spanish/calls' + query).pipe(
+      this.http.get('spanish/calls' + query, this.progressiveLoadOptions).pipe(
         catchError(e => {
           this.patientCallRequestCache.delete(cacheKey);
           return this.handleAsyncError(e);

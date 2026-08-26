@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { PatientService } from './patient.service';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 describe('PatientService (Jest)', () => {
   let service: PatientService;
@@ -93,6 +94,7 @@ describe('PatientService (Jest)', () => {
 
     const req = httpMock.expectOne('patients/spanish');
     expect(req.request.method).toBe('GET');
+    expect(req.request.context.get(SKIP_GLOBAL_LOADER)).toBe(true);
     req.flush(resp);
   });
 
@@ -105,6 +107,7 @@ describe('PatientService (Jest)', () => {
 
     const req = httpMock.expectOne('operations/op-9/patients');
     expect(req.request.method).toBe('GET');
+    expect(req.request.context.get(SKIP_GLOBAL_LOADER)).toBe(true);
     req.flush(resp);
   });
 

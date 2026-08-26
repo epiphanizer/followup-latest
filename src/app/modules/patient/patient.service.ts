@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry, shareReplay, take, tap } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpErrorResponse } from '@angular/common/http';
 import { Patient, PatientDischargeLabel } from './patient';
 import { PatientPutBody } from './patient-form/patient-form';
 import { UserLanguage } from '../user/user';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 interface CachedPatientRequest<T> {
   expiresAt: number;
@@ -17,6 +18,10 @@ export class PatientService {
   private readonly activePatientCache = new Map<string, CachedPatientRequest<[Patient]>>();
 
   constructor(private http: HttpClient) {}
+
+  private readonly progressiveLoadOptions = {
+    context: new HttpContext().set(SKIP_GLOBAL_LOADER, true)
+  };
 
   private clearActivePatientCache(): void {
     this.activePatientCache.clear();
@@ -67,7 +72,7 @@ export class PatientService {
     const cacheKey = 'spanish';
 
     return this.getCachedActivePatientRequest(cacheKey, () =>
-      this.http.get<[Patient]>('patients/spanish').pipe(
+      this.http.get<[Patient]>('patients/spanish', this.progressiveLoadOptions).pipe(
         retry(3), // retry a failed request up to 3 times
         catchError(e => {
           this.activePatientCache.delete(cacheKey);
@@ -80,7 +85,7 @@ export class PatientService {
     const cacheKey = `operation:${operationId}`;
 
     return this.getCachedActivePatientRequest(cacheKey, () =>
-      this.http.get<[Patient]>('operations/' + operationId + '/patients').pipe(
+      this.http.get<[Patient]>('operations/' + operationId + '/patients', this.progressiveLoadOptions).pipe(
         retry(3), // retry a failed request up to 3 times
         catchError(e => {
           this.activePatientCache.delete(cacheKey);

@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError, of } from 'rxjs';
 import { PatientCallService } from './patient-call.service';
+import { SKIP_GLOBAL_LOADER } from '@app/shared/interceptors/loader-interceptor';
 
 describe('PatientCallService (Jest)', () => {
   it('creates with minimal http stub', () => {
@@ -69,7 +70,11 @@ describe('PatientCallService (Jest)', () => {
     service.getPatientCallsByOperationId('op-1').subscribe();
 
     expect(http.get).toHaveBeenCalledTimes(1);
-    expect(http.get).toHaveBeenCalledWith('operations/op-1/calls');
+    expect(http.get).toHaveBeenCalledWith(
+      'operations/op-1/calls',
+      expect.objectContaining({ context: expect.anything() })
+    );
+    expect(http.get.mock.calls[0][1].context.get(SKIP_GLOBAL_LOADER)).toBe(true);
 
     service.endPatientCall('pc-1').subscribe();
     service.getPatientCallsByOperationId('op-1').subscribe();
@@ -89,7 +94,17 @@ describe('PatientCallService (Jest)', () => {
     service.getSpanishSpeakingPatientCalls('2026-08-26').subscribe();
 
     expect(http.get).toHaveBeenCalledTimes(2);
-    expect(http.get).toHaveBeenNthCalledWith(1, 'spanish/calls?filterDate=2026-08-25');
-    expect(http.get).toHaveBeenNthCalledWith(2, 'spanish/calls?filterDate=2026-08-26');
+    expect(http.get).toHaveBeenNthCalledWith(
+      1,
+      'spanish/calls?filterDate=2026-08-25',
+      expect.objectContaining({ context: expect.anything() })
+    );
+    expect(http.get).toHaveBeenNthCalledWith(
+      2,
+      'spanish/calls?filterDate=2026-08-26',
+      expect.objectContaining({ context: expect.anything() })
+    );
+    expect(http.get.mock.calls[0][1].context.get(SKIP_GLOBAL_LOADER)).toBe(true);
+    expect(http.get.mock.calls[1][1].context.get(SKIP_GLOBAL_LOADER)).toBe(true);
   });
 });
