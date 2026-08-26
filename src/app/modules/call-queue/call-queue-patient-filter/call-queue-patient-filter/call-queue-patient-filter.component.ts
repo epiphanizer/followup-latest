@@ -20,10 +20,20 @@ export class CallQueuePatientFilterComponent implements OnInit, OnChanges {
   constructor(private patientCallService: PatientCallService, private datePipe: DatePipe) {}
 
   private loadPatientCalls(): void {
-    const patientCalls$ =
-      this.mode?.spanish || !this.operation
-        ? this.patientCallService.getSpanishSpeakingPatientCalls()
-        : this.patientCallService.getPatientCallsByOperationId(this.operation.operationId);
+    let patientCalls$;
+
+    if (this.mode?.spanish) {
+      if (!this.filterDate) {
+        return;
+      }
+      patientCalls$ = this.patientCallService.getSpanishSpeakingPatientCalls(this.filterDate);
+    } else if (this.operation?.operationId) {
+      patientCalls$ = this.patientCallService.getPatientCallsByOperationId(this.operation.operationId);
+    } else {
+      this.patientCalls = [];
+      this.patientCallsFiltered = [];
+      return;
+    }
 
     patientCalls$.subscribe((patientCalls: PatientCall[]) => {
       this.patientCalls = patientCalls || [];
@@ -39,6 +49,10 @@ export class CallQueuePatientFilterComponent implements OnInit, OnChanges {
     if (this.patientCalls) {
       if (changes.filterDate) {
         this.filterDate = changes.filterDate.currentValue;
+        if (this.mode?.spanish && !changes.filterDate.firstChange) {
+          this.loadPatientCalls();
+          return;
+        }
         this.searchPatientCallHistoryBySelectedDate(this.filterDate);
       }
     }

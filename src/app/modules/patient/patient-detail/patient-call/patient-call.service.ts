@@ -115,11 +115,13 @@ export class PatientCallService {
       )
     );
   };
-  getSpanishSpeakingPatientCalls = function() {
-    const cacheKey = 'spanish';
+  getSpanishSpeakingPatientCalls = function(filterDate?: string) {
+    const normalizedFilterDate = String(filterDate || '').slice(0, 10);
+    const cacheKey = `spanish:${normalizedFilterDate || 'all'}`;
+    const query = normalizedFilterDate ? `?filterDate=${encodeURIComponent(normalizedFilterDate)}` : '';
 
     return this.getCachedPatientCallRequest(cacheKey, () =>
-      this.http.get('spanish/calls').pipe(
+      this.http.get('spanish/calls' + query).pipe(
         catchError(e => {
           this.patientCallRequestCache.delete(cacheKey);
           return this.handleAsyncError(e);

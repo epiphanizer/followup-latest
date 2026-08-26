@@ -21,7 +21,7 @@ describe('CallQueuePatientFilterComponent (Jest)', () => {
     comp.ngOnInit();
     await Promise.resolve();
 
-    expect(svc.getSpanishSpeakingPatientCalls).toHaveBeenCalled();
+    expect(svc.getSpanishSpeakingPatientCalls).toHaveBeenCalledWith('2020-01-02T12:00:00');
     expect(comp.patientCallsFiltered.length).toBe(1);
     expect(comp.patientCallsFiltered[0]).toEqual(calls[0]);
   });
@@ -45,11 +45,8 @@ describe('CallQueuePatientFilterComponent (Jest)', () => {
     expect(comp.patientCallsFiltered[0]).toEqual(calls[0]);
   });
 
-  it('falls back to spanish calls when no operation provided', async () => {
-    const calls = [
-      { patientCallScheduledTime: '2020-03-01T12:00:00' },
-      { patientCallEndTime: '2020-04-01T12:00:00' }
-    ] as any;
+  it('waits for an operation when not in spanish mode', async () => {
+    const calls = [{ patientCallScheduledTime: '2020-03-01T12:00:00' }] as any;
     const svc = makePatientCallService(calls);
     const comp = new CallQueuePatientFilterComponent(svc as any, new DatePipe('en-US'));
     comp.mode = { spanish: false };
@@ -58,9 +55,9 @@ describe('CallQueuePatientFilterComponent (Jest)', () => {
     comp.ngOnInit();
     await Promise.resolve();
 
-    expect(svc.getSpanishSpeakingPatientCalls).toHaveBeenCalled();
-    expect(comp.patientCallsFiltered.length).toBe(1);
-    expect(comp.patientCallsFiltered[0]).toEqual(calls[0]);
+    expect(svc.getSpanishSpeakingPatientCalls).not.toHaveBeenCalled();
+    expect(svc.getPatientCallsByOperationId).not.toHaveBeenCalled();
+    expect(comp.patientCalls).toEqual([]);
   });
 
   it('filters calls by text search', () => {
@@ -96,6 +93,26 @@ describe('CallQueuePatientFilterComponent (Jest)', () => {
 
     expect(comp.filterDate).toBe('2020-05-01');
     expect(comp.searchPatientCallHistoryBySelectedDate).toHaveBeenCalledWith('2020-05-01');
+  });
+
+  it('reloads spanish calls with the newly selected date', () => {
+    const calls = [{ patientCallScheduledTime: '2020-05-01T00:00:00' }] as any;
+    const svc = makePatientCallService(calls);
+    const comp = new CallQueuePatientFilterComponent(svc as any, new DatePipe('en-US'));
+    comp.mode = { spanish: true };
+    comp.filterDate = '2020-04-01';
+    comp.patientCalls = calls;
+
+    comp.ngOnChanges({
+      filterDate: {
+        currentValue: '2020-05-01',
+        previousValue: '2020-04-01',
+        firstChange: false,
+        isFirstChange: () => false
+      } as any
+    });
+
+    expect(svc.getSpanishSpeakingPatientCalls).toHaveBeenCalledWith('2020-05-01');
   });
 
   it('loads calls when operation changes', async () => {

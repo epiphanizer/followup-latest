@@ -189,6 +189,7 @@ describe('ShellComponent', () => {
 
   it('filters and scopes the version change log to markdown-backed versions only', () => {
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual([
+      '4.0.7',
       '4.0.6',
       '4.0.5',
       '4.0.4',
@@ -201,6 +202,7 @@ describe('ShellComponent', () => {
       '3.10.0'
     ]);
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
+      '4.0.7',
       '4.0.6',
       '4.0.5',
       '4.0.4',
@@ -212,7 +214,7 @@ describe('ShellComponent', () => {
       '3.12.0',
       '3.10.0'
     ]);
-    expect(component.changeLogSummary).toBe('Showing all 10 recorded releases.');
+    expect(component.changeLogSummary).toBe('Showing all 11 recorded releases.');
 
     component.changeLogVersionQuery = 'rc3';
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual(['3.10.0-rc3']);
@@ -224,6 +226,7 @@ describe('ShellComponent', () => {
     component.selectChangeLogVersion('3.10.0-rc3');
     expect(component.selectedChangeLogVersion).toBe('');
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
+      '4.0.7',
       '4.0.6',
       '4.0.5',
       '4.0.4',
