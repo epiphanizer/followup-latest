@@ -92,6 +92,22 @@ describe('PatientCallQuestionsComponent', () => {
     }, 0);
   });
 
+  it('enables native writing assistance for free-text call questions', () => {
+    const textQuestion = { ...buildQuestion('q7', 'text'), patientQuestionTypeLabel: 'textarea' } as any;
+    component.questions = [textQuestion];
+    component.createForm();
+    component.addQuestionControl(textQuestion);
+    fixture.detectChanges();
+
+    const textarea = fixture.nativeElement.querySelector('ion-textarea') as HTMLElement;
+
+    expect(textarea.getAttribute('spellcheck')).toBe('true');
+    expect((textarea as any).spellcheck).toBe(true);
+    expect(textarea.getAttribute('autocomplete')).toBe('on');
+    expect(textarea.getAttribute('autocorrect')).toBe('on');
+    expect(textarea.getAttribute('autocapitalize')).toBe('sentences');
+  });
+
   it('keeps true and false mutually exclusive when toggled', () => {
     component.questions = [questionsMock[0]] as any;
     component.createForm();

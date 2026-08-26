@@ -24,9 +24,9 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
-          'Patient listings now default to Active records and can switch immediately to Archived records without another API request.',
+          'Patient listings now default to Active records and can switch immediately to Archived records without another API request; call note review fields have hardened native spelling assistance.',
         evidence:
-          'Added an accessible Active/Archived segmented control with counts. Sorting, searching, and pagination remain scoped to the selected view, Spanish mode keeps its existing queue behavior, and legacy rows without an active flag remain visible as active. Focused patient-listing Jest passes 12/12 tests.',
+          'Added an accessible Active/Archived segmented control with counts. Sorting, searching, and pagination remain scoped to the selected view, Spanish mode keeps its existing queue behavior, and legacy rows without an active flag remain visible as active. The Edit & Review Call notes textarea and free-text call-question textarea now set both Ionic/native spellcheck bindings plus browser writing-assistance attributes. Focused patient-listing Jest passes 12/12 tests and focused call-note/question spellcheck Jest passes 9/9 tests.',
         source: 'v4.0.0/followup-frontend handoff hardening (2026-08-26)'
       },
       {
