@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { PatientAvatarService } from './patient-avatar.service';
 import { Patient } from '../patient';
@@ -20,7 +20,11 @@ export class PatientAvatarComponent implements OnInit, OnChanges {
    * This guy is plaintext encoded base64
    */
   avatarExists: boolean;
-  constructor(private patientAvatarService: PatientAvatarService, private sanitizer: DomSanitizer) {}
+  constructor(
+    private patientAvatarService: PatientAvatarService,
+    private sanitizer: DomSanitizer,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.isCircle = this.type == 'circle';
@@ -76,6 +80,7 @@ export class PatientAvatarComponent implements OnInit, OnChanges {
           PatientAvatarComponent.avatarStyleCache.set(patientId, safeStyle);
           this.avatarUrl = safeStyle;
           this.avatarExists = true;
+          this.changeDetectorRef.markForCheck();
         };
       } else {
         sessionStorage.setItem(patientId, '');

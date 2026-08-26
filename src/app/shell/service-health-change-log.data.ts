@@ -19,8 +19,16 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     recordedAt: '2026-08-26',
     label: 'Final handoff optimization pass',
     notes:
-      'Adds Active/Archived patient switching, reduces patient-history request fan-out, and refreshes safely upgradable dependencies.',
+      'Adds Active/Archived patient switching, reduces patient-history request fan-out, refreshes safely upgradable dependencies, and restores progressive patient-avatar hydration.',
     entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Patient avatars now replace their placeholders as soon as each image finishes loading in the Call Queue.',
+        evidence:
+          'The patient-avatar component now explicitly marks its view for checking after the asynchronous FileReader callback stores the loaded image. This restores immediate rendering inside the OnPush Call Queue without requiring navigation away and back. Focused component coverage verifies the completed reader schedules a render.',
+        source: 'v4.0.0/followup-frontend avatar hydration hotfix (2026-08-26)'
+      },
       {
         scope: 'Frontend',
         summary:
@@ -139,14 +147,15 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         evidence:
           'Aligned package.json, package-lock.json, generated environment metadata, shell version assertions, and this Service Health manifest before promoting main into the alpha deployment branch.',
         source: 'v4.0.0/followup-frontend release stamp (2026-08-25)'
-      },
+      }
     ]
   },
   {
     version: '4.0.5',
     recordedAt: '2026-08-17',
     label: 'Service Health manual-only + spinner/telemetry reliability fixes',
-    notes: 'Bundles this session\'s fixes; no prior running change log entry existed for this work before the release stamp.',
+    notes:
+      "Bundles this session's fixes; no prior running change log entry existed for this work before the release stamp.",
     entries: [
       {
         scope: 'Frontend',
@@ -166,16 +175,18 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       },
       {
         scope: 'Frontend',
-        summary: 'The Service Health Version Change Log search now includes the 4.0.1-4.0.4 patch releases, which had been missing from the manifest.',
+        summary:
+          'The Service Health Version Change Log search now includes the 4.0.1-4.0.4 patch releases, which had been missing from the manifest.',
         evidence:
           'Added `4.0.1`, `4.0.2`, `4.0.3`, and `4.0.4` release entries to `service-health-change-log.data.ts`, reconstructed from git history since the running change logs were never updated for those hotfix releases.',
         source: 'v4.0.0/followup-frontend session change (2026-08-17)'
       },
       {
         scope: 'API',
-        summary: 'API telemetry now actually reaches Application Insights; it had been silently disabled in every environment because the `applicationinsights` package was never declared as a dependency.',
+        summary:
+          'API telemetry now actually reaches Application Insights; it had been silently disabled in every environment because the `applicationinsights` package was never declared as a dependency.',
         evidence:
-          'Added `applicationinsights` to `followup-api/package.json` dependencies and corrected the production `followupcare-api` App Service\'s `APPLICATIONINSIGHTS_CONNECTION_STRING` app setting, which had been pointed at a stale, unrelated App Insights resource. Confirmed via production log files that `[telemetry] Application Insights enabled for API runtime.` now prints on startup.',
+          "Added `applicationinsights` to `followup-api/package.json` dependencies and corrected the production `followupcare-api` App Service's `APPLICATIONINSIGHTS_CONNECTION_STRING` app setting, which had been pointed at a stale, unrelated App Insights resource. Confirmed via production log files that `[telemetry] Application Insights enabled for API runtime.` now prints on startup.",
         source: 'v4.0.0/followup-api session change (2026-08-17)'
       }
     ]
@@ -190,7 +201,8 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Release',
         summary: 'Promoted the frontend and API package/version metadata to 4.0.4 with no additional code changes.',
-        evidence: 'git commit `ccda744a` (frontend) "Release 4.0.4" and `413a076` (API) "Release 4.0.4" touch only package.json/package-lock.json/.env.ts.',
+        evidence:
+          'git commit `ccda744a` (frontend) "Release 4.0.4" and `413a076` (API) "Release 4.0.4" touch only package.json/package-lock.json/.env.ts.',
         source: 'v4.0.0/followup-frontend git history + v4.0.0/followup-api git history'
       }
     ]
@@ -246,7 +258,8 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       },
       {
         scope: 'API',
-        summary: 'Outgoing notification emails now decode a URI-encoded notification message before sending, instead of emailing the raw encoded text.',
+        summary:
+          'Outgoing notification emails now decode a URI-encoded notification message before sending, instead of emailing the raw encoded text.',
         evidence:
           'git commit `bb290a9` "chore: stamp 4.0.1 and normalize notification email" added `normalizeNotificationMessage()` to `deployment/clients/kicktechAPIService/kicktechAPIService.js`, which safely `decodeURIComponent`s the notification message before it is used in the outgoing email.',
         source: 'v4.0.0/followup-api git history (commit bb290a9)'
@@ -326,9 +339,9 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
-          'Shared radio, checkbox, and toggle labels no longer inherit Ionic\'s default in-item top margin, which keeps aligned labels from being pushed downward after the rc7 control-spacing refinements.',
+          "Shared radio, checkbox, and toggle labels no longer inherit Ionic's default in-item top margin, which keeps aligned labels from being pushed downward after the rc7 control-spacing refinements.",
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/theme/theme.scss`. Ionic\'s internal `:host(.in-item) .label-text-wrapper` rule was still adding a `10px` top margin to shared radio, checkbox, and toggle label wrappers, which reintroduced downward drift even after the local alignment passes. The theme now overrides the exposed label part for those controls so the top margin is cleared globally without patching `node_modules`, while the bottom spacing remains intact. Validation used `npm run build -s` PASS.',
+          "Recorded in the snapshot frontend running change log after updating `src/theme/theme.scss`. Ionic's internal `:host(.in-item) .label-text-wrapper` rule was still adding a `10px` top margin to shared radio, checkbox, and toggle label wrappers, which reintroduced downward drift even after the local alignment passes. The theme now overrides the exposed label part for those controls so the top margin is cleared globally without patching `node_modules`, while the bottom spacing remains intact. Validation used `npm run build -s` PASS.",
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
@@ -342,7 +355,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
-          'The patient Birthday field now matches the page\'s inline Ionic date-picker contract, while the standard patient-form radio fill and date-input icon alignment are corrected locally.',
+          "The patient Birthday field now matches the page's inline Ionic date-picker contract, while the standard patient-form radio fill and date-input icon alignment are corrected locally.",
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.html`, `.ts`, `.scss`, and `.spec.ts`. The Birthday control had still been using the old browser `type="date"` path instead of the stabilized patient-form date contract, and the page\'s standard radios plus calendar-input affordances had drifted slightly in visual alignment. Birthday now uses the same typed `mm/dd/yyyy` input plus inline Ionic calendar pattern as Admit/Discharge, the patient-form radio fill is explicitly centered inside the control again, the gender row sits farther below Birthday, and the patient-form calendar icons are nudged slightly lower so the affordance reads centered in the input. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`36/36` tests passing) plus `npm run build -s` PASS.',
         source: 'v4.0.0/followup-frontend/agents.md'
@@ -358,9 +371,9 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
-          'Failed patient-form validation now scrolls to the top-most visible invalid field, and the page\'s standard radios and checkboxes share one consistent control size and label scale.',
+          "Failed patient-form validation now scrolls to the top-most visible invalid field, and the page's standard radios and checkboxes share one consistent control size and label scale.",
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.ts`, `.scss`, and `.spec.ts`. Failed patient saves now mark the form touched, resolve the earliest visible invalid field including the custom facility picker and admit/discharge date controls, and scroll that field into view before raising the validation alert. The same refinement standardizes the patient form\'s normal choice-control container size and label sizing so Gender, Responsible Party, Discharged To, Medical Condition, and Active render on the same baseline instead of mixing slightly different local overrides. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`33/33` tests passing) plus `npm run build -s` PASS.',
+          "Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-form/patient-form.component.ts`, `.scss`, and `.spec.ts`. Failed patient saves now mark the form touched, resolve the earliest visible invalid field including the custom facility picker and admit/discharge date controls, and scroll that field into view before raising the validation alert. The same refinement standardizes the patient form's normal choice-control container size and label sizing so Gender, Responsible Party, Discharged To, Medical Condition, and Active render on the same baseline instead of mixing slightly different local overrides. Validation used focused Jest on `src/app/modules/patient/patient-form/patient-form.component.spec.ts` (`33/33` tests passing) plus `npm run build -s` PASS.",
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
@@ -374,7 +387,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Performance',
         summary:
-          'Initial Call Queue boot now reuses the authenticated user\'s hydrated operation context instead of issuing duplicate operation-detail reads for the selected facility.',
+          "Initial Call Queue boot now reuses the authenticated user's hydrated operation context instead of issuing duplicate operation-detail reads for the selected facility.",
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/call-queue/call-queue.component.ts`, `src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.ts`, `src/app/modules/operation/operation.service.ts`, and the focused Jest specs for those slices. The traced queue load had been issuing redundant `GET /operations/{operationId}` reads from both the main Call Queue shell and the left sidebar even though login hydration already provides `user.operations` plus grouped `user.operationGroups[].operations` metadata with the counters and labels needed to identify the active facility. The queue now resolves the active operation from that authenticated user context first and falls back to the detail API only when the route targets an operation missing from hydrated user state, while the operation service also shares short-lived in-flight detail requests for any remaining concurrent callers. Validation used focused Jest on `src/app/modules/operation/operation.service.spec.ts` (`24/24` tests passing) plus `src/app/modules/call-queue/call-queue.component.spec.ts` and `src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.spec.ts` (`9/9` tests passing).',
         source: 'v4.0.0/followup-frontend/agents.md'
@@ -501,7 +514,8 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       },
       {
         scope: 'Release',
-        summary: 'The current v4 beta snapshot is now tagged and surfaced as `4.0.0_beta_rc2` across the frontend build metadata, API package metadata, and the Service Health version history.',
+        summary:
+          'The current v4 beta snapshot is now tagged and surfaced as `4.0.0_beta_rc2` across the frontend build metadata, API package metadata, and the Service Health version history.',
         evidence:
           'Recorded after promoting both `v4.0.0/followup-frontend` and `v4.0.0/followup-api` package metadata from `4.0.0_beta_rc1` to `4.0.0_beta_rc2`, updating `package.json`, `package-lock.json`, `src/environments/.env.ts`, `src/app/shell/shell.component.spec.ts`, and retagging this top Service Health release entry so the active beta stamp shows up consistently in the shell version panel and API status payloads while the alpha branches and pipelines remain the deployment path.',
         source: 'v4.0.0/followup-frontend/agents.md + v4.0.0/followup-api/agents.md'
@@ -687,7 +701,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         summary:
           'The Operation form no longer writes its broader local client list back into the shared active-client cache when a user creates a new client inline, preventing archived or global-only clients from resurfacing later in otherwise filtered selectors and sidebars.',
         evidence:
-          'Recorded in the snapshot frontend running change log after auditing the remaining client-group hydration paths and updating `src/app/modules/operation/operation-form/operation-form.component.ts`. After the ownership selector itself moved to the logged-in user\'s visible `user.operationGroups` context, the remaining leak was the inline `+ Add Client` modal in Operation Form: it was still copying the form\'s local `operationGroups` array back into `user.operationGroups`, `localStorage.operationGroups`, and the persisted user snapshot, even when that local list had been hydrated from the broader all-clients feed used by edit/view to preserve archived ownership display. The form now keeps the new client only in the local selector list and leaves the shared active-client cache untouched. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts`, `src/app/modules/data/data.service.spec.ts`, and `src/app/shell/toolbar-nav/toolbar-nav.component.spec.ts` (`40/40` tests passing).',
+          "Recorded in the snapshot frontend running change log after auditing the remaining client-group hydration paths and updating `src/app/modules/operation/operation-form/operation-form.component.ts`. After the ownership selector itself moved to the logged-in user's visible `user.operationGroups` context, the remaining leak was the inline `+ Add Client` modal in Operation Form: it was still copying the form's local `operationGroups` array back into `user.operationGroups`, `localStorage.operationGroups`, and the persisted user snapshot, even when that local list had been hydrated from the broader all-clients feed used by edit/view to preserve archived ownership display. The form now keeps the new client only in the local selector list and leaves the shared active-client cache untouched. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts`, `src/app/modules/data/data.service.spec.ts`, and `src/app/shell/toolbar-nav/toolbar-nav.component.spec.ts` (`40/40` tests passing).",
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
@@ -727,7 +741,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         summary:
           'Add New Operation now loads ownership choices from the active-only client feed, so archived clients are not selectable when creating a new facility.',
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-form/operation-form.component.ts` so the form resolves its mode before loading ownership groups, skips stale cached `operationGroups` hydration entirely in add mode, and derives add-mode ownership choices from the logged-in user\'s visible `user.operationGroups` context rather than a global client-group feed. That keeps Ownership aligned with the Patient Facility picker: only active groups with at least one active visible operation remain selectable, which removes both archived rows and broader active noise such as Alpha Smoke clients or duplicate global entries that are outside the user-scoped visible context. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts` (`31/31` tests passing), and live browser verification confirmed the selector behavior.',
+          "Recorded in the snapshot frontend running change log after updating `src/app/modules/operation/operation-form/operation-form.component.ts` so the form resolves its mode before loading ownership groups, skips stale cached `operationGroups` hydration entirely in add mode, and derives add-mode ownership choices from the logged-in user's visible `user.operationGroups` context rather than a global client-group feed. That keeps Ownership aligned with the Patient Facility picker: only active groups with at least one active visible operation remain selectable, which removes both archived rows and broader active noise such as Alpha Smoke clients or duplicate global entries that are outside the user-scoped visible context. Validation used focused Jest on `src/app/modules/operation/operation-form/operation-form.component.spec.ts` (`31/31` tests passing), and live browser verification confirmed the selector behavior.",
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
@@ -767,7 +781,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         summary:
           'Call Queue now keeps the selected facility group expanded when the user switches operations, and sidebar operation links now show an underline affordance on hover across the shared sidebar family.',
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.ts`, `call-queue-sidebar.component.spec.ts`, and `src/theme/theme.scss`. Call Queue selection now uses the same explicit `openOperationGroup(...)` behavior already used in the Patients and Notifications sidebars, so the selected operation\'s parent facility stays open while sibling facility groups collapse. The shared theme also now underlines `.operation-link` entries on hover/focus-visible so sidebar operation options provide a clearer movement affordance across Call Queue, Patients, Notifications, and Clients sidebars that reuse that class. Validation used focused Jest on `src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.spec.ts` (`6/6` tests passing).',
+          "Recorded in the snapshot frontend running change log after updating `src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.ts`, `call-queue-sidebar.component.spec.ts`, and `src/theme/theme.scss`. Call Queue selection now uses the same explicit `openOperationGroup(...)` behavior already used in the Patients and Notifications sidebars, so the selected operation's parent facility stays open while sibling facility groups collapse. The shared theme also now underlines `.operation-link` entries on hover/focus-visible so sidebar operation options provide a clearer movement affordance across Call Queue, Patients, Notifications, and Clients sidebars that reuse that class. Validation used focused Jest on `src/app/modules/call-queue/call-queue-sidebar/call-queue-sidebar.component.spec.ts` (`6/6` tests passing).",
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
@@ -791,7 +805,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         summary:
           'Patient Detail now avoids duplicate question reads and unnecessary per-question answer fan-out when hydrating active-call and history question data.',
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-detail/patient-call/patient-call-questions/patient-call-questions.service.ts`, `patient-call-questions.component.ts`, `patient-history-listing.component.ts`, and `patient-detail.component.ts`. The active-call question editor had been fetching the current call questions twice and then issuing per-question answer requests for the previous call, while the history panel eagerly loaded every call\'s questions plus every individual answer on initial render even for statuses that never display answers. The frontend now uses a cached shared `getPatientCallQuestionsWithAnswersByPatientCallId(...)` path, reuses root-scoped question services instead of local component instances, reuses the first current-call question read for the active editor, and only hydrates historical question answers for `Contacted` calls where the UI actually renders them. Validation used focused Jest on the patient-detail question/history slice (`4/4` suites, `27/27` tests passing).',
+          "Recorded in the snapshot frontend running change log after updating `src/app/modules/patient/patient-detail/patient-call/patient-call-questions/patient-call-questions.service.ts`, `patient-call-questions.component.ts`, `patient-history-listing.component.ts`, and `patient-detail.component.ts`. The active-call question editor had been fetching the current call questions twice and then issuing per-question answer requests for the previous call, while the history panel eagerly loaded every call's questions plus every individual answer on initial render even for statuses that never display answers. The frontend now uses a cached shared `getPatientCallQuestionsWithAnswersByPatientCallId(...)` path, reuses root-scoped question services instead of local component instances, reuses the first current-call question read for the active editor, and only hydrates historical question answers for `Contacted` calls where the UI actually renders them. Validation used focused Jest on the patient-detail question/history slice (`4/4` suites, `27/27` tests passing).",
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
@@ -869,7 +883,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
-          'The Teams left sidebar now uses the same narrower sidebar measure as the other left rails, bringing its `TODAY\'S DATE` block back into the same visual centering pattern.',
+          "The Teams left sidebar now uses the same narrower sidebar measure as the other left rails, bringing its `TODAY'S DATE` block back into the same visual centering pattern.",
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.scss` to normalize the sidebar component width from `185px` back to the shared `172px` sidebar measure used across the rest of the app. The typography for the Teams calendar block already matched the other sidebars; the centering drift came from the broader internal sidebar column. Narrowing that component width realigns the date block without changing the Teams page content grid. Validation used focused Jest on the Teams sidebar component slice (`5/5` passing).',
         source: 'v4.0.0/followup-frontend/agents.md'
@@ -887,7 +901,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         summary:
           'The editable Teams roster Position dropdown now resolves its selected option from the active team membership role instead of falling through to `Admin` when only the numeric role id is missing.',
         evidence:
-          'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.ts` and `.html` so the roster dropdown prefers `teamMemberRoleLabelId`, falls back only to the same row\'s team-scoped `teamMemberRoleLabel`, and explicitly marks the matching option selected. This closes the remaining mismatch where the Teams left sidebar correctly grouped members under `Managers` while the editable roster dropdown still visually defaulted to `Admin`. Validation used focused Jest on the team-members listing slice (`10/10` passing).',
+          "Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-listing/team-members-listing/team-members-listing.component.ts` and `.html` so the roster dropdown prefers `teamMemberRoleLabelId`, falls back only to the same row's team-scoped `teamMemberRoleLabel`, and explicitly marks the matching option selected. This closes the remaining mismatch where the Teams left sidebar correctly grouped members under `Managers` while the editable roster dropdown still visually defaulted to `Admin`. Validation used focused Jest on the team-members listing slice (`10/10` passing).",
         source: 'v4.0.0/followup-frontend/agents.md'
       },
       {
@@ -901,7 +915,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
-          'Team Access and Teams sidebar role-derived UI now prefer the active team\'s stored membership role before any broader effective label fallback.',
+          "Team Access and Teams sidebar role-derived UI now prefer the active team's stored membership role before any broader effective label fallback.",
         evidence:
           'Recorded in the snapshot frontend running change log after updating `src/app/modules/team/team-access/team-access.component.ts` and `src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.ts`. The remaining `ion-select`-driven assignee eligibility lists and sidebar member grouping had still been reading `teamMemberRoleLabel` text, which could reflect a broader role story than the active team-specific membership role. Those paths now derive from `teamMemberRoleLabelId` first and only fall back to the scoped effective role id when no stored team role exists. Validation used focused Jest on the Team Access and Teams sidebar slices (`14/14` passing).',
         source: 'v4.0.0/followup-frontend/agents.md'
@@ -919,7 +933,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         summary:
           'Teams roster Position reads now derive fallback/effective roles from the selected team scope instead of leaking a stronger direct role from some other team.',
         evidence:
-          'Recorded in the snapshot API/frontend running change logs after tightening `v4.0.0/followup-api/migration_sql/3.12.12migration-team-member-general-role.sql` and reapplying it to `followup_alpha_20260517`. The first stored-procedure cut still treated `operationUsers` as globally authoritative during null-role backfill and `sp_getTeamMembersByTeamId` effective-role derivation, which allowed a stronger direct role from unrelated operations to make the current team roster still display `Admin` after a successful team-role update. The migration now scopes direct-role candidates to the selected team\'s operation set before deriving fallback/effective team roles. Validation used direct `sqlcmd -b -i` reapply plus before/after mismatch probes, where a live `storedRoleId = 2 / effectiveRoleId = 1` mismatch disappeared under the corrected team-scoped derivation.',
+          "Recorded in the snapshot API/frontend running change logs after tightening `v4.0.0/followup-api/migration_sql/3.12.12migration-team-member-general-role.sql` and reapplying it to `followup_alpha_20260517`. The first stored-procedure cut still treated `operationUsers` as globally authoritative during null-role backfill and `sp_getTeamMembersByTeamId` effective-role derivation, which allowed a stronger direct role from unrelated operations to make the current team roster still display `Admin` after a successful team-role update. The migration now scopes direct-role candidates to the selected team's operation set before deriving fallback/effective team roles. Validation used direct `sqlcmd -b -i` reapply plus before/after mismatch probes, where a live `storedRoleId = 2 / effectiveRoleId = 1` mismatch disappeared under the corrected team-scoped derivation.",
         source: 'v4.0.0/followup-api/agents.md'
       },
       {
@@ -957,9 +971,9 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'API',
         summary:
-          'Changing a team member\'s Position from the Teams roster now propagates into the actual Team Access permission matrix instead of only storing a display role on the membership row.',
+          "Changing a team member's Position from the Teams roster now propagates into the actual Team Access permission matrix instead of only storing a display role on the membership row.",
         evidence:
-          'Recorded in the snapshot API running change log after updating deployment/controllers/Team.js, deployment/service/TeamService.js, and migration_sql/3.12.12migration-team-member-general-role.sql. The earlier role route only wrote `userTeams.teamMemberRoleLabelId`; it now also rewrites that member\'s `teamMemberOperationOverrides` across the current team access scope so effective permissions follow the selected team role. The canonical SQL source was widened at the same time so Team Access constraints and write procedures accept `Admin` (`1`) alongside `Manager` and `Care Rep`. Validation used `npm test --silent` (`Syntax OK for 69 files`).',
+          "Recorded in the snapshot API running change log after updating deployment/controllers/Team.js, deployment/service/TeamService.js, and migration_sql/3.12.12migration-team-member-general-role.sql. The earlier role route only wrote `userTeams.teamMemberRoleLabelId`; it now also rewrites that member's `teamMemberOperationOverrides` across the current team access scope so effective permissions follow the selected team role. The canonical SQL source was widened at the same time so Team Access constraints and write procedures accept `Admin` (`1`) alongside `Manager` and `Care Rep`. Validation used `npm test --silent` (`Syntax OK for 69 files`).",
         source: 'v4.0.0/followup-api/agents.md'
       },
       {
@@ -1069,7 +1083,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
-          'The Teams sidebar `TODAY\'S DATE` block now sits on the same column width as the other major sidebars instead of rendering inside a wider Teams column.',
+          "The Teams sidebar `TODAY'S DATE` block now sits on the same column width as the other major sidebars instead of rendering inside a wider Teams column.",
         evidence:
           'Recorded in the snapshot frontend running change log after narrowing the Teams sidebar column in src/app/modules/team/team-listing/team-listing-sidebar/team-listing-sidebar.component.scss to the same effective width used by the call queue, notifications, users, and operations sidebars. The typography values were already aligned; the inconsistency was the wider Teams column causing the date composition to render on a broader measure than the rest of the app. Validation used the focused Teams sidebar Jest spec (`3/3` passing).',
         source: 'v4.0.0/followup-frontend/agents.md'
