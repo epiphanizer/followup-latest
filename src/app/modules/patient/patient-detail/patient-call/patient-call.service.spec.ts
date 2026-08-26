@@ -77,4 +77,19 @@ describe('PatientCallService (Jest)', () => {
     expect(http.post).toHaveBeenCalledWith('patients/calls/pc-1/end', {});
     expect(http.get).toHaveBeenCalledTimes(2);
   });
+
+  it('scopes spanish call history requests and cache entries by date', () => {
+    const http = {
+      get: jest.fn(() => of([]))
+    } as any;
+    const service = new PatientCallService(http);
+
+    service.getSpanishSpeakingPatientCalls('2026-08-25T12:00:00Z').subscribe();
+    service.getSpanishSpeakingPatientCalls('2026-08-25T12:00:00Z').subscribe();
+    service.getSpanishSpeakingPatientCalls('2026-08-26').subscribe();
+
+    expect(http.get).toHaveBeenCalledTimes(2);
+    expect(http.get).toHaveBeenNthCalledWith(1, 'spanish/calls?filterDate=2026-08-25');
+    expect(http.get).toHaveBeenNthCalledWith(2, 'spanish/calls?filterDate=2026-08-26');
+  });
 });

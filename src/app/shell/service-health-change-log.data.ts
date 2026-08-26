@@ -15,6 +15,30 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.0.7',
+    recordedAt: '2026-08-25',
+    label: 'Spanish call history performance hotfix',
+    notes:
+      'Scopes Spanish call history to the selected calendar date instead of downloading the entire historical call archive.',
+    entries: [
+      {
+        scope: 'Performance',
+        summary:
+          'The Spanish Call Queue history panel no longer downloads tens of thousands of historical calls when it only displays one selected day.',
+        evidence:
+          'Application Insights showed `/spanish/calls` taking 26.5 seconds after the S2 database scale. Direct measurement found 28,432 rows and a 21.1 MB JSON payload. The frontend now sends the selected date, avoids global fallback loads while a normal operation input is unavailable, and caches Spanish history by date. API/SQL 3.12.17 scopes the response while preserving historical call numbering; rollback validation reduced the sample response from 21.1 MB to 570 bytes with equivalent output.',
+        source: 'v4.0.0 frontend/API alpha performance investigation (2026-08-25)'
+      },
+      {
+        scope: 'Release',
+        summary: 'Promoted the frontend Spanish history hotfix to version 4.0.7.',
+        evidence:
+          'Aligned package metadata, generated environment metadata, shell version assertions, and this Service Health manifest for alpha deployment.',
+        source: 'v4.0.0/followup-frontend release stamp (2026-08-25)'
+      }
+    ]
+  },
+  {
     version: '4.0.6',
     recordedAt: '2026-08-25',
     label: 'Workflow reliability and progressive loading',
