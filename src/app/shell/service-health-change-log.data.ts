@@ -47,7 +47,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       },
       {
         scope: 'Release',
-        summary: 'Promoted the frontend alpha candidate to version 4.0.8 and API alpha candidate to version 4.0.7.',
+        summary: 'Promoted the frontend and API alpha candidates to matching version 4.0.8.',
         evidence:
           'Aligned frontend package metadata, generated environment metadata, shell Service Health manifest, and API package metadata for alpha deployment.',
         source: 'v4.0.0 alpha release stamp (2026-08-26)'
