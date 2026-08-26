@@ -10,6 +10,16 @@
   margin-bottom: 1.5rem;
 }
 
+.listing-controls app-listing-filter,
+.listing-controls app-listing-search {
+  float: none;
+  margin-right: 0;
+}
+
+.listing-controls app-listing-search {
+  margin-left: auto;
+}
+
 .patient-view-toggle {
   display: inline-flex;
   flex: 0 0 auto;
