@@ -73,6 +73,39 @@ describe('PatientCallQuestionsService (Jest)', () => {
     });
   });
 
+  it('gets hydrated questions by patient id and reuses the cached result', done => {
+    const http = { get: jest.fn(() => of([{ patientCallId: 'pc1', patientCallQuestionId: 'q1' }] as any)) } as any;
+    const svc = new PatientCallQuestionsService(http as any);
+
+    svc.getPatientCallQuestionsWithAnswersByPatientId('p1').subscribe((firstResult: any) => {
+      expect(firstResult[0].patientCallId).toBe('pc1');
+
+      svc.getPatientCallQuestionsWithAnswersByPatientId('p1').subscribe((secondResult: any) => {
+        expect(secondResult[0].patientCallQuestionId).toBe('q1');
+        expect(http.get).toHaveBeenCalledTimes(1);
+        expect(http.get).toHaveBeenCalledWith('patients/p1/calls/questions');
+        done();
+      });
+    });
+  });
+
+  it('clears patient-level hydrated cache after adding an answer', done => {
+    const http = {
+      get: jest.fn(() => of([{ patientCallId: 'pc1', patientCallQuestionId: 'q1' }] as any)),
+      post: jest.fn(() => of({ created: true } as any))
+    } as any;
+    const svc = new PatientCallQuestionsService(http as any);
+
+    svc.getPatientCallQuestionsWithAnswersByPatientId('p1').subscribe(() => {
+      svc.addPatientCallQuestionAnswersByPatientCallQuestionId('q1', 'yes').subscribe(() => {
+        svc.getPatientCallQuestionsWithAnswersByPatientId('p1').subscribe(() => {
+          expect(http.get).toHaveBeenCalledTimes(2);
+          done();
+        });
+      });
+    });
+  });
+
   it('handles errors', done => {
     const http = { get: jest.fn(() => throwError(() => new HttpErrorResponse({ status: 500, error: 'fail' }))) } as any;
     const svc = new PatientCallQuestionsService(http as any);

@@ -13,7 +13,8 @@ describe('PatientHistoryListingComponent (Jest)', () => {
   let fixture: ComponentFixture<PatientHistoryListingComponent>;
 
   const patientCallQuestionsServiceStub = {
-    getPatientCallQuestionsWithAnswersByPatientCallId: jest.fn(() => of([]))
+    getPatientCallQuestionsWithAnswersByPatientCallId: jest.fn(() => of([])),
+    getPatientCallQuestionsWithAnswersByPatientId: jest.fn(() => of([]))
   };
 
   const sharedFunctionsStub = {
@@ -21,10 +22,13 @@ describe('PatientHistoryListingComponent (Jest)', () => {
   };
 
   const notificationServiceStub = {
-    getNotificationRepliesByNotificationId: jest.fn(() => of([]))
+    getNotificationRepliesByPatientId: jest.fn(() =>
+      of([{ notificationReplyId: 'r1', notificationId: 'n1', patientId: 'p1', replyText: 'reply' }])
+    )
   };
 
   beforeEach(async () => {
+    jest.clearAllMocks();
     await TestBed.configureTestingModule({
       declarations: [PatientHistoryListingComponent],
       providers: [
@@ -77,8 +81,11 @@ describe('PatientHistoryListingComponent (Jest)', () => {
     expect(component.patientActivity.length).toBe(2);
   });
 
-  it('hydrates call questions only for contacted history calls', () => {
+  it('hydrates contacted history call questions with one patient-level request', () => {
     jest.clearAllMocks();
+    patientCallQuestionsServiceStub.getPatientCallQuestionsWithAnswersByPatientId.mockReturnValueOnce(
+      of([{ patientCallId: 'c-contacted', patientCallQuestionId: 'q1', patientCallQuestionAnswer: 'yes' }])
+    );
     component.patientActivity = [];
     component.patientCalls = [
       {
@@ -93,9 +100,10 @@ describe('PatientHistoryListingComponent (Jest)', () => {
 
     component.ngOnInit();
 
-    expect(patientCallQuestionsServiceStub.getPatientCallQuestionsWithAnswersByPatientCallId).toHaveBeenCalledWith(
-      'c-contacted'
-    );
+    expect(patientCallQuestionsServiceStub.getPatientCallQuestionsWithAnswersByPatientId).toHaveBeenCalledTimes(1);
+    expect(patientCallQuestionsServiceStub.getPatientCallQuestionsWithAnswersByPatientId).toHaveBeenCalledWith('p1');
+    expect(patientCallQuestionsServiceStub.getPatientCallQuestionsWithAnswersByPatientCallId).not.toHaveBeenCalled();
+    expect(component.patientCalls[0].patientCallQuestions[0].patientCallQuestionAnswer).toBe('yes');
   });
 
   it('skips call-question hydration for non-contacted history calls', () => {
@@ -114,6 +122,7 @@ describe('PatientHistoryListingComponent (Jest)', () => {
 
     component.ngOnInit();
 
+    expect(patientCallQuestionsServiceStub.getPatientCallQuestionsWithAnswersByPatientId).not.toHaveBeenCalled();
     expect(patientCallQuestionsServiceStub.getPatientCallQuestionsWithAnswersByPatientCallId).not.toHaveBeenCalled();
   });
 
@@ -124,8 +133,10 @@ describe('PatientHistoryListingComponent (Jest)', () => {
     expect(element.querySelector('.notification-detail-link')?.textContent).toContain('View / Reply');
   });
 
-  it('hydrates notification replies only for manager-or-above access on the patient operation', () => {
-    expect(notificationServiceStub.getNotificationRepliesByNotificationId).toHaveBeenCalledWith('n1');
+  it('hydrates notification replies with one patient-level request', () => {
+    expect(notificationServiceStub.getNotificationRepliesByPatientId).toHaveBeenCalledTimes(1);
+    expect(notificationServiceStub.getNotificationRepliesByPatientId).toHaveBeenCalledWith('p1');
+    expect((component.patientNotifications[0] as any).notificationReplies).toHaveLength(1);
   });
 
   it('hides View / Reply for care rep access on the patient operation', () => {
@@ -152,7 +163,7 @@ describe('PatientHistoryListingComponent (Jest)', () => {
 
     component.ngOnInit();
 
-    expect(notificationServiceStub.getNotificationRepliesByNotificationId).not.toHaveBeenCalled();
+    expect(notificationServiceStub.getNotificationRepliesByPatientId).not.toHaveBeenCalled();
   });
 
   it('hides View / Reply when the user has manager access on a different operation only', () => {

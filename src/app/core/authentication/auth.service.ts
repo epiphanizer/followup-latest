@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, BehaviorSubject, of, firstValueFrom } from 'rxjs';
+import { Observable, throwError, BehaviorSubject, of, firstValueFrom, forkJoin } from 'rxjs';
 import { map, catchError, retry } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -167,16 +167,20 @@ export class AuthenticationService {
               // store user details and jwt token in local storage to keep user logged in between page refreshes
               localStorage.setItem('followup-token', jwt.token);
               var user = token.user;
-              this._operationService.getOperationsByUserId(user.userId).subscribe(res => {
-                if (res) {
-                  user.operations = res;
-                }
-                this._operationService.getOperationGroups().subscribe(res => {
-                  this.applyVisibleOperationContext(user, res || []);
+              forkJoin({
+                operations: this._operationService.getOperationsByUserId(user.userId),
+                groups: this._operationService.getOperationGroups()
+              }).subscribe({
+                next: ({ operations, groups }) => {
+                  user.operations = operations || [];
+                  this.applyVisibleOperationContext(user, groups || []);
                   localStorage.setItem('operationGroups', JSON.stringify(user.operationGroups || []));
                   this.currentUserSubject.next(user);
-                });
-                localStorage.setItem('followup-user', JSON.stringify(user));
+                  localStorage.setItem('followup-user', JSON.stringify(user));
+                },
+                error: () => {
+                  localStorage.setItem('followup-user', JSON.stringify(user));
+                }
               });
               this.currentUserSubject.next(user);
 
@@ -309,25 +313,17 @@ export class AuthenticationService {
     }
     localStorage.removeItem('operationGroups');
     return new Promise(resolve => {
-      this._operationService.getOperationsByUserId(user.userId).subscribe({
-        next: (res: Operation[]) => {
-          if (res) {
-            user.operations = res;
-          }
-          this._operationService.getOperationGroups().subscribe({
-            next: (groups: OperationGroup[]) => {
-              this.applyVisibleOperationContext(user, groups || []);
-              localStorage.setItem('operationGroups', JSON.stringify(user.operationGroups || []));
-              localStorage.setItem('followup-user', JSON.stringify(user));
-              this.currentUserSubject.next(user);
-              resolve(user);
-            },
-            error: () => {
-              localStorage.setItem('followup-user', JSON.stringify(user));
-              this.currentUserSubject.next(user);
-              resolve(user);
-            }
-          });
+      forkJoin({
+        operations: this._operationService.getOperationsByUserId(user.userId),
+        groups: this._operationService.getOperationGroups()
+      }).subscribe({
+        next: ({ operations, groups }) => {
+          user.operations = operations || [];
+          this.applyVisibleOperationContext(user, groups || []);
+          localStorage.setItem('operationGroups', JSON.stringify(user.operationGroups || []));
+          localStorage.setItem('followup-user', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+          resolve(user);
         },
         error: () => {
           localStorage.setItem('followup-user', JSON.stringify(user));

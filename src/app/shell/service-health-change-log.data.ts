@@ -15,6 +15,46 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.0.8',
+    recordedAt: '2026-08-26',
+    label: 'Final handoff optimization pass',
+    notes:
+      'Adds Active/Archived patient switching, reduces patient-history request fan-out, and refreshes safely upgradable dependencies.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Patient listings now default to Active records and can switch immediately to Archived records without another API request.',
+        evidence:
+          'Added an accessible Active/Archived segmented control with counts. Sorting, searching, and pagination remain scoped to the selected view, Spanish mode keeps its existing queue behavior, and legacy rows without an active flag remain visible as active. Focused patient-listing Jest passes 12/12 tests.',
+        source: 'v4.0.0/followup-frontend handoff hardening (2026-08-26)'
+      },
+      {
+        scope: 'Performance',
+        summary:
+          'Login context reads now run in parallel, patient notification history no longer requests replies once per notification, and call-question history hydrates in one patient-scoped request.',
+        evidence:
+          'Operation and operation-group hydration now starts together through `forkJoin`. Patient notification history uses the existing patient-level reply endpoint once and groups replies in memory by notification id, replacing row-level reply fan-out. Patient call history now calls `/patients/{patientId}/calls/questions` once and groups question answers by call id instead of loading each contacted call separately. The matching stored procedure was applied to alpha `followup_alpha_20260517` and returned the expected 96 rows for the busiest sampled patient.',
+        source: 'v4.0.0 frontend/API small-tier query audit (2026-08-26)'
+      },
+      {
+        scope: 'Release',
+        summary:
+          'Applied all non-breaking dependency updates available on the current Angular 21 and legacy API router lines.',
+        evidence:
+          'Frontend audit findings dropped from 38 to 8 after patch/minor lockfile refresh. The remaining 4 moderate, 3 high, and 1 critical findings are build/dev-server transitives whose npm remediation requires Angular 22. API direct dependencies and safe legacy-router overrides were refreshed; the installed supported API tree now has two low findings and no moderate/high/critical findings.',
+        source: 'v4.0.0 frontend/API dependency audit (2026-08-26)'
+      },
+      {
+        scope: 'Release',
+        summary: 'Promoted the frontend alpha candidate to version 4.0.8 and API alpha candidate to version 4.0.7.',
+        evidence:
+          'Aligned frontend package metadata, generated environment metadata, shell Service Health manifest, and API package metadata for alpha deployment.',
+        source: 'v4.0.0 alpha release stamp (2026-08-26)'
+      }
+    ]
+  },
+  {
     version: '4.0.7',
     recordedAt: '2026-08-25',
     label: 'Spanish call history performance hotfix',

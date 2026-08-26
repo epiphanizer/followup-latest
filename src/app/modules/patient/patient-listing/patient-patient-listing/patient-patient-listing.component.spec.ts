@@ -208,7 +208,54 @@ describe('PatientPatientListingComponent (Jest)', () => {
     component.ngOnChanges({ operation: { currentValue: { operationId: 'op1' } } as any });
 
     expect(component.patients[0].patientStatusLabel).toBe('Archived');
+    expect(component.patientsFiltered).toEqual([]);
+
+    component.selectPatientView('archived');
+
     expect(component.patientsFiltered[0].patientStatusLabel).toBe('Archived');
+  });
+
+  it('defaults to active patients and switches to archived without another API request', () => {
+    patientServiceStub.getPatientsByOperationId.mockClear();
+    component.patients = [
+      { patientId: 'active', patientFirstName: 'Active', patientLastName: 'Patient', patientActive: 1 } as any,
+      { patientId: 'archived', patientFirstName: 'Archived', patientLastName: 'Patient', patientActive: 0 } as any
+    ];
+
+    component.runSortSwitch();
+
+    expect(component.patientView).toBe('active');
+    expect(component.patientsFiltered.map(patient => patient.patientId)).toEqual(['active']);
+    expect(component.activePatientCount).toBe(1);
+    expect(component.archivedPatientCount).toBe(1);
+
+    component.selectPatientView('archived');
+
+    expect(component.patientsFiltered.map(patient => patient.patientId)).toEqual(['archived']);
+    expect(patientServiceStub.getPatientsByOperationId).not.toHaveBeenCalled();
+  });
+
+  it('keeps search scoped to the selected patient view', () => {
+    component.patients = [
+      { patientId: 'active', patientFirstName: 'Sam', patientLastName: 'Active', patientActive: 1 } as any,
+      { patientId: 'archived', patientFirstName: 'Sam', patientLastName: 'Archived', patientActive: 0 } as any
+    ];
+
+    expect(component.searchPatients('sam').map(patient => patient.patientId)).toEqual(['active']);
+    component.selectPatientView('archived');
+    expect(component.patientsFiltered.map(patient => patient.patientId)).toEqual(['archived']);
+  });
+
+  it('keeps legacy patients without an active flag in the active view', () => {
+    component.patients = [
+      { patientId: 'legacy', patientFirstName: 'Legacy', patientLastName: 'Patient' } as any
+    ];
+
+    component.runSortSwitch();
+
+    expect(component.patientsFiltered.map(patient => patient.patientId)).toEqual(['legacy']);
+    expect(component.activePatientCount).toBe(1);
+    expect(component.archivedPatientCount).toBe(0);
   });
 
   it('builds patient links based on status', () => {

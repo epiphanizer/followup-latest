@@ -36,18 +36,7 @@ export class PatientHistoryListingComponent implements OnInit {
 
   ngOnInit() {
     this.patientActivity = [];
-    // Go get our calls and warm up the observables.
-    this.patientCalls.forEach((patientCall: PatientCall, index: number) => {
-      if (patientCall?.patientCallStatusLabel !== 'Contacted' || !patientCall?.patientCallId) {
-        return;
-      }
-
-      this.patientCallQuestionService
-        .getPatientCallQuestionsWithAnswersByPatientCallId(patientCall.patientCallId)
-        .subscribe((patientCallQuestions: PatientCallQuestion[]) => {
-          this.patientCalls[index].patientCallQuestions = patientCallQuestions;
-        });
-    });
+    this.hydratePatientCallQuestions();
 
     /**
      * Combine the patientCalls and patientNotifications and sort them by the date that they occurred.
@@ -65,17 +54,36 @@ export class PatientHistoryListingComponent implements OnInit {
       });
     }
     if (this.patientNotifications) {
+      const visibleNotificationIds = new Set(
+        this.patientNotifications
+          .filter(notification => this.canViewNotificationReply(notification))
+          .map(notification => notification.notificationId)
+      );
+
+      if (visibleNotificationIds.size && this.patient?.patientId) {
+        this.notificationService
+          .getNotificationRepliesByPatientId(this.patient.patientId)
+          .subscribe((replies: NotificationReply[]) => {
+            const repliesByNotificationId = (replies || []).reduce((grouped, reply) => {
+              if (visibleNotificationIds.has(reply.notificationId)) {
+                grouped[reply.notificationId] = grouped[reply.notificationId] || [];
+                grouped[reply.notificationId].push(reply);
+              }
+              return grouped;
+            }, {} as Record<string, NotificationReply[]>);
+
+            this.patientNotifications.forEach(notification => {
+              if (visibleNotificationIds.has(notification.notificationId)) {
+                (notification as any).notificationReplies = repliesByNotificationId[notification.notificationId] || [];
+              }
+            });
+          });
+      }
+
       this.patientNotifications.forEach(patientNotification => {
         patientNotification.notificationMessage = this.sharedFunctions.returnHTML(
           patientNotification.notificationMessage
         );
-        if (patientNotification.notificationId && this.canViewNotificationReply(patientNotification)) {
-          this.notificationService
-            .getNotificationRepliesByNotificationId(patientNotification.notificationId)
-            .subscribe((replies: NotificationReply[]) => {
-              (patientNotification as any)['notificationReplies'] = replies;
-            });
-        }
         this.patientActivity.push(patientNotification);
       });
     }
@@ -121,5 +129,35 @@ export class PatientHistoryListingComponent implements OnInit {
     ].filter(roleId => Number.isFinite(roleId) && roleId > 0);
 
     return candidateRoleIds.some(roleId => roleId === 1 || roleId === 2);
+  }
+
+  private hydratePatientCallQuestions() {
+    const contactedCallIds = new Set(
+      (this.patientCalls || [])
+        .filter((patientCall: PatientCall) => patientCall?.patientCallStatusLabel === 'Contacted' && !!patientCall?.patientCallId)
+        .map((patientCall: PatientCall) => patientCall.patientCallId)
+    );
+
+    if (!contactedCallIds.size || !this.patient?.patientId) {
+      return;
+    }
+
+    this.patientCallQuestionService
+      .getPatientCallQuestionsWithAnswersByPatientId(this.patient.patientId)
+      .subscribe((patientCallQuestions: PatientCallQuestion[]) => {
+        const questionsByCallId = (patientCallQuestions || []).reduce((grouped, question) => {
+          if (question?.patientCallId && contactedCallIds.has(question.patientCallId)) {
+            grouped[question.patientCallId] = grouped[question.patientCallId] || [];
+            grouped[question.patientCallId].push(question);
+          }
+          return grouped;
+        }, {} as Record<string, PatientCallQuestion[]>);
+
+        this.patientCalls.forEach((patientCall: PatientCall) => {
+          if (contactedCallIds.has(patientCall.patientCallId)) {
+            patientCall.patientCallQuestions = questionsByCallId[patientCall.patientCallId] || [];
+          }
+        });
+      });
   }
 }

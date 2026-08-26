@@ -11,6 +11,7 @@ interface CachedPatientCallQuestionRequest<T> {
 }
 
 export interface PatientCallQuestion {
+  patientCallId?: string;
   patientCallQuestionId?: string;
   patientCallQuestion: string;
   patientCallQuestionType: string;
@@ -31,6 +32,10 @@ export class PatientCallQuestionsService {
     CachedPatientCallQuestionRequest<PatientCallQuestionAnswer[]>
   >();
   private readonly hydratedQuestionRequestCache = new Map<
+    string,
+    CachedPatientCallQuestionRequest<PatientCallQuestion[]>
+  >();
+  private readonly patientHydratedQuestionRequestCache = new Map<
     string,
     CachedPatientCallQuestionRequest<PatientCallQuestion[]>
   >();
@@ -127,6 +132,19 @@ export class PatientCallQuestionsService {
     );
   };
 
+  getPatientCallQuestionsWithAnswersByPatientId = function(patientId: string) {
+    const cacheKey = `patient-hydrated:${patientId}`;
+
+    return this.getCachedRequest(this.patientHydratedQuestionRequestCache, cacheKey, () =>
+      this.http.get('patients/' + patientId + '/calls/questions').pipe(
+        catchError(e => {
+          this.patientHydratedQuestionRequestCache.delete(cacheKey);
+          return this.handleAsyncError(e);
+        })
+      )
+    );
+  };
+
   getPatientCallQuestionAnswersByPatientCallQuestionId = function(patientCallQuestionId: string) {
     const cacheKey = `answers:${patientCallQuestionId}`;
 
@@ -152,6 +170,7 @@ export class PatientCallQuestionsService {
         tap(() => {
           this.answerRequestCache.delete(`answers:${patientCallQuestionId}`);
           this.hydratedQuestionRequestCache.clear();
+          this.patientHydratedQuestionRequestCache.clear();
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );

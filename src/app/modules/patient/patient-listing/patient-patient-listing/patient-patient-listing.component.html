@@ -1,4 +1,22 @@
 <div class="listing-controls">
+  <div class="patient-view-toggle" *ngIf="!mode.spanish" role="group" aria-label="Patient record view">
+    <button
+      type="button"
+      [class.active]="patientView === 'active'"
+      [attr.aria-pressed]="patientView === 'active'"
+      (click)="selectPatientView('active')"
+    >
+      Active <span>{{ activePatientCount }}</span>
+    </button>
+    <button
+      type="button"
+      [class.active]="patientView === 'archived'"
+      [attr.aria-pressed]="patientView === 'archived'"
+      (click)="selectPatientView('archived')"
+    >
+      Archived <span>{{ archivedPatientCount }}</span>
+    </button>
+  </div>
   <app-listing-filter
     [options]="colDefs"
     (sortOptionSelectedEventEmitter)="sortOptionSelected($event)"
