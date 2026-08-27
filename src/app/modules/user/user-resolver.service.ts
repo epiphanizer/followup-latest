@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 
-import { AuthenticationService, HttpService } from '@app/core';
+import { AuthenticationService, HttpService, USER_IDLE_TIMEOUT_MS } from '@app/core';
 import { share, catchError } from 'rxjs/operators';
 import { User } from '@app/modules/user/user';
 import { Observable, of, throwError } from 'rxjs';
@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {
-  private readonly userIdleTimeoutMs = 15 * 60 * 1000;
+  private readonly userIdleTimeoutMs = USER_IDLE_TIMEOUT_MS;
   user: User;
   user$: Observable<User>;
   constructor(private authService: AuthenticationService, private http: HttpService) {}
@@ -31,11 +31,6 @@ export class UserResolver implements Resolve<User> {
     var currentTime = date.getTime();
 
     if (currentTime > this.user.userLoginExpires) {
-      if (this.hasActiveTokenSession()) {
-        this.extendUserSession(currentTime);
-        return this.user$;
-      }
-
       this.authService.signOut(this.user.userId);
       return of(null);
     }
@@ -70,14 +65,6 @@ export class UserResolver implements Resolve<User> {
     return throwError({
       message: 'We had trouble within the authentication service.'
     });
-  }
-
-  private hasActiveTokenSession(): boolean {
-    if (typeof this.authService.getToken !== 'function') {
-      return false;
-    }
-
-    return !!this.authService.getToken();
   }
 
   private extendUserSession(currentTime: number) {

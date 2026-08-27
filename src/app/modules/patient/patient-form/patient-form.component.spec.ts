@@ -636,6 +636,48 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.getPatientDobDisplayValue()).toBe('02/05/2026');
   });
 
+  it('rejects impossible and future typed birthdays', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+    (comp as any).createForm();
+
+    comp.onPatientDobInput('02/31/2020');
+    comp.onPatientDobInputBlur();
+    expect(comp.patientForm.get('patient.patientDob')!.value).toBe('');
+
+    comp.onPatientDobInput('12/31/2999');
+    comp.onPatientDobInputBlur();
+    expect(comp.patientForm.get('patient.patientDob')!.invalid).toBe(true);
+    expect(comp.patientForm.get('patient.patientDob')!.hasError('futureDate')).toBe(true);
+  });
+
   it('applies a confirmed birthday date picker selection back into the form', () => {
     const route = { snapshot: { data: { user: baseUser } } } as any;
     const services = makeServices();

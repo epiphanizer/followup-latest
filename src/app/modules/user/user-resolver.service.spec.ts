@@ -38,23 +38,20 @@ describe('UserResolver (Jest)', () => {
     });
   });
 
-  it('keeps the user logged in when the local timeout is stale but the token is still active', done => {
+  it('signs out when the local idle timeout is stale even if the token is still active', () => {
     const user = { userId: 'u1', userLoginExpires: Date.now() - 1000 } as any;
     const authService = {
       currentUserValue: user,
       currentUserSubject: { getValue: () => user, next: jest.fn() },
-      getToken: jest.fn((): string | null => 'active-jwt-token'),
       signOut: jest.fn()
     } as any;
     const resolver = new UserResolver(authService as any, {} as any);
 
     resolver.resolve().subscribe((resolved: any) => {
-      expect(resolved.userId).toBe('u1');
-      expect(authService.signOut).not.toHaveBeenCalled();
-      expect(authService.currentUserSubject.next).toHaveBeenCalledWith(user);
-      expect(localStorage.getItem('followup-user')).toContain('u1');
-      done();
+      expect(resolved).toBeNull();
     });
+    expect(authService.signOut).toHaveBeenCalledWith('u1');
+    expect(authService.currentUserSubject.next).not.toHaveBeenCalled();
   });
 
   it('extends session when nearing expiration', done => {
@@ -71,6 +68,7 @@ describe('UserResolver (Jest)', () => {
     result$.subscribe((resolved: any) => {
       expect(resolved.userId).toBe('u2');
       expect(authService.currentUserSubject.next).toHaveBeenCalled();
+      expect(resolved.userLoginExpires).toBeGreaterThan(Date.now() + 44 * 60 * 1000);
       expect(localStorage.getItem('followup-user')).toContain('u2');
       done();
     });

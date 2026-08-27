@@ -15,6 +15,62 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.0.9',
+    recordedAt: '2026-08-26',
+    label: 'Operations reliability and input hardening',
+    notes:
+      'Makes facility archiving durable, renews active DOT sessions, restores guided DOB entry, surfaces Hospital Info, and verifies patient-phone persistence.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Hospital Info now appears with the persistent patient labels in the left-hand Patient Detail column.',
+        evidence:
+          'The stored Hospital Admitted value is shown conditionally alongside Medical Conditions, Primary Diagnosis, Discharged Condition, Need To Know, and patient history instead of being attached to one call. The display supports both the current patientHospitalAdmitted field and its existing patientPrimaryInsurance legacy alias, trims whitespace, and remains hidden when blank. Focused patient-notes coverage passes 2/2 tests.',
+        source: 'v4.0.0 Patient Detail hospital context (2026-08-26)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Patient and user-profile birthdays now provide guided MM/DD/YYYY entry with semantic date validation.',
+        evidence:
+          'Both DOB fields use ngx-mask for automatic separators and a complete four-digit year while retaining numeric keyboards and birthday autofill. Patient DOB keeps its calendar picker, and both forms preserve the existing yyyy-MM-dd API payload. Validation rejects incomplete, impossible, and future birthdays instead of relying on formatting alone; valid leap dates are accepted. Focused patient/profile coverage passes 58/58 tests.',
+        source: 'v4.0.0 DOB input hardening (2026-08-26)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Active DOT sessions now use a 45-minute inactivity window and renew their bearer token before the fixed server deadline.',
+        evidence:
+          'Mouse, click, wheel, touch, and keyboard activity extend one shared 45-minute idle deadline. While active, the shell checks every five minutes and requests renewal during the JWT final hour, allowing repeated transient-failure retries without overlapping requests. Activity deadlines synchronize across tabs. The protected API refresh route revalidates the database user, rejects inactive or deleted accounts, and issues a fresh eight-hour RS256 token; expired tokens and idle sessions cannot refresh. Focused frontend session coverage passes 29/29 tests and API coverage passes 10/10 tests.',
+        source: 'v4.0.0 frontend/API renewable session hardening (2026-08-26)'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Patient edits now verify primary-phone persistence before reporting success while keeping patient and contact numbers distinct.',
+        evidence:
+          'A read-only production aggregate found 5,650 active Haven patients with a blank primary patient phone, but 5,644 still had a phone in the separate patientContacts table; only 6 lacked any phone path. The deployed edit procedure directly writes all three patient phone fields and no patient trigger touches phone data, ruling out broad database deletion. The API now verifies country code, area code, and phone after every patient edit. Contact numbers are not promoted into patient phone fields because they may belong to another person. No production data was changed.',
+        source: 'v4.0.0 API Haven patient phone audit (2026-08-26)'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Facility archive now persists an explicit inactive state and archived facilities remain outside active queue and patient views.',
+        evidence:
+          'The facility form preserves numeric and string archive values instead of allowing numeric zero to default back to active. After a successful legacy facility edit, the API synchronizes and verifies operations.operationActive; the dedicated deactivate route also verifies the row after using its stored procedure or mixed-schema fallback. Existing queue-facing patient and call reads enforce both facility and parent-client active state, and post-save user hydration removes inactive facilities from active sidebars. Focused frontend archive/cache/queue coverage passes 83/83 tests and API coverage passes 8/8 tests with syntax validation across 71 files.',
+        source: 'v4.0.0 frontend/API facility archive verification (2026-08-26)'
+      },
+      {
+        scope: 'Release',
+        summary: 'Promoted the complaint-driven frontend and API reliability fixes to matching version 4.0.9.',
+        evidence:
+          'Aligned frontend package and generated environment metadata, shell Service Health version assertions, and API package metadata for alpha and production promotion.',
+        source: 'v4.0.0 release stamp (2026-08-26)'
+      }
+    ]
+  },
+  {
     version: '4.0.8',
     recordedAt: '2026-08-26',
     label: 'Final handoff optimization pass',

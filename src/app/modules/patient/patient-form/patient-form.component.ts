@@ -522,7 +522,7 @@ export class PatientFormComponent implements OnInit {
         }),
         patientDob: this.fb.control(
           this.patient.patientDob ? formatDate(this.patient.patientDob, 'yyyy-MM-dd', 'en') : '',
-          [Validators.required]
+          [Validators.required, this.patientDobValidator]
         ),
         patientGender: this.fb.control(this.patient.patientGender),
         patientCountryCode: this.fb.control(
@@ -1322,6 +1322,15 @@ export class PatientFormComponent implements OnInit {
     control.setValue(this.isNormalizedDischargeDateValue(normalized) ? normalized : '', { emitEvent: false });
     control.updateValueAndValidity({ emitEvent: false });
   }
+
+  private readonly patientDobValidator = (control: AbstractControl): ValidationErrors | null => {
+    const normalizedDate = this.normalizeDischargeDateValue(control.value);
+    if (!normalizedDate || !this.isNormalizedDischargeDateValue(normalizedDate)) {
+      return null;
+    }
+
+    return normalizedDate > this.patientDobMax ? { futureDate: true } : null;
+  };
 
   private readonly dischargeDateOrderValidator = (control: AbstractControl): ValidationErrors | null => {
     const admitDate = this.normalizeDischargeDateValue(control.get('patientAdmitDate')?.value);

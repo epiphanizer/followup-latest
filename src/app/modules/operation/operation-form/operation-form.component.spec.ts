@@ -114,6 +114,25 @@ describe('OperationFormComponent logic', () => {
       expect(payload.operationActive).toBe(1);
     });
 
+    it('preserves a numeric archived flag', () => {
+      const payload = component.operationPutFactory({
+        operation: {
+          operationName: 'Name',
+          operationGroupId: 'g1',
+          operationActive: 0,
+          operationAddress: '',
+          operationCity: '',
+          operationState: '',
+          operationZip: '',
+          operationCountryCode: '',
+          operationAreaCode: '',
+          operationPhoneNumber: ''
+        }
+      });
+
+      expect(payload.operationActive).toBe(0);
+    });
+
     it('defaults operationActive to 1 if not provided', () => {
       const payload = component.operationPutFactory({
         operation: {

@@ -21,4 +21,17 @@ describe('PatientNotesComponent (Jest)', () => {
     expect(comp.patientIntakeQuestions[0].patientIntakeQuestionAnswer).toBe('yes');
     expect(comp.patientMedicalConditions).toContain('cardiacBoolean');
   });
+
+  it('exposes stored hospital information for the left-hand patient labels', () => {
+    const comp = new PatientNotesComponent({} as any);
+
+    comp.patient = { patientHospitalAdmitted: ' General Hospital ' } as any;
+    expect(comp.hospitalInfo).toBe('General Hospital');
+
+    comp.patient = { patientPrimaryInsurance: 'Legacy Hospital' } as any;
+    expect(comp.hospitalInfo).toBe('Legacy Hospital');
+
+    comp.patient = { patientHospitalAdmitted: ' ' } as any;
+    expect(comp.hospitalInfo).toBe('');
+  });
 });

@@ -44,6 +44,9 @@
   <ion-item class="primary-diagnosis">
     <span class="label">Primary Diagnosis: &nbsp; </span> {{ patient.patientPrimaryDiagnosis }}
   </ion-item>
+  <ion-item class="hospital-info" *ngIf="hospitalInfo">
+    <span class="label">Hospital Info: &nbsp; </span> {{ hospitalInfo }}
+  </ion-item>
   <div class="discharged-condition">
     <span class="discharge label">Discharged Condition: &nbsp; </span>
     <p>{{ patient.patientDischargedCondition.length ? patient.patientDischargedCondition : '(none provided)' }}</p>

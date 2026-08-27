@@ -2,12 +2,12 @@ import { Component, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/co
 import { HttpBackend, HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HostListener } from '@angular/core';
-import { AuthenticationService } from '@app/core';
+import { AuthenticationService, USER_IDLE_TIMEOUT_MS } from '@app/core';
 import { ModalController } from '@ionic/angular';
 import { Patient } from '@app/modules/patient/patient';
 import { User } from '@app/modules/user/user';
 import { of, Subscription, timer } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, finalize, map, switchMap } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { ToastrService } from 'ngx-toastr';
 import { UserCorkBoardService } from './user-cork-board/user-cork-board.service';
@@ -77,8 +77,10 @@ interface ServiceStatusViewModel {
   standalone: false
 })
 export class ShellComponent {
-  private readonly userIdleTimeoutMs = 15 * 60 * 1000;
+  private readonly userIdleTimeoutMs = USER_IDLE_TIMEOUT_MS;
   private readonly idleWarningThresholdMs = 30 * 1000;
+  private readonly sessionRefreshCheckMs = 5 * 60 * 1000;
+  private readonly sessionRefreshThresholdMs = 60 * 60 * 1000;
   private readonly statusRefreshMs = 60000;
   private readonly statusFadeOutMs = 250;
   private readonly statusViewportPaddingPx = 12;
@@ -88,6 +90,7 @@ export class ShellComponent {
   corkBoardSubscription: Subscription;
   dropdownActive: Boolean = false;
   idleLogoutTimer: ReturnType<typeof setInterval>;
+  sessionRefreshTimer: ReturnType<typeof setInterval>;
   user: User;
   impersonator: User;
   patient: Patient;
@@ -115,6 +118,7 @@ export class ShellComponent {
 
   private serviceStatusFadeOutTimeout: ReturnType<typeof setTimeout>;
   private serviceStatusDragState: ServiceStatusDragState = null;
+  private sessionRefreshInFlight: boolean = false;
 
 
   constructor(
@@ -150,6 +154,7 @@ export class ShellComponent {
       }
     });
     this.setIdleLogoutTimer();
+    this.setSessionRefreshTimer();
     this.corkBoardSubscription = this.userCorkBoardService.menuStateBSubject.subscribe(() => {
       this.userCorkBoardExpanded = this.userCorkBoardService.isOpen;
     });
@@ -209,9 +214,28 @@ export class ShellComponent {
   onKeydown(e: any) {
     this.markUserActivity();
   }
+  @HostListener('window:storage', ['$event'])
+  onStorage(e: StorageEvent) {
+    if (!e || e.key !== 'followup-user') {
+      return;
+    }
+
+    if (!e.newValue) {
+      this.authenticationService.currentUserSubject.next(null);
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    try {
+      this.authenticationService.currentUserSubject.next(JSON.parse(e.newValue));
+    } catch (_error) {
+      return;
+    }
+  }
 
   private markUserActivity() {
     this.updateUserExpiry();
+    this.refreshSessionIfNeeded();
   }
 
   updateUserExpiry() {
@@ -224,6 +248,10 @@ export class ShellComponent {
     }
 
     var date = new Date();
+    if (this.user.userLoginExpires && this.user.userLoginExpires <= date.getTime()) {
+      this.signOut();
+      return;
+    }
     this.user.userLoginExpires = date.getTime() + this.userIdleTimeoutMs;
     this.authenticationService.currentUserSubject.next(this.user);
     localStorage.removeItem('followup-user');
@@ -248,6 +276,33 @@ export class ShellComponent {
         self.signOut();
       }
     }, 5000);
+  }
+  setSessionRefreshTimer() {
+    this.refreshSessionIfNeeded();
+    this.sessionRefreshTimer = setInterval(() => this.refreshSessionIfNeeded(), this.sessionRefreshCheckMs);
+  }
+  private refreshSessionIfNeeded() {
+    const currentTime = Date.now();
+    const currentUser = this.authenticationService.currentUserSubject.getValue();
+    if (
+      !currentUser ||
+      !currentUser.userLoginExpires ||
+      currentUser.userLoginExpires <= currentTime ||
+      this.sessionRefreshInFlight
+    ) {
+      return;
+    }
+
+    const tokenExpires = this.authenticationService.getTokenSessionExpires();
+    if (!tokenExpires || tokenExpires <= currentTime || tokenExpires - currentTime > this.sessionRefreshThresholdMs) {
+      return;
+    }
+
+    this.sessionRefreshInFlight = true;
+    this.authenticationService
+      .refreshSession()
+      .pipe(finalize(() => (this.sessionRefreshInFlight = false)))
+      .subscribe({ error: () => undefined });
   }
   corkBoardExpandedHandler(toggleState: boolean) {
     this.corkboardExpanded = toggleState;
@@ -669,6 +724,9 @@ export class ShellComponent {
     }
     if (this.idleLogoutTimer) {
       clearInterval(this.idleLogoutTimer);
+    }
+    if (this.sessionRefreshTimer) {
+      clearInterval(this.sessionRefreshTimer);
     }
     if (this.currentUserSubscription) {
       this.currentUserSubscription.unsubscribe();

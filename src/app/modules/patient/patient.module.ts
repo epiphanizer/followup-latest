@@ -18,6 +18,7 @@ import { FollowupCompleteButtonComponent } from './patient-detail/followup-compl
 import { PatientAvatarUploadComponent } from './patient-avatar-upload/patient-avatar-upload.component';
 import { SharedModule } from '@app/shared';
 import { nl2brPipe } from '@app/shared/pipes/nl2br.pipe';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { nl2brPipe } from '@app/shared/pipes/nl2br.pipe';
     PatientRoutingModule,
     PatientCallModule,
     PatientNotesModule,
+    NgxMaskDirective,
     SharedModule
   ],
   exports: [PatientAvatarComponent],

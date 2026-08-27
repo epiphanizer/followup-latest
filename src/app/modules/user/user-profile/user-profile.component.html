@@ -79,7 +79,16 @@
         <ion-list class="get-to-know-you" lines="none">
           <ion-item class="user-dob">
             <ion-label color="medium" position="stacked">Birthday <span style="color:#f1624a">*</span></ion-label>
-            <ion-input type="date" formControlName="userDob"></ion-input>
+            <ion-input
+              type="text"
+              inputmode="numeric"
+              autocomplete="bday"
+              placeholder="mm/dd/yyyy"
+              mask="00/00/0000"
+              [dropSpecialCharacters]="false"
+              [showMaskTyped]="true"
+              formControlName="userDob"
+            ></ion-input>
           </ion-item>
           <ion-item class="user-dessert">
             <ion-label color="medium" position="stacked">Favorite Dessert</ion-label>

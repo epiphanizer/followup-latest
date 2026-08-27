@@ -103,6 +103,31 @@ describe('AuthenticationService', () => {
     expect(localStorage.getItem('followup-token')).toBeNull();
   });
 
+  it('stores a renewed token and exposes its server-side expiration', async () => {
+    const { service, http, jwtHelper } = build();
+    const refreshedExpiry = Date.now() + 8 * 60 * 60 * 1000;
+    jwtHelper.decodeToken.mockReturnValue({
+      user: { userId: 'u1', userLevel: 'level', userLoginExpires: refreshedExpiry }
+    });
+    http.post.mockReturnValue(of({ token: 'renewed.token.signature' }));
+
+    const result = await firstValueFrom(service.refreshSession());
+
+    expect(http.post).toHaveBeenCalledWith('users/refresh', {});
+    expect(result.user.userLoginExpires).toBe(refreshedExpiry);
+    expect(localStorage.getItem('followup-token')).toBe('renewed.token.signature');
+    expect(service.getTokenSessionExpires()).toBe(refreshedExpiry);
+  });
+
+  it('rejects a refresh response without a valid future token', async () => {
+    const { service, http } = build();
+    http.post.mockReturnValue(of({ token: 'invalid' }));
+
+    await expect(firstValueFrom(service.refreshSession())).rejects.toThrow(
+      'Authentication refresh did not return a valid token.'
+    );
+  });
+
   it('returns an error observable when login fails', async () => {
     const { service, http } = build();
     http.post.mockReturnValue(throwError(new HttpErrorResponse({ status: 500, error: 'boom' })));

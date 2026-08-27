@@ -63,6 +63,7 @@ describe('UserProfileComponent (Jest)', () => {
     expect(comp.userProfileForm).toBeTruthy();
     expect(comp.userProfileForm.get('userFirstName')?.value).toBe('Ada');
     expect(comp.userProfileForm.get('userSpeaksSpanish')?.value).toBe('0');
+    expect(comp.userProfileForm.get('userDob')?.value).toBe('01/01/2000');
   });
 
   it('loads the targeted user when opened from the admin user route', () => {
@@ -147,7 +148,26 @@ describe('UserProfileComponent (Jest)', () => {
 
     expect(payload.userFirstName).toBe('Ada');
     expect(payload.userPhoneNumber).toBe('555-1212');
+    expect(payload.userDob).toBe('2000-01-01');
     expect(payload.userInterests).toContain('celebrity');
+  });
+
+  it('rejects incomplete, impossible, and future birthdays', () => {
+    const { comp } = makeComponent();
+    comp.ngOnInit();
+    const dobControl = comp.userProfileForm.get('userDob');
+
+    dobControl?.setValue('01/01/20');
+    expect(dobControl?.hasError('invalidDate')).toBe(true);
+
+    dobControl?.setValue('02/31/2020');
+    expect(dobControl?.hasError('invalidDate')).toBe(true);
+
+    dobControl?.setValue('12/31/2999');
+    expect(dobControl?.hasError('futureDate')).toBe(true);
+
+    dobControl?.setValue('02/29/2024');
+    expect(dobControl?.valid).toBe(true);
   });
 
   it('validates controls and triggers save when valid', () => {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { AbstractControl, Validators, FormGroup, FormBuilder, ValidationErrors } from '@angular/forms';
 import { UserPutObject } from '@app/modules/user/user';
 import { UserService } from '@app/modules/user/user.service';
 import { User, UserRolesMap } from '@app/modules/user/user';
@@ -131,11 +131,44 @@ export class UserProfileComponent implements OnInit {
     }
 
     try {
-      return formatDate(userDob, 'yyyy-MM-dd', 'en');
+      return formatDate(userDob, 'MM/dd/yyyy', 'en');
     } catch {
       return '';
     }
   }
+
+  private normalizeUserDobForApi(userDob: string): string {
+    const match = String(userDob || '').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (!match) {
+      return '';
+    }
+
+    const normalizedDate = `${match[3]}-${match[1]}-${match[2]}`;
+    return this.isValidUserDob(normalizedDate) ? normalizedDate : '';
+  }
+
+  private isValidUserDob(normalizedDate: string): boolean {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(normalizedDate || '')) {
+      return false;
+    }
+
+    const [year, month, day] = normalizedDate.split('-').map(value => parseInt(value, 10));
+    const parsedDate = new Date(Date.UTC(year, month - 1, day));
+    return (
+      parsedDate.getUTCFullYear() === year &&
+      parsedDate.getUTCMonth() === month - 1 &&
+      parsedDate.getUTCDate() === day
+    );
+  }
+
+  private readonly userDobValidator = (control: AbstractControl): ValidationErrors | null => {
+    const normalizedDate = this.normalizeUserDobForApi(control.value);
+    if (!normalizedDate) {
+      return { invalidDate: true };
+    }
+
+    return normalizedDate > formatDate(new Date(), 'yyyy-MM-dd', 'en') ? { futureDate: true } : null;
+  };
 
   private createForm() {
     if (!this.user) {
@@ -165,7 +198,7 @@ export class UserProfileComponent implements OnInit {
         this.formatPhoneInputValue(String(this.user.userPhoneNumber || '')),
         [Validators.pattern(this.phoneRegEx)]
       ],
-      userDob: this.fb.control(this.normalizeUserDob(this.user.userDob), [Validators.required]),
+      userDob: this.fb.control(this.normalizeUserDob(this.user.userDob), [Validators.required, this.userDobValidator]),
       userFavoriteDessert: this.fb.control(this.user.userFavoriteDessert),
       userSpeaksSpanish: this.fb.control(this.user.userSpeaksSpanish == true ? '1' : '0'),
       userInterests: this.fb.group({
@@ -270,7 +303,7 @@ export class UserProfileComponent implements OnInit {
     this.user.userAreaCode = formSubmission.userPhoneAreaCode;
     this.user.userPhoneNumber =
       parseInt(this.formatPhoneInputValue(formSubmission.userPhoneNumber).replace(/\D/g, ''), 10) || undefined;
-    this.user.userDob = formSubmission.userDob;
+    this.user.userDob = this.normalizeUserDobForApi(formSubmission.userDob) as any;
     this.user.userSpeaksSpanish = formSubmission.userSpeaksSpanish;
     this.user.userFavoriteDessert = formSubmission.userFavoriteDessert;
     this.user.userInterests = JSON.stringify(formSubmission.userInterests);
@@ -287,7 +320,7 @@ export class UserProfileComponent implements OnInit {
       userAreaCode: formSubmission.userPhoneAreaCode || '',
       userPhoneNumber: this.formatPhoneInputValue(formSubmission.userPhoneNumber),
       userSpeaksSpanish: parseInt(formSubmission.userSpeaksSpanish),
-      userDob: formSubmission.userDob || '',
+      userDob: this.normalizeUserDobForApi(formSubmission.userDob),
       userFavoriteDessert: formSubmission.userFavoriteDessert || '',
       userInterests: userInterests,
       userAdditionalInfo: formSubmission.userAdditionalInfo

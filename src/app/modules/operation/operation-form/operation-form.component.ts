@@ -497,9 +497,8 @@ export class OperationFormComponent implements OnInit {
         operationCountryCode: operationCountryCode ? operationCountryCode : '1',
         operationAreaCode: operationAreaCode ? operationAreaCode : '',
         operationPhoneNumber: this.formatPhoneInputValue(formSubmission.operation.operationPhoneNumber),
-        operationActive: formSubmission.operation.operationActive
-          ? parseInt(formSubmission.operation.operationActive)
-          : 1
+        operationActive:
+          formSubmission.operation.operationActive === 0 || formSubmission.operation.operationActive === '0' ? 0 : 1
       };
       return <OperationPutBody>payload;
     } catch {

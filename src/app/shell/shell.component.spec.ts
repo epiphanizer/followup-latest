@@ -18,6 +18,8 @@ class MockAuthenticationService {
   impersonator = impersonatorSubject.asObservable();
   impersonatorValue: any = null;
   getToken = jest.fn(() => 'header.payload.signature');
+  getTokenSessionExpires = jest.fn(() => Date.now() + 2 * 60 * 60 * 1000);
+  refreshSession = jest.fn(() => of({ user: { userId: 'u1' } }));
   get currentUserValue() {
     return userSubject.getValue();
   }
@@ -109,8 +111,13 @@ describe('ShellComponent', () => {
   );
 
   beforeEach(() => {
+    userSubject.next({ userId: 'u1', userLoginExpires: Date.now() + 600000 });
     fixture = TestBed.createComponent(ShellComponent);
     component = fixture.componentInstance;
+    const authenticationService = TestBed.inject(AuthenticationService) as any;
+    authenticationService.getTokenSessionExpires.mockClear();
+    authenticationService.getTokenSessionExpires.mockReturnValue(Date.now() + 2 * 60 * 60 * 1000);
+    authenticationService.refreshSession.mockClear();
   });
 
   it('should create', () => {
@@ -152,7 +159,34 @@ describe('ShellComponent', () => {
 
     component.onMouseDown();
 
-    expect(userSubject.getValue().userLoginExpires).toBeGreaterThan(before + 100000);
+    expect(userSubject.getValue().userLoginExpires).toBeGreaterThan(Date.now() + 44 * 60 * 1000);
+  });
+
+  it('renews an active session when the token enters its final hour', () => {
+    const authenticationService = TestBed.inject(AuthenticationService) as any;
+    authenticationService.getTokenSessionExpires.mockReturnValue(Date.now() + 30 * 60 * 1000);
+
+    (component as any).refreshSessionIfNeeded();
+
+    expect(authenticationService.refreshSession).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not renew a token after the local idle deadline', () => {
+    const authenticationService = TestBed.inject(AuthenticationService) as any;
+    authenticationService.getTokenSessionExpires.mockReturnValue(Date.now() + 30 * 60 * 1000);
+    userSubject.next({ userId: 'u1', userLoginExpires: Date.now() - 1 });
+
+    (component as any).refreshSessionIfNeeded();
+
+    expect(authenticationService.refreshSession).not.toHaveBeenCalled();
+  });
+
+  it('adopts activity deadlines written by another browser tab', () => {
+    const crossTabUser = { userId: 'u1', userLoginExpires: Date.now() + 45 * 60 * 1000 };
+
+    component.onStorage({ key: 'followup-user', newValue: JSON.stringify(crossTabUser) } as StorageEvent);
+
+    expect(userSubject.getValue()).toEqual(crossTabUser);
   });
 
   it('never auto-opens the panel for a healthy status', () => {
@@ -189,6 +223,7 @@ describe('ShellComponent', () => {
 
   it('filters and scopes the version change log to markdown-backed versions only', () => {
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual([
+      '4.0.9',
       '4.0.8',
       '4.0.7',
       '4.0.6',
@@ -203,6 +238,7 @@ describe('ShellComponent', () => {
       '3.10.0'
     ]);
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
+      '4.0.9',
       '4.0.8',
       '4.0.7',
       '4.0.6',
@@ -216,7 +252,7 @@ describe('ShellComponent', () => {
       '3.12.0',
       '3.10.0'
     ]);
-    expect(component.changeLogSummary).toBe('Showing all 12 recorded releases.');
+    expect(component.changeLogSummary).toBe('Showing all 13 recorded releases.');
 
     component.changeLogVersionQuery = 'rc3';
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual(['3.10.0-rc3']);
@@ -228,6 +264,7 @@ describe('ShellComponent', () => {
     component.selectChangeLogVersion('3.10.0-rc3');
     expect(component.selectedChangeLogVersion).toBe('');
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
+      '4.0.9',
       '4.0.8',
       '4.0.7',
       '4.0.6',

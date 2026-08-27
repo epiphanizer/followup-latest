@@ -18,6 +18,10 @@ export class PatientNotesComponent implements OnInit {
   patientMedicalConditions: any = null;
   constructor(private patientIntakeQuestionService: PatientIntakeQuestionService) {}
 
+  get hospitalInfo(): string {
+    return String(this.patient?.patientHospitalAdmitted || this.patient?.patientPrimaryInsurance || '').trim();
+  }
+
   ngOnInit() {
     this.patientIntakeQuestionService
       .getPatientIntakeQuestionsByPatientId(this.patient.patientId)

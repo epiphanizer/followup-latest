@@ -8,6 +8,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { OperationService } from '@app/modules/operation/operation.service';
 import { Operation, OperationGroup } from '@app/modules/operation/operation';
 
+export const USER_IDLE_TIMEOUT_MS = 45 * 60 * 1000;
+
 export interface AuthenticationBodyPost {
   username: string;
   password: string;
@@ -102,6 +104,21 @@ export class AuthenticationService {
     return token;
   }
 
+  public getTokenSessionExpires(): number {
+    const token = localStorage.getItem('followup-token');
+    if (!isJwtToken(token)) {
+      return 0;
+    }
+
+    try {
+      const decoded = this.jwtHelper.decodeToken(token);
+      const userLoginExpires = Number(decoded?.user?.userLoginExpires || 0);
+      return Number.isFinite(userLoginExpires) ? userLoginExpires : 0;
+    } catch (_error) {
+      return 0;
+    }
+  }
+
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
@@ -190,6 +207,25 @@ export class AuthenticationService {
         }),
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );
+  }
+
+  refreshSession(): Observable<any> {
+    return this.http.post('users/refresh', {}).pipe(
+      map((jwt: any) => {
+        if (!isJwtToken(jwt?.token)) {
+          throw new Error('Authentication refresh did not return a valid token.');
+        }
+
+        const decoded = this.jwtHelper.decodeToken(jwt.token);
+        const userLoginExpires = Number(decoded?.user?.userLoginExpires || 0);
+        if (!Number.isFinite(userLoginExpires) || userLoginExpires <= Date.now()) {
+          throw new Error('Authentication refresh returned an expired token.');
+        }
+
+        localStorage.setItem('followup-token', jwt.token);
+        return decoded;
+      })
+    );
   }
 
   // Prompt the user to sign in and
