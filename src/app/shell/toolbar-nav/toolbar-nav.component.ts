@@ -71,7 +71,7 @@ export class ToolbarNavComponent implements OnInit {
     this.navLinks = [
       {
         linkAction: '/teams',
-        linkName: 'Team Management',
+        linkName: 'Admin',
         dynamic: false,
         dropdown: {
           activated: false,
