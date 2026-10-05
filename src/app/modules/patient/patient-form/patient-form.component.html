@@ -133,7 +133,7 @@
               ></ion-input>
             </ion-item>
             <ion-item class="patient-phone-number phone-field">
-              <ion-label color="medium" position="stacked">Phone #</ion-label>
+              <ion-label color="medium" position="stacked">Phone # <span style="color:#f1624a">*</span></ion-label>
               <ion-input
                 type="text"
                 formControlName="patientPhoneNumber"
@@ -288,7 +288,7 @@
             <ion-list lines="none" inset>
               <ion-item class="primary-insurance">
                 <ion-label color="medium" position="stacked">Hospital Admitted</ion-label>
-                <ion-input formControlName="patientHospitalAdmitted" inputCapitalizeFirst></ion-input>
+                <ion-input formControlName="patientHospitalAdmitted" maxLength="255" inputCapitalizeFirst></ion-input>
               </ion-item>
             </ion-list>
           </fieldset>

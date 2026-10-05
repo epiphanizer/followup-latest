@@ -530,6 +530,7 @@ export class PatientFormComponent implements OnInit {
         ),
         patientAreaCode: this.fb.control(this.patient.patientAreaCode),
         patientPhoneNumber: this.fb.control(this.formatPhoneInputValue(this.patient.patientPhoneNumber), [
+          Validators.required,
           Validators.pattern(this.phoneNumberRegEx)
         ]),
         patientIsResponsibleParty: this.fb.control(this.normalizePatientResponsiblePartyBoolean(this.patient)),

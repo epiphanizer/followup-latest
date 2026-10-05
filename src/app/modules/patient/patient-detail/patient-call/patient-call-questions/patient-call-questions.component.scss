@@ -39,9 +39,14 @@ ion-item.call-question {
     font-size: 15px;
     font-style: normal;
     font-stretch: normal;
-    line-height: 1.33;
+    line-height: 1.4;
     letter-spacing: 0.42px;
     width: auto;
+    overflow: visible;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding-left: 2px;
+    padding-right: 2px;
   }
 
   .patient-call-question-label {
