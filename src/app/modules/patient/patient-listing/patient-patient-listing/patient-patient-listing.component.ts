@@ -23,7 +23,7 @@ export class PatientPatientListingComponent implements OnInit {
   public selectedSortFlag: string = 'desc';
   public colDefs = ['Date', 'Patient', 'Sex', 'Patient #', 'Status', 'Completed'];
   public selectedSortOption: string = this.colDefs[0];
-  public patientView: 'active' | 'archived' = 'active';
+  public patientView: 'all' | 'active' | 'inactive' | 'archived' = 'active';
   private patientSearchText: string = '';
   constructor(private patientService: PatientService) {}
 
@@ -230,7 +230,15 @@ export class PatientPatientListingComponent implements OnInit {
     return this.patientsFiltered;
   }
 
-  selectPatientView(view: 'active' | 'archived') {
+  get activeStatusFilter(): 'all' | 'active' | 'inactive' | 'archived' {
+    return this.patientView;
+  }
+
+  setStatusFilter(filter: 'all' | 'active' | 'inactive' | 'archived') {
+    this.selectPatientView(filter);
+  }
+
+  selectPatientView(view: 'all' | 'active' | 'inactive' | 'archived') {
     if (this.mode?.spanish || this.patientView === view) {
       return;
     }
@@ -241,12 +249,31 @@ export class PatientPatientListingComponent implements OnInit {
     this.runSortSwitch();
   }
 
+  get allPatientCount(): number {
+    return (this.patients || []).length;
+  }
+
   get activePatientCount(): number {
-    return (this.patients || []).filter(patient => this.isPatientActive(patient)).length;
+    return (this.patients || []).filter(patient => {
+      const patientIsActive = this.isPatientActive(patient);
+      const isArchived = !patientIsActive || patient?.patientStatusLabel === 'Archived';
+      const isInactive = patientIsActive && (patient?.patientStatusLabel === 'Inactive' || patient?.patientStatusLabel === 'Pending Triage');
+      return patientIsActive && !isArchived && !isInactive;
+    }).length;
+  }
+
+  get inactivePatientCount(): number {
+    return (this.patients || []).filter(patient => {
+      const patientIsActive = this.isPatientActive(patient);
+      return patientIsActive && (patient?.patientStatusLabel === 'Inactive' || patient?.patientStatusLabel === 'Pending Triage');
+    }).length;
   }
 
   get archivedPatientCount(): number {
-    return (this.patients || []).filter(patient => !this.isPatientActive(patient)).length;
+    return (this.patients || []).filter(patient => {
+      const patientIsActive = this.isPatientActive(patient);
+      return !patientIsActive || patient?.patientStatusLabel === 'Archived';
+    }).length;
   }
   onChangePage(pageOfItems: Array<any>) {
     // update current page of items
@@ -256,6 +283,17 @@ export class PatientPatientListingComponent implements OnInit {
 
   trackByPatientId(index: number, patient: Patient): string | number {
     return patient?.patientId || index;
+  }
+
+  getStatusBadgeClass(patient: Patient): string {
+    const patientIsActive = this.isPatientActive(patient);
+    if (!patientIsActive || patient?.patientStatusLabel === 'Archived') {
+      return 'badge-archived';
+    }
+    if (patient?.patientStatusLabel === 'Inactive' || patient?.patientStatusLabel === 'Pending Triage') {
+      return 'badge-inactive';
+    }
+    return 'badge-active';
   }
 
   private normalizePatients(patients: Patient[]): Patient[] {
@@ -273,17 +311,41 @@ export class PatientPatientListingComponent implements OnInit {
 
   private getPatientsForCurrentView(): Patient[] {
     return (this.patients || [])
-      .filter(patient => this.mode?.spanish || this.isPatientActive(patient) === (this.patientView === 'active'))
+      .filter(patient => {
+        if (this.mode?.spanish || this.patientView === 'all') {
+          return true;
+        }
+        const patientIsActive = this.isPatientActive(patient);
+        const isArchived = !patientIsActive || patient?.patientStatusLabel === 'Archived';
+        const isInactive = patientIsActive && (patient?.patientStatusLabel === 'Inactive' || patient?.patientStatusLabel === 'Pending Triage');
+        const isActive = patientIsActive && !isArchived && !isInactive;
+
+        if (this.patientView === 'active') {
+          return isActive;
+        }
+        if (this.patientView === 'inactive') {
+          return isInactive;
+        }
+        if (this.patientView === 'archived') {
+          return isArchived;
+        }
+        return true;
+      })
       .filter(patient => {
         if (!this.patientSearchText) {
           return true;
         }
-        const patientFullName = `${patient.patientFirstName || ''} ${patient.patientLastName || ''}`.toLowerCase();
-        return patientFullName.includes(this.patientSearchText);
+        const patientFullName = `${patient.patientFirstName || ''} ${patient.patientLastName || ''}`.trim().toLowerCase();
+        const mrn = (patient.patientMedicalRecordNumber || '').toLowerCase();
+        return patientFullName.includes(this.patientSearchText) || mrn.includes(this.patientSearchText);
       });
   }
 
   private isPatientActive(patient: Patient): boolean {
-    return patient?.patientActive === undefined || patient?.patientActive === null || Number(patient.patientActive) === 1;
+    const activeVal = (patient as any)?.patientActive;
+    if (activeVal !== undefined && activeVal !== null) {
+      return Number(activeVal) === 1 || activeVal === true;
+    }
+    return patient?.patientStatusLabel !== 'Archived';
   }
 }

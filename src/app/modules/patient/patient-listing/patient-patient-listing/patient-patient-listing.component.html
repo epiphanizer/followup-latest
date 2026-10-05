@@ -1,8 +1,20 @@
 <div class="listing-controls">
-  <div class="patient-view-toggle" *ngIf="!mode.spanish" role="group" aria-label="Patient record view">
+  <div class="patient-view-toggle status-filter-pills" *ngIf="!mode.spanish" role="group" aria-label="Patient record view">
     <button
       type="button"
+      class="filter-pill"
+      [class.active]="patientView === 'all'"
+      [class.selected]="patientView === 'all'"
+      [attr.aria-pressed]="patientView === 'all'"
+      (click)="selectPatientView('all')"
+    >
+      All <span>{{ allPatientCount }}</span>
+    </button>
+    <button
+      type="button"
+      class="filter-pill"
       [class.active]="patientView === 'active'"
+      [class.selected]="patientView === 'active'"
       [attr.aria-pressed]="patientView === 'active'"
       (click)="selectPatientView('active')"
     >
@@ -10,7 +22,19 @@
     </button>
     <button
       type="button"
+      class="filter-pill"
+      [class.active]="patientView === 'inactive'"
+      [class.selected]="patientView === 'inactive'"
+      [attr.aria-pressed]="patientView === 'inactive'"
+      (click)="selectPatientView('inactive')"
+    >
+      Inactive <span>{{ inactivePatientCount }}</span>
+    </button>
+    <button
+      type="button"
+      class="filter-pill filter-pill-archived"
       [class.active]="patientView === 'archived'"
+      [class.selected]="patientView === 'archived'"
       [attr.aria-pressed]="patientView === 'archived'"
       (click)="selectPatientView('archived')"
     >
@@ -52,7 +76,8 @@
       *ngFor="let patient of pageOfItems; let idx = index; trackBy: trackByPatientId"
       [routerLink]="getPatientLink(patient)"
       class="active"
-      [class.archived]="!patient.patientActive"
+      [class.archived]="!isPatientActive(patient) || patient.patientStatusLabel === 'Archived'"
+      [class.inactive]="patient.patientStatusLabel === 'Inactive' || patient.patientStatusLabel === 'Pending Triage'"
     >
       <td class="centered listing-body-cell">
         {{ patient.patientDischargeDate | date: 'MM/dd/YY' }}
@@ -77,7 +102,9 @@
         {{ patient.patientMedicalRecordNumber }}
       </td>
       <td class="listing-body-cell">
-        {{ patient.patientStatusLabel }}
+        <span class="status-badge" [ngClass]="getStatusBadgeClass(patient)">
+          {{ patient.patientStatusLabel }}
+        </span>
       </td>
       <td class="centered listing-body-cell">
         {{ patient.patientGraduated ? 'Yes' : 'No' }}

@@ -15,6 +15,63 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.1.0',
+    recordedAt: '2026-10-05',
+    label: 'Clinical reliability, queue optimization, and patient listing multi-view',
+    notes:
+      'Enforces mandatory phone validation across intake and API payloads, expands hospital field to 255 characters, optimizes patient contacts queue indexing, resolves subpixel font clipping, adds structured DOT notification audit logging, deactivates stale unclosed discharges, and delivers a 4-state patient listing filter (All, Active, Inactive, Archived) with distinct status badges.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Patient listing now provides dedicated 4-way view filters (All, Active, Inactive, Archived), MRN search matching, and high-visibility status badges.',
+        evidence:
+          'Patient table rows and controls support All, Active, Inactive, and Archived filters with live counts. Inactive and Archived records receive distinct styling (tr.inactive and dimmed tr.archived). Status badges (.badge-active, .badge-inactive, .badge-archived) visually separate states. Search now matches both patient names and medical record numbers (MRN). Unit tests pass 14/14.',
+        source: 'v4.1.0 patient listing status controls and badges (2026-10-05)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Mandatory phone validation on patient form and expanded hospital field length to 255 characters.',
+        evidence:
+          'Patient form enforces Validators.required on primary phone with visible asterisk. Hospital admitted input supports up to 255 characters without truncation.',
+        source: 'v4.1.0 patient discharge sheet validation (2026-10-05)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Resolved subpixel typography clipping on question action buttons.',
+        evidence:
+          'Question action buttons in patient-call-questions use optimizeLegibility and visible overflow, eliminating character clipping on labels like "Fo", "Start", and "Dr.".',
+        source: 'v4.1.0 typography subpixel smoothing fix (2026-10-05)'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Enforced mandatory phone validation in Swagger schema and controller payload layer.',
+        evidence:
+          'Swagger schema requires patientPhoneNumber with minLength: 7. Controller returns HTTP 400 validation error if phone number has fewer than 7 digits.',
+        source: 'v4.1.0 API phone validation layer (2026-10-05)'
+      },
+      {
+        scope: 'API',
+        summary:
+          'DOT notification audit logging added with structured JSON telemetry.',
+        evidence:
+          'Kicktech notification email dispatch logs structured telemetry [DOT_NOTIFICATION_AUDIT] capturing durationMs, recipient counts, and HTTP status codes.',
+        source: 'v4.1.0 DOT notification telemetry audit (2026-10-05)'
+      },
+      {
+        scope: 'Database',
+        summary:
+          'Added non-clustered composite index on patientContacts and authored hospital field expansion and stale discharge migrations.',
+        evidence:
+          'Created 3.12.16migration-patient-contacts-queue-tuning.sql on dbo.patientContacts(patientId, patientContactOrder), 3.12.17migration-hospital-field-expansion.sql for 255-character hospital insurance fields, and 3.12.18migration-stale-discharge-queue-filter.sql.',
+        source: 'v4.1.0 MSSQL index and queue migrations (2026-10-05)'
+      }
+    ]
+  },
+  {
     version: '4.0.9',
     recordedAt: '2026-08-26',
     label: 'Operations reliability and input hardening',

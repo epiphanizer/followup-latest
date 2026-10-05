@@ -275,4 +275,53 @@ describe('PatientPatientListingComponent (Jest)', () => {
     expect(component.getPatientLink(patientActive)).toContain('/call-queue/operations/op1/patient/p1');
     expect(component.getPatientLink(patientInactive)).toContain('/history');
   });
+
+  it('filters patients by active, inactive, archived, and all views', () => {
+    component.patients = [
+      {
+        patientId: 'p-act',
+        patientFirstName: 'Active',
+        patientLastName: 'One',
+        patientActive: 1,
+        patientStatusLabel: 'In Progress',
+        patientMedicalRecordNumber: 'MRN-001'
+      } as any,
+      {
+        patientId: 'p-inact',
+        patientFirstName: 'Inactive',
+        patientLastName: 'Two',
+        patientActive: 1,
+        patientStatusLabel: 'Inactive',
+        patientMedicalRecordNumber: 'MRN-002'
+      } as any,
+      {
+        patientId: 'p-arch',
+        patientFirstName: 'Archived',
+        patientLastName: 'Three',
+        patientActive: 0,
+        patientStatusLabel: 'Archived',
+        patientMedicalRecordNumber: 'MRN-003'
+      } as any
+    ];
+
+    component.runSortSwitch();
+    expect(component.patientsFiltered.map(p => p.patientId)).toEqual(['p-act']);
+
+    component.selectPatientView('inactive');
+    expect(component.patientsFiltered.map(p => p.patientId)).toEqual(['p-inact']);
+
+    component.selectPatientView('archived');
+    expect(component.patientsFiltered.map(p => p.patientId)).toEqual(['p-arch']);
+
+    component.selectPatientView('all');
+    expect(component.patientsFiltered.length).toBe(3);
+  });
+
+  it('returns correct status badge classes', () => {
+    expect(component.getStatusBadgeClass({ patientActive: 1, patientStatusLabel: 'In Progress' } as any)).toBe('badge-active');
+    expect(component.getStatusBadgeClass({ patientActive: 1, patientStatusLabel: 'Inactive' } as any)).toBe('badge-inactive');
+    expect(component.getStatusBadgeClass({ patientActive: 1, patientStatusLabel: 'Pending Triage' } as any)).toBe('badge-inactive');
+    expect(component.getStatusBadgeClass({ patientActive: 0, patientStatusLabel: 'Archived' } as any)).toBe('badge-archived');
+    expect(component.getStatusBadgeClass({ patientActive: 1, patientStatusLabel: 'Archived' } as any)).toBe('badge-archived');
+  });
 });
