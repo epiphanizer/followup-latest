@@ -120,6 +120,38 @@ table {
       td {
         display: table-cell;
         vertical-align: middle;
+        position: relative;
+
+        .badge-container {
+          position: absolute;
+          span.notification-badge {
+            width: 15px;
+            height: 15px;
+            margin-left: 2px;
+            position: absolute;
+            background-image: url("/assets/icon-notification-counter@2x.png");
+            background-size: 100%;
+            display: block;
+            z-index: 5;
+            color: white;
+            border-radius: 50%;
+            border: 1px solid white;
+            text-align: center;
+            font-size: 11px;
+          }
+        }
+
+        app-patient-avatar {
+          float: left;
+          display: block;
+          width: 65px;
+          height: 65px;
+          margin: 15px 0;
+          @media screen and (orientation: portrait) and (max-width: 1024px) {
+            display: none;
+          }
+        }
+
         .patient-name {
           height: 100%;
           width: calc(100% - 95px);
@@ -158,6 +190,17 @@ table {
         &:hover td {
           background-color: rgba(245, 158, 11, 0.08);
         }
+      }
+    }
+
+    app-patient-avatar {
+      float: left;
+      display: block;
+      width: 65px;
+      height: 65px;
+      margin: 15px 0;
+      @media screen and (orientation: portrait) and (max-width: 1024px) {
+        display: none;
       }
     }
   }
