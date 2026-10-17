@@ -27,7 +27,7 @@ describe('NotificationRecipientService (Jest)', () => {
       expect(resp).toEqual({ ok: true } as any);
     });
 
-    const req = httpMock.expectOne('notifications/recipients/');
+    const req = httpMock.expectOne('notifications/recipients');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toBe(body);
     req.flush({ ok: true });

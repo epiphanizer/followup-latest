@@ -336,6 +336,62 @@ describe('OperationFormComponent logic', () => {
       pendingContact.error(new Error('contact failed'));
       expect(component.isSaving).toBe(false);
     });
+
+    it('saves the facility and persists contact notification recipients when notification types are checked', () => {
+      component.addAdditionalOperationContact();
+      const contactGroup = (component.operationForm.get('operationContacts') as any).at(0);
+      contactGroup.patchValue({
+        operationContactFirstName: 'Jane',
+        operationContactLastName: 'Doe',
+        operationContactEmail: 'jane.doe@example.com'
+      });
+      contactGroup.get('operationContactNotifications').at(0).get('n1').setValue(true);
+
+      component.onFormSubmit();
+
+      expect(operationContactsServiceMock.addOperationContactByOperationId).toHaveBeenCalledTimes(1);
+      expect(toastrMock.success).toHaveBeenCalledWith('Operation contact successfully added');
+      expect(notificationRecipientServiceMock.addNotificationRecipientByOperationContactId).toHaveBeenCalledWith({
+        notificationOperationContactId: 'oc1',
+        notificationOperationId: 'op1',
+        notificationTypeId: 'n1',
+        notificationRecipientEmail: 'jane.doe@example.com'
+      });
+      expect(operationServiceMock.editOperationByOperationId).toHaveBeenCalledTimes(1);
+      expect(toastrMock.success).toHaveBeenCalledWith('Successfully saved operation');
+      expect(toastrMock.error).not.toHaveBeenCalled();
+      expect(component.isSaving).toBe(false);
+    });
+
+    it('saves the facility, deactivates removed contacts, and clears deletion tracking', () => {
+      component.addAdditionalOperationContact();
+      component.operationContacts = [
+        {
+          operationContactId: 'oc-existing-1',
+          operationContactFirstName: 'Existing',
+          operationContactLastName: 'Contact',
+          operationContactActive: 1,
+          operationContactOrder: 1
+        } as any
+      ];
+      component.operationContactsOriginal = ['oc-existing-1'];
+
+      component.removeOperationContact(0);
+      expect(component.operationContactsToRemove).toEqual(['oc-existing-1']);
+
+      component.onFormSubmit();
+
+      expect(operationContactsServiceMock.deactivateOperationContactByOperationContactId).toHaveBeenCalledWith(
+        'op1',
+        'oc-existing-1'
+      );
+      expect(toastrMock.success).toHaveBeenCalledWith('Successfully removed operation contact');
+      expect(operationServiceMock.editOperationByOperationId).toHaveBeenCalledTimes(1);
+      expect(toastrMock.success).toHaveBeenCalledWith('Successfully saved operation');
+      expect(toastrMock.error).not.toHaveBeenCalled();
+      expect(component.operationContactsToRemove).toEqual([]);
+      expect(component.isSaving).toBe(false);
+    });
   });
 
   describe('Operation Group Modal Management', () => {

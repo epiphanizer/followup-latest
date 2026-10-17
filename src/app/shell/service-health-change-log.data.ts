@@ -19,8 +19,24 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
     recordedAt: '2026-10-16',
     label: 'Clinical reliability, queue optimization, patient listing multi-view, and status retirement',
     notes:
-      'Enforces mandatory phone validation across intake and API payloads, expands hospital field to 255 characters, optimizes patient contacts queue indexing, resolves subpixel font clipping, adds structured DOT notification audit logging, deactivates stale unclosed discharges, retires completion status labels, adds Open Graph SEO metadata, and delivers a 4-state patient listing filter (All, Active, Inactive, Archived) with distinct status badges.',
+      'Enforces mandatory phone validation across intake and API payloads, fixes false error toast on Ops contact notifications save/delete, expands hospital field to 255 characters, optimizes patient contacts queue indexing, resolves subpixel font clipping, adds structured DOT notification audit logging, deactivates stale unclosed discharges, retires completion status labels, adds Open Graph SEO metadata, and delivers a 4-state patient listing filter (All, Active, Inactive, Archived) with distinct status badges.',
     entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Resolved false error toast on Ops/Facility contact additions and deletions with notification recipients.',
+        evidence:
+          'Normalized NotificationRecipientService endpoint to "notifications/recipients", guarded formArray validator clearance during contact removal, and ensured forkJoin(contactRequests) pipeline receives valid JSON bodies from API rather than empty strings that triggered JSON parse errors. Focused Jest coverage on operation-form.component.spec.ts (37/37 passing) and notification-recipient.service.spec.ts (2/2 passing).',
+        source: 'v4.10.0 Ops contact notifications save fix (2026-10-16)'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Fixed empty JSON body responses on operation contact deactivation and notification recipient persistence.',
+        evidence:
+          'OperationContactsService (deactivate and edit) and NotificationRecipientService (add and edit) now resolve with explicit { success: 1 } payloads, preventing writer.js from emitting empty string HTTP 200 responses with Content-Type: application/json. Added default JSON serialization fallback to writer.js and declared notificationOperationContactId property in Swagger schema.',
+        source: 'v4.10.0 Ops contact empty response resolution (2026-10-16)'
+      },
       {
         scope: 'Frontend',
         summary:
