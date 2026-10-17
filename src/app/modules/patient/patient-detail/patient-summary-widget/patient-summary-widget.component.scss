@@ -50,7 +50,9 @@
 }
 .patient-summary-container {
   max-width: 350px;
-  width: 50%;
+  width: auto;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 .patient-meta-info {
   .patient-medical-record-number {
@@ -162,7 +164,9 @@
 
   .patient-contact-container {
     height: auto;
-    width: calc(100% + 105px);
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .patient-contact-list {
@@ -189,12 +193,19 @@
   .alternate-numbers-list {
     margin: 19px auto 0;
     padding: 0;
+    background: transparent;
+    --background: transparent;
 
     ion-item {
-      width: calc(100% + 55px);
+      width: 100%;
+      max-width: 100%;
+      --background: transparent;
+      background: transparent;
+      --inner-padding-end: 0;
+      --padding-start: 0;
+      --padding-end: 0;
       vertical-align: top;
       margin: 0;
-      margin-left: -14px;
       @media screen and (min-width: 1024px) {
         max-height: 33px;
       }
@@ -204,6 +215,8 @@
         vertical-align: middle;
         margin-top: -12px;
         font-size: 15px;
+        white-space: normal;
+        word-break: break-word;
         @media screen and (max-width: 1024px) {
           font-size: 13px;
           max-width: 250px;

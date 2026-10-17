@@ -15,6 +15,9 @@ ion-row {
   margin-top: 4rem;
 }
 .left-hand-detail {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
   width: 100%;
   max-width: 625px;
   // This doens't really help us but prevents rapid degradation responsively
@@ -27,6 +30,8 @@ ion-row {
 }
 
 .right-hand-detail {
+  position: relative;
+  z-index: 2;
   margin-left: 2%;
   max-width: 475px;
   width: 100%;
@@ -70,7 +75,11 @@ ion-row {
   color: #c4452d;
 }
 
-.followup-controls.locked {
-  opacity: 0.55;
-  pointer-events: none;
+.followup-controls {
+  position: relative;
+
+  &.locked {
+    opacity: 0.55;
+    pointer-events: none;
+  }
 }
