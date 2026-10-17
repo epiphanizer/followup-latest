@@ -5,6 +5,7 @@ import { PatientIntakeQuestionService } from '../patient-intake-question/patient
 import { SafeStyle, DomSanitizer } from '@angular/platform-browser';
 
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { PatientAvatarComponent } from '../patient-avatar/patient-avatar.component';
 import { PatientAvatarService } from '../patient-avatar/patient-avatar.service';
 import { ToastrService } from 'ngx-toastr';
 import { Patient } from '../patient';
@@ -73,6 +74,7 @@ export class PatientAvatarUploadComponent implements OnInit {
           .uploadPatientAvatarByPatientId(this.patient.patientId, imageFile)
           .subscribe((data: any) => {
             this.toastrService.success('Successfully uploaded patient avatar!');
+            PatientAvatarComponent.clearCache(this.patient.patientId.toString());
             let self = this;
             this.patientAvatarService.getPatientAvatarByPatientId(this.patient.patientId).subscribe((data: any) => {
               var self = this;
