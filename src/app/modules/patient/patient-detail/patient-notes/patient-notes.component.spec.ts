@@ -34,4 +34,14 @@ describe('PatientNotesComponent (Jest)', () => {
     comp.patient = { patientHospitalAdmitted: ' ' } as any;
     expect(comp.hospitalInfo).toBe('');
   });
+
+  it('preserves full-length hospital names up to 255 characters without truncation', () => {
+    const comp = new PatientNotesComponent({} as any);
+    const longHospitalName =
+      'Banner - University Medical Center Phoenix Campus - Specialized Acute Care and Comprehensive Regional Trauma Center & Teaching Hospital Department of Intensive Post-Operative Recovery and Follow-Up Rehabilitation Facility Phoenix Division';
+    comp.patient = { patientHospitalAdmitted: longHospitalName } as any;
+    expect(comp.hospitalInfo).toBe(longHospitalName);
+    expect(comp.hospitalInfo.length).toBeGreaterThan(150);
+    expect(comp.hospitalInfo.length).toBeLessThanOrEqual(255);
+  });
 });

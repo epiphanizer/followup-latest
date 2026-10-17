@@ -128,8 +128,22 @@ ion-list {
 
     ion-item {
       height: 32px;
-      &.primary-diagnosis {
+      &.primary-diagnosis,
+      &.hospital-info {
         height: auto;
+        min-height: 32px;
+        white-space: normal;
+        word-break: break-word;
+        line-height: 18px;
+      }
+    }
+
+    .hospital-info {
+      .hospital-name {
+        display: inline;
+        white-space: normal;
+        word-break: break-word;
+        overflow-wrap: break-word;
       }
     }
 

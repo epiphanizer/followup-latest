@@ -64,10 +64,10 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
-          'Mandatory phone validation on patient form and expanded hospital field length to 255 characters.',
+          'Mandatory phone validation on patient form, expanded hospital field length to 255 characters, and resolved Hospital Info truncation/overflow on patient call detail.',
         evidence:
-          'Patient form enforces Validators.required on primary phone with visible asterisk. Hospital admitted input supports up to 255 characters without truncation.',
-        source: 'v4.10.0 patient discharge sheet validation (2026-10-05)'
+          'Patient form enforces Validators.required on primary phone with visible asterisk. Hospital admitted input supports up to 255 characters. On the patient call detail screen (face sheet), resolved text truncation/clipping on the Hospital Info label by adding ion-text-wrap and dynamic auto-height with word wrapping, allowing long multi-line hospital names up to 255 characters to display completely without vertical clipping or horizontal overflow.',
+        source: 'v4.10.0 patient discharge sheet validation & Hospital Info overflow fix (2026-10-16)'
       },
       {
         scope: 'Frontend',
