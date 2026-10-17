@@ -15,6 +15,39 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.12.0',
+    recordedAt: '2026-10-17',
+    label: 'Enterprise security hardening, OWASP security headers, CORS origin enforcement, and login abuse protection',
+    notes:
+      'Enforces OWASP recommended HTTP security response headers across all API endpoints, restricts CORS from wildcard to an explicit origin allowlist, implements sliding-window in-memory login rate limiting (10 attempts / 5m per IP with Retry-After and automatic success reset), guards Swagger UI (/docs) in production environments, updates dependency overrides for brace-expansion, body-parser, and websocket-driver (0.7.5), establishes a deterministic package-lock.json in the API service, and adds a dev.json.example configuration template.',
+    entries: [
+      {
+        scope: 'API',
+        summary:
+          'Enforced OWASP security response headers, restricted CORS origins, and protected production Swagger UI.',
+        evidence:
+          'Injected X-Content-Type-Options: nosniff, X-Frame-Options: SAMEORIGIN, Strict-Transport-Security: max-age=31536000; includeSubDomains, Referrer-Policy: strict-origin-when-cross-origin, X-Permitted-Cross-Domain-Policies: none, and stripped X-Powered-By. Replaced wildcard CORS with dynamic origin validator restricted to followup.care, *.azurewebsites.net, localhost, and CORS_ALLOWED_ORIGINS. Guarded /docs in production so internal Swagger specs are not publicly exposed. Unit coverage in scripts/security-hardening.spec.js (16/16 passing).',
+        source: 'v4.12.0 API security headers, CORS, and Swagger UI guard (2026-10-17)'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Added sliding-window login rate limiting and abuse prevention on POST /users/login.',
+        evidence:
+          'Implemented in-memory rateLimiter tracking client IP via x-forwarded-for/socket. Limits failed attempts to 10 per 5 minutes, returning HTTP 429 with Retry-After header. Successfully authenticated logins immediately reset the failed attempt counter. Fully tested in scripts/security-hardening.spec.js.',
+        source: 'v4.12.0 login rate limiting and abuse prevention (2026-10-17)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Remediated critical and high dependency CVEs, locked API dependencies, and patched frontend packages.',
+        evidence:
+          'Updated API package overrides for brace-expansion (2.0.1) and body-parser (1.20.6), generated and committed deterministic package-lock.json to eliminate deployment version drift, and updated frontend moment (^2.30.1) and websocket-driver (0.7.5) to resolve critical protocol length and path traversal advisories.',
+        source: 'v4.12.0 dependency tightening and lockfile governance (2026-10-17)'
+      }
+    ]
+  },
+  {
     version: '4.11.0',
     recordedAt: '2026-10-17',
     label: 'High-performance avatar lazy loading, dual-tier negative caching, and stored procedure tuning',
