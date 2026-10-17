@@ -15,6 +15,23 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.12.1',
+    recordedAt: '2026-10-17',
+    label: 'Patient birthday auto-population fix and timezone-safe date extraction',
+    notes:
+      'Resolves defect where existing patient birthdays were not displayed in the edit patient form by removing mask directive clobbering on regular input, adds timezone-safe calendar date extraction for UTC ISO strings, and supports 8-digit typed date entry.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Restored patient birthday auto-population on edit and eliminated mask-induced field erasure.',
+        evidence:
+          'Removed NgxMaskDirective attributes from .date-text-input in PatientFormComponent, allowing [value]="getPatientDobDisplayValue()" to populate the input directly without directive overwrite. Implemented formatInitialDateValue() to safely extract YYYY-MM-DD from ISO timestamp strings without UTC day-shift in local timezones. Added 8-digit date normalization and unit test coverage in patient-form.component.spec.ts (50/50 passing).',
+        source: 'v4.12.1 patient birthday auto-population fix (2026-10-17)'
+      }
+    ]
+  },
+  {
     version: '4.12.0',
     recordedAt: '2026-10-17',
     label: 'Enterprise security hardening, OWASP security headers, CORS origin enforcement, and login abuse protection',
