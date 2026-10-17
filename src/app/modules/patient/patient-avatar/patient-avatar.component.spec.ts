@@ -149,4 +149,15 @@ describe('PatientAvatarComponent', () => {
     expect(avatarServiceMock.getPatientAvatarByPatientId).toHaveBeenCalledWith('lazy-patient');
     expect(mockDisconnect).toHaveBeenCalled();
   });
+
+  it('binds the is-circle host class and container class when type is circle', () => {
+    component.type = 'circle';
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(component.isCircle).toBe(true);
+    expect(fixture.nativeElement.classList.contains('is-circle')).toBe(true);
+    const container = fixture.nativeElement.querySelector('.patient-avatar-container');
+    expect(container.classList.contains('is-circle')).toBe(true);
+  });
 });

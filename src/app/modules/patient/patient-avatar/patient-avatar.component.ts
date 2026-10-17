@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { PatientAvatarService } from './patient-avatar.service';
 import { Patient } from '../patient';
@@ -14,7 +14,7 @@ export class PatientAvatarComponent implements OnInit, OnChanges, OnDestroy {
   private static noAvatarSet = new Set<string>();
 
   avatarUrl: SafeStyle;
-  isCircle: boolean = false;
+  @HostBinding('class.is-circle') isCircle: boolean = false;
   @Input() patient: Patient;
   @Input() type: string;
   avatarExists: boolean;

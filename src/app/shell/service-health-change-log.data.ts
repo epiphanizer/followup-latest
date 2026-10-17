@@ -15,6 +15,23 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.12.2',
+    recordedAt: '2026-10-17',
+    label: 'Patient avatar thumbnail size regression fix and circular badge boundary containment',
+    notes:
+      'Resolves patient avatar thumbnail size blowout regression on patient listing and queue screens by restoring scoped host styling, circular badge containment, and fallback asset resolution.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Restored circular patient avatar sizing and boundary containment on patient listing tables.',
+        evidence:
+          'Restored missing app-patient-avatar rules (width: 65px; height: 65px; float: left; margin: 15px 0) in patient-patient-listing.component.scss. Added @HostBinding("class.is-circle") and template binding to PatientAvatarComponent with intrinsic :host.is-circle and .patient-avatar-container.is-circle constraints, and mapped circular avatars to default-patient-badge@2x.png fallback. Unit tested in patient-avatar.component.spec.ts.',
+        source: 'v4.12.2 patient avatar thumbnail sizing fix (2026-10-17)'
+      }
+    ]
+  },
+  {
     version: '4.12.1',
     recordedAt: '2026-10-17',
     label: 'Patient birthday auto-population fix and timezone-safe date extraction',
