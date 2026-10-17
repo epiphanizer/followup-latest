@@ -1,6 +1,6 @@
 # Followup Frontend — feature/robot_work_1
 
-Project version: 4.12.0 (package). Goal: modernize the Angular/Ionic app for Followup v4.
+Project version: 4.12.1 (package). Goal: modernize the Angular/Ionic app for Followup v4.
 
 ## Findings
 
@@ -91,6 +91,7 @@ Whenever stamping a new version or preparing a release promotion (alpha or produ
      3. Updating the parent repository (`followup_master/v4.0.0`) git submodule pointer and committing to `main`.
 
 ## Running change log (frontend)
+- 2026-10-17: Promoted frontend to `4.12.1` on alpha. Resolved defect where existing patient birthdays were not displayed in the edit patient form by removing mask directive clobbering on regular input, added timezone-safe calendar date extraction for UTC ISO strings, and supported 8-digit typed date entry. Validated with full unit test suite (117/117 suites, 684/684 tests passing) and production-equivalent alpha build.
 - 2026-10-17: Promoted frontend to `4.12.0` on alpha. Stamped release package metadata, updated environment config, and synced Service Health change log. Upgraded `moment` to `^2.30.1` and updated `websocket-driver` override to `0.7.5` and `multer` to `1.4.5-lts.2` to remediate critical protocol length, DoS, and path traversal advisories across dependencies. Aligned shell release assertions to 16 recorded releases. Validated with full unit test suite (117/117 suites, 681/681 tests passing) and production-equivalent alpha build.
 - 2026-10-17: Promoted frontend to `4.11.0` on alpha. Stamped release package metadata and Service Health change log. Includes patient avatar lazy loading via IntersectionObserver and dual-tier negative caching to eliminate the ~50-request image waterfall, Safari cross-column clipping fix on patient summary widget, face sheet Hospital Info multi-line text wrapping without truncation, Ops/Facility contact notifications error toast fix, and mandatory patient discharge phone number validation with optimized contact display.
 - 2026-10-17: Eliminated patient avatar 50-request waterfall via IntersectionObserver lazy loading and dual-layer negative caching in `PatientAvatarComponent`. On large patient queues and listing views, cards now observe viewport intersection with a 200px prefetch threshold (`rootMargin: '200px'`) before requesting avatar image blobs over HTTP, preventing parallel request serialization from saturating the browser's 6-connection pool limit. Added in-memory `noAvatarSet` and persistent `sessionStorage: 'none'` negative caching so patients without avatars (HTTP 204) never fire redundant network calls on subsequent route navigations or in sibling components. Exposed static `clearCache(patientId)` wired into `PatientAvatarUploadComponent` to immediately invalidate cache upon upload. Added comprehensive unit tests in `patient-avatar.component.spec.ts` covering negative caching, in-memory cache hits, IntersectionObserver lazy loading, and cache clearing (15/15 tests passing across avatar slice; 117/117 suites, 681/681 tests passing overall). Production-equivalent alpha build validated.

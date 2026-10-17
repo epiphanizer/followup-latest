@@ -597,6 +597,84 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.activePatientDobValue).toBeNull();
   });
 
+  it('auto-populates birthday from existing patient data in MM/DD/YYYY format without timezone day-shift for ISO timestamps', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '1985-05-14T00:00:00.000Z',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01T00:00:00.000Z',
+      patientDischargeDate: '2020-01-02T00:00:00.000Z',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+
+    expect(comp.patientForm.get('patient.patientDob')!.value).toBe('1985-05-14');
+    expect(comp.getPatientDobDisplayValue()).toBe('05/14/1985');
+    expect(comp.patientForm.get('patient.dischargeInfo.patientAdmitDate')!.value).toBe('2020-01-01');
+    expect(comp.getDischargeDateDisplayValue('patientAdmitDate')).toBe('01/01/2020');
+  });
+
+  it('normalizes 8-digit typed dates into valid YYYY-MM-DD values', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'mrn',
+      patientFirstName: 'A',
+      patientLastName: 'B',
+      patientDob: '2020-01-01',
+      patientGender: 'M',
+      patientMedicalConditions: {
+        cardiacBoolean: false,
+        sepsisBoolean: false,
+        pulmonaryBoolean: false,
+        otherBoolean: false
+      },
+      patientAdmitDate: '2020-01-01',
+      patientDischargeDate: '2020-01-02',
+      patientDischargeLabelId: 'lbl-1',
+      patientTotalDays: 1
+    } as any;
+
+    (comp as any).createForm();
+
+    comp.onPatientDobInput('05141985');
+    comp.onPatientDobInputBlur();
+    expect(comp.patientForm.get('patient.patientDob')!.value).toBe('1985-05-14');
+    expect(comp.getPatientDobDisplayValue()).toBe('05/14/1985');
+  });
+
   it('accepts manually typed birthday text and normalizes it into the form control', () => {
     const route = { snapshot: { data: { user: baseUser } } } as any;
     const services = makeServices();

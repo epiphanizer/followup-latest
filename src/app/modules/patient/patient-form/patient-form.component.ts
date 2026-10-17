@@ -522,7 +522,7 @@ export class PatientFormComponent implements OnInit {
           ])
         }),
         patientDob: this.fb.control(
-          this.patient.patientDob ? formatDate(this.patient.patientDob, 'yyyy-MM-dd', 'en') : '',
+          this.formatInitialDateValue(this.patient.patientDob),
           [Validators.required, this.patientDobValidator]
         ),
         patientGender: this.fb.control(this.patient.patientGender),
@@ -551,13 +551,11 @@ export class PatientFormComponent implements OnInit {
         }),
         dischargeInfo: this.fb.group({
           patientAdmitDate: this.fb.control(
-            this.patient.patientAdmitDate ? formatDate(this.patient.patientAdmitDate, 'yyyy-MM-dd', 'en') : '',
+            this.formatInitialDateValue(this.patient.patientAdmitDate),
             [Validators.required]
           ),
           patientDischargeDate: this.fb.control(
-            this.patient.patientDischargeDate
-              ? formatDate(this.patient.patientDischargeDate, 'yyyy-MM-dd', 'en')
-              : null,
+            this.formatInitialDateValue(this.patient.patientDischargeDate) || null,
             [Validators.required]
           ),
           patientTotalDays: this.fb.control({
@@ -1244,6 +1242,28 @@ export class PatientFormComponent implements OnInit {
     return phoneValue.toString();
   }
 
+  private formatInitialDateValue(dateVal: any): string {
+    if (!dateVal) {
+      return '';
+    }
+    if (typeof dateVal === 'string') {
+      const trimmed = dateVal.trim();
+      const isoMatch = /^(\d{4})-(\d{2})-(\d{2})/.exec(trimmed);
+      if (isoMatch) {
+        return `${isoMatch[1]}-${isoMatch[2]}-${isoMatch[3]}`;
+      }
+      const slashMatch = /^(\d{1,2})\/(\d{1,2})\/(\d{4})/.exec(trimmed);
+      if (slashMatch) {
+        return `${slashMatch[3]}-${slashMatch[1].padStart(2, '0')}-${slashMatch[2].padStart(2, '0')}`;
+      }
+    }
+    try {
+      return formatDate(dateVal, 'yyyy-MM-dd', 'en');
+    } catch {
+      return '';
+    }
+  }
+
   private normalizeDischargeDateValue(dateValue: string): string {
     if (!dateValue || typeof dateValue !== 'string') {
       return dateValue;
@@ -1278,6 +1298,28 @@ export class PatientFormComponent implements OnInit {
         '-' +
         parsedDay.toString().padStart(2, '0');
 
+      return this.isNormalizedDischargeDateValue(normalizedDate) ? normalizedDate : trimmedDate;
+    }
+
+    if (/^\d{8}$/.test(trimmedDate)) {
+      const first4 = parseInt(trimmedDate.substring(0, 4), 10);
+      let parsedYear: number, parsedMonth: number, parsedDay: number;
+      if (first4 >= 1900 && first4 <= 2100) {
+        parsedYear = first4;
+        parsedMonth = parseInt(trimmedDate.substring(4, 6), 10);
+        parsedDay = parseInt(trimmedDate.substring(6, 8), 10);
+      } else {
+        parsedMonth = parseInt(trimmedDate.substring(0, 2), 10);
+        parsedDay = parseInt(trimmedDate.substring(2, 4), 10);
+        parsedYear = parseInt(trimmedDate.substring(4, 8), 10);
+      }
+      const correctedYear = parsedYear >= 1900 ? parsedYear : parsedYear >= 100 ? parsedYear : parsedYear + 2000;
+      const normalizedDate =
+        correctedYear.toString().padStart(4, '0') +
+        '-' +
+        parsedMonth.toString().padStart(2, '0') +
+        '-' +
+        parsedDay.toString().padStart(2, '0');
       return this.isNormalizedDischargeDateValue(normalizedDate) ? normalizedDate : trimmedDate;
     }
 
