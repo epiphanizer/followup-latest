@@ -25,15 +25,17 @@ export class PatientSummaryWidgetComponent implements OnInit {
 
     this.patientDisplayPhone = this.getPatientDisplayPhone(this.patient);
 
-    this.patientContactService
-      .getPatientContactsByPatientId(this.patient.patientId)
-      .subscribe((patientContacts: PatientContact[]) => {
-        this.patientContacts = this.getDisplayPatientContacts(patientContacts);
-        this.patientContacts.forEach(patientContact => {
-          if (patientContact.patientContactPhoneNumber && patientContact.patientContactPhoneNumber.indexOf('-') == -1)
-            patientContact.patientContactPhoneNumber = addStr(patientContact.patientContactPhoneNumber, 3, '-');
-        });
+    const contacts$ =
+      this.patient?.patientContacts$ ||
+      this.patientContactService.getPatientContactsByPatientId(this.patient?.patientId);
+
+    contacts$.subscribe((patientContacts: PatientContact[]) => {
+      this.patientContacts = this.getDisplayPatientContacts(patientContacts);
+      this.patientContacts.forEach(patientContact => {
+        if (patientContact.patientContactPhoneNumber && patientContact.patientContactPhoneNumber.indexOf('-') == -1)
+          patientContact.patientContactPhoneNumber = addStr(patientContact.patientContactPhoneNumber, 3, '-');
       });
+    });
   }
 
   private getDisplayPatientContacts(patientContacts: PatientContact[] = []): PatientContact[] {
@@ -187,6 +189,53 @@ export class PatientSummaryWidgetComponent implements OnInit {
       return areaCode + '-' + localPhone;
     }
     if (countryCode) {
+      return countryCode + '-' + localPhone;
+    }
+
+    return localPhone;
+  }
+
+  getContactDisplayPhone(patientContact: PatientContact): string {
+    if (!patientContact) {
+      return '';
+    }
+
+    let countryCode = this.normalizeDigits(patientContact.patientContactCountryCode);
+    let areaCode = this.normalizeDigits(patientContact.patientContactAreaCode);
+    let phoneNumber = this.normalizeDigits(patientContact.patientContactPhoneNumber);
+
+    if (!areaCode && phoneNumber.length === 10) {
+      areaCode = phoneNumber.substr(0, 3);
+      phoneNumber = phoneNumber.substr(3);
+    }
+
+    if ((!countryCode || !areaCode) && phoneNumber.length === 11 && phoneNumber.charAt(0) === '1') {
+      if (!countryCode) {
+        countryCode = '1';
+      }
+      if (!areaCode) {
+        areaCode = phoneNumber.substr(1, 3);
+      }
+      phoneNumber = phoneNumber.substr(4);
+    }
+
+    if (areaCode && phoneNumber.length === 10 && phoneNumber.substr(0, 3) === areaCode) {
+      phoneNumber = phoneNumber.substr(3);
+    }
+
+    const localPhone = this.formatLocalPhone(phoneNumber);
+
+    if (!localPhone) {
+      return '';
+    }
+
+    if (countryCode && countryCode !== '1' && areaCode) {
+      return countryCode + '-' + areaCode + '-' + localPhone;
+    }
+    if (areaCode) {
+      return areaCode + '-' + localPhone;
+    }
+    if (countryCode && countryCode !== '1') {
       return countryCode + '-' + localPhone;
     }
 

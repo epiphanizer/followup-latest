@@ -101,4 +101,81 @@ describe('PatientSummaryWidgetComponent (Jest)', () => {
     comp.toggleAlternateNumbers();
     expect(comp.expandAlternateNumbers).toBe(false);
   });
+
+  it('reuses preloaded patient.patientContacts$ without invoking contact service again', () => {
+    const preloadedContacts = [{ patientContactPhoneNumber: '480-555-1234' } as any];
+    const svc = makePatientContactService([]);
+    const comp = new PatientSummaryWidgetComponent(svc as any);
+    comp.patient = {
+      patientId: 'p-preloaded',
+      patientPhoneNumber: '4805551234',
+      patientContacts$: of(preloadedContacts)
+    } as any;
+
+    comp.ngOnInit();
+
+    expect(svc.getPatientContactsByPatientId).not.toHaveBeenCalled();
+    expect(comp.patientContacts[0].patientContactPhoneNumber).toBe('480-555-1234');
+  });
+
+  describe('getContactDisplayPhone', () => {
+    it('formats 7-digit contact number with area code', () => {
+      const comp = new PatientSummaryWidgetComponent(makePatientContactService([]) as any);
+      const formatted = comp.getContactDisplayPhone({
+        patientContactAreaCode: '480',
+        patientContactPhoneNumber: '5551234'
+      } as any);
+
+      expect(formatted).toBe('480-555-1234');
+    });
+
+    it('formats 10-digit contact number when area code is not separated', () => {
+      const comp = new PatientSummaryWidgetComponent(makePatientContactService([]) as any);
+      const formatted = comp.getContactDisplayPhone({
+        patientContactAreaCode: '',
+        patientContactPhoneNumber: '4805551234'
+      } as any);
+
+      expect(formatted).toBe('480-555-1234');
+    });
+
+    it('prevents duplicate area codes when phone already includes the area code', () => {
+      const comp = new PatientSummaryWidgetComponent(makePatientContactService([]) as any);
+      const formatted = comp.getContactDisplayPhone({
+        patientContactAreaCode: '480',
+        patientContactPhoneNumber: '480-555-1234'
+      } as any);
+
+      expect(formatted).toBe('480-555-1234');
+    });
+
+    it('formats 7-digit local number without area code', () => {
+      const comp = new PatientSummaryWidgetComponent(makePatientContactService([]) as any);
+      const formatted = comp.getContactDisplayPhone({
+        patientContactAreaCode: '',
+        patientContactPhoneNumber: '555-1234'
+      } as any);
+
+      expect(formatted).toBe('555-1234');
+    });
+
+    it('returns empty string for missing or blank phone numbers', () => {
+      const comp = new PatientSummaryWidgetComponent(makePatientContactService([]) as any);
+
+      expect(comp.getContactDisplayPhone(null as any)).toBe('');
+      expect(comp.getContactDisplayPhone({ patientContactPhoneNumber: '' } as any)).toBe('');
+      expect(comp.getContactDisplayPhone({ patientContactAreaCode: '480', patientContactPhoneNumber: '' } as any)).toBe('');
+    });
+
+    it('includes non-US country code when provided', () => {
+      const comp = new PatientSummaryWidgetComponent(makePatientContactService([]) as any);
+      const formatted = comp.getContactDisplayPhone({
+        patientContactCountryCode: '44',
+        patientContactAreaCode: '20',
+        patientContactPhoneNumber: '79460919'
+      } as any);
+
+      expect(formatted).toBe('44-20-794-60919');
+    });
+  });
 });

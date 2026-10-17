@@ -4,7 +4,7 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Patient } from './patient';
 import { PatientService } from './patient.service';
-import { map, share, take } from 'rxjs/operators';
+import { map, share, shareReplay, take } from 'rxjs/operators';
 import { PatientContactService } from './patient-contact/patient-contact.service';
 import { PatientCallService } from './patient-detail/patient-call/patient-call.service';
 
@@ -27,10 +27,10 @@ export class PatientResolver implements Resolve<Patient> {
         this.patient.patientLanguages$ = this.patientService.getPatientLanguagesByPatientId(this.patient.patientId);
         this.patient.patientContacts$ = this.patientContactService
           .getPatientContactsByPatientId(this.patient.patientId)
-          .pipe(share());
+          .pipe(shareReplay({ bufferSize: 1, refCount: true }));
         this.patient.patientCalls$ = this.patientCallService
           .getPatientCallsByPatientId(this.patient.patientId)
-          .pipe(share());
+          .pipe(shareReplay({ bufferSize: 1, refCount: true }));
         return patient;
       }),
       share()

@@ -52,11 +52,10 @@
                       patientContact.patientContactLastName ? ' ' + patientContact.patientContactLastName : ''
                     }}</span
                   ><span *ngIf="patientContact.patientContactRelationship"
-                    >, {{ patientContact.patientContactRelationship }}</span
-                  ><span
-                    *ngIf="patientContact.patientContactAreaCode && patientContact.patientContactPhoneNumber.length > 7"
-                    >: {{ patientContact.patientContactAreaCode }}-{{ patientContact.patientContactPhoneNumber }}
-                  </span>
+                    ><ng-container *ngIf="patientContact.patientContactFirstName">, </ng-container>{{ patientContact.patientContactRelationship }}</span
+                  ><span *ngIf="getContactDisplayPhone(patientContact)"
+                    ><ng-container *ngIf="patientContact.patientContactFirstName || patientContact.patientContactRelationship">: </ng-container>{{ getContactDisplayPhone(patientContact) }}</span
+                  >
                 </span>
               </ion-item>
             </div>

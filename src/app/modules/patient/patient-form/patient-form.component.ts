@@ -228,9 +228,10 @@ export class PatientFormComponent implements OnInit {
                     patientContactAreaCode: this.fb.control(patientContact.patientContactAreaCode, [
                       Validators.pattern(/^[0-9]\d*$/)
                     ]),
-                    patientContactPhoneNumber: this.fb.control(patientContact.patientContactPhoneNumber, [
-                      Validators.pattern(/^[0-9-]{7,}\d*$/)
-                    ]),
+                    patientContactPhoneNumber: this.fb.control(
+                      this.formatPhoneInputValue(patientContact.patientContactPhoneNumber),
+                      [Validators.required, Validators.pattern(this.phoneNumberRegEx)]
+                    ),
                     patientContactOrder: this.fb.control(patientContact.patientContactOrder, [
                       Validators.pattern(/^[0-9]\d*$/)
                     ]),
@@ -653,7 +654,10 @@ export class PatientFormComponent implements OnInit {
         patientContactRelationship: this.fb.control(''),
         patientContactCountryCode: this.fb.control(1, Validators.pattern(/^[0-9]\d*$/)),
         patientContactAreaCode: this.fb.control('', Validators.pattern(/^[0-9]\d*$/)),
-        patientContactPhoneNumber: this.fb.control(''),
+        patientContactPhoneNumber: this.fb.control('', [
+          Validators.required,
+          Validators.pattern(this.phoneNumberRegEx)
+        ]),
         patientContactOrder: this.fb.control(idx + 1),
         patientContactHIPAABoolean: this.fb.control(false),
         patientContactResponsiblePartyBoolean: this.fb.control(false)
@@ -1121,13 +1125,13 @@ export class PatientFormComponent implements OnInit {
     try {
       var payload = {
         patientContactId: patientContact.patientContactId,
-        patientContactFirstName: patientContact.patientContactFirstName.toString(),
-        patientContactLastName: patientContact.patientContactLastName.toString(),
-        patientContactRelationship: patientContact.patientContactRelationship.toString(),
-        patientContactCountryCode: patientContact.patientContactCountryCode.toString(),
-        patientContactAreaCode: patientContact.patientContactAreaCode.toString(),
-        patientContactPhoneNumber: patientContact.patientContactPhoneNumber.toString(),
-        patientContactOrder: parseInt(patientContact.patientContactOrder),
+        patientContactFirstName: (patientContact.patientContactFirstName || '').toString(),
+        patientContactLastName: (patientContact.patientContactLastName || '').toString(),
+        patientContactRelationship: (patientContact.patientContactRelationship || '').toString(),
+        patientContactCountryCode: (patientContact.patientContactCountryCode || '1').toString(),
+        patientContactAreaCode: (patientContact.patientContactAreaCode || '').toString(),
+        patientContactPhoneNumber: (patientContact.patientContactPhoneNumber || '').toString(),
+        patientContactOrder: parseInt(patientContact.patientContactOrder, 10),
         patientContactHIPAABoolean: isResponsibleParty ? 1 : 0,
         patientContactResponsiblePartyBoolean: isResponsibleParty ? 1 : 0
       };
@@ -1141,13 +1145,13 @@ export class PatientFormComponent implements OnInit {
     try {
       var payload = {
         patientId: this.patient.patientId,
-        patientContactFirstName: patientContact.patientContactFirstName.toString(),
-        patientContactLastName: patientContact.patientContactLastName.toString(),
-        patientContactRelationship: patientContact.patientContactRelationship.toString(),
-        patientContactCountryCode: patientContact.patientContactCountryCode.toString(),
-        patientContactAreaCode: patientContact.patientContactAreaCode.toString(),
-        patientContactPhoneNumber: patientContact.patientContactPhoneNumber.toString(),
-        patientContactOrder: parseInt(patientContact.patientContactOrder),
+        patientContactFirstName: (patientContact.patientContactFirstName || '').toString(),
+        patientContactLastName: (patientContact.patientContactLastName || '').toString(),
+        patientContactRelationship: (patientContact.patientContactRelationship || '').toString(),
+        patientContactCountryCode: (patientContact.patientContactCountryCode || '1').toString(),
+        patientContactAreaCode: (patientContact.patientContactAreaCode || '').toString(),
+        patientContactPhoneNumber: (patientContact.patientContactPhoneNumber || '').toString(),
+        patientContactOrder: parseInt(patientContact.patientContactOrder, 10),
         patientContactHIPAABoolean: isResponsibleParty ? 1 : 0,
         patientContactResponsiblePartyBoolean: isResponsibleParty ? 1 : 0
       };
@@ -1370,10 +1374,13 @@ export class PatientFormComponent implements OnInit {
     const firstError = this.getFirstInvalidValidationElement();
 
     if (firstError) {
-      this.getValidationScrollTarget(firstError).scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      });
+      const scrollTarget = this.getValidationScrollTarget(firstError);
+      if (typeof scrollTarget?.scrollIntoView === 'function') {
+        scrollTarget.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
       this.focusValidationElement(firstError);
       alert('Unable to save. Please check ' + this.getValidationFieldLabel(firstError) + '.');
       return false;
@@ -1476,6 +1483,17 @@ export class PatientFormComponent implements OnInit {
       return this.patientForm?.get('patient.dischargeInfo')?.hasError('dischargeBeforeAdmit')
         ? 'Discharged date (it cannot be before the admitted date)'
         : 'Discharged date';
+    }
+
+    const contactItem = element.closest('.patient-contacts ion-list, [id^="additionalPatientContact-"]');
+    if (contactItem) {
+      const contactHeader = contactItem.querySelector('.patient-contact-header')?.textContent?.trim() || 'Contact';
+      const label = element.closest('ion-item')?.querySelector('ion-label, label');
+      const fieldText = (label?.textContent || '').replace(/\*/g, '').replace(/\s+/g, ' ').trim().replace(/:$/, '');
+      if (fieldText) {
+        return `${contactHeader} ${fieldText}`;
+      }
+      return `${contactHeader} Phone #`;
     }
 
     const label = element.closest('ion-item, .form-row, .discharged-ama')?.querySelector('ion-label, label');

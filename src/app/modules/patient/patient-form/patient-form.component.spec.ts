@@ -1871,4 +1871,130 @@ describe('PatientFormComponent (Jest)', () => {
 
     expect(comp.patient).toBeNull();
   });
+
+  it('requires phone number on contacts and enforces pattern validation', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const comp = new PatientFormComponent(
+      new FormBuilder(),
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientId: 'p-1',
+      patientMedicalConditions: { cardiacBoolean: false, sepsisBoolean: false, pulmonaryBoolean: false, otherBoolean: false }
+    } as any;
+    (comp as any).createForm();
+
+    comp.addAdditionalPatientContact();
+    const contactGroup = (comp.patientForm.get('patient.patientContacts') as FormArray).at(0);
+    const phoneControl = contactGroup.get('patientContactPhoneNumber');
+
+    expect(phoneControl.valid).toBe(false);
+    expect(phoneControl.hasError('required')).toBe(true);
+
+    phoneControl.setValue('123');
+    expect(phoneControl.valid).toBe(false);
+    expect(phoneControl.hasError('pattern')).toBe(true);
+
+    phoneControl.setValue('555-1234');
+    expect(phoneControl.valid).toBe(true);
+  });
+
+  it('alerts with specific contact header when contact phone number is missing on submit', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const formBuilder = new FormBuilder();
+    const comp = new PatientFormComponent(
+      formBuilder,
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientId: 'p-1',
+      patientMedicalConditions: { cardiacBoolean: false, sepsisBoolean: false, pulmonaryBoolean: false, otherBoolean: false }
+    } as any;
+    (comp as any).createForm();
+    comp.addAdditionalPatientContact();
+
+    document.body.innerHTML =
+      '<fieldset class="patient-contacts">' +
+      '  <ion-list id="additionalPatientContact-0">' +
+      '    <span class="patient-contact-header">Primary Contact</span>' +
+      '    <ion-item class="phone-number phone-field">' +
+      '      <ion-label>Phone # <span style="color:#f1624a">*</span></ion-label>' +
+      '      <ion-input class="ng-invalid"></ion-input>' +
+      '    </ion-item>' +
+      '  </ion-list>' +
+      '</fieldset>';
+
+    const item = document.querySelector('.phone-number') as HTMLElement;
+    item.scrollIntoView = jest.fn();
+    const invalidInput = document.querySelector('.phone-number ion-input') as HTMLElement;
+    invalidInput.scrollIntoView = jest.fn();
+    (invalidInput as any).focus = jest.fn();
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => undefined);
+
+    expect(comp.validateControls()).toBe(false);
+    expect(item.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' });
+    expect(alertSpy).toHaveBeenCalledWith('Unable to save. Please check Primary Contact Phone #.');
+
+    alertSpy.mockRestore();
+    document.body.innerHTML = '';
+  });
+
+  it('alerts with Contact 2 Phone # when secondary contact phone is missing on submit', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const formBuilder = new FormBuilder();
+    const comp = new PatientFormComponent(
+      formBuilder,
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientId: 'p-1',
+      patientMedicalConditions: { cardiacBoolean: false, sepsisBoolean: false, pulmonaryBoolean: false, otherBoolean: false }
+    } as any;
+    (comp as any).createForm();
+    comp.addAdditionalPatientContact();
+    comp.addAdditionalPatientContact();
+
+    document.body.innerHTML =
+      '<fieldset class="patient-contacts">' +
+      '  <ion-list id="additionalPatientContact-1">' +
+      '    <span class="patient-contact-header">Contact 2</span>' +
+      '    <ion-item class="phone-number phone-field">' +
+      '      <ion-label>Phone # <span style="color:#f1624a">*</span></ion-label>' +
+      '      <ion-input class="ng-invalid"></ion-input>' +
+      '    </ion-item>' +
+      '  </ion-list>' +
+      '</fieldset>';
+
+    const item = document.querySelector('.phone-number') as HTMLElement;
+    item.scrollIntoView = jest.fn();
+    const invalidInput = document.querySelector('.phone-number ion-input') as HTMLElement;
+    invalidInput.scrollIntoView = jest.fn();
+    (invalidInput as any).focus = jest.fn();
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => undefined);
+
+    expect(comp.validateControls()).toBe(false);
+    expect(item.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' });
+    expect(alertSpy).toHaveBeenCalledWith('Unable to save. Please check Contact 2 Phone #.');
+
+    alertSpy.mockRestore();
+    document.body.innerHTML = '';
+  });
 });

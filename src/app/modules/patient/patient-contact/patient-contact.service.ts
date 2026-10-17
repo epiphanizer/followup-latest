@@ -24,7 +24,7 @@ export class PatientContactService {
   };
 
   getPatientContactsByPatientId = function(patientId: string) {
-    return this.http.get('patients/' + patientId + '/contacts/', this.progressiveLoadOptions).pipe(
+    return this.http.get('patients/' + patientId + '/contacts', this.progressiveLoadOptions).pipe(
       catchError(e => this.handleAsyncError(e)) // then handle the error
     );
   };
