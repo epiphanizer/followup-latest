@@ -57,23 +57,38 @@ Shared/core scaffolding
 Whenever stamping a new version or preparing a release promotion (alpha or production), the agent MUST execute every item in this checklist:
 
 1. **Bump Version in `package.json`**:
-   - Update `"version": "<MAJOR>.<MINOR>.<PATCH>"` in `package.json` (and `package-lock.json` if tracked).
-2. **Regenerate Environment Config (`npm run env`)**:
+   - Update `"version": "<MAJOR>.<MINOR>.<PATCH>"` in `package.json`.
+2. **Synchronize and Validate Lockfile (`package-lock.json`)**:
+   - **MANDATORY**: Run `npm i --package-lock-only` (or `npm install`) whenever bumping versions, updating dependencies, or modifying overrides.
+   - Verify `package-lock.json` has the matching root `"version": "<MAJOR>.<MINOR>.<PATCH>"`.
+   - **CRITICAL CI PRE-CHECK**: Run `npm ci --dry-run` locally. If `npm ci` reports ANY mismatch or error (e.g. `Invalid: lock file's ... does not satisfy ...`), resolve it immediately before committing.
+   - Commit `package-lock.json` alongside `package.json`. GitHub Actions runs `npm ci` strictly. If `package-lock.json` is missing or out-of-sync, CI exits with code 1, Azure deployment never runs, and Azure App Service silently continues serving the old stale release (causing users to still see the previous `FE v...` version).
+3. **Regenerate Environment Config (`npm run env`)**:
    - Run `npm run env` to compile `npm_package_version` into `src/environments/.env.ts`.
    - Never edit `.env.ts` manually without running `npm run env` to confirm synchronization.
-3. **Update Service Health Change Log (`src/app/shell/service-health-change-log.data.ts`)**:
+   - Verify `src/environments/.env.ts` has `'npm_package_version': '<MAJOR>.<MINOR>.<PATCH>'`.
+   - Note: The shell header displays `FE v{{ version }}` bound to `environment.version`, which directly reads `env.npm_package_version`.
+4. **Update Service Health Change Log (`src/app/shell/service-health-change-log.data.ts`)**:
    - Prepend a new `ServiceHealthChangeLogRelease` object to `SERVICE_HEALTH_CHANGE_LOG`.
-   - Fill in `version`, `recordedAt` (YYYY-MM-DD), `label`, `notes`, and itemized `entries` categorized by `scope` (`'Frontend' | 'API' | 'Database' | 'Release' | 'Performance'`).
+   - Fill in `version: '<MAJOR>.<MINOR>.<PATCH>'`, `recordedAt` (YYYY-MM-DD), `label`, `notes`, and itemized `entries` categorized by `scope` (`'Frontend' | 'API' | 'Database' | 'Release' | 'Performance'`).
    - Ensure every user-facing change, schema migration, or reliability fix is represented with concrete evidence and source references.
-4. **Update Shell Spec (`src/app/shell/shell.component.spec.ts`)**:
-   - Update the expected version assertion: `expect(component.version).toBe('<MAJOR>.<MINOR>.<PATCH>');`.
-5. **Update Repository Documentation (`agents.md`)**:
+5. **Update Shell Spec (`src/app/shell/shell.component.spec.ts`)**:
+   - Update the explicit version assertion: `expect(component.version).toBe('<MAJOR>.<MINOR>.<PATCH>');`.
+   - Update `filteredChangeLogVersions` and `visibleChangeLogReleases` arrays to include `<MAJOR>.<MINOR>.<PATCH>`.
+   - Update `changeLogSummary` expected count.
+6. **Update Repository Documentation (`agents.md`)**:
    - Update `Project version: <MAJOR>.<MINOR>.<PATCH>` at the top of `agents.md`.
    - Add a date-stamped entry under `## Running change log (frontend)` summarizing the release scope and validation evidence.
-6. **MANDATORY PRE-PUSH COMPILE & TEST VERIFICATION**:
+7. **MANDATORY PRE-PUSH COMPILE & TEST VERIFICATION**:
+   - Run `npm ci --dry-run` (guarantees CI install step will pass).
    - Execute local build: `npm run "build alpha"` (or `npm run build` for production).
    - Execute test suite: `npm test`.
-   - **CRITICAL**: Never push to remote branches (`alpha` or `main`) without locally verifying `build alpha` succeeds. If local SCSS, TypeScript, or template compilation fails, CI will fail and Azure App Service will silently continue running the previous stale deployment without updating the live Service Health version.
+   - **CRITICAL**: Never push to remote branches (`alpha` or `main`) without locally verifying `build alpha` succeeds. If compilation fails, CI will fail and Azure App Service will silently continue running the previous stale deployment without updating the live Service Health version.
+8. **MANDATORY POST-DEPLOY CI & LIVE VERIFICATION**:
+   - After pushing the branch and merging the PR into `alpha` (or `main`), the agent MUST NOT consider the task complete until:
+     1. Checking GitHub Actions via `gh run list -L 3` or `gh run watch` to confirm that the `Deploy Followup Frontend` workflow finishes with status `completed` and conclusion `success` for BOTH `build` and `deploy` jobs.
+     2. Verifying the live deployment via `curl -sL https://alpha-followupcare.azurewebsites.net/` to confirm the new bundle is deployed and `FE v<MAJOR>.<MINOR>.<PATCH>` is actively served.
+     3. Updating the parent repository (`followup_master/v4.0.0`) git submodule pointer and committing to `main`.
 
 ## Running change log (frontend)
 - 2026-10-17: Promoted frontend to `4.12.0` on alpha. Stamped release package metadata, updated environment config, and synced Service Health change log. Upgraded `moment` to `^2.30.1` and updated `websocket-driver` override to `0.7.5` and `multer` to `1.4.5-lts.2` to remediate critical protocol length, DoS, and path traversal advisories across dependencies. Aligned shell release assertions to 16 recorded releases. Validated with full unit test suite (117/117 suites, 681/681 tests passing) and production-equivalent alpha build.

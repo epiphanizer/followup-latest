@@ -125,6 +125,10 @@ describe('ShellComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should expose the current environment version matching the release stamp', () => {
+    expect(component.version).toBe('4.12.0');
+  });
+
   it('loads service status details for the footer card', fakeAsync(() => {
     fixture.detectChanges();
     tick();
