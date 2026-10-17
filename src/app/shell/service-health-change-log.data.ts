@@ -15,6 +15,39 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.11.0',
+    recordedAt: '2026-10-17',
+    label: 'High-performance avatar lazy loading, dual-tier negative caching, and stored procedure tuning',
+    notes:
+      'Eliminates the 50-request avatar HTTP waterfall on queue and patient listing views using IntersectionObserver, introduces dual-layer negative avatar caching across memory and sessionStorage, cuts sp_getActiveSpanishPatients procedure duration by 98.6% (from 5.4s to ~74ms) via candidate temp-table isolation, and adds ETag with conditional 304 caching headers to image transfers.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Eliminated patient avatar 50-request waterfall via IntersectionObserver lazy loading and dual-layer negative caching.',
+        evidence:
+          'PatientAvatarComponent now defers HTTP avatar requests until elements scroll within 200px of the viewport using IntersectionObserver (falling back gracefully to immediate fetch when unsupported). Introduced in-memory noAvatarSet and sessionStorage negative caching ("none") so patients without avatars (HTTP 204) never fire redundant network requests on subsequent visits or in sibling components. Exposed static clearCache(patientId) wired into PatientAvatarUploadComponent so newly uploaded photos invalidate the cache immediately. Unit tests pass 15/15.',
+        source: 'v4.11.0 avatar lazy loading and negative caching (2026-10-17)'
+      },
+      {
+        scope: 'Performance',
+        summary:
+          'Diagnosed Azure SQL Standard S2 (50 DTU) saturation and optimized sp_getActiveSpanishPatients procedure by 98.6%.',
+        evidence:
+          'Empirical telemetry analysis using sys.dm_db_resource_stats and Query Store revealed that database DTU regularly spikes to 99.99% data I/O on S2 tier, throttling concurrent requests. Redesigned sp_getActiveSpanishPatients via migration v4/v4.10.0_05_active-spanish-patients-tuning.sql with candidate temp-table isolation, cutting execution duration from 5,395ms to 74ms–145ms while preserving 100% exact JSON output equivalence. Added ETag, Cache-Control (86400s), and conditional 304 Not Modified support to fileTransfers.sendDownload, PatientAvatar, and UserAvatar.',
+        source: 'v4.11.0 SQL DTU telemetry & sp_getActiveSpanishPatients tuning (2026-10-17)'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Added ETag and Cache-Control headers with conditional 304 Not Modified response support to avatar file transfers.',
+        evidence:
+          'fileTransfers.sendDownload generates an ETag based on mtime and file size and responds with HTTP 304 Not Modified when the client sends a matching If-None-Match header, eliminating unnecessary image bytes over the wire. On 204 No Content responses, Cache-Control: private, max-age=3600 is returned to enforce negative HTTP-layer caching. Unit coverage in scripts/avatar-caching.spec.js (12/12 passing).',
+        source: 'v4.11.0 API avatar caching headers and 304 support (2026-10-17)'
+      }
+    ]
+  },
+  {
     version: '4.10.0',
     recordedAt: '2026-10-16',
     label: 'Clinical reliability, queue optimization, patient listing multi-view, and status retirement',
@@ -76,22 +109,6 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         evidence:
           'Root-cause analysis of visual glitches on "Fo" (Food), "Dr." (Doctor Visit?), and "Start Follow-Up" revealed that .patient-contact-container in the left column had an overflowing width: calc(100% + 105px) and alternate-numbers-list ion-item had width: calc(100% + 55px) with an opaque white background. This caused the contact item to project 160px across the column gutter and overlap the left edge of the right-hand column by 15px (30px retina), clipping into whichever element was vertically adjacent. Constrained patient-summary-container and alternate-numbers-list to width: 100% with transparent background, added overflow: hidden and z-index: 1 to .left-hand-detail, promoted .right-hand-detail to z-index: 2 with relative positioning, and added GPU isolation layer to the Start Follow-Up button.',
         source: 'v4.10.0 Safari cross-column clipping fix (2026-10-16)'
-      },
-      {
-        scope: 'Frontend',
-        summary:
-          'Eliminated patient avatar 50-request waterfall via IntersectionObserver lazy loading and dual-layer negative caching.',
-        evidence:
-          'PatientAvatarComponent now defers HTTP avatar requests until elements scroll within 200px of the viewport using IntersectionObserver (falling back gracefully to immediate fetch when unsupported). Introduced in-memory noAvatarSet and sessionStorage negative caching ("none") so patients without avatars (HTTP 204) never fire redundant network requests on subsequent visits or in sibling components. Exposed static clearCache(patientId) wired into PatientAvatarUploadComponent so newly uploaded photos invalidate the cache immediately. Unit tests pass 15/15.',
-        source: 'v4.10.0 avatar lazy loading and negative caching (2026-10-17)'
-      },
-      {
-        scope: 'Performance',
-        summary:
-          'Diagnosed Azure SQL Standard S2 (50 DTU) saturation and optimized sp_getActiveSpanishPatients procedure by 98.6%.',
-        evidence:
-          'Empirical telemetry analysis using sys.dm_db_resource_stats and Query Store revealed that database DTU regularly spikes to 99.99% data I/O on S2 tier, throttling concurrent requests. Redesigned sp_getActiveSpanishPatients via migration v4/v4.10.0_05_active-spanish-patients-tuning.sql with candidate temp-table isolation, cutting execution duration from 5,395ms to 74ms–145ms while preserving 100% exact JSON output equivalence. Added ETag, Cache-Control (86400s), and conditional 304 Not Modified support to fileTransfers.sendDownload, PatientAvatar, and UserAvatar.',
-        source: 'v4.10.0 SQL DTU telemetry & sp_getActiveSpanishPatients tuning (2026-10-17)'
       },
       {
         scope: 'API',
