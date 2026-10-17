@@ -24,6 +24,14 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
+          'Enforced mandatory contact phone validation on discharge sheet and fixed summary widget phone loading and rendering.',
+        evidence:
+          'Patient discharge sheet enforces Validators.required and phoneNumberRegEx on all contact phone fields (Contact 1 / Primary Contact and additional contacts) with visible required indicator and tailored alert targeting ("Primary Contact Phone #"). In PatientSummaryWidgetComponent, resolved slow phone loading by reusing the preloaded patientContacts$ stream with shareReplay, removed trailing slash on GET patients/:patientId/contacts, and implemented getContactDisplayPhone to properly format 7-digit, 10-digit, and international contact phone numbers without requiring area code or dropping unseparated digits.',
+        source: 'v4.10.0 discharge contact phone constraint & summary widget fix (2026-10-16)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
           'Resolved false error toast on Ops/Facility contact additions and deletions with notification recipients.',
         evidence:
           'Normalized NotificationRecipientService endpoint to "notifications/recipients", guarded formArray validator clearance during contact removal, and ensured forkJoin(contactRequests) pipeline receives valid JSON bodies from API rather than empty strings that triggered JSON parse errors. Focused Jest coverage on operation-form.component.spec.ts (37/37 passing) and notification-recipient.service.spec.ts (2/2 passing).',

@@ -19,7 +19,7 @@ describe('PatientContactService (Jest)', () => {
     });
 
     expect(http.get).toHaveBeenCalledWith(
-      'patients/p1/contacts/',
+      'patients/p1/contacts',
       expect.objectContaining({ context: expect.anything() })
     );
     const requestOptions = (http.get as jest.Mock).mock.calls[0][1] as any;
