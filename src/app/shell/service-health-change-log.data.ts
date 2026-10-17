@@ -78,6 +78,22 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         source: 'v4.10.0 Safari cross-column clipping fix (2026-10-16)'
       },
       {
+        scope: 'Frontend',
+        summary:
+          'Eliminated patient avatar 50-request waterfall via IntersectionObserver lazy loading and dual-layer negative caching.',
+        evidence:
+          'PatientAvatarComponent now defers HTTP avatar requests until elements scroll within 200px of the viewport using IntersectionObserver (falling back gracefully to immediate fetch when unsupported). Introduced in-memory noAvatarSet and sessionStorage negative caching ("none") so patients without avatars (HTTP 204) never fire redundant network requests on subsequent visits or in sibling components. Exposed static clearCache(patientId) wired into PatientAvatarUploadComponent so newly uploaded photos invalidate the cache immediately. Unit tests pass 15/15.',
+        source: 'v4.10.0 avatar lazy loading and negative caching (2026-10-17)'
+      },
+      {
+        scope: 'Performance',
+        summary:
+          'Diagnosed Azure SQL Standard S2 (50 DTU) saturation and optimized sp_getActiveSpanishPatients procedure by 98.6%.',
+        evidence:
+          'Empirical telemetry analysis using sys.dm_db_resource_stats and Query Store revealed that database DTU regularly spikes to 99.99% data I/O on S2 tier, throttling concurrent requests. Redesigned sp_getActiveSpanishPatients via migration v4/v4.10.0_05_active-spanish-patients-tuning.sql with candidate temp-table isolation, cutting execution duration from 5,395ms to 74ms–145ms while preserving 100% exact JSON output equivalence. Added ETag, Cache-Control (86400s), and conditional 304 Not Modified support to fileTransfers.sendDownload, PatientAvatar, and UserAvatar.',
+        source: 'v4.10.0 SQL DTU telemetry & sp_getActiveSpanishPatients tuning (2026-10-17)'
+      },
+      {
         scope: 'API',
         summary:
           'Enforced mandatory phone validation in Swagger schema and controller payload layer.',
