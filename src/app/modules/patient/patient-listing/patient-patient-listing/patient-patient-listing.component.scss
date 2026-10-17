@@ -182,15 +182,6 @@ table {
           background-color: rgba(239, 70, 39, 0.08);
         }
       }
-
-      &.inactive {
-        td {
-          background-color: #fdfdfd;
-        }
-        &:hover td {
-          background-color: rgba(245, 158, 11, 0.08);
-        }
-      }
     }
 
     app-patient-avatar {
@@ -220,12 +211,6 @@ table {
       background-color: rgba(0, 180, 185, 0.12);
       color: #00878b;
       border: 1px solid rgba(0, 180, 185, 0.3);
-    }
-
-    &.badge-inactive {
-      background-color: rgba(245, 158, 11, 0.12);
-      color: #b45309;
-      border: 1px solid rgba(245, 158, 11, 0.3);
     }
 
     &.badge-archived {
