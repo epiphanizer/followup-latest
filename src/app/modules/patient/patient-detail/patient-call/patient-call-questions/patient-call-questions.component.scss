@@ -276,6 +276,7 @@ ion-item.boolean-call-question {
     padding-top: 4px;
   }
   .call-question {
-    width: calc(100% + 16px);
+    width: 100%;
+    max-width: 100%;
   }
 }

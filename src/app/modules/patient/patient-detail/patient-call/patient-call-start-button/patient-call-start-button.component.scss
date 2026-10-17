@@ -3,4 +3,13 @@
   z-index: 4;
   margin-top: 105px;
   margin-left: 25px;
+  isolation: isolate;
+
+  button.primary {
+    position: relative;
+    z-index: 1;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
 }

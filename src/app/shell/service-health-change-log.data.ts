@@ -72,10 +72,10 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
       {
         scope: 'Frontend',
         summary:
-          'Resolved subpixel typography clipping on question action buttons.',
+          'Eliminated Safari cross-column clipping artifact on Start Follow-Up, Doctor Visit, and Food questions.',
         evidence:
-          'Question action buttons in patient-call-questions use optimizeLegibility and visible overflow, eliminating character clipping on labels like "Fo", "Start", and "Dr.".',
-        source: 'v4.10.0 typography subpixel smoothing fix (2026-10-05)'
+          'Root-cause analysis of visual glitches on "Fo" (Food), "Dr." (Doctor Visit?), and "Start Follow-Up" revealed that .patient-contact-container in the left column had an overflowing width: calc(100% + 105px) and alternate-numbers-list ion-item had width: calc(100% + 55px) with an opaque white background. This caused the contact item to project 160px across the column gutter and overlap the left edge of the right-hand column by 15px (30px retina), clipping into whichever element was vertically adjacent. Constrained patient-summary-container and alternate-numbers-list to width: 100% with transparent background, added overflow: hidden and z-index: 1 to .left-hand-detail, promoted .right-hand-detail to z-index: 2 with relative positioning, and added GPU isolation layer to the Start Follow-Up button.',
+        source: 'v4.10.0 Safari cross-column clipping fix (2026-10-16)'
       },
       {
         scope: 'API',
