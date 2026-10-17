@@ -276,7 +276,7 @@ describe('PatientPatientListingComponent (Jest)', () => {
     expect(component.getPatientLink(patientInactive)).toContain('/history');
   });
 
-  it('filters patients by active, inactive, archived, and all views', () => {
+  it('filters patients by active, archived, and all views, keeping pending triage in active', () => {
     component.patients = [
       {
         patientId: 'p-act',
@@ -287,11 +287,11 @@ describe('PatientPatientListingComponent (Jest)', () => {
         patientMedicalRecordNumber: 'MRN-001'
       } as any,
       {
-        patientId: 'p-inact',
-        patientFirstName: 'Inactive',
+        patientId: 'p-triage',
+        patientFirstName: 'Triage',
         patientLastName: 'Two',
         patientActive: 1,
-        patientStatusLabel: 'Inactive',
+        patientStatusLabel: 'Pending Triage',
         patientMedicalRecordNumber: 'MRN-002'
       } as any,
       {
@@ -305,10 +305,11 @@ describe('PatientPatientListingComponent (Jest)', () => {
     ];
 
     component.runSortSwitch();
-    expect(component.patientsFiltered.map(p => p.patientId)).toEqual(['p-act']);
-
-    component.selectPatientView('inactive');
-    expect(component.patientsFiltered.map(p => p.patientId)).toEqual(['p-inact']);
+    expect(component.patientView).toBe('active');
+    expect(component.patientsFiltered.map(p => p.patientId)).toEqual(['p-act', 'p-triage']);
+    expect(component.activePatientCount).toBe(2);
+    expect(component.archivedPatientCount).toBe(1);
+    expect(component.allPatientCount).toBe(3);
 
     component.selectPatientView('archived');
     expect(component.patientsFiltered.map(p => p.patientId)).toEqual(['p-arch']);
@@ -319,8 +320,7 @@ describe('PatientPatientListingComponent (Jest)', () => {
 
   it('returns correct status badge classes', () => {
     expect(component.getStatusBadgeClass({ patientActive: 1, patientStatusLabel: 'In Progress' } as any)).toBe('badge-active');
-    expect(component.getStatusBadgeClass({ patientActive: 1, patientStatusLabel: 'Inactive' } as any)).toBe('badge-inactive');
-    expect(component.getStatusBadgeClass({ patientActive: 1, patientStatusLabel: 'Pending Triage' } as any)).toBe('badge-inactive');
+    expect(component.getStatusBadgeClass({ patientActive: 1, patientStatusLabel: 'Pending Triage' } as any)).toBe('badge-active');
     expect(component.getStatusBadgeClass({ patientActive: 0, patientStatusLabel: 'Archived' } as any)).toBe('badge-archived');
     expect(component.getStatusBadgeClass({ patientActive: 1, patientStatusLabel: 'Archived' } as any)).toBe('badge-archived');
   });

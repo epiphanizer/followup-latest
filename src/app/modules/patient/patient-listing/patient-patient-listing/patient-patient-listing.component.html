@@ -1,10 +1,8 @@
 <div class="listing-controls">
-  <div class="patient-view-toggle status-filter-pills" *ngIf="!mode.spanish" role="group" aria-label="Patient record view">
+  <div class="patient-view-toggle" *ngIf="!mode.spanish" role="group" aria-label="Patient record view">
     <button
       type="button"
-      class="filter-pill"
       [class.active]="patientView === 'all'"
-      [class.selected]="patientView === 'all'"
       [attr.aria-pressed]="patientView === 'all'"
       (click)="selectPatientView('all')"
     >
@@ -12,9 +10,7 @@
     </button>
     <button
       type="button"
-      class="filter-pill"
       [class.active]="patientView === 'active'"
-      [class.selected]="patientView === 'active'"
       [attr.aria-pressed]="patientView === 'active'"
       (click)="selectPatientView('active')"
     >
@@ -22,19 +18,7 @@
     </button>
     <button
       type="button"
-      class="filter-pill"
-      [class.active]="patientView === 'inactive'"
-      [class.selected]="patientView === 'inactive'"
-      [attr.aria-pressed]="patientView === 'inactive'"
-      (click)="selectPatientView('inactive')"
-    >
-      Inactive <span>{{ inactivePatientCount }}</span>
-    </button>
-    <button
-      type="button"
-      class="filter-pill filter-pill-archived"
       [class.active]="patientView === 'archived'"
-      [class.selected]="patientView === 'archived'"
       [attr.aria-pressed]="patientView === 'archived'"
       (click)="selectPatientView('archived')"
     >
@@ -77,7 +61,6 @@
       [routerLink]="getPatientLink(patient)"
       class="active"
       [class.archived]="!isPatientActive(patient) || patient.patientStatusLabel === 'Archived'"
-      [class.inactive]="patient.patientStatusLabel === 'Inactive' || patient.patientStatusLabel === 'Pending Triage'"
     >
       <td class="centered listing-body-cell">
         {{ patient.patientDischargeDate | date: 'MM/dd/YY' }}

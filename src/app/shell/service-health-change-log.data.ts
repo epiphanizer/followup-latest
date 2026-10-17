@@ -15,6 +15,23 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.12.3',
+    recordedAt: '2026-10-17',
+    label: 'Removal of artificial Inactive state and restoration of clinical triage active patient cohort',
+    notes:
+      'Eliminates the fabricated Inactive patient state introduced in commit 20a4a381, restores Pending Triage patients to the Active cohort, removes the Inactive toggle button while retaining the clean All / Active / Archived segmented control, and eliminates misleading inactive styling across the patient listing table.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Eliminated artificial Inactive filter and restored Pending Triage patients to the primary Active roster.',
+        evidence:
+          'Removed Inactive toggle button from patient-patient-listing.component.html and updated component logic to classify all active patients (including Pending Triage) as Active. Streamlined toggle controls to All, Active, and Archived, and eliminated unused inactive row/badge SCSS styling. Verified with 14/14 unit tests passing in patient-patient-listing.component.spec.ts.',
+        source: 'v4.12.3 remove inactive patient toggle fix (2026-10-17)'
+      }
+    ]
+  },
+  {
     version: '4.12.2',
     recordedAt: '2026-10-17',
     label: 'Patient avatar thumbnail size regression fix and circular badge boundary containment',
