@@ -74,7 +74,7 @@ export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
         summary:
           'Added non-clustered composite index on patientContacts, hospital field expansion, stale discharge, and completion status retirement migrations.',
         evidence:
-          'Created 3.12.16migration-patient-contacts-queue-tuning.sql on dbo.patientContacts(patientId, patientContactOrder), 3.12.17migration-hospital-field-expansion.sql for 255-character hospital insurance fields, 3.12.18migration-stale-discharge-queue-filter.sql, and 3.12.20migration-retire-completion-statuses.sql.',
+          'Created v4/v4.10.0_01_patient-contacts-queue-tuning.sql on dbo.patientContacts(patientId, patientContactOrder), v4/v4.10.0_02_hospital-field-expansion.sql for 255-character hospital insurance fields, v4/v4.10.0_03_stale-discharge-queue-filter.sql, and v4/v4.10.0_04_retire-completion-statuses.sql.',
         source: 'v4.10.0 MSSQL index and queue migrations (2026-10-16)'
       }
     ]

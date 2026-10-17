@@ -1,6 +1,6 @@
 # Followup Frontend — feature/robot_work_1
 
-Project version: 4.0.0 (package). Goal: modernize the Angular/Ionic app for Followup v4.
+Project version: 4.10.0 (package). Goal: modernize the Angular/Ionic app for Followup v4.
 
 ## Findings
 
@@ -51,7 +51,29 @@ Shared/core scaffolding
 - Build: `npm run build`; Serve dev: `npm run serve` (proxy on 4200).
 - Working branch: feature/robot_work_1.
 - Before closing work, verify builds/tests or note why they were not run.
-- Rule: whenever frontend, API, or database work changes what should appear in the shell Service Health -> Version Change Log, update `src/app/shell/service-health-change-log.data.ts` and the matching frontend/API running change log entries before closing the task.
+
+## Mandatory Version Stamping & Release Checklist
+
+Whenever stamping a new version or preparing a release promotion (alpha or production), the agent MUST execute every item in this checklist:
+
+1. **Bump Version in `package.json`**:
+   - Update `"version": "<MAJOR>.<MINOR>.<PATCH>"` in `package.json` (and `package-lock.json` if tracked).
+2. **Regenerate Environment Config (`npm run env`)**:
+   - Run `npm run env` to compile `npm_package_version` into `src/environments/.env.ts`.
+   - Never edit `.env.ts` manually without running `npm run env` to confirm synchronization.
+3. **Update Service Health Change Log (`src/app/shell/service-health-change-log.data.ts`)**:
+   - Prepend a new `ServiceHealthChangeLogRelease` object to `SERVICE_HEALTH_CHANGE_LOG`.
+   - Fill in `version`, `recordedAt` (YYYY-MM-DD), `label`, `notes`, and itemized `entries` categorized by `scope` (`'Frontend' | 'API' | 'Database' | 'Release' | 'Performance'`).
+   - Ensure every user-facing change, schema migration, or reliability fix is represented with concrete evidence and source references.
+4. **Update Shell Spec (`src/app/shell/shell.component.spec.ts`)**:
+   - Update the expected version assertion: `expect(component.version).toBe('<MAJOR>.<MINOR>.<PATCH>');`.
+5. **Update Repository Documentation (`agents.md`)**:
+   - Update `Project version: <MAJOR>.<MINOR>.<PATCH>` at the top of `agents.md`.
+   - Add a date-stamped entry under `## Running change log (frontend)` summarizing the release scope and validation evidence.
+6. **MANDATORY PRE-PUSH COMPILE & TEST VERIFICATION**:
+   - Execute local build: `npm run "build alpha"` (or `npm run build` for production).
+   - Execute test suite: `npm test`.
+   - **CRITICAL**: Never push to remote branches (`alpha` or `main`) without locally verifying `build alpha` succeeds. If local SCSS, TypeScript, or template compilation fails, CI will fail and Azure App Service will silently continue running the previous stale deployment without updating the live Service Health version.
 
 ## Running change log (frontend)
 - 2026-10-16: Promoted frontend to `4.10.0` on alpha. Consolidated clinical reliability release train with status retirement, Open Graph SEO metadata poster, and multi-view patient listing into unified 4.10.0 release candidate following 4.0.9 on main.
