@@ -14,7 +14,7 @@ export class NotificationRecipientService {
 
   addNotificationRecipientByOperationContactId(notificationReceipientPostBody: NotificationRecipientPostBody) {
     return this.http
-      .post<NotificationRecipientPostBody>('notifications/recipients/', notificationReceipientPostBody)
+      .post<NotificationRecipientPostBody>('notifications/recipients', notificationReceipientPostBody)
       .pipe(
         catchError(e => this.handleAsyncError(e)) // then handle the error
       );

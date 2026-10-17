@@ -593,6 +593,7 @@ export class OperationFormComponent implements OnInit {
 
   private handleOperationSaveSuccess(operationGroupId?: string) {
     this.toastr.success('Successfully saved operation');
+    this.operationContactsToRemove = [];
     this.userService.updateOperations(this.user).then(() => {
       this.navigateToSubmittedOperationGroup(operationGroupId);
     });
@@ -708,12 +709,16 @@ export class OperationFormComponent implements OnInit {
   }
 
   removeOperationContact(idx: number) {
-    this.operationContactsToRemove.push(this.operationContacts[idx].operationContactId);
+    if (this.operationContacts[idx]?.operationContactId) {
+      this.operationContactsToRemove.push(this.operationContacts[idx].operationContactId);
+    }
     this.operationContacts.splice(idx, 1);
-    let formGroup = this.operationForm.controls.operationContacts as FormArray;
-    formGroup.at(idx).clearValidators();
-    formGroup.at(idx).updateValueAndValidity();
-    formGroup.removeAt(idx);
+    let formGroup = this.operationForm?.controls?.operationContacts as FormArray;
+    if (formGroup?.at(idx)) {
+      formGroup.at(idx).clearValidators();
+      formGroup.at(idx).updateValueAndValidity();
+      formGroup.removeAt(idx);
+    }
     this.operationContacts.forEach((operationContact, idx) => {
       this.operationContacts[idx].operationContactOrder = idx + 1;
     });
