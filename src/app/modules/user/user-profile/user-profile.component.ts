@@ -130,6 +130,18 @@ export class UserProfileComponent implements OnInit {
       return '';
     }
 
+    if (typeof userDob === 'string') {
+      const trimmed = userDob.trim();
+      const isoMatch = /^(\d{4})-(\d{2})-(\d{2})/.exec(trimmed);
+      if (isoMatch) {
+        return `${isoMatch[2]}/${isoMatch[3]}/${isoMatch[1]}`;
+      }
+      const slashMatch = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(trimmed);
+      if (slashMatch) {
+        return `${slashMatch[1].padStart(2, '0')}/${slashMatch[2].padStart(2, '0')}/${slashMatch[3]}`;
+      }
+    }
+
     try {
       return formatDate(userDob, 'MM/dd/yyyy', 'en');
     } catch {
@@ -138,13 +150,41 @@ export class UserProfileComponent implements OnInit {
   }
 
   private normalizeUserDobForApi(userDob: string): string {
-    const match = String(userDob || '').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-    if (!match) {
+    if (!userDob) {
       return '';
     }
 
-    const normalizedDate = `${match[3]}-${match[1]}-${match[2]}`;
-    return this.isValidUserDob(normalizedDate) ? normalizedDate : '';
+    const trimmed = String(userDob).trim();
+
+    const slashMatch = trimmed.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (slashMatch) {
+      const normalizedDate = `${slashMatch[3]}-${slashMatch[1].padStart(2, '0')}-${slashMatch[2].padStart(2, '0')}`;
+      return this.isValidUserDob(normalizedDate) ? normalizedDate : '';
+    }
+
+    const isoMatch = trimmed.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+    if (isoMatch) {
+      const normalizedDate = `${isoMatch[1]}-${isoMatch[2].padStart(2, '0')}-${isoMatch[3].padStart(2, '0')}`;
+      return this.isValidUserDob(normalizedDate) ? normalizedDate : '';
+    }
+
+    if (/^\d{8}$/.test(trimmed)) {
+      const first4 = parseInt(trimmed.substring(0, 4), 10);
+      let parsedYear: number, parsedMonth: number, parsedDay: number;
+      if (first4 >= 1900 && first4 <= 2100) {
+        parsedYear = first4;
+        parsedMonth = parseInt(trimmed.substring(4, 6), 10);
+        parsedDay = parseInt(trimmed.substring(6, 8), 10);
+      } else {
+        parsedMonth = parseInt(trimmed.substring(0, 2), 10);
+        parsedDay = parseInt(trimmed.substring(2, 4), 10);
+        parsedYear = parseInt(trimmed.substring(4, 8), 10);
+      }
+      const normalizedDate = `${parsedYear.toString().padStart(4, '0')}-${parsedMonth.toString().padStart(2, '0')}-${parsedDay.toString().padStart(2, '0')}`;
+      return this.isValidUserDob(normalizedDate) ? normalizedDate : '';
+    }
+
+    return '';
   }
 
   private isValidUserDob(normalizedDate: string): boolean {

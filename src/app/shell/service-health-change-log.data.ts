@@ -15,6 +15,23 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.12.5',
+    recordedAt: '2026-10-19',
+    label: 'User profile birthday timezone-safe parsing, flexible date entry normalization, and dead mask removal',
+    notes:
+      'Resolves defect where existing user profile birthdays shifted backward by one day in US timezones upon display (and lost a day on each save) due to local timezone date formatting on UTC ISO timestamps. Adds timezone-safe YYYY-MM-DD parsing in normalizeUserDob(), expands normalizeUserDobForApi() to accept 8-digit typed dates (e.g. 01191989) and single-digit months/days, and cleans up dead mask directive attributes from the birthday ion-input.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Made user profile birthday parsing timezone-safe, supported flexible typed date formats, and removed inoperative mask attributes.',
+        evidence:
+          'Updated normalizeUserDob() in src/app/modules/user/user-profile/user-profile.component.ts to parse ISO UTC strings (e.g. 1989-01-19T00:00:00.000Z) without client timezone day-shifts. Enhanced normalizeUserDobForApi() to support 8-digit typed dates and single-digit month/day values. Removed inoperative mask attributes from ion-input in user-profile.component.html. Verified with 15/15 passing tests in user-profile.component.spec.ts including regression assertions.',
+        source: 'v4.12.5 user profile birthday timezone and format fix (2026-10-19)'
+      }
+    ]
+  },
+  {
     version: '4.12.4',
     recordedAt: '2026-10-19',
     label: 'Home dashboard total calls denominator accuracy and elimination of personal call count fallback',

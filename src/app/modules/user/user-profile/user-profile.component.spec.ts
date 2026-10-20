@@ -170,6 +170,44 @@ describe('UserProfileComponent (Jest)', () => {
     expect(dobControl?.valid).toBe(true);
   });
 
+  it('parses ISO UTC birthday strings safely without timezone day-shift', () => {
+    const { comp } = makeComponent({
+      routeUserId: 'u2',
+      loadedUser: {
+        ...baseUser,
+        userId: 'u2',
+        userDob: '1989-01-19T00:00:00.000Z'
+      }
+    });
+
+    comp.ngOnInit();
+
+    expect(comp.userProfileForm.get('userDob')?.value).toBe('01/19/1989');
+    const payload = comp.userFormSubmissionFactory(comp.userProfileForm.getRawValue());
+    expect(payload.userDob).toBe('1989-01-19');
+  });
+
+  it('normalizes 8-digit typed dates and single-digit month/day dates into valid values', () => {
+    const { comp } = makeComponent();
+    comp.ngOnInit();
+    const dobControl = comp.userProfileForm.get('userDob');
+
+    dobControl?.setValue('01191989');
+    expect(dobControl?.valid).toBe(true);
+    let payload = comp.userFormSubmissionFactory(comp.userProfileForm.getRawValue());
+    expect(payload.userDob).toBe('1989-01-19');
+
+    dobControl?.setValue('1/9/1989');
+    expect(dobControl?.valid).toBe(true);
+    payload = comp.userFormSubmissionFactory(comp.userProfileForm.getRawValue());
+    expect(payload.userDob).toBe('1989-01-09');
+
+    dobControl?.setValue('1989-01-19');
+    expect(dobControl?.valid).toBe(true);
+    payload = comp.userFormSubmissionFactory(comp.userProfileForm.getRawValue());
+    expect(payload.userDob).toBe('1989-01-19');
+  });
+
   it('validates controls and triggers save when valid', () => {
     const { comp, userService } = makeComponent();
     comp.user = baseUser;
