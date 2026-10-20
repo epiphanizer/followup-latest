@@ -15,6 +15,23 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.12.6',
+    recordedAt: '2026-10-19',
+    label: 'Home dashboard Weekly Calls completed metric accuracy and removal of queue fallback',
+    notes:
+      'Resolves defect where the left-hand caller metric under Weekly Calls incorrectly clamped to weekly scheduled calls (1,962 / 1,962) when the caller had 0 completed calls for the week due to deriveWeeklyCompletedCalls() falling back to Math.min(totalCalls, weeklyScheduledCalls). Removes the fallback so weekly completed calls strictly reflects the logged-in caller completed calls from sp_getUserCallCountsByUserId.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Eliminated artificial scheduled-calls fallback for weeklyCalls.completed on the Home dashboard.',
+        evidence:
+          'Updated src/app/home/home.component.ts to assign weeklyCompletedCalls directly to this.weeklyCalls.completed from the sp_getUserCallCountsByUserId payload and removed deriveWeeklyCompletedCalls(). Updated src/app/home/home.component.spec.ts to assert caller actual completed calls (0) and 0% progress when no calls have been completed this week. Verified with 5/5 passing tests in home.component.spec.ts.',
+        source: 'v4.12.6 home dashboard weekly completed calls fix (2026-10-19)'
+      }
+    ]
+  },
+  {
     version: '4.12.5',
     recordedAt: '2026-10-19',
     label: 'User profile birthday timezone-safe parsing, flexible date entry normalization, and dead mask removal',

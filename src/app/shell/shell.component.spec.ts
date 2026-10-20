@@ -126,7 +126,7 @@ describe('ShellComponent', () => {
   });
 
   it('should expose the current environment version matching the release stamp', () => {
-    expect(component.version).toBe('4.12.5');
+    expect(component.version).toBe('4.12.6');
   });
 
   it('loads service status details for the footer card', fakeAsync(() => {
@@ -227,6 +227,7 @@ describe('ShellComponent', () => {
 
   it('filters and scopes the version change log to markdown-backed versions only', () => {
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual([
+      '4.12.6',
       '4.12.5',
       '4.12.4',
       '4.12.3',
@@ -250,6 +251,7 @@ describe('ShellComponent', () => {
       '3.10.0'
     ]);
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
+      '4.12.6',
       '4.12.5',
       '4.12.4',
       '4.12.3',
@@ -272,7 +274,7 @@ describe('ShellComponent', () => {
       '3.12.0',
       '3.10.0'
     ]);
-    expect(component.changeLogSummary).toBe('Showing all 21 recorded releases.');
+    expect(component.changeLogSummary).toBe('Showing all 22 recorded releases.');
 
     component.changeLogVersionQuery = 'rc3';
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual(['3.10.0-rc3']);
@@ -284,6 +286,7 @@ describe('ShellComponent', () => {
     component.selectChangeLogVersion('3.10.0-rc3');
     expect(component.selectedChangeLogVersion).toBe('');
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
+      '4.12.6',
       '4.12.5',
       '4.12.4',
       '4.12.3',

@@ -148,7 +148,7 @@ describe('HomeComponent', () => {
     expect(component.totalCallsToNotificationsPercentage).toBe(0);
   });
 
-  it('uses totals and call-count fallback when weekly completed is reported as zero', () => {
+  it('displays caller actual weekly completed calls without scheduled fallback when weekly completed is zero', () => {
     teamServiceMock.getTeamTotals.mockReturnValue(
       of([
         {
@@ -174,8 +174,8 @@ describe('HomeComponent', () => {
 
     createComponent();
 
-    expect(component.weeklyCalls.completed).toBe(33);
-    expect(component.weeklyCallsProgress).toBe(1);
+    expect(component.weeklyCalls.completed).toBe(0);
+    expect(component.weeklyCallsProgress).toBe(0);
     expect(component.totalCallsToNotificationsPercentage).toBe(8);
     expect(component.callsMadeProgress).toBe(0);
   });
@@ -208,5 +208,8 @@ describe('HomeComponent', () => {
     expect(component.callsMade.totalCalls).toBe(299304);
     expect(component.callsMadeProgress).toBe(2);
     expect(component.notificationsSent.totalNotifications).toBe(25174);
+    expect(component.weeklyCalls.completed).toBe(0);
+    expect(component.weeklyCalls.scheduled).toBe(1962);
+    expect(component.weeklyCallsProgress).toBe(0);
   });
 });
