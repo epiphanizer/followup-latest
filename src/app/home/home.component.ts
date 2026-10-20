@@ -133,11 +133,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       const totalCallsFromCount = this.getRecordNumber(userCountsRecord, ['totalCalls']);
       this.callsMade.callsMade = totalCallsFromCount;
-      this.weeklyCalls.completed = this.deriveWeeklyCompletedCalls(
-        this.getRecordNumber(userCountsRecord, ['weeklyCompletedCalls']),
-        this.weeklyCalls.scheduled,
-        totalCallsFromCount
-      );
+      this.weeklyCalls.completed = this.getRecordNumber(userCountsRecord, ['weeklyCompletedCalls']);
 
       this.notificationsSent.weeklyNotifications = [];
       this.notificationsSent.notifications = notifications;
@@ -214,21 +210,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     return primary > 0 ? primary : fallback;
   }
 
-  private deriveWeeklyCompletedCalls(
-    weeklyCompletedCalls: number,
-    weeklyScheduledCalls: number,
-    totalCalls: number
-  ): number {
-    if (weeklyCompletedCalls > 0) {
-      return weeklyCompletedCalls;
-    }
-
-    if (weeklyScheduledCalls > 0 && totalCalls > 0) {
-      return Math.min(totalCalls, weeklyScheduledCalls);
-    }
-
-    return weeklyCompletedCalls;
-  }
 
   private toPercentage(numerator: any, denominator: any): number {
     const normalizedNumerator = this.toNumber(numerator);
