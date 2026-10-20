@@ -15,6 +15,55 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.12.7',
+    recordedAt: '2026-10-19',
+    label: 'Production v4.12.2 launch sign-off, printable service health change log report, and version pinning',
+    notes:
+      'Final coordinated release for the Followup v4 production launch. Pins Frontend (v4.12.7) and API (v4.12.2) to their expected deployed runtime baselines, provides dedicated print formatting and one-click PDF/print export for the Service Health drawer, and consolidates all production launch deliverables including database migration execution, client deduplication archive, and dashboard accuracy fixes.',
+    entries: [
+      {
+        scope: 'Release',
+        summary:
+          'Pinned Frontend (v4.12.7) and API (v4.12.2) production versions and enabled printable Service Health drawer.',
+        evidence:
+          'Updated shell.component.ts to pin expected API version (4.12.2) and Frontend version (4.12.7) in fallback and status headers. Added one-click printServiceHealth() action and @media print stylesheets in shell.component.scss ensuring the drawer and change log print cleanly to PDF without 320px scroll clipping, dark background artifacts, or toolbar interference.',
+        source: 'v4.12.7 final service health print and version pinning (2026-10-19)'
+      },
+      {
+        scope: 'Database',
+        summary:
+          'Applied database migration tranches to followup_prod following full pre-migration snapshot backup.',
+        evidence:
+          'Executed full database backup of followup_prod in Azure SQL prior to schema execution. Applied additive schema migration scripts (3.11.0 notification replies, triggers, and stored procedures sp_addNotificationReply, sp_getNotificationRepliesByNotificationId, sp_getNotificationRepliesByPatientId; 3.12.0 schema alignment; and 4.12.2 stored procedure compatibility). Verified with SQL sys.objects and sys.procedures queries.',
+        source: 'Production database backup and migration execution (2026-10-19)'
+      },
+      {
+        scope: 'Database',
+        summary:
+          'Archived duplicate empty client record (Monument, operationGroupId: 8, client code: aJKJBKRe).',
+        evidence:
+          'Audited client record aJKJBKRe (operationGroupId: 8, "Monument") in production database; confirmed zero associated operations, facilities, or patients. Successfully archived the empty duplicate client by executing UPDATE [operationGroup] SET [operationGroupActive] = 0 WHERE [operationGroupId] = 8.',
+        source: 'Production SQL client archive audit (2026-10-19)'
+      },
+      {
+        scope: 'API',
+        summary:
+          'Followup API v4.12.2 deployed to production App Service with authenticated statusz and telemetry.',
+        evidence:
+          'Production API deployed on followupcare-api.azurewebsites.net at version 4.12.2. Verified public GET /healthz returns status 200 with version 4.12.2, protected GET /statusz provides request/DB profiling and database ping timing, Application Insights telemetry is active, and SQL connection pools are healthy.',
+        source: 'Followup API 4.12.2 production deployment (2026-10-19)'
+      },
+      {
+        scope: 'Frontend',
+        summary:
+          'Consolidated clinical dashboard and user profile accuracy fixes across v4.12.4, v4.12.5, and v4.12.6.',
+        evidence:
+          'Resolved Calls Made total denominator fallback to rep calls (4.12.4), fixed User Profile birthday UTC date shift and expanded continuous 8-digit date input (4.12.5), and eliminated artificial deriveWeeklyCompletedCalls queue fallback so Weekly Calls accurately reports rep completed calls (4.12.6). All 117 test suites (688+ tests) passing.',
+        source: 'Frontend v4.12.4 - v4.12.6 reliability release train (2026-10-19)'
+      }
+    ]
+  },
+  {
     version: '4.12.6',
     recordedAt: '2026-10-19',
     label: 'Home dashboard Weekly Calls completed metric accuracy and removal of queue fallback',

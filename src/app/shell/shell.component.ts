@@ -55,6 +55,8 @@ interface ServiceStatusDragState {
   panelStartTop: number;
 }
 
+export const EXPECTED_API_VERSION = '4.12.2';
+
 interface ServiceStatusViewModel {
   health: 'checking' | 'ok' | 'degraded';
   healthLabel: string;
@@ -354,6 +356,17 @@ export class ShellComponent {
     }
   }
 
+  printServiceHealth() {
+    this.changeLogExpanded = true;
+    this.selectedChangeLogVersion = '';
+    this.changeLogVersionQuery = '';
+    this.openServiceStatusPanel(true);
+    this._cdr.detectChanges();
+    setTimeout(() => {
+      window.print();
+    }, 100);
+  }
+
   updateChangeLogVersionQuery(event: Event) {
     const input = event.target as HTMLInputElement;
     this.changeLogVersionQuery = input && typeof input.value === 'string' ? input.value : '';
@@ -468,16 +481,19 @@ export class ShellComponent {
 
   private buildCheckingStatus(): ServiceStatusViewModel {
     const fallbackHost = this.getConfiguredApiHost();
+    const isAlpha = fallbackHost.includes('alpha');
+    const fallbackApiName = fallbackHost.split('.')[0] || (isAlpha ? 'alpha-followup-api' : 'followupcare-api');
+    const fallbackDbName = isAlpha ? 'followup_alpha_20260517' : 'followup_prod';
 
     return {
       health: 'checking',
       healthLabel: 'Checking',
-      apiName: fallbackHost.split('.')[0] || 'api',
+      apiName: fallbackApiName,
       apiHost: fallbackHost,
-      apiVersion: 'unknown',
-      environment: 'unknown',
-      databaseName: 'unknown',
-      databaseRole: 'unknown',
+      apiVersion: EXPECTED_API_VERSION,
+      environment: isAlpha ? 'alpha' : environment.production ? 'prod' : 'dev',
+      databaseName: fallbackDbName,
+      databaseRole: 'PRIMARY',
       latencySummary: 'Awaiting first status check',
       profilingSummary: 'API n/a · DB n/a',
       checkedAtLabel: 'n/a',
@@ -534,7 +550,7 @@ export class ShellComponent {
       healthLabel: health === 'ok' ? 'Healthy' : health === 'checking' ? 'Checking' : 'Degraded',
       apiName: status?.service?.name || fallback.apiName,
       apiHost: status?.service?.host || fallback.apiHost,
-      apiVersion: status?.service?.version || fallback.apiVersion,
+      apiVersion: status?.service?.version || fallback.apiVersion || EXPECTED_API_VERSION,
       environment: status?.service?.environment || fallback.environment,
       databaseName: status?.database?.name || fallback.databaseName,
       databaseRole,

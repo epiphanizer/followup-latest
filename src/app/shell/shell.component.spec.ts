@@ -27,7 +27,7 @@ class MockAuthenticationService {
   stopImpersonation = jest.fn();
 }
 
-import { ShellComponent } from './shell.component';
+import { ShellComponent, EXPECTED_API_VERSION } from './shell.component';
 
 @Component({
   template: '',
@@ -126,7 +126,13 @@ describe('ShellComponent', () => {
   });
 
   it('should expose the current environment version matching the release stamp', () => {
-    expect(component.version).toBe('4.12.6');
+    expect(component.version).toBe('4.12.7');
+  });
+
+  it('pins expected API version to 4.12.2 in checking status fallback', () => {
+    expect(EXPECTED_API_VERSION).toBe('4.12.2');
+    const checking = (component as any).buildCheckingStatus();
+    expect(checking.apiVersion).toBe('4.12.2');
   });
 
   it('loads service status details for the footer card', fakeAsync(() => {
@@ -227,6 +233,7 @@ describe('ShellComponent', () => {
 
   it('filters and scopes the version change log to markdown-backed versions only', () => {
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual([
+      '4.12.7',
       '4.12.6',
       '4.12.5',
       '4.12.4',
@@ -251,6 +258,7 @@ describe('ShellComponent', () => {
       '3.10.0'
     ]);
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
+      '4.12.7',
       '4.12.6',
       '4.12.5',
       '4.12.4',
@@ -274,7 +282,7 @@ describe('ShellComponent', () => {
       '3.12.0',
       '3.10.0'
     ]);
-    expect(component.changeLogSummary).toBe('Showing all 22 recorded releases.');
+    expect(component.changeLogSummary).toBe('Showing all 23 recorded releases.');
 
     component.changeLogVersionQuery = 'rc3';
     expect(component.filteredChangeLogVersions.map(release => release.version)).toEqual(['3.10.0-rc3']);
@@ -286,6 +294,7 @@ describe('ShellComponent', () => {
     component.selectChangeLogVersion('3.10.0-rc3');
     expect(component.selectedChangeLogVersion).toBe('');
     expect(component.visibleChangeLogReleases.map(release => release.version)).toEqual([
+      '4.12.7',
       '4.12.6',
       '4.12.5',
       '4.12.4',
@@ -367,6 +376,22 @@ describe('ShellComponent', () => {
     expect(component.serviceStatusPanelPinned).toBe(true);
     expect(component.serviceStatusPanelRendered).toBe(true);
     expect(component.serviceStatusPanelVisible).toBe(true);
+  });
+
+  it('expands changelog and opens panel when printServiceHealth is invoked', () => {
+    const printSpy = jest.spyOn(window, 'print').mockImplementation(() => {});
+    component.changeLogExpanded = false;
+    component.changeLogVersionQuery = 'test';
+    component.selectedChangeLogVersion = '4.0.0';
+
+    component.printServiceHealth();
+
+    expect(component.changeLogExpanded).toBe(true);
+    expect(component.changeLogVersionQuery).toBe('');
+    expect(component.selectedChangeLogVersion).toBe('');
+    expect(component.serviceStatusPanelPinned).toBe(true);
+    expect(component.serviceStatusPanelVisible).toBe(true);
+    printSpy.mockRestore();
   });
 
   it('tears down safely before subscriptions are initialized', () => {
