@@ -15,6 +15,23 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.12.4',
+    recordedAt: '2026-10-19',
+    label: 'Home dashboard total calls denominator accuracy and elimination of personal call count fallback',
+    notes:
+      'Restores team totals to the home dashboard loading forkJoin and eliminates the incorrect fallback to personal user call counts (such as 5,204 for Steph Neff) for the Calls Made totalCalls denominator and Admin All Calls calculation. Personal calls made continues to display the rep count while the goal and system denominator accurately displays platform total calls (299,304).',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Restored teamTotals to forkJoin and eliminated personal call count fallback for callsMade.totalCalls.',
+        evidence:
+          'Updated src/app/home/home.component.ts to include teamService.getTeamTotals() in the initial forkJoin alongside user messages, counts, and notifications. Removed the assignment of userCountsRecord.totalCalls to callsMade.totalCalls so the denominator strictly reflects platform total calls from sp_getTeamTotals without falling back to user-specific completed call counts (5,204). Verified with 5/5 passing tests in src/app/home/home.component.spec.ts including regression assertion.',
+        source: 'v4.12.4 home total calls count fix (2026-10-19)'
+      }
+    ]
+  },
+  {
     version: '4.12.3',
     recordedAt: '2026-10-17',
     label: 'Removal of artificial Inactive state and restoration of clinical triage active patient cohort',
