@@ -179,4 +179,34 @@ describe('HomeComponent', () => {
     expect(component.totalCallsToNotificationsPercentage).toBe(8);
     expect(component.callsMadeProgress).toBe(0);
   });
+
+  it('keeps callsMade as personal calls and sets totalCalls from teamTotals without fallback to personal counts', () => {
+    teamServiceMock.getTeamTotals.mockReturnValue(
+      of([
+        {
+          totalNotifications: 25174,
+          totalCalls: 299304
+        }
+      ])
+    );
+    userServiceMock.getUserCallCount.mockReturnValue(
+      of([
+        {
+          totalCalls: 5204,
+          todaysCompletedCalls: 0,
+          weeklyCompletedCalls: 0,
+          todaysScheduledCalls: 958,
+          weeklyScheduledCalls: 1962
+        }
+      ] as any)
+    );
+    userServiceMock.getUserNotifications.mockReturnValue(of([]));
+
+    createComponent();
+
+    expect(component.callsMade.callsMade).toBe(5204);
+    expect(component.callsMade.totalCalls).toBe(299304);
+    expect(component.callsMadeProgress).toBe(2);
+    expect(component.notificationsSent.totalNotifications).toBe(25174);
+  });
 });
