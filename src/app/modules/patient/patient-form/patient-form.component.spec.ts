@@ -80,6 +80,7 @@ describe('PatientFormComponent (Jest)', () => {
     expect(comp.patientForm).toBeTruthy();
     expect(comp.groupedOperations.map(group => group.label)).toEqual(['Client One']);
     expect(comp.patientForm.get('patient.dischargeInfo.patientDischargedTo')!.value).toBe('2PEXyKgz');
+    expect(comp.patientContacts.length).toBe(0);
   });
 
   it('groups available operations by client group for the facility selector', () => {
@@ -2006,7 +2007,7 @@ describe('PatientFormComponent (Jest)', () => {
     document.body.innerHTML =
       '<fieldset class="patient-contacts">' +
       '  <ion-list id="additionalPatientContact-0">' +
-      '    <span class="patient-contact-header">Primary Contact</span>' +
+      '    <span class="patient-contact-header">Contact 1</span>' +
       '    <ion-item class="phone-number phone-field">' +
       '      <ion-label>Phone # <span style="color:#f1624a">*</span></ion-label>' +
       '      <ion-input class="ng-invalid"></ion-input>' +
@@ -2023,7 +2024,7 @@ describe('PatientFormComponent (Jest)', () => {
 
     expect(comp.validateControls()).toBe(false);
     expect(item.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' });
-    expect(alertSpy).toHaveBeenCalledWith('Unable to save. Please check Primary Contact Phone #.');
+    expect(alertSpy).toHaveBeenCalledWith('Unable to save. Please check Contact 1 Phone #.');
 
     alertSpy.mockRestore();
     document.body.innerHTML = '';
@@ -2074,5 +2075,127 @@ describe('PatientFormComponent (Jest)', () => {
 
     alertSpy.mockRestore();
     document.body.innerHTML = '';
+  });
+
+  it('alerts with Primary Contact Phone # when patient primary phone number is missing on submit', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const formBuilder = new FormBuilder();
+    const comp = new PatientFormComponent(
+      formBuilder,
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientId: 'p-1',
+      patientMedicalConditions: { cardiacBoolean: false, sepsisBoolean: false, pulmonaryBoolean: false, otherBoolean: false }
+    } as any;
+    (comp as any).createForm();
+
+    document.body.innerHTML =
+      '<div class="patient-phone-container form-row">' +
+      '  <ion-item class="patient-phone-number phone-field">' +
+      '    <ion-label color="medium" position="stacked">Primary Contact Phone # <span style="color:#f1624a">*</span></ion-label>' +
+      '    <ion-input class="ng-invalid"></ion-input>' +
+      '  </ion-item>' +
+      '</div>';
+
+    const item = document.querySelector('.patient-phone-number') as HTMLElement;
+    item.scrollIntoView = jest.fn();
+    const invalidInput = document.querySelector('.patient-phone-number ion-input') as HTMLElement;
+    invalidInput.scrollIntoView = jest.fn();
+    (invalidInput as any).focus = jest.fn();
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => undefined);
+
+    expect(comp.validateControls()).toBe(false);
+    expect(item.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' });
+    expect(alertSpy).toHaveBeenCalledWith('Unable to save. Please check Primary Contact Phone #.');
+
+    alertSpy.mockRestore();
+    document.body.innerHTML = '';
+  });
+
+  it('allows saving a new patient with only the primary contact phone number and zero additional contacts', () => {
+    const route = { snapshot: { data: { mode: 'add', user: baseUser } } } as any;
+    const services = makeServices();
+    const formBuilder = new FormBuilder();
+    const comp = new PatientFormComponent(
+      formBuilder,
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientId: 'p-1',
+      patientMedicalConditions: { cardiacBoolean: false, sepsisBoolean: false, pulmonaryBoolean: false, otherBoolean: false },
+      patientOperationId: 'op-1',
+      patientMedicalRecordNumber: 'MRN-1',
+      patientFirstName: 'Jane',
+      patientLastName: 'Doe',
+      patientDob: '1990-01-01',
+      patientGender: 'female',
+      patientCountryCode: '1',
+      patientAreaCode: '555',
+      patientPhoneNumber: '555-1234',
+      patientAdmitDate: '2026-10-01',
+      patientDischargeDate: '2026-10-05',
+      patientDischargeLabelId: '2PEXyKgz',
+      patientDischargedAma: false,
+      patientPrimaryDiagnosis: 'Observation',
+      patientActive: 1
+    } as any;
+    (comp as any).createForm();
+
+    expect(comp.patientContacts.length).toBe(0);
+    expect((comp.patientForm.get('patient.patientContacts') as FormArray).length).toBe(0);
+
+    services.patientContactService.addNewPatientContactByPatientId = jest.fn(() => of({}));
+    jest.spyOn(comp as any, 'navigateTo').mockImplementation(() => undefined);
+
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => undefined);
+    expect(comp.validateControls()).toBe(true);
+    expect(alertSpy).not.toHaveBeenCalled();
+
+    comp.onFormSubmit();
+    expect(services.patientContactService.addNewPatientContactByPatientId).not.toHaveBeenCalled();
+    expect(services.patientService.editPatientByPatientId).toHaveBeenCalled();
+
+    alertSpy.mockRestore();
+  });
+
+  it('allows removing any contact including index 0 to reduce additional contacts to zero', () => {
+    const route = { snapshot: { data: { user: baseUser } } } as any;
+    const services = makeServices();
+    const formBuilder = new FormBuilder();
+    const comp = new PatientFormComponent(
+      formBuilder,
+      route,
+      services.patientService,
+      services.patientContactService,
+      services.patientIntakeQuestionService,
+      services.toastrService,
+      services.userService
+    );
+    comp.patient = {
+      patientId: 'p-1',
+      patientMedicalConditions: { cardiacBoolean: false, sepsisBoolean: false, pulmonaryBoolean: false, otherBoolean: false }
+    } as any;
+    (comp as any).createForm();
+    comp.addAdditionalPatientContact();
+
+    expect(comp.patientContacts.length).toBe(1);
+    expect((comp.patientForm.get('patient.patientContacts') as FormArray).length).toBe(1);
+
+    comp.removeAdditionalPatientContact(0);
+
+    expect(comp.patientContacts.length).toBe(0);
+    expect((comp.patientForm.get('patient.patientContacts') as FormArray).length).toBe(0);
   });
 });
