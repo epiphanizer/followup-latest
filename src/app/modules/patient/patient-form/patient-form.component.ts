@@ -168,7 +168,6 @@ export class PatientFormComponent implements OnInit {
         };
         this.createForm();
         this.patientForm.get('patient.dischargeInfo.patientDischargedTo').setValue('2PEXyKgz');
-        this.addAdditionalPatientContact();
         this.patientIntakeQuestionService
           .getPatientIntakeQuestionsByPatientId(this.patient.patientId)
           .subscribe((patientIntakeQuestions: PatientIntakeQuestion[]) => {

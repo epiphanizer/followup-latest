@@ -15,6 +15,23 @@ export interface ServiceHealthChangeLogRelease {
 
 export const SERVICE_HEALTH_CHANGE_LOG: ServiceHealthChangeLogRelease[] = [
   {
+    version: '4.12.8',
+    recordedAt: '2026-10-20',
+    label: 'Patient Intake Single Primary Contact Requirement & Additional Contact Removal',
+    notes:
+      'Resolves patient intake save blocker where users were forced to enter two separate contacts to save a patient. Primary patient phone is now clearly designated as Primary Contact Phone # (mandatory for save), addAdditionalPatientContact is no longer automatically seeded during add mode (allowing single-contact intake required for Haven HIPAA compliance), and all contacts in the additional contacts list now provide Remove Contact capabilities.',
+    entries: [
+      {
+        scope: 'Frontend',
+        summary:
+          'Clarified Primary Contact Phone # validation and removed mandatory secondary contact requirement on patient intake.',
+        evidence:
+          'Updated patient-form.component.html to label the primary phone field as "Primary Contact Phone #" and targeted validation alert specifically to "Primary Contact Phone #". In patient-form.component.ts, removed forced addAdditionalPatientContact() call during add mode, allowing intake coordinators (particularly for Haven under HIPAA constraints) to save patients with only their primary contact number. Updated additional contact header to "Contact {{ idx + 1 }}" and removed idx > 0 constraint on Remove Contact, enabling users to remove any added contact including index 0.',
+        source: 'v4.12.8 patient intake single primary contact & contact removal (2026-10-20)'
+      }
+    ]
+  },
+  {
     version: '4.12.7',
     recordedAt: '2026-10-19',
     label: 'Production v4.12.2 launch sign-off, printable service health change log report, and version pinning',
